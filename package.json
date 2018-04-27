@@ -1,0 +1,33 @@
+{
+  "name": "test-registrar",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "apollo-cache-inmemory": "^1.1.12",
+    "apollo-client": "^2.2.8",
+    "apollo-link": "^1.2.2",
+    "apollo-link-state": "^0.4.1",
+    "ethereum-ens": "^0.7.3",
+    "graphql": "^0.13.2",
+    "graphql-tag": "^2.8.0",
+    "graphql-tools": "^2.23.1",
+    "react": "^16.2.0",
+    "react-apollo": "^2.1.2",
+    "react-dom": "^16.2.0",
+    "react-scripts": "1.1.1",
+    "recompose": "^0.26.0",
+    "state": "^0.2.0",
+    "web3": "^0.19.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "prettier": {
+    "semi": false,
+    "editor.formatOnSave": true,
+    "singleQuote": true
+  }
+}
