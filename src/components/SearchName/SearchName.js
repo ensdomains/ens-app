@@ -38,15 +38,6 @@ function handleGetNodeDetails(name) {
   }
 }
 
-// export const SearchName = ({ handleGetNodeDetails, nameSearch }) => {
-//   return <form className="search-name" onSubmit={(event) => { event.preventDefault(); handleGetNodeDetails(nameSearch) }}>
-//     <div className="search-box">
-//       <input type="text" id="address" placeholder="vitalik.eth" onChange={(e) => updateSearchName(e.target.value)} />
-//     </div>
-//     <button className="get-details">Get Details</button>
-//   </form>
-// }
-
 export class SearchName extends Component {
   state = {
     searchName: ''
@@ -61,10 +52,7 @@ export class SearchName extends Component {
     return (
       <form
         className="search-name"
-        onSubmit={event => {
-          event.preventDefault()
-          handleGetNodeDetails(this.state.searchName)
-        }}
+        onSubmit={event => handleGetNodeDetails(this.state.searchName, event)}
       >
         <div className="search-box">
           <input
@@ -83,12 +71,10 @@ export class SearchName extends Component {
 
 export default compose(
   withHandlers({
-    handleGetNodeDetails: props => name => {
-      //event.preventDefault()
-      console.log()
+    handleGetNodeDetails: props => (name, event) => {
+      event.preventDefault()
+      console.log(name)
       handleGetNodeDetails(name)
     }
   })
 )(SearchName)
-
-// export default connect(db => ({ nameSearch: db.get('nameSearch'), handleGetNodeDetails }))(SearchName)
