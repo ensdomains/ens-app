@@ -63,7 +63,7 @@ export class SearchName extends Component {
             onChange={e => this.updateSearchName(e.target.value)}
           />
         </div>
-        <button className="get-details">Get Details</button>
+        <button className="get-details">Search for domain</button>
       </form>
     )
   }
