@@ -54,7 +54,11 @@ export class SearchName extends Component {
         className="search-name"
         onSubmit={event => {
           event.preventDefault()
+
           handleGetNodeDetails(this.state.searchName)
+          this.setState({
+            searchName: ''
+          })
         }}
       >
         <div className="search-box">

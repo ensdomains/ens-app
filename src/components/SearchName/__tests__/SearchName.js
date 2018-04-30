@@ -35,4 +35,5 @@ test('searchName submits proper domain', () => {
   expect(handleGetNodeDetails).toHaveBeenCalledTimes(1)
   expect(handleGetNodeDetails).toHaveBeenCalledWith('vitalik.eth')
   expect(submitButton.type).toBe('submit')
+  expect(domain.value).toBe('')
 })
