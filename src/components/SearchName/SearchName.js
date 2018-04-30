@@ -52,18 +52,24 @@ export class SearchName extends Component {
     return (
       <form
         className="search-name"
-        onSubmit={event => handleGetNodeDetails(this.state.searchName, event)}
+        onSubmit={event => {
+          event.preventDefault()
+          handleGetNodeDetails(this.state.searchName)
+        }}
       >
         <div className="search-box">
           <input
             type="text"
             id="address"
+            name="domain"
             placeholder="vitalik.eth"
             value={this.state.searchName}
             onChange={e => this.updateSearchName(e.target.value)}
           />
         </div>
-        <button className="get-details">Search for domain</button>
+        <button className="get-details" type="submit">
+          Search for domain
+        </button>
       </form>
     )
   }
@@ -71,10 +77,6 @@ export class SearchName extends Component {
 
 export default compose(
   withHandlers({
-    handleGetNodeDetails: props => (name, event) => {
-      event.preventDefault()
-      console.log(name)
-      handleGetNodeDetails(name)
-    }
+    handleGetNodeDetails: props => name => handleGetNodeDetails(name)
   })
 )(SearchName)
