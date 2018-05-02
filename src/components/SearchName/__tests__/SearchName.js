@@ -5,7 +5,8 @@ import {
   renderIntoDocument,
   Simulate,
   cleanup,
-  render
+  render,
+  fireEvent
 } from 'react-testing-library'
 import 'dom-testing-library/extend-expect'
 
@@ -18,22 +19,22 @@ test('check searchName renders', () => {
 test('searchName submits proper domain', () => {
   //arrange
   const handleGetNodeDetails = jest.fn()
-  const { getByText, getByTestId, container, unmount } = renderIntoDocument(
+  const { getByText, container } = renderIntoDocument(
     <SearchName handleGetNodeDetails={handleGetNodeDetails} />
   )
 
   const form = container.querySelector('form')
   const submitButton = getByText('Search for domain')
-  const domain = form.querySelector('input[type=text]')
+  const domainName = form.querySelector('input[type=text]')
 
   //act
-  domain.value = 'vitalik.eth'
-  Simulate.change(domain)
-  Simulate.submit(submitButton)
+  domainName.value = 'vitalik.eth'
+  Simulate.change(domainName)
+  submitButton.click()
 
   //assert
   expect(handleGetNodeDetails).toHaveBeenCalledTimes(1)
   expect(handleGetNodeDetails).toHaveBeenCalledWith('vitalik.eth')
   expect(submitButton.type).toBe('submit')
-  expect(domain.value).toBe('')
+  expect(domainName.value).toBe('')
 })

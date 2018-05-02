@@ -2,6 +2,7 @@ import 'isomorphic-fetch'
 import getWeb3, { getAccounts } from './web3'
 import { getFifsRegistrarContract } from './ens'
 import { watchRegistryEvent } from './watchers'
+import { getOwner } from './registry'
 import gql from 'graphql-tag'
 
 const defaults = {
@@ -9,6 +10,7 @@ const defaults = {
     accounts: [],
     __typename: 'Web3'
   },
+  nodes: [],
   loggedIn: null,
   pendingTransactions: [],
   transactionHistory: []
@@ -42,6 +44,42 @@ const resolvers = {
   },
 
   Mutation: {
+    addNode: async (_, { name }, { cache }) => {
+      const owner = await getOwner(name)
+
+      //Return null if no owner
+      if (parseInt(owner, 16) === 0) {
+        return null
+      }
+
+      //Get all nodes
+      const query = gql`
+        query nodes {
+          nodes {
+            name
+            owner
+          }
+        }
+      `
+
+      const { nodes } = cache.readQuery({ query })
+
+      //Create Node
+      const node = {
+        name,
+        owner,
+        __typename: 'Node'
+      }
+
+      //Write to cache
+      const data = {
+        nodes: [...nodes, node]
+      }
+
+      cache.writeData({ data })
+
+      return node
+    },
     registerTestDomain: async (object, { name }, { cache }) => {
       try {
         const { registrar, web3 } = await getFifsRegistrarContract()

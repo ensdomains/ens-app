@@ -17,8 +17,14 @@ const typeDefs = `
     createdAt: String
   }
 
+  type Node {
+    name,
+    owner
+  }
+
   type Query {
     loggedInUser: User
+    nodes: [Node]
     people: [User]
     web3: Web3
   }
