@@ -7,6 +7,11 @@ const getNodes = gql`
     nodes {
       name
       owner
+      label
+      resolver
+      addr
+      content
+      nodes
     }
   }
 `

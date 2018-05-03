@@ -8,7 +8,7 @@ import { ApolloClient } from 'apollo-client'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { withClientState } from 'apollo-link-state'
 
-import resolvers, { defaults } from './api/resolvers'
+import resolvers, { defaults } from './api/resolvers/rootResolver'
 import typeDefs from './api/schema'
 import { ApolloProvider } from 'react-apollo'
 

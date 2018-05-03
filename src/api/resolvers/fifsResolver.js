@@ -1,85 +1,13 @@
 import 'isomorphic-fetch'
-import getWeb3, { getAccounts } from './web3'
-import { getFifsRegistrarContract } from './ens'
-import { watchRegistryEvent } from './watchers'
-import { getOwner } from './registry'
+import getWeb3, { getAccounts } from '../web3'
+import { getFifsRegistrarContract } from '../ens'
+import { watchRegistryEvent } from '../watchers'
 import gql from 'graphql-tag'
 
-const defaults = {
-  web3: {
-    accounts: [],
-    __typename: 'Web3'
-  },
-  nodes: [],
-  loggedIn: null,
-  pendingTransactions: [],
-  transactionHistory: []
-}
+const defaults = {}
 
 const resolvers = {
-  Web3: {
-    accounts: () => getAccounts()
-  },
-  Query: {
-    web3: async (_, variables, context) => {
-      try {
-        return {
-          ...(await getWeb3()),
-          __typename: 'Web3'
-        }
-      } catch (e) {
-        console.error(e)
-        return null
-      }
-    },
-    people: async () => {
-      const response = await fetch('https://emerald-ink.glitch.me/people')
-      const people = await response.json()
-
-      return people.map(person => ({
-        ...person,
-        __typename: 'thing'
-      }))
-    }
-  },
-
   Mutation: {
-    addNode: async (_, { name }, { cache }) => {
-      const owner = await getOwner(name)
-
-      //Return null if no owner
-      if (parseInt(owner, 16) === 0) {
-        return null
-      }
-
-      //Get all nodes
-      const query = gql`
-        query nodes {
-          nodes {
-            name
-            owner
-          }
-        }
-      `
-
-      const { nodes } = cache.readQuery({ query })
-
-      //Create Node
-      const node = {
-        name,
-        owner,
-        __typename: 'Node'
-      }
-
-      //Write to cache
-      const data = {
-        nodes: [...nodes, node]
-      }
-
-      cache.writeData({ data })
-
-      return node
-    },
     registerTestDomain: async (object, { name }, { cache }) => {
       try {
         const { registrar, web3 } = await getFifsRegistrarContract()
