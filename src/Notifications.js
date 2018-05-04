@@ -14,15 +14,10 @@ export class NotificationsProvider extends Component {
   constructor(props) {
     super(props)
     this._notificationSystem = React.createRef()
-    console.log(this._notificationSystem)
   }
 
-  addNotification = () => {
-    //console.log(this._notificationSystem)
-    this._notificationSystem.current.addNotification({
-      message: 'Notification message',
-      level: 'success'
-    })
+  addNotification = options => {
+    this._notificationSystem.current.addNotification(options)
   }
 
   render() {

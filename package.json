@@ -36,5 +36,6 @@
     "semi": false,
     "editor.formatOnSave": true,
     "singleQuote": true
-  }
+  },
+  "devDependencies": {}
 }

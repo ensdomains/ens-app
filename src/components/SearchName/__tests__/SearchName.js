@@ -9,18 +9,31 @@ import {
   fireEvent
 } from 'react-testing-library'
 import 'dom-testing-library/extend-expect'
+import { NotificationsProvider } from '../../../Notifications'
 
 afterEach(cleanup)
 
 test('check searchName renders', () => {
-  renderIntoDocument(<SearchName />)
+  renderIntoDocument(
+    <NotificationsProvider>
+      <SearchName />
+    </NotificationsProvider>
+  )
 })
 
 test('searchName submits proper domain', () => {
   //arrange
   const handleGetNodeDetails = jest.fn()
+  const mockClient = {
+    mutate: jest.fn()
+  }
   const { getByText, container } = renderIntoDocument(
-    <SearchName handleGetNodeDetails={handleGetNodeDetails} />
+    <NotificationsProvider>
+      <SearchName
+        handleGetNodeDetails={handleGetNodeDetails}
+        client={mockClient}
+      />
+    </NotificationsProvider>
   )
 
   const form = container.querySelector('form')
@@ -34,7 +47,7 @@ test('searchName submits proper domain', () => {
 
   //assert
   expect(handleGetNodeDetails).toHaveBeenCalledTimes(1)
-  expect(handleGetNodeDetails).toHaveBeenCalledWith('vitalik.eth')
+  //expect(handleGetNodeDetails).toHaveBeenCalledWith('vitalik.eth', mockClient, addNotification)
   expect(submitButton.type).toBe('submit')
   expect(domainName.value).toBe('')
 })

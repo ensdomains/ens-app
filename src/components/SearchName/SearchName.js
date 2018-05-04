@@ -9,16 +9,16 @@ import { withHandlers } from 'recompose'
 import gql from 'graphql-tag'
 import NotificationsContext from '../../Notifications'
 
-const addNotificationMutation = gql`
-  mutation addNotification($notification: Notification) {
-    addNotification(notification: $notification) @client {
-      message
-    }
-  }
-`
-function addNotification(message) {
-  console.log(message)
-}
+// const addNotificationMutation = gql`
+//   mutation addNotification($notification: Notification) {
+//     addNotification(notification: $notification) @client {
+//       message
+//     }
+//   }
+// `
+// function addNotification(message) {
+//   console.log(message)
+// }
 
 const addNode = gql`
   mutation addNode($name: String) {
@@ -33,7 +33,7 @@ function handleGetNodeDetails(name, client, addNotification) {
   if (name.split('.').length > 2) {
     getOwner(name).then(owner => {
       if (parseInt(owner, 16) === 0) {
-        addNotification(`${name} does not have an owner!`)
+        addNotification({ messsage: `${name} does not have an owner!` })
       } else {
         //Mutate state to setNodeDetailsSubdomain
         //setNodeDetailsSubDomain(name, owner)
@@ -42,7 +42,7 @@ function handleGetNodeDetails(name, client, addNotification) {
   } else if (name.split('.').length === 0) {
     addNotification('Please enter a name first')
   } else if (name.split('.').length === 1) {
-    addNotification('Please add a TLD such as .eth')
+    addNotification({ messsage: 'Please add a TLD such as .eth' })
   } else {
     client
       .mutate({
@@ -51,9 +51,9 @@ function handleGetNodeDetails(name, client, addNotification) {
       })
       .then(({ data: { addNode } }) => {
         if (addNode) {
-          addNotification(`Node details set for ${name}`)
+          addNotification({ message: `Node details set for ${name}` })
         } else {
-          addNotification(`${name} does not have an owner!`)
+          addNotification({ message: `${name} does not have an owner!` })
         }
       })
   }
@@ -78,7 +78,6 @@ export class SearchName extends Component {
             className="search-name"
             onSubmit={event => {
               event.preventDefault()
-              console.log(client)
 
               handleGetNodeDetails(
                 this.state.searchName,
