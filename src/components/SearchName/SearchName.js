@@ -7,6 +7,7 @@ import { getOwner } from '../../api/registry'
 import { compose, withApollo } from 'react-apollo'
 import { withHandlers } from 'recompose'
 import gql from 'graphql-tag'
+import NotificationsContext from '../../Notifications'
 
 const addNotificationMutation = gql`
   mutation addNotification($notification: Notification) {
@@ -28,8 +29,7 @@ const addNode = gql`
   }
 `
 
-function handleGetNodeDetails(name, client) {
-  console.log(client)
+function handleGetNodeDetails(name, client, addNotification) {
   if (name.split('.').length > 2) {
     getOwner(name).then(owner => {
       if (parseInt(owner, 16) === 0) {
@@ -69,33 +69,43 @@ export class SearchName extends Component {
       searchName
     })
   render() {
-    const { handleGetNodeDetails } = this.props
+    const { handleGetNodeDetails, client } = this.props
+    //console.log(client)
     return (
-      <form
-        className="search-name"
-        onSubmit={event => {
-          event.preventDefault()
+      <NotificationsContext.Consumer>
+        {({ addNotification }) => (
+          <form
+            className="search-name"
+            onSubmit={event => {
+              event.preventDefault()
+              console.log(client)
 
-          handleGetNodeDetails(this.state.searchName)
-          this.setState({
-            searchName: ''
-          })
-        }}
-      >
-        <div className="search-box">
-          <input
-            type="text"
-            id="address"
-            name="domain"
-            placeholder="vitalik.eth"
-            value={this.state.searchName}
-            onChange={e => this.updateSearchName(e.target.value)}
-          />
-        </div>
-        <button className="get-details" type="submit">
-          Search for domain
-        </button>
-      </form>
+              handleGetNodeDetails(
+                this.state.searchName,
+                client,
+                addNotification
+              )
+              this.setState({
+                searchName: ''
+              })
+            }}
+          >
+            <div className="search-box">
+              <input
+                type="text"
+                id="address"
+                name="domain"
+                placeholder="vitalik.eth"
+                value={this.state.searchName}
+                onChange={e => this.updateSearchName(e.target.value)}
+              />
+            </div>
+            <button className="get-details" type="submit">
+              Search for domain
+            </button>
+          </form>
+        )}
+      </NotificationsContext.Consumer>
     )
   }
 }
@@ -103,7 +113,7 @@ export class SearchName extends Component {
 export default compose(
   withApollo,
   withHandlers({
-    handleGetNodeDetails: props => name =>
-      handleGetNodeDetails(name, props.client)
+    handleGetNodeDetails: props => (name, client, addNotification) =>
+      handleGetNodeDetails(name, client, addNotification)
   })
 )(SearchName)

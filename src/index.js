@@ -11,6 +11,7 @@ import { withClientState } from 'apollo-link-state'
 import resolvers, { defaults } from './api/resolvers/rootResolver'
 import typeDefs from './api/schema'
 import { ApolloProvider } from 'react-apollo'
+import { NotificationsProvider } from './Notifications'
 
 const cache = new InMemoryCache(window.__APOLLO_STATE__)
 
@@ -26,7 +27,9 @@ const graphqlClient = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={graphqlClient}>
-    <App />
+    <NotificationsProvider>
+      <App />
+    </NotificationsProvider>
   </ApolloProvider>,
   document.getElementById('root')
 )
