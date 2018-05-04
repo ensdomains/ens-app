@@ -1,5 +1,3 @@
-import 'isomorphic-fetch'
-import getWeb3, { getAccounts } from '../web3'
 import { watchRegistryEvent } from '../watchers'
 import { getOwner, getRootDomain } from '../registry'
 import gql from 'graphql-tag'

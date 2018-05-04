@@ -8,6 +8,13 @@ import { compose, withApollo } from 'react-apollo'
 import { withHandlers } from 'recompose'
 import gql from 'graphql-tag'
 
+const addNotificationMutation = gql`
+  mutation addNotification($notification: Notification) {
+    addNotification(notification: $notification) @client {
+      message
+    }
+  }
+`
 function addNotification(message) {
   console.log(message)
 }
@@ -42,16 +49,13 @@ function handleGetNodeDetails(name, client) {
         mutation: addNode,
         variables: { name }
       })
-      .then(stuff => console.log('made query', stuff))
-    getOwner(name).then(owner => {
-      if (parseInt(owner, 16) === 0) {
-        addNotification(`${name} does not have an owner!`)
-      } else {
-        //Mutate state to setNodeDetails
-        //setNodeDetails(name)
-        addNotification(`Node details set for ${name}`)
-      }
-    })
+      .then(({ data: { addNode } }) => {
+        if (addNode) {
+          addNotification(`Node details set for ${name}`)
+        } else {
+          addNotification(`${name} does not have an owner!`)
+        }
+      })
   }
 }
 
