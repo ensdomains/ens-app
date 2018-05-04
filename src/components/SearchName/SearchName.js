@@ -70,7 +70,6 @@ export class SearchName extends Component {
     })
   render() {
     const { handleGetNodeDetails, client } = this.props
-    //console.log(client)
     return (
       <NotificationsContext.Consumer>
         {({ addNotification }) => (

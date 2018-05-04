@@ -12,6 +12,30 @@ import 'dom-testing-library/extend-expect'
 
 afterEach(cleanup)
 
+test('Renders without provider', () => {
+  const trackerFunc = jest.fn()
+  const tree = (
+    <NotificationsContext>
+      {({ addNotification }) => (
+        <div
+          onClick={() => {
+            addNotification()
+            trackerFunc()
+          }}
+        >
+          Add Notification
+        </div>
+      )}
+    </NotificationsContext>
+  )
+  const { getByText, container } = render(tree)
+
+  const button = getByText('Add Notification')
+
+  Simulate.click(button)
+  expect(trackerFunc).toHaveBeenCalledTimes(1)
+})
+
 test('Test notifications provider adds a notification', () => {
   const tree = (
     <NotificationsProvider>
@@ -41,26 +65,3 @@ test('Test notifications provider adds a notification', () => {
     'some important message'
   )
 })
-
-// test('searchName submits proper domain', () => {
-//   //arrange
-//   const handleGetNodeDetails = jest.fn()
-//   const { getByText, container } = renderIntoDocument(
-//     <SearchName handleGetNodeDetails={handleGetNodeDetails} />
-//   )
-
-//   const form = container.querySelector('form')
-//   const submitButton = getByText('Search for domain')
-//   const domainName = form.querySelector('input[type=text]')
-
-//   //act
-//   domainName.value = 'vitalik.eth'
-//   Simulate.change(domainName)
-//   submitButton.click()
-
-//   //assert
-//   expect(handleGetNodeDetails).toHaveBeenCalledTimes(1)
-//   expect(handleGetNodeDetails).toHaveBeenCalledWith('vitalik.eth')
-//   expect(submitButton.type).toBe('submit')
-//   expect(domainName.value).toBe('')
-// })
