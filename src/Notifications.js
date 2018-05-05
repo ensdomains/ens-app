@@ -17,13 +17,13 @@ export class NotificationsProvider extends Component {
     this._notificationSystem.current.addNotification(options)
   }
 
+  state = {
+    addNotification: this.addNotification
+  }
+
   render() {
     return (
-      <GlobalState.Provider
-        value={{
-          addNotification: this.addNotification
-        }}
-      >
+      <GlobalState.Provider value={this.state}>
         <NotificationSystem ref={this._notificationSystem} />
         {this.props.children}
       </GlobalState.Provider>

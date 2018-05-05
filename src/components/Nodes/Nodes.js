@@ -22,12 +22,16 @@ const Node = ({ node }) => (
   </div>
 )
 
-const Nodes = () => (
+const Nodes = ({ nodes = [] }) => (
+  <div>{nodes.map(node => <Node node={node} key={name} />)}</div>
+)
+
+const NodesContainer = () => (
   <Query query={getNodes}>
-    {({ loading, error, data }) => (
-      <div>{data.nodes.map(node => <Node node={node} />)}</div>
-    )}
+    {({ loading, error, data }) => <Nodes nodes={data.nodes} />}
   </Query>
 )
 
 export default Nodes
+
+export { Nodes }

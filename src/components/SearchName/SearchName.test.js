@@ -1,5 +1,5 @@
 import React from 'react'
-import { SearchName } from '../SearchName'
+import { SearchName } from './SearchName'
 
 import {
   renderIntoDocument,
@@ -9,7 +9,7 @@ import {
   fireEvent
 } from 'react-testing-library'
 import 'dom-testing-library/extend-expect'
-import { NotificationsProvider } from '../../../Notifications'
+import { NotificationsProvider } from '../../Notifications'
 
 afterEach(cleanup)
 
