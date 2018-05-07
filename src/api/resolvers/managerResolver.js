@@ -15,7 +15,6 @@ const resolvers = {
       if (parseInt(owner, 16) === 0) {
         return null
       }
-
       //Get all nodes
       const query = gql`
         query nodes {
@@ -66,11 +65,9 @@ const resolvers = {
         return null
       }
 
-      const subdomains = await getSubdomains(name)
+      getSubdomains(name).then(subdomains => console.log(subdomains))
 
-      console.log(subdomains)
-
-      return subdomains
+      return []
     }
   }
 }

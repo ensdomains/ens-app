@@ -37,7 +37,7 @@ export async function openEtherScanPage(txId) {
   window.open(`${etherscanAddr}/tx/${txId}`, '_blank')
 }
 
-export const checkLabels = (...labelHashes) => labelHashes
+export const checkLabels = (...labelHashes) => labelHashes.map(hash => null)
 
 // export const checkLabels = (...labelHashes) =>
 //   labelHashes.map(labelHash => checkLabelHash(labelHash) || null)

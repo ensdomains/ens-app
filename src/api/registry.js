@@ -195,7 +195,11 @@ export function getRootDomain(name) {
       if (hasResolver) {
         return getResolverDetails(node)
       }
-      return Promise.resolve(node)
+      return Promise.resolve({
+        ...node,
+        addr: null,
+        content: null
+      })
     })
 }
 

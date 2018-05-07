@@ -18,8 +18,11 @@ const typeDefs = `
   }
 
   type Node {
-    name,
-    owner
+    name: String
+    label: String
+    owner: String
+    resolver: String
+    nodes: [Node]
   }
 
   type Query {

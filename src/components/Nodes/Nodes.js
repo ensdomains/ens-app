@@ -22,7 +22,7 @@ const Node = ({ node }) => (
   </div>
 )
 
-const Nodes = ({ nodes = [] }) => (
+const Nodes = ({ nodes }) => (
   <div>{nodes.map(node => <Node node={node} key={node.name} />)}</div>
 )
 
