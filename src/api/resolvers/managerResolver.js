@@ -1,9 +1,58 @@
 import { watchRegistryEvent } from '../watchers'
 import { getOwner, getRootDomain, getSubdomains } from '../registry'
 import gql from 'graphql-tag'
+import get from 'lodash/get'
+import set from 'lodash/set'
 
 const defaults = {
   nodes: []
+}
+
+const getAllNodes = cache => {
+  const query = gql`
+    query nodes {
+      nodes {
+        name
+        owner
+        label
+        resolver
+        addr
+        content
+        nodes
+      }
+    }
+  `
+
+  return cache.readQuery({ query })
+}
+
+export function resolveQueryPath(domainArray, path, db) {
+  if (domainArray.length === 0) {
+    return path
+  }
+
+  let domainArrayPopped = domainArray.slice(0, domainArray.length - 1)
+  let currentLabel = domainArray[domainArray.length - 1]
+
+  function findIndex(path, db, label) {
+    const nodes = get(db, path)
+    const index = nodes.findIndex(node => {
+      return node.label === label
+    })
+    return index
+  }
+
+  let updatedPath
+  if (typeof path[path.length - 1] === 'string') {
+    let index = findIndex(path, db, currentLabel)
+    updatedPath = [...path, index, 'nodes']
+  } else {
+    updatedPath = [...path, 'nodes']
+    let index = findIndex(updatedPath, db, currentLabel)
+    updatedPath = [...updatedPath, index]
+  }
+
+  return resolveQueryPath(domainArrayPopped, updatedPath, db)
 }
 
 const resolvers = {
@@ -16,22 +65,7 @@ const resolvers = {
         return null
       }
       //Get all nodes
-      const query = gql`
-        query nodes {
-          nodes {
-            name
-            owner
-            label
-            resolver
-            addr
-            content
-            nodes
-          }
-        }
-      `
-
-      const { nodes } = cache.readQuery({ query })
-
+      const { nodes } = getAllNodes(cache)
       //Create Node
       let node = {
         name,
@@ -65,9 +99,21 @@ const resolvers = {
         return null
       }
 
-      getSubdomains(name).then(subdomains => console.log(subdomains))
+      const data = getAllNodes(cache)
 
-      return []
+      const rawNodes = await getSubdomains(name)
+      const nodes = rawNodes.map(node => ({ ...node, __typename: 'Node' }))
+      const domainArray = name.split('.')
+
+      //Remove global tld
+      let domainArraySliced = domainArray.slice(0, domainArray.length - 1)
+
+      const path = resolveQueryPath(domainArraySliced, ['nodes'], data)
+      const newData = set({ ...data }, path, nodes)
+      cache.writeData({
+        data: newData
+      })
+      return nodes
     }
   }
 }

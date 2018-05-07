@@ -11,14 +11,30 @@ const getNodes = gql`
       resolver
       addr
       content
-      nodes
+      nodes {
+        name
+        owner
+        # label
+        # resolver
+        # addr
+        # content
+        nodes {
+          owner
+          name
+          # label
+          # resolver
+          # addr
+          # content
+        }
+      }
     }
   }
 `
 
-const Node = ({ node }) => (
+const Node = ({ node: { owner, name, nodes = [] } }) => (
   <div>
-    {node.name} - {node.owner}
+    {name} - {owner}
+    <ul>{nodes.map(node => <Node node={node} />)}</ul>
   </div>
 )
 

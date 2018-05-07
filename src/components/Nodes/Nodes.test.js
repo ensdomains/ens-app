@@ -5,7 +5,7 @@ import { render } from 'react-testing-library'
 import 'dom-testing-library/extend-expect'
 
 test('check Nodes renders', () => {
-  const { getByText, container } = render(<Nodes />)
+  const { getByText, container } = render(<Nodes nodes={[]} />)
 })
 
 test('check Nodes renders items', () => {
