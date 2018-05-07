@@ -1,5 +1,5 @@
 import { watchRegistryEvent } from '../watchers'
-import { getOwner, getRootDomain } from '../registry'
+import { getOwner, getRootDomain, getSubdomains } from '../registry'
 import gql from 'graphql-tag'
 
 const defaults = {
@@ -56,6 +56,21 @@ const resolvers = {
       console.log('ROOT NODE', rootNode)
 
       return rootNode
+    },
+    getSubdomains: async (_, { name, owner }, { cache }) => {
+      if (!owner) {
+        owner = await getOwner(name)
+      }
+
+      if (parseInt(owner, 16) === 0) {
+        return null
+      }
+
+      const subdomains = await getSubdomains(name)
+
+      console.log(subdomains)
+
+      return subdomains
     }
   }
 }

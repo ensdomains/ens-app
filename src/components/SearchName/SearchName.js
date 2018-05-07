@@ -29,6 +29,16 @@ const addNode = gql`
   }
 `
 
+const getSubdomains = gql`
+  mutation getSubdomains($name: String) {
+    getSubdomains(name: $name) @client {
+      name
+      owner
+      resolver
+    }
+  }
+`
+
 function handleGetNodeDetails(name, client, addNotification) {
   if (name.split('.').length > 2) {
     getOwner(name).then(owner => {
@@ -52,6 +62,10 @@ function handleGetNodeDetails(name, client, addNotification) {
       .then(({ data: { addNode } }) => {
         if (addNode) {
           addNotification({ message: `Node details set for ${name}` })
+          client.mutate({
+            mutation: getSubdomains,
+            variables: { name }
+          })
         } else {
           addNotification({ message: `${name} does not have an owner!` })
         }

@@ -1,10 +1,8 @@
 import React from 'react'
 import { Nodes } from './Nodes'
 
-import { render, cleanup } from 'react-testing-library'
+import { render } from 'react-testing-library'
 import 'dom-testing-library/extend-expect'
-
-afterEach(cleanup)
 
 test('check Nodes renders', () => {
   const { getByText, container } = render(<Nodes />)

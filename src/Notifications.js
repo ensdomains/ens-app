@@ -13,8 +13,14 @@ export class NotificationsProvider extends Component {
     this._notificationSystem = React.createRef()
   }
 
-  addNotification = options => {
-    this._notificationSystem.current.addNotification(options)
+  addNotification = ({ level = 'success', message }) => {
+    if (!message) {
+      throw new Error('message required for notification')
+    }
+    this._notificationSystem.current.addNotification({
+      message,
+      level
+    })
   }
 
   state = {
