@@ -1,5 +1,5 @@
 import React from 'react'
-import { SearchName } from './SearchName'
+import { SearchName, handleGetNodeDetails } from './SearchName'
 
 import {
   renderIntoDocument,
@@ -23,14 +23,14 @@ test('check searchName renders', () => {
 
 test('searchName submits proper domain', () => {
   //arrange
-  const handleGetNodeDetails = jest.fn()
+  const handleGetNodeDetailsMock = jest.fn()
   const mockClient = {
     mutate: jest.fn()
   }
   const { getByText, container } = renderIntoDocument(
     <NotificationsProvider>
       <SearchName
-        handleGetNodeDetails={handleGetNodeDetails}
+        handleGetNodeDetails={handleGetNodeDetailsMock}
         client={mockClient}
       />
     </NotificationsProvider>
@@ -46,8 +46,60 @@ test('searchName submits proper domain', () => {
   submitButton.click()
 
   //assert
-  expect(handleGetNodeDetails).toHaveBeenCalledTimes(1)
+  expect(handleGetNodeDetailsMock).toHaveBeenCalledTimes(1)
   //expect(handleGetNodeDetails).toHaveBeenCalledWith('vitalik.eth', mockClient, addNotification)
   expect(submitButton.type).toBe('submit')
   expect(domainName.value).toBe('')
+})
+
+test('test HandleGetNodeDetails handler function', () => {
+  const mockData = {
+    data: {
+      addNode: {
+        name: 'vitalik.eth'
+      }
+    }
+  }
+  const mockClient = {
+    mutate() {
+      return {
+        then(callback) {
+          callback(mockData)
+        }
+      }
+    }
+  }
+  const addNotificationMock = jest.fn()
+
+  handleGetNodeDetails('vitalik.eth', mockClient, addNotificationMock)
+
+  expect(addNotificationMock).toHaveBeenCalledTimes(1)
+  expect(addNotificationMock).toHaveBeenCalledWith({
+    message: `Node details set for vitalik.eth`
+  })
+})
+
+test('test HandleGetNodeDetails handler function with null returned', () => {
+  const mockData = {
+    data: {
+      addNode: null
+    }
+  }
+  const mockClient = {
+    mutate() {
+      return {
+        then(callback) {
+          callback(mockData)
+        }
+      }
+    }
+  }
+  const addNotificationMock = jest.fn()
+
+  handleGetNodeDetails('vitalik.eth', mockClient, addNotificationMock)
+
+  expect(addNotificationMock).toHaveBeenCalledTimes(1)
+  expect(addNotificationMock).toHaveBeenCalledWith({
+    message: `vitalik.eth does not have an owner!`
+  })
 })

@@ -56,6 +56,12 @@ export function resolveQueryPath(domainArray, path, db) {
 }
 
 const resolvers = {
+  Query: {
+    nodes(_, variables, context) {
+      console.log(_, variables, context)
+      return []
+    }
+  },
   Mutation: {
     addNode: async (_, { name }, { cache }) => {
       const owner = await getOwner(name)
@@ -102,7 +108,9 @@ const resolvers = {
       const data = getAllNodes(cache)
 
       const rawNodes = await getSubdomains(name)
-      const nodes = rawNodes.map(node => ({ ...node, __typename: 'Node' }))
+      const nodes = rawNodes.map(node => {
+        return { ...node, __typename: 'Node' }
+      })
       const domainArray = name.split('.')
 
       //Remove global tld

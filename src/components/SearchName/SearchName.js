@@ -9,17 +9,6 @@ import { withHandlers } from 'recompose'
 import gql from 'graphql-tag'
 import NotificationsContext from '../../Notifications'
 
-// const addNotificationMutation = gql`
-//   mutation addNotification($notification: Notification) {
-//     addNotification(notification: $notification) @client {
-//       message
-//     }
-//   }
-// `
-// function addNotification(message) {
-//   console.log(message)
-// }
-
 const addNode = gql`
   mutation addNode($name: String) {
     addNode(name: $name) @client {
@@ -39,11 +28,11 @@ const getSubdomains = gql`
   }
 `
 
-function handleGetNodeDetails(name, client, addNotification) {
+export function handleGetNodeDetails(name, client, addNotification) {
   if (name.split('.').length > 2) {
     getOwner(name).then(owner => {
       if (parseInt(owner, 16) === 0) {
-        addNotification({ messsage: `${name} does not have an owner!` })
+        addNotification({ message: `${name} does not have an owner!` })
       } else {
         //Mutate state to setNodeDetailsSubdomain
         //setNodeDetailsSubDomain(name, owner)
@@ -52,7 +41,7 @@ function handleGetNodeDetails(name, client, addNotification) {
   } else if (name.split('.').length === 0) {
     addNotification('Please enter a name first')
   } else if (name.split('.').length === 1) {
-    addNotification({ messsage: 'Please add a TLD such as .eth' })
+    addNotification({ message: 'Please add a TLD such as .eth' })
   } else {
     client
       .mutate({
@@ -60,14 +49,16 @@ function handleGetNodeDetails(name, client, addNotification) {
         variables: { name }
       })
       .then(({ data: { addNode } }) => {
-        if (addNode) {
+        if (addNode !== null) {
           addNotification({ message: `Node details set for ${name}` })
           client.mutate({
             mutation: getSubdomains,
             variables: { name }
           })
         } else {
-          addNotification({ message: `${name} does not have an owner!` })
+          addNotification({
+            message: `${name} does not have an owner!`
+          })
         }
       })
   }
