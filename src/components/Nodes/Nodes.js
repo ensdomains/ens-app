@@ -1,34 +1,16 @@
 import React from 'react'
 import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
+import { NodesRecursive } from '../../fragments'
 
 const getNodes = gql`
   query nodes {
     nodes {
-      name
-      owner
-      label
-      resolver
-      addr
-      content
-      nodes {
-        name
-        owner
-        # label
-        # resolver
-        # addr
-        # content
-        nodes {
-          owner
-          name
-          # label
-          # resolver
-          # addr
-          # content
-        }
-      }
+      ...NodesRecursive
     }
   }
+
+  ${NodesRecursive}
 `
 
 const Node = ({ node: { owner, name, nodes = [] } }) => (
