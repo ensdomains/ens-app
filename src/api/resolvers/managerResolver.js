@@ -56,18 +56,6 @@ export function resolveQueryPath(domainArray, path, db) {
 }
 
 const resolvers = {
-  // Query: {
-  //   nodes(_, variables, context) {
-  //     console.log(_, variables, context)
-  //     return []
-  //   }
-  // },
-  // Node: {
-  //   content: node => {
-  //     return (node.content ? node.content : null)
-  //   },
-  //   addr: node => (node.addr ? node.addr : null)
-  // },
   Mutation: {
     addNode: async (_, { name }, { cache }) => {
       const owner = await getOwner(name)
