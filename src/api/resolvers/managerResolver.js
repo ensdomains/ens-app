@@ -56,12 +56,18 @@ export function resolveQueryPath(domainArray, path, db) {
 }
 
 const resolvers = {
-  Query: {
-    nodes(_, variables, context) {
-      console.log(_, variables, context)
-      return []
-    }
-  },
+  // Query: {
+  //   nodes(_, variables, context) {
+  //     console.log(_, variables, context)
+  //     return []
+  //   }
+  // },
+  // Node: {
+  //   content: node => {
+  //     return (node.content ? node.content : null)
+  //   },
+  //   addr: node => (node.addr ? node.addr : null)
+  // },
   Mutation: {
     addNode: async (_, { name }, { cache }) => {
       const owner = await getOwner(name)
@@ -109,7 +115,18 @@ const resolvers = {
 
       const rawNodes = await getSubdomains(name)
       const nodes = rawNodes.map(node => {
-        return { ...node, __typename: 'Node' }
+        if (parseInt(node.resolver, 16) === 0) {
+          return {
+            ...node,
+            __typename: 'Node',
+            addr: null,
+            content: null
+          }
+        }
+        return {
+          ...node,
+          __typename: 'Node'
+        }
       })
       const domainArray = name.split('.')
 

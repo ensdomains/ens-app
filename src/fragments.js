@@ -6,8 +6,8 @@ const NodeFields = gql`
     owner
     label
     resolver
-    # addr
-    # content
+    addr
+    content
   }
 `
 const NodesRecursive = gql`
