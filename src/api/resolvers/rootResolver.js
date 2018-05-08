@@ -9,6 +9,9 @@ import fifsResolvers, { defaults as fifsDefaults } from './fifsResolver'
 import managerResolvers, {
   defaults as managerDefaults
 } from './managerResolver'
+import auctionRegistrarResolver, {
+  defaults as auctionRegistrarDefaults
+} from './managerResolver'
 
 const rootDefaults = {
   web3: {
@@ -50,8 +53,18 @@ const resolvers = {
   Mutation: {}
 }
 
-const defaults = merge(rootDefaults, fifsDefaults, managerDefaults)
+const defaults = merge(
+  rootDefaults,
+  fifsDefaults,
+  managerDefaults,
+  auctionRegistrarDefaults
+)
 
-export default merge(resolvers, fifsResolvers, managerResolvers)
+export default merge(
+  resolvers,
+  fifsResolvers,
+  managerResolvers,
+  auctionRegistrarResolver
+)
 
 export { defaults }

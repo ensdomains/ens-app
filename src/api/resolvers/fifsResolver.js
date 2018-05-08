@@ -1,4 +1,3 @@
-import 'isomorphic-fetch'
 import getWeb3, { getAccounts } from '../web3'
 import { getFifsRegistrarContract } from '../ens'
 import { watchRegistryEvent } from '../watchers'
