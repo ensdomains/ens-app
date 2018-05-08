@@ -807,7 +807,7 @@ const getAuctionRegistrar = async () => {
   if (!AuctionRegistrar) {
     AuctionRegistrar = new AuctionRegistrarConstructor(
       web3,
-      ens,
+      ENS,
       'eth',
       7,
       function(err, txid) {
