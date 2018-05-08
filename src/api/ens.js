@@ -1,4 +1,5 @@
 import getWeb3 from './web3'
+import AuctionRegistrarConstructor from 'eth-registrar-ens'
 import ENSconstructor from 'ethereum-ens'
 
 var contracts = {
@@ -11,6 +12,7 @@ var contracts = {
 }
 
 let ENS
+let AuctionRegistrar
 
 function getNamehash(name) {
   return getWeb3().then(({ web3 }) => {
@@ -799,6 +801,24 @@ const getENS = async () => {
   return { ENS, web3 }
 }
 
+const getAuctionRegistrar = async () => {
+  let { ENS, web3 } = await getENS()
+
+  if (!AuctionRegistrar) {
+    AuctionRegistrar = new AuctionRegistrarConstructor(
+      web3,
+      ens,
+      'eth',
+      7,
+      function(err, txid) {
+        console.log(txid)
+      }
+    )
+  }
+
+  return { Registrar: AuctionRegistrar }
+}
+
 const getENSEvent = (event, filter, params) =>
   getENSContract().then(({ ens }) => {
     const myEvent = ens[event](filter, params)
@@ -851,6 +871,7 @@ const watchEvent = (
 
 export default getENS
 export {
+  getAuctionRegistrar,
   getReverseRegistrarContract,
   getENSContract,
   getENSEvent,
