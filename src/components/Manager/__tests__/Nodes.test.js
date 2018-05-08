@@ -1,5 +1,5 @@
 import React from 'react'
-import { Nodes } from './Nodes'
+import { Nodes } from '../Nodes'
 
 import { render } from 'react-testing-library'
 import 'dom-testing-library/extend-expect'
