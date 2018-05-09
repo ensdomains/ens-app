@@ -15,25 +15,6 @@ import CheckAvailabilityContainer from '../CheckAvailability'
 
 afterEach(cleanup)
 
-// test('Test CheckAvailability renders', () => {
-//   render(<CheckAvailability />)
-// })
-
-// test('should call handler on submit', () => {
-//   const searchDomainMock = jest.fn()
-//   const { getByText, container } = renderIntoDocument(
-//     <CheckAvailability searchDomain={searchDomainMock} />
-//   )
-
-//   const submitButton = getByText('Check Availability')
-//   console.log(submitButton)
-//   const form = container.querySelector('form')
-
-//   submitButton.click()
-
-//   expect(searchDomainMock).toHaveBeenCalledTimes(1)
-// })
-
 test('should call resolver without blowing up', () => {
   const { getByText, container } = renderIntoDocument(
     <ApolloProvider client={createClient()}>
