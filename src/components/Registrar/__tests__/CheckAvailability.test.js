@@ -8,7 +8,7 @@ import {
 
 import { ApolloProvider } from 'react-apollo'
 
-import client from '../../../testing-utils/mockedClient'
+import createClient from '../../../testing-utils/mockedClient'
 
 import { CheckAvailability } from '../CheckAvailability'
 import CheckAvailabilityContainer from '../CheckAvailability'
@@ -36,7 +36,7 @@ afterEach(cleanup)
 
 test('should call resolver', () => {
   const { getByText, container } = renderIntoDocument(
-    <ApolloProvider client={client}>
+    <ApolloProvider client={createClient()}>
       <CheckAvailabilityContainer />
     </ApolloProvider>
   )
