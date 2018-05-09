@@ -11,7 +11,7 @@ import managerResolvers, {
 } from './managerResolver'
 import auctionRegistrarResolver, {
   defaults as auctionRegistrarDefaults
-} from './managerResolver'
+} from './auctionRegistrarResolver'
 
 const rootDefaults = {
   web3: {

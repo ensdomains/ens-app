@@ -4,7 +4,18 @@ import set from 'lodash/set'
 
 const defaults = {}
 
-const resolvers = {}
+const resolvers = {
+  Mutation: {
+    getDomainState: (_, { domain }, { cache }) => {
+      console.log('checking availability of domain', domain)
+      // return {
+      //   domain,
+      //   state: 'Available',
+      //   __typename: 'NodeState'
+      // }
+    }
+  }
+}
 
 export default resolvers
 

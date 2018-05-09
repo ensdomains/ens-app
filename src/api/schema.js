@@ -17,6 +17,20 @@ const typeDefs = `
     createdAt: String
   }
 
+  enum Mode { 
+    Open 
+    Auction
+    Owned
+    Forbidden
+    Reveal
+    NotYetAvailable 
+  }
+
+  type NodeState {
+    name: String
+    state: Mode
+  }
+
   type Node {
     name: String
     label: String
