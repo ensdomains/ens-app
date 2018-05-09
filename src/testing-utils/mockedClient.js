@@ -4,6 +4,7 @@ import { SchemaLink } from 'apollo-link-schema'
 import { makeExecutableSchema, addMockFunctionsToSchema } from 'graphql-tools'
 import typeDefs from '../api/schema'
 import merge from 'lodash/merge'
+
 const defaultMocks = {
   Query: () => ({
     nodes: () => []
@@ -19,7 +20,8 @@ const defaultMocks = {
 }
 
 function createGraphQLClient(mocks = defaultMocks) {
-  mocks = merge(mocks, defaultMocks)
+  mocks = merge(defaultMocks, mocks)
+
   const schema = makeExecutableSchema({ typeDefs })
   addMockFunctionsToSchema({
     schema,

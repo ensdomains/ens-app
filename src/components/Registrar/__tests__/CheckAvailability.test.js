@@ -34,7 +34,7 @@ afterEach(cleanup)
 //   expect(searchDomainMock).toHaveBeenCalledTimes(1)
 // })
 
-test('should call resolver', () => {
+test('should call resolver without blowing up', () => {
   const { getByText, container } = renderIntoDocument(
     <ApolloProvider client={createClient()}>
       <CheckAvailabilityContainer />
@@ -47,21 +47,28 @@ test('should call resolver', () => {
   input.value = 'vitalik.eth'
   Simulate.change(input)
   submitButton.click()
+})
 
-  // first is loading
-  // const tree = component.toJSON()
-  // expect(tree.children[0].children[0]).toMatch('loading ...')
-  // expect(tree).toMatchSnapshot()
+test('should call resolver without blowing up', () => {
+  const resolverOverwrites = {
+    Mutation: () => ({
+      getDomainState(_, { name }) {
+        return {
+          name: 'another.eth'
+        }
+      }
+    })
+  }
+  const { getByText, container } = renderIntoDocument(
+    <ApolloProvider client={createClient(resolverOverwrites)}>
+      <CheckAvailabilityContainer />
+    </ApolloProvider>
+  )
 
-  // // wait until data arrive
-  // setTimeout(() => {
-  //   try {
-  //     const tree2 = component.toJSON()
-  //     expect(tree2.children[0].children).toMatchObject(['got data ... '])
-  //     expect(tree2).toMatchSnapshot()
-  //   } catch (e) {
-  //     return done.fail(e)
-  //   }
-  //   return done()
-  // }, 2500)
+  const submitButton = getByText('Check Availability')
+  const form = container.querySelector('form')
+  const input = form.querySelector('input')
+  input.value = 'vitalik.eth'
+  Simulate.change(input)
+  submitButton.click()
 })
