@@ -4,16 +4,16 @@ import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 
 const GET_DOMAIN_STATE = gql`
-  mutation getDomainState($domain: String) {
-    getDomainState(domain: $domain) @client {
-      domain
+  mutation getDomainState($name: String) {
+    getDomainState(name: $name) @client {
+      name
       state
     }
   }
 `
 
 const CheckAvailability = ({ searchDomain }) => {
-  let domain
+  let input
   return (
     <Mutation mutation={GET_DOMAIN_STATE}>
       {getDomainState => (
@@ -21,11 +21,14 @@ const CheckAvailability = ({ searchDomain }) => {
         <form
           onSubmit={e => {
             e.preventDefault()
-            console.log(getDomainState)
-            getDomainState({ variables: { domain } })
+            getDomainState({ variables: { name: input.value } }).then(
+              result => {
+                console.log(result)
+              }
+            )
           }}
         >
-          <input ref={el => (domain = el)} />
+          <input ref={el => (input = el)} />
           <button type="submit">Check Availability</button>
         </form>
       )}

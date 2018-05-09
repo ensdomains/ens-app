@@ -6,6 +6,7 @@
     "apollo-cache-inmemory": "^1.1.12",
     "apollo-client": "^2.2.8",
     "apollo-link": "^1.2.2",
+    "apollo-link-schema": "^1.1.0",
     "apollo-link-state": "^0.4.1",
     "classnames": "^2.2.5",
     "eth-registrar-ens": "^0.8.4",
@@ -21,7 +22,6 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.2",
-    "react-testing-library": "^2.3.0",
     "recompose": "^0.27.0",
     "state": "^0.2.0",
     "web3": "^0.19.0"
@@ -38,5 +38,7 @@
     "editor.formatOnSave": true,
     "singleQuote": true
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "react-testing-library": "^3.0.2"
+  }
 }

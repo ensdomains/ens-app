@@ -17,7 +17,7 @@ test('check Nodes renders items', () => {
   ]
   const { getByText, container } = render(<Nodes nodes={nodes} />)
 
-  expect(getByText('vitalik.eth')).toHaveTextContent(
+  expect(getByText('vitalik.eth', { exact: false })).toHaveTextContent(
     'vitalik.eth - 0x123456789'
   )
 })

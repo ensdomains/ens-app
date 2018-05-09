@@ -40,7 +40,6 @@ const typeDefs = `
   }
 
   type Query {
-    loggedInUser: User
     nodes: [Node]
     people: [User]
     web3: Web3
@@ -48,6 +47,7 @@ const typeDefs = `
 
   type Mutation {
     registerTestDomain(name: String!): Transaction
+    getDomainState(name: String!): NodeState
   }
 
   schema {

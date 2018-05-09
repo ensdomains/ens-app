@@ -8,11 +8,11 @@ const resolvers = {
   Mutation: {
     getDomainState: (_, { domain }, { cache }) => {
       console.log('checking availability of domain', domain)
-      // return {
-      //   domain,
-      //   state: 'Available',
-      //   __typename: 'NodeState'
-      // }
+      return {
+        domain,
+        state: 'Available',
+        __typename: 'NodeState'
+      }
     }
   }
 }

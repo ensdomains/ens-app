@@ -189,6 +189,12 @@ apollo-link-dedup@^1.0.0:
   dependencies:
     apollo-link "^1.2.2"
 
+apollo-link-schema@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/apollo-link-schema/-/apollo-link-schema-1.1.0.tgz#033fda26ffdbfc809d04892de554867f50e2af8e"
+  dependencies:
+    apollo-link "^1.2.2"
+
 apollo-link-state@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/apollo-link-state/-/apollo-link-state-0.4.1.tgz#65e9e0e12c67936b8c4b12b8438434f393104579"
@@ -2159,9 +2165,9 @@ dom-serializer@0:
     domelementtype "~1.1.1"
     entities "~1.1.1"
 
-dom-testing-library@^1.10.0:
-  version "1.10.0"
-  resolved "https://registry.yarnpkg.com/dom-testing-library/-/dom-testing-library-1.10.0.tgz#d10c083a8f15fa296457edbd05c4be455a5d7419"
+dom-testing-library@^2.0.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/dom-testing-library/-/dom-testing-library-2.2.0.tgz#f9affe83a3566a80af7e01db4f329d65ccf93418"
   dependencies:
     jest-dom "^1.0.0"
     mutationobserver-shim "^0.3.2"
@@ -5891,11 +5897,11 @@ react-scripts@1.1.2:
   optionalDependencies:
     fsevents "^1.1.3"
 
-react-testing-library@^2.3.0:
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/react-testing-library/-/react-testing-library-2.5.1.tgz#466f7986f4d14f6e538db018e56dcb16fe4452ed"
+react-testing-library@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/react-testing-library/-/react-testing-library-3.0.2.tgz#03ffe4b8c1b408e7c010ce910a63edefbe843f28"
   dependencies:
-    dom-testing-library "^1.10.0"
+    dom-testing-library "^2.0.0"
     wait-for-expect "^0.5.0"
 
 react@^16.3.0:
