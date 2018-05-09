@@ -1,13 +1,4 @@
 const typeDefs = `
-  type User {
-    id: ID!
-    name: String!
-    image: String!
-    avatar: Avatar
-  }
-  type Avatar {
-    url: String!
-  }
   type Web3 {
     accounts: [String]
   }
@@ -41,7 +32,6 @@ const typeDefs = `
 
   type Query {
     nodes: [Node]
-    people: [User]
     web3: Web3
   }
 
