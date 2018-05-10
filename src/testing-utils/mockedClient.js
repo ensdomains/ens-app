@@ -1,5 +1,5 @@
 import typeDefs from '../api/schema'
-import setupClient from './apollo-mock-client'
+import setupClient from 'apollo-client-mock'
 
 const defaultMocks = {
   Query: () => ({
