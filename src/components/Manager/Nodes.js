@@ -1,23 +1,19 @@
 import React from 'react'
 import gql from 'graphql-tag'
-import { Query } from 'react-apollo'
-import { NodesRecursive } from '../../fragments'
-
-const getNodes = gql`
-  query nodes {
-    nodes {
-      ...NodesRecursive
-    }
-  }
-
-  ${NodesRecursive}
-`
+import { Query, Mutation } from 'react-apollo'
+import { GET_SUBDOMAINS } from '../../graphql/mutations'
+import { GET_NODES } from '../../graphql/queries'
 
 const Node = ({ node: { owner, name, nodes = [] } }) => (
-  <div>
-    {name} - {owner}
-    <ul>{nodes.map(node => <Node node={node} />)}</ul>
-  </div>
+  <Mutation mutation={GET_SUBDOMAINS}>
+    {getSubdomains => (
+      <div>
+        {name} - {owner}
+        <button onClick={getSubdomains} />
+        <ul>{nodes.map(node => <Node node={node} />)}</ul>
+      </div>
+    )}
+  </Mutation>
 )
 
 const Nodes = ({ nodes }) => (
@@ -25,7 +21,7 @@ const Nodes = ({ nodes }) => (
 )
 
 const NodesContainer = () => (
-  <Query query={getNodes}>
+  <Query query={GET_NODES}>
     {({ loading, error, data }) => {
       if (loading) return <div>Loading...</div>
       {

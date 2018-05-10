@@ -8,22 +8,13 @@ import { compose, withApollo } from 'react-apollo'
 import { withHandlers } from 'recompose'
 import gql from 'graphql-tag'
 import NotificationsContext from '../../Notifications'
+import { GET_SUBDOMAINS } from '../../graphql/mutations'
 
 const addNode = gql`
   mutation addNode($name: String) {
     addNode(name: $name) @client {
       name
       owner
-    }
-  }
-`
-
-const getSubdomains = gql`
-  mutation getSubdomains($name: String) {
-    getSubdomains(name: $name) @client {
-      name
-      owner
-      resolver
     }
   }
 `
@@ -52,7 +43,7 @@ export function handleGetNodeDetails(name, client, addNotification) {
         if (addNode !== null) {
           addNotification({ message: `Node details set for ${name}` })
           client.mutate({
-            mutation: getSubdomains,
+            mutation: GET_SUBDOMAINS,
             variables: { name }
           })
         } else {
