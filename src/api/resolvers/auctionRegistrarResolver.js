@@ -1,16 +1,27 @@
 import gql from 'graphql-tag'
 import get from 'lodash/get'
 import set from 'lodash/set'
+import { getMode } from '../registrar'
 
 const defaults = {}
 
+const modeNames = [
+  'Open',
+  'Auction',
+  'Owned',
+  'Forbidden',
+  'Reveal',
+  'NotYetAvailable'
+]
+
 const resolvers = {
   Mutation: {
-    getDomainState: (_, { domain }, { cache }) => {
-      console.log('checking availability of domain', domain)
+    getDomainState: async (_, { name }, { cache }) => {
+      const state = await getMode(name)
+
       return {
-        domain,
-        state: 'Available',
+        name,
+        state: modeNames[state],
         __typename: 'NodeState'
       }
     }

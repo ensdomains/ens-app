@@ -18,8 +18,8 @@ const CheckAvailability = ({ getDomainState }) => {
     <form
       onSubmit={e => {
         e.preventDefault()
-        getDomainState({ variables: { name: input.value } }).then(result => {
-          console.log(result)
+        getDomainState({ variables: { name: input.value } }).then(domain => {
+          console.log(domain)
         })
       }}
     >
