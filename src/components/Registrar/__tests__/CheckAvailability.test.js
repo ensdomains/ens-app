@@ -7,7 +7,6 @@ import {
 } from 'react-testing-library'
 
 import { ApolloProvider } from 'react-apollo'
-
 import createClient from '../../../testing-utils/mockedClient'
 
 import { CheckAvailability } from '../CheckAvailability'
