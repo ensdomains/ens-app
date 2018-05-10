@@ -1158,10 +1158,6 @@ bignumber.js@^4.0.2:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-4.1.0.tgz#db6f14067c140bd46624815a7916c92d9b6c24b1"
 
-"bignumber.js@git+https://github.com/debris/bignumber.js.git#94d7146671b9719e00a09c29b01a691bc85048c2":
-  version "2.0.7"
-  resolved "git+https://github.com/debris/bignumber.js.git#94d7146671b9719e00a09c29b01a691bc85048c2"
-
 binary-extensions@^1.0.0:
   version "1.11.0"
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-1.11.0.tgz#46aa1751fb6a2f93ee5e689bb1087d4b14c6c205"
@@ -1876,7 +1872,7 @@ crypto-browserify@^3.11.0:
     randombytes "^2.0.0"
     randomfill "^1.0.3"
 
-crypto-js@^3.1.4, crypto-js@^3.1.6:
+crypto-js@^3.1.4:
   version "3.1.8"
   resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-3.1.8.tgz#715f070bf6014f2ae992a98b3929258b713f08d5"
 
@@ -2618,24 +2614,6 @@ eth-ens-namehash@^2.0.0:
   dependencies:
     idna-uts46-hx "^2.3.1"
     js-sha3 "^0.5.7"
-
-eth-registrar-ens@^0.8.4:
-  version "0.8.4"
-  resolved "https://registry.yarnpkg.com/eth-registrar-ens/-/eth-registrar-ens-0.8.4.tgz#1ca3aef9c50ad3910d2405b6f248e4a20179f06f"
-  dependencies:
-    ethereum-ens "^0.4.0"
-    underscore "^1.8.3"
-    web3 "^0.18.2"
-
-ethereum-ens@^0.4.0:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/ethereum-ens/-/ethereum-ens-0.4.2.tgz#16107e1c0bd6b4569481589743286f598220aebc"
-  dependencies:
-    crypto-js "^3.1.6"
-    idna-uts46 "^1.0.1"
-    pako "^1.0.4"
-    text-encoding "^0.6.4"
-    underscore "^1.8.3"
 
 ethereum-ens@^0.7.3:
   version "0.7.3"
@@ -3542,12 +3520,6 @@ idna-uts46-hx@^2.3.1:
   resolved "https://registry.yarnpkg.com/idna-uts46-hx/-/idna-uts46-hx-2.3.1.tgz#a1dc5c4df37eee522bf66d969cc980e00e8711f9"
   dependencies:
     punycode "2.1.0"
-
-idna-uts46@^1.0.1:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/idna-uts46/-/idna-uts46-1.1.0.tgz#be098b2b7c1cabfbef87a8b80f626fac37366aea"
-  dependencies:
-    punycode "^2.1.0"
 
 ieee754@^1.1.4:
   version "1.1.11"
@@ -7284,16 +7256,6 @@ wbuf@^1.1.0, wbuf@^1.7.2:
   resolved "https://registry.yarnpkg.com/wbuf/-/wbuf-1.7.3.tgz#c1d8d149316d3ea852848895cb6a0bfe887b87df"
   dependencies:
     minimalistic-assert "^1.0.0"
-
-web3@^0.18.2:
-  version "0.18.4"
-  resolved "https://registry.yarnpkg.com/web3/-/web3-0.18.4.tgz#81ec1784145491f2eaa8955b31c06049e07c5e7d"
-  dependencies:
-    bignumber.js "git+https://github.com/debris/bignumber.js.git#94d7146671b9719e00a09c29b01a691bc85048c2"
-    crypto-js "^3.1.4"
-    utf8 "^2.1.1"
-    xhr2 "*"
-    xmlhttprequest "*"
 
 web3@^0.19.0, web3@^0.19.1:
   version "0.19.1"

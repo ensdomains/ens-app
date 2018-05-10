@@ -8,7 +8,6 @@
     "apollo-link": "^1.2.2",
     "apollo-link-state": "^0.4.1",
     "classnames": "^2.2.5",
-    "eth-registrar-ens": "^0.8.4",
     "ethereum-ens": "^0.7.3",
     "graphql": "^0.13.2",
     "graphql-tag": "2.9.1",
