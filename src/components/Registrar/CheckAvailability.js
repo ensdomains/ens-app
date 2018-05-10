@@ -12,25 +12,32 @@ const GET_DOMAIN_STATE = gql`
   }
 `
 
-const CheckAvailability = ({ searchDomain }) => {
+const CheckAvailability = ({ getDomainState }) => {
   let input
+  return (
+    <form
+      onSubmit={e => {
+        e.preventDefault()
+        getDomainState({ variables: { name: input.value } }).then(result => {
+          console.log(result)
+        })
+      }}
+    >
+      <input ref={el => (input = el)} />
+      <button type="submit">Check Availability</button>
+    </form>
+  )
+}
+
+const CheckAvailabilityContainer = ({ searchDomain }) => {
   return (
     <Mutation mutation={GET_DOMAIN_STATE}>
       {getDomainState => (
         //searchDomain(domain, e)
-        <form
-          onSubmit={e => {
-            e.preventDefault()
-            getDomainState({ variables: { name: input.value } }).then(
-              result => {
-                console.log(result)
-              }
-            )
-          }}
-        >
-          <input ref={el => (input = el)} />
-          <button type="submit">Check Availability</button>
-        </form>
+        <CheckAvailability
+          getDomainState={getDomainState}
+          searchDomain={searchDomain}
+        />
       )}
     </Mutation>
   )
@@ -45,4 +52,4 @@ export default compose(
       console.log('searchDomain')
     }
   })
-)(CheckAvailability)
+)(CheckAvailabilityContainer)
