@@ -13,7 +13,6 @@ const GET_DOMAIN_STATE = gql`
 
 export const DomainInfo = ({ domainState }) => {
   if (!domainState) return null
-  console.log(domainState)
   return (
     <div>
       {domainState.name} - {domainState.state}

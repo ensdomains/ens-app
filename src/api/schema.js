@@ -1,4 +1,5 @@
 const typeDefs = `
+  # Root resolver
   type Web3 {
     accounts: [String]
   }
@@ -7,6 +8,12 @@ const typeDefs = `
     id: String
     createdAt: String
   }
+
+  type Query {
+    web3: Web3
+  }
+
+  # Eth Registrar
 
   enum Mode { 
     Open 
@@ -17,10 +24,25 @@ const typeDefs = `
     NotYetAvailable 
   }
 
+  type DomainState {
+    name: String
+    state: Mode
+  }
+
   type NodeState {
     name: String
     state: Mode
   }
+
+  extend type Query {
+    domainState: DomainState
+  }
+
+  type Mutation {
+    getDomainState(name: String!): NodeState
+  }
+
+  # Manager
 
   type Node {
     name: String
@@ -30,20 +52,14 @@ const typeDefs = `
     nodes: [Node]
   }
 
-  type DomainState {
-    name: String
-    state: Mode
-  }
-
-  type Query {
+  extend type Query {
     nodes: [Node]
-    domainState: DomainState
-    web3: Web3
   }
 
-  type Mutation {
+  # Test Registrar
+  
+  extend type Mutation {
     registerTestDomain(name: String!): Transaction
-    getDomainState(name: String!): NodeState
   }
 
   schema {

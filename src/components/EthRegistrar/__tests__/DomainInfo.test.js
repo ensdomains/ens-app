@@ -17,7 +17,6 @@ test('should call resolver without blowing up', () => {
   const resolverOverwrites = {
     Query: () => ({
       domainState() {
-        console.log('here')
         return {
           name: 'vitalik.eth',
           state: 'Forbidden',
@@ -31,4 +30,8 @@ test('should call resolver without blowing up', () => {
       <DomainInfoContainer />
     </ApolloProvider>
   )
+  console.log(container.querySelector('div'))
+  const element = getByText('vitalik.eth', { exact: false })
+
+  console.log(element)
 })
