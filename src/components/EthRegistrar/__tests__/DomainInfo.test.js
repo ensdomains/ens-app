@@ -3,8 +3,11 @@ import {
   render,
   renderIntoDocument,
   cleanup,
-  Simulate
+  Simulate,
+  waitForElement
 } from 'react-testing-library'
+
+import 'dom-testing-library/extend-expect'
 
 import { ApolloProvider } from 'react-apollo'
 import createClient from '../../../testing-utils/mockedClient'
@@ -13,7 +16,7 @@ import DomainInfoContainer from '../DomainInfo'
 
 afterEach(cleanup)
 
-test('should call resolver without blowing up', () => {
+test('should call resolver without blowing up', async () => {
   const resolverOverwrites = {
     Query: () => ({
       domainState() {
@@ -30,8 +33,10 @@ test('should call resolver without blowing up', () => {
       <DomainInfoContainer />
     </ApolloProvider>
   )
-  console.log(container.querySelector('div'))
-  const element = getByText('vitalik.eth', { exact: false })
 
-  console.log(element)
+  const element = await waitForElement(() =>
+    getByText('vitalik.eth', { exact: false })
+  )
+
+  expect(element).toHaveTextContent('Forbidden')
 })

@@ -18,9 +18,7 @@ const CheckAvailability = ({ getDomainState }) => {
     <form
       onSubmit={e => {
         e.preventDefault()
-        getDomainState({ variables: { name: input.value } }).then(domain => {
-          console.log(domain)
-        })
+        getDomainState({ variables: { name: input.value } })
       }}
     >
       <input ref={el => (input = el)} />
@@ -33,7 +31,6 @@ const CheckAvailabilityContainer = ({ searchDomain }) => {
   return (
     <Mutation mutation={GET_DOMAIN_STATE}>
       {getDomainState => (
-        //searchDomain(domain, e)
         <CheckAvailability
           getDomainState={getDomainState}
           searchDomain={searchDomain}
@@ -45,11 +42,4 @@ const CheckAvailabilityContainer = ({ searchDomain }) => {
 
 export { CheckAvailability }
 
-export default compose(
-  withHandlers({
-    searchDomain: props => (domain, event) => {
-      event.preventDefault()
-      console.log('searchDomain')
-    }
-  })
-)(CheckAvailabilityContainer)
+export default CheckAvailabilityContainer
