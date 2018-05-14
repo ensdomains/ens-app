@@ -3,6 +3,14 @@ import setupClient from 'apollo-client-mock'
 
 const defaultMocks = {
   Query: () => ({
+    domainState() {
+      console.log('here')
+      return {
+        name: 'vitalik.eth',
+        state: 'Forbidden',
+        __typename: 'NodeState'
+      }
+    },
     nodes: () => []
   }),
   Mutation: () => ({

@@ -9,29 +9,26 @@ import {
 import { ApolloProvider } from 'react-apollo'
 import createClient from '../../../testing-utils/mockedClient'
 
-import CheckAvailabilityContainer from '../CheckAvailability'
-import { getCiphers } from 'tls'
+import DomainInfoContainer from '../DomainInfo'
 
 afterEach(cleanup)
 
 test('should call resolver without blowing up', () => {
-  const getDomainState = jest.fn()
   const resolverOverwrites = {
-    Mutation: () => ({
-      getDomainState
+    Query: () => ({
+      domainState() {
+        console.log('here')
+        return {
+          name: 'vitalik.eth',
+          state: 'Forbidden',
+          __typename: 'NodeState'
+        }
+      }
     })
   }
   const { getByText, container } = renderIntoDocument(
     <ApolloProvider client={createClient(resolverOverwrites)}>
-      <CheckAvailabilityContainer />
+      <DomainInfoContainer />
     </ApolloProvider>
   )
-
-  const submitButton = getByText('Check Availability')
-  const form = container.querySelector('form')
-  const input = form.querySelector('input')
-  input.value = 'vitalik.eth'
-  Simulate.change(input)
-  submitButton.click()
-  expect(getDomainState).toHaveBeenCalledTimes(1)
 })

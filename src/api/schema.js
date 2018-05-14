@@ -30,8 +30,14 @@ const typeDefs = `
     nodes: [Node]
   }
 
+  type DomainState {
+    name: String
+    state: Mode
+  }
+
   type Query {
     nodes: [Node]
+    domainState: DomainState
     web3: Web3
   }
 

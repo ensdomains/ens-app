@@ -1,4 +1,4 @@
-import { resolveQueryPath } from '../managerResolver'
+import { resolveQueryPath } from '../resolvers'
 
 test('test query path gives correct path', () => {
   const db = {

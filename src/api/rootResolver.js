@@ -1,17 +1,19 @@
 import 'isomorphic-fetch'
-import getWeb3, { getAccounts } from '../web3'
-import { getFifsRegistrarContract } from '../ens'
-import { watchRegistryEvent } from '../watchers'
-import { getOwner, getRootDomain } from '../registry'
+import getWeb3, { getAccounts } from './web3'
+import { getFifsRegistrarContract } from './ens'
+import { watchRegistryEvent } from './watchers'
+import { getOwner, getRootDomain } from './registry'
 import gql from 'graphql-tag'
 import merge from 'lodash/merge'
-import fifsResolvers, { defaults as fifsDefaults } from './fifsResolver'
+import fifsResolvers, {
+  defaults as fifsDefaults
+} from './fifsRegistrar/resolvers'
 import managerResolvers, {
   defaults as managerDefaults
-} from './managerResolver'
+} from './manager/resolvers'
 import auctionRegistrarResolver, {
   defaults as auctionRegistrarDefaults
-} from './auctionRegistrarResolver'
+} from './registrar/resolvers'
 
 const rootDefaults = {
   web3: {
@@ -38,15 +40,6 @@ const resolvers = {
         console.error(e)
         return null
       }
-    },
-    people: async () => {
-      const response = await fetch('https://emerald-ink.glitch.me/people')
-      const people = await response.json()
-
-      return people.map(person => ({
-        ...person,
-        __typename: 'thing'
-      }))
     }
   },
 
