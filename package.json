@@ -8,7 +8,7 @@
     "apollo-link": "^1.2.2",
     "apollo-link-state": "^0.4.1",
     "classnames": "^2.2.5",
-    "ethereum-ens": "^0.7.3",
+    "ethereum-ens": "^0.7.4",
     "graphql": "^0.13.2",
     "graphql-tag": "2.9.1",
     "graphql-tools": "^2.23.1",
@@ -39,6 +39,8 @@
   "devDependencies": {
     "apollo-client-mock": "0.0.5",
     "apollo-link-schema": "^1.1.0",
-    "react-testing-library": "^3.0.2"
+    "ganache-cli": "^6.1.0",
+    "react-testing-library": "^3.0.2",
+    "solc": "^0.4.23"
   }
 }

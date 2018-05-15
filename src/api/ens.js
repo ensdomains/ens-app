@@ -79,11 +79,14 @@ const getFifsRegistrarContract = () => {
   })
 }
 
-const getENS = async () => {
-  let { web3, networkId } = await getWeb3()
+const getENS = async (ensAddress, web3Instance) => {
+  var { web3, networkId } = await getWeb3()
 
   if (!ENS) {
-    ENS = new ENSconstructor(web3, contracts[networkId].registry)
+    if (!ensAddress) {
+      ensAddress = contracts[networkId].registry
+    }
+    ENS = new ENSconstructor(web3, ensAddress)
   }
 
   return { ENS, web3 }
