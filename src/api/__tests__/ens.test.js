@@ -18,6 +18,8 @@ beforeAll(async () => {
 
   const accounts = await getAccounts()
 
+  expect(accounts.length).toBeGreaterThan(0)
+
   let source = fs.readFileSync('./src/api/__tests__/ens.sol').toString()
   let compiled = solc.compile(source, 1)
   let deployer = compiled.contracts[':DeployENS']
@@ -54,6 +56,11 @@ beforeAll(async () => {
   //setup ENS
   await getENS(ensRoot)
 }, 30000)
+
+test('accounts exist', async () => {
+  const accounts = await getAccounts()
+  expect(accounts.length).toBeGreaterThan(0)
+})
 
 test('ens deployed and setup with dummy data', async () => {
   const { ENS } = await getENS()
