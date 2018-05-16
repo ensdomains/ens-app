@@ -8,11 +8,6 @@ const GET_WEB3 = gql`
     web3 @client {
       accounts
     }
-    people @client {
-      id
-      name
-      image
-    }
   }
 `
 

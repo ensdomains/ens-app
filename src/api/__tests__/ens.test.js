@@ -55,11 +55,8 @@ beforeAll(async () => {
   await getENS(ensRoot)
 }, 30000)
 
-test('ens deploys', async () => {
+test('ens deployed and setup with dummy data', async () => {
   const { ENS } = await getENS()
-  ENS.resolver('foo.eth')
-    .resolverAddress()
-    .then(function(addr) {
-      expect(addr).toNotBe('0x0000000000000000000000000000000000000000')
-    })
+  const addr = await ENS.resolver('foo.eth').resolverAddress()
+  expect(addr).not.toBe('0x0000000000000000000000000000000000000000')
 })
