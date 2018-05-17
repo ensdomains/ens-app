@@ -9,7 +9,7 @@ const Node = ({ node: { owner, name, nodes = [] } }) => (
     {getSubdomains => (
       <div>
         {name} - {owner}
-        <button onClick={getSubdomains} />
+        <button onClick={() => getSubdomains({ variables: { name } })} />
         <ul>{nodes.map(node => <Node node={node} />)}</ul>
       </div>
     )}

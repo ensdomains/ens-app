@@ -103,7 +103,7 @@ const resolvers = {
 
       const rawNodes = await getSubdomains(name)
       const nodes = rawNodes.map(node => {
-        if (parseInt(node.resolver, 16) === 0) {
+        if (parseInt(node.resolver, 16) === 0 || node.decrypted === false) {
           return {
             ...node,
             __typename: 'Node',
@@ -116,6 +116,8 @@ const resolvers = {
           __typename: 'Node'
         }
       })
+
+      console.log(nodes)
       const domainArray = name.split('.')
 
       //Remove global tld
