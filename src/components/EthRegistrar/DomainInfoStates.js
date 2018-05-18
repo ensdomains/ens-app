@@ -13,10 +13,10 @@ export const Forbidden = ({ domainState }) => (
   <div>{domainState.name} is Forbidden!</div>
 )
 
-export const Reveal = () => (
+export const Reveal = ({ domainState }) => (
   <div>{domainState.name} is in the reveal stage!</div>
 )
 
-export const NotYetAvailable = () => (
+export const NotYetAvailable = ({ domainState }) => (
   <div>{domainState.name} is not yet available</div>
 )
