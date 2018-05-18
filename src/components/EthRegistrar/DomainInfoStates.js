@@ -9,8 +9,14 @@ export const Owned = ({ domainState }) => (
   <div>{domainState.name} is owned!</div>
 )
 
-export const Forbidden = () => <div />
+export const Forbidden = ({ domainState }) => (
+  <div>{domainState.name} is Forbidden!</div>
+)
 
-export const Reveal = () => <div />
+export const Reveal = () => (
+  <div>{domainState.name} is in the reveal stage!</div>
+)
 
-export const NotYetAvailable = () => <div />
+export const NotYetAvailable = () => (
+  <div>{domainState.name} is not yet available</div>
+)

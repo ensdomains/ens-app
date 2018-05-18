@@ -1,7 +1,7 @@
 import React from 'react'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
-import { Open, Owned } from './DomainInfoStates'
+import { Open, Owned, Forbidden } from './DomainInfoStates'
 
 const GET_DOMAIN_STATE = gql`
   query getDomainState {
@@ -20,8 +20,12 @@ export const DomainInfo = ({ domainState }) => {
       return <Open domainState={domainState} />
     case 'Owned':
       return <Owned domainState={domainState} />
-    default:
-      return <Open domainState={domainState} />
+    case 'Forbidden':
+      return <Forbidden domainState={domainState} />
+    case 'Reveal':
+      return <Reveal domainState={domainState} />
+    case 'NotYetAvailable':
+      return <NotYetAvailable domainState={domainState} />
   }
 }
 

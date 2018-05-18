@@ -5,12 +5,16 @@ import fs from 'fs'
 import solc from 'solc'
 import TestRPC from 'ganache-cli'
 import { setupWeb3, getAccounts } from '../web3'
+import { getOwner, getResolver } from '../registry'
 import getENS from '../ens'
+import '../../testing-utils/extendExpect'
 
 let ens = null
 let ensRoot = null
 let deployens = null
 let web3Instance = null
+
+const HEX_REGEX = /^0x[0-9A-F]*$/i
 
 beforeAll(async () => {
   const provider = TestRPC.provider()
@@ -66,4 +70,17 @@ test('ens deployed and setup with dummy data', async () => {
   const { ENS } = await getENS()
   const addr = await ENS.resolver('foo.eth').resolverAddress()
   expect(addr).not.toBe('0x0000000000000000000000000000000000000000')
+})
+
+test('getOwner returns owner', async () => {
+  const owner = await getOwner('foo.eth')
+  const accounts = await getAccounts()
+  expect(owner).toEqual(deployens.address)
+})
+
+test('getResolver returns resolver that is not 000', async () => {
+  const resolver = await getResolver('foo.eth')
+  expect(resolver).toBeHex()
+  expect(resolver).toBeEthAddress()
+  expect(resolver).not.toBe('0x0000000000000000000000000000000000000000')
 })
