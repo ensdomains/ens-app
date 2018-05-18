@@ -84,6 +84,7 @@ contract ENS {
 
 contract Resolver {
     event AddrChanged(bytes32 indexed node, address a);
+    event ContentChanged(bytes32 indexed node, bytes32 content);
     event NameChanged(bytes32 indexed node, string name);
 
     function has(bytes32 node, bytes32 kind) returns (bool);
@@ -103,6 +104,7 @@ contract PublicResolver is Resolver {
     }
 
     mapping(bytes32=>address) addresses;
+    mapping(bytes32=>bytes32) contents;
     mapping(bytes32=>string) names;
     mapping(bytes32=>Reverse) reverses;
     
@@ -157,6 +159,17 @@ contract PublicResolver is Resolver {
     function setAddr(bytes32 node, address addr) only_owner(node) {
         addresses[node] = addr;
         AddrChanged(node, addr);
+    }
+
+    function content(bytes32 node) constant returns (bytes32 ret) {
+        ret = contents[node];
+        if(ret == 0)
+            throw;
+    }
+
+    function setContent(bytes32 node, bytes32 content) only_owner(node) {
+        contents[node] = content;
+        ContentChanged(node, content);
     }
 
     /**
@@ -280,6 +293,7 @@ contract DeployENS {
         var fooDotEth = sha3(tldnode, sha3('foo'));
         ens.setResolver(fooDotEth, resolver);
         resolver.setAddr(fooDotEth, this);
+        resolver.setContent(fooDotEth, fooDotEth);
         resolver.setABI(fooDotEth, 1, '[{"constant":true,"inputs":[],"name":"test2","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"inputs":[],"payable":false,"type":"constructor"}]');
         
         // Set bar.eth up with a resolver but no addr record, owned by the sender

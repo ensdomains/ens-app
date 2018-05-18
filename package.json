@@ -41,6 +41,7 @@
     "apollo-client-mock": "0.0.5",
     "apollo-link-schema": "^1.1.0",
     "ganache-cli": "^6.1.0",
+    "js-sha3": "^0.7.0",
     "react-testing-library": "^3.0.2",
     "solc": "^0.4.23"
   },

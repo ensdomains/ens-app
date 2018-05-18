@@ -63,6 +63,12 @@ export async function getAddr(name) {
   return resolver.addr()
 }
 
+export async function getContent(name) {
+  let { ENS } = await getENS()
+  let resolver = await ENS.resolver(name)
+  return resolver.content()
+}
+
 export async function getName(address) {
   let { ENS } = await getENS()
   let reverseResolver = await ENS.reverse(address)
@@ -72,12 +78,6 @@ export async function getName(address) {
     name,
     resolverAddr
   }
-}
-
-export async function getContent(name) {
-  let { ENS } = await getENS()
-  let resolver = await ENS.resolver(name)
-  return resolver.content()
 }
 
 export async function setAddr(name, address) {
