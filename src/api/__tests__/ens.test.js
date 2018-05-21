@@ -8,6 +8,7 @@ import { setupWeb3, getAccounts } from '../web3'
 import {
   getOwner,
   getResolver,
+  setResolver,
   getAddr,
   setAddr,
   getContent,
@@ -29,8 +30,16 @@ beforeAll(async () => {
 
   expect(accounts.length).toBeGreaterThan(0)
 
-  let source = fs.readFileSync('./src/api/__tests__/ens.sol').toString()
-  let compiled = solc.compile(source, 1)
+  // This code compiles the deployer contract directly
+  // If the deployer contract needs updating you can run
+  // `npm run compile` to compile it to ensContracts.json
+  //
+  // let source = fs.readFileSync('./src/api/__tests__/ens.sol').toString()
+  // let compiled = solc.compile(source, 1)
+  let compiled = JSON.parse(
+    fs.readFileSync('./src/api/__tests__/ensContracts.json')
+  )
+
   let deployer = compiled.contracts[':DeployENS']
   let deployensContract = web3.eth.contract(JSON.parse(deployer.interface))
 
@@ -86,11 +95,30 @@ describe('Registry', () => {
     expect(owner).toEqual(deployens.address)
   })
 
-  test('getResolver returns a resolver address', async () => {
+  test('getResolver returns a resolver address when set', async () => {
     const resolver = await getResolver('foo.eth')
     expect(resolver).toBeHex()
     expect(resolver).toBeEthAddress()
     expect(resolver).not.toBe('0x0000000000000000000000000000000000000000')
+  })
+
+  test('getResolver returns 0x00... when resolver address is not set', async () => {
+    const resolver = await getResolver('foobar.eth')
+    expect(resolver).toBeHex()
+    expect(resolver).toBeEthAddress()
+    expect(resolver).toBe('0x0000000000000000000000000000000000000000')
+  })
+
+  test('setResolver sets the resolver on a node', async () => {
+    const resolver = await getResolver('foobar.eth')
+    const mockResolver = '0x0000000000000000000000000000000000abcdef'
+    expect(resolver).not.toBe(mockResolver)
+
+    await setResolver('foobar.eth', mockResolver)
+    const newResolver = await getResolver('foobar.eth')
+    expect(newResolver).toBeHex()
+    expect(newResolver).toBeEthAddress()
+    expect(newResolver).toBe(mockResolver)
   })
 })
 
@@ -112,15 +140,19 @@ describe('Resolver', () => {
     //reverts if no addr is present
     await setAddr('bar.eth', '0x12345')
     const addr = await getAddr('bar.eth')
-    console.log(addr)
     expect(addr).toBe('0x0000000000000000000000000000000000012345')
   })
 
   test('getContent returns a 32 byte hash', async () => {
     const content = await getContent('foo.eth')
-    console.log('')
     expect(content).toBeHex()
     expect(content).toMatchSnapshot()
+  })
+
+  test('getContent throws if no content is present', async () => {
+    await getContent('bar.eth').catch(err => {
+      expect(err).toMatchSnapshot()
+    })
   })
 
   test('setContent sets 32 byte hash', async () => {

@@ -307,5 +307,11 @@ contract DeployENS {
         var bazDotEth = sha3(tldnode, sha3('baz'));
         ens.setResolver(bazDotEth, resolver);
         resolver.setAddr(bazDotEth, this);
+
+        // Set up foobar.eth without a resolver, owned by the sender
+
+        ens.setSubnodeOwner(tldnode, sha3('foobar'), this);
+        var fooBarDotEth = sha3(tldnode, sha3('foobar'));
+        ens.setOwner(fooBarDotEth, msg.sender);
     }
 }
