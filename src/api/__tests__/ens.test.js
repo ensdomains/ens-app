@@ -26,16 +26,6 @@ let ensRoot = null
 let deployens = null
 let web3Instance = null
 
-// const getEVMerror = err => {
-//   console.dir(err.cause)
-//   //console.log(err.g)
-//   if (ENV === 'GANACHE') {
-//     return err.cause
-//   } else {
-//     return err.c
-//   }
-// }
-
 beforeAll(async () => {
   switch (ENV) {
     case 'GANACHE_CLI':
