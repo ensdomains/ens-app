@@ -7,12 +7,12 @@ let web3,
   ready = false,
   injected = false
 
-function setupWeb3(provider) {
+function setupWeb3(customProvider) {
   return new Promise(function(resolve, reject) {
-    if (provider) {
+    if (customProvider) {
       //for testing
-      web3 = new Web3(provider)
-      provider = provider
+      web3 = new Web3(customProvider)
+      provider = customProvider
       ready = true
       web3.version.getNetwork(function(err, networkId) {
         ready = true

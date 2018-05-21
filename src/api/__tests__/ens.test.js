@@ -12,7 +12,9 @@ import {
   getAddr,
   setAddr,
   getContent,
-  setContent
+  setContent,
+  createSubDomain,
+  deleteSubDomain
 } from '../registry'
 import getENS from '../ens'
 import '../../testing-utils/extendExpect'
@@ -134,6 +136,32 @@ describe('Registry', () => {
     expect(newResolver).toBeHex()
     expect(newResolver).toBeEthAddress()
     expect(newResolver).toBe(mockResolver)
+  })
+
+  test('createSubdomain makes a new subdomain', async () => {
+    const accounts = await getAccounts()
+    const oldOwner = await getOwner('1.bar.eth')
+    // expect the initial owner to be no one
+    expect(oldOwner).toBe('0x0000000000000000000000000000000000000000')
+    await createSubDomain('1', 'bar.eth')
+    const newOwner = await getOwner('1.bar.eth')
+    // Verify owner is the user and therefore the subdomain exists
+    expect(newOwner).toBe(accounts[0])
+  })
+
+  test('deleteSubDomain deletes a subdomain', async () => {
+    const accounts = await getAccounts()
+    const oldOwner = await getOwner('2.bar.eth')
+    // expect the initial owner to be no one
+    expect(oldOwner).toBe('0x0000000000000000000000000000000000000000')
+    await createSubDomain('2', 'bar.eth')
+    const newOwner = await getOwner('2.bar.eth')
+    // Verify owner is the user and therefore the subdomain exists
+    expect(newOwner).toBe(accounts[0])
+    await deleteSubDomain('2', 'bar.eth')
+    const deletedOwner = await getOwner('2.bar.eth')
+    // Verify owner has been set to 0x00... to ensure deletion
+    expect(deletedOwner).toBe('0x0000000000000000000000000000000000000000')
   })
 })
 
