@@ -17,7 +17,7 @@ function setupWeb3(provider) {
       web3.version.getNetwork(function(err, networkId) {
         ready = true
         injected = true
-        console.log('Custom provider')
+        console.log('Custom testing provider')
         resolve({ web3, provider, readOnly, networkId })
       })
       return

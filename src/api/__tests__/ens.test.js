@@ -3,7 +3,7 @@
  */
 import fs from 'fs'
 import solc from 'solc'
-import TestRPC from 'ganache-cli'
+import GanacheCLI from 'ganache-cli'
 import { setupWeb3, getAccounts } from '../web3'
 import {
   getOwner,
@@ -16,15 +16,40 @@ import {
 } from '../registry'
 import getENS from '../ens'
 import '../../testing-utils/extendExpect'
+import Web3 from 'web3'
+
+const ENVIRONMENTS = ['GANACHE', 'GANACHE_CLI']
+const ENV = ENVIRONMENTS[1]
 
 let ens = null
 let ensRoot = null
 let deployens = null
 let web3Instance = null
 
+// const getEVMerror = err => {
+//   console.dir(err.cause)
+//   //console.log(err.g)
+//   if (ENV === 'GANACHE') {
+//     return err.cause
+//   } else {
+//     return err.c
+//   }
+// }
+
 beforeAll(async () => {
-  const provider = TestRPC.provider()
-  const { web3 } = await setupWeb3(provider)
+  switch (ENV) {
+    case 'GANACHE_CLI':
+      var provider = GanacheCLI.provider()
+      var { web3 } = await setupWeb3(provider)
+      break
+    case 'GANACHE':
+      var provider = new Web3.providers.HttpProvider('http://localhost:7545')
+      var { web3 } = await setupWeb3(provider)
+      break
+    default:
+      const options = ENVIRONMENTS.join(' or ')
+      throw new Error(`ENV not set properly, please pick from ${options}`)
+  }
 
   const accounts = await getAccounts()
 
@@ -131,8 +156,9 @@ describe('Resolver', () => {
   })
 
   test('getAddr throws if no addr is present', async () => {
-    await getAddr('bar.eth').catch(err => {
-      expect(err).toMatchSnapshot()
+    await getAddr('bar.eth').catch(error => {
+      const errorRegex = /VM Exception while processing transaction: revert/
+      expect(error.toString()).toMatch(errorRegex)
     })
   })
 
@@ -150,8 +176,9 @@ describe('Resolver', () => {
   })
 
   test('getContent throws if no content is present', async () => {
-    await getContent('bar.eth').catch(err => {
-      expect(err).toMatchSnapshot()
+    await getContent('bar.eth').catch(error => {
+      const errorRegex = /VM Exception while processing transaction: revert/
+      expect(error.toString()).toMatch(errorRegex)
     })
   })
 
@@ -160,6 +187,7 @@ describe('Resolver', () => {
       'bar.eth',
       '0x736f6d65436f6e74656e74000000000000000000000000000000000000000000'
     )
+
     const content = await getContent('bar.eth')
     expect(content).toBeHex()
     expect(content).toMatchSnapshot()
