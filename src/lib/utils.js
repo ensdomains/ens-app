@@ -28,6 +28,8 @@ export async function ensStartBlock() {
     case 3:
     case '3':
       return 25409
+    default:
+      return 0
   }
 }
 

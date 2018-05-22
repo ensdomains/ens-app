@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Resolver getContent returns a 32 byte hash 1`] = `"0xde9b09fd7c5f901e23a3f19fecc54828e9c848539801e86591bd9801b019f84f"`;
+exports[`Helper functions getRootDomain gets rootdomain and resolver details 1`] = `"0x3132333435363738390000000000000000000000000000000000000000000000"`;
+
+exports[`Resolver getContent returns a 32 byte hash 1`] = `"0x3132333435363738390000000000000000000000000000000000000000000000"`;
 
 exports[`Resolver setContent sets 32 byte hash 1`] = `"0x736f6d65436f6e74656e74000000000000000000000000000000000000000000"`;

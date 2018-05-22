@@ -7,6 +7,8 @@ import GanacheCLI from 'ganache-cli'
 import { setupWeb3, getAccounts } from '../web3'
 import {
   getOwner,
+  setNewOwner,
+  setSubnodeOwner,
   getResolver,
   setResolver,
   getAddr,
@@ -14,7 +16,12 @@ import {
   getContent,
   setContent,
   createSubDomain,
-  deleteSubDomain
+  deleteSubDomain,
+  getRootDomain,
+  getSubdomains,
+  getName,
+  claimReverseRecord,
+  setReverseRecordName
 } from '../registry'
 import getENS from '../ens'
 import '../../testing-utils/extendExpect'
@@ -109,7 +116,25 @@ describe('Registry', () => {
   test('getOwner returns owner', async () => {
     const owner = await getOwner('foo.eth')
     const accounts = await getAccounts()
-    expect(owner).toEqual(deployens.address)
+    expect(owner).toBe(deployens.address)
+  })
+
+  test('setNewOwner sets new owner', async () => {
+    const owner = await getOwner('givethisaway.eth')
+    const accounts = await getAccounts()
+    expect(owner).toBe(accounts[0])
+    await setNewOwner('givethisaway.eth', accounts[1])
+    const newOwner = await getOwner('givethisaway.eth')
+    expect(newOwner).toBe(accounts[1])
+  })
+
+  test('setSubnodeOwner sets new subnode owner', async () => {
+    const owner = await getOwner('new.givesub.eth')
+    const accounts = await getAccounts()
+    expect(owner).toBe('0x0000000000000000000000000000000000000000')
+    await setSubnodeOwner('new', 'givesub.eth', accounts[1])
+    const newOwner = await getOwner('new.givesub.eth')
+    expect(newOwner).toBe(accounts[1])
   })
 
   test('getResolver returns a resolver address when set', async () => {
@@ -173,11 +198,13 @@ describe('Resolver', () => {
     expect(addr).not.toBe('0x0000000000000000000000000000000000000000')
   })
 
-  test('getAddr throws if no addr is present', async () => {
-    await getAddr('bar.eth').catch(error => {
+  test('getAddr throws a revert if no addr is present', async () => {
+    try {
+      await getAddr('bar.eth')
+    } catch (error) {
       const errorRegex = /VM Exception while processing transaction: revert/
       expect(error.toString()).toMatch(errorRegex)
-    })
+    }
   })
 
   test('setAddr sets an address', async () => {
@@ -193,11 +220,13 @@ describe('Resolver', () => {
     expect(content).toMatchSnapshot()
   })
 
-  test('getContent throws if no content is present', async () => {
-    await getContent('bar.eth').catch(error => {
+  test('getContent throws a revert if no content is present', async () => {
+    try {
+      await getContent('bar.eth')
+    } catch (error) {
       const errorRegex = /VM Exception while processing transaction: revert/
       expect(error.toString()).toMatch(errorRegex)
-    })
+    }
   })
 
   test('setContent sets 32 byte hash', async () => {
@@ -209,5 +238,52 @@ describe('Resolver', () => {
     const content = await getContent('bar.eth')
     expect(content).toBeHex()
     expect(content).toMatchSnapshot()
+  })
+})
+
+describe('Reverse Registrar', () => {
+  test('getName gets a name for an address', async () => {
+    const { name } = await getName(deployens.address)
+    expect(name).toBe('deployer.eth')
+  })
+  test('claimReverseRecord claims a reverse name', async () => {
+    const resolver = await getResolver('bar.eth')
+    const accounts = await getAccounts()
+    console.log(resolver)
+    const owner = await getOwner('bar.eth')
+    console.log(owner)
+    console.log(accounts[0])
+    expect(owner).toBe(accounts[0])
+    try {
+      await claimReverseRecord(resolver)
+    } catch (e) {
+      console.log(e)
+    }
+  })
+  // test('setName sets a name for reverse record', async () => {
+  //   const resolver = await getResolver('bar.eth')
+  //   const accounts = await getAccounts()
+  //   await setReverseRecordName(accounts[0], resolver, 'bar.eth')
+  // })
+})
+
+describe('Helper functions', () => {
+  test('getRootDomain gets rootdomain and resolver details', async () => {
+    const domain = await getRootDomain('foo.eth')
+    const accounts = await getAccounts()
+    expect(domain.owner).not.toBe('0x0000000000000000000000000000000000000000')
+    expect(domain.owner).toBeEthAddress()
+    expect(domain.resolver).not.toBe(
+      '0x0000000000000000000000000000000000000000'
+    )
+    expect(domain.resolver).toBeEthAddress()
+    expect(domain.addr).toBe(accounts[0])
+    expect(domain.content).toMatchSnapshot()
+  })
+
+  test('getSubdomains gets all subdomains', async () => {
+    const domains = await getSubdomains('givesub.eth')
+    expect(domains.length).toBe(1)
+    expect(domains[0].label).toBe('new')
   })
 })

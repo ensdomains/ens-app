@@ -87,6 +87,8 @@ const getENS = async (ensAddress, web3Instance) => {
       ensAddress = contracts[networkId].registry
     }
     ENS = new ENSconstructor(web3, ensAddress)
+    contracts[networkId] = {}
+    contracts[networkId].registry = ensAddress
   }
 
   return { ENS, web3 }
@@ -98,7 +100,6 @@ const getENSEvent = (event, filter, params) =>
 
     return new Promise(function(resolve, reject) {
       myEvent.get(function(error, logs) {
-        console.log(logs)
         if (error) {
           reject(error)
         } else {

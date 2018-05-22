@@ -9,35 +9,6 @@ import { decryptHashes } from './preimage'
 import { uniq, ensStartBlock, checkLabels, mergeLabels } from '../lib/utils'
 import getWeb3, { getAccounts } from '../api/web3'
 
-export async function claimReverseRecord(resolver) {
-  let { reverseRegistrar, web3 } = await getReverseRegistrarContract()
-  let accounts = await getAccounts()
-  return new Promise((resolve, reject) => {
-    reverseRegistrar.claimWithResolver(
-      accounts[0],
-      resolver,
-      { from: accounts[0] },
-      function(err, txId) {
-        if (err) reject(err)
-        resolve(txId)
-      }
-    )
-  })
-}
-
-export async function setReverseRecordName(account, resolverAddr, name) {
-  let { resolver, web3 } = await getResolverContract(resolverAddr)
-  let accounts = await getAccounts()
-  let reverseAddress = `${account.slice(2)}.addr.reverse`
-  let node = await getNamehash(reverseAddress)
-  return new Promise((resolve, reject) => {
-    resolver.setName(node, name, { from: accounts[0] }, function(err, txId) {
-      if (err) reject(err)
-      resolve(txId)
-    })
-  })
-}
-
 export async function getOwner(name) {
   let { ENS, web3 } = await getENS()
   return ENS.owner(name)
@@ -179,6 +150,40 @@ export function getResolverDetails(node) {
     addr,
     content
   }))
+}
+
+export async function claimReverseRecord(resolver) {
+  let { reverseRegistrar, web3 } = await getReverseRegistrarContract()
+  let accounts = await getAccounts()
+  console.log('here')
+  return new Promise((resolve, reject) => {
+    // reverseRegistrar.claim(accounts[0], { from: accounts[0] }, (err, txId) => {
+    //   if (err) reject(err)
+    //   resolve(txId)
+    // })
+    reverseRegistrar.claimWithResolver(
+      accounts[0],
+      resolver,
+      { from: accounts[0] },
+      (err, txId) => {
+        if (err) reject(err)
+        resolve(txId)
+      }
+    )
+  })
+}
+
+export async function setReverseRecordName(account, resolverAddr, name) {
+  let { resolver, web3 } = await getResolverContract(resolverAddr)
+  let accounts = await getAccounts()
+  let reverseAddress = `${account.slice(2)}.addr.reverse`
+  let node = await getNamehash(reverseAddress)
+  return new Promise((resolve, reject) => {
+    resolver.setName(node, name, { from: accounts[0] }, function(err, txId) {
+      if (err) reject(err)
+      resolve(txId)
+    })
+  })
 }
 
 export function getRootDomain(name) {

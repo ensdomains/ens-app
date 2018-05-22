@@ -1,4 +1,4 @@
-pragma solidity ^0.4.9;
+pragma solidity ^0.4.23;
 
 /**
  * The ENS registry contract.
@@ -87,6 +87,7 @@ contract Resolver {
     event ContentChanged(bytes32 indexed node, bytes32 content);
     event NameChanged(bytes32 indexed node, string name);
 
+    function setName(bytes32 node, string name) public;
     function has(bytes32 node, bytes32 kind) returns (bool);
     function addr(bytes32 node) constant returns (address ret);
 }
@@ -210,15 +211,17 @@ contract PublicResolver is Resolver {
 contract ReverseRegistrar {
     ENS public ens;
     bytes32 public rootNode;
+    Resolver public defaultResolver;
     
     /**
      * @dev Constructor
      * @param ensAddr The address of the ENS registry.
      * @param node The node hash that this registrar governs.
      */
-    function ReverseRegistrar(address ensAddr, bytes32 node) {
+    function ReverseRegistrar(address ensAddr, bytes32 node, address resolverAddr ) {
         ens = ENS(ensAddr);
         rootNode = node;
+        defaultResolver = Resolver(resolverAddr);
     }
 
     /**
@@ -227,10 +230,51 @@ contract ReverseRegistrar {
      * @param owner The address to set as the owner of the reverse record in ENS.
      * @return The ENS node hash of the reverse record.
      */
-    function claim(address owner) returns (bytes32 node) {
+    function claim(address owner) public returns (bytes32) {
+        return claimWithResolver(owner, 0);
+    }
+
+    /**
+     * @dev Transfers ownership of the reverse ENS record associated with the
+     *      calling account.
+     * @param owner The address to set as the owner of the reverse record in ENS.
+     * @param resolver The address of the resolver to set; 0 to leave unchanged.
+     * @return The ENS node hash of the reverse record.
+     */
+    function claimWithResolver(address owner, address resolver) public returns (bytes32) {
         var label = sha3HexAddress(msg.sender);
-        ens.setSubnodeOwner(rootNode, label, owner);
-        return sha3(rootNode, label);
+        bytes32 node = keccak256(rootNode, label);
+        var currentOwner = ens.owner(node);
+
+        // Update the resolver if required
+        if (resolver != 0 && resolver != ens.resolver(node)) {
+            // Transfer the name to us first if it's not already
+            if (currentOwner != address(this)) {
+                ens.setSubnodeOwner(rootNode, label, this);
+                currentOwner = address(this);
+            }
+            ens.setResolver(node, resolver);
+        }
+
+        // Update the owner if required
+        if (currentOwner != owner) {
+            ens.setSubnodeOwner(rootNode, label, owner);
+        }
+
+        return node;
+    }
+
+    /**
+     * @dev Sets the `name()` record for the reverse ENS record associated with
+     * the calling account. First updates the resolver to the default reverse
+     * resolver if necessary.
+     * @param name The name to set for this address.
+     * @return The ENS node hash of the reverse record.
+     */
+    function setName(string name) public returns (bytes32) {
+        bytes32 node = claimWithResolver(this, defaultResolver);
+        defaultResolver.setName(node, name);
+        return node;
     }
 
     /**
@@ -269,7 +313,7 @@ contract ReverseRegistrar {
 contract DeployENS {
     ENS public ens;
     
-    function DeployENS() {
+    constructor() public {
         var tld = sha3('eth');
         var tldnode = sha3(bytes32(0), tld);
         ens = new ENS(this);
@@ -277,7 +321,7 @@ contract DeployENS {
 
         // Set addr.reverse up with the reverse registrar
         var reversenode = sha3(bytes32(0), sha3('reverse'));
-        var reverseregistrar = new ReverseRegistrar(ens, sha3(reversenode, sha3('addr')));
+        var reverseregistrar = new ReverseRegistrar(ens, sha3(reversenode, sha3('addr')), resolver);
         ens.setSubnodeOwner(0, sha3('reverse'), this);
         ens.setSubnodeOwner(reversenode, sha3('addr'), reverseregistrar);
 
@@ -292,10 +336,19 @@ contract DeployENS {
         ens.setSubnodeOwner(tldnode, sha3('foo'), this);
         var fooDotEth = sha3(tldnode, sha3('foo'));
         ens.setResolver(fooDotEth, resolver);
-        resolver.setAddr(fooDotEth, this);
-        resolver.setContent(fooDotEth, fooDotEth);
+        resolver.setAddr(fooDotEth, msg.sender);
+        resolver.setContent(fooDotEth, '123456789');
         resolver.setABI(fooDotEth, 1, '[{"constant":true,"inputs":[],"name":"test2","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"inputs":[],"payable":false,"type":"constructor"}]');
         
+        
+        ens.setSubnodeOwner(fooDotEth, sha3('1'), this);
+        var OneDotFootDotEth = sha3(fooDotEth, sha3('1'));
+        ens.setResolver(OneDotFootDotEth, resolver);
+        resolver.setAddr(OneDotFootDotEth, msg.sender);
+        resolver.setContent(OneDotFootDotEth, 'hello');
+        ens.setSubnodeOwner(fooDotEth, sha3('2'), msg.sender);
+        ens.setSubnodeOwner(fooDotEth, sha3('3'), msg.sender);
+
         // Set bar.eth up with a resolver but no addr record, owned by the sender
         ens.setSubnodeOwner(tldnode, sha3('bar'), this);
         var barDotEth = sha3(tldnode, sha3('bar'));
@@ -313,5 +366,18 @@ contract DeployENS {
         ens.setSubnodeOwner(tldnode, sha3('foobar'), this);
         var fooBarDotEth = sha3(tldnode, sha3('foobar'));
         ens.setOwner(fooBarDotEth, msg.sender);
+
+        // Set up givethisaway.eth without a resolver, owned by the sender
+
+        ens.setSubnodeOwner(tldnode, sha3('givethisaway'), this);
+        var giveThisAwayDotEth = sha3(tldnode, sha3('givethisaway'));
+        ens.setOwner(giveThisAwayDotEth, msg.sender);
+
+        // Set up givesub.eth, owner by send to give away subdomains
+
+        ens.setSubnodeOwner(tldnode, sha3('givesub'), this);
+        var giveSubDotEth = sha3(tldnode, sha3('givesub'));
+        ens.setOwner(giveSubDotEth, msg.sender);
+
     }
 }
