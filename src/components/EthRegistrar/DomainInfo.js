@@ -38,9 +38,10 @@ export const DomainInfo = ({ domainState }) => {
 const DomainInfoContainer = ({}) => {
   return (
     <Query query={GET_DOMAIN_STATE}>
-      {({ data: { domainState }, loading }) => (
-        <DomainInfo domainState={domainState} />
-      )}
+      {({ data: { domainState }, loading }) => {
+        if (loading) return <div>Loading...</div>
+        return <DomainInfo domainState={domainState} />
+      }}
     </Query>
   )
 }

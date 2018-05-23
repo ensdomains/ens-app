@@ -9,24 +9,23 @@ const Node = ({ node: { owner, name, nodes = [] } }) => (
     {getSubdomains => (
       <div>
         {name} - {owner}
-        <button onClick={() => getSubdomains({ variables: { name } })} />
-        <ul>{nodes.map(node => <Node node={node} />)}</ul>
+        <button onClick={() => getSubdomains({ variables: { name } })}>
+          Get subdomains
+        </button>
+        <ul>{nodes.map((node, i) => <Node key={i} node={node} />)}</ul>
       </div>
     )}
   </Mutation>
 )
 
 const Nodes = ({ nodes }) => (
-  <div>{nodes.map(node => <Node node={node} key={node.name} />)}</div>
+  <div>{nodes.map((node, i) => <Node node={node} key={i} />)}</div>
 )
 
 const NodesContainer = () => (
   <Query query={GET_NODES}>
     {({ loading, error, data }) => {
       if (loading) return <div>Loading...</div>
-      {
-        console.log(data)
-      }
       return <Nodes nodes={data.nodes} />
     }}
   </Query>

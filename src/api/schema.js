@@ -49,11 +49,17 @@ const typeDefs = `
     label: String
     owner: String
     resolver: String
+    content: String
+    addr: String
     nodes: [Node]
   }
 
   extend type Query {
     nodes: [Node]
+  }
+
+  extend type Mutation {
+    getSubdomains(name: String): [Node]
   }
 
   # Test Registrar
