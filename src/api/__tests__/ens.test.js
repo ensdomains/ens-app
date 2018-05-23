@@ -21,6 +21,7 @@ import {
   getSubdomains,
   getName,
   claimReverseRecord,
+  claimAndSetReverseRecordName,
   setReverseRecordName
 } from '../registry'
 import getENS from '../ens'
@@ -30,10 +31,12 @@ import Web3 from 'web3'
 const ENVIRONMENTS = ['GANACHE', 'GANACHE_CLI']
 const ENV = ENVIRONMENTS[1]
 
-let ens = null
-let ensRoot = null
-let deployens = null
-let web3Instance = null
+let ens
+let ensRoot
+let deployens
+let web3Instance
+let reverseRegistrar
+let publicResolver
 
 beforeAll(async () => {
   switch (ENV) {
@@ -92,6 +95,20 @@ beforeAll(async () => {
       expect(err).toBe(null)
       resolve(value)
       //done()
+    })
+  })
+
+  reverseRegistrar = await new Promise((resolve, reject) => {
+    deployens.reverseregistrar.call((err, value) => {
+      expect(err).toBe(null)
+      resolve(value)
+    })
+  })
+
+  publicResolver = await new Promise((resolve, reject) => {
+    deployens.publicresolver.call((err, value) => {
+      expect(err).toBe(null)
+      resolve(value)
     })
   })
 
@@ -242,17 +259,21 @@ describe('Resolver', () => {
 })
 
 describe('Reverse Registrar', () => {
+  test('reverseNode is owned by reverseRegistrar', async () => {
+    const owner = await getOwner('addr.reverse')
+    expect(reverseRegistrar).toBe(owner)
+  })
+
   test('getName gets a name for an address', async () => {
     const { name } = await getName(deployens.address)
     expect(name).toBe('deployer.eth')
   })
+
   test('claimReverseRecord claims a reverse name', async () => {
+    //TODO get claimReverseRecord working
     const resolver = await getResolver('bar.eth')
     const accounts = await getAccounts()
-    console.log(resolver)
     const owner = await getOwner('bar.eth')
-    console.log(owner)
-    console.log(accounts[0])
     expect(owner).toBe(accounts[0])
     try {
       await claimReverseRecord(resolver)
@@ -260,6 +281,10 @@ describe('Reverse Registrar', () => {
       console.log(e)
     }
   })
+
+  // test('claimAndSetReverseRecordName claims and sets a name', async () => {
+  //   await claimAndSetReverseRecordName('bar.eth')
+  // })
   // test('setName sets a name for reverse record', async () => {
   //   const resolver = await getResolver('bar.eth')
   //   const accounts = await getAccounts()

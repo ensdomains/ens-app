@@ -218,10 +218,10 @@ contract ReverseRegistrar {
      * @param ensAddr The address of the ENS registry.
      * @param node The node hash that this registrar governs.
      */
-    function ReverseRegistrar(address ensAddr, bytes32 node, address resolverAddr ) {
-        ens = ENS(ensAddr);
+    function ReverseRegistrar(ENS ensAddr, bytes32 node, Resolver resolverAddr ) {
+        ens = ensAddr;
         rootNode = node;
-        defaultResolver = Resolver(resolverAddr);
+        defaultResolver = resolverAddr;
     }
 
     /**
@@ -294,6 +294,7 @@ contract ReverseRegistrar {
      *         input address.
      */
     function sha3HexAddress(address addr) private returns (bytes32 ret) {
+        addr; ret; // Stop warning us about unused variables
         assembly {
             let lookup := 0x3031323334353637383961626364656600000000000000000000000000000000
             let i := 40
@@ -305,23 +306,28 @@ contract ReverseRegistrar {
             mstore8(i, byte(and(addr, 0xf), lookup))
             addr := div(addr, 0x10)
             jumpi(loop, i)
-            ret := sha3(0, 40)
+            ret := keccak256(0, 40)
         }
     }
 }
 
 contract DeployENS {
     ENS public ens;
+    ReverseRegistrar public reverseregistrar;
+    Resolver public publicresolver;
     
     constructor() public {
         var tld = sha3('eth');
         var tldnode = sha3(bytes32(0), tld);
         ens = new ENS(this);
         var resolver = new PublicResolver(ens);
+        publicresolver = resolver;
 
         // Set addr.reverse up with the reverse registrar
         var reversenode = sha3(bytes32(0), sha3('reverse'));
-        var reverseregistrar = new ReverseRegistrar(ens, sha3(reversenode, sha3('addr')), resolver);
+        bytes32 ADDR_REVERSE_NODE = 0x91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e2;
+        //var addrReverseNode = sha3(reversenode, sha3('addr'));
+        reverseregistrar = new ReverseRegistrar(ens, ADDR_REVERSE_NODE , resolver);
         ens.setSubnodeOwner(0, sha3('reverse'), this);
         ens.setSubnodeOwner(reversenode, sha3('addr'), reverseregistrar);
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Nodes } from '../Nodes'
+import NodesContainer, { Nodes } from '../Nodes'
 
 import { ApolloProvider } from 'react-apollo'
 import createClient from '../../../testing-utils/mockedClient'

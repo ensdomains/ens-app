@@ -155,7 +155,6 @@ export function getResolverDetails(node) {
 export async function claimReverseRecord(resolver) {
   let { reverseRegistrar, web3 } = await getReverseRegistrarContract()
   let accounts = await getAccounts()
-  console.log('here')
   return new Promise((resolve, reject) => {
     // reverseRegistrar.claim(accounts[0], { from: accounts[0] }, (err, txId) => {
     //   if (err) reject(err)
@@ -170,6 +169,18 @@ export async function claimReverseRecord(resolver) {
         resolve(txId)
       }
     )
+  })
+}
+
+export async function claimAndSetReverseRecordName(name) {
+  let { reverseRegistrar, web3 } = await getReverseRegistrarContract()
+  let accounts = await getAccounts()
+  let node = await getNamehash(name)
+  return new Promise((resolve, reject) => {
+    reverseRegistrar.setName(node, { from: accounts[0] }, (err, txId) => {
+      if (err) reject(err)
+      resolve(txId)
+    })
   })
 }
 
