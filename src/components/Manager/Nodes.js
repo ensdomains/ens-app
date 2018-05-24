@@ -1,5 +1,4 @@
 import React from 'react'
-import gql from 'graphql-tag'
 import { Query, Mutation } from 'react-apollo'
 import { GET_SUBDOMAINS } from '../../graphql/mutations'
 import { GET_NODES } from '../../graphql/queries'
@@ -24,9 +23,7 @@ const NodesContainer = () => (
   <Query query={GET_NODES}>
     {({ loading, error, data }) => {
       if (loading) return <div>Loading...</div>
-      {
-        console.log(data)
-      }
+      console.log(data)
       return <Nodes nodes={data.nodes} />
     }}
   </Query>

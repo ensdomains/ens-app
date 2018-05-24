@@ -1,4 +1,4 @@
-import getWeb3, { getAccounts } from '../web3'
+import { getAccounts } from '../web3'
 import { getFifsRegistrarContract } from '../ens'
 import { watchRegistryEvent } from '../watchers'
 import gql from 'graphql-tag'
@@ -74,7 +74,7 @@ const resolvers = {
               `
             })
             const successfulTx = pendingTransactions.filter(
-              tx => tx.id == log.transactionHash
+              tx => tx.id === log.transactionHash
             )
             const data = {
               pendingTransactions: pendingTransactions.filter(

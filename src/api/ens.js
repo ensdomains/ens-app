@@ -140,6 +140,8 @@ const watchEvent = (
       return getResolverContract(addr).then(({ resolver }) => {
         eventFactory(resolver, eventName, filter, params, callback)
       })
+    default:
+      throw new Error('Unrecognised contract')
   }
 }
 

@@ -10,7 +10,7 @@ import { uniq, ensStartBlock, checkLabels, mergeLabels } from '../lib/utils'
 import getWeb3, { getAccounts } from '../api/web3'
 
 export async function getOwner(name) {
-  let { ENS, web3 } = await getENS()
+  let { ENS } = await getENS()
   return ENS.owner(name)
 }
 
@@ -52,14 +52,14 @@ export async function getName(address) {
 }
 
 export async function setAddr(name, address) {
-  let { ENS, web3 } = await getENS()
+  let { ENS } = await getENS()
   let accounts = await getAccounts()
   let resolver = await ENS.resolver(name)
   return resolver.setAddr(address, { from: accounts[0] })
 }
 
 export async function setContent(name, content) {
-  let { ENS, web3 } = await getENS()
+  let { ENS } = await getENS()
   let accounts = await getAccounts()
   let resolver = await ENS.resolver(name)
   return resolver.setContent(content, { from: accounts[0] })
@@ -67,7 +67,7 @@ export async function setContent(name, content) {
 
 export async function setResolver(name, resolver) {
   let accounts = await getAccounts()
-  let { ENS, web3 } = await getENS()
+  let { ENS } = await getENS()
   return ENS.setResolver(name, resolver, { from: accounts[0] })
 }
 
@@ -128,14 +128,13 @@ export async function deleteSubDomain(subDomain, domain) {
 }
 
 export async function setNewOwner(name, newOwner) {
-  let { ENS, web3 } = await getENS()
+  let { ENS } = await getENS()
   let accounts = await getAccounts()
   return ENS.setOwner(name, newOwner, { from: accounts[0] })
 }
 
 export async function setSubnodeOwner(label, node, newOwner) {
-  let { ENS, web3 } = await getENS()
-  let owner = await ENS.owner(node)
+  let { ENS } = await getENS()
   let accounts = await getAccounts()
   return ENS.setSubnodeOwner(label + '.' + node, newOwner, {
     from: accounts[0]
@@ -153,7 +152,7 @@ export function getResolverDetails(node) {
 }
 
 export async function claimReverseRecord(resolver) {
-  let { reverseRegistrar, web3 } = await getReverseRegistrarContract()
+  let { reverseRegistrar } = await getReverseRegistrarContract()
   let accounts = await getAccounts()
   return new Promise((resolve, reject) => {
     // reverseRegistrar.claim(accounts[0], { from: accounts[0] }, (err, txId) => {
@@ -173,7 +172,7 @@ export async function claimReverseRecord(resolver) {
 }
 
 export async function claim() {
-  let { reverseRegistrar, web3 } = await getReverseRegistrarContract()
+  let { reverseRegistrar } = await getReverseRegistrarContract()
   let accounts = await getAccounts()
   console.log('claim account', accounts[0])
   return new Promise((resolve, reject) => {
@@ -185,7 +184,7 @@ export async function claim() {
 }
 
 export async function claimAndSetReverseRecordName(name) {
-  let { reverseRegistrar, web3 } = await getReverseRegistrarContract()
+  let { reverseRegistrar } = await getReverseRegistrarContract()
   let accounts = await getAccounts()
   let node = await getNamehash(name)
   return new Promise((resolve, reject) => {
@@ -197,7 +196,7 @@ export async function claimAndSetReverseRecordName(name) {
 }
 
 export async function setReverseRecordName(account, resolverAddr, name) {
-  let { resolver, web3 } = await getResolverContract(resolverAddr)
+  let { resolver } = await getResolverContract(resolverAddr)
   let accounts = await getAccounts()
   let reverseAddress = `${account.slice(2)}.addr.reverse`
   let node = await getNamehash(reverseAddress)

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import classnames from 'classnames'
 
 //import { updateSearchName, setNodeDetails, setNodeDetailsSubDomain } from '../updaters/nodes'
 //import { addNotification } from '../updaters/notifications'

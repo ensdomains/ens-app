@@ -15,6 +15,8 @@ export function getEtherScanAddr() {
       case 3:
       case '3':
         return 'https://ropsten.etherscan.io/'
+      default:
+        return 'https://etherscan.io/'
     }
   })
 }
@@ -36,7 +38,7 @@ export async function ensStartBlock() {
 export async function openEtherScanPage(txId) {
   let etherscanAddr = await getEtherScanAddr()
   let txLink = `${etherscanAddr}/tx/${txId}`
-  window.open(`${etherscanAddr}/tx/${txId}`, '_blank')
+  window.open(txLink, '_blank')
 }
 
 export const checkLabels = (...labelHashes) => labelHashes.map(hash => null)
