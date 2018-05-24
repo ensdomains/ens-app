@@ -172,6 +172,18 @@ export async function claimReverseRecord(resolver) {
   })
 }
 
+export async function claim() {
+  let { reverseRegistrar, web3 } = await getReverseRegistrarContract()
+  let accounts = await getAccounts()
+  console.log('claim account', accounts[0])
+  return new Promise((resolve, reject) => {
+    reverseRegistrar.claim(accounts[0], { from: accounts[0] }, (err, txId) => {
+      if (err) reject(err)
+      resolve(txId)
+    })
+  })
+}
+
 export async function claimAndSetReverseRecordName(name) {
   let { reverseRegistrar, web3 } = await getReverseRegistrarContract()
   let accounts = await getAccounts()
