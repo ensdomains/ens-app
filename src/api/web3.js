@@ -1,11 +1,10 @@
 import Web3 from 'web3'
 import 'isomorphic-fetch'
 
-let web3,
-  provider,
-  readOnly = false,
-  ready = false,
-  injected = false
+let web3
+let provider
+let readOnly = false
+let ready = false
 
 function setupWeb3(customProvider) {
   return new Promise(function(resolve, reject) {
@@ -16,7 +15,6 @@ function setupWeb3(customProvider) {
       ready = true
       web3.version.getNetwork(function(err, networkId) {
         ready = true
-        injected = true
         console.log('Custom testing provider')
         resolve({ web3, provider, readOnly, networkId })
       })
@@ -30,7 +28,6 @@ function setupWeb3(customProvider) {
       provider = web3.currentProvider
       web3.version.getNetwork(function(err, networkId) {
         ready = true
-        injected = true
         console.log('Mist or Metamask active')
         resolve({ web3, provider, readOnly, networkId })
       })

@@ -1,9 +1,4 @@
-import 'isomorphic-fetch'
 import getWeb3, { getAccounts } from './web3'
-import { getFifsRegistrarContract } from './ens'
-import { watchRegistryEvent } from './watchers'
-import { getOwner, getRootDomain } from './registry'
-import gql from 'graphql-tag'
 import merge from 'lodash/merge'
 import fifsResolvers, {
   defaults as fifsDefaults

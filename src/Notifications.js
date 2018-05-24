@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from 'react'
+import React, { Component } from 'react'
 import NotificationSystem from 'react-notification-system'
 
 const GlobalState = React.createContext({

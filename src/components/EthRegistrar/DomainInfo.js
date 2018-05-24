@@ -32,10 +32,12 @@ export const DomainInfo = ({ domainState }) => {
       return <Reveal domainState={domainState} />
     case 'NotYetAvailable':
       return <NotYetAvailable domainState={domainState} />
+    default:
+      throw new Error('Unrecognised domainState')
   }
 }
 
-const DomainInfoContainer = ({}) => {
+const DomainInfoContainer = () => {
   return (
     <Query query={GET_DOMAIN_STATE}>
       {({ data: { domainState }, loading }) => {

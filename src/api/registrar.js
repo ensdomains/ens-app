@@ -1,6 +1,6 @@
-import getENS, { getNamehash } from './ens'
+import getENS from './ens'
 
-let AuctionRegistrar
+let ethRegistrar
 
 var auctionRegistrarContract = [
   {
@@ -554,13 +554,15 @@ var auctionRegistrarContract = [
 ]
 
 export const getAuctionRegistrar = async () => {
-  let { ENS, web3 } = await getENS()
+  if (!ethRegistrar) {
+    let { ENS, web3 } = await getENS()
 
-  const ethAddr = await ENS.owner('eth')
+    const ethAddr = await ENS.owner('eth')
 
-  const ethRegistrar = web3.eth.contract(auctionRegistrarContract).at(ethAddr)
+    ethRegistrar = web3.eth.contract(auctionRegistrarContract).at(ethAddr)
+  }
 
-  return { Registrar: ethRegistrar, ENS, web3 }
+  return { Registrar: ethRegistrar }
 }
 
 export const getMode = async (

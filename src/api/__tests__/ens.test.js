@@ -20,15 +20,16 @@ import {
   getRootDomain,
   getSubdomains,
   getName,
+  claim,
   claimReverseRecord,
   claimAndSetReverseRecordName,
   setReverseRecordName
 } from '../registry'
-import getENS from '../ens'
+import getENS, { getNamehash } from '../ens'
 import '../../testing-utils/extendExpect'
 import Web3 from 'web3'
 
-const ENVIRONMENTS = ['GANACHE', 'GANACHE_CLI']
+const ENVIRONMENTS = ['GANACHE', 'GANACHE_CLI', 'GANACHE_CLI_MANUAL']
 const ENV = ENVIRONMENTS[1]
 
 let ens
@@ -37,84 +38,104 @@ let deployens
 let web3Instance
 let reverseRegistrar
 let publicResolver
-xdescribe('Blockchain tests', () => {
-  // beforeAll(async () => {
-  //   switch (ENV) {
-  //     case 'GANACHE_CLI':
-  //       var provider = GanacheCLI.provider()
-  //       var { web3 } = await setupWeb3(provider)
-  //       break
-  //     case 'GANACHE':
-  //       var provider = new Web3.providers.HttpProvider('http://localhost:7545')
-  //       var { web3 } = await setupWeb3(provider)
-  //       break
-  //     default:
-  //       const options = ENVIRONMENTS.join(' or ')
-  //       throw new Error(`ENV not set properly, please pick from ${options}`)
-  //   }
+let reverseRegistrarInstance
 
-  //   const accounts = await getAccounts()
+describe('Blockchain tests', () => {
+  beforeAll(async () => {
+    switch (ENV) {
+      case 'GANACHE_CLI':
+        var provider = GanacheCLI.provider()
+        var { web3 } = await setupWeb3(provider)
+        break
+      case 'GANACHE':
+        var provider = new Web3.providers.HttpProvider('http://localhost:7545')
+        var { web3 } = await setupWeb3(provider)
+        break
+      case 'GANACHE_CLI_MANUAL':
+        var provider = new Web3.providers.HttpProvider('http://localhost:8545')
+        var { web3 } = await setupWeb3(provider)
+        break
+      default:
+        const options = ENVIRONMENTS.join(' or ')
+        throw new Error(`ENV not set properly, please pick from ${options}`)
+    }
 
-  //   expect(accounts.length).toBeGreaterThan(0)
+    const accounts = await getAccounts()
 
-  //   // This code compiles the deployer contract directly
-  //   // If the deployer contract needs updating you can run
-  //   // `npm run compile` to compile it to ensContracts.json
-  //   //
-  //   // let source = fs.readFileSync('./src/api/__tests__/ens.sol').toString()
-  //   // let compiled = solc.compile(source, 1)
-  //   let compiled = JSON.parse(
-  //     fs.readFileSync('./src/api/__tests__/ensContracts.json')
-  //   )
+    expect(accounts.length).toBeGreaterThan(0)
 
-  //   let deployer = compiled.contracts[':DeployENS']
-  //   let deployensContract = web3.eth.contract(JSON.parse(deployer.interface))
+    // This code compiles the deployer contract directly
+    // If the deployer contract needs updating you can run
+    // `npm run compile` to compile it to ensContracts.json
+    //
+    let source = fs.readFileSync('./src/api/__tests__/ens.sol').toString()
+    let compiled = solc.compile(source, 1)
+    // let compiled = JSON.parse(
+    //   fs.readFileSync('./src/api/__tests__/ensContracts.json')
+    // )
 
-  //   // Deploy the contract
-  //   deployens = await new Promise((resolve, reject) => {
-  //     deployensContract.new(
-  //       {
-  //         from: accounts[0],
-  //         data: deployer.bytecode,
-  //         gas: 4700000
-  //       },
-  //       (err, contract) => {
-  //         if (err) {
-  //           reject(err)
-  //         }
-  //         if (contract.address !== undefined) {
-  //           resolve(contract)
-  //         }
-  //       }
-  //     )
-  //   })
+    let deployer = compiled.contracts[':DeployENS']
+    let reverseRegistrarABI = compiled.contracts[':ReverseRegistrar'].interface
+    let deployensContract = web3.eth.contract(JSON.parse(deployer.interface))
 
-  //   // Fetch the address of the ENS registry
-  //   ensRoot = await new Promise((resolve, reject) => {
-  //     deployens.ens.call((err, value) => {
-  //       expect(err).toBe(null)
-  //       resolve(value)
-  //       //done()
-  //     })
-  //   })
+    // Deploy the contract
+    deployens = await new Promise((resolve, reject) => {
+      deployensContract.new(
+        {
+          from: accounts[0],
+          data: deployer.bytecode,
+          gas: 4700000
+        },
+        (err, contract) => {
+          if (err) {
+            reject(err)
+          }
+          if (contract.address !== undefined) {
+            resolve(contract)
+          }
+        }
+      )
+    })
 
-  //   reverseRegistrar = await new Promise((resolve, reject) => {
-  //     deployens.reverseregistrar.call((err, value) => {
-  //       expect(err).toBe(null)
-  //       resolve(value)
-  //     })
-  //   })
+    // Fetch the address of the ENS registry
+    ensRoot = await new Promise((resolve, reject) => {
+      deployens.ens.call((err, value) => {
+        expect(err).toBe(null)
+        resolve(value)
+      })
+    })
 
-  //   publicResolver = await new Promise((resolve, reject) => {
-  //     deployens.publicresolver.call((err, value) => {
-  //       expect(err).toBe(null)
-  //       resolve(value)
-  //     })
-  //   })
+    reverseRegistrar = await new Promise((resolve, reject) => {
+      deployens.reverseregistrar.call((err, value) => {
+        expect(err).toBe(null)
+        resolve(value)
+      })
+    })
 
-  //   //setup ENS
-  //   await getENS(ensRoot)
-  // }, 30000)
+    publicResolver = await new Promise((resolve, reject) => {
+      deployens.publicresolver.call((err, value) => {
+        expect(err).toBe(null)
+        resolve(value)
+      })
+    })
+
+    reverseRegistrarInstance = web3.eth
+      .contract(JSON.parse(reverseRegistrarABI))
+      .at(reverseRegistrar)
+
+    const ensAddress = await new Promise((resolve, reject) => {
+      reverseRegistrarInstance.ens.call((err, value) => {
+        expect(err).toBe(null)
+        resolve(value)
+      })
+    })
+
+    expect(ensAddress).toBe(ensRoot)
+
+    //setup ENS
+
+    await getENS(ensAddress)
+  }, 30000)
 
   describe('Test contract and Web3 setup', () => {
     test('accounts exist', async () => {
