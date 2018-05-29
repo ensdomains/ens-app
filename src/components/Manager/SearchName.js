@@ -8,6 +8,7 @@ import { withHandlers } from 'recompose'
 import gql from 'graphql-tag'
 import NotificationsContext from '../../Notifications'
 import { GET_SUBDOMAINS } from '../../graphql/mutations'
+import styled from 'react-emotion'
 
 const addNode = gql`
   mutation addNode($name: String) {
@@ -15,6 +16,12 @@ const addNode = gql`
       name
       owner
     }
+  }
+`
+
+const SearchNameStyles = styled('div')`
+  .search-name {
+    background: blue;
   }
 `
 
@@ -66,39 +73,41 @@ export class SearchName extends Component {
   render() {
     const { handleGetNodeDetails, client } = this.props
     return (
-      <NotificationsContext.Consumer>
-        {({ addNotification }) => (
-          <form
-            className="search-name"
-            onSubmit={event => {
-              event.preventDefault()
+      <SearchNameStyles>
+        <NotificationsContext.Consumer>
+          {({ addNotification }) => (
+            <form
+              className="search-name"
+              onSubmit={event => {
+                event.preventDefault()
 
-              handleGetNodeDetails(
-                this.state.searchName,
-                client,
-                addNotification
-              )
-              this.setState({
-                searchName: ''
-              })
-            }}
-          >
-            <div className="search-box">
-              <input
-                type="text"
-                id="address"
-                name="domain"
-                placeholder="vitalik.eth"
-                value={this.state.searchName}
-                onChange={e => this.updateSearchName(e.target.value)}
-              />
-            </div>
-            <button className="get-details" type="submit">
-              Search for domain
-            </button>
-          </form>
-        )}
-      </NotificationsContext.Consumer>
+                handleGetNodeDetails(
+                  this.state.searchName,
+                  client,
+                  addNotification
+                )
+                this.setState({
+                  searchName: ''
+                })
+              }}
+            >
+              <div className="search-box">
+                <input
+                  type="text"
+                  id="address"
+                  name="domain"
+                  placeholder="vitalik.eth"
+                  value={this.state.searchName}
+                  onChange={e => this.updateSearchName(e.target.value)}
+                />
+              </div>
+              <button className="get-details" type="submit">
+                Search for domain
+              </button>
+            </form>
+          )}
+        </NotificationsContext.Consumer>
+      </SearchNameStyles>
     )
   }
 }
