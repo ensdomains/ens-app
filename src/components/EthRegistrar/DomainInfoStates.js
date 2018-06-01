@@ -1,6 +1,11 @@
-import React from 'react'
+import React, { Fragment } from 'react'
+import Bid from './Bid'
+
 export const Open = ({ domainState }) => (
-  <div>{domainState.name} is available!</div>
+  <Fragment>
+    <div>{domainState.name} is available!</div>
+    <Bid />
+  </Fragment>
 )
 
 export const Auction = () => <div>Auction</div>

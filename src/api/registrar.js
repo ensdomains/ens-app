@@ -1,4 +1,5 @@
 import getENS from './ens'
+import getWeb3 from './web3'
 
 let ethRegistrar
 
@@ -554,22 +555,20 @@ var auctionRegistrarContract = [
 ]
 
 export const getAuctionRegistrar = async () => {
-  if (!ethRegistrar) {
-    let { ENS, web3 } = await getENS()
-
-    const ethAddr = await ENS.owner('eth')
-
-    ethRegistrar = web3.eth.contract(auctionRegistrarContract).at(ethAddr)
+  if (ethRegistrar) {
+    return { Registrar: ethRegistrar }
   }
+
+  let { ENS, web3 } = await getENS()
+  const ethAddr = await ENS.owner('eth')
+  ethRegistrar = web3.eth.contract(auctionRegistrarContract).at(ethAddr)
 
   return { Registrar: ethRegistrar }
 }
 
-export const getMode = async (
-  name,
-  params = { from: '0x866B3c4994e1416B7C738B9818b31dC246b95eEE' }
-) => {
-  const { Registrar, web3 } = await getAuctionRegistrar()
+export const getMode = async name => {
+  const { Registrar } = await getAuctionRegistrar()
+  const { web3 } = await getWeb3()
   const namehash = web3.sha3(name)
   return new Promise((resolve, reject) => {
     Registrar.entries(namehash, function(err, entry) {

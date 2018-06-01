@@ -9,3 +9,11 @@ export const GET_SUBDOMAINS = gql`
     }
   }
 `
+
+export const BID = gql`
+  mutation bid($name: String, $amount: Int, $maskAmount: Int) {
+    bid(name: $name) @client {
+      name
+    }
+  }
+`

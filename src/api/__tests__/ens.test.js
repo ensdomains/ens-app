@@ -29,7 +29,7 @@ import getENS, { getNamehash } from '../ens'
 import '../../testing-utils/extendExpect'
 import Web3 from 'web3'
 
-const ENVIRONMENTS = ['GANACHE', 'GANACHE_CLI', 'GANACHE_CLI_MANUAL']
+const ENVIRONMENTS = ['GANACHE_GUI', 'GANACHE_CLI', 'GANACHE_CLI_MANUAL']
 const ENV = ENVIRONMENTS[1]
 
 let ens
@@ -47,7 +47,7 @@ describe('Blockchain tests', () => {
         var provider = GanacheCLI.provider()
         var { web3 } = await setupWeb3(provider)
         break
-      case 'GANACHE':
+      case 'GANACHE_GUI':
         var provider = new Web3.providers.HttpProvider('http://localhost:7545')
         var { web3 } = await setupWeb3(provider)
         break

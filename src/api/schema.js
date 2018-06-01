@@ -34,12 +34,18 @@ const typeDefs = `
     state: Mode
   }
 
+  type Bid {
+    name: String
+    amount: Int
+  }
+
   extend type Query {
     domainState: DomainState
   }
 
   type Mutation {
     getDomainState(name: String!): NodeState
+    bid(name: String, amount: Int): Bid
   }
 
   # Manager
