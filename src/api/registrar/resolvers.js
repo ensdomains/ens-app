@@ -1,4 +1,4 @@
-import { getMode } from '../registrar'
+import { getMode, createSealedBid } from '../registrar'
 
 const defaults = {
   domainState: null
@@ -15,7 +15,7 @@ const modeNames = [
 
 const resolvers = {
   Mutation: {
-    getDomainState: async (_, { name }, { cache }) => {
+    async getDomainState(_, { name }, { cache }) {
       const state = await getMode(name)
 
       const data = {
@@ -29,16 +29,12 @@ const resolvers = {
       cache.writeData({ data })
 
       return data
+    },
+    async bid(_, { name, bidAmount, decoyBidAmount, secret }) {
+      console.log(name, bidAmount, decoyBidAmount, secret)
+      const sealedBid = await createSealedBid(name, bidAmount, secret)
+      console.log(sealedBid)
     }
-    // getDomainState: async (_, { name }, { cache }) => {
-    //   const state = await getMode(name)
-
-    //   return {
-    //     name,
-    //     state: modeNames[state],
-    //     __typename: 'NodeState'
-    //   }
-    // }
   }
 }
 

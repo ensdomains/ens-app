@@ -11,8 +11,18 @@ export const GET_SUBDOMAINS = gql`
 `
 
 export const BID = gql`
-  mutation bid($name: String, $amount: Int, $maskAmount: Int) {
-    bid(name: $name) @client {
+  mutation bid(
+    $name: String
+    $bidAmount: Int
+    $decoyBidAmount: Int
+    $secret: String
+  ) {
+    bid(
+      name: $name
+      bidAmount: $bidAmount
+      decoyBidAmount: $decoyBidAmount
+      secret: $secret
+    ) @client {
       name
     }
   }

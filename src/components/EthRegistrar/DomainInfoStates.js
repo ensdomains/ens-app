@@ -4,7 +4,7 @@ import Bid from './Bid'
 export const Open = ({ domainState }) => (
   <Fragment>
     <div>{domainState.name} is available!</div>
-    <Bid />
+    <Bid name={domainState.name} />
   </Fragment>
 )
 
