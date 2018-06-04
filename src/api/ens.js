@@ -1,8 +1,8 @@
 import getWeb3 from './web3'
-import ensContract from './contracts/ensContract'
-import reverseRegistrarContract from './contracts/reverseRegistrarContract'
-import resolverContract from './contracts/resolverContract'
-import fifsRegistrarContract from './contracts/fifsRegistrarContract'
+import ensContract from './contracts/ensContract.json'
+import reverseRegistrarContract from './contracts/reverseRegistrarContract.json'
+import resolverContract from './contracts/resolverContract.json'
+import fifsRegistrarContract from './contracts/fifsRegistrarContract.json'
 import ENSconstructor from 'ethereum-ens'
 
 var contracts = {

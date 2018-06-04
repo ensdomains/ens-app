@@ -1,6 +1,6 @@
 import getENS from './ens'
 import getWeb3, { getAccounts } from './web3'
-import auctionRegistrarContract from './contracts/auctionRegistrarContract'
+import auctionRegistrarContract from './contracts/auctionRegistrarContract.json'
 
 let ethRegistrar
 
