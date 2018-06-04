@@ -18,6 +18,8 @@ const resolvers = {
     async getDomainState(_, { name }, { cache }) {
       const state = await getMode(name)
 
+      console.log(state)
+
       const data = {
         domainState: {
           name,

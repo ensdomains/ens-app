@@ -3,6 +3,7 @@ import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import {
   Open,
+  Auction,
   Owned,
   Forbidden,
   Reveal,
@@ -24,6 +25,8 @@ export const DomainInfo = ({ domainState }) => {
   switch (domainState.state) {
     case 'Open':
       return <Open domainState={domainState} />
+    case 'Auction':
+      return <Auction domainState={domainState} />
     case 'Owned':
       return <Owned domainState={domainState} />
     case 'Forbidden':

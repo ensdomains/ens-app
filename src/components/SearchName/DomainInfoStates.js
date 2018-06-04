@@ -4,11 +4,16 @@ import Bid from './Bid'
 export const Open = ({ domainState }) => (
   <Fragment>
     <div>{domainState.name} is available!</div>
-    <Bid name={domainState.name} />
+    <Bid domainState={domainState} />
   </Fragment>
 )
 
-export const Auction = () => <div>Auction</div>
+export const Auction = ({ domainState }) => (
+  <div>
+    {domainState.name} is under auction
+    <Bid domainState={domainState} />
+  </div>
+)
 
 export const Owned = ({ domainState }) => (
   <div>{domainState.name} is owned!</div>

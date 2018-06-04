@@ -3,7 +3,7 @@ import { Mutation } from 'react-apollo'
 import PropTypes from 'prop-types'
 import { BID, START_AND_BID } from '../../graphql/mutations'
 
-const BidContainer = ({ name, state }) =>
+const BidContainer = ({ domainState: { name, state } }) =>
   state === 'Auction' ? (
     <Mutation mutation={BID}>
       {bid => <BidForm bidHandler={bid} name={name} />}
@@ -63,8 +63,7 @@ class BidForm extends Component {
 }
 
 BidContainer.propTypes = {
-  name: PropTypes.string, // domain name
-  state: PropTypes.string // state of the domain
+  domainState: PropTypes.object // domain name
 }
 
 export default BidContainer

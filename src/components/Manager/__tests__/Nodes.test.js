@@ -41,7 +41,6 @@ test('check NodesContainer renders items and can call for subdomains', async () 
     }),
     Query: () => ({
       nodes: () => {
-        console.log('here')
         return [
           {
             name: 'vitalik.eth',
