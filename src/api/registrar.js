@@ -53,3 +53,48 @@ export const createSealedBid = async (name, bidAmount, secret) => {
     )
   })
 }
+
+export const newBid = async (sealedBid, decoyBidAmount) => {
+  const { Registrar } = await getAuctionRegistrar()
+  const { web3 } = await getWeb3()
+  const accounts = await getAccounts()
+
+  return new Promise((resolve, reject) => {
+    Registrar.newBid(
+      sealedBid,
+      { from: accounts[0], value: web3.toWei(decoyBidAmount, 'ether') },
+      (err, txId) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(txId)
+        }
+      }
+    )
+  })
+}
+
+export const startAuctionsAndBid = async (
+  hashes,
+  sealedBid,
+  decoyBidAmount
+) => {
+  const { Registrar } = await getAuctionRegistrar()
+  const { web3 } = await getWeb3()
+  const accounts = await getAccounts()
+
+  return new Promise((resolve, reject) => {
+    Registrar.startAuctionsAndBid(
+      hashes,
+      sealedBid,
+      { from: accounts[0], value: web3.toWei(decoyBidAmount, 'ether') },
+      (err, txId) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(txId)
+        }
+      }
+    )
+  })
+}
