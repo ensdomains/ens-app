@@ -1,9 +1,20 @@
 import React, { Component } from 'react'
 import { Mutation } from 'react-apollo'
 import PropTypes from 'prop-types'
-import { BID } from '../../graphql/mutations'
+import { BID, START_AND_BID } from '../../graphql/mutations'
 
-class Bid extends Component {
+const BidContainer = ({ name, state }) =>
+  state === 'Auction' ? (
+    <Mutation mutation={BID}>
+      {bid => <BidForm bidHandler={bid} name={name} />}
+    </Mutation>
+  ) : (
+    <Mutation mutation={START_AND_BID}>
+      {startAndBid => <BidForm bidHandler={startAndBid} name={name} />}
+    </Mutation>
+  )
+
+class BidForm extends Component {
   handleSubmit = (e, bid) => {
     e.preventDefault()
     console.log(
@@ -25,38 +36,35 @@ class Bid extends Component {
     return (
       <div>
         Bid now!
-        <Mutation mutation={BID}>
-          {bid => (
-            <form onSubmit={e => this.handleSubmit(e, bid)}>
-              <label name="bid-amount">Bid Amount</label>
-              <input
-                ref={bidAmount => (this.bidAmount = bidAmount)}
-                type="number"
-                name="bid-amount"
-              />
-              <label name="decoy-bid-amount">Bid Amount</label>
-              <input
-                ref={decoyBidAmount => (this.decoyBidAmount = decoyBidAmount)}
-                type="number"
-                name="decoy-bid-amount"
-              />
-              <label name="secret">Password</label>
-              <input
-                ref={secret => (this.secret = secret)}
-                type="text"
-                name="secret"
-              />
-              <input type="submit" />
-            </form>
-          )}
-        </Mutation>
+        <form onSubmit={e => this.handleSubmit(e, this.props.bidHandler)}>
+          <label name="bid-amount">Bid Amount</label>
+          <input
+            ref={bidAmount => (this.bidAmount = bidAmount)}
+            type="number"
+            name="bid-amount"
+          />
+          <label name="decoy-bid-amount">Bid Amount</label>
+          <input
+            ref={decoyBidAmount => (this.decoyBidAmount = decoyBidAmount)}
+            type="number"
+            name="decoy-bid-amount"
+          />
+          <label name="secret">Password</label>
+          <input
+            ref={secret => (this.secret = secret)}
+            type="text"
+            name="secret"
+          />
+          <input type="submit" />
+        </form>
       </div>
     )
   }
 }
 
-Bid.propTypes = {
-  name: PropTypes.String
+BidContainer.propTypes = {
+  name: PropTypes.string, // domain name
+  state: PropTypes.string // state of the domain
 }
 
-export default Bid
+export default BidContainer

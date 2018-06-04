@@ -1,6 +1,7 @@
 import React from 'react'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
+import { validateName } from '../../lib/utils'
 
 const GET_DOMAIN_STATE = gql`
   mutation getDomainState($name: String) {
@@ -17,7 +18,12 @@ const CheckAvailability = ({ getDomainState }) => {
     <form
       onSubmit={e => {
         e.preventDefault()
-        getDomainState({ variables: { name: input.value } })
+        const name = input.value
+        if (validateName(name)) {
+          getDomainState({ variables: { name } })
+        } else {
+          console.log('name is too short or has punctuation')
+        }
       }}
     >
       <input ref={el => (input = el)} />

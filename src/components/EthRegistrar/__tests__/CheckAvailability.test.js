@@ -10,7 +10,6 @@ import { ApolloProvider } from 'react-apollo'
 import createClient from '../../../testing-utils/mockedClient'
 
 import CheckAvailabilityContainer from '../CheckAvailability'
-import { getCiphers } from 'tls'
 
 afterEach(cleanup)
 

@@ -23,7 +23,25 @@ export const BID = gql`
       decoyBidAmount: $decoyBidAmount
       secret: $secret
     ) @client {
-      name
+      id
+    }
+  }
+`
+
+export const START_AND_BID = gql`
+  mutation startAuctionAndBid(
+    $name: String
+    $bidAmount: Int
+    $decoyBidAmount: Int
+    $secret: String
+  ) {
+    startAuctionAndBid(
+      name: $name
+      bidAmount: $bidAmount
+      decoyBidAmount: $decoyBidAmount
+      secret: $secret
+    ) @client {
+      id
     }
   }
 `

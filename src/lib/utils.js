@@ -1,4 +1,5 @@
 import getWeb3 from '../api/web3'
+import uts46 from 'idna-uts46'
 //import { checkLabelHash } from '../updaters/preImageDB'
 
 export const uniq = (a, param) =>
@@ -48,3 +49,14 @@ export const checkLabels = (...labelHashes) => labelHashes.map(hash => null)
 
 export const mergeLabels = (labels1, labels2) =>
   labels1.map((label, index) => (label ? label : labels2[index]))
+
+export function validateName(name) {
+  try {
+    return uts46.toUnicode(name, {
+      useStd3ASCII: true,
+      transitional: false
+    })
+  } catch (e) {
+    throw e
+  }
+}

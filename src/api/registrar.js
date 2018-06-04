@@ -37,12 +37,6 @@ export const createSealedBid = async (name, bidAmount, secret) => {
   const accounts = await getAccounts()
   const namehash = web3.sha3(name)
 
-  console.log(
-    namehash,
-    accounts[0],
-    web3.toWei(bidAmount, 'ether'),
-    web3.sha3(secret)
-  )
   return new Promise((resolve, reject) => {
     Registrar.shaBid(
       namehash,

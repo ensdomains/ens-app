@@ -45,7 +45,7 @@ const typeDefs = `
 
   type Mutation {
     getDomainState(name: String!): NodeState
-    bid(name: String, amount: Int): Bid
+    bid(name: String, bidAmount: Int, decoyBidAmount: Int, secret: String): Transaction
   }
 
   # Manager

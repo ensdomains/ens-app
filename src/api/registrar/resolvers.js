@@ -30,10 +30,13 @@ const resolvers = {
 
       return data
     },
-    async bid(_, { name, bidAmount, decoyBidAmount, secret }) {
-      console.log(name, bidAmount, decoyBidAmount, secret)
+    async startAuctionAndBid(_, { name, bidAmount, decoyBidAmount, secret }) {
+      console.log('here')
       const sealedBid = await createSealedBid(name, bidAmount, secret)
       console.log(sealedBid)
+    },
+    async bid(_, { name, bidAmount, decoyBidAmount, secret }) {
+      const sealedBid = await createSealedBid(name, bidAmount, secret)
     }
   }
 }
