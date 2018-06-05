@@ -2,6 +2,7 @@ import React from 'react'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import { validateName } from '../../lib/utils'
+import '../../api/subDomainRegistrar'
 
 const GET_DOMAIN_STATE = gql`
   mutation getDomainState($name: String) {
