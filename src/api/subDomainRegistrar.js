@@ -37,7 +37,6 @@ export const query = async (subdomain, label, address) => {
   const { web3 } = await getWeb3()
   return new Promise((resolve, reject) => {
     Registrar.query(web3.sha3(subdomain), label, (err, entry) => {
-      console.log(err, entry)
       if (err) {
         reject(err)
       } else {
@@ -48,23 +47,21 @@ export const query = async (subdomain, label, address) => {
 }
 
 export const queryAll = async label => {
-  console.log(domains)
   return domains.map(domain => {
     if (domain.registrar) {
       return query(domain.name, label, domain.registrar)
     }
-    console.log('outside if')
     return query(domain.name, label)
   })
 }
 
-async function test() {
-  // const node = await query('gimmethe', 'awesome')
-  // console.log(node)
-  const nodes = await queryAll('helloooo12345')
-  nodes.map(promise =>
-    promise.then(node => node.forEach(e => console.log(e.toString())))
-  )
-}
+// async function test() {
+//   // const node = await query('gimmethe', 'awesome')
+//   // console.log(node)
+//   const nodes = await queryAll('helloooo12345')
+//   nodes.map(promise =>
+//     promise.then(node => node.forEach(e => console.log(e.toString())))
+//   )
+// }
 
-test()
+// test()
