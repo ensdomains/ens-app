@@ -60,3 +60,5 @@ export function validateName(name) {
     throw e
   }
 }
+
+export const fromWei = async wei => await getWeb3().web3.fromWei(wei)
