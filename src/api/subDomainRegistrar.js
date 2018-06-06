@@ -32,15 +32,22 @@ const getSubDomainRegistrar = async address => {
   }
 }
 
-export const query = async (subdomain, label, address) => {
+export const query = async (domain, label, address) => {
   const Registrar = await getSubDomainRegistrar(address)
   const { web3 } = await getWeb3()
   return new Promise((resolve, reject) => {
-    Registrar.query(web3.sha3(subdomain), label, (err, entry) => {
+    Registrar.query(web3.sha3(domain), label, (err, node) => {
       if (err) {
         reject(err)
       } else {
-        resolve(entry)
+        resolve({
+          label,
+          domain,
+          price: node[1].toString(),
+          rent: node[2].toString(),
+          referralFeePPM: node[3].toString(),
+          available: node[0].length !== 0
+        })
       }
     })
   })

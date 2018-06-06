@@ -30,7 +30,7 @@ const CheckAvailability = ({ getDomainState, getSubDomainAvailability }) => {
         const name = input.value
         if (validateName(name)) {
           getDomainState({ variables: { name } })
-          //getSubDomainAvailability({ variables: { name } })
+          getSubDomainAvailability({ variables: { name } })
         } else {
           console.log('name is too short or has punctuation')
         }

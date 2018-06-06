@@ -6,9 +6,12 @@ import fifsResolvers, {
 import managerResolvers, {
   defaults as managerDefaults
 } from './manager/resolvers'
-import auctionRegistrarResolver, {
+import auctionRegistrarResolvers, {
   defaults as auctionRegistrarDefaults
 } from './registrar/resolvers'
+import subDomainRegistrarResolvers, {
+  defaults as subDomainRegistrarDefaults
+} from './subDomainRegistrar/resolvers'
 
 const rootDefaults = {
   web3: {
@@ -45,14 +48,16 @@ const defaults = merge(
   rootDefaults,
   fifsDefaults,
   managerDefaults,
-  auctionRegistrarDefaults
+  auctionRegistrarDefaults,
+  subDomainRegistrarDefaults
 )
 
 export default merge(
   resolvers,
   fifsResolvers,
   managerResolvers,
-  auctionRegistrarResolver
+  auctionRegistrarResolvers,
+  subDomainRegistrarResolvers
 )
 
 export { defaults }

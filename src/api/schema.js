@@ -74,6 +74,21 @@ const typeDefs = `
     registerTestDomain(name: String!): Transaction
   }
 
+  # SubDomain Registrar
+
+  type SubDomainState {
+    label: String
+    domain: String
+    price: Int
+    rent: Int
+    referralFeePPM: int
+    available: Boolean
+  }
+
+  extend type Mutation {
+    getSubDomainState(name: String!): [SubDomainState]
+  }
+
   schema {
     query: Query
     mutation: Mutation

@@ -10,6 +10,18 @@ const NodeFields = gql`
     content
   }
 `
+
+const SubDomainStateFields = gql`
+  fragment SubDomainStateFields on SubDomainState {
+    label
+    domain
+    price
+    rent
+    referralFeePPM
+    available
+  }
+`
+
 const NodesRecursive = gql`
   fragment NodesRecursive on Node {
     ...NodeFields
@@ -30,4 +42,4 @@ const NodesRecursive = gql`
   ${NodeFields}
 `
 
-export { NodesRecursive, NodeFields }
+export { NodesRecursive, NodeFields, SubDomainStateFields }

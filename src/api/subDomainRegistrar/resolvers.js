@@ -1,18 +1,20 @@
 import { queryAll } from '../subDomainRegistrar'
+import gql from 'graphql-tag'
 
 const defaults = {
-  domainState: null
+  subDomainState: []
 }
 
 const getAllNodes = cache => {
   const query = gql`
-    query nodes {
-      nodes {
-        name
+    query subDomainState {
+      subDomainState {
+        label
         domain
         price
         rent
         referralFeePPM
+        available
       }
     }
   `
@@ -24,25 +26,26 @@ const resolvers = {
   Mutation: {
     async getSubDomainAvailability(_, { name }, { cache }) {
       const nodes = await queryAll(name)
+      console.log('here', nodes)
 
-      const currentNodes = getAllNodes(cache)
+      const cachedNodes = []
 
-      nodes.map(node => {
-        const node = {
-          name,
-          domain: node[0],
-          price: node[1],
-          rent: node[2],
-          referralFeePPM: node[3],
-          __typename: 'SubDomainState'
-        }
+      nodes.map(subDomainPromise =>
+        subDomainPromise.then(node => {
+          const newNode = {
+            ...node,
+            __typename: 'SubDomainState'
+          }
 
-        const data = {
-          subDomainState: [...currentNodes, node]
-        }
+          cachedNodes.push(newNode)
 
-        cache.writeData({ data })
-      })
+          const data = {
+            subDomainState: [...cachedNodes]
+          }
+
+          cache.writeData({ data })
+        })
+      )
       // const data = {
       //   subDomains: {
       //     name,
@@ -53,7 +56,9 @@ const resolvers = {
 
       // cache.writeData({ data })
 
-      return data
+      return Promise.all(nodes).then(() => ({
+        subDomainState: cachedNodes
+      }))
     }
   }
 }
