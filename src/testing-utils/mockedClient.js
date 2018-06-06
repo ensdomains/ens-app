@@ -3,6 +3,7 @@ import setupClient from 'apollo-client-mock'
 
 const defaultMocks = {
   Query: () => ({
+    //subDomainState = () => [],
     domainState() {
       return {
         name: 'vitalik.eth',

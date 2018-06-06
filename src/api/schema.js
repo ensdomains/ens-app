@@ -81,12 +81,16 @@ const typeDefs = `
     domain: String
     price: Int
     rent: Int
-    referralFeePPM: int
+    referralFeePPM: Int
     available: Boolean
   }
 
   extend type Mutation {
     getSubDomainState(name: String!): [SubDomainState]
+  }
+
+  extend type Query {
+    subDomainState: [SubDomainState]
   }
 
   schema {

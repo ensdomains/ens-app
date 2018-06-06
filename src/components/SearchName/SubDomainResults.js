@@ -38,23 +38,26 @@ class SubDomainResults extends Component {
   render() {
     return (
       <Query query={GET_SUBDOMAIN_STATE}>
-        {({ data: { subDomainState } }) =>
-          [...subDomainState].sort(alphabeticalAndAvailable).map(node => {
-            if (!node.available) {
+        {({ data: { subDomainState }, loading }) => {
+          if (loading) return <div>Loading...</div>
+          return [...subDomainState]
+            .sort(alphabeticalAndAvailable)
+            .map(node => {
+              if (!node.available) {
+                return (
+                  <li style={{ textDecoration: 'line-through' }}>
+                    {node.label}.{node.domain}.eth
+                  </li>
+                )
+              }
               return (
-                <li style={{ textDecoration: 'line-through' }}>
-                  {node.label}.{node.domain}.eth
+                <li>
+                  {node.label}.{node.domain}.eth -{' '}
+                  {fromWei(node.price, 'ether')} ETH
                 </li>
               )
-            }
-            return (
-              <li>
-                {node.label}.{node.domain}.eth - {fromWei(node.price, 'ether')}{' '}
-                ETH
-              </li>
-            )
-          })
-        }
+            })
+        }}
       </Query>
     )
   }
