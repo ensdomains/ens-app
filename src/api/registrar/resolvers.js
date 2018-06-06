@@ -15,16 +15,14 @@ const modeNames = [
 
 const resolvers = {
   Mutation: {
-    async getDomainState(_, { name }, { cache }) {
+    async getDomainAvailability(_, { name }, { cache }) {
       const state = await getMode(name)
-
-      console.log(state)
 
       const data = {
         domainState: {
           name,
           state: modeNames[state],
-          __typename: 'NodeState'
+          __typename: 'DomainState'
         }
       }
 

@@ -26,8 +26,6 @@ const resolvers = {
   Mutation: {
     async getSubDomainAvailability(_, { name }, { cache }) {
       const nodes = await queryAll(name)
-      console.log('here', nodes)
-
       const cachedNodes = []
 
       nodes.map(subDomainPromise =>
@@ -46,15 +44,6 @@ const resolvers = {
           cache.writeData({ data })
         })
       )
-      // const data = {
-      //   subDomains: {
-      //     name,
-      //     state: modeNames[state],
-      //     __typename: 'NodeState'
-      //   }
-      // }
-
-      // cache.writeData({ data })
 
       return Promise.all(nodes).then(() => ({
         subDomainState: cachedNodes

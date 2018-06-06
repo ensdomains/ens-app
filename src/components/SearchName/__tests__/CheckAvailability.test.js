@@ -14,10 +14,10 @@ import CheckAvailabilityContainer from '../CheckAvailability'
 afterEach(cleanup)
 
 test('should call resolver without blowing up', () => {
-  const getDomainState = jest.fn()
+  const getDomainAvailability = jest.fn()
   const resolverOverwrites = {
     Mutation: () => ({
-      getDomainState
+      getDomainAvailability
     })
   }
   const { getByText, container } = renderIntoDocument(
@@ -32,5 +32,5 @@ test('should call resolver without blowing up', () => {
   input.value = 'vitalik.eth'
   Simulate.change(input)
   submitButton.click()
-  expect(getDomainState).toHaveBeenCalledTimes(1)
+  expect(getDomainAvailability).toHaveBeenCalledTimes(1)
 })

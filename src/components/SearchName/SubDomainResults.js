@@ -45,13 +45,16 @@ class SubDomainResults extends Component {
             .map(node => {
               if (!node.available) {
                 return (
-                  <li style={{ textDecoration: 'line-through' }}>
+                  <li
+                    key={label + '.' + domain}
+                    style={{ textDecoration: 'line-through' }}
+                  >
                     {node.label}.{node.domain}.eth
                   </li>
                 )
               }
               return (
-                <li>
+                <li key={label + '.' + domain}>
                   {node.label}.{node.domain}.eth -{' '}
                   {fromWei(node.price, 'ether')} ETH
                 </li>

@@ -3,10 +3,10 @@ import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import { validateName } from '../../lib/utils'
 import '../../api/subDomainRegistrar'
-
+import { SubDomainStateFields } from '../../graphql/fragments'
 const GET_DOMAIN_STATE = gql`
-  mutation getDomainState($name: String) {
-    getDomainState(name: $name) @client {
+  mutation getDomainAvailability($name: String) {
+    getDomainAvailability(name: $name) @client {
       name
       state
     }
@@ -16,9 +16,11 @@ const GET_DOMAIN_STATE = gql`
 const GET_SUBDOMAIN_AVAILABILITY = gql`
   mutation getSubDomainAvailability($name: String) {
     getSubDomainAvailability(name: $name) @client {
-      domainStates
+      ...SubDomainStateFields
     }
   }
+
+  ${SubDomainStateFields}
 `
 
 const CheckAvailability = ({ getDomainState, getSubDomainAvailability }) => {

@@ -29,11 +29,6 @@ const typeDefs = `
     state: Mode
   }
 
-  type NodeState {
-    name: String
-    state: Mode
-  }
-
   type Bid {
     name: String
     amount: Int
@@ -44,7 +39,7 @@ const typeDefs = `
   }
 
   type Mutation {
-    getDomainState(name: String!): NodeState
+    getDomainAvailability(name: String!): DomainState
     bid(name: String, bidAmount: Int, decoyBidAmount: Int, secret: String): Transaction
   }
 
