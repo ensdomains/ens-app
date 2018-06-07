@@ -46,7 +46,7 @@ class SubDomainResults extends Component {
               if (!node.available) {
                 return (
                   <li
-                    key={label + '.' + domain}
+                    key={node.label + '.' + node.domain}
                     style={{ textDecoration: 'line-through' }}
                   >
                     {node.label}.{node.domain}.eth

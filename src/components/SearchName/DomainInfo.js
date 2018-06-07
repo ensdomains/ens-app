@@ -21,7 +21,6 @@ const GET_DOMAIN_STATE = gql`
 
 export const DomainInfo = ({ domainState }) => {
   if (!domainState) return null
-  console.log(domainState.state)
   switch (domainState.state) {
     case 'Open':
       return <Open domainState={domainState} />
