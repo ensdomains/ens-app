@@ -74,9 +74,9 @@ const typeDefs = `
   type SubDomainState {
     label: String
     domain: String
-    price: Int
-    rent: Int
-    referralFeePPM: Int
+    price: String
+    rent: String
+    referralFeePPM: String
     available: Boolean
   }
 

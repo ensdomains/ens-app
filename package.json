@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@0xproject/utils": "^0.6.1",
-    "apollo-client-mock": "0.0.5",
+    "apollo-client-mock": "0.0.8",
     "apollo-link-schema": "^1.1.0",
     "ganache-cli": "^6.1.0",
     "js-sha3": "^0.7.0",
@@ -56,11 +56,6 @@
       "last 2 firefox versions",
       "last 2 edge versions"
     ],
-    "production": [
-      ">1%",
-      "last 4 versions",
-      "Firefox ESR",
-      "not ie < 11"
-    ]
+    "production": [">1%", "last 4 versions", "Firefox ESR", "not ie < 11"]
   }
 }

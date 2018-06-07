@@ -54,7 +54,7 @@ class SubDomainResults extends Component {
                 )
               }
               return (
-                <li key={label + '.' + domain}>
+                <li key={node.label + '.' + node.domain}>
                   {node.label}.{node.domain}.eth -{' '}
                   {fromWei(node.price, 'ether')} ETH
                 </li>

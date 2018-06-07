@@ -7,6 +7,7 @@ import {
   wait
 } from 'react-testing-library'
 
+import 'dom-testing-library/extend-expect'
 import { ApolloProvider } from 'react-apollo'
 import createClient from '../../../testing-utils/mockedClient'
 
@@ -32,8 +33,6 @@ test('should call resolver without blowing up', async () => {
 
   await wait()
 
-  console.log(container.innerHTML)
-
   expect(trackResolver).toHaveBeenCalledTimes(1)
 })
 
@@ -45,10 +44,10 @@ test('should return a list of domain states', async () => {
           {
             label: 'vitalik',
             domain: 'ethereum',
-            price: 10000000000,
+            price: '1000000000000000',
             available: true,
-            rent: 0,
-            referralFeePPM: 0
+            rent: '100000',
+            referralFeePPM: '100000'
           }
         ]
       }
@@ -61,6 +60,7 @@ test('should return a list of domain states', async () => {
   )
 
   await wait()
-
-  console.log(container.innerHTML)
+  const vitalik = getByText('vitalik', { exact: false })
+  expect(vitalik).toHaveTextContent('vitalik.ethereum.eth')
+  expect(vitalik).toHaveTextContent('0.001 ETH')
 })
