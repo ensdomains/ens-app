@@ -1,7 +1,7 @@
 import React from 'react'
 import CheckAvailability from '../components/SearchName/CheckAvailability'
 import DomainInfo from '../components/SearchName/DomainInfo'
-import SubDomainResults from '../components/SearchName/SubDomainResults'
+import SubDomainResults from '../components/SubDomainResults/SubDomainResults'
 
 export default () => (
   <div>
