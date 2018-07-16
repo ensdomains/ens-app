@@ -2,6 +2,7 @@ import React from 'react'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import { validateName } from '../../lib/utils'
+import { addressUtils } from '@0xproject/utils'
 import '../../api/subDomainRegistrar'
 import { SubDomainStateFields } from '../../graphql/fragments'
 
@@ -25,8 +26,17 @@ const GET_SUBDOMAIN_AVAILABILITY = gql`
 `
 
 export const parseSearchTerm = term => {
-  if (term.match(/./)) {
+  if (term.indexOf('.') !== -1) {
     return 'name'
+  } else if (addressUtils.isAddress(term)) {
+    return 'address'
+  } else {
+    try {
+      validateName(term)
+      return 'search'
+    } catch (e) {
+      return 'invalid'
+    }
   }
 }
 

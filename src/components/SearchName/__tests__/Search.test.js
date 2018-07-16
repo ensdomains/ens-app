@@ -14,7 +14,23 @@ import SearchContainer, { parseSearchTerm } from '../Search'
 afterEach(cleanup)
 
 describe('parseSearchTerm', () => {
-  expect(parseSearchTerm('something.eth')).toBe('name')
+  it('returns "name" when a full ens name is given', () => {
+    expect(parseSearchTerm('something.eth')).toBe('name')
+  })
+
+  it('returns "nameSearch" when a partial ens name is given', () => {
+    expect(parseSearchTerm('something')).toBe('search')
+  })
+
+  it('returns "address" when ethereum address is given', () => {
+    expect(parseSearchTerm('0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae')).toBe(
+      'address'
+    )
+  })
+
+  it('returns "inavlid" when a partial ens name is not a valid ENS name', () => {
+    expect(parseSearchTerm('something&')).toBe('invalid')
+  })
 })
 
 test('should call resolver without blowing up', () => {

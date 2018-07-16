@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@0xproject/utils": "^0.7.2",
     "apollo-cache-inmemory": "^1.1.12",
     "apollo-client": "^2.2.8",
     "apollo-link": "^1.2.2",
@@ -44,7 +45,6 @@
     "singleQuote": true
   },
   "devDependencies": {
-    "@0xproject/utils": "^0.6.1",
     "apollo-client-mock": "0.0.8",
     "apollo-link-schema": "^1.1.0",
     "ganache-cli": "^6.1.0",
