@@ -9,9 +9,13 @@ import {
 import { ApolloProvider } from 'react-apollo'
 import createClient from '../../../testing-utils/mockedClient'
 
-import CheckAvailabilityContainer from '../CheckAvailability'
+import SearchContainer, { parseSearchTerm } from '../Search'
 
 afterEach(cleanup)
+
+describe('parseSearchTerm', () => {
+  expect(parseSearchTerm('something.eth')).toBe('name')
+})
 
 test('should call resolver without blowing up', () => {
   const getDomainAvailability = jest.fn()
@@ -22,7 +26,7 @@ test('should call resolver without blowing up', () => {
   }
   const { getByText, container } = renderIntoDocument(
     <ApolloProvider client={createClient(resolverOverwrites)}>
-      <CheckAvailabilityContainer />
+      <SearchContainer />
     </ApolloProvider>
   )
 

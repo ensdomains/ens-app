@@ -4,7 +4,7 @@ import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import { SubDomainStateFields } from '../../graphql/fragments'
 import ReactTransitionGroup from 'react-transition-group-plus'
-import { TweenMax, TimelineMax, Linear, Sine } from 'gsap/TweenMax'
+import { TweenMax, TimelineMax, Linear, Sine } from 'gsap/umd/TweenMax'
 import { fromWei } from 'ethjs-unit'
 
 const animationStates = {

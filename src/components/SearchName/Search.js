@@ -4,6 +4,7 @@ import gql from 'graphql-tag'
 import { validateName } from '../../lib/utils'
 import '../../api/subDomainRegistrar'
 import { SubDomainStateFields } from '../../graphql/fragments'
+
 const GET_DOMAIN_STATE = gql`
   mutation getDomainAvailability($name: String) {
     getDomainAvailability(name: $name) @client {
@@ -23,7 +24,13 @@ const GET_SUBDOMAIN_AVAILABILITY = gql`
   ${SubDomainStateFields}
 `
 
-const CheckAvailability = ({ getDomainState, getSubDomainAvailability }) => {
+export const parseSearchTerm = term => {
+  if (term.match(/./)) {
+    return 'name'
+  }
+}
+
+const Search = ({ getDomainState, getSubDomainAvailability }) => {
   let input
   return (
     <form
@@ -44,13 +51,13 @@ const CheckAvailability = ({ getDomainState, getSubDomainAvailability }) => {
   )
 }
 
-const CheckAvailabilityContainer = ({ searchDomain }) => {
+const SearchContainer = ({ searchDomain }) => {
   return (
     <Mutation mutation={GET_SUBDOMAIN_AVAILABILITY}>
       {getSubDomainAvailability => (
         <Mutation mutation={GET_DOMAIN_STATE}>
           {getDomainState => (
-            <CheckAvailability
+            <Search
               getDomainState={getDomainState}
               getSubDomainAvailability={getSubDomainAvailability}
               searchDomain={searchDomain}
@@ -62,6 +69,6 @@ const CheckAvailabilityContainer = ({ searchDomain }) => {
   )
 }
 
-export { CheckAvailability }
+export { Search }
 
-export default CheckAvailabilityContainer
+export default SearchContainer
