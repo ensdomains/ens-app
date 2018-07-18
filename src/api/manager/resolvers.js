@@ -56,6 +56,18 @@ export function resolveQueryPath(domainArray, path, db) {
 }
 
 const resolvers = {
+  Query: {
+    singleNode: async (_, { name }, { cache }) => {
+      console.log('getSingleNode', name)
+      const owner = await getOwner(name)
+      console.log(owner)
+      return {
+        name,
+        owner,
+        __typename: 'Node'
+      }
+    }
+  },
   Mutation: {
     addNode: async (_, { name }, { cache }) => {
       const owner = await getOwner(name)

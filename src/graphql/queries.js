@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { NodesRecursive } from './fragments'
+import { NodesRecursive, NodeFields } from './fragments'
 
 export const GET_NODES = gql`
   query nodes {
@@ -9,4 +9,16 @@ export const GET_NODES = gql`
   }
 
   ${NodesRecursive}
+`
+
+export const GET_SINGLE_NODE = gql`
+  query singleNode($name: String) @client {
+    singleNode(name: $name) {
+      #...NodeFields
+      name
+      owner
+    }
+  }
+
+  ${NodeFields}
 `
