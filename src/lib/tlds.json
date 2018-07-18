@@ -1,0 +1,8 @@
+{
+  "eth": {
+    "supported": true
+  },
+  "xyz": {
+    "supported": false
+  }
+}

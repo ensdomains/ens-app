@@ -14,8 +14,20 @@ import SearchContainer, { parseSearchTerm } from '../Search'
 afterEach(cleanup)
 
 describe('parseSearchTerm', () => {
-  it('returns "name" when a full ens name is given', () => {
-    expect(parseSearchTerm('something.eth')).toBe('name')
+  it('returns "eth" when a full ens name is given', () => {
+    expect(parseSearchTerm('something.eth')).toBe('eth')
+  })
+
+  it('returns "unsupported" when a name is in the list but not supported', () => {
+    expect(parseSearchTerm('something.xyz')).toBe('unsupported')
+  })
+
+  it('returns "unsupported" when an unsupported domain is given', () => {
+    expect(parseSearchTerm('something.x')).toBe('unsupported')
+  })
+
+  it('returns "unsupported" when an unsupported domain is given', () => {
+    expect(parseSearchTerm('something.')).toBe('unsupported')
   })
 
   it('returns "nameSearch" when a partial ens name is given', () => {
