@@ -11,14 +11,20 @@ export const GET_NODES = gql`
   ${NodesRecursive}
 `
 
-export const GET_SINGLE_NODE = gql`
-  query singleNode($name: String) @client {
-    singleNode(name: $name) {
-      #...NodeFields
-      name
-      owner
+export const GET_SINGLE_NAME = gql`
+  query singleName($name: String) @client {
+    singleName(name: $name) {
+      ...NodeFields
     }
   }
 
   ${NodeFields}
+`
+
+export const GET_SUBDOMAINS = gql`
+  query getSubDomains($name: String) @client {
+    getSubDomains(name: $name) {
+      subDomains
+    }
+  }
 `

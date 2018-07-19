@@ -208,14 +208,14 @@ export async function setReverseRecordName(account, resolverAddr, name) {
   })
 }
 
-export function getRootDomain(name) {
+export function getDomainDetails(name) {
   return Promise.all([getOwner(name), getResolver(name)])
     .then(([owner, resolver]) => ({
       name,
       label: name.split('.')[0],
       owner,
       resolver,
-      nodes: []
+      subDomains: []
     }))
     .then(node => {
       let hasResolver = parseInt(node.resolver, 16) !== 0
@@ -230,7 +230,27 @@ export function getRootDomain(name) {
     })
 }
 
-export const getSubdomains = async name => {
+export const getSubDomains = async name => {
+  let startBlock = await ensStartBlock()
+  let namehash = await getNamehash(name)
+  let rawLogs = await getENSEvent(
+    'NewOwner',
+    { node: namehash },
+    { fromBlock: startBlock, toBlock: 'latest' }
+  )
+  let flattenedLogs = rawLogs.map(log => log.args)
+  flattenedLogs.reverse()
+  let logs = uniq(flattenedLogs, 'label')
+  let labelHashes = logs.map(log => log.label)
+  let remoteLabels = await decryptHashes(...labelHashes)
+  let localLabels = checkLabels(...labelHashes)
+  let labels = mergeLabels(localLabels, remoteLabels)
+  //let ownerPromises = labels.map(label => getOwner(`${label}.${name}`))
+  let subDomains = labels.map(label => `${label}.${name}`)
+  return subDomains
+}
+
+export const getSubdomainsDetails = async name => {
   let startBlock = await ensStartBlock()
   let namehash = await getNamehash(name)
   let rawLogs = await getENSEvent(
