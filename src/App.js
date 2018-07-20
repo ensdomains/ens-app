@@ -2,7 +2,6 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import TestRegistrar from './routes/TestRegistrar'
 import Home from './routes/Home'
-import Manager from './routes/Manager'
 import SingleName from './routes/SingleName'
 
 const App = () => (
@@ -23,7 +22,6 @@ const App = () => (
       <hr />
       <Route exact path="/" component={Home} />
       <Route path="/test-registrar" component={TestRegistrar} />
-      <Route path="/manager" component={Manager} />
       <Route path="/name/:name" component={SingleName} />
     </div>
   </Router>

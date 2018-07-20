@@ -1,6 +1,7 @@
 import React from 'react'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
+import Loader from '../Loader'
 import {
   Open,
   Auction,
@@ -43,7 +44,7 @@ const DomainInfoContainer = () => {
   return (
     <Query query={GET_DOMAIN_STATE}>
       {({ data: { domainState }, loading }) => {
-        if (loading) return <div>Loading...</div>
+        if (loading) return <Loader />
         return <DomainInfo domainState={domainState} />
       }}
     </Query>

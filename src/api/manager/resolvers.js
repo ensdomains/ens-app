@@ -72,8 +72,6 @@ const resolvers = {
         __typename: 'Node'
       }
 
-      //console.log(names)
-
       const domainRaw = await getDomainDetails(name)
 
       const newNode = {

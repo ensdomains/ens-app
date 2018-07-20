@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { validateName, parseSearchTerm } from '../lib/utils'
 import { GET_SINGLE_NAME } from '../graphql/queries'
 import { Query } from 'react-apollo'
+import Loader from '../components/Loader'
 
 import Details from '../components/Manager/Details'
 
@@ -12,18 +13,18 @@ class SingleName extends Component {
   componentDidMount() {
     const searchTerm = this.props.match.params.name
     const validity = parseSearchTerm(searchTerm)
-    const valid = validity === 'eth' || 'test'
+    const valid = validity === 'eth' || validity === 'test'
 
     this.setState({ valid })
   }
   render() {
     const searchTerm = this.props.match.params.name
+
     if (this.state.valid) {
       return (
         <Query query={GET_SINGLE_NAME} variables={{ name: searchTerm }}>
           {({ loading, error, data }) => {
-            if (loading) return <div>Loading...</div>
-            console.log(data)
+            if (loading) return <Loader />
             return (
               <div>
                 <Details details={data.singleName} />

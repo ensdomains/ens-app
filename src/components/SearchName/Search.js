@@ -5,6 +5,7 @@ import { validateName, parseSearchTerm } from '../../lib/utils'
 import { addressUtils } from '@0xproject/utils'
 import '../../api/subDomainRegistrar'
 import { SubDomainStateFields } from '../../graphql/fragments'
+import { withRouter } from 'react-router'
 
 const GET_DOMAIN_STATE = gql`
   mutation getDomainAvailability($name: String) {
@@ -26,33 +27,44 @@ const GET_SUBDOMAIN_AVAILABILITY = gql`
 `
 
 class Search extends React.Component {
+  state = {
+    type: null
+  }
   handleParse = () => {
     const type = parseSearchTerm(this.input.value)
-
-    console.log(type)
+    this.setState({ type })
   }
 
   render() {
-    const { getDomainState, getSubDomainAvailability } = this.props
+    const { getDomainState, getSubDomainAvailability, history } = this.props
     return (
       <form
         onSubmit={e => {
           e.preventDefault()
-          const name = this.input.value
-          if (validateName(name)) {
-            getDomainState({ variables: { name } })
-            getSubDomainAvailability({ variables: { name } })
+          const searchTerm = this.input.value
+          console.log('STATE', this.state.type)
+
+          if (this.state.type === 'eth' || this.state.type === 'test') {
+            history.push(`/name/${searchTerm}`)
+            return
+          }
+
+          if (validateName(searchTerm)) {
+            getDomainState({ variables: { name: searchTerm } })
+            getSubDomainAvailability({ variables: { name: searchTerm } })
           } else {
             console.log('name is too short or has punctuation')
           }
         }}
       >
         <input ref={el => (this.input = el)} onChange={this.handleParse} />
-        <button type="submit">Check Availability</button>
+        <button type="submit">Search</button>
       </form>
     )
   }
 }
+
+const SearchWithRouter = withRouter(Search)
 
 const SearchContainer = ({ searchDomain }) => {
   return (
@@ -60,7 +72,7 @@ const SearchContainer = ({ searchDomain }) => {
       {getSubDomainAvailability => (
         <Mutation mutation={GET_DOMAIN_STATE}>
           {getDomainState => (
-            <Search
+            <SearchWithRouter
               getDomainState={getDomainState}
               getSubDomainAvailability={getSubDomainAvailability}
               searchDomain={searchDomain}
@@ -72,6 +84,6 @@ const SearchContainer = ({ searchDomain }) => {
   )
 }
 
-export { Search }
+export { SearchWithRouter as Search }
 
 export default SearchContainer

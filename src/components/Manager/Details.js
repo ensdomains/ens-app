@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import styled from 'react-emotion'
 import { Query } from 'react-apollo'
 import { GET_SUBDOMAINS } from '../../graphql/queries'
+import Loader from '../Loader'
 
 const DetailsContainer = styled('div')`
   .sub-domains {
@@ -28,8 +29,7 @@ class Details extends Component {
         <div className="sub-domains">
           <Query query={GET_SUBDOMAINS} variables={{ name: details.name }}>
             {({ loading, error, data }) => {
-              if (loading) return <div>Loading...</div>
-              console.log(data)
+              if (loading) return <Loader />
               return data.getSubDomains.subDomains.map(d => (
                 <Link to={`/name/${d}`}>{d}</Link>
               ))
