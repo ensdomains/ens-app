@@ -25,6 +25,7 @@ class SingleName extends Component {
         <Query query={GET_SINGLE_NAME} variables={{ name: searchTerm }}>
           {({ loading, error, data }) => {
             if (loading) return <Loader />
+            console.log(data)
             return (
               <div>
                 <Details details={data.singleName} />

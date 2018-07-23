@@ -15,8 +15,11 @@ export const Auction = ({ domainState }) => (
   </div>
 )
 
-export const Owned = ({ domainState }) => (
-  <div>{domainState.name} is owned!</div>
+export const Owned = ({ domainState, web3 }) => (
+  <div>
+    {domainState.name} is owned by {domainState.owner}
+    {console.log(web3)}
+  </div>
 )
 
 export const Forbidden = ({ domainState }) => (

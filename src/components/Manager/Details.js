@@ -27,14 +27,18 @@ class Details extends Component {
           )
         })}
         <div className="sub-domains">
-          <Query query={GET_SUBDOMAINS} variables={{ name: details.name }}>
-            {({ loading, error, data }) => {
-              if (loading) return <Loader />
-              return data.getSubDomains.subDomains.map(d => (
-                <Link to={`/name/${d}`}>{d}</Link>
-              ))
-            }}
-          </Query>
+          {parseInt(details.owner, 16) !== 0 ? (
+            <Query query={GET_SUBDOMAINS} variables={{ name: details.name }}>
+              {({ loading, error, data }) => {
+                if (loading) return <Loader />
+                return data.getSubDomains.subDomains.map(d => (
+                  <Link to={`/name/${d}`}>{d}</Link>
+                ))
+              }}
+            </Query>
+          ) : (
+            ''
+          )}
         </div>
       </DetailsContainer>
     )

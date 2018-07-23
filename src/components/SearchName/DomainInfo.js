@@ -16,9 +16,22 @@ const GET_DOMAIN_STATE = gql`
     domainState {
       name
       state
+      owner
+    }
+
+    web3 {
+      accounts
     }
   }
 `
+
+// const GET_ACCOUNTS = gql`
+//   query getDomainState {
+//     web3 {
+//       accounts
+//     }
+//   }
+// `
 
 export const DomainInfo = ({ domainState }) => {
   if (!domainState) return null
@@ -43,9 +56,10 @@ export const DomainInfo = ({ domainState }) => {
 const DomainInfoContainer = () => {
   return (
     <Query query={GET_DOMAIN_STATE}>
-      {({ data: { domainState }, loading }) => {
+      {({ data: { domainState, web3 }, loading }) => {
         if (loading) return <Loader />
-        return <DomainInfo domainState={domainState} />
+        console.log(web3)
+        return <DomainInfo domainState={domainState} web3={web3} />
       }}
     </Query>
   )

@@ -1,4 +1,5 @@
 import { getMode, createSealedBid } from '../registrar'
+import { getOwner } from '../registry'
 
 const defaults = {
   domainState: null
@@ -17,11 +18,20 @@ const resolvers = {
   Mutation: {
     async getDomainAvailability(_, { name }, { cache }) {
       const state = await getMode(name)
+      let owner = null
+
+      console.log(name)
+
+      if (modeNames[state] === 'Owned') {
+        console.log(1)
+        owner = await getOwner(`${name}.eth`)
+      }
 
       const data = {
         domainState: {
-          name,
+          name: `${name}.eth`,
           state: modeNames[state],
+          owner,
           __typename: 'DomainState'
         }
       }

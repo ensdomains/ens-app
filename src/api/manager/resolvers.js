@@ -60,10 +60,7 @@ const resolvers = {
     singleName: async (_, { name }, { cache }) => {
       const { names } = getAllNodes(cache)
       const owner = await getOwner(name)
-
-      if (parseInt(owner, 16) === 0) {
-        return null
-      }
+      let domainRaw
 
       //Create Node
       let node = {
@@ -72,7 +69,9 @@ const resolvers = {
         __typename: 'Node'
       }
 
-      const domainRaw = await getDomainDetails(name)
+      domainRaw = await getDomainDetails(name)
+
+      console.log(domainRaw)
 
       const newNode = {
         ...node,

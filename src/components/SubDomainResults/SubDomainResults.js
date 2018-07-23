@@ -166,7 +166,7 @@ class SubDomainsContainer extends Component {
               newIndex={found ? index : ''}
               node={node}
               key={node.label + '.' + node.domain}
-              enterDuration={1}
+              enterDuration={5}
             />
           )
         })}
