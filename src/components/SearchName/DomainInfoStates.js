@@ -15,10 +15,10 @@ export const Auction = ({ domainState }) => (
   </div>
 )
 
-export const Owned = ({ domainState, web3 }) => (
+export const Owned = ({ domainState, accounts }) => (
   <div>
-    {domainState.name} is owned by {domainState.owner}
-    {console.log(web3)}
+    {domainState.name} is owned by {console.log(accounts)}
+    {accounts[0] === domainState.owner ? `you!` : domainState}
   </div>
 )
 

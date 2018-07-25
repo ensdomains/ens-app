@@ -42,7 +42,6 @@ class Search extends React.Component {
         onSubmit={e => {
           e.preventDefault()
           const searchTerm = this.input.value
-          console.log('STATE', this.state.type)
 
           if (this.state.type === 'eth' || this.state.type === 'test') {
             history.push(`/name/${searchTerm}`)

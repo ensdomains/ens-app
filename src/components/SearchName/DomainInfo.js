@@ -1,7 +1,9 @@
 import React from 'react'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
+import { adopt } from 'react-adopt'
 import Loader from '../Loader'
+import { GET_WEB3 } from '../../graphql/queries'
 import {
   Open,
   Auction,
@@ -12,28 +14,16 @@ import {
 } from './DomainInfoStates'
 
 const GET_DOMAIN_STATE = gql`
-  query getDomainState {
+  query getDomainState @client {
     domainState {
       name
       state
       owner
     }
-
-    web3 {
-      accounts
-    }
   }
 `
 
-// const GET_ACCOUNTS = gql`
-//   query getDomainState {
-//     web3 {
-//       accounts
-//     }
-//   }
-// `
-
-export const DomainInfo = ({ domainState }) => {
+export const DomainInfo = ({ domainState, accounts }) => {
   if (!domainState) return null
   switch (domainState.state) {
     case 'Open':
@@ -41,7 +31,7 @@ export const DomainInfo = ({ domainState }) => {
     case 'Auction':
       return <Auction domainState={domainState} />
     case 'Owned':
-      return <Owned domainState={domainState} />
+      return <Owned domainState={domainState} accounts={accounts} />
     case 'Forbidden':
       return <Forbidden domainState={domainState} />
     case 'Reveal':
@@ -53,15 +43,28 @@ export const DomainInfo = ({ domainState }) => {
   }
 }
 
+const Composed = adopt({
+  domainState: <Query query={GET_DOMAIN_STATE} />,
+  accounts: <Query query={GET_WEB3} pollInterval={100} />
+})
+
 const DomainInfoContainer = () => {
   return (
-    <Query query={GET_DOMAIN_STATE}>
-      {({ data: { domainState, web3 }, loading }) => {
-        if (loading) return <Loader />
-        console.log(web3)
-        return <DomainInfo domainState={domainState} web3={web3} />
+    <Composed>
+      {({
+        domainState: {
+          data: { domainState },
+          loading
+        },
+        accounts: { data, loading2 }
+      }) => {
+        if (loading && loading2) return <Loader />
+        console.log(data)
+        return (
+          <DomainInfo domainState={domainState} accounts={data.web3.accounts} />
+        )
       }}
-    </Query>
+    </Composed>
   )
 }
 

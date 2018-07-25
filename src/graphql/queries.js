@@ -1,6 +1,14 @@
 import gql from 'graphql-tag'
 import { NodesRecursive, NodeFields } from './fragments'
 
+export const GET_WEB3 = gql`
+  query web3 {
+    web3 @client {
+      accounts
+    }
+  }
+`
+
 export const GET_NODES = gql`
   query nodes {
     nodes {
