@@ -1,6 +1,7 @@
 import React from 'react'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
+import styled from 'react-emotion'
 import { validateName, parseSearchTerm } from '../../lib/utils'
 import { addressUtils } from '@0xproject/utils'
 import '../../api/subDomainRegistrar'
@@ -26,6 +27,37 @@ const GET_SUBDOMAIN_AVAILABILITY = gql`
   ${SubDomainStateFields}
 `
 
+const SearchForm = styled('form')`
+  display: flex;
+
+  input {
+    width: calc(100% - 100px);
+    border: none;
+    font-size: 28px;
+
+    &:focus {
+      outline: 0;
+    }
+
+    &::-webkit-input-placeholder {
+      /* Chrome/Opera/Safari */
+      color: #ccd4da;
+    }
+  }
+
+  button {
+    background: #5284ff;
+    color: white;
+    font-size: 22px;
+    font-family: Overpass;
+    font-weight: 300;
+    padding: 20px 0;
+    height: 90px;
+    width: 162px;
+    border: none;
+  }
+`
+
 class Search extends React.Component {
   state = {
     type: null
@@ -36,9 +68,15 @@ class Search extends React.Component {
   }
 
   render() {
-    const { getDomainState, getSubDomainAvailability, history } = this.props
+    const {
+      getDomainState,
+      getSubDomainAvailability,
+      history,
+      className
+    } = this.props
     return (
-      <form
+      <SearchForm
+        className={className}
         onSubmit={e => {
           e.preventDefault()
           const searchTerm = this.input.value
@@ -56,16 +94,20 @@ class Search extends React.Component {
           }
         }}
       >
-        <input ref={el => (this.input = el)} onChange={this.handleParse} />
+        <input
+          placeholder="Search names and records"
+          ref={el => (this.input = el)}
+          onChange={this.handleParse}
+        />
         <button type="submit">Search</button>
-      </form>
+      </SearchForm>
     )
   }
 }
 
 const SearchWithRouter = withRouter(Search)
 
-const SearchContainer = ({ searchDomain }) => {
+const SearchContainer = ({ searchDomain, className }) => {
   return (
     <Mutation mutation={GET_SUBDOMAIN_AVAILABILITY}>
       {getSubDomainAvailability => (
@@ -75,6 +117,7 @@ const SearchContainer = ({ searchDomain }) => {
               getDomainState={getDomainState}
               getSubDomainAvailability={getSubDomainAvailability}
               searchDomain={searchDomain}
+              className={className}
             />
           )}
         </Mutation>

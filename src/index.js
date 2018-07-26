@@ -12,6 +12,7 @@ import resolvers, { defaults } from './api/rootResolver'
 import typeDefs from './api/schema'
 import { ApolloProvider } from 'react-apollo'
 import { NotificationsProvider } from './Notifications'
+import './globalStyles'
 
 const cache = new InMemoryCache(window.__APOLLO_STATE__)
 
