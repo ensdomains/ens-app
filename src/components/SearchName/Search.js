@@ -9,6 +9,7 @@ import { SubDomainStateFields } from '../../graphql/fragments'
 import { withRouter } from 'react-router'
 import searchIcon from './search.svg'
 import Caret from './Caret'
+import Filters from './Filters'
 
 const GET_DOMAIN_STATE = gql`
   mutation getDomainAvailability($name: String) {
@@ -133,6 +134,7 @@ class Search extends React.Component {
             this.setState(state => ({ filterOpen: !state.filterOpen }))
           }
         />
+        <Filters show={this.state.filterOpen} />
         <button type="submit">Search</button>
       </SearchForm>
     )
