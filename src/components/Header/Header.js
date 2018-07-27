@@ -16,11 +16,13 @@ const TypedLogo = styled('img')`
 `
 
 const LogoContainer = styled('div')`
+  background: white;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-left: 20px;
   align-items: center;
-  width: 120px;
+  width: 200px;
 `
 
 const Header = styled('header')`
@@ -30,7 +32,7 @@ const Header = styled('header')`
 `
 
 const SearchHeader = styled(Search)`
-  width: calc(100% - 120px);
+  width: calc(100% - 200px);
 `
 
 const Logo = () => (
