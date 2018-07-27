@@ -7,11 +7,15 @@ const CaretContainer = styled('div')`
   align-items: center;
   padding: 0 30px;
 
+  g {
+    fill: #e7e7e7;
+  }
+
   &:hover {
     cursor: pointer;
 
     g {
-      transition: fill 0.2s, transform 0.2s;
+      transition: fill 0.2s ease-out, transform 0.2s ease-out;
       fill: #5284ff;
     }
   }
@@ -22,11 +26,6 @@ const CaretContainer = styled('div')`
 
   .right {
     transform: scale(1 -1) rotate(-45 43.667 0);
-  }
-
-  g {
-    transform: rotate(90deg)
-    fill: #e7e7e7;
   }
 `
 
