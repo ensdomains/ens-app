@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled from 'react-emotion'
 
 const FiltersContainer = styled('div')`
+  display: ${props => (props.show ? 'block' : 'none')};
   background: white;
   border-radius: 10px;
   width: 300px;
@@ -21,7 +22,7 @@ const H3 = styled('h3')`
 class Filters extends Component {
   render() {
     return (
-      <FiltersContainer>
+      <FiltersContainer show={this.props.show}>
         <H3>Search Domains</H3>
         <H3>Extensions</H3>
         <H3>Unavailable Names</H3>
