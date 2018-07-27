@@ -2,7 +2,11 @@ import React, { Component } from 'react'
 import styled from 'react-emotion'
 
 const FiltersContainer = styled('div')`
-  display: ${props => (props.show ? 'block' : 'none')};
+  transform-origin: top right;
+  transform: ${props =>
+    props.show ? 'scale(1) translate(0,0)' : 'scale(0.5) translate(0,-50px)'};
+  opacity: ${props => (props.show ? '1' : '0')};
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
   background: white;
   border-radius: 10px;
   width: 300px;
