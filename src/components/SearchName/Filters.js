@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'react-emotion'
-import Tick from './Tick'
+import Checkbox from '../Forms/Checkbox'
 
 const FiltersContainer = styled('div')`
   transform-origin: top right;
@@ -29,8 +29,12 @@ class Filters extends Component {
     return (
       <FiltersContainer show={this.props.show}>
         <H3>Search Domains</H3>
-        <Tick />
-        <Tick />
+        <Checkbox name="top-level-names" checked={false}>
+          Top level names
+        </Checkbox>
+        <Checkbox name="subdomains" checked={true}>
+          subdomains
+        </Checkbox>
         <H3>Extensions</H3>
         <H3>Unavailable Names</H3>
         <H3>Price</H3>
