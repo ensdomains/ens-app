@@ -22,7 +22,7 @@ const Svg = styled('svg')`
 class Tick extends Component {
   render() {
     return (
-      <TickContainer>
+      <TickContainer className={this.props.className}>
         <Svg width="11" height="8" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M9.63 0L4.537 5.202 1.37 1.967 0 3.367 4.537 8 11 1.399z"
