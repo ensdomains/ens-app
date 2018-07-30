@@ -10,7 +10,7 @@ const CheckboxContainer = styled('div')`
 
   label {
     font-size: 22px;
-    font-weight: 300;
+    font-weight: 200;
     color: #5f5f5f;
     text-transform: capitalize;
     display: flex;
@@ -23,7 +23,7 @@ const CheckboxContainer = styled('div')`
   }
 
   span {
-    margin-left: 5px;
+    margin-left: 8px;
   }
 `
 

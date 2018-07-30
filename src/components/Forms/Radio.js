@@ -15,6 +15,7 @@ const RadioContainer = styled('div')`
     border-radius: 15px;
     border: 1px solid #b0becf;
     transition: 0.2s ease-out;
+    margin-right: 10px;
     &:hover {
       cursor: pointer;
       color: #5284ff;
