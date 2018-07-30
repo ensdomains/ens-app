@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'react-emotion'
 import Checkbox from '../Forms/Checkbox'
+import Radio from '../Forms/Radio'
 
 const FiltersContainer = styled('div')`
   transform-origin: top right;
@@ -35,6 +36,7 @@ class Filters extends Component {
         <Checkbox name="subdomains" checked={true}>
           subdomains
         </Checkbox>
+        <Radio name="Unavailable Names" options={['show', 'hide']} />
         <H3>Extensions</H3>
         <H3>Unavailable Names</H3>
         <H3>Price</H3>
