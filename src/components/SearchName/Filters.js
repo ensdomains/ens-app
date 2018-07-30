@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'react-emotion'
+import Tick from './Tick'
 
 const FiltersContainer = styled('div')`
   transform-origin: top right;
@@ -28,6 +29,8 @@ class Filters extends Component {
     return (
       <FiltersContainer show={this.props.show}>
         <H3>Search Domains</H3>
+        <Tick />
+        <Tick />
         <H3>Extensions</H3>
         <H3>Unavailable Names</H3>
         <H3>Price</H3>
