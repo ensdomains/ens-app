@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="23px" height="23px" viewBox="0 0 23 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51 (57462) - http://www.bohemiancoding.com/sketch -->
+    <title>Tag Icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="0 0.0003 22.9728206 0.0003 22.9728206 22.9331 0 22.9331"></polygon>
+    </defs>
+    <g id="Designs" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="V2---Accounts-connected" transform="translate(-82.000000, -362.000000)">
+            <g id="Side-Nav" transform="translate(0.000000, 292.000000)">
+                <g id="Tag-Icon" transform="translate(82.000000, 70.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <g id="Clip-2"></g>
+                    <path d="M9.0667,9.1111 C8.6227,9.5551 8.0447,9.7781 7.5107,9.7781 C6.9777,9.7781 6.3997,9.5551 5.9557,9.1111 C5.5107,8.7111 5.2887,8.1331 5.2887,7.5551 C5.2887,6.9781 5.5557,6.4001 5.9557,5.9551 C6.3557,5.5111 6.9337,5.2891 7.5107,5.2891 C8.0887,5.2891 8.6227,5.5111 9.0667,5.9551 C9.9557,6.8441 9.9557,8.2221 9.0667,9.1111 M21.9107,11.2891 L11.4227,0.8891 C10.8887,0.3551 10.1337,0.0441 9.3777,0.0001 L9.2447,0.0001 L1.8227,1.2441 C1.5107,1.2891 1.2887,1.5111 1.2447,1.8221 L-0.0003,9.2441 L-0.0003,9.3781 C-0.0003,10.1331 0.3107,10.8891 0.8887,11.4221 L11.3337,21.8671 C12.0447,22.5781 12.9337,22.9331 13.8667,22.9331 C14.7107,22.9331 15.5557,22.6221 16.2227,21.9551 L21.9997,16.1781 C23.3337,14.8441 23.2887,12.6671 21.9107,11.2891" id="Fill-1" fill="#C7D3E3" mask="url(#mask-2)"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
