@@ -16,6 +16,7 @@ import subDomainRegistrarResolvers, {
 const rootDefaults = {
   web3: {
     accounts: [],
+    networkId: 0,
     __typename: 'Web3'
   },
   loggedIn: null,
@@ -25,7 +26,29 @@ const rootDefaults = {
 
 const resolvers = {
   Web3: {
-    accounts: () => getAccounts()
+    accounts: () => getAccounts(),
+    networkId: async () => {
+      const { networkId } = await getWeb3()
+      return networkId
+    },
+    network: async () => {
+      const { networkId } = await getWeb3()
+
+      switch (networkId) {
+        case 1:
+          return 'main'
+        case 2:
+          return 'morden'
+        case 3:
+          return 'ropsten'
+        case 4:
+          return 'rinkeby'
+        case 42:
+          return 'kovan'
+        default:
+          return 'private'
+      }
+    }
   },
   Query: {
     web3: async (_, variables, context) => {

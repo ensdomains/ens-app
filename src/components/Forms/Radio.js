@@ -47,7 +47,7 @@ const Radio = ({ name, options }) => (
           id={option}
           defaultChecked={i === 0 ? true : false}
         />
-        <label for={option}>{option}</label>
+        <label htmlFor={option}>{option}</label>
       </div>
     ))}
   </RadioContainer>

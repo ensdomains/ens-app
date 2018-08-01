@@ -32,7 +32,7 @@ const Tick = ({ active, className, hover }) => (
     >
       <path
         d="M9.63 0L4.537 5.202 1.37 1.967 0 3.367 4.537 8 11 1.399z"
-        fill-rule="evenodd"
+        fillRule="evenodd"
       />
     </Svg>
   </TickContainer>

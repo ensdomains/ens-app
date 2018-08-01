@@ -59,7 +59,6 @@ const DomainInfoContainer = () => {
         accounts: { data, loading2 }
       }) => {
         if (loading && loading2) return <Loader />
-        console.log(data)
         return (
           <DomainInfo domainState={domainState} accounts={data.web3.accounts} />
         )

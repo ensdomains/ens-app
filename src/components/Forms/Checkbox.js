@@ -37,7 +37,7 @@ class Checkbox extends Component {
     return (
       <CheckboxContainer onClick={onClick}>
         <label
-          for={name}
+          htmlFor={name}
           onMouseOver={() => this.setState({ hover: true })}
           onMouseOut={() => this.setState({ hover: false })}
         >

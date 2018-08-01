@@ -16,7 +16,7 @@ function setupWeb3(customProvider) {
       web3.version.getNetwork(function(err, networkId) {
         ready = true
         console.log('Custom testing provider')
-        resolve({ web3, provider, readOnly, networkId })
+        resolve({ web3, provider, readOnly, networkId: parseInt(networkId) })
       })
       return
     }
@@ -29,7 +29,7 @@ function setupWeb3(customProvider) {
       web3.version.getNetwork(function(err, networkId) {
         ready = true
         console.log('Mist or Metamask active')
-        resolve({ web3, provider, readOnly, networkId })
+        resolve({ web3, provider, readOnly, networkId: parseInt(networkId) })
       })
     } else {
       //Localnode
@@ -62,7 +62,12 @@ function setupWeb3(customProvider) {
           console.log(web3)
           web3.version.getNetwork(function(err, networkId) {
             ready = true
-            resolve({ web3, provider, readOnly, networkId })
+            resolve({
+              web3,
+              provider,
+              readOnly,
+              networkId: parseInt(networkId)
+            })
           })
         })
     }
@@ -76,7 +81,7 @@ function getWeb3() {
   } else {
     return new Promise(function(resolve, reject) {
       web3.version.getNetwork(function(err, networkId) {
-        resolve({ web3, provider, readOnly, networkId })
+        resolve({ web3, provider, readOnly, networkId: parseInt(networkId) })
       })
     })
   }
