@@ -11,7 +11,10 @@ const App = () => (
       <Header />
       <Route exact path="/" component={Home} />
       <Route path="/test-registrar" component={TestRegistrar} />
-      <Route path="/name/:name" component={SingleName} />
+      <Route path="/favourites" component={Home} />
+      <Route path="/my-bids" component={Home} />
+      <Route path="/about" component={Home} />
+      <Route path="/how-it-works" component={Home} />
     </div>
   </Router>
 )
