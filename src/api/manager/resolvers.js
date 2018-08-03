@@ -1,5 +1,5 @@
 import { watchRegistryEvent } from '../watchers'
-import { getOwner, getDomainDetails, getSubDomains } from '../registry'
+import { getOwner, getDomainDetails, getSubDomains, getName } from '../registry'
 import gql from 'graphql-tag'
 import get from 'lodash/get'
 import set from 'lodash/set'
@@ -121,6 +121,25 @@ const resolvers = {
       return {
         subDomains,
         __typename: 'SubDomains'
+      }
+    },
+    getReverseRecord: async (_, { address }, { cache }) => {
+      const obj = {
+        address,
+        __typename: 'ReverseRecord'
+      }
+
+      try {
+        const { name } = await getName(address)
+        return {
+          ...obj,
+          name
+        }
+      } catch (e) {
+        return {
+          ...obj,
+          name: null
+        }
       }
     }
   },

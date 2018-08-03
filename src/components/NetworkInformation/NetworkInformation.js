@@ -5,6 +5,7 @@ import gql from 'graphql-tag'
 //import { GET_WEB3 } from '../../graphql/queries'
 import Loader from '../Loader'
 import UnstyledBlockies from '../Blockies'
+import ReverseResolution from '../ReverseResolution'
 
 export const GET_WEB3 = gql`
   query web3 {
@@ -61,7 +62,9 @@ class NetworkInformation extends Component {
           return (
             <NetworkInformationContainer>
               <Blockies address={accounts[0]} imageSize={47} />
-              <Account>{accounts[0]}</Account>
+              <Account>
+                <ReverseResolution address={accounts[0]} />
+              </Account>
               <NetworkStatus>{network} network</NetworkStatus>
             </NetworkInformationContainer>
           )
