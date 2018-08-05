@@ -1,9 +1,13 @@
 import React, { Fragment } from 'react'
+import { Link } from 'react-router-dom'
 import Bid from './Bid'
 
 export const Open = ({ domainState }) => (
   <Fragment>
-    <div>{domainState.name} is available!</div>
+    <div>
+      <Link to={`/name/${domainState.name}`}>{domainState.name}</Link> is
+      available!
+    </div>
     <Bid domainState={domainState} />
   </Fragment>
 )
@@ -17,8 +21,8 @@ export const Auction = ({ domainState }) => (
 
 export const Owned = ({ domainState, accounts }) => (
   <div>
-    {domainState.name} is owned by {console.log(accounts)}
-    {accounts[0] === domainState.owner ? `you!` : domainState}
+    <Link to={`/name/${domainState.name}`}>{domainState.name}</Link> is owned by
+    {accounts[0] === domainState.owner ? `you!` : domainState.owner}
   </div>
 )
 

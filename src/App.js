@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom'
 import TestRegistrar from './routes/TestRegistrar'
 import Home from './routes/Home'
+import SearchResults from './routes/SearchResults'
 import SingleName from './routes/SingleName'
 import Header from './components/Header/Header'
 
@@ -40,10 +41,11 @@ const App = () => (
     <Switch>
       <Route exact path="/" component={Home} layout={HomePageLayout} />
       <Route path="/test-registrar" component={TestRegistrar} />
-      <Route path="/favourites" component={Home} />
-      <Route path="/my-bids" component={Home} />
-      <Route path="/about" component={Home} />
-      <Route path="/how-it-works" component={Home} />
+      <Route path="/favourites" component={SearchResults} />
+      <Route path="/my-bids" component={SearchResults} />
+      <Route path="/about" component={SearchResults} />
+      <Route path="/how-it-works" component={SearchResults} />
+      <Route path="/results" component={SearchResults} />
       <Route path="/name/:name" component={SingleName} />
     </Switch>
   </Router>
