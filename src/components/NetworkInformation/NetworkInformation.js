@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import styled from 'react-emotion'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -55,6 +55,14 @@ const Account = styled('div')`
   }
 `
 
+const NoAccountContainer = styled('div')``
+
+class NoAccount extends Component {
+  render() {
+    return <NoAccountContainer>No Account</NoAccountContainer>
+  }
+}
+
 class NetworkInformation extends Component {
   render() {
     return (
@@ -64,13 +72,20 @@ class NetworkInformation extends Component {
           const {
             web3: { accounts, network }
           } = data
+
           return (
             <NetworkInformationContainer>
-              <Blockies address={accounts[0]} imageSize={47} />
-              <Account>
-                <ReverseResolution address={accounts[0]} />
-              </Account>
-              <NetworkStatus>{network} network</NetworkStatus>
+              {accounts.length > 0 ? (
+                <Fragment>
+                  <Blockies address={accounts[0]} imageSize={47} />
+                  <Account>
+                    <ReverseResolution address={accounts[0]} />
+                  </Account>
+                  <NetworkStatus>{network} network</NetworkStatus>
+                </Fragment>
+              ) : (
+                <NoAccount />
+              )}
             </NetworkInformationContainer>
           )
         }}
