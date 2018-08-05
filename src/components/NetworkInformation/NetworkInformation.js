@@ -42,12 +42,17 @@ const NetworkStatus = styled('div')`
 
 const Account = styled('div')`
   color: #adbbcd;
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 200;
   width: 140px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  &:hover {
+    overflow: visible;
+    white-space: normal;
+  }
 `
 
 class NetworkInformation extends Component {
