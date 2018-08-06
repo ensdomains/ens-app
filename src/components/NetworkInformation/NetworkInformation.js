@@ -3,18 +3,9 @@ import styled from 'react-emotion'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 //import { GET_WEB3 } from '../../graphql/queries'
-import Loader from '../Loader'
+import NetworkInfoQuery from './NetworkInfoQuery'
 import UnstyledBlockies from '../Blockies'
 import ReverseResolution from '../ReverseResolution'
-
-export const GET_WEB3 = gql`
-  query web3 {
-    web3 @client {
-      accounts
-      network
-    }
-  }
-`
 
 const NetworkInformationContainer = styled('div')`
   position: relative;
@@ -66,30 +57,23 @@ class NoAccount extends Component {
 class NetworkInformation extends Component {
   render() {
     return (
-      <Query query={GET_WEB3}>
-        {({ data, loading }) => {
-          if (loading) return <Loader />
-          const {
-            web3: { accounts, network }
-          } = data
-
-          return (
-            <NetworkInformationContainer>
-              {accounts.length > 0 ? (
-                <Fragment>
-                  <Blockies address={accounts[0]} imageSize={47} />
-                  <Account>
-                    <ReverseResolution address={accounts[0]} />
-                  </Account>
-                  <NetworkStatus>{network} network</NetworkStatus>
-                </Fragment>
-              ) : (
-                <NoAccount />
-              )}
-            </NetworkInformationContainer>
-          )
-        }}
-      </Query>
+      <NetworkInfoQuery>
+        {({ accounts, network }) => (
+          <NetworkInformationContainer>
+            {accounts.length > 0 ? (
+              <Fragment>
+                <Blockies address={accounts[0]} imageSize={47} />
+                <Account>
+                  <ReverseResolution address={accounts[0]} />
+                </Account>
+                <NetworkStatus>{network} network</NetworkStatus>
+              </Fragment>
+            ) : (
+              <NoAccount />
+            )}
+          </NetworkInformationContainer>
+        )}
+      </NetworkInfoQuery>
     )
   }
 }
