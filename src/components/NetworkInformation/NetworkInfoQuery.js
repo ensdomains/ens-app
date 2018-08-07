@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
-//import { GET_WEB3 } from '../../graphql/queries'
 import Loader from '../Loader'
 
 export const GET_WEB3 = gql`
@@ -13,7 +12,7 @@ export const GET_WEB3 = gql`
   }
 `
 
-class NetworkInformation extends Component {
+class NetworkInfoQuery extends Component {
   render() {
     return (
       <Query query={GET_WEB3}>
@@ -22,13 +21,10 @@ class NetworkInformation extends Component {
           const {
             web3: { accounts, network }
           } = data
-
-          console.log(this.props)
-
           return this.props.children({ accounts, network })
         }}
       </Query>
     )
   }
 }
-export default NetworkInformation
+export default NetworkInfoQuery

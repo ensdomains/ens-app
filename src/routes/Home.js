@@ -6,6 +6,7 @@ import SearchDefault from '../components/SearchName/Search'
 import NoAccounts from '../components/NoAccounts'
 import bg from '../assets/heroBG.jpg'
 import DefaultLogo from '../components/Logo'
+import NetworkInfoQuery from '../components/NetworkInformation/NetworkInfoQuery'
 
 const Hero = styled('section')`
   background: url(${bg});
@@ -44,15 +45,44 @@ const Logo = styled(DefaultLogo)`
   top: 0;
 `
 
+const NetworkStatus = styled('div')`
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  color: white;
+  font-weight: 200;
+  text-transform: capitalize;
+`
+
 export default props => (
   <Fragment>
     <Hero>
       <Logo color="#ffffff" />
-      <NoAccounts />
+      <NetworkInfoQuery>
+        {({ accounts, network }) =>
+          accounts.length > 0 && network ? (
+            <NetworkStatus>{network} network</NetworkStatus>
+          ) : (
+            <NoAccounts />
+          )
+        }
+      </NetworkInfoQuery>
       <SearchContainer>
         <Search />
       </SearchContainer>
     </Hero>
-    <Container />
+
+    <h2>What it is</h2>
+    <p>
+      The Ethereum Name Service is a distributed, open and extensible naming
+      system based on the Ethereum blockchain. ENS eliminates the need to copy
+      or type long addresses.
+    </p>
+    <h2>How it works</h2>
+    <p>
+      The ENS App is a Graphical User Interface for non-technical users. It
+      allows you to search any name, manage their addresses or resources it
+      points to and create subdomains for each name.
+    </p>
   </Fragment>
 )
