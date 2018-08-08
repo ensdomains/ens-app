@@ -2,12 +2,23 @@ import React from 'react'
 import styled from 'react-emotion'
 
 const NoAccountsContainer = styled('div')`
-  padding: 0 20px;
+  padding: 5px 20px;
   border: 1px solid #fff;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+
+  span {
+    color: white;
+  }
+`
+
+const SVG = styled('svg')`
+  margin-right: 10px;
 `
 
 const Exclamation = () => (
-  <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+  <SVG width="16" height="16" xmlns="http://www.w3.org/2000/svg">
     <g fill="none" fill-rule="evenodd">
       <circle fill="#FFF" cx="8" cy="8" r="8" />
       <text
@@ -21,12 +32,13 @@ const Exclamation = () => (
         </tspan>
       </text>
     </g>
-  </svg>
+  </SVG>
 )
 
-const NoAccounts = ({}) => (
-  <NoAccountsContainer>
-    <Exclamation /> No Accounts
+const NoAccounts = ({ className }) => (
+  <NoAccountsContainer className={className}>
+    <Exclamation />
+    <span>No Accounts</span>
   </NoAccountsContainer>
 )
 

@@ -12,19 +12,16 @@ export const GET_WEB3 = gql`
   }
 `
 
-class NetworkInfoQuery extends Component {
-  render() {
-    return (
-      <Query query={GET_WEB3}>
-        {({ data, loading, error }) => {
-          if (loading) return <Loader />
-          const {
-            web3: { accounts, network }
-          } = data
-          return this.props.children({ accounts, network })
-        }}
-      </Query>
-    )
-  }
-}
+const NetworkInfoQuery = ({ noLoader, children }) => (
+  <Query query={GET_WEB3}>
+    {({ data, loading, error }) => {
+      if (loading) return noLoader ? '' : <Loader />
+      const {
+        web3: { accounts, network }
+      } = data
+      return children({ accounts, network })
+    }}
+  </Query>
+)
+
 export default NetworkInfoQuery
