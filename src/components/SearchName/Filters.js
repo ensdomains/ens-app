@@ -17,6 +17,7 @@ const FiltersContainer = styled('div')`
   top: 100%;
   right: 162px;
   margin-top: 10px;
+  z-index: 10000;
 `
 
 const H3 = styled('h3')`

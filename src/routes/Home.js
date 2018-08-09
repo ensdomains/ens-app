@@ -38,14 +38,14 @@ const SearchContainer = styled('div')`
   flex-direction: column;
   width: 60%;
 
-  h2 {
+  > h2 {
     color: white;
     font-size: 38px;
     font-weight: 100;
     margin-bottom: 10px;
   }
 
-  h3 {
+  > h3 {
     color: white;
     font-weight: 100;
     font-size: 24px;

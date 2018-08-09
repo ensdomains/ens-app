@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'react-emotion'
 
-const ButtonContainer = styled('button')`
+const ButtonContainer = styled('a')`
   color: white;
   background: ${p => p.color};
   padding: 10px 25px;
@@ -14,7 +14,7 @@ const ButtonContainer = styled('button')`
   box-shadow: 0 10px 21px 0 #bed0dc;
 
   &:hover {
-    cursor: pointer;
+    cursor: ${p => (p.href ? 'pointer' : 'auto')};
   }
 `
 
@@ -22,8 +22,10 @@ const types = {
   primary: '#5384FE'
 }
 
-const Button = ({ children, type }) => (
-  <ButtonContainer color={types[type]}>{children}</ButtonContainer>
+const Button = ({ children, type, href }) => (
+  <ButtonContainer href={href} color={types[type]}>
+    {children}
+  </ButtonContainer>
 )
 
 export default Button
