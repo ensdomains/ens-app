@@ -117,6 +117,12 @@ const Inner = styled('div')`
   justify-content: center;
   align-items: center;
   max-width: 350px;
+
+  > p {
+    font-weight: 300;
+    font-size: 20px;
+    margin-bottom: 1.5em;
+  }
 `
 const NameAnimation = styled(Section)`
   display: block;
@@ -145,7 +151,7 @@ const Icons = styled('div')`
   grid-gap: 50px;
 
   ${mq.medium`
-    grid-gap: 100px;
+    grid-gap: 50px;
   `};
 `
 

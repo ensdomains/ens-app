@@ -27,6 +27,7 @@ const BaseContainer = styled('div')`
     position: relative;
     color: #5284ff;
     font-size: 26px;
+    font-weight: 300;
     line-height: 1em;
     text-wrap: nowrap;
     opacity: 0.1;
@@ -38,14 +39,11 @@ const BaseContainer = styled('div')`
 
   .hook {
     margin: 0 auto 0;
-    padding-top: 30px;
     position: relative;
     z-index: 100;
     width: 100%;
     text-align: center;
-    ${mq.medium`
-      padding-top: 20px;
-    `};
+
     h2 {
       color: #2b2b2b;
       background: rgba(255, 255, 255, 0.7);
