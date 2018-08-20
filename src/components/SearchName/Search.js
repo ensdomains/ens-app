@@ -3,7 +3,6 @@ import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import styled from 'react-emotion'
 import { validateName, parseSearchTerm } from '../../lib/utils'
-import { addressUtils } from '@0xproject/utils'
 import '../../api/subDomainRegistrar'
 import { SubDomainStateFields } from '../../graphql/fragments'
 import { withRouter } from 'react-router'
@@ -118,7 +117,10 @@ class Search extends React.Component {
           if (validateName(searchTerm)) {
             getDomainState({ variables: { name: searchTerm } })
             getSubDomainAvailability({ variables: { name: searchTerm } })
+
+            history.push(`/results`)
           } else {
+            history.push(`/results`)
             console.log('name is too short or has punctuation')
           }
         }}

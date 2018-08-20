@@ -17,6 +17,8 @@ import search from '../components/HomePage/images/search.svg'
 import tag from '../components/HomePage/images/tag.svg'
 import Alice from '../components/HomePage/Alice'
 
+import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
+
 const Hero = styled('section')`
   background: url(${bg});
   height: 600px;
@@ -84,6 +86,19 @@ const NetworkStatus = styled('div')`
   color: white;
   font-weight: 200;
   text-transform: capitalize;
+
+  &:before {
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    transform: translate(-5px, -50%);
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #fff;
+  }
 `
 
 const Explanation = styled('div')`
@@ -167,6 +182,11 @@ const IconContainer = styled('div')`
   }
 `
 
+const LogoLarge = styled('img')`
+  width: 223px;
+  margin: 0 auto 50px;
+`
+
 const Icon = ({ src, text }) => (
   <IconContainer>
     <img src={src} />
@@ -186,14 +206,10 @@ export default props => (
           )
         }
       </NetworkInfoQuery>
-      <Logo color="#ffffff" />
+      {/* <Logo color="#ffffff" /> */}
 
       <SearchContainer>
-        <h2>
-          Search for human-readable names through ENS and map them to your
-          Ethereum wallet.
-        </h2>
-        <h3>Or search Ethereum addresses through ‘reverse resolution’.</h3>
+        <LogoLarge src={ENSLogo} />
         <Search />
       </SearchContainer>
     </Hero>

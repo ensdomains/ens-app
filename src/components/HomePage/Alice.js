@@ -39,6 +39,7 @@ const BaseContainer = styled('div')`
 
   .hook {
     margin: 0 auto 0;
+    padding-top: 45px;
     position: relative;
     z-index: 100;
     width: 100%;

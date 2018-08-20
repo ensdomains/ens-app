@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import styled from 'react-emotion'
+import { Link } from 'react-router-dom'
 
 import ENSLogo from '../assets/ensIconLogo.svg'
 import LogoTyped from '../assets/TypeLogo'
@@ -9,7 +10,7 @@ const IconLogo = styled('img')`
   height: 38px;
 `
 
-const LogoContainer = styled('div')`
+const LogoContainer = styled(Link)`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -18,8 +19,8 @@ const LogoContainer = styled('div')`
   width: 200px;
 `
 
-const Logo = ({ color, className }) => (
-  <LogoContainer className={className}>
+const Logo = ({ color, className, to = '' }) => (
+  <LogoContainer className={className} to={to}>
     <IconLogo src={ENSLogo} />
     <LogoTyped color={color} />
   </LogoContainer>
