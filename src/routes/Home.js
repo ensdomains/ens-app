@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import styled from 'react-emotion'
+import { Spring } from 'react-spring'
 
 import SearchDefault from '../components/SearchName/Search'
 import NoAccountsDefault from '../components/NoAccounts'
@@ -18,6 +19,7 @@ import tag from '../components/HomePage/images/tag.svg'
 import Alice from '../components/HomePage/Alice'
 
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
+import { SSL_OP_NETSCAPE_CHALLENGE_BUG } from 'constants'
 
 const Hero = styled('section')`
   background: url(${bg});
@@ -209,15 +211,40 @@ export default props => (
       {/* <Logo color="#ffffff" /> */}
 
       <SearchContainer>
-        <LogoLarge src={ENSLogo} />
-        <Search />
+        <Spring
+          from={{
+            opacity: 0,
+            scale: 0
+          }}
+          to={{ opacity: 1, scale: 1 }}
+          config={{ duration: 400 }}
+        >
+          {({ opacity, scale, height }) => (
+            <Fragment>
+              <LogoLarge
+                style={{
+                  opacity,
+                  transform: `scale(${scale})`
+                }}
+                src={ENSLogo}
+              />
+              <Search
+                style={{
+                  opacity,
+                  transform: `scale(${scale})`
+                }}
+              />
+            </Fragment>
+          )}
+        </Spring>
       </SearchContainer>
     </Hero>
     <Explanation>
       <WhatItIs>
         <Inner>
           <H2>
-            <SpeechBubble color="#2B2B2B" scale={1.18} />What it is
+            <SpeechBubble color="#2B2B2B" scale={1.18} />
+            What it is
           </H2>
           <p>
             The Ethereum Name Service is a distributed, open and extensible
@@ -241,7 +268,8 @@ export default props => (
       <HowItWorks>
         <Inner>
           <H2>
-            <QuestionMark color="#2B2B2B" />How it works
+            <QuestionMark color="#2B2B2B" />
+            How it works
           </H2>
           <p>
             The ENS App is a Graphical User Interface for non-technical users.

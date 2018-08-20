@@ -100,11 +100,13 @@ class Search extends React.Component {
       getDomainState,
       getSubDomainAvailability,
       history,
-      className
+      className,
+      style
     } = this.props
     return (
       <SearchForm
         className={className}
+        style={style}
         onSubmit={e => {
           e.preventDefault()
           const searchTerm = this.input.value
@@ -145,7 +147,7 @@ class Search extends React.Component {
 
 const SearchWithRouter = withRouter(Search)
 
-const SearchContainer = ({ searchDomain, className }) => {
+const SearchContainer = ({ searchDomain, className, style }) => {
   return (
     <Mutation mutation={GET_SUBDOMAIN_AVAILABILITY}>
       {getSubDomainAvailability => (
@@ -156,6 +158,7 @@ const SearchContainer = ({ searchDomain, className }) => {
               getSubDomainAvailability={getSubDomainAvailability}
               searchDomain={searchDomain}
               className={className}
+              style={style}
             />
           )}
         </Mutation>
