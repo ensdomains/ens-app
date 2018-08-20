@@ -3,6 +3,8 @@ import styled from 'react-emotion'
 import Checkbox from '../Forms/Checkbox'
 import Radio from '../Forms/Radio'
 
+import GlobalState from '../../globalState'
+
 const FiltersContainer = styled('div')`
   padding: 27px;
   transform-origin: top right;
@@ -39,25 +41,30 @@ const Section = styled('section')`
 class Filters extends Component {
   render() {
     return (
-      <FiltersContainer show={this.props.show}>
-        <Section>
-          <H3>Search Domains</H3>
-          <Checkbox name="top-level-names" checked={false}>
-            Top level names
-          </Checkbox>
-          <Checkbox name="subdomains" checked={true}>
-            subdomains
-          </Checkbox>
-        </Section>
-        <Section>
-          <H3>Unavailable Names</H3>
-          <Radio name="Unavailable Names" options={['show', 'hide']} />
-        </Section>
-        <Section>
-          <H3>Price</H3>
-          <Radio name="Price" options={['all', 'free']} />
-        </Section>
-      </FiltersContainer>
+      <GlobalState.Consumer>
+        {state => (
+          <FiltersContainer show={this.props.show}>
+            {console.log(state)}
+            <Section>
+              <H3>Search Domains</H3>
+              <Checkbox name="top-level-names" checked={false}>
+                Top level names
+              </Checkbox>
+              <Checkbox name="subdomains" checked={true}>
+                subdomains
+              </Checkbox>
+            </Section>
+            <Section>
+              <H3>Unavailable Names</H3>
+              <Radio name="Unavailable Names" options={['show', 'hide']} />
+            </Section>
+            <Section>
+              <H3>Price</H3>
+              <Radio name="Price" options={['all', 'free']} />
+            </Section>
+          </FiltersContainer>
+        )}
+      </GlobalState.Consumer>
     )
   }
 }

@@ -12,6 +12,7 @@ import resolvers, { defaults } from './api/rootResolver'
 import typeDefs from './api/schema'
 import { ApolloProvider } from 'react-apollo'
 import { NotificationsProvider } from './Notifications'
+import { GlobalStateProvider } from './globalState'
 import './globalStyles'
 
 const cache = new InMemoryCache(window.__APOLLO_STATE__)
@@ -28,9 +29,11 @@ const graphqlClient = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={graphqlClient}>
-    <NotificationsProvider>
-      <App />
-    </NotificationsProvider>
+    <GlobalStateProvider>
+      <NotificationsProvider>
+        <App />
+      </NotificationsProvider>
+    </GlobalStateProvider>
   </ApolloProvider>,
   document.getElementById('root')
 )
