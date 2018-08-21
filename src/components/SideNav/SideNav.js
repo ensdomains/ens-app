@@ -10,6 +10,9 @@ import { Link, withRouter } from 'react-router-dom'
 const SideNavContainer = styled('nav')`
   margin-top: 50px;
   width: 165px;
+  position: fixed;
+  left: 35px;
+  top: 100px;
   ul {
     padding: 0;
   }
