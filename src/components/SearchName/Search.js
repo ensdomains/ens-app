@@ -32,6 +32,7 @@ const GET_SUBDOMAIN_AVAILABILITY = gql`
 const SearchForm = styled('form')`
   display: flex;
   position: relative;
+  z-index: 10000;
   &:before {
     content: '';
     position: absolute;

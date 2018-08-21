@@ -23,8 +23,7 @@ const GET_DOMAIN_STATE = gql`
   }
 `
 
-export const DomainInfo = ({ domainState, accounts }) => {
-  if (!domainState) return null
+const getDomainStateComponent = (domainState, accounts) => {
   switch (domainState.state) {
     case 'Open':
       return <Open domainState={domainState} />
@@ -41,6 +40,19 @@ export const DomainInfo = ({ domainState, accounts }) => {
     default:
       throw new Error('Unrecognised domainState')
   }
+}
+
+export const DomainInfo = ({ domainState, accounts }) => {
+  if (!domainState) return null
+
+  const DomainState = getDomainStateComponent(domainState, accounts)
+
+  return (
+    <div>
+      <h2>Top Level Domains</h2>
+      {DomainState}
+    </div>
+  )
 }
 
 const Composed = adopt({

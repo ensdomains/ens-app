@@ -10,6 +10,7 @@ const BaseContainer = styled('div')`
   justify-content: center;
   align-items: center;
   height: 100%;
+  overflow: hidden;
 
   ${mq.medium` 
   `};
