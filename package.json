@@ -39,7 +39,9 @@
     "test": "react-scripts test --env=jsdom",
     "test:coverage": "npm test -- --coverage",
     "eject": "react-scripts eject",
-    "compile": "node --experimental-modules src/testing-utils/compileENS.mjs"
+    "compile": "node --experimental-modules src/testing-utils/compileENS.mjs",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "prettier": {
     "semi": false,
@@ -52,7 +54,10 @@
     "ganache-cli": "^6.1.0",
     "js-sha3": "^0.7.0",
     "react-testing-library": "^3.0.2",
-    "solc": "^0.4.23"
+    "solc": "^0.4.23",
+    "@storybook/react": "^3.4.10",
+    "@storybook/addon-actions": "^3.4.10",
+    "@storybook/addon-links": "^3.4.10"
   },
   "browserslist": {
     "development": [
