@@ -9,7 +9,7 @@ const ButtonContainer = styled('a')`
   font-size: 14px;
   font-weight: 700;
   font-family: Overpass;
-  text-transform: uppercase;
+  text-transform: capitalize;
   letter-spacing: 1.5px;
   box-shadow: 0 10px 21px 0 #bed0dc;
 

@@ -3,6 +3,7 @@ import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import { adopt } from 'react-adopt'
 import Loader from '../Loader'
+import DomainItem from '../Results/DomainItem'
 import { GET_WEB3 } from '../../graphql/queries'
 import {
   Open,
@@ -50,7 +51,7 @@ export const DomainInfo = ({ domainState, accounts }) => {
   return (
     <div>
       <h2>Top Level Domains</h2>
-      {DomainState}
+      <DomainItem domain={domainState} />
     </div>
   )
 }
