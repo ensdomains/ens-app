@@ -22,7 +22,7 @@ const types = {
   primary: '#5384FE'
 }
 
-const Button = ({ children, type, href }) => (
+const Button = ({ children, type = 'primary', href }) => (
   <ButtonContainer href={href} color={types[type]}>
     {children}
   </ButtonContainer>

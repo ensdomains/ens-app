@@ -2,10 +2,16 @@ import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
+import styled from 'react-emotionb'
 import { SubDomainStateFields } from '../../graphql/fragments'
 import ReactTransitionGroup from 'react-transition-group-plus'
 import { TweenMax, TimelineMax, Linear, Sine } from 'gsap/umd/TweenMax'
 import { fromWei } from 'ethjs-unit'
+import DomainItemDefault from '../Results/DomainItem'
+
+const SubDomainItem = styled(DomainItemDefault)`
+  margin-bottom: 4px;
+`
 
 const animationStates = {
   beforeEnter: { x: -300, scale: 1, opacity: 0 },
@@ -86,15 +92,25 @@ class SubDomainNode extends Component {
     const { node } = this.props
     if (!node.available) {
       return (
-        <li style={{ textDecoration: 'line-through' }}>
-          {node.label}.{node.domain}.eth
-        </li>
+        <SubDomainItem
+          domain={{
+            name: `${node.label}.${node.domain}.eth`,
+            price: fromWei(node.price, 'ether'),
+            state: 'Owned'
+          }}
+          isSubdomain={true}
+        />
       )
     }
     return (
-      <li style={{ position: 'relative', left: 0, background: 'blue' }}>
-        {node.label}.{node.domain}.eth - {fromWei(node.price, 'ether')} ETH
-      </li>
+      <SubDomainItem
+        domain={{
+          name: `${node.label}.${node.domain}.eth`,
+          price: fromWei(node.price, 'ether'),
+          state: 'Open'
+        }}
+        isSubdomain={true}
+      />
     )
   }
 }
@@ -147,7 +163,11 @@ class SubDomainsContainer extends Component {
     const subDomainState = this.props.subDomainState
     let index = 0
     return (
-      <ReactTransitionGroup component="ul" transitionMode="out-in">
+      <ReactTransitionGroup
+        component="ul"
+        transitionMode="out-in"
+        style={{ padding: 0 }}
+      >
         {[...subDomainState].sort(alphabeticalAndAvailable).map(node => {
           let found = subDomainState.find(element => {
             return (
