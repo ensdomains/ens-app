@@ -11,13 +11,12 @@ const DomainContainer = styled('div')`
         case 'Open':
           return '#42E068'
         case 'Auction':
-          return 'blue'
+        case 'Reveal':
+          return 'linear-gradient(-180deg, #42E068 0%, #52E5FF 100%)'
         case 'Owned':
           return '#CACACA'
         case 'Forbidden':
           return 'black'
-        case 'Reveal':
-          return 'blue'
         case 'NotYetAvailable':
           return 'red'
         default:
@@ -70,6 +69,37 @@ const Price = styled('span')`
   font-size: 28px;
   font-weight: 100;
 `
+
+const LabelContainer = styled('div')`
+  margin-right: 20px;
+  font-size: 16px;
+  color: #ccd4da;
+`
+
+const Label = ({ state }) => {
+  let text
+  switch (state) {
+    case 'Open':
+      text = 'Available'
+      break
+    case 'Auction':
+      text = 'Bidding Period'
+      break
+    case 'Owned':
+      text = ''
+      return ''
+    case 'Forbidden':
+      text = 'black'
+      break
+    case 'Reveal':
+      text = 'Reveal Period'
+      break
+    default:
+      text = 'Unknown State'
+  }
+
+  return <LabelContainer>{text}</LabelContainer>
+}
 
 const Domain = ({ domain, isSubdomain, className }) => (
   <DomainContainer state={domain.state} className={className}>

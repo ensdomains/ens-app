@@ -22,11 +22,35 @@ storiesOf('Button', module)
   ))
 
 storiesOf('DomainItem', module)
-  .add('Top Level Domain', () => (
+  .add('Top Level Domain Available/Open', () => (
     <DomainItem
       domain={{
         name: 'vitalik.eth',
-        state: 'Available'
+        state: 'Open'
+      }}
+    />
+  ))
+  .add('Top Level Domain Owned', () => (
+    <DomainItem
+      domain={{
+        name: 'vitalik.eth',
+        state: 'Owned'
+      }}
+    />
+  ))
+  .add('Top Level Domain Auction - Bidding', () => (
+    <DomainItem
+      domain={{
+        name: 'vitalik.eth',
+        state: 'Auction'
+      }}
+    />
+  ))
+  .add('Top Level Domain Auction - Reveal', () => (
+    <DomainItem
+      domain={{
+        name: 'vitalik.eth',
+        state: 'Reveal'
       }}
     />
   ))
@@ -34,7 +58,7 @@ storiesOf('DomainItem', module)
     <DomainItem
       domain={{
         name: 'awesome.vitalik.eth',
-        state: 'Available',
+        state: 'Open',
         price: 0.2
       }}
       isSubdomain={true}
