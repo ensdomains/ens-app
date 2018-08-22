@@ -7,6 +7,11 @@ const Header = styled('header')`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
 `
 
 const SearchHeader = styled(Search)`

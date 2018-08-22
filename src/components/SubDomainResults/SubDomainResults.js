@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Fragment, Component } from 'react'
 import { findDOMNode } from 'react-dom'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -11,6 +11,10 @@ import DomainItemDefault from '../Results/DomainItem'
 
 const SubDomainItem = styled(DomainItemDefault)`
   margin-bottom: 4px;
+`
+
+const H2 = styled('h2')`
+  font-size: 22px;
 `
 
 const animationStates = {
@@ -163,34 +167,37 @@ class SubDomainsContainer extends Component {
     const subDomainState = this.props.subDomainState
     let index = 0
     return (
-      <ReactTransitionGroup
-        component="ul"
-        transitionMode="out-in"
-        style={{ padding: 0 }}
-      >
-        {[...subDomainState].sort(alphabeticalAndAvailable).map(node => {
-          let found = subDomainState.find(element => {
+      <Fragment>
+        <H2>Subdomains</H2>
+        <ReactTransitionGroup
+          component="ul"
+          transitionMode="out-in"
+          style={{ padding: 0 }}
+        >
+          {[...subDomainState].sort(alphabeticalAndAvailable).map(node => {
+            let found = subDomainState.find(element => {
+              return (
+                element.label + '.' + element.domain ===
+                node.label + '.' + node.domain
+              )
+            })
+
+            let newIndex = index
+
+            if (found) {
+              index++
+            }
             return (
-              element.label + '.' + element.domain ===
-              node.label + '.' + node.domain
+              <SubDomainNode
+                newIndex={found ? index : ''}
+                node={node}
+                key={node.label + '.' + node.domain}
+                enterDuration={5}
+              />
             )
-          })
-
-          let newIndex = index
-
-          if (found) {
-            index++
-          }
-          return (
-            <SubDomainNode
-              newIndex={found ? index : ''}
-              node={node}
-              key={node.label + '.' + node.domain}
-              enterDuration={5}
-            />
-          )
-        })}
-      </ReactTransitionGroup>
+          })}
+        </ReactTransitionGroup>
+      </Fragment>
     )
   }
 }

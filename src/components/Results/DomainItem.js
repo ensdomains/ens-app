@@ -43,7 +43,7 @@ const DomainContainer = styled('div')`
   font-size: 22px;
 `
 
-const Actions = styled('div')`
+const RightContainer = styled('div')`
   display: flex;
   align-items: center;
 `
@@ -53,20 +53,39 @@ const Heart = styled(HeartDefault)`
 `
 
 const DomainName = styled('h2')`
-  font-size: 22px;
-  font-weight: 300;
+  font-size: 28px;
+  font-weight: 200;
+  color: ${p => {
+    switch (p.state) {
+      case 'Unavailable':
+        return '#CCD4DA'
+      default:
+        return '#2b2b2b'
+    }
+  }};
 `
 
-const Domain = ({ domain, isSubDomain, className }) => (
+const Price = styled('span')`
+  margin-right: 20px;
+  font-size: 28px;
+  font-weight: 100;
+`
+
+const Domain = ({ domain, isSubdomain, className }) => (
   <DomainContainer state={domain.state} className={className}>
-    <DomainName>{domain.name}</DomainName>
-    {isSubDomain ? domain.price : ''}
-    <Actions>
+    <DomainName state={domain.state}>{domain.name}</DomainName>
+    <RightContainer>
+      <Label state={domain.state} />
+      {isSubdomain ? (
+        <Price>{domain.price > 0 ? `${domain.price} ETH` : 'Free'}</Price>
+      ) : (
+        ''
+      )}
       <Heart />
       <Button primary href={`/name/${domain.name}`}>
         Details
       </Button>
-    </Actions>
+    </RightContainer>
   </DomainContainer>
 )
 

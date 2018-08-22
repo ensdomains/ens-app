@@ -22,7 +22,7 @@ storiesOf('Button', module)
   ))
 
 storiesOf('DomainItem', module)
-  .add('with text', () => (
+  .add('Top Level Domain', () => (
     <DomainItem
       domain={{
         name: 'vitalik.eth',
@@ -30,6 +30,13 @@ storiesOf('DomainItem', module)
       }}
     />
   ))
-  .add('with some emoji', () => (
-    <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>
+  .add('Sub Domain Result', () => (
+    <DomainItem
+      domain={{
+        name: 'awesome.vitalik.eth',
+        state: 'Available',
+        price: 0.2
+      }}
+      isSubdomain={true}
+    />
   ))
