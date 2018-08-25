@@ -18,9 +18,9 @@ const H2 = styled('h2')`
 `
 
 const animationStates = {
-  beforeEnter: { x: -300, scale: 1, opacity: 0 },
+  beforeEnter: { x: -100, scale: 1, opacity: 0 },
   idle: { x: 0, scale: 1, opacity: 1 },
-  afterLeave: { x: 300, scale: 1, opacity: 0 }
+  afterLeave: { x: 100, scale: 1, opacity: 0 }
 }
 
 class SubDomainNode extends Component {
@@ -192,7 +192,7 @@ class SubDomainsContainer extends Component {
                 newIndex={found ? index : ''}
                 node={node}
                 key={node.label + '.' + node.domain}
-                enterDuration={5}
+                enterDuration={1}
               />
             )
           })}

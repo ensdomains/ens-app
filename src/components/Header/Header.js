@@ -26,6 +26,18 @@ const Logo = styled(DefaultLogo)`
   padding-left: 20px;
   align-items: center;
   width: 200px;
+  position: relative;
+
+  &:before {
+    background: #d3d3d3;
+    height: 32px;
+    margin-top: 30px;
+    content: '';
+    width: 1px;
+    right: 35px;
+    top: 0;
+    position: absolute;
+  }
 `
 
 class HeaderContainer extends Component {
