@@ -8,6 +8,7 @@ import ReactTransitionGroup from 'react-transition-group-plus'
 import { TweenMax, TimelineMax, Linear, Sine } from 'gsap/umd/TweenMax'
 import { fromWei } from 'ethjs-unit'
 import DomainItemDefault from '../Results/DomainItem'
+import Loader from '../Loader'
 
 const SubDomainItem = styled(DomainItemDefault)`
   margin-bottom: 4px;
@@ -169,34 +170,38 @@ class SubDomainsContainer extends Component {
     return (
       <Fragment>
         <H2>Subdomains</H2>
-        <ReactTransitionGroup
-          component="ul"
-          transitionMode="out-in"
-          style={{ padding: 0 }}
-        >
-          {[...subDomainState].sort(alphabeticalAndAvailable).map(node => {
-            let found = subDomainState.find(element => {
+        {subDomainState.length > 0 ? (
+          <ReactTransitionGroup
+            component="ul"
+            transitionMode="out-in"
+            style={{ padding: 0 }}
+          >
+            {[...subDomainState].sort(alphabeticalAndAvailable).map(node => {
+              let found = subDomainState.find(element => {
+                return (
+                  element.label + '.' + element.domain ===
+                  node.label + '.' + node.domain
+                )
+              })
+
+              let newIndex = index
+
+              if (found) {
+                index++
+              }
               return (
-                element.label + '.' + element.domain ===
-                node.label + '.' + node.domain
+                <SubDomainNode
+                  newIndex={found ? index : ''}
+                  node={node}
+                  key={node.label + '.' + node.domain}
+                  enterDuration={1}
+                />
               )
-            })
-
-            let newIndex = index
-
-            if (found) {
-              index++
-            }
-            return (
-              <SubDomainNode
-                newIndex={found ? index : ''}
-                node={node}
-                key={node.label + '.' + node.domain}
-                enterDuration={1}
-              />
-            )
-          })}
-        </ReactTransitionGroup>
+            })}
+          </ReactTransitionGroup>
+        ) : (
+          <Loader />
+        )}
       </Fragment>
     )
   }
