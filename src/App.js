@@ -45,7 +45,7 @@ const App = () => (
       <Route path="/my-bids" component={SearchResults} />
       <Route path="/about" component={SearchResults} />
       <Route path="/how-it-works" component={SearchResults} />
-      <Route path="/results" component={SearchResults} />
+      <Route path="/search/:searchTerm" component={SearchResults} />
       <Route path="/name/:name" component={SingleName} />
     </Switch>
   </Router>

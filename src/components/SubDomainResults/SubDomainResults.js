@@ -9,13 +9,10 @@ import { TweenMax, TimelineMax, Linear, Sine } from 'gsap/umd/TweenMax'
 import { fromWei } from 'ethjs-unit'
 import DomainItemDefault from '../Results/DomainItem'
 import Loader from '../Loader'
+import { H2 } from '../Typography/Basic'
 
 const SubDomainItem = styled(DomainItemDefault)`
   margin-bottom: 4px;
-`
-
-const H2 = styled('h2')`
-  font-size: 22px;
 `
 
 const animationStates = {

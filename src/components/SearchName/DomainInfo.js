@@ -1,18 +1,11 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import { adopt } from 'react-adopt'
 import Loader from '../Loader'
 import DomainItem from '../Results/DomainItem'
 import { GET_WEB3 } from '../../graphql/queries'
-import {
-  Open,
-  Auction,
-  Owned,
-  Forbidden,
-  Reveal,
-  NotYetAvailable
-} from './DomainInfoStates'
+import { H2 } from '../Typography/Basic'
 
 const GET_DOMAIN_STATE = gql`
   query getDomainState @client {
@@ -24,33 +17,11 @@ const GET_DOMAIN_STATE = gql`
   }
 `
 
-const getDomainStateComponent = (domainState, accounts) => {
-  switch (domainState.state) {
-    case 'Open':
-      return <Open domainState={domainState} />
-    case 'Auction':
-      return <Auction domainState={domainState} />
-    case 'Owned':
-      return <Owned domainState={domainState} accounts={accounts} />
-    case 'Forbidden':
-      return <Forbidden domainState={domainState} />
-    case 'Reveal':
-      return <Reveal domainState={domainState} />
-    case 'NotYetAvailable':
-      return <NotYetAvailable domainState={domainState} />
-    default:
-      throw new Error('Unrecognised domainState')
-  }
-}
-
 export const DomainInfo = ({ domainState, accounts }) => {
   if (!domainState) return null
 
-  const DomainState = getDomainStateComponent(domainState, accounts)
-
   return (
     <div>
-      <h2>Top Level Domains</h2>
       <DomainItem domain={domainState} />
     </div>
   )
@@ -69,11 +40,23 @@ const DomainInfoContainer = () => {
           data: { domainState },
           loading
         },
-        accounts: { data, loading2 }
+        accounts: { data, loading: loading2 }
       }) => {
-        if (loading && loading2) return <Loader />
         return (
-          <DomainInfo domainState={domainState} accounts={data.web3.accounts} />
+          <Fragment>
+            <H2>Domain Results</H2>
+            {loading || loading2 ? (
+              <Fragment>
+                <Loader />
+                {console.log('here')}
+              </Fragment>
+            ) : (
+              <DomainInfo
+                domainState={domainState}
+                accounts={data.web3.accounts}
+              />
+            )}
+          </Fragment>
         )
       }}
     </Composed>

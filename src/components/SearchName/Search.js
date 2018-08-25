@@ -1,33 +1,11 @@
 import React from 'react'
-import { Mutation } from 'react-apollo'
-import gql from 'graphql-tag'
 import styled from 'react-emotion'
 import { validateName, parseSearchTerm } from '../../lib/utils'
 import '../../api/subDomainRegistrar'
-import { SubDomainStateFields } from '../../graphql/fragments'
 import { withRouter } from 'react-router'
 import searchIcon from './search.svg'
 import Caret from './Caret'
 import Filters from './Filters'
-
-const GET_DOMAIN_STATE = gql`
-  mutation getDomainAvailability($name: String) {
-    getDomainAvailability(name: $name) @client {
-      name
-      state
-    }
-  }
-`
-
-const GET_SUBDOMAIN_AVAILABILITY = gql`
-  mutation getSubDomainAvailability($name: String) {
-    getSubDomainAvailability(name: $name) @client {
-      ...SubDomainStateFields
-    }
-  }
-
-  ${SubDomainStateFields}
-`
 
 const SearchForm = styled('form')`
   display: flex;
@@ -79,13 +57,6 @@ const SearchForm = styled('form')`
   }
 `
 
-// const FilterButton = styled('div')`
-//   background:
-//   &:hover {
-//     cursor: pointer;
-//   }
-// `
-
 class Search extends React.Component {
   state = {
     type: null,
@@ -97,13 +68,7 @@ class Search extends React.Component {
   }
 
   render() {
-    const {
-      getDomainState,
-      getSubDomainAvailability,
-      history,
-      className,
-      style
-    } = this.props
+    const { history, className, style } = this.props
     return (
       <SearchForm
         className={className}
@@ -118,12 +83,9 @@ class Search extends React.Component {
           }
 
           if (validateName(searchTerm)) {
-            getDomainState({ variables: { name: searchTerm } })
-            getSubDomainAvailability({ variables: { name: searchTerm } })
-
-            history.push(`/results`)
+            history.push(`/search/${searchTerm}`)
           } else {
-            history.push(`/results`)
+            history.push(`/search/${searchTerm}`)
             console.log('name is too short or has punctuation')
           }
         }}
@@ -150,21 +112,11 @@ const SearchWithRouter = withRouter(Search)
 
 const SearchContainer = ({ searchDomain, className, style }) => {
   return (
-    <Mutation mutation={GET_SUBDOMAIN_AVAILABILITY}>
-      {getSubDomainAvailability => (
-        <Mutation mutation={GET_DOMAIN_STATE}>
-          {getDomainState => (
-            <SearchWithRouter
-              getDomainState={getDomainState}
-              getSubDomainAvailability={getSubDomainAvailability}
-              searchDomain={searchDomain}
-              className={className}
-              style={style}
-            />
-          )}
-        </Mutation>
-      )}
-    </Mutation>
+    <SearchWithRouter
+      searchDomain={searchDomain}
+      className={className}
+      style={style}
+    />
   )
 }
 
