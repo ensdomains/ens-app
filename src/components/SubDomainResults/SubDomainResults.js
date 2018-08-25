@@ -207,10 +207,9 @@ class SubDomainsContainer extends Component {
 class SubDomainResults extends Component {
   render() {
     return (
-      <Query query={GET_SUBDOMAIN_STATE}>
+      <Query query={GET_SUBDOMAIN_STATE} fetchPolicy="no-cache">
         {({ data: { subDomainState }, loading }) => {
           if (loading) return <div>Loading...</div>
-          console.log(subDomainState)
           return <SubDomainsContainer subDomainState={subDomainState} />
         }}
       </Query>

@@ -28,7 +28,7 @@ export const DomainInfo = ({ domainState, accounts }) => {
 }
 
 const Composed = adopt({
-  domainState: <Query query={GET_DOMAIN_STATE} />,
+  domainState: <Query query={GET_DOMAIN_STATE} fetchPolicy="no-cache" />,
   accounts: <Query query={GET_WEB3} pollInterval={100} />
 })
 
@@ -40,21 +40,17 @@ const DomainInfoContainer = () => {
           data: { domainState },
           loading
         },
-        accounts: { data, loading: loading2 }
+        accounts
       }) => {
         return (
           <Fragment>
             <H2>Domain Results</H2>
-            {loading || loading2 ? (
+            {loading ? (
               <Fragment>
                 <Loader />
-                {console.log('here')}
               </Fragment>
             ) : (
-              <DomainInfo
-                domainState={domainState}
-                accounts={data.web3.accounts}
-              />
+              <DomainInfo domainState={domainState} />
             )}
           </Fragment>
         )

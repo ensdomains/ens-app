@@ -33,6 +33,12 @@ class Results extends React.Component {
     getDomainState({ variables: { name: searchTerm } })
     getSubDomainAvailability({ variables: { name: searchTerm } })
   }
+
+  componentDidUpdate() {
+    const { searchTerm, getDomainState, getSubDomainAvailability } = this.props
+    getDomainState({ variables: { name: searchTerm } })
+    getSubDomainAvailability({ variables: { name: searchTerm } })
+  }
   render() {
     const { searchTerm } = this.props
     return (
