@@ -106,7 +106,7 @@ const Domain = ({ domain, isSubdomain, className }) => (
     <DomainName state={domain.state}>{domain.name}</DomainName>
     <RightContainer>
       <Label state={domain.state} />
-      {isSubdomain ? (
+      {isSubdomain && domain.state === 'Open' ? (
         <Price>{domain.price > 0 ? `${domain.price} ETH` : 'Free'}</Price>
       ) : (
         ''

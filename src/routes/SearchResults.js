@@ -34,10 +34,17 @@ class Results extends React.Component {
     getSubDomainAvailability({ variables: { name: searchTerm } })
   }
 
-  componentDidUpdate() {
-    const { searchTerm, getDomainState, getSubDomainAvailability } = this.props
-    getDomainState({ variables: { name: searchTerm } })
-    getSubDomainAvailability({ variables: { name: searchTerm } })
+  componentDidUpdate(prevProps) {
+    console.log('here in componentDidUpdate')
+    if (prevProps.searchTerm !== this.props.searchTerm) {
+      const {
+        searchTerm,
+        getDomainState,
+        getSubDomainAvailability
+      } = this.props
+      getDomainState({ variables: { name: searchTerm } })
+      getSubDomainAvailability({ variables: { name: searchTerm } })
+    }
   }
   render() {
     const { searchTerm } = this.props

@@ -14,6 +14,10 @@ const GET_DOMAIN_STATE = gql`
       state
       owner
     }
+
+    web3 {
+      accounts
+    }
   }
 `
 
@@ -29,7 +33,7 @@ export const DomainInfo = ({ domainState, accounts }) => {
 
 const Composed = adopt({
   domainState: <Query query={GET_DOMAIN_STATE} fetchPolicy="no-cache" />,
-  accounts: <Query query={GET_WEB3} pollInterval={100} />
+  accounts: <Query query={GET_WEB3} />
 })
 
 const DomainInfoContainer = () => {
@@ -37,16 +41,16 @@ const DomainInfoContainer = () => {
     <Composed>
       {({
         domainState: {
-          data: { domainState },
+          data: { domainState, web3 },
           loading
-        },
-        accounts
+        }
       }) => {
         return (
           <Fragment>
-            <H2>Domain Results</H2>
+            <H2>Top Level Domains</H2>
             {loading ? (
               <Fragment>
+                {console.log(web3)}
                 <Loader />
               </Fragment>
             ) : (

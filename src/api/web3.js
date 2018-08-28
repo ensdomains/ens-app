@@ -52,7 +52,7 @@ function setupWeb3(customProvider) {
             console.log(
               'The endpoint is not active. Falling back to Infura readOnly mode'
             )
-            url = 'https://ropsten.infura.io/BW6Y98TxAjFjImkmjVnG'
+            url = 'https://mainnet.infura.io'
             readOnly = true
           }
         })
@@ -76,9 +76,10 @@ function setupWeb3(customProvider) {
 
 function getWeb3() {
   if (ready === false && web3 === undefined) {
-    console.log('here in get Web3')
+    console.log('here in get Web3 11')
     return setupWeb3()
   } else {
+    console.log('here in not get web3 22')
     return new Promise(function(resolve, reject) {
       web3.version.getNetwork(function(err, networkId) {
         resolve({ web3, provider, readOnly, networkId: parseInt(networkId) })

@@ -11,6 +11,7 @@ const SideNavContainer = styled('nav')`
   margin-top: 50px;
   width: 165px;
   position: fixed;
+  z-index: 1;
   left: 35px;
   top: 100px;
   ul {

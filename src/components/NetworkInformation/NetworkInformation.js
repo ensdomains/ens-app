@@ -6,10 +6,11 @@ import gql from 'graphql-tag'
 import NetworkInfoQuery from './NetworkInfoQuery'
 import UnstyledBlockies from '../Blockies'
 import ReverseResolution from '../ReverseResolution'
+import NoAccount from '../NoAccounts'
 
 const NetworkInformationContainer = styled('div')`
   position: relative;
-  padding-left: 40px;
+  padding-left: ${p => (p.showModal ? '40px' : '0')};
   margin-bottom: 50px;
 `
 
@@ -46,20 +47,38 @@ const Account = styled('div')`
   }
 `
 
-const NoAccountContainer = styled('div')``
+const NoAccountContainer = styled('div')`
+  position: relative;
+`
 
-class NoAccount extends Component {
-  render() {
-    return <NoAccountContainer>No Account</NoAccountContainer>
-  }
-}
+const NoAccountExplanation = styled('div')`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  opacity: ${p => (p.show ? 1 : 0)};
+  background: white;
+  padding: 20px;
+  font-size: 18px;
+  width: 305px;
+  z-index: 10;
+  border-radius: 0 0 6px 6px;
+`
+
+// class NoAccount extends Component {
+//   render() {
+//     return <NoAccountContainer>No Account</NoAccountContainer>
+//   }
+// }
 
 class NetworkInformation extends Component {
+  state = {
+    showModal: false
+  }
   render() {
     return (
       <NetworkInfoQuery>
         {({ accounts, network }) => (
-          <NetworkInformationContainer>
+          <NetworkInformationContainer hasAccount={accounts.length > 0}>
             {accounts.length > 0 ? (
               <Fragment>
                 <Blockies address={accounts[0]} imageSize={47} />
@@ -69,7 +88,20 @@ class NetworkInformation extends Component {
                 <NetworkStatus>{network} network</NetworkStatus>
               </Fragment>
             ) : (
-              <NoAccount />
+              <NoAccountContainer>
+                <NoAccount
+                  colour={'#F5A623'}
+                  active={this.state.showModal}
+                  onClick={() =>
+                    this.setState(state => ({ showModal: !state.showModal }))
+                  }
+                />
+                <NoAccountExplanation show={this.state.showModal}>
+                  Install Metamask or use another Dapp browser to search the ENS
+                  registry. Login to Metamask and unlock your wallet to use all
+                  the features of the ENS.
+                </NoAccountExplanation>
+              </NoAccountContainer>
             )}
           </NetworkInformationContainer>
         )}
