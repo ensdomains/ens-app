@@ -4,14 +4,16 @@ import styled from 'react-emotion'
 const colour = ({ colour }) => colour
 
 const NoAccountsContainer = styled('div')`
+  box-shadow: ${({ active }) =>
+    active ? '-4px 18px 70px 0 rgba(108, 143, 167, 0.32)' : 'none'};
   padding: 5px 20px;
   border-bottom: 1px solid ${colour};
   border-top: ${({ active, colour }) =>
-    active ? 'none' : `1px solid ${colour}`};
+    `1px solid ${active ? '#fff' : colour}`};
   border-left: ${({ active, colour }) =>
-    active ? 'none' : `1px solid ${colour}`};
+    `1px solid ${active ? '#fff' : colour}`};
   border-right: ${({ active, colour }) =>
-    active ? 'none' : `1px solid ${colour}`};
+    `1px solid ${active ? '#fff' : colour}`};
   border-radius: ${({ active }) => (active ? '6px 6px 0 0' : '6px')};
   background: ${({ active }) => (active ? 'white' : 'transparent')};
   display: flex;
@@ -22,6 +24,10 @@ const NoAccountsContainer = styled('div')`
 
   span {
     color: ${colour};
+  }
+
+  &:hover {
+    cursor: ${({ onClick }) => (onClick ? 'pointer' : 'auto')};
   }
 `
 
