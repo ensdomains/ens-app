@@ -18,6 +18,7 @@
     "gsap": "^2.0.1",
     "idna-uts46": "^1.1.0",
     "lodash": "^4.17.10",
+    "moment": "^2.22.2",
     "react": "^16.3.0",
     "react-adopt": "^0.6.0",
     "react-apollo": "^2.1.2",

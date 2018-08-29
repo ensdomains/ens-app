@@ -11,6 +11,10 @@ const GET_DOMAIN_STATE = gql`
   query getDomainState @client {
     domainState {
       name
+      revealDate
+      registrationDate
+      value
+      highestBid
       state
       owner
     }

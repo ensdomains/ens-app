@@ -3,6 +3,8 @@ import styled from 'react-emotion'
 import Button from '../Forms/Button'
 import HeartDefault from '../Icons/Heart'
 
+import moment from 'moment'
+
 const DomainContainer = styled('div')`
   &:before {
     content: '';
@@ -32,14 +34,24 @@ const DomainContainer = styled('div')`
   padding: 20px;
   overflow: hidden;
   position: relative;
-
-  background: white;
+  background-color: white;
+  background: ${({ percentDone }) =>
+    percentDone
+      ? `
+  linear-gradient(to right, rgba(128, 255, 128, 0.1) 0%, rgba(82,229,255, 0.1) ${percentDone}%,#ffffff ${percentDone}%)`
+      : 'white'};
   border-radius: 6px;
   height: 90px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 22px;
+
+  &:hover {
+    .label-container {
+      display: flex;
+    }
+  }
 `
 
 const RightContainer = styled('div')`
@@ -74,11 +86,21 @@ const LabelContainer = styled('div')`
   margin-right: 20px;
   font-size: 16px;
   color: #ccd4da;
+  display: none;
+  align-items: center;
 `
 
-const Label = ({ state }) => {
+const LabelText = styled('div')``
+
+const TimeLeft = styled('div')`
+  border-left: 1px solid #ccd4da;
+  margin-left: 10px;
+  padding-left: 10px;
+`
+
+const Label = ({ domain, timeLeft }) => {
   let text
-  switch (state) {
+  switch (domain.state) {
     case 'Open':
       text = 'Available'
       break
@@ -89,7 +111,7 @@ const Label = ({ state }) => {
       text = ''
       return ''
     case 'Forbidden':
-      text = 'black'
+      text = 'Forbidden'
       break
     case 'Reveal':
       text = 'Reveal Period'
@@ -98,25 +120,63 @@ const Label = ({ state }) => {
       text = 'Unknown State'
   }
 
-  return <LabelContainer>{text}</LabelContainer>
+  let timeLeftHuman
+  console.log(domain)
+
+  if (domain.state === 'Auction' || domain.state === 'Reveal') {
+    timeLeftHuman = moment.duration(timeLeft).humanize()
+  }
+
+  return (
+    <LabelContainer className="label-container">
+      <LabelText>{text}</LabelText>
+      {domain.state === 'Auction' && (
+        <TimeLeft>{`${timeLeftHuman} remaining`}</TimeLeft>
+      )}
+    </LabelContainer>
+  )
 }
 
-const Domain = ({ domain, isSubdomain, className }) => (
-  <DomainContainer state={domain.state} className={className}>
-    <DomainName state={domain.state}>{domain.name}</DomainName>
-    <RightContainer>
-      <Label state={domain.state} />
-      {isSubdomain && domain.state === 'Open' ? (
-        <Price>{domain.price > 0 ? `${domain.price} ETH` : 'Free'}</Price>
-      ) : (
-        ''
-      )}
-      <Heart />
-      <Button primary href={`/name/${domain.name}`}>
-        Details
-      </Button>
-    </RightContainer>
-  </DomainContainer>
-)
+function getTimeLeft(endDate) {
+  return new Date(endDate).getTime() - new Date().getTime()
+}
+
+const Domain = ({ domain, isSubdomain, className }) => {
+  let timeLeft = false
+  let percentDone = 0
+  if (domain.state === 'Auction') {
+    timeLeft = getTimeLeft(domain.revealDate)
+    let totalTime = 259200000
+    percentDone = ((totalTime - timeLeft) / totalTime) * 100
+  } else if (domain.state === 'Reveal') {
+    timeLeft = getTimeLeft(domain.registrationDate)
+    let totalTime = 172800000
+    percentDone = ((totalTime - timeLeft) / totalTime) * 100
+  }
+
+  return (
+    <DomainContainer
+      state={domain.state}
+      className={className}
+      percentDone={percentDone}
+    >
+      <DomainName state={domain.state}>{domain.name}</DomainName>
+      <RightContainer>
+        <Label domain={domain} timeLeft={timeLeft} />
+        {isSubdomain && domain.state === 'Open' ? (
+          <Price className="price">
+            {domain.price > 0 ? `${domain.price} ETH` : 'Free'}
+          </Price>
+        ) : (
+          ''
+        )}
+        <Heart />
+        <Button primary href={`/name/${domain.name}`}>
+          Details
+        </Button>
+      </RightContainer>
+    </DomainContainer>
+  )
+}
 
 export default Domain

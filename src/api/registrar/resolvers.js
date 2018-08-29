@@ -1,4 +1,4 @@
-import { getMode, createSealedBid } from '../registrar'
+import { getMode, createSealedBid, getEntry } from '../registrar'
 import { getOwner } from '../registry'
 
 const defaults = {
@@ -17,13 +17,18 @@ const modeNames = [
 const resolvers = {
   Mutation: {
     async getDomainAvailability(_, { name }, { cache }) {
-      const state = await getMode(name)
+      const {
+        state,
+        registrationDate,
+        revealDate,
+        value,
+        highestBid
+      } = await getEntry(name)
       let owner = null
 
       console.log(name)
 
       if (modeNames[state] === 'Owned') {
-        console.log(1)
         owner = await getOwner(`${name}.eth`)
       }
 
@@ -31,14 +36,46 @@ const resolvers = {
         domainState: {
           name: `${name}.eth`,
           state: modeNames[state],
+          registrationDate,
+          revealDate,
+          value,
+          highestBid,
           owner,
           __typename: 'DomainState'
         }
       }
 
+      console.log(data)
+
       cache.writeData({ data })
 
       return data
+    },
+    async getDomainEntry(_, { name }, { cache }) {
+      const entry = await getEntry(name)
+      //let owner = null
+
+      console.log(entry)
+
+      // if (modeNames[state] === 'Owned') {
+      //   console.log(1)
+      //   owner = await getOwner(`${name}.eth`)
+      // }
+
+      // const data = {
+      //   domainState: {
+      //     name: `${name}.eth`,
+      //     state: modeNames[state],
+      //     owner,
+      //     __typename: 'DomainState'
+      //   }
+      // }
+
+      // cache.writeData({ data })
+
+      return {
+        entry
+      }
     },
     async startAuctionAndBid(_, { name, bidAmount, decoyBidAmount, secret }) {
       const sealedBid = await createSealedBid(name, bidAmount, secret)

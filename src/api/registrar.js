@@ -18,7 +18,7 @@ export const getAuctionRegistrar = async () => {
   return { Registrar: ethRegistrar }
 }
 
-export const getMode = async name => {
+export const getEntry = async name => {
   const { Registrar } = await getAuctionRegistrar()
   const { web3 } = await getWeb3()
   const namehash = web3.sha3(name)
@@ -27,7 +27,14 @@ export const getMode = async name => {
       if (err) {
         reject(err)
       } else {
-        resolve(entry[0].toNumber())
+        resolve({
+          state: entry[0].toNumber(),
+          registrationDate: entry[2].toNumber() * 1000,
+          revealDate: (entry[2].toNumber() - 24 * 2 * 60 * 60) * 1000,
+          value: entry[3].toNumber(),
+          highestBid: entry[4].toNumber(),
+          _entry: entry
+        })
       }
     })
   })
