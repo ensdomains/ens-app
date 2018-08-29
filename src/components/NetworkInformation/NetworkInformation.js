@@ -10,7 +10,7 @@ import NoAccount from '../NoAccounts'
 
 const NetworkInformationContainer = styled('div')`
   position: relative;
-  padding-left: ${p => (p.showModal ? '40px' : '0')};
+  padding-left: ${({ hasAccount }) => (hasAccount ? '40px' : '0')};
   margin-bottom: 50px;
 `
 
