@@ -68,7 +68,7 @@ const DomainName = styled('h2')`
   font-weight: 200;
   color: ${p => {
     switch (p.state) {
-      case 'Unavailable':
+      case 'Owned':
         return '#CCD4DA'
       default:
         return '#2b2b2b'
@@ -108,8 +108,8 @@ const Label = ({ domain, timeLeft }) => {
       text = 'Bidding Period'
       break
     case 'Owned':
-      text = ''
-      return ''
+      text = 'Unavailable'
+      break
     case 'Forbidden':
       text = 'Forbidden'
       break
