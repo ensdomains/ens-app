@@ -8,14 +8,9 @@ import TestRegistrar from './routes/TestRegistrar'
 import Home from './routes/Home'
 import SearchResults from './routes/SearchResults'
 import SingleName from './routes/SingleName'
-import Header from './components/Header/Header'
+import Favourites from './routes/Favourites'
 
-const DefaultLayout = ({ children }) => (
-  <Fragment>
-    <Header />
-    {children}
-  </Fragment>
-)
+import DefaultLayout from './components/Layout/DefaultLayout'
 
 const HomePageLayout = ({ children }) => <Fragment>{children}</Fragment>
 
@@ -41,7 +36,7 @@ const App = () => (
     <Switch>
       <Route exact path="/" component={Home} layout={HomePageLayout} />
       <Route path="/test-registrar" component={TestRegistrar} />
-      <Route path="/favourites" component={SearchResults} />
+      <Route path="/favourites" component={Favourites} />
       <Route path="/my-bids" component={SearchResults} />
       <Route path="/about" component={SearchResults} />
       <Route path="/how-it-works" component={SearchResults} />

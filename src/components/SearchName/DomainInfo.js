@@ -3,7 +3,7 @@ import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import { adopt } from 'react-adopt'
 import Loader from '../Loader'
-import DomainItem from '../Results/DomainItem'
+import DomainItem from '../DomainItem/DomainItem'
 import { GET_WEB3 } from '../../graphql/queries'
 import { H2 } from '../Typography/Basic'
 

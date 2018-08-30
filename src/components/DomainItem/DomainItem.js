@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'react-emotion'
 import Button from '../Forms/Button'
 import HeartDefault from '../Icons/Heart'
+import AddFavourite from './AddFavourite'
 
 import moment from 'moment'
 
@@ -57,10 +58,6 @@ const DomainContainer = styled('div')`
 const RightContainer = styled('div')`
   display: flex;
   align-items: center;
-`
-
-const Heart = styled(HeartDefault)`
-  margin-right: 20px;
 `
 
 const DomainName = styled('h2')`
@@ -170,7 +167,8 @@ const Domain = ({ domain, isSubdomain, className }) => {
         ) : (
           ''
         )}
-        <Heart />
+        <AddFavourite domain={domain} />
+
         <Button primary href={`/name/${domain.name}`}>
           Details
         </Button>

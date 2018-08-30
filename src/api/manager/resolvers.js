@@ -144,6 +144,39 @@ const resolvers = {
     }
   },
   Mutation: {
+    addFavourite: async (_, { domain }, { cache }) => {
+      const getFavourites = cache => {
+        const query = gql`
+          query getFavourites @client {
+            favourites {
+              name
+              owner
+              label
+              resolver
+              addr
+              content
+              subDomains
+            }
+          }
+        `
+
+        return cache.readQuery({ query })
+      }
+
+      const newFavourite = {
+        ...domain
+      }
+
+      const previous = getFavourites(cache)
+
+      const data = {
+        favourites: [...previous.favourites, newFavourite]
+      }
+
+      cache.writeData({ data })
+
+      return newFavourite
+    }
     // addNode: async (_, { name }, { cache }) => {
     //   const owner = await getOwner(name)
     //   //Return null if no owner

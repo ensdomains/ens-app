@@ -1,9 +1,6 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import DomainInfo from '../components/SearchName/DomainInfo'
 import SubDomainResults from '../components/SubDomainResults/SubDomainResults'
-import SideNav from '../components/SideNav/SideNav'
-import Container from '../components/Container'
-import Main from '../components/Layout/Main'
 import { SubDomainStateFields } from '../graphql/fragments'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -49,13 +46,10 @@ class Results extends React.Component {
   render() {
     const { searchTerm } = this.props
     return (
-      <Container>
-        <SideNav />
-        <Main>
-          <DomainInfo searchTerm={searchTerm} />
-          <SubDomainResults searchTerm={searchTerm} />
-        </Main>
-      </Container>
+      <Fragment>
+        <DomainInfo searchTerm={searchTerm} />
+        <SubDomainResults searchTerm={searchTerm} />
+      </Fragment>
     )
   }
 }
