@@ -1,5 +1,6 @@
 import { queryAll } from '../subDomainRegistrar'
 import gql from 'graphql-tag'
+import { fromWei } from 'ethjs-unit'
 
 const defaults = {
   subDomainState: []
@@ -32,7 +33,8 @@ const resolvers = {
         subDomainPromise.then(node => {
           const newNode = {
             ...node,
-            __typename: 'SubDomainState'
+            price: fromWei(node.price, 'ether'),
+            __typename: 'SubDomain'
           }
 
           cachedNodes.push(newNode)

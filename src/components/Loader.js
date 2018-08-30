@@ -50,7 +50,7 @@ const LoaderContainer = styled('div')`
 
 const Loader = () => (
   <LoaderContainer className="lds-css ng-scope">
-    <div class="lds-dual-ring">
+    <div className="lds-dual-ring">
       <div />
     </div>
   </LoaderContainer>

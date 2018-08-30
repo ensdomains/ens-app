@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'react-emotion'
 import Button from '../Forms/Button'
-import HeartDefault from '../Icons/Heart'
 import AddFavourite from './AddFavourite'
 
 import moment from 'moment'
@@ -138,7 +137,7 @@ function getTimeLeft(endDate) {
   return new Date(endDate).getTime() - new Date().getTime()
 }
 
-const Domain = ({ domain, isSubdomain, className }) => {
+const Domain = ({ domain, isSubDomain, className }) => {
   let timeLeft = false
   let percentDone = 0
   if (domain.state === 'Auction') {
@@ -160,14 +159,14 @@ const Domain = ({ domain, isSubdomain, className }) => {
       <DomainName state={domain.state}>{domain.name}</DomainName>
       <RightContainer>
         <Label domain={domain} timeLeft={timeLeft} />
-        {isSubdomain && domain.state === 'Open' ? (
+        {isSubDomain && domain.state === 'Open' ? (
           <Price className="price">
             {domain.price > 0 ? `${domain.price} ETH` : 'Free'}
           </Price>
         ) : (
           ''
         )}
-        <AddFavourite domain={domain} />
+        <AddFavourite domain={domain} isSubDomain={isSubDomain} />
 
         <Button primary href={`/name/${domain.name}`}>
           Details

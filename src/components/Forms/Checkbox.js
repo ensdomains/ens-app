@@ -44,7 +44,7 @@ class Checkbox extends Component {
           <Tick active={checked ? true : false} hover={this.state.hover} />
           <span>{children}</span>
         </label>
-        <input type="checkbox" name={name} checked={checked} />
+        <input type="checkbox" name={name} checked={checked} readOnly />
       </CheckboxContainer>
     )
   }

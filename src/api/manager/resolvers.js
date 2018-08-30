@@ -1,29 +1,17 @@
 import { watchRegistryEvent } from '../watchers'
 import { getOwner, getDomainDetails, getSubDomains, getName } from '../registry'
-import gql from 'graphql-tag'
 import get from 'lodash/get'
-import set from 'lodash/set'
+
+import {
+  GET_FAVOURITES,
+  GET_SUBDOMAIN_FAVOURITES,
+  GET_ALL_NODES
+} from '../../graphql/queries'
 
 const defaults = {
-  names: []
-}
-
-const getAllNodes = cache => {
-  const query = gql`
-    query names {
-      names {
-        name
-        owner
-        label
-        resolver
-        addr
-        content
-        subDomains
-      }
-    }
-  `
-
-  return cache.readQuery({ query })
+  names: [],
+  favourites: [],
+  subDomainFavourites: []
 }
 
 export function resolveQueryPath(domainArray, path, db) {
@@ -58,7 +46,7 @@ export function resolveQueryPath(domainArray, path, db) {
 const resolvers = {
   Query: {
     singleName: async (_, { name }, { cache }) => {
-      const { names } = getAllNodes(cache)
+      const { names } = cache.readQuery({ query: GET_ALL_NODES })
       const owner = await getOwner(name)
       let domainRaw
 
@@ -97,7 +85,7 @@ const resolvers = {
         return null
       }
 
-      const data = getAllNodes(cache)
+      const data = cache.readQuery({ query: GET_ALL_NODES })
       const subDomains = await getSubDomains(name)
 
       const names = data.names.map(node => {
@@ -145,29 +133,12 @@ const resolvers = {
   },
   Mutation: {
     addFavourite: async (_, { domain }, { cache }) => {
-      const getFavourites = cache => {
-        const query = gql`
-          query getFavourites @client {
-            favourites {
-              name
-              owner
-              label
-              resolver
-              addr
-              content
-              subDomains
-            }
-          }
-        `
-
-        return cache.readQuery({ query })
-      }
-
       const newFavourite = {
-        ...domain
+        ...domain,
+        __typename: 'Domain'
       }
 
-      const previous = getFavourites(cache)
+      const previous = cache.readQuery({ query: GET_FAVOURITES })
 
       const data = {
         favourites: [...previous.favourites, newFavourite]
@@ -175,7 +146,29 @@ const resolvers = {
 
       cache.writeData({ data })
 
-      return newFavourite
+      return data
+    },
+    addSubDomainFavourite: async (_, { domain }, { cache }) => {
+      const previous = cache.readQuery({ query: GET_SUBDOMAIN_FAVOURITES })
+
+      const newFavourite = {
+        ...domain,
+        __typename: 'SubDomain'
+      }
+
+      console.log(previous, newFavourite)
+
+      const data = {
+        subDomainFavourites: [...previous.subDomainFavourites, newFavourite]
+      }
+
+      console.log(data)
+
+      cache.writeData({ data })
+
+      console.log('here')
+
+      return data
     }
     // addNode: async (_, { name }, { cache }) => {
     //   const owner = await getOwner(name)

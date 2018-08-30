@@ -1,5 +1,9 @@
 import gql from 'graphql-tag'
-import { NodesRecursive, NodeFields } from './fragments'
+import {
+  NodesRecursive,
+  NodeFields,
+  SubDomainStateFieldsFavourite
+} from './fragments'
 
 export const GET_WEB3 = gql`
   query web3 {
@@ -19,6 +23,20 @@ export const GET_NODES = gql`
   ${NodesRecursive}
 `
 
+export const GET_ALL_NODES = gql`
+  query names {
+    names {
+      name
+      owner
+      label
+      resolver
+      addr
+      content
+      subDomains
+    }
+  }
+`
+
 export const GET_SINGLE_NAME = gql`
   query singleName($name: String) @client {
     singleName(name: $name) {
@@ -35,4 +53,28 @@ export const GET_SUBDOMAINS = gql`
       subDomains
     }
   }
+`
+
+export const GET_FAVOURITES = gql`
+  query getFavourites {
+    favourites {
+      name
+      revealDate
+      registrationDate
+      value
+      highestBid
+      state
+      owner
+    }
+  }
+`
+
+export const GET_SUBDOMAIN_FAVOURITES = gql`
+  query getSubDomainFavourites {
+    subDomainFavourites @client {
+      ...SubDomainStateFieldsFavourite
+    }
+  }
+
+  ${SubDomainStateFieldsFavourite}
 `

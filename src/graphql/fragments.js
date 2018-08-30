@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-const NodeFields = gql`
+export const NodeFields = gql`
   fragment NodeFields on Node {
     name
     owner
@@ -11,8 +11,8 @@ const NodeFields = gql`
   }
 `
 
-const SubDomainStateFields = gql`
-  fragment SubDomainStateFields on SubDomainState {
+export const SubDomainStateFields = gql`
+  fragment SubDomainStateFields on SubDomain {
     label
     domain
     price
@@ -22,7 +22,15 @@ const SubDomainStateFields = gql`
   }
 `
 
-const NodesRecursive = gql`
+export const SubDomainStateFieldsFavourite = gql`
+  fragment SubDomainStateFieldsFavourite on SubDomain {
+    name
+    price
+    state
+  }
+`
+
+export const NodesRecursive = gql`
   fragment NodesRecursive on Node {
     ...NodeFields
     nodes {
@@ -41,5 +49,3 @@ const NodesRecursive = gql`
 
   ${NodeFields}
 `
-
-export { NodesRecursive, NodeFields, SubDomainStateFields }

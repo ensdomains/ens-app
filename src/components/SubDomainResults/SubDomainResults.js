@@ -6,7 +6,6 @@ import styled from 'react-emotion'
 import { SubDomainStateFields } from '../../graphql/fragments'
 import ReactTransitionGroup from 'react-transition-group-plus'
 import { TweenMax, TimelineMax, Linear, Sine } from 'gsap/umd/TweenMax'
-import { fromWei } from 'ethjs-unit'
 import DomainItemDefault from '../DomainItem/DomainItem'
 import Loader from '../Loader'
 import { H2 } from '../Typography/Basic'
@@ -97,10 +96,10 @@ class SubDomainNode extends Component {
         <SubDomainItem
           domain={{
             name: `${node.label}.${node.domain}.eth`,
-            price: fromWei(node.price, 'ether'),
+            price: node.price,
             state: 'Owned'
           }}
-          isSubdomain={true}
+          isSubDomain={true}
         />
       )
     }
@@ -108,10 +107,10 @@ class SubDomainNode extends Component {
       <SubDomainItem
         domain={{
           name: `${node.label}.${node.domain}.eth`,
-          price: fromWei(node.price, 'ether'),
+          price: node.price,
           state: 'Open'
         }}
-        isSubdomain={true}
+        isSubDomain={true}
       />
     )
   }
@@ -147,7 +146,7 @@ const alphabeticalAndAvailable = (a, b) => {
   }
 }
 
-class SubDomainsContainer extends Component {
+export class SubDomainsContainer extends Component {
   state = {
     subdomains: []
   }
