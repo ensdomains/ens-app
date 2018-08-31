@@ -24,14 +24,6 @@ export const SubDomainStateFields = gql`
   }
 `
 
-export const SubDomainStateFieldsFavourite = gql`
-  fragment SubDomainStateFieldsFavourite on SubDomain {
-    name
-    price
-    state
-  }
-`
-
 export const NodesRecursive = gql`
   fragment NodesRecursive on Node {
     ...NodeFields
