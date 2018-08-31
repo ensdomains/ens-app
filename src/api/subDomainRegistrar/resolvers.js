@@ -33,6 +33,8 @@ const resolvers = {
         subDomainPromise.then(node => {
           const newNode = {
             ...node,
+            name: `${node.label}.${node.domain}.eth`,
+            state: node.available ? 'Open' : 'Owned',
             price: fromWei(node.price, 'ether'),
             __typename: 'SubDomain'
           }

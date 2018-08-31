@@ -92,27 +92,9 @@ class SubDomainNode extends Component {
   render() {
     const { node } = this.props
     if (!node.available) {
-      return (
-        <SubDomainItem
-          domain={{
-            name: `${node.label}.${node.domain}.eth`,
-            price: node.price,
-            state: 'Owned'
-          }}
-          isSubDomain={true}
-        />
-      )
+      return <SubDomainItem domain={node} isSubDomain={true} />
     }
-    return (
-      <SubDomainItem
-        domain={{
-          name: `${node.label}.${node.domain}.eth`,
-          price: node.price,
-          state: 'Open'
-        }}
-        isSubDomain={true}
-      />
-    )
+    return <SubDomainItem domain={node} isSubDomain={true} />
   }
 }
 

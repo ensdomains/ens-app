@@ -15,10 +15,12 @@ export const SubDomainStateFields = gql`
   fragment SubDomainStateFields on SubDomain {
     label
     domain
+    name
     price
     rent
     referralFeePPM
     available
+    state
   }
 `
 

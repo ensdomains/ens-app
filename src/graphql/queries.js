@@ -2,7 +2,8 @@ import gql from 'graphql-tag'
 import {
   NodesRecursive,
   NodeFields,
-  SubDomainStateFieldsFavourite
+  SubDomainStateFieldsFavourite,
+  SubDomainStateFields
 } from './fragments'
 
 export const GET_WEB3 = gql`
@@ -72,9 +73,9 @@ export const GET_FAVOURITES = gql`
 export const GET_SUBDOMAIN_FAVOURITES = gql`
   query getSubDomainFavourites {
     subDomainFavourites @client {
-      ...SubDomainStateFieldsFavourite
+      ...SubDomainStateFields
     }
   }
 
-  ${SubDomainStateFieldsFavourite}
+  ${SubDomainStateFields}
 `
