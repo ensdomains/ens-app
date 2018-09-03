@@ -27,7 +27,6 @@ const resolvers = {
         highestBid
       } = await getEntry(name)
       let owner = null
-      console.log('here in getDomainAvailability mutation')
 
       cache.writeData({
         data: defaults

@@ -1,26 +1,8 @@
 import { queryAll } from '../subDomainRegistrar'
-import gql from 'graphql-tag'
 import { fromWei } from 'ethjs-unit'
 
 const defaults = {
   subDomainState: []
-}
-
-const getAllNodes = cache => {
-  const query = gql`
-    query subDomainState {
-      subDomainState {
-        label
-        domain
-        price
-        rent
-        referralFeePPM
-        available
-      }
-    }
-  `
-
-  return cache.readQuery({ query })
 }
 
 const resolvers = {
@@ -37,7 +19,7 @@ const resolvers = {
 
       const cachedNodes = []
 
-      const promises = nodes.forEach(subDomainPromise =>
+      nodes.forEach(subDomainPromise =>
         subDomainPromise
           .then(node => {
             const newNode = {
@@ -50,8 +32,6 @@ const resolvers = {
             }
 
             cachedNodes.push(newNode)
-
-            console.log(cachedNodes)
 
             const data = {
               subDomainState: [...cachedNodes]
