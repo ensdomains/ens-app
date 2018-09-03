@@ -35,11 +35,9 @@ const getSubDomainRegistrar = async address => {
 export const query = async (domain, label, address) => {
   const Registrar = await getSubDomainRegistrar(address)
   const { web3 } = await getWeb3()
-  console.log('IN QUERY FUNCTION')
   return new Promise((resolve, reject) => {
     Registrar.query(web3.sha3(domain), label, (err, node) => {
       if (err) {
-        console.log('IN QURY FUNCTION ERROR')
         reject(err)
       } else {
         resolve({

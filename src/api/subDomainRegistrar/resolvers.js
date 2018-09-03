@@ -32,7 +32,6 @@ const resolvers = {
           subDomainState: []
         }
       })
-      console.log('clearing')
 
       const nodes = await queryAll(name)
 

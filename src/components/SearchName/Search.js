@@ -25,7 +25,8 @@ const SearchForm = styled('form')`
 
   input {
     padding-left: 35px;
-    width: calc(100% - 243px);
+    // width: calc(100% - 243px);
+    width: calc(100% - 162px);
     border: none;
     font-size: 28px;
     font-family: Overpass;
@@ -95,13 +96,13 @@ class Search extends React.Component {
           ref={el => (this.input = el)}
           onChange={this.handleParse}
         />
-        <Caret
+        {/* <Caret
           up={this.state.filterOpen}
           onClick={() =>
             this.setState(state => ({ filterOpen: !state.filterOpen }))
           }
-        />
-        <Filters show={this.state.filterOpen} />
+        /> */}
+        {/* <Filters show={this.state.filterOpen} /> */}
         <button type="submit">Search</button>
       </SearchForm>
     )
