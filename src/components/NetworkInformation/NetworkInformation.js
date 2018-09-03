@@ -30,6 +30,18 @@ const NetworkStatus = styled('div')`
   font-weight: 100;
   margin-top: -2px;
   margin-left: 1px;
+  display: flex;
+  align-items: center;
+
+  &:before {
+    content: '';
+    display: flex;
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background: #5284ff;
+    margin-right: 5px;
+  }
 `
 
 const Account = styled('div')`
