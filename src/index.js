@@ -15,10 +15,15 @@ import { NotificationsProvider } from './Notifications'
 import { GlobalStateProvider } from './globalState'
 import './globalStyles'
 
-const cache = new InMemoryCache(window.__APOLLO_STATE__)
+const cache = new InMemoryCache({
+  addTypename: true
+})
+
+//window.__APOLLO_STATE__
 
 const graphqlClient = new ApolloClient({
   cache,
+  addTypename: true,
   link: withClientState({
     resolvers,
     cache,

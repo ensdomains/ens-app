@@ -51,37 +51,9 @@ const resolvers = {
         }
       }
 
-      console.log(data)
-
       cache.writeData({ data })
 
       return data
-    },
-    async getDomainEntry(_, { name }, { cache }) {
-      const entry = await getEntry(name)
-      //let owner = null
-
-      console.log(entry)
-
-      // if (modeNames[state] === 'Owned') {
-      //   console.log(1)
-      //   owner = await getOwner(`${name}.eth`)
-      // }
-
-      // const data = {
-      //   domainState: {
-      //     name: `${name}.eth`,
-      //     state: modeNames[state],
-      //     owner,
-      //     __typename: 'DomainState'
-      //   }
-      // }
-
-      // cache.writeData({ data })
-
-      return {
-        entry
-      }
     },
     async startAuctionAndBid(_, { name, bidAmount, decoyBidAmount, secret }) {
       const sealedBid = await createSealedBid(name, bidAmount, secret)

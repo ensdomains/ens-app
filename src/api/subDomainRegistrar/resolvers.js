@@ -37,29 +37,32 @@ const resolvers = {
 
       const cachedNodes = []
 
-      nodes.map(subDomainPromise =>
-        subDomainPromise.then(node => {
-          const newNode = {
-            ...node,
-            name: `${node.label}.${node.domain}.eth`,
-            state: node.available ? 'Open' : 'Owned',
-            price: fromWei(node.price, 'ether'),
-            __typename: 'SubDomain'
-          }
+      const promises = nodes.forEach(subDomainPromise =>
+        subDomainPromise
+          .then(node => {
+            const newNode = {
+              ...node,
+              id: `${node.label}.${node.domain}.eth`,
+              name: `${node.label}.${node.domain}.eth`,
+              state: node.available ? 'Open' : 'Owned',
+              price: fromWei(node.price, 'ether'),
+              __typename: 'SubDomain'
+            }
 
-          cachedNodes.push(newNode)
+            cachedNodes.push(newNode)
 
-          const data = {
-            subDomainState: [...cachedNodes]
-          }
+            console.log(cachedNodes)
 
-          cache.writeData({ data })
-        })
+            const data = {
+              subDomainState: [...cachedNodes]
+            }
+
+            cache.writeData({ data })
+          })
+          .catch(e => console.log('ERROR in subdomain results', e))
       )
 
-      return Promise.all(nodes).then(() => ({
-        subDomainState: cachedNodes
-      }))
+      return null
     }
   }
 }
