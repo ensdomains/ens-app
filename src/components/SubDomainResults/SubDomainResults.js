@@ -2,8 +2,8 @@ import React, { Fragment, Component } from 'react'
 import { findDOMNode } from 'react-dom'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
-import styled from 'react-emotion'
 import { SubDomainStateFields } from '../../graphql/fragments'
+import { GET_SUBDOMAIN_FAVOURITES } from '../../graphql/queries'
 import ReactTransitionGroup from 'react-transition-group-plus'
 import { TweenMax, TimelineMax, Linear, Sine } from 'gsap/umd/TweenMax'
 import DomainItem from '../DomainItem/DomainItem'
@@ -85,12 +85,32 @@ class SubDomainNode extends Component {
       ease: Sine.easeIn
     })
   }
+
+  isFavourite() {
+    return (
+      this.props.subDomainFavourites.filter(
+        domain => this.props.node.name === domain.name
+      ).length > 0
+    )
+  }
   render() {
     const { node } = this.props
     if (!node.available) {
-      return <DomainItem domain={node} isSubDomain={true} />
+      return (
+        <DomainItem
+          domain={node}
+          isSubDomain={true}
+          isFavourite={this.isFavourite()}
+        />
+      )
     }
-    return <DomainItem domain={node} isSubDomain={true} />
+    return (
+      <DomainItem
+        domain={node}
+        isSubDomain={true}
+        isFavourite={this.isFavourite()}
+      />
+    )
   }
 }
 
@@ -139,7 +159,7 @@ export class SubDomainsContainer extends Component {
     }
   }
   render() {
-    const subDomainState = this.props.subDomainState
+    const { subDomainState, subDomainFavourites } = this.props
     let index = 0
     return (
       <Fragment>
@@ -169,6 +189,7 @@ export class SubDomainsContainer extends Component {
                   node={node}
                   key={node.label + '.' + node.domain}
                   enterDuration={1}
+                  subDomainFavourites={subDomainFavourites}
                 />
               )
             })}
@@ -184,11 +205,20 @@ export class SubDomainsContainer extends Component {
 class SubDomainResults extends Component {
   render() {
     return (
-      <Query query={GET_SUBDOMAIN_STATE} fetchPolicy="no-cache">
-        {({ data: { subDomainState }, loading }) => {
-          if (loading) return <div>Loading...</div>
-          return <SubDomainsContainer subDomainState={subDomainState} />
-        }}
+      <Query query={GET_SUBDOMAIN_FAVOURITES}>
+        {({ data: { subDomainFavourites } }) => (
+          <Query query={GET_SUBDOMAIN_STATE} fetchPolicy="no-cache">
+            {({ data: { subDomainState }, loading }) => {
+              if (loading) return <div>Loading...</div>
+              return (
+                <SubDomainsContainer
+                  subDomainState={subDomainState}
+                  subDomainFavourites={subDomainFavourites}
+                />
+              )
+            }}
+          </Query>
+        )}
       </Query>
     )
   }

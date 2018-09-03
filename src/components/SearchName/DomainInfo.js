@@ -6,6 +6,7 @@ import Loader from '../Loader'
 import DomainItem from '../DomainItem/DomainItem'
 import { GET_WEB3 } from '../../graphql/queries'
 import { H2 } from '../Typography/Basic'
+import { GET_FAVOURITES } from '../../graphql/queries'
 
 const GET_DOMAIN_STATE = gql`
   query getDomainState @client {

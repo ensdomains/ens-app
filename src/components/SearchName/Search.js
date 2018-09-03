@@ -4,8 +4,8 @@ import { validateName, parseSearchTerm } from '../../lib/utils'
 import '../../api/subDomainRegistrar'
 import { withRouter } from 'react-router'
 import searchIcon from './search.svg'
-import Caret from './Caret'
-import Filters from './Filters'
+// import Caret from './Caret'
+// import Filters from './Filters'
 
 const SearchForm = styled('form')`
   display: flex;
