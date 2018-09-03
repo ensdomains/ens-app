@@ -32,16 +32,31 @@ const ADD_SUBDOMAIN_FAVOURITE = gql`
   }
 `
 
+const DELETE_FAVOURITE = gql`
+  mutation DeleteFavouriteMutation($domain: Domain) {
+    deleteFavourite(domain: $domain) @client
+  }
+`
+const DELETE_SUBDOMAIN_FAVOURITE = gql`
+  mutation DeleteSubDomainFavourite($domain: Domain) {
+    deleteSubDomainFavourite(domain: $domain) @client
+  }
+`
+
 class AddFavourite extends Component {
   render() {
     if (this.props.isSubDomain) {
       return (
         <Mutation
-          mutation={ADD_SUBDOMAIN_FAVOURITE}
+          mutation={
+            this.props.isFavourite
+              ? DELETE_SUBDOMAIN_FAVOURITE
+              : ADD_SUBDOMAIN_FAVOURITE
+          }
           variables={{ domain: this.props.domain }}
         >
-          {addFavourite => (
-            <AddFavouriteContainer onClick={addFavourite}>
+          {favouriteMutation => (
+            <AddFavouriteContainer onClick={favouriteMutation}>
               {this.props.isFavourite ? <ActiveHeart /> : <InActiveHeart />}
             </AddFavouriteContainer>
           )}
@@ -50,11 +65,11 @@ class AddFavourite extends Component {
     }
     return (
       <Mutation
-        mutation={ADD_FAVOURITE}
+        mutation={this.props.isFavourite ? DELETE_FAVOURITE : ADD_FAVOURITE}
         variables={{ domain: this.props.domain }}
       >
-        {addFavourite => (
-          <AddFavouriteContainer onClick={addFavourite}>
+        {favouriteMutation => (
+          <AddFavouriteContainer onClick={favouriteMutation}>
             {this.props.isFavourite ? <ActiveHeart /> : <InActiveHeart />}
           </AddFavouriteContainer>
         )}

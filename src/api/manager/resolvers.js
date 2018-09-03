@@ -148,6 +148,19 @@ const resolvers = {
 
       return data
     },
+    deleteFavourite: async (_, { domain }, { cache }) => {
+      const previous = cache.readQuery({ query: GET_FAVOURITES })
+
+      const data = {
+        favourites: previous.favourites.filter(
+          previousDomain => previousDomain.name !== domain.name
+        )
+      }
+
+      cache.writeData({ data })
+
+      return data
+    },
     addSubDomainFavourite: async (_, { domain }, { cache }) => {
       const previous = cache.readQuery({ query: GET_SUBDOMAIN_FAVOURITES })
 
@@ -156,81 +169,28 @@ const resolvers = {
         __typename: 'SubDomain'
       }
 
-      console.log(previous, newFavourite)
-
       const data = {
         subDomainFavourites: [...previous.subDomainFavourites, newFavourite]
       }
-
-      console.log(data)
 
       cache.writeData({ data })
 
       console.log('here')
 
       return data
+    },
+    deleteSubDomainFavourite: async (_, { domain }, { cache }) => {
+      console.log('HERE in delete')
+      const previous = cache.readQuery({ query: GET_SUBDOMAIN_FAVOURITES })
+
+      const data = {
+        subDomainFavourites: previous.subDomainFavourites.filter(
+          previousDomain => previousDomain.name !== domain.name
+        )
+      }
+      cache.writeData({ data })
+      return data
     }
-    // addNode: async (_, { name }, { cache }) => {
-    //   const owner = await getOwner(name)
-    //   //Return null if no owner
-    //   if (parseInt(owner, 16) === 0) {
-    //     return null
-    //   }
-    //   //Get all nodes
-    //   const { nodes } = getAllNodes(cache)
-    //   //Create Node
-    //   let node = {
-    //     name,
-    //     owner,
-    //     __typename: 'Node'
-    //   }
-    //   //Write to cache
-    //   const rootNode = await getDomainDetails(name).then(rootDomainRaw => {
-    //     //console.log(rootDomainRaw)
-    //     const newNode = { ...node, ...rootDomainRaw }
-    //     const data = {
-    //       nodes: [...nodes, newNode]
-    //     }
-    //     cache.writeData({ data })
-    //     return newNode
-    //   })
-    //   console.log('ROOT NODE', rootNode)
-    //   return rootNode
-    // },
-    //   getSubDomains: async (_, { name, owner }, { cache }) => {
-    //     if (!owner) {
-    //       owner = await getOwner(name)
-    //     }
-    //     if (parseInt(owner, 16) === 0) {
-    //       return null
-    //     }
-    //     const data = getAllNodes(cache)
-    //     const rawNodes = await getSubDomains(name)
-    //     const nodes = rawNodes.map(node => {
-    //       if (parseInt(node.resolver, 16) === 0 || node.decrypted === false) {
-    //         return {
-    //           ...node,
-    //           __typename: 'Node',
-    //           addr: null,
-    //           content: null
-    //         }
-    //       }
-    //       return {
-    //         ...node,
-    //         __typename: 'Node'
-    //       }
-    //     })
-    //     console.log(nodes)
-    //     const domainArray = name.split('.')
-    //     //Remove global tld
-    //     let domainArraySliced = domainArray.slice(0, domainArray.length - 1)
-    //     const path = resolveQueryPath(domainArraySliced, ['nodes'], data)
-    //     const newData = set({ ...data }, path, nodes)
-    //     cache.writeData({
-    //       data: newData
-    //     })
-    //     return nodes
-    //   }
   }
 }
 
