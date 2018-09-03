@@ -2,7 +2,9 @@ import { getMode, createSealedBid, getEntry } from '../registrar'
 import { getOwner } from '../registry'
 
 const defaults = {
-  domainState: null
+  domainState: {
+    __typename: 'DomainState'
+  }
 }
 
 const modeNames = [
@@ -25,14 +27,11 @@ const resolvers = {
         highestBid
       } = await getEntry(name)
       let owner = null
+      console.log('here in getDomainAvailability mutation')
 
       cache.writeData({
-        data: {
-          domainState: null
-        }
+        data: defaults
       })
-
-      console.log(name)
 
       if (modeNames[state] === 'Owned') {
         owner = await getOwner(`${name}.eth`)
@@ -53,7 +52,7 @@ const resolvers = {
 
       cache.writeData({ data })
 
-      return data
+      return data.domainState
     },
     async startAuctionAndBid(_, { name, bidAmount, decoyBidAmount, secret }) {
       const sealedBid = await createSealedBid(name, bidAmount, secret)

@@ -63,6 +63,8 @@ class AddFavourite extends Component {
         </Mutation>
       )
     }
+
+    console.log('ADD FAVORUITE', this.props.isFavourite)
     return (
       <Mutation
         mutation={this.props.isFavourite ? DELETE_FAVOURITE : ADD_FAVOURITE}

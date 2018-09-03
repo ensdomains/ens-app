@@ -26,12 +26,12 @@ const GET_DOMAIN_STATE = gql`
   }
 `
 
-export const DomainInfo = ({ domainState, accounts }) => {
+export const DomainInfo = ({ domainState, isFavourite }) => {
   if (!domainState) return null
 
   return (
     <div>
-      <DomainItem domain={domainState} />
+      <DomainItem domain={domainState} isFavourite={isFavourite} />
     </div>
   )
 }
@@ -51,17 +51,27 @@ const DomainInfoContainer = () => {
         }
       }) => {
         return (
-          <Fragment>
-            <H2>Top Level Domains</H2>
-            {loading ? (
+          <Query query={GET_FAVOURITES}>
+            {({ data: { favourites } }) => (
               <Fragment>
-                {console.log(web3)}
-                <Loader />
+                <H2>Top Level Domains</H2>
+                {loading ? (
+                  <Fragment>
+                    <Loader />
+                  </Fragment>
+                ) : (
+                  <DomainInfo
+                    domainState={domainState}
+                    isFavourite={
+                      favourites.filter(
+                        domain => domain.name === domainState.name
+                      ).length > 0
+                    }
+                  />
+                )}
               </Fragment>
-            ) : (
-              <DomainInfo domainState={domainState} />
             )}
-          </Fragment>
+          </Query>
         )
       }}
     </Composed>
