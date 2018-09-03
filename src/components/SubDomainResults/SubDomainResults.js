@@ -6,13 +6,9 @@ import styled from 'react-emotion'
 import { SubDomainStateFields } from '../../graphql/fragments'
 import ReactTransitionGroup from 'react-transition-group-plus'
 import { TweenMax, TimelineMax, Linear, Sine } from 'gsap/umd/TweenMax'
-import DomainItemDefault from '../DomainItem/DomainItem'
+import DomainItem from '../DomainItem/DomainItem'
 import Loader from '../Loader'
 import { H2 } from '../Typography/Basic'
-
-const SubDomainItem = styled(DomainItemDefault)`
-  margin-bottom: 4px;
-`
 
 const animationStates = {
   beforeEnter: { x: -100, scale: 1, opacity: 0 },
@@ -92,9 +88,9 @@ class SubDomainNode extends Component {
   render() {
     const { node } = this.props
     if (!node.available) {
-      return <SubDomainItem domain={node} isSubDomain={true} />
+      return <DomainItem domain={node} isSubDomain={true} />
     }
-    return <SubDomainItem domain={node} isSubDomain={true} />
+    return <DomainItem domain={node} isSubDomain={true} />
   }
 }
 

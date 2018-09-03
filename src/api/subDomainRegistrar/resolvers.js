@@ -26,7 +26,16 @@ const getAllNodes = cache => {
 const resolvers = {
   Mutation: {
     async getSubDomainAvailability(_, { name }, { cache }) {
+      //clear old search results
+      cache.writeData({
+        data: {
+          subDomainState: []
+        }
+      })
+      console.log('clearing')
+
       const nodes = await queryAll(name)
+
       const cachedNodes = []
 
       nodes.map(subDomainPromise =>

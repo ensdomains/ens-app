@@ -1,10 +1,19 @@
 import React, { Component } from 'react'
 import styled from 'react-emotion'
-import HeartDefault from '../Icons/Heart'
+import InActiveHeartDefault from '../Icons/InActiveHeart'
+import ActiveHeartDefault from '../Icons/ActiveHeart'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 
-const Heart = styled(HeartDefault)`
+const ActiveHeart = styled(ActiveHeartDefault)`
+  margin-right: 20px;
+
+  &:hover {
+    cursor: pointer;
+  }
+`
+
+const InActiveHeart = styled(InActiveHeartDefault)`
   margin-right: 20px;
 
   &:hover {
@@ -33,7 +42,7 @@ class AddFavourite extends Component {
         >
           {addFavourite => (
             <AddFavouriteContainer onClick={addFavourite}>
-              <Heart />
+              {this.props.isFavourite ? <ActiveHeart /> : <InActiveHeart />}
             </AddFavouriteContainer>
           )}
         </Mutation>
@@ -46,7 +55,7 @@ class AddFavourite extends Component {
       >
         {addFavourite => (
           <AddFavouriteContainer onClick={addFavourite}>
-            <Heart />
+            {this.props.isFavourite ? <ActiveHeart /> : <InActiveHeart />}
           </AddFavouriteContainer>
         )}
       </Mutation>

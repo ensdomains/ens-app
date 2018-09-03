@@ -26,6 +26,12 @@ const resolvers = {
       } = await getEntry(name)
       let owner = null
 
+      cache.writeData({
+        data: {
+          domainState: null
+        }
+      })
+
       console.log(name)
 
       if (modeNames[state] === 'Owned') {

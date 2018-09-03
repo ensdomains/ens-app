@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'react-emotion'
+import { Link } from 'react-router-dom'
 
-const ButtonContainer = styled('a')`
+const ButtonContainer = styled(Link)`
   color: white;
   background: ${p => p.color};
   padding: 10px 25px;
@@ -23,7 +24,7 @@ const types = {
 }
 
 const Button = ({ children, type = 'primary', href }) => (
-  <ButtonContainer href={href} color={types[type]}>
+  <ButtonContainer to={href} color={types[type]}>
     {children}
   </ButtonContainer>
 )

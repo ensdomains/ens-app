@@ -46,6 +46,7 @@ const DomainContainer = styled('div')`
   justify-content: space-between;
   align-items: center;
   font-size: 22px;
+  margin-bottom: 4px;
 
   &:hover {
     .label-container {
@@ -117,7 +118,6 @@ const Label = ({ domain, timeLeft }) => {
   }
 
   let timeLeftHuman
-  console.log(domain)
 
   if (domain.state === 'Auction' || domain.state === 'Reveal') {
     timeLeftHuman = moment.duration(timeLeft).humanize()
@@ -137,7 +137,7 @@ function getTimeLeft(endDate) {
   return new Date(endDate).getTime() - new Date().getTime()
 }
 
-const Domain = ({ domain, isSubDomain, className }) => {
+const Domain = ({ domain, isSubDomain, className, isFavourite }) => {
   let timeLeft = false
   let percentDone = 0
   if (domain.state === 'Auction') {
@@ -166,7 +166,11 @@ const Domain = ({ domain, isSubDomain, className }) => {
         ) : (
           ''
         )}
-        <AddFavourite domain={domain} isSubDomain={isSubDomain} />
+        <AddFavourite
+          domain={domain}
+          isSubDomain={isSubDomain}
+          isFavourite={isFavourite}
+        />
 
         <Button primary href={`/name/${domain.name}`}>
           Details
