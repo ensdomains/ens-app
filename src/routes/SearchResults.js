@@ -4,6 +4,8 @@ import SubDomainResults from '../components/SubDomainResults/SubDomainResults'
 import { SubDomainStateFields } from '../graphql/fragments'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
+import { parseSearchTerm } from '../lib/utils'
+import SearchErrors from '../components/SearchErrors/SearchErrors'
 
 const GET_DOMAIN_STATE = gql`
   mutation getDomainAvailability($name: String) {
@@ -25,15 +27,29 @@ const GET_SUBDOMAIN_AVAILABILITY = gql`
 `
 
 class Results extends React.Component {
+  state = {
+    errors: [],
+    errorType: ''
+  }
   componentDidMount() {
     const { searchTerm, getDomainState, getSubDomainAvailability } = this.props
+    this.setState({
+      errors: []
+    })
+    if (parseSearchTerm(searchTerm) === 'unsupported') {
+      this.setState({
+        errors: ['domainMalformed']
+      })
+    }
     getDomainState({ variables: { name: searchTerm } })
     getSubDomainAvailability({ variables: { name: searchTerm } })
   }
 
   componentDidUpdate(prevProps) {
-    console.log('here in componentDidUpdate')
     if (prevProps.searchTerm !== this.props.searchTerm) {
+      if (parseSearchTerm(this.props.searchTerm) === 'unsupported') {
+        return
+      }
       const {
         searchTerm,
         getDomainState,
@@ -45,6 +61,14 @@ class Results extends React.Component {
   }
   render() {
     const { searchTerm } = this.props
+    if (this.state.errors.length > 0) {
+      return (
+        <SearchErrors
+          errors={this.state.errors}
+          searchTerm={this.props.searchTerm}
+        />
+      )
+    }
     return (
       <Fragment>
         <DomainInfo searchTerm={searchTerm} />

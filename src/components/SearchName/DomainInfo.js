@@ -36,20 +36,10 @@ export const DomainInfo = ({ domainState, isFavourite }) => {
   )
 }
 
-const Composed = adopt({
-  domainState: <Query query={GET_DOMAIN_STATE} fetchPolicy="no-cache" />,
-  accounts: <Query query={GET_WEB3} />
-})
-
 const DomainInfoContainer = () => {
   return (
-    <Composed>
-      {({
-        domainState: {
-          data: { domainState, web3 },
-          loading
-        }
-      }) => {
+    <Query query={GET_DOMAIN_STATE} fetchPolicy="no-cache">
+      {({ data: { domainState }, loading }) => {
         return (
           <Query query={GET_FAVOURITES}>
             {({ data: { favourites } }) => (
@@ -74,7 +64,7 @@ const DomainInfoContainer = () => {
           </Query>
         )
       }}
-    </Composed>
+    </Query>
   )
 }
 

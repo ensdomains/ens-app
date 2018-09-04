@@ -24,7 +24,7 @@ const types = {
 }
 
 const Button = ({ children, type = 'primary', href }) => (
-  <ButtonContainer to={href || ''} color={types[type]}>
+  <ButtonContainer to={href || ''} color={types[type]} href={href}>
     {children}
   </ButtonContainer>
 )

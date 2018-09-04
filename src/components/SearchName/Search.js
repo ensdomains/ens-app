@@ -83,11 +83,11 @@ class Search extends React.Component {
             return
           }
 
-          if (validateName(searchTerm)) {
-            history.push(`/search/${searchTerm}`)
-          } else {
+          if (this.state.type === 'unsupported') {
             history.push(`/search/${searchTerm}`)
             console.log('name is too short or has punctuation')
+          } else {
+            history.push(`/search/${searchTerm}`)
           }
         }}
       >
