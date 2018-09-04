@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import styled from 'react-emotion'
 import { H2 } from '../Typography/Basic'
 import WarningDefault from '../Icons/Warning'
+import SmallCaret from '../Icons/SmallCaret'
 
 const errorData = {
   domainMalformed: {
@@ -42,7 +43,10 @@ class SingleError extends Component {
     return (
       <SingleErrorContainer>
         <ShortError onClick={this.toggleError} show={this.state.show}>
-          {errorData[error].short(searchTerm)}
+          <ShortErrorMessage>
+            {errorData[error].short(searchTerm)}
+          </ShortErrorMessage>
+          <SmallCaret />
         </ShortError>
         <LongError show={this.state.show}>
           {errorData[error].long(searchTerm)}
@@ -80,11 +84,16 @@ const ShortError = styled('div')`
   border: 1px solid #dc2e2e;
   color: #dc2e2e;
   font-size: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   &:hover {
     cursor: pointer;
   }
 `
+
+const ShortErrorMessage = styled('div')``
 
 const LongError = styled('div')`
   display: ${({ show }) => (show ? 'block' : 'none')};
