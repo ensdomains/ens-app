@@ -31,50 +31,54 @@ class Results extends React.Component {
     errors: [],
     errorType: ''
   }
-  componentDidMount() {
+  checkValidity = () => {
     const { searchTerm, getDomainState, getSubDomainAvailability } = this.props
     this.setState({
       errors: []
     })
-    if (parseSearchTerm(searchTerm) === 'unsupported') {
+    const type = parseSearchTerm(this.props.searchTerm)
+    if (type === 'unsupported') {
+      this.setState({
+        errors: ['unsupported']
+      })
+    } else if (type === 'invalid') {
       this.setState({
         errors: ['domainMalformed']
       })
+    } else if (searchTerm.length < 7) {
+      console.log(searchTerm)
+      this.setState({
+        errors: ['tooShort']
+      })
+      getSubDomainAvailability({ variables: { name: searchTerm } })
     } else {
+      console.log('here in getDomainState')
       getDomainState({ variables: { name: searchTerm } })
       getSubDomainAvailability({ variables: { name: searchTerm } })
     }
   }
+  componentDidMount() {
+    this.checkValidity()
+  }
 
   componentDidUpdate(prevProps) {
     if (prevProps.searchTerm !== this.props.searchTerm) {
-      this.setState({
-        errors: []
-      })
-      const type = parseSearchTerm(this.props.searchTerm)
-      console.log(type)
-      if (type === 'unsupported') {
-        this.setState({
-          errors: ['unsupported']
-        })
-      } else if (type === 'invalid') {
-        this.setState({
-          errors: ['domainMalformed']
-        })
-      } else {
-        const {
-          searchTerm,
-          getDomainState,
-          getSubDomainAvailability
-        } = this.props
-        getDomainState({ variables: { name: searchTerm } })
-        getSubDomainAvailability({ variables: { name: searchTerm } })
-      }
+      this.checkValidity()
     }
   }
   render() {
     const { searchTerm } = this.props
-    if (this.state.errors.length > 0) {
+    if (this.state.errors[0] === 'tooShort') {
+      return (
+        <Fragment>
+          <SearchErrors
+            errors={this.state.errors}
+            searchTerm={this.props.searchTerm}
+          />
+          <SubDomainResults searchTerm={searchTerm} />
+        </Fragment>
+      )
+    } else if (this.state.errors.length > 0) {
       return (
         <SearchErrors
           errors={this.state.errors}

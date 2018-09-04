@@ -1,5 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import styled from 'react-emotion'
+import { H2 } from '../Typography/Basic'
+import WarningDefault from '../Icons/Warning'
 
 const errorData = {
   domainMalformed: {
@@ -17,8 +19,12 @@ const errorData = {
       `We currently only support .eth and .xyz domains. Support for future domains are planned in the future`
   },
   tooShort: {
-    short: searchTerm =>
-      `Name is too short. Names must be at least 7 characters long. `,
+    short: searchTerm => (
+      <Fragment>
+        <strong>Name is too short</strong>. Names must be at least 7 characters
+        long.
+      </Fragment>
+    ),
     long: searchTerm => `Domain malformed. ${searchTerm} is not a valid domain.`
   }
 }
@@ -35,7 +41,7 @@ class SingleError extends Component {
     const { error, searchTerm } = this.props
     return (
       <SingleErrorContainer>
-        <ShortError onClick={this.toggleError}>
+        <ShortError onClick={this.toggleError} show={this.state.show}>
           {errorData[error].short(searchTerm)}
         </ShortError>
         <LongError show={this.state.show}>
@@ -51,6 +57,10 @@ class SearchErrors extends Component {
     const { errors, searchTerm } = this.props
     return (
       <SearchErrorsContainer>
+        <ErrorH2>
+          Warning
+          <Warning />
+        </ErrorH2>
         {errors.map(e => (
           <SingleError error={e} searchTerm={searchTerm} />
         ))}
@@ -63,10 +73,36 @@ const SearchErrorsContainer = styled('div')``
 
 const SingleErrorContainer = styled('div')``
 
-const ShortError = styled('div')``
+const ShortError = styled('div')`
+  background: #fff1f1;
+  padding: 25px 30px;
+  border-radius: ${({ show }) => (show ? '6px 6px 0 0 ' : '6px')};
+  border: 1px solid #dc2e2e;
+  color: #dc2e2e;
+  font-size: 18px;
+
+  &:hover {
+    cursor: pointer;
+  }
+`
 
 const LongError = styled('div')`
   display: ${({ show }) => (show ? 'block' : 'none')};
+  background: #fff1f1;
+  padding: 25px 30px;
+  border-radius: 0 0 6px 6px;
+  border: 1px solid #dc2e2e;
+  border-top: none;
+  color: black;
+  font-size: 18px;
+`
+
+const ErrorH2 = styled(H2)`
+  color: #dc2e2e;
+`
+
+const Warning = styled(WarningDefault)`
+  margin-left: 5px;
 `
 
 export default SearchErrors
