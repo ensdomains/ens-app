@@ -3,7 +3,7 @@
     "supported": true
   },
   "xyz": {
-    "supported": false
+    "supported": true
   },
   "test": {
     "supported": true

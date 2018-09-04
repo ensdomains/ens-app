@@ -6,7 +6,15 @@ const errorData = {
     short: searchTerm =>
       `Domain malformed. ${searchTerm} is not a valid domain.`,
     long: searchTerm =>
-      `You have either added a domain without a TLD such as .eth/.xyz or you have added unsupported characters`
+      `You have either added a domain without a TLD such as .eth or you have added unsupported characters`
+  },
+  unsupported: {
+    short: searchTerm =>
+      `Domain tld unsupported. ${searchTerm
+        .split('.')
+        .splice(-1, 1)} is not currently a support tld.`,
+    long: searchTerm =>
+      `We currently only support .eth and .xyz domains. Support for future domains are planned in the future`
   },
   tooShort: {
     short: searchTerm =>

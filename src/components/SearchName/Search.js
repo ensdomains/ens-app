@@ -78,14 +78,11 @@ class Search extends React.Component {
           e.preventDefault()
           const searchTerm = this.input.value
 
-          if (this.state.type === 'eth' || this.state.type === 'test') {
+          console.log(this.state.type)
+
+          if (this.state.type === 'supported') {
             history.push(`/name/${searchTerm}`)
             return
-          }
-
-          if (this.state.type === 'unsupported') {
-            history.push(`/search/${searchTerm}`)
-            console.log('name is too short or has punctuation')
           } else {
             history.push(`/search/${searchTerm}`)
           }

@@ -40,23 +40,36 @@ class Results extends React.Component {
       this.setState({
         errors: ['domainMalformed']
       })
+    } else {
+      getDomainState({ variables: { name: searchTerm } })
+      getSubDomainAvailability({ variables: { name: searchTerm } })
     }
-    getDomainState({ variables: { name: searchTerm } })
-    getSubDomainAvailability({ variables: { name: searchTerm } })
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.searchTerm !== this.props.searchTerm) {
-      if (parseSearchTerm(this.props.searchTerm) === 'unsupported') {
-        return
+      this.setState({
+        errors: []
+      })
+      const type = parseSearchTerm(this.props.searchTerm)
+      console.log(type)
+      if (type === 'unsupported') {
+        this.setState({
+          errors: ['unsupported']
+        })
+      } else if (type === 'invalid') {
+        this.setState({
+          errors: ['domainMalformed']
+        })
+      } else {
+        const {
+          searchTerm,
+          getDomainState,
+          getSubDomainAvailability
+        } = this.props
+        getDomainState({ variables: { name: searchTerm } })
+        getSubDomainAvailability({ variables: { name: searchTerm } })
       }
-      const {
-        searchTerm,
-        getDomainState,
-        getSubDomainAvailability
-      } = this.props
-      getDomainState({ variables: { name: searchTerm } })
-      getSubDomainAvailability({ variables: { name: searchTerm } })
     }
   }
   render() {

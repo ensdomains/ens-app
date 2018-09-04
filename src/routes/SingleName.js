@@ -10,16 +10,24 @@ class SingleName extends Component {
   state = {
     valid: false
   }
-  componentDidMount() {
+  checkValidity = () => {
     const searchTerm = this.props.match.params.name
     const validity = parseSearchTerm(searchTerm)
-    const valid = validity === 'eth' || validity === 'test'
+    const valid = validity === 'supported'
 
     this.setState({ valid })
   }
+  componentDidMount() {
+    this.checkValidity()
+  }
+  componentDidUpdate(prevProps) {
+    if (prevProps.match.params.name !== this.props.match.params.name) {
+      this.checkValidity()
+    }
+  }
   render() {
     const searchTerm = this.props.match.params.name
-
+    console.log(this.state.valid)
     if (this.state.valid) {
       return (
         <Query query={GET_SINGLE_NAME} variables={{ name: searchTerm }}>
