@@ -9,11 +9,11 @@ const resolvers = {
   Mutation: {
     async getSubDomainAvailability(_, { name }, { cache }) {
       //clear old search results
-      // cache.writeData({
-      //   data: {
-      //     subDomainState: []
-      //   }
-      // })
+      cache.writeData({
+        data: {
+          subDomainState: []
+        }
+      })
 
       const nodes = await queryAll(name)
 
@@ -42,7 +42,9 @@ const resolvers = {
           .catch(e => console.log('ERROR in subdomain results', e))
       )
 
-      return Promise.all(promises)
+      return Promise.all(promises).then(() => {
+        return cachedNodes
+      })
     }
   }
 }

@@ -45,6 +45,7 @@ const DomainInfoContainer = () => {
             {({ data: { favourites } }) => (
               <Fragment>
                 <H2>Top Level Domains</H2>
+                {console.log(domainState, loading)}
                 {loading ? (
                   <Fragment>
                     <Loader />

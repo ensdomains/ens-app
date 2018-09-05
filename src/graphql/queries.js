@@ -73,16 +73,9 @@ export const GET_FAVOURITES = gql`
 export const GET_SUBDOMAIN_FAVOURITES = gql`
   query getSubDomainFavourites {
     subDomainFavourites @client {
-      label
-      domain
-      name
-      price
-      rent
-      referralFeePPM
-      available
-      state
+      ...SubDomainStateFields
     }
   }
 
-  #${SubDomainStateFields}
+  ${SubDomainStateFields}
 `
