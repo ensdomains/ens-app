@@ -19,7 +19,6 @@ import tag from '../components/HomePage/images/tag.svg'
 import Alice from '../components/HomePage/Alice'
 
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
-import { SSL_OP_NETSCAPE_CHALLENGE_BUG } from 'constants'
 
 const Hero = styled('section')`
   background: url(${bg});

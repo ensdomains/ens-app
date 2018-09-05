@@ -28,9 +28,9 @@ const resolvers = {
       } = await getEntry(name)
       let owner = null
 
-      cache.writeData({
-        data: defaults
-      })
+      // cache.writeData({
+      //   data: defaults
+      // })
 
       if (modeNames[state] === 'Owned') {
         owner = await getOwner(`${name}.eth`)

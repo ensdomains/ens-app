@@ -26,7 +26,8 @@ const errorData = {
         long.
       </Fragment>
     ),
-    long: searchTerm => `Domain malformed. ${searchTerm} is not a valid domain.`
+    long: searchTerm =>
+      `Names less than 6 characters have been reserved for when the permanent registrar has been released.`
   }
 }
 
@@ -38,6 +39,7 @@ class SingleError extends Component {
   toggleError = () => {
     this.setState(state => ({ show: !state.show }))
   }
+
   render() {
     const { error, searchTerm } = this.props
     return (

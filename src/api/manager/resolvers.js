@@ -169,6 +169,8 @@ const resolvers = {
         __typename: 'SubDomain'
       }
 
+      console.log('SubDomain', newFavourite)
+
       const data = {
         subDomainFavourites: [...previous.subDomainFavourites, newFavourite]
       }

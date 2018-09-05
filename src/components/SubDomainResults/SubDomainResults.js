@@ -148,23 +148,14 @@ export class SubDomainsContainer extends Component {
   state = {
     subdomains: []
   }
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (
-      this.props.subDomainState &&
-      this.props.subDomainState.length !== prevProps.subDomainState.length
-    ) {
-      this.setState({
-        subdomains: this.props.subDomainState
-      })
-    }
-  }
+
   render() {
     const { subDomainState, subDomainFavourites } = this.props
     let index = 0
     return (
       <Fragment>
         <H2>Subdomains</H2>
-        {subDomainState.length > 0 ? (
+        {subDomainState && subDomainState.length > 0 ? (
           <ReactTransitionGroup
             component="ul"
             transitionMode="out-in"
@@ -206,10 +197,12 @@ class SubDomainResults extends Component {
   render() {
     return (
       <Query query={GET_SUBDOMAIN_FAVOURITES}>
-        {({ data: { subDomainFavourites } }) => (
-          <Query query={GET_SUBDOMAIN_STATE} fetchPolicy="no-cache">
-            {({ data: { subDomainState }, loading }) => {
-              if (loading) return <div>Loading...</div>
+        {({ data: { subDomainFavourites }, loading: loading2 }) => (
+          <Query query={GET_SUBDOMAIN_STATE}>
+            {({ data, loading }) => {
+              const { subDomainState } = data
+              console.log(data, subDomainFavourites)
+              if (loading || loading2) return <div>Loading...</div>
               return (
                 <SubDomainsContainer
                   subDomainState={subDomainState}

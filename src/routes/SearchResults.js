@@ -33,6 +33,8 @@ class Results extends React.Component {
   }
   checkValidity = () => {
     const { searchTerm, getDomainState, getSubDomainAvailability } = this.props
+
+    console.log(searchTerm)
     this.setState({
       errors: []
     })
@@ -46,11 +48,13 @@ class Results extends React.Component {
         errors: ['domainMalformed']
       })
     } else if (searchTerm.length < 7) {
-      console.log(searchTerm)
+      console.log('short', searchTerm)
       this.setState({
         errors: ['tooShort']
       })
-      getSubDomainAvailability({ variables: { name: searchTerm } })
+      getSubDomainAvailability({ variables: { name: searchTerm } }).then(
+        value => console.log('In mutation promise', value)
+      )
     } else {
       console.log('here in getDomainState')
       getDomainState({ variables: { name: searchTerm } })
@@ -62,6 +66,7 @@ class Results extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+    console.log(prevProps, this.props)
     if (prevProps.searchTerm !== this.props.searchTerm) {
       this.checkValidity()
     }
@@ -75,6 +80,7 @@ class Results extends React.Component {
             errors={this.state.errors}
             searchTerm={this.props.searchTerm}
           />
+          {console.log('IN RESULTS', searchTerm)}
           <SubDomainResults searchTerm={searchTerm} />
         </Fragment>
       )
@@ -88,6 +94,7 @@ class Results extends React.Component {
     }
     return (
       <Fragment>
+        {console.log('IN RESULTS', searchTerm)}
         <DomainInfo searchTerm={searchTerm} />
         <SubDomainResults searchTerm={searchTerm} />
       </Fragment>
@@ -97,7 +104,10 @@ class Results extends React.Component {
 
 const ResultsContainer = ({ searchDomain, match }) => {
   return (
-    <Mutation mutation={GET_SUBDOMAIN_AVAILABILITY}>
+    <Mutation
+      mutation={GET_SUBDOMAIN_AVAILABILITY}
+      refetchQueries={['getSubDomainFavourites']}
+    >
       {getSubDomainAvailability => (
         <Mutation mutation={GET_DOMAIN_STATE}>
           {getDomainState => (

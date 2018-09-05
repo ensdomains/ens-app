@@ -9,17 +9,17 @@ const resolvers = {
   Mutation: {
     async getSubDomainAvailability(_, { name }, { cache }) {
       //clear old search results
-      cache.writeData({
-        data: {
-          subDomainState: []
-        }
-      })
+      // cache.writeData({
+      //   data: {
+      //     subDomainState: []
+      //   }
+      // })
 
       const nodes = await queryAll(name)
 
       const cachedNodes = []
 
-      nodes.forEach(subDomainPromise =>
+      const promises = nodes.map(subDomainPromise =>
         subDomainPromise
           .then(node => {
             const newNode = {
@@ -42,7 +42,7 @@ const resolvers = {
           .catch(e => console.log('ERROR in subdomain results', e))
       )
 
-      return null
+      return Promise.all(promises)
     }
   }
 }
