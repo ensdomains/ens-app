@@ -1,11 +1,7 @@
 import { getMode, createSealedBid, getEntry } from '../registrar'
 import { getOwner } from '../registry'
 
-const defaults = {
-  domainState: {
-    __typename: 'DomainState'
-  }
-}
+const defaults = {}
 
 const modeNames = [
   'Open',
@@ -28,9 +24,12 @@ const resolvers = {
       } = await getEntry(name)
       let owner = null
 
-      // cache.writeData({
-      //   data: defaults
-      // })
+      if (name.length < 7) {
+        cache.writeData({
+          data: defaults
+        })
+        return null
+      }
 
       if (modeNames[state] === 'Owned') {
         owner = await getOwner(`${name}.eth`)

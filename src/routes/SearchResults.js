@@ -52,6 +52,7 @@ class Results extends React.Component {
       this.setState({
         errors: ['tooShort']
       })
+      getDomainState({ variables: { name: searchTerm } })
       getSubDomainAvailability({ variables: { name: searchTerm } }).then(
         value => console.log('In mutation promise', value)
       )
@@ -106,10 +107,19 @@ const ResultsContainer = ({ searchDomain, match }) => {
   return (
     <Mutation
       mutation={GET_SUBDOMAIN_AVAILABILITY}
-      refetchQueries={['getSubDomainFavourites']}
+      refetchQueries={['getSubDomainState']}
     >
       {getSubDomainAvailability => (
-        <Mutation mutation={GET_DOMAIN_STATE}>
+        <Mutation
+          mutation={GET_DOMAIN_STATE}
+          optimisticResponse={{
+            __typename: 'Mutation',
+            domainState: {
+              __typename: 'DomainState'
+            }
+          }}
+          refetchQueries={['getDomainState']}
+        >
           {getDomainState => (
             <Results
               searchTerm={match.params.searchTerm}

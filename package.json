@@ -17,7 +17,7 @@
     "graphql-tag": "2.9.1",
     "graphql-tools": "^2.23.1",
     "gsap": "^2.0.1",
-    "idna-uts46": "^1.1.0",
+    "idna-uts46-hx": "2.3.1",
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
     "react": "^16.3.0",
@@ -29,7 +29,7 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.4",
-    "react-spring": "^5.6.7",
+    "react-spring": "^5.6.14",
     "react-transition-group-plus": "^0.5.3",
     "recompose": "^0.27.0",
     "state": "^0.2.0",
@@ -43,7 +43,8 @@
     "eject": "react-scripts eject",
     "compile": "node --experimental-modules src/testing-utils/compileENS.mjs",
     "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "deploy:dev": "npm run build && cd build && mv index.html 200.html && surge . --domain ensappdev.surge.sh"
   },
   "prettier": {
     "semi": false,

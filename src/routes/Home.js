@@ -227,12 +227,7 @@ export default props => (
                 }}
                 src={ENSLogo}
               />
-              <Search
-                style={{
-                  opacity,
-                  transform: `scale(${scale})`
-                }}
-              />
+              <Search />
             </Fragment>
           )}
         </Spring>
