@@ -20,10 +20,10 @@ const cache = new InMemoryCache({
   addTypename: true
 })
 
-// persistCache({
-//   cache,
-//   storage: window.localStorage
-// })
+persistCache({
+  cache,
+  storage: window.localStorage
+})
 
 // const defaultOptions = {
 //   watchQuery: {
