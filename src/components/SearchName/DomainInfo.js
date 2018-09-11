@@ -1,10 +1,8 @@
 import React, { Fragment } from 'react'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
-import { adopt } from 'react-adopt'
 import Loader from '../Loader'
 import DomainItem from '../DomainItem/DomainItem'
-import { GET_WEB3 } from '../../graphql/queries'
 import { H2 } from '../Typography/Basic'
 import { GET_FAVOURITES } from '../../graphql/queries'
 
@@ -29,11 +27,7 @@ const GET_DOMAIN_STATE = gql`
 export const DomainInfo = ({ domainState, isFavourite }) => {
   if (!domainState) return null
 
-  return (
-    <div>
-      <DomainItem domain={domainState} isFavourite={isFavourite} />
-    </div>
-  )
+  return <DomainItem domain={domainState} isFavourite={isFavourite} />
 }
 
 const DomainInfoContainer = () => {
