@@ -27,7 +27,7 @@ const Toggle = styled('div')``
 
 const Details = styled('section')``
 
-const SubDomains = styled('section')
+const SubDomains = styled('section')``
 
 class Name extends Component {
   render() {
@@ -61,9 +61,9 @@ class Name extends Component {
 
         <Route
           exact
+          path="/name/:name/subdomains"
           render={() => (
             <SubDomains>
-              subdomains
               {parseInt(details.owner, 16) !== 0 ? (
                 <Query
                   query={GET_SUBDOMAINS}
