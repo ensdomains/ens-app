@@ -4,7 +4,7 @@ import { GET_SINGLE_NAME } from '../graphql/queries'
 import { Query } from 'react-apollo'
 import Loader from '../components/Loader'
 
-import Details from '../components/Manager/Details'
+import Name from '../components/SingleName/Name'
 
 class SingleName extends Component {
   state = {
@@ -32,11 +32,11 @@ class SingleName extends Component {
       return (
         <Query query={GET_SINGLE_NAME} variables={{ name: searchTerm }}>
           {({ loading, error, data }) => {
-            if (loading) return <Loader />
+            if (loading) return <Loader large center />
             console.log(data)
             return (
               <div>
-                <Details details={data.singleName} />
+                <Name details={data.singleName} name={searchTerm} />
               </div>
             )
           }}

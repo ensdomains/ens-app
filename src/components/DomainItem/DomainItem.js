@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'react-emotion'
 import Button from '../Forms/Button'
-import AddFavourite from './AddFavourite'
+import AddFavourite from '../AddFavourite/AddFavourite'
 
 import moment from 'moment'
 

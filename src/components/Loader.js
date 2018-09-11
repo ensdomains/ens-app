@@ -29,12 +29,12 @@ const LoaderContainer = styled('div')`
   }
   .lds-dual-ring div {
     position: absolute;
-    width: 20px;
-    height: 20px;
+    width: ${({ large }) => (large ? '60px' : '20px')};
+    height: ${({ large }) => (large ? '60px' : '20px')};
     top: 0;
     left: 0;
     border-radius: 50%;
-    border: 2px solid #000;
+    border: ${({ large }) => (large ? '4px' : '2px')} solid #000;
     border-color: #5284ff transparent #5284ff transparent;
     -webkit-animation: lds-dual-ring 1.5s linear infinite;
     animation: lds-dual-ring 1.5s linear infinite;
@@ -48,8 +48,8 @@ const LoaderContainer = styled('div')`
   }
 `
 
-const Loader = () => (
-  <LoaderContainer className="lds-css ng-scope">
+const Loader = props => (
+  <LoaderContainer className="lds-css ng-scope" {...props}>
     <div className="lds-dual-ring">
       <div />
     </div>
