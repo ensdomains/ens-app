@@ -2,15 +2,10 @@ import React, { Component } from 'react'
 import { Link, Route } from 'react-router-dom'
 import styled from 'react-emotion'
 import { Query } from 'react-apollo'
-import {
-  GET_SUBDOMAINS,
-  GET_FAVOURITES,
-  GET_SUBDOMAIN_FAVOURITES
-} from '../../graphql/queries'
+import { GET_SUBDOMAINS } from '../../graphql/queries'
 import Loader from '../Loader'
 import { Title } from '../Typography/Basic'
-import { getFavourites } from '../../graphql/queries'
-import AddFavourite from '../AddFavourite/AddFavourite'
+import Favourite from '../AddFavourite/Favourite'
 
 const NameContainer = styled('div')`
   background: white;
@@ -34,15 +29,7 @@ const Details = styled('section')``
 
 const SubDomains = styled('section')``
 
-const getFavouritesQuery = nameArray =>
-  nameArray.length < 3 ? GET_FAVOURITES : GET_SUBDOMAIN_FAVOURITES
-
 class Name extends Component {
-  isFavourite(favourites, name) {
-    console.log(favourites)
-    console.log(name)
-    return favourites.filter(domain => name === domain.name).length > 0
-  }
   render() {
     const { details, name } = this.props
     const nameArray = name.split('.')
@@ -51,23 +38,7 @@ class Name extends Component {
       <NameContainer>
         <TopBar>
           <Title>{details.name}</Title>
-          <Query query={getFavouritesQuery(nameArray)}>
-            {({ data, loading }) => {
-              const favourites =
-                nameArray.length < 3
-                  ? data.favourites
-                  : data.subDomainFavourites
-
-              console.log(name)
-              return (
-                <AddFavourite
-                  domain={details}
-                  isSubDomain={nameArray.length > 2}
-                  isFavourite={this.isFavourite(favourites, name)}
-                />
-              )
-            }}
-          </Query>
+          <Favourite domain={details} />
 
           {name}
         </TopBar>
