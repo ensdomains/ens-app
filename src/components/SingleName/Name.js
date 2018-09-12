@@ -32,9 +32,18 @@ const RightBar = styled('div')``
 
 const Favourite = styled(DefaultFavourite)``
 
-const ToggleLink = styled(Link)``
+const ToggleLink = styled(Link)`
+  background: ${({ active }) => (active ? '#5384FE' : 'transparent')};
+  color: ${({ active }) => (active ? 'white' : '#D2D2D2')};
+  padding: 10px 20px;
+  border-radius: 90px;
+`
 
-const Toggle = styled('div')``
+const Toggle = styled('div')`
+  display: inline-block;
+  border: 1px solid #d2d2d2;
+  border-radius: 90px;
+`
 
 const Details = styled('section')`
   padding: 40px;
@@ -56,7 +65,7 @@ const EtherScanLink = ({ address, children }) => (
 
 class Name extends Component {
   render() {
-    const { details, name } = this.props
+    const { details, name, pathname } = this.props
     return (
       <NameContainer>
         <TopBar>
@@ -66,8 +75,18 @@ class Name extends Component {
           </RightBar>
         </TopBar>
         <Toggle>
-          <ToggleLink to={`/name/${name}`}>Details</ToggleLink>
-          <ToggleLink to={`/name/${name}/subdomains`}>Subdomains</ToggleLink>
+          <ToggleLink
+            active={pathname === `/name/${name}`}
+            to={`/name/${name}`}
+          >
+            Details
+          </ToggleLink>
+          <ToggleLink
+            active={pathname === `/name/${name}/subdomains`}
+            to={`/name/${name}/subdomains`}
+          >
+            Subdomains
+          </ToggleLink>
         </Toggle>
         <Route
           exact

@@ -26,7 +26,13 @@ class SingleName extends Component {
     }
   }
   render() {
-    const searchTerm = this.props.match.params.name
+    const {
+      match: {
+        params: { name: searchTerm }
+      },
+      location: { pathname }
+    } = this.props
+
     if (this.state.valid) {
       return (
         <Query query={GET_SINGLE_NAME} variables={{ name: searchTerm }}>
@@ -34,10 +40,13 @@ class SingleName extends Component {
             if (loading) return <Loader large center />
             if (error)
               return <div>{(console.log(error), JSON.stringify(error))}</div>
-            console.log(data)
             return (
               <div>
-                <Name details={data.singleName} name={searchTerm} />
+                <Name
+                  details={data.singleName}
+                  name={searchTerm}
+                  pathname={pathname}
+                />
               </div>
             )
           }}
