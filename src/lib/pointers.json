@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Address",
+    "recordName": "addr",
+    "type": "String"
+  },
+  {
+    "name": "Content",
+    "recordName": "content",
+    "type": "String"
+  },
+  {
+    "name": "Multihash",
+    "recordName": "multihash",
+    "type": "String"
+  }
+]
