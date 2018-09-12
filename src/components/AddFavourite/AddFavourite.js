@@ -45,6 +45,7 @@ const DELETE_SUBDOMAIN_FAVOURITE = gql`
 
 class AddFavourite extends Component {
   render() {
+    const { domain } = this.props
     if (this.props.isSubDomain) {
       return (
         <Mutation
@@ -68,7 +69,17 @@ class AddFavourite extends Component {
     return (
       <Mutation
         mutation={this.props.isFavourite ? DELETE_FAVOURITE : ADD_FAVOURITE}
-        variables={{ domain: this.props.domain }}
+        variables={{
+          domain: {
+            name: domain.name,
+            revealDate: domain.revealDate,
+            registrationDate: domain.registrationDate,
+            value: domain.value,
+            highestBid: domain.highestBid,
+            state: domain.state,
+            owner: domain.owner
+          }
+        }}
       >
         {favouriteMutation => (
           <AddFavouriteContainer onClick={favouriteMutation}>
