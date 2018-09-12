@@ -4,7 +4,7 @@ import styled from 'react-emotion'
 import { Query } from 'react-apollo'
 import { GET_SUBDOMAINS } from '../../graphql/queries'
 import Loader from '../Loader'
-import { Title } from '../Typography/Basic'
+import { Title, H2 } from '../Typography/Basic'
 import DefaultFavourite from '../AddFavourite/Favourite'
 
 const NameContainer = styled('div')`
@@ -33,27 +33,45 @@ const RightBar = styled('div')``
 const Favourite = styled(DefaultFavourite)``
 
 const ToggleLink = styled(Link)`
+  font-size: 14px;
   background: ${({ active }) => (active ? '#5384FE' : 'transparent')};
   color: ${({ active }) => (active ? 'white' : '#D2D2D2')};
-  padding: 10px 20px;
+  transform: scale(${({ active }) => (active ? '1.08' : '1')});
+  transition: 0.2s ease-out;
+  padding: 10px 30px;
   border-radius: 90px;
 `
 
 const Toggle = styled('div')`
-  display: inline-block;
-  border: 1px solid #d2d2d2;
+  display: flex;
+  justify-content: flex-start;
+  width: 240px;
+  margin: 30px 0 30px 40px;
+  border: 1px solid #dfdfdf;
   border-radius: 90px;
 `
 
 const Details = styled('section')`
-  padding: 40px;
+  padding: 0 40px 40px 40px;
+  transition: 0.4s;
+`
+
+const SubDomainH2 = styled(H2)`
+  padding: 20px 0 50px;
+  text-align: center;
+  color: #ccd4da;
 `
 
 const SubDomains = styled('section')``
 
 const DetailsItem = styled('div')``
 
-const DetailsKey = styled('div')``
+const DetailsKey = styled('div')`
+  color: ${({ greyed }) => (greyed ? '#CCD4DA' : '2b2b2b')};
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+`
 
 const DetailsValue = styled('div')``
 
@@ -116,10 +134,19 @@ class Name extends Component {
                 </DetailsItem>
               )}
 
-              {details.resolver && (
+              {details.resolver ? (
                 <DetailsItem>
                   <DetailsKey>Resolver</DetailsKey>
-                  <DetailsValue>{details.resolver}</DetailsValue>
+                  <DetailsValue>
+                    <EtherScanLink address={details.resolver}>
+                      {details.resolver}
+                    </EtherScanLink>
+                  </DetailsValue>
+                </DetailsItem>
+              ) : (
+                <DetailsItem>
+                  <DetailsKey greyed>Resolver</DetailsKey>
+                  <DetailsValue greyed>No resolver set</DetailsValue>
                 </DetailsItem>
               )}
             </Details>
@@ -138,6 +165,13 @@ class Name extends Component {
                 >
                   {({ loading, error, data }) => {
                     if (loading) return <Loader />
+                    if (data.getSubDomains.subDomains.length === 0) {
+                      return (
+                        <SubDomainH2>
+                          No subdomains have been added.
+                        </SubDomainH2>
+                      )
+                    }
                     return data.getSubDomains.subDomains.map(d => (
                       <Link to={`/name/${d}`}>{d}</Link>
                     ))
