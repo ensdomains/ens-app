@@ -127,7 +127,7 @@ const Label = ({ domain, timeLeft }) => {
     <LabelContainer className="label-container">
       <LabelText>{text}</LabelText>
       {domain.state === 'Auction' && (
-        <TimeLeft>{`${timeLeftHuman} remaining`}</TimeLeft>
+        <TimeLeft>{`${timeLeftHuman} left`}</TimeLeft>
       )}
     </LabelContainer>
   )

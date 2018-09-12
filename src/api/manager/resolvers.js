@@ -1,5 +1,7 @@
 import { watchRegistryEvent } from '../watchers'
 import { getOwner, getDomainDetails, getSubDomains, getName } from '../registry'
+import { getEntry } from '../registrar'
+import modeNames from '../modes'
 import get from 'lodash/get'
 
 import {
@@ -46,35 +48,76 @@ export function resolveQueryPath(domainArray, path, db) {
 const resolvers = {
   Query: {
     singleName: async (_, { name }, { cache }) => {
-      const { names } = cache.readQuery({ query: GET_ALL_NODES })
-      const owner = await getOwner(name)
-      let domainRaw
-
-      //Create Node
+      const nameArray = name.split('.')
       let node = {
-        name,
-        owner,
+        // revealDate: null,
+        // registrationDate: null,
+        // value: null,
+        // highestBid: null,
+        // state: null
+      }
+      let data
+      //const owner = await getOwner(name)
+      console.log(nameArray)
+
+      if (nameArray.length < 3 && nameArray[1] === 'eth') {
+        console.log('in ehre')
+        if (nameArray[0].length < 7) {
+          cache.writeData({
+            data: defaults
+          })
+          return null
+        }
+
+        const {
+          state,
+          registrationDate,
+          revealDate,
+          value,
+          highestBid
+        } = await getEntry(nameArray[0])
+
+        const owner = await getOwner(name)
+        node = {
+          name: `${name}`,
+          state: modeNames[state],
+          registrationDate,
+          revealDate,
+          value,
+          highestBid,
+          owner,
+          __typename: 'Node'
+        }
+
+        console.log(node)
+
+        if (modeNames[state] !== 'Owned') {
+          data = {
+            names: [...names, node]
+          }
+          cache.writeData({ data })
+          return node
+        }
+      }
+
+      console.log(node)
+
+      const { names } = cache.readQuery({ query: GET_ALL_NODES })
+      const nodeDetails = await getDomainDetails(name)
+
+      const detailedNode = {
+        ...node,
+        ...nodeDetails,
         __typename: 'Node'
       }
 
-      domainRaw = await getDomainDetails(name)
-
-      console.log(domainRaw)
-
-      const newNode = {
-        ...node,
-        ...domainRaw
+      data = {
+        names: [...names, detailedNode]
       }
-
-      const data = {
-        names: [...names, newNode]
-      }
-
-      console.log(newNode)
 
       cache.writeData({ data })
 
-      return newNode
+      return detailedNode
     },
     getSubDomains: async (_, { name, owner }, { cache }) => {
       if (!owner) {

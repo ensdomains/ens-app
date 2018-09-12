@@ -32,7 +32,7 @@ export const DomainInfo = ({ domainState, isFavourite }) => {
 
 const DomainInfoContainer = () => {
   return (
-    <Query query={GET_DOMAIN_STATE} fetchPolicy="no-cache">
+    <Query query={GET_DOMAIN_STATE}>
       {({ data: { domainState }, loading }) => {
         return (
           <Query query={GET_FAVOURITES}>

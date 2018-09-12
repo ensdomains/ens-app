@@ -37,13 +37,27 @@ class Name extends Component {
       <NameContainer>
         <TopBar>
           <Title>{details.name}</Title>
-          <AddFavourite />
+          {/* <AddFavourite /> */}
         </TopBar>
         <Toggle>
           <ToggleLink to={`/name/${name}`}>Details</ToggleLink>
           <ToggleLink to={`/name/${name}/subdomains`}>Subdomains</ToggleLink>
         </Toggle>
-        <Route exact path="/name/:name" render={() => 'details'} />
+        <Route
+          exact
+          path="/name/:name"
+          render={() => (
+            <Details>
+              {keys.map((key, i) => {
+                return (
+                  <div key={i}>
+                    {key} - {String(details[key])}
+                  </div>
+                )
+              })}
+            </Details>
+          )}
+        />
 
         <Route
           exact

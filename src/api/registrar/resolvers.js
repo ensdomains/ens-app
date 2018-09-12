@@ -1,16 +1,8 @@
 import { getMode, createSealedBid, getEntry } from '../registrar'
 import { getOwner } from '../registry'
+import modeNames from '../modes'
 
 const defaults = {}
-
-const modeNames = [
-  'Open',
-  'Auction',
-  'Owned',
-  'Forbidden',
-  'Reveal',
-  'NotYetAvailable'
-]
 
 const resolvers = {
   Mutation: {

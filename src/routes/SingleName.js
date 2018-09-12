@@ -33,6 +33,8 @@ class SingleName extends Component {
         <Query query={GET_SINGLE_NAME} variables={{ name: searchTerm }}>
           {({ loading, error, data }) => {
             if (loading) return <Loader large center />
+            if (error)
+              return <div>{(console.log(error), JSON.stringify(error))}</div>
             console.log(data)
             return (
               <div>

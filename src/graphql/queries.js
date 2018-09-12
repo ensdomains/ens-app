@@ -42,6 +42,11 @@ export const GET_SINGLE_NAME = gql`
   query singleName($name: String) @client {
     singleName(name: $name) {
       ...NodeFields
+      revealDate
+      registrationDate
+      value
+      highestBid
+      state
     }
   }
 
