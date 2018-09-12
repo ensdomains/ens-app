@@ -13,7 +13,7 @@ class SingleName extends Component {
   checkValidity = () => {
     const searchTerm = this.props.match.params.name
     const validity = parseSearchTerm(searchTerm)
-    const valid = validity === 'supported'
+    const valid = validity === 'supported' || validity === 'tld'
 
     this.setState({ valid })
   }
@@ -27,7 +27,6 @@ class SingleName extends Component {
   }
   render() {
     const searchTerm = this.props.match.params.name
-    console.log(this.state.valid)
     if (this.state.valid) {
       return (
         <Query query={GET_SINGLE_NAME} variables={{ name: searchTerm }}>

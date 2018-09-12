@@ -49,12 +49,13 @@ const resolvers = {
   Query: {
     singleName: async (_, { name }, { cache }) => {
       const nameArray = name.split('.')
+      console.log(nameArray)
       let node = {
-        // revealDate: null,
-        // registrationDate: null,
-        // value: null,
-        // highestBid: null,
-        // state: null
+        revealDate: null,
+        registrationDate: null,
+        value: null,
+        highestBid: null,
+        state: null
       }
       let data
       //const owner = await getOwner(name)
@@ -104,6 +105,7 @@ const resolvers = {
 
       const { names } = cache.readQuery({ query: GET_ALL_NODES })
       const nodeDetails = await getDomainDetails(name)
+      console.log(nodeDetails)
 
       const detailedNode = {
         ...node,

@@ -83,6 +83,10 @@ export const parseSearchTerm = term => {
   } else if (addressUtils.isAddress(term)) {
     return 'address'
   } else {
+    //check if the search term is actually a tld
+    if (Object.keys(tlds).filter(tld => term === tld).length > 0) {
+      return 'tld'
+    }
     return 'search'
   }
 }
