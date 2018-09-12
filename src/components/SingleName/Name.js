@@ -5,10 +5,12 @@ import { Query } from 'react-apollo'
 import { GET_SUBDOMAINS } from '../../graphql/queries'
 import Loader from '../Loader'
 import { Title } from '../Typography/Basic'
-import Favourite from '../AddFavourite/Favourite'
+import DefaultFavourite from '../AddFavourite/Favourite'
 
 const NameContainer = styled('div')`
   background: white;
+
+  box-shadow: 3px 4px 20px 0 rgba(144, 171, 191, 0.42);
   border-radius: 6px;
   .sub-domains {
     a {
@@ -18,29 +20,50 @@ const NameContainer = styled('div')`
 `
 
 const TopBar = styled('div')`
-  padding: 20px;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ededed;
+  box-shadow: 0 2px 4px 0 rgba(181, 177, 177, 0.2);
 `
+
+const RightBar = styled('div')``
+
+const Favourite = styled(DefaultFavourite)``
 
 const ToggleLink = styled(Link)``
 
 const Toggle = styled('div')``
 
-const Details = styled('section')``
+const Details = styled('section')`
+  padding: 40px;
+`
 
 const SubDomains = styled('section')``
+
+const DetailsItem = styled('div')``
+
+const DetailsKey = styled('div')``
+
+const DetailsValue = styled('div')``
+
+const EtherScanLink = ({ address, children }) => (
+  <a target="_blank" href={`http://etherscan.io/address/${address}`}>
+    {children}
+  </a>
+)
 
 class Name extends Component {
   render() {
     const { details, name } = this.props
-    const nameArray = name.split('.')
-    const keys = Object.keys(details)
     return (
       <NameContainer>
         <TopBar>
-          <Title>{details.name}</Title>
-          <Favourite domain={details} />
-
-          {name}
+          <Title>{name}</Title>
+          <RightBar>
+            <Favourite domain={details} />
+          </RightBar>
         </TopBar>
         <Toggle>
           <ToggleLink to={`/name/${name}`}>Details</ToggleLink>
@@ -51,13 +74,35 @@ class Name extends Component {
           path="/name/:name"
           render={() => (
             <Details>
-              {keys.map((key, i) => {
-                return (
-                  <div key={i}>
-                    {key} - {String(details[key])}
-                  </div>
-                )
-              })}
+              {details.parent && (
+                <DetailsItem>
+                  <DetailsKey>Parent</DetailsKey>
+                  <DetailsValue>
+                    <Link to={`/name/${details.parent}`}>{details.parent}</Link>
+                  </DetailsValue>
+                </DetailsItem>
+              )}
+              <DetailsItem>
+                <DetailsKey>Owner</DetailsKey>
+                <DetailsValue>
+                  <EtherScanLink address={details.owner}>
+                    {details.owner}
+                  </EtherScanLink>
+                </DetailsValue>
+              </DetailsItem>
+              {details.registrationDate && (
+                <DetailsItem>
+                  <DetailsKey>Registration Date</DetailsKey>
+                  <DetailsValue>{details.registrationDate}</DetailsValue>
+                </DetailsItem>
+              )}
+
+              {details.resolver && (
+                <DetailsItem>
+                  <DetailsKey>Resolver</DetailsKey>
+                  <DetailsValue>{details.resolver}</DetailsValue>
+                </DetailsItem>
+              )}
             </Details>
           )}
         />

@@ -45,6 +45,12 @@ export function resolveQueryPath(domainArray, path, db) {
   return resolveQueryPath(domainArrayPopped, updatedPath, db)
 }
 
+function getParent(name) {
+  const nameArray = name.split('.')
+  nameArray.shift()
+  return nameArray.join('.')
+}
+
 const resolvers = {
   Query: {
     singleName: async (_, { name }, { cache }) => {
@@ -110,6 +116,7 @@ const resolvers = {
       const detailedNode = {
         ...node,
         ...nodeDetails,
+        parent: nameArray.length > 1 ? getParent(name) : null,
         __typename: 'Node'
       }
 

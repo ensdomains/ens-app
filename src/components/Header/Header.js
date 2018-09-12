@@ -12,6 +12,7 @@ const Header = styled('header')`
   top: 0;
   width: 100%;
   z-index: 1000;
+  box-shadow: 0 8px 24px 0 rgba(230, 240, 247, 0.8);
 `
 
 const SearchHeader = styled(Search)`
