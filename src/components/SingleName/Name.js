@@ -7,7 +7,7 @@ import SubDomains from './SubDomains'
 
 const NameContainer = styled('div')`
   background: white;
-  box-shadow: 3px 4px 20px 0 rgba(144, 171, 191, 0.42);
+  box-shadow: 3px 4px 6px 0 rgba(229, 236, 241, 0.3);
   border-radius: 6px;
 `
 
@@ -29,7 +29,7 @@ const ToggleLink = styled(Link)`
   background: ${({ active }) => (active ? '#5384FE' : 'transparent')};
   color: ${({ active }) => (active ? 'white' : '#D2D2D2')};
   transform: scale(${({ active }) => (active ? '1.08' : '1')});
-  transition: 0.2s ease-out;
+  transition: background 0.1s ease-out, transform 0.3s ease-out;
   padding: 10px 30px;
   border-radius: 90px;
 `
@@ -56,6 +56,7 @@ const DetailsItem = styled('div')`
 const DetailsKey = styled('div')`
   color: ${({ greyed }) => (greyed ? '#CCD4DA' : '2b2b2b')};
   font-size: 16px;
+  letter-spacing: 0px;
   font-weight: 600;
   text-transform: uppercase;
   width: 220px;
@@ -127,7 +128,7 @@ class Name extends Component {
                 </DetailsItem>
               )}
 
-              {details.resolver ? (
+              {parseInt(details.resolver, 16) !== 0 ? (
                 <Fragment>
                   <HR />
                   <DetailsItem>
@@ -149,7 +150,7 @@ class Name extends Component {
                 </Fragment>
               )}
 
-              {details.resolver &&
+              {parseInt(details.content, 16) !== 0 &&
                 details.addr && (
                   <DetailsItem>
                     <DetailsKey>Address</DetailsKey>
@@ -161,7 +162,7 @@ class Name extends Component {
                   </DetailsItem>
                 )}
 
-              {details.resolver &&
+              {parseInt(details.resolver, 16) !== 0 &&
                 parseInt(details.content, 16) !== 0 && (
                   <DetailsItem>
                     <DetailsKey>Content</DetailsKey>
