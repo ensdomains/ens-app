@@ -93,6 +93,7 @@ class SubDomainNode extends Component {
       ).length > 0
     )
   }
+
   render() {
     const { node } = this.props
     if (!node.available) {

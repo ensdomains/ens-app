@@ -12,3 +12,10 @@ export const Title = styled('h2')`
   padding: 0;
   margin: 0;
 `
+
+export const HR = styled('hr')`
+  border: 0;
+  border-top: 1px dashed #d3d3d3;
+  background-color: #fff;
+  margin-bottom: 30px;
+`

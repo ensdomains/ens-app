@@ -49,7 +49,7 @@ const LoaderContainer = styled('div')`
 `
 
 const Loader = props => (
-  <LoaderContainer className="lds-css ng-scope" {...props}>
+  <LoaderContainer className="lds-css" {...props}>
     <div className="lds-dual-ring">
       <div />
     </div>

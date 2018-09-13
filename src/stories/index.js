@@ -7,7 +7,7 @@ import '../globalStyles'
 
 import { Button, Welcome } from '@storybook/react/demo'
 
-import DomainItem from '../components/Results/DomainItem'
+import DomainItem from '../components/DomainItem/DomainItem'
 
 storiesOf('Welcome', module).add('to Storybook', () => (
   <Welcome showApp={linkTo('Button')} />

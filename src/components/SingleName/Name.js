@@ -1,22 +1,14 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Link, Route } from 'react-router-dom'
 import styled from 'react-emotion'
-import { Query } from 'react-apollo'
-import { GET_SUBDOMAINS } from '../../graphql/queries'
-import Loader from '../Loader'
-import { Title, H2 } from '../Typography/Basic'
+import { Title, HR } from '../Typography/Basic'
 import DefaultFavourite from '../AddFavourite/Favourite'
+import SubDomains from './SubDomains'
 
 const NameContainer = styled('div')`
   background: white;
-
   box-shadow: 3px 4px 20px 0 rgba(144, 171, 191, 0.42);
   border-radius: 6px;
-  .sub-domains {
-    a {
-      display: block;
-    }
-  }
 `
 
 const TopBar = styled('div')`
@@ -56,24 +48,25 @@ const Details = styled('section')`
   transition: 0.4s;
 `
 
-const SubDomainH2 = styled(H2)`
-  padding: 20px 0 50px;
-  text-align: center;
-  color: #ccd4da;
+const DetailsItem = styled('div')`
+  display: flex;
+  justify-content: flex-start;
 `
-
-const SubDomains = styled('section')``
-
-const DetailsItem = styled('div')``
 
 const DetailsKey = styled('div')`
   color: ${({ greyed }) => (greyed ? '#CCD4DA' : '2b2b2b')};
   font-size: 16px;
   font-weight: 600;
   text-transform: uppercase;
+  width: 220px;
+  margin-bottom: 20px;
 `
 
-const DetailsValue = styled('div')``
+const DetailsValue = styled('div')`
+  font-size: 18px;
+  font-weight: 100;
+  font-family: Overpass Mono;
+`
 
 const EtherScanLink = ({ address, children }) => (
   <a target="_blank" href={`http://etherscan.io/address/${address}`}>
@@ -135,20 +128,50 @@ class Name extends Component {
               )}
 
               {details.resolver ? (
-                <DetailsItem>
-                  <DetailsKey>Resolver</DetailsKey>
-                  <DetailsValue>
-                    <EtherScanLink address={details.resolver}>
-                      {details.resolver}
-                    </EtherScanLink>
-                  </DetailsValue>
-                </DetailsItem>
+                <Fragment>
+                  <HR />
+                  <DetailsItem>
+                    <DetailsKey>Resolver</DetailsKey>
+                    <DetailsValue>
+                      <EtherScanLink address={details.resolver}>
+                        {details.resolver}
+                      </EtherScanLink>
+                    </DetailsValue>
+                  </DetailsItem>
+                </Fragment>
               ) : (
-                <DetailsItem>
-                  <DetailsKey greyed>Resolver</DetailsKey>
-                  <DetailsValue greyed>No resolver set</DetailsValue>
-                </DetailsItem>
+                <Fragment>
+                  <HR />
+                  <DetailsItem>
+                    <DetailsKey greyed>Resolver</DetailsKey>
+                    <DetailsValue greyed>No resolver set</DetailsValue>
+                  </DetailsItem>
+                </Fragment>
               )}
+
+              {details.resolver &&
+                details.addr && (
+                  <DetailsItem>
+                    <DetailsKey>Address</DetailsKey>
+                    <DetailsValue>
+                      <EtherScanLink address={details.addr}>
+                        {details.addr}
+                      </EtherScanLink>
+                    </DetailsValue>
+                  </DetailsItem>
+                )}
+
+              {details.resolver &&
+                parseInt(details.content, 16) !== 0 && (
+                  <DetailsItem>
+                    <DetailsKey>Content</DetailsKey>
+                    <DetailsValue>
+                      <EtherScanLink address={details.content}>
+                        {details.content}
+                      </EtherScanLink>
+                    </DetailsValue>
+                  </DetailsItem>
+                )}
             </Details>
           )}
         />
@@ -156,32 +179,7 @@ class Name extends Component {
         <Route
           exact
           path="/name/:name/subdomains"
-          render={() => (
-            <SubDomains>
-              {parseInt(details.owner, 16) !== 0 ? (
-                <Query
-                  query={GET_SUBDOMAINS}
-                  variables={{ name: details.name }}
-                >
-                  {({ loading, error, data }) => {
-                    if (loading) return <Loader />
-                    if (data.getSubDomains.subDomains.length === 0) {
-                      return (
-                        <SubDomainH2>
-                          No subdomains have been added.
-                        </SubDomainH2>
-                      )
-                    }
-                    return data.getSubDomains.subDomains.map(d => (
-                      <Link to={`/name/${d}`}>{d}</Link>
-                    ))
-                  }}
-                </Query>
-              ) : (
-                ''
-              )}
-            </SubDomains>
-          )}
+          render={() => <SubDomains domain={details} />}
         />
       </NameContainer>
     )

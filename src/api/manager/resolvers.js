@@ -95,23 +95,10 @@ const resolvers = {
           owner,
           __typename: 'Node'
         }
-
-        console.log(node)
-
-        if (modeNames[state] !== 'Owned') {
-          data = {
-            names: [...names, node]
-          }
-          cache.writeData({ data })
-          return node
-        }
       }
-
-      console.log(node)
 
       const { names } = cache.readQuery({ query: GET_ALL_NODES })
       const nodeDetails = await getDomainDetails(name)
-      console.log(nodeDetails)
 
       const detailedNode = {
         ...node,
@@ -119,6 +106,8 @@ const resolvers = {
         parent: nameArray.length > 1 ? getParent(name) : null,
         __typename: 'Node'
       }
+
+      console.log(detailedNode)
 
       data = {
         names: [...names, detailedNode]
