@@ -27,15 +27,16 @@ export const GET_NODES = gql`
 export const GET_ALL_NODES = gql`
   query names {
     names {
-      name
-      owner
-      label
-      resolver
-      addr
-      content
-      subDomains
+      ...NodeFields
+      revealDate
+      registrationDate
+      value
+      highestBid
+      state
     }
   }
+
+  ${NodeFields}
 `
 
 export const GET_SINGLE_NAME = gql`
