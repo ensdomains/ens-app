@@ -69,6 +69,39 @@ const DetailsValue = styled('div')`
   font-family: Overpass Mono;
 `
 
+const Records = styled('div')`
+  border-radius: 6px;
+  border: 1px solid #ededed;
+  box-shadow: inset 0 0 10px 0 rgba(235, 235, 235, 0.5);
+`
+
+const RecordsTitle = styled('h3')`
+  /* Pointers: */
+  font-family: Overpass-Bold;
+  font-size: 12px;
+  color: #adbbcd;
+  letter-spacing: 0.5px;
+  background: #f0f6fa;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 10px 20px;
+`
+
+const RecordsItem = styled(DetailsItem)`
+  border-top: 1px dashed #d3d3d3;
+  padding: 20px;
+`
+
+const RecordsKey = styled(DetailsKey)`
+  font-size: 12px;
+  margin-bottom: 0;
+  width: 200px;
+`
+
+const RecordsValue = styled(DetailsValue)`
+  font-size: 14px;
+`
+
 const EtherScanLink = ({ address, children }) => (
   <a target="_blank" href={`http://etherscan.io/address/${address}`}>
     {children}
@@ -76,6 +109,12 @@ const EtherScanLink = ({ address, children }) => (
 )
 
 class Name extends Component {
+  hasAnyRecord(details) {
+    if (parseInt(details.resolver, 16) === 0) {
+      return false
+    }
+    return parseInt(details.addr, 16) !== 0 || parseInt(details.content) !== 0
+  }
   render() {
     const { details, name, pathname } = this.props
     return (
@@ -127,7 +166,6 @@ class Name extends Component {
                   <DetailsValue>{details.registrationDate}</DetailsValue>
                 </DetailsItem>
               )}
-
               {parseInt(details.resolver, 16) !== 0 ? (
                 <Fragment>
                   <HR />
@@ -149,30 +187,33 @@ class Name extends Component {
                   </DetailsItem>
                 </Fragment>
               )}
-
-              {parseInt(details.content, 16) !== 0 &&
-                details.addr && (
-                  <DetailsItem>
-                    <DetailsKey>Address</DetailsKey>
-                    <DetailsValue>
-                      <EtherScanLink address={details.addr}>
-                        {details.addr}
-                      </EtherScanLink>
-                    </DetailsValue>
-                  </DetailsItem>
-                )}
-
-              {parseInt(details.resolver, 16) !== 0 &&
-                parseInt(details.content, 16) !== 0 && (
-                  <DetailsItem>
-                    <DetailsKey>Content</DetailsKey>
-                    <DetailsValue>
-                      <EtherScanLink address={details.content}>
-                        {details.content}
-                      </EtherScanLink>
-                    </DetailsValue>
-                  </DetailsItem>
-                )}
+              {this.hasAnyRecord(details) && (
+                <Records>
+                  <RecordsTitle>Pointers</RecordsTitle>
+                  {parseInt(details.resolver, 16) !== 0 &&
+                    details.addr && (
+                      <RecordsItem>
+                        <RecordsKey>Address</RecordsKey>
+                        <RecordsValue>
+                          <EtherScanLink address={details.addr}>
+                            {details.addr}
+                          </EtherScanLink>
+                        </RecordsValue>
+                      </RecordsItem>
+                    )}
+                  {parseInt(details.resolver, 16) !== 0 &&
+                    parseInt(details.content, 16) !== 0 && (
+                      <RecordsItem>
+                        <RecordsKey>Content</RecordsKey>
+                        <RecordsValue>
+                          <EtherScanLink address={details.content}>
+                            {details.content}
+                          </EtherScanLink>
+                        </RecordsValue>
+                      </RecordsItem>
+                    )}
+                </Records>
+              )}
             </Details>
           )}
         />
