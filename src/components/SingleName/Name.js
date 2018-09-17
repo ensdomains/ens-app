@@ -1,11 +1,13 @@
 import React, { Component, Fragment } from 'react'
 import { Link, Route } from 'react-router-dom'
 import styled from 'react-emotion'
+
 import { Title, HR } from '../Typography/Basic'
 import DefaultFavourite from '../AddFavourite/Favourite'
 import SubDomains from './SubDomains'
 import DefaultBlockies from '../Blockies'
 import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
+import { formatDate } from './utils'
 
 const NameContainer = styled('div')`
   background: white;
@@ -172,7 +174,9 @@ class Name extends Component {
               {details.registrationDate && (
                 <DetailsItem>
                   <DetailsKey>Registration Date</DetailsKey>
-                  <DetailsValue>{details.registrationDate}</DetailsValue>
+                  <DetailsValue>
+                    {formatDate(details.registrationDate)}
+                  </DetailsValue>
                 </DetailsItem>
               )}
               {parseInt(details.resolver, 16) !== 0 ? (
