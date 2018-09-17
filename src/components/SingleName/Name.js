@@ -5,7 +5,7 @@ import styled from 'react-emotion'
 import { Title, HR } from '../Typography/Basic'
 import DefaultFavourite from '../AddFavourite/Favourite'
 import SubDomains from './SubDomains'
-import DefaultBlockies from '../Blockies'
+import { SingleNameBlockies } from './SingleNameBlockies'
 import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
 import { formatDate } from './utils'
 
@@ -14,13 +14,6 @@ const NameContainer = styled('div')`
   box-shadow: 3px 4px 6px 0 rgba(229, 236, 241, 0.3);
   border-radius: 6px;
 `
-
-const Blockies = styled(DefaultBlockies)`
-  margin-right: 5px;
-  border-radius: 50%;
-  box-shadow: 2px 2px 9px 0 #e1e1e1;
-`
-
 const EtherScanLink = styled(DefaultEtherScanLink)`
   display: flex;
 `
@@ -127,6 +120,7 @@ class Name extends Component {
   }
   render() {
     const { details, name, pathname } = this.props
+    console.log(details)
     return (
       <NameContainer>
         <TopBar>
@@ -166,7 +160,10 @@ class Name extends Component {
                 <DetailsKey>Owner</DetailsKey>
                 <DetailsValue>
                   <EtherScanLink address={details.owner}>
-                    <Blockies address={details.owner} imageSize={24} />
+                    <SingleNameBlockies
+                      address={details.owner}
+                      imageSize={24}
+                    />
                     {details.owner}
                   </EtherScanLink>
                 </DetailsValue>

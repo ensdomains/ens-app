@@ -1,5 +1,6 @@
 import { getOwner, getDomainDetails, getSubDomains, getName } from '../registry'
 import { getEntry } from '../registrar'
+import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
 import get from 'lodash/get'
 
@@ -9,10 +10,14 @@ import {
   GET_ALL_NODES
 } from '../../graphql/queries'
 
+let savedFavourites =
+  JSON.parse(window.localStorage.getItem('ensFavourites')) || []
+let savedSubDomainFavourites = []
+
 const defaults = {
   names: [],
-  favourites: [],
-  subDomainFavourites: []
+  favourites: savedFavourites,
+  subDomainFavourites: savedSubDomainFavourites
 }
 
 export function resolveQueryPath(domainArray, path, db) {
@@ -55,11 +60,18 @@ const resolvers = {
     singleName: async (_, { name }, { cache }) => {
       const nameArray = name.split('.')
       let node = {
+        name: null,
         revealDate: null,
         registrationDate: null,
         value: null,
         highestBid: null,
-        state: null
+        state: null,
+        label: null,
+        domain: null,
+        price: null,
+        rent: null,
+        referralFeePPM: null,
+        available: null
       }
       let data
       //const owner = await getOwner(name)
@@ -82,6 +94,7 @@ const resolvers = {
 
         const owner = await getOwner(name)
         node = {
+          ...node,
           name: `${name}`,
           state: modeNames[state],
           registrationDate,
@@ -90,6 +103,18 @@ const resolvers = {
           highestBid,
           owner,
           __typename: 'Node'
+        }
+      } else {
+        const subdomain = await query(
+          nameArray.slice(1).join('.'),
+          nameArray[0]
+        )
+
+        node = {
+          name: `${name}`,
+          ...node,
+          ...subdomain,
+          state: subdomain.available ? 'Open' : 'Owned'
         }
       }
 
@@ -180,6 +205,10 @@ const resolvers = {
       }
 
       cache.writeData({ data })
+      window.localStorage.setItem(
+        'ensFavourites',
+        JSON.stringify(data.favourites)
+      )
 
       return data
     },
@@ -193,6 +222,10 @@ const resolvers = {
       }
 
       cache.writeData({ data })
+      window.localStorage.setItem(
+        'ensFavourites',
+        JSON.stringify(data.favourites)
+      )
 
       return data
     },
@@ -211,6 +244,10 @@ const resolvers = {
       }
 
       cache.writeData({ data })
+      window.localStorage.setItem(
+        'subDomainFavourites',
+        JSON.stringify(data.subDomainFavourites)
+      )
 
       console.log('here')
 
@@ -225,7 +262,13 @@ const resolvers = {
           previousDomain => previousDomain.name !== domain.name
         )
       }
+
       cache.writeData({ data })
+      window.localStorage.setItem(
+        'subDomainFavourites',
+        JSON.stringify(data.subDomainFavourites)
+      )
+
       return data
     }
   }

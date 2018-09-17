@@ -20,25 +20,6 @@ const cache = new InMemoryCache({
   addTypename: true
 })
 
-persistCache({
-  cache,
-  storage: window.localStorage
-})
-
-// const defaultOptions = {
-//   watchQuery: {
-//     fetchPolicy: 'network-only',
-//     errorPolicy: 'ignore'
-//   },
-//   query: {
-//     fetchPolicy: 'network-only',
-//     errorPolicy: 'all'
-//   },
-//   mutate: {
-//     errorPolicy: 'all'
-//   }
-// }
-
 const graphqlClient = new ApolloClient({
   cache,
   addTypename: true,

@@ -17,10 +17,15 @@ class Favourite extends React.Component {
     const nameArray = name.split('.')
     return (
       <Query query={getFavouritesQuery(nameArray)}>
-        {({ data, loading }) => {
+        {({ data, loading, error }) => {
           if (loading) return null
+          if (error) {
+            console.log(error)
+          }
           const favourites =
             nameArray.length < 3 ? data.favourites : data.subDomainFavourites
+
+          console.log(favourites)
           return (
             <AddFavourite
               domain={domain}

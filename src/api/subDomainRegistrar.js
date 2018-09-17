@@ -32,7 +32,7 @@ const getSubDomainRegistrar = async address => {
   }
 }
 
-export const query = async (domain, label, address) => {
+export const query = async (domain, label, address = defaultAddress) => {
   const Registrar = await getSubDomainRegistrar(address)
   const { web3 } = await getWeb3()
   return new Promise((resolve, reject) => {

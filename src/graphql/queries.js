@@ -43,6 +43,10 @@ export const GET_SINGLE_NAME = gql`
       value
       highestBid
       state
+      price
+      rent
+      referralFeePPM
+      available
     }
   }
 
@@ -74,7 +78,17 @@ export const GET_FAVOURITES = gql`
 export const GET_SUBDOMAIN_FAVOURITES = gql`
   query getSubDomainFavourites {
     subDomainFavourites @client {
-      ...SubDomainStateFields
+      name
+      revealDate
+      registrationDate
+      value
+      highestBid
+      state
+      owner
+      price
+      rent
+      referralFeePPM
+      available
     }
   }
 

@@ -245,9 +245,30 @@ export const getSubDomains = async name => {
   let remoteLabels = await decryptHashes(...labelHashes)
   let localLabels = checkLabels(...labelHashes)
   let labels = mergeLabels(localLabels, remoteLabels)
-  //let ownerPromises = labels.map(label => getOwner(`${label}.${name}`))
-  let subDomains = labels.map(label => `${label}.${name}`)
-  return subDomains
+  let ownerPromises = labels.map(label => getOwner(`${label}.${name}`))
+
+  return Promise.all(ownerPromises).then(owners =>
+    owners.map((owner, index) => {
+      let decrypted
+      let label
+
+      if (labels[index] === null) {
+        label = 'unknown' + logs[index].label.slice(-6)
+        decrypted = false
+      } else {
+        label = labels[index]
+        decrypted = true
+      }
+
+      return {
+        label,
+        decrypted,
+        node: name,
+        name: `${labels[index]}.${name}`,
+        owner
+      }
+    })
+  )
 }
 
 export const getSubdomainsDetails = async name => {
