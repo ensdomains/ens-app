@@ -7,7 +7,6 @@ import registerServiceWorker from './registerServiceWorker'
 import { ApolloClient } from 'apollo-client'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { withClientState } from 'apollo-link-state'
-import { persistCache } from 'apollo-cache-persist'
 
 import resolvers, { defaults } from './api/rootResolver'
 import typeDefs from './api/schema'

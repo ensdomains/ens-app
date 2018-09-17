@@ -79,10 +79,6 @@ export const GET_SUBDOMAIN_FAVOURITES = gql`
   query getSubDomainFavourites {
     subDomainFavourites @client {
       name
-      revealDate
-      registrationDate
-      value
-      highestBid
       state
       owner
       price

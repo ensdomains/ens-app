@@ -1,5 +1,6 @@
 import { queryAll } from '../subDomainRegistrar'
 import { fromWei } from 'ethjs-unit'
+import { getOwner } from '../registry'
 
 const defaults = {
   subDomainState: []
@@ -21,15 +22,23 @@ const resolvers = {
 
       const promises = nodes.map(subDomainPromise =>
         subDomainPromise
-          .then(node => {
+          .then(async node => {
+            let owner = null
+
+            if (!node.available) {
+              owner = await getOwner(`${node.label}.${node.domain}.eth`)
+            }
             const newNode = {
               ...node,
               id: `${node.label}.${node.domain}.eth`,
+              owner,
               name: `${node.label}.${node.domain}.eth`,
               state: node.available ? 'Open' : 'Owned',
               price: fromWei(node.price, 'ether'),
               __typename: 'SubDomain'
             }
+
+            console.log(newNode)
 
             cachedNodes.push(newNode)
 

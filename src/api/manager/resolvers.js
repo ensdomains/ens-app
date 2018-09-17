@@ -238,19 +238,17 @@ const resolvers = {
         __typename: 'SubDomain'
       }
 
-      console.log('SubDomain', newFavourite)
-
       const data = {
         subDomainFavourites: [...previous.subDomainFavourites, newFavourite]
       }
+
+      console.log(newFavourite)
 
       cache.writeData({ data })
       window.localStorage.setItem(
         'ensSubDomainFavourites',
         JSON.stringify(data.subDomainFavourites)
       )
-
-      console.log('here')
 
       return data
     },

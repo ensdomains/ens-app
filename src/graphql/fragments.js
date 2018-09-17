@@ -17,6 +17,7 @@ export const SubDomainStateFields = gql`
     label
     domain
     name
+    owner
     price
     rent
     referralFeePPM
