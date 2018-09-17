@@ -113,7 +113,9 @@ class Name extends Component {
     if (parseInt(details.resolver, 16) === 0) {
       return false
     }
-    return parseInt(details.addr, 16) !== 0 || parseInt(details.content) !== 0
+    return (
+      parseInt(details.addr, 16) !== 0 || parseInt(details.content, 16) !== 0
+    )
   }
   render() {
     const { details, name, pathname } = this.props

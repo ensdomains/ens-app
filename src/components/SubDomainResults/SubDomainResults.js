@@ -64,8 +64,6 @@ class SubDomainNode extends Component {
   }
 
   componentWillEnter(callback) {
-    const el = findDOMNode(this)
-
     this.timeline.seek('beforeEnter')
     TweenMax.killTweensOf(this.timeline)
     TweenMax.to(this.timeline, this.props.enterDuration, {
@@ -76,7 +74,6 @@ class SubDomainNode extends Component {
   }
 
   componentWillLeave(callback) {
-    const className = this.props.className
     this.timeline.pause()
     TweenMax.killTweensOf(this.timeline)
     TweenMax.to(this.timeline, this.props.leaveDuration, {
@@ -169,8 +166,6 @@ export class SubDomainsContainer extends Component {
                   node.label + '.' + node.domain
                 )
               })
-
-              let newIndex = index
 
               if (found) {
                 index++

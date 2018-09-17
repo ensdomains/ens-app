@@ -1,4 +1,3 @@
-import { watchRegistryEvent } from '../watchers'
 import { getOwner, getDomainDetails, getSubDomains, getName } from '../registry'
 import { getEntry } from '../registrar'
 import modeNames from '../modes'
@@ -55,7 +54,6 @@ const resolvers = {
   Query: {
     singleName: async (_, { name }, { cache }) => {
       const nameArray = name.split('.')
-      console.log(nameArray)
       let node = {
         revealDate: null,
         registrationDate: null,
@@ -65,10 +63,8 @@ const resolvers = {
       }
       let data
       //const owner = await getOwner(name)
-      console.log(nameArray)
 
       if (nameArray.length < 3 && nameArray[1] === 'eth') {
-        console.log('in ehre')
         if (nameArray[0].length < 7) {
           cache.writeData({
             data: defaults
@@ -106,8 +102,6 @@ const resolvers = {
         parent: nameArray.length > 1 ? getParent(name) : null,
         __typename: 'Node'
       }
-
-      console.log(detailedNode)
 
       data = {
         names: [...names, detailedNode]

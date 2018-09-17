@@ -1,4 +1,4 @@
-import { getMode, createSealedBid, getEntry } from '../registrar'
+import { createSealedBid, getEntry } from '../registrar'
 import { getOwner } from '../registry'
 import modeNames from '../modes'
 
@@ -49,7 +49,7 @@ const resolvers = {
       console.log(sealedBid)
     },
     async bid(_, { name, bidAmount, decoyBidAmount, secret }) {
-      const sealedBid = await createSealedBid(name, bidAmount, secret)
+      // const sealedBid = await createSealedBid(name, bidAmount, secret)
     }
   }
 }

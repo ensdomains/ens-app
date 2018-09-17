@@ -5,7 +5,6 @@ import { Spring } from 'react-spring'
 import SearchDefault from '../components/SearchName/Search'
 import NoAccountsDefault from '../components/NoAccounts'
 import bg from '../assets/heroBG.jpg'
-import DefaultLogo from '../components/Logo'
 import NetworkInfoQuery from '../components/NetworkInformation/NetworkInfoQuery'
 import Button from '../components/Forms/Button'
 import SpeechBubbleDefault from '../components/Icons/SpeechBubble'
@@ -71,13 +70,6 @@ const Search = styled(SearchDefault)`
   button {
     border-radius: 0 6px 6px 0;
   }
-`
-
-const Logo = styled(DefaultLogo)`
-  padding-top: 20px;
-  position: absolute;
-  left: 0;
-  top: 0;
 `
 
 const NetworkStatus = styled('div')`
@@ -190,7 +182,7 @@ const LogoLarge = styled('img')`
 
 const Icon = ({ src, text }) => (
   <IconContainer>
-    <img src={src} />
+    <img src={src} alt="ENS Logo" />
     <p>{text}</p>
   </IconContainer>
 )

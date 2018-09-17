@@ -1,8 +1,5 @@
 import React, { Component, Fragment } from 'react'
 import styled from 'react-emotion'
-import { Query } from 'react-apollo'
-import gql from 'graphql-tag'
-//import { GET_WEB3 } from '../../graphql/queries'
 import NetworkInfoQuery from './NetworkInfoQuery'
 import UnstyledBlockies from '../Blockies'
 import ReverseResolution from '../ReverseResolution'

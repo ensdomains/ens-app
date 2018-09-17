@@ -183,7 +183,6 @@ class Explainer extends Component {
   handleScroll = () => {
     let bodyHeight = document.body.clientHeight
     let explainer = this.explainer.current
-    let explainerHeight = explainer.offsetHeight
     let explainerOffsetTop = explainer.offsetTop - bodyHeight
     let explainerOffsetBottom = explainer.offsetTop + bodyHeight + bodyHeight
 
@@ -193,8 +192,6 @@ class Explainer extends Component {
     const left2 = modulate(window.pageYOffset, scrollRange1, [-400, 0], true)
     const left3 = modulate(window.pageYOffset, scrollRange1, [-600, 0], true)
     const left4 = modulate(window.pageYOffset, scrollRange1, [-250, 0], true)
-
-    const right = modulate(window.pageYOffset, scrollRange1, [0, -400], true)
 
     this.string0.current.style.transform = 'translateX(' + left + 'px)'
     this.string1.current.style.transform = 'translateX(' + left2 + 'px)'
@@ -206,13 +203,6 @@ class Explainer extends Component {
     this.string7.current.style.transform = 'translateX(' + left + 'px)'
     this.string8.current.style.transform = 'translateX(' + left3 + 'px)'
     this.string9.current.style.transform = 'translateX(' + left + 'px)'
-
-    // this.string0.current.style.transform = 'translateX(' + left + 'px)'
-    // this.string1.current.style.transform = 'translateX(' + right + 'px)'
-    // this.string2.current.style.transform = 'translateX(' + left + 'px)'
-    // this.string3.current.style.transform = 'translateX(' + right + 'px)'
-    // this.string4.current.style.transform = 'translateX(' + left + 'px)'
-    // this.string5.current.style.transform = 'translateX(' + right + 'px)'
   }
 
   render() {

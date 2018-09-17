@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { validateName, parseSearchTerm } from '../lib/utils'
+import { parseSearchTerm } from '../lib/utils'
 import { GET_SINGLE_NAME } from '../graphql/queries'
 import { Query } from 'react-apollo'
 import Loader from '../components/Loader'

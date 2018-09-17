@@ -1,10 +1,5 @@
 import gql from 'graphql-tag'
-import {
-  NodesRecursive,
-  NodeFields,
-  SubDomainStateFieldsFavourite,
-  SubDomainStateFields
-} from './fragments'
+import { NodesRecursive, NodeFields, SubDomainStateFields } from './fragments'
 
 export const GET_WEB3 = gql`
   query web3 {
