@@ -12,7 +12,8 @@ import {
 
 let savedFavourites =
   JSON.parse(window.localStorage.getItem('ensFavourites')) || []
-let savedSubDomainFavourites = []
+let savedSubDomainFavourites =
+  JSON.parse(window.localStorage.getItem('ensSubDomainFavourites')) || []
 
 const defaults = {
   names: [],
@@ -245,7 +246,7 @@ const resolvers = {
 
       cache.writeData({ data })
       window.localStorage.setItem(
-        'subDomainFavourites',
+        'ensSubDomainFavourites',
         JSON.stringify(data.subDomainFavourites)
       )
 
@@ -265,7 +266,7 @@ const resolvers = {
 
       cache.writeData({ data })
       window.localStorage.setItem(
-        'subDomainFavourites',
+        'ensSubDomainFavourites',
         JSON.stringify(data.subDomainFavourites)
       )
 
