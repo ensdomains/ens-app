@@ -30,6 +30,10 @@ const NavLink = styled(Link)`
   font-size: 22px;
   color: ${p => (p.active ? '#5284FF' : '#C7D3E3')};
 
+  &:visited {
+    color: #c7d3e3;
+  }
+
   &:hover {
     color: #5284ff;
   }

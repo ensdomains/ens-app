@@ -10,6 +10,11 @@ injectGlobal`
   }
 
   a {
+    color: #5284ff;
     text-decoration: none;
+
+    /* &:visited {
+      color: #5284ff
+    } */
   }
 `
