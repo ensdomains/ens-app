@@ -4,11 +4,23 @@ import styled from 'react-emotion'
 import { Title, HR } from '../Typography/Basic'
 import DefaultFavourite from '../AddFavourite/Favourite'
 import SubDomains from './SubDomains'
+import DefaultBlockies from '../Blockies'
+import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
 
 const NameContainer = styled('div')`
   background: white;
   box-shadow: 3px 4px 6px 0 rgba(229, 236, 241, 0.3);
   border-radius: 6px;
+`
+
+const Blockies = styled(DefaultBlockies)`
+  margin-right: 5px;
+  border-radius: 50%;
+  box-shadow: 2px 2px 9px 0 #e1e1e1;
+`
+
+const EtherScanLink = styled(DefaultEtherScanLink)`
+  display: flex;
 `
 
 const TopBar = styled('div')`
@@ -102,12 +114,6 @@ const RecordsValue = styled(DetailsValue)`
   font-size: 14px;
 `
 
-const EtherScanLink = ({ address, children }) => (
-  <a target="_blank" href={`http://etherscan.io/address/${address}`}>
-    {children}
-  </a>
-)
-
 class Name extends Component {
   hasAnyRecord(details) {
     if (parseInt(details.resolver, 16) === 0) {
@@ -158,6 +164,7 @@ class Name extends Component {
                 <DetailsKey>Owner</DetailsKey>
                 <DetailsValue>
                   <EtherScanLink address={details.owner}>
+                    <Blockies address={details.owner} imageSize={24} />
                     {details.owner}
                   </EtherScanLink>
                 </DetailsValue>

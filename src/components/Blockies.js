@@ -1,6 +1,9 @@
 import React from 'react'
 import createIcon from '../lib/blockies'
 import PropTypes from 'prop-types'
+import styled from 'react-emotion'
+
+const BlockiesContainer = styled('span')``
 
 const Blockies = ({ address, imageSize = 42, className }) => {
   var imgURL = createIcon({
@@ -16,7 +19,7 @@ const Blockies = ({ address, imageSize = 42, className }) => {
     display: 'inline-block'
   }
 
-  return <span className={'ethereum-address-icon ' + className} style={style} />
+  return <BlockiesContainer className={className} style={style} />
 }
 
 Blockies.propTypes = {
