@@ -10,11 +10,8 @@ import Button from '../components/Forms/Button'
 import TextBubbleDefault from '../components/Icons/TextBubble'
 import QuestionMarkDefault from '../components/Icons/QuestionMark'
 import mq from '../mediaQuery'
+import HowToUse from '../components/HowToUse/HowToUse'
 
-import favourite from '../components/HomePage/images/favourite.svg'
-import manage from '../components/HomePage/images/manage.svg'
-import search from '../components/HomePage/images/search.svg'
-import tag from '../components/HomePage/images/tag.svg'
 import Alice from '../components/HomePage/Alice'
 
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
@@ -146,45 +143,10 @@ const QuestionMark = styled(QuestionMarkDefault)`
   margin-right: 10px;
 `
 
-const IconsSection = styled(Section)`
-  background: #fff;
-  padding: 70px;
-`
-
-const Icons = styled('div')`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  grid-gap: 50px;
-
-  ${mq.medium`
-    grid-gap: 50px;
-  `};
-`
-
-const IconContainer = styled('div')`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  p {
-    margin: 0;
-    margin-top: 20px;
-  }
-`
-
 const LogoLarge = styled('img')`
   width: 223px;
   margin: 0 auto 50px;
 `
-
-const Icon = ({ src, text }) => (
-  <IconContainer>
-    <img src={src} alt="ENS Logo" />
-    <p>{text}</p>
-  </IconContainer>
-)
 
 export default props => (
   <Fragment>
@@ -242,14 +204,7 @@ export default props => (
       <NameAnimation>
         <Alice />
       </NameAnimation>
-      <IconsSection>
-        <Icons>
-          <Icon src={search} text="Search for names" />
-          <Icon src={favourite} text="Save favourite names" />
-          <Icon src={tag} text="Bid for names" />
-          <Icon src={manage} text="Manage names" />
-        </Icons>
-      </IconsSection>
+      <HowToUse />
       <HowItWorks>
         <Inner>
           <H2>
