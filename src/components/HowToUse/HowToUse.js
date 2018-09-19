@@ -54,12 +54,17 @@ const ImgContainer = styled('div')`
   align-items: center;
 `
 
+const H3 = styled('h3')`
+  font-size: 20px;
+  font-weight: 400;
+`
+
 const Icon = ({ src, title, text }) => (
   <IconContainer>
     <ImgContainer>
       <img src={src} alt="ENS Logo" />
     </ImgContainer>
-    <h3>{title}</h3>
+    <H3>{title}</H3>
     {text.length > 0 && <p>{text}</p>}
   </IconContainer>
 )

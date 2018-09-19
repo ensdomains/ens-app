@@ -85,12 +85,10 @@ const CardText = styled('p')`
   font-size: 16px;
   font-weight: 200;
   line-height: 28px;
-  text-align: center;
-`
-
-const AboutENSText = styled(CardText)`
   text-align: left;
 `
+
+const AboutENSText = styled(CardText)``
 
 const AboutENSContainer = styled('section')`
   display: flex;
