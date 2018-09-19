@@ -56,22 +56,16 @@ class SideNav extends Component {
               <span>Favourites</span>
             </NavLink>
           </li>
-          <li>
+          {/* <li>
             <NavLink active={path === '/my-bids'} to="/my-bids">
               <DogTag active={path === '/my-bids'} />
               <span>My Bids</span>
             </NavLink>
-          </li>
+          </li> */}
           <li>
             <NavLink active={path === '/about'} to="/about">
               <SpeechBubble active={path === '/about'} />
               <span>About</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink active={path === '/how-it-works'} to="/how-it-works">
-              <QuestionMark active={path === '/how-it-works'} />
-              <span>How it works</span>
             </NavLink>
           </li>
         </ul>
