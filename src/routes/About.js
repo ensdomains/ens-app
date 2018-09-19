@@ -7,6 +7,8 @@ import subdomainExplainer from '../assets/subdomainExplainer.png'
 import nameToAddress from '../assets/nameToAddress.png'
 import addressToName from '../assets/addressToName.png'
 import HowToUseDefault from '../components/HowToUse/HowToUse'
+import Registry from '../components/Icons/Registry'
+import Registrar from '../components/Icons/Registrar'
 
 const HowToUse = styled(HowToUseDefault)`
   .icons {
@@ -59,6 +61,12 @@ const SubTitle = styled('h3')`
   text-align: center;
   margin: 0 0 30px;
 `
+
+const AboutENSImgContainer = styled('div')`
+  height: 20px;
+  display: flex;
+`
+
 const Card = styled('div')`
   background: #ffffff;
   box-shadow: 3px 3px 18px 0 #eff2f5;
@@ -69,13 +77,30 @@ const Card = styled('div')`
   padding: 30px;
 `
 
+const CardImg = styled('img')`
+  max-width: 100%;
+`
+
+const CardText = styled('p')`
+  font-size: 16px;
+  font-weight: 200;
+  line-height: 28px;
+  text-align: center;
+`
+
+const AboutENSText = styled(CardText)`
+  text-align: left;
+`
+
 const AboutENSContainer = styled('section')`
   display: flex;
   justify-content: space-between;
   width: ${45 + 320 + 320}px;
   margin: 0 auto 80px;
 `
-const CardTitle = styled('h3')``
+const CardTitle = styled('h3')`
+  margin-bottom: 0;
+`
 
 const SubDomainExplainer = styled('img')`
   max-width: 565px;
@@ -93,6 +118,21 @@ const SubDomainText = styled('p')`
   margin: 0 auto 0;
 `
 
+const UnderTheSurface = styled('section')`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1.5fr;
+  max-width: 685px;
+  grid-gap: 45px;
+  margin: 0 auto 100px;
+  align-items: start;
+`
+
+const UnderTheSurfaceImgContainer = styled('div')`
+  height: 30px;
+  display: flex;
+`
+
 const About = ({}) => (
   <AboutContainer>
     <ElevatorPitch>
@@ -106,14 +146,22 @@ const About = ({}) => (
     <SubTitle>About ENS</SubTitle>
     <AboutENSContainer>
       <Card>
-        <Map />
-        Map simple names like ‘alice.eth’ to Ethereum addresses, content hashes,
-        and metadata.
+        <AboutENSImgContainer>
+          <Map />
+        </AboutENSImgContainer>
+        <AboutENSText>
+          Map simple names like ‘alice.eth’ to Ethereum addresses, content
+          hashes, and metadata.
+        </AboutENSText>
       </Card>
       <Card>
-        <ReverseArrows />
-        Improve usability of Dapps by returning human readable names instead of
-        long hashes through 'reverse resolution'
+        <AboutENSImgContainer>
+          <ReverseArrows />
+        </AboutENSImgContainer>
+        <AboutENSText>
+          Improve usability of Dapps by returning human readable names instead
+          of long hashes through 'reverse resolution'
+        </AboutENSText>
       </Card>
     </AboutENSContainer>
     <SubTitle>TLD’S &amp; SUBDOMAINS</SubTitle>
@@ -127,20 +175,47 @@ const About = ({}) => (
     <SubTitle>HOW TO USE ENS</SubTitle>
     <HowToUse text={true} />
     <SubTitle>Under the surface</SubTitle>
-    <Card>
-      <CardTitle>The Registrar</CardTitle>
-    </Card>
-    <Card>
-      <CardTitle>The Registry</CardTitle>
-    </Card>
-    <Card>
-      <img src={nameToAddress} />
-      <CardTitle>The Resolver</CardTitle>
-    </Card>
-    <Card>
-      <img src={addressToName} />
-      <CardTitle>The Registry</CardTitle>
-    </Card>
+    <UnderTheSurface>
+      <Card>
+        <UnderTheSurfaceImgContainer>
+          <Registrar />
+        </UnderTheSurfaceImgContainer>
+        <CardTitle>The Registrar</CardTitle>
+        <CardText>
+          The Registrar is the Smart Contract that allows you to buy or register
+          a domain. Today it represents the auction process, but in the future
+          you will have an instant buy option.
+        </CardText>
+      </Card>
+      <Card>
+        <UnderTheSurfaceImgContainer>
+          <Registry />
+        </UnderTheSurfaceImgContainer>
+        <CardTitle>The Registry</CardTitle>
+        <CardText>
+          The Registry is a Smart Contract that contains a list of all domains
+          and subdomains, storing for each two pieces of information: the owner
+          of the name and the Resolver.
+        </CardText>
+      </Card>
+      <Card>
+        <CardImg src={nameToAddress} />
+        <CardTitle>The Resolver</CardTitle>
+        <CardText>
+          The Resolver is a Smart Contract responsible for the process of
+          translating names into addresses, or other types of hashes and
+          resources.
+        </CardText>
+      </Card>
+      <Card>
+        <CardImg src={addressToName} />
+        <CardTitle>Reverse Resolution</CardTitle>
+        <CardText>
+          The Resolver can optionally perform the opposite functionality of
+          "Reverse Resolving": translating an address into an associated name.
+        </CardText>
+      </Card>
+    </UnderTheSurface>
   </AboutContainer>
 )
 

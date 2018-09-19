@@ -29,8 +29,12 @@ const Icons = styled('div')`
 const IconContainer = styled('div')`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
+
+  img {
+    height: ;
+  }
 
   h3 {
     margin: 0;
@@ -43,9 +47,18 @@ const IconContainer = styled('div')`
   }
 `
 
+const ImgContainer = styled('div')`
+  height: 110px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
 const Icon = ({ src, title, text }) => (
   <IconContainer>
-    <img src={src} alt="ENS Logo" />
+    <ImgContainer>
+      <img src={src} alt="ENS Logo" />
+    </ImgContainer>
     <h3>{title}</h3>
     {text.length > 0 && <p>{text}</p>}
   </IconContainer>
