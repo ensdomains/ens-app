@@ -45,6 +45,7 @@ const DomainInfoContainer = () => {
                   <DomainInfo
                     domainState={domainState}
                     isFavourite={
+                      domainState &&
                       favourites.filter(
                         domain => domain.name === domainState.name
                       ).length > 0
