@@ -78,7 +78,7 @@ class Search extends React.Component {
           e.preventDefault()
           const searchTerm = this.input.value
 
-          console.log(this.state.type)
+          this.input.value = ''
 
           if (this.state.type === 'supported') {
             history.push(`/name/${searchTerm}`)
