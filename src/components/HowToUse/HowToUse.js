@@ -7,9 +7,7 @@ import tag from '../HomePage/images/tag.svg'
 
 import mq from '../../mediaQuery'
 
-const HowToUseContainer = styled('div')``
-
-const IconsSection = styled('section')`
+const HowToUseContainer = styled('section')`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -38,6 +36,11 @@ const IconContainer = styled('div')`
     margin: 0;
     margin-top: 20px;
   }
+
+  p {
+    font-size: 16px;
+    font-weight: 300;
+  }
 `
 
 const Icon = ({ src, title, text }) => (
@@ -48,16 +51,46 @@ const Icon = ({ src, title, text }) => (
   </IconContainer>
 )
 
-const HowToUse = ({ text }) => (
-  <HowToUseContainer>
-    <IconsSection>
-      <Icons>
-        <Icon src={search} title="Search for names" />
-        <Icon src={favourite} title="Save favourite names" />
-        <Icon src={tag} title="Bid for names" />
-        <Icon src={manage} title="Manage names" />
-      </Icons>
-    </IconsSection>
+const HowToUse = ({ text = false, className }) => (
+  <HowToUseContainer className={className}>
+    <Icons className="icons">
+      <Icon
+        src={search}
+        title="Search for names"
+        text={
+          text
+            ? 'Find domains and subdomains that you can register or learn more about.'
+            : ''
+        }
+      />
+      <Icon
+        src={favourite}
+        title="Save favourite names"
+        text={
+          text
+            ? 'Keep track of domains and subdomains that you own or that you want to follow.'
+            : ''
+        }
+      />
+      <Icon
+        src={tag}
+        title="Bid for names"
+        text={
+          text
+            ? 'Open auctions, or participate in auctions opened by others, to secure the name you want.'
+            : ''
+        }
+      />
+      <Icon
+        src={manage}
+        title="Manage names"
+        text={
+          text
+            ? 'Point domains to your ethereum addresses, transfer ownership to other people and more.'
+            : ''
+        }
+      />
+    </Icons>
   </HowToUseContainer>
 )
 
