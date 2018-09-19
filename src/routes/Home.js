@@ -7,7 +7,7 @@ import NoAccountsDefault from '../components/NoAccounts'
 import bg from '../assets/heroBG.jpg'
 import NetworkInfoQuery from '../components/NetworkInformation/NetworkInfoQuery'
 import Button from '../components/Forms/Button'
-import SpeechBubbleDefault from '../components/Icons/SpeechBubble'
+import TextBubbleDefault from '../components/Icons/TextBubble'
 import QuestionMarkDefault from '../components/Icons/QuestionMark'
 import mq from '../mediaQuery'
 
@@ -137,8 +137,7 @@ const NameAnimation = styled(Section)`
   height: 100%;
 `
 
-const SpeechBubble = styled(SpeechBubbleDefault)`
-  transform: scale(1.18);
+const TextBubble = styled(TextBubbleDefault)`
   margin-right: 10px;
 `
 
@@ -229,7 +228,7 @@ export default props => (
       <WhatItIs>
         <Inner>
           <H2>
-            <SpeechBubble color="#2B2B2B" scale={1.18} />
+            <TextBubble color="#2B2B2B" />
             What it is
           </H2>
           <p>
@@ -255,7 +254,7 @@ export default props => (
         <Inner>
           <H2>
             <QuestionMark color="#2B2B2B" />
-            How it works
+            How to use ENS
           </H2>
           <p>
             The ENS App is a Graphical User Interface for non-technical users.
