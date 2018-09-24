@@ -164,7 +164,7 @@ const About = () => (
         </AboutENSText>
       </Card>
     </AboutENSContainer>
-    <SubTitle>TLD’S &amp; SUBDOMAINS</SubTitle>
+    <SubTitle>TLDs &amp; SUBDOMAINS</SubTitle>
     <SubDomainExplainer src={subdomainExplainer} />
     <SubDomainText>
       Like DNS, ENS operates on a system of dot-separated hierarchial names
@@ -183,8 +183,8 @@ const About = () => (
         <CardTitle>The Registrar</CardTitle>
         <CardText>
           The Registrar is the Smart Contract that allows you to buy or register
-          a domain. Today it represents the auction process, but in the future
-          you will have an instant buy option.
+          a domain. Today it uses an auction process, but in the future you will
+          have an instant buy option.
         </CardText>
       </Card>
       <Card>
@@ -200,9 +200,9 @@ const About = () => (
       </Card>
       <Card>
         <CardImg src={nameToAddress} />
-        <CardTitle>The Resolver</CardTitle>
+        <CardTitle>Resolvers</CardTitle>
         <CardText>
-          The Resolver is a Smart Contract responsible for the process of
+          Resolvers are Smart Contracts responsible for the process of
           translating names into addresses, or other types of hashes and
           resources.
         </CardText>
