@@ -21,6 +21,7 @@ const AboutContainer = styled('div')`
   box-shadow: 3px 4px 6px 0 rgba(229, 236, 241, 0.3);
   border-radius: 6px;
   overflow: hidden;
+  margin-bottom: 60px;
 
   &:before {
     content: '';
