@@ -13,6 +13,7 @@ const HowToUseContainer = styled('section')`
   align-items: center;
   background: #fff;
   padding: 70px;
+  padding-top: 0;
 `
 
 const Icons = styled('div')`
@@ -44,6 +45,7 @@ const IconContainer = styled('div')`
   p {
     font-size: 16px;
     font-weight: 300;
+    text-align: center;
   }
 `
 

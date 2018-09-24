@@ -12,10 +12,14 @@ const ButtonContainer = styled(Link)`
   font-family: Overpass;
   text-transform: capitalize;
   letter-spacing: 1.5px;
-  box-shadow: 0 10px 21px 0 #bed0dc;
+  //box-shadow: 0 10px 21px 0 #bed0dc;
+  transition: 0.2s all;
 
   &:hover {
     cursor: ${p => (p.href ? 'pointer' : 'auto')};
+    background: #2c46a6;
+    box-shadow: 0 10px 21px 0 rgba(161, 175, 184, 0.89);
+    border-radius: 23px;
   }
 `
 

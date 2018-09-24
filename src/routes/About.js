@@ -98,6 +98,7 @@ const AboutENSContainer = styled('section')`
   margin: 0 auto 80px;
 `
 const CardTitle = styled('h3')`
+  font-weight: 400;
   margin-bottom: 0;
 `
 
@@ -114,7 +115,7 @@ const SubDomainText = styled('p')`
   text-align: center;
   line-height: 32px;
   max-width: 540px;
-  margin: 0 auto 0;
+  margin: 0 auto 80px;
 `
 
 const UnderTheSurface = styled('section')`

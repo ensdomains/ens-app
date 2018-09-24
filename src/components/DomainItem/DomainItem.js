@@ -47,8 +47,11 @@ const DomainContainer = styled('div')`
   align-items: center;
   font-size: 22px;
   margin-bottom: 4px;
+  transition: 0.2s all;
 
   &:hover {
+    z-index: 1;
+    box-shadow: 3px 4px 20px 0 rgba(144, 171, 191, 0.42);
     .label-container {
       display: flex;
     }
