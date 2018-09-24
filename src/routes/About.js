@@ -133,7 +133,7 @@ const UnderTheSurfaceImgContainer = styled('div')`
   display: flex;
 `
 
-const About = ({}) => (
+const About = () => (
   <AboutContainer>
     <ElevatorPitch>
       <H2>

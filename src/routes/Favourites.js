@@ -61,9 +61,6 @@ class Favourites extends Component {
     hasFavourites: true,
     hasSubDomainFavourites: true
   }
-  componentWillUpdate() {
-    this.state.hasFavourites
-  }
   render() {
     const { hasFavourites, hasSubDomainFavourites } = this.state
     return (
