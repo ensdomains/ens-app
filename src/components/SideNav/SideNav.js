@@ -39,12 +39,14 @@ const NavLink = styled(Link)`
 
   span {
     margin-left: 15px;
+    color: ${p => (p.active ? '#5284FF' : '#C7D3E3')};
   }
 `
 
 class SideNav extends Component {
   render() {
     const { path } = this.props.match
+    console.log(path)
     return (
       <SideNavContainer>
         <NetworkInformation />
