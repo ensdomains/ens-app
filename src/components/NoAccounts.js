@@ -5,7 +5,7 @@ const colour = ({ colour }) => colour
 
 const NoAccountsContainer = styled('div')`
   box-shadow: ${({ active }) =>
-    active ? '-4px 18px 70px 0 rgba(108, 143, 167, 0.32)' : 'none'};
+    active ? '0 -10px 30px 0 rgba(108, 143, 167, 0.05)' : 'none'};
   padding: 5px 20px;
   border-bottom: 1px solid ${colour};
   border-top: ${({ active, colour }) =>
@@ -21,6 +21,7 @@ const NoAccountsContainer = styled('div')`
   position: relative;
   width: ${({ active }) => (active ? '305px' : 'auto')};
   transition: 0.2s;
+  z-index: 11;
 
   span {
     color: ${colour};

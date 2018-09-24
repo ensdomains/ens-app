@@ -61,6 +61,7 @@ const NoAccountContainer = styled('div')`
 `
 
 const NoAccountExplanation = styled('div')`
+  box-shadow: -4px 18px 70px 0 rgba(108, 143, 167, 0.32);
   position: absolute;
   top: 100%;
   left: 0;
