@@ -10,11 +10,15 @@ import Button from '../components/Forms/Button'
 import TextBubbleDefault from '../components/Icons/TextBubble'
 import QuestionMarkDefault from '../components/Icons/QuestionMark'
 import mq from '../mediaQuery'
-import HowToUse from '../components/HowToUse/HowToUse'
+import HowToUseDefault from '../components/HowToUse/HowToUse'
 
 import Alice from '../components/HomePage/Alice'
 
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
+
+const HowToUse = styled(HowToUseDefault)`
+  padding: 70px;
+`
 
 const Hero = styled('section')`
   background: url(${bg});

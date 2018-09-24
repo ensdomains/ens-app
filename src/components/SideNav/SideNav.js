@@ -26,7 +26,7 @@ const SideNavContainer = styled('nav')`
 const NavLink = styled(Link)`
   display: flex;
   align-items: center;
-  font-weight: 100;
+  font-weight: 200;
   font-size: 22px;
   color: ${p => (p.active ? '#5284FF' : '#C7D3E3')};
 

@@ -4,7 +4,7 @@ import { Query } from 'react-apollo'
 import DomainItem from '../components/DomainItem/DomainItem'
 import { GET_FAVOURITES, GET_SUBDOMAIN_FAVOURITES } from '../graphql/queries'
 
-import { H2 } from '../components/Typography/Basic'
+import { H2 as DefaultH2 } from '../components/Typography/Basic'
 import LargeHeart from '../components/Icons/LargeHeart'
 
 const NoDomainsContainer = styled('div')`
@@ -38,6 +38,10 @@ const NoDomainsContainer = styled('div')`
     width: 40%;
     text-align: center;
   }
+`
+
+const H2 = styled(DefaultH2)`
+  margin-top: 50px;
 `
 
 const NoDomains = ({ type }) => (

@@ -2,19 +2,25 @@ import React, { Fragment, Component } from 'react'
 import { findDOMNode } from 'react-dom'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
-import { SubDomainStateFields } from '../../graphql/fragments'
-import { GET_SUBDOMAIN_FAVOURITES } from '../../graphql/queries'
+import styled from 'react-emotion'
 import ReactTransitionGroup from 'react-transition-group-plus'
 import { TweenMax, TimelineMax, Linear, Sine } from 'gsap/umd/TweenMax'
+
+import { SubDomainStateFields } from '../../graphql/fragments'
+import { GET_SUBDOMAIN_FAVOURITES } from '../../graphql/queries'
 import DomainItem from '../DomainItem/DomainItem'
 import Loader from '../Loader'
-import { H2 } from '../Typography/Basic'
+import { H2 as DefaultH2 } from '../Typography/Basic'
 
 const animationStates = {
   beforeEnter: { x: -100, scale: 1, opacity: 0 },
   idle: { x: 0, scale: 1, opacity: 1 },
   afterLeave: { x: 100, scale: 1, opacity: 0 }
 }
+
+const H2 = styled(DefaultH2)`
+  margin-top: 50px;
+`
 
 class SubDomainNode extends Component {
   //static animationStates = animationStates
