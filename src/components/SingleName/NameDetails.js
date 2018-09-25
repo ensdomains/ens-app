@@ -91,16 +91,14 @@ const RecordsValue = styled(DetailsValue)`
 `
 
 class NameDetails extends Component {
-  hasAnyRecord(details) {
-    if (parseInt(details.resolver, 16) === 0) {
+  hasAnyRecord(domain) {
+    if (parseInt(domain.resolver, 16) === 0) {
       return false
     }
-    return (
-      parseInt(details.addr, 16) !== 0 || parseInt(details.content, 16) !== 0
-    )
+    return parseInt(domain.addr, 16) !== 0 || parseInt(domain.content, 16) !== 0
   }
   render() {
-    const { details, pathname, name } = this.props
+    const { domain, pathname, name } = this.props
     return (
       <Fragment>
         <Toggle>
@@ -122,42 +120,39 @@ class NameDetails extends Component {
           path="/name/:name"
           render={() => (
             <Details>
-              {details.parent && (
+              {domain.parent && (
                 <DetailsItem>
                   <DetailsKey>Parent</DetailsKey>
                   <DetailsValue>
-                    <Link to={`/name/${details.parent}`}>{details.parent}</Link>
+                    <Link to={`/name/${domain.parent}`}>{domain.parent}</Link>
                   </DetailsValue>
                 </DetailsItem>
               )}
               <DetailsItem>
                 <DetailsKey>Owner</DetailsKey>
                 <DetailsValue>
-                  <EtherScanLink address={details.owner}>
-                    <SingleNameBlockies
-                      address={details.owner}
-                      imageSize={24}
-                    />
-                    {details.owner}
+                  <EtherScanLink address={domain.owner}>
+                    <SingleNameBlockies address={domain.owner} imageSize={24} />
+                    {domain.owner}
                   </EtherScanLink>
                 </DetailsValue>
               </DetailsItem>
-              {details.registrationDate && (
+              {domain.registrationDate && (
                 <DetailsItem>
                   <DetailsKey>Registration Date</DetailsKey>
                   <DetailsValue>
-                    {formatDate(details.registrationDate)}
+                    {formatDate(domain.registrationDate)}
                   </DetailsValue>
                 </DetailsItem>
               )}
-              {parseInt(details.resolver, 16) !== 0 ? (
+              {parseInt(domain.resolver, 16) !== 0 ? (
                 <Fragment>
                   <HR />
                   <DetailsItem>
                     <DetailsKey>Resolver</DetailsKey>
                     <DetailsValue>
-                      <EtherScanLink address={details.resolver}>
-                        {details.resolver}
+                      <EtherScanLink address={domain.resolver}>
+                        {domain.resolver}
                       </EtherScanLink>
                     </DetailsValue>
                   </DetailsItem>
@@ -171,27 +166,27 @@ class NameDetails extends Component {
                   </DetailsItem>
                 </Fragment>
               )}
-              {this.hasAnyRecord(details) && (
+              {this.hasAnyRecord(domain) && (
                 <Records>
                   <RecordsTitle>Pointers</RecordsTitle>
-                  {parseInt(details.resolver, 16) !== 0 &&
-                    details.addr && (
+                  {parseInt(domain.resolver, 16) !== 0 &&
+                    domain.addr && (
                       <RecordsItem>
                         <RecordsKey>Address</RecordsKey>
                         <RecordsValue>
-                          <EtherScanLink address={details.addr}>
-                            {details.addr}
+                          <EtherScanLink address={domain.addr}>
+                            {domain.addr}
                           </EtherScanLink>
                         </RecordsValue>
                       </RecordsItem>
                     )}
-                  {parseInt(details.resolver, 16) !== 0 &&
-                    parseInt(details.content, 16) !== 0 && (
+                  {parseInt(domain.resolver, 16) !== 0 &&
+                    parseInt(domain.content, 16) !== 0 && (
                       <RecordsItem>
                         <RecordsKey>Content</RecordsKey>
                         <RecordsValue>
-                          <EtherScanLink address={details.content}>
-                            {details.content}
+                          <EtherScanLink address={domain.content}>
+                            {domain.content}
                           </EtherScanLink>
                         </RecordsValue>
                       </RecordsItem>
@@ -205,7 +200,7 @@ class NameDetails extends Component {
         <Route
           exact
           path="/name/:name/subdomains"
-          render={() => <SubDomains domain={details} />}
+          render={() => <SubDomains domain={domain} />}
         />
       </Fragment>
     )

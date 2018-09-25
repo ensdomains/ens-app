@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'react-emotion'
 import Button from '../Forms/Button'
 import AddFavourite from '../AddFavourite/AddFavourite'
+import { getPercentTimeLeft, getTimeLeft, humanizeDate } from '../../lib/utils'
 
 import moment from 'moment'
 
@@ -123,36 +124,23 @@ const Label = ({ domain, timeLeft }) => {
   let timeLeftHuman
 
   if (domain.state === 'Auction' || domain.state === 'Reveal') {
-    timeLeftHuman = moment.duration(timeLeft).humanize()
+    timeLeftHuman = humanizeDate(timeLeft)
   }
 
   return (
     <LabelContainer className="label-container">
       <LabelText>{text}</LabelText>
-      {domain.state === 'Auction' && (
-        <TimeLeft>{`${timeLeftHuman} left`}</TimeLeft>
-      )}
+      {domain.state === 'Auction' ||
+        (domain.state === 'Reveal' && (
+          <TimeLeft>{`${timeLeftHuman} left`}</TimeLeft>
+        ))}
     </LabelContainer>
   )
 }
 
-function getTimeLeft(endDate) {
-  return new Date(endDate).getTime() - new Date().getTime()
-}
-
 const Domain = ({ domain, isSubDomain, className, isFavourite }) => {
-  let timeLeft = false
-  let percentDone = 0
-  if (domain.state === 'Auction') {
-    timeLeft = getTimeLeft(domain.revealDate)
-    let totalTime = 259200000
-    percentDone = ((totalTime - timeLeft) / totalTime) * 100
-  } else if (domain.state === 'Reveal') {
-    timeLeft = getTimeLeft(domain.registrationDate)
-    let totalTime = 172800000
-    percentDone = ((totalTime - timeLeft) / totalTime) * 100
-  }
-
+  let timeLeft = getTimeLeft(domain)
+  let percentDone = getPercentTimeLeft(timeLeft, domain)
   return (
     <DomainContainer
       state={domain.state}
