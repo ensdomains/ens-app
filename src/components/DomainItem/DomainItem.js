@@ -3,12 +3,15 @@ import styled from 'react-emotion'
 import Button from '../Forms/Button'
 import AddFavourite from '../AddFavourite/AddFavourite'
 import { getPercentTimeLeft, getTimeLeft, humanizeDate } from '../../lib/utils'
+import QueryAccount from '../QueryAccount'
 
 const DomainContainer = styled('div')`
   &:before {
     content: '';
     background: ${p => {
       switch (p.state) {
+        case 'Yours':
+          return '#52E5FF'
         case 'Open':
           return '#42E068'
         case 'Auction':
@@ -67,6 +70,8 @@ const DomainName = styled('h2')`
   font-weight: 200;
   color: ${p => {
     switch (p.state) {
+      case 'Yours':
+        return '#2b2b2b'
       case 'Owned':
         return '#CCD4DA'
       default:
@@ -97,7 +102,7 @@ const TimeLeft = styled('div')`
   padding-left: 10px;
 `
 
-const Label = ({ domain, timeLeft }) => {
+const Label = ({ domain, timeLeft, isOwner }) => {
   let text
   switch (domain.state) {
     case 'Open':
@@ -117,6 +122,10 @@ const Label = ({ domain, timeLeft }) => {
       break
     default:
       text = 'Unknown State'
+  }
+
+  if (isOwner) {
+    text = 'Owner'
   }
 
   let timeLeftHuman
@@ -141,34 +150,46 @@ const Label = ({ domain, timeLeft }) => {
 
 const Domain = ({ domain, isSubDomain, className, isFavourite }) => {
   let timeLeft = getTimeLeft(domain)
+
   let percentDone = getPercentTimeLeft(timeLeft, domain)
   return (
-    <DomainContainer
-      state={domain.state}
-      className={className}
-      percentDone={percentDone}
-    >
-      <DomainName state={domain.state}>{domain.name}</DomainName>
-      <RightContainer>
-        <Label domain={domain} timeLeft={timeLeft} />
-        {isSubDomain && domain.state === 'Open' ? (
-          <Price className="price">
-            {domain.price > 0 ? `${domain.price} ETH` : 'Free'}
-          </Price>
-        ) : (
-          ''
-        )}
-        <AddFavourite
-          domain={domain}
-          isSubDomain={isSubDomain}
-          isFavourite={isFavourite}
-        />
+    <QueryAccount>
+      {({ account }) => {
+        const isOwner = domain.owner
+          ? domain.owner.toLowerCase() === account.toLowerCase()
+          : false
+        return (
+          <DomainContainer
+            state={isOwner ? 'Yours' : domain.state}
+            className={className}
+            percentDone={percentDone}
+          >
+            <DomainName state={isOwner ? 'Yours' : domain.state}>
+              {domain.name}
+            </DomainName>
+            <RightContainer>
+              <Label domain={domain} timeLeft={timeLeft} isOwner={isOwner} />
+              {isSubDomain && domain.state === 'Open' ? (
+                <Price className="price">
+                  {domain.price > 0 ? `${domain.price} ETH` : 'Free'}
+                </Price>
+              ) : (
+                ''
+              )}
+              <AddFavourite
+                domain={domain}
+                isSubDomain={isSubDomain}
+                isFavourite={isFavourite}
+              />
 
-        <Button primary href={`/name/${domain.name}`}>
-          Details
-        </Button>
-      </RightContainer>
-    </DomainContainer>
+              <Button primary href={`/name/${domain.name}`}>
+                Details
+              </Button>
+            </RightContainer>
+          </DomainContainer>
+        )
+      }}
+    </QueryAccount>
   )
 }
 

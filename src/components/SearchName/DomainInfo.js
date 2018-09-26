@@ -21,7 +21,7 @@ const GET_DOMAIN_STATE = gql`
 `
 
 export const DomainInfo = ({ domainState, isFavourite }) => {
-  if (!domainState) return null
+  if (!domainState) return <Loader />
 
   return <DomainItem domain={domainState} isFavourite={isFavourite} />
 }
