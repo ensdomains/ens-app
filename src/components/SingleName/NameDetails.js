@@ -152,6 +152,10 @@ class NameDetails extends Component {
                     <DetailsKey>Resolver</DetailsKey>
                     <DetailsValue>
                       <EtherScanLink address={domain.resolver}>
+                        <SingleNameBlockies
+                          address={domain.resolver}
+                          imageSize={24}
+                        />
                         {domain.resolver}
                       </EtherScanLink>
                     </DetailsValue>

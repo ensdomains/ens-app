@@ -6,6 +6,7 @@ import DefaultFavourite from '../AddFavourite/Favourite'
 import NameDetails from './NameDetails'
 import NameAuction from './NameAuction'
 import { getPercentTimeLeft, getTimeLeft } from '../../lib/utils'
+import QueryAccount from '../QueryAccount'
 
 const NameContainer = styled('div')`
   background: white;
@@ -29,7 +30,7 @@ const NameContainer = styled('div')`
         case 'Auction':
         case 'Reveal':
           return 'linear-gradient(-180deg, #42E068 0%, #52E5FF 100%)'
-        default:
+        case 'Yours':
           return '#52e5ff'
       }
     }};
@@ -52,7 +53,14 @@ const TopBar = styled('div')`
       : 'white'};
 `
 
-const RightBar = styled('div')``
+const Owner = styled('div')`
+  color: #ccd4da;
+  margin-right: 20px;
+`
+
+const RightBar = styled('div')`
+  display: flex;
+`
 
 const Favourite = styled(DefaultFavourite)``
 
@@ -62,19 +70,28 @@ class Name extends Component {
     const timeLeft = getTimeLeft(domain)
     const percentDone = getPercentTimeLeft(timeLeft, domain)
     return (
-      <NameContainer state={domain.state}>
-        <TopBar percentDone={percentDone}>
-          <Title>{name}</Title>
-          <RightBar>
-            <Favourite domain={domain} />
-          </RightBar>
-        </TopBar>
-        {domain.state === 'Auction' || domain.state === 'Reveal' ? (
-          <NameAuction domain={domain} timeLeft={timeLeft} />
-        ) : (
-          <NameDetails domain={domain} pathname={pathname} name={name} />
-        )}
-      </NameContainer>
+      <QueryAccount>
+        {({ account }) => {
+          const isOwner =
+            domain.owner && domain.owner.toLowerCase() === account.toLowerCase()
+          return (
+            <NameContainer state={isOwner ? 'Yours' : domain.state}>
+              <TopBar percentDone={percentDone}>
+                <Title>{name}</Title>
+                <RightBar>
+                  {isOwner && <Owner>Owner</Owner>}
+                  <Favourite domain={domain} />
+                </RightBar>
+              </TopBar>
+              {domain.state === 'Auction' || domain.state === 'Reveal' ? (
+                <NameAuction domain={domain} timeLeft={timeLeft} />
+              ) : (
+                <NameDetails domain={domain} pathname={pathname} name={name} />
+              )}
+            </NameContainer>
+          )
+        }}
+      </QueryAccount>
     )
   }
 }
