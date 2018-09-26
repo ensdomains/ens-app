@@ -120,6 +120,8 @@ class Favourites extends Component {
   }
 }
 
-const FavouritesContainer = styled('div')``
+const FavouritesContainer = styled('div')`
+  padding-bottom: 60px;
+`
 
 export default Favourites
