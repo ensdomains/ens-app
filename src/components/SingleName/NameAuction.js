@@ -4,14 +4,13 @@ import { H2 as DefaultH2 } from '../Typography/Basic'
 import { getTimeLeft, humanizeDate } from '../../lib/utils'
 
 const NameAuctionContainer = styled('div')`
-  padding-left: 40px;
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding: 40px;
 `
 const H2 = styled(DefaultH2)`
   color: #2b2b2b;
+  margin-top: 0;
 `
-const BiddingContainer = styled('div')``
+
 const TimePeriod = styled('p')`
   font-size: 12px;
   font-weight: 200;
@@ -24,9 +23,19 @@ const SmallPrintContainer = styled('p')`
   padding-bottom: 0;
 `
 
-const RevealContainer = styled('div')``
+const AuctionContainer = styled('div')`
+  display: flex;
+  justify-content: space-between;
+`
 
-const TimeLeft = styled('div')``
+const LeftColumn = styled('div')``
+
+const TimeLeft = styled('div')`
+  font-size: 48px;
+  font-weight: 100;
+  text-align: right;
+  margin-top: -6px;
+`
 
 const SmallPrint = () => (
   <SmallPrintContainer>
@@ -42,23 +51,27 @@ class NameAuction extends Component {
     return (
       <NameAuctionContainer>
         {domain.state === 'Auction' ? (
-          <BiddingContainer>
-            <H2>Bidding Period</H2>
-            <TimePeriod>
-              The bid period lasts 72 hours for this domain.
-            </TimePeriod>
-            <SmallPrint />
+          <AuctionContainer>
+            <LeftColumn>
+              <H2>Bidding Period</H2>
+              <TimePeriod>
+                The bid period lasts 72 hours for this domain.
+              </TimePeriod>
+              <SmallPrint />
+            </LeftColumn>
             <TimeLeft>{humanizedDate}</TimeLeft>
-          </BiddingContainer>
+          </AuctionContainer>
         ) : (
-          <RevealContainer>
-            <H2>Reveal Period</H2>
-            <TimePeriod>
-              The reveal period lasts 48 hours for this domain.
-            </TimePeriod>
-            <SmallPrint />
+          <AuctionContainer>
+            <LeftColumn>
+              <H2>Reveal Period</H2>
+              <TimePeriod>
+                The reveal period lasts 48 hours for this domain.
+              </TimePeriod>
+              <SmallPrint />
+            </LeftColumn>
             <TimeLeft>{humanizedDate} left</TimeLeft>
-          </RevealContainer>
+          </AuctionContainer>
         )}
       </NameAuctionContainer>
     )
