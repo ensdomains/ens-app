@@ -12,27 +12,8 @@ const EtherScanLink = styled(DefaultEtherScanLink)`
   display: flex;
 `
 
-const ToggleLink = styled(Link)`
-  font-size: 14px;
-  background: ${({ active }) => (active ? '#5384FE' : 'transparent')};
-  color: ${({ active }) => (active ? 'white' : '#D2D2D2')};
-  transform: scale(${({ active }) => (active ? '1.08' : '1')});
-  transition: background 0.1s ease-out, transform 0.3s ease-out;
-  padding: 10px 30px;
-  border-radius: 90px;
-`
-
-const Toggle = styled('div')`
-  display: flex;
-  justify-content: flex-start;
-  width: 240px;
-  margin: 30px 0 30px 40px;
-  border: 1px solid #dfdfdf;
-  border-radius: 90px;
-`
-
 const Details = styled('section')`
-  padding: 0 40px 40px 40px;
+  padding: 40px;
   transition: 0.4s;
 `
 
@@ -98,23 +79,9 @@ class NameDetails extends Component {
     return parseInt(domain.addr, 16) !== 0 || parseInt(domain.content, 16) !== 0
   }
   render() {
-    const { domain, pathname, name } = this.props
+    const { domain } = this.props
     return (
       <Fragment>
-        <Toggle>
-          <ToggleLink
-            active={pathname === `/name/${name}`}
-            to={`/name/${name}`}
-          >
-            Details
-          </ToggleLink>
-          <ToggleLink
-            active={pathname === `/name/${name}/subdomains`}
-            to={`/name/${name}/subdomains`}
-          >
-            Subdomains
-          </ToggleLink>
-        </Toggle>
         <Route
           exact
           path="/name/:name"

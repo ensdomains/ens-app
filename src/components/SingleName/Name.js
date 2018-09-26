@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import styled from 'react-emotion'
+import { Link, Route } from 'react-router-dom'
 
 import { Title } from '../Typography/Basic'
 import DefaultFavourite from '../AddFavourite/Favourite'
@@ -60,6 +61,25 @@ const Owner = styled('div')`
 
 const RightBar = styled('div')`
   display: flex;
+  align-items: center;
+`
+
+const ToggleLink = styled(Link)`
+  font-size: 14px;
+  background: ${({ active }) => (active ? '#5384FE' : 'transparent')};
+  color: ${({ active }) => (active ? 'white' : '#D2D2D2')};
+  transform: scale(${({ active }) => (active ? '1.08' : '1')});
+  transition: background 0.1s ease-out, transform 0.3s ease-out;
+  padding: 10px 30px;
+  border-radius: 90px;
+`
+
+const Toggle = styled('div')`
+  display: flex;
+  justify-content: flex-start;
+  width: 240px;
+  border: 1px solid #dfdfdf;
+  border-radius: 90px;
 `
 
 const Favourite = styled(DefaultFavourite)``
@@ -81,6 +101,23 @@ class Name extends Component {
                 <RightBar>
                   {isOwner && <Owner>Owner</Owner>}
                   <Favourite domain={domain} />
+                  {(domain.state !== 'Auction' ||
+                    domain.state !== 'Reveal') && (
+                    <Toggle>
+                      <ToggleLink
+                        active={pathname === `/name/${name}`}
+                        to={`/name/${name}`}
+                      >
+                        Details
+                      </ToggleLink>
+                      <ToggleLink
+                        active={pathname === `/name/${name}/subdomains`}
+                        to={`/name/${name}/subdomains`}
+                      >
+                        Subdomains
+                      </ToggleLink>
+                    </Toggle>
+                  )}
                 </RightBar>
               </TopBar>
               {domain.state === 'Auction' || domain.state === 'Reveal' ? (
