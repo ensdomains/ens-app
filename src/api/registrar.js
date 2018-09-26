@@ -30,7 +30,7 @@ export const getEntry = async name => {
         resolve({
           state: entry[0].toNumber(),
           registrationDate: entry[2].toNumber() * 1000,
-          revealDate: (entry[2].toNumber() - 24 * 2 * 60 * 60) * 1000,
+          revealDate: (entry[2].toNumber() - 24 * 3 * 60 * 60) * 1000,
           value: entry[3].toNumber(),
           highestBid: entry[4].toNumber(),
           _entry: entry

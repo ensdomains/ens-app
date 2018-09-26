@@ -5,7 +5,11 @@ import { Title } from '../Typography/Basic'
 import DefaultFavourite from '../AddFavourite/Favourite'
 import NameDetails from './NameDetails'
 import NameAuction from './NameAuction'
-import { getTimeLeft, getPercentTimeLeft } from '../../lib/utils'
+import {
+  getPercentTimeLeft,
+  getTimeElapsed,
+  getTimeLeft
+} from '../../lib/utils'
 
 const NameContainer = styled('div')`
   background: white;
@@ -59,8 +63,9 @@ const Favourite = styled(DefaultFavourite)``
 class Name extends Component {
   render() {
     const { details: domain, name, pathname } = this.props
+    const timeElapsed = getTimeElapsed(domain)
     const timeLeft = getTimeLeft(domain)
-    const percentDone = getPercentTimeLeft(timeLeft, domain)
+    const percentDone = getPercentTimeLeft(timeElapsed, domain)
     return (
       <NameContainer state={domain.state}>
         <TopBar percentDone={percentDone}>

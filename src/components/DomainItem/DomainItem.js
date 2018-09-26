@@ -4,8 +4,6 @@ import Button from '../Forms/Button'
 import AddFavourite from '../AddFavourite/AddFavourite'
 import { getPercentTimeLeft, getTimeLeft, humanizeDate } from '../../lib/utils'
 
-import moment from 'moment'
-
 const DomainContainer = styled('div')`
   &:before {
     content: '';
@@ -127,13 +125,16 @@ const Label = ({ domain, timeLeft }) => {
     timeLeftHuman = humanizeDate(timeLeft)
   }
 
+  console.log(domain.state)
+
   return (
     <LabelContainer className="label-container">
       <LabelText>{text}</LabelText>
-      {domain.state === 'Auction' ||
-        (domain.state === 'Reveal' && (
-          <TimeLeft>{`${timeLeftHuman} left`}</TimeLeft>
-        ))}
+      {domain.state === 'Auction' || domain.state === 'Reveal' ? (
+        <TimeLeft>{`${timeLeftHuman} left`}</TimeLeft>
+      ) : (
+        ''
+      )}
     </LabelContainer>
   )
 }

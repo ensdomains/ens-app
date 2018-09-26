@@ -241,9 +241,6 @@ const resolvers = {
       const data = {
         subDomainFavourites: [...previous.subDomainFavourites, newFavourite]
       }
-
-      console.log(newFavourite)
-
       cache.writeData({ data })
       window.localStorage.setItem(
         'ensSubDomainFavourites',
@@ -253,7 +250,6 @@ const resolvers = {
       return data
     },
     deleteSubDomainFavourite: async (_, { domain }, { cache }) => {
-      console.log('HERE in delete')
       const previous = cache.readQuery({ query: GET_SUBDOMAIN_FAVOURITES })
 
       const data = {
