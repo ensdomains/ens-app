@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import styled from 'react-emotion'
-import { Link, Route } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { Title } from '../Typography/Basic'
 import DefaultFavourite from '../AddFavourite/Favourite'
