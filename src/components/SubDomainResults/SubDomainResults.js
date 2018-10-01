@@ -203,7 +203,6 @@ class SubDomainResults extends Component {
           <Query query={GET_SUBDOMAIN_STATE}>
             {({ data, loading }) => {
               const { subDomainState } = data
-              console.log(data, subDomainFavourites)
               if (loading || loading2) return <div>Loading...</div>
               return (
                 <SubDomainsContainer

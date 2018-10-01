@@ -8,13 +8,9 @@ export const getAuctionRegistrar = async () => {
   if (ethRegistrar) {
     return { Registrar: ethRegistrar }
   }
-
-  console.log(auctionRegistrarContract)
-
   let { ENS, web3 } = await getENS()
   const ethAddr = await ENS.owner('eth')
   ethRegistrar = web3.eth.contract(auctionRegistrarContract).at(ethAddr)
-  console.log(ethRegistrar)
   return { Registrar: ethRegistrar }
 }
 

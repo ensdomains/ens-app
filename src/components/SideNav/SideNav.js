@@ -46,7 +46,6 @@ const NavLink = styled(Link)`
 class SideNav extends Component {
   render() {
     const { path } = this.props.match
-    console.log(path)
     return (
       <SideNavContainer>
         <NetworkInformation />

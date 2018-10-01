@@ -135,8 +135,6 @@ const Label = ({ domain, timeLeft, isOwner }) => {
     timeLeftHuman = humanizeDate(timeLeft)
   }
 
-  console.log(domain.state)
-
   return (
     <LabelContainer className="label-container">
       <LabelText>{text}</LabelText>
