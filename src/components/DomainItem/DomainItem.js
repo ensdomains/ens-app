@@ -4,6 +4,7 @@ import Button from '../Forms/Button'
 import AddFavourite from '../AddFavourite/AddFavourite'
 import { getPercentTimeLeft, getTimeLeft, humanizeDate } from '../../lib/utils'
 import QueryAccount from '../QueryAccount'
+import Loader from '../Loader'
 
 const DomainContainer = styled('div')`
   &:before {
@@ -148,7 +149,18 @@ const Label = ({ domain, timeLeft, isOwner }) => {
   )
 }
 
-const Domain = ({ domain, isSubDomain, className, isFavourite }) => {
+const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
+  if (loading) {
+    return (
+      <DomainContainer
+        state={'Owned'}
+        className={className}
+        percentDone={percentDone}
+      >
+        <Loader />
+      </DomainContainer>
+    )
+  }
   let timeLeft = getTimeLeft(domain)
 
   let percentDone = getPercentTimeLeft(timeLeft, domain)

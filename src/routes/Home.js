@@ -21,6 +21,7 @@ const HowToUse = styled(HowToUseDefault)`
 
 const Hero = styled('section')`
   background: url(${bg});
+  background-size: cover;
   height: 600px;
   position: relative;
   display: flex;

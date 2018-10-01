@@ -2,7 +2,11 @@ import React, { Component, Fragment } from 'react'
 import styled from 'react-emotion'
 import { Query } from 'react-apollo'
 import DomainItem from '../components/DomainItem/DomainItem'
-import { GET_FAVOURITES, GET_SUBDOMAIN_FAVOURITES } from '../graphql/queries'
+import {
+  GET_FAVOURITES,
+  GET_SUBDOMAIN_FAVOURITES,
+  GET_SINGLE_NAME
+} from '../graphql/queries'
 
 import { H2 as DefaultH2 } from '../components/Typography/Basic'
 import LargeHeart from '../components/Icons/LargeHeart'
@@ -74,11 +78,27 @@ class Favourites extends Component {
             return (
               <Fragment>
                 {data.favourites.map(domain => (
-                  <DomainItem
-                    key={domain.name}
-                    domain={domain}
-                    isFavourite={true}
-                  />
+                  <Query
+                    query={GET_SINGLE_NAME}
+                    variables={{ name: domain.name }}
+                  >
+                    {({ loading, error, data }) => {
+                      if (error)
+                        return (
+                          <div>
+                            {(console.log(error), JSON.stringify(error))}
+                          </div>
+                        )
+                      return (
+                        <DomainItem
+                          loading={loading}
+                          key={domain.name}
+                          domain={data.singleName}
+                          isFavourite={true}
+                        />
+                      )
+                    }}
+                  </Query>
                 ))}
               </Fragment>
             )
@@ -102,12 +122,28 @@ class Favourites extends Component {
             return (
               <Fragment>
                 {data.subDomainFavourites.map(domain => (
-                  <DomainItem
-                    key={domain.name}
-                    domain={domain}
-                    isSubDomain={true}
-                    isFavourite={true}
-                  />
+                  <Query
+                    query={GET_SINGLE_NAME}
+                    variables={{ name: domain.name }}
+                  >
+                    {({ loading, error, data }) => {
+                      if (error)
+                        return (
+                          <div>
+                            {(console.log(error), JSON.stringify(error))}
+                          </div>
+                        )
+                      return (
+                        <DomainItem
+                          loading={loading}
+                          key={domain.name}
+                          domain={data.singleName}
+                          isSubDomain={true}
+                          isFavourite={true}
+                        />
+                      )
+                    }}
+                  </Query>
                 ))}
               </Fragment>
             )

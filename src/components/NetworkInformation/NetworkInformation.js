@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import styled from 'react-emotion'
 import NetworkInfoQuery from './NetworkInfoQuery'
 import UnstyledBlockies from '../Blockies'
@@ -47,19 +47,15 @@ const Account = styled('div')`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-
-  // &:hover {
-  //   overflow: visible;
-  //   white-space: normal;
-  // }
 `
 
 const AccountContainer = styled('div')`
   padding: 10px 10px 10px 65px;
   position: relative;
   transform: translate(-25px, 5px);
-  width: 475px;
+  width: 200px;
   &:hover {
+    width: 475px;
     background: white;
     box-shadow: -4px 18px 70px 0 rgba(108, 143, 167, 0.32);
     border-radius: 6px;

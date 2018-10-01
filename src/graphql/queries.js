@@ -90,3 +90,31 @@ export const GET_SUBDOMAIN_FAVOURITES = gql`
 
   ${SubDomainStateFields}
 `
+
+export const GET_DOMAIN_STATE = gql`
+  query getDomainState @client {
+    domainState {
+      name
+      revealDate
+      registrationDate
+      value
+      highestBid
+      state
+      owner
+    }
+  }
+`
+
+export const GET_DOMAIN_STATE_SINGLE = gql`
+  query getDomainStateSingle($name: String) @client {
+    domainStateSingle(name: $name) {
+      name
+      revealDate
+      registrationDate
+      value
+      highestBid
+      state
+      owner
+    }
+  }
+`

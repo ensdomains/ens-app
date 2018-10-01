@@ -1,24 +1,9 @@
 import React, { Fragment } from 'react'
 import { Query } from 'react-apollo'
-import gql from 'graphql-tag'
 import Loader from '../Loader'
 import DomainItem from '../DomainItem/DomainItem'
 import { H2 } from '../Typography/Basic'
-import { GET_FAVOURITES } from '../../graphql/queries'
-
-const GET_DOMAIN_STATE = gql`
-  query getDomainState @client {
-    domainState {
-      name
-      revealDate
-      registrationDate
-      value
-      highestBid
-      state
-      owner
-    }
-  }
-`
+import { GET_FAVOURITES, GET_DOMAIN_STATE } from '../../graphql/queries'
 
 export const DomainInfo = ({ domainState, isFavourite }) => {
   if (!domainState) return <Loader />
