@@ -74,9 +74,13 @@ export const parseSearchTerm = term => {
   }
 
   if (term.indexOf('.') !== -1) {
+    const termArray = term.split('.')
     const tld = term.match(regex) ? term.match(regex)[0] : ''
 
     if (tlds[tld] && tlds[tld].supported) {
+      if (termArray[termArray.length - 2].length < 7) {
+        return 'short'
+      }
       return 'supported'
     }
 

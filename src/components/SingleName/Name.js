@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import styled from 'react-emotion'
 import { Link } from 'react-router-dom'
 
@@ -33,6 +33,8 @@ const NameContainer = styled('div')`
           return 'linear-gradient(-180deg, #42E068 0%, #52E5FF 100%)'
         case 'Yours':
           return '#52e5ff'
+        default:
+          return '#CACACA'
       }
     }};
     position: absolute;

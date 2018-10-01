@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'react-emotion'
 import { H2 as DefaultH2 } from '../Typography/Basic'
-import { getTimeLeft, humanizeDate } from '../../lib/utils'
+import { humanizeDate } from '../../lib/utils'
 
 const NameAuctionContainer = styled('div')`
   padding: 40px;
