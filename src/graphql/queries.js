@@ -65,12 +65,6 @@ export const GET_FAVOURITES = gql`
   query getFavourites {
     favourites @client {
       name
-      revealDate
-      registrationDate
-      value
-      highestBid
-      state
-      owner
     }
   }
 `
@@ -79,12 +73,6 @@ export const GET_SUBDOMAIN_FAVOURITES = gql`
   query getSubDomainFavourites {
     subDomainFavourites @client {
       name
-      state
-      owner
-      price
-      rent
-      referralFeePPM
-      available
     }
   }
 
