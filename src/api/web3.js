@@ -86,10 +86,8 @@ function setupWeb3(customProvider) {
 
 function getWeb3() {
   if (ready === false && web3 === undefined) {
-    console.log('here in get Web3 11')
     return setupWeb3()
   } else {
-    console.log('here in not get web3 22')
     return new Promise(function(resolve, reject) {
       web3.version.getNetwork(function(err, networkId) {
         resolve({
