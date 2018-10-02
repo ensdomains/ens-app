@@ -37,7 +37,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "CI=false react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "test:coverage": "npm test -- --coverage",
     "eject": "react-scripts eject",
@@ -45,7 +45,6 @@
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "deploy:dev": "npm run build && cd build && mv index.html 200.html && surge . --domain ensappdev.surge.sh",
-    "predeploy": "CI=false npm run build",
     "deploy": "gh-pages -d build"
   },
   "prettier": {

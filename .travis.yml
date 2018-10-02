@@ -14,7 +14,7 @@ matrix:
   allow_failures:
 
 script:
-  - npm run deploy
+  - npm run build
 
 notifications:
   email: false
