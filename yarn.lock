@@ -42,12 +42,11 @@
   version "7.0.0-beta.53"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.0.0-beta.53.tgz#1f45eb617bf9463d482b2c04d349d9e4edbf4892"
 
-"@babel/runtime@7.0.0-beta.51":
-  version "7.0.0-beta.51"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.0.0-beta.51.tgz#48b8ed18307034c6620f643514650ca2ccc0165a"
+"@babel/runtime@^7.0.0":
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.1.2.tgz#81c89935f4647706fc54541145e6b4ecfef4b8e3"
   dependencies:
-    core-js "^2.5.7"
-    regenerator-runtime "^0.11.1"
+    regenerator-runtime "^0.12.0"
 
 "@babel/types@7.0.0-beta.32":
   version "7.0.0-beta.32"
@@ -516,10 +515,6 @@ apollo-cache-inmemory@^1.2.9:
     apollo-cache "^1.1.16"
     apollo-utilities "^1.0.20"
     graphql-anywhere "^4.1.18"
-
-apollo-cache-persist@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/apollo-cache-persist/-/apollo-cache-persist-0.1.1.tgz#e6cfe1983b998982a679aaf05241d3ed395edb1e"
 
 apollo-cache@1.1.16, apollo-cache@^1.1.16:
   version "1.1.16"
@@ -2803,7 +2798,7 @@ core-js@^2.4.1:
   version "2.5.6"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.6.tgz#0fe6d45bf3cac3ac364a9d72de7576f4eb221b9d"
 
-core-js@^2.5.3, core-js@^2.5.7:
+core-js@^2.5.3:
   version "2.5.7"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.7.tgz#f972608ff0cead68b841a16a932d0b183791814e"
 
@@ -5123,17 +5118,11 @@ icss-utils@^2.1.0:
   dependencies:
     postcss "^6.0.1"
 
-idna-uts46-hx@^2.3.1:
+idna-uts46-hx@2.3.1, idna-uts46-hx@^2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/idna-uts46-hx/-/idna-uts46-hx-2.3.1.tgz#a1dc5c4df37eee522bf66d969cc980e00e8711f9"
   dependencies:
     punycode "2.1.0"
-
-idna-uts46@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/idna-uts46/-/idna-uts46-1.1.0.tgz#be098b2b7c1cabfbef87a8b80f626fac37366aea"
-  dependencies:
-    punycode "^2.1.0"
 
 ieee754@^1.1.4:
   version "1.1.11"
@@ -6612,10 +6601,6 @@ mem@^1.1.0:
   resolved "https://registry.yarnpkg.com/mem/-/mem-1.1.0.tgz#5edd52b485ca1d900fe64895505399a0dfa45f76"
   dependencies:
     mimic-fn "^1.0.0"
-
-memoize-one@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/memoize-one/-/memoize-one-4.0.0.tgz#fc5e2f1427a216676a62ec652cf7398cfad123db"
 
 memory-fs@^0.4.0, memory-fs@~0.4.1:
   version "0.4.1"
@@ -8353,12 +8338,11 @@ react-split-pane@^0.1.77:
     react-lifecycles-compat "^3.0.4"
     react-style-proptype "^3.0.0"
 
-react-spring@^5.6.7:
-  version "5.6.7"
-  resolved "https://registry.yarnpkg.com/react-spring/-/react-spring-5.6.7.tgz#f6526cae29cf0189e90de2fba149465d4f1e3ea6"
+react-spring@^5.6.14:
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/react-spring/-/react-spring-5.8.0.tgz#52d8206487692b99c223377c252acea645d77307"
   dependencies:
-    "@babel/runtime" "7.0.0-beta.51"
-    memoize-one "^4.0.0"
+    "@babel/runtime" "^7.0.0"
 
 react-style-proptype@^3.0.0:
   version "3.2.1"
@@ -8598,9 +8582,13 @@ regenerate@^1.2.1:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/regenerate/-/regenerate-1.3.3.tgz#0c336d3980553d755c39b586ae3b20aa49c82b7f"
 
-regenerator-runtime@^0.11.0, regenerator-runtime@^0.11.1:
+regenerator-runtime@^0.11.0:
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
+
+regenerator-runtime@^0.12.0:
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.12.1.tgz#fa1a71544764c036f8c49b13a08b2594c9f8a0de"
 
 regenerator-transform@^0.10.0:
   version "0.10.1"
