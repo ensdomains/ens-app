@@ -9,7 +9,6 @@ import NetworkInfoQuery from '../components/NetworkInformation/NetworkInfoQuery'
 import Button from '../components/Forms/Button'
 import TextBubbleDefault from '../components/Icons/TextBubble'
 import QuestionMarkDefault from '../components/Icons/QuestionMark'
-import mq from '../mediaQuery'
 import HowToUseDefault from '../components/HowToUse/HowToUse'
 
 import Alice from '../components/HomePage/Alice'
@@ -22,6 +21,7 @@ const HowToUse = styled(HowToUseDefault)`
 
 const Hero = styled('section')`
   background: url(${bg});
+  background-size: cover;
   height: 600px;
   position: relative;
   display: flex;

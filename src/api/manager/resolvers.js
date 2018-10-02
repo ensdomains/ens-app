@@ -3,6 +3,7 @@ import { getEntry } from '../registrar'
 import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
 import get from 'lodash/get'
+import getWeb3 from '../web3'
 
 import {
   GET_FAVOURITES,
@@ -60,6 +61,7 @@ const resolvers = {
   Query: {
     singleName: async (_, { name }, { cache }) => {
       const nameArray = name.split('.')
+      const { networkId } = await getWeb3()
       let node = {
         name: null,
         revealDate: null,
@@ -76,6 +78,7 @@ const resolvers = {
       }
       let data
       //const owner = await getOwner(name)
+      console.log(nameArray)
 
       if (nameArray.length < 3 && nameArray[1] === 'eth') {
         if (nameArray[0].length < 7) {
@@ -106,21 +109,26 @@ const resolvers = {
           __typename: 'Node'
         }
       } else {
-        const subdomain = await query(
-          nameArray.slice(1).join('.'),
-          nameArray[0]
-        )
+        if (networkId === 1) {
+          const subdomain = await query(
+            nameArray.slice(1).join('.'),
+            nameArray[0]
+          )
 
-        node = {
-          name: `${name}`,
-          ...node,
-          ...subdomain,
-          state: subdomain.available ? 'Open' : 'Owned'
+          node = {
+            name: `${name}`,
+            ...node,
+            ...subdomain,
+            state: subdomain.available ? 'Open' : 'Owned'
+          }
         }
       }
 
       const { names } = cache.readQuery({ query: GET_ALL_NODES })
+      console.log('here in node details')
       const nodeDetails = await getDomainDetails(name)
+
+      console.log(nodeDetails)
 
       const detailedNode = {
         ...node,
@@ -241,9 +249,6 @@ const resolvers = {
       const data = {
         subDomainFavourites: [...previous.subDomainFavourites, newFavourite]
       }
-
-      console.log(newFavourite)
-
       cache.writeData({ data })
       window.localStorage.setItem(
         'ensSubDomainFavourites',
@@ -253,7 +258,6 @@ const resolvers = {
       return data
     },
     deleteSubDomainFavourite: async (_, { domain }, { cache }) => {
-      console.log('HERE in delete')
       const previous = cache.readQuery({ query: GET_SUBDOMAIN_FAVOURITES })
 
       const data = {

@@ -54,7 +54,11 @@ class AddFavourite extends Component {
               ? DELETE_SUBDOMAIN_FAVOURITE
               : ADD_SUBDOMAIN_FAVOURITE
           }
-          variables={{ domain: this.props.domain }}
+          variables={{
+            domain: {
+              name: domain.name
+            }
+          }}
         >
           {favouriteMutation => (
             <AddFavouriteContainer onClick={favouriteMutation}>
@@ -65,19 +69,12 @@ class AddFavourite extends Component {
       )
     }
 
-    console.log('ADD FAVORUITE', this.props.isFavourite)
     return (
       <Mutation
         mutation={this.props.isFavourite ? DELETE_FAVOURITE : ADD_FAVOURITE}
         variables={{
           domain: {
-            name: domain.name,
-            revealDate: domain.revealDate,
-            registrationDate: domain.registrationDate,
-            value: domain.value,
-            highestBid: domain.highestBid,
-            state: domain.state,
-            owner: domain.owner
+            name: domain.name
           }
         }}
       >

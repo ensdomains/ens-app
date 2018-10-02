@@ -2,6 +2,7 @@ import getWeb3 from '../api/web3'
 import uts46 from 'idna-uts46-hx'
 import { addressUtils } from '@0xproject/utils'
 import tlds from './tlds.json'
+import moment from 'moment'
 //import { checkLabelHash } from '../updaters/preImageDB'
 
 export const uniq = (a, param) =>
@@ -73,9 +74,13 @@ export const parseSearchTerm = term => {
   }
 
   if (term.indexOf('.') !== -1) {
+    const termArray = term.split('.')
     const tld = term.match(regex) ? term.match(regex)[0] : ''
 
     if (tlds[tld] && tlds[tld].supported) {
+      if (termArray[termArray.length - 2].length < 7) {
+        return 'short'
+      }
       return 'supported'
     }
 
@@ -88,5 +93,37 @@ export const parseSearchTerm = term => {
       return 'tld'
     }
     return 'search'
+  }
+}
+
+export function getTimeLeft(domain) {
+  if (domain.state === 'Auction') {
+    return new Date(domain.revealDate).getTime() - new Date().getTime()
+  } else if (domain.state === 'Reveal') {
+    return new Date(domain.registrationDate).getTime() - new Date().getTime()
+  } else {
+    return false
+  }
+}
+
+export function getPercentTimeLeft(timeLeft, domain) {
+  if (timeLeft === false) {
+    return 0
+  }
+
+  if (domain.state === 'Auction') {
+    let totalTime = 259200000
+    return ((totalTime - timeLeft) / totalTime) * 100
+  } else if (domain.state === 'Reveal') {
+    let totalTime = 172800000
+    return ((totalTime - timeLeft) / totalTime) * 100
+  }
+}
+
+export function humanizeDate(timeLeft) {
+  if (timeLeft < 3600000) {
+    return moment.duration(timeLeft).humanize()
+  } else {
+    return `${moment.duration(timeLeft).hours()} hours`
   }
 }

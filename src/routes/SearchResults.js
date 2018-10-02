@@ -34,7 +34,6 @@ class Results extends React.Component {
   checkValidity = () => {
     const { searchTerm, getDomainState, getSubDomainAvailability } = this.props
 
-    console.log(searchTerm)
     this.setState({
       errors: []
     })
@@ -48,16 +47,12 @@ class Results extends React.Component {
         errors: ['domainMalformed']
       })
     } else if (searchTerm.length < 7) {
-      console.log('short', searchTerm)
       this.setState({
         errors: ['tooShort']
       })
       getDomainState({ variables: { name: searchTerm } })
-      getSubDomainAvailability({ variables: { name: searchTerm } }).then(
-        value => console.log('In mutation promise', value)
-      )
+      getSubDomainAvailability({ variables: { name: searchTerm } })
     } else {
-      console.log('here in getDomainState')
       getDomainState({ variables: { name: searchTerm } })
       getSubDomainAvailability({ variables: { name: searchTerm } })
     }
@@ -67,7 +62,6 @@ class Results extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log(prevProps, this.props)
     if (prevProps.searchTerm !== this.props.searchTerm) {
       this.checkValidity()
     }
@@ -95,7 +89,6 @@ class Results extends React.Component {
     }
     return (
       <Fragment>
-        {console.log('IN RESULTS', searchTerm)}
         <DomainInfo searchTerm={searchTerm} />
         <SubDomainResults searchTerm={searchTerm} />
       </Fragment>

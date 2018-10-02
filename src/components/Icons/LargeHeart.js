@@ -3,7 +3,7 @@ import styled from 'react-emotion'
 
 const LargeHeartContainer = styled('svg')``
 
-const LargeHeart = ({}) => (
+const LargeHeart = () => (
   <LargeHeartContainer
     width="42"
     height="41"

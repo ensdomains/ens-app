@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import styled from 'react-emotion'
 import NetworkInfoQuery from './NetworkInfoQuery'
 import UnstyledBlockies from '../Blockies'
@@ -7,16 +7,14 @@ import NoAccount from '../NoAccounts'
 
 const NetworkInformationContainer = styled('div')`
   position: relative;
-  padding-left: ${({ hasAccount }) => (hasAccount ? '40px' : '0')};
   margin-bottom: 50px;
 `
 
 const Blockies = styled(UnstyledBlockies)`
   border-radius: 50%;
   position: absolute;
-  left: 0;
-  top: 0;
-  transform: translate(-15px, 5px);
+  left: 10px;
+  top: 10px;
   box-shadow: 3px 5px 24px 0 #d5e2ec;
 `
 
@@ -49,10 +47,23 @@ const Account = styled('div')`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+`
 
+const AccountContainer = styled('div')`
+  padding: 10px 10px 10px 65px;
+  position: relative;
+  transform: translate(-25px, 5px);
+  width: 200px;
   &:hover {
-    overflow: visible;
-    white-space: normal;
+    width: 475px;
+    background: white;
+    box-shadow: -4px 18px 70px 0 rgba(108, 143, 167, 0.32);
+    border-radius: 6px;
+    .account {
+      width: 200px;
+      overflow: visible;
+      white-space: normal;
+    }
   }
 `
 
@@ -108,13 +119,13 @@ class NetworkInformation extends Component {
         {({ accounts, network }) => (
           <NetworkInformationContainer hasAccount={accounts.length > 0}>
             {accounts.length > 0 ? (
-              <Fragment>
+              <AccountContainer>
                 <Blockies address={accounts[0]} imageSize={47} />
-                <Account>
+                <Account className="account">
                   <ReverseResolution address={accounts[0]} />
                 </Account>
                 <NetworkStatus>{network} network</NetworkStatus>
-              </Fragment>
+              </AccountContainer>
             ) : (
               <NoAccountContainer>
                 <NoAccount

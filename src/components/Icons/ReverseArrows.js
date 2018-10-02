@@ -3,7 +3,7 @@ import styled from 'react-emotion'
 
 const ReverseArrowsContainer = styled('svg')``
 
-const ReverseArrows = ({}) => (
+const ReverseArrows = () => (
   <ReverseArrowsContainer
     width="32"
     height="23"

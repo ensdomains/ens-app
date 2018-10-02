@@ -2,6 +2,7 @@
   "name": "ens-app",
   "version": "0.1.0",
   "private": true,
+  "homepage" : "http://ensdomains.github.io/ens-app",
   "dependencies": {
     "@0xproject/utils": "^0.7.3",
     "apollo-cache-inmemory": "^1.2.9",
@@ -36,14 +37,15 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "CI=false react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "test:coverage": "npm test -- --coverage",
     "eject": "react-scripts eject",
     "compile": "node --experimental-modules src/testing-utils/compileENS.mjs",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
-    "deploy:dev": "npm run build && cd build && mv index.html 200.html && surge . --domain ensappdev.surge.sh"
+    "deploy:dev": "npm run build && cd build && mv index.html 200.html && surge . --domain ensappdev.surge.sh",
+    "deploy": "gh-pages -d build"
   },
   "prettier": {
     "semi": false,
@@ -51,15 +53,16 @@
     "singleQuote": true
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^3.4.10",
+    "@storybook/addon-links": "^3.4.10",
+    "@storybook/react": "^3.4.10",
     "apollo-client-mock": "0.0.8",
     "apollo-link-schema": "^1.1.0",
     "ganache-cli": "^6.1.0",
+    "gh-pages": "^2.0.0",
     "js-sha3": "^0.7.0",
     "react-testing-library": "^3.0.2",
-    "solc": "^0.4.23",
-    "@storybook/react": "^3.4.10",
-    "@storybook/addon-actions": "^3.4.10",
-    "@storybook/addon-links": "^3.4.10"
+    "solc": "^0.4.23"
   },
   "browserslist": {
     "development": [

@@ -3,8 +3,7 @@ import styled from 'react-emotion'
 import NetworkInformation from '../NetworkInformation/NetworkInformation'
 import Heart from '../Icons/Heart'
 import SpeechBubble from '../Icons/SpeechBubble'
-import QuestionMark from '../Icons/QuestionMark'
-import DogTag from '../Icons/DogTag'
+// import DogTag from '../Icons/DogTag'
 import { Link, withRouter } from 'react-router-dom'
 
 const SideNavContainer = styled('nav')`
@@ -40,6 +39,7 @@ const NavLink = styled(Link)`
 
   span {
     margin-left: 15px;
+    color: ${p => (p.active ? '#5284FF' : '#C7D3E3')};
   }
 `
 

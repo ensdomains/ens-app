@@ -1,0 +1,28 @@
+sudo: required
+
+dist: trusty
+
+language: node_js
+
+node_js:
+  - "10"
+install:
+  - npm -g install gh-pages
+  - npm install
+matrix:
+  fast_finish: true
+  allow_failures:
+
+script:
+  - npm run build
+
+notifications:
+  email: false
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  on:
+    branch: master

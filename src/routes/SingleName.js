@@ -3,6 +3,7 @@ import { parseSearchTerm } from '../lib/utils'
 import { GET_SINGLE_NAME } from '../graphql/queries'
 import { Query } from 'react-apollo'
 import Loader from '../components/Loader'
+import SearchErrors from '../components/SearchErrors/SearchErrors'
 
 import Name from '../components/SingleName/Name'
 
@@ -15,7 +16,9 @@ class SingleName extends Component {
     const validity = parseSearchTerm(searchTerm)
     const valid = validity === 'supported' || validity === 'tld'
 
-    this.setState({ valid })
+    console.log(validity)
+
+    this.setState({ valid, validityType: validity })
   }
   componentDidMount() {
     this.checkValidity()
@@ -54,7 +57,13 @@ class SingleName extends Component {
       )
     }
 
-    return <div>Invalid domain name {searchTerm}</div>
+    if (this.state.validityType === 'short') {
+      return <SearchErrors errors={['tooShort']} searchTerm={searchTerm} />
+    } else {
+      return (
+        <SearchErrors errors={['domainMalformed']} searchTerm={searchTerm} />
+      )
+    }
   }
 }
 

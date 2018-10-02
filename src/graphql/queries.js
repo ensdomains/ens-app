@@ -65,6 +65,24 @@ export const GET_FAVOURITES = gql`
   query getFavourites {
     favourites @client {
       name
+    }
+  }
+`
+
+export const GET_SUBDOMAIN_FAVOURITES = gql`
+  query getSubDomainFavourites {
+    subDomainFavourites @client {
+      name
+    }
+  }
+
+  ${SubDomainStateFields}
+`
+
+export const GET_DOMAIN_STATE = gql`
+  query getDomainState @client {
+    domainState {
+      name
       revealDate
       registrationDate
       value
@@ -75,18 +93,16 @@ export const GET_FAVOURITES = gql`
   }
 `
 
-export const GET_SUBDOMAIN_FAVOURITES = gql`
-  query getSubDomainFavourites {
-    subDomainFavourites @client {
+export const GET_DOMAIN_STATE_SINGLE = gql`
+  query getDomainStateSingle($name: String) @client {
+    domainStateSingle(name: $name) {
       name
+      revealDate
+      registrationDate
+      value
+      highestBid
       state
       owner
-      price
-      rent
-      referralFeePPM
-      available
     }
   }
-
-  ${SubDomainStateFields}
 `

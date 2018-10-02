@@ -38,8 +38,6 @@ const resolvers = {
               __typename: 'SubDomain'
             }
 
-            console.log(newNode)
-
             cachedNodes.push(newNode)
 
             const data = {

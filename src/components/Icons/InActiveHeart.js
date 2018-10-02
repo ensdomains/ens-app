@@ -8,7 +8,7 @@ const Heart = ({ active, className }) => (
       stroke="#E7E7E7"
       strokeWidth="2"
       fill="none"
-      fill-rule="evenodd"
+      fillRule="evenodd"
     />
   </HeartContainer>
 )
