@@ -8,8 +8,6 @@ node_js:
   - "10"
 install:
   - npm install
-env:
-  - TASK=test
 matrix:
   fast_finish: true
   allow_failures:
