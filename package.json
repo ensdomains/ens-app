@@ -45,7 +45,7 @@
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "deploy:dev": "npm run build && cd build && mv index.html 200.html && surge . --domain ensappdev.surge.sh",
-    "deploy": "gh-pages -d build -b master"
+    "deploy": "gh-pages -d build"
   },
   "prettier": {
     "semi": false,
