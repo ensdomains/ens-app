@@ -1,0 +1,168 @@
+[
+  { "name": "etherbase", "version": "1.0" },
+  { "name": "gimmethe", "version": "1.0" },
+  { "name": "wantsome", "version": "1.0" },
+  { "name": "accepte", "version": "1.0" },
+  {
+    "name": "appleid",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  { "name": "asksfor", "version": "1.0" },
+  { "name": "begsfor", "version": "1.0" },
+  {
+    "name": "atdiscord",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  {
+    "name": "atdtube",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  {
+    "name": "atdistrict0x",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  {
+    "name": "atethereum",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  {
+    "name": "atfacebook",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  {
+    "name": "aticloud",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  {
+    "name": "atinstagram",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  {
+    "name": "atleeroy",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  {
+    "name": "atmedium",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  {
+    "name": "atopenbazaar",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  {
+    "name": "atreddit",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  {
+    "name": "atrocketchat",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  {
+    "name": "atslack",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  {
+    "name": "atskype",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  {
+    "name": "atsnapchat",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  {
+    "name": "atsteemit",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  {
+    "name": "attelegram",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  {
+    "name": "attwitter",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  {
+    "name": "atwechat",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  {
+    "name": "atwhatsapp",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  {
+    "name": "atyoutube",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  {
+    "name": "buymecoffee",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  { "name": "coinsto", "version": "1.0" },
+  { "name": "deserves", "version": "1.0" },
+  { "name": "desires", "version": "1.0" },
+  {
+    "name": "ethereumpurse",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  { "name": "extravagant", "version": "1.0" },
+  {
+    "name": "ishername",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  { "name": "my-bank", "version": "1.0" },
+  { "name": "necesita", "version": "1.0" },
+  { "name": "needsmore", "version": "1.0" },
+  { "name": "requires", "version": "1.0" },
+  {
+    "name": "satoshiwallet",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  { "name": "sendmecrypto", "version": "1.0" },
+  {
+    "name": "smartaddress",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  {
+    "name": "thisisme",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  {
+    "name": "viewwallet",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  },
+  { "name": "wantsmore", "version": "1.0" },
+  {
+    "name": "yourass",
+    "version": "0.9",
+    "registrar": "0xfa6512358d241b636edf5f8ccaaf86676dec21a7"
+  }
+]
