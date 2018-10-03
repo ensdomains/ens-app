@@ -2,7 +2,7 @@
   "name": "ens-app",
   "version": "0.1.0",
   "private": true,
-  "homepage" : "http://ensdomains.github.io/ens-app",
+  "homepage" : "http://app.ens.domains",
   "dependencies": {
     "@0xproject/utils": "^0.7.3",
     "apollo-cache-inmemory": "^1.2.9",
