@@ -150,18 +150,15 @@ const Label = ({ domain, timeLeft, isOwner }) => {
 const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
   if (loading) {
     return (
-      <DomainContainer
-        state={'Owned'}
-        className={className}
-        percentDone={percentDone}
-      >
+      <DomainContainer state={'Owned'} className={className}>
         <Loader />
       </DomainContainer>
     )
   }
-  let timeLeft = getTimeLeft(domain)
 
+  let timeLeft = getTimeLeft(domain)
   let percentDone = getPercentTimeLeft(timeLeft, domain)
+
   return (
     <QueryAccount>
       {({ account }) => {

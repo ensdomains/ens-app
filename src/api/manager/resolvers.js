@@ -110,10 +110,7 @@ const resolvers = {
         }
       } else {
         if (networkId === 1) {
-          const subdomain = await query(
-            nameArray.slice(1).join('.'),
-            nameArray[0]
-          )
+          const subdomain = await query(nameArray[1], nameArray[0])
 
           node = {
             name: `${name}`,
@@ -125,10 +122,7 @@ const resolvers = {
       }
 
       const { names } = cache.readQuery({ query: GET_ALL_NODES })
-      console.log('here in node details')
       const nodeDetails = await getDomainDetails(name)
-
-      console.log(nodeDetails)
 
       const detailedNode = {
         ...node,
@@ -140,6 +134,8 @@ const resolvers = {
       data = {
         names: [...names, detailedNode]
       }
+
+      console.log(detailedNode)
 
       cache.writeData({ data })
 

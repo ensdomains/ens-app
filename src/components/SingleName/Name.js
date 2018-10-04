@@ -93,6 +93,7 @@ class Name extends Component {
     const { details: domain, name, pathname } = this.props
     const timeLeft = getTimeLeft(domain)
     const percentDone = getPercentTimeLeft(timeLeft, domain)
+    console.log(domain)
     return (
       <QueryAccount>
         {({ account }) => {
