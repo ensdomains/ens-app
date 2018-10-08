@@ -68,10 +68,6 @@ const AccountContainer = styled('div')`
 `
 
 class NetworkInformation extends Component {
-  state = {
-    showModal: false
-  }
-  toggleModal = () => this.setState(state => ({ showModal: !state.showModal }))
   render() {
     return (
       <NetworkInfoQuery>
@@ -86,10 +82,7 @@ class NetworkInformation extends Component {
                 <NetworkStatus>{network} network</NetworkStatus>
               </AccountContainer>
             ) : (
-              <NoAccountsModal
-                showModal={this.state.showModal}
-                toggleModal={this.toggleModal}
-              />
+              <NoAccountsModal colour={'#F5A623'} />
             )}
           </NetworkInformationContainer>
         )}

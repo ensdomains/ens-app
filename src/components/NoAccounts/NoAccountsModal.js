@@ -44,18 +44,36 @@ const Point = styled('div')`
   }
 `
 
-const NoAccountsModal = ({ showModal, toggleModal }) => (
-  <NoAccountContainer>
-    <NoAccounts colour={'#F5A623'} active={showModal} onClick={toggleModal} />
-    <NoAccountExplanation show={showModal} onClick={toggleModal}>
-      <Point number="1">
-        Install Metamask or use another Dapp browser to search the ENS registry.
-      </Point>
-      <Point number="2">
-        Login to Metamask and unlock your wallet to use all the features of ENS.
-      </Point>
-    </NoAccountExplanation>
-  </NoAccountContainer>
-)
+class NoAccountsModal extends React.Component {
+  state = {
+    showModal: false
+  }
+  toggleModal = () => this.setState(state => ({ showModal: !state.showModal }))
+  render = () => {
+    const { colour, textColour, className } = this.props
+    const { showModal } = this.state
+
+    return (
+      <NoAccountContainer className={className}>
+        <NoAccounts
+          colour={colour}
+          textColour={textColour}
+          active={showModal}
+          onClick={this.toggleModal}
+        />
+        <NoAccountExplanation show={showModal} onClick={this.toggleModal}>
+          <Point number="1">
+            Install Metamask or use another Dapp browser to search the ENS
+            registry.
+          </Point>
+          <Point number="2">
+            Login to Metamask and unlock your wallet to use all the features of
+            ENS.
+          </Point>
+        </NoAccountExplanation>
+      </NoAccountContainer>
+    )
+  }
+}
 
 export default NoAccountsModal
