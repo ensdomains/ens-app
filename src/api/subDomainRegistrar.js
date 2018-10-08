@@ -46,7 +46,7 @@ export const query = async (domain, label, address = defaultAddress) => {
           price: node[1].toString(),
           rent: node[2].toString(),
           referralFeePPM: node[3].toString(),
-          available: node[0].length !== 0
+          available: node[0] !== ''
         })
       }
     })

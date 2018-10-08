@@ -162,9 +162,11 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
   return (
     <QueryAccount>
       {({ account }) => {
-        const isOwner = domain.owner
-          ? domain.owner.toLowerCase() === account.toLowerCase()
-          : false
+        let isOwner = false
+
+        if (domain.owner && parseInt(domain.owner, 16) !== 0) {
+          isOwner = domain.owner.toLowerCase() === account.toLowerCase()
+        }
         return (
           <DomainContainer
             state={isOwner ? 'Yours' : domain.state}

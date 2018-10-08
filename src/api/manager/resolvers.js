@@ -4,6 +4,7 @@ import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
 import get from 'lodash/get'
 import getWeb3 from '../web3'
+import domains from '../../lib/domains.json'
 
 import {
   GET_FAVOURITES,
@@ -110,8 +111,13 @@ const resolvers = {
         }
       } else {
         if (networkId === 1) {
-          const subdomain = await query(nameArray[1], nameArray[0])
-
+          const domain =
+            domains.find(domain => domain.name === nameArray[1]) || {}
+          const subdomain = await query(
+            nameArray[1],
+            nameArray[0],
+            domain.registrar
+          )
           node = {
             name: `${name}`,
             ...node,
