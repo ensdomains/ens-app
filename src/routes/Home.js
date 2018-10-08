@@ -3,7 +3,7 @@ import styled from 'react-emotion'
 import { Spring } from 'react-spring'
 
 import SearchDefault from '../components/SearchName/Search'
-import NoAccountsDefault from '../components/NoAccounts'
+import NoAccountsDefault from '../components/NoAccounts/NoAccounts'
 import bg from '../assets/heroBG.jpg'
 import NetworkInfoQuery from '../components/NetworkInformation/NetworkInfoQuery'
 import Button from '../components/Forms/Button'
