@@ -6,6 +6,7 @@ class Editable extends Component {
     newValue: ''
   }
 
+  updateValue = e => this.setState({ newValue: e.target.value })
   startEditing = () => this.setState({ editing: true })
   stopEditing = () => this.setState({ editing: false })
 
