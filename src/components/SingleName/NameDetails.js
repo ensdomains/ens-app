@@ -7,6 +7,8 @@ import SubDomains from './SubDomains'
 import { SingleNameBlockies } from './SingleNameBlockies'
 import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
 import { formatDate } from './utils'
+import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
+import RecordItem from './RecordItem'
 
 const EtherScanLink = styled(DefaultEtherScanLink)`
   display: flex;
@@ -15,27 +17,6 @@ const EtherScanLink = styled(DefaultEtherScanLink)`
 const Details = styled('section')`
   padding: 40px;
   transition: 0.4s;
-`
-
-const DetailsItem = styled('div')`
-  display: flex;
-  justify-content: flex-start;
-`
-
-const DetailsKey = styled('div')`
-  color: ${({ greyed }) => (greyed ? '#CCD4DA' : '2b2b2b')};
-  font-size: 16px;
-  letter-spacing: 0px;
-  font-weight: 600;
-  text-transform: uppercase;
-  width: 220px;
-  margin-bottom: 20px;
-`
-
-const DetailsValue = styled('div')`
-  font-size: 18px;
-  font-weight: 100;
-  font-family: Overpass Mono;
 `
 
 const Records = styled('div')`
@@ -56,21 +37,6 @@ const RecordsTitle = styled('h3')`
   padding: 10px 20px;
 `
 
-const RecordsItem = styled(DetailsItem)`
-  border-top: 1px dashed #d3d3d3;
-  padding: 20px;
-`
-
-const RecordsKey = styled(DetailsKey)`
-  font-size: 12px;
-  margin-bottom: 0;
-  width: 200px;
-`
-
-const RecordsValue = styled(DetailsValue)`
-  font-size: 14px;
-`
-
 class NameDetails extends Component {
   hasAnyRecord(domain) {
     if (parseInt(domain.resolver, 16) === 0) {
@@ -80,6 +46,8 @@ class NameDetails extends Component {
   }
   render() {
     const { domain } = this.props
+
+    const isOwner = true
     return (
       <Fragment>
         <Route
@@ -144,25 +112,20 @@ class NameDetails extends Component {
                   <RecordsTitle>Pointers</RecordsTitle>
                   {parseInt(domain.resolver, 16) !== 0 &&
                     domain.addr && (
-                      <RecordsItem>
-                        <RecordsKey>Address</RecordsKey>
-                        <RecordsValue>
-                          <EtherScanLink address={domain.addr}>
-                            {domain.addr}
-                          </EtherScanLink>
-                        </RecordsValue>
-                      </RecordsItem>
+                      <RecordItem
+                        isOwner={isOwner}
+                        name="Address"
+                        value={domain.addr}
+                        type="address"
+                      />
                     )}
                   {parseInt(domain.resolver, 16) !== 0 &&
                     parseInt(domain.content, 16) !== 0 && (
-                      <RecordsItem>
-                        <RecordsKey>Content</RecordsKey>
-                        <RecordsValue>
-                          <EtherScanLink address={domain.content}>
-                            {domain.content}
-                          </EtherScanLink>
-                        </RecordsValue>
-                      </RecordsItem>
+                      <RecordItem
+                        isOwner={isOwner}
+                        name="Address"
+                        value={domain.content}
+                      />
                     )}
                 </Records>
               )}
