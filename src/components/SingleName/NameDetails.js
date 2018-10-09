@@ -8,7 +8,7 @@ import { SingleNameBlockies } from './SingleNameBlockies'
 import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
 import { formatDate } from './utils'
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
-import RecordItem from './RecordItem'
+import RecordsItem from './RecordsItem'
 
 const EtherScanLink = styled(DefaultEtherScanLink)`
   display: flex;
@@ -112,7 +112,7 @@ class NameDetails extends Component {
                   <RecordsTitle>Pointers</RecordsTitle>
                   {parseInt(domain.resolver, 16) !== 0 &&
                     domain.addr && (
-                      <RecordItem
+                      <RecordsItem
                         isOwner={isOwner}
                         name="Address"
                         value={domain.addr}
@@ -121,9 +121,9 @@ class NameDetails extends Component {
                     )}
                   {parseInt(domain.resolver, 16) !== 0 &&
                     parseInt(domain.content, 16) !== 0 && (
-                      <RecordItem
+                      <RecordsItem
                         isOwner={isOwner}
-                        name="Address"
+                        name="Content"
                         value={domain.content}
                       />
                     )}
