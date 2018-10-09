@@ -104,13 +104,15 @@ class NameDetails extends Component {
                   </EtherScanLink>
                 </DetailsValue>
               </DetailsItem>
-              {domain.registrationDate && (
+              {domain.registrationDate ? (
                 <DetailsItem>
                   <DetailsKey>Registration Date</DetailsKey>
                   <DetailsValue>
                     {formatDate(domain.registrationDate)}
                   </DetailsValue>
                 </DetailsItem>
+              ) : (
+                ''
               )}
               {parseInt(domain.resolver, 16) !== 0 ? (
                 <Fragment>

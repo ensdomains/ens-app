@@ -33,6 +33,8 @@ const NameContainer = styled('div')`
           return 'linear-gradient(-180deg, #42E068 0%, #52E5FF 100%)'
         case 'Yours':
           return '#52e5ff'
+        case 'Open':
+          return '#42E068'
         default:
           return '#CACACA'
       }
@@ -91,11 +93,14 @@ class Name extends Component {
     const { details: domain, name, pathname } = this.props
     const timeLeft = getTimeLeft(domain)
     const percentDone = getPercentTimeLeft(timeLeft, domain)
+    console.log(domain)
     return (
       <QueryAccount>
         {({ account }) => {
-          const isOwner =
-            domain.owner && domain.owner.toLowerCase() === account.toLowerCase()
+          let isOwner = false
+          if (domain.owner !== '0x0000000000000000000000000000000000000000') {
+            isOwner = domain.owner.toLowerCase() === account.toLowerCase()
+          }
           return (
             <NameContainer state={isOwner ? 'Yours' : domain.state}>
               <TopBar percentDone={percentDone}>

@@ -3,7 +3,7 @@ import styled from 'react-emotion'
 import { Spring } from 'react-spring'
 
 import SearchDefault from '../components/SearchName/Search'
-import NoAccountsDefault from '../components/NoAccounts'
+import NoAccountsDefault from '../components/NoAccounts/NoAccountsModal'
 import bg from '../assets/heroBG.jpg'
 import NetworkInfoQuery from '../components/NetworkInformation/NetworkInfoQuery'
 import Button from '../components/Forms/Button'
@@ -32,7 +32,7 @@ const Hero = styled('section')`
 const NoAccounts = styled(NoAccountsDefault)`
   position: absolute;
   top: 20px;
-  right: 40px;
+  left: 40px;
 `
 
 const SearchContainer = styled('div')`
@@ -160,7 +160,7 @@ export default props => (
           accounts.length > 0 && network ? (
             <NetworkStatus>{network} network</NetworkStatus>
           ) : (
-            <NoAccounts />
+            <NoAccounts textColour={'white'} />
           )
         }
       </NetworkInfoQuery>

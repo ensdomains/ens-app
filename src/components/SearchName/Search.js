@@ -80,7 +80,7 @@ class Search extends React.Component {
 
           this.input.value = ''
 
-          if (this.state.type === 'supported') {
+          if (this.state.type === 'supported' || this.state.type === 'short') {
             history.push(`/name/${searchTerm}`)
             return
           } else {

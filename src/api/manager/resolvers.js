@@ -4,6 +4,7 @@ import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
 import get from 'lodash/get'
 import getWeb3 from '../web3'
+import domains from '../../lib/domains.json'
 
 import {
   GET_FAVOURITES,
@@ -110,11 +111,13 @@ const resolvers = {
         }
       } else {
         if (networkId === 1) {
+          const domain =
+            domains.find(domain => domain.name === nameArray[1]) || {}
           const subdomain = await query(
-            nameArray.slice(1).join('.'),
-            nameArray[0]
+            nameArray[1],
+            nameArray[0],
+            domain.registrar
           )
-
           node = {
             name: `${name}`,
             ...node,
@@ -125,10 +128,7 @@ const resolvers = {
       }
 
       const { names } = cache.readQuery({ query: GET_ALL_NODES })
-      console.log('here in node details')
       const nodeDetails = await getDomainDetails(name)
-
-      console.log(nodeDetails)
 
       const detailedNode = {
         ...node,
@@ -140,6 +140,8 @@ const resolvers = {
       data = {
         names: [...names, detailedNode]
       }
+
+      console.log(detailedNode)
 
       cache.writeData({ data })
 
