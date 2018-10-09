@@ -18,3 +18,13 @@ script:
 
 notifications:
   email: false
+
+deploy:
+  provider: pages
+  local-dir: './build'
+  fqdn: 'manager-beta.ens.domains'
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  on:
+    branch: dev
