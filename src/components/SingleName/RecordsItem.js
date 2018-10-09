@@ -30,6 +30,8 @@ const EditButton = styled(Bin)``
 
 const EditRecord = styled('div')``
 
+const Cancel = styled('div')``
+
 class RecordItem extends Component {
   _renderEditable() {
     const { name, value, type } = this.props
@@ -45,7 +47,11 @@ class RecordItem extends Component {
                 value
               )}
             </RecordsValue>
-            <EditButton onClick={startEditing} />
+            {editing ? (
+              <Cancel onClick={stopEditing}>Cancel</Cancel>
+            ) : (
+              <EditButton onClick={startEditing} />
+            )}
             {editing ? (
               <EditRecord>
                 <Input onChange={updateValue} />
