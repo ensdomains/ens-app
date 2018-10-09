@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'react-emotion'
-import { parseSearchTerm } from '../../lib/utils'
+import { parseSearchTerm } from '../../utils/utils'
 import '../../api/subDomainRegistrar'
 import { withRouter } from 'react-router'
 import searchIcon from './search.svg'

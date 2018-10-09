@@ -35,7 +35,7 @@ class RecordItem extends Component {
     const { name, value, type } = this.props
     return (
       <Editable>
-        {({ editing, startEditing, stopEditing, newValue }) => (
+        {({ editing, startEditing, stopEditing, newValue, updateValue }) => (
           <RecordsItem editing={editing}>
             <RecordsKey>{name}</RecordsKey>
             <RecordsValue>
@@ -48,7 +48,7 @@ class RecordItem extends Component {
             <EditButton onClick={startEditing} />
             {editing ? (
               <EditRecord>
-                <Input />
+                <Input onChange={updateValue} />
               </EditRecord>
             ) : (
               ''

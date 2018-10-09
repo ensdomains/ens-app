@@ -6,7 +6,7 @@ import { Title } from '../Typography/Basic'
 import DefaultFavourite from '../AddFavourite/Favourite'
 import NameDetails from './NameDetails'
 import NameAuction from './NameAuction'
-import { getPercentTimeLeft, getTimeLeft } from '../../lib/utils'
+import { getPercentTimeLeft, getTimeLeft } from '../../utils/dates'
 import QueryAccount from '../QueryAccount'
 
 const NameContainer = styled('div')`

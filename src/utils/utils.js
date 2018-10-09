@@ -1,8 +1,7 @@
 import getWeb3 from '../api/web3'
 import uts46 from 'idna-uts46-hx'
 import { addressUtils } from '@0xproject/utils'
-import tlds from './tlds.json'
-import moment from 'moment'
+import tlds from '../constants/tlds.json'
 //import { checkLabelHash } from '../updaters/preImageDB'
 
 export const uniq = (a, param) =>
@@ -96,34 +95,47 @@ export const parseSearchTerm = term => {
   }
 }
 
-export function getTimeLeft(domain) {
-  if (domain.state === 'Auction') {
-    return new Date(domain.revealDate).getTime() - new Date().getTime()
-  } else if (domain.state === 'Reveal') {
-    return new Date(domain.registrationDate).getTime() - new Date().getTime()
-  } else {
-    return false
+export function modulate(value, rangeA, rangeB, limit) {
+  let fromHigh, fromLow, result, toHigh, toLow
+  if (limit == null) {
+    limit = false
   }
+  fromLow = rangeA[0]
+  fromHigh = rangeA[1]
+  toLow = rangeB[0]
+  toHigh = rangeB[1]
+  result = toLow + ((value - fromLow) / (fromHigh - fromLow)) * (toHigh - toLow)
+  if (limit === true) {
+    if (toLow < toHigh) {
+      if (result < toLow) {
+        return toLow
+      }
+      if (result > toHigh) {
+        return toHigh
+      }
+    } else {
+      if (result > toLow) {
+        return toLow
+      }
+      if (result < toHigh) {
+        return toHigh
+      }
+    }
+  }
+  return result
 }
 
-export function getPercentTimeLeft(timeLeft, domain) {
-  if (timeLeft === false) {
-    return 0
-  }
+export function isElementInViewport(el) {
+  var rect = el.getBoundingClientRect()
 
-  if (domain.state === 'Auction') {
-    let totalTime = 259200000
-    return ((totalTime - timeLeft) / totalTime) * 100
-  } else if (domain.state === 'Reveal') {
-    let totalTime = 172800000
-    return ((totalTime - timeLeft) / totalTime) * 100
-  }
-}
-
-export function humanizeDate(timeLeft) {
-  if (timeLeft < 3600000) {
-    return moment.duration(timeLeft).humanize()
-  } else {
-    return `${moment.duration(timeLeft).hours()} hours`
-  }
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <=
+      (window.innerHeight ||
+        document.documentElement.clientHeight) /*or $(window).height() */ &&
+    rect.right <=
+      (window.innerWidth ||
+        document.documentElement.clientWidth) /*or $(window).width() */
+  )
 }

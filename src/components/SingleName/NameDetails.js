@@ -6,9 +6,10 @@ import { HR } from '../Typography/Basic'
 import SubDomains from './SubDomains'
 import { SingleNameBlockies } from './SingleNameBlockies'
 import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
-import { formatDate } from './utils'
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import RecordsItem from './RecordsItem'
+
+import { formatDate } from '../../utils/dates'
 
 const EtherScanLink = styled(DefaultEtherScanLink)`
   display: flex;

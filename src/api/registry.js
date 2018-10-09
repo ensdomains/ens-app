@@ -6,7 +6,7 @@ import getENS, {
   getResolverContract
 } from './ens'
 import { decryptHashes } from './preimage'
-import { uniq, ensStartBlock, checkLabels, mergeLabels } from '../lib/utils'
+import { uniq, ensStartBlock, checkLabels, mergeLabels } from '../utils/utils'
 import getWeb3, { getAccounts } from '../api/web3'
 
 export async function getOwner(name) {
