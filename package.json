@@ -2,7 +2,7 @@
   "name": "ens-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://app.ens.domains",
+  "homepage": "https://manager-beta.ens.domains",
   "dependencies": {
     "@0xproject/utils": "^0.7.3",
     "apollo-cache-inmemory": "^1.2.9",
@@ -45,7 +45,7 @@
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "deploy:dev": "npm run build && cd build && mv index.html 200.html && surge . --domain ensappdev.surge.sh",
-    "deploy": "gh-pages -d build"
+    "deploy": "npm run build && echo 'manager-beta.ens.domains' > ./build/CNAME && gh-pages -d build"
   },
   "prettier": {
     "semi": false,
