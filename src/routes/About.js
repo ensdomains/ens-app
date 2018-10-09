@@ -133,90 +133,98 @@ const UnderTheSurfaceImgContainer = styled('div')`
   display: flex;
 `
 
-const About = () => (
-  <AboutContainer>
-    <ElevatorPitch>
-      <H2>
-        The Ethereum Name Service is a distributed, open and extensible naming
-        system based on the Ethereum blockchain. ENS eliminates the need to copy
-        or type long addresses.
-      </H2>
-    </ElevatorPitch>
+class About extends React.Component {
+  componentDidMount() {
+    window.scrollTo(0, 0)
+  }
+  render() {
+    return (
+      <AboutContainer>
+        <ElevatorPitch>
+          <H2>
+            The Ethereum Name Service is a distributed, open and extensible
+            naming system based on the Ethereum blockchain. ENS eliminates the
+            need to copy or type long addresses.
+          </H2>
+        </ElevatorPitch>
 
-    <SubTitle>About ENS</SubTitle>
-    <AboutENSContainer>
-      <Card>
-        <AboutENSImgContainer>
-          <Map />
-        </AboutENSImgContainer>
-        <AboutENSText>
-          Map simple names like ‘alice.eth’ to Ethereum addresses, content
-          hashes, and metadata.
-        </AboutENSText>
-      </Card>
-      <Card>
-        <AboutENSImgContainer>
-          <ReverseArrows />
-        </AboutENSImgContainer>
-        <AboutENSText>
-          Improve usability of Dapps by returning human readable names instead
-          of long hashes through 'reverse resolution'
-        </AboutENSText>
-      </Card>
-    </AboutENSContainer>
-    <SubTitle>TLDs &amp; SUBDOMAINS</SubTitle>
-    <SubDomainExplainer src={subdomainExplainer} />
-    <SubDomainText>
-      Like DNS, ENS operates on a system of dot-separated hierarchial names
-      called domains, with the owner of a domain having full control over the
-      allocation of subdomains.
-    </SubDomainText>
+        <SubTitle>About ENS</SubTitle>
+        <AboutENSContainer>
+          <Card>
+            <AboutENSImgContainer>
+              <Map />
+            </AboutENSImgContainer>
+            <AboutENSText>
+              Map simple names like ‘alice.eth’ to Ethereum addresses, content
+              hashes, and metadata.
+            </AboutENSText>
+          </Card>
+          <Card>
+            <AboutENSImgContainer>
+              <ReverseArrows />
+            </AboutENSImgContainer>
+            <AboutENSText>
+              Improve usability of Dapps by returning human readable names
+              instead of long hashes through 'reverse resolution'
+            </AboutENSText>
+          </Card>
+        </AboutENSContainer>
+        <SubTitle>TLDs &amp; SUBDOMAINS</SubTitle>
+        <SubDomainExplainer src={subdomainExplainer} />
+        <SubDomainText>
+          Like DNS, ENS operates on a system of dot-separated hierarchial names
+          called domains, with the owner of a domain having full control over
+          the allocation of subdomains.
+        </SubDomainText>
 
-    <SubTitle>HOW TO USE ENS</SubTitle>
-    <HowToUse text={true} />
-    <SubTitle>Under the surface</SubTitle>
-    <UnderTheSurface>
-      <Card>
-        <UnderTheSurfaceImgContainer>
-          <Registrar />
-        </UnderTheSurfaceImgContainer>
-        <CardTitle>The Registrar</CardTitle>
-        <CardText>
-          The Registrar is the Smart Contract that allows you to buy or register
-          a domain. Today it uses an auction process, but in the future you will
-          have an instant buy option.
-        </CardText>
-      </Card>
-      <Card>
-        <UnderTheSurfaceImgContainer>
-          <Registry />
-        </UnderTheSurfaceImgContainer>
-        <CardTitle>The Registry</CardTitle>
-        <CardText>
-          The Registry is a Smart Contract that contains a list of all domains
-          and subdomains, storing for each two pieces of information: the owner
-          of the name and the Resolver.
-        </CardText>
-      </Card>
-      <Card>
-        <CardImg src={nameToAddress} />
-        <CardTitle>Resolvers</CardTitle>
-        <CardText>
-          Resolvers are Smart Contracts responsible for the process of
-          translating names into addresses, or other types of hashes and
-          resources.
-        </CardText>
-      </Card>
-      <Card>
-        <CardImg src={addressToName} />
-        <CardTitle>Reverse Resolution</CardTitle>
-        <CardText>
-          The Resolver can optionally perform the opposite functionality of
-          "Reverse Resolving": translating an address into an associated name.
-        </CardText>
-      </Card>
-    </UnderTheSurface>
-  </AboutContainer>
-)
+        <SubTitle>HOW TO USE ENS</SubTitle>
+        <HowToUse text={true} />
+        <SubTitle>Under the surface</SubTitle>
+        <UnderTheSurface>
+          <Card>
+            <UnderTheSurfaceImgContainer>
+              <Registrar />
+            </UnderTheSurfaceImgContainer>
+            <CardTitle>The Registrar</CardTitle>
+            <CardText>
+              The Registrar is the Smart Contract that allows you to buy or
+              register a domain. Today it uses an auction process, but in the
+              future you will have an instant buy option.
+            </CardText>
+          </Card>
+          <Card>
+            <UnderTheSurfaceImgContainer>
+              <Registry />
+            </UnderTheSurfaceImgContainer>
+            <CardTitle>The Registry</CardTitle>
+            <CardText>
+              The Registry is a Smart Contract that contains a list of all
+              domains and subdomains, storing for each two pieces of
+              information: the owner of the name and the Resolver.
+            </CardText>
+          </Card>
+          <Card>
+            <CardImg src={nameToAddress} />
+            <CardTitle>Resolvers</CardTitle>
+            <CardText>
+              Resolvers are Smart Contracts responsible for the process of
+              translating names into addresses, or other types of hashes and
+              resources.
+            </CardText>
+          </Card>
+          <Card>
+            <CardImg src={addressToName} />
+            <CardTitle>Reverse Resolution</CardTitle>
+            <CardText>
+              The Resolver can optionally perform the opposite functionality of
+              "Reverse Resolving": translating an address into an associated
+              name.
+            </CardText>
+          </Card>
+        </UnderTheSurface>
+      </AboutContainer>
+    )
+  }
+}
 
 export default About

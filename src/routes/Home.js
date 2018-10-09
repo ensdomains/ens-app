@@ -202,7 +202,9 @@ export default props => (
             naming system based on the Ethereum blockchain. ENS eliminates the
             need to copy or type long addresses.
           </p>
-          <Button type="primary">Learn more</Button>
+          <Button type="primary" href="/about">
+            Learn more
+          </Button>
         </Inner>
       </WhatItIs>
       <NameAnimation>
@@ -220,7 +222,9 @@ export default props => (
             It allows you to search any name, manage their addresses or
             resources it points to and create subdomains for each name.
           </p>
-          <Button type="primary">Learn more</Button>
+          <Button type="primary" href="/about">
+            Learn more
+          </Button>
         </Inner>
       </HowItWorks>
     </Explanation>
