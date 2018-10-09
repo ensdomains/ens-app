@@ -4,7 +4,7 @@ import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
 import get from 'lodash/get'
 import getWeb3 from '../web3'
-import domains from '../../lib/domains.json'
+import domains from '../../constants/domains.json'
 
 import {
   GET_FAVOURITES,
