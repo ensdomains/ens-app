@@ -115,7 +115,7 @@ class NameDetails extends Component {
                     domain.addr && (
                       <RecordsItem
                         isOwner={isOwner}
-                        name="Address"
+                        keyName="Address"
                         value={domain.addr}
                         type="address"
                       />
@@ -124,7 +124,7 @@ class NameDetails extends Component {
                     parseInt(domain.content, 16) !== 0 && (
                       <RecordsItem
                         isOwner={isOwner}
-                        name="Content"
+                        keyName="Content"
                         value={domain.content}
                       />
                     )}

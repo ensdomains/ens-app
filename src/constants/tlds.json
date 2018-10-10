@@ -10,5 +10,8 @@
   },
   "reverse": {
     "supported": true
+  },
+  "luxe": {
+    "supported": true
   }
 }

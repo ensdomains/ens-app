@@ -25,7 +25,6 @@ class Favourite extends React.Component {
           const favourites =
             nameArray.length < 3 ? data.favourites : data.subDomainFavourites
 
-          console.log(favourites)
           return (
             <AddFavourite
               domain={domain}
