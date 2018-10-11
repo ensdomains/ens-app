@@ -3,7 +3,11 @@ import { ReactComponent as Pencil } from '../Icons/Pencil.svg'
 
 const StyledPencil = styled(Pencil)`
   &:hover {
-    cursor
+    g {
+      transition: 0.2s;
+      fill: #5384fe;
+    }
+    cursor: pointer;
   }
 `
 

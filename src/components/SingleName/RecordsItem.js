@@ -4,7 +4,7 @@ import styled from 'react-emotion'
 
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
-import Input from '../Forms/Input'
+import DefaultInput from '../Forms/Input'
 import Button from '../Forms/Button'
 import Pencil from '../Forms/Pencil'
 import Bin from '../Forms/Bin'
@@ -26,6 +26,7 @@ const RecordsContent = styled('div')`
   display: flex;
   justify-content: flex-start;
   position: relative;
+  ${({ editing }) => editing && 'margin-bottom: 30px'};
 `
 
 const RecordsKey = styled(DetailsKey)`
@@ -40,6 +41,10 @@ const RecordsValue = styled(DetailsValue)`
 
 const EditRecord = styled('div')`
   width: 100%;
+`
+
+const Input = styled(DefaultInput)`
+  margin-bottom: 20px;
 `
 
 const Action = styled('div')`
@@ -57,7 +62,7 @@ const Save = styled(Button)`
   margin-right: 20px;
 `
 
-const Cancel = styled('div')``
+const Cancel = styled(Button)``
 
 class RecordItem extends Component {
   _renderEditable() {
@@ -66,7 +71,7 @@ class RecordItem extends Component {
       <Editable>
         {({ editing, startEditing, stopEditing, newValue, updateValue }) => (
           <RecordsItem editing={editing}>
-            <RecordsContent>
+            <RecordsContent editing={editing}>
               <RecordsKey>{keyName}</RecordsKey>
               <RecordsValue>
                 {type === 'address' ? (
@@ -93,9 +98,9 @@ class RecordItem extends Component {
                 </EditRecord>
                 <SaveContainer>
                   <Save onClick={() => {}}>Save</Save>
-                  <Button type="hollow" onClick={stopEditing}>
+                  <Cancel type="hollow" onClick={stopEditing}>
                     Cancel
-                  </Button>
+                  </Cancel>
                 </SaveContainer>
               </>
             ) : (

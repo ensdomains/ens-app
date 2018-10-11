@@ -2,6 +2,18 @@ import React from 'react'
 import styled from 'react-emotion'
 import { Link } from 'react-router-dom'
 
+function getButtonStyles(type) {
+  switch (type) {
+    case 'hollow':
+      return `
+        color: #DFDFDF;
+        border: 2px solid #DFDFDF;
+      `
+    default:
+      return ''
+  }
+}
+
 const ButtonContainer = styled('button')`
   color: white;
   background: ${p => p.color};
@@ -14,6 +26,7 @@ const ButtonContainer = styled('button')`
   letter-spacing: 1.5px;
   //box-shadow: 0 10px 21px 0 #bed0dc;
   transition: 0.2s all;
+  border: 2px solid #5384FE
 
   &:hover {
     cursor: pointer;
@@ -22,7 +35,7 @@ const ButtonContainer = styled('button')`
     border-radius: 23px;
   }
 
-  a {
+  ${({ type }) => getButtonStyles(type)} a {
     color: white;
     &:focus {
       outline: 0;
@@ -36,8 +49,13 @@ const types = {
   hollow: 'transparent'
 }
 
-const Button = ({ children, type = 'primary', onClick }) => (
-  <ButtonContainer color={types[type]} onClick={onClick}>
+const Button = ({ children, type = 'primary', onClick, className }) => (
+  <ButtonContainer
+    className={className}
+    color={types[type]}
+    type={type}
+    onClick={onClick}
+  >
     {children}
   </ButtonContainer>
 )
