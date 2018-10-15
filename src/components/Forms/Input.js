@@ -19,8 +19,13 @@ const StyledInput = styled('input')`
   }
 `
 
-const Input = ({ className, type }) => (
-  <StyledInput className={className} type={type ? type : 'text'} wide />
+const Input = ({ className, type, onChange }) => (
+  <StyledInput
+    onChange={onChange}
+    className={className}
+    type={type ? type : 'text'}
+    wide
+  />
 )
 
 export default Input

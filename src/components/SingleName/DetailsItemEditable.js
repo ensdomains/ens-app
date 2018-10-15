@@ -1,42 +1,30 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import styled from 'react-emotion'
-
-import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
+import { addressUtils } from '@0xproject/utils'
+import { SingleNameBlockies } from './SingleNameBlockies'
 import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
+import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
+import Editable from './Editable'
 import DefaultInput from '../Forms/Input'
 import Button from '../Forms/Button'
-import Pencil from '../Forms/Pencil'
-import Bin from '../Forms/Bin'
-import Editable from './Editable'
 
 const EtherScanLink = styled(DefaultEtherScanLink)`
   display: flex;
 `
 
-const RecordsItem = styled(DetailsItem)`
-  border-top: 1px dashed #d3d3d3;
-  padding: 20px;
+const DetailsEditableContainer = styled(DetailsItem)`
   flex-direction: column;
 
   background: ${({ editing }) => (editing ? '#F0F6FA' : 'white')};
+  padding: ${({ editing }) => (editing ? '20px' : '0')};
 `
 
-const RecordsContent = styled('div')`
+const DetailsContent = styled('div')`
   display: flex;
   justify-content: flex-start;
   position: relative;
+  width: 100%;
   ${({ editing }) => editing && 'margin-bottom: 30px'};
-`
-
-const RecordsKey = styled(DetailsKey)`
-  font-size: 12px;
-  margin-bottom: 0;
-  width: 200px;
-`
-
-const RecordsValue = styled(DetailsValue)`
-  font-size: 14px;
 `
 
 const EditRecord = styled('div')`
@@ -64,37 +52,38 @@ const Cancel = styled(Button)`
   margin-right: 20px;
 `
 
-class RecordItem extends Component {
+class DetailsEditable extends Component {
   _renderEditable() {
     const { keyName, value, type, mutation } = this.props
     return (
       <Editable>
         {({ editing, startEditing, stopEditing, newValue, updateValue }) => (
-          <RecordsItem editing={editing}>
-            <RecordsContent editing={editing}>
-              <RecordsKey>{keyName}</RecordsKey>
-              <RecordsValue>
+          <DetailsEditableContainer editing={editing}>
+            <DetailsContent editing={editing}>
+              <DetailsKey>{keyName}</DetailsKey>
+              <DetailsValue>
                 {type === 'address' ? (
-                  <EtherScanLink address={value}>{value}</EtherScanLink>
+                  <EtherScanLink address={value}>
+                    <SingleNameBlockies address={value} imageSize={24} />
+                    {value}
+                  </EtherScanLink>
                 ) : (
                   value
                 )}
-              </RecordsValue>
-              {editing ? (
+              </DetailsValue>
+              {editing ? null : (
                 <Action>
-                  <Bin />
-                </Action>
-              ) : (
-                <Action>
-                  <Pencil onClick={startEditing} />
+                  <Button onClick={startEditing}>Transfer</Button>
                 </Action>
               )}
-            </RecordsContent>
+            </DetailsContent>
 
             {editing ? (
               <>
                 <EditRecord>
-                  <Input onChange={updateValue} />
+                  <Input value={newValue} onChange={updateValue} />
+                  {console.log(newValue)}
+                  {addressUtils.isAddress(newValue) ? 'cool' : null}
                 </EditRecord>
                 <SaveContainer>
                   <Cancel type="hollow" onClick={stopEditing}>
@@ -106,25 +95,24 @@ class RecordItem extends Component {
             ) : (
               ''
             )}
-          </RecordsItem>
+          </DetailsEditableContainer>
         )}
       </Editable>
     )
   }
 
   _renderViewOnly() {
-    const { keyName, value, type } = this.props
+    const { value, keyName } = this.props
     return (
-      <RecordsItem>
-        <RecordsKey>{keyName}</RecordsKey>
-        <RecordsValue>
-          {type === 'address' ? (
-            <EtherScanLink address={value}>{value}</EtherScanLink>
-          ) : (
-            value
-          )}
-        </RecordsValue>
-      </RecordsItem>
+      <DetailsEditableContainer>
+        <DetailsKey>{keyName}</DetailsKey>
+        <DetailsValue>
+          <EtherScanLink address={value}>
+            <SingleNameBlockies address={value} imageSize={24} />
+            {value}
+          </EtherScanLink>
+        </DetailsValue>
+      </DetailsEditableContainer>
     )
   }
   render() {
@@ -133,11 +121,4 @@ class RecordItem extends Component {
   }
 }
 
-RecordItem.propTypes = {
-  name: PropTypes.string,
-  value: PropTypes.string,
-  type: PropTypes.string,
-  mutation: PropTypes.func
-}
-
-export default RecordItem
+export default DetailsEditable

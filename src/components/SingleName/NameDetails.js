@@ -8,6 +8,7 @@ import { SingleNameBlockies } from './SingleNameBlockies'
 import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import RecordsItem from './RecordsItem'
+import DetailsItemEditable from './DetailsItemEditable'
 
 import { formatDate } from '../../utils/dates'
 
@@ -64,15 +65,11 @@ class NameDetails extends Component {
                   </DetailsValue>
                 </DetailsItem>
               )}
-              <DetailsItem>
-                <DetailsKey>Owner</DetailsKey>
-                <DetailsValue>
-                  <EtherScanLink address={domain.owner}>
-                    <SingleNameBlockies address={domain.owner} imageSize={24} />
-                    {domain.owner}
-                  </EtherScanLink>
-                </DetailsValue>
-              </DetailsItem>
+              <DetailsItemEditable
+                keyName="Owner"
+                value={domain.owner}
+                isOwner={isOwner}
+              />
               {domain.registrationDate ? (
                 <DetailsItem>
                   <DetailsKey>Registration Date</DetailsKey>
