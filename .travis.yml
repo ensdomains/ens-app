@@ -15,6 +15,15 @@ matrix:
 
 script:
   - npm run build
+  - npm run preDeploy
 
 notifications:
   email: false
+
+deploy:
+  skip_cleanup: true
+  provider: surge
+  project: ./build/
+  domain: ensappdev.surge.sh
+  on:
+    branch: surge
