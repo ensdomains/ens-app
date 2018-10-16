@@ -9,7 +9,12 @@ import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import RecordsItem from './RecordsItem'
 import DetailsItemEditable from './DetailsItemEditable'
 
-import { SET_OWNER } from '../../graphql/mutations'
+import {
+  SET_OWNER,
+  SET_RESOLVER,
+  SET_ADDRESS,
+  SET_CONTENT
+} from '../../graphql/mutations'
 
 import { formatDate } from '../../utils/dates'
 
@@ -68,7 +73,7 @@ class NameDetails extends Component {
                     value={domain.owner}
                     isOwner={isOwner}
                     editButton="Transfer"
-                    mutationValue="Transfer"
+                    mutationButton="Transfer"
                     mutation={mutation}
                   />
                 )}
@@ -84,15 +89,21 @@ class NameDetails extends Component {
                 ''
               )}
               {parseInt(domain.resolver, 16) !== 0 ? (
-                <Fragment>
-                  <HR />
-                  <DetailsItemEditable
-                    keyName="Resolver"
-                    value={domain.resolver}
-                    isOwner={isOwner}
-                    mutationButton="Save"
-                  />
-                </Fragment>
+                <Mutation mutation={SET_RESOLVER}>
+                  {mutation => (
+                    <>
+                      <HR />
+                      <DetailsItemEditable
+                        keyName="Resolver"
+                        value={domain.resolver}
+                        isOwner={isOwner}
+                        domain={domain}
+                        mutationButton="Save"
+                        mutation={mutation}
+                      />
+                    </>
+                  )}
+                </Mutation>
               ) : (
                 <Fragment>
                   <HR />

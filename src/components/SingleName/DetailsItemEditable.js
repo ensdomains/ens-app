@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'react-emotion'
 import { addressUtils } from '@0xproject/utils'
+
 import { SingleNameBlockies } from './SingleNameBlockies'
 import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
@@ -106,14 +107,12 @@ class DetailsEditable extends Component {
                   </Cancel>
                   <Save
                     onClick={() => {
-                      console.log('hello')
-                      const obj = {
+                      const variables = {
                         name: domain.name,
                         [variableName ? variableName : 'address']: newValue
                       }
-                      console.log(obj)
                       mutation({
-                        variables: obj
+                        variables
                       })
                     }}
                   >
