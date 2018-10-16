@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'react-emotion'
-import Button from '../Forms/Button'
+import { ButtonLink } from '../Forms/Button'
 import AddFavourite from '../AddFavourite/AddFavourite'
 import {
   getPercentTimeLeft,
@@ -195,9 +195,9 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
                 isFavourite={isFavourite}
               />
 
-              <Button primary href={`/name/${domain.name}`}>
+              <ButtonLink primary to={`/name/${domain.name}`}>
                 Details
-              </Button>
+              </ButtonLink>
             </RightContainer>
           </DomainContainer>
         )

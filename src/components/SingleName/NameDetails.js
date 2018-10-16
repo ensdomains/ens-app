@@ -41,9 +41,7 @@ class NameDetails extends Component {
     return parseInt(domain.addr, 16) !== 0 || parseInt(domain.content, 16) !== 0
   }
   render() {
-    const { domain } = this.props
-
-    const isOwner = true
+    const { domain, isOwner } = this.props
     return (
       <Fragment>
         <Route

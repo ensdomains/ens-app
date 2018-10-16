@@ -93,7 +93,6 @@ class Name extends Component {
     const { details: domain, name, pathname } = this.props
     const timeLeft = getTimeLeft(domain)
     const percentDone = getPercentTimeLeft(timeLeft, domain)
-    console.log(domain)
     return (
       <QueryAccount>
         {({ account }) => {
@@ -130,7 +129,12 @@ class Name extends Component {
               {domain.state === 'Auction' || domain.state === 'Reveal' ? (
                 <NameAuction domain={domain} timeLeft={timeLeft} />
               ) : (
-                <NameDetails domain={domain} pathname={pathname} name={name} />
+                <NameDetails
+                  domain={domain}
+                  pathname={pathname}
+                  name={name}
+                  isOwner={isOwner}
+                />
               )}
             </NameContainer>
           )

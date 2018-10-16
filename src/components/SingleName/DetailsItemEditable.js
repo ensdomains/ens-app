@@ -119,13 +119,15 @@ class DetailsEditable extends Component {
     const { value, keyName } = this.props
     return (
       <DetailsEditableContainer>
-        <DetailsKey>{keyName}</DetailsKey>
-        <DetailsValue>
-          <EtherScanLink address={value}>
-            <SingleNameBlockies address={value} imageSize={24} />
-            {value}
-          </EtherScanLink>
-        </DetailsValue>
+        <DetailsContent>
+          <DetailsKey>{keyName}</DetailsKey>
+          <DetailsValue>
+            <EtherScanLink address={value}>
+              <SingleNameBlockies address={value} imageSize={24} />
+              {value}
+            </EtherScanLink>
+          </DetailsValue>
+        </DetailsContent>
       </DetailsEditableContainer>
     )
   }
