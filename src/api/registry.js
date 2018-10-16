@@ -51,6 +51,20 @@ export async function getName(address) {
   }
 }
 
+export async function setOwner(name, newOwner) {
+  let { ENS } = await getENS()
+  let accounts = await getAccounts()
+  return ENS.setOwner(name, newOwner, { from: accounts[0] })
+}
+
+export async function setSubnodeOwner(label, node, newOwner) {
+  let { ENS } = await getENS()
+  let accounts = await getAccounts()
+  return ENS.setSubnodeOwner(label + '.' + node, newOwner, {
+    from: accounts[0]
+  })
+}
+
 export async function setAddr(name, address) {
   let { ENS } = await getENS()
   let accounts = await getAccounts()
@@ -123,20 +137,6 @@ export async function deleteSubDomain(subDomain, domain) {
     await setResolver(name, 0)
   }
   return registry.setSubnodeOwnerAsync(node, web3.sha3(subDomain), 0, {
-    from: accounts[0]
-  })
-}
-
-export async function setNewOwner(name, newOwner) {
-  let { ENS } = await getENS()
-  let accounts = await getAccounts()
-  return ENS.setOwner(name, newOwner, { from: accounts[0] })
-}
-
-export async function setSubnodeOwner(label, node, newOwner) {
-  let { ENS } = await getENS()
-  let accounts = await getAccounts()
-  return ENS.setSubnodeOwner(label + '.' + node, newOwner, {
     from: accounts[0]
   })
 }
