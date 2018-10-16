@@ -1,4 +1,13 @@
-import { getOwner, getDomainDetails, getSubDomains, getName } from '../registry'
+import {
+  getOwner,
+  getDomainDetails,
+  getSubDomains,
+  getName,
+  setOwner,
+  setResolver,
+  setAddr,
+  setContent
+} from '../registry'
 import { getEntry } from '../registrar'
 import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
@@ -203,6 +212,38 @@ const resolvers = {
     }
   },
   Mutation: {
+    setOwner: async (_, { name, ownerAddress }, { cache }) => {
+      try {
+        const tx = await setOwner(name, ownerAddress)
+        console.log(tx)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    setResolver: async (_, { name, resolverAddress }, { cache }) => {
+      try {
+        const tx = await setResolver(name, resolverAddress)
+        console.log(tx)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    setAddress: async (_, { name, address }, { cache }) => {
+      try {
+        const tx = await setAddress(name, address)
+        console.log(tx)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    setContent: async (_, { name, content }, { cache }) => {
+      try {
+        const tx = await setContent(name, content)
+        console.log(tx)
+      } catch (e) {
+        console.log(e)
+      }
+    },
     addFavourite: async (_, { domain }, { cache }) => {
       const newFavourite = {
         ...domain,
