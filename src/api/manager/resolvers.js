@@ -5,7 +5,7 @@ import {
   getName,
   setOwner,
   setResolver,
-  setAddr,
+  setAddress,
   setContent
 } from '../registry'
 import { getEntry } from '../registrar'

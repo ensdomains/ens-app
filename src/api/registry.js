@@ -65,7 +65,7 @@ export async function setSubnodeOwner(label, node, newOwner) {
   })
 }
 
-export async function setAddr(name, address) {
+export async function setAddress(name, address) {
   let { ENS } = await getENS()
   let accounts = await getAccounts()
   let resolver = await ENS.resolver(name)
