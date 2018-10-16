@@ -6,24 +6,19 @@ language: node_js
 
 node_js:
   - "10"
+
 install:
-  - npm -g install gh-pages
   - npm install
+
 matrix:
   fast_finish: true
   allow_failures:
 
+branches:
+  only:
+    - surge
 script:
-  - npm run build
-  - npm run preDeploy
+  - npm run deploy:beta
 
 notifications:
   email: false
-
-deploy:
-  skip_cleanup: true
-  provider: surge
-  project: ./build/
-  domain: manager-beta.ens.domains
-  on:
-    branch: surge
