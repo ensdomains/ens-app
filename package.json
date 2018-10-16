@@ -44,7 +44,7 @@
     "compile": "node --experimental-modules src/testing-utils/compileENS.mjs",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
-    "preDeploy": "cd build && mv index.html 200.html && cd ..",
+    "preDeploy": "cd ./build && mv index.html 200.html && cd ..",
     "deploy:dev": "npm run build && npm run preDeploy && surge ./build --domain ensappdev.surge.sh",
     "deploy:beta": "npm run build && npm run preDeploy && surge ./build --domain manager-beta.ens.domains"
   },

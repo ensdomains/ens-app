@@ -89,7 +89,7 @@ class Search extends React.Component {
         }}
       >
         <input
-          placeholder="Search names and addresses surge2"
+          placeholder="Search names and addresses surge3"
           ref={el => (this.input = el)}
           onChange={this.handleParse}
         />
