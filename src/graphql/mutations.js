@@ -45,3 +45,27 @@ export const START_AND_BID = gql`
     }
   }
 `
+
+export const SET_RESOLVER = gql`
+  mutation setResolver($name: String, $resolverAddress: String) {
+    setResolver(name: $name, resolverAddress: $resolverAddress)
+  }
+`
+
+export const SET_OWNER = gql`
+  mutation setOwner($name: String, $ownerAddress: String) {
+    setResolver(name: $name, ownerAddress: $ownerAddress)
+  }
+`
+
+export const SET_ADDRESS = gql`
+  mutation setAddress($name: String, $address: String) {
+    setAddress(name: $name, address: $address)
+  }
+`
+
+export const SET_CONTENT = gql`
+  mutation setAddress($name: String, $content: String) {
+    setAddress(name: $name, content: $content)
+  }
+`
