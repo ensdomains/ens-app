@@ -7,6 +7,7 @@ import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import Editable from './Editable'
 import DefaultInput from '../Forms/Input'
 import Button from '../Forms/Button'
+import Pencil from '../Forms/Pencil'
 
 const EtherScanLink = styled(DefaultEtherScanLink)`
   display: flex;
@@ -17,6 +18,7 @@ const DetailsEditableContainer = styled(DetailsItem)`
 
   background: ${({ editing }) => (editing ? '#F0F6FA' : 'white')};
   padding: ${({ editing }) => (editing ? '20px' : '0')};
+  margin-bottom: ${({ editing }) => (editing ? '20px' : '0')};
 `
 
 const DetailsContent = styled('div')`
@@ -54,7 +56,14 @@ const Cancel = styled(Button)`
 
 class DetailsEditable extends Component {
   _renderEditable() {
-    const { keyName, value, type, mutation } = this.props
+    const {
+      keyName,
+      value,
+      type,
+      mutation,
+      mutationButton,
+      editButton
+    } = this.props
     return (
       <Editable>
         {({ editing, startEditing, stopEditing, newValue, updateValue }) => (
@@ -73,7 +82,11 @@ class DetailsEditable extends Component {
               </DetailsValue>
               {editing ? null : (
                 <Action>
-                  <Button onClick={startEditing}>Transfer</Button>
+                  {editButton ? (
+                    <Button onClick={startEditing}>{editButton}</Button>
+                  ) : (
+                    <Pencil onClick={startEditing} />
+                  )}
                 </Action>
               )}
             </DetailsContent>
@@ -82,14 +95,15 @@ class DetailsEditable extends Component {
               <>
                 <EditRecord>
                   <Input value={newValue} onChange={updateValue} />
-                  {console.log(newValue)}
                   {addressUtils.isAddress(newValue) ? 'cool' : null}
                 </EditRecord>
                 <SaveContainer>
                   <Cancel type="hollow" onClick={stopEditing}>
                     Cancel
                   </Cancel>
-                  <Save onClick={() => {}}>Save</Save>
+                  <Save onClick={() => {}}>
+                    {mutationButton ? mutationButton : 'Save'}
+                  </Save>
                 </SaveContainer>
               </>
             ) : (

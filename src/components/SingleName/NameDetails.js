@@ -4,17 +4,11 @@ import { Link, Route } from 'react-router-dom'
 
 import { HR } from '../Typography/Basic'
 import SubDomains from './SubDomains'
-import { SingleNameBlockies } from './SingleNameBlockies'
-import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import RecordsItem from './RecordsItem'
 import DetailsItemEditable from './DetailsItemEditable'
 
 import { formatDate } from '../../utils/dates'
-
-const EtherScanLink = styled(DefaultEtherScanLink)`
-  display: flex;
-`
 
 const Details = styled('section')`
   padding: 40px;
@@ -69,6 +63,8 @@ class NameDetails extends Component {
                 keyName="Owner"
                 value={domain.owner}
                 isOwner={isOwner}
+                editButton="Transfer"
+                mutationValue="Transfer"
               />
               {domain.registrationDate ? (
                 <DetailsItem>
@@ -83,18 +79,12 @@ class NameDetails extends Component {
               {parseInt(domain.resolver, 16) !== 0 ? (
                 <Fragment>
                   <HR />
-                  <DetailsItem>
-                    <DetailsKey>Resolver</DetailsKey>
-                    <DetailsValue>
-                      <EtherScanLink address={domain.resolver}>
-                        <SingleNameBlockies
-                          address={domain.resolver}
-                          imageSize={24}
-                        />
-                        {domain.resolver}
-                      </EtherScanLink>
-                    </DetailsValue>
-                  </DetailsItem>
+                  <DetailsItemEditable
+                    keyName="Resolver"
+                    value={domain.resolver}
+                    isOwner={isOwner}
+                    mutationButton="Save"
+                  />
                 </Fragment>
               ) : (
                 <Fragment>
