@@ -24,6 +24,6 @@ deploy:
   skip_cleanup: true
   provider: surge
   project: ./build/
-  domain: flippant-error.surge.sh
+  domain: manager-beta.ens.domains
   on:
     branch: surge
