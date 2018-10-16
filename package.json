@@ -45,7 +45,7 @@
     "compile": "node --experimental-modules src/testing-utils/compileENS.mjs",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
-    "deploy:dev": "npm run build && npm run postbuild && npm run surge -p build -d manager-beta.ens.domains",
+    "deploy:dev": "npm run build && npm run postbuild && surge -p build -d manager-beta.ens.domains",
     "deploy:beta": "npm run build && npm run postbuild && npm run surge -p build -d manager-beta.ens.domains"
   },
   "prettier": {
