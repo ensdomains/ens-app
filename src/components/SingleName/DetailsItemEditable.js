@@ -40,7 +40,8 @@ const Input = styled(DefaultInput)`
 const Action = styled('div')`
   position: absolute;
   right: 10px;
-  top: 0;
+  top: 50%;
+  transform: translate(0, -65%);
 `
 
 const SaveContainer = styled('div')`
@@ -62,7 +63,9 @@ class DetailsEditable extends Component {
       type,
       mutation,
       mutationButton,
-      editButton
+      editButton,
+      domain,
+      variableName
     } = this.props
     return (
       <Editable>
@@ -101,7 +104,19 @@ class DetailsEditable extends Component {
                   <Cancel type="hollow" onClick={stopEditing}>
                     Cancel
                   </Cancel>
-                  <Save onClick={() => {}}>
+                  <Save
+                    onClick={() => {
+                      console.log('hello')
+                      const obj = {
+                        name: domain.name,
+                        [variableName ? variableName : 'address']: newValue
+                      }
+                      console.log(obj)
+                      mutation({
+                        variables: obj
+                      })
+                    }}
+                  >
                     {mutationButton ? mutationButton : 'Save'}
                   </Save>
                 </SaveContainer>

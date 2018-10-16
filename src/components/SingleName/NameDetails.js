@@ -1,12 +1,15 @@
 import React, { Fragment, Component } from 'react'
 import styled from 'react-emotion'
 import { Link, Route } from 'react-router-dom'
+import { Mutation } from 'react-apollo'
 
 import { HR } from '../Typography/Basic'
 import SubDomains from './SubDomains'
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import RecordsItem from './RecordsItem'
 import DetailsItemEditable from './DetailsItemEditable'
+
+import { SET_OWNER } from '../../graphql/mutations'
 
 import { formatDate } from '../../utils/dates'
 
@@ -57,13 +60,19 @@ class NameDetails extends Component {
                   </DetailsValue>
                 </DetailsItem>
               )}
-              <DetailsItemEditable
-                keyName="Owner"
-                value={domain.owner}
-                isOwner={isOwner}
-                editButton="Transfer"
-                mutationValue="Transfer"
-              />
+              <Mutation mutation={SET_OWNER}>
+                {mutation => (
+                  <DetailsItemEditable
+                    domain={domain}
+                    keyName="Owner"
+                    value={domain.owner}
+                    isOwner={isOwner}
+                    editButton="Transfer"
+                    mutationValue="Transfer"
+                    mutation={mutation}
+                  />
+                )}
+              </Mutation>
               {domain.registrationDate ? (
                 <DetailsItem>
                   <DetailsKey>Registration Date</DetailsKey>
@@ -96,23 +105,25 @@ class NameDetails extends Component {
               {this.hasAnyRecord(domain) && (
                 <Records>
                   <RecordsTitle>Pointers</RecordsTitle>
-                  {parseInt(domain.resolver, 16) !== 0 &&
-                    domain.addr && (
-                      <RecordsItem
-                        isOwner={isOwner}
-                        keyName="Address"
-                        value={domain.addr}
-                        type="address"
-                      />
-                    )}
-                  {parseInt(domain.resolver, 16) !== 0 &&
-                    parseInt(domain.content, 16) !== 0 && (
-                      <RecordsItem
-                        isOwner={isOwner}
-                        keyName="Content"
-                        value={domain.content}
-                      />
-                    )}
+                  {parseInt(domain.resolver, 16) !== 0 ||
+                    (domain.addr !== '0x' &&
+                      domain.addr && (
+                        <RecordsItem
+                          isOwner={isOwner}
+                          keyName="Address"
+                          value={domain.addr}
+                          type="address"
+                        />
+                      ))}
+                  {parseInt(domain.resolver, 16) !== 0 ||
+                    (domain.content !== '0x' &&
+                      parseInt(domain.content, 16) !== 0 && (
+                        <RecordsItem
+                          isOwner={isOwner}
+                          keyName="Content"
+                          value={domain.content}
+                        />
+                      ))}
                 </Records>
               )}
             </Details>

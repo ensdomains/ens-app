@@ -212,17 +212,19 @@ const resolvers = {
     }
   },
   Mutation: {
-    setOwner: async (_, { name, ownerAddress }, { cache }) => {
+    setOwner: async (_, { name, address }, { cache }) => {
+      console.log('here in setOwner')
       try {
-        const tx = await setOwner(name, ownerAddress)
+        const tx = await setOwner(name, address)
         console.log(tx)
       } catch (e) {
         console.log(e)
       }
     },
-    setResolver: async (_, { name, resolverAddress }, { cache }) => {
+    setResolver: async (_, { name, address }, { cache }) => {
+      console.log('here in setResolver')
       try {
-        const tx = await setResolver(name, resolverAddress)
+        const tx = await setResolver(name, address)
         console.log(tx)
       } catch (e) {
         console.log(e)
