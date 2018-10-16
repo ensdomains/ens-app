@@ -38,15 +38,15 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "CI=false react-scripts build",
+    "postbuild": "cp build/index.html build/200.html",
     "test": "react-scripts test --env=jsdom",
     "test:coverage": "npm test -- --coverage",
     "eject": "react-scripts eject",
     "compile": "node --experimental-modules src/testing-utils/compileENS.mjs",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
-    "preDeploy": "cd ./build && mv index.html 200.html && cd ..",
-    "deploy:dev": "npm run build && npm run preDeploy && surge ./build --domain ensappdev.surge.sh",
-    "deploy:beta": "npm run build && npm run preDeploy && surge ./build --domain manager-beta.ens.domains"
+    "deploy:dev": "npm run build && npm run postbuild && npm run surge -p build -d manager-beta.ens.domains",
+    "deploy:beta": "npm run build && npm run postbuild && npm run surge -p build -d manager-beta.ens.domains"
   },
   "prettier": {
     "semi": false,
