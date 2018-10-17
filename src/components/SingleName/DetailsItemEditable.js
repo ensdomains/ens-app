@@ -6,6 +6,7 @@ import { SingleNameBlockies } from './SingleNameBlockies'
 import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import Editable from './Editable'
+import SaveCancel from './SaveCancel'
 import DefaultInput from '../Forms/Input'
 import Button from '../Forms/Button'
 import Pencil from '../Forms/Pencil'
@@ -43,17 +44,6 @@ const Action = styled('div')`
   right: 10px;
   top: 50%;
   transform: translate(0, -65%);
-`
-
-const SaveContainer = styled('div')`
-  display: flex;
-  justify-content: flex-end;
-`
-
-const Save = styled(Button)``
-
-const Cancel = styled(Button)`
-  margin-right: 20px;
 `
 
 class DetailsEditable extends Component {
@@ -101,24 +91,19 @@ class DetailsEditable extends Component {
                   <Input value={newValue} onChange={updateValue} />
                   {addressUtils.isAddress(newValue) ? 'cool' : null}
                 </EditRecord>
-                <SaveContainer>
-                  <Cancel type="hollow" onClick={stopEditing}>
-                    Cancel
-                  </Cancel>
-                  <Save
-                    onClick={() => {
-                      const variables = {
-                        name: domain.name,
-                        [variableName ? variableName : 'address']: newValue
-                      }
-                      mutation({
-                        variables
-                      })
-                    }}
-                  >
-                    {mutationButton ? mutationButton : 'Save'}
-                  </Save>
-                </SaveContainer>
+                <SaveCancel
+                  stopEditing={stopEditing}
+                  mutation={() => {
+                    const variables = {
+                      name: domain.name,
+                      [variableName ? variableName : 'address']: newValue
+                    }
+                    mutation({
+                      variables
+                    })
+                  }}
+                  mutationButton={mutationButton}
+                />
               </>
             ) : (
               ''

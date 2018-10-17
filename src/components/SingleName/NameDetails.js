@@ -8,6 +8,7 @@ import SubDomains from './SubDomains'
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import RecordsItem from './RecordsItem'
 import DetailsItemEditable from './DetailsItemEditable'
+import AddRecord from './AddRecord'
 
 import {
   SET_OWNER,
@@ -27,18 +28,6 @@ const Records = styled('div')`
   border-radius: 6px;
   border: 1px solid #ededed;
   box-shadow: inset 0 0 10px 0 rgba(235, 235, 235, 0.5);
-`
-
-const RecordsTitle = styled('h3')`
-  /* Pointers: */
-  font-family: Overpass-Bold;
-  font-size: 12px;
-  color: #adbbcd;
-  letter-spacing: 0.5px;
-  background: #f0f6fa;
-  text-transform: uppercase;
-  margin: 0;
-  padding: 10px 20px;
 `
 
 class NameDetails extends Component {
@@ -115,7 +104,7 @@ class NameDetails extends Component {
               )}
               {this.hasAnyRecord(domain) && (
                 <Records>
-                  <RecordsTitle>Pointers</RecordsTitle>
+                  <AddRecord title="Records" isOwner={isOwner} />
                   {parseInt(domain.resolver, 16) !== 0 ||
                     (domain.addr !== '0x' &&
                       domain.addr && (

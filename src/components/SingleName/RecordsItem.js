@@ -9,6 +9,7 @@ import Button from '../Forms/Button'
 import Pencil from '../Forms/Pencil'
 import Bin from '../Forms/Bin'
 import Editable from './Editable'
+import SaveCancel from './SaveCancel'
 
 const EtherScanLink = styled(DefaultEtherScanLink)`
   display: flex;
@@ -53,17 +54,6 @@ const Action = styled('div')`
   top: 0;
 `
 
-const SaveContainer = styled('div')`
-  display: flex;
-  justify-content: flex-end;
-`
-
-const Save = styled(Button)``
-
-const Cancel = styled(Button)`
-  margin-right: 20px;
-`
-
 class RecordItem extends Component {
   _renderEditable() {
     const { keyName, value, type, mutation } = this.props
@@ -96,12 +86,7 @@ class RecordItem extends Component {
                 <EditRecord>
                   <Input onChange={updateValue} />
                 </EditRecord>
-                <SaveContainer>
-                  <Cancel type="hollow" onClick={stopEditing}>
-                    Cancel
-                  </Cancel>
-                  <Save onClick={() => {}}>Save</Save>
-                </SaveContainer>
+                <SaveCancel mutation={() => {}} stopEditing={stopEditing} />
               </>
             ) : (
               ''
