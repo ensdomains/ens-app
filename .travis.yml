@@ -22,7 +22,8 @@ deploy:
   project: ./build/
   domain: manager-beta.ens.domains
   skip_cleanup: true
-on: surge
+  on:
+    branch: surge
 
 notifications:
   email: false
