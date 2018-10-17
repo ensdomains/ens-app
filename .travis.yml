@@ -17,13 +17,5 @@ matrix:
 script:
   - npm run build
 
-deploy:
-  provider: surge
-  project: ./build/
-  domain: manager-beta.ens.domains
-  skip_cleanup: true
-  on:
-    branch: surge
-
 notifications:
   email: false
