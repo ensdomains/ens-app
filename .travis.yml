@@ -12,14 +12,17 @@ install:
   - npm install -g surge
 
 matrix:
-  fast_finish: true
   allow_failures:
 
-branches:
-  only:
-    - surge
 script:
-  - npm run deploy:beta
+  - npm run build
+
+deploy:
+  provider: surge
+  project: ./build/
+  domain: manager-beta.ens.domains
+  skip_cleanup: true
+on: surge
 
 notifications:
   email: false
