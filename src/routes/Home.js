@@ -76,7 +76,7 @@ const Search = styled(SearchDefault)`
 const NetworkStatus = styled('div')`
   position: absolute;
   top: 20px;
-  right: 40px;
+  left: 40px;
   color: white;
   font-weight: 200;
   text-transform: capitalize;
