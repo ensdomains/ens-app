@@ -105,25 +105,23 @@ class NameDetails extends Component {
               {this.hasAnyRecord(domain) && (
                 <Records>
                   <AddRecord title="Records" isOwner={isOwner} />
-                  {parseInt(domain.resolver, 16) !== 0 ||
-                    (domain.addr !== '0x' &&
-                      domain.addr && (
-                        <RecordsItem
-                          isOwner={isOwner}
-                          keyName="Address"
-                          value={domain.addr}
-                          type="address"
-                        />
-                      ))}
-                  {parseInt(domain.resolver, 16) !== 0 ||
-                    (domain.content !== '0x' &&
-                      parseInt(domain.content, 16) !== 0 && (
-                        <RecordsItem
-                          isOwner={isOwner}
-                          keyName="Content"
-                          value={domain.content}
-                        />
-                      ))}
+                  {parseInt(domain.resolver, 16) !== 0 &&
+                    (parseInt(domain.addr, 16) !== 0 && (
+                      <RecordsItem
+                        isOwner={isOwner}
+                        keyName="Address"
+                        value={domain.addr}
+                        type="address"
+                      />
+                    ))}
+                  {parseInt(domain.resolver, 16) !== 0 &&
+                    (parseInt(domain.content, 16) !== 0 && (
+                      <RecordsItem
+                        isOwner={isOwner}
+                        keyName="Content"
+                        value={domain.content}
+                      />
+                    ))}
                 </Records>
               )}
             </Details>
