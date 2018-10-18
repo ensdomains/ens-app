@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import styled from 'react-emotion'
 import Editable from './Editable'
 import SaveCancel from './SaveCancel'
+import DefaultInput from '../Forms/Input'
+import Select from '../Forms/Select'
 
 const ToggleAddRecord = styled('span')`
   font-size: 22px;
@@ -33,6 +35,16 @@ const AddRecordForm = styled('form')`
   padding: 20px;
 `
 
+const Row = styled('div')`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+`
+
+const Input = styled(DefaultInput)`
+  margin-left: 20px;
+`
+
 class AddRecord extends Component {
   _renderEditable() {
     return (
@@ -51,6 +63,21 @@ class AddRecord extends Component {
               {editing && (
                 <AddRecordForm>
                   Add a record
+                  <Row>
+                    <Select
+                      options={[
+                        {
+                          label: 'Address',
+                          value: 'addr'
+                        },
+                        {
+                          label: 'Content',
+                          value: 'content'
+                        }
+                      ]}
+                    />
+                    <Input value={newValue} onChange={updateValue} />
+                  </Row>
                   <SaveCancel stopEditing={stopEditing} mutation={() => {}} />
                 </AddRecordForm>
               )}
