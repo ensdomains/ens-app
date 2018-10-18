@@ -6,11 +6,12 @@ language: node_js
 
 node_js:
   - "10"
+
 install:
-  - npm -g install gh-pages
   - npm install
+  - npm install -g surge
+
 matrix:
-  fast_finish: true
   allow_failures:
 
 script:
