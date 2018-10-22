@@ -60,7 +60,7 @@ const PendingTx = styled(DefaultPendingTx)`
 
 class DetailsEditable extends Component {
   _renderEditable() {
-    const {
+    let {
       keyName,
       value,
       type = 'address',
@@ -71,9 +71,11 @@ class DetailsEditable extends Component {
       domain,
       variableName,
       event,
-      query,
-      variables
+      refetch
     } = this.props
+    if (keyName === 'Resolver' && parseInt(value, 16) === 0) {
+      value = 'No Resolver Set'
+    }
     return (
       <Editable>
         {({
@@ -103,6 +105,7 @@ class DetailsEditable extends Component {
                       if (log.transactionHash === txHash) {
                         event.stopWatching()
                         setConfirmed()
+                        refetch()
                       }
                     }
                   )
@@ -124,7 +127,7 @@ class DetailsEditable extends Component {
                       )}
                     </DetailsValue>
                     {/* Refetches the domain details*/}
-                    {confirmed && (
+                    {/* {confirmed && (
                       <Query
                         query={query}
                         variables={variables}
@@ -132,7 +135,7 @@ class DetailsEditable extends Component {
                       >
                         {() => null}
                       </Query>
-                    )}
+                    )} */}
                     {editing ? null : pending && !confirmed ? (
                       <PendingTx />
                     ) : (
@@ -184,7 +187,11 @@ class DetailsEditable extends Component {
   }
 
   _renderViewOnly() {
-    const { value, keyName } = this.props
+    let { value, keyName } = this.props
+
+    if (keyName === 'Resolver' && parseInt(value, 16) === 0) {
+      value = 'No Resolver Set'
+    }
     return (
       <DetailsEditableContainer>
         <DetailsContent>

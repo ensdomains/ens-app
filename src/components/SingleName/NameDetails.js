@@ -53,7 +53,7 @@ class NameDetails extends Component {
     }
   }
   render() {
-    const { domain, isOwner, query, variables } = this.props
+    const { domain, isOwner, refetch } = this.props
     return (
       <Fragment>
         <Route
@@ -79,8 +79,7 @@ class NameDetails extends Component {
                 mutation={SET_OWNER}
                 mutationName="setOwner"
                 event="Transfer"
-                query={query}
-                variables={variables}
+                refetch={refetch}
               />
               {domain.registrationDate ? (
                 <DetailsItem>
@@ -92,31 +91,18 @@ class NameDetails extends Component {
               ) : (
                 ''
               )}
-              {parseInt(domain.resolver, 16) !== 0 ? (
-                <>
-                  <HR />
-                  <DetailsItemEditable
-                    keyName="Resolver"
-                    value={domain.resolver}
-                    isOwner={isOwner}
-                    domain={domain}
-                    mutationButton="Save"
-                    mutation={SET_RESOLVER}
-                    mutationName="setResolver"
-                    event="NewResolver"
-                    query={query}
-                    variables={variables}
-                  />
-                </>
-              ) : (
-                <Fragment>
-                  <HR />
-                  <DetailsItem>
-                    <DetailsKey greyed>Resolver</DetailsKey>
-                    <DetailsValue greyed>No resolver set</DetailsValue>
-                  </DetailsItem>
-                </Fragment>
-              )}
+              <HR />
+              <DetailsItemEditable
+                keyName="Resolver"
+                value={domain.resolver}
+                isOwner={isOwner}
+                domain={domain}
+                mutationButton="Save"
+                mutation={SET_RESOLVER}
+                mutationName="setResolver"
+                event="NewResolver"
+                refetch={refetch}
+              />
               <Records>
                 <AddRecord title="Records" isOwner={isOwner} domain={domain} />
                 {this.hasAnyRecord(domain) && (

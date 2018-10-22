@@ -56,6 +56,7 @@ const Action = styled('div')`
 class RecordItem extends Component {
   _renderEditable() {
     const { keyName, value, type, mutation } = this.props
+
     return (
       <Editable>
         {({ editing, startEditing, stopEditing, newValue, updateValue }) => (

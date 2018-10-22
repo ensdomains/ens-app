@@ -39,7 +39,7 @@ class SingleName extends Component {
     if (this.state.valid) {
       return (
         <Query query={GET_SINGLE_NAME} variables={{ name: searchTerm }}>
-          {({ loading, error, data }) => {
+          {({ loading, error, data, refetch }) => {
             if (loading) return <Loader large center />
             if (error)
               return <div>{(console.log(error), JSON.stringify(error))}</div>
@@ -48,8 +48,7 @@ class SingleName extends Component {
                 details={data.singleName}
                 name={searchTerm}
                 pathname={pathname}
-                query={GET_SINGLE_NAME}
-                variables={{ name: searchTerm }}
+                refetch={refetch}
               />
             )
           }}
