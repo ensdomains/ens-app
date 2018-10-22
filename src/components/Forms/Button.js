@@ -2,12 +2,35 @@ import React from 'react'
 import styled from 'react-emotion'
 import { Link } from 'react-router-dom'
 
-function getButtonStyles(type) {
+function getButtonStyles({ type, color }) {
   switch (type) {
+    case 'primary':
+      return `
+        &:hover {
+          cursor: pointer;
+          border: 2px solid ${color[1]};
+          background: #2c46a6;
+          box-shadow: 0 10px 21px 0 rgba(161, 175, 184, 0.89);
+          border-radius: 23px;
+        }
+      `
     case 'hollow':
       return `
         color: #DFDFDF;
         border: 2px solid #DFDFDF;
+        &:hover {
+          cursor: pointer;
+          border: 2px solid ${color[1]};
+          background: #2c46a6;
+          box-shadow: 0 10px 21px 0 rgba(161, 175, 184, 0.89);
+        }
+      `
+    case 'disabled':
+      return `
+        &:hover {
+          cursor: default
+        }
+        
       `
     default:
       return ''
@@ -28,19 +51,11 @@ const ButtonContainer = styled('button')`
   transition: 0.2s all;
   border: 2px solid ${p => p.color[0]};
 
-  &:hover {
-    cursor: pointer;
-    border: 2px solid ${p => p.color[1]};
-    background: #2c46a6;
-    box-shadow: 0 10px 21px 0 rgba(161, 175, 184, 0.89);
-    border-radius: 23px;
-  }
-
   &:focus {
     outline: 0;
   }
 
-  ${({ type }) => getButtonStyles(type)} a {
+  ${p => getButtonStyles(p)} a {
     color: white;
     &:focus {
       outline: 0;
@@ -51,7 +66,8 @@ const ButtonContainer = styled('button')`
 const types = {
   primary: ['#5384FE', '#2c46a6'],
   inactive: ['#DFDFDF', '#DFDFDF'],
-  hollow: ['transparent', 'transparent']
+  hollow: ['transparent', 'transparent'],
+  disabled: ['#ccc', '#ccc']
 }
 
 const Button = ({ children, type = 'primary', onClick, className }) => (

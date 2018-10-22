@@ -31,11 +31,27 @@ const Records = styled('div')`
 `
 
 class NameDetails extends Component {
+  isEmpty(record) {
+    if (parseInt(record, 16) === 0) {
+      return true
+    }
+    if (record === '0x') {
+      return true
+    }
+
+    return false
+  }
   hasAnyRecord(domain) {
     if (parseInt(domain.resolver, 16) === 0) {
       return false
     }
-    return parseInt(domain.addr, 16) !== 0 || parseInt(domain.content, 16) !== 0
+    if (!this.isEmpty(domain.addr)) {
+      return true
+    }
+
+    if (!this.isEmpty(domain.content)) {
+      return true
+    }
   }
   render() {
     const { domain, isOwner } = this.props
@@ -102,28 +118,28 @@ class NameDetails extends Component {
                   </DetailsItem>
                 </Fragment>
               )}
-              {this.hasAnyRecord(domain) && (
-                <Records>
-                  <AddRecord title="Records" isOwner={isOwner} />
-                  {parseInt(domain.resolver, 16) !== 0 &&
-                    (parseInt(domain.addr, 16) !== 0 && (
+              <Records>
+                <AddRecord title="Records" isOwner={isOwner} domain={domain} />
+                {this.hasAnyRecord(domain) && (
+                  <>
+                    {!this.isEmpty(domain.addr) && (
                       <RecordsItem
                         isOwner={isOwner}
                         keyName="Address"
                         value={domain.addr}
                         type="address"
                       />
-                    ))}
-                  {parseInt(domain.resolver, 16) !== 0 &&
-                    (parseInt(domain.content, 16) !== 0 && (
+                    )}
+                    {!this.isEmpty(domain.content) && (
                       <RecordsItem
                         isOwner={isOwner}
                         keyName="Content"
                         value={domain.content}
                       />
-                    ))}
-                </Records>
-              )}
+                    )}
+                  </>
+                )}
+              </Records>
             </Details>
           )}
         />

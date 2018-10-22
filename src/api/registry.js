@@ -69,6 +69,7 @@ export async function setAddress(name, address) {
   let { ENS } = await getENS()
   let accounts = await getAccounts()
   let resolver = await ENS.resolver(name)
+  console.log(name, address)
   return resolver.setAddr(address, { from: accounts[0] })
 }
 

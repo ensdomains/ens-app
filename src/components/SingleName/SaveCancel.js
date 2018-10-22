@@ -13,12 +13,16 @@ const Cancel = styled(Button)`
   margin-right: 20px;
 `
 
-const SaveCancel = ({ mutation, mutationButton, stopEditing }) => (
+const SaveCancel = ({ mutation, mutationButton, stopEditing, disabled }) => (
   <SaveCancelContainer>
     <Cancel type="hollow" onClick={stopEditing}>
       Cancel
     </Cancel>
-    <Save onClick={mutation}>{mutationButton ? mutationButton : 'Save'}</Save>
+    {disabled ? (
+      <Save type="disabled">{mutationButton ? mutationButton : 'Save'}</Save>
+    ) : (
+      <Save onClick={mutation}>{mutationButton ? mutationButton : 'Save'}</Save>
+    )}
   </SaveCancelContainer>
 )
 

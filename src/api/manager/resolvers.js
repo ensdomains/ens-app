@@ -231,6 +231,7 @@ const resolvers = {
       }
     },
     setAddress: async (_, { name, address }, { cache }) => {
+      console.log(name, address, 'setAddress')
       try {
         const tx = await setAddress(name, address)
         console.log(tx)

@@ -65,7 +65,7 @@ export const SET_ADDRESS = gql`
 `
 
 export const SET_CONTENT = gql`
-  mutation setAddress($name: String, $content: String) {
-    setAddress(name: $name, content: $content) @client
+  mutation setContent($name: String, $content: String) {
+    setContent(name: $name, content: $content) @client
   }
 `

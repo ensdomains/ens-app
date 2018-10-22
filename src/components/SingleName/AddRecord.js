@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
 import styled from 'react-emotion'
+import { Mutation } from 'react-apollo'
+
 import Editable from './Editable'
 import SaveCancel from './SaveCancel'
 import DefaultInput from '../Forms/Input'
 import Select from '../Forms/Select'
+
+import { SET_CONTENT, SET_ADDRESS } from '../../graphql/mutations'
 
 const ToggleAddRecord = styled('span')`
   font-size: 22px;
@@ -46,7 +50,29 @@ const Input = styled(DefaultInput)`
 `
 
 class AddRecord extends Component {
+  state = {
+    selectedRecord: null
+  }
+
+  _chooseMutation(recordType) {
+    switch (recordType.value) {
+      case 'content':
+        console.log()
+        return SET_CONTENT
+      case 'address':
+        return SET_ADDRESS
+      default:
+        throw new Error('Not a recognised record type')
+    }
+  }
+
+  handleChange = selectedRecord => {
+    this.setState({ selectedRecord })
+    console.log(`Option selected:`, selectedRecord)
+  }
   _renderEditable() {
+    const { selectedRecord } = this.state
+    const { domain } = this.props
     return (
       <AddRecordContainer>
         <Editable>
@@ -65,10 +91,12 @@ class AddRecord extends Component {
                   Add a record
                   <Row>
                     <Select
+                      selectedRecord={selectedRecord}
+                      handleChange={this.handleChange}
                       options={[
                         {
                           label: 'Address',
-                          value: 'addr'
+                          value: 'address'
                         },
                         {
                           label: 'Content',
@@ -78,7 +106,31 @@ class AddRecord extends Component {
                     />
                     <Input value={newValue} onChange={updateValue} />
                   </Row>
-                  <SaveCancel stopEditing={stopEditing} mutation={() => {}} />
+                  {selectedRecord ? (
+                    <Mutation
+                      mutation={this._chooseMutation(selectedRecord)}
+                      variables={{
+                        name: domain.name,
+                        [selectedRecord.value]: newValue
+                      }}
+                    >
+                      {mutate => (
+                        <SaveCancel
+                          stopEditing={() => {
+                            stopEditing()
+                            this.setState({ selectedRecord: null })
+                          }}
+                          something={console.log(newValue)}
+                          mutation={e => {
+                            e.preventDefault()
+                            mutate()
+                          }}
+                        />
+                      )}
+                    </Mutation>
+                  ) : (
+                    <SaveCancel stopEditing={stopEditing} disabled />
+                  )}
                 </AddRecordForm>
               )}
             </>
