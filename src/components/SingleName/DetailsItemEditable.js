@@ -75,6 +75,7 @@ class DetailsEditable extends Component {
     } = this.props
     if (keyName === 'Resolver' && parseInt(value, 16) === 0) {
       value = 'No Resolver Set'
+      type = 'message'
     }
     return (
       <Editable>
@@ -187,20 +188,25 @@ class DetailsEditable extends Component {
   }
 
   _renderViewOnly() {
-    let { value, keyName } = this.props
+    let { value, keyName, type } = this.props
 
     if (keyName === 'Resolver' && parseInt(value, 16) === 0) {
       value = 'No Resolver Set'
+      type = 'message'
     }
     return (
       <DetailsEditableContainer>
         <DetailsContent>
           <DetailsKey>{keyName}</DetailsKey>
           <DetailsValue>
-            <EtherScanLink address={value}>
-              <SingleNameBlockies address={value} imageSize={24} />
-              {value}
-            </EtherScanLink>
+            {type === 'address' ? (
+              <EtherScanLink address={value}>
+                <SingleNameBlockies address={value} imageSize={24} />
+                {value}
+              </EtherScanLink>
+            ) : (
+              value
+            )}
           </DetailsValue>
         </DetailsContent>
       </DetailsEditableContainer>
