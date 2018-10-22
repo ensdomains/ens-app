@@ -3,7 +3,8 @@ import { Component } from 'react'
 class Editable extends Component {
   state = {
     editing: false,
-    newValue: ''
+    newValue: '',
+    pending: false
   }
 
   updateValue = e => {
@@ -12,14 +13,22 @@ class Editable extends Component {
   }
   startEditing = () => this.setState({ editing: true })
   stopEditing = () => this.setState({ editing: false })
+  startPending = () => this.setState({ pending: true })
+  stopPending = () => this.setState({ pending: true })
 
   render() {
     return this.props.children({
+      //Editing state
       editing: this.state.editing,
-      newValue: this.state.newValue,
       startEditing: this.startEditing,
       stopEditing: this.stopEditing,
-      updateValue: this.updateValue
+      //Input Value
+      newValue: this.state.newValue,
+      updateValue: this.updateValue,
+      //trigger pending state
+      pending: this.state.pending,
+      startPending: this.startPending,
+      stopPending: this.stopPending
     })
   }
 }

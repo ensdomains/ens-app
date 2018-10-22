@@ -60,7 +60,16 @@ class DetailsEditable extends Component {
     } = this.props
     return (
       <Editable>
-        {({ editing, startEditing, stopEditing, newValue, updateValue }) => (
+        {({
+          editing,
+          startEditing,
+          stopEditing,
+          newValue,
+          updateValue,
+          startPending,
+          stopPending,
+          pending
+        }) => (
           <DetailsEditableContainer editing={editing}>
             <DetailsContent editing={editing}>
               <DetailsKey>{keyName}</DetailsKey>
@@ -101,6 +110,9 @@ class DetailsEditable extends Component {
                     mutation({
                       variables
                     })
+                  }}
+                  onCompleted={data => {
+                    startPending()
                   }}
                   mutationButton={mutationButton}
                 />
