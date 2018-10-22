@@ -100,14 +100,16 @@ class RecordItem extends Component {
     const { keyName, value, type } = this.props
     return (
       <RecordsItem>
-        <RecordsKey>{keyName}</RecordsKey>
-        <RecordsValue>
-          {type === 'address' ? (
-            <EtherScanLink address={value}>{value}</EtherScanLink>
-          ) : (
-            value
-          )}
-        </RecordsValue>
+        <RecordsContent>
+          <RecordsKey>{keyName}</RecordsKey>
+          <RecordsValue>
+            {type === 'address' ? (
+              <EtherScanLink address={value}>{value}</EtherScanLink>
+            ) : (
+              value
+            )}
+          </RecordsValue>
+        </RecordsContent>
       </RecordsItem>
     )
   }
