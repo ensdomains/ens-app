@@ -90,7 +90,7 @@ const Favourite = styled(DefaultFavourite)``
 
 class Name extends Component {
   render() {
-    const { details: domain, name, pathname } = this.props
+    const { details: domain, name, pathname, query, variables } = this.props
     const timeLeft = getTimeLeft(domain)
     const percentDone = getPercentTimeLeft(timeLeft, domain)
     return (
@@ -134,6 +134,8 @@ class Name extends Component {
                   pathname={pathname}
                   name={name}
                   isOwner={isOwner}
+                  query={query}
+                  variables={variables}
                 />
               )}
             </NameContainer>

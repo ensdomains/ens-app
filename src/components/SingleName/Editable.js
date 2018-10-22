@@ -4,7 +4,8 @@ class Editable extends Component {
   state = {
     editing: false,
     newValue: '',
-    pending: false
+    pending: false,
+    confirmed: false
   }
 
   updateValue = e => {
@@ -13,8 +14,8 @@ class Editable extends Component {
   }
   startEditing = () => this.setState({ editing: true })
   stopEditing = () => this.setState({ editing: false })
-  startPending = () => this.setState({ pending: true })
-  stopPending = () => this.setState({ pending: true })
+  startPending = () => this.setState({ pending: true, editing: false })
+  setConfirmed = () => this.setState({ pending: true, confirmed: true })
 
   render() {
     return this.props.children({
@@ -27,8 +28,9 @@ class Editable extends Component {
       updateValue: this.updateValue,
       //trigger pending state
       pending: this.state.pending,
+      confirmed: this.state.confirmed,
       startPending: this.startPending,
-      stopPending: this.stopPending
+      setConfirmed: this.setConfirmed
     })
   }
 }

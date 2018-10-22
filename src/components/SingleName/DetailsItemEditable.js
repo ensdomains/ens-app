@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import styled from 'react-emotion'
+import { Mutation, Query } from 'react-apollo'
 import { addressUtils } from '@0xproject/utils'
+
+import { watchRegistryEvent } from '../../api/watchers'
 
 import { SingleNameBlockies } from './SingleNameBlockies'
 import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
@@ -10,6 +13,7 @@ import SaveCancel from './SaveCancel'
 import DefaultInput from '../Forms/Input'
 import Button from '../Forms/Button'
 import Pencil from '../Forms/Pencil'
+import DefaultPendingTx from '../PendingTx'
 
 const EtherScanLink = styled(DefaultEtherScanLink)`
   display: flex;
@@ -46,6 +50,13 @@ const Action = styled('div')`
   transform: translate(0, -65%);
 `
 
+const PendingTx = styled(DefaultPendingTx)`
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translate(0, -65%);
+`
+
 class DetailsEditable extends Component {
   _renderEditable() {
     const {
@@ -54,9 +65,13 @@ class DetailsEditable extends Component {
       type,
       mutation,
       mutationButton,
+      mutationName,
       editButton,
       domain,
-      variableName
+      variableName,
+      event,
+      query,
+      variables
     } = this.props
     return (
       <Editable>
@@ -67,60 +82,88 @@ class DetailsEditable extends Component {
           newValue,
           updateValue,
           startPending,
-          stopPending,
-          pending
+          setConfirmed,
+          pending,
+          confirmed
         }) => (
-          <DetailsEditableContainer editing={editing}>
-            <DetailsContent editing={editing}>
-              <DetailsKey>{keyName}</DetailsKey>
-              <DetailsValue>
-                {type === 'address' ? (
-                  <EtherScanLink address={value}>
-                    <SingleNameBlockies address={value} imageSize={24} />
-                    {value}
-                  </EtherScanLink>
-                ) : (
-                  value
-                )}
-              </DetailsValue>
-              {editing ? null : (
-                <Action>
-                  {editButton ? (
-                    <Button onClick={startEditing}>{editButton}</Button>
-                  ) : (
-                    <Pencil onClick={startEditing} />
+          <Mutation
+            mutation={mutation}
+            onCompleted={data => {
+              const txHash = data[mutationName]
+              if (txHash) {
+                startPending()
+                watchRegistryEvent(event, domain.name, (error, log, event) => {
+                  if (log.transactionHash === txHash) {
+                    event.stopWatching()
+                    setConfirmed()
+                  }
+                })
+              }
+            }}
+          >
+            {mutation => (
+              <DetailsEditableContainer editing={editing}>
+                <DetailsContent editing={editing}>
+                  <DetailsKey>{keyName}</DetailsKey>
+                  <DetailsValue>
+                    {type === 'address' ? (
+                      <EtherScanLink address={value}>
+                        <SingleNameBlockies address={value} imageSize={24} />
+                        {value}
+                      </EtherScanLink>
+                    ) : (
+                      value
+                    )}
+                  </DetailsValue>
+                  {/* Refetches the domain details*/}
+                  {confirmed && (
+                    <Query
+                      query={query}
+                      variables={variables}
+                      fetchPolicy="cache-and-network"
+                    >
+                      {() => null}
+                    </Query>
                   )}
-                </Action>
-              )}
-            </DetailsContent>
+                  {editing ? null : pending && !confirmed ? (
+                    <PendingTx />
+                  ) : (
+                    <Action>
+                      {editButton ? (
+                        <Button onClick={startEditing}>{editButton}</Button>
+                      ) : (
+                        <Pencil onClick={startEditing} />
+                      )}
+                    </Action>
+                  )}
+                </DetailsContent>
 
-            {editing ? (
-              <>
-                <EditRecord>
-                  <Input value={newValue} onChange={updateValue} />
-                  {addressUtils.isAddress(newValue) ? 'cool' : null}
-                </EditRecord>
-                <SaveCancel
-                  stopEditing={stopEditing}
-                  mutation={() => {
-                    const variables = {
-                      name: domain.name,
-                      [variableName ? variableName : 'address']: newValue
-                    }
-                    mutation({
-                      variables
-                    })
-                  }}
-                  onCompleted={data => {
-                    startPending()
-                  }}
-                  mutationButton={mutationButton}
-                />
-              </>
-            ) : (
-              ''
+                {editing ? (
+                  <>
+                    <EditRecord>
+                      <Input value={newValue} onChange={updateValue} />
+                      {addressUtils.isAddress(newValue) ? 'cool' : null}
+                    </EditRecord>
+                    <SaveCancel
+                      stopEditing={stopEditing}
+                      mutation={() => {
+                        const variables = {
+                          name: domain.name,
+                          [variableName ? variableName : 'address']: newValue
+                        }
+                        mutation({
+                          variables
+                        })
+                      }}
+                      mutationButton={mutationButton}
+                    />
+                  </>
+                ) : (
+                  ''
+                )}
+              </DetailsEditableContainer>
             )}
-          </DetailsEditableContainer>
+          </Mutation>
         )}
       </Editable>
     )

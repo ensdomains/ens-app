@@ -48,6 +48,8 @@ class SingleName extends Component {
                 details={data.singleName}
                 name={searchTerm}
                 pathname={pathname}
+                query={GET_SINGLE_NAME}
+                variables={{ name: searchTerm }}
               />
             )
           }}

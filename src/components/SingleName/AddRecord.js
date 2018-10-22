@@ -57,7 +57,6 @@ class AddRecord extends Component {
   _chooseMutation(recordType) {
     switch (recordType.value) {
       case 'content':
-        console.log()
         return SET_CONTENT
       case 'address':
         return SET_ADDRESS

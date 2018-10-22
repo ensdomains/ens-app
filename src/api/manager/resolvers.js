@@ -217,6 +217,7 @@ const resolvers = {
       try {
         const tx = await setOwner(name, address)
         console.log(tx)
+        return tx
       } catch (e) {
         console.log(e)
       }
@@ -226,6 +227,7 @@ const resolvers = {
       try {
         const tx = await setResolver(name, address)
         console.log(tx)
+        return tx
       } catch (e) {
         console.log(e)
       }
@@ -235,6 +237,7 @@ const resolvers = {
       try {
         const tx = await setAddress(name, address)
         console.log(tx)
+        return tx
       } catch (e) {
         console.log(e)
       }
@@ -243,6 +246,7 @@ const resolvers = {
       try {
         const tx = await setContent(name, content)
         console.log(tx)
+        return tx
       } catch (e) {
         console.log(e)
       }

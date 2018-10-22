@@ -1,7 +1,6 @@
 import React, { Fragment, Component } from 'react'
 import styled from 'react-emotion'
 import { Link, Route } from 'react-router-dom'
-import { Mutation } from 'react-apollo'
 
 import { HR } from '../Typography/Basic'
 import SubDomains from './SubDomains'
@@ -54,7 +53,7 @@ class NameDetails extends Component {
     }
   }
   render() {
-    const { domain, isOwner } = this.props
+    const { domain, isOwner, query, variables } = this.props
     return (
       <Fragment>
         <Route
@@ -70,19 +69,19 @@ class NameDetails extends Component {
                   </DetailsValue>
                 </DetailsItem>
               )}
-              <Mutation mutation={SET_OWNER}>
-                {mutation => (
-                  <DetailsItemEditable
-                    domain={domain}
-                    keyName="Owner"
-                    value={domain.owner}
-                    isOwner={isOwner}
-                    editButton="Transfer"
-                    mutationButton="Transfer"
-                    mutation={mutation}
-                  />
-                )}
-              </Mutation>
+              <DetailsItemEditable
+                domain={domain}
+                keyName="Owner"
+                value={domain.owner}
+                isOwner={isOwner}
+                editButton="Transfer"
+                mutationButton="Transfer"
+                mutation={SET_OWNER}
+                mutationName="setOwner"
+                event="Transfer"
+                query={query}
+                variables={variables}
+              />
               {domain.registrationDate ? (
                 <DetailsItem>
                   <DetailsKey>Registration Date</DetailsKey>
@@ -94,21 +93,21 @@ class NameDetails extends Component {
                 ''
               )}
               {parseInt(domain.resolver, 16) !== 0 ? (
-                <Mutation mutation={SET_RESOLVER}>
-                  {mutation => (
-                    <>
-                      <HR />
-                      <DetailsItemEditable
-                        keyName="Resolver"
-                        value={domain.resolver}
-                        isOwner={isOwner}
-                        domain={domain}
-                        mutationButton="Save"
-                        mutation={mutation}
-                      />
-                    </>
-                  )}
-                </Mutation>
+                <>
+                  <HR />
+                  <DetailsItemEditable
+                    keyName="Resolver"
+                    value={domain.resolver}
+                    isOwner={isOwner}
+                    domain={domain}
+                    mutationButton="Save"
+                    mutation={SET_RESOLVER}
+                    mutationName="setResolver"
+                    event="NewResolver"
+                    query={query}
+                    variables={variables}
+                  />
+                </>
               ) : (
                 <Fragment>
                   <HR />
