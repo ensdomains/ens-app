@@ -158,6 +158,7 @@ class DetailsEditable extends Component {
                           onChange={updateValue}
                           valid={isValid}
                           invalid={isInvalid}
+                          placeholder="Type in a new Ethereum address"
                           large
                         />
                       </EditRecord>
