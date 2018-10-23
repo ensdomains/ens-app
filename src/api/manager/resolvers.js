@@ -222,29 +222,29 @@ const resolvers = {
         console.log(e)
       }
     },
-    setResolver: async (_, { name, address }, { cache }) => {
+    setResolver: async (_, { name, recordValue }, { cache }) => {
       console.log('here in setResolver')
       try {
-        const tx = await setResolver(name, address)
+        const tx = await setResolver(name, recordValue)
         console.log(tx)
         return tx
       } catch (e) {
         console.log(e)
       }
     },
-    setAddress: async (_, { name, address }, { cache }) => {
-      console.log(name, address, 'setAddress')
+    setAddress: async (_, { name, recordValue }, { cache }) => {
+      console.log(name, recordValue, 'setAddress')
       try {
-        const tx = await setAddress(name, address)
+        const tx = await setAddress(name, recordValue)
         console.log(tx)
         return tx
       } catch (e) {
         console.log(e)
       }
     },
-    setContent: async (_, { name, content }, { cache }) => {
+    setContent: async (_, { name, recordValue }, { cache }) => {
       try {
-        const tx = await setContent(name, content)
+        const tx = await setContent(name, recordValue)
         console.log(tx)
         return tx
       } catch (e) {

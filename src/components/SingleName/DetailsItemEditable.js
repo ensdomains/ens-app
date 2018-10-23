@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'react-emotion'
-import { Mutation, Query } from 'react-apollo'
+import { Mutation } from 'react-apollo'
 import { addressUtils } from '@0xproject/utils'
 import PropTypes from 'prop-types'
 

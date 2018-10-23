@@ -59,13 +59,13 @@ export const SET_OWNER = gql`
 `
 
 export const SET_ADDRESS = gql`
-  mutation setAddress($name: String, $address: String) {
-    setAddress(name: $name, address: $address) @client
+  mutation setAddress($name: String, $recordValue: String) {
+    setAddress(name: $name, recordValue: $recordValue) @client
   }
 `
 
 export const SET_CONTENT = gql`
-  mutation setContent($name: String, $content: String) {
-    setContent(name: $name, content: $content) @client
+  mutation setContent($name: String, $recordValue: String) {
+    setContent(name: $name, recordValue: $recordValue) @client
   }
 `

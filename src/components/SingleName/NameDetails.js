@@ -133,17 +133,29 @@ class NameDetails extends Component {
                   <>
                     {!this.isEmpty(domain.addr) && (
                       <RecordsItem
+                        domain={domain}
+                        resolver={domain.resolver}
                         isOwner={isOwner}
                         keyName="Address"
                         value={domain.addr}
+                        mutation={SET_ADDRESS}
+                        mutationName="setAddress"
                         type="address"
+                        event="AddrChanged"
+                        refetch={refetch}
                       />
                     )}
                     {!this.isEmpty(domain.content) && (
                       <RecordsItem
+                        domain={domain}
+                        resolver={domain.resolver}
                         isOwner={isOwner}
                         keyName="Content"
+                        mutation={SET_CONTENT}
+                        mutationName="setContent"
                         value={domain.content}
+                        event="ContentChanged"
+                        refetch={refetch}
                       />
                     )}
                   </>

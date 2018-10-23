@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'react-emotion'
+import { Mutation } from 'react-apollo'
+
+import { watchResolverEvent } from '../../api/watchers'
 
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
@@ -9,6 +12,7 @@ import Pencil from '../Forms/Pencil'
 import Bin from '../Forms/Bin'
 import Editable from './Editable'
 import SaveCancel from './SaveCancel'
+import DefaultPendingTx from '../PendingTx'
 
 const EtherScanLink = styled(DefaultEtherScanLink)`
   display: flex;
@@ -53,45 +57,113 @@ const Action = styled('div')`
   top: 0;
 `
 
+const PendingTx = styled(DefaultPendingTx)`
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translate(0, -65%);
+`
+
 class RecordItem extends Component {
   _renderEditable() {
-    const { keyName, value, type, mutation } = this.props
+    const {
+      resolver,
+      domain,
+      keyName,
+      value,
+      type,
+      mutation,
+      mutationName,
+      refetch,
+      variableName,
+      event
+    } = this.props
 
     return (
       <Editable>
-        {({ editing, startEditing, stopEditing, newValue, updateValue }) => (
-          <RecordsItem editing={editing}>
-            <RecordsContent editing={editing}>
-              <RecordsKey>{keyName}</RecordsKey>
-              <RecordsValue>
-                {type === 'address' ? (
-                  <EtherScanLink address={value}>{value}</EtherScanLink>
-                ) : (
-                  value
-                )}
-              </RecordsValue>
-              {editing ? (
-                <Action>
-                  <Bin />
-                </Action>
-              ) : (
-                <Action>
-                  <Pencil onClick={startEditing} />
-                </Action>
-              )}
-            </RecordsContent>
+        {({
+          editing,
+          startEditing,
+          stopEditing,
+          newValue,
+          updateValue,
+          startPending,
+          setConfirmed,
+          pending,
+          confirmed
+        }) => (
+          <Mutation
+            mutation={mutation}
+            onCompleted={data => {
+              const txHash = data[mutationName]
+              if (txHash) {
+                startPending()
+                watchResolverEvent(
+                  event,
+                  resolver,
+                  domain.name,
+                  (error, log, event) => {
+                    if (log.transactionHash === txHash) {
+                      event.stopWatching()
+                      setConfirmed()
+                      refetch()
+                    }
+                  }
+                )
+              }
+            }}
+          >
+            {mutation => (
+              <RecordsItem editing={editing}>
+                <RecordsContent editing={editing}>
+                  <RecordsKey>{keyName}</RecordsKey>
+                  <RecordsValue>
+                    {type === 'address' ? (
+                      <EtherScanLink address={value}>{value}</EtherScanLink>
+                    ) : (
+                      value
+                    )}
+                  </RecordsValue>
 
-            {editing ? (
-              <>
-                <EditRecord>
-                  <Input onChange={updateValue} />
-                </EditRecord>
-                <SaveCancel mutation={() => {}} stopEditing={stopEditing} />
-              </>
-            ) : (
-              ''
+                  {pending && !confirmed ? (
+                    <PendingTx />
+                  ) : editing ? (
+                    <Action>
+                      <Bin />
+                    </Action>
+                  ) : (
+                    <Action>
+                      <Pencil onClick={startEditing} />
+                    </Action>
+                  )}
+                </RecordsContent>
+
+                {editing ? (
+                  <>
+                    <EditRecord>
+                      <Input onChange={updateValue} />
+                    </EditRecord>
+                    <SaveCancel
+                      mutation={() => {
+                        const variables = {
+                          name: domain.name,
+                          [variableName
+                            ? variableName
+                            : 'recordValue']: newValue
+                        }
+                        mutation({
+                          variables
+                        })
+                      }}
+                      stopEditing={stopEditing}
+                    />
+                  </>
+                ) : (
+                  ''
+                )}
+              </RecordsItem>
             )}
-          </RecordsItem>
+          </Mutation>
         )}
       </Editable>
     )
@@ -121,10 +193,18 @@ class RecordItem extends Component {
 }
 
 RecordItem.propTypes = {
-  name: PropTypes.string,
-  value: PropTypes.string,
-  type: PropTypes.string,
-  mutation: PropTypes.func
+  resolver: PropTypes.string.isRequired, // resolver address
+  keyName: PropTypes.string.isRequired, // key of the record
+  value: PropTypes.string.isRequired, // value of the record (normally hex address)
+  type: PropTypes.string, // type of value. Defaults to address
+  mutation: PropTypes.object.isRequired, //graphql mutation string for making tx
+  mutationButton: PropTypes.string, // Mutation button text
+  mutationName: PropTypes.string.isRequired, // Mutation name for onComplete
+  editButton: PropTypes.string, //Edit button text
+  domain: PropTypes.object.isRequired,
+  variableName: PropTypes.string, //can change the variable name for mutation
+  event: PropTypes.string.isRequired, // event name to watch for transaction
+  refetch: PropTypes.func.isRequired
 }
 
 export default RecordItem
