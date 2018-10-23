@@ -213,7 +213,6 @@ const resolvers = {
   },
   Mutation: {
     setOwner: async (_, { name, address }, { cache }) => {
-      console.log('here in setOwner')
       try {
         const tx = await setOwner(name, address)
         console.log(tx)
@@ -233,7 +232,6 @@ const resolvers = {
       }
     },
     setAddress: async (_, { name, recordValue }, { cache }) => {
-      console.log(name, recordValue, 'setAddress')
       try {
         const tx = await setAddress(name, recordValue)
         console.log(tx)
