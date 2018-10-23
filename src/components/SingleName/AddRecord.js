@@ -47,6 +47,7 @@ const Row = styled('div')`
 
 const Input = styled(DefaultInput)`
   margin-left: 20px;
+  width: 100%;
 `
 
 class AddRecord extends Component {
@@ -71,37 +72,40 @@ class AddRecord extends Component {
   }
   _renderEditable() {
     const { selectedRecord } = this.state
-    const { domain } = this.props
+    const { domain, emptyRecords } = this.props
     return (
       <AddRecordContainer>
         <Editable>
-          {({ editing, startEditing, stopEditing, newValue, updateValue }) => (
+          {({
+            editing,
+            startEditing,
+            stopEditing,
+            newValue,
+            updateValue,
+            startPending,
+            setConfirmed,
+            pending,
+            confirmed
+          }) => (
             <>
               <RecordsTitle>
                 Records
-                {!editing ? (
-                  <ToggleAddRecord onClick={startEditing}>+</ToggleAddRecord>
-                ) : (
-                  <ToggleAddRecord onClick={stopEditing}>-</ToggleAddRecord>
-                )}
+                {emptyRecords.length > 0 ? (
+                  !editing ? (
+                    <ToggleAddRecord onClick={startEditing}>+</ToggleAddRecord>
+                  ) : (
+                    <ToggleAddRecord onClick={stopEditing}>-</ToggleAddRecord>
+                  )
+                ) : null}
               </RecordsTitle>
               {editing && (
                 <AddRecordForm>
-                  Add a record
                   <Row>
                     <Select
                       selectedRecord={selectedRecord}
                       handleChange={this.handleChange}
-                      options={[
-                        {
-                          label: 'Address',
-                          value: 'address'
-                        },
-                        {
-                          label: 'Content',
-                          value: 'content'
-                        }
-                      ]}
+                      placeholder="Select a record"
+                      options={emptyRecords}
                     />
                     <Input value={newValue} onChange={updateValue} />
                   </Row>

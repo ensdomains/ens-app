@@ -222,15 +222,14 @@ DetailsEditable.propTypes = {
   keyName: PropTypes.string.isRequired, // key of the record
   value: PropTypes.string.isRequired, // value of the record (normally hex address)
   type: PropTypes.string, // type of value. Defaults to address
-  mutation: PropTypes.string.isRequired, //graphql mutation string for making tx
+  mutation: PropTypes.object.isRequired, //graphql mutation string for making tx
   mutationButton: PropTypes.string, // Mutation button text
   mutationName: PropTypes.string.isRequired, // Mutation name for onComplete
   editButton: PropTypes.string, //Edit button text
   domain: PropTypes.object.isRequired,
   variableName: PropTypes.string, //can change the variable name for mutation
   event: PropTypes.string.isRequired, // event name to watch for transaction
-  query: PropTypes.string.isRequired, // graphql query  for query refetch
-  variables: PropTypes.object.isRequired //variables for query refetch
+  refetch: PropTypes.func.isRequired
 }
 
 export default DetailsEditable

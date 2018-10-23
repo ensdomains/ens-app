@@ -66,10 +66,9 @@ const InputContainer = styled('div')`
 `
 
 const Input = ({ className, type, onChange, valid, invalid, large }) => (
-  <InputContainer valid={valid} invalid={invalid}>
+  <InputContainer valid={valid} invalid={invalid} className={className}>
     <StyledInput
       onChange={onChange}
-      className={className}
       type={type ? type : 'text'}
       wide
       large={large}

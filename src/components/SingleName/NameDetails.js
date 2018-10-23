@@ -54,6 +54,25 @@ class NameDetails extends Component {
   }
   render() {
     const { domain, isOwner, refetch } = this.props
+    const records = [
+      {
+        label: 'Address',
+        value: 'address'
+      },
+      {
+        label: 'Content',
+        value: 'content'
+      }
+    ]
+
+    const emptyRecords = records.filter(record => {
+      if (record.value === 'address') {
+        return this.isEmpty(domain['addr']) ? true : false
+      }
+
+      return this.isEmpty(domain[record.value]) ? true : false
+    })
+
     return (
       <Fragment>
         <Route
@@ -104,7 +123,12 @@ class NameDetails extends Component {
                 refetch={refetch}
               />
               <Records>
-                <AddRecord title="Records" isOwner={isOwner} domain={domain} />
+                <AddRecord
+                  emptyRecords={emptyRecords}
+                  title="Records"
+                  isOwner={isOwner}
+                  domain={domain}
+                />
                 {this.hasAnyRecord(domain) && (
                   <>
                     {!this.isEmpty(domain.addr) && (
