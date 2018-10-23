@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'react-emotion'
 import { Mutation } from 'react-apollo'
+import { addressUtils } from '@0xproject/utils'
 
 import { watchResolverEvent } from '../../api/watchers'
 
@@ -65,6 +66,13 @@ const PendingTx = styled(DefaultPendingTx)`
 `
 
 class RecordItem extends Component {
+  _validateValue({ type, value }) {
+    if (type === 'address') {
+      return addressUtils.isAddress(value)
+    }
+
+    return undefined
+  }
   _renderEditable() {
     const {
       resolver,
@@ -91,80 +99,91 @@ class RecordItem extends Component {
           setConfirmed,
           pending,
           confirmed
-        }) => (
-          <Mutation
-            mutation={mutation}
-            onCompleted={data => {
-              const txHash = data[mutationName]
-              if (txHash) {
-                startPending()
-                watchResolverEvent(
-                  event,
-                  resolver,
-                  domain.name,
-                  (error, log, event) => {
-                    if (log.transactionHash === txHash) {
-                      event.stopWatching()
-                      setConfirmed()
-                      refetch()
+        }) => {
+          const isValid = this._validateValue({ type, value: newValue })
+          const isInvalid =
+            !isValid && newValue.length > 0 && type === 'address'
+          return (
+            <Mutation
+              mutation={mutation}
+              onCompleted={data => {
+                const txHash = data[mutationName]
+                if (txHash) {
+                  startPending()
+                  watchResolverEvent(
+                    event,
+                    resolver,
+                    domain.name,
+                    (error, log, event) => {
+                      if (log.transactionHash === txHash) {
+                        event.stopWatching()
+                        setConfirmed()
+                        refetch()
+                      }
                     }
-                  }
-                )
-              }
-            }}
-          >
-            {mutation => (
-              <RecordsItem editing={editing}>
-                <RecordsContent editing={editing}>
-                  <RecordsKey>{keyName}</RecordsKey>
-                  <RecordsValue>
-                    {type === 'address' ? (
-                      <EtherScanLink address={value}>{value}</EtherScanLink>
+                  )
+                } else {
+                  // TODO - output msg that tx was rejected in your dapp browser
+                }
+              }}
+            >
+              {mutation => (
+                <RecordsItem editing={editing}>
+                  <RecordsContent editing={editing}>
+                    <RecordsKey>{keyName}</RecordsKey>
+                    <RecordsValue>
+                      {type === 'address' ? (
+                        <EtherScanLink address={value}>{value}</EtherScanLink>
+                      ) : (
+                        value
+                      )}
+                    </RecordsValue>
+
+                    {pending && !confirmed ? (
+                      <PendingTx />
+                    ) : editing ? (
+                      <Action>
+                        <Bin />
+                      </Action>
                     ) : (
-                      value
+                      <Action>
+                        <Pencil onClick={startEditing} />
+                      </Action>
                     )}
-                  </RecordsValue>
+                  </RecordsContent>
 
-                  {pending && !confirmed ? (
-                    <PendingTx />
-                  ) : editing ? (
-                    <Action>
-                      <Bin />
-                    </Action>
+                  {editing ? (
+                    <>
+                      <EditRecord>
+                        <Input
+                          onChange={updateValue}
+                          valid={isValid}
+                          invalid={isInvalid}
+                        />
+                      </EditRecord>
+                      <SaveCancel
+                        mutation={() => {
+                          const variables = {
+                            name: domain.name,
+                            [variableName
+                              ? variableName
+                              : 'recordValue']: newValue
+                          }
+                          mutation({
+                            variables
+                          })
+                        }}
+                        stopEditing={stopEditing}
+                      />
+                    </>
                   ) : (
-                    <Action>
-                      <Pencil onClick={startEditing} />
-                    </Action>
+                    ''
                   )}
-                </RecordsContent>
-
-                {editing ? (
-                  <>
-                    <EditRecord>
-                      <Input onChange={updateValue} />
-                    </EditRecord>
-                    <SaveCancel
-                      mutation={() => {
-                        const variables = {
-                          name: domain.name,
-                          [variableName
-                            ? variableName
-                            : 'recordValue']: newValue
-                        }
-                        mutation({
-                          variables
-                        })
-                      }}
-                      stopEditing={stopEditing}
-                    />
-                  </>
-                ) : (
-                  ''
-                )}
-              </RecordsItem>
-            )}
-          </Mutation>
-        )}
+                </RecordsItem>
+              )}
+            </Mutation>
+          )
+        }}
       </Editable>
     )
   }
