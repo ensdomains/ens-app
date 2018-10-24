@@ -72,13 +72,15 @@ const Input = ({
   valid,
   invalid,
   large,
-  placeholder
+  placeholder,
+  value
 }) => (
   <InputContainer valid={valid} invalid={invalid} className={className}>
     <StyledInput
       onChange={onChange}
       type={type ? type : 'text'}
       wide
+      value={value}
       large={large}
       invalid={invalid}
       placeholder={placeholder}

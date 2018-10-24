@@ -58,6 +58,15 @@ const PendingTx = styled(DefaultPendingTx)`
   transform: translate(0, -65%);
 `
 
+const DefaultResolverButton = styled(Button)`
+  margin-right: 20px;
+`
+
+const Buttons = styled('div')`
+  display: flex;
+  justify-content: flex-end;
+`
+
 class DetailsEditable extends Component {
   _renderEditable() {
     let {
@@ -71,7 +80,8 @@ class DetailsEditable extends Component {
       domain,
       variableName,
       event,
-      refetch
+      refetch,
+      publicResolver
     } = this.props
     if (keyName === 'Resolver' && parseInt(value, 16) === 0) {
       value = 'No Resolver Set'
@@ -85,6 +95,7 @@ class DetailsEditable extends Component {
           stopEditing,
           newValue,
           updateValue,
+          updateValueDirect,
           startPending,
           setConfirmed,
           pending,
@@ -127,16 +138,6 @@ class DetailsEditable extends Component {
                         value
                       )}
                     </DetailsValue>
-                    {/* Refetches the domain details*/}
-                    {/* {confirmed && (
-                      <Query
-                        query={query}
-                        variables={variables}
-                        fetchPolicy="cache-and-network"
-                      >
-                        {() => null}
-                      </Query>
-                    )} */}
                     {editing ? null : pending && !confirmed ? (
                       <PendingTx />
                     ) : (
@@ -162,19 +163,33 @@ class DetailsEditable extends Component {
                           large
                         />
                       </EditRecord>
-                      <SaveCancel
-                        stopEditing={stopEditing}
-                        mutation={() => {
-                          const variables = {
-                            name: domain.name,
-                            [variableName ? variableName : 'address']: newValue
-                          }
-                          mutation({
-                            variables
-                          })
-                        }}
-                        mutationButton={mutationButton}
-                      />
+                      <Buttons>
+                        {keyName === 'Resolver' && (
+                          <DefaultResolverButton
+                            onClick={() =>
+                              updateValueDirect(publicResolver.address)
+                            }
+                          >
+                            Use Public Resolver
+                          </DefaultResolverButton>
+                        )}
+
+                        <SaveCancel
+                          stopEditing={stopEditing}
+                          mutation={() => {
+                            const variables = {
+                              name: domain.name,
+                              [variableName
+                                ? variableName
+                                : 'address']: newValue
+                            }
+                            mutation({
+                              variables
+                            })
+                          }}
+                          mutationButton={mutationButton}
+                        />
+                      </Buttons>
                     </>
                   ) : (
                     ''

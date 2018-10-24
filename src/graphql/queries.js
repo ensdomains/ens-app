@@ -9,6 +9,14 @@ export const GET_WEB3 = gql`
   }
 `
 
+export const GET_PUBLIC_RESOLVER = gql`
+  query getPublicResolver {
+    publicResolver @client {
+      address
+    }
+  }
+`
+
 export const GET_NODES = gql`
   query nodes {
     nodes {

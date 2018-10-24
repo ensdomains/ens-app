@@ -12,6 +12,7 @@ class Editable extends Component {
     this.setState({ newValue: e.target.value })
     console.log(e)
   }
+  updateValueDirect = value => this.setState({ newValue: value })
   startEditing = () => this.setState({ editing: true })
   stopEditing = () => this.setState({ editing: false })
   startPending = () => this.setState({ pending: true, editing: false })
@@ -26,6 +27,7 @@ class Editable extends Component {
       //Input Value
       newValue: this.state.newValue,
       updateValue: this.updateValue,
+      updateValueDirect: this.updateValueDirect,
       //trigger pending state
       pending: this.state.pending,
       confirmed: this.state.confirmed,

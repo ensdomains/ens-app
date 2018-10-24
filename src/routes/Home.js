@@ -164,7 +164,6 @@ export default props => (
           )
         }
       </NetworkInfoQuery>
-      {/* <Logo color="#ffffff" /> */}
 
       <SearchContainer>
         <Spring
