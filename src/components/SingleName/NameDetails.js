@@ -180,7 +180,7 @@ class NameDetails extends Component {
         <Route
           exact
           path="/name/:name/subdomains"
-          render={() => <SubDomains domain={domain} />}
+          render={() => <SubDomains domain={domain} isOwner={isOwner} />}
         />
       </Fragment>
     )

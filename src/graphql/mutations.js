@@ -69,3 +69,9 @@ export const SET_CONTENT = gql`
     setContent(name: $name, recordValue: $recordValue) @client
   }
 `
+
+export const CREATE_SUBDOMAIN = gql`
+  mutation createSubdomain($name: String, $label: String) {
+    createSubdomain(name: $name, label: $label) @client
+  }
+`
