@@ -112,18 +112,17 @@ export async function buildSubDomain(label, node, owner) {
   }
 }
 
-export async function createSubDomain(subDomain, domain) {
+export async function createSubdomain(subDomain, domain) {
   let { ENS, web3 } = await getENS()
   let accounts = await getAccounts()
   let node = await getNamehash(domain)
   let registry = await ENS.registryPromise
-  let txId = await registry.setSubnodeOwnerAsync(
+  return registry.setSubnodeOwnerAsync(
     node,
     web3.sha3(subDomain),
     accounts[0],
     { from: accounts[0] }
   )
-  return { txId, owner: accounts[0] }
 }
 
 export async function deleteSubDomain(subDomain, domain) {

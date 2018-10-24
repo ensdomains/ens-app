@@ -6,7 +6,8 @@ import {
   setOwner,
   setResolver,
   setAddress,
-  setContent
+  setContent,
+  createSubdomain
 } from '../registry'
 import { getEntry } from '../registrar'
 import { query } from '../subDomainRegistrar'
@@ -88,7 +89,6 @@ const resolvers = {
       }
       let data
       //const owner = await getOwner(name)
-      console.log(nameArray)
 
       if (nameArray.length < 3 && nameArray[1] === 'eth') {
         if (nameArray[0].length < 7) {
@@ -150,8 +150,6 @@ const resolvers = {
         names: [...names, detailedNode]
       }
 
-      console.log(detailedNode)
-
       cache.writeData({ data })
 
       return detailedNode
@@ -166,7 +164,11 @@ const resolvers = {
       }
 
       const data = cache.readQuery({ query: GET_ALL_NODES })
-      const subDomains = await getSubDomains(name)
+      const rawSubDomains = await getSubDomains(name)
+      const subDomains = rawSubDomains.map(s => ({
+        ...s,
+        __typename: 'SubDomain'
+      }))
 
       const names = data.names.map(node => {
         return node.name === name
@@ -243,6 +245,15 @@ const resolvers = {
     setContent: async (_, { name, recordValue }, { cache }) => {
       try {
         const tx = await setContent(name, recordValue)
+        console.log(tx)
+        return tx
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    createSubdomain: async (_, { name, label }, { cache }) => {
+      try {
+        const tx = await createSubdomain(label, name)
         console.log(tx)
         return tx
       } catch (e) {

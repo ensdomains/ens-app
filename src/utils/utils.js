@@ -63,6 +63,18 @@ export function validateName(name) {
   }
 }
 
+export function isLabelValid(name) {
+  try {
+    validateName(name)
+    if (name.indexOf('.') === -1) {
+      return true
+    }
+  } catch (e) {
+    console.log(e)
+    return false
+  }
+}
+
 export const parseSearchTerm = term => {
   let regex = /(?<=\.|^)[^.]+$/
 

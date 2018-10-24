@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import styled from 'react-emotion'
+import { Mutation } from 'react-apollo'
 
-import { validateName } from '../../utils/utils'
+import { isLabelValid } from '../../utils/utils'
+import { CREATE_SUBDOMAIN } from '../../graphql/mutations'
+import { watchRegistryEvent } from '../../api/watchers'
 
 import Button from '../Forms/Button'
 import DefaultInput from '../Forms/Input'
@@ -23,6 +26,7 @@ const Input = styled(DefaultInput)`
 
 class AddSubdomain extends Component {
   render() {
+    const { domain, refetch } = this.props
     return (
       <AddSubdomainContainer>
         <Editable>
@@ -37,7 +41,7 @@ class AddSubdomain extends Component {
             pending,
             confirmed
           }) => {
-            const isValid = validateName(newValue)
+            const isValid = newValue.length > 0 && isLabelValid(newValue)
             const isInvalid = !isValid && newValue.length > 0
             return (
               <>
@@ -54,18 +58,44 @@ class AddSubdomain extends Component {
                       placeholder="Type in a label for your subdomain"
                       large
                     />
-                    <SaveCancel
-                      stopEditing={stopEditing}
-                      mutation={() => {
-                        // const variables = {
-                        //   name: domain.name,
-                        //   [variableName ? variableName : 'address']: newValue
-                        // }
-                        // mutation({
-                        //   variables
-                        // })
-                      }}
-                    />
+                    {isValid ? (
+                      <Mutation
+                        mutation={CREATE_SUBDOMAIN}
+                        onComplete={txHash => {
+                          if (txHash) {
+                            startPending()
+                            watchRegistryEvent(
+                              'NewOwner',
+                              domain.name,
+                              (error, log, event) => {
+                                console.log(log)
+                                if (log.transactionHash === txHash) {
+                                  event.stopWatching()
+                                  setConfirmed()
+                                  refetch()
+                                }
+                              }
+                            )
+                          }
+                        }}
+                      >
+                        {mutation => (
+                          <SaveCancel
+                            stopEditing={stopEditing}
+                            mutation={() => {
+                              mutation({
+                                variables: {
+                                  name: domain.name,
+                                  label: newValue
+                                }
+                              })
+                            }}
+                          />
+                        )}
+                      </Mutation>
+                    ) : (
+                      <SaveCancel stopEditing={stopEditing} disabled />
+                    )}
                   </AddSubdomainContent>
                 )}
               </>

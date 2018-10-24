@@ -51,7 +51,7 @@ const SubDomains = ({ domain, isOwner }) => (
           if (loading)
             return (
               <>
-                {isOwner && <AddSubdomain />}
+                {isOwner && <AddSubdomain domain={domain} />}
                 <LoaderWrapper>
                   <Loader large />
                 </LoaderWrapper>
@@ -60,16 +60,16 @@ const SubDomains = ({ domain, isOwner }) => (
           if (data.getSubDomains.subDomains.length === 0) {
             return (
               <>
-                {isOwner && <AddSubdomain />}
+                {isOwner && <AddSubdomain domain={domain} />}
                 <SubDomainH2>No subdomains have been added.</SubDomainH2>
               </>
             )
           }
           return (
             <>
-              {isOwner && <AddSubdomain />}
+              {isOwner && <AddSubdomain domain={domain} />}
               {data.getSubDomains.subDomains.map(d => (
-                <SubDomainLink to={`/name/${d.name}`}>
+                <SubDomainLink key={d.name} to={`/name/${d.name}`}>
                   <SingleNameBlockies imageSize={24} address={d.owner} />
                   {d.name}
                 </SubDomainLink>
