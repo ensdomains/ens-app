@@ -223,10 +223,9 @@ const resolvers = {
         console.log(e)
       }
     },
-    setResolver: async (_, { name, recordValue }, { cache }) => {
-      console.log('here in setResolver')
+    setResolver: async (_, { name, address }, { cache }) => {
       try {
-        const tx = await setResolver(name, recordValue)
+        const tx = await setResolver(name, address)
         console.log(tx)
         return tx
       } catch (e) {
