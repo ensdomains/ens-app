@@ -61,14 +61,14 @@ class AddSubdomain extends Component {
                     {isValid ? (
                       <Mutation
                         mutation={CREATE_SUBDOMAIN}
-                        onComplete={txHash => {
+                        onCompleted={data => {
+                          const txHash = data['createSubdomain']
                           if (txHash) {
                             startPending()
                             watchRegistryEvent(
                               'NewOwner',
                               domain.name,
                               (error, log, event) => {
-                                console.log(log)
                                 if (log.transactionHash === txHash) {
                                   event.stopWatching()
                                   setConfirmed()

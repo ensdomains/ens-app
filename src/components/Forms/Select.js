@@ -17,7 +17,6 @@ const styles = {
     letterSpacing: '0.5px'
   }),
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
-    console.log(data)
     return {
       ...styles,
       // backgroundColor: isDisabled
@@ -31,7 +30,6 @@ const styles = {
       textTransform: 'uppercase',
       fontWeight: '700',
       fontSize: '12px',
-      color: '#2B2B2B',
       letterSpacing: '0.5px',
       color: isDisabled ? '#ccc' : isSelected ? 'black' : '#ccc',
       cursor: isDisabled ? 'not-allowed' : 'default'
