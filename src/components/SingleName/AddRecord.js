@@ -8,6 +8,7 @@ import DefaultInput from '../Forms/Input'
 import Select from '../Forms/Select'
 
 import { SET_CONTENT, SET_ADDRESS } from '../../graphql/mutations'
+import { watchResolverEvent } from '../../api/watchers'
 
 const ToggleAddRecord = styled('span')`
   font-size: 22px;
@@ -72,7 +73,7 @@ class AddRecord extends Component {
   }
   _renderEditable() {
     const { selectedRecord } = this.state
-    const { domain, emptyRecords } = this.props
+    const { domain, emptyRecords, refetch, resolver } = this.props
     return (
       <AddRecordContainer>
         <Editable>
@@ -114,7 +115,32 @@ class AddRecord extends Component {
                       mutation={this._chooseMutation(selectedRecord)}
                       variables={{
                         name: domain.name,
-                        [selectedRecord.value]: newValue
+                        ['recordValue']: newValue
+                      }}
+                      onCompleted={data => {
+                        const txHash =
+                          data[
+                            selectedRecord.value === 'content'
+                              ? 'setContent'
+                              : 'setAddress'
+                          ]
+                        if (txHash) {
+                          startPending()
+                          watchResolverEvent(
+                            selectedRecord.value === 'content'
+                              ? 'ContentChanged'
+                              : 'AddrChanged',
+                            resolver,
+                            domain.name,
+                            (error, log, event) => {
+                              if (log.transactionHash === txHash) {
+                                event.stopWatching()
+                                setConfirmed()
+                                refetch()
+                              }
+                            }
+                          )
+                        }
                       }}
                     >
                       {mutate => (

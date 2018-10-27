@@ -140,6 +140,8 @@ class NameDetails extends Component {
                   title="Records"
                   isOwner={isOwner}
                   domain={domain}
+                  resolver={domain.resolver}
+                  refetch={refetch}
                 />
                 {this.hasAnyRecord(domain) && (
                   <>

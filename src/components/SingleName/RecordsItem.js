@@ -169,6 +169,8 @@ class RecordItem extends Component {
                               ? variableName
                               : 'recordValue']: newValue
                           }
+
+                          console.log(variables)
                           mutation({
                             variables
                           })
