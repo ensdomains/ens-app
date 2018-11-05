@@ -18,13 +18,8 @@ class ReverseResolution extends Component {
         query={GET_REVERSE_RECORD}
         variables={{ address: this.props.address }}
       >
-        {({ data, loading, error }) => {
-          const { getReverseRecord } = data
-          if (loading) return <span>{this.props.address}</span>
-          if (!getReverseRecord.name) {
-            return <span>{this.props.address}</span>
-          }
-          return <span>{getReverseRecord.name}</span>
+        {props => {
+          return this.props.children(props)
         }}
       </Query>
     )

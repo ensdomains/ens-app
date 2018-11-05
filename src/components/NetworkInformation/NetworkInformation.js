@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import styled from 'react-emotion'
 import NetworkInfoQuery from './NetworkInfoQuery'
 import UnstyledBlockies from '../Blockies'
-import ReverseResolution from '../ReverseResolution'
+import ReverseRecord from '../ReverseRecord'
 import NoAccountsModal from '../NoAccounts/NoAccountsModal'
 
 const NetworkInformationContainer = styled('div')`
@@ -77,7 +77,7 @@ class NetworkInformation extends Component {
               <AccountContainer>
                 <Blockies address={accounts[0]} imageSize={47} />
                 <Account className="account">
-                  <ReverseResolution address={accounts[0]} />
+                  <ReverseRecord address={accounts[0]} />
                 </Account>
                 <NetworkStatus>{network} network</NetworkStatus>
               </AccountContainer>
