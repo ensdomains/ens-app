@@ -135,6 +135,7 @@ class Name extends Component {
                   name={name}
                   isOwner={isOwner}
                   refetch={refetch}
+                  account={account}
                 />
               )}
             </NameContainer>
