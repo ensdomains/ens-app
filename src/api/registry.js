@@ -69,7 +69,6 @@ export async function setAddress(name, address) {
   let { ENS } = await getENS()
   let accounts = await getAccounts()
   let resolver = await ENS.resolver(name)
-  console.log(name, address)
   return resolver.setAddr(address, { from: accounts[0] })
 }
 
@@ -174,7 +173,6 @@ export async function claimReverseRecord(resolver) {
 export async function claim() {
   let { reverseRegistrar } = await getReverseRegistrarContract()
   let accounts = await getAccounts()
-  console.log('claim account', accounts[0])
   return new Promise((resolve, reject) => {
     reverseRegistrar.claim(accounts[0], { from: accounts[0] }, (err, txId) => {
       if (err) reject(err)
