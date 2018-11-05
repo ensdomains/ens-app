@@ -96,6 +96,7 @@ class NameDetails extends Component {
                 keyName="Owner"
                 value={domain.owner}
                 isOwner={isOwner}
+                type="address"
                 editButton="Transfer"
                 mutationButton="Transfer"
                 mutation={SET_OWNER}
@@ -121,6 +122,7 @@ class NameDetails extends Component {
                   return (
                     <DetailsItemEditable
                       keyName="Resolver"
+                      type="address"
                       value={domain.resolver}
                       publicResolver={data.publicResolver}
                       isOwner={isOwner}

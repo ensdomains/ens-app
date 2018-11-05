@@ -115,7 +115,7 @@ class AddRecord extends Component {
                       mutation={this._chooseMutation(selectedRecord)}
                       variables={{
                         name: domain.name,
-                        ['recordValue']: newValue
+                        recordValue: newValue
                       }}
                       onCompleted={data => {
                         const txHash =

@@ -72,7 +72,7 @@ class DetailsEditable extends Component {
     let {
       keyName,
       value,
-      type = 'address',
+      type,
       mutation,
       mutationButton,
       mutationName,
