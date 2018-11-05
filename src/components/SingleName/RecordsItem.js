@@ -182,7 +182,7 @@ class RecordItem extends Component {
                     ''
                   )}
                   {keyName === 'Address' && (
-                    <AddReverseRecord account={account} />
+                    <AddReverseRecord account={account} name={domain.name} />
                   )}
                 </RecordsItem>
               )}
