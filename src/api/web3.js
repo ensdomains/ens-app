@@ -30,8 +30,7 @@ async function setupWeb3(customProvider) {
       web3 = new Web3(window.ethereum)
       try {
         // Request account access if needed
-        console.log('here')
-        window.ethereum.enable().then(() => {
+        window.ethereum.enable().then(a => {
           web3.version.getNetwork(function(err, networkId) {
             ready = true
             console.log('Dapp browser active with injected ethereum object ')
