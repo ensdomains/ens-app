@@ -1,41 +1,29 @@
 import React, { Fragment, Component } from 'react'
 import styled from 'react-emotion'
 import { Link, Route } from 'react-router-dom'
+import { Query } from 'react-apollo'
+
+import { GET_PUBLIC_RESOLVER } from '../../graphql/queries'
 
 import { HR } from '../Typography/Basic'
 import SubDomains from './SubDomains'
-import { SingleNameBlockies } from './SingleNameBlockies'
-import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
-import { formatDate } from './utils'
+import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
+import RecordsItem from './RecordsItem'
+import DetailsItemEditable from './DetailsItemEditable'
+import AddRecord from './AddRecord'
 
-const EtherScanLink = styled(DefaultEtherScanLink)`
-  display: flex;
-`
+import {
+  SET_OWNER,
+  SET_RESOLVER,
+  SET_ADDRESS,
+  SET_CONTENT
+} from '../../graphql/mutations'
+
+import { formatDate } from '../../utils/dates'
 
 const Details = styled('section')`
   padding: 40px;
   transition: 0.4s;
-`
-
-const DetailsItem = styled('div')`
-  display: flex;
-  justify-content: flex-start;
-`
-
-const DetailsKey = styled('div')`
-  color: ${({ greyed }) => (greyed ? '#CCD4DA' : '2b2b2b')};
-  font-size: 16px;
-  letter-spacing: 0px;
-  font-weight: 600;
-  text-transform: uppercase;
-  width: 220px;
-  margin-bottom: 20px;
-`
-
-const DetailsValue = styled('div')`
-  font-size: 18px;
-  font-weight: 100;
-  font-family: Overpass Mono;
 `
 
 const Records = styled('div')`
@@ -44,42 +32,50 @@ const Records = styled('div')`
   box-shadow: inset 0 0 10px 0 rgba(235, 235, 235, 0.5);
 `
 
-const RecordsTitle = styled('h3')`
-  /* Pointers: */
-  font-family: Overpass-Bold;
-  font-size: 12px;
-  color: #adbbcd;
-  letter-spacing: 0.5px;
-  background: #f0f6fa;
-  text-transform: uppercase;
-  margin: 0;
-  padding: 10px 20px;
-`
-
-const RecordsItem = styled(DetailsItem)`
-  border-top: 1px dashed #d3d3d3;
-  padding: 20px;
-`
-
-const RecordsKey = styled(DetailsKey)`
-  font-size: 12px;
-  margin-bottom: 0;
-  width: 200px;
-`
-
-const RecordsValue = styled(DetailsValue)`
-  font-size: 14px;
-`
-
 class NameDetails extends Component {
+  isEmpty(record) {
+    if (parseInt(record, 16) === 0) {
+      return true
+    }
+    if (record === '0x') {
+      return true
+    }
+
+    return false
+  }
   hasAnyRecord(domain) {
     if (parseInt(domain.resolver, 16) === 0) {
       return false
     }
-    return parseInt(domain.addr, 16) !== 0 || parseInt(domain.content, 16) !== 0
+    if (!this.isEmpty(domain.addr)) {
+      return true
+    }
+
+    if (!this.isEmpty(domain.content)) {
+      return true
+    }
   }
   render() {
-    const { domain } = this.props
+    const { domain, isOwner, refetch } = this.props
+    const records = [
+      {
+        label: 'Address',
+        value: 'address'
+      },
+      {
+        label: 'Content',
+        value: 'content'
+      }
+    ]
+
+    const emptyRecords = records.filter(record => {
+      if (record.value === 'address') {
+        return this.isEmpty(domain['addr']) ? true : false
+      }
+
+      return this.isEmpty(domain[record.value]) ? true : false
+    })
+
     return (
       <Fragment>
         <Route
@@ -95,15 +91,19 @@ class NameDetails extends Component {
                   </DetailsValue>
                 </DetailsItem>
               )}
-              <DetailsItem>
-                <DetailsKey>Owner</DetailsKey>
-                <DetailsValue>
-                  <EtherScanLink address={domain.owner}>
-                    <SingleNameBlockies address={domain.owner} imageSize={24} />
-                    {domain.owner}
-                  </EtherScanLink>
-                </DetailsValue>
-              </DetailsItem>
+              <DetailsItemEditable
+                domain={domain}
+                keyName="Owner"
+                value={domain.owner}
+                isOwner={isOwner}
+                type="address"
+                editButton="Transfer"
+                mutationButton="Transfer"
+                mutation={SET_OWNER}
+                mutationName="setOwner"
+                event="Transfer"
+                refetch={refetch}
+              />
               {domain.registrationDate ? (
                 <DetailsItem>
                   <DetailsKey>Registration Date</DetailsKey>
@@ -114,58 +114,69 @@ class NameDetails extends Component {
               ) : (
                 ''
               )}
-              {parseInt(domain.resolver, 16) !== 0 ? (
-                <Fragment>
-                  <HR />
-                  <DetailsItem>
-                    <DetailsKey>Resolver</DetailsKey>
-                    <DetailsValue>
-                      <EtherScanLink address={domain.resolver}>
-                        <SingleNameBlockies
-                          address={domain.resolver}
-                          imageSize={24}
-                        />
-                        {domain.resolver}
-                      </EtherScanLink>
-                    </DetailsValue>
-                  </DetailsItem>
-                </Fragment>
-              ) : (
-                <Fragment>
-                  <HR />
-                  <DetailsItem>
-                    <DetailsKey greyed>Resolver</DetailsKey>
-                    <DetailsValue greyed>No resolver set</DetailsValue>
-                  </DetailsItem>
-                </Fragment>
-              )}
-              {this.hasAnyRecord(domain) && (
-                <Records>
-                  <RecordsTitle>Pointers</RecordsTitle>
-                  {parseInt(domain.resolver, 16) !== 0 &&
-                    domain.addr && (
-                      <RecordsItem>
-                        <RecordsKey>Address</RecordsKey>
-                        <RecordsValue>
-                          <EtherScanLink address={domain.addr}>
-                            {domain.addr}
-                          </EtherScanLink>
-                        </RecordsValue>
-                      </RecordsItem>
+              <HR />
+              <Query query={GET_PUBLIC_RESOLVER}>
+                {({ data, loading }) => {
+                  if (loading) return null
+                  console.log(data)
+                  return (
+                    <DetailsItemEditable
+                      keyName="Resolver"
+                      type="address"
+                      value={domain.resolver}
+                      publicResolver={data.publicResolver}
+                      isOwner={isOwner}
+                      domain={domain}
+                      mutationButton="Save"
+                      mutation={SET_RESOLVER}
+                      mutationName="setResolver"
+                      event="NewResolver"
+                      refetch={refetch}
+                    />
+                  )
+                }}
+              </Query>
+              <Records>
+                <AddRecord
+                  emptyRecords={emptyRecords}
+                  title="Records"
+                  isOwner={isOwner}
+                  domain={domain}
+                  resolver={domain.resolver}
+                  refetch={refetch}
+                />
+                {this.hasAnyRecord(domain) && (
+                  <>
+                    {!this.isEmpty(domain.addr) && (
+                      <RecordsItem
+                        domain={domain}
+                        resolver={domain.resolver}
+                        isOwner={isOwner}
+                        keyName="Address"
+                        value={domain.addr}
+                        mutation={SET_ADDRESS}
+                        mutationName="setAddress"
+                        type="address"
+                        event="AddrChanged"
+                        refetch={refetch}
+                      />
                     )}
-                  {parseInt(domain.resolver, 16) !== 0 &&
-                    parseInt(domain.content, 16) !== 0 && (
-                      <RecordsItem>
-                        <RecordsKey>Content</RecordsKey>
-                        <RecordsValue>
-                          <EtherScanLink address={domain.content}>
-                            {domain.content}
-                          </EtherScanLink>
-                        </RecordsValue>
-                      </RecordsItem>
+                    {!this.isEmpty(domain.content) && (
+                      <RecordsItem
+                        domain={domain}
+                        resolver={domain.resolver}
+                        isOwner={isOwner}
+                        keyName="Content"
+                        mutation={SET_CONTENT}
+                        mutationName="setContent"
+                        value={domain.content}
+                        event="ContentChanged"
+                        refetch={refetch}
+                      />
                     )}
-                </Records>
-              )}
+                  </>
+                )}
+              </Records>
             </Details>
           )}
         />
@@ -173,7 +184,7 @@ class NameDetails extends Component {
         <Route
           exact
           path="/name/:name/subdomains"
-          render={() => <SubDomains domain={domain} />}
+          render={() => <SubDomains domain={domain} isOwner={isOwner} />}
         />
       </Fragment>
     )

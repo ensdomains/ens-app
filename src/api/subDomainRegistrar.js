@@ -1,6 +1,6 @@
 import subDomainRegistrarContract from './contracts/subDomainRegistrarContract.json'
 import getWeb3 from './web3'
-import domains from '../lib/domains.json'
+import domains from '../constants/domains.json'
 let subDomainRegistrars = {}
 
 const defaultAddress = '0x0b07463b30b302a98407d3e3df85ebc073b0dbd1'

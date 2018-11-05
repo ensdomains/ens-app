@@ -6,7 +6,7 @@ import { Title } from '../Typography/Basic'
 import DefaultFavourite from '../AddFavourite/Favourite'
 import NameDetails from './NameDetails'
 import NameAuction from './NameAuction'
-import { getPercentTimeLeft, getTimeLeft } from '../../lib/utils'
+import { getPercentTimeLeft, getTimeLeft } from '../../utils/dates'
 import QueryAccount from '../QueryAccount'
 
 const NameContainer = styled('div')`
@@ -90,10 +90,9 @@ const Favourite = styled(DefaultFavourite)``
 
 class Name extends Component {
   render() {
-    const { details: domain, name, pathname } = this.props
+    const { details: domain, name, pathname, refetch } = this.props
     const timeLeft = getTimeLeft(domain)
     const percentDone = getPercentTimeLeft(timeLeft, domain)
-    console.log(domain)
     return (
       <QueryAccount>
         {({ account }) => {
@@ -130,7 +129,13 @@ class Name extends Component {
               {domain.state === 'Auction' || domain.state === 'Reveal' ? (
                 <NameAuction domain={domain} timeLeft={timeLeft} />
               ) : (
-                <NameDetails domain={domain} pathname={pathname} name={name} />
+                <NameDetails
+                  domain={domain}
+                  pathname={pathname}
+                  name={name}
+                  isOwner={isOwner}
+                  refetch={refetch}
+                />
               )}
             </NameContainer>
           )

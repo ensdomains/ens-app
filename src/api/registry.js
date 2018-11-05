@@ -6,7 +6,7 @@ import getENS, {
   getResolverContract
 } from './ens'
 import { decryptHashes } from './preimage'
-import { uniq, ensStartBlock, checkLabels, mergeLabels } from '../lib/utils'
+import { uniq, ensStartBlock, checkLabels, mergeLabels } from '../utils/utils'
 import getWeb3, { getAccounts } from '../api/web3'
 
 export async function getOwner(name) {
@@ -51,7 +51,21 @@ export async function getName(address) {
   }
 }
 
-export async function setAddr(name, address) {
+export async function setOwner(name, newOwner) {
+  let { ENS } = await getENS()
+  let accounts = await getAccounts()
+  return ENS.setOwner(name, newOwner, { from: accounts[0] })
+}
+
+export async function setSubnodeOwner(label, node, newOwner) {
+  let { ENS } = await getENS()
+  let accounts = await getAccounts()
+  return ENS.setSubnodeOwner(label + '.' + node, newOwner, {
+    from: accounts[0]
+  })
+}
+
+export async function setAddress(name, address) {
   let { ENS } = await getENS()
   let accounts = await getAccounts()
   let resolver = await ENS.resolver(name)
@@ -97,18 +111,17 @@ export async function buildSubDomain(label, node, owner) {
   }
 }
 
-export async function createSubDomain(subDomain, domain) {
+export async function createSubdomain(subDomain, domain) {
   let { ENS, web3 } = await getENS()
   let accounts = await getAccounts()
   let node = await getNamehash(domain)
   let registry = await ENS.registryPromise
-  let txId = await registry.setSubnodeOwnerAsync(
+  return registry.setSubnodeOwnerAsync(
     node,
     web3.sha3(subDomain),
     accounts[0],
     { from: accounts[0] }
   )
-  return { txId, owner: accounts[0] }
 }
 
 export async function deleteSubDomain(subDomain, domain) {
@@ -123,20 +136,6 @@ export async function deleteSubDomain(subDomain, domain) {
     await setResolver(name, 0)
   }
   return registry.setSubnodeOwnerAsync(node, web3.sha3(subDomain), 0, {
-    from: accounts[0]
-  })
-}
-
-export async function setNewOwner(name, newOwner) {
-  let { ENS } = await getENS()
-  let accounts = await getAccounts()
-  return ENS.setOwner(name, newOwner, { from: accounts[0] })
-}
-
-export async function setSubnodeOwner(label, node, newOwner) {
-  let { ENS } = await getENS()
-  let accounts = await getAccounts()
-  return ENS.setSubnodeOwner(label + '.' + node, newOwner, {
     from: accounts[0]
   })
 }
@@ -174,7 +173,6 @@ export async function claimReverseRecord(resolver) {
 export async function claim() {
   let { reverseRegistrar } = await getReverseRegistrarContract()
   let accounts = await getAccounts()
-  console.log('claim account', accounts[0])
   return new Promise((resolve, reject) => {
     reverseRegistrar.claim(accounts[0], { from: accounts[0] }, (err, txId) => {
       if (err) reject(err)

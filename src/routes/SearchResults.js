@@ -4,7 +4,7 @@ import SubDomainResults from '../components/SubDomainResults/SubDomainResults'
 import { SubDomainStateFields } from '../graphql/fragments'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
-import { parseSearchTerm } from '../lib/utils'
+import { parseSearchTerm } from '../utils/utils'
 import SearchErrors from '../components/SearchErrors/SearchErrors'
 
 const GET_DOMAIN_STATE = gql`

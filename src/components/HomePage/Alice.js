@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'react-emotion'
-import { modulate } from '../../utils'
+import { modulate } from '../../utils/utils'
 import mq from '../../mediaQuery'
 
 const BaseContainer = styled('div')`

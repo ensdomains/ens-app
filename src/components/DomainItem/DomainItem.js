@@ -1,8 +1,12 @@
 import React from 'react'
 import styled from 'react-emotion'
-import Button from '../Forms/Button'
+import { ButtonLink } from '../Forms/Button'
 import AddFavourite from '../AddFavourite/AddFavourite'
-import { getPercentTimeLeft, getTimeLeft, humanizeDate } from '../../lib/utils'
+import {
+  getPercentTimeLeft,
+  getTimeLeft,
+  humanizeDate
+} from '../../utils/dates'
 import QueryAccount from '../QueryAccount'
 import Loader from '../Loader'
 
@@ -191,9 +195,9 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
                 isFavourite={isFavourite}
               />
 
-              <Button primary href={`/name/${domain.name}`}>
+              <ButtonLink primary to={`/name/${domain.name}`}>
                 Details
-              </Button>
+              </ButtonLink>
             </RightContainer>
           </DomainContainer>
         )

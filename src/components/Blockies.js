@@ -1,5 +1,5 @@
 import React from 'react'
-import createIcon from '../lib/blockies'
+import createIcon from '../utils/blockies'
 import PropTypes from 'prop-types'
 import styled from 'react-emotion'
 

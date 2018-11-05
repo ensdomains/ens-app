@@ -6,7 +6,7 @@ import SearchDefault from '../components/SearchName/Search'
 import NoAccountsDefault from '../components/NoAccounts/NoAccountsModal'
 import bg from '../assets/heroBG.jpg'
 import NetworkInfoQuery from '../components/NetworkInformation/NetworkInfoQuery'
-import Button from '../components/Forms/Button'
+import { ButtonLink } from '../components/Forms/Button'
 import TextBubbleDefault from '../components/Icons/TextBubble'
 import QuestionMarkDefault from '../components/Icons/QuestionMark'
 import HowToUseDefault from '../components/HowToUse/HowToUse'
@@ -164,7 +164,6 @@ export default props => (
           )
         }
       </NetworkInfoQuery>
-      {/* <Logo color="#ffffff" /> */}
 
       <SearchContainer>
         <Spring
@@ -202,9 +201,9 @@ export default props => (
             naming system based on the Ethereum blockchain. ENS eliminates the
             need to copy or type long addresses.
           </p>
-          <Button type="primary" href="/about">
+          <ButtonLink type="primary" to="/about">
             Learn more
-          </Button>
+          </ButtonLink>
         </Inner>
       </WhatItIs>
       <NameAnimation>
@@ -222,9 +221,9 @@ export default props => (
             It allows you to search any name, manage their addresses or
             resources it points to and create subdomains for each name.
           </p>
-          <Button type="primary" href="/about">
+          <ButtonLink type="primary" to="/about">
             Learn more
-          </Button>
+          </ButtonLink>
         </Inner>
       </HowItWorks>
     </Explanation>

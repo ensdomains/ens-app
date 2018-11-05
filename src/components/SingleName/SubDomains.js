@@ -7,6 +7,7 @@ import { GET_SUBDOMAINS } from '../../graphql/queries'
 import Loader from '../Loader'
 import { H2 } from '../Typography/Basic'
 import { SingleNameBlockies } from './SingleNameBlockies'
+import AddSubdomain from './AddSubdomain'
 
 const SubDomainsContainer = styled('div')`
   padding-bottom: 30px;
@@ -42,26 +43,39 @@ const LoaderWrapper = styled('div')`
   padding: 50px 0;
 `
 
-const SubDomains = ({ domain }) => (
+const SubDomains = ({ domain, isOwner }) => (
   <SubDomainsContainer>
     {parseInt(domain.owner, 16) !== 0 ? (
       <Query query={GET_SUBDOMAINS} variables={{ name: domain.name }}>
-        {({ loading, error, data }) => {
+        {({ loading, error, data, refetch }) => {
           if (loading)
             return (
-              <LoaderWrapper>
-                <Loader large />
-              </LoaderWrapper>
+              <>
+                {isOwner && <AddSubdomain domain={domain} refetch={refetch} />}
+                <LoaderWrapper>
+                  <Loader large />
+                </LoaderWrapper>
+              </>
             )
           if (data.getSubDomains.subDomains.length === 0) {
-            return <SubDomainH2>No subdomains have been added.</SubDomainH2>
+            return (
+              <>
+                {isOwner && <AddSubdomain domain={domain} refetch={refetch} />}
+                <SubDomainH2>No subdomains have been added.</SubDomainH2>
+              </>
+            )
           }
-          return data.getSubDomains.subDomains.map(d => (
-            <SubDomainLink to={`/name/${d.name}`}>
-              <SingleNameBlockies imageSize={24} address={d.owner} />
-              {d.name}
-            </SubDomainLink>
-          ))
+          return (
+            <>
+              {isOwner && <AddSubdomain domain={domain} refetch={refetch} />}
+              {data.getSubDomains.subDomains.map(d => (
+                <SubDomainLink key={d.name} to={`/name/${d.name}`}>
+                  <SingleNameBlockies imageSize={24} address={d.owner} />
+                  {d.name}
+                </SubDomainLink>
+              ))}
+            </>
+          )
         }}
       </Query>
     ) : (

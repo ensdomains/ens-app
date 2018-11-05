@@ -1,4 +1,5 @@
 import getWeb3, { getAccounts } from './web3'
+import { getAddr } from './registry'
 import merge from 'lodash/merge'
 import fifsResolvers, {
   defaults as fifsDefaults
@@ -60,6 +61,13 @@ const resolvers = {
       } catch (e) {
         console.error(e)
         return null
+      }
+    },
+    publicResolver: async () => {
+      const resolver = await getAddr('resolver.eth')
+      return {
+        address: resolver,
+        __typename: 'Resolver'
       }
     }
   },

@@ -1,10 +1,20 @@
-import { getOwner, getDomainDetails, getSubDomains, getName } from '../registry'
+import {
+  getOwner,
+  getDomainDetails,
+  getSubDomains,
+  getName,
+  setOwner,
+  setResolver,
+  setAddress,
+  setContent,
+  createSubdomain
+} from '../registry'
 import { getEntry } from '../registrar'
 import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
 import get from 'lodash/get'
 import getWeb3 from '../web3'
-import domains from '../../lib/domains.json'
+import domains from '../../constants/domains.json'
 
 import {
   GET_FAVOURITES,
@@ -79,7 +89,6 @@ const resolvers = {
       }
       let data
       //const owner = await getOwner(name)
-      console.log(nameArray)
 
       if (nameArray.length < 3 && nameArray[1] === 'eth') {
         if (nameArray[0].length < 7) {
@@ -141,8 +150,6 @@ const resolvers = {
         names: [...names, detailedNode]
       }
 
-      console.log(detailedNode)
-
       cache.writeData({ data })
 
       return detailedNode
@@ -157,7 +164,11 @@ const resolvers = {
       }
 
       const data = cache.readQuery({ query: GET_ALL_NODES })
-      const subDomains = await getSubDomains(name)
+      const rawSubDomains = await getSubDomains(name)
+      const subDomains = rawSubDomains.map(s => ({
+        ...s,
+        __typename: 'SubDomain'
+      }))
 
       const names = data.names.map(node => {
         return node.name === name
@@ -203,6 +214,51 @@ const resolvers = {
     }
   },
   Mutation: {
+    setOwner: async (_, { name, address }, { cache }) => {
+      try {
+        const tx = await setOwner(name, address)
+        console.log(tx)
+        return tx
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    setResolver: async (_, { name, address }, { cache }) => {
+      try {
+        const tx = await setResolver(name, address)
+        console.log(tx)
+        return tx
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    setAddress: async (_, { name, recordValue }, { cache }) => {
+      try {
+        const tx = await setAddress(name, recordValue)
+        console.log(tx)
+        return tx
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    setContent: async (_, { name, recordValue }, { cache }) => {
+      try {
+        const tx = await setContent(name, recordValue)
+        console.log(tx)
+        return tx
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    createSubdomain: async (_, { name, label }, { cache }) => {
+      try {
+        const tx = await createSubdomain(label, name)
+        console.log(tx)
+        return tx
+      } catch (e) {
+        console.log(e)
+      }
+    },
     addFavourite: async (_, { domain }, { cache }) => {
       const newFavourite = {
         ...domain,

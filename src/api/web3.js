@@ -6,7 +6,7 @@ let provider
 let readOnly = false
 let ready = false
 
-function setupWeb3(customProvider) {
+async function setupWeb3(customProvider) {
   return new Promise(function(resolve, reject) {
     if (customProvider) {
       //for testing
@@ -26,7 +26,27 @@ function setupWeb3(customProvider) {
       return
     }
 
-    if (window && typeof window.web3 !== 'undefined') {
+    if (window.ethereum) {
+      web3 = new Web3(window.ethereum)
+      try {
+        // Request account access if needed
+        window.ethereum.enable().then(a => {
+          web3.version.getNetwork(function(err, networkId) {
+            ready = true
+            console.log('Dapp browser active with injected ethereum object ')
+            resolve({
+              web3,
+              provider,
+              readOnly,
+              networkId: parseInt(networkId, 10)
+            })
+          })
+        })
+        // Acccounts now exposed
+      } catch (error) {
+        // User denied account access...
+      }
+    } else if (window && typeof window.web3 !== 'undefined') {
       //Metamask or Mist
 
       web3 = new Web3(window.web3.currentProvider)

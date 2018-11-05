@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { parseSearchTerm } from '../lib/utils'
+import { parseSearchTerm } from '../utils/utils'
 import { GET_SINGLE_NAME } from '../graphql/queries'
 import { Query } from 'react-apollo'
 import Loader from '../components/Loader'
@@ -39,18 +39,17 @@ class SingleName extends Component {
     if (this.state.valid) {
       return (
         <Query query={GET_SINGLE_NAME} variables={{ name: searchTerm }}>
-          {({ loading, error, data }) => {
+          {({ loading, error, data, refetch }) => {
             if (loading) return <Loader large center />
             if (error)
               return <div>{(console.log(error), JSON.stringify(error))}</div>
             return (
-              <div>
-                <Name
-                  details={data.singleName}
-                  name={searchTerm}
-                  pathname={pathname}
-                />
-              </div>
+              <Name
+                details={data.singleName}
+                name={searchTerm}
+                pathname={pathname}
+                refetch={refetch}
+              />
             )
           }}
         </Query>
