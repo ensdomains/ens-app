@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import styled from 'react-emotion'
-import { Mutation } from 'react-apollo'
+import { Mutation, Query } from 'react-apollo'
 
 import { SET_NAME } from '../../graphql/mutations'
+import { GET_RESOLVER } from '../../graphql/queries'
+import { watchReverseResolverEvent } from '../../api/watchers'
 
 import ReverseRecordQuery from '../ReverseRecordQuery'
 import Editable from './Editable'
@@ -100,9 +102,15 @@ class AddReverseRecord extends Component {
     return (
       <AddReverseRecordContainer>
         <Editable>
-          {({ editing, startEditing, stopEditing }) => (
+          {({
+            editing,
+            startEditing,
+            stopEditing,
+            startPending,
+            setConfirmed
+          }) => (
             <ReverseRecordQuery address={account}>
-              {({ data: { getReverseRecord }, loading }) => {
+              {({ data: { getReverseRecord }, loading, refetch }) => {
                 if (loading) return 'loading'
                 return (
                   <>
@@ -116,7 +124,7 @@ class AddReverseRecord extends Component {
                         ) : (
                           <MessageContent>
                             <BlueWarning />
-                            Set to a different name:
+                            Reverse record: Set to a different name:
                             {getReverseRecord.name}
                           </MessageContent>
                         )
@@ -131,23 +139,60 @@ class AddReverseRecord extends Component {
                           The Reverse Resolution translates an address into a
                           name. It allows Dapps to show in their interfaces “
                           {name}” rather than the long address “{account}
-                          ”.{' '}
+                          ”. If you would like to set up your reverse for a
+                          different account, please switch accounts in your dapp
+                          browser.
                         </Explanation>
                         <Account>{account}</Account>
                         <Name>{name}</Name>
-                        <Mutation
-                          mutation={SET_NAME}
+                        <Query
+                          query={GET_RESOLVER}
                           variables={{
-                            name
+                            name: `${account.slice(2)}.addr.reverse`
                           }}
                         >
-                          {mutation => (
-                            <SaveCancel
-                              mutation={mutation}
-                              stopEditing={stopEditing}
-                            />
+                          {({ data: { getResolver } }) => (
+                            <Mutation
+                              mutation={SET_NAME}
+                              variables={{
+                                name
+                              }}
+                              onCompleted={data => {
+                                const txHash = data['setName']
+                                console.log(getResolver)
+                                console.log(`${account.slice(2)}.addr.reverse`)
+                                console.log(txHash)
+                                if (txHash) {
+                                  startPending()
+                                  watchReverseResolverEvent(
+                                    'NameChanged',
+                                    getResolver.address,
+                                    `${account}.addr.reverse`,
+                                    (error, log, event) => {
+                                      console.log(
+                                        'LOG for NameChanged',
+                                        log,
+                                        event
+                                      )
+                                      if (log.transactionHash === txHash) {
+                                        event.stopWatching()
+                                        setConfirmed()
+                                        refetch()
+                                      }
+                                    }
+                                  )
+                                }
+                              }}
+                            >
+                              {mutation => (
+                                <SaveCancel
+                                  mutation={mutation}
+                                  stopEditing={stopEditing}
+                                />
+                              )}
+                            </Mutation>
                           )}
-                        </Mutation>
+                        </Query>
                       </SetReverseContainer>
                     )}
                   </>

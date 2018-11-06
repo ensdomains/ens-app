@@ -3,7 +3,9 @@ import {
   getDomainDetails,
   getSubDomains,
   getName,
+  getResolver,
   claimAndSetReverseRecordName,
+  setReverseRecordName,
   setOwner,
   setResolver,
   setAddress,
@@ -14,7 +16,7 @@ import { getEntry } from '../registrar'
 import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
 import get from 'lodash/get'
-import getWeb3 from '../web3'
+import getWeb3, { getAccounts } from '../web3'
 import domains from '../../constants/domains.json'
 
 import {
@@ -212,12 +214,29 @@ const resolvers = {
           name: null
         }
       }
+    },
+    getResolver: async (_, { name }) => {
+      const resolver = await getResolver(name)
+      return {
+        address: resolver,
+        __typename: 'Resolver'
+      }
     }
   },
   Mutation: {
     setName: async (_, { name }, { cache }) => {
       try {
-        const tx = await claimAndSetReverseRecordName(name)
+        let tx
+        const accounts = await getAccounts()
+        const resolverAddress = await getResolver(
+          `${accounts[0].slice(2)}.addr.reverse`
+        )
+        if (parseInt(resolverAddress, 16) === 0) {
+          tx = await claimAndSetReverseRecordName(name)
+        } else {
+          tx = await setReverseRecordName(name)
+        }
+
         console.log(tx)
         return tx
       } catch (e) {
