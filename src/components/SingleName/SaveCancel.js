@@ -13,8 +13,14 @@ const Cancel = styled(Button)`
   margin-right: 20px;
 `
 
-const SaveCancel = ({ mutation, mutationButton, stopEditing, disabled }) => (
-  <SaveCancelContainer>
+const SaveCancel = ({
+  mutation,
+  mutationButton,
+  stopEditing,
+  disabled,
+  className
+}) => (
+  <SaveCancelContainer className={className}>
     <Cancel type="hollow" onClick={stopEditing}>
       Cancel
     </Cancel>
