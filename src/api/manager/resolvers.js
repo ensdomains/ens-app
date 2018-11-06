@@ -3,6 +3,7 @@ import {
   getDomainDetails,
   getSubDomains,
   getName,
+  claimAndSetReverseRecordName,
   setOwner,
   setResolver,
   setAddress,
@@ -214,6 +215,15 @@ const resolvers = {
     }
   },
   Mutation: {
+    setName: async (_, { name }, { cache }) => {
+      try {
+        const tx = await claimAndSetReverseRecordName(name)
+        console.log(tx)
+        return tx
+      } catch (e) {
+        console.log(e)
+      }
+    },
     setOwner: async (_, { name, address }, { cache }) => {
       try {
         const tx = await setOwner(name, address)

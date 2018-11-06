@@ -184,9 +184,8 @@ export async function claim() {
 export async function claimAndSetReverseRecordName(name) {
   let { reverseRegistrar } = await getReverseRegistrarContract()
   let accounts = await getAccounts()
-  let node = await getNamehash(name)
   return new Promise((resolve, reject) => {
-    reverseRegistrar.setName(node, { from: accounts[0] }, (err, txId) => {
+    reverseRegistrar.setName(name, { from: accounts[0] }, (err, txId) => {
       if (err) reject(err)
       resolve(txId)
     })

@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'react-emotion'
+import { Mutation } from 'react-apollo'
+
+import { SET_NAME } from '../../graphql/mutations'
 
 import ReverseRecordQuery from '../ReverseRecordQuery'
 import Editable from './Editable'
@@ -97,7 +100,7 @@ class AddReverseRecord extends Component {
                         name === getReverseRecord.name ? (
                           <>
                             <Check />
-                            awesome you setup your reverse with ${name} already
+                            Reverse record: Set to {name}
                           </>
                         ) : (
                           <>
@@ -111,7 +114,7 @@ class AddReverseRecord extends Component {
                           </>
                         )
                       ) : (
-                        `Reverse pointer: not set`
+                        `Reverse record: not set`
                       )}
                     </Message>
                     {editing && (
@@ -124,7 +127,19 @@ class AddReverseRecord extends Component {
                         </Explanation>
                         <Account>{account}</Account>
                         <Name>{name}</Name>
-                        <SaveCancel stopEditing={stopEditing} />
+                        <Mutation
+                          mutation={SET_NAME}
+                          variables={{
+                            name
+                          }}
+                        >
+                          {mutation => (
+                            <SaveCancel
+                              mutation={mutation}
+                              stopEditing={stopEditing}
+                            />
+                          )}
+                        </Mutation>
                       </SetReverseContainer>
                     )}
                   </>
