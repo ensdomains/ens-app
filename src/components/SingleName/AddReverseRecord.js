@@ -10,6 +10,7 @@ import SaveCancel from './SaveCancel'
 
 import { ReactComponent as DefaultCheck } from '../Icons/Check.svg'
 import { ReactComponent as DefaultBlueWarning } from '../Icons/BlueWarning.svg'
+import { ReactComponent as DefaultSmallCaret } from '../Icons/SmallCaret.svg'
 
 const AddReverseRecordContainer = styled('div')`
   background: #f0f6fa;
@@ -32,10 +33,16 @@ const Message = styled('div')`
   letter-spacing: 0;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
   &:hover {
     cursor: pointer;
   }
+`
+
+const MessageContent = styled('div')`
+  display: flex;
+  align-items: center;
 `
 
 const IconStyles = () => `margin-right: 10px;`
@@ -46,6 +53,10 @@ const BlueWarning = styled(DefaultBlueWarning)`
 
 const Check = styled(DefaultCheck)`
   ${IconStyles()};
+`
+
+const SmallCaret = styled(DefaultSmallCaret)`
+  transform: ${p => (p.rotated ? 'rotate(0)' : 'rotate(-90deg)')};
 `
 
 const Explanation = styled('div')`
@@ -98,24 +109,21 @@ class AddReverseRecord extends Component {
                     <Message onClick={editing ? stopEditing : startEditing}>
                       {getReverseRecord ? (
                         name === getReverseRecord.name ? (
-                          <>
+                          <MessageContent>
                             <Check />
                             Reverse record: Set to {name}
-                          </>
+                          </MessageContent>
                         ) : (
-                          <>
+                          <MessageContent>
                             <BlueWarning />
-                            <div>
-                              {`Set to a different name: ${
-                                getReverseRecord.name
-                              } 
-                          `}
-                            </div>
-                          </>
+                            Set to a different name:
+                            {getReverseRecord.name}
+                          </MessageContent>
                         )
                       ) : (
                         `Reverse record: not set`
                       )}
+                      <SmallCaret rotated={editing} />
                     </Message>
                     {editing && (
                       <SetReverseContainer>

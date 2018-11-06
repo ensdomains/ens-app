@@ -2,7 +2,13 @@ import React, { Component, Fragment } from 'react'
 import styled from 'react-emotion'
 import { H2 } from '../Typography/Basic'
 import WarningDefault from '../Icons/Warning'
-import SmallCaret from '../Icons/SmallCaret'
+import { ReactComponent as DefaultSmallCaret } from '../Icons/SmallCaret.svg'
+
+const SmallCaret = styled(DefaultSmallCaret)`
+  path {
+    fill: #2b2b2b;
+  }
+`
 
 const errorData = {
   domainMalformed: {
