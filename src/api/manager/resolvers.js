@@ -36,35 +36,6 @@ const defaults = {
   subDomainFavourites: savedSubDomainFavourites
 }
 
-export function resolveQueryPath(domainArray, path, db) {
-  if (domainArray.length === 0) {
-    return path
-  }
-
-  let domainArrayPopped = domainArray.slice(0, domainArray.length - 1)
-  let currentLabel = domainArray[domainArray.length - 1]
-
-  function findIndex(path, db, label) {
-    const nodes = get(db, path)
-    const index = nodes.findIndex(node => {
-      return node.label === label
-    })
-    return index
-  }
-
-  let updatedPath
-  if (typeof path[path.length - 1] === 'string') {
-    let index = findIndex(path, db, currentLabel)
-    updatedPath = [...path, index, 'nodes']
-  } else {
-    updatedPath = [...path, 'nodes']
-    let index = findIndex(updatedPath, db, currentLabel)
-    updatedPath = [...updatedPath, index]
-  }
-
-  return resolveQueryPath(domainArrayPopped, updatedPath, db)
-}
-
 function getParent(name) {
   const nameArray = name.split('.')
   nameArray.shift()
