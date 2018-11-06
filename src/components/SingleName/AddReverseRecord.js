@@ -51,8 +51,9 @@ const Explanation = styled('div')`
   font-size: 14px;
   color: #2b2b2b;
   letter-spacing: 0;
-  line-height: 20px;
+  line-height: 25px;
   margin-bottom: 10px;
+  max-width: 768px;
 `
 
 const Account = styled('div')`
