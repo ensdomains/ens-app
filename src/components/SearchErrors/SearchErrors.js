@@ -73,8 +73,8 @@ class SearchErrors extends Component {
           Warning
           <Warning />
         </ErrorH2>
-        {errors.map(e => (
-          <SingleError error={e} searchTerm={searchTerm} />
+        {errors.map((e, i) => (
+          <SingleError key={i} error={e} searchTerm={searchTerm} />
         ))}
       </SearchErrorsContainer>
     )

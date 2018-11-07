@@ -7,6 +7,9 @@ const PendingContainer = styled('div')`
 `
 
 const Text = styled('span')`
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
   margin-right: 10px;
 `
 const Pending = ({ className, children = 'Tx pending' }) => (

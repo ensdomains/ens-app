@@ -6,6 +6,7 @@ import Editable from './Editable'
 import SaveCancel from './SaveCancel'
 import DefaultInput from '../Forms/Input'
 import Select from '../Forms/Select'
+import TxPending from '../PendingTx'
 
 import { SET_CONTENT, SET_ADDRESS } from '../../graphql/mutations'
 import { watchResolverEvent } from '../../api/watchers'
@@ -93,7 +94,13 @@ class AddRecord extends Component {
                 Records
                 {emptyRecords.length > 0 ? (
                   !editing ? (
-                    <ToggleAddRecord onClick={startEditing}>+</ToggleAddRecord>
+                    pending && !confirmed ? (
+                      <TxPending />
+                    ) : (
+                      <ToggleAddRecord onClick={startEditing}>
+                        +
+                      </ToggleAddRecord>
+                    )
                   ) : (
                     <ToggleAddRecord onClick={stopEditing}>-</ToggleAddRecord>
                   )
