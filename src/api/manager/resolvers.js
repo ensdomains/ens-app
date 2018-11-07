@@ -3,7 +3,6 @@ import {
   getDomainDetails,
   getSubDomains,
   getName,
-  getResolver,
   claimAndSetReverseRecordName,
   setOwner,
   setResolver,

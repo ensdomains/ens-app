@@ -3,6 +3,7 @@ import styled from 'react-emotion'
 import { Mutation } from 'react-apollo'
 import { addressUtils } from '@0xproject/utils'
 import PropTypes from 'prop-types'
+import { Transition } from 'react-spring'
 
 import { watchRegistryEvent } from '../../api/watchers'
 
@@ -26,6 +27,7 @@ const DetailsEditableContainer = styled(DetailsItem)`
   background: ${({ editing }) => (editing ? '#F0F6FA' : 'white')};
   padding: ${({ editing }) => (editing ? '20px' : '0')};
   margin-bottom: ${({ editing }) => (editing ? '20px' : '0')};
+  transition: 0.3s;
 `
 
 const DetailsContent = styled('div')`
@@ -34,6 +36,7 @@ const DetailsContent = styled('div')`
   position: relative;
   width: 100%;
   ${({ editing }) => editing && 'margin-bottom: 30px'};
+  transition: 0.3s;
 `
 
 const EditRecord = styled('div')`
@@ -150,50 +153,102 @@ class DetailsEditable extends Component {
                       </Action>
                     )}
                   </DetailsContent>
+                  <Transition
+                    items={editing}
+                    from={{ opacity: 0, height: 0 }}
+                    enter={{ opacity: 1, height: 'auto' }}
+                    leave={{ opacity: 0, height: 0 }}
+                  >
+                    {editing =>
+                      editing &&
+                      (props => (
+                        <div style={props}>
+                          <EditRecord>
+                            <Input
+                              value={newValue}
+                              onChange={updateValue}
+                              valid={isValid}
+                              invalid={isInvalid}
+                              placeholder="Type in a new Ethereum address"
+                              large
+                            />
+                          </EditRecord>
+                          <Buttons>
+                            {keyName === 'Resolver' && (
+                              <DefaultResolverButton
+                                onClick={() =>
+                                  updateValueDirect(publicResolver.address)
+                                }
+                              >
+                                Use Public Resolver
+                              </DefaultResolverButton>
+                            )}
 
-                  {editing ? (
-                    <>
-                      <EditRecord>
-                        <Input
-                          value={newValue}
-                          onChange={updateValue}
-                          valid={isValid}
-                          invalid={isInvalid}
-                          placeholder="Type in a new Ethereum address"
-                          large
-                        />
-                      </EditRecord>
-                      <Buttons>
-                        {keyName === 'Resolver' && (
-                          <DefaultResolverButton
-                            onClick={() =>
-                              updateValueDirect(publicResolver.address)
-                            }
-                          >
-                            Use Public Resolver
-                          </DefaultResolverButton>
-                        )}
+                            <SaveCancel
+                              stopEditing={stopEditing}
+                              mutation={() => {
+                                const variables = {
+                                  name: domain.name,
+                                  [variableName
+                                    ? variableName
+                                    : 'address']: newValue
+                                }
+                                mutation({
+                                  variables
+                                })
+                              }}
+                              mutationButton={mutationButton}
+                            />
+                          </Buttons>
+                        </div>
+                      ))
+                    }
+                  </Transition>
 
-                        <SaveCancel
-                          stopEditing={stopEditing}
-                          mutation={() => {
-                            const variables = {
-                              name: domain.name,
-                              [variableName
-                                ? variableName
-                                : 'address']: newValue
-                            }
-                            mutation({
-                              variables
-                            })
-                          }}
-                          mutationButton={mutationButton}
-                        />
-                      </Buttons>
-                    </>
-                  ) : (
-                    ''
-                  )}
+                  {/* {editing =>
+                      editing &&
+                      (props => (
+                        <div style={props}>
+                          <EditRecord>
+                            <Input
+                              value={newValue}
+                              onChange={updateValue}
+                              valid={isValid}
+                              invalid={isInvalid}
+                              placeholder="Type in a new Ethereum address"
+                              large
+                            />
+                          </EditRecord>
+                          <Buttons>
+                            {keyName === 'Resolver' && (
+                              <DefaultResolverButton
+                                onClick={() =>
+                                  updateValueDirect(publicResolver.address)
+                                }
+                              >
+                                Use Public Resolver
+                              </DefaultResolverButton>
+                            )}
+
+                            <SaveCancel
+                              stopEditing={stopEditing}
+                              mutation={() => {
+                                const variables = {
+                                  name: domain.name,
+                                  [variableName
+                                    ? variableName
+                                    : 'address']: newValue
+                                }
+                                mutation({
+                                  variables
+                                })
+                              }}
+                              mutationButton={mutationButton}
+                            />
+                          </Buttons>
+                        </div>
+                      ))
+                    } */}
                 </DetailsEditableContainer>
               )}
             </Mutation>
