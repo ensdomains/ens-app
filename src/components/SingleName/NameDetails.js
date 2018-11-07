@@ -30,6 +30,7 @@ const Records = styled('div')`
   border-radius: 6px;
   border: 1px solid #ededed;
   box-shadow: inset 0 0 10px 0 rgba(235, 235, 235, 0.5);
+  padding-bottom: 10px;
 `
 
 class NameDetails extends Component {
