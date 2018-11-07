@@ -155,14 +155,13 @@ class AddReverseRecord extends Component {
                           variables={{
                             name
                           }}
-                          onCompleted={data => {
+                          onCompleted={() => {
                             //TODO: Get rid of this with web3 1.0
                             startPending()
                             const timer = setInterval(() => {
                               refetch().then(({ data }) => {
                                 if (data.getReverseRecord.name === name) {
                                   clearInterval(timer)
-                                  console.log('cleared!')
                                   setConfirmed()
                                 }
                               })
