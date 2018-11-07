@@ -3,6 +3,8 @@ import {
   getDomainDetails,
   getSubDomains,
   getName,
+  getResolver,
+  claimAndSetReverseRecordName,
   setOwner,
   setResolver,
   setAddress,
@@ -12,7 +14,6 @@ import {
 import { getEntry } from '../registrar'
 import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
-import get from 'lodash/get'
 import getWeb3 from '../web3'
 import domains from '../../constants/domains.json'
 
@@ -31,35 +32,6 @@ const defaults = {
   names: [],
   favourites: savedFavourites,
   subDomainFavourites: savedSubDomainFavourites
-}
-
-export function resolveQueryPath(domainArray, path, db) {
-  if (domainArray.length === 0) {
-    return path
-  }
-
-  let domainArrayPopped = domainArray.slice(0, domainArray.length - 1)
-  let currentLabel = domainArray[domainArray.length - 1]
-
-  function findIndex(path, db, label) {
-    const nodes = get(db, path)
-    const index = nodes.findIndex(node => {
-      return node.label === label
-    })
-    return index
-  }
-
-  let updatedPath
-  if (typeof path[path.length - 1] === 'string') {
-    let index = findIndex(path, db, currentLabel)
-    updatedPath = [...path, index, 'nodes']
-  } else {
-    updatedPath = [...path, 'nodes']
-    let index = findIndex(updatedPath, db, currentLabel)
-    updatedPath = [...updatedPath, index]
-  }
-
-  return resolveQueryPath(domainArrayPopped, updatedPath, db)
 }
 
 function getParent(name) {
@@ -88,7 +60,6 @@ const resolvers = {
         available: null
       }
       let data
-      //const owner = await getOwner(name)
 
       if (nameArray.length < 3 && nameArray[1] === 'eth') {
         if (nameArray[0].length < 7) {
@@ -214,6 +185,14 @@ const resolvers = {
     }
   },
   Mutation: {
+    setName: async (_, { name }) => {
+      try {
+        const tx = await claimAndSetReverseRecordName(name)
+        return tx
+      } catch (e) {
+        console.log(e)
+      }
+    },
     setOwner: async (_, { name, address }, { cache }) => {
       try {
         const tx = await setOwner(name, address)

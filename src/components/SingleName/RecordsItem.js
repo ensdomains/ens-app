@@ -7,6 +7,7 @@ import { addressUtils } from '@0xproject/utils'
 import { watchResolverEvent } from '../../api/watchers'
 
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
+import AddReverseRecord from './AddReverseRecord'
 import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
 import DefaultInput from '../Forms/Input'
 import Pencil from '../Forms/Pencil'
@@ -84,7 +85,8 @@ class RecordItem extends Component {
       mutationName,
       refetch,
       variableName,
-      event
+      event,
+      account
     } = this.props
 
     return (
@@ -169,8 +171,6 @@ class RecordItem extends Component {
                               ? variableName
                               : 'recordValue']: newValue
                           }
-
-                          console.log(variables)
                           mutation({
                             variables
                           })
@@ -180,6 +180,9 @@ class RecordItem extends Component {
                     </>
                   ) : (
                     ''
+                  )}
+                  {keyName === 'Address' && (
+                    <AddReverseRecord account={account} name={domain.name} />
                   )}
                 </RecordsItem>
               )}
@@ -225,7 +228,8 @@ RecordItem.propTypes = {
   domain: PropTypes.object.isRequired,
   variableName: PropTypes.string, //can change the variable name for mutation
   event: PropTypes.string.isRequired, // event name to watch for transaction
-  refetch: PropTypes.func.isRequired
+  refetch: PropTypes.func.isRequired,
+  account: PropTypes.string
 }
 
 export default RecordItem

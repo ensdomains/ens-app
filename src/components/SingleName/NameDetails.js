@@ -30,6 +30,7 @@ const Records = styled('div')`
   border-radius: 6px;
   border: 1px solid #ededed;
   box-shadow: inset 0 0 10px 0 rgba(235, 235, 235, 0.5);
+  padding-bottom: 10px;
 `
 
 class NameDetails extends Component {
@@ -56,7 +57,7 @@ class NameDetails extends Component {
     }
   }
   render() {
-    const { domain, isOwner, refetch } = this.props
+    const { domain, isOwner, refetch, account } = this.props
     const records = [
       {
         label: 'Address',
@@ -118,7 +119,6 @@ class NameDetails extends Component {
               <Query query={GET_PUBLIC_RESOLVER}>
                 {({ data, loading }) => {
                   if (loading) return null
-                  console.log(data)
                   return (
                     <DetailsItemEditable
                       keyName="Resolver"
@@ -132,6 +132,7 @@ class NameDetails extends Component {
                       mutationName="setResolver"
                       event="NewResolver"
                       refetch={refetch}
+                      account={account}
                     />
                   )
                 }}
@@ -159,6 +160,7 @@ class NameDetails extends Component {
                         type="address"
                         event="AddrChanged"
                         refetch={refetch}
+                        account={account}
                       />
                     )}
                     {!this.isEmpty(domain.content) && (

@@ -170,6 +170,16 @@ export async function claimReverseRecord(resolver) {
   })
 }
 
+export async function getReverseRegistrarDefaultResolver(resolver) {
+  let { reverseRegistrar } = await getReverseRegistrarContract()
+  return new Promise((resolve, reject) => {
+    reverseRegistrar.defaultResolver((err, resolver) => {
+      if (err) reject(err)
+      resolve(resolver)
+    })
+  })
+}
+
 export async function claim() {
   let { reverseRegistrar } = await getReverseRegistrarContract()
   let accounts = await getAccounts()
@@ -184,19 +194,21 @@ export async function claim() {
 export async function claimAndSetReverseRecordName(name) {
   let { reverseRegistrar } = await getReverseRegistrarContract()
   let accounts = await getAccounts()
-  let node = await getNamehash(name)
   return new Promise((resolve, reject) => {
-    reverseRegistrar.setName(node, { from: accounts[0] }, (err, txId) => {
+    reverseRegistrar.setName(name, { from: accounts[0] }, (err, txId) => {
       if (err) reject(err)
       resolve(txId)
     })
   })
 }
 
-export async function setReverseRecordName(account, resolverAddr, name) {
-  let { resolver } = await getResolverContract(resolverAddr)
-  let accounts = await getAccounts()
-  let reverseAddress = `${account.slice(2)}.addr.reverse`
+export async function setReverseRecordName(name) {
+  const accounts = await getAccounts()
+  const resolverAddress = await getResolver(
+    `${accounts[0].slice(2)}.addr.reverse`
+  )
+  let { resolver } = await getResolverContract(resolverAddress)
+  let reverseAddress = `${accounts[0].slice(2)}.addr.reverse`
   let node = await getNamehash(reverseAddress)
   return new Promise((resolve, reject) => {
     resolver.setName(node, name, { from: accounts[0] }, function(err, txId) {

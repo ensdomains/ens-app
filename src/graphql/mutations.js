@@ -58,6 +58,14 @@ export const SET_OWNER = gql`
   }
 `
 
+export const SET_NAME = gql`
+  mutation setName($name: String) {
+    setName(name: $name) @client {
+      txHash
+    }
+  }
+`
+
 export const SET_ADDRESS = gql`
   mutation setAddress($name: String, $recordValue: String) {
     setAddress(name: $name, recordValue: $recordValue) @client
