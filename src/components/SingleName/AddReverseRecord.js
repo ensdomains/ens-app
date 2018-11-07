@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
 import styled from 'react-emotion'
-import { Mutation, Query } from 'react-apollo'
+import { Mutation } from 'react-apollo'
 
 import { SET_NAME } from '../../graphql/mutations'
-import { GET_RESOLVER } from '../../graphql/queries'
-import { watchReverseResolverEvent } from '../../api/watchers'
 
 import ReverseRecordQuery from '../ReverseRecordQuery'
 import Editable from './Editable'
 import SaveCancel from './SaveCancel'
+import PendingTx from '../PendingTx'
 
 import { ReactComponent as DefaultCheck } from '../Icons/Check.svg'
 import { ReactComponent as DefaultBlueWarning } from '../Icons/BlueWarning.svg'
@@ -107,6 +106,8 @@ class AddReverseRecord extends Component {
             startEditing,
             stopEditing,
             startPending,
+            pending,
+            confirmed,
             setConfirmed
           }) => (
             <ReverseRecordQuery address={account}>
@@ -131,7 +132,11 @@ class AddReverseRecord extends Component {
                       ) : (
                         `Reverse record: not set`
                       )}
-                      <SmallCaret rotated={editing} />
+                      {pending && !confirmed ? (
+                        <PendingTx />
+                      ) : (
+                        <SmallCaret rotated={editing} />
+                      )}
                     </Message>
                     {editing && (
                       <SetReverseContainer>
@@ -145,54 +150,32 @@ class AddReverseRecord extends Component {
                         </Explanation>
                         <Account>{account}</Account>
                         <Name>{name}</Name>
-                        <Query
-                          query={GET_RESOLVER}
+                        <Mutation
+                          mutation={SET_NAME}
                           variables={{
-                            name: `${account.slice(2)}.addr.reverse`
+                            name
+                          }}
+                          onCompleted={data => {
+                            //TODO: Get rid of this with web3 1.0
+                            startPending()
+                            const timer = setInterval(() => {
+                              refetch().then(({ data }) => {
+                                if (data.getReverseRecord.name === name) {
+                                  clearInterval(timer)
+                                  console.log('cleared!')
+                                  setConfirmed()
+                                }
+                              })
+                            }, 2000)
                           }}
                         >
-                          {({ data: { getResolver } }) => (
-                            <Mutation
-                              mutation={SET_NAME}
-                              variables={{
-                                name
-                              }}
-                              onCompleted={data => {
-                                const txHash = data['setName']
-                                console.log(getResolver)
-                                console.log(`${account.slice(2)}.addr.reverse`)
-                                console.log(txHash)
-                                if (txHash) {
-                                  startPending()
-                                  watchReverseResolverEvent(
-                                    'NameChanged',
-                                    getResolver.address,
-                                    `${account}.addr.reverse`,
-                                    (error, log, event) => {
-                                      console.log(
-                                        'LOG for NameChanged',
-                                        log,
-                                        event
-                                      )
-                                      if (log.transactionHash === txHash) {
-                                        event.stopWatching()
-                                        setConfirmed()
-                                        refetch()
-                                      }
-                                    }
-                                  )
-                                }
-                              }}
-                            >
-                              {mutation => (
-                                <SaveCancel
-                                  mutation={mutation}
-                                  stopEditing={stopEditing}
-                                />
-                              )}
-                            </Mutation>
+                          {mutation => (
+                            <SaveCancel
+                              mutation={mutation}
+                              stopEditing={stopEditing}
+                            />
                           )}
-                        </Query>
+                        </Mutation>
                       </SetReverseContainer>
                     )}
                   </>

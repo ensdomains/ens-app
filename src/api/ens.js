@@ -115,10 +115,8 @@ const watchEvent = (
   params,
   callback
 ) => {
-  console.log('WATCH EVENT', contract, addr, eventName)
   function eventFactory(contract, eventName, filter, params, callback) {
     const myEvent = contract[eventName](filter, params)
-    console.log(myEvent)
     myEvent.watch((error, log) => {
       //console.log(event, `here in the ${contract} Event`, log)
       if (error) {
@@ -136,7 +134,6 @@ const watchEvent = (
         eventFactory(ens, eventName, filter, params, callback)
       })
     case 'Resolver':
-      console.log('Resolver ENS WATCH')
       return getResolverContract(addr).then(({ resolver }) => {
         eventFactory(resolver, eventName, filter, params, callback)
       })

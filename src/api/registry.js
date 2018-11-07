@@ -170,6 +170,16 @@ export async function claimReverseRecord(resolver) {
   })
 }
 
+export async function getReverseRegistrarDefaultResolver(resolver) {
+  let { reverseRegistrar } = await getReverseRegistrarContract()
+  return new Promise((resolve, reject) => {
+    reverseRegistrar.defaultResolver((err, resolver) => {
+      if (err) reject(err)
+      resolve(resolver)
+    })
+  })
+}
+
 export async function claim() {
   let { reverseRegistrar } = await getReverseRegistrarContract()
   let accounts = await getAccounts()

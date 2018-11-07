@@ -5,7 +5,6 @@ import {
   getName,
   getResolver,
   claimAndSetReverseRecordName,
-  setReverseRecordName,
   setOwner,
   setResolver,
   setAddress,
@@ -15,8 +14,7 @@ import {
 import { getEntry } from '../registrar'
 import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
-import get from 'lodash/get'
-import getWeb3, { getAccounts } from '../web3'
+import getWeb3 from '../web3'
 import domains from '../../constants/domains.json'
 
 import {
@@ -62,7 +60,6 @@ const resolvers = {
         available: null
       }
       let data
-      //const owner = await getOwner(name)
 
       if (nameArray.length < 3 && nameArray[1] === 'eth') {
         if (nameArray[0].length < 7) {
@@ -195,20 +192,9 @@ const resolvers = {
     }
   },
   Mutation: {
-    setName: async (_, { name }, { cache }) => {
+    setName: async (_, { name }) => {
       try {
-        let tx
-        const accounts = await getAccounts()
-        const resolverAddress = await getResolver(
-          `${accounts[0].slice(2)}.addr.reverse`
-        )
-        if (parseInt(resolverAddress, 16) === 0) {
-          tx = await claimAndSetReverseRecordName(name)
-        } else {
-          tx = await setReverseRecordName(name)
-        }
-
-        console.log(tx)
+        const tx = await claimAndSetReverseRecordName(name)
         return tx
       } catch (e) {
         console.log(e)
