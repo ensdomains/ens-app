@@ -30,7 +30,8 @@ const Records = styled('div')`
   border-radius: 6px;
   border: 1px solid #ededed;
   box-shadow: inset 0 0 10px 0 rgba(235, 235, 235, 0.5);
-  padding-bottom: 10px;
+  padding-bottom: ${p => (p.hasRecord ? '10px' : '0')};
+  display: ${p => (!p.isOwner && !p.hasRecord ? 'none' : 'block')};
 `
 
 class NameDetails extends Component {
@@ -137,7 +138,7 @@ class NameDetails extends Component {
                   )
                 }}
               </Query>
-              <Records>
+              <Records hasRecord={this.hasAnyRecord(domain)} isOwner={isOwner}>
                 <AddRecord
                   emptyRecords={emptyRecords}
                   title="Records"
