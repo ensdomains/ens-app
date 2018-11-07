@@ -73,7 +73,7 @@ class Favourites extends Component {
         <Query query={GET_FAVOURITES}>
           {({ data }) => {
             if (data.favourites.length === 0) {
-              return <NoDomains type="name" />
+              return <NoDomains type="domain" />
             }
             return (
               <Fragment>
