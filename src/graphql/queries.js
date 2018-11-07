@@ -9,14 +9,6 @@ export const GET_WEB3 = gql`
   }
 `
 
-export const GET_RESOLVER = gql`
-  query getResolver($name: String) @client {
-    getResolver(name: $name) @client {
-      address
-    }
-  }
-`
-
 export const GET_PUBLIC_RESOLVER = gql`
   query getPublicResolver {
     publicResolver @client {

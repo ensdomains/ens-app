@@ -182,13 +182,6 @@ const resolvers = {
           name: null
         }
       }
-    },
-    getResolver: async (_, { name }) => {
-      const resolver = await getResolver(name)
-      return {
-        address: resolver,
-        __typename: 'Resolver'
-      }
     }
   },
   Mutation: {
