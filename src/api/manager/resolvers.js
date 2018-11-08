@@ -3,6 +3,7 @@ import {
   getDomainDetails,
   getSubDomains,
   getName,
+  getAddr,
   claimAndSetReverseRecordName,
   setOwner,
   setResolver,
@@ -171,9 +172,13 @@ const resolvers = {
 
       try {
         const { name } = await getName(address)
+        const addr = await getAddr(name)
+
         return {
           ...obj,
-          name
+          name,
+          addr,
+          match: false
         }
       } catch (e) {
         return {

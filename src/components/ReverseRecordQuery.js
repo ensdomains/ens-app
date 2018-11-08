@@ -7,6 +7,7 @@ const GET_REVERSE_RECORD = gql`
     getReverseRecord(address: $address) {
       name
       address
+      match
     }
   }
 `
