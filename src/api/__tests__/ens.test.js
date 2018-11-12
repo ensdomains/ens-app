@@ -12,7 +12,7 @@ import {
   getResolver,
   setResolver,
   getAddr,
-  setAddr,
+  setAddress,
   getContent,
   setContent,
   createSubDomain,
@@ -247,7 +247,7 @@ describe('Blockchain tests', () => {
 
     test('setAddr sets an address', async () => {
       //reverts if no addr is present
-      await setAddr('bar.eth', '0x12345')
+      await setAddress('bar.eth', '0x12345')
       const addr = await getAddr('bar.eth')
       expect(addr).toBe('0x0000000000000000000000000000000000012345')
     })

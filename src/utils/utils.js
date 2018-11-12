@@ -76,7 +76,7 @@ export function isLabelValid(name) {
 }
 
 export const parseSearchTerm = term => {
-  let regex = /(?<=\.|^)[^.]+$/
+  let regex = /[^.]+$/
 
   try {
     validateName(term)

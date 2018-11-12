@@ -13,7 +13,7 @@ import SearchContainer, { parseSearchTerm } from '../Search'
 
 afterEach(cleanup)
 
-describe('parseSearchTerm', () => {
+xdescribe('parseSearchTerm', () => {
   it('returns "eth" when a full ens name is given', () => {
     expect(parseSearchTerm('something.eth')).toBe('eth')
   })
@@ -45,7 +45,7 @@ describe('parseSearchTerm', () => {
   })
 })
 
-test('should call resolver without blowing up', () => {
+test.skip('should call resolver without blowing up', () => {
   const getDomainAvailability = jest.fn()
   const resolverOverwrites = {
     Mutation: () => ({
