@@ -8,10 +8,11 @@ class ReverseResolution extends Component {
         {({ data, loading }) => {
           const { getReverseRecord } = data
           if (loading) return <span>{this.props.address}</span>
-          if (getReverseRecord && !getReverseRecord.name) {
+          if (getReverseRecord && getReverseRecord.name) {
+            return <span>{getReverseRecord.name}</span>
+          }else{
             return <span>{this.props.address}</span>
           }
-          return <span>{getReverseRecord.name}</span>
         }}
       </ReverseRecordQuery>
     )
