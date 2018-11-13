@@ -10,6 +10,8 @@ import SearchResults from './routes/SearchResults'
 import SingleName from './routes/SingleName'
 import Favourites from './routes/Favourites'
 import About from './routes/About'
+import Modal from './components/Modal/Modal'
+import Confirm from './components/SingleName/Confirm'
 
 import DefaultLayout from './components/Layout/DefaultLayout'
 
@@ -33,17 +35,20 @@ const Route = ({
 }
 
 const App = () => (
-  <Router>
-    <Switch>
-      <Route exact path="/" component={Home} layout={HomePageLayout} />
-      <Route path="/test-registrar" component={TestRegistrar} />
-      <Route path="/favourites" component={Favourites} />
-      <Route path="/my-bids" component={SearchResults} />
-      <Route path="/about" component={About} />
-      <Route path="/how-it-works" component={SearchResults} />
-      <Route path="/search/:searchTerm" component={SearchResults} />
-      <Route path="/name/:name" component={SingleName} />
-    </Switch>
-  </Router>
+  <Fragment>
+    <Router>
+      <Switch>
+        <Route exact path="/" component={Home} layout={HomePageLayout} />
+        <Route path="/test-registrar" component={TestRegistrar} />
+        <Route path="/favourites" component={Favourites} />
+        <Route path="/my-bids" component={SearchResults} />
+        <Route path="/about" component={About} />
+        <Route path="/how-it-works" component={SearchResults} />
+        <Route path="/search/:searchTerm" component={SearchResults} />
+        <Route path="/name/:name" component={SingleName} />
+      </Switch>
+    </Router>
+    <Modal name={'confirm'} component={Confirm} />
+  </Fragment>
 )
 export default App
