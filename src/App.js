@@ -12,6 +12,7 @@ import Favourites from './routes/Favourites'
 import About from './routes/About'
 import Modal from './components/Modal/Modal'
 import Confirm from './components/SingleName/Confirm'
+import { CONFIRM } from './modals'
 
 import DefaultLayout from './components/Layout/DefaultLayout'
 
@@ -48,7 +49,7 @@ const App = () => (
         <Route path="/name/:name" component={SingleName} />
       </Switch>
     </Router>
-    <Modal name={'confirm'} component={Confirm} />
+    <Modal name={CONFIRM} component={Confirm} />
   </Fragment>
 )
 export default App
