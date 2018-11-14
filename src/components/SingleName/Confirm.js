@@ -4,7 +4,6 @@ import Button from '../Forms/Button'
 import warning from '../../assets/warning.svg'
 import write  from '../../assets/Write.svg'
 
-
 const ConfirmContainer = styled('div')`
   &:before {
     background: url(${write});
@@ -18,8 +17,6 @@ const Content = styled('div')`
   display: flex;
   justify-content: space-between;
 `
-
-  // margin-left: 1.5em;
 
 const Title = styled('h3')`
   margin:0 0 0 1.5em;

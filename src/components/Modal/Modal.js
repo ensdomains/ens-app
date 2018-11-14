@@ -43,7 +43,6 @@ class Modal extends Component {
   }
 }
 
-// background: rgba(0, 0, 0, 0.5);
 const ModalContainer = styled('div')`
   position: fixed;
   left: 0;
