@@ -40,7 +40,7 @@ const ActionButton = ({
               cancel:() => { toggleModal({name:'confirm'})  }
             })}
           >
-            {mutationButton + ' confirmation'}
+            {mutationButton}
           </Button>
         )}
       </GlobalState.Consumer>  

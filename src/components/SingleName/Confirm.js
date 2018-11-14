@@ -1,8 +1,63 @@
 import React from 'react'
 import styled from 'react-emotion'
 import Button from '../Forms/Button'
+import warning from '../../assets/warning.svg'
+import write  from '../../assets/Write.svg'
+
 
 const ConfirmContainer = styled('div')`
+  &:before {
+    background: url(${write});
+    content: '';
+    height: 43px;
+    width: 42px;
+    float: right;
+  }
+`
+const Content = styled('div')`
+  display: flex;
+  justify-content: space-between;
+`
+
+  // margin-left: 1.5em;
+
+const Title = styled('h3')`
+  margin:0 0 0 1.5em;
+  &:before {
+    background: url(${warning});
+    content: '';
+    height: 17px;
+    width: 19px;
+    position: absolute;
+    margin-left: -1.4em;
+    margin-top: 0.2em;
+  }
+`
+
+const SubTitle = styled('p')`
+  margin:0;
+  margin-bottom:1em;
+`
+
+const Values = styled('ul')`
+  list-style-type: none;
+  width:30em;
+  padding: 4px 0;
+  margin:0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`
+
+const Value = styled('li')`
+  display: flex;
+  justify-content: space-between;
+  color: ${({ old }) => (old ? 'grey' : 'black')};
+`
+
+const Buttons = styled('div')`
+  height:100%;
+  margin-top:1em;
 `
 
 const Action = styled(Button)``
@@ -13,7 +68,6 @@ const Cancel = styled(Button)`
 
 const Confirm = ({
   mutation,
-  mutationButton,
   cancel,
   disabled,
   className,
@@ -21,20 +75,24 @@ const Confirm = ({
   newValue
 }) => (
   <ConfirmContainer className={className}>
-    <h2>Are you sure you want to do this?</h2>
-    <p>This action will modify the state of the blockchain.</p>
-    <ul>
-      <li>PREVIOUS: {value}</li>
-      <li>FUTURE: {newValue}</li>
-    </ul>
-    <Cancel type="hollow" onClick={cancel}>
-      Cancel
-    </Cancel>
-    {disabled ? (
-      <Action type="disabled">{mutationButton ? mutationButton : 'Save'}</Action>
-    ) : (
-      <Action onClick={mutation}>{mutationButton ? mutationButton : 'Save'}</Action>
-    )}
+    <Title>Are you sure you want to do this?</Title>
+    <SubTitle>This action will modify the state of the blockchain.</SubTitle>
+    <Content>
+      <Values>
+        <Value old={true} ><span>PREVIOUS</span><span>{value}</span></Value>
+        <Value><span>FUTURE</span><span>{newValue}</span></Value>
+      </Values>
+      <Buttons>
+        <Cancel type="hollow" onClick={cancel}>
+        Cancel
+        </Cancel>
+        {disabled ? (
+        <Action type="disabled">Confirm</Action>
+        ) : (
+        <Action onClick={mutation}>Confirm</Action>
+        )}
+      </Buttons>
+    </Content>
   </ConfirmContainer>
 )
 

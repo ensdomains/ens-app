@@ -61,9 +61,9 @@ const ModalContainer = styled('div')`
 const ModalContent = styled('div')`
   background: white;
   padding: 40px;
-  width: 100%;
   overflow-y: scroll;
   height: auto%;
+  min-width:850px;
   ${mq.medium`
     width: 70%;
   `};
