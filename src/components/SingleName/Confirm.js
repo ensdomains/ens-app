@@ -12,19 +12,20 @@ const Cancel = styled(Button)`
 `
 
 const Confirm = ({
-  name,
   mutation,
   mutationButton,
   cancel,
   disabled,
-  className
+  className,
+  value,
+  newValue
 }) => (
   <ConfirmContainer className={className}>
     <h2>Are you sure you want to do this?</h2>
     <p>This action will modify the state of the blockchain.</p>
     <ul>
-      <li>PREVIOUS: foo</li>
-      <li>FUTURE: bar</li>    
+      <li>PREVIOUS: {value}</li>
+      <li>FUTURE: {newValue}</li>
     </ul>
     <Cancel type="hollow" onClick={cancel}>
       Cancel

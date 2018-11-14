@@ -11,8 +11,6 @@ import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import RecordsItem from './RecordsItem'
 import DetailsItemEditable from './DetailsItemEditable'
 import AddRecord from './AddRecord'
-import GlobalState from '../../globalState'
-import Button from '../../components/Forms/Button'
 
 import {
   SET_OWNER,
@@ -107,6 +105,7 @@ class NameDetails extends Component {
                 mutationName="setOwner"
                 event="Transfer"
                 refetch={refetch}
+                confirm={true}
               />
               {domain.registrationDate ? (
                 <DetailsItem>
@@ -182,20 +181,6 @@ class NameDetails extends Component {
                   </>
                 )}
               </Records>
-              <GlobalState.Consumer>
-                {({ toggleModal }) => (
-                  <Button
-                    onClick={() => toggleModal({
-                      name: 'confirm',
-                      mutation:() => { alert('somehow have to pass mutation')  },
-                      mutationButton:'Transfer',
-                      cancel:() => { toggleModal({name:'confirm'})  }
-                    })}
-                  >
-                    Confirm
-                  </Button>
-                )}
-              </GlobalState.Consumer>
             </Details>
           )}
         />

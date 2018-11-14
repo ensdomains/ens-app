@@ -84,7 +84,8 @@ class DetailsEditable extends Component {
       variableName,
       event,
       refetch,
-      publicResolver
+      publicResolver,
+      confirm
     } = this.props
     if (keyName === 'Resolver' && parseInt(value, 16) === 0) {
       value = 'No Resolver Set'
@@ -197,7 +198,10 @@ class DetailsEditable extends Component {
                                   variables
                                 })
                               }}
+                              value={value}
+                              newValue={newValue}
                               mutationButton={mutationButton}
+                              confirm={confirm}
                             />
                           </Buttons>
                         </div>
