@@ -1,23 +1,23 @@
 import subDomainRegistrarContract from './contracts/subDomainRegistrarContract.json'
-import getWeb3 from './web3'
+import getWeb3 from './web31'
 import domains from '../constants/domains.json'
 let subDomainRegistrars = {}
 
 const defaultAddress = '0x0b07463b30b302a98407d3e3df85ebc073b0dbd1'
 
 const getSubDomainRegistrar = async address => {
-  const { web3 } = await getWeb3()
+  const web3 = await getWeb3()
   function instantiateContract(address) {
-    return (subDomainRegistrars[address] = web3.eth
-      .contract(subDomainRegistrarContract)
-      .at(address))
+    const contract = new web3.eth.Contract(subDomainRegistrarContract, address)
+    subDomainRegistrars[address] = contract
+    return contract
   }
 
   if (address) {
     if (subDomainRegistrars[address]) {
       return subDomainRegistrars[address]
     } else {
-      subDomainRegistrars[address] = await instantiateContract(address)
+      subDomainRegistrars[address] = instantiateContract(address)
       return subDomainRegistrars[address]
     }
   }
@@ -25,32 +25,26 @@ const getSubDomainRegistrar = async address => {
   if (subDomainRegistrars[defaultAddress]) {
     return subDomainRegistrars[defaultAddress]
   } else {
-    subDomainRegistrars[defaultAddress] = await instantiateContract(
-      defaultAddress
-    )
+    subDomainRegistrars[defaultAddress] = instantiateContract(defaultAddress)
     return subDomainRegistrars[defaultAddress]
   }
 }
 
 export const query = async (domain, label, address = defaultAddress) => {
   const Registrar = await getSubDomainRegistrar(address)
-  const { web3 } = await getWeb3()
-  return new Promise((resolve, reject) => {
-    Registrar.query(web3.sha3(domain), label, (err, node) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve({
-          label,
-          domain,
-          price: node[1].toString(),
-          rent: node[2].toString(),
-          referralFeePPM: node[3].toString(),
-          available: node[0] !== ''
-        })
-      }
-    })
-  })
+  const web3 = await getWeb3()
+  const node = await Registrar.methods
+    .query(web3.utils.sha3(domain), label)
+    .call()
+  console.log(node)
+  return {
+    label,
+    domain,
+    price: node[1].toString(),
+    rent: node[2].toString(),
+    referralFeePPM: node[3].toString(),
+    available: node[0] !== ''
+  }
 }
 
 export const queryAll = async label => {
