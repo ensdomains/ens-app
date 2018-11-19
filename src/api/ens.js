@@ -94,20 +94,11 @@ const getENS = async (ensAddress, web3Instance) => {
   return { ENS, web3, _ENS: ens }
 }
 
-const getENSEvent = (event, filter, params) =>
-  getENSContract().then(({ ens }) => {
-    const myEvent = ens[event](filter, params)
-
-    return new Promise(function(resolve, reject) {
-      myEvent.get(function(error, logs) {
-        if (error) {
-          reject(error)
-        } else {
-          resolve(logs)
-        }
-      })
-    })
-  })
+async function getENSEvent(event, params) {
+  const { _ENS } = await getENS()
+  console.log('here')
+  return _ENS.getPastEvents(event, params)
+}
 
 const watchEvent = (
   { contract, addr, eventName },

@@ -223,14 +223,16 @@ export function getDomainDetails(name) {
 }
 
 export const getSubDomains = async name => {
+  console.log('getting subdomains')
   let startBlock = await ensStartBlock()
   let namehash = await getNamehash(name)
-  let rawLogs = await getENSEvent(
-    'NewOwner',
-    { node: namehash },
-    { fromBlock: startBlock, toBlock: 'latest' }
-  )
-  let flattenedLogs = rawLogs.map(log => log.args)
+  let rawLogs = await getENSEvent('NewOwner', {
+    filter: { node: [namehash] },
+    fromBlock: startBlock
+  })
+
+  console.log(rawLogs)
+  let flattenedLogs = rawLogs.map(log => log.returnValues)
   flattenedLogs.reverse()
   let logs = uniq(flattenedLogs, 'label')
   let labelHashes = logs.map(log => log.label)
