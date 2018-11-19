@@ -33,17 +33,20 @@ const getSubDomainRegistrar = async address => {
 export const query = async (domain, label, address = defaultAddress) => {
   const Registrar = await getSubDomainRegistrar(address)
   const web3 = await getWeb3()
-  const node = await Registrar.methods
-    .query(web3.utils.sha3(domain), label)
-    .call()
-  console.log(node)
+  const {
+    domain: labelName,
+    price,
+    referralFeePPM,
+    rent
+  } = await Registrar.methods.query(web3.utils.sha3(domain), label).call()
+
   return {
     label,
     domain,
-    price: node[1].toString(),
-    rent: node[2].toString(),
-    referralFeePPM: node[3].toString(),
-    available: node[0] !== ''
+    price,
+    rent,
+    referralFeePPM,
+    available: labelName !== ''
   }
 }
 
