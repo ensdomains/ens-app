@@ -6,8 +6,8 @@ let subDomainRegistrars = {}
 const defaultAddress = '0x0b07463b30b302a98407d3e3df85ebc073b0dbd1'
 
 const getSubDomainRegistrar = async address => {
-  async function instantiateContract(address) {
-    const { web3 } = await getWeb3()
+  const { web3 } = await getWeb3()
+  function instantiateContract(address) {
     return (subDomainRegistrars[address] = web3.eth
       .contract(subDomainRegistrarContract)
       .at(address))

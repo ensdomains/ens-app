@@ -183,7 +183,8 @@ const resolvers = {
       } catch (e) {
         return {
           ...obj,
-          name: null
+          name: null,
+          match: false
         }
       }
     }

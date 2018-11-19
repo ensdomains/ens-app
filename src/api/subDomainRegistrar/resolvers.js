@@ -15,8 +15,11 @@ const resolvers = {
           subDomainState: []
         }
       })
+      console.log(1)
 
       const nodes = await queryAll(name)
+
+      console.log(2)
 
       const cachedNodes = []
 
@@ -48,6 +51,8 @@ const resolvers = {
           })
           .catch(e => console.log('ERROR in subdomain results', e))
       )
+
+      console.log(3)
 
       return Promise.all(promises).then(() => {
         return cachedNodes
