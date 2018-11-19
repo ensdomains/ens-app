@@ -7,7 +7,7 @@ const BlockiesContainer = styled('span')``
 
 const Blockies = ({ address, imageSize = 42, className }) => {
   var imgURL = createIcon({
-    seed: address,
+    seed: address.toLowerCase(),
     size: 8,
     scale: 5
   }).toDataURL()

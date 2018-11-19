@@ -207,9 +207,9 @@ const resolvers = {
     },
     setOwner: async (_, { name, address }, { cache }) => {
       try {
-        const tx = await setOwner(name, address)
-        console.log(tx)
-        return tx
+        const txReceipt = await setOwner(name, address)
+        console.log(txReceipt)
+        return txReceipt
       } catch (e) {
         console.log(e)
       }

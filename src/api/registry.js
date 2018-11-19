@@ -30,23 +30,23 @@ export async function getResolver(name) {
 export async function getAddr(name) {
   const resolverAddr = await getResolver(name)
   const namehash = await getNamehash(name)
-  const resolver = await getResolverContract(resolverAddr)
-  return resolver.addr(namehash).call()
+  const { Resolver } = await getResolverContract(resolverAddr)
+  return Resolver.addr(namehash).call()
 }
 
 export async function getContent(name) {
   const resolverAddr = await getResolver(name)
   const namehash = await getNamehash(name)
-  const resolver = await getResolverContract(resolverAddr)
-  return resolver.content(namehash).call()
+  const { Resolver } = await getResolverContract(resolverAddr)
+  return Resolver.content(namehash).call()
 }
 
 export async function getName(address) {
   const reverseNode = `${address.slice(2)}.addr.reverse`
   const reverseNameHash = await getNamehash(reverseNode)
   const resolverAddr = await getResolver(reverseNode)
-  const resolver = await getResolverContract(resolverAddr)
-  const name = await resolver.name(reverseNameHash).call()
+  const { Resolver } = await getResolverContract(resolverAddr)
+  const name = await Resolver.name(reverseNameHash).call()
   return {
     name
   }
@@ -68,17 +68,17 @@ export async function setSubnodeOwner(label, node, newOwner) {
 }
 
 export async function setAddress(name, address) {
-  const { ENS } = await getENS()
   const account = await getAccount()
-  let resolver = await ENS.resolver(name)
-  return resolver.setAddr(address).send({ from: account })
+  const resolverAddr = await getResolver(name)
+  const { Resolver } = await getResolverContract(resolverAddr)
+  return Resolver.setAddr(address).send({ from: account })
 }
 
 export async function setContent(name, content) {
-  const { ENS } = await getENS()
   const account = await getAccount()
-  let resolver = await ENS.resolver(name)
-  return resolver.setContent(content).send({ from: account })
+  const resolverAddr = await getResolver(name)
+  const { Resolver } = await getResolverContract(resolverAddr)
+  return Resolver.setContent(content).send({ from: account })
 }
 
 export async function setResolver(name, resolver) {
@@ -93,10 +93,10 @@ export async function checkSubDomain(subDomain, domain) {
 }
 
 export async function buildSubDomain(label, node, owner) {
-  let { web3 } = await getWeb3()
-  let labelHash = web3.sha3(label)
-  let resolver = await getResolver(label + '.' + node)
-  let subDomain = {
+  const web3 = await getWeb3()
+  const labelHash = web3.utils.sha3(label)
+  const resolver = await getResolver(label + '.' + node)
+  const subDomain = {
     resolver,
     labelHash,
     owner,
@@ -108,7 +108,7 @@ export async function buildSubDomain(label, node, owner) {
   if (parseInt(resolver, 16) === 0) {
     return subDomain
   } else {
-    let resolverAndNode = await getResolverDetails(subDomain)
+    const resolverAndNode = await getResolverDetails(subDomain)
     return resolverAndNode
   }
 }
@@ -150,43 +150,26 @@ export function getResolverDetails(node) {
 }
 
 export async function claimReverseRecord(resolver) {
-  let { reverseRegistrar } = await getReverseRegistrarContract()
+  const { reverseRegistrar } = await getReverseRegistrarContract()
   const account = await getAccount()
-  return new Promise((resolve, reject) => {
-    // reverseRegistrar.claim(accounts[0], { from: accounts[0] }, (err, txId) => {
-    //   if (err) reject(err)
-    //   resolve(txId)
-    // })
-    reverseRegistrar.claimWithResolver(
-      account,
-      resolver,
-      { from: account },
-      (err, txId) => {
-        if (err) reject(err)
-        resolve(txId)
-      }
-    )
-  })
+  return reverseRegistrar
+    .claimWithResolver(account, resolver)
+    .send({ from: account })
 }
 
 export async function getReverseRegistrarDefaultResolver(resolver) {
-  let { reverseRegistrar } = await getReverseRegistrarContract()
-  return new Promise((resolve, reject) => {
-    reverseRegistrar.defaultResolver((err, resolver) => {
-      if (err) reject(err)
-      resolve(resolver)
-    })
-  })
+  const { reverseRegistrar } = await getReverseRegistrarContract()
+  return reverseRegistrar.defaultResolver().call()
 }
 
 export async function claim() {
-  let { reverseRegistrar } = await getReverseRegistrarContract()
+  const { reverseRegistrar } = await getReverseRegistrarContract()
   const account = await getAccount()
   return reverseRegistrar.claim(account).send({ from: account })
 }
 
 export async function claimAndSetReverseRecordName(name) {
-  let { reverseRegistrar } = await getReverseRegistrarContract()
+  const { reverseRegistrar } = await getReverseRegistrarContract()
   const account = await getAccount()
   return reverseRegistrar.setName(name).send({ from: account[0] })
 }
@@ -195,9 +178,9 @@ export async function setReverseRecordName(name) {
   const account = await getAccount()
   const reverseNode = `${account.slice(2)}.addr.reverse`
   const resolverAddress = await getResolver(reverseNode)
-  let { resolver } = await getResolverContract(resolverAddress)
+  let { Resolver } = await getResolverContract(resolverAddress)
   let namehash = await getNamehash(reverseNode)
-  return resolver.setName(namehash, name).send({ from: account })
+  return Resolver.setName(namehash, name).send({ from: account })
 }
 
 export function getDomainDetails(name) {
@@ -223,23 +206,20 @@ export function getDomainDetails(name) {
 }
 
 export const getSubDomains = async name => {
-  console.log('getting subdomains')
-  let startBlock = await ensStartBlock()
-  let namehash = await getNamehash(name)
-  let rawLogs = await getENSEvent('NewOwner', {
+  const startBlock = await ensStartBlock()
+  const namehash = await getNamehash(name)
+  const rawLogs = await getENSEvent('NewOwner', {
     filter: { node: [namehash] },
     fromBlock: startBlock
   })
-
-  console.log(rawLogs)
-  let flattenedLogs = rawLogs.map(log => log.returnValues)
+  const flattenedLogs = rawLogs.map(log => log.returnValues)
   flattenedLogs.reverse()
-  let logs = uniq(flattenedLogs, 'label')
-  let labelHashes = logs.map(log => log.label)
-  let remoteLabels = await decryptHashes(...labelHashes)
-  let localLabels = checkLabels(...labelHashes)
-  let labels = mergeLabels(localLabels, remoteLabels)
-  let ownerPromises = labels.map(label => getOwner(`${label}.${name}`))
+  const logs = uniq(flattenedLogs, 'label')
+  const labelHashes = logs.map(log => log.label)
+  const remoteLabels = await decryptHashes(...labelHashes)
+  const localLabels = checkLabels(...labelHashes)
+  const labels = mergeLabels(localLabels, remoteLabels)
+  const ownerPromises = labels.map(label => getOwner(`${label}.${name}`))
 
   return Promise.all(ownerPromises).then(owners =>
     owners.map((owner, index) => {

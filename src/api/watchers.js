@@ -8,6 +8,7 @@ export async function watchRegistryEvent(eventName, name, callback) {
     { fromBlock: 'latest' },
     callback
   )
+
   return event
 }
 

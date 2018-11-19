@@ -17,7 +17,6 @@ var contracts = {
 }
 
 let ENS
-let _ENS
 
 async function getNamehash(name) {
   const web3 = await getWeb31()
@@ -55,8 +54,11 @@ async function getReverseRegistrarContract() {
 
 async function getResolverContract(addr) {
   const web3 = await getWeb31()
-  const resolver = new web3.eth.Contract(resolverContract, addr)
-  return resolver.methods
+  const Resolver = new web3.eth.Contract(resolverContract, addr)
+  return {
+    Resolver: Resolver.methods,
+    _Resolver: Resolver
+  }
 }
 
 async function getENSContract() {
@@ -78,56 +80,56 @@ async function getFifsRegistrarContract() {
 
 const getENS = async (ensAddress, web3Instance) => {
   const web3 = await getWeb3()
-  const ens = await getENSContract()
+  const ENS = await getENSContract()
   const networkId = await getNetworkId()
 
   if (!ENS) {
     if (!ensAddress) {
       ensAddress = contracts[networkId].registry
     }
-    ENS = ens.methods
-    _ENS = ens
+    ENS = ENS
     contracts[networkId] = {}
     contracts[networkId].registry = ensAddress
   }
 
-  return { ENS, web3, _ENS: ens }
+  return { ENS: ENS.methods, web3, _ENS: ENS }
 }
 
 async function getENSEvent(event, params) {
   const { _ENS } = await getENS()
-  console.log('here')
   return _ENS.getPastEvents(event, params)
 }
 
-const watchEvent = (
+async function watchEvent(
   { contract, addr, eventName },
   filter,
   params,
   callback
-) => {
+) {
   function eventFactory(contract, eventName, filter, params, callback) {
-    const myEvent = contract[eventName](filter, params)
-    myEvent.watch((error, log) => {
-      //console.log(event, `here in the ${contract} Event`, log)
-      if (error) {
-        console.error(error)
-      } else {
-        callback(error, log, myEvent)
+    const myEvent = contract.events[eventName](
+      { filter, ...params },
+      (error, log) => {
+        //console.log(event, `here in the ${contract} Event`, log)
+        if (error) {
+          console.error(error)
+        } else {
+          callback(error, log, myEvent)
+        }
       }
-    })
+    )
     return myEvent
   }
 
   switch (contract) {
     case 'ENS':
-      return getENSContract().then(({ ens }) => {
-        eventFactory(ens, eventName, filter, params, callback)
-      })
+      const { _ENS } = await getENS()
+      console.log(_ENS)
+      return eventFactory(_ENS, eventName, filter, params, callback)
     case 'Resolver':
-      return getResolverContract(addr).then(({ resolver }) => {
-        eventFactory(resolver, eventName, filter, params, callback)
-      })
+      const { _Resolver } = await getResolverContract(addr)
+
+      return eventFactory(_Resolver, eventName, filter, params, callback)
     default:
       throw new Error('Unrecognised contract')
   }

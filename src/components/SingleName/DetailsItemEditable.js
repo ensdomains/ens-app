@@ -110,21 +110,8 @@ class DetailsEditable extends Component {
             <Mutation
               mutation={mutation}
               onCompleted={data => {
-                const txHash = data[mutationName]
-                if (txHash) {
-                  startPending()
-                  watchRegistryEvent(
-                    event,
-                    domain.name,
-                    (error, log, event) => {
-                      if (log.transactionHash === txHash) {
-                        event.stopWatching()
-                        setConfirmed()
-                        refetch()
-                      }
-                    }
-                  )
-                }
+                setConfirmed()
+                refetch()
               }}
             >
               {mutation => (
@@ -193,6 +180,7 @@ class DetailsEditable extends Component {
                                     ? variableName
                                     : 'address']: newValue
                                 }
+                                startPending()
                                 mutation({
                                   variables
                                 })
