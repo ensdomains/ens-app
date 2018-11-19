@@ -15,7 +15,7 @@ export default async function getWeb3() {
     web3 = new Web3(window.web3.currentProvider)
     return web3
   } else {
-    console.log('No web3 instance injected. Falling back to cloud provider.')
+    console.log('No web3 instanpce injected. Falling back to cloud provider.')
     //web3 = new Web3(getNetworkProviderUrl(networkState.expectedNetworkId))
     readOnly = true
   }
@@ -25,4 +25,9 @@ export async function getAccount() {
   const web3 = await getWeb3()
   const accounts = await web3.eth.getAccounts()
   return accounts[0]
+}
+
+export async function getNetworkId() {
+  const web3 = await getWeb3()
+  return web3.eth.net.getId()
 }

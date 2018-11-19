@@ -1,6 +1,5 @@
 import getENS, {
   getNamehash,
-  getNamehashWithLabelHash,
   getENSEvent,
   getReverseRegistrarContract,
   getResolverContract
@@ -10,44 +9,46 @@ import { uniq, ensStartBlock, checkLabels, mergeLabels } from '../utils/utils'
 import getWeb3, { getAccounts } from '../api/web3'
 
 export async function getOwner(name) {
-  let { ENS } = await getENS()
-  return ENS.owner(name)
+  const { ENS } = await getENS()
+  const namehash = await getNamehash(name)
+  return ENS.owner(namehash).call()
 }
 
 export async function getResolver(name) {
-  let node = await getNamehash(name)
-  let { ENS } = await getENS()
-  let registry = await ENS.registryPromise
-  return registry.resolverAsync(node)
+  const namehash = await getNamehash(name)
+  const { ENS } = await getENS()
+  return ENS.resolver(namehash).call()
 }
 
-export async function getResolverWithNameHash(label, node, name) {
-  let { ENS } = await getENS()
-  let nodeHash = await getNamehashWithLabelHash(label, node)
-  let registry = await ENS.registryPromise
-  return registry.resolverAsync(nodeHash)
-}
+// export async function getResolverWithNameHash(label, node, name) {
+//   let { ENS } = await getENS()
+//   let nodeHash = await getNamehashWithLabelHash(label, node)
+//   let registry = await ENS.registryPromise
+//   return registry.resolverAsync(nodeHash)
+// }
 
 export async function getAddr(name) {
-  let { ENS } = await getENS()
-  let resolver = await ENS.resolver(name)
-  return resolver.addr()
+  const resolverAddr = await getResolver(name)
+  const namehash = await getNamehash(name)
+  const resolver = await getResolverContract(resolverAddr)
+  return resolver.addr(namehash).call()
 }
 
 export async function getContent(name) {
-  let { ENS } = await getENS()
-  let resolver = await ENS.resolver(name)
-  return resolver.content()
+  const resolverAddr = await getResolver(name)
+  const namehash = await getNamehash(name)
+  const resolver = await getResolverContract(resolverAddr)
+  return resolver.content(namehash).call()
 }
 
 export async function getName(address) {
-  let { ENS } = await getENS()
-  let reverseResolver = await ENS.reverse(address)
-  let resolverAddr = await reverseResolver.resolverAddress()
-  let name = await reverseResolver.name()
+  const reverseNode = `${address.slice(2)}.addr.reverse`
+  const reverseNameHash = await getNamehash(reverseNode)
+  const resolverAddr = await getResolver(reverseNode)
+  const resolver = await getResolverContract(resolverAddr)
+  const name = await resolver.name(reverseNameHash).call()
   return {
-    name,
-    resolverAddr
+    name
   }
 }
 
@@ -279,72 +280,4 @@ export const getSubDomains = async name => {
       }
     })
   )
-}
-
-export const getSubdomainsDetails = async name => {
-  let startBlock = await ensStartBlock()
-  let namehash = await getNamehash(name)
-  let rawLogs = await getENSEvent(
-    'NewOwner',
-    { node: namehash },
-    { fromBlock: startBlock, toBlock: 'latest' }
-  )
-  let flattenedLogs = rawLogs.map(log => log.args)
-  flattenedLogs.reverse()
-  let logs = uniq(flattenedLogs, 'label')
-  let labelHashes = logs.map(log => log.label)
-  let remoteLabels = await decryptHashes(...labelHashes)
-  let localLabels = checkLabels(...labelHashes)
-  let labels = mergeLabels(localLabels, remoteLabels)
-  let ownerPromises = labels.map(label => getOwner(`${label}.${name}`))
-  let resolverPromises = logs.map((log, i) =>
-    getResolverWithNameHash(log.label, log.node)
-  )
-
-  return Promise.all([
-    Promise.all(ownerPromises),
-    Promise.all(resolverPromises)
-  ])
-    .then(([owners, resolvers, addr, content]) => {
-      /* Maps owner and resolver onto nodes */
-      return logs
-        .map((log, index) => {
-          let label
-          let owner
-          let decrypted
-
-          if (labels[index] === null) {
-            label = 'unknown' + logs[index].label.slice(-6)
-            owner = log.owner
-            decrypted = false
-          } else {
-            label = labels[index]
-            owner = owners[index]
-            decrypted = true
-          }
-
-          return {
-            decrypted,
-            label,
-            owner,
-            labelHash: logs[index].label,
-            node: name,
-            name: label + '.' + name,
-            resolver: resolvers[index],
-            nodes: []
-          }
-        })
-        .filter(node => parseInt(node.owner, 16) !== 0)
-    })
-    .then(nodes => {
-      /* Gets Resolver information for node if they have a resolver */
-      let nodePromises = nodes.map(node => {
-        let hasResolver = parseInt(node.resolver, 16) !== 0
-        if (hasResolver && node.decrypted) {
-          return getResolverDetails(node)
-        }
-        return Promise.resolve(node)
-      })
-      return Promise.all(nodePromises)
-    })
 }

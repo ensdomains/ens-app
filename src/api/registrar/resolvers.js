@@ -8,17 +8,13 @@ const resolvers = {
   Mutation: {
     async getDomainAvailability(_, { name }, { cache }) {
       try {
-        try {
-          var {
-            state,
-            registrationDate,
-            revealDate,
-            value,
-            highestBid
-          } = await getEntry(name)
-        } catch (e) {
-          console.log('getEntry', e)
-        }
+        const {
+          state,
+          registrationDate,
+          revealDate,
+          value,
+          highestBid
+        } = await getEntry(name)
         let owner = null
 
         if (name.length < 7) {
@@ -49,7 +45,7 @@ const resolvers = {
 
         return data.domainState
       } catch (e) {
-        console.log(e)
+        console.log('Error in getDomainAvailability', e)
       }
     },
     async startAuctionAndBid(_, { name, bidAmount, decoyBidAmount, secret }) {

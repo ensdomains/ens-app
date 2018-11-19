@@ -64,10 +64,14 @@ const resolvers = {
       }
     },
     publicResolver: async () => {
-      const resolver = await getAddr('resolver.eth')
-      return {
-        address: resolver,
-        __typename: 'Resolver'
+      try {
+        const resolver = await getAddr('resolver.eth')
+        return {
+          address: resolver,
+          __typename: 'Resolver'
+        }
+      } catch (e) {
+        console.log('error getting public resolver', e)
       }
     }
   },

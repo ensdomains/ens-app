@@ -1,4 +1,4 @@
-import getENS from './ens'
+import getENS, { getNamehash } from './ens'
 import getWeb3, { getAccount } from './web31'
 import auctionRegistrarContract from './contracts/auctionRegistrarContract.json'
 
@@ -6,13 +6,18 @@ let ethRegistrar
 
 export const getAuctionRegistrar = async () => {
   if (ethRegistrar) {
-    return { Registrar: ethRegistrar }
+    return ethRegistrar
   }
-  let { ENS } = await getENS()
-  const web3 = await getWeb3()
-  const ethAddr = await ENS.owner('eth')
-  ethRegistrar = new web3.eth.Contract(auctionRegistrarContract, ethAddr)
-  return ethRegistrar
+
+  try {
+    let { ENS } = await getENS()
+    const web3 = await getWeb3()
+    const ethAddr = await ENS.owner(await getNamehash('eth')).call()
+    ethRegistrar = new web3.eth.Contract(auctionRegistrarContract, ethAddr)
+    return ethRegistrar
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 export const getEntry = async name => {
