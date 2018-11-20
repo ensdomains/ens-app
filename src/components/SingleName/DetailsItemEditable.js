@@ -180,10 +180,11 @@ class DetailsEditable extends Component {
                                     ? variableName
                                     : 'address']: newValue
                                 }
-                                startPending()
+
                                 mutation({
                                   variables
                                 })
+                                startPending()
                               }}
                               mutationButton={mutationButton}
                             />

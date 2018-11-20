@@ -40,7 +40,7 @@ async function getNamehashWithLabelHash(labelHash, nodeHash) {
 }
 
 async function getReverseRegistrarContract() {
-  const ENS = await ENS()
+  const { ENS } = await getENS()
   const web3 = await getWeb31()
   const reverseRegistrarAddr = await ENS.owner('addr.reverse').call()
   return {
@@ -78,21 +78,23 @@ async function getFifsRegistrarContract() {
   }
 }
 
-const getENS = async (ensAddress, web3Instance) => {
-  const web3 = await getWeb3()
-  const ENS = await getENSContract()
+const getENS = async ensAddress => {
   const networkId = await getNetworkId()
 
   if (!ENS) {
     if (!ensAddress) {
       ensAddress = contracts[networkId].registry
     }
-    ENS = ENS
     contracts[networkId] = {}
     contracts[networkId].registry = ensAddress
+  } else {
+    return { ENS: ENS.methods, _ENS: ENS }
   }
 
-  return { ENS: ENS.methods, web3, _ENS: ENS }
+  const ENSContract = await getENSContract()
+  ENS = ENSContract
+
+  return { ENS: ENSContract.methods, _ENS: ENSContract }
 }
 
 async function getENSEvent(event, params) {

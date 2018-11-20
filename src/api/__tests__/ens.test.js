@@ -4,10 +4,10 @@
 import fs from 'fs'
 import solc from 'solc'
 import GanacheCLI from 'ganache-cli'
-import { setupWeb3, getAccounts } from '../web3'
+import setupWeb3, { getAccounts } from '../web31'
 import {
   getOwner,
-  setNewOwner,
+  setOwner,
   setSubnodeOwner,
   getResolver,
   setResolver,
@@ -15,10 +15,10 @@ import {
   setAddress,
   getContent,
   setContent,
-  createSubDomain,
-  deleteSubDomain,
-  getRootDomain,
-  getSubdomains,
+  createSubdomain,
+  deleteSubdomain,
+  getDomainDetails,
+  getSubDomains,
   getName,
   claim,
   claimReverseRecord,
@@ -27,7 +27,7 @@ import {
 } from '../registry'
 import getENS, { getNamehash } from '../ens'
 import '../../testing-utils/extendExpect'
-import Web3 from 'web3'
+import Web3 from 'web3-1.0'
 
 const ENVIRONMENTS = ['GANACHE_GUI', 'GANACHE_CLI', 'GANACHE_CLI_MANUAL']
 const ENV = ENVIRONMENTS[1]
@@ -45,15 +45,15 @@ describe('Blockchain tests', () => {
     switch (ENV) {
       case 'GANACHE_CLI':
         var provider = GanacheCLI.provider()
-        var { web3 } = await setupWeb3(provider)
+        var web3 = await setupWeb3(provider)
         break
       case 'GANACHE_GUI':
         var provider = new Web3.providers.HttpProvider('http://localhost:7545')
-        var { web3 } = await setupWeb3(provider)
+        var web3 = await setupWeb3(provider)
         break
       case 'GANACHE_CLI_MANUAL':
         var provider = new Web3.providers.HttpProvider('http://localhost:8545')
-        var { web3 } = await setupWeb3(provider)
+        var web3 = await setupWeb3(provider)
         break
       default:
         const options = ENVIRONMENTS.join(' or ')
@@ -68,69 +68,48 @@ describe('Blockchain tests', () => {
     // If the deployer contract needs updating you can run
     // `npm run compile` to compile it to ensContracts.json
     //
-    let source = fs.readFileSync('./src/api/__tests__/ens.sol').toString()
-    let compiled = solc.compile(source, 1)
-    // let compiled = JSON.parse(
-    //   fs.readFileSync('./src/api/__tests__/ensContracts.json')
-    // )
+    // let source = fs.readFileSync('./src/api/__tests__/ens.sol').toString()
+    // let compiled = solc.compile(source, 1)
+    let compiled = JSON.parse(
+      fs.readFileSync('./src/api/__tests__/ensContracts.json')
+    )
 
     let deployer = compiled.contracts[':DeployENS']
     let reverseRegistrarABI = compiled.contracts[':ReverseRegistrar'].interface
-    let deployensContract = web3.eth.contract(JSON.parse(deployer.interface))
+    let deployensContract = new web3.eth.Contract(
+      JSON.parse(deployer.interface)
+    )
 
     // Deploy the contract
-    deployens = await new Promise((resolve, reject) => {
-      deployensContract.new(
-        {
-          from: accounts[0],
-          data: deployer.bytecode,
-          gas: 4700000
-        },
-        (err, contract) => {
-          if (err) {
-            reject(err)
-          }
-          if (contract.address !== undefined) {
-            resolve(contract)
-          }
-        }
-      )
-    })
+    deployens = await deployensContract
+      .deploy({
+        data: deployer.bytecode
+      })
+      .send({
+        from: accounts[0],
+        gas: 4700000
+      })
 
     // Fetch the address of the ENS registry
-    ensRoot = await new Promise((resolve, reject) => {
-      deployens.ens.call((err, value) => {
-        expect(err).toBe(null)
-        resolve(value)
-      })
-    })
+    ensRoot = await deployens.methods.ens().call()
 
-    reverseRegistrar = await new Promise((resolve, reject) => {
-      deployens.reverseregistrar.call((err, value) => {
-        expect(err).toBe(null)
-        resolve(value)
-      })
-    })
+    reverseRegistrar = await deployens.methods.reverseregistrar().call()
 
-    publicResolver = await new Promise((resolve, reject) => {
-      deployens.publicresolver.call((err, value) => {
-        expect(err).toBe(null)
-        resolve(value)
-      })
-    })
+    console.log('reverseRegistrar', reverseRegistrar)
 
-    reverseRegistrarInstance = web3.eth
-      .contract(JSON.parse(reverseRegistrarABI))
-      .at(reverseRegistrar)
+    publicResolver = await deployens.methods.publicresolver().call()
 
-    const ensAddress = await new Promise((resolve, reject) => {
-      reverseRegistrarInstance.ens.call((err, value) => {
-        expect(err).toBe(null)
-        resolve(value)
-      })
-    })
+    console.log('publicResolver', publicResolver)
+
+    reverseRegistrarInstance = new web3.eth.Contract(
+      JSON.parse(reverseRegistrarABI),
+      reverseRegistrar
+    )
+
+    const ensAddress = await reverseRegistrarInstance.methods.ens().call()
 
     expect(ensAddress).toBe(ensRoot)
+    console.log(ensAddress)
 
     //setup ENS
 
@@ -145,7 +124,8 @@ describe('Blockchain tests', () => {
 
     test('ens deployed and setup with dummy data', async () => {
       const { ENS } = await getENS()
-      const addr = await ENS.resolver('foo.eth').resolverAddress()
+      const namehash = await getNamehash('foo.eth')
+      const addr = await ENS.resolver(namehash).call()
       expect(addr).not.toBe('0x0000000000000000000000000000000000000000')
     })
   })
@@ -153,15 +133,14 @@ describe('Blockchain tests', () => {
   describe('Registry', () => {
     test('getOwner returns owner', async () => {
       const owner = await getOwner('foo.eth')
-      const accounts = await getAccounts()
-      expect(owner).toBe(deployens.address)
+      expect(owner).toBe(deployens._address)
     })
 
     test('setNewOwner sets new owner', async () => {
       const owner = await getOwner('givethisaway.eth')
       const accounts = await getAccounts()
       expect(owner).toBe(accounts[0])
-      await setNewOwner('givethisaway.eth', accounts[1])
+      await setOwner('givethisaway.eth', accounts[1])
       const newOwner = await getOwner('givethisaway.eth')
       expect(newOwner).toBe(accounts[1])
     })
@@ -198,7 +177,7 @@ describe('Blockchain tests', () => {
       const newResolver = await getResolver('foobar.eth')
       expect(newResolver).toBeHex()
       expect(newResolver).toBeEthAddress()
-      expect(newResolver).toBe(mockResolver)
+      expect(newResolver.toLowerCase()).toBe(mockResolver)
     })
 
     test('createSubdomain makes a new subdomain', async () => {
@@ -206,22 +185,22 @@ describe('Blockchain tests', () => {
       const oldOwner = await getOwner('1.bar.eth')
       // expect the initial owner to be no one
       expect(oldOwner).toBe('0x0000000000000000000000000000000000000000')
-      await createSubDomain('1', 'bar.eth')
+      await createSubdomain('1', 'bar.eth')
       const newOwner = await getOwner('1.bar.eth')
       // Verify owner is the user and therefore the subdomain exists
       expect(newOwner).toBe(accounts[0])
     })
 
-    test('deleteSubDomain deletes a subdomain', async () => {
+    test('deleteSubdomain deletes a subdomain', async () => {
       const accounts = await getAccounts()
       const oldOwner = await getOwner('2.bar.eth')
       // expect the initial owner to be no one
       expect(oldOwner).toBe('0x0000000000000000000000000000000000000000')
-      await createSubDomain('2', 'bar.eth')
+      await createSubdomain('2', 'bar.eth')
       const newOwner = await getOwner('2.bar.eth')
       // Verify owner is the user and therefore the subdomain exists
       expect(newOwner).toBe(accounts[0])
-      await deleteSubDomain('2', 'bar.eth')
+      await deleteSubdomain('2', 'bar.eth')
       const deletedOwner = await getOwner('2.bar.eth')
       // Verify owner has been set to 0x00... to ensure deletion
       expect(deletedOwner).toBe('0x0000000000000000000000000000000000000000')
@@ -247,7 +226,7 @@ describe('Blockchain tests', () => {
 
     test('setAddr sets an address', async () => {
       //reverts if no addr is present
-      await setAddress('bar.eth', '0x12345')
+      await setAddress('bar.eth', '0x0000000000000000000000000000000000012345')
       const addr = await getAddr('bar.eth')
       expect(addr).toBe('0x0000000000000000000000000000000000012345')
     })
@@ -286,22 +265,22 @@ describe('Blockchain tests', () => {
     })
 
     test('getName gets a name for an address', async () => {
-      const { name } = await getName(deployens.address)
+      const { name } = await getName(deployens._address)
       expect(name).toBe('deployer.eth')
     })
 
-    test('claimReverseRecord claims a reverse name', async () => {
-      //TODO get claimReverseRecord working
-      const resolver = await getResolver('bar.eth')
-      const accounts = await getAccounts()
-      const owner = await getOwner('bar.eth')
-      expect(owner).toBe(accounts[0])
-      try {
-        await claimReverseRecord(resolver)
-      } catch (e) {
-        console.log(e)
-      }
-    })
+    // test('claimReverseRecord claims a reverse name', async () => {
+    //   //TODO get claimReverseRecord working
+    //   const resolver = await getResolver('bar.eth')
+    //   const accounts = await getAccounts()
+    //   const owner = await getOwner('bar.eth')
+    //   expect(owner).toBe(accounts[0])
+    //   try {
+    //     await claimReverseRecord(resolver)
+    //   } catch (e) {
+    //     console.log(e)
+    //   }
+    // })
 
     // test('claimAndSetReverseRecordName claims and sets a name', async () => {
     //   await claimAndSetReverseRecordName('bar.eth')
@@ -314,8 +293,8 @@ describe('Blockchain tests', () => {
   })
 
   describe('Helper functions', () => {
-    test('getRootDomain gets rootdomain and resolver details', async () => {
-      const domain = await getRootDomain('foo.eth')
+    test('getDomainDetails gets rootdomain and resolver details', async () => {
+      const domain = await getDomainDetails('foo.eth')
       const accounts = await getAccounts()
       expect(domain.owner).not.toBe(
         '0x0000000000000000000000000000000000000000'
@@ -330,7 +309,7 @@ describe('Blockchain tests', () => {
     })
 
     test('getSubdomains gets all subdomains', async () => {
-      const domains = await getSubdomains('givesub.eth')
+      const domains = await getSubDomains('givesub.eth')
       expect(domains.length).toBe(1)
       expect(domains[0].label).toBe('new')
     })

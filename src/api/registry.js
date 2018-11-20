@@ -11,7 +11,8 @@ import getWeb3, { getAccount } from '../api/web31'
 export async function getOwner(name) {
   const { ENS } = await getENS()
   const namehash = await getNamehash(name)
-  return ENS.owner(namehash).call()
+  const owner = await ENS.owner(namehash).call()
+  return owner
 }
 
 export async function getResolver(name) {
@@ -30,25 +31,48 @@ export async function getResolver(name) {
 export async function getAddr(name) {
   const resolverAddr = await getResolver(name)
   const namehash = await getNamehash(name)
-  const { Resolver } = await getResolverContract(resolverAddr)
-  return Resolver.addr(namehash).call()
+  try {
+    const { Resolver } = await getResolverContract(resolverAddr)
+    const addr = await Resolver.addr(namehash).call()
+    return addr
+  } catch (e) {
+    console.warn(
+      'Error getting addr on the resolver contract, are you sure the resolver address is a resolver contract?'
+    )
+    throw e
+  }
 }
 
 export async function getContent(name) {
   const resolverAddr = await getResolver(name)
   const namehash = await getNamehash(name)
-  const { Resolver } = await getResolverContract(resolverAddr)
-  return Resolver.content(namehash).call()
+  try {
+    const { Resolver } = await getResolverContract(resolverAddr)
+    return Resolver.content(namehash).call()
+  } catch (e) {
+    console.warn(
+      'Error getting content on the resolver contract, are you sure the resolver address is a resolver contract?'
+    )
+    throw e
+  }
 }
 
 export async function getName(address) {
+  console.log(address)
   const reverseNode = `${address.slice(2)}.addr.reverse`
+  console.log(reverseNode)
   const reverseNameHash = await getNamehash(reverseNode)
   const resolverAddr = await getResolver(reverseNode)
+  console.log(resolverAddr)
   const { Resolver } = await getResolverContract(resolverAddr)
-  const name = await Resolver.name(reverseNameHash).call()
-  return {
-    name
+  try {
+    const name = await Resolver.name(reverseNameHash).call()
+    console.log(name)
+    return {
+      name
+    }
+  } catch (e) {
+    console.log(`Error getting name for reverse record of ${address}`, e)
   }
 }
 
@@ -60,31 +84,40 @@ export async function setOwner(name, newOwner) {
 }
 
 export async function setSubnodeOwner(label, node, newOwner) {
+  const web3 = await getWeb3()
   const { ENS } = await getENS()
   const account = await getAccount()
-  return ENS.setSubnodeOwner(label + '.' + node, newOwner).send({
+  const parentNamehash = await getNamehash(node)
+  return ENS.setSubnodeOwner(
+    parentNamehash,
+    web3.utils.sha3(label),
+    newOwner
+  ).send({
     from: account
   })
 }
 
+export async function setResolver(name, resolver) {
+  const account = await getAccount()
+  const namehash = await getNamehash(name)
+  const { ENS } = await getENS()
+  return ENS.setResolver(namehash, resolver).send({ from: account })
+}
+
 export async function setAddress(name, address) {
   const account = await getAccount()
+  const namehash = await getNamehash(name)
   const resolverAddr = await getResolver(name)
   const { Resolver } = await getResolverContract(resolverAddr)
-  return Resolver.setAddr(address).send({ from: account })
+  return Resolver.setAddr(namehash, address).send({ from: account })
 }
 
 export async function setContent(name, content) {
   const account = await getAccount()
+  const namehash = await getNamehash(name)
   const resolverAddr = await getResolver(name)
   const { Resolver } = await getResolverContract(resolverAddr)
-  return Resolver.setContent(content).send({ from: account })
-}
-
-export async function setResolver(name, resolver) {
-  const account = await getAccount()
-  const { ENS } = await getENS()
-  return ENS.setResolver(name, resolver).send({ from: account })
+  return Resolver.setContent(namehash, content).send({ from: account })
 }
 
 export async function checkSubDomain(subDomain, domain) {
@@ -113,40 +146,52 @@ export async function buildSubDomain(label, node, owner) {
   }
 }
 
-export async function createSubdomain(subDomain, domain) {
-  const { ENS, web3 } = await getENS()
+export async function createSubdomain(subdomain, domain) {
   const account = await getAccount()
-  const namehash = await getNamehash(domain)
-  return ENS.setSubnodeOwner(
-    namehash,
-    web3.utils.sha3(subDomain),
-    account
-  ).send({ from: account })
+  try {
+    return setSubnodeOwner(subdomain, domain, account)
+  } catch (e) {
+    console.log('error creating subdomain', e)
+  }
 }
 
-export async function deleteSubDomain(subDomain, domain) {
-  const { ENS, web3 } = await getENS()
-  const name = subDomain + '.' + domain
-  const namehash = await getNamehash(domain)
+export async function deleteSubdomain(subdomain, domain) {
+  const name = subdomain + '.' + domain
   const resolver = await getResolver(name)
   const account = await getAccount()
   if (parseInt(resolver, 16) !== 0) {
-    await setSubnodeOwner(subDomain, domain, account)
+    await setSubnodeOwner(subdomain, domain, account)
     await setResolver(name, 0)
   }
-  return ENS.setSubnodeOwner(namehash, web3.utils.sha3(subDomain), 0).send({
-    from: account
-  })
+  try {
+    const receipt = await setSubnodeOwner(
+      subdomain,
+      domain,
+      '0x0000000000000000000000000000000000000000'
+    )
+    return receipt
+  } catch (e) {
+    console.log('error deleting subdomain', e)
+  }
 }
 
-export function getResolverDetails(node) {
-  const addr = getAddr(node.name)
-  const content = getContent(node.name)
-  return Promise.all([addr, content]).then(([addr, content]) => ({
-    ...node,
-    addr,
-    content
-  }))
+export async function getResolverDetails(node) {
+  try {
+    const addrPromise = getAddr(node.name)
+    const contentPromise = getContent(node.name)
+    const [addr, content] = await Promise.all([addrPromise, contentPromise])
+    return {
+      ...node,
+      addr,
+      content
+    }
+  } catch (e) {
+    return {
+      ...node,
+      addr: '0x0',
+      content: '0x0'
+    }
+  }
 }
 
 export async function claimReverseRecord(resolver) {
