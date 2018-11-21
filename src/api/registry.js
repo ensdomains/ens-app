@@ -6,7 +6,7 @@ import getENS, {
 } from './ens'
 import { decryptHashes } from './preimage'
 import { uniq, ensStartBlock, checkLabels, mergeLabels } from '../utils/utils'
-import getWeb3, { getAccount } from '../api/web31'
+import getWeb3, { getAccount } from './web3'
 
 export async function getOwner(name) {
   const { ENS } = await getENS()
@@ -60,9 +60,7 @@ export async function getContent(name) {
 export async function getName(address) {
   const reverseNode = `${address.slice(2)}.addr.reverse`
   const reverseNamehash = await getNamehash(reverseNode)
-  console.log(reverseNamehash)
   const resolverAddr = await getResolver(reverseNode)
-  console.log(resolverAddr)
   const { Resolver } = await getResolverContract(resolverAddr)
   try {
     const name = await Resolver.name(reverseNamehash).call()

@@ -1,141 +1,49 @@
 import Web3 from 'web3'
-import 'isomorphic-fetch'
 
 let web3
-let provider
 let readOnly = false
-let ready = false
 
-async function setupWeb3(customProvider) {
-  return new Promise(function(resolve, reject) {
-    if (customProvider) {
-      //for testing
-      web3 = new Web3(customProvider)
-      provider = customProvider
-      ready = true
-      web3.version.getNetwork(function(err, networkId) {
-        ready = true
-        console.log('Custom testing provider')
-        resolve({
-          web3,
-          provider,
-          readOnly,
-          networkId: parseInt(networkId, 10)
-        })
-      })
-      return
+export default async function getWeb3(customProvider) {
+  if (web3) {
+    return web3
+  }
+
+  if (customProvider) {
+    //for testing
+    web3 = new Web3(customProvider)
+    try {
+      await web3.eth.net.getId()
+    } catch (e) {
+      console.log('error setting up web3')
     }
+    return web3
+  }
 
-    if (window.ethereum) {
-      web3 = new Web3(window.ethereum)
-      try {
-        // Request account access if needed
-        window.ethereum.enable().then(a => {
-          web3.version.getNetwork(function(err, networkId) {
-            ready = true
-            console.log('Dapp browser active with injected ethereum object ')
-            resolve({
-              web3,
-              provider,
-              readOnly,
-              networkId: parseInt(networkId, 10)
-            })
-          })
-        })
-        // Acccounts now exposed
-      } catch (error) {
-        // User denied account access...
-      }
-    } else if (window && typeof window.web3 !== 'undefined') {
-      //Metamask or Mist
-
-      web3 = new Web3(window.web3.currentProvider)
-      provider = web3.currentProvider
-      web3.version.getNetwork(function(err, networkId) {
-        ready = true
-        console.log('Mist or Metamask active')
-        resolve({
-          web3,
-          provider,
-          readOnly,
-          networkId: parseInt(networkId, 10)
-        })
-      })
-    } else {
-      //Localnode
-      let url = 'http://localhost:8545'
-
-      fetch(url)
-        .then(res => {
-          console.log('local node active')
-          ready = true
-        })
-        .catch(error => {
-          if (
-            error.readyState === 4 &&
-            (error.status === 400 || error.status === 200)
-          ) {
-            // the endpoint is active
-            console.log('Success')
-          } else {
-            //Infura
-            console.log(
-              'The endpoint is not active. Falling back to Infura readOnly mode'
-            )
-            url = 'https://mainnet.infura.io'
-            readOnly = true
-          }
-        })
-        .then(res => {
-          provider = new Web3.providers.HttpProvider(url)
-          web3 = new Web3(provider)
-          console.log(web3)
-          web3.version.getNetwork(function(err, networkId) {
-            ready = true
-            resolve({
-              web3,
-              provider,
-              readOnly,
-              networkId: parseInt(networkId, 10)
-            })
-          })
-        })
-    }
-  })
-}
-
-function getWeb3() {
-  if (ready === false && web3 === undefined) {
-    return setupWeb3()
+  if (window && window.ethereum) {
+    web3 = new Web3(window.ethereum)
+    return web3
+  } else if (window.web3 && window.web3.currentProvider) {
+    web3 = new Web3(window.web3.currentProvider)
+    return web3
   } else {
-    return new Promise(function(resolve, reject) {
-      web3.version.getNetwork(function(err, networkId) {
-        resolve({
-          web3,
-          provider,
-          readOnly,
-          networkId: parseInt(networkId, 10)
-        })
-      })
-    })
+    console.log('No web3 instance injected. Falling back to cloud provider.')
+    //web3 = new Web3(getNetworkProviderUrl(networkState.expectedNetworkId))
+    readOnly = true
   }
 }
 
-export async function checkAddress(hash) {
-  let { web3 } = await getWeb3()
-  return web3.isAddress(hash)
+export async function getAccount() {
+  const web3 = await getWeb3()
+  const accounts = await web3.eth.getAccounts()
+  return accounts[0]
 }
 
 export async function getAccounts() {
-  let { web3 } = await getWeb3()
-  return new Promise((resolve, reject) => {
-    web3.eth.getAccounts((err, accounts) => {
-      if (err) reject(err)
-      resolve(accounts)
-    })
-  })
+  const web3 = await getWeb3()
+  return web3.eth.getAccounts()
 }
 
-export default getWeb3
-
-export { setupWeb3 }
+export async function getNetworkId() {
+  const web3 = await getWeb3()
+  return web3.eth.net.getId()
+}

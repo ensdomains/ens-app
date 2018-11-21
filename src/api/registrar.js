@@ -1,5 +1,5 @@
 import getENS, { getNamehash } from './ens'
-import getWeb3, { getAccount } from './web31'
+import getWeb3, { getAccount } from './web3'
 import auctionRegistrarContract from './contracts/auctionRegistrarContract.json'
 
 let ethRegistrar

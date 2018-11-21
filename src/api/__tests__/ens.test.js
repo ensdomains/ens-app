@@ -4,7 +4,7 @@
 import fs from 'fs'
 import solc from 'solc'
 import GanacheCLI from 'ganache-cli'
-import setupWeb3, { getAccounts } from '../web31'
+import setupWeb3, { getAccounts } from '../web3'
 import {
   getOwner,
   setOwner,
@@ -27,7 +27,7 @@ import {
 } from '../registry'
 import getENS, { getNamehash } from '../ens'
 import '../../testing-utils/extendExpect'
-import Web3 from 'web3-1.0'
+import Web3 from 'web3'
 
 const ENVIRONMENTS = ['GANACHE_GUI', 'GANACHE_CLI', 'GANACHE_CLI_MANUAL']
 const ENV = ENVIRONMENTS[1]

@@ -1,4 +1,4 @@
-import getWeb31, { getNetworkId } from './web31'
+import getWeb3, { getNetworkId } from './web3'
 import ensContract from './contracts/ensContract.json'
 import reverseRegistrarContract from './contracts/reverseRegistrarContract.json'
 import resolverContract from './contracts/resolverContract.json'
@@ -15,8 +15,9 @@ var contracts = {
 
 let ENS
 
-async function getNamehash(name) {
-  const web3 = await getWeb31()
+async function getNamehash(unsanitizedName) {
+  const web3 = await getWeb3()
+  const name = unsanitizedName.toLowerCase()
   let node =
     '0x0000000000000000000000000000000000000000000000000000000000000000'
   if (name !== '') {
@@ -31,14 +32,14 @@ async function getNamehash(name) {
 }
 
 async function getNamehashWithLabelHash(labelHash, nodeHash) {
-  const web3 = await getWeb31()
+  const web3 = await getWeb3()
   let node = web3.utils.sha3(nodeHash + labelHash.slice(2), { encoding: 'hex' })
   return node.toString()
 }
 
 async function getReverseRegistrarContract() {
   const { ENS } = await getENS()
-  const web3 = await getWeb31()
+  const web3 = await getWeb3()
   const namehash = await getNamehash('addr.reverse')
   const reverseRegistrarAddr = await ENS.owner(namehash).call()
   const reverseRegistrar = new web3.eth.Contract(
@@ -52,7 +53,7 @@ async function getReverseRegistrarContract() {
 }
 
 async function getResolverContract(addr) {
-  const web3 = await getWeb31()
+  const web3 = await getWeb3()
   const Resolver = new web3.eth.Contract(resolverContract, addr)
   return {
     Resolver: Resolver.methods,
@@ -61,7 +62,7 @@ async function getResolverContract(addr) {
 }
 
 async function getENSContract() {
-  const web3 = await getWeb31()
+  const web3 = await getWeb3()
   const networkId = await getNetworkId()
   return new web3.eth.Contract(ensContract, contracts[networkId].registry)
 }
