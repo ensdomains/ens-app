@@ -201,51 +201,6 @@ class DetailsEditable extends Component {
                       ))
                     }
                   </Transition>
-
-                  {/* {editing =>
-                      editing &&
-                      (props => (
-                        <div style={props}>
-                          <EditRecord>
-                            <Input
-                              value={newValue}
-                              onChange={updateValue}
-                              valid={isValid}
-                              invalid={isInvalid}
-                              placeholder="Type in a new Ethereum address"
-                              large
-                            />
-                          </EditRecord>
-                          <Buttons>
-                            {keyName === 'Resolver' && (
-                              <DefaultResolverButton
-                                onClick={() =>
-                                  updateValueDirect(publicResolver.address)
-                                }
-                              >
-                                Use Public Resolver
-                              </DefaultResolverButton>
-                            )}
-
-                            <SaveCancel
-                              stopEditing={stopEditing}
-                              mutation={() => {
-                                const variables = {
-                                  name: domain.name,
-                                  [variableName
-                                    ? variableName
-                                    : 'address']: newValue
-                                }
-                                mutation({
-                                  variables
-                                })
-                              }}
-                              mutationButton={mutationButton}
-                            />
-                          </Buttons>
-                        </div>
-                      ))
-                    } */}
                 </DetailsEditableContainer>
               )}
             </Mutation>
