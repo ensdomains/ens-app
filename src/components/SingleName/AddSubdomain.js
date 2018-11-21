@@ -4,7 +4,6 @@ import { Mutation } from 'react-apollo'
 
 import { isLabelValid } from '../../utils/utils'
 import { CREATE_SUBDOMAIN } from '../../graphql/mutations'
-import { watchRegistryEvent } from '../../api/watchers'
 
 import Button from '../Forms/Button'
 import DefaultInput from '../Forms/Input'
@@ -61,22 +60,9 @@ class AddSubdomain extends Component {
                     {isValid ? (
                       <Mutation
                         mutation={CREATE_SUBDOMAIN}
-                        onCompleted={data => {
-                          const txHash = data['createSubdomain']
-                          if (txHash) {
-                            startPending()
-                            watchRegistryEvent(
-                              'NewOwner',
-                              domain.name,
-                              (error, log, event) => {
-                                if (log.transactionHash === txHash) {
-                                  event.stopWatching()
-                                  setConfirmed()
-                                  refetch()
-                                }
-                              }
-                            )
-                          }
+                        onCompleted={() => {
+                          setConfirmed()
+                          refetch()
                         }}
                       >
                         {mutation => (
@@ -89,6 +75,7 @@ class AddSubdomain extends Component {
                                   label: newValue
                                 }
                               })
+                              startPending()
                             }}
                           />
                         )}

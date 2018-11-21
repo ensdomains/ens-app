@@ -4,8 +4,6 @@ import styled from 'react-emotion'
 import { Mutation } from 'react-apollo'
 import { addressUtils } from '@0xproject/utils'
 
-import { watchResolverEvent } from '../../api/watchers'
-
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import AddReverseRecord from './AddReverseRecord'
 import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'

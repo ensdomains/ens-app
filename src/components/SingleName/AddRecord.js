@@ -9,7 +9,6 @@ import Select from '../Forms/Select'
 import TxPending from '../PendingTx'
 
 import { SET_CONTENT, SET_ADDRESS } from '../../graphql/mutations'
-import { watchResolverEvent } from '../../api/watchers'
 
 const ToggleAddRecord = styled('span')`
   font-size: 22px;
@@ -74,7 +73,7 @@ class AddRecord extends Component {
   }
   _renderEditable() {
     const { selectedRecord } = this.state
-    const { domain, emptyRecords, refetch, resolver } = this.props
+    const { domain, emptyRecords, refetch } = this.props
     return (
       <AddRecordContainer>
         <Editable>

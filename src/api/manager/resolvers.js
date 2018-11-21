@@ -14,8 +14,7 @@ import {
 import { getEntry } from '../registrar'
 import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
-import getWeb3 from '../web3'
-import getWeb31, { getNetworkId } from '../web31'
+import { getNetworkId } from '../web31'
 import domains from '../../constants/domains.json'
 
 import {

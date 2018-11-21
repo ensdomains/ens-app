@@ -5,8 +5,6 @@ import { addressUtils } from '@0xproject/utils'
 import PropTypes from 'prop-types'
 import { Transition } from 'react-spring'
 
-import { watchRegistryEvent } from '../../api/watchers'
-
 import { SingleNameBlockies } from './SingleNameBlockies'
 import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
@@ -78,11 +76,9 @@ class DetailsEditable extends Component {
       type,
       mutation,
       mutationButton,
-      mutationName,
       editButton,
       domain,
       variableName,
-      event,
       refetch,
       publicResolver
     } = this.props

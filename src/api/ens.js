@@ -1,11 +1,8 @@
-import getWeb3 from './web3'
 import getWeb31, { getNetworkId } from './web31'
-import web3Constructor from 'web3-1.0'
 import ensContract from './contracts/ensContract.json'
 import reverseRegistrarContract from './contracts/reverseRegistrarContract.json'
 import resolverContract from './contracts/resolverContract.json'
 import fifsRegistrarContract from './contracts/fifsRegistrarContract.json'
-import ENSconstructor from 'ethereum-ens'
 
 var contracts = {
   1: {
