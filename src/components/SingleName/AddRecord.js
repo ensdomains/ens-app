@@ -9,7 +9,6 @@ import Select from '../Forms/Select'
 import TxPending from '../PendingTx'
 
 import { SET_CONTENT, SET_ADDRESS } from '../../graphql/mutations'
-import { watchResolverEvent } from '../../api/watchers'
 
 const ToggleAddRecord = styled('span')`
   font-size: 22px;
@@ -74,7 +73,7 @@ class AddRecord extends Component {
   }
   _renderEditable() {
     const { selectedRecord } = this.state
-    const { domain, emptyRecords, refetch, resolver } = this.props
+    const { domain, emptyRecords, refetch } = this.props
     return (
       <AddRecordContainer>
         <Editable>
@@ -124,30 +123,9 @@ class AddRecord extends Component {
                         name: domain.name,
                         recordValue: newValue
                       }}
-                      onCompleted={data => {
-                        const txHash =
-                          data[
-                            selectedRecord.value === 'content'
-                              ? 'setContent'
-                              : 'setAddress'
-                          ]
-                        if (txHash) {
-                          startPending()
-                          watchResolverEvent(
-                            selectedRecord.value === 'content'
-                              ? 'ContentChanged'
-                              : 'AddrChanged',
-                            resolver,
-                            domain.name,
-                            (error, log, event) => {
-                              if (log.transactionHash === txHash) {
-                                event.stopWatching()
-                                setConfirmed()
-                                refetch()
-                              }
-                            }
-                          )
-                        }
+                      onCompleted={() => {
+                        refetch()
+                        setConfirmed()
                       }}
                     >
                       {mutate => (
@@ -156,9 +134,9 @@ class AddRecord extends Component {
                             stopEditing()
                             this.setState({ selectedRecord: null })
                           }}
-                          something={console.log(newValue)}
                           mutation={e => {
                             e.preventDefault()
+                            startPending()
                             mutate()
                           }}
                         />

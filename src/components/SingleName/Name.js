@@ -91,6 +91,7 @@ const Favourite = styled(DefaultFavourite)``
 class Name extends Component {
   render() {
     const { details: domain, name, pathname, refetch } = this.props
+    console.log(domain)
     const timeLeft = getTimeLeft(domain)
     const percentDone = getPercentTimeLeft(timeLeft, domain)
     return (

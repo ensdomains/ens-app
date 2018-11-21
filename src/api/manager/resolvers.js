@@ -14,7 +14,7 @@ import {
 import { getEntry } from '../registrar'
 import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
-import getWeb3 from '../web3'
+import { getNetworkId } from '../web3'
 import domains from '../../constants/domains.json'
 
 import {
@@ -43,87 +43,91 @@ function getParent(name) {
 const resolvers = {
   Query: {
     singleName: async (_, { name }, { cache }) => {
-      const nameArray = name.split('.')
-      const { networkId } = await getWeb3()
-      let node = {
-        name: null,
-        revealDate: null,
-        registrationDate: null,
-        value: null,
-        highestBid: null,
-        state: null,
-        label: null,
-        domain: null,
-        price: null,
-        rent: null,
-        referralFeePPM: null,
-        available: null
-      }
-      let data
-
-      if (nameArray.length < 3 && nameArray[1] === 'eth') {
-        if (nameArray[0].length < 7) {
-          cache.writeData({
-            data: defaults
-          })
-          return null
+      try {
+        const nameArray = name.split('.')
+        const networkId = await getNetworkId()
+        let node = {
+          name: null,
+          revealDate: null,
+          registrationDate: null,
+          value: null,
+          highestBid: null,
+          state: null,
+          label: null,
+          domain: null,
+          price: null,
+          rent: null,
+          referralFeePPM: null,
+          available: null
         }
+        let data
 
-        const {
-          state,
-          registrationDate,
-          revealDate,
-          value,
-          highestBid
-        } = await getEntry(nameArray[0])
+        if (nameArray.length < 3 && nameArray[1] === 'eth') {
+          if (nameArray[0].length < 7) {
+            cache.writeData({
+              data: defaults
+            })
+            return null
+          }
 
-        const owner = await getOwner(name)
-        node = {
-          ...node,
-          name: `${name}`,
-          state: modeNames[state],
-          registrationDate,
-          revealDate,
-          value,
-          highestBid,
-          owner,
-          __typename: 'Node'
-        }
-      } else {
-        if (networkId === 1) {
-          const domain =
-            domains.find(domain => domain.name === nameArray[1]) || {}
-          const subdomain = await query(
-            nameArray[1],
-            nameArray[0],
-            domain.registrar
-          )
+          const {
+            state,
+            registrationDate,
+            revealDate,
+            value,
+            highestBid
+          } = await getEntry(nameArray[0])
+
+          const owner = await getOwner(name)
           node = {
-            name: `${name}`,
             ...node,
-            ...subdomain,
-            state: subdomain.available ? 'Open' : 'Owned'
+            name: `${name}`,
+            state: modeNames[state],
+            registrationDate,
+            revealDate,
+            value,
+            highestBid,
+            owner,
+            __typename: 'Node'
+          }
+        } else {
+          if (networkId === 1) {
+            const domain =
+              domains.find(domain => domain.name === nameArray[1]) || {}
+            const subdomain = await query(
+              nameArray[1],
+              nameArray[0],
+              domain.registrar
+            )
+            node = {
+              name: `${name}`,
+              ...node,
+              ...subdomain,
+              state: subdomain.available ? 'Open' : 'Owned'
+            }
           }
         }
+
+        const { names } = cache.readQuery({ query: GET_ALL_NODES })
+        const nodeDetails = await getDomainDetails(name)
+
+        const detailedNode = {
+          ...node,
+          ...nodeDetails,
+          parent: nameArray.length > 1 ? getParent(name) : null,
+          __typename: 'Node'
+        }
+
+        data = {
+          names: [...names, detailedNode]
+        }
+
+        cache.writeData({ data })
+
+        return detailedNode
+      } catch (e) {
+        console.log('Error in Single Name', e)
       }
-
-      const { names } = cache.readQuery({ query: GET_ALL_NODES })
-      const nodeDetails = await getDomainDetails(name)
-
-      const detailedNode = {
-        ...node,
-        ...nodeDetails,
-        parent: nameArray.length > 1 ? getParent(name) : null,
-        __typename: 'Node'
-      }
-
-      data = {
-        names: [...names, detailedNode]
-      }
-
-      cache.writeData({ data })
-
-      return detailedNode
     },
     getSubDomains: async (_, { name, owner }, { cache }) => {
       if (!owner) {
@@ -172,6 +176,7 @@ const resolvers = {
 
       try {
         const { name } = await getName(address)
+        console.log(name)
         const addr = await getAddr(name)
 
         return {
@@ -181,9 +186,11 @@ const resolvers = {
           match: false
         }
       } catch (e) {
+        console.log(e)
         return {
           ...obj,
-          name: null
+          name: null,
+          match: false
         }
       }
     }
@@ -191,6 +198,7 @@ const resolvers = {
   Mutation: {
     setName: async (_, { name }) => {
       try {
+        console.log(name)
         const tx = await claimAndSetReverseRecordName(name)
         return tx
       } catch (e) {
@@ -199,9 +207,9 @@ const resolvers = {
     },
     setOwner: async (_, { name, address }, { cache }) => {
       try {
-        const tx = await setOwner(name, address)
-        console.log(tx)
-        return tx
+        const txReceipt = await setOwner(name, address)
+        console.log(txReceipt)
+        return txReceipt
       } catch (e) {
         console.log(e)
       }

@@ -1,4 +1,4 @@
-import getWeb3, { getAccounts } from './web3'
+import getWeb3, { getAccounts, getNetworkId } from './web3'
 import { getAddr } from './registry'
 import merge from 'lodash/merge'
 import fifsResolvers, {
@@ -29,11 +29,11 @@ const resolvers = {
   Web3: {
     accounts: () => getAccounts(),
     networkId: async () => {
-      const { networkId } = await getWeb3()
+      const networkId = await getNetworkId()
       return networkId
     },
     network: async () => {
-      const { networkId } = await getWeb3()
+      const networkId = await getNetworkId()
 
       switch (networkId) {
         case 1:
@@ -64,10 +64,14 @@ const resolvers = {
       }
     },
     publicResolver: async () => {
-      const resolver = await getAddr('resolver.eth')
-      return {
-        address: resolver,
-        __typename: 'Resolver'
+      try {
+        const resolver = await getAddr('resolver.eth')
+        return {
+          address: resolver,
+          __typename: 'Resolver'
+        }
+      } catch (e) {
+        console.log('error getting public resolver', e)
       }
     }
   },
