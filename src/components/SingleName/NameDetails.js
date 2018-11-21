@@ -102,8 +102,6 @@ class NameDetails extends Component {
                 editButton="Transfer"
                 mutationButton="Transfer"
                 mutation={SET_OWNER}
-                mutationName="setOwner"
-                event="Transfer"
                 refetch={refetch}
               />
               {domain.registrationDate ? (
@@ -130,8 +128,6 @@ class NameDetails extends Component {
                       domain={domain}
                       mutationButton="Save"
                       mutation={SET_RESOLVER}
-                      mutationName="setResolver"
-                      event="NewResolver"
                       refetch={refetch}
                       account={account}
                     />
@@ -144,7 +140,6 @@ class NameDetails extends Component {
                   title="Records"
                   isOwner={isOwner}
                   domain={domain}
-                  resolver={domain.resolver}
                   refetch={refetch}
                 />
                 {this.hasAnyRecord(domain) && (
@@ -152,14 +147,11 @@ class NameDetails extends Component {
                     {!this.isEmpty(domain.addr) && (
                       <RecordsItem
                         domain={domain}
-                        resolver={domain.resolver}
                         isOwner={isOwner}
                         keyName="Address"
                         value={domain.addr}
                         mutation={SET_ADDRESS}
-                        mutationName="setAddress"
                         type="address"
-                        event="AddrChanged"
                         refetch={refetch}
                         account={account}
                       />
@@ -167,13 +159,10 @@ class NameDetails extends Component {
                     {!this.isEmpty(domain.content) && (
                       <RecordsItem
                         domain={domain}
-                        resolver={domain.resolver}
                         isOwner={isOwner}
                         keyName="Content"
                         mutation={SET_CONTENT}
-                        mutationName="setContent"
                         value={domain.content}
-                        event="ContentChanged"
                         refetch={refetch}
                       />
                     )}

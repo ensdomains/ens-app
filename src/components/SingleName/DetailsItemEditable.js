@@ -110,6 +110,14 @@ class DetailsEditable extends Component {
             <Mutation
               mutation={mutation}
               onCompleted={data => {
+                // const timer = setInterval(() => {
+                //   refetch().then(({ data }) => {
+                //     if (data.getReverseRecord.name === name) {
+                //       clearInterval(timer)
+                //       setConfirmed()
+                //     }
+                //   })
+                // }, 2000)
                 setConfirmed()
                 refetch()
               }}

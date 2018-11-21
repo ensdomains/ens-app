@@ -76,16 +76,13 @@ class RecordItem extends Component {
   }
   _renderEditable() {
     const {
-      resolver,
       domain,
       keyName,
       value,
       type,
       mutation,
-      mutationName,
       refetch,
       variableName,
-      event,
       account
     } = this.props
 
@@ -108,29 +105,14 @@ class RecordItem extends Component {
           return (
             <Mutation
               mutation={mutation}
-              onCompleted={data => {
-                const txHash = data[mutationName]
-                if (txHash) {
-                  startPending()
-                  watchResolverEvent(
-                    event,
-                    resolver,
-                    domain.name,
-                    (error, log, event) => {
-                      if (log.transactionHash === txHash) {
-                        event.stopWatching()
-                        setConfirmed()
-                        refetch()
-                      }
-                    }
-                  )
-                } else {
-                  // TODO - output msg that tx was rejected in your dapp browser
-                }
+              onCompleted={() => {
+                setConfirmed()
+                refetch()
               }}
             >
               {mutation => (
                 <RecordsItem editing={editing}>
+                  {console.log(pending)}
                   <RecordsContent editing={editing}>
                     <RecordsKey>{keyName}</RecordsKey>
                     <RecordsValue>
@@ -171,6 +153,7 @@ class RecordItem extends Component {
                               ? variableName
                               : 'recordValue']: newValue
                           }
+                          startPending()
                           mutation({
                             variables
                           })

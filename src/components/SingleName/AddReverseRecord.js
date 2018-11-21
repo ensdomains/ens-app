@@ -156,21 +156,16 @@ class AddReverseRecord extends Component {
                             name
                           }}
                           onCompleted={() => {
-                            //TODO: Get rid of this with web3 1.0
-                            startPending()
-                            const timer = setInterval(() => {
-                              refetch().then(({ data }) => {
-                                if (data.getReverseRecord.name === name) {
-                                  clearInterval(timer)
-                                  setConfirmed()
-                                }
-                              })
-                            }, 2000)
+                            refetch()
+                            setConfirmed()
                           }}
                         >
                           {mutation => (
                             <SaveCancel
-                              mutation={mutation}
+                              mutation={() => {
+                                mutation()
+                                startPending()
+                              }}
                               stopEditing={stopEditing}
                             />
                           )}

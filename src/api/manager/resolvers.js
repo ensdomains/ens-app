@@ -199,6 +199,7 @@ const resolvers = {
   Mutation: {
     setName: async (_, { name }) => {
       try {
+        console.log(name)
         const tx = await claimAndSetReverseRecordName(name)
         return tx
       } catch (e) {

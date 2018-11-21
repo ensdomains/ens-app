@@ -95,11 +95,7 @@ describe('Blockchain tests', () => {
 
     reverseRegistrar = await deployens.methods.reverseregistrar().call()
 
-    console.log('reverseRegistrar', reverseRegistrar)
-
     publicResolver = await deployens.methods.publicresolver().call()
-
-    console.log('publicResolver', publicResolver)
 
     reverseRegistrarInstance = new web3.eth.Contract(
       JSON.parse(reverseRegistrarABI),
@@ -109,7 +105,6 @@ describe('Blockchain tests', () => {
     const ensAddress = await reverseRegistrarInstance.methods.ens().call()
 
     expect(ensAddress).toBe(ensRoot)
-    console.log(ensAddress)
 
     //setup ENS
 
@@ -264,13 +259,14 @@ describe('Blockchain tests', () => {
       expect(reverseRegistrar).toBe(owner)
     })
 
+    //TODO getName and setName working
+
     test('getName gets a name for an address', async () => {
       const { name } = await getName(deployens._address)
       expect(name).toBe('deployer.eth')
     })
 
     // test('claimReverseRecord claims a reverse name', async () => {
-    //   //TODO get claimReverseRecord working
     //   const resolver = await getResolver('bar.eth')
     //   const accounts = await getAccounts()
     //   const owner = await getOwner('bar.eth')

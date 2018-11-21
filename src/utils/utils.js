@@ -1,4 +1,4 @@
-import getWeb3 from '../api/web3'
+import { getNetworkId } from '../api/web31'
 import uts46 from 'idna-uts46-hx'
 import { addressUtils } from '@0xproject/utils'
 import tlds from '../constants/tlds.json'
@@ -9,23 +9,22 @@ export const uniq = (a, param) =>
     (item, pos) => a.map(mapItem => mapItem[param]).indexOf(item[param]) === pos
   )
 
-export function getEtherScanAddr() {
-  return getWeb3().then(({ networkId }) => {
-    switch (networkId) {
-      case 1:
-      case '1':
-        return 'https://etherscan.io/'
-      case 3:
-      case '3':
-        return 'https://ropsten.etherscan.io/'
-      default:
-        return 'https://etherscan.io/'
-    }
-  })
+export async function getEtherScanAddr() {
+  const networkId = await getNetworkId()
+  switch (networkId) {
+    case 1:
+    case '1':
+      return 'https://etherscan.io/'
+    case 3:
+    case '3':
+      return 'https://ropsten.etherscan.io/'
+    default:
+      return 'https://etherscan.io/'
+  }
 }
 
 export async function ensStartBlock() {
-  let { networkId } = await getWeb3()
+  const networkId = await getNetworkId()
   switch (networkId) {
     case 1:
     case '1':

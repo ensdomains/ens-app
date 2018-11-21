@@ -42,13 +42,15 @@ async function getNamehashWithLabelHash(labelHash, nodeHash) {
 async function getReverseRegistrarContract() {
   const { ENS } = await getENS()
   const web3 = await getWeb31()
-  const reverseRegistrarAddr = await ENS.owner('addr.reverse').call()
+  const namehash = await getNamehash('addr.reverse')
+  const reverseRegistrarAddr = await ENS.owner(namehash).call()
+  const reverseRegistrar = new web3.eth.Contract(
+    reverseRegistrarContract,
+    reverseRegistrarAddr
+  )
   return {
-    reverseRegistrar: new web3.eth.Contract(
-      reverseRegistrarContract,
-      reverseRegistrarAddr
-    ),
-    web3
+    reverseRegistrar: reverseRegistrar.methods,
+    _reverseRegistrar: reverseRegistrar
   }
 }
 

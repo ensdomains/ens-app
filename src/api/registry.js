@@ -58,16 +58,14 @@ export async function getContent(name) {
 }
 
 export async function getName(address) {
-  console.log(address)
   const reverseNode = `${address.slice(2)}.addr.reverse`
-  console.log(reverseNode)
-  const reverseNameHash = await getNamehash(reverseNode)
+  const reverseNamehash = await getNamehash(reverseNode)
+  console.log(reverseNamehash)
   const resolverAddr = await getResolver(reverseNode)
   console.log(resolverAddr)
   const { Resolver } = await getResolverContract(resolverAddr)
   try {
-    const name = await Resolver.name(reverseNameHash).call()
-    console.log(name)
+    const name = await Resolver.name(reverseNamehash).call()
     return {
       name
     }
@@ -216,7 +214,7 @@ export async function claim() {
 export async function claimAndSetReverseRecordName(name) {
   const { reverseRegistrar } = await getReverseRegistrarContract()
   const account = await getAccount()
-  return reverseRegistrar.setName(name).send({ from: account[0] })
+  return reverseRegistrar.setName(name).send({ from: account })
 }
 
 export async function setReverseRecordName(name) {
