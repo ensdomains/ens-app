@@ -32,9 +32,7 @@ const graphqlClient = new ApolloClient({
 ReactDOM.render(
   <ApolloProvider client={graphqlClient}>
     <GlobalStateProvider>
-      <NotificationsProvider>
-        <App />
-      </NotificationsProvider>
+      <App />
     </GlobalStateProvider>
   </ApolloProvider>,
   document.getElementById('root')
