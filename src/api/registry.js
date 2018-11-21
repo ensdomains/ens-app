@@ -2,7 +2,8 @@ import getENS, {
   getNamehash,
   getENSEvent,
   getReverseRegistrarContract,
-  getResolverContract
+  getResolverContract,
+  getNamehashWithLabelHash
 } from './ens'
 import { decryptHashes } from './preimage'
 import { uniq, ensStartBlock, checkLabels, mergeLabels } from '../utils/utils'
@@ -21,12 +22,11 @@ export async function getResolver(name) {
   return ENS.resolver(namehash).call()
 }
 
-// export async function getResolverWithNameHash(label, node, name) {
-//   let { ENS } = await getENS()
-//   let nodeHash = await getNamehashWithLabelHash(label, node)
-//   let registry = await ENS.registryPromise
-//   return registry.resolverAsync(nodeHash)
-// }
+export async function getResolverWithNameHash(label, node, name) {
+  let { ENS } = await getENS()
+  let nodeHash = await getNamehashWithLabelHash(label, node)
+  return ENS.resolver(nodeHash).call()
+}
 
 export async function getAddr(name) {
   const resolverAddr = await getResolver(name)

@@ -71,7 +71,9 @@ const SubDomains = ({ domain, isOwner }) => (
               {data.getSubDomains.subDomains.map(d => (
                 <SubDomainLink key={d.name} to={`/name/${d.name}`}>
                   <SingleNameBlockies imageSize={24} address={d.owner} />
-                  {d.name}
+                  {d.decrypted
+                    ? d.name
+                    : `${d.labelHash.slice(0, 10)}.${d.node}`}
                 </SubDomainLink>
               ))}
             </>
