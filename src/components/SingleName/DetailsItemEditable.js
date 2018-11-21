@@ -292,11 +292,9 @@ DetailsEditable.propTypes = {
   type: PropTypes.string, // type of value. Defaults to address
   mutation: PropTypes.object.isRequired, //graphql mutation string for making tx
   mutationButton: PropTypes.string, // Mutation button text
-  mutationName: PropTypes.string.isRequired, // Mutation name for onComplete
   editButton: PropTypes.string, //Edit button text
   domain: PropTypes.object.isRequired,
   variableName: PropTypes.string, //can change the variable name for mutation
-  event: PropTypes.string.isRequired, // event name to watch for transaction
   refetch: PropTypes.func.isRequired
 }
 
