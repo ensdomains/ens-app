@@ -9,6 +9,7 @@ import Button from '../Forms/Button'
 import DefaultInput from '../Forms/Input'
 import Editable from './Editable'
 import SaveCancel from './SaveCancel'
+import PendingTx from '../PendingTx'
 
 const AddSubdomainContainer = styled('section')`
   margin-top: 30px;
@@ -44,9 +45,13 @@ class AddSubdomain extends Component {
             const isInvalid = !isValid && newValue.length > 0
             return (
               <>
-                {!editing && (
-                  <Button onClick={startEditing}>+ Add Subdomain</Button>
-                )}
+                {!editing ? (
+                  pending && !confirmed ? (
+                    <PendingTx />
+                  ) : (
+                    <Button onClick={startEditing}>+ Add Subdomain</Button>
+                  )
+                ) : null}
                 {editing && (
                   <AddSubdomainContent>
                     <Input
@@ -61,8 +66,7 @@ class AddSubdomain extends Component {
                       <Mutation
                         mutation={CREATE_SUBDOMAIN}
                         onCompleted={() => {
-                          setConfirmed()
-                          refetch()
+                          //TODO: Figure out why onCompleted callback doesn't work here
                         }}
                       >
                         {mutation => (
@@ -74,6 +78,9 @@ class AddSubdomain extends Component {
                                   name: domain.name,
                                   label: newValue
                                 }
+                              }).then(() => {
+                                refetch()
+                                setConfirmed()
                               })
                               startPending()
                             }}
