@@ -264,22 +264,12 @@ export const getSubDomains = async name => {
 
   return Promise.all(ownerPromises).then(owners =>
     owners.map((owner, index) => {
-      let decrypted
-      let label
-
-      if (labels[index] === null) {
-        label = 'unknown' + logs[index].label.slice(-6)
-        decrypted = false
-      } else {
-        label = labels[index]
-        decrypted = true
-      }
-
       return {
-        label,
-        decrypted,
+        label: labels[index],
+        labelHash: logs[index].label,
+        decrypted: !labels[index] === null,
         node: name,
-        name: `${labels[index]}.${name}`,
+        name: `${labels[index] || logs[index].label}.${name}`,
         owner
       }
     })
