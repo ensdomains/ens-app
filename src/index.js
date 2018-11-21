@@ -11,7 +11,6 @@ import { withClientState } from 'apollo-link-state'
 import resolvers, { defaults } from './api/rootResolver'
 import typeDefs from './api/schema'
 import { ApolloProvider } from 'react-apollo'
-import { NotificationsProvider } from './Notifications'
 import { GlobalStateProvider } from './globalState'
 import './globalStyles'
 
