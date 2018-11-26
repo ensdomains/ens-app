@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import styled from 'react-emotion'
-import { Mutation } from 'react-apollo'
+import { Mutation, Query } from 'react-apollo'
 import { addressUtils } from '@0xproject/utils'
 import PropTypes from 'prop-types'
 import { Transition } from 'react-spring'
+
+import { GET_PUBLIC_RESOLVER } from '../../graphql/queries'
 
 import { SingleNameBlockies } from './SingleNameBlockies'
 import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
@@ -80,7 +82,6 @@ class DetailsEditable extends Component {
       domain,
       variableName,
       refetch,
-      publicResolver,
       confirm
     } = this.props
     if (keyName === 'Resolver' && parseInt(value, 16) === 0) {
@@ -167,13 +168,22 @@ class DetailsEditable extends Component {
                           </EditRecord>
                           <Buttons>
                             {keyName === 'Resolver' && (
-                              <DefaultResolverButton
-                                onClick={() =>
-                                  updateValueDirect(publicResolver.address)
-                                }
-                              >
-                                Use Public Resolver
-                              </DefaultResolverButton>
+                              <Query query={GET_PUBLIC_RESOLVER}>
+                                {({ data, loading }) => {
+                                  if (loading) return null
+                                  return (
+                                    <DefaultResolverButton
+                                      onClick={() =>
+                                        updateValueDirect(
+                                          data.publicResolver.address
+                                        )
+                                      }
+                                    >
+                                      Use Public Resolver
+                                    </DefaultResolverButton>
+                                  )
+                                }}
+                              </Query>
                             )}
 
                             <SaveCancel

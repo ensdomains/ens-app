@@ -116,25 +116,17 @@ class NameDetails extends Component {
                 ''
               )}
               <HR />
-              <Query query={GET_PUBLIC_RESOLVER}>
-                {({ data, loading }) => {
-                  if (loading) return null
-                  return (
-                    <DetailsItemEditable
-                      keyName="Resolver"
-                      type="address"
-                      value={domain.resolver}
-                      publicResolver={data.publicResolver}
-                      isOwner={isOwner}
-                      domain={domain}
-                      mutationButton="Save"
-                      mutation={SET_RESOLVER}
-                      refetch={refetch}
-                      account={account}
-                    />
-                  )
-                }}
-              </Query>
+              <DetailsItemEditable
+                keyName="Resolver"
+                type="address"
+                value={domain.resolver}
+                isOwner={isOwner}
+                domain={domain}
+                mutationButton="Save"
+                mutation={SET_RESOLVER}
+                refetch={refetch}
+                account={account}
+              />
               <Records hasRecord={this.hasAnyRecord(domain)} isOwner={isOwner}>
                 <AddRecord
                   emptyRecords={emptyRecords}
