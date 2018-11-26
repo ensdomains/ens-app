@@ -1,81 +1,64 @@
-import getENS from './ens'
-import getWeb3, { getAccounts } from './web3'
+import getENS, { getNamehash } from './ens'
+import getWeb3, { getAccount } from './web3'
 import auctionRegistrarContract from './contracts/auctionRegistrarContract.json'
 
 let ethRegistrar
 
 export const getAuctionRegistrar = async () => {
   if (ethRegistrar) {
-    return { Registrar: ethRegistrar }
+    return ethRegistrar
   }
-  let { ENS, web3 } = await getENS()
-  const ethAddr = await ENS.owner('eth')
-  ethRegistrar = web3.eth.contract(auctionRegistrarContract).at(ethAddr)
-  return { Registrar: ethRegistrar }
+
+  try {
+    let { ENS } = await getENS()
+    const web3 = await getWeb3()
+    const ethAddr = await ENS.owner(await getNamehash('eth')).call()
+    ethRegistrar = new web3.eth.Contract(auctionRegistrarContract, ethAddr)
+    return ethRegistrar
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 export const getEntry = async name => {
-  const { Registrar } = await getAuctionRegistrar()
-  const { web3 } = await getWeb3()
-  const namehash = web3.sha3(name)
-  return new Promise((resolve, reject) => {
-    Registrar.entries(namehash, (err, entry) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve({
-          state: entry[0].toNumber(),
-          registrationDate: entry[2].toNumber() * 1000,
-          revealDate: (entry[2].toNumber() - 24 * 3 * 60 * 60) * 1000,
-          value: entry[3].toNumber(),
-          highestBid: entry[4].toNumber(),
-          _entry: entry
-        })
-      }
-    })
-  })
+  const Registrar = await getAuctionRegistrar()
+  const web3 = await getWeb3()
+  const namehash = web3.utils.sha3(name)
+  const entry = await Registrar.methods.entries(namehash).call()
+  return {
+    state: parseInt(entry[0]),
+    registrationDate: parseInt(entry[2]) * 1000,
+    revealDate: (parseInt(entry[2]) - 24 * 3 * 60 * 60) * 1000,
+    value: parseInt(entry[3]),
+    highestBid: parseInt(entry[4]),
+    _entry: entry
+  }
 }
 
 export const createSealedBid = async (name, bidAmount, secret) => {
-  const { Registrar } = await getAuctionRegistrar()
-  const { web3 } = await getWeb3()
-  const accounts = await getAccounts()
+  const Registrar = await getAuctionRegistrar()
+  const web3 = await getWeb3()
+  const account = await getAccount()
   const namehash = web3.sha3(name)
 
-  return new Promise((resolve, reject) => {
-    Registrar.shaBid(
+  return Registrar.methods
+    .shaBid(
       namehash,
-      accounts[0],
-      web3.toWei(bidAmount, 'ether'),
-      web3.sha3(secret),
-      (err, bid) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(bid)
-        }
-      }
+      account,
+      web3.utils.toWei(bidAmount, 'ether'),
+      web3.utils.sha3(secret)
     )
-  })
+    .send({ from: account })
 }
 
 export const newBid = async (sealedBid, decoyBidAmount) => {
-  const { Registrar } = await getAuctionRegistrar()
-  const { web3 } = await getWeb3()
-  const accounts = await getAccounts()
+  const Registrar = await getAuctionRegistrar()
+  const web3 = await getWeb3()
+  const account = await getAccount()
 
-  return new Promise((resolve, reject) => {
-    Registrar.newBid(
-      sealedBid,
-      { from: accounts[0], value: web3.toWei(decoyBidAmount, 'ether') },
-      (err, txId) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(txId)
-        }
-      }
-    )
+  return Registrar.methodsnewBid(sealedBid).send({
+    from: account,
+    value: web3.utils.toWei(decoyBidAmount, 'ether')
   })
 }
 
@@ -84,22 +67,12 @@ export const startAuctionsAndBid = async (
   sealedBid,
   decoyBidAmount
 ) => {
-  const { Registrar } = await getAuctionRegistrar()
-  const { web3 } = await getWeb3()
-  const accounts = await getAccounts()
+  const Registrar = await getAuctionRegistrar()
+  const web3 = await getWeb3()
+  const account = await getAccount()
 
-  return new Promise((resolve, reject) => {
-    Registrar.startAuctionsAndBid(
-      hashes,
-      sealedBid,
-      { from: accounts[0], value: web3.toWei(decoyBidAmount, 'ether') },
-      (err, txId) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(txId)
-        }
-      }
-    )
+  return Registrar.startAuctionsAndBid(hashes, sealedBid()).send({
+    from: account,
+    value: web3.utils.toWei(decoyBidAmount, 'ether')
   })
 }

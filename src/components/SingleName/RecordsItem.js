@@ -4,8 +4,6 @@ import styled from 'react-emotion'
 import { Mutation } from 'react-apollo'
 import { addressUtils } from '@0xproject/utils'
 
-import { watchResolverEvent } from '../../api/watchers'
-
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import AddReverseRecord from './AddReverseRecord'
 import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
@@ -76,16 +74,13 @@ class RecordItem extends Component {
   }
   _renderEditable() {
     const {
-      resolver,
       domain,
       keyName,
       value,
       type,
       mutation,
-      mutationName,
       refetch,
       variableName,
-      event,
       account
     } = this.props
 
@@ -108,29 +103,14 @@ class RecordItem extends Component {
           return (
             <Mutation
               mutation={mutation}
-              onCompleted={data => {
-                const txHash = data[mutationName]
-                if (txHash) {
-                  startPending()
-                  watchResolverEvent(
-                    event,
-                    resolver,
-                    domain.name,
-                    (error, log, event) => {
-                      if (log.transactionHash === txHash) {
-                        event.stopWatching()
-                        setConfirmed()
-                        refetch()
-                      }
-                    }
-                  )
-                } else {
-                  // TODO - output msg that tx was rejected in your dapp browser
-                }
+              onCompleted={() => {
+                setConfirmed()
+                refetch()
               }}
             >
               {mutation => (
                 <RecordsItem editing={editing}>
+                  {console.log(pending)}
                   <RecordsContent editing={editing}>
                     <RecordsKey>{keyName}</RecordsKey>
                     <RecordsValue>
@@ -171,6 +151,7 @@ class RecordItem extends Component {
                               ? variableName
                               : 'recordValue']: newValue
                           }
+                          startPending()
                           mutation({
                             variables
                           })
@@ -217,17 +198,14 @@ class RecordItem extends Component {
 }
 
 RecordItem.propTypes = {
-  resolver: PropTypes.string.isRequired, // resolver address
   keyName: PropTypes.string.isRequired, // key of the record
   value: PropTypes.string.isRequired, // value of the record (normally hex address)
   type: PropTypes.string, // type of value. Defaults to address
   mutation: PropTypes.object.isRequired, //graphql mutation string for making tx
   mutationButton: PropTypes.string, // Mutation button text
-  mutationName: PropTypes.string.isRequired, // Mutation name for onComplete
   editButton: PropTypes.string, //Edit button text
   domain: PropTypes.object.isRequired,
   variableName: PropTypes.string, //can change the variable name for mutation
-  event: PropTypes.string.isRequired, // event name to watch for transaction
   refetch: PropTypes.func.isRequired,
   account: PropTypes.string
 }

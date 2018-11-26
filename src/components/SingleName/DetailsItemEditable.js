@@ -5,8 +5,6 @@ import { addressUtils } from '@0xproject/utils'
 import PropTypes from 'prop-types'
 import { Transition } from 'react-spring'
 
-import { watchRegistryEvent } from '../../api/watchers'
-
 import { SingleNameBlockies } from './SingleNameBlockies'
 import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
@@ -78,11 +76,9 @@ class DetailsEditable extends Component {
       type,
       mutation,
       mutationButton,
-      mutationName,
       editButton,
       domain,
       variableName,
-      event,
       refetch,
       publicResolver,
       confirm
@@ -111,21 +107,16 @@ class DetailsEditable extends Component {
             <Mutation
               mutation={mutation}
               onCompleted={data => {
-                const txHash = data[mutationName]
-                if (txHash) {
-                  startPending()
-                  watchRegistryEvent(
-                    event,
-                    domain.name,
-                    (error, log, event) => {
-                      if (log.transactionHash === txHash) {
-                        event.stopWatching()
-                        setConfirmed()
-                        refetch()
-                      }
-                    }
-                  )
-                }
+                // const timer = setInterval(() => {
+                //   refetch().then(({ data }) => {
+                //     if (data.getReverseRecord.name === name) {
+                //       clearInterval(timer)
+                //       setConfirmed()
+                //     }
+                //   })
+                // }, 2000)
+                setConfirmed()
+                refetch()
               }}
             >
               {mutation => (
@@ -194,9 +185,11 @@ class DetailsEditable extends Component {
                                     ? variableName
                                     : 'address']: newValue
                                 }
+
                                 mutation({
                                   variables
                                 })
+                                startPending()
                               }}
                               value={value}
                               newValue={newValue}
@@ -208,51 +201,6 @@ class DetailsEditable extends Component {
                       ))
                     }
                   </Transition>
-
-                  {/* {editing =>
-                      editing &&
-                      (props => (
-                        <div style={props}>
-                          <EditRecord>
-                            <Input
-                              value={newValue}
-                              onChange={updateValue}
-                              valid={isValid}
-                              invalid={isInvalid}
-                              placeholder="Type in a new Ethereum address"
-                              large
-                            />
-                          </EditRecord>
-                          <Buttons>
-                            {keyName === 'Resolver' && (
-                              <DefaultResolverButton
-                                onClick={() =>
-                                  updateValueDirect(publicResolver.address)
-                                }
-                              >
-                                Use Public Resolver
-                              </DefaultResolverButton>
-                            )}
-
-                            <SaveCancel
-                              stopEditing={stopEditing}
-                              mutation={() => {
-                                const variables = {
-                                  name: domain.name,
-                                  [variableName
-                                    ? variableName
-                                    : 'address']: newValue
-                                }
-                                mutation({
-                                  variables
-                                })
-                              }}
-                              mutationButton={mutationButton}
-                            />
-                          </Buttons>
-                        </div>
-                      ))
-                    } */}
                 </DetailsEditableContainer>
               )}
             </Mutation>
@@ -299,11 +247,9 @@ DetailsEditable.propTypes = {
   type: PropTypes.string, // type of value. Defaults to address
   mutation: PropTypes.object.isRequired, //graphql mutation string for making tx
   mutationButton: PropTypes.string, // Mutation button text
-  mutationName: PropTypes.string.isRequired, // Mutation name for onComplete
   editButton: PropTypes.string, //Edit button text
   domain: PropTypes.object.isRequired,
   variableName: PropTypes.string, //can change the variable name for mutation
-  event: PropTypes.string.isRequired, // event name to watch for transaction
   refetch: PropTypes.func.isRequired
 }
 

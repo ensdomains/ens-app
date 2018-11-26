@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Blockchain tests Helper functions getDomainDetails gets rootdomain and resolver details 1`] = `"0x3132333435363738390000000000000000000000000000000000000000000000"`;
+
 exports[`Blockchain tests Helper functions getRootDomain gets rootdomain and resolver details 1`] = `"0x3132333435363738390000000000000000000000000000000000000000000000"`;
 
 exports[`Blockchain tests Resolver getContent returns a 32 byte hash 1`] = `"0x3132333435363738390000000000000000000000000000000000000000000000"`;

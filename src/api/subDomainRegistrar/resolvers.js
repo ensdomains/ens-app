@@ -15,9 +15,7 @@ const resolvers = {
           subDomainState: []
         }
       })
-
       const nodes = await queryAll(name)
-
       const cachedNodes = []
 
       const promises = nodes.map(subDomainPromise =>
