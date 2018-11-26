@@ -36,7 +36,7 @@ const Route = ({
 }
 
 const App = () => (
-  <Fragment>
+  <>
     <Router>
       <Switch>
         <Route exact path="/" component={Home} layout={HomePageLayout} />
@@ -50,6 +50,6 @@ const App = () => (
       </Switch>
     </Router>
     <Modal name={CONFIRM} component={Confirm} />
-  </Fragment>
+  </>
 )
 export default App
