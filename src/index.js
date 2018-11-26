@@ -29,9 +29,6 @@ const graphqlClient = new ApolloClient({
     typeDefs
   })
 })
-window.addEventListener('load', () => {
-  setupWeb3()
-})
 
 ReactDOM.render(
   <ApolloProvider client={graphqlClient}>
