@@ -47,6 +47,9 @@ const Values = styled('ul')`
 `
 
 const Value = styled('li')`
+  font-size: 12px;
+  font-weight: bold;
+  font-family: Overpass Mono;
   display: flex;
   justify-content: space-between;
   color: ${({ old }) => (old ? 'grey' : 'black')};
