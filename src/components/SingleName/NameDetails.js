@@ -1,9 +1,6 @@
 import React, { Fragment, Component } from 'react'
 import styled from 'react-emotion'
 import { Link, Route } from 'react-router-dom'
-import { Query } from 'react-apollo'
-
-import { GET_PUBLIC_RESOLVER } from '../../graphql/queries'
 
 import { HR } from '../Typography/Basic'
 import SubDomains from './SubDomains'
