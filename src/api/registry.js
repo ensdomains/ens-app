@@ -63,14 +63,9 @@ export async function getContent(name) {
 
 export async function getName(address) {
   const reverseNode = `${address.slice(2)}.addr.reverse`
-
-  console.log('getName', 1, 'reverseNode', reverseNode)
   const reverseNamehash = await getNamehash(reverseNode)
-  console.log('getName', 2, 'reverseNamehash', reverseNamehash)
   const resolverAddr = await getResolver(reverseNode)
-  console.log('getName', 3, 'resolverAddr', resolverAddr)
   const { Resolver } = await getResolverContract(resolverAddr)
-  console.log('getName', 4, 'ResolverContract', Resolver)
   try {
     const name = await Resolver.name(reverseNamehash).call()
     console.log('getName', 5, name)
