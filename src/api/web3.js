@@ -27,8 +27,9 @@ export default async function getWeb3(customProvider) {
     return web3
   } else {
     console.log('No web3 instance injected. Falling back to cloud provider.')
-    //web3 = new Web3(getNetworkProviderUrl(networkState.expectedNetworkId))
-    readOnly = true
+    const url = 'https://mainnet.infura.io'
+    const provider = new Web3.providers.HttpProvider(url)
+    return (web3 = new Web3(provider))
   }
 }
 

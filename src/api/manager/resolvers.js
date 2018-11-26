@@ -44,6 +44,7 @@ const resolvers = {
   Query: {
     singleName: async (_, { name }, { cache }) => {
       try {
+        console.log(1)
         const nameArray = name.split('.')
         const networkId = await getNetworkId()
         let node = {
@@ -60,8 +61,8 @@ const resolvers = {
           referralFeePPM: null,
           available: null
         }
+        console.log(2)
         let data
-
         if (nameArray.length < 3 && nameArray[1] === 'eth') {
           if (nameArray[0].length < 7) {
             cache.writeData({
@@ -70,15 +71,19 @@ const resolvers = {
             return null
           }
 
+          const entry = await getEntry(nameArray[0])
           const {
             state,
             registrationDate,
             revealDate,
             value,
             highestBid
-          } = await getEntry(nameArray[0])
+          } = entry
+          console.log(3, 'getEntry')
+          console.table(entry)
 
           const owner = await getOwner(name)
+          console.log(4, 'owner', owner)
           node = {
             ...node,
             name: `${name}`,
@@ -90,15 +95,17 @@ const resolvers = {
             owner,
             __typename: 'Node'
           }
-        } else {
+        } else if (nameArray.length > 2) {
           if (networkId === 1) {
             const domain =
               domains.find(domain => domain.name === nameArray[1]) || {}
+            console.log(5)
             const subdomain = await query(
               nameArray[1],
               nameArray[0],
               domain.registrar
             )
+            console.log(6, 'subdomain', subdomain)
             node = {
               name: `${name}`,
               ...node,
@@ -109,23 +116,29 @@ const resolvers = {
         }
 
         const { names } = cache.readQuery({ query: GET_ALL_NODES })
+        console.log(7)
         const nodeDetails = await getDomainDetails(name)
+        console.log(8)
+        console.table('nodeDetails', nodeDetails)
 
-        const detailedNode = {
+        var detailedNode = {
           ...node,
           ...nodeDetails,
           parent: nameArray.length > 1 ? getParent(name) : null,
           __typename: 'Node'
         }
+        console.log(9)
 
         data = {
           names: [...names, detailedNode]
         }
 
         cache.writeData({ data })
+        console.log(10, 'detailedNode', detailedNode)
 
         return detailedNode
       } catch (e) {
+        console.log(11, 'detailedNode in error', detailedNode)
         console.log('Error in Single Name', e)
       }
     },
@@ -176,7 +189,6 @@ const resolvers = {
 
       try {
         const { name } = await getName(address)
-        console.log(name)
         const addr = await getAddr(name)
 
         return {

@@ -48,6 +48,9 @@ const SubDomains = ({ domain, isOwner }) => (
     {parseInt(domain.owner, 16) !== 0 ? (
       <Query query={GET_SUBDOMAINS} variables={{ name: domain.name }}>
         {({ loading, error, data, refetch }) => {
+          if (error) {
+            console.log('error getting subdomains', error)
+          }
           if (loading)
             return (
               <>
@@ -57,7 +60,7 @@ const SubDomains = ({ domain, isOwner }) => (
                 </LoaderWrapper>
               </>
             )
-          if (data.getSubDomains.subDomains.length === 0) {
+          if (data && data.getSubDomains.subDomains.length === 0) {
             return (
               <>
                 {isOwner && <AddSubdomain domain={domain} refetch={refetch} />}
@@ -68,14 +71,16 @@ const SubDomains = ({ domain, isOwner }) => (
           return (
             <>
               {isOwner && <AddSubdomain domain={domain} refetch={refetch} />}
-              {data.getSubDomains.subDomains.map(d => (
-                <SubDomainLink key={d.name} to={`/name/${d.name}`}>
-                  <SingleNameBlockies imageSize={24} address={d.owner} />
-                  {d.decrypted
-                    ? d.name
-                    : `${d.labelHash.slice(0, 10)}.${d.node}`}
-                </SubDomainLink>
-              ))}
+              {data &&
+                data.getSubDomains.subDomains.map(d => (
+                  <SubDomainLink key={d.name} to={`/name/${d.name}`}>
+                    <SingleNameBlockies imageSize={24} address={d.owner} />
+                    {console.log(d)}
+                    {d.decrypted
+                      ? d.name
+                      : `${d.labelHash.slice(0, 10)}.${d.node}`}
+                  </SubDomainLink>
+                ))}
             </>
           )
         }}
