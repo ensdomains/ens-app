@@ -90,7 +90,7 @@ const resolvers = {
             owner,
             __typename: 'Node'
           }
-        } else {
+        } else if (nameArray.length > 2) {
           if (networkId === 1) {
             const domain =
               domains.find(domain => domain.name === nameArray[1]) || {}
