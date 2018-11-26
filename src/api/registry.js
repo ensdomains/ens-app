@@ -29,15 +29,11 @@ export async function getResolverWithNameHash(label, node, name) {
 }
 
 export async function getAddr(name) {
-  console.log(1, 'getAddr')
   const resolverAddr = await getResolver(name)
-  console.log(2, 'getAddr', resolverAddr)
   const namehash = await getNamehash(name)
   try {
     const { Resolver } = await getResolverContract(resolverAddr)
-    console.log(3, 'getAddr', 'ResolverContract', Resolver)
     const addr = await Resolver.addr(namehash).call()
-    console.log(4, 'getAddr', 'addr', addr)
     return addr
   } catch (e) {
     console.warn(
