@@ -195,6 +195,7 @@ class DetailsEditable extends Component {
                               newValue={newValue}
                               mutationButton={mutationButton}
                               confirm={confirm}
+                              isValid={isValid}
                             />
                           </Buttons>
                         </div>
