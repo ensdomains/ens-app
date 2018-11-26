@@ -80,7 +80,8 @@ class DetailsEditable extends Component {
       domain,
       variableName,
       refetch,
-      publicResolver
+      publicResolver,
+      confirm
     } = this.props
     if (keyName === 'Resolver' && parseInt(value, 16) === 0) {
       value = 'No Resolver Set'
@@ -190,7 +191,11 @@ class DetailsEditable extends Component {
                                 })
                                 startPending()
                               }}
+                              value={value}
+                              newValue={newValue}
                               mutationButton={mutationButton}
+                              confirm={confirm}
+                              isValid={isValid}
                             />
                           </Buttons>
                         </div>

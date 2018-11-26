@@ -103,6 +103,7 @@ class NameDetails extends Component {
                 mutationButton="Transfer"
                 mutation={SET_OWNER}
                 refetch={refetch}
+                confirm={true}
               />
               {domain.registrationDate ? (
                 <DetailsItem>
