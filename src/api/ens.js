@@ -1,4 +1,4 @@
-import getWeb3, { getNetworkId } from './web3'
+import getWeb3, { getWeb3Read, getNetworkId } from './web3'
 import ensContract from './contracts/ensContract.json'
 import reverseRegistrarContract from './contracts/reverseRegistrarContract.json'
 import resolverContract from './contracts/resolverContract.json'
@@ -14,6 +14,7 @@ var contracts = {
 }
 
 let ENS
+let readENS
 
 async function getNamehash(unsanitizedName) {
   const web3 = await getWeb3()
@@ -53,7 +54,7 @@ async function getReverseRegistrarContract() {
 }
 
 async function getResolverContract(addr) {
-  const web3 = await getWeb3()
+  const web3 = await getWeb3Read()
   const Resolver = new web3.eth.Contract(resolverContract, addr)
   return {
     Resolver: Resolver.methods,
@@ -63,8 +64,16 @@ async function getResolverContract(addr) {
 
 async function getENSContract() {
   const web3 = await getWeb3()
+  const web3Read = await getWeb3Read()
   const networkId = await getNetworkId()
-  return new web3.eth.Contract(ensContract, contracts[networkId].registry)
+
+  return {
+    readENS: new web3Read.eth.Contract(
+      ensContract,
+      contracts[networkId].registry
+    ),
+    ENS: new web3.eth.Contract(ensContract, contracts[networkId].registry)
+  }
 }
 
 async function getFifsRegistrarContract() {
@@ -88,13 +97,24 @@ const getENS = async ensAddress => {
     contracts[networkId] = {}
     contracts[networkId].registry = ensAddress
   } else {
-    return { ENS: ENS.methods, _ENS: ENS }
+    return {
+      ENS: ENS.methods,
+      _ENS: ENS,
+      readENS: readENS.methods,
+      _readENS: readENS
+    }
   }
 
-  const ENSContract = await getENSContract()
+  const { ENS: ENSContract, readENS: readENSContract } = await getENSContract()
   ENS = ENSContract
+  readENS = readENSContract
 
-  return { ENS: ENSContract.methods, _ENS: ENSContract }
+  return {
+    ENS: ENSContract.methods,
+    _ENS: ENSContract,
+    readENS: readENS.methods,
+    _readENS: readENS
+  }
 }
 
 async function getENSEvent(event, params) {

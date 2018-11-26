@@ -10,7 +10,7 @@ import { uniq, ensStartBlock, checkLabels, mergeLabels } from '../utils/utils'
 import getWeb3, { getAccount } from './web3'
 
 export async function getOwner(name) {
-  const { ENS } = await getENS()
+  const { readENS: ENS } = await getENS()
   const namehash = await getNamehash(name)
   const owner = await ENS.owner(namehash).call()
   return owner
@@ -18,12 +18,12 @@ export async function getOwner(name) {
 
 export async function getResolver(name) {
   const namehash = await getNamehash(name)
-  const { ENS } = await getENS()
+  const { readENS: ENS } = await getENS()
   return ENS.resolver(namehash).call()
 }
 
 export async function getResolverWithNameHash(label, node, name) {
-  let { ENS } = await getENS()
+  let { readENS: ENS } = await getENS()
   let nodeHash = await getNamehashWithLabelHash(label, node)
   return ENS.resolver(nodeHash).call()
 }
@@ -64,7 +64,6 @@ export async function getName(address) {
   const { Resolver } = await getResolverContract(resolverAddr)
   try {
     const name = await Resolver.name(reverseNamehash).call()
-    console.log('getName', 5, name)
     return {
       name
     }
