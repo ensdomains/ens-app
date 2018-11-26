@@ -89,7 +89,10 @@ const Confirm = ({
         {disabled ? (
         <Action type="disabled">Confirm</Action>
         ) : (
-        <Action onClick={mutation}>Confirm</Action>
+        <Action onClick={()=>{
+          mutation()
+          cancel()
+        }}>Confirm</Action>
         )}
       </Buttons>
     </Content>
