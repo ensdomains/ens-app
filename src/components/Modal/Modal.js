@@ -5,12 +5,11 @@ import mq from '../../mediaQuery'
 
 class Modal extends Component {
   render() {
-    const { small, name, children, mutation, cancel, component: Component } = this.props
-    
+    const { small, name, children, component: Component } = this.props
+
     return (
       <GlobalState.Consumer>
         {({ currentModal, toggleModal }) => {
-          console.log('currentModal', currentModal)
           if (!currentModal) {
             return null
           }
@@ -28,7 +27,7 @@ class Modal extends Component {
                   small={small}
                 >
                   {Component ? (
-                    <Component {...currentModal}/>
+                    <Component {...currentModal} />
                   ) : currentModal.render ? (
                     currentModal.render({ ...this.props, toggleModal })
                   ) : null}
@@ -62,7 +61,7 @@ const ModalContent = styled('div')`
   padding: 40px;
   overflow-y: scroll;
   height: auto%;
-  min-width:850px;
+  min-width: 850px;
   ${mq.medium`
     width: 70%;
   `};
