@@ -13,7 +13,9 @@ export const getAuctionRegistrar = async () => {
     let { ENS } = await getENS()
     const web3 = await getWeb3()
     const ethAddr = await ENS.owner(await getNamehash('eth')).call()
+    console.log(ethAddr)
     ethRegistrar = new web3.eth.Contract(auctionRegistrarContract, ethAddr)
+    console.log(ethRegistrar)
     return ethRegistrar
   } catch (e) {
     console.log(e)
@@ -24,14 +26,18 @@ export const getEntry = async name => {
   const Registrar = await getAuctionRegistrar()
   const web3 = await getWeb3()
   const namehash = web3.utils.sha3(name)
-  const entry = await Registrar.methods.entries(namehash).call()
-  return {
-    state: parseInt(entry[0]),
-    registrationDate: parseInt(entry[2]) * 1000,
-    revealDate: (parseInt(entry[2]) - 24 * 3 * 60 * 60) * 1000,
-    value: parseInt(entry[3]),
-    highestBid: parseInt(entry[4]),
-    _entry: entry
+  try {
+    const entry = await Registrar.methods.entries(namehash).call()
+    return {
+      state: parseInt(entry[0]),
+      registrationDate: parseInt(entry[2]) * 1000,
+      revealDate: (parseInt(entry[2]) - 24 * 3 * 60 * 60) * 1000,
+      value: parseInt(entry[3]),
+      highestBid: parseInt(entry[4]),
+      _entry: entry
+    }
+  } catch (e) {
+    console.log('error getting auction entry', e)
   }
 }
 

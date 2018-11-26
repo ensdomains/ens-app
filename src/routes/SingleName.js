@@ -16,8 +16,6 @@ class SingleName extends Component {
     const validity = parseSearchTerm(searchTerm)
     const valid = validity === 'supported' || validity === 'tld'
 
-    console.log(validity)
-
     this.setState({ valid, validityType: validity })
   }
   componentDidMount() {

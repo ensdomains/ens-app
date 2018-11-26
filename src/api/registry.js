@@ -29,11 +29,15 @@ export async function getResolverWithNameHash(label, node, name) {
 }
 
 export async function getAddr(name) {
+  console.log(1, 'getAddr')
   const resolverAddr = await getResolver(name)
+  console.log(2, 'getAddr', resolverAddr)
   const namehash = await getNamehash(name)
   try {
     const { Resolver } = await getResolverContract(resolverAddr)
+    console.log(3, 'getAddr', 'ResolverContract', Resolver)
     const addr = await Resolver.addr(namehash).call()
+    console.log(4, 'getAddr', 'addr', addr)
     return addr
   } catch (e) {
     console.warn(
@@ -59,11 +63,17 @@ export async function getContent(name) {
 
 export async function getName(address) {
   const reverseNode = `${address.slice(2)}.addr.reverse`
+
+  console.log('getName', 1, 'reverseNode', reverseNode)
   const reverseNamehash = await getNamehash(reverseNode)
+  console.log('getName', 2, 'reverseNamehash', reverseNamehash)
   const resolverAddr = await getResolver(reverseNode)
+  console.log('getName', 3, 'resolverAddr', resolverAddr)
   const { Resolver } = await getResolverContract(resolverAddr)
+  console.log('getName', 4, 'ResolverContract', Resolver)
   try {
     const name = await Resolver.name(reverseNamehash).call()
+    console.log('getName', 5, name)
     return {
       name
     }
@@ -267,7 +277,7 @@ export const getSubDomains = async name => {
       return {
         label: labels[index],
         labelHash: logs[index].label,
-        decrypted: !labels[index] === null,
+        decrypted: labels[index] !== null,
         node: name,
         name: `${labels[index] || logs[index].label}.${name}`,
         owner
