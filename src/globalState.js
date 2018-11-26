@@ -18,12 +18,29 @@ export class GlobalStateProvider extends Component {
 
     this.state = {
       filters,
+      currentModal:null,
+      toggleModal:this.toggleModal,
       actions: {
         toggleUnavailableNames: this.toggleUnavailableNames,
         togglePriceFilter: this.togglePriceFilter,
         updateSearchDomains: this.updateSearchDomains
       }
     }
+  }
+
+  showModal = modal => {
+    this.setState({
+      currentModal: modal
+    })
+  }
+
+  toggleModal = modal => {
+    this.setState(
+      state =>
+        state.currentModal && state.currentModal.name === modal.name
+          ? { currentModal: null }
+          : { currentModal: modal }
+    )
   }
 
   toggleUnavailableNames() {

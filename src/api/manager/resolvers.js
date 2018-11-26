@@ -61,7 +61,6 @@ const resolvers = {
           available: null
         }
         let data
-
         if (nameArray.length < 3 && nameArray[1] === 'eth') {
           if (nameArray[0].length < 7) {
             cache.writeData({
@@ -70,13 +69,14 @@ const resolvers = {
             return null
           }
 
+          const entry = await getEntry(nameArray[0])
           const {
             state,
             registrationDate,
             revealDate,
             value,
             highestBid
-          } = await getEntry(nameArray[0])
+          } = entry
 
           const owner = await getOwner(name)
           node = {
@@ -111,7 +111,7 @@ const resolvers = {
         const { names } = cache.readQuery({ query: GET_ALL_NODES })
         const nodeDetails = await getDomainDetails(name)
 
-        const detailedNode = {
+        var detailedNode = {
           ...node,
           ...nodeDetails,
           parent: nameArray.length > 1 ? getParent(name) : null,
@@ -176,7 +176,6 @@ const resolvers = {
 
       try {
         const { name } = await getName(address)
-        console.log(name)
         const addr = await getAddr(name)
 
         return {

@@ -64,6 +64,7 @@ export async function getName(address) {
   const { Resolver } = await getResolverContract(resolverAddr)
   try {
     const name = await Resolver.name(reverseNamehash).call()
+    console.log('getName', 5, name)
     return {
       name
     }
@@ -267,7 +268,7 @@ export const getSubDomains = async name => {
       return {
         label: labels[index],
         labelHash: logs[index].label,
-        decrypted: !labels[index] === null,
+        decrypted: labels[index] !== null,
         node: name,
         name: `${labels[index] || logs[index].label}.${name}`,
         owner
