@@ -3,6 +3,7 @@ import getENS, {
   getENSEvent,
   getReverseRegistrarContract,
   getResolverContract,
+  getResolverReadContract,
   getNamehashWithLabelHash
 } from './ens'
 import { decryptHashes } from './preimage'
@@ -35,7 +36,7 @@ export async function getAddr(name) {
   }
   const namehash = await getNamehash(name)
   try {
-    const { Resolver } = await getResolverContract(resolverAddr)
+    const { Resolver } = await getResolverReadContract(resolverAddr)
     const addr = await Resolver.addr(namehash).call()
     return addr
   } catch (e) {
@@ -53,7 +54,7 @@ export async function getContent(name) {
   }
   const namehash = await getNamehash(name)
   try {
-    const { Resolver } = await getResolverContract(resolverAddr)
+    const { Resolver } = await getResolverReadContract(resolverAddr)
     return Resolver.content(namehash).call()
   } catch (e) {
     console.warn(

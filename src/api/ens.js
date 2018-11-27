@@ -54,6 +54,16 @@ async function getReverseRegistrarContract() {
 }
 
 async function getResolverContract(addr) {
+  const web3 = await getWeb3()
+
+  const Resolver = new web3.eth.Contract(resolverContract, addr)
+  return {
+    Resolver: Resolver.methods,
+    _Resolver: Resolver
+  }
+}
+
+async function getResolverReadContract(addr) {
   const web3 = await getWeb3Read()
   const Resolver = new web3.eth.Contract(resolverContract, addr)
   return {
@@ -165,6 +175,7 @@ export {
   getNamehash,
   getNamehashWithLabelHash,
   getResolverContract,
+  getResolverReadContract,
   watchEvent,
   getFifsRegistrarContract
 }

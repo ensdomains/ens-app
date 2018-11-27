@@ -156,6 +156,7 @@ class RecordItem extends Component {
                             variables
                           })
                         }}
+                        isValid={type === 'address' ? isValid : true}
                         stopEditing={stopEditing}
                       />
                     </>
