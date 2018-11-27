@@ -66,14 +66,31 @@ function getNetworkProviderUrl(id) {
 }
 
 export async function getAccount() {
-  const web3 = await getWeb3()
-  const accounts = await web3.eth.getAccounts()
+  const accounts = await getAccounts()
   return accounts[0]
 }
 
 export async function getAccounts() {
-  const web3 = await getWeb3()
-  return web3.eth.getAccounts()
+  try {
+    const web3 = await getWeb3()
+    const accounts = await web3.eth.getAccounts()
+
+    if (accounts.length > 0) {
+      return accounts
+    } else if (window.ethereum) {
+      try {
+        const accounts = await window.ethereum.enable()
+        return accounts
+      } catch (error) {
+        console.warn('Did not allow app to access dapp browser')
+        throw error
+      }
+    } else {
+      return []
+    }
+  } catch (_) {
+    return null
+  }
 }
 
 export async function getNetworkId() {
