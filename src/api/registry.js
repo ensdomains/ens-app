@@ -33,12 +33,14 @@ export async function getAddr(name) {
   const namehash = await getNamehash(name)
   try {
     const { Resolver } = await getResolverContract(resolverAddr)
+    console.log(resolverAddr)
     const addr = await Resolver.addr(namehash).call()
     return addr
   } catch (e) {
     console.warn(
       'Error getting addr on the resolver contract, are you sure the resolver address is a resolver contract?'
     )
+    return '0x00000000000000000000000000000000'
     throw e
   }
 }
