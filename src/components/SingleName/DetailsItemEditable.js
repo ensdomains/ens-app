@@ -61,13 +61,18 @@ const PendingTx = styled(DefaultPendingTx)`
   transform: translate(0, -65%);
 `
 
-const DefaultResolverButton = styled(Button)`
-  margin-right: 20px;
+const DefaultResolverButton = styled('a')`
+  display: flex;
+  padding-right: 10px;
+  &:hover {
+    cursor: pointer;
+  }
 `
 
 const Buttons = styled('div')`
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 `
 
 class DetailsEditable extends Component {
@@ -173,11 +178,12 @@ class DetailsEditable extends Component {
                                   if (loading) return null
                                   return (
                                     <DefaultResolverButton
-                                      onClick={() =>
+                                      onClick={e => {
+                                        e.preventDefault()
                                         updateValueDirect(
                                           data.publicResolver.address
                                         )
-                                      }
+                                      }}
                                     >
                                       Use Public Resolver
                                     </DefaultResolverButton>

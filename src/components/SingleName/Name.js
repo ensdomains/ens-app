@@ -76,6 +76,10 @@ const ToggleLink = styled(Link)`
   transition: background 0.1s ease-out, transform 0.3s ease-out;
   padding: 10px 30px;
   border-radius: 90px;
+  &:hover,
+  &:visited {
+    color: ${({ active }) => (active ? 'white' : '#D2D2D2')};
+  }
 `
 
 const Toggle = styled('div')`
