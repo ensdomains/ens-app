@@ -89,7 +89,7 @@ export async function getAccounts() {
       return []
     }
   } catch (_) {
-    return null
+    return []
   }
 }
 

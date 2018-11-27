@@ -33,13 +33,19 @@ const NavLink = styled(Link)`
     color: #c7d3e3;
   }
 
-  &:hover {
-    color: #5284ff;
-  }
-
   span {
+    transition: 0.2s;
     margin-left: 15px;
     color: ${p => (p.active ? '#5284FF' : '#C7D3E3')};
+  }
+
+  &:hover {
+    span {
+      color: #5284ff;
+    }
+    path {
+      fill: #5284ff;
+    }
   }
 `
 
