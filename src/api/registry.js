@@ -30,10 +30,12 @@ export async function getResolverWithNameHash(label, node, name) {
 
 export async function getAddr(name) {
   const resolverAddr = await getResolver(name)
+  if (parseInt(resolverAddr, 16) === 0) {
+    return '0x00000000000000000000000000000000'
+  }
   const namehash = await getNamehash(name)
   try {
     const { Resolver } = await getResolverContract(resolverAddr)
-    console.log(resolverAddr)
     const addr = await Resolver.addr(namehash).call()
     return addr
   } catch (e) {
@@ -41,12 +43,14 @@ export async function getAddr(name) {
       'Error getting addr on the resolver contract, are you sure the resolver address is a resolver contract?'
     )
     return '0x00000000000000000000000000000000'
-    throw e
   }
 }
 
 export async function getContent(name) {
   const resolverAddr = await getResolver(name)
+  if (parseInt(resolverAddr, 16) === 0) {
+    return '0x00000000000000000000000000000000'
+  }
   const namehash = await getNamehash(name)
   try {
     const { Resolver } = await getResolverContract(resolverAddr)
@@ -55,7 +59,7 @@ export async function getContent(name) {
     console.warn(
       'Error getting content on the resolver contract, are you sure the resolver address is a resolver contract?'
     )
-    throw e
+    return '0x00000000000000000000000000000000'
   }
 }
 

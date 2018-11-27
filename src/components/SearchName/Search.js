@@ -79,7 +79,7 @@ class Search extends React.Component {
           const searchTerm = this.input.value
 
           this.input.value = ''
-
+          console.log('in search.js')
           if (this.state.type === 'supported' || this.state.type === 'short') {
             history.push(`/name/${searchTerm}`)
             return

@@ -6,10 +6,11 @@ let ethRegistrar
 let ethRegistrarRead
 
 export const getAuctionRegistrar = async () => {
-  if (ethRegistrar) {
-    return ethRegistrar
-  }
-
+  if (ethRegistrar)
+    return {
+      ethRegistrar,
+      ethRegistrarRead
+    }
   try {
     const { readENS: ENS } = await getENS()
     const web3 = await getWeb3()
