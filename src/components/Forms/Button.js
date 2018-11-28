@@ -55,7 +55,8 @@ const ButtonContainer = styled('button')`
     outline: 0;
   }
 
-  ${p => getButtonStyles(p)} a {
+  ${p => getButtonStyles(p)};
+  a {
     color: white;
     &:focus {
       outline: 0;

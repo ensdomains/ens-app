@@ -63,7 +63,7 @@ const PendingTx = styled(DefaultPendingTx)`
 
 const DefaultResolverButton = styled('a')`
   display: flex;
-  padding-right: 10px;
+  padding-right: 20px;
   &:hover {
     cursor: pointer;
   }
