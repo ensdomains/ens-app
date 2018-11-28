@@ -13,7 +13,6 @@ import typeDefs from './api/schema'
 import { ApolloProvider } from 'react-apollo'
 import { GlobalStateProvider } from './globalState'
 import './globalStyles'
-import setupWeb3 from './api/web3'
 
 const cache = new InMemoryCache({
   addTypename: true
@@ -39,4 +38,4 @@ ReactDOM.render(
   document.getElementById('root')
 )
 
-// registerServiceWorker()
+registerServiceWorker()
