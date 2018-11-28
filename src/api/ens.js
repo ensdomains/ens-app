@@ -99,7 +99,6 @@ async function getFifsRegistrarContract() {
 
 const getENS = async ensAddress => {
   const networkId = await getNetworkId()
-
   if (!ENS) {
     if (!ensAddress) {
       ensAddress = contracts[networkId].registry

@@ -177,12 +177,19 @@ const resolvers = {
       try {
         const { name } = await getName(address)
         const addr = await getAddr(name)
-
-        return {
-          ...obj,
-          name,
-          addr,
-          match: false
+        if (name !== null) {
+          return {
+            ...obj,
+            name,
+            addr,
+            match: false
+          }
+        } else {
+          return {
+            ...obj,
+            name: null,
+            match: false
+          }
         }
       } catch (e) {
         console.log(e)
