@@ -1,23 +1,33 @@
 import fs from 'fs'
 import solc from 'solc'
 
-let Registry = fs.readFileSync(
+const Registry = fs.readFileSync(
   './node_modules/@ensdomains/ens/contracts/ENSRegistry.sol',
   'utf8'
 )
 
-let ensInterface = fs.readFileSync(
+const ensInterface = fs.readFileSync(
   './node_modules/@ensdomains/ens/contracts/ENS.sol',
   'utf8'
 )
 
-let PublicResolver = fs.readFileSync(
+const PublicResolver = fs.readFileSync(
   './node_modules/@ensdomains/ens/contracts/PublicResolver.sol',
   'utf8'
 )
 
-let ReverseRegistrar = fs.readFileSync(
+const ReverseRegistrar = fs.readFileSync(
   './node_modules/@ensdomains/ens/contracts/ReverseRegistrar.sol',
+  'utf8'
+)
+
+const HashRegistrarSimplified = fs.readFileSync(
+  './node_modules/@ensdomains/ens/contracts/HashRegistrarSimplified.sol',
+  'utf8'
+)
+
+const Deed = fs.readFileSync(
+  './node_modules/@ensdomains/ens/contracts/Deed.sol',
   'utf8'
 )
 
@@ -27,7 +37,9 @@ let compiled = solc.compile(
       'ENS.sol': ensInterface,
       'ENSRegistry.sol': Registry,
       'PublicResolver.sol': PublicResolver,
-      'ReverseRegistrar.sol': ReverseRegistrar
+      'ReverseRegistrar.sol': ReverseRegistrar,
+      'Deed.sol': Deed,
+      'HashRegistrarSimplified.sol': HashRegistrarSimplified
     }
   },
   1
