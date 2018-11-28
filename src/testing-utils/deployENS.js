@@ -115,20 +115,31 @@ module.exports = async function deployENS({ web3, accounts }) {
       from: accounts[0]
     })
 
-  /* Register some test domains   */
-  // ;['foobar.eth', 'bar.eth', 'foo.eth', 'subdomain.eth'].forEach(
-  //   async domain => {
-  //     const domainArray = domain.split('.')
-  //     const head = domainArray.pop()
-  //     const tail = domainArray.join('.')
-  //     await ensContract
-  //       .setSubnodeOwner(namehash(tail), sha3(head), accounts[0])
-  //       .send({
-  //         from: accounts[0],
-  //         gas: 200000
-  //       })
-  //   }
-  // )
+  /* Register some test domains */
+
+  await ensContract
+    .setSubnodeOwner(namehash('eth'), sha3('awesome'), accounts[0])
+    .send({
+      from: accounts[0]
+    })
+
+  await ensContract
+    .setSubnodeOwner(namehash('eth'), sha3('superawesome'), accounts[0])
+    .send({
+      from: accounts[0]
+    })
+
+  await ensContract
+    .setSubnodeOwner(namehash('eth'), sha3('notsoawesome'), accounts[0])
+    .send({
+      from: accounts[0]
+    })
+
+  await ensContract
+    .setSubnodeOwner(namehash('eth'), sha3('subdomain'), accounts[0])
+    .send({
+      from: accounts[0]
+    })
 
   /* Point the resolver.eth's resolver to the public resolver */
 
