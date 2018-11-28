@@ -43,6 +43,7 @@
     "test:coverage": "npm test -- --coverage",
     "eject": "react-scripts eject",
     "compile": "node --experimental-modules src/testing-utils/compileENS.mjs",
+    "preTest": "node --experimental-modules src/testing-utils/preTest.mjs",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "deploy:dev": "npm run build && npm run postbuild && surge build ensappdev.surge.sh",

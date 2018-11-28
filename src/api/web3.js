@@ -24,12 +24,18 @@ export default async function getWeb3(customProvider) {
   if (window && window.ethereum) {
     web3 = new Web3(window.ethereum)
     const id = `${await web3.eth.net.getId()}`
-    web3Read = new Web3(getNetworkProviderUrl(id))
+    const networkProvider = getNetworkProviderUrl(id)
+    web3Read = new Web3(
+      networkProvider === 'private' ? window.ethereum : networkProvider
+    )
     return web3
   } else if (window.web3 && window.web3.currentProvider) {
     web3 = new Web3(window.web3.currentProvider)
     const id = `${await web3.eth.net.getId()}`
-    web3Read = new Web3(getNetworkProviderUrl(id))
+    const networkProvider = getNetworkProviderUrl(id)
+    web3Read = new Web3(
+      networkProvider === 'private' ? window.ethereum : networkProvider
+    )
     return web3
   } else {
     console.log('No web3 instance injected. Falling back to cloud provider.')
@@ -61,7 +67,7 @@ function getNetworkProviderUrl(id) {
     case '4':
       return `https://rinkeby.infura.io/`
     default:
-      throw new Error(`Cannot connect to unsupported network: ${id}`)
+      return 'private'
   }
 }
 
