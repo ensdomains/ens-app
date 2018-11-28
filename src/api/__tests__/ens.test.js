@@ -148,7 +148,7 @@ describe('Blockchain tests', () => {
 
     test('createSubdomain makes a new subdomain', async () => {
       const accounts = await getAccounts()
-      const oldOwner = await getOwner('subdomain.eth')
+      const oldOwner = await getOwner('a.subdomain.eth')
       // expect the initial owner to be no one
       expect(oldOwner).toBe('0x0000000000000000000000000000000000000000')
       await createSubdomain('subdomain', 'eth')
@@ -159,15 +159,15 @@ describe('Blockchain tests', () => {
 
     test('deleteSubdomain deletes a subdomain', async () => {
       const accounts = await getAccounts()
-      const oldOwner = await getOwner('delete.subdomain.eth')
+      const oldOwner = await getOwner('b.subdomain.eth')
       // expect the initial owner to be no one
       expect(oldOwner).toBe('0x0000000000000000000000000000000000000000')
-      await createSubdomain('delete', 'subdomain.eth')
-      const newOwner = await getOwner('delete.subdomain.eth')
+      await createSubdomain('b', 'subdomain.eth')
+      const newOwner = await getOwner('b.subdomain.eth')
       // Verify owner is the user and therefore the subdomain exists
       expect(newOwner).toBe(accounts[0])
-      await deleteSubdomain('delete', 'subdomain.eth')
-      const deletedOwner = await getOwner('delete.subdomain.eth')
+      await deleteSubdomain('b', 'subdomain.eth')
+      const deletedOwner = await getOwner('b.subdomain.eth')
       // Verify owner has been set to 0x00... to ensure deletion
       expect(deletedOwner).toBe('0x0000000000000000000000000000000000000000')
     })

@@ -116,24 +116,19 @@ module.exports = async function deployENS({ web3, accounts }) {
     })
 
   /* Register some test domains   */
-
-  const subDomainPromises = [
-    'foobar.eth',
-    'bar.eth',
-    'foo.eth',
-    'subdomain.eth'
-  ].map(domain => {
-    const domainArray = domain.split('.')
-    const head = domainArray.pop()
-    const tail = domainArray.join('.')
-    return ensContract
-      .setSubnodeOwner(namehash(tail), sha3(head), accounts[0])
-      .send({
-        from: accounts[0]
-      })
-  })
-
-  await Promise.all(subDomainPromises)
+  // ;['foobar.eth', 'bar.eth', 'foo.eth', 'subdomain.eth'].forEach(
+  //   async domain => {
+  //     const domainArray = domain.split('.')
+  //     const head = domainArray.pop()
+  //     const tail = domainArray.join('.')
+  //     await ensContract
+  //       .setSubnodeOwner(namehash(tail), sha3(head), accounts[0])
+  //       .send({
+  //         from: accounts[0],
+  //         gas: 200000
+  //       })
+  //   }
+  // )
 
   /* Point the resolver.eth's resolver to the public resolver */
 
@@ -170,9 +165,9 @@ module.exports = async function deployENS({ web3, accounts }) {
 
   /* Set the registrar contract as the owner of .eth */
 
-  await ensContract
-    .setOwner(namehash('eth'), accounts[0])
-    .send({ from: accounts[0] })
+  // await ensContract
+  //   .setOwner(namehash('eth'), accounts[0])
+  //   .send({ from: accounts[0] })
 
   return {
     ensAddress: ens._address,

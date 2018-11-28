@@ -176,8 +176,8 @@ const resolvers = {
 
       try {
         const { name } = await getName(address)
-        const addr = await getAddr(name)
         if (name !== null) {
+          const addr = await getAddr(name)
           return {
             ...obj,
             name,

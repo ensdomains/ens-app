@@ -44,6 +44,13 @@ export const getEntry = async name => {
     }
   } catch (e) {
     console.log('error getting auction entry', e)
+    return {
+      state: 0,
+      registrationDate: 0,
+      revealDate: 0,
+      value: 0,
+      highestBid: 0
+    }
   }
 }
 
