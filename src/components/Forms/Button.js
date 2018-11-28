@@ -37,31 +37,39 @@ function getButtonStyles({ type, color }) {
   }
 }
 
-const ButtonContainer = styled('button')`
-  color: white;
-  background: ${p => p.color[0]};
-  padding: 10px 25px;
-  border-radius: 25px;
-  font-size: 14px;
-  font-weight: 700;
-  font-family: Overpass;
-  text-transform: capitalize;
-  letter-spacing: 1.5px;
-  //box-shadow: 0 10px 21px 0 #bed0dc;
-  transition: 0.2s all;
-  border: 2px solid ${p => p.color[0]};
-
-  &:focus {
-    outline: 0;
-  }
-
-  ${p => getButtonStyles(p)};
-  a {
+function getButtonDefaultStyles(p) {
+  return `
     color: white;
+    background: ${p.color[0]};
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: Overpass;
+    text-transform: capitalize;
+    letter-spacing: 1.5px;
+    //box-shadow: 0 10px 21px 0 #bed0dc;
+    transition: 0.2s all;
+    border: 2px solid ${p.color[0]};
+
     &:focus {
       outline: 0;
     }
+  `
+}
+
+const ButtonContainer = styled('button')`
+  ${p => getButtonDefaultStyles(p)};
+  ${p => getButtonStyles(p)};
+`
+
+const ButtonLinkContainer = styled(Link)`
+  color: white;
+  &:visited {
+    color: white;
   }
+  ${p => getButtonDefaultStyles(p)};
+  ${p => getButtonStyles(p)};
 `
 
 const types = {
@@ -82,10 +90,20 @@ const Button = ({ children, type = 'primary', onClick, className }) => (
   </ButtonContainer>
 )
 
-export const ButtonLink = ({ children, type = 'primary', to = '' }) => (
-  <ButtonContainer color={types[type]}>
-    <Link to={to}>{children}</Link>
-  </ButtonContainer>
+export const ButtonLink = ({
+  className,
+  children,
+  type = 'primary',
+  to = ''
+}) => (
+  <ButtonLinkContainer
+    className={className}
+    to={to}
+    color={types[type]}
+    type={type}
+  >
+    {children}
+  </ButtonLinkContainer>
 )
 
 export default Button
