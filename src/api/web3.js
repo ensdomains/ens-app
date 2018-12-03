@@ -34,7 +34,7 @@ export default async function getWeb3(customProvider) {
   } else {
     console.log('No web3 instance injected. Falling back to cloud provider.')
     readOnly = true
-    web3 = new Web3(getNetworkProviderUrl(1))
+    web3 = new Web3(getNetworkProviderUrl('1'))
     web3Read = web3
     return web3
   }
