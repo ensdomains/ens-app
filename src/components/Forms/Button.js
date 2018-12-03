@@ -65,6 +65,9 @@ const ButtonContainer = styled('button')`
 
 const ButtonLinkContainer = styled(Link)`
   color: white;
+  &:hover {
+    color: white;
+  }
   &:visited {
     color: white;
   }
