@@ -20,7 +20,7 @@ const SearchForm = styled('form')`
     display: block;
     width: 27px;
     height: 27px;
-    background: url(${searchIcon});
+    background: url(${searchIcon}) no-repeat;
   }
 
   input {
@@ -77,6 +77,9 @@ class Search extends React.Component {
         onSubmit={e => {
           e.preventDefault()
           const searchTerm = this.input.value
+          if (searchTerm.length < 1) {
+            return
+          }
 
           this.input.value = ''
           if (this.state.type === 'supported' || this.state.type === 'short') {
