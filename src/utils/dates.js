@@ -10,9 +10,16 @@ export function formatDate(unixTimeStamp) {
 
 export function humanizeDate(timeLeft) {
   if (timeLeft < 3600000) {
-    return moment.duration(timeLeft).humanize()
+    const minutes = moment.duration(timeLeft).asMinutes()
+    return `${minutes} minute${minutes > 1 ? `s` : ''}`
   } else {
-    return `${moment.duration(timeLeft).hours()} hours`
+    return `${moment
+      .duration(timeLeft)
+      .asHours()
+      .toFixed(0)}h ${moment
+      .duration(timeLeft)
+      .minutes()
+      .toFixed(0)}m`
   }
 }
 
