@@ -34,7 +34,9 @@ export default async function getWeb3(customProvider) {
     const id = `${await web3.eth.net.getId()}`
     const networkProvider = getNetworkProviderUrl(id)
     web3Read = new Web3(
-      networkProvider === 'private' ? window.ethereum : networkProvider
+      networkProvider === 'private'
+        ? window.web3.currentProvider
+        : networkProvider
     )
     return web3
   } else {
