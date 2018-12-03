@@ -37,7 +37,7 @@ export const getEntry = async name => {
     return {
       state: parseInt(entry[0]),
       registrationDate: parseInt(entry[2]) * 1000,
-      revealDate: (parseInt(entry[2]) - 24 * 3 * 60 * 60) * 1000,
+      revealDate: (parseInt(entry[2]) - 24 * 2 * 60 * 60) * 1000,
       value: parseInt(entry[3]),
       highestBid: parseInt(entry[4]),
       _entry: entry

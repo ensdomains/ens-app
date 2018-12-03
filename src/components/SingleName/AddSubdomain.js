@@ -72,6 +72,7 @@ class AddSubdomain extends Component {
                         {mutation => (
                           <SaveCancel
                             stopEditing={stopEditing}
+                            isValid={isValid}
                             mutation={() => {
                               mutation({
                                 variables: {
