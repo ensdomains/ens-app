@@ -146,7 +146,10 @@ class DetailsEditable extends Component {
                         {editButton ? (
                           <Button onClick={startEditing}>{editButton}</Button>
                         ) : (
-                          <Pencil onClick={startEditing} />
+                          <Pencil
+                            onClick={startEditing}
+                            data-testid={`edit-${keyName.toLowerCase()}`}
+                          />
                         )}
                       </Action>
                     )}

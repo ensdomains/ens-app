@@ -81,7 +81,7 @@ class NameDetails extends Component {
           exact
           path="/name/:name"
           render={() => (
-            <Details>
+            <Details data-testid="name-details">
               {domain.parent && (
                 <DetailsItem>
                   <DetailsKey>Parent</DetailsKey>
