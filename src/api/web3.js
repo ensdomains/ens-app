@@ -40,11 +40,29 @@ export default async function getWeb3(customProvider) {
     )
     return web3
   } else {
-    console.log('No web3 instance injected. Falling back to cloud provider.')
-    readOnly = true
-    web3 = new Web3(getNetworkProviderUrl('1'))
-    web3Read = web3
-    return web3
+    try {
+      const url = 'http://localhost:8545'
+      await fetch(url)
+      console.log('local node active')
+      web3 = new Web3(new Web3.providers.HttpProvider(url))
+      web3Read = web3
+    } catch (error) {
+      if (
+        error.readyState === 4 &&
+        (error.status === 400 || error.status === 200)
+      ) {
+        // the endpoint is active
+        console.log('Success')
+      } else {
+        console.log(
+          'No web3 instance injected. Falling back to cloud provider.'
+        )
+        readOnly = true
+        web3 = new Web3(getNetworkProviderUrl('1'))
+        web3Read = web3
+        return web3
+      }
+    }
   }
 }
 
