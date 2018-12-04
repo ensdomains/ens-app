@@ -121,7 +121,15 @@ class AddRecord extends Component {
                         placeholder="Select a record"
                         options={emptyRecords}
                       />
-                      <Input value={newValue} onChange={updateValue} />
+                      <Input
+                        placeholder={
+                          selectedRecord && selectedRecord.value === 'address'
+                            ? 'Type an Ethereum address'
+                            : ''
+                        }
+                        value={newValue}
+                        onChange={updateValue}
+                      />
                     </Row>
                     {selectedRecord ? (
                       <Mutation
@@ -131,8 +139,9 @@ class AddRecord extends Component {
                           recordValue: newValue
                         }}
                         onCompleted={() => {
-                          refetch()
-                          setConfirmed()
+                          // TODO fix onCompleted
+                          // refetch()
+                          // setConfirmed()
                         }}
                       >
                         {mutate => (
@@ -145,7 +154,10 @@ class AddRecord extends Component {
                             mutation={e => {
                               e.preventDefault()
                               startPending()
-                              mutate()
+                              mutate().then(() => {
+                                refetch()
+                                setConfirmed()
+                              })
                             }}
                           />
                         )}

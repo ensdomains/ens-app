@@ -88,6 +88,7 @@ const Button = ({ children, type = 'primary', onClick, className }) => (
     color={types[type]}
     type={type}
     onClick={onClick}
+    disabled={type === 'disabled'}
   >
     {children}
   </ButtonContainer>

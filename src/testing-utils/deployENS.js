@@ -129,8 +129,15 @@ module.exports = async function deployENS({ web3, accounts }) {
       from: accounts[0]
     })
 
+  //Setup dummy with a resolver
   await ensContract
     .setSubnodeOwner(namehash('eth'), sha3('notsoawesome'), accounts[0])
+    .send({
+      from: accounts[0]
+    })
+
+  await ensContract
+    .setResolver(namehash('notsoawesome.eth'), resolver._address)
     .send({
       from: accounts[0]
     })
