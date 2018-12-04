@@ -44,7 +44,7 @@
     "eject": "react-scripts eject",
     "compile": "node --experimental-modules src/testing-utils/compileENS.mjs",
     "preTest": "node --experimental-modules src/testing-utils/preTest.mjs",
-    "cypress": "yarn run cypress open",
+    "cypress:open": "yarn run cypress open",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "deploy:dev": "npm run build && npm run postbuild && surge build ensappdev.surge.sh",
