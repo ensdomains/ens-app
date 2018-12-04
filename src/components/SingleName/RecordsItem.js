@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'react-emotion'
 import { Mutation } from 'react-apollo'
-import { addressUtils } from '@0xproject/utils'
+import { validateRecord } from '../../utils/records'
 
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import AddReverseRecord from './AddReverseRecord'
@@ -65,13 +65,6 @@ const PendingTx = styled(DefaultPendingTx)`
 `
 
 class RecordItem extends Component {
-  _validateValue({ type, value }) {
-    if (type === 'address') {
-      return addressUtils.isAddress(value)
-    }
-
-    return undefined
-  }
   _renderEditable() {
     const {
       domain,
@@ -97,7 +90,7 @@ class RecordItem extends Component {
           pending,
           confirmed
         }) => {
-          const isValid = this._validateValue({ type, value: newValue })
+          const isValid = validateRecord({ type, value: newValue })
           const isInvalid =
             !isValid && newValue.length > 0 && type === 'address'
           return (

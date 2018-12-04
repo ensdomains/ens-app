@@ -24,19 +24,45 @@ export default async function getWeb3(customProvider) {
   if (window && window.ethereum) {
     web3 = new Web3(window.ethereum)
     const id = `${await web3.eth.net.getId()}`
-    web3Read = new Web3(getNetworkProviderUrl(id))
+    const networkProvider = getNetworkProviderUrl(id)
+    web3Read = new Web3(
+      networkProvider === 'private' ? window.ethereum : networkProvider
+    )
     return web3
   } else if (window.web3 && window.web3.currentProvider) {
     web3 = new Web3(window.web3.currentProvider)
     const id = `${await web3.eth.net.getId()}`
-    web3Read = new Web3(getNetworkProviderUrl(id))
+    const networkProvider = getNetworkProviderUrl(id)
+    web3Read = new Web3(
+      networkProvider === 'private'
+        ? window.web3.currentProvider
+        : networkProvider
+    )
     return web3
   } else {
-    console.log('No web3 instance injected. Falling back to cloud provider.')
-    readOnly = true
-    web3 = new Web3(getNetworkProviderUrl('1'))
-    web3Read = web3
-    return web3
+    try {
+      const url = 'http://localhost:8545'
+      await fetch(url)
+      console.log('local node active')
+      web3 = new Web3(new Web3.providers.HttpProvider(url))
+      web3Read = web3
+    } catch (error) {
+      if (
+        error.readyState === 4 &&
+        (error.status === 400 || error.status === 200)
+      ) {
+        // the endpoint is active
+        console.log('Success')
+      } else {
+        console.log(
+          'No web3 instance injected. Falling back to cloud provider.'
+        )
+        readOnly = true
+        web3 = new Web3(getNetworkProviderUrl('1'))
+        web3Read = web3
+        return web3
+      }
+    }
   }
 }
 
@@ -61,7 +87,7 @@ function getNetworkProviderUrl(id) {
     case '4':
       return `https://rinkeby.infura.io/`
     default:
-      throw new Error(`Cannot connect to unsupported network: ${id}`)
+      return 'private'
   }
 }
 

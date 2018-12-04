@@ -95,23 +95,23 @@ describe('Blockchain tests', () => {
     })
 
     test('setSubnodeOwner sets new subnode owner', async () => {
-      const owner = await getOwner('subnode.eth')
+      const owner = await getOwner('subnode.resolver.eth')
       const accounts = await getAccounts()
       expect(owner).toBe('0x0000000000000000000000000000000000000000')
-      await setSubnodeOwner('subnode', 'eth', accounts[0])
-      const newOwner = await getOwner('subnode.eth')
+      await setSubnodeOwner('subnode', 'resolver.eth', accounts[0])
+      const newOwner = await getOwner('subnode.resolver.eth')
       expect(newOwner).toBe(accounts[0])
     })
 
     test('setNewOwner sets new owner', async () => {
-      const owner = await getOwner('givethisaway.eth')
+      const owner = await getOwner('givethisaway.awesome.eth')
       const accounts = await getAccounts()
       expect(owner).toBe('0x0000000000000000000000000000000000000000')
-      await setSubnodeOwner('givethisaway', 'eth', accounts[0])
-      const owner2 = await getOwner('givethisaway.eth')
+      await setSubnodeOwner('givethisaway', 'awesome.eth', accounts[0])
+      const owner2 = await getOwner('givethisaway.awesome.eth')
       expect(owner2).toBe(accounts[0])
-      await setOwner('givethisaway.eth', accounts[1])
-      const newOwner = await getOwner('givethisaway.eth')
+      await setOwner('givethisaway.awesome.eth', accounts[1])
+      const newOwner = await getOwner('givethisaway.awesome.eth')
       expect(newOwner).toBe(accounts[1])
     })
 
@@ -130,17 +130,13 @@ describe('Blockchain tests', () => {
     })
 
     test('setResolver sets the resolver on a node', async () => {
-      //create a new node
-      const accounts = await getAccounts()
-      await setSubnodeOwner('foobar', 'eth', accounts[0])
-
       //test setResolver
-      const resolver = await getResolver('foobar.eth')
+      const resolver = await getResolver('awesome.eth')
       const mockResolver = '0x0000000000000000000000000000000000abcdef'
       expect(resolver).not.toBe(mockResolver)
 
-      await setResolver('foobar.eth', mockResolver)
-      const newResolver = await getResolver('foobar.eth')
+      await setResolver('awesome.eth', mockResolver)
+      const newResolver = await getResolver('awesome.eth')
       expect(newResolver).toBeHex()
       expect(newResolver).toBeEthAddress()
       expect(newResolver.toLowerCase()).toBe(mockResolver)
@@ -148,7 +144,7 @@ describe('Blockchain tests', () => {
 
     test('createSubdomain makes a new subdomain', async () => {
       const accounts = await getAccounts()
-      const oldOwner = await getOwner('subdomain.eth')
+      const oldOwner = await getOwner('a.subdomain.eth')
       // expect the initial owner to be no one
       expect(oldOwner).toBe('0x0000000000000000000000000000000000000000')
       await createSubdomain('subdomain', 'eth')
@@ -159,15 +155,15 @@ describe('Blockchain tests', () => {
 
     test('deleteSubdomain deletes a subdomain', async () => {
       const accounts = await getAccounts()
-      const oldOwner = await getOwner('delete.subdomain.eth')
+      const oldOwner = await getOwner('b.subdomain.eth')
       // expect the initial owner to be no one
       expect(oldOwner).toBe('0x0000000000000000000000000000000000000000')
-      await createSubdomain('delete', 'subdomain.eth')
-      const newOwner = await getOwner('delete.subdomain.eth')
+      await createSubdomain('b', 'subdomain.eth')
+      const newOwner = await getOwner('b.subdomain.eth')
       // Verify owner is the user and therefore the subdomain exists
       expect(newOwner).toBe(accounts[0])
-      await deleteSubdomain('delete', 'subdomain.eth')
-      const deletedOwner = await getOwner('delete.subdomain.eth')
+      await deleteSubdomain('b', 'subdomain.eth')
+      const deletedOwner = await getOwner('b.subdomain.eth')
       // Verify owner has been set to 0x00... to ensure deletion
       expect(deletedOwner).toBe('0x0000000000000000000000000000000000000000')
     })
@@ -192,9 +188,12 @@ describe('Blockchain tests', () => {
     test('setAddr sets an address', async () => {
       //reverts if no addr is present
       const resolverAddr = await getAddr('resolver.eth')
-      await setResolver('bar.eth', resolverAddr)
-      await setAddress('bar.eth', '0x0000000000000000000000000000000000012345')
-      const addr = await getAddr('bar.eth')
+      await setResolver('superawesome.eth', resolverAddr)
+      await setAddress(
+        'superawesome.eth',
+        '0x0000000000000000000000000000000000012345'
+      )
+      const addr = await getAddr('superawesome.eth')
       expect(addr).toBe('0x0000000000000000000000000000000000012345')
     })
 
@@ -205,7 +204,7 @@ describe('Blockchain tests', () => {
     })
 
     test('getContent returns 0x00... when no content has been set', async () => {
-      const content = await getContent('bar.eth')
+      const content = await getContent('superawesome.eth')
       expect(content).toBe(
         '0x0000000000000000000000000000000000000000000000000000000000000000'
       )
@@ -213,11 +212,11 @@ describe('Blockchain tests', () => {
 
     test('setContent sets 32 byte hash', async () => {
       await setContent(
-        'bar.eth',
+        'superawesome.eth',
         '0x736f6d65436f6e74656e74000000000000000000000000000000000000000000'
       )
 
-      const content = await getContent('bar.eth')
+      const content = await getContent('superawesome.eth')
       expect(content).toBeHex()
       expect(content).toMatchSnapshot()
     })

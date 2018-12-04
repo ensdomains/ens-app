@@ -33,7 +33,6 @@ class SingleName extends Component {
       },
       location: { pathname }
     } = this.props
-
     if (this.state.valid) {
       return (
         <Query query={GET_SINGLE_NAME} variables={{ name: searchTerm }}>

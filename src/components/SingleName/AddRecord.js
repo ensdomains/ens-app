@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import styled from 'react-emotion'
 import { Mutation } from 'react-apollo'
 
+import { validateRecord } from '../../utils/records'
+
 import Editable from './Editable'
 import SaveCancel from './SaveCancel'
 import DefaultInput from '../Forms/Input'
@@ -87,68 +89,75 @@ class AddRecord extends Component {
             setConfirmed,
             pending,
             confirmed
-          }) => (
-            <>
-              <RecordsTitle>
-                Records
-                {emptyRecords.length > 0 ? (
-                  !editing ? (
-                    pending && !confirmed ? (
-                      <TxPending />
+          }) => {
+            const isValid = validateRecord({
+              type: selectedRecord && selectedRecord.value,
+              value: newValue
+            })
+            return (
+              <>
+                <RecordsTitle>
+                  Records
+                  {emptyRecords.length > 0 ? (
+                    !editing ? (
+                      pending && !confirmed ? (
+                        <TxPending />
+                      ) : (
+                        <ToggleAddRecord onClick={startEditing}>
+                          +
+                        </ToggleAddRecord>
+                      )
                     ) : (
-                      <ToggleAddRecord onClick={startEditing}>
-                        +
-                      </ToggleAddRecord>
+                      <ToggleAddRecord onClick={stopEditing}>-</ToggleAddRecord>
                     )
-                  ) : (
-                    <ToggleAddRecord onClick={stopEditing}>-</ToggleAddRecord>
-                  )
-                ) : null}
-              </RecordsTitle>
-              {editing && (
-                <AddRecordForm>
-                  <Row>
-                    <Select
-                      selectedRecord={selectedRecord}
-                      handleChange={this.handleChange}
-                      placeholder="Select a record"
-                      options={emptyRecords}
-                    />
-                    <Input value={newValue} onChange={updateValue} />
-                  </Row>
-                  {selectedRecord ? (
-                    <Mutation
-                      mutation={this._chooseMutation(selectedRecord)}
-                      variables={{
-                        name: domain.name,
-                        recordValue: newValue
-                      }}
-                      onCompleted={() => {
-                        refetch()
-                        setConfirmed()
-                      }}
-                    >
-                      {mutate => (
-                        <SaveCancel
-                          stopEditing={() => {
-                            stopEditing()
-                            this.setState({ selectedRecord: null })
-                          }}
-                          mutation={e => {
-                            e.preventDefault()
-                            startPending()
-                            mutate()
-                          }}
-                        />
-                      )}
-                    </Mutation>
-                  ) : (
-                    <SaveCancel stopEditing={stopEditing} disabled />
-                  )}
-                </AddRecordForm>
-              )}
-            </>
-          )}
+                  ) : null}
+                </RecordsTitle>
+                {editing && (
+                  <AddRecordForm>
+                    <Row>
+                      <Select
+                        selectedRecord={selectedRecord}
+                        handleChange={this.handleChange}
+                        placeholder="Select a record"
+                        options={emptyRecords}
+                      />
+                      <Input value={newValue} onChange={updateValue} />
+                    </Row>
+                    {selectedRecord ? (
+                      <Mutation
+                        mutation={this._chooseMutation(selectedRecord)}
+                        variables={{
+                          name: domain.name,
+                          recordValue: newValue
+                        }}
+                        onCompleted={() => {
+                          refetch()
+                          setConfirmed()
+                        }}
+                      >
+                        {mutate => (
+                          <SaveCancel
+                            isValid={isValid}
+                            stopEditing={() => {
+                              stopEditing()
+                              this.setState({ selectedRecord: null })
+                            }}
+                            mutation={e => {
+                              e.preventDefault()
+                              startPending()
+                              mutate()
+                            }}
+                          />
+                        )}
+                      </Mutation>
+                    ) : (
+                      <SaveCancel stopEditing={stopEditing} disabled />
+                    )}
+                  </AddRecordForm>
+                )}
+              </>
+            )
+          }}
         </Editable>
       </AddRecordContainer>
     )

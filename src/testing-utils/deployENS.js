@@ -43,6 +43,8 @@ module.exports = async function deployENS({ web3, accounts }) {
   const resolverJSON = contracts['PublicResolver.sol:PublicResolver']
   const reverseRegistrarJSON =
     contracts['ReverseRegistrar.sol:ReverseRegistrar']
+  const HashRegistrarSimplifiedJSON =
+    contracts['HashRegistrarSimplified.sol:Registrar']
 
   /* Deploy the main contracts  */
 
@@ -54,13 +56,22 @@ module.exports = async function deployENS({ web3, accounts }) {
     resolver._address
   )
 
+  const ethRegistrar = await deploy(
+    HashRegistrarSimplifiedJSON,
+    ens._address,
+    accounts[0],
+    0
+  )
+
   const ensContract = ens.methods
   const resolverContract = resolver.methods
   const reverseRegistrarContract = reverseRegistrar.methods
+  const ethRegistrarContract = ethRegistrar.methods
 
   console.log('ENS registry deployed at: ', ens._address)
   console.log('Public resolver deployed at: ', resolver._address)
   console.log('Reverse Registrar deployed at: ', reverseRegistrar._address)
+  console.log('Auction Registrar deployed at: ', ethRegistrar._address)
 
   const tld = 'eth'
   const tldHash = sha3(tld)
@@ -104,6 +115,32 @@ module.exports = async function deployENS({ web3, accounts }) {
       from: accounts[0]
     })
 
+  /* Register some test domains */
+
+  await ensContract
+    .setSubnodeOwner(namehash('eth'), sha3('awesome'), accounts[0])
+    .send({
+      from: accounts[0]
+    })
+
+  await ensContract
+    .setSubnodeOwner(namehash('eth'), sha3('superawesome'), accounts[0])
+    .send({
+      from: accounts[0]
+    })
+
+  await ensContract
+    .setSubnodeOwner(namehash('eth'), sha3('notsoawesome'), accounts[0])
+    .send({
+      from: accounts[0]
+    })
+
+  await ensContract
+    .setSubnodeOwner(namehash('eth'), sha3('subdomain'), accounts[0])
+    .send({
+      from: accounts[0]
+    })
+
   /* Point the resolver.eth's resolver to the public resolver */
 
   await ensContract
@@ -136,6 +173,12 @@ module.exports = async function deployENS({ web3, accounts }) {
   await reverseRegistrarContract
     .setName('eth')
     .send({ from: accounts[2], gas: 1000000 })
+
+  /* Set the registrar contract as the owner of .eth */
+
+  // await ensContract
+  //   .setOwner(namehash('eth'), accounts[0])
+  //   .send({ from: accounts[0] })
 
   return {
     ensAddress: ens._address,

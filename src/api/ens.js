@@ -99,6 +99,11 @@ async function getFifsRegistrarContract() {
 
 const getENS = async ensAddress => {
   const networkId = await getNetworkId()
+
+  if (process.env.REACT_APP_ENS_ADDRESS && networkId > 4) {
+    ensAddress = process.env.REACT_APP_ENS_ADDRESS
+  }
+
   if (!ENS) {
     if (!ensAddress) {
       ensAddress = contracts[networkId].registry

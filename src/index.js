@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
+import setupWeb3 from './api/web3'
 
 import { ApolloClient } from 'apollo-client'
 import { InMemoryCache } from 'apollo-cache-inmemory'
@@ -29,13 +30,16 @@ const graphqlClient = new ApolloClient({
   })
 })
 
-ReactDOM.render(
-  <ApolloProvider client={graphqlClient}>
-    <GlobalStateProvider>
-      <App />
-    </GlobalStateProvider>
-  </ApolloProvider>,
-  document.getElementById('root')
-)
+window.addEventListener('load', async () => {
+  await setupWeb3()
+  ReactDOM.render(
+    <ApolloProvider client={graphqlClient}>
+      <GlobalStateProvider>
+        <App />
+      </GlobalStateProvider>
+    </ApolloProvider>,
+    document.getElementById('root')
+  )
+})
 
 registerServiceWorker()
