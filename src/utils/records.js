@@ -18,12 +18,8 @@ export function validateRecord(record) {
   }
 }
 
-export function selectPlaceholder(selectedRecord) {
-  /* Guard against null */
-  if (!selectedRecord) {
-    return ''
-  }
-  switch (selectedRecord.value) {
+export function getPlaceholder(recordType) {
+  switch (recordType) {
     case 'address':
       return 'Enter an Ethereum address'
     case 'content':

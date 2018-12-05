@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import styled from 'react-emotion'
 import { Mutation } from 'react-apollo'
 
-import { validateRecord, selectPlaceholder } from '../../utils/records'
+import { validateRecord, getPlaceholder } from '../../utils/records'
 
 import Editable from './Editable'
 import SaveCancel from './SaveCancel'
@@ -125,7 +125,7 @@ class AddRecord extends Component {
                         options={emptyRecords}
                       />
                       <Input
-                        placeholder={selectPlaceholder(selectedRecord)}
+                        placeholder={getPlaceholder(selectedRecord.type)}
                         value={newValue}
                         onChange={updateValue}
                       />

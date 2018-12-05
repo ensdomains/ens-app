@@ -43,8 +43,8 @@ const LoaderWrapper = styled('div')`
   padding: 50px 0;
 `
 
-const SubDomains = ({ domain, isOwner }) => (
-  <SubDomainsContainer>
+const SubDomains = ({ domain, isOwner, ...rest }) => (
+  <SubDomainsContainer {...rest}>
     {parseInt(domain.owner, 16) !== 0 ? (
       <Query query={GET_SUBDOMAINS} variables={{ name: domain.name }}>
         {({ loading, error, data, refetch }) => {

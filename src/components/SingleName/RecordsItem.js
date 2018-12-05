@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'react-emotion'
 import { Mutation } from 'react-apollo'
-import { validateRecord } from '../../utils/records'
+import { validateRecord, getPlaceholder } from '../../utils/records'
 
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import AddReverseRecord from './AddReverseRecord'
@@ -122,7 +122,10 @@ class RecordItem extends Component {
                       </Action>
                     ) : (
                       <Action>
-                        <Pencil onClick={startEditing} />
+                        <Pencil
+                          onClick={startEditing}
+                          data-testid={`edit-${keyName.toLowerCase()}`}
+                        />
                       </Action>
                     )}
                   </RecordsContent>
@@ -131,6 +134,7 @@ class RecordItem extends Component {
                     <>
                       <EditRecord>
                         <Input
+                          placeholder={getPlaceholder(type)}
                           onChange={updateValue}
                           valid={isValid}
                           invalid={isInvalid}

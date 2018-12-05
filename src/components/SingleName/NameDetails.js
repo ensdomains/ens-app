@@ -151,6 +151,7 @@ class NameDetails extends Component {
                         domain={domain}
                         isOwner={isOwner}
                         keyName="Content"
+                        type="content"
                         mutation={SET_CONTENT}
                         value={domain.content}
                         refetch={refetch}
@@ -166,7 +167,13 @@ class NameDetails extends Component {
         <Route
           exact
           path="/name/:name/subdomains"
-          render={() => <SubDomains domain={domain} isOwner={isOwner} />}
+          render={() => (
+            <SubDomains
+              domain={domain}
+              isOwner={isOwner}
+              data-testid="subdomains"
+            />
+          )}
         />
       </Fragment>
     )

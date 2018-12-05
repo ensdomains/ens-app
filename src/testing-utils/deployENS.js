@@ -172,13 +172,17 @@ module.exports = async function deployENS({ web3, accounts }) {
   /* Setup some domains for subdomain testing */
 
   await ensContract
-    .setSubnodeOwner(namehash('eth'), sha3('addsubdomain'), accounts[0])
+    .setSubnodeOwner(namehash('eth'), sha3('subdomaindummy'), accounts[0])
     .send({
       from: accounts[0]
     })
 
   await ensContract
-    .setSubnodeOwner(namehash('eth'), sha3('addsubdomain'), accounts[0])
+    .setSubnodeOwner(
+      namehash('subdomaindummy.eth'),
+      sha3('original'),
+      accounts[0]
+    )
     .send({
       from: accounts[0]
     })
