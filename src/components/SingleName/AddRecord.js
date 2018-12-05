@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import styled from 'react-emotion'
 import { Mutation } from 'react-apollo'
 
-import { validateRecord } from '../../utils/records'
+import { validateRecord, selectPlaceholder } from '../../utils/records'
 
 import Editable from './Editable'
 import SaveCancel from './SaveCancel'
@@ -91,7 +91,10 @@ class AddRecord extends Component {
             confirmed
           }) => {
             const isValid = validateRecord({
-              type: selectedRecord && selectedRecord.value,
+              type:
+                selectedRecord && selectedRecord.value
+                  ? selectedRecord.value
+                  : null,
               value: newValue
             })
             return (
@@ -122,11 +125,7 @@ class AddRecord extends Component {
                         options={emptyRecords}
                       />
                       <Input
-                        placeholder={
-                          selectedRecord && selectedRecord.value === 'address'
-                            ? 'Type an Ethereum address'
-                            : ''
-                        }
+                        placeholder={selectPlaceholder(selectedRecord)}
                         value={newValue}
                         onChange={updateValue}
                       />

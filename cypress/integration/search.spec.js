@@ -132,7 +132,7 @@ describe('Name detail view', () => {
           .contains('Address')
           .click()
 
-        cy.getByPlaceholderText('Type an Ethereum address', {
+        cy.getByPlaceholderText('Enter an Ethereum address', {
           exact: false
         }).type('0x0000000000000000000000000000000000000003')
         cy.getByText('save', { exact: false }).click()
@@ -151,12 +151,40 @@ describe('Name detail view', () => {
       })
   })
 
-  it('can add use add record to add a content hash', () => {
-    // cy.visit(ROOT)
-    // cy.getByPlaceholderText('Search', { exact: false }).type('resolver.eth')
-    // cy.get('button')
-    //   .contains('Search')
-    //   .click()
+  it.only('can add use add record to add a content hash', () => {
+    cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
+
+    cy.getByTestId('name-details')
+      .as('details')
+      .within(container => {
+        cy.getByText('+', { exact: false }).click()
+        cy.getByText('select', { exact: false }).click()
+        cy.get('[role="option"]')
+          .contains('Content')
+          .click()
+
+        cy.getByPlaceholderText('Enter a content hash', {
+          exact: false
+        }).type(
+          '0xd1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162'
+        )
+        cy.getByText('save', { exact: false }).click()
+        //form closed
+        cy.queryByText('save', { exact: false, timeout: 10 }).should(
+          'not.exist'
+        )
+        cy.queryByText('cancel', { exact: false, timeout: 10 }).should(
+          'not.exist'
+        )
+
+        //Value updated
+        cy.queryByText(
+          '0xd1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162',
+          {
+            exact: false
+          }
+        ).should('exist')
+      })
   })
 
   it('can change the address', () => {
@@ -168,6 +196,22 @@ describe('Name detail view', () => {
   })
 
   it('can change the content hash', () => {
+    // cy.visit(ROOT)
+    // cy.getByPlaceholderText('Search', { exact: false }).type('resolver.eth')
+    // cy.get('button')
+    //   .contains('Search')
+    //   .click()
+  })
+
+  it('can navigate to a subdomain', () => {
+    // cy.visit(ROOT)
+    // cy.getByPlaceholderText('Search', { exact: false }).type('resolver.eth')
+    // cy.get('button')
+    //   .contains('Search')
+    //   .click()
+  })
+
+  it('can add a subdomain', () => {
     // cy.visit(ROOT)
     // cy.getByPlaceholderText('Search', { exact: false }).type('resolver.eth')
     // cy.get('button')

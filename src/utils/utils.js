@@ -37,12 +37,6 @@ export async function ensStartBlock() {
   }
 }
 
-export async function openEtherScanPage(txId) {
-  let etherscanAddr = await getEtherScanAddr()
-  let txLink = `${etherscanAddr}/tx/${txId}`
-  window.open(txLink, '_blank')
-}
-
 export const checkLabels = (...labelHashes) => labelHashes.map(hash => null)
 
 // export const checkLabels = (...labelHashes) =>

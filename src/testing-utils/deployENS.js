@@ -129,7 +129,7 @@ module.exports = async function deployENS({ web3, accounts }) {
       from: accounts[0]
     })
 
-  //Setup dummy with a resolver
+  // Setup domain  with a resolver
   await ensContract
     .setSubnodeOwner(namehash('eth'), sha3('notsoawesome'), accounts[0])
     .send({
@@ -138,6 +138,47 @@ module.exports = async function deployENS({ web3, accounts }) {
 
   await ensContract
     .setResolver(namehash('notsoawesome.eth'), resolver._address)
+    .send({
+      from: accounts[0]
+    })
+
+  /* Setup domain with a resolver and addr/content */
+
+  await ensContract
+    .setSubnodeOwner(namehash('eth'), sha3('abittooawesome'), accounts[0])
+    .send({
+      from: accounts[0]
+    })
+
+  const aBitTooAwesome = namehash('abittooawesome.eth')
+
+  await ensContract.setResolver(aBitTooAwesome, resolver._address).send({
+    from: accounts[0]
+  })
+
+  await resolverContract.setAddr(aBitTooAwesome, resolver._address).send({
+    from: accounts[0]
+  })
+
+  await resolverContract
+    .setContent(
+      aBitTooAwesome,
+      '0x736f6d65436f6e74656e74000000000000000000000000000000000000000001'
+    )
+    .send({
+      from: accounts[0]
+    })
+
+  /* Setup some domains for subdomain testing */
+
+  await ensContract
+    .setSubnodeOwner(namehash('eth'), sha3('addsubdomain'), accounts[0])
+    .send({
+      from: accounts[0]
+    })
+
+  await ensContract
+    .setSubnodeOwner(namehash('eth'), sha3('addsubdomain'), accounts[0])
     .send({
       from: accounts[0]
     })
