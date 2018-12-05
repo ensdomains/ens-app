@@ -11,7 +11,7 @@ yarn start
 
 Open your browser at localhost:3000 and open metamask
 
-## Testing
+## Unit Testing
 
 All tests are run with Jest for both the front-end application and testing blockchain functionality. For blockchain based tests it uses `ganache-cli` by default. If you want to see the transactions in the Ganache GUI, you can change the environment in the test file from `GANACHE_CLI` to `GANACHE`. Then you can open Ganache on your computer and test manually after the test runner deploys the contracts.
 
@@ -50,4 +50,24 @@ Try installing watchman on OSX by doing:
 ```bash
 brew uninstall watchman
 brew install watchman
+```
+
+## End to end Testing
+
+The ENS app has end to end tests with Cypress. To run them you need to start ganache, run the seed script, run the app and then run cypress. This should start chrome and the Cypress GUI. Each time the test run, the script needs to be re-run and the app restarted for it to work.
+
+```bash
+ganache-cli
+```
+
+```bash
+yarn run preTest
+```
+
+```bash
+yarn start
+```
+
+```bash
+yarn run cypress:open
 ```
