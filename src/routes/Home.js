@@ -43,13 +43,11 @@ const SearchContainer = styled('div')`
   margin: 0 auto 0;
   display: flex;
   flex-direction: column;
-  <<<<<<<HEAD
   min-width: 100%;
-  =======>>>>>>>dev
-    ${mq.medium`
+  ${mq.medium`
     min-width: 60%;
   `}
-    > h2 {
+  > h2 {
     color: white;
     font-size: 38px;
     font-weight: 100;
