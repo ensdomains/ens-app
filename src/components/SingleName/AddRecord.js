@@ -125,7 +125,9 @@ class AddRecord extends Component {
                         options={emptyRecords}
                       />
                       <Input
-                        placeholder={getPlaceholder(selectedRecord.type)}
+                        placeholder={getPlaceholder(
+                          selectedRecord ? selectedRecord.value : null
+                        )}
                         value={newValue}
                         onChange={updateValue}
                       />

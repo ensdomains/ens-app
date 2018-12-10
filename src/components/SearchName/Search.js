@@ -4,6 +4,7 @@ import { parseSearchTerm } from '../../utils/utils'
 import '../../api/subDomainRegistrar'
 import { withRouter } from 'react-router'
 import searchIcon from './search.svg'
+import mq from '../../mediaQuery'
 // import Caret from './Caret'
 // import Filters from './Filters'
 
@@ -11,6 +12,9 @@ const SearchForm = styled('form')`
   display: flex;
   position: relative;
   z-index: 10000;
+  ${mq.small`
+    
+  `}
   &:before {
     content: '';
     position: absolute;

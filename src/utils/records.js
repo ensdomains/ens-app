@@ -1,10 +1,11 @@
 import { addressUtils } from '@0xproject/utils'
 
 export function validateRecord(record) {
-  const { type, value } = record
   if (!record.type) {
     return false
   }
+
+  const { type, value } = record
 
   console.log(record)
 
