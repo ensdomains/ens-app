@@ -22,11 +22,15 @@ const HowToUse = styled(HowToUseDefault)`
 const Hero = styled('section')`
   background: url(${bg});
   background-size: cover;
-  height: 600px;
+  padding: 60px 20px 20px;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  ${mq.medium`
+    padding: 0 20px 0;
+    height: 600px;
+  `}
 `
 
 const NoAccounts = styled(NoAccountsDefault)`
@@ -39,7 +43,7 @@ const SearchContainer = styled('div')`
   margin: 0 auto 0;
   display: flex;
   flex-direction: column;
-
+  min-width: 100%;
   ${mq.medium`
     min-width: 60%;
   `}
@@ -65,20 +69,7 @@ const Search = styled(SearchDefault)`
     min-width: 780px;
   `}
 
-  &:before {
-    left: 20px;
-  }
-
   input {
-    border-radius: 6px;
-    font-size: 14px;
-    ${mq.medium`
-      font-size: 28px;
-      border-radius: 6px 0 0 6px;
-      min-width: 780px;
-    `}
-
-    padding-left: 55px;
     width: 100%;
   }
 
@@ -116,8 +107,13 @@ const NetworkStatus = styled('div')`
 const Explanation = styled('div')`
   display: grid;
   width: 100%;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  ${mq.medium`
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+  `}
   grid-gap: 0;
 `
 
@@ -132,11 +128,17 @@ const Section = styled('section')`
   align-items: center;
 `
 
-const WhatItIs = styled(Section)``
+const WhatItIs = styled(Section)`
+  padding: 40px 20px 80px;
+  p {
+    font-size: 18px;
+  }
+`
 
 const HowItWorks = styled(Section)`
   background: #f0f6fa;
   z-index: 100;
+  padding: 40px 20px 80px;
 `
 
 const Inner = styled('div')`
@@ -166,8 +168,11 @@ const QuestionMark = styled(QuestionMarkDefault)`
 `
 
 const LogoLarge = styled('img')`
-  width: 223px;
+  width: 50%;
   margin: 0 auto 50px;
+  ${mq.medium`
+    width: 223px;
+  `}
 `
 
 export default props => (

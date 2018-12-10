@@ -18,11 +18,13 @@ const HowToUseContainer = styled('section')`
 
 const Icons = styled('div')`
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
   grid-gap: 50px;
 
   ${mq.medium`
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
     grid-gap: 50px;
   `};
 `
@@ -33,6 +35,12 @@ const IconContainer = styled('div')`
   justify-content: start;
   align-items: center;
 
+  ${mq.medium`
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-gap: 50px;
+  `};
+
   img {
     height: ;
   }
@@ -40,6 +48,7 @@ const IconContainer = styled('div')`
   h3 {
     margin: 0;
     margin-top: 20px;
+    text-align: center;
   }
 
   p {

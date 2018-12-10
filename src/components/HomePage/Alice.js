@@ -9,10 +9,11 @@ const BaseContainer = styled('div')`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 250px;
   overflow: hidden;
 
   ${mq.medium` 
+    height: 100%;
   `};
 
   .background {
