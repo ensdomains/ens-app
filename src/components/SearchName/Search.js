@@ -12,9 +12,7 @@ const SearchForm = styled('form')`
   display: flex;
   position: relative;
   z-index: 10000;
-  ${mq.small`
-    
-  `}
+
   &:before {
     content: '';
     position: absolute;
