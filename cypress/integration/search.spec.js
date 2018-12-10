@@ -1,38 +1,34 @@
 const ROOT = 'http://localhost:3000'
 const NAME_ROOT = `${ROOT}/name`
 
-describe('Visit a domain', () => {
+describe('Search', () => {
   //Visit a domain, check the owner, resolver, address, content exists
-  it('Visits the Kitchen Sink', () => {
+  it('can search for a domain', () => {
     cy.visit(ROOT)
     cy.getByPlaceholderText('Search', { exact: false }).type('resolver.eth')
     cy.get('button')
       .contains('Search')
       .click()
 
-    cy.queryByText('owner')
-
-    //TODO expect owner, resolver, address, content
+    cy.queryByText('owner', { exact: false }).should('exist')
+    cy.queryByText('resolver', { exact: false }).should('exist')
   })
 })
 
 describe('Name detail view', () => {
   //Visit a domain
 
-  xit('cannot transfer ownership to a non-ethereum address', () => {
+  it('cannot transfer ownership to a non-ethereum address', () => {
     cy.visit(`${NAME_ROOT}/awesome.eth`)
     cy.getByText('Transfer').click()
 
     cy.getByTestId('name-details').within(container => {
       cy.getByPlaceholderText('address', { container, exact: false }).type(
-        '0x0000000000000000000000000000000000000001'
+        'nope'
       )
     })
 
-    cy.getByText('Transfer').click()
-    cy.getByText('Confirm').click()
-
-    cy.getByText('0x0000000000000000000000000000000000000001').should('exist')
+    cy.queryByText('Transfer').should('be.disabled')
   })
 
   it('can transfer ownership', () => {
@@ -51,7 +47,7 @@ describe('Name detail view', () => {
     cy.getByText('0x0000000000000000000000000000000000000001').should('exist')
   })
 
-  xit('cannot change the resolver to a non-ethereum address', () => {
+  it('cannot change the resolver to a non-ethereum address', () => {
     cy.visit(`${NAME_ROOT}/superawesome.eth`)
     cy.getByTestId('edit-resolver').click()
 
@@ -106,7 +102,7 @@ describe('Name detail view', () => {
       cy.get('[role="option"]')
         .contains('Address')
         .click()
-      cy.getByPlaceholderText('Type an Ethereum address', {
+      cy.getByPlaceholderText('Enter an Ethereum address', {
         exact: false
       }).type('blah')
       cy.queryByText('save', { exact: false }).should('be.disabled')
@@ -149,23 +145,26 @@ describe('Name detail view', () => {
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
     cy.getByTestId('name-details').within(container => {
-      cy.getByText('+', { exact: false }).click()
-      cy.getByText('select', { exact: false }).click()
-      cy.get('[role="option"]')
+      cy.getByText('+', { exact: false })
+        .click()
+        .getByText('select', { exact: false })
+        .click()
+        .get('[role="option"]')
         .contains('Content')
         .click()
-
-      cy.getByPlaceholderText('Enter a content hash', {
-        exact: false
-      }).type(
-        '0xd1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162'
-      )
-      cy.getByText('save', { exact: false }).click()
+        .getByPlaceholderText('Enter a content hash', {
+          exact: false
+        })
+        .type(
+          '0xd1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162'
+        )
+        .getByText('save', { exact: false })
+        .click()
       //form closed
-      cy.queryByText('save', { exact: false, timeout: 10 }).should('not.exist')
-      cy.queryByText('cancel', { exact: false, timeout: 10 }).should(
-        'not.exist'
-      )
+      cy.queryByText('save', { exact: false, timeout: 10 })
+        .should('not.exist')
+        .queryByText('cancel', { exact: false, timeout: 10 })
+        .should('not.exist')
 
       //Value updated
       cy.queryByText(
@@ -228,11 +227,11 @@ describe('Name detail view', () => {
     cy.visit(`${NAME_ROOT}/subdomaindummy.eth`)
       .getByText('subdomains', { exact: false })
       .click()
-      .getByText('original.addsubdomain.eth')
+      .getByText('original.subdomaindummy.eth')
       .click()
   })
 
-  it.only('can add a subdomain', () => {
+  it('can add a subdomain', () => {
     cy.visit(`${NAME_ROOT}/subdomaindummy.eth`)
       .getByText('subdomains', { exact: false })
       .click()
@@ -252,7 +251,7 @@ describe('Name detail view', () => {
   })
 })
 
-describe('Search results', () => {
+xdescribe('Search results', () => {
   //Visit a domain
 
   it('can search for a domain', () => {

@@ -2,6 +2,8 @@ import React, { Fragment } from 'react'
 import styled from 'react-emotion'
 import { Spring } from 'react-spring'
 
+import mq from '../mediaQuery'
+
 import SearchDefault from '../components/SearchName/Search'
 import NoAccountsDefault from '../components/NoAccounts/NoAccountsModal'
 import bg from '../assets/heroBG.jpg'
@@ -10,9 +12,7 @@ import { ButtonLink } from '../components/Forms/Button'
 import TextBubbleDefault from '../components/Icons/TextBubble'
 import QuestionMarkDefault from '../components/Icons/QuestionMark'
 import HowToUseDefault from '../components/HowToUse/HowToUse'
-
 import Alice from '../components/HomePage/Alice'
-
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
 
 const HowToUse = styled(HowToUseDefault)`
@@ -39,7 +39,10 @@ const SearchContainer = styled('div')`
   margin: 0 auto 0;
   display: flex;
   flex-direction: column;
-  width: 60%;
+
+  ${mq.medium`
+    min-width: 60%;
+  `}
 
   > h2 {
     color: white;
@@ -57,18 +60,33 @@ const SearchContainer = styled('div')`
 `
 
 const Search = styled(SearchDefault)`
-  min-width: 780px;
+  min-width: 90%;
+  ${mq.medium`
+    min-width: 780px;
+  `}
 
   &:before {
     left: 20px;
   }
 
   input {
-    border-radius: 6px 0 0 6px;
+    border-radius: 6px;
+    font-size: 14px;
+    ${mq.medium`
+      font-size: 28px;
+      border-radius: 6px 0 0 6px;
+      min-width: 780px;
+    `}
+
     padding-left: 55px;
+    width: 100%;
   }
 
   button {
+    display: none;
+    ${mq.small`
+      display: block;
+    `}
     border-radius: 0 6px 6px 0;
   }
 `
