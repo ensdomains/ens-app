@@ -12,13 +12,11 @@ const SearchForm = styled('form')`
   display: flex;
   position: relative;
   z-index: 10000;
-  ${mq.small`
-    
-  `}
+
   &:before {
     content: '';
     position: absolute;
-    left: 0;
+    left: 20px;
     top: 50%;
     transform: translate(0, -50%);
     display: block;
@@ -28,13 +26,18 @@ const SearchForm = styled('form')`
   }
 
   input {
-    padding-left: 35px;
+    padding: 20px 0 20px 55px;
     // width: calc(100% - 243px);
     width: calc(100% - 162px);
     border: none;
-    font-size: 28px;
+    border-radius: 6px;
+    font-size: 14px;
     font-family: Overpass;
     font-weight: 100;
+    ${mq.small`
+      border-radius: 6px 0 0 6px;
+      font-size: 28px;
+    `}
 
     &:focus {
       outline: 0;
