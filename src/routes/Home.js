@@ -43,13 +43,11 @@ const SearchContainer = styled('div')`
   margin: 0 auto 0;
   display: flex;
   flex-direction: column;
-  <<<<<<<HEAD
   min-width: 100%;
-  =======>>>>>>>dev
-    ${mq.medium`
+  ${mq.medium`
     min-width: 60%;
   `}
-    > h2 {
+  > h2 {
     color: white;
     font-size: 38px;
     font-weight: 100;
@@ -72,13 +70,14 @@ const Search = styled(SearchDefault)`
 
   input {
     width: 100%;
+    border-radius: 6px;
+    ${mq.small`
+      border-radius: 6px 0 0 6px;
+      font-size: 28px;
+    `}
   }
 
   button {
-    display: none;
-    ${mq.small`
-      display: block;
-    `}
     border-radius: 0 6px 6px 0;
   }
 `

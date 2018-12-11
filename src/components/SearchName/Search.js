@@ -27,15 +27,14 @@ const SearchForm = styled('form')`
 
   input {
     padding: 20px 0 20px 55px;
-    // width: calc(100% - 243px);
-    width: calc(100% - 162px);
+    width: 100%;
     border: none;
-    border-radius: 6px;
+    border-radius: 0;
     font-size: 14px;
     font-family: Overpass;
     font-weight: 100;
     ${mq.small`
-      border-radius: 6px 0 0 6px;
+      width: calc(100% - 162px);
       font-size: 28px;
     `}
 
@@ -58,6 +57,10 @@ const SearchForm = styled('form')`
     height: 90px;
     width: 162px;
     border: none;
+    display: none;
+    ${mq.small`
+      display: block;
+    `}
 
     &:hover {
       cursor: pointer;

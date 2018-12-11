@@ -1,9 +1,13 @@
 import React from 'react'
 import styled from 'react-emotion'
+
+import mq, { MediaQuery } from '../mediaQuery'
+
 import { H2 as DefaultH2 } from '../components/Typography/Basic'
 import Map from '../components/Icons/Map'
 import ReverseArrows from '../components/Icons/ReverseArrows'
 import subdomainExplainer from '../assets/subdomainExplainer.png'
+import subdomainExplainerMobile from '../assets/subdomainExplainer-mobile.png'
 import nameToAddress from '../assets/nameToAddress.png'
 import addressToName from '../assets/addressToName.png'
 import HowToUseDefault from '../components/HowToUse/HowToUse'
@@ -46,11 +50,16 @@ const ElevatorPitch = styled('div')`
 
 const H2 = styled(DefaultH2)`
   font-weight: 300;
-  font-size: 24px;
+  font-size: 20px;
   color: #2b2b2b;
   text-align: center;
   line-height: 37px;
   max-width: 530px;
+  padding: 0 20px 0;
+
+  ${mq.small`
+    font-size: 24px;
+  `}
 `
 
 const SubTitle = styled('h3')`
@@ -76,6 +85,10 @@ const Card = styled('div')`
   display: flex;
   flex-direction: column;
   padding: 30px;
+  margin-bottom: 20px;
+  ${mq.medium`
+    margin-bottom: 0;
+  `}
 `
 
 const CardImg = styled('img')`
@@ -93,17 +106,37 @@ const AboutENSText = styled(CardText)``
 
 const AboutENSContainer = styled('section')`
   display: flex;
-  justify-content: space-between;
-  width: ${45 + 320 + 320}px;
+  align-items: center;
+  max-width: ${45 + 320 + 320}px;
   margin: 0 auto 80px;
+  flex-direction: column;
+  ${mq.medium`
+    justify-content: space-between;
+    flex-direction: row;
+  `}
 `
 const CardTitle = styled('h3')`
   font-weight: 400;
   margin-bottom: 0;
 `
 
-const SubDomainExplainer = styled('img')`
+const SubDomainContent = styled('div')`
+  display: flex;
+  flex-direction: column;
+`
+
+const SubDomainExplainerWrapper = styled('div')`
   max-width: 565px;
+  margin: 0 auto 0;
+  padding: 0 20px;
+  order: 2;
+  ${mq.medium`
+    order: 1
+  `};
+`
+
+const SubDomainExplainer = styled('img')`
+  max-width: 100%;
   margin: 0 auto 40px;
   display: block;
 `
@@ -116,16 +149,28 @@ const SubDomainText = styled('p')`
   line-height: 32px;
   max-width: 540px;
   margin: 0 auto 80px;
+  padding: 0 20px;
+  order: 1;
+  ${mq.medium`
+    order: 2
+  `};
 `
 
 const UnderTheSurface = styled('section')`
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1.5fr;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  justify-items: center;
   max-width: 685px;
   grid-gap: 45px;
   margin: 0 auto 100px;
-  align-items: start;
+  padding: 0 20px;
+
+  ${mq.medium`
+    align-items: start;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1.5fr;
+  `};
 `
 
 const UnderTheSurfaceImgContainer = styled('div')`
@@ -170,12 +215,25 @@ class About extends React.Component {
           </Card>
         </AboutENSContainer>
         <SubTitle>TLDs &amp; SUBDOMAINS</SubTitle>
-        <SubDomainExplainer src={subdomainExplainer} />
-        <SubDomainText>
-          Like DNS, ENS operates on a system of dot-separated hierarchial names
-          called domains, with the owner of a domain having full control over
-          the allocation of subdomains.
-        </SubDomainText>
+        <SubDomainContent>
+          <SubDomainExplainerWrapper>
+            <MediaQuery bp="medium">
+              {matches =>
+                matches ? (
+                  <SubDomainExplainer src={subdomainExplainer} />
+                ) : (
+                  <SubDomainExplainer src={subdomainExplainerMobile} />
+                )
+              }
+            </MediaQuery>
+          </SubDomainExplainerWrapper>
+
+          <SubDomainText>
+            Like DNS, ENS operates on a system of dot-separated hierarchial
+            names called domains, with the owner of a domain having full control
+            over the allocation of subdomains.
+          </SubDomainText>
+        </SubDomainContent>
 
         <SubTitle>HOW TO USE ENS</SubTitle>
         <HowToUse text={true} />
