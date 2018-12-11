@@ -3,6 +3,8 @@ import styled from 'react-emotion'
 import DefaultLogo from '../Logo'
 import Search from '../SearchName/Search'
 
+import mq from '../../mediaQuery'
+
 const Header = styled('header')`
   display: flex;
   flex-direction: row;
@@ -16,7 +18,10 @@ const Header = styled('header')`
 `
 
 const SearchHeader = styled(Search)`
-  width: calc(100% - 200px);
+  width: 100%;
+  ${mq.small`
+    width: calc(100% - 200px);
+  `}
 `
 
 const Logo = styled(DefaultLogo)`
@@ -29,16 +34,18 @@ const Logo = styled(DefaultLogo)`
   width: 200px;
   position: relative;
 
-  &:before {
-    background: #d3d3d3;
-    height: 32px;
-    margin-top: 30px;
-    content: '';
-    width: 1px;
-    right: 35px;
-    top: 0;
-    position: absolute;
-  }
+  ${mq.small`
+    &:before {
+      background: #d3d3d3;
+      height: 32px;
+      margin-top: 30px;
+      content: '';
+      width: 1px;
+      right: 35px;
+      top: 0;
+      position: absolute;
+    }
+  `}
 `
 
 class HeaderContainer extends Component {

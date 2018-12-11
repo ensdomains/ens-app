@@ -70,13 +70,14 @@ const Search = styled(SearchDefault)`
 
   input {
     width: 100%;
+    border-radius: 6px;
+    ${mq.small`
+      border-radius: 6px 0 0 6px;
+      font-size: 28px;
+    `}
   }
 
   button {
-    display: none;
-    ${mq.small`
-      display: block;
-    `}
     border-radius: 0 6px 6px 0;
   }
 `

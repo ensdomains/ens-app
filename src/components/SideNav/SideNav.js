@@ -3,16 +3,25 @@ import styled from 'react-emotion'
 import NetworkInformation from '../NetworkInformation/NetworkInformation'
 import Heart from '../Icons/Heart'
 import SpeechBubble from '../Icons/SpeechBubble'
+
+import mq from '../../mediaQuery'
 // import DogTag from '../Icons/DogTag'
 import { Link, withRouter } from 'react-router-dom'
 
 const SideNavContainer = styled('nav')`
-  margin-top: 50px;
-  width: 165px;
+  display: none;
   position: fixed;
   z-index: 1;
-  left: 35px;
-  top: 100px;
+  left: 0;
+  top: 0;
+  ${mq.small`
+    left: 35px;
+    top: 100px;
+    margin-top: 50px;
+    width: 165px;
+    display: block;
+  `}
+
   ul {
     padding: 0;
   }

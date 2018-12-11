@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'react-emotion'
-import { ButtonLink } from '../Forms/Button'
+import { Link } from 'react-router-dom'
 import AddFavourite from '../AddFavourite/AddFavourite'
 import {
   getPercentTimeLeft,
@@ -10,7 +10,7 @@ import {
 import QueryAccount from '../QueryAccount'
 import Loader from '../Loader'
 
-const DomainContainer = styled('div')`
+const DomainContainer = styled(Link)`
   &:before {
     content: '';
     background: ${p => {
@@ -38,6 +38,7 @@ const DomainContainer = styled('div')`
     left: 0;
     top: 0;
   }
+  color: #2b2b2b;
   padding: 20px;
   overflow: hidden;
   position: relative;
@@ -57,11 +58,16 @@ const DomainContainer = styled('div')`
   transition: 0.2s all;
 
   &:hover {
+    color: #2b2b2b;
     z-index: 1;
     box-shadow: 3px 4px 20px 0 rgba(144, 171, 191, 0.42);
     .label-container {
       display: flex;
     }
+  }
+
+  &:visited {
+    color: #2b2b2b;
   }
 `
 
@@ -154,7 +160,7 @@ const Label = ({ domain, timeLeft, isOwner }) => {
 const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
   if (loading) {
     return (
-      <DomainContainer state={'Owned'} className={className}>
+      <DomainContainer state={'Owned'} className={className} to="">
         <Loader />
       </DomainContainer>
     )
@@ -173,6 +179,7 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
         }
         return (
           <DomainContainer
+            to={`/name/${domain.name}`}
             state={isOwner ? 'Yours' : domain.state}
             className={className}
             percentDone={percentDone}
@@ -194,10 +201,6 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
                 isSubDomain={isSubDomain}
                 isFavourite={isFavourite}
               />
-
-              <ButtonLink primary to={`/name/${domain.name}`}>
-                Details
-              </ButtonLink>
             </RightContainer>
           </DomainContainer>
         )
