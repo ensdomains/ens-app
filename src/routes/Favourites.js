@@ -81,6 +81,7 @@ class Favourites extends Component {
                   <Query
                     query={GET_SINGLE_NAME}
                     variables={{ name: domain.name }}
+                    key={domain.name}
                   >
                     {({ loading, error, data }) => {
                       if (error)
@@ -92,7 +93,6 @@ class Favourites extends Component {
                       return (
                         <DomainItem
                           loading={loading}
-                          key={domain.name}
                           domain={data.singleName}
                           isFavourite={true}
                         />
@@ -125,6 +125,7 @@ class Favourites extends Component {
                   <Query
                     query={GET_SINGLE_NAME}
                     variables={{ name: domain.name }}
+                    key={domain.name}
                   >
                     {({ loading, error, data }) => {
                       if (error)
@@ -136,7 +137,6 @@ class Favourites extends Component {
                       return (
                         <DomainItem
                           loading={loading}
-                          key={domain.name}
                           domain={data.singleName}
                           isSubDomain={true}
                           isFavourite={true}
@@ -149,8 +149,9 @@ class Favourites extends Component {
             )
           }}
         </Query>
-        {!hasFavourites &&
-          !hasSubDomainFavourites && <div>No SubdominsFavourites</div>}
+        {!hasFavourites && !hasSubDomainFavourites && (
+          <div>No SubdominsFavourites</div>
+        )}
       </FavouritesContainer>
     )
   }
