@@ -52,6 +52,7 @@ const Logo = styled(DefaultLogo)`
       : ``}
 
   ${mq.small`
+    opacity: 1;
     &:before {
       background: #d3d3d3;
       height: 32px;
@@ -87,9 +88,15 @@ class HeaderContainer extends Component {
           </MediaQuery>
         </Header>
         <MediaQuery bp="small">
-          {matches => (matches ? null : <SearchHeader />)}
+          {matches =>
+            matches ? null : (
+              <>
+                <SideNav isMenuOpen={isMenuOpen} />
+                <SearchHeader />
+              </>
+            )
+          }
         </MediaQuery>
-        <SideNav isMenuOpen={isMenuOpen} />
       </>
     )
   }
