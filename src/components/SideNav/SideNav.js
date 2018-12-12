@@ -9,15 +9,22 @@ import mq from '../../mediaQuery'
 import { Link, withRouter } from 'react-router-dom'
 
 const SideNavContainer = styled('nav')`
-  display: none;
+  display: ${p => (p.isMenuOpen ? 'block' : 'none')};
   position: fixed;
-  z-index: 1;
+  z-index: 10000000;
   left: 0;
-  top: 0;
+  top: 50px;
+  height: 200px;
+  background: black;
+  width: 100%;
+  padding-left: 20px;
   ${mq.small`
+    padding: 0;
     left: 35px;
     top: 100px;
     margin-top: 50px;
+    height: auto;
+    background: transparent;
     width: 165px;
     display: block;
   `}
@@ -34,9 +41,14 @@ const SideNavContainer = styled('nav')`
 const NavLink = styled(Link)`
   display: flex;
   align-items: center;
+  justify-content: center;
   font-weight: 200;
   font-size: 22px;
   color: ${p => (p.active ? '#5284FF' : '#C7D3E3')};
+
+  ${mq.small`
+    justify-content: start;
+  `}
 
   &:visited {
     color: #c7d3e3;
@@ -61,8 +73,9 @@ const NavLink = styled(Link)`
 class SideNav extends Component {
   render() {
     const { path } = this.props.match
+    const { isMenuOpen } = this.props
     return (
-      <SideNavContainer>
+      <SideNavContainer isMenuOpen={isMenuOpen}>
         <NetworkInformation />
         <ul>
           <li>
