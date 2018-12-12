@@ -233,7 +233,11 @@ module.exports = async function deployENS({ web3, accounts }) {
   //   .send({ from: accounts[0] })
 
   return {
+    emptyAddress:'0x0000000000000000000000000000000000000000',
     ensAddress: ens._address,
-    reverseRegistrarAddress: reverseRegistrar._address
+    ownerAddress: accounts[0],
+    resolverAddress: resolver._address,
+    reverseRegistrarAddress: reverseRegistrar._address,
+    reverseRegistrarOwnerAddress: accounts[0]
   }
 }
