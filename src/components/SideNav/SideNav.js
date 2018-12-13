@@ -17,6 +17,7 @@ const SideNavContainer = styled('nav')`
   height: auto;
   background: #121d46;
   width: 100%;
+  margin-top: -10px;
   ${mq.small`
     padding: 0;
     left: 35px;

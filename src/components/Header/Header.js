@@ -23,9 +23,10 @@ const Header = styled('header')`
   top: 0;
   width: 100%;
   z-index: 100000;
-  box-shadow: 0 8px 24px 0 rgba(230, 240, 247, 0.8);
+  box-shadow: 0 4px 8px 0 rgba(230, 240, 247, 0.8);
   height: 50px;
   ${mq.small`
+    box-shadow: 0 8px 24px 0 rgba(230, 240, 247, 0.8);
     height: auto;
   `}
 `
