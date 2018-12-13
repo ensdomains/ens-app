@@ -2,6 +2,8 @@ import React from 'react'
 import styled from 'react-emotion'
 import { Link } from 'react-router-dom'
 
+import mq from '../../mediaQuery'
+
 const TabLink = styled(Link)`
   font-size: 14px;
   background: ${({ active }) => (active ? '#5384FE' : 'transparent')};
@@ -22,6 +24,12 @@ const TabContainer = styled('div')`
   width: 240px;
   border: 1px solid #dfdfdf;
   border-radius: 90px;
+  margin-left: 43px;
+  margin-top: 20px;
+
+  ${mq.small`
+    margin: 0;
+  `}
 `
 
 const Tabs = ({ domain, pathname }) => {

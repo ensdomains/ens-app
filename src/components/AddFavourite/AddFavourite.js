@@ -1,12 +1,17 @@
 import React, { Component } from 'react'
 import styled from 'react-emotion'
+
+import mq from '../../mediaQuery'
+
 import InActiveHeartDefault from '../Icons/InActiveHeart'
 import ActiveHeartDefault from '../Icons/ActiveHeart'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 
 const ActiveHeart = styled(ActiveHeartDefault)`
-  margin-right: 20px;
+  ${mq.small`
+    margin-right: 20px;
+  `}
 
   &:hover {
     cursor: pointer;
@@ -14,8 +19,9 @@ const ActiveHeart = styled(ActiveHeartDefault)`
 `
 
 const InActiveHeart = styled(InActiveHeartDefault)`
-  margin-right: 20px;
-
+  ${mq.small`
+    margin-right: 20px;
+  `}
   &:hover {
     cursor: pointer;
   }

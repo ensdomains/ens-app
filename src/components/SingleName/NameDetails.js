@@ -83,7 +83,7 @@ class NameDetails extends Component {
           render={() => (
             <Details data-testid="name-details">
               {domain.parent && (
-                <DetailsItem>
+                <DetailsItem uneditable>
                   <DetailsKey>Parent</DetailsKey>
                   <DetailsValue>
                     <Link to={`/name/${domain.parent}`}>{domain.parent}</Link>
@@ -119,6 +119,7 @@ class NameDetails extends Component {
                 value={domain.resolver}
                 isOwner={isOwner}
                 domain={domain}
+                editButton="Set"
                 mutationButton="Save"
                 mutation={SET_RESOLVER}
                 refetch={refetch}

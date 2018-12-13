@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import styled from 'react-emotion'
 
-import mq from '../../mediaQuery'
+import mq, { MediaQuery } from '../../mediaQuery'
 import { getPercentTimeLeft, getTimeLeft } from '../../utils/dates'
+import { EMPTY_ADDRESS } from '../../utils/records'
 
 import { Title } from '../Typography/Basic'
 import DefaultFavourite from '../AddFavourite/Favourite'
@@ -14,10 +15,14 @@ import QueryAccount from '../QueryAccount'
 const NameContainer = styled('div')`
   background: white;
   box-shadow: 3px 4px 6px 0 rgba(229, 236, 241, 0.3);
-  border-radius: 6px;
+  border-radius: 0;
   margin-bottom: 60px;
   position: relative;
   overflow: hidden;
+
+  ${mq.small`
+    border-radius: 6px;
+  `}
 
   &:before {
     left: 0;
@@ -81,7 +86,7 @@ class Name extends Component {
       <QueryAccount>
         {({ account }) => {
           let isOwner = false
-          if (domain.owner !== '0x0000000000000000000000000000000000000000') {
+          if (domain.owner !== EMPTY_ADDRESS) {
             isOwner = domain.owner.toLowerCase() === account.toLowerCase()
           }
           return (
@@ -91,9 +96,18 @@ class Name extends Component {
                 <RightBar>
                   {isOwner && <Owner>Owner</Owner>}
                   <Favourite domain={domain} />
-                  <Tabs pathname={pathname} domain={domain} />
+                  <MediaQuery bp="small">
+                    {matches =>
+                      matches && <Tabs pathname={pathname} domain={domain} />
+                    }
+                  </MediaQuery>
                 </RightBar>
               </TopBar>
+              <MediaQuery bp="small">
+                {matches =>
+                  !matches && <Tabs pathname={pathname} domain={domain} />
+                }
+              </MediaQuery>
               {domain.state === 'Auction' || domain.state === 'Reveal' ? (
                 <NameAuction domain={domain} timeLeft={timeLeft} />
               ) : (

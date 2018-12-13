@@ -13,7 +13,7 @@ const NetworkInformationContainer = styled('div')`
   display: flex;
   justify-content: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  ${mq.small`
+  ${mq.medium`
     margin-bottom: 50px;
     display: block;
     border: none;
@@ -25,7 +25,7 @@ const Blockies = styled(UnstyledBlockies)`
   position: absolute;
   left: 10px;
   top: 10px;
-  ${mq.small`
+  ${mq.medium`
     box-shadow: 3px 5px 24px 0 #d5e2ec;
   `}
 `
@@ -64,7 +64,7 @@ const Account = styled('div')`
 const AccountContainer = styled('div')`
   padding: 10px 10px 10px 65px;
   position: relative;
-  ${mq.small`
+  ${mq.medium`
     transform: translate(-25px, 5px);
     width: 200px;
     &:hover {

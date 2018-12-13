@@ -18,7 +18,7 @@ const SideNavContainer = styled('nav')`
   background: #121d46;
   width: 100%;
   margin-top: -10px;
-  ${mq.small`
+  ${mq.medium`
     padding: 0;
     left: 35px;
     top: 100px;
@@ -48,7 +48,7 @@ const NavLink = styled(Link)`
   padding: 10px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 
-  ${mq.small`
+  ${mq.medium`
     justify-content: start;
     border-bottom: 0;
   `}

@@ -8,7 +8,7 @@ import LogoTyped from '../assets/TypeLogo'
 
 const IconLogo = styled('img')`
   width: 30px;
-  ${mq.small`
+  ${mq.medium`
     width: 34px
   `}
 `
@@ -21,7 +21,7 @@ const LogoContainer = styled(Link)`
   align-items: center;
   width: auto;
 
-  ${mq.small`
+  ${mq.medium`
     width: 200px;
   `}
 `

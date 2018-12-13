@@ -25,7 +25,7 @@ const Header = styled('header')`
   z-index: 100000;
   box-shadow: 0 4px 8px 0 rgba(230, 240, 247, 0.8);
   height: 50px;
-  ${mq.small`
+  ${mq.medium`
     box-shadow: 0 8px 24px 0 rgba(230, 240, 247, 0.8);
     height: auto;
   `}
@@ -34,7 +34,7 @@ const Header = styled('header')`
 const SearchHeader = styled(Search)`
   margin-top: 50px;
   width: 100%;
-  ${mq.small`
+  ${mq.medium`
     margin-top: 0;
     width: calc(100% - 200px);
   `}
@@ -52,7 +52,7 @@ const Logo = styled(DefaultLogo)`
   `
       : ``}
 
-  ${mq.small`
+  ${mq.medium`
     opacity: 1;
     &:before {
       background: #d3d3d3;
@@ -78,7 +78,7 @@ class HeaderContainer extends Component {
       <>
         <Header isMenuOpen={isMenuOpen}>
           <Logo isMenuOpen={isMenuOpen} />
-          <MediaQuery bp="small">
+          <MediaQuery bp="medium">
             {matches =>
               matches ? (
                 <SearchHeader />
@@ -88,7 +88,7 @@ class HeaderContainer extends Component {
             }
           </MediaQuery>
         </Header>
-        <MediaQuery bp="small">
+        <MediaQuery bp="medium">
           {matches =>
             matches ? null : (
               <>

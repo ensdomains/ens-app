@@ -5,7 +5,7 @@ import mq from '../../mediaQuery'
 
 const MainContainer = styled('main')`
   margin-top: 50px;
-  ${mq.small`
+  ${mq.medium`
     margin-left: 200px;
     margin-top: 150px;
   `}
