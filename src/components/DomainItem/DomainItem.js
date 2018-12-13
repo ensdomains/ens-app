@@ -1,6 +1,9 @@
 import React from 'react'
 import styled from 'react-emotion'
 import { Link } from 'react-router-dom'
+
+import mq from '../../mediaQuery'
+
 import AddFavourite from '../AddFavourite/AddFavourite'
 import {
   getPercentTimeLeft,
@@ -49,13 +52,17 @@ const DomainContainer = styled(Link)`
   linear-gradient(to right, rgba(128, 255, 128, 0.1) 0%, rgba(82,229,255, 0.1) ${percentDone}%,#ffffff ${percentDone}%)`
       : 'white'};
   border-radius: 6px;
-  height: 90px;
+  height: 65px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 22px;
   margin-bottom: 4px;
   transition: 0.2s all;
+
+  ${mq.medium`
+    height: 90px
+  `}
 
   &:hover {
     color: #2b2b2b;
@@ -77,8 +84,13 @@ const RightContainer = styled('div')`
 `
 
 const DomainName = styled('h2')`
-  font-size: 28px;
+  font-size: 18px;
   font-weight: 200;
+
+  ${mq.medium`
+    font-size: 28px;
+  `}
+
   color: ${p => {
     switch (p.state) {
       case 'Yours':

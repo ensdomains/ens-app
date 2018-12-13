@@ -25,7 +25,6 @@ const NoDomainsContainer = styled('div')`
   h2 {
     color: #adbbcd;
     font-weight: 100;
-    font-size: 28px;
     width: 50%;
     margin-bottom: 0;
     padding: 0;

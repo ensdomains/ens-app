@@ -1,9 +1,14 @@
 import styled from 'react-emotion'
+import mq from '../../mediaQuery'
 
 export const H2 = styled('h2')`
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 200;
   color: #adbbcd;
+
+  ${mq.medium`
+    font-size: 22px;
+  `}
 `
 
 export const Title = styled('h2')`
