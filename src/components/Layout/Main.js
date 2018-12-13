@@ -4,7 +4,7 @@ import styled from 'react-emotion'
 import mq from '../../mediaQuery'
 
 const MainContainer = styled('main')`
-  margin-top: 150px;
+  margin-top: 50px;
   ${mq.small`
     margin-left: 200px;
     margin-top: 150px;

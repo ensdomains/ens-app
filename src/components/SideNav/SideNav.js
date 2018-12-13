@@ -14,10 +14,9 @@ const SideNavContainer = styled('nav')`
   z-index: 10000000;
   left: 0;
   top: 50px;
-  height: 200px;
-  background: black;
+  height: auto;
+  background: #121d46;
   width: 100%;
-  padding-left: 20px;
   ${mq.small`
     padding: 0;
     left: 35px;
@@ -31,10 +30,10 @@ const SideNavContainer = styled('nav')`
 
   ul {
     padding: 0;
+    margin: 0;
   }
   li {
     list-style: none;
-    margin-bottom: 20px;
   }
 `
 
@@ -45,9 +44,12 @@ const NavLink = styled(Link)`
   font-weight: 200;
   font-size: 22px;
   color: ${p => (p.active ? '#5284FF' : '#C7D3E3')};
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 
   ${mq.small`
     justify-content: start;
+    border-bottom: 0;
   `}
 
   &:visited {
@@ -73,13 +75,17 @@ const NavLink = styled(Link)`
 class SideNav extends Component {
   render() {
     const { path } = this.props.match
-    const { isMenuOpen } = this.props
+    const { isMenuOpen, toggleMenu } = this.props
     return (
       <SideNavContainer isMenuOpen={isMenuOpen}>
         <NetworkInformation />
         <ul>
           <li>
-            <NavLink active={path === '/favourites'} to="/favourites">
+            <NavLink
+              onClick={toggleMenu}
+              active={path === '/favourites'}
+              to="/favourites"
+            >
               <Heart active={path === '/favourites'} />
               <span>Favourites</span>
             </NavLink>
@@ -91,7 +97,11 @@ class SideNav extends Component {
             </NavLink>
           </li> */}
           <li>
-            <NavLink active={path === '/about'} to="/about">
+            <NavLink
+              onClick={toggleMenu}
+              active={path === '/about'}
+              to="/about"
+            >
               <SpeechBubble active={path === '/about'} />
               <span>About</span>
             </NavLink>

@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'react-emotion'
+
+import mq from '../../mediaQuery'
+
 import NetworkInfoQuery from './NetworkInfoQuery'
 import UnstyledBlockies from '../Blockies'
 import ReverseRecord from '../ReverseRecord'
@@ -7,7 +10,14 @@ import NoAccountsModal from '../NoAccounts/NoAccountsModal'
 
 const NetworkInformationContainer = styled('div')`
   position: relative;
-  margin-bottom: 50px;
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  ${mq.small`
+    margin-bottom: 50px;
+    display: block;
+    border: none;
+  `}
 `
 
 const Blockies = styled(UnstyledBlockies)`
@@ -15,7 +25,9 @@ const Blockies = styled(UnstyledBlockies)`
   position: absolute;
   left: 10px;
   top: 10px;
-  box-shadow: 3px 5px 24px 0 #d5e2ec;
+  ${mq.small`
+    box-shadow: 3px 5px 24px 0 #d5e2ec;
+  `}
 `
 
 const NetworkStatus = styled('div')`
@@ -52,19 +64,21 @@ const Account = styled('div')`
 const AccountContainer = styled('div')`
   padding: 10px 10px 10px 65px;
   position: relative;
-  transform: translate(-25px, 5px);
-  width: 200px;
-  &:hover {
-    width: 475px;
-    background: white;
-    box-shadow: -4px 18px 70px 0 rgba(108, 143, 167, 0.32);
-    border-radius: 6px;
-    .account {
-      width: 200px;
-      overflow: visible;
-      white-space: normal;
+  ${mq.small`
+    transform: translate(-25px, 5px);
+    width: 200px;
+    &:hover {
+      width: 475px;
+      background: white;
+      box-shadow: -4px 18px 70px 0 rgba(108, 143, 167, 0.32);
+      border-radius: 6px;
+      .account {
+        width: 200px;
+        overflow: visible;
+        white-space: normal;
+      }
     }
-  }
+  `}
 `
 
 class NetworkInformation extends Component {

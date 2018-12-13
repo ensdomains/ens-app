@@ -12,7 +12,7 @@ const Header = styled('header')`
   ${p =>
     p.isMenuOpen
       ? `
-    background: black;
+    background: #121D46;
   `
       : ''}
   display: flex;
@@ -91,7 +91,7 @@ class HeaderContainer extends Component {
           {matches =>
             matches ? null : (
               <>
-                <SideNav isMenuOpen={isMenuOpen} />
+                <SideNav isMenuOpen={isMenuOpen} toggleMenu={this.toggleMenu} />
                 <SearchHeader />
               </>
             )
