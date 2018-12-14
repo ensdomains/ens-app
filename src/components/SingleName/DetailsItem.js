@@ -21,7 +21,7 @@ export const DetailsItem = styled('div')`
 
 export const DetailsKey = styled('div')`
   color: ${({ greyed }) => (greyed ? '#CCD4DA' : '2b2b2b')};
-  font-size: 16px;
+  font-size: 14px;
   letter-spacing: 0px;
   font-weight: 600;
   text-transform: uppercase;
@@ -29,18 +29,22 @@ export const DetailsKey = styled('div')`
   flex-shrink: 0;
 
   ${mq.small`
+    font-size: 16px;
     max-width: 220px;
     min-width: 180px;
   `}
 `
 
 export const DetailsValue = styled('div')`
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 100;
   font-family: Overpass Mono;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  ${mq.small`
+    font-size: 18px;
+  `}
   ${p =>
     p.editable &&
     mq.small`
