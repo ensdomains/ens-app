@@ -67,7 +67,12 @@ class AddFavourite extends Component {
           }}
         >
           {favouriteMutation => (
-            <AddFavouriteContainer onClick={favouriteMutation}>
+            <AddFavouriteContainer
+              onClick={e => {
+                e.preventDefault()
+                favouriteMutation()
+              }}
+            >
               {this.props.isFavourite ? <ActiveHeart /> : <InActiveHeart />}
             </AddFavouriteContainer>
           )}
@@ -94,6 +99,8 @@ class AddFavourite extends Component {
   }
 }
 
-const AddFavouriteContainer = styled('div')``
+const AddFavouriteContainer = styled('div')`
+  padding: 5px;
+`
 
 export default AddFavourite

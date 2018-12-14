@@ -103,7 +103,7 @@ class NameDetails extends Component {
                 confirm={true}
               />
               {domain.registrationDate ? (
-                <DetailsItem>
+                <DetailsItem uneditable>
                   <DetailsKey>Registration Date</DetailsKey>
                   <DetailsValue>
                     {formatDate(domain.registrationDate)}
