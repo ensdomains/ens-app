@@ -8,6 +8,8 @@ import {
   GET_SINGLE_NAME
 } from '../graphql/queries'
 
+import mq from '../mediaQuery'
+
 import { H2 as DefaultH2 } from '../components/Typography/Basic'
 import LargeHeart from '../components/Icons/LargeHeart'
 
@@ -25,11 +27,11 @@ const NoDomainsContainer = styled('div')`
   h2 {
     color: #adbbcd;
     font-weight: 100;
-    width: 50%;
     margin-bottom: 0;
     padding: 0;
     margin-top: 20px;
     text-align: center;
+    max-width: 500px;
   }
 
   p {
@@ -38,13 +40,17 @@ const NoDomainsContainer = styled('div')`
     font-weight: 300;
     margin-top: 20px;
     line-height: 1.3em;
-    width: 40%;
     text-align: center;
+    max-width: 400px;
   }
 `
 
 const H2 = styled(DefaultH2)`
   margin-top: 50px;
+  margin-left: 20px;
+  ${mq.medium`
+    margin-left: 0;
+  `}
 `
 
 const NoDomains = ({ type }) => (
