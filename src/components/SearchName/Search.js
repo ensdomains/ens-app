@@ -84,6 +84,7 @@ class Search extends React.Component {
       <SearchForm
         className={className}
         style={style}
+        action="#"
         onSubmit={e => {
           e.preventDefault()
           const searchTerm = this.input.value

@@ -37,7 +37,10 @@ class Results extends React.Component {
     this.setState({
       errors: []
     })
-    const type = parseSearchTerm(this.props.searchTerm)
+    const type = parseSearchTerm(searchTerm)
+
+    document.title = `ENS Search: ${searchTerm}`
+
     if (type === 'unsupported') {
       this.setState({
         errors: ['unsupported']

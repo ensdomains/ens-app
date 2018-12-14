@@ -13,6 +13,7 @@ const NetworkInformationContainer = styled('div')`
   display: flex;
   justify-content: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 20px;
   ${mq.medium`
     margin-bottom: 50px;
     display: block;

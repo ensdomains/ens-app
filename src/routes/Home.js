@@ -36,7 +36,10 @@ const Hero = styled('section')`
 const NoAccounts = styled(NoAccountsDefault)`
   position: absolute;
   top: 20px;
-  left: 40px;
+  left: 20px;
+  ${mq.small`
+    left: 40px;
+  `}
 `
 
 const SearchContainer = styled('div')`

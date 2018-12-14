@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'react-emotion'
 
+import mq from '../../mediaQuery'
+
 const NoAccountsContainer = styled('div')`
   box-shadow: ${({ active }) =>
     active ? '0 -10px 30px 0 rgba(108, 143, 167, 0.05)' : 'none'};

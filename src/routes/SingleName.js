@@ -17,6 +17,11 @@ class SingleName extends Component {
     const valid = validity === 'supported' || validity === 'tld'
 
     this.setState({ valid, validityType: validity })
+    if (valid) {
+      document.title = searchTerm
+    } else {
+      document.title = 'Error finding name'
+    }
   }
   componentDidMount() {
     this.checkValidity()

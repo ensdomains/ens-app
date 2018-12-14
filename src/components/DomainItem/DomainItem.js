@@ -105,8 +105,15 @@ const DomainName = styled('h2')`
 
 const Price = styled('span')`
   margin-right: 20px;
-  font-size: 28px;
+  font-size: 18px;
   font-weight: 100;
+  display: none;
+  ${mq.small`
+    display: inline;
+  `}
+  ${mq.medium`
+    font-size: 28px;
+  `}
 `
 
 const LabelContainer = styled('div')`
