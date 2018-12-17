@@ -12,7 +12,7 @@ const Header = styled('header')`
   ${p =>
     p.isMenuOpen
       ? `
-    background: black;
+    background: #121D46;
   `
       : ''}
   display: flex;
@@ -23,9 +23,10 @@ const Header = styled('header')`
   top: 0;
   width: 100%;
   z-index: 100000;
-  box-shadow: 0 8px 24px 0 rgba(230, 240, 247, 0.8);
+  box-shadow: 0 4px 8px 0 rgba(230, 240, 247, 0.8);
   height: 50px;
-  ${mq.small`
+  ${mq.medium`
+    box-shadow: 0 8px 24px 0 rgba(230, 240, 247, 0.8);
     height: auto;
   `}
 `
@@ -33,7 +34,7 @@ const Header = styled('header')`
 const SearchHeader = styled(Search)`
   margin-top: 50px;
   width: 100%;
-  ${mq.small`
+  ${mq.medium`
     margin-top: 0;
     width: calc(100% - 200px);
   `}
@@ -51,7 +52,8 @@ const Logo = styled(DefaultLogo)`
   `
       : ``}
 
-  ${mq.small`
+  ${mq.medium`
+    opacity: 1;
     &:before {
       background: #d3d3d3;
       height: 32px;
@@ -76,7 +78,7 @@ class HeaderContainer extends Component {
       <>
         <Header isMenuOpen={isMenuOpen}>
           <Logo isMenuOpen={isMenuOpen} />
-          <MediaQuery bp="small">
+          <MediaQuery bp="medium">
             {matches =>
               matches ? (
                 <SearchHeader />
@@ -86,10 +88,16 @@ class HeaderContainer extends Component {
             }
           </MediaQuery>
         </Header>
-        <MediaQuery bp="small">
-          {matches => (matches ? null : <SearchHeader />)}
+        <MediaQuery bp="medium">
+          {matches =>
+            matches ? null : (
+              <>
+                <SideNav isMenuOpen={isMenuOpen} toggleMenu={this.toggleMenu} />
+                <SearchHeader />
+              </>
+            )
+          }
         </MediaQuery>
-        <SideNav isMenuOpen={isMenuOpen} />
       </>
     )
   }

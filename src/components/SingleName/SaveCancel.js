@@ -14,7 +14,6 @@ const Cancel = styled(Button)`
   margin-right: 20px;
 `
 
-
 const ActionButton = ({
   disabled,
   mutation,
@@ -23,31 +22,39 @@ const ActionButton = ({
   newValue,
   confirm,
   isValid
-}) =>{
-  if(disabled || !isValid){
-    return (<Save type="disabled">{mutationButton ? mutationButton : 'Save'}</Save>)
+}) => {
+  if (disabled || !isValid) {
+    return (
+      <Save type="disabled">{mutationButton ? mutationButton : 'Save'}</Save>
+    )
   }
-  if(confirm){
+  if (confirm) {
     return (
       <GlobalState.Consumer>
         {({ toggleModal }) => (
           <Button
-            onClick={() => toggleModal({
-              name: 'confirm',
-              mutation:mutation,
-              mutationButton:mutationButton,
-              value:value,
-              newValue:newValue,
-              cancel:() => { toggleModal({name:'confirm'})  }
-            })}
+            onClick={() =>
+              toggleModal({
+                name: 'confirm',
+                mutation: mutation,
+                mutationButton: mutationButton,
+                value: value,
+                newValue: newValue,
+                cancel: () => {
+                  toggleModal({ name: 'confirm' })
+                }
+              })
+            }
           >
             {mutationButton}
           </Button>
         )}
-      </GlobalState.Consumer>  
+      </GlobalState.Consumer>
     )
   }
-  return (<Save onClick={mutation}>{mutationButton ? mutationButton : 'Save'}</Save>)
+  return (
+    <Save onClick={mutation}>{mutationButton ? mutationButton : 'Save'}</Save>
+  )
 }
 
 const SaveCancel = ({
@@ -59,7 +66,7 @@ const SaveCancel = ({
   value,
   newValue,
   confirm,
-  isValid,
+  isValid = true,
   isInvalid
 }) => (
   <SaveCancelContainer className={className}>
@@ -74,7 +81,7 @@ const SaveCancel = ({
       newValue={newValue}
       confirm={confirm}
       isValid={isValid}
-    ></ActionButton>
+    />
   </SaveCancelContainer>
 )
 

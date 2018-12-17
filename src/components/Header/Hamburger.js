@@ -6,12 +6,18 @@ const HamburgerContainer = styled('div')`
   ${p =>
     p.isMenuOpen
       ? `
-    background: black;
+    background: #121D46;
   `
       : ''}
 
+  button {
+    &:focus {
+      outline: 0;
+    }
+  }
+
   .hamburger {
-    padding: 10px 0 15px 15px;
+    padding: 8px 0 15px 15px;
     display: inline-block;
     cursor: pointer;
     transition-property: opacity, filter;

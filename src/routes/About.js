@@ -181,6 +181,7 @@ const UnderTheSurfaceImgContainer = styled('div')`
 class About extends React.Component {
   componentDidMount() {
     window.scrollTo(0, 0)
+    document.title = 'About ENS'
   }
   render() {
     return (

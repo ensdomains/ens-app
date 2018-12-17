@@ -3,6 +3,7 @@ import styled from 'react-emotion'
 import { Mutation } from 'react-apollo'
 
 import { SET_NAME } from '../../graphql/mutations'
+import mq from '../../mediaQuery'
 
 import ReverseRecordQuery from '../ReverseRecordQuery'
 import Editable from './Editable'
@@ -46,7 +47,9 @@ const MessageContent = styled('div')`
   align-items: center;
 `
 
-const IconStyles = () => `margin-right: 10px;`
+const IconStyles = () => `margin-right: 10px;
+  flex-shrink: 0;
+`
 
 const BlueWarning = styled(DefaultBlueWarning)`
   ${IconStyles()};
@@ -57,6 +60,7 @@ const Check = styled(DefaultCheck)`
 `
 
 const SmallCaret = styled(DefaultSmallCaret)`
+  flex-shrink: 0;
   transform: ${p => (p.rotated ? 'rotate(0)' : 'rotate(-90deg)')};
 `
 
@@ -69,30 +73,40 @@ const Explanation = styled('div')`
   line-height: 25px;
   margin-bottom: 10px;
   max-width: 768px;
+  hyphens: auto;
 `
 
 const Account = styled('div')`
   font-family: Overpass Mono;
   font-weight: 300;
-  font-size: 18px;
+  font-size: 14px;
   color: #adbbcd;
   letter-spacing: 0;
   border: 1px dashed #adbbcd;
   border-radius: 6px;
   padding: 8px 20px;
   margin-bottom: 20px;
+  whitespace: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  ${mq.small`
+    font-size: 18px;
+  `}
 `
 
 const Name = styled('div')`
   font-family: Overpass Mono;
   font-weight: 300;
-  font-size: 18px;
+  font-size: 14px;
   color: #2b2b2b;
   letter-spacing: 0;
   border: 1px dashed #2b2b2b;
   border-radius: 6px;
   padding: 8px 20px;
   margin-bottom: 20px;
+  ${mq.small`
+    font-size: 18px;
+  `}
 `
 
 class AddReverseRecord extends Component {
