@@ -132,7 +132,10 @@ class DetailsEditable extends Component {
                 <DetailsEditableContainer editing={editing}>
                   <DetailsContent editing={editing}>
                     <DetailsKey>{keyName}</DetailsKey>
-                    <DetailsValue editable>
+                    <DetailsValue
+                      editable
+                      data-testid={`details-value-${keyName.toLowerCase()}`}
+                    >
                       {type === 'address' ? (
                         <EtherScanLink address={value}>
                           <SingleNameBlockies address={value} imageSize={24} />
@@ -246,7 +249,7 @@ class DetailsEditable extends Component {
       <DetailsEditableContainer>
         <DetailsContent>
           <DetailsKey>{keyName}</DetailsKey>
-          <DetailsValue>
+          <DetailsValue data-testid={`details-value-${keyName.toLowerCase()}`}>
             {type === 'address' ? (
               <EtherScanLink address={value}>
                 <SingleNameBlockies address={value} imageSize={24} />
