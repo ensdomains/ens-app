@@ -9,34 +9,49 @@ import mq from '../../mediaQuery'
 import { Link, withRouter } from 'react-router-dom'
 
 const SideNavContainer = styled('nav')`
-  display: none;
+  display: ${p => (p.isMenuOpen ? 'block' : 'none')};
   position: fixed;
-  z-index: 1;
+  z-index: 10000000;
   left: 0;
-  top: 0;
-  ${mq.small`
+  top: 50px;
+  height: auto;
+  background: #121d46;
+  width: 100%;
+  margin-top: -10px;
+  ${mq.medium`
+    padding: 0;
     left: 35px;
     top: 100px;
     margin-top: 50px;
+    height: auto;
+    background: transparent;
     width: 165px;
     display: block;
   `}
 
   ul {
     padding: 0;
+    margin: 0;
   }
   li {
     list-style: none;
-    margin-bottom: 20px;
   }
 `
 
 const NavLink = styled(Link)`
   display: flex;
   align-items: center;
+  justify-content: center;
   font-weight: 200;
   font-size: 22px;
   color: ${p => (p.active ? '#5284FF' : '#C7D3E3')};
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+  ${mq.medium`
+    justify-content: start;
+    border-bottom: 0;
+  `}
 
   &:visited {
     color: #c7d3e3;
@@ -61,12 +76,17 @@ const NavLink = styled(Link)`
 class SideNav extends Component {
   render() {
     const { path } = this.props.match
+    const { isMenuOpen, toggleMenu } = this.props
     return (
-      <SideNavContainer>
+      <SideNavContainer isMenuOpen={isMenuOpen}>
         <NetworkInformation />
         <ul>
           <li>
-            <NavLink active={path === '/favourites'} to="/favourites">
+            <NavLink
+              onClick={toggleMenu}
+              active={path === '/favourites'}
+              to="/favourites"
+            >
               <Heart active={path === '/favourites'} />
               <span>Favourites</span>
             </NavLink>
@@ -78,7 +98,11 @@ class SideNav extends Component {
             </NavLink>
           </li> */}
           <li>
-            <NavLink active={path === '/about'} to="/about">
+            <NavLink
+              onClick={toggleMenu}
+              active={path === '/about'}
+              to="/about"
+            >
               <SpeechBubble active={path === '/about'} />
               <span>About</span>
             </NavLink>

@@ -3,6 +3,8 @@ import styled from 'react-emotion'
 import tick from '../../assets/greenTick.svg'
 import warning from '../../assets/warning.svg'
 
+import mq from '../../mediaQuery'
+
 const StyledInput = styled('input')`
   ${({ wide }) => wide && 'width: 100%'};
   background: #ffffff;
@@ -22,6 +24,12 @@ const StyledInput = styled('input')`
   ${p =>
     p.large &&
     `
+    font-size: 14px;
+  `};
+
+  ${p =>
+    p.large &&
+    mq.small`
     font-size: 18px;
   `};
   ${p =>
