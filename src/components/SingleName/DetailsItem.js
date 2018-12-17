@@ -36,7 +36,7 @@ export const DetailsKey = styled('div')`
 `
 
 export const DetailsValue = styled('div')`
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 100;
   font-family: Overpass Mono;
   white-space: nowrap;
