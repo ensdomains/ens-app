@@ -61,8 +61,8 @@ class AddFavourite extends Component {
           }}
         >
           {favouriteMutation => (
-            <AddFavouriteContainer onClick={favouriteMutation}>
-              {this.props.isFavourite ? <ActiveHeart /> : <InActiveHeart />}
+            <AddFavouriteContainer data-testid='add-favorite' onClick={favouriteMutation}>
+              {this.props.isFavourite ? <ActiveHeart/> : <InActiveHeart/>}
             </AddFavouriteContainer>
           )}
         </Mutation>
@@ -79,7 +79,7 @@ class AddFavourite extends Component {
         }}
       >
         {favouriteMutation => (
-          <AddFavouriteContainer onClick={favouriteMutation}>
+          <AddFavouriteContainer data-testid='add-favorite' onClick={favouriteMutation}>
             {this.props.isFavourite ? <ActiveHeart /> : <InActiveHeart />}
           </AddFavouriteContainer>
         )}

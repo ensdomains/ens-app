@@ -76,7 +76,7 @@ class NetworkInformation extends Component {
             {accounts.length > 0 ? (
               <AccountContainer>
                 <Blockies address={accounts[0]} imageSize={47} />
-                <Account className="account">
+                <Account data-testid="account" className="account">
                   <ReverseRecord address={accounts[0]} />
                 </Account>
                 <NetworkStatus>{network} network</NetworkStatus>
