@@ -3,7 +3,7 @@ import styled from 'react-emotion'
 import tick from '../../assets/greenTick.svg'
 import warning from '../../assets/warning.svg'
 
-import mq from '../../mediaQuery'
+import mq from 'mediaQuery'
 
 const StyledInput = styled('input')`
   ${({ wide }) => wide && 'width: 100%'};

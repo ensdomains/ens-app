@@ -8,7 +8,7 @@ import {
   GET_SINGLE_NAME
 } from '../graphql/queries'
 
-import mq from '../mediaQuery'
+import mq from 'mediaQuery'
 
 import { H2 as DefaultH2 } from '../components/Typography/Basic'
 import LargeHeart from '../components/Icons/LargeHeart'

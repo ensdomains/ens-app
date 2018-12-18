@@ -4,7 +4,7 @@ import NetworkInformation from '../NetworkInformation/NetworkInformation'
 import Heart from '../Icons/Heart'
 import SpeechBubble from '../Icons/SpeechBubble'
 
-import mq from '../../mediaQuery'
+import mq from 'mediaQuery'
 // import DogTag from '../Icons/DogTag'
 import { Link, withRouter } from 'react-router-dom'
 

@@ -1,5 +1,5 @@
 import styled from 'react-emotion'
-import mq from '../../mediaQuery'
+import mq from 'mediaQuery'
 
 export const DetailsItem = styled('div')`
   display: flex;

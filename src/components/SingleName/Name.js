@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'react-emotion'
 
-import mq, { MediaQuery } from '../../mediaQuery'
+import mq, { MediaQuery } from 'mediaQuery'
 import { getPercentTimeLeft, getTimeLeft } from '../../utils/dates'
 import { EMPTY_ADDRESS } from '../../utils/records'
 
