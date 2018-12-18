@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'react-emotion'
 
-import mq, { MediaQuery } from '../mediaQuery'
+import mq, { MediaQuery } from 'mediaQuery'
 
 import { H2 as DefaultH2 } from '../components/Typography/Basic'
 import Map from '../components/Icons/Map'

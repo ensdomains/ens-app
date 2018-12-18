@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import styled from 'react-emotion'
 import { Spring } from 'react-spring'
 
-import mq from '../mediaQuery'
+import mq from 'mediaQuery'
 
 import SearchDefault from '../components/SearchName/Search'
 import NoAccountsDefault from '../components/NoAccounts/NoAccountsModal'

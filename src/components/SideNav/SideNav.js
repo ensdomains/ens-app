@@ -4,7 +4,7 @@ import NetworkInformation from '../NetworkInformation/NetworkInformation'
 import Heart from '../Icons/Heart'
 import SpeechBubble from '../Icons/SpeechBubble'
 
-import mq from '../../mediaQuery'
+import mq from 'mediaQuery'
 // import DogTag from '../Icons/DogTag'
 import { Link, withRouter } from 'react-router-dom'
 
@@ -47,14 +47,18 @@ const NavLink = styled(Link)`
   color: ${p => (p.active ? '#5284FF' : '#C7D3E3')};
   padding: 10px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+<<<<<<< HEAD
+=======
 
   ${mq.medium`
     justify-content: start;
     border-bottom: 0;
   `}
+>>>>>>> dev
 
-  ${mq.small`
+  ${mq.medium`
     justify-content: start;
+    border-bottom: 0;
   `}
 
   &:visited {

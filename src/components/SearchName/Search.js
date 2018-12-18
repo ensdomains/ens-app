@@ -4,7 +4,7 @@ import { parseSearchTerm } from '../../utils/utils'
 import '../../api/subDomainRegistrar'
 import { withRouter } from 'react-router'
 import searchIcon from './search.svg'
-import mq from '../../mediaQuery'
+import mq from 'mediaQuery'
 // import Caret from './Caret'
 // import Filters from './Filters'
 

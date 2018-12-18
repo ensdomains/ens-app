@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'react-emotion'
 import { Link } from 'react-router-dom'
 
-import mq from '../../mediaQuery'
+import mq from 'mediaQuery'
 
 const TabLink = styled(Link)`
   font-size: 14px;

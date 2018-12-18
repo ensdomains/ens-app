@@ -8,7 +8,7 @@ import {
   GET_SINGLE_NAME
 } from '../graphql/queries'
 
-import mq from '../mediaQuery'
+import mq from 'mediaQuery'
 
 import { H2 as DefaultH2 } from '../components/Typography/Basic'
 import LargeHeart from '../components/Icons/LargeHeart'
@@ -76,7 +76,7 @@ class Favourites extends Component {
   render() {
     const { hasFavourites, hasSubDomainFavourites } = this.state
     return (
-      <FavouritesContainer data-testid='favourites-container'>
+      <FavouritesContainer data-testid="favourites-container">
         <H2>Favourite Top Level Domains</H2>
         <Query query={GET_FAVOURITES}>
           {({ data }) => {

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { Transition } from 'react-spring'
 
 import { GET_PUBLIC_RESOLVER } from '../../graphql/queries'
-import mq from '../../mediaQuery'
+import mq from 'mediaQuery'
 
 import { SingleNameBlockies } from './SingleNameBlockies'
 import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
@@ -150,7 +150,10 @@ class DetailsEditable extends Component {
                     ) : (
                       <Action>
                         {editButton ? (
-                          <EditButton onClick={startEditing}>
+                          <EditButton
+                            onClick={startEditing}
+                            data-testid={`edit-${keyName.toLowerCase()}`}
+                          >
                             {editButton}
                           </EditButton>
                         ) : (
