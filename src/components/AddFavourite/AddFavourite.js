@@ -68,6 +68,7 @@ class AddFavourite extends Component {
         >
           {favouriteMutation => (
             <AddFavouriteContainer
+              data-testid='add-favorite'
               onClick={e => {
                 e.preventDefault()
                 favouriteMutation()
@@ -90,7 +91,7 @@ class AddFavourite extends Component {
         }}
       >
         {favouriteMutation => (
-          <AddFavouriteContainer onClick={favouriteMutation}>
+          <AddFavouriteContainer data-testid='add-favorite' onClick={favouriteMutation}>
             {this.props.isFavourite ? <ActiveHeart /> : <InActiveHeart />}
           </AddFavouriteContainer>
         )}
