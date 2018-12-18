@@ -160,6 +160,10 @@ module.exports = async function deployENS({ web3, accounts }) {
     from: accounts[0]
   })
 
+  await reverseRegistrarContract
+    .setName('abittooawesome.eth')
+    .send({ from: accounts[0], gas: 1000000 })
+
   await resolverContract
     .setContent(
       aBitTooAwesome,

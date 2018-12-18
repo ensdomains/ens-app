@@ -22,11 +22,10 @@ const ActionButton = ({
   newValue,
   confirm,
   isValid
-}) => {
-  if (disabled || !isValid) {
-    return (
-      <Save type="disabled">{mutationButton ? mutationButton : 'Save'}</Save>
-    )
+}) =>{
+  // Ignore isValid == undefined
+  if(disabled || isValid === false){
+    return (<Save type="disabled">{mutationButton ? mutationButton : 'Save'}</Save>)
   }
   if (confirm) {
     return (
@@ -67,7 +66,6 @@ const SaveCancel = ({
   newValue,
   confirm,
   isValid = true,
-  isInvalid
 }) => (
   <SaveCancelContainer className={className}>
     <Cancel type="hollow" onClick={stopEditing}>

@@ -76,7 +76,7 @@ class Favourites extends Component {
   render() {
     const { hasFavourites, hasSubDomainFavourites } = this.state
     return (
-      <FavouritesContainer>
+      <FavouritesContainer data-testid='favourites-container'>
         <H2>Favourite Top Level Domains</H2>
         <Query query={GET_FAVOURITES}>
           {({ data }) => {
