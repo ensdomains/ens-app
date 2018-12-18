@@ -3,7 +3,7 @@ import styled from 'react-emotion'
 import { Mutation } from 'react-apollo'
 
 import { SET_NAME } from '../../graphql/mutations'
-import mq from '../../mediaQuery'
+import mq from 'mediaQuery'
 
 import ReverseRecordQuery from '../ReverseRecordQuery'
 import Editable from './Editable'
@@ -149,7 +149,10 @@ class AddReverseRecord extends Component {
                       {pending && !confirmed ? (
                         <PendingTx />
                       ) : (
-                        <SmallCaret rotated={editing} />
+                        <SmallCaret
+                          rotated={editing}
+                          data-testid="small-caret"
+                        />
                       )}
                     </Message>
                     {editing && (

@@ -52,6 +52,47 @@ brew uninstall watchman
 brew install watchman
 ```
 
+## Styling
+
+Styling in this app is done with Emotion, with `styled` components style CSS. We do not use `css` or classNames, unless we are [passing through the styles to a component](https://emotion.sh/docs/styled#styling-any-component)
+
+### Media Queries
+
+The main way to use media queries is with the helper function `mq` located in the root at `mediaQuery`. We have absolute URL support, so you can just import it directly as `mediaQuery`. It has properties for all the breakpoints supported by our app.
+
+Currently supported breakpoints:
+
+```js
+const breakpoints = {
+  small: 576,
+  medium: 768,
+  large: 992,
+  xLarge: 1200
+}
+```
+
+You can use it as follows:
+
+```js
+import styled from 'react-emotion'
+import mq from 'mediaQuery'
+
+const SomeComponent = styled('div')`
+  font-size: 14px;
+  ${mq.small`
+    
+    `}
+`
+```
+
+The second way is using a Javascript polyfill library. We expose this API under a named export `MediaQuery` which uses the render prop pattern. It takes one prop `bp`, which expects a string of the same breakpoints used by `mq`
+
+```js
+<MediaQuery bp="small">
+  {matches => (matches ? <LargeComponent /> : <SmallComponent />)}
+</MediaQuery>
+```
+
 ## End to end Testing
 
 The ENS app has end to end tests with Cypress. To run them you need to start ganache, run the seed script, run the app and then run cypress. This should start chrome and the Cypress GUI. Each time the test run, the script needs to be re-run and the app restarted for it to work.

@@ -1,5 +1,5 @@
 import styled from 'react-emotion'
-import mq from '../../mediaQuery'
+import mq from 'mediaQuery'
 
 export const H2 = styled('h2')`
   font-size: 18px;

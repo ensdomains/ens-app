@@ -15,6 +15,54 @@ describe('Search', () => {
   })
 })
 
+describe('Reverse record', () => {
+  //Visit a domain, check the owner, resolver, address, content exists
+  it('is set to abittooawesome.eth', () => {
+    cy.visit(ROOT)
+    cy.getByPlaceholderText('Search', { exact: false }).type('abittooawesome.eth')
+    cy.get('button')
+      .contains('Search')
+      .click()
+
+    cy.queryByText('Reverse record: Set to abittooawesome.eth', { exact: false }).should('exist')
+    cy.getByTestId('account',{exact: false} ).should('have.text', 'abittooawesome.eth')
+  })
+  it('prompts to change if the logged in user searches the record they own but reverse record is set to something else', ()=>{
+    cy.visit(ROOT)
+    cy.getByPlaceholderText('Search', { exact: false }).type('resolver.eth')
+    cy.get('button')
+      .contains('Search')
+      .click()
+
+    cy.queryByText('Reverse record: Set to a different name:abittooawesome.eth', { exact: false }).should('exist')
+    cy.getByTestId('small-caret').click()
+    
+    cy.queryByText('resolver.eth', { exact: false }).should('exist')
+  })
+})
+
+describe('Favorites', () => {
+  it('can add and remove favourites', () => {
+    cy.visit(`${ROOT}/favourites`)
+    cy.queryByText('No names have been saved.', { exact: false }).should('exist')
+  
+    cy.visit(`${NAME_ROOT}/resolver.eth`)
+    cy.getByTestId('add-favorite').click()
+  
+    cy.visit(`${ROOT}/favourites`)
+    cy.queryByText('No names have been saved.', { exact: false }).should('not.exist')
+    cy.getByTestId('favourites-container').within(container => {
+      cy.queryByText('resolver.eth', { exact: false }).should('exist')
+    })
+
+    cy.visit(`${NAME_ROOT}/resolver.eth`)
+    cy.getByTestId('add-favorite').click()
+  
+    cy.visit(`${ROOT}/favourites`)
+    cy.queryByText('No names have been saved.', { exact: false }).should('exist')
+  })
+})
+
 describe('Name detail view', () => {
   //Visit a domain
 

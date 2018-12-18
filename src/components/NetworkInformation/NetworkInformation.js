@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'react-emotion'
 
-import mq from '../../mediaQuery'
+import mq from 'mediaQuery'
 
 import NetworkInfoQuery from './NetworkInfoQuery'
 import UnstyledBlockies from '../Blockies'
@@ -91,7 +91,7 @@ class NetworkInformation extends Component {
             {accounts.length > 0 ? (
               <AccountContainer>
                 <Blockies address={accounts[0]} imageSize={47} />
-                <Account className="account">
+                <Account data-testid="account" className="account">
                   <ReverseRecord address={accounts[0]} />
                 </Account>
                 <NetworkStatus>{network} network</NetworkStatus>

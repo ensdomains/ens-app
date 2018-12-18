@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'react-emotion'
 import { Link } from 'react-router-dom'
-import mq from '../mediaQuery'
+import mq from 'mediaQuery'
 
 import ENSLogo from '../assets/ensIconLogo.svg'
 import LogoTyped from '../assets/TypeLogo'
