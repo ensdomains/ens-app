@@ -19,7 +19,9 @@ const AddSubdomainContainer = styled('section')`
 const AddSubdomainContent = styled('div')`
   display: flex;
   flex-direction: column;
+  margin-bottom: 20px;
   ${mq.small`
+    margin-bottom: 0;
     flex-direction: row;
   `}
 `
@@ -27,6 +29,10 @@ const AddSubdomainContent = styled('div')`
 const Input = styled(DefaultInput)`
   width: 100%;
   margin-right: 20px;
+  margin-bottom: 20px;
+  ${mq.small`
+    margin-bottom: 0;
+  `}
 `
 
 class AddSubdomain extends Component {
