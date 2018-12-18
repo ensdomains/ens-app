@@ -3,8 +3,9 @@ import styled from 'react-emotion'
 import { ReactComponent as ExternalLinkIcon } from '../Icons/externalLink.svg'
 
 const EtherScanLinkContainer = styled('a')`
-  display: flex;
+  display: inline-block;
   align-items: center;
+  text-overflow: ellipsis;
 
   svg {
     margin-left: 10px;

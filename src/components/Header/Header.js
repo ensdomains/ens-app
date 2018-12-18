@@ -1,11 +1,20 @@
 import React, { Component } from 'react'
 import styled from 'react-emotion'
+
+import mq, { MediaQuery } from '../../mediaQuery'
+
 import DefaultLogo from '../Logo'
 import Search from '../SearchName/Search'
-
-import mq from '../../mediaQuery'
+import Hamburger from './Hamburger'
+import SideNav from '../SideNav/SideNav'
 
 const Header = styled('header')`
+  ${p =>
+    p.isMenuOpen
+      ? `
+    background: #121D46;
+  `
+      : ''}
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -13,28 +22,38 @@ const Header = styled('header')`
   left: 0;
   top: 0;
   width: 100%;
-  z-index: 1000;
-  box-shadow: 0 8px 24px 0 rgba(230, 240, 247, 0.8);
+  z-index: 100000;
+  box-shadow: 0 4px 8px 0 rgba(230, 240, 247, 0.8);
+  height: 50px;
+  ${mq.medium`
+    box-shadow: 0 8px 24px 0 rgba(230, 240, 247, 0.8);
+    height: auto;
+  `}
 `
 
 const SearchHeader = styled(Search)`
+  margin-top: 50px;
   width: 100%;
-  ${mq.small`
+  ${mq.medium`
+    margin-top: 0;
     width: calc(100% - 200px);
   `}
 `
 
 const Logo = styled(DefaultLogo)`
   background: white;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  padding-left: 20px;
-  align-items: center;
-  width: 200px;
   position: relative;
+  display: flex;
+  width: 100%;
+  ${p =>
+    p.isMenuOpen
+      ? `
+    opacity: 0;
+  `
+      : ``}
 
-  ${mq.small`
+  ${mq.medium`
+    opacity: 1;
     &:before {
       background: #d3d3d3;
       height: 32px;
@@ -49,12 +68,37 @@ const Logo = styled(DefaultLogo)`
 `
 
 class HeaderContainer extends Component {
+  state = {
+    isMenuOpen: false
+  }
+  toggleMenu = () => this.setState(state => ({ isMenuOpen: !state.isMenuOpen }))
   render() {
+    const { isMenuOpen } = this.state
     return (
-      <Header>
-        <Logo />
-        <SearchHeader />
-      </Header>
+      <>
+        <Header isMenuOpen={isMenuOpen}>
+          <Logo isMenuOpen={isMenuOpen} />
+          <MediaQuery bp="medium">
+            {matches =>
+              matches ? (
+                <SearchHeader />
+              ) : (
+                <Hamburger isMenuOpen={isMenuOpen} openMenu={this.toggleMenu} />
+              )
+            }
+          </MediaQuery>
+        </Header>
+        <MediaQuery bp="medium">
+          {matches =>
+            matches ? null : (
+              <>
+                <SideNav isMenuOpen={isMenuOpen} toggleMenu={this.toggleMenu} />
+                <SearchHeader />
+              </>
+            )
+          }
+        </MediaQuery>
+      </>
     )
   }
 }

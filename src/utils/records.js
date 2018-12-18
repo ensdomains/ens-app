@@ -7,8 +7,6 @@ export function validateRecord(record) {
 
   const { type, value } = record
 
-  console.log(record)
-
   switch (type) {
     case 'address':
       return addressUtils.isAddress(value)
@@ -29,3 +27,5 @@ export function getPlaceholder(recordType) {
       return ''
   }
 }
+
+export const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000'

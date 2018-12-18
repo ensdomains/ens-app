@@ -1,12 +1,17 @@
 import React, { Component } from 'react'
 import styled from 'react-emotion'
+
+import mq from '../../mediaQuery'
+
 import InActiveHeartDefault from '../Icons/InActiveHeart'
 import ActiveHeartDefault from '../Icons/ActiveHeart'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 
 const ActiveHeart = styled(ActiveHeartDefault)`
-  margin-right: 20px;
+  ${mq.small`
+    margin-right: 20px;
+  `}
 
   &:hover {
     cursor: pointer;
@@ -14,8 +19,9 @@ const ActiveHeart = styled(ActiveHeartDefault)`
 `
 
 const InActiveHeart = styled(InActiveHeartDefault)`
-  margin-right: 20px;
-
+  ${mq.small`
+    margin-right: 20px;
+  `}
   &:hover {
     cursor: pointer;
   }
@@ -61,8 +67,14 @@ class AddFavourite extends Component {
           }}
         >
           {favouriteMutation => (
-            <AddFavouriteContainer data-testid='add-favorite' onClick={favouriteMutation}>
-              {this.props.isFavourite ? <ActiveHeart/> : <InActiveHeart/>}
+            <AddFavouriteContainer
+              data-testid='add-favorite'
+              onClick={e => {
+                e.preventDefault()
+                favouriteMutation()
+              }}
+            >
+              {this.props.isFavourite ? <ActiveHeart /> : <InActiveHeart />}
             </AddFavouriteContainer>
           )}
         </Mutation>
@@ -88,6 +100,8 @@ class AddFavourite extends Component {
   }
 }
 
-const AddFavouriteContainer = styled('div')``
+const AddFavouriteContainer = styled('div')`
+  padding: 5px;
+`
 
 export default AddFavourite
