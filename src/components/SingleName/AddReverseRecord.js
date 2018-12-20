@@ -149,7 +149,10 @@ class AddReverseRecord extends Component {
                       {pending && !confirmed ? (
                         <PendingTx />
                       ) : (
-                        <SmallCaret rotated={editing} data-testid="small-caret"/>
+                        <SmallCaret
+                          rotated={editing}
+                          data-testid="small-caret"
+                        />
                       )}
                     </Message>
                     {editing && (
