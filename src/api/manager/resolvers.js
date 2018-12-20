@@ -18,6 +18,7 @@ import { getNetworkId } from '../web3'
 import domains from '../../constants/domains.json'
 
 import {
+  GET_TRANSACTION_HISTORY,
   GET_FAVOURITES,
   GET_SUBDOMAIN_FAVOURITES,
   GET_ALL_NODES
@@ -230,13 +231,31 @@ const resolvers = {
       }
     },
     setAddress: async (_, { name, recordValue }, { cache }) => {
+      let state, txHash
       try {
-        const tx = await setAddress(name, recordValue)
-        console.log(tx)
+        const tx = await setAddress(name, recordValue, (receipt)=>{
+          let txHash = receipt.transactionHash
+          resolvers.Mutation.addTransactions(_, {txHash, state:'Confirmed'}, { cache })
+        })
+        txHash = tx
+        resolvers.Mutation.addTransactions(_, {txHash, state:'Pending'}, { cache })
         return tx
       } catch (e) {
         console.log(e)
       }
+      // This will not work with 'on function not found error'
+      // return new Promise((resolve, reject) => setAddress(name, recordValue)
+      //   .on('transactionHash', (txHash) => {
+      //     console.log('transactionHash', txHash)
+      //     resolve(txHash)
+      //   }) 
+      //   .on('receipt', (receipt) => {
+      //     console.log('calling addTransactions mutation', receipt)
+      //     debugger;
+      //     // addTransactions(_, {txHash}, {cache})
+      //     // console.log('called addTransactions mutation')
+      //   })
+      // )
     },
     setContent: async (_, { name, recordValue }, { cache }) => {
       try {
@@ -256,6 +275,22 @@ const resolvers = {
         console.log(e)
       }
     },
+    addTransactions: async (_, { txHash, state }, { cache }) => {
+      const newTransaction = {
+        txHash,
+        state,
+        createdAt:(new Date()).getTime(),
+        __typename: 'Transaction'
+      }
+
+      const previous = cache.readQuery({ query: GET_TRANSACTION_HISTORY })
+      const data = {
+        transactionHistory: [...previous.transactionHistory, newTransaction]
+      }
+      console.log('addTransactions', data)
+      cache.writeData({ data })
+      return data
+    },
     addFavourite: async (_, { domain }, { cache }) => {
       const newFavourite = {
         ...domain,
@@ -267,7 +302,7 @@ const resolvers = {
       const data = {
         favourites: [...previous.favourites, newFavourite]
       }
-
+      console.log('favourite data', newFavourite, data)
       cache.writeData({ data })
       window.localStorage.setItem(
         'ensFavourites',

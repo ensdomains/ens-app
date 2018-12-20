@@ -112,12 +112,20 @@ export async function setResolver(name, resolver) {
   return ENS.setResolver(namehash, resolver).send({ from: account })
 }
 
-export async function setAddress(name, address) {
+export async function setAddress(name, address, callback) {
   const account = await getAccount()
   const namehash = await getNamehash(name)
   const resolverAddr = await getResolver(name)
   const { Resolver } = await getResolverContract(resolverAddr)
-  return Resolver.setAddr(namehash, address).send({ from: account })
+  return new Promise((resolve, reject) => {
+    Resolver.setAddr(namehash, address).send({ from: account })
+      .on('transactionHash', (txHash) => {
+        resolve(txHash)
+      })
+      .on('receipt', (receipt)=>{
+        callback(receipt)
+      })
+  })
 }
 
 export async function setContent(name, content) {

@@ -4,9 +4,15 @@ const typeDefs = `
     accounts: [String]
   }
 
+  enum TransactionState{
+    Pending
+    Confirmed
+  }
+
   type Transaction {
-    id: String
-    createdAt: String
+    txHash: String
+    createdAt: Int
+    status: TransactionState
   }
 
   type Query {
