@@ -231,14 +231,17 @@ const resolvers = {
       }
     },
     setAddress: async (_, { name, recordValue }, { cache }) => {
-      let state, txHash
+      let txState, txHash
       try {
         const tx = await setAddress(name, recordValue, (receipt)=>{
-          let txHash = receipt.transactionHash
-          resolvers.Mutation.addTransactions(_, {txHash, state:'Confirmed'}, { cache })
+          txHash = receipt.transactionHash
+          txState = 'Confirmed'
+          resolvers.Mutation.addTransactions(_, {txHash, txState}, { cache })
+          return true;
         })
         txHash = tx
-        resolvers.Mutation.addTransactions(_, {txHash, state:'Pending'}, { cache })
+        txState = 'Pending'
+        resolvers.Mutation.addTransactions(_, {txHash, txState}, { cache })
         return tx
       } catch (e) {
         console.log(e)
@@ -275,10 +278,10 @@ const resolvers = {
         console.log(e)
       }
     },
-    addTransactions: async (_, { txHash, state }, { cache }) => {
+    addTransactions: async (_, { txHash, txState }, { cache }) => {
       const newTransaction = {
         txHash,
-        state,
+        txState,
         createdAt:(new Date()).getTime(),
         __typename: 'Transaction'
       }

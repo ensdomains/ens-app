@@ -73,6 +73,7 @@ export const GET_TRANSACTION_HISTORY = gql`
   query getTransactionHistory {
     transactionHistory @client {
       txHash
+      txState
       createdAt
     }
   }

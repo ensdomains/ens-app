@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import _ from 'lodash'
 import styled from 'react-emotion'
-import { Mutation } from 'react-apollo'
+import { GET_TRANSACTION_HISTORY} from '../../graphql/queries'
+import { Mutation, Query } from 'react-apollo'
 import { validateRecord, getPlaceholder } from '../../utils/records'
 
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
@@ -85,8 +87,10 @@ class RecordItem extends Component {
           stopEditing,
           newValue,
           updateValue,
+          startTransaction,
           startPending,
           setConfirmed,
+          started,
           pending,
           confirmed
         }) => {
@@ -94,78 +98,107 @@ class RecordItem extends Component {
           const isInvalid =
             !isValid && newValue.length > 0 && type === 'address'
           return (
-            <Mutation
+            <>
+              <Query query={GET_TRANSACTION_HISTORY}>
+                {({ data:{transactionHistory}, loading, error }) => {
+                  console.log('GET_TRANSACTION_HISTORY', transactionHistory, loading, error)
+                  const lastTranaction = _.last(transactionHistory);
+                  console.log('1', {lastTranaction, started, pending})
+                  if(!lastTranaction) return true
+                  console.log('2')
+                  if(!started) return true
+                  console.log('3')
+                  switch (lastTranaction.txState) {
+                    case 'Pending':
+                      console.log('4 startpending')
+                      if(!pending) startPending()
+                      break
+                    case 'Confirmed':
+                      console.log('5 stoppending')
+                      if(pending){
+                        setConfirmed()
+                        refetch()                          
+                      }
+                      break
+                  }
+                  console.log('6')
+                  return true
+                }}
+              </Query>
+              <Mutation
               mutation={mutation}
               onCompleted={() => {
-                setConfirmed()
-                refetch()
+                console.log('onCompleted')
+                // setConfirmed()
+                // refetch()
               }}
-            >
-              {mutation => (
-                <RecordsItem editing={editing}>
-                  {console.log(pending)}
-                  <RecordsContent editing={editing}>
-                    <RecordsKey>{keyName}</RecordsKey>
-                    <RecordsValue>
-                      {type === 'address' ? (
-                        <EtherScanLink address={value}>{value}</EtherScanLink>
+              >
+                {mutation => (
+                  <RecordsItem editing={editing}>
+                    <RecordsContent editing={editing}>
+                      <RecordsKey>{keyName}</RecordsKey>
+                      <RecordsValue>
+                        {type === 'address' ? (
+                          <EtherScanLink address={value}>{value}</EtherScanLink>
+                        ) : (
+                          value
+                        )}
+                      </RecordsValue>
+
+                      {pending && !confirmed ? (
+                        <PendingTx />
+                      ) : editing ? (
+                        <Action>
+                          <Bin />
+                        </Action>
                       ) : (
-                        value
+                        <Action>
+                          <Pencil
+                            onClick={startEditing}
+                            data-testid={`edit-${keyName.toLowerCase()}`}
+                          />
+                        </Action>
                       )}
-                    </RecordsValue>
+                    </RecordsContent>
 
-                    {pending && !confirmed ? (
-                      <PendingTx />
-                    ) : editing ? (
-                      <Action>
-                        <Bin />
-                      </Action>
+                    {editing ? (
+                      <>
+                        <EditRecord>
+                          <Input
+                            placeholder={getPlaceholder(type)}
+                            onChange={updateValue}
+                            valid={isValid}
+                            invalid={isInvalid}
+                          />
+                        </EditRecord>
+                        <SaveCancel
+                          mutation={() => {
+                            const variables = {
+                              name: domain.name,
+                              [variableName
+                                ? variableName
+                                : 'recordValue']: newValue
+                            }
+                            console.log('startTransaction')
+                            startTransaction()
+                            mutation({
+                              variables
+                            })
+                          }}
+                          isValid={type === 'address' ? isValid : true}
+                          stopEditing={stopEditing}
+                        />
+                      </>
                     ) : (
-                      <Action>
-                        <Pencil
-                          onClick={startEditing}
-                          data-testid={`edit-${keyName.toLowerCase()}`}
-                        />
-                      </Action>
+                      ''
                     )}
-                  </RecordsContent>
-
-                  {editing ? (
-                    <>
-                      <EditRecord>
-                        <Input
-                          placeholder={getPlaceholder(type)}
-                          onChange={updateValue}
-                          valid={isValid}
-                          invalid={isInvalid}
-                        />
-                      </EditRecord>
-                      <SaveCancel
-                        mutation={() => {
-                          const variables = {
-                            name: domain.name,
-                            [variableName
-                              ? variableName
-                              : 'recordValue']: newValue
-                          }
-                          startPending()
-                          mutation({
-                            variables
-                          })
-                        }}
-                        isValid={type === 'address' ? isValid : true}
-                        stopEditing={stopEditing}
-                      />
-                    </>
-                  ) : (
-                    ''
-                  )}
-                  {keyName === 'Address' && (
-                    <AddReverseRecord account={account} name={domain.name} />
-                  )}
-                </RecordsItem>
-              )}
-            </Mutation>
+                    {keyName === 'Address' && (
+                      <AddReverseRecord account={account} name={domain.name} />
+                    )}
+                  </RecordsItem>
+                )}
+              </Mutation>
+            </>
           )
         }}
       </Editable>
