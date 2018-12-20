@@ -101,27 +101,20 @@ class RecordItem extends Component {
             <>
               <Query query={GET_TRANSACTION_HISTORY}>
                 {({ data:{transactionHistory}, loading, error }) => {
-                  console.log('GET_TRANSACTION_HISTORY', transactionHistory, loading, error)
                   const lastTranaction = _.last(transactionHistory);
-                  console.log('1', {lastTranaction, started, pending})
                   if(!lastTranaction) return true
-                  console.log('2')
                   if(!started) return true
-                  console.log('3')
                   switch (lastTranaction.txState) {
                     case 'Pending':
-                      console.log('4 startpending')
                       if(!pending) startPending()
                       break
                     case 'Confirmed':
-                      console.log('5 stoppending')
                       if(pending){
                         setConfirmed()
                         refetch()                          
                       }
                       break
                   }
-                  console.log('6')
                   return true
                 }}
               </Query>
