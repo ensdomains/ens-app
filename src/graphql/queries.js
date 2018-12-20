@@ -70,8 +70,8 @@ export const GET_SUBDOMAINS = gql`
 `
 
 export const GET_TRANSACTION_HISTORY = gql`
-  query getTransactionHistory {
-    transactionHistory @client {
+  query getTransactionHistory @client {
+    transactionHistory {
       txHash
       txState
       createdAt

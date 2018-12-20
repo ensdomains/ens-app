@@ -16,6 +16,7 @@ import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
 import { getNetworkId } from '../web3'
 import domains from '../../constants/domains.json'
+import { client } from '../../index'
 
 import {
   GET_TRANSACTION_HISTORY,
@@ -32,13 +33,47 @@ let savedSubDomainFavourites =
 const defaults = {
   names: [],
   favourites: savedFavourites,
-  subDomainFavourites: savedSubDomainFavourites
+  subDomainFavourites: savedSubDomainFavourites,
+  transactionHistory: []
 }
 
 function getParent(name) {
   const nameArray = name.split('.')
   nameArray.shift()
   return nameArray.join('.')
+}
+
+async function addTransaction({ txHash, txState }) {
+  const newTransaction = {
+    txHash,
+    txState,
+    createdAt: new Date().getTime(),
+    __typename: 'Transaction'
+  }
+
+  const previous = client.readQuery({ query: GET_TRANSACTION_HISTORY })
+  const data = {
+    transactionHistory: [...previous.transactionHistory, newTransaction]
+  }
+
+  client.writeQuery({ query: GET_TRANSACTION_HISTORY, data })
+  return data
+}
+
+function sendHelper(tx) {
+  return new Promise((resolve, reject) => {
+    tx()
+      .on('transactionHash', txHash => {
+        const txState = 'Pending'
+        addTransaction({ txHash, txState })
+        resolve(txHash)
+      })
+      .on('receipt', receipt => {
+        const txHash = receipt.transactionHash
+        const txState = 'Confirmed'
+        addTransaction({ txHash, txState })
+      })
+  })
 }
 
 const resolvers = {
@@ -231,34 +266,12 @@ const resolvers = {
       }
     },
     setAddress: async (_, { name, recordValue }, { cache }) => {
-      let txState, txHash
       try {
-        const tx = await setAddress(name, recordValue, (receipt)=>{
-          txHash = receipt.transactionHash
-          txState = 'Confirmed'
-          resolvers.Mutation.addTransactions(_, {txHash, txState}, { cache })
-          return true;
-        })
-        txHash = tx
-        txState = 'Pending'
-        resolvers.Mutation.addTransactions(_, {txHash, txState}, { cache })
-        return tx
+        const tx = await setAddress(name, recordValue)
+        return sendHelper(tx)
       } catch (e) {
         console.log(e)
       }
-      // This will not work with 'on function not found error'
-      // return new Promise((resolve, reject) => setAddress(name, recordValue)
-      //   .on('transactionHash', (txHash) => {
-      //     console.log('transactionHash', txHash)
-      //     resolve(txHash)
-      //   }) 
-      //   .on('receipt', (receipt) => {
-      //     console.log('calling addTransactions mutation', receipt)
-      //     debugger;
-      //     // addTransactions(_, {txHash}, {cache})
-      //     // console.log('called addTransactions mutation')
-      //   })
-      // )
     },
     setContent: async (_, { name, recordValue }, { cache }) => {
       try {
@@ -278,21 +291,8 @@ const resolvers = {
         console.log(e)
       }
     },
-    addTransactions: async (_, { txHash, txState }, { cache }) => {
-      const newTransaction = {
-        txHash,
-        txState,
-        createdAt:(new Date()).getTime(),
-        __typename: 'Transaction'
-      }
-
-      const previous = cache.readQuery({ query: GET_TRANSACTION_HISTORY })
-      const data = {
-        transactionHistory: [...previous.transactionHistory, newTransaction]
-      }
-      console.log('addTransactions', data)
-      cache.writeData({ data })
-      return data
+    addTransaction: async (_, { txHash, txState }) => {
+      return addTransaction({ txHash, txState })
     },
     addFavourite: async (_, { domain }, { cache }) => {
       const newFavourite = {
@@ -305,7 +305,6 @@ const resolvers = {
       const data = {
         favourites: [...previous.favourites, newFavourite]
       }
-      console.log('favourite data', newFavourite, data)
       cache.writeData({ data })
       window.localStorage.setItem(
         'ensFavourites',

@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import _ from 'lodash'
 import styled from 'react-emotion'
-import { GET_TRANSACTION_HISTORY} from '../../graphql/queries'
-import { Mutation, Query } from 'react-apollo'
+import { Mutation } from 'react-apollo'
 import { validateRecord, getPlaceholder } from '../../utils/records'
 
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
@@ -87,10 +85,9 @@ class RecordItem extends Component {
           stopEditing,
           newValue,
           updateValue,
-          startTransaction,
           startPending,
+          txHash,
           setConfirmed,
-          started,
           pending,
           confirmed
         }) => {
@@ -99,32 +96,12 @@ class RecordItem extends Component {
             !isValid && newValue.length > 0 && type === 'address'
           return (
             <>
-              <Query query={GET_TRANSACTION_HISTORY}>
-                {({ data:{transactionHistory}, loading, error }) => {
-                  const lastTranaction = _.last(transactionHistory);
-                  if(!lastTranaction) return true
-                  if(!started) return true
-                  switch (lastTranaction.txState) {
-                    case 'Pending':
-                      if(!pending) startPending()
-                      break
-                    case 'Confirmed':
-                      if(pending){
-                        setConfirmed()
-                        refetch()                          
-                      }
-                      break
-                  }
-                  return true
-                }}
-              </Query>
               <Mutation
-              mutation={mutation}
-              onCompleted={() => {
-                console.log('onCompleted')
-                // setConfirmed()
-                // refetch()
-              }}
+                mutation={mutation}
+                onCompleted={data => {
+                  startPending(data.setAddress)
+                  refetch()
+                }}
               >
                 {mutation => (
                   <RecordsItem editing={editing}>
@@ -138,8 +115,11 @@ class RecordItem extends Component {
                         )}
                       </RecordsValue>
 
-                      {pending && !confirmed ? (
-                        <PendingTx />
+                      {pending && !confirmed && txHash ? (
+                        <PendingTx
+                          txHash={txHash}
+                          setConfirmed={setConfirmed}
+                        />
                       ) : editing ? (
                         <Action>
                           <Bin />
@@ -172,8 +152,6 @@ class RecordItem extends Component {
                                 ? variableName
                                 : 'recordValue']: newValue
                             }
-                            console.log('startTransaction')
-                            startTransaction()
                             mutation({
                               variables
                             })

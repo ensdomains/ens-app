@@ -68,7 +68,7 @@ class Favourites extends Component {
   render() {
     const { hasFavourites, hasSubDomainFavourites } = this.state
     return (
-      <FavouritesContainer data-testid='favourites-container'>
+      <FavouritesContainer data-testid="favourites-container">
         <H2>Favourite Top Level Domains</H2>
         <Query query={GET_FAVOURITES}>
           {({ data }) => {
@@ -76,7 +76,7 @@ class Favourites extends Component {
               return <NoDomains type="domain" />
             }
             return (
-              <Fragment>
+              <>
                 {data.favourites.map(domain => (
                   <Query
                     query={GET_SINGLE_NAME}
@@ -100,7 +100,7 @@ class Favourites extends Component {
                     }}
                   </Query>
                 ))}
-              </Fragment>
+              </>
             )
           }}
         </Query>

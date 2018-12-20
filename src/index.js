@@ -19,7 +19,7 @@ const cache = new InMemoryCache({
   addTypename: true
 })
 
-const graphqlClient = new ApolloClient({
+export const client = new ApolloClient({
   cache,
   addTypename: true,
   link: withClientState({
@@ -33,7 +33,7 @@ const graphqlClient = new ApolloClient({
 window.addEventListener('load', async () => {
   await setupWeb3()
   ReactDOM.render(
-    <ApolloProvider client={graphqlClient}>
+    <ApolloProvider client={client}>
       <GlobalStateProvider>
         <App />
       </GlobalStateProvider>
