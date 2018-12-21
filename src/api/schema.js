@@ -13,6 +13,7 @@ const typeDefs = `
     txHash: String
     txState: TransactionMode
     createdAt: Int
+    updatedAt: Int
   }
 
   type Query {
