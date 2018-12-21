@@ -88,7 +88,7 @@ export async function setOwner(name, newOwner) {
   const { ENS } = await getENS()
   const namehash = await getNamehash(name)
   const account = await getAccount()
-  return ENS.setOwner(namehash, newOwner).send({ from: account })
+  return () => ENS.setOwner(namehash, newOwner).send({ from: account })
 }
 
 export async function setSubnodeOwner(label, node, newOwner) {
@@ -96,7 +96,7 @@ export async function setSubnodeOwner(label, node, newOwner) {
   const { ENS } = await getENS()
   const account = await getAccount()
   const parentNamehash = await getNamehash(node)
-  return ENS.setSubnodeOwner(
+  return () => ENS.setSubnodeOwner(
     parentNamehash,
     web3.utils.sha3(label),
     newOwner
@@ -109,7 +109,7 @@ export async function setResolver(name, resolver) {
   const account = await getAccount()
   const namehash = await getNamehash(name)
   const { ENS } = await getENS()
-  return ENS.setResolver(namehash, resolver).send({ from: account })
+  return () => ENS.setResolver(namehash, resolver).send({ from: account })
 }
 
 export async function setAddress(name, address) {
@@ -125,7 +125,7 @@ export async function setContent(name, content) {
   const namehash = await getNamehash(name)
   const resolverAddr = await getResolver(name)
   const { Resolver } = await getResolverContract(resolverAddr)
-  return Resolver.setContent(namehash, content).send({ from: account })
+  return () => Resolver.setContent(namehash, content).send({ from: account })
 }
 
 export async function checkSubDomain(subDomain, domain) {

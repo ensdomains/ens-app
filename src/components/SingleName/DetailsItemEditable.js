@@ -102,6 +102,7 @@ class DetailsEditable extends Component {
           newValue,
           updateValue,
           updateValueDirect,
+          txHash,
           startPending,
           setConfirmed,
           pending,
@@ -113,15 +114,7 @@ class DetailsEditable extends Component {
             <Mutation
               mutation={mutation}
               onCompleted={data => {
-                // const timer = setInterval(() => {
-                //   refetch().then(({ data }) => {
-                //     if (data.getReverseRecord.name === name) {
-                //       clearInterval(timer)
-                //       setConfirmed()
-                //     }
-                //   })
-                // }, 2000)
-                setConfirmed()
+                startPending(data.setResolver)
                 refetch()
               }}
             >
@@ -140,7 +133,10 @@ class DetailsEditable extends Component {
                       )}
                     </DetailsValue>
                     {editing ? null : pending && !confirmed ? (
-                      <PendingTx />
+                      <PendingTx
+                        txHash={txHash}
+                        setConfirmed={setConfirmed}
+                      />                    
                     ) : (
                       <Action>
                         {editButton ? (
@@ -208,7 +204,6 @@ class DetailsEditable extends Component {
                                 mutation({
                                   variables
                                 })
-                                startPending()
                               }}
                               value={value}
                               newValue={newValue}

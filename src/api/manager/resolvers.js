@@ -250,16 +250,15 @@ const resolvers = {
       try {
         console.log(name)
         const tx = await claimAndSetReverseRecordName(name)
-        return tx
+        return sendHelper(tx)
       } catch (e) {
         console.log(e)
       }
     },
     setOwner: async (_, { name, address }, { cache }) => {
       try {
-        const txReceipt = await setOwner(name, address)
-        console.log(txReceipt)
-        return txReceipt
+        const tx = await setOwner(name, address)
+        return sendHelper(tx)
       } catch (e) {
         console.log(e)
       }
@@ -268,7 +267,7 @@ const resolvers = {
       try {
         const tx = await setResolver(name, address)
         console.log(tx)
-        return tx
+        return sendHelper(tx)
       } catch (e) {
         console.log(e)
       }
@@ -285,7 +284,7 @@ const resolvers = {
       try {
         const tx = await setContent(name, recordValue)
         console.log(tx)
-        return tx
+        return sendHelper(tx)
       } catch (e) {
         console.log(e)
       }
@@ -294,7 +293,7 @@ const resolvers = {
       try {
         const tx = await createSubdomain(label, name)
         console.log(tx)
-        return tx
+        return sendHelper(tx)
       } catch (e) {
         console.log(e)
       }

@@ -33,6 +33,7 @@ class PendingQuery extends React.Component {
         {({ data: { transactionHistory } }) => {
           const lastTransaction = _.last(transactionHistory)
           if (
+            lastTransaction &&
             lastTransaction.txHash === txHash &&
             lastTransaction.txState === 'Confirmed'
           ) {
