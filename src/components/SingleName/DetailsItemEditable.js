@@ -114,7 +114,10 @@ class DetailsEditable extends Component {
             <Mutation
               mutation={mutation}
               onCompleted={data => {
-                startPending(data.setResolver)
+                // this can be setRseolver, setOwner, etc.
+                // Can onComplete just return a value rather than
+                // {setResolver:'0x...} ?
+                startPending(Object.values(data)[0])
                 refetch()
               }}
             >

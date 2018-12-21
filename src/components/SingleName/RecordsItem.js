@@ -99,7 +99,10 @@ class RecordItem extends Component {
               <Mutation
                 mutation={mutation}
                 onCompleted={data => {
-                  startPending(data.setAddress)
+                  // this can be either setAddress or setContent
+                  // Can onComplete just return a value rather than
+                  // {setResolver:'0x...} ?
+                  startPending(Object.values(data)[0])
                   refetch()
                 }}
               >
