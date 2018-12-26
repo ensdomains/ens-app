@@ -206,7 +206,7 @@ export async function claimAndSetReverseRecordName(name, gasLimit = 0) {
   const { reverseRegistrar } = await getReverseRegistrarContract()
   const account = await getAccount()
   const gas = await reverseRegistrar.setName(name).estimateGas()
-  return reverseRegistrar
+  return () => reverseRegistrar
     .setName(name)
     .send({ from: account, gas: gasLimit > gas ? gasLimit : gas })
 }
@@ -217,7 +217,7 @@ export async function setReverseRecordName(name) {
   const resolverAddress = await getResolver(reverseNode)
   let { Resolver } = await getResolverContract(resolverAddress)
   let namehash = await getNamehash(reverseNode)
-  return Resolver.setName(namehash, name).send({ from: account })
+  return () => Resolver.setName(namehash, name).send({ from: account })
 }
 
 export function getDomainDetails(name) {

@@ -60,9 +60,7 @@ export const SET_OWNER = gql`
 
 export const SET_NAME = gql`
   mutation setName($name: String) {
-    setName(name: $name) @client {
-      txHash
-    }
+    setName(name: $name) @client
   }
 `
 
