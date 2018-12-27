@@ -82,32 +82,35 @@ const types = {
   disabled: ['#ccc', '#ccc']
 }
 
-const Button = ({ children, type = 'primary', onClick, className }) => (
-  <ButtonContainer
-    className={className}
-    color={types[type]}
-    type={type}
-    onClick={onClick}
-    disabled={type === 'disabled'}
-  >
-    {children}
-  </ButtonContainer>
-)
+const Button = props => {
+  const { className, children, type = 'primary', onClick } = props
+  return (
+    <ButtonContainer
+      className={className}
+      color={types[type]}
+      type={type}
+      onClick={onClick}
+      disabled={type === 'disabled'}
+      {...props}
+    >
+      {children}
+    </ButtonContainer>
+  )
+}
 
-export const ButtonLink = ({
-  className,
-  children,
-  type = 'primary',
-  to = ''
-}) => (
-  <ButtonLinkContainer
-    className={className}
-    to={to}
-    color={types[type]}
-    type={type}
-  >
-    {children}
-  </ButtonLinkContainer>
-)
+export const ButtonLink = props => {
+  const { className, children, type = 'primary', to = '' } = props
+  return (
+    <ButtonLinkContainer
+      className={className}
+      to={to}
+      color={types[type]}
+      type={type}
+      {...props}
+    >
+      {children}
+    </ButtonLinkContainer>
+  )
+}
 
 export default Button

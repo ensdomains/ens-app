@@ -4,6 +4,7 @@ import { Mutation } from 'react-apollo'
 
 import { isLabelValid } from '../../utils/utils'
 import { CREATE_SUBDOMAIN } from '../../graphql/mutations'
+import mq from 'mediaQuery'
 
 import Button from '../Forms/Button'
 import DefaultInput from '../Forms/Input'
@@ -17,11 +18,21 @@ const AddSubdomainContainer = styled('section')`
 
 const AddSubdomainContent = styled('div')`
   display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  ${mq.small`
+    margin-bottom: 0;
+    flex-direction: row;
+  `}
 `
 
 const Input = styled(DefaultInput)`
   width: 100%;
   margin-right: 20px;
+  margin-bottom: 20px;
+  ${mq.small`
+    margin-bottom: 0;
+  `}
 `
 
 class AddSubdomain extends Component {

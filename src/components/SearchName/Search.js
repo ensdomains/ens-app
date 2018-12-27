@@ -4,7 +4,7 @@ import { parseSearchTerm } from '../../utils/utils'
 import '../../api/subDomainRegistrar'
 import { withRouter } from 'react-router'
 import searchIcon from './search.svg'
-import mq from '../../mediaQuery'
+import mq from 'mediaQuery'
 // import Caret from './Caret'
 // import Filters from './Filters'
 
@@ -33,7 +33,7 @@ const SearchForm = styled('form')`
     font-size: 14px;
     font-family: Overpass;
     font-weight: 100;
-    ${mq.small`
+    ${mq.medium`
       width: calc(100% - 162px);
       font-size: 28px;
     `}
@@ -58,7 +58,7 @@ const SearchForm = styled('form')`
     width: 162px;
     border: none;
     display: none;
-    ${mq.small`
+    ${mq.medium`
       display: block;
     `}
 
@@ -84,6 +84,7 @@ class Search extends React.Component {
       <SearchForm
         className={className}
         style={style}
+        action="#"
         onSubmit={e => {
           e.preventDefault()
           const searchTerm = this.input.value

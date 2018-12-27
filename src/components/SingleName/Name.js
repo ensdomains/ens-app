@@ -1,21 +1,28 @@
 import React, { Component } from 'react'
 import styled from 'react-emotion'
-import { Link } from 'react-router-dom'
+
+import mq, { MediaQuery } from 'mediaQuery'
+import { getPercentTimeLeft, getTimeLeft } from '../../utils/dates'
+import { EMPTY_ADDRESS } from '../../utils/records'
 
 import { Title } from '../Typography/Basic'
 import DefaultFavourite from '../AddFavourite/Favourite'
 import NameDetails from './NameDetails'
 import NameAuction from './NameAuction'
-import { getPercentTimeLeft, getTimeLeft } from '../../utils/dates'
+import Tabs from './Tabs'
 import QueryAccount from '../QueryAccount'
 
 const NameContainer = styled('div')`
   background: white;
   box-shadow: 3px 4px 6px 0 rgba(229, 236, 241, 0.3);
-  border-radius: 6px;
+  border-radius: 0;
   margin-bottom: 60px;
   position: relative;
   overflow: hidden;
+
+  ${mq.small`
+    border-radius: 6px;
+  `}
 
   &:before {
     left: 0;
@@ -68,28 +75,6 @@ const RightBar = styled('div')`
   align-items: center;
 `
 
-const ToggleLink = styled(Link)`
-  font-size: 14px;
-  background: ${({ active }) => (active ? '#5384FE' : 'transparent')};
-  color: ${({ active }) => (active ? 'white' : '#D2D2D2')};
-  transform: scale(${({ active }) => (active ? '1.08' : '1')});
-  transition: background 0.1s ease-out, transform 0.3s ease-out;
-  padding: 10px 30px;
-  border-radius: 90px;
-  &:hover,
-  &:visited {
-    color: ${({ active }) => (active ? 'white' : '#D2D2D2')};
-  }
-`
-
-const Toggle = styled('div')`
-  display: flex;
-  justify-content: flex-start;
-  width: 240px;
-  border: 1px solid #dfdfdf;
-  border-radius: 90px;
-`
-
 const Favourite = styled(DefaultFavourite)``
 
 class Name extends Component {
@@ -101,7 +86,7 @@ class Name extends Component {
       <QueryAccount>
         {({ account }) => {
           let isOwner = false
-          if (domain.owner !== '0x0000000000000000000000000000000000000000') {
+          if (domain.owner !== EMPTY_ADDRESS) {
             isOwner = domain.owner.toLowerCase() === account.toLowerCase()
           }
           return (
@@ -111,25 +96,18 @@ class Name extends Component {
                 <RightBar>
                   {isOwner && <Owner>Owner</Owner>}
                   <Favourite domain={domain} />
-                  {(domain.state !== 'Auction' ||
-                    domain.state !== 'Reveal') && (
-                    <Toggle>
-                      <ToggleLink
-                        active={pathname === `/name/${name}`}
-                        to={`/name/${name}`}
-                      >
-                        Details
-                      </ToggleLink>
-                      <ToggleLink
-                        active={pathname === `/name/${name}/subdomains`}
-                        to={`/name/${name}/subdomains`}
-                      >
-                        Subdomains
-                      </ToggleLink>
-                    </Toggle>
-                  )}
+                  <MediaQuery bp="small">
+                    {matches =>
+                      matches && <Tabs pathname={pathname} domain={domain} />
+                    }
+                  </MediaQuery>
                 </RightBar>
               </TopBar>
+              <MediaQuery bp="small">
+                {matches =>
+                  !matches && <Tabs pathname={pathname} domain={domain} />
+                }
+              </MediaQuery>
               {domain.state === 'Auction' || domain.state === 'Reveal' ? (
                 <NameAuction domain={domain} timeLeft={timeLeft} />
               ) : (

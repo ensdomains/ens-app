@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'react-emotion'
 
-import mq, { MediaQuery } from '../mediaQuery'
+import mq, { MediaQuery } from 'mediaQuery'
 
 import { H2 as DefaultH2 } from '../components/Typography/Basic'
 import Map from '../components/Icons/Map'
@@ -181,6 +181,7 @@ const UnderTheSurfaceImgContainer = styled('div')`
 class About extends React.Component {
   componentDidMount() {
     window.scrollTo(0, 0)
+    document.title = 'About ENS'
   }
   render() {
     return (

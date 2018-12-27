@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import { Transition } from 'react-spring'
 
 import { GET_PUBLIC_RESOLVER } from '../../graphql/queries'
+import mq from 'mediaQuery'
 
 import { SingleNameBlockies } from './SingleNameBlockies'
 import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
@@ -17,8 +18,10 @@ import Button from '../Forms/Button'
 import Pencil from '../Forms/Pencil'
 import DefaultPendingTx from '../PendingTx'
 
-const EtherScanLink = styled(DefaultEtherScanLink)`
-  display: flex;
+const EtherScanLink = styled(DefaultEtherScanLink)``
+
+const EditButton = styled(Button)`
+  width: 130px;
 `
 
 const DetailsEditableContainer = styled(DetailsItem)`
@@ -26,7 +29,7 @@ const DetailsEditableContainer = styled(DetailsItem)`
 
   background: ${({ editing }) => (editing ? '#F0F6FA' : 'white')};
   padding: ${({ editing }) => (editing ? '20px' : '0')};
-  margin-bottom: ${({ editing }) => (editing ? '20px' : '0')};
+  ${({ editing }) => (editing ? `margin-bottom: 20px;` : '')}
   transition: 0.3s;
 `
 
@@ -34,9 +37,13 @@ const DetailsContent = styled('div')`
   display: flex;
   justify-content: flex-start;
   position: relative;
+  flex-direction: column;
   width: 100%;
   ${({ editing }) => editing && 'margin-bottom: 30px'};
   transition: 0.3s;
+  ${mq.small`
+    flex-direction: row;
+  `}
 `
 
 const EditRecord = styled('div')`
@@ -48,10 +55,14 @@ const Input = styled(DefaultInput)`
 `
 
 const Action = styled('div')`
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translate(0, -65%);
+  margin-top: 20px;
+  ${mq.small`
+    margin-top: 0;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translate(0, -65%);
+  `}
 `
 
 const PendingTx = styled(DefaultPendingTx)`
@@ -125,7 +136,10 @@ class DetailsEditable extends Component {
                 <DetailsEditableContainer editing={editing}>
                   <DetailsContent editing={editing}>
                     <DetailsKey>{keyName}</DetailsKey>
-                    <DetailsValue data-testid={`details-value-${keyName.toLowerCase()}`}>
+                    <DetailsValue
+                      editable
+                      data-testid={`details-value-${keyName.toLowerCase()}`}
+                    >
                       {type === 'address' ? (
                         <EtherScanLink address={value}>
                           <SingleNameBlockies address={value} imageSize={24} />
@@ -143,7 +157,12 @@ class DetailsEditable extends Component {
                     ) : (
                       <Action>
                         {editButton ? (
-                          <Button onClick={startEditing}>{editButton}</Button>
+                          <EditButton
+                            onClick={startEditing}
+                            data-testid={`edit-${keyName.toLowerCase()}`}
+                          >
+                            {editButton}
+                          </EditButton>
                         ) : (
                           <Pencil
                             onClick={startEditing}

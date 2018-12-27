@@ -6,17 +6,13 @@ import { validateRecord, getPlaceholder } from '../../utils/records'
 
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import AddReverseRecord from './AddReverseRecord'
-import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
+import EtherScanLink from '../ExternalLinks/EtherScanLink'
 import DefaultInput from '../Forms/Input'
 import Pencil from '../Forms/Pencil'
 import Bin from '../Forms/Bin'
 import Editable from './Editable'
 import SaveCancel from './SaveCancel'
 import DefaultPendingTx from '../PendingTx'
-
-const EtherScanLink = styled(DefaultEtherScanLink)`
-  display: flex;
-`
 
 const RecordsItem = styled(DetailsItem)`
   border-top: 1px dashed #d3d3d3;
@@ -110,7 +106,7 @@ class RecordItem extends Component {
                   <RecordsItem editing={editing}>
                     <RecordsContent editing={editing}>
                       <RecordsKey>{keyName}</RecordsKey>
-                      <RecordsValue>
+                      <RecordsValue editableSmall>
                         {type === 'address' ? (
                           <EtherScanLink address={value}>{value}</EtherScanLink>
                         ) : (
@@ -136,8 +132,12 @@ class RecordItem extends Component {
                         </Action>
                       )}
                     </RecordsContent>
-
-                    {editing ? (
+                    {pending && !confirmed && txHash ? (
+                      <PendingTx
+                        txHash={txHash}
+                        setConfirmed={setConfirmed}
+                      />
+                    ) :editing ? (
                       <>
                         <EditRecord>
                           <Input

@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import styled from 'react-emotion'
 import { Spring } from 'react-spring'
 
-import mq from '../mediaQuery'
+import mq from 'mediaQuery'
 
 import SearchDefault from '../components/SearchName/Search'
 import NoAccountsDefault from '../components/NoAccounts/NoAccountsModal'
@@ -36,7 +36,10 @@ const Hero = styled('section')`
 const NoAccounts = styled(NoAccountsDefault)`
   position: absolute;
   top: 20px;
-  left: 40px;
+  left: 20px;
+  ${mq.small`
+    left: 40px;
+  `}
 `
 
 const SearchContainer = styled('div')`

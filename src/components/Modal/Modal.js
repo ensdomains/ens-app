@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'react-emotion'
 import GlobalState from '../../globalState'
-import mq from '../../mediaQuery'
+import mq from 'mediaQuery'
 
 class Modal extends Component {
   render() {

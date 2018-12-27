@@ -67,7 +67,7 @@ const SaveCancel = ({
   value,
   newValue,
   confirm,
-  isValid
+  isValid = true
 }) => (
   <SaveCancelContainer className={className}>
     <Cancel type="hollow" onClick={stopEditing}>

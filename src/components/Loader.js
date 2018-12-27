@@ -2,7 +2,14 @@ import React from 'react'
 import styled from 'react-emotion'
 
 const LoaderContainer = styled('div')`
-  @keyframes lds-dual-ring {
+  ${p =>
+    p.center &&
+    `
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  `}
+  @-webkit-keyframes lds-dual-ring {
     0% {
       -webkit-transform: rotate(0);
       transform: rotate(0);
@@ -12,7 +19,7 @@ const LoaderContainer = styled('div')`
       transform: rotate(360deg);
     }
   }
-  @-webkit-keyframes lds-dual-ring {
+  @keyframes lds-dual-ring {
     0% {
       -webkit-transform: rotate(0);
       transform: rotate(0);
