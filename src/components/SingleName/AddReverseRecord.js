@@ -147,7 +147,7 @@ class AddReverseRecord extends Component {
                       ) : (
                         `Reverse record: not set`
                       )}
-                      {pending && !confirmed ? (
+                      {pending && !confirmed && txHash ? (
                         <PendingTx
                           txHash={txHash}
                           setConfirmed={setConfirmed}
@@ -185,7 +185,7 @@ class AddReverseRecord extends Component {
                             <SaveCancel
                               mutation={mutation}
                               stopEditing={stopEditing}
-                            /> 
+                            />
                           )}
                         </Mutation>
                       </SetReverseContainer>

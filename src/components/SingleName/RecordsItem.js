@@ -132,12 +132,7 @@ class RecordItem extends Component {
                         </Action>
                       )}
                     </RecordsContent>
-                    {pending && !confirmed && txHash ? (
-                      <PendingTx
-                        txHash={txHash}
-                        setConfirmed={setConfirmed}
-                      />
-                    ) :editing ? (
+                    {editing ? (
                       <>
                         <EditRecord>
                           <Input
