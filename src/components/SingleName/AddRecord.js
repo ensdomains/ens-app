@@ -139,10 +139,8 @@ class AddRecord extends Component {
                           name: domain.name,
                           recordValue: newValue
                         }}
-                        onCompleted={() => {
-                          // TODO fix onCompleted
-                          // refetch()
-                          // setConfirmed()
+                        onCompleted={(data) => {
+                          startPending(Object.values(data)[0])
                         }}
                       >
                         {mutate => (
@@ -154,10 +152,9 @@ class AddRecord extends Component {
                             }}
                             mutation={e => {
                               e.preventDefault()
-                              startPending()
+                              console.log('mutation1')
                               mutate().then(() => {
                                 refetch()
-                                setConfirmed()
                               })
                             }}
                           />

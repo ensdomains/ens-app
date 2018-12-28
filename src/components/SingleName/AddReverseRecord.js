@@ -151,7 +151,7 @@ class AddReverseRecord extends Component {
                         <PendingTx
                           txHash={txHash}
                           setConfirmed={setConfirmed}
-                        /> 
+                        />
                       ) : (
                         <SmallCaret
                           rotated={editing}
