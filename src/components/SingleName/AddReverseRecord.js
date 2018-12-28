@@ -154,7 +154,7 @@ class AddReverseRecord extends Component {
                         /> 
                       ) : (
                         <SmallCaret
-                          rotated={editing}
+                          rotated={editing.toString()}
                           data-testid="small-caret"
                         />
                       )}
