@@ -54,15 +54,15 @@ async function addTransaction({ txHash, txState }) {
   
   const previous = client.readQuery({ query: GET_TRANSACTION_HISTORY })
   const index = previous.transactionHistory.findIndex(trx => trx.txHash === txHash)
-  const newArray = [...previous.transactionHistory]
+  const newTransactionHistory = [...previous.transactionHistory]
   if(index >= 0 ){
-    newArray[index] = { ...newArray[index], txState, updatedAt: newTransaction.updatedAt}
+    newTransactionHistory[index] = { ...newTransactionHistory[index], txState, updatedAt: newTransaction.updatedAt}
   }else{
-    newArray.push(newTransaction)
+    newTransactionHistory.push(newTransaction)
   }
 
   const data = {
-    transactionHistory: newArray
+    transactionHistory: newTransactionHistory
   }
   client.writeQuery({ query: GET_TRANSACTION_HISTORY, data })
   return data
