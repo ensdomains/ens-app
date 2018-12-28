@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'react-emotion'
 import { Mutation } from 'react-apollo'
 import { validateRecord, getPlaceholder } from '../../utils/records'
+import { emptyAddress } from '../../utils/utils'
 
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import AddReverseRecord from './AddReverseRecord'
@@ -13,6 +14,7 @@ import Bin from '../Forms/Bin'
 import Editable from './Editable'
 import SaveCancel from './SaveCancel'
 import DefaultPendingTx from '../PendingTx'
+import { SET_CONTENT, SET_ADDRESS } from '../../graphql/mutations'
 
 const RecordsItem = styled(DetailsItem)`
   border-top: 1px dashed #d3d3d3;
@@ -61,6 +63,17 @@ const PendingTx = styled(DefaultPendingTx)`
 `
 
 class RecordItem extends Component {
+  _chooseMutation(recordType) {
+    switch (recordType) {
+      case 'Content':
+        return SET_CONTENT
+      case 'Address':
+        return SET_ADDRESS
+      default:
+        throw new Error('Not a recognised record type')
+    }
+  }
+
   _renderEditable() {
     const {
       domain,
@@ -72,7 +85,6 @@ class RecordItem extends Component {
       variableName,
       account
     } = this.props
-
     return (
       <Editable>
         {({
@@ -95,9 +107,6 @@ class RecordItem extends Component {
               <Mutation
                 mutation={mutation}
                 onCompleted={data => {
-                  // this can be either setAddress or setContent
-                  // Can onComplete just return a value rather than
-                  // {setResolver:'0x...} ?
                   startPending(Object.values(data)[0])
                   refetch()
                 }}
@@ -121,7 +130,23 @@ class RecordItem extends Component {
                         />
                       ) : editing ? (
                         <Action>
-                          <Bin />
+                          <Mutation
+                            mutation={this._chooseMutation(keyName)}
+                            variables={{
+                              name: domain.name,
+                              recordValue: emptyAddress
+                            }}
+                            onCompleted={(data) => {
+                              startPending(Object.values(data)[0])
+                            }}
+                            >
+                            {mutate => (
+                               <Bin onClick={(e) => {
+                                  e.preventDefault()
+                                  mutate()
+                               }} />
+                            )}
+                          </Mutation>
                         </Action>
                       ) : (
                         <Action>

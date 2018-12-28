@@ -152,7 +152,6 @@ class AddRecord extends Component {
                             }}
                             mutation={e => {
                               e.preventDefault()
-                              console.log('mutation1')
                               mutate().then(() => {
                                 refetch()
                               })
