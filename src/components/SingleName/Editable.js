@@ -18,8 +18,9 @@ class Editable extends Component {
   stopEditing = () => this.setState({ editing: false })
   startPending = txHash =>
     this.setState({ pending: true, editing: false, txHash })
-  setConfirmed = () =>
-    this.setState({ pending: false, confirmed: true, started: false })
+  setConfirmed = () => {
+    this.setState({ pending: false, confirmed: true })
+  }
 
   render() {
     return this.props.children({
@@ -31,8 +32,6 @@ class Editable extends Component {
       newValue: this.state.newValue,
       updateValue: this.updateValue,
       updateValueDirect: this.updateValueDirect,
-      //trigger pending state
-      started: this.state.started,
       txHash: this.state.txHash,
       pending: this.state.pending,
       confirmed: this.state.confirmed,
