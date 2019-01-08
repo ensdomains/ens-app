@@ -151,6 +151,7 @@ class AddReverseRecord extends Component {
                         <PendingTx
                           txHash={txHash}
                           setConfirmed={setConfirmed}
+                          refetch={refetch}
                         />
                       ) : (
                         <SmallCaret
