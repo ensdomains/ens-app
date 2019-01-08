@@ -127,6 +127,7 @@ class RecordItem extends Component {
                         <PendingTx
                           txHash={txHash}
                           setConfirmed={setConfirmed}
+                          refetch={refetch}
                         />
                       ) : editing ? (
                         <Action>

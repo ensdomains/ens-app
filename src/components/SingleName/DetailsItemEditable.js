@@ -150,6 +150,7 @@ class DetailsEditable extends Component {
                       <PendingTx
                         txHash={txHash}
                         setConfirmed={setConfirmed}
+                        refetch={refetch}
                       />                    
                     ) : (
                       <Action>

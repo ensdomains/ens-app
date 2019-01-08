@@ -59,7 +59,11 @@ class AddSubdomain extends Component {
               <>
                 {!editing ? (
                   pending && !confirmed ? (
-                    <PendingTx txHash={txHash} setConfirmed={setConfirmed} />
+                    <PendingTx
+                      txHash={txHash}
+                      setConfirmed={setConfirmed}
+                      refetch={refetch}
+                    />
                   ) : (
                     <Button onClick={startEditing}>+ Add Subdomain</Button>
                   )
