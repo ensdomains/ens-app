@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import styled from 'react-emotion'
 
-import mq, { MediaQuery } from 'mediaQuery'
+import mq, { useMediaMin } from 'mediaQuery'
 
 import DefaultLogo from '../Logo'
 import Search from '../SearchName/Search'
@@ -67,40 +67,29 @@ const Logo = styled(DefaultLogo)`
   `}
 `
 
-class HeaderContainer extends Component {
-  state = {
-    isMenuOpen: false
-  }
-  toggleMenu = () => this.setState(state => ({ isMenuOpen: !state.isMenuOpen }))
-  render() {
-    const { isMenuOpen } = this.state
-    return (
-      <>
-        <Header isMenuOpen={isMenuOpen}>
-          <Logo isMenuOpen={isMenuOpen} />
-          <MediaQuery bp="medium">
-            {matches =>
-              matches ? (
-                <SearchHeader />
-              ) : (
-                <Hamburger isMenuOpen={isMenuOpen} openMenu={this.toggleMenu} />
-              )
-            }
-          </MediaQuery>
-        </Header>
-        <MediaQuery bp="medium">
-          {matches =>
-            matches ? null : (
-              <>
-                <SideNav isMenuOpen={isMenuOpen} toggleMenu={this.toggleMenu} />
-                <SearchHeader />
-              </>
-            )
-          }
-        </MediaQuery>
-      </>
-    )
-  }
+function HeaderContainer() {
+  const [isMenuOpen, setMenuOpen] = useState(false)
+  const mediumBp = useMediaMin('medium')
+  const toggleMenu = () => setMenuOpen(!isMenuOpen)
+
+  return (
+    <>
+      <Header isMenuOpen={isMenuOpen}>
+        <Logo isMenuOpen={isMenuOpen} />
+        {mediumBp ? (
+          <SearchHeader />
+        ) : (
+          <Hamburger isMenuOpen={isMenuOpen} openMenu={toggleMenu} />
+        )}
+      </Header>
+      {!mediumBp && (
+        <>
+          <SideNav isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />
+          <SearchHeader />
+        </>
+      )}
+    </>
+  )
 }
 
 export default HeaderContainer

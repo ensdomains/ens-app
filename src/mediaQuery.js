@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { css } from 'emotion'
 import MediaQueryLibrary from 'react-responsive'
 
@@ -28,5 +28,25 @@ export const MediaQuery = ({ children, bp }) => (
     {matches => children(matches)}
   </MediaQueryLibrary>
 )
+
+export const useMediaMin = bp => {
+  const [matches, setMatches] = useState(false)
+
+  useEffect(
+    () => {
+      const mediaList = window.matchMedia(`(min-width: ${breakpoints[bp]}px)`)
+
+      setMatches(mediaList.matches)
+
+      const handleChange = e => setMatches(e.matches)
+
+      mediaList.addEventListener('change', handleChange)
+      return () => mediaList.removeEventListener('change', handleChange)
+    },
+    [matches]
+  )
+
+  return matches
+}
 
 export default mq

@@ -58,7 +58,7 @@ Styling in this app is done with Emotion, with `styled` components style CSS. We
 
 ### Media Queries
 
-The main way to use media queries is with the helper function `mq` located in the root at `mediaQuery`. We have absolute URL support, so you can just import it directly as `mediaQuery`. It has properties for all the breakpoints supported by our app.
+The main way to use media queries is with the helper function `mq` located in the root at `mediaQuery`. We have absolute URL support, so you can just import it directly as `mediaQuery`. It has properties for all the breakpoints supported by our app. We also have a `useMediaMin` hook, which we plan to roll out to replace the render prop version when we can convert all our components to functional components.
 
 Currently supported breakpoints:
 
@@ -91,6 +91,19 @@ The second way is using a Javascript polyfill library. We expose this API under 
 <MediaQuery bp="small">
   {matches => (matches ? <LargeComponent /> : <SmallComponent />)}
 </MediaQuery>
+```
+
+The last way is using hooks
+
+```js
+import { useMediaMin } from './mediaQuery'
+
+function Component(){
+  const mediumBP = useMediaMin('medium')
+  return <>
+    {mediumBP ? <LargeComponent /> : <SmallComponent />}
+  <>
+}
 ```
 
 ## End to end Testing
