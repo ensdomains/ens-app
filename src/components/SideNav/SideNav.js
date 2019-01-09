@@ -47,14 +47,6 @@ const NavLink = styled(Link)`
   color: ${p => (p.active ? '#5284FF' : '#C7D3E3')};
   padding: 10px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-<<<<<<< HEAD
-=======
-
-  ${mq.medium`
-    justify-content: start;
-    border-bottom: 0;
-  `}
->>>>>>> dev
 
   ${mq.medium`
     justify-content: start;

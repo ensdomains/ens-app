@@ -46,6 +46,7 @@ class AddSubdomain extends Component {
             startEditing,
             stopEditing,
             newValue,
+            txHash,
             updateValue,
             startPending,
             setConfirmed,
@@ -58,7 +59,11 @@ class AddSubdomain extends Component {
               <>
                 {!editing ? (
                   pending && !confirmed ? (
-                    <PendingTx />
+                    <PendingTx
+                      txHash={txHash}
+                      setConfirmed={setConfirmed}
+                      refetch={refetch}
+                    />
                   ) : (
                     <Button onClick={startEditing}>+ Add Subdomain</Button>
                   )
@@ -76,8 +81,8 @@ class AddSubdomain extends Component {
                     {isValid ? (
                       <Mutation
                         mutation={CREATE_SUBDOMAIN}
-                        onCompleted={() => {
-                          //TODO: Figure out why onCompleted callback doesn't work here
+                        onCompleted={(data) => {
+                          startPending(Object.values(data)[0])
                         }}
                       >
                         {mutation => (
@@ -92,9 +97,7 @@ class AddSubdomain extends Component {
                                 }
                               }).then(() => {
                                 refetch()
-                                setConfirmed()
                               })
-                              startPending()
                             }}
                           />
                         )}

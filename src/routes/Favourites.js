@@ -84,7 +84,7 @@ class Favourites extends Component {
               return <NoDomains type="domain" />
             }
             return (
-              <Fragment>
+              <>
                 {data.favourites.map(domain => (
                   <Query
                     query={GET_SINGLE_NAME}
@@ -108,7 +108,7 @@ class Favourites extends Component {
                     }}
                   </Query>
                 ))}
-              </Fragment>
+              </>
             )
           }}
         </Query>

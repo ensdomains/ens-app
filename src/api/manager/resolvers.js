@@ -16,8 +16,10 @@ import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
 import { getNetworkId } from '../web3'
 import domains from '../../constants/domains.json'
+import { client } from '../../index'
 
 import {
+  GET_TRANSACTION_HISTORY,
   GET_FAVOURITES,
   GET_SUBDOMAIN_FAVOURITES,
   GET_ALL_NODES
@@ -31,13 +33,55 @@ let savedSubDomainFavourites =
 const defaults = {
   names: [],
   favourites: savedFavourites,
-  subDomainFavourites: savedSubDomainFavourites
+  subDomainFavourites: savedSubDomainFavourites,
+  transactionHistory: []
 }
 
 function getParent(name) {
   const nameArray = name.split('.')
   nameArray.shift()
   return nameArray.join('.')
+}
+
+async function addTransaction({ txHash, txState }) {
+  const newTransaction = {
+    txHash,
+    txState,
+    createdAt: new Date().getTime(),
+    updatedAt: new Date().getTime(),
+    __typename: 'Transaction'
+  }
+  
+  const previous = client.readQuery({ query: GET_TRANSACTION_HISTORY })
+  const index = previous.transactionHistory.findIndex(trx => trx.txHash === txHash)
+  const newTransactionHistory = [...previous.transactionHistory]
+  if(index >= 0 ){
+    newTransactionHistory[index] = { ...newTransactionHistory[index], txState, updatedAt: newTransaction.updatedAt}
+  }else{
+    newTransactionHistory.push(newTransaction)
+  }
+
+  const data = {
+    transactionHistory: newTransactionHistory
+  }
+  client.writeQuery({ query: GET_TRANSACTION_HISTORY, data })
+  return data
+}
+
+function sendHelper(tx) {
+  return new Promise((resolve, reject) => {
+    tx()
+      .on('transactionHash', txHash => {
+        const txState = 'Pending'
+        addTransaction({ txHash, txState })
+        resolve(txHash)
+      })
+      .on('receipt', receipt => {
+        const txHash = receipt.transactionHash
+        const txState = 'Confirmed'
+        addTransaction({ txHash, txState })
+      })
+  })
 }
 
 const resolvers = {
@@ -206,16 +250,15 @@ const resolvers = {
       try {
         console.log(name)
         const tx = await claimAndSetReverseRecordName(name)
-        return tx
+        return sendHelper(tx)
       } catch (e) {
         console.log(e)
       }
     },
     setOwner: async (_, { name, address }, { cache }) => {
       try {
-        const txReceipt = await setOwner(name, address)
-        console.log(txReceipt)
-        return txReceipt
+        const tx = await setOwner(name, address)
+        return sendHelper(tx)
       } catch (e) {
         console.log(e)
       }
@@ -224,7 +267,7 @@ const resolvers = {
       try {
         const tx = await setResolver(name, address)
         console.log(tx)
-        return tx
+        return sendHelper(tx)
       } catch (e) {
         console.log(e)
       }
@@ -232,8 +275,7 @@ const resolvers = {
     setAddress: async (_, { name, recordValue }, { cache }) => {
       try {
         const tx = await setAddress(name, recordValue)
-        console.log(tx)
-        return tx
+        return sendHelper(tx)
       } catch (e) {
         console.log(e)
       }
@@ -242,7 +284,7 @@ const resolvers = {
       try {
         const tx = await setContent(name, recordValue)
         console.log(tx)
-        return tx
+        return sendHelper(tx)
       } catch (e) {
         console.log(e)
       }
@@ -251,10 +293,13 @@ const resolvers = {
       try {
         const tx = await createSubdomain(label, name)
         console.log(tx)
-        return tx
+        return sendHelper(tx)
       } catch (e) {
         console.log(e)
       }
+    },
+    addTransaction: async (_, { txHash, txState }) => {
+      return addTransaction({ txHash, txState })
     },
     addFavourite: async (_, { domain }, { cache }) => {
       const newFavourite = {
@@ -267,7 +312,6 @@ const resolvers = {
       const data = {
         favourites: [...previous.favourites, newFavourite]
       }
-
       cache.writeData({ data })
       window.localStorage.setItem(
         'ensFavourites',
