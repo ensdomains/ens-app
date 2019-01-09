@@ -117,6 +117,7 @@ class AddReverseRecord extends Component {
         <Editable>
           {({
             editing,
+            txHash,
             startEditing,
             stopEditing,
             startPending,
@@ -146,8 +147,12 @@ class AddReverseRecord extends Component {
                       ) : (
                         `Reverse record: not set`
                       )}
-                      {pending && !confirmed ? (
-                        <PendingTx />
+                      {pending && !confirmed && txHash ? (
+                        <PendingTx
+                          txHash={txHash}
+                          setConfirmed={setConfirmed}
+                          refetch={refetch}
+                        />
                       ) : (
                         <SmallCaret
                           rotated={editing}
@@ -172,17 +177,14 @@ class AddReverseRecord extends Component {
                           variables={{
                             name
                           }}
-                          onCompleted={() => {
+                          onCompleted={data => {
+                            startPending(Object.values(data)[0])
                             refetch()
-                            setConfirmed()
                           }}
                         >
                           {mutation => (
                             <SaveCancel
-                              mutation={() => {
-                                mutation()
-                                startPending()
-                              }}
+                              mutation={mutation}
                               stopEditing={stopEditing}
                             />
                           )}

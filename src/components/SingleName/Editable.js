@@ -5,7 +5,8 @@ class Editable extends Component {
     editing: false,
     newValue: '',
     pending: false,
-    confirmed: false
+    confirmed: false,
+    txHash: undefined
   }
 
   updateValue = e => {
@@ -15,8 +16,11 @@ class Editable extends Component {
   startEditing = () =>
     this.setState({ editing: true, confirmed: false, pending: false })
   stopEditing = () => this.setState({ editing: false })
-  startPending = () => this.setState({ pending: true, editing: false })
-  setConfirmed = () => this.setState({ pending: true, confirmed: true })
+  startPending = txHash =>
+    this.setState({ pending: true, editing: false, txHash })
+  setConfirmed = () => {
+    this.setState({ pending: false, confirmed: true })
+  }
 
   render() {
     return this.props.children({
@@ -28,9 +32,10 @@ class Editable extends Component {
       newValue: this.state.newValue,
       updateValue: this.updateValue,
       updateValueDirect: this.updateValueDirect,
-      //trigger pending state
+      txHash: this.state.txHash,
       pending: this.state.pending,
       confirmed: this.state.confirmed,
+      startTransaction: this.startTransaction,
       startPending: this.startPending,
       setConfirmed: this.setConfirmed
     })

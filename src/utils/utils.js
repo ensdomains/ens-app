@@ -144,3 +144,5 @@ export function isElementInViewport(el) {
         document.documentElement.clientWidth) /*or $(window).width() */
   )
 }
+
+export const emptyAddress = '0x0000000000000000000000000000000000000000'

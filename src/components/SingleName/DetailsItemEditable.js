@@ -113,6 +113,7 @@ class DetailsEditable extends Component {
           newValue,
           updateValue,
           updateValueDirect,
+          txHash,
           startPending,
           setConfirmed,
           pending,
@@ -124,7 +125,7 @@ class DetailsEditable extends Component {
             <Mutation
               mutation={mutation}
               onCompleted={data => {
-                setConfirmed()
+                startPending(Object.values(data)[0])
                 refetch()
               }}
             >
@@ -146,7 +147,11 @@ class DetailsEditable extends Component {
                       )}
                     </DetailsValue>
                     {editing ? null : pending && !confirmed ? (
-                      <PendingTx />
+                      <PendingTx
+                        txHash={txHash}
+                        setConfirmed={setConfirmed}
+                        refetch={refetch}
+                      />                    
                     ) : (
                       <Action>
                         {editButton ? (
@@ -219,7 +224,6 @@ class DetailsEditable extends Component {
                                 mutation({
                                   variables
                                 })
-                                startPending()
                               }}
                               value={value}
                               newValue={newValue}

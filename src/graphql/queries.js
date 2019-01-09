@@ -69,6 +69,16 @@ export const GET_SUBDOMAINS = gql`
   }
 `
 
+export const GET_TRANSACTION_HISTORY = gql`
+  query getTransactionHistory @client {
+    transactionHistory {
+      txHash
+      txState
+      createdAt
+    }
+  }
+`
+
 export const GET_FAVOURITES = gql`
   query getFavourites {
     favourites @client {
