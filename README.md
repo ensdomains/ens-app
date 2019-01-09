@@ -80,20 +80,12 @@ import mq from 'mediaQuery'
 const SomeComponent = styled('div')`
   font-size: 14px;
   ${mq.small`
-    
-    `}
+    font-size: 22px;
+  `}
 `
 ```
 
-The second way is using a Javascript polyfill library. We expose this API under a named export `MediaQuery` which uses the render prop pattern. It takes one prop `bp`, which expects a string of the same breakpoints used by `mq`
-
-```js
-<MediaQuery bp="small">
-  {matches => (matches ? <LargeComponent /> : <SmallComponent />)}
-</MediaQuery>
-```
-
-The last way is using hooks
+The second way is using hooks, which uses `useEffect` and `useState` underneath. This must be used with functional components.
 
 ```js
 import { useMediaMin } from './mediaQuery'

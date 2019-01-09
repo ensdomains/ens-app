@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from 'react-emotion'
 
-import mq, { MediaQuery } from 'mediaQuery'
+import mq, { useMediaMin } from 'mediaQuery'
 import { getPercentTimeLeft, getTimeLeft } from '../../utils/dates'
 import { EMPTY_ADDRESS } from '../../utils/records'
 
@@ -77,55 +77,45 @@ const RightBar = styled('div')`
 
 const Favourite = styled(DefaultFavourite)``
 
-class Name extends Component {
-  render() {
-    const { details: domain, name, pathname, refetch } = this.props
-    const timeLeft = getTimeLeft(domain)
-    const percentDone = getPercentTimeLeft(timeLeft, domain)
-    return (
-      <QueryAccount>
-        {({ account }) => {
-          let isOwner = false
-          if (domain.owner !== EMPTY_ADDRESS) {
-            isOwner = domain.owner.toLowerCase() === account.toLowerCase()
-          }
-          return (
-            <NameContainer state={isOwner ? 'Yours' : domain.state}>
-              <TopBar percentDone={percentDone}>
-                <Title>{name}</Title>
-                <RightBar>
-                  {isOwner && <Owner>Owner</Owner>}
-                  <Favourite domain={domain} />
-                  <MediaQuery bp="small">
-                    {matches =>
-                      matches && <Tabs pathname={pathname} domain={domain} />
-                    }
-                  </MediaQuery>
-                </RightBar>
-              </TopBar>
-              <MediaQuery bp="small">
-                {matches =>
-                  !matches && <Tabs pathname={pathname} domain={domain} />
-                }
-              </MediaQuery>
-              {domain.state === 'Auction' || domain.state === 'Reveal' ? (
-                <NameAuction domain={domain} timeLeft={timeLeft} />
-              ) : (
-                <NameDetails
-                  domain={domain}
-                  pathname={pathname}
-                  name={name}
-                  isOwner={isOwner}
-                  refetch={refetch}
-                  account={account}
-                />
-              )}
-            </NameContainer>
-          )
-        }}
-      </QueryAccount>
-    )
-  }
+function Name({ details: domain, name, pathname, refetch }) {
+  const smallBP = useMediaMin('small')
+  const timeLeft = getTimeLeft(domain)
+  const percentDone = getPercentTimeLeft(timeLeft, domain)
+  return (
+    <QueryAccount>
+      {({ account }) => {
+        let isOwner = false
+        if (domain.owner !== EMPTY_ADDRESS) {
+          isOwner = domain.owner.toLowerCase() === account.toLowerCase()
+        }
+        return (
+          <NameContainer state={isOwner ? 'Yours' : domain.state}>
+            <TopBar percentDone={percentDone}>
+              <Title>{name}</Title>
+              <RightBar>
+                {isOwner && <Owner>Owner</Owner>}
+                <Favourite domain={domain} />
+                {smallBP && <Tabs pathname={pathname} domain={domain} />}
+              </RightBar>
+            </TopBar>
+            {!smallBP && <Tabs pathname={pathname} domain={domain} />}
+            {domain.state === 'Auction' || domain.state === 'Reveal' ? (
+              <NameAuction domain={domain} timeLeft={timeLeft} />
+            ) : (
+              <NameDetails
+                domain={domain}
+                pathname={pathname}
+                name={name}
+                isOwner={isOwner}
+                refetch={refetch}
+                account={account}
+              />
+            )}
+          </NameContainer>
+        )
+      }}
+    </QueryAccount>
+  )
 }
 
 export default Name

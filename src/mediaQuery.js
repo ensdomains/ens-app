@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { css } from 'emotion'
-import MediaQueryLibrary from 'react-responsive'
 
 const breakpoints = {
   small: 576,
@@ -22,12 +21,6 @@ const mq = Object.keys(breakpoints).reduce((accumulator, label) => {
     `
   return accumulator
 }, {})
-
-export const MediaQuery = ({ children, bp }) => (
-  <MediaQueryLibrary minWidth={breakpoints[bp]}>
-    {matches => children(matches)}
-  </MediaQueryLibrary>
-)
 
 export const useMediaMin = bp => {
   const [matches, setMatches] = useState(false)
