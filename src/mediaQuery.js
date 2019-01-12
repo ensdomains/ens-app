@@ -22,24 +22,36 @@ const mq = Object.keys(breakpoints).reduce((accumulator, label) => {
   return accumulator
 }, {})
 
-export const useMediaMin = bp => {
-  const [matches, setMatches] = useState(false)
+const useMedia = (query, defaultState) => {
+  const [state, setState] = useState(defaultState)
 
   useEffect(
     () => {
-      const mediaList = window.matchMedia(`(min-width: ${breakpoints[bp]}px)`)
+      let mounted = true
+      const mql = window.matchMedia(query)
+      const onChange = () => {
+        if (!mounted) return
+        setState(!!mql.matches)
+      }
 
-      setMatches(mediaList.matches)
+      mql.addListener(onChange)
+      setState(mql.matches)
 
-      const handleChange = e => setMatches(e.matches)
-
-      mediaList.addEventListener('change', handleChange)
-      return () => mediaList.removeEventListener('change', handleChange)
+      return () => {
+        mounted = false
+        mql.removeListener(onChange)
+      }
     },
-    [matches]
+    [query]
   )
 
-  return matches
+  return state
 }
+
+export const useMediaMin = (bp, defaultState) =>
+  useMedia(`(min-width: ${breakpoints[bp]}px)`, defaultState)
+
+export const useMediaMax = (bp, defaultState) =>
+  useMedia(`(max-width: ${breakpoints[bp] - 1}px)`, defaultState)
 
 export default mq

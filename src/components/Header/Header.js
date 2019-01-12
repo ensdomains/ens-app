@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'react-emotion'
 
-import mq, { useMediaMin } from 'mediaQuery'
+import mq, { useMediaMin, useMediaMax } from 'mediaQuery'
 
 import DefaultLogo from '../Logo'
 import Search from '../SearchName/Search'
@@ -69,22 +69,23 @@ const Logo = styled(DefaultLogo)`
 
 function HeaderContainer() {
   const [isMenuOpen, setMenuOpen] = useState(false)
-  const mediumBp = useMediaMin('medium')
+  const mediumBP = useMediaMin('medium')
+  const mediumBPMax = useMediaMax('medium')
   const toggleMenu = () => setMenuOpen(!isMenuOpen)
 
   return (
     <>
       <Header isMenuOpen={isMenuOpen}>
         <Logo isMenuOpen={isMenuOpen} />
-        {mediumBp ? (
+        {mediumBP ? (
           <SearchHeader />
         ) : (
           <Hamburger isMenuOpen={isMenuOpen} openMenu={toggleMenu} />
         )}
       </Header>
-      <SideNav isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />
-      {!mediumBp && (
+      {mediumBPMax && (
         <>
+          <SideNav isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />
           <SearchHeader />
         </>
       )}
