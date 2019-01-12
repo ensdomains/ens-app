@@ -7,11 +7,11 @@ import { Transition } from 'react-spring'
 
 import { GET_PUBLIC_RESOLVER } from '../../graphql/queries'
 import mq from 'mediaQuery'
+import { useEditable } from '../hooks'
 
 import { SingleNameBlockies } from './SingleNameBlockies'
 import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
-import Editable from './Editable'
 import SaveCancel from './SaveCancel'
 import DefaultInput from '../Forms/Input'
 import Button from '../Forms/Button'
@@ -86,165 +86,155 @@ const Buttons = styled('div')`
   align-items: center;
 `
 
-class DetailsEditable extends Component {
-  _renderEditable() {
-    let {
-      keyName,
-      value,
-      type,
-      mutation,
-      mutationButton,
-      editButton,
-      domain,
-      variableName,
-      refetch,
-      confirm
-    } = this.props
-    if (keyName === 'Resolver' && parseInt(value, 16) === 0) {
-      value = 'No Resolver Set'
-      type = 'message'
-    }
-    return (
-      <Editable>
-        {({
-          editing,
-          startEditing,
-          stopEditing,
-          newValue,
-          updateValue,
-          updateValueDirect,
-          txHash,
-          startPending,
-          setConfirmed,
-          pending,
-          confirmed
-        }) => {
-          const isValid = addressUtils.isAddress(newValue)
-          const isInvalid = !isValid && newValue.length > 0
-          return (
-            <Mutation
-              mutation={mutation}
-              onCompleted={data => {
-                startPending(Object.values(data)[0])
-                refetch()
-              }}
+const Editable = ({
+  keyName,
+  value,
+  type,
+  mutation,
+  mutationButton,
+  editButton,
+  domain,
+  variableName,
+  refetch,
+  confirm
+}) => {
+  const { state, actions } = useEditable()
+
+  const { editing, newValue, txHash, pending, confirmed } = state
+
+  console.log(newValue)
+
+  const {
+    startEditing,
+    stopEditing,
+    updateValue,
+    startPending,
+    setConfirmed
+  } = actions
+
+  console.log(setConfirmed)
+
+  const isValid = addressUtils.isAddress(newValue)
+  const isInvalid = !isValid && newValue.length > 0
+
+  return (
+    <Mutation
+      mutation={mutation}
+      onCompleted={data => {
+        startPending(Object.values(data)[0])
+        refetch()
+      }}
+    >
+      {mutation => (
+        <DetailsEditableContainer editing={editing}>
+          <DetailsContent editing={editing}>
+            <DetailsKey>{keyName}</DetailsKey>
+            <DetailsValue
+              editable
+              data-testid={`details-value-${keyName.toLowerCase()}`}
             >
-              {mutation => (
-                <DetailsEditableContainer editing={editing}>
-                  <DetailsContent editing={editing}>
-                    <DetailsKey>{keyName}</DetailsKey>
-                    <DetailsValue
-                      editable
-                      data-testid={`details-value-${keyName.toLowerCase()}`}
-                    >
-                      {type === 'address' ? (
-                        <EtherScanLink address={value}>
-                          <SingleNameBlockies address={value} imageSize={24} />
-                          {value}
-                        </EtherScanLink>
-                      ) : (
-                        value
-                      )}
-                    </DetailsValue>
-                    {editing ? null : pending && !confirmed ? (
-                      <PendingTx
-                        txHash={txHash}
-                        setConfirmed={setConfirmed}
-                        refetch={refetch}
-                      />                    
-                    ) : (
-                      <Action>
-                        {editButton ? (
-                          <EditButton
-                            onClick={startEditing}
-                            data-testid={`edit-${keyName.toLowerCase()}`}
-                          >
-                            {editButton}
-                          </EditButton>
-                        ) : (
-                          <Pencil
-                            onClick={startEditing}
-                            data-testid={`edit-${keyName.toLowerCase()}`}
-                          />
-                        )}
-                      </Action>
-                    )}
-                  </DetailsContent>
-                  <Transition
-                    items={editing}
-                    from={{ opacity: 0, height: 0 }}
-                    enter={{ opacity: 1, height: 'auto' }}
-                    leave={{ opacity: 0, height: 0 }}
-                  >
-                    {editing =>
-                      editing &&
-                      (props => (
-                        <div style={props}>
-                          <EditRecord>
-                            <Input
-                              value={newValue}
-                              onChange={updateValue}
-                              valid={isValid}
-                              invalid={isInvalid}
-                              placeholder="Type in a new Ethereum address"
-                              large
-                            />
-                          </EditRecord>
-                          <Buttons>
-                            {keyName === 'Resolver' && (
-                              <Query query={GET_PUBLIC_RESOLVER}>
-                                {({ data, loading }) => {
-                                  if (loading) return null
-                                  return (
-                                    <DefaultResolverButton
-                                      onClick={e => {
-                                        e.preventDefault()
-                                        updateValueDirect(
-                                          data.publicResolver.address
-                                        )
-                                      }}
-                                    >
-                                      Use Public Resolver
-                                    </DefaultResolverButton>
-                                  )
-                                }}
-                              </Query>
-                            )}
-
-                            <SaveCancel
-                              stopEditing={stopEditing}
-                              mutation={() => {
-                                const variables = {
-                                  name: domain.name,
-                                  [variableName
-                                    ? variableName
-                                    : 'address']: newValue
-                                }
-
-                                mutation({
-                                  variables
-                                })
-                              }}
-                              value={value}
-                              newValue={newValue}
-                              mutationButton={mutationButton}
-                              confirm={confirm}
-                              isValid={isValid}
-                            />
-                          </Buttons>
-                        </div>
-                      ))
-                    }
-                  </Transition>
-                </DetailsEditableContainer>
+              {type === 'address' ? (
+                <EtherScanLink address={value}>
+                  <SingleNameBlockies address={value} imageSize={24} />
+                  {value}
+                </EtherScanLink>
+              ) : (
+                value
               )}
-            </Mutation>
-          )
-        }}
-      </Editable>
-    )
-  }
+            </DetailsValue>
+            {editing ? null : pending && !confirmed ? (
+              <PendingTx
+                txHash={txHash}
+                setConfirmed={setConfirmed}
+                refetch={refetch}
+              />
+            ) : (
+              <Action>
+                {editButton ? (
+                  <EditButton
+                    onClick={startEditing}
+                    data-testid={`edit-${keyName.toLowerCase()}`}
+                  >
+                    {editButton}
+                  </EditButton>
+                ) : (
+                  <Pencil
+                    onClick={startEditing}
+                    data-testid={`edit-${keyName.toLowerCase()}`}
+                  />
+                )}
+              </Action>
+            )}
+          </DetailsContent>
+          <Transition
+            items={editing}
+            from={{ opacity: 0, height: 0 }}
+            enter={{ opacity: 1, height: 'auto' }}
+            leave={{ opacity: 0, height: 0 }}
+          >
+            {editing =>
+              editing &&
+              (props => (
+                <div style={props}>
+                  <EditRecord>
+                    <Input
+                      value={newValue}
+                      onChange={e => updateValue(e.target.value)}
+                      valid={isValid}
+                      invalid={isInvalid}
+                      placeholder="Type in a new Ethereum address"
+                      large
+                    />
+                  </EditRecord>
+                  <Buttons>
+                    {keyName === 'Resolver' && (
+                      <Query query={GET_PUBLIC_RESOLVER}>
+                        {({ data, loading }) => {
+                          if (loading) return null
+                          return (
+                            <DefaultResolverButton
+                              onClick={e => {
+                                e.preventDefault()
+                                updateValue(data.publicResolver.address)
+                              }}
+                            >
+                              Use Public Resolver
+                            </DefaultResolverButton>
+                          )
+                        }}
+                      </Query>
+                    )}
 
+                    <SaveCancel
+                      stopEditing={stopEditing}
+                      mutation={() => {
+                        const variables = {
+                          name: domain.name,
+                          [variableName ? variableName : 'address']: newValue
+                        }
+
+                        mutation({
+                          variables
+                        })
+                      }}
+                      value={value}
+                      newValue={newValue}
+                      mutationButton={mutationButton}
+                      confirm={confirm}
+                      isValid={isValid}
+                    />
+                  </Buttons>
+                </div>
+              ))
+            }
+          </Transition>
+        </DetailsEditableContainer>
+      )}
+    </Mutation>
+  )
+}
+
+class DetailsEditable extends Component {
   _renderViewOnly() {
     let { value, keyName, type } = this.props
 
@@ -272,7 +262,7 @@ class DetailsEditable extends Component {
   }
   render() {
     const { isOwner } = this.props
-    return isOwner ? this._renderEditable() : this._renderViewOnly()
+    return isOwner ? <Editable {...this.props} /> : this._renderViewOnly()
   }
 }
 
