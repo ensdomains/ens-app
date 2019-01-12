@@ -82,9 +82,9 @@ function HeaderContainer() {
           <Hamburger isMenuOpen={isMenuOpen} openMenu={toggleMenu} />
         )}
       </Header>
+      <SideNav isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />
       {!mediumBp && (
         <>
-          <SideNav isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />
           <SearchHeader />
         </>
       )}
