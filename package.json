@@ -43,8 +43,6 @@
     "compile": "node --experimental-modules src/testing-utils/compileENS.mjs",
     "preTest": "node --experimental-modules src/testing-utils/preTest.mjs",
     "cypress:open": "yarn run cypress open",
-    "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public",
     "deploy:dev": "npm run build && npm run postbuild && surge build ensappdev.surge.sh",
     "deploy:beta": "npm run build && npm run postbuild && surge build manager-beta.ens.domains"
   },
@@ -54,9 +52,6 @@
     "singleQuote": true
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^3.4.10",
-    "@storybook/addon-links": "^3.4.10",
-    "@storybook/react": "^3.4.10",
     "apollo-client-mock": "0.0.8",
     "apollo-link-schema": "^1.1.0",
     "babel-plugin-macros": "^2.4.2",
