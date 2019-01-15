@@ -28,18 +28,15 @@ const Pending = ({ className, children = 'Tx pending' }) => (
 class PendingTx extends React.Component {
   render() {
     const { txHash, setConfirmed, refetch } = this.props
-    console.log(setConfirmed)
     return (
       <Query query={GET_TRANSACTION_HISTORY}>
         {({ data: { transactionHistory } }) => {
           const lastTransaction = _.last(transactionHistory)
-          console.log('here1', txHash)
           if (
             lastTransaction &&
             lastTransaction.txHash === txHash &&
             lastTransaction.txState === 'Confirmed'
           ) {
-            console.log('here2')
             setConfirmed()
             refetch()
           }
