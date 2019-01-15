@@ -1,5 +1,5 @@
-const ROOT = 'http://localhost:3000'
-const NAME_ROOT = `${ROOT}/name`
+const ROOT = Cypress.env('ROOT')
+const NAME_ROOT = Cypress.env('NAME_ROOT')
 
 describe('Name detail view', () => {
   // Visit a domain  
