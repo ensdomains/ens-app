@@ -860,7 +860,7 @@
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/@emotion/utils/-/utils-0.8.2.tgz#576ff7fb1230185b619a75d258cbc98f0867a8dc"
 
-"@ensdomains/ens@^0.3.1":
+"@ensdomains/ens@^0.3.3":
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/@ensdomains/ens/-/ens-0.3.3.tgz#ced1605f5aa5e3464af87ab9dcdb36effe967494"
   integrity sha512-28FSw8edDgE/YV4S8qjzSQmhxAGcZhkE4rP4dqBykkfW/uHzRZdu7/Wl7tTKEPB5NJ2qTHJiRpOsuAFpc6XCOg==

@@ -5,7 +5,7 @@
   "homepage": "https://manager-beta.ens.domains",
   "dependencies": {
     "@0xproject/utils": "^0.7.3",
-    "@ensdomains/ens": "^0.3.1",
+    "@ensdomains/ens": "^0.3.3",
     "apollo-cache-inmemory": "^1.2.9",
     "apollo-client": "^2.4.5",
     "apollo-link": "^1.2.2",
