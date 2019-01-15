@@ -1,1 +1,4 @@
-{}
+{
+    "ROOT":"http://localhost:3000",
+    "NAME_ROOT":"http://localhost:3000/name"
+}
