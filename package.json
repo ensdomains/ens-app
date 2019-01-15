@@ -1,8 +1,8 @@
 {
   "name": "ens-app",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
-  "homepage": "https://manager-beta.ens.domains",
+  "homepage": "https://manager.ens.domains",
   "dependencies": {
     "@0xproject/utils": "^0.7.3",
     "@ensdomains/ens": "^0.3.3",
@@ -44,7 +44,7 @@
     "preTest": "node --experimental-modules src/testing-utils/preTest.mjs",
     "cypress:open": "yarn run cypress open",
     "deploy:dev": "npm run build && npm run postbuild && surge build ensappdev.surge.sh",
-    "deploy:beta": "npm run build && npm run postbuild && surge build manager-beta.ens.domains"
+    "deploy:beta": "npm run build && npm run postbuild && surge build manager.ens.domains"
   },
   "prettier": {
     "semi": false,
