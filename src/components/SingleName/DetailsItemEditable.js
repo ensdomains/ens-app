@@ -102,8 +102,6 @@ const Editable = ({
 
   const { editing, newValue, txHash, pending, confirmed } = state
 
-  console.log(newValue)
-
   const {
     startEditing,
     stopEditing,
@@ -111,8 +109,6 @@ const Editable = ({
     startPending,
     setConfirmed
   } = actions
-
-  console.log(setConfirmed)
 
   const isValid = addressUtils.isAddress(newValue)
   const isInvalid = !isValid && newValue.length > 0
