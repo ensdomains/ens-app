@@ -19,5 +19,3 @@ script:
 
 notifications:
   email: false
-before_cache:
-  - rm -rf /home/travis/build/ensdomains/ens-app/node_modules/webpack
