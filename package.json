@@ -6,6 +6,7 @@
   "dependencies": {
     "@0xproject/utils": "^0.7.3",
     "@ensdomains/ens": "^0.3.3",
+    "@ensdomains/resolver": "^0.1.0",
     "apollo-cache-inmemory": "^1.2.9",
     "apollo-client": "^2.4.5",
     "apollo-link": "^1.2.2",
@@ -41,7 +42,6 @@
     "test": "react-scripts test --env=jsdom",
     "test:coverage": "npm test -- --coverage",
     "eject": "react-scripts eject",
-    "compile": "node --experimental-modules src/testing-utils/compileENS.mjs",
     "preTest": "node --experimental-modules src/testing-utils/preTest.mjs",
     "cypress:open": "yarn run cypress open",
     "deploy:dev": "npm run build && npm run postbuild && surge build ensappdev.surge.sh",

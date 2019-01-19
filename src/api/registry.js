@@ -55,7 +55,7 @@ export async function getContent(name) {
   const namehash = await getNamehash(name)
   try {
     const { Resolver } = await getResolverReadContract(resolverAddr)
-    return Resolver.content(namehash).call()
+    return Resolver.contenthash(namehash).call()
   } catch (e) {
     console.warn(
       'Error getting content on the resolver contract, are you sure the resolver address is a resolver contract?'
@@ -125,7 +125,7 @@ export async function setContent(name, content) {
   const namehash = await getNamehash(name)
   const resolverAddr = await getResolver(name)
   const { Resolver } = await getResolverContract(resolverAddr)
-  return () => Resolver.setContent(namehash, content).send({ from: account })
+  return () => Resolver.setContenthash(namehash, content).send({ from: account })
 }
 
 export async function checkSubDomain(subDomain, domain) {

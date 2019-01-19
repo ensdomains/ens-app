@@ -3,7 +3,7 @@ const fs = require('fs')
 module.exports = async function deployENS({ web3, accounts }) {
   const { sha3 } = web3.utils
   function deploy(contractJSON, ...args) {
-    const contract = new web3.eth.Contract(JSON.parse(contractJSON.interface))
+    const contract = new web3.eth.Contract(contractJSON.abi)
     return contract
       .deploy({
         data: contractJSON.bytecode,
@@ -29,25 +29,20 @@ module.exports = async function deployENS({ web3, accounts }) {
     return node.toString()
   }
 
-  // This code compiles the deployer contract directly
-  // If the deployer contract needs updating you can run
-  // `npm run compile2` to compile it to ./src/testing-utils/contracts/ENS.json
-  //
-  // let source = fs.readFileSync('./src/api/__tests__/ens.sol').toString()
-  // let compiled = solc.compile(source, 1)
-  const { contracts } = JSON.parse(
-    fs.readFileSync('./src/testing-utils/ENS.json')
-  )
+  function loadContract(modName, contractName){
+    return JSON.parse(fs.readFileSync(
+      `./node_modules/@ensdomains/${modName}/build/contracts/${contractName}.json`,
+      'utf8'
+    ))
+  }
+  
+  const registryJSON = loadContract('ens', 'ENSRegistry')
+  const resolverJSON = loadContract('resolver', 'PublicResolver')
+  const reverseRegistrarJSON = loadContract('ens', 'ReverseRegistrar')
+  // const HashRegistrarSimplifiedJSON = loadContract('ens', 'HashRegistrar')
 
-  const registryJSON = contracts['ENSRegistry.sol:ENSRegistry']
-  const resolverJSON = contracts['PublicResolver.sol:PublicResolver']
-  const reverseRegistrarJSON =
-    contracts['ReverseRegistrar.sol:ReverseRegistrar']
-  const HashRegistrarSimplifiedJSON =
-    contracts['HashRegistrarSimplified.sol:Registrar']
 
   /* Deploy the main contracts  */
-
   const ens = await deploy(registryJSON)
   const resolver = await deploy(resolverJSON, ens._address)
   const reverseRegistrar = await deploy(
@@ -55,23 +50,23 @@ module.exports = async function deployENS({ web3, accounts }) {
     ens._address,
     resolver._address
   )
-
-  const ethRegistrar = await deploy(
-    HashRegistrarSimplifiedJSON,
-    ens._address,
-    accounts[0],
-    0
-  )
+  // Disabled for now as the deploy was throwing error and this is not in use.
+  // const ethRegistrar = await deploy(
+  //   HashRegistrarSimplifiedJSON,
+  //   ens._address,
+  //   accounts[0],
+  //   0
+  // )
 
   const ensContract = ens.methods
   const resolverContract = resolver.methods
   const reverseRegistrarContract = reverseRegistrar.methods
-  const ethRegistrarContract = ethRegistrar.methods
+  // const ethRegistrarContract = ethRegistrar.methods
 
   console.log('ENS registry deployed at: ', ens._address)
   console.log('Public resolver deployed at: ', resolver._address)
   console.log('Reverse Registrar deployed at: ', reverseRegistrar._address)
-  console.log('Auction Registrar deployed at: ', ethRegistrar._address)
+  // console.log('Auction Registrar deployed at: ', ethRegistrar._address)
 
   const tld = 'eth'
   const tldHash = sha3(tld)
@@ -165,7 +160,7 @@ module.exports = async function deployENS({ web3, accounts }) {
     .send({ from: accounts[0], gas: 1000000 })
 
   await resolverContract
-    .setContent(
+    .setContenthash(
       aBitTooAwesome,
       '0x736f6d65436f6e74656e74000000000000000000000000000000000000000001'
     )
@@ -216,14 +211,13 @@ module.exports = async function deployENS({ web3, accounts }) {
   /* Resolve the resolver.eth content to a 32 byte content hash */
 
   await resolverContract
-    .setContent(
+    .setContenthash(
       namehash('resolver.eth'),
       '0x736f6d65436f6e74656e74000000000000000000000000000000000000000000'
     )
     .send({
       from: accounts[0]
     })
-
   /* Setup a reverse for account[0] to eth tld  */
 
   await reverseRegistrarContract
