@@ -55,7 +55,7 @@ export async function getContent(name) {
   const namehash = await getNamehash(name)
   try {
     const { Resolver } = await getResolverReadContract(resolverAddr)
-    return Resolver.contenthash(namehash).call()
+    return await Resolver.contenthash(namehash).call()
   } catch (e) {
     console.warn(
       'Error getting content on the resolver contract, are you sure the resolver address is a resolver contract?'

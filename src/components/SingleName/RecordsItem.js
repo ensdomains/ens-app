@@ -2,19 +2,21 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'react-emotion'
 import { Mutation } from 'react-apollo'
+import { decode } from '../../utils/contents'
 import { validateRecord, getPlaceholder } from '../../utils/records'
 import { emptyAddress } from '../../utils/utils'
 
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import AddReverseRecord from './AddReverseRecord'
 import EtherScanLink from '../ExternalLinks/EtherScanLink'
+import ContentHashLink from '../ExternalLinks/ContentHashLink'
 import DefaultInput from '../Forms/Input'
 import Pencil from '../Forms/Pencil'
 import Bin from '../Forms/Bin'
 import SaveCancel from './SaveCancel'
 import DefaultPendingTx from '../PendingTx'
 import { SET_CONTENT, SET_ADDRESS } from '../../graphql/mutations'
-
+import DetailsItemInput from './DetailsItemInput'
 import { useEditable } from '../hooks'
 
 const RecordsItem = styled(DetailsItem)`
@@ -95,10 +97,9 @@ const Editable = ({
     startPending,
     setConfirmed
   } = actions
-
   const isValid = validateRecord({ type, value: newValue })
-  console.log(isValid, newValue)
   const isInvalid = !isValid && newValue.length > 0 && type === 'address'
+  const { protocolType, decoded } = decode(newValue || value)
   return (
     <>
       <Mutation
@@ -116,7 +117,10 @@ const Editable = ({
                 {type === 'address' ? (
                   <EtherScanLink address={value}>{value}</EtherScanLink>
                 ) : (
-                  value
+                  <ContentHashLink
+                    address={decoded}
+                    protocolType={protocolType}
+                  />                  
                 )}
               </RecordsValue>
 
@@ -160,11 +164,12 @@ const Editable = ({
             {editing ? (
               <>
                 <EditRecord>
-                  <Input
-                    placeholder={getPlaceholder(type)}
-                    onChange={e => updateValue(e.target.value)}
-                    valid={isValid}
-                    invalid={isInvalid}
+                  <DetailsItemInput 
+                    newValue={newValue}
+                    dataType={type}
+                    updateValue={updateValue}
+                    isValid={isValid}
+                    isInvalid={isInvalid}
                   />
                 </EditRecord>
                 <SaveCancel
@@ -177,7 +182,7 @@ const Editable = ({
                       variables
                     })
                   }}
-                  isValid={type === 'address' ? isValid : true}
+                  isValid={isValid}
                   stopEditing={stopEditing}
                 />
               </>

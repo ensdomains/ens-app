@@ -1,5 +1,5 @@
 import { addressUtils } from '@0xproject/utils'
-
+import { validateContent } from './contents'
 export function validateRecord(record) {
   if (!record.type) {
     return false
@@ -11,7 +11,7 @@ export function validateRecord(record) {
     case 'address':
       return addressUtils.isAddress(value)
     case 'content':
-      return true
+      return validateContent(value)
     default:
       throw new Error('Unrecognised record type')
   }
@@ -22,7 +22,7 @@ export function getPlaceholder(recordType) {
     case 'address':
       return 'Enter an Ethereum address'
     case 'content':
-      return 'Enter a content hash'
+      return 'Enter a conent hash (eg: ifpfs://..., bzz://...)'
     default:
       return ''
   }

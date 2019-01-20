@@ -3,7 +3,7 @@ import styled from 'react-emotion'
 import { Mutation } from 'react-apollo'
 
 import { validateRecord, getPlaceholder } from '../../utils/records'
-
+import DetailsItemInput from './DetailsItemInput'
 import Editable from './Editable'
 import SaveCancel from './SaveCancel'
 import DefaultInput from '../Forms/Input'
@@ -85,6 +85,7 @@ class AddRecord extends Component {
             stopEditing,
             newValue,
             updateValue,
+            updateValueDirect,
             startPending,
             setConfirmed,
             pending,
@@ -124,12 +125,12 @@ class AddRecord extends Component {
                         placeholder="Select a record"
                         options={emptyRecords}
                       />
-                      <Input
-                        placeholder={getPlaceholder(
-                          selectedRecord ? selectedRecord.value : null
-                        )}
-                        value={newValue}
-                        onChange={updateValue}
+                      <DetailsItemInput 
+                        newValue={newValue}
+                        dataType={selectedRecord ? selectedRecord.value : null}
+                        updateValue={updateValueDirect}
+                        valid={isValid}
+                        invalid={!isValid}
                       />
                     </Row>
                     {selectedRecord ? (
