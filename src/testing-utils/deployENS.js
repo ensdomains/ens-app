@@ -1,5 +1,3 @@
-const fs = require('fs')
-
 module.exports = async function deployENS({ web3, accounts }) {
   const { sha3 } = web3.utils
   function deploy(contractJSON, ...args) {
@@ -30,17 +28,13 @@ module.exports = async function deployENS({ web3, accounts }) {
   }
 
   function loadContract(modName, contractName){
-    return JSON.parse(fs.readFileSync(
-      `./node_modules/@ensdomains/${modName}/build/contracts/${contractName}.json`,
-      'utf8'
-    ))
+    return require(`@ensdomains/${modName}/build/contracts/${contractName}`)
   }
   
   const registryJSON = loadContract('ens', 'ENSRegistry')
   const resolverJSON = loadContract('resolver', 'PublicResolver')
   const reverseRegistrarJSON = loadContract('ens', 'ReverseRegistrar')
   // const HashRegistrarSimplifiedJSON = loadContract('ens', 'HashRegistrar')
-
 
   /* Deploy the main contracts  */
   const ens = await deploy(registryJSON)

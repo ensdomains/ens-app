@@ -1,6 +1,6 @@
 import getENS, { getNamehash } from './ens'
 import getWeb3, { getWeb3Read, getAccount } from './web3'
-import { abi as auctionRegistrarContract } from '../../node_modules/@ensdomains/ens/build/contracts/HashRegistrar.json'
+import { abi as auctionRegistrarContract } from '@ensdomains/ens/build/contracts/HashRegistrar'
 
 let ethRegistrar
 let ethRegistrarRead
