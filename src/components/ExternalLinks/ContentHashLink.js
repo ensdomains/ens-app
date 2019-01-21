@@ -32,7 +32,7 @@ const ContentHashLink = ({ address, protocolType }) => {
     externalLink = `https://swarm-gateways.net/bzz://${address}`
     url = `bzz://${address}`
   }else{
-    console.log('Unsupported protocol')
+    console.warn(`Unsupported protocol ${protocolType}`)
   }
   return(
     <ContentHashLinkContainer
