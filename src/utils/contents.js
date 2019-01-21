@@ -2,6 +2,9 @@ import contentHash from 'content-hash'
 
 export function decode(encoded){
   let decoded, protocolType
+  if(encoded.error){
+    return { protocolType:null, decoded:encoded.error }
+  }
   try{
     if(encoded){
       decoded = contentHash.decode(encoded)
@@ -19,7 +22,6 @@ export function decode(encoded){
 }
 
 export function validateContent(encoded){
-  console.log('validateContent', {encoded})
   return contentHash.isHashOfType(encoded, contentHash.Types.ipfs) || contentHash.isHashOfType(encoded, contentHash.Types.swarm)
 }
 

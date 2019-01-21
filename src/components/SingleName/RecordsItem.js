@@ -10,6 +10,7 @@ import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import AddReverseRecord from './AddReverseRecord'
 import EtherScanLink from '../ExternalLinks/EtherScanLink'
 import ContentHashLink from '../ExternalLinks/ContentHashLink'
+import DefaultInput from '../Forms/Input'
 import Pencil from '../Forms/Pencil'
 import Bin from '../Forms/Bin'
 import SaveCancel from './SaveCancel'
@@ -68,6 +69,25 @@ function chooseMutation(recordType) {
       return SET_ADDRESS
     default:
       throw new Error('Not a recognised record type')
+  }
+}
+
+const Actionable = ({
+  startEditing,
+  keyName,
+  value
+}) => {
+  if(value && value.error){
+    return(<></>)
+  }else{
+    return(
+      <Action>
+        <Pencil
+          onClick={startEditing}
+          data-testid={`edit-${keyName.toLowerCase()}`}
+        />
+      </Action>
+    )
   }
 }
 
@@ -147,14 +167,7 @@ const Editable = ({
                     )}
                   </Mutation>
                 </Action>
-              ) : (
-                <Action>
-                  <Pencil
-                    onClick={startEditing}
-                    data-testid={`edit-${keyName.toLowerCase()}`}
-                  />
-                </Action>
-              )}
+              ) : <Actionable startEditing={startEditing} keyName={keyName} value={value} />}
             </RecordsContent>
             {editing ? (
               <>

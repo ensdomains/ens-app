@@ -55,12 +55,16 @@ export async function getContent(name) {
   const namehash = await getNamehash(name)
   try {
     const { Resolver } = await getResolverReadContract(resolverAddr)
-    return await Resolver.contenthash(namehash).call()
+    const isContentHashSupported = await Resolver.supportsInterface('0xbc1c58d1').call()
+    if(isContentHashSupported){
+      return await Resolver.contenthash(namehash).call()
+    }else{
+      return { error:'This resolver does not support content hash' }
+    }
   } catch (e) {
-    console.warn(
-      'Error getting content on the resolver contract, are you sure the resolver address is a resolver contract?'
-    )
-    return '0x00000000000000000000000000000000'
+    const message = 'Error getting content on the resolver contract, are you sure the resolver address is a resolver contract?'
+    console.warn(message)
+    return { error:message }
   }
 }
 
