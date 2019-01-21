@@ -189,15 +189,14 @@ describe('Name detail view', () => {
   })
 
   it('can change the content hash', () => {
+    const content = "ipfs://QmTeW79w7QQ6Npa3b1d5tANreCDxF2iDaAPsDvW6KtLmfB"
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
     cy.getByTestId('name-details').within(container => {
       cy.getByTestId('edit-content', { exact: false }).click()
       cy.getByPlaceholderText('Enter a content hash', {
         exact: false
-      }).type(
-        '0xd1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162'
-      )
+      }).type(content)
       cy.getByText('save', { exact: false }).click()
       cy.wait(500)
 
@@ -207,12 +206,7 @@ describe('Name detail view', () => {
         'not.exist'
       )
       //Value updated
-      cy.queryByText(
-        '0xd1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162',
-        {
-          exact: false
-        }
-      ).should('exist')
+      cy.queryByText(content, { exact: false } ).should('exist')
     })
   })
 
