@@ -23,7 +23,7 @@ const ContentHashLinkContainer = styled('a')`
 const ContentHashLink = ({ address, protocolType }) => {
   let externalLink, url
   if (!protocolType){
-    return address
+    return (<div>{address}</div>)
   }
   if(protocolType == 'ipfs'){
     externalLink = `https://gateway.ipfs.io/ipfs/${address}`

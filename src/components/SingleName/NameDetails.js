@@ -39,7 +39,9 @@ class NameDetails extends Component {
     if (record === '0x') {
       return true
     }
-
+    if (!record) {
+      return true
+    }
     return false
   }
   hasAnyRecord(domain) {
@@ -74,7 +76,6 @@ class NameDetails extends Component {
 
       return this.isEmpty(domain[record.value]) ? true : false
     })
-
     return (
       <Fragment>
         <Route
