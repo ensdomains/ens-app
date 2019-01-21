@@ -210,6 +210,7 @@ const Editable = ({
 class RecordItem extends Component {
   _renderViewOnly() {
     const { keyName, value, type } = this.props
+    const { protocolType, decoded } = decode(value)
     return (
       <RecordsItem>
         <RecordsContent>
@@ -217,8 +218,11 @@ class RecordItem extends Component {
           <RecordsValue>
             {type === 'address' ? (
               <EtherScanLink address={value}>{value}</EtherScanLink>
-            ) : (
-              value
+            ) :(
+              <ContentHashLink
+                address={decoded}
+                protocolType={protocolType}
+              />
             )}
           </RecordsValue>
         </RecordsContent>
