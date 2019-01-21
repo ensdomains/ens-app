@@ -3,14 +3,13 @@ import PropTypes from 'prop-types'
 import styled from 'react-emotion'
 import { Mutation } from 'react-apollo'
 import { decode } from '../../utils/contents'
-import { validateRecord, getPlaceholder } from '../../utils/records'
+import { validateRecord } from '../../utils/records'
 import { emptyAddress } from '../../utils/utils'
 
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import AddReverseRecord from './AddReverseRecord'
 import EtherScanLink from '../ExternalLinks/EtherScanLink'
 import ContentHashLink from '../ExternalLinks/ContentHashLink'
-import DefaultInput from '../Forms/Input'
 import Pencil from '../Forms/Pencil'
 import Bin from '../Forms/Bin'
 import SaveCancel from './SaveCancel'
@@ -46,10 +45,6 @@ const RecordsValue = styled(DetailsValue)`
 
 const EditRecord = styled('div')`
   width: 100%;
-`
-
-const Input = styled(DefaultInput)`
-  margin-bottom: 20px;
 `
 
 const Action = styled('div')`

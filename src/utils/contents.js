@@ -27,16 +27,16 @@ export function encode(text){
   let content, contentType
   let encoded = false
   if(!!text){
-    let matched = text.match(/^(ipfs|bzz)\:\/\/(.*)/)
+    let matched = text.match(/^(ipfs|bzz):\/\/(.*)/)
     if(matched){
       contentType = matched[1]
       content = matched[2]
     }
   
     try{
-      if(contentType == 'ipfs'){
+      if(contentType === 'ipfs'){
         encoded = '0x' + contentHash.fromIpfs(content)
-      }else if(contentType == 'bzz'){
+      }else if(contentType === 'bzz'){
         encoded = '0x' + contentHash.fromSwarm(content)
       }else{
         console.log('** unsupported protocol or invalid value', {contentType, text})

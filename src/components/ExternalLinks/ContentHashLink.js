@@ -25,10 +25,10 @@ const ContentHashLink = ({ address, protocolType }) => {
   if (!protocolType){
     return (<div>{address}</div>)
   }
-  if(protocolType == 'ipfs'){
+  if(protocolType === 'ipfs'){
     externalLink = `https://gateway.ipfs.io/ipfs/${address}`
     url = `ipfs://${address}`
-  }else if(protocolType == 'bzz'){
+  }else if(protocolType === 'bzz'){
     externalLink = `https://swarm-gateways.net/bzz://${address}`
     url = `bzz://${address}`
   }else{

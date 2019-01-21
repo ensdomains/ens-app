@@ -2,11 +2,10 @@ import React, { Component } from 'react'
 import styled from 'react-emotion'
 import { Mutation } from 'react-apollo'
 
-import { validateRecord, getPlaceholder } from '../../utils/records'
+import { validateRecord } from '../../utils/records'
 import DetailsItemInput from './DetailsItemInput'
 import Editable from './Editable'
 import SaveCancel from './SaveCancel'
-import DefaultInput from '../Forms/Input'
 import Select from '../Forms/Select'
 import TxPending from '../PendingTx'
 
@@ -46,11 +45,6 @@ const Row = styled('div')`
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
-`
-
-const Input = styled(DefaultInput)`
-  margin-left: 20px;
-  width: 100%;
 `
 
 class AddRecord extends Component {
