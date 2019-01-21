@@ -15,7 +15,7 @@ export function decode(encoded){
       }
     }
   }catch(error){
-    console.log('failed to decode', { encoded, error })
+    console.warn('failed to decode', { encoded, error })
     decoded = 'The content is in invalid format'
   }
   return { protocolType, decoded }
@@ -41,10 +41,10 @@ export function encode(text){
       }else if(contentType === 'bzz'){
         encoded = '0x' + contentHash.fromSwarm(content)
       }else{
-        console.log('** unsupported protocol or invalid value', {contentType, text})
+        console.warn('Unsupported protocol or invalid value', {contentType, text})
       }
     }catch(err){
-        console.log('** error encoding content hash', {text, encoded})
+        console.warn('Error encoding content hash', {text, encoded})
     }
   }
   return encoded
