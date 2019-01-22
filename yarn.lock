@@ -3414,11 +3414,12 @@ content-disposition@0.5.2:
   resolved "https://registry.yarnpkg.com/content-disposition/-/content-disposition-0.5.2.tgz#0cf68bb9ddf5f2be7961c3a85178cb85dba78cb4"
   integrity sha1-DPaLud318r55YcOoUXjLhdunjLQ=
 
-content-hash@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/content-hash/-/content-hash-2.1.1.tgz#8bbc713dbce95218f6a05bfb5681973309356fb4"
-  integrity sha512-ojXFqJ6vIkjgVsclTqabYyUd7BnU8wIIlRqGmOd3p9vsFakzd7Cld6vx7Qg/41NK2xOG4zAxUBavkhpLtYvS6g==
+content-hash@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/content-hash/-/content-hash-2.2.0.tgz#6fc974272f0ff35aa8dd2f3cc159e310ba9a6524"
+  integrity sha512-fUFU6nQ+/bcFWpcHh/jMJPSNksE7NR343+egQd5ksim6Jy0lhiIfqMwUFWxmQT85WmMpdcLH9TUt8sEKNMqAPQ==
   dependencies:
+    multicodec "^0.4.0"
     multihashes "^0.4.14"
 
 content-type@~1.0.4:
@@ -8306,6 +8307,13 @@ multicast-dns@^6.0.1:
   dependencies:
     dns-packet "^1.3.1"
     thunky "^1.0.2"
+
+multicodec@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/multicodec/-/multicodec-0.4.0.tgz#2d9c40ab58f415e1e01f4df78985e7b2e714e5a6"
+  integrity sha512-npzvuOHRJD172WiolvyF8mAS5JfWWJlVh22OcGZ4I5ZKyFVI4aFQYB5AcMtmMTWRsjiePlOHH/dnaZi8ZidWuA==
+  dependencies:
+    varint "^5.0.0"
 
 multihashes@^0.4.14:
   version "0.4.14"

@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'react-emotion'
 import { Mutation } from 'react-apollo'
-import { decode } from '../../utils/contents'
 import { validateRecord } from '../../utils/records'
 import { emptyAddress } from '../../utils/utils'
 
@@ -10,7 +9,6 @@ import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import AddReverseRecord from './AddReverseRecord'
 import EtherScanLink from '../ExternalLinks/EtherScanLink'
 import ContentHashLink from '../ExternalLinks/ContentHashLink'
-import DefaultInput from '../Forms/Input'
 import Pencil from '../Forms/Pencil'
 import Bin from '../Forms/Bin'
 import SaveCancel from './SaveCancel'
@@ -114,7 +112,7 @@ const Editable = ({
   } = actions
   const isValid = validateRecord({ type, value: newValue })
   const isInvalid = !isValid && newValue.length > 0 && type === 'address'
-  const { protocolType, decoded } = decode(newValue || value)
+
   return (
     <>
       <Mutation
@@ -132,10 +130,7 @@ const Editable = ({
                 {type === 'address' ? (
                   <EtherScanLink address={value}>{value}</EtherScanLink>
                 ) : (
-                  <ContentHashLink
-                    address={decoded}
-                    protocolType={protocolType}
-                  />                  
+                  <ContentHashLink value={value} />
                 )}
               </RecordsValue>
 
@@ -210,7 +205,6 @@ const Editable = ({
 class RecordItem extends Component {
   _renderViewOnly() {
     const { keyName, value, type } = this.props
-    const { protocolType, decoded } = decode(value)
     return (
       <RecordsItem>
         <RecordsContent>
@@ -219,10 +213,7 @@ class RecordItem extends Component {
             {type === 'address' ? (
               <EtherScanLink address={value}>{value}</EtherScanLink>
             ) :(
-              <ContentHashLink
-                address={decoded}
-                protocolType={protocolType}
-              />
+              <ContentHashLink value = {value} />
             )}
           </RecordsValue>
         </RecordsContent>

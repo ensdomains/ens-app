@@ -5,19 +5,18 @@ export function decode(encoded){
   if(encoded.error){
     return { protocolType:null, decoded:encoded.error }
   }
-  try{
-    if(encoded){
-      decoded = contentHash.decode(encoded)
-      if(contentHash.isHashOfType(encoded, contentHash.Types.ipfs)){
-        protocolType = 'ipfs'
-      }else if (contentHash.isHashOfType(encoded, contentHash.Types.swarm)){
-        protocolType = 'bzz'
-      }
+  if(encoded){
+    decoded = contentHash.decode(encoded)
+    if(contentHash.isHashOfType(encoded, contentHash.Types.ipfs)){
+      protocolType = 'ipfs'
+    }else if (contentHash.isHashOfType(encoded, contentHash.Types.swarm)){
+      protocolType = 'bzz'
+    }else{
+      console.warn(`failed to decode ${encoded}`)
+      decoded = `The content　${encoded.slice(0,10)}... is in invalid format`
     }
-  }catch(error){
-    console.warn('failed to decode', { encoded, error })
-    decoded = 'The content is in invalid format'
   }
+  console.log('decode', {encoded, decoded})
   return { protocolType, decoded }
 }
 

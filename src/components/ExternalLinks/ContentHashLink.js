@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'react-emotion'
 import { ReactComponent as ExternalLinkIcon } from '../Icons/externalLink.svg'
+import { decode } from '../../utils/contents'
 
 const ContentHashLinkContainer = styled('a')`
   display: inline-block;
@@ -20,17 +21,18 @@ const ContentHashLinkContainer = styled('a')`
   }
 `
 
-const ContentHashLink = ({ address, protocolType }) => {
+const ContentHashLink = ({ value }) => {
+  const { protocolType, decoded } = decode(value)
   let externalLink, url
   if (!protocolType){
-    return (<div>{address}</div>)
+    return (<div>{decoded}</div>)
   }
   if(protocolType === 'ipfs'){
-    externalLink = `https://gateway.ipfs.io/ipfs/${address}`
-    url = `ipfs://${address}`
+    externalLink = `https://gateway.ipfs.io/ipfs/${decoded}`
+    url = `ipfs://${decoded}`
   }else if(protocolType === 'bzz'){
-    externalLink = `https://swarm-gateways.net/bzz://${address}`
-    url = `bzz://${address}`
+    externalLink = `https://swarm-gateways.net/bzz://${decoded}`
+    url = `bzz://${decoded}`
   }else{
     console.warn(`Unsupported protocol ${protocolType}`)
   }
