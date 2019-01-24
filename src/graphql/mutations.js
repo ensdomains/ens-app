@@ -1,5 +1,13 @@
 import gql from 'graphql-tag'
 
+export const SET_ERROR = gql`
+  mutation setError($message: String) {
+    setError(message: $message) @client {
+      message
+    }
+  }
+`
+
 export const GET_SUBDOMAINS = gql`
   mutation getSubdomains($name: String) {
     getSubdomains(name: $name) @client {
