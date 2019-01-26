@@ -14,6 +14,12 @@ const Cancel = styled(Button)`
   margin-right: 20px;
 `
 
+const Warning = styled('div')`
+  color:#F5A623;
+  align-self:center;
+  margin-right: 20px;
+`
+
 const ActionButton = ({
   disabled,
   mutation,
@@ -67,9 +73,15 @@ const SaveCancel = ({
   value,
   newValue,
   confirm,
+  oldcontentWarning,
   isValid = true
 }) => (
   <SaveCancelContainer className={className}>
+    {
+      oldcontentWarning ? (
+        <Warning>You should update the resolver before entering content.</Warning>
+      ): null
+    }
     <Cancel type="hollow" onClick={stopEditing}>
       Cancel
     </Cancel>

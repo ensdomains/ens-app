@@ -9,7 +9,7 @@ import SaveCancel from './SaveCancel'
 import Select from '../Forms/Select'
 import TxPending from '../PendingTx'
 
-import { SET_CONTENT, SET_ADDRESS } from '../../graphql/mutations'
+import { SET_CONTENT, SET_OLDCONTENT, SET_ADDRESS } from '../../graphql/mutations'
 
 const ToggleAddRecord = styled('span')`
   font-size: 22px;
@@ -52,10 +52,14 @@ class AddRecord extends Component {
     selectedRecord: null
   }
 
-  _chooseMutation(recordType) {
+  _chooseMutation(recordType, contentType) {
     switch (recordType.value) {
       case 'content':
-        return SET_CONTENT
+        if(contentType === 'oldcontent'){
+          return SET_OLDCONTENT
+        }else{
+          return SET_CONTENT
+        }
       case 'address':
         return SET_ADDRESS
       default:
@@ -90,7 +94,8 @@ class AddRecord extends Component {
                 selectedRecord && selectedRecord.value
                   ? selectedRecord.value
                   : null,
-              value: newValue
+              value: newValue,
+              contentType:domain.contentType
             })
             return (
               <>
@@ -122,6 +127,7 @@ class AddRecord extends Component {
                       <DetailsItemInput 
                         newValue={newValue}
                         dataType={selectedRecord ? selectedRecord.value : null}
+                        contentType={domain.contentType}
                         updateValue={updateValueDirect}
                         valid={isValid}
                         invalid={!isValid}
@@ -129,7 +135,7 @@ class AddRecord extends Component {
                     </Row>
                     {selectedRecord ? (
                       <Mutation
-                        mutation={this._chooseMutation(selectedRecord)}
+                        mutation={this._chooseMutation(selectedRecord, domain.contentType)}
                         variables={{
                           name: domain.name,
                           recordValue: newValue
@@ -140,6 +146,7 @@ class AddRecord extends Component {
                       >
                         {mutate => (
                           <SaveCancel
+                            oldcontentWarning={selectedRecord.value === 'content' && domain.contentType === 'oldcontent'}
                             isValid={isValid}
                             stopEditing={() => {
                               stopEditing()

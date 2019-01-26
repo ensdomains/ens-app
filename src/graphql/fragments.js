@@ -9,6 +9,7 @@ export const NodeFields = gql`
     resolver
     addr
     content
+    contentType
   }
 `
 

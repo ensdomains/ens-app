@@ -5,37 +5,37 @@ import { getPlaceholder } from '../../utils/records'
 import DefaultInput from '../Forms/Input'
 
 const Input = styled(DefaultInput)`
-  margin-left: 20px;
   width: 100%;
 `
 
 const DetailsItemInput = ({
   updateValue,
-  newValue,
   isValid,
   isInvalid,
-  dataType
+  dataType,
+  contentType
 }) => {
   return(
       <Input
+        warning={dataType === 'content' && contentType === 'oldcontent'}
         valid={isValid}
         invalid={isInvalid}
-        placeholder={getPlaceholder(dataType)}
+        placeholder={getPlaceholder(dataType, contentType)}
         onChange={e => {
-          if(e && e.target && e.target.value){
-            if(dataType === 'address'){
-              updateValue(e.target.value)
+          if(dataType === 'address' || contentType === 'oldcontent'){
+            updateValue(e.target.value)
+          }else if (contentType == 'contenthash'){
+            let encoded = encode(e.target.value)
+            if(encoded){
+              updateValue(encoded)
             }else{
-              let encoded = encode(e.target.value)
-              if(encoded){
-                updateValue(encoded)
-              }else{
-                updateValue('0x')
-              }
+              updateValue('0x')
             }
+          }else{
+            console.warn('unsupported type')
           }
         }}
-    /> 
+    />
   )
 }
 

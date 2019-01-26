@@ -13,7 +13,8 @@ import {
   SET_OWNER,
   SET_RESOLVER,
   SET_ADDRESS,
-  SET_CONTENT
+  SET_CONTENT,
+  SET_OLDCONTENT
 } from '../../graphql/mutations'
 
 import { formatDate } from '../../utils/dates'
@@ -76,6 +77,14 @@ class NameDetails extends Component {
 
       return this.isEmpty(domain[record.value]) ? true : false
     })
+
+    let contentMutation
+    if(domain.contentType === 'oldcontent'){
+      contentMutation = SET_OLDCONTENT
+    }else{
+      contentMutation = SET_CONTENT
+    }
+
     return (
       <Fragment>
         <Route
@@ -154,7 +163,7 @@ class NameDetails extends Component {
                         isOwner={isOwner}
                         keyName="Content"
                         type="content"
-                        mutation={SET_CONTENT}
+                        mutation={contentMutation}
                         value={domain.content}
                         refetch={refetch}
                       />

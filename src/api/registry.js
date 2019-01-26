@@ -4,11 +4,14 @@ import getENS, {
   getReverseRegistrarContract,
   getResolverContract,
   getResolverReadContract,
+  getOldResolverContract,
+  getOldResolverReadContract,
   getNamehashWithLabelHash
 } from './ens'
 import { decryptHashes } from './preimage'
 import { uniq, ensStartBlock, checkLabels, mergeLabels } from '../utils/utils'
 import getWeb3, { getAccount } from './web3'
+import { EMPTY_ADDRESS } from '../utils/records'
 
 export async function getOwner(name) {
   const { readENS: ENS } = await getENS()
@@ -53,18 +56,30 @@ export async function getContent(name) {
     return '0x00000000000000000000000000000000'
   }
   const namehash = await getNamehash(name)
+  let result
+  const { Resolver } = await getResolverReadContract(resolverAddr)
+  const web3 = await getWeb3();
+  const contentHashSignature = web3.utils.sha3('contenthash(bytes32)').slice(0,10);
   try {
-    const { Resolver } = await getResolverReadContract(resolverAddr)
-    const isContentHashSupported = await Resolver.supportsInterface('0xbc1c58d1').call()
+    const isContentHashSupported = await Resolver.supportsInterface(contentHashSignature).call()
+
     if(isContentHashSupported){
-      return await Resolver.contenthash(namehash).call()
+      return{
+        value: await Resolver.contenthash(namehash).call(),
+        contentType: 'contenthash'
+      }
     }else{
-      return { error:'This resolver does not support content hash' }
+      const { OldResolver } = await getOldResolverReadContract(resolverAddr)
+      const value = await OldResolver.content(namehash).call()
+      return {
+        value: value,
+        contentType: 'oldcontent'
+      }
     }
   } catch (e) {
     const message = 'Error getting content on the resolver contract, are you sure the resolver address is a resolver contract?'
     console.warn(message)
-    return { error:message }
+    return { value:message, contentType: 'error' }
   }
 }
 
@@ -124,7 +139,17 @@ export async function setAddress(name, address) {
   return () => Resolver.setAddr(namehash, address).send({ from: account })
 }
 
+export async function setOldContent(name, content) {
+  const web3 = await getWeb3()
+  const account = await getAccount()
+  const namehash = await getNamehash(name)
+  const resolverAddr = await getResolver(name)
+  const { Resolver } = await getOldResolverContract(resolverAddr)
+  return () => Resolver.setContent(namehash, content).send({ from: account })
+}
+
 export async function setContent(name, content) {
+  debugger
   const account = await getAccount()
   const namehash = await getNamehash(name)
   const resolverAddr = await getResolver(name)
@@ -195,13 +220,15 @@ export async function getResolverDetails(node) {
     return {
       ...node,
       addr,
-      content
+      content: content.value,
+      contentType: content.contentType,
     }
   } catch (e) {
     return {
       ...node,
       addr: '0x0',
-      content: '0x0'
+      content: '0x0',
+      contentType: 'error'
     }
   }
 }

@@ -21,7 +21,10 @@ const ContentHashLinkContainer = styled('a')`
   }
 `
 
-const ContentHashLink = ({ value }) => {
+const ContentHashLink = ({ value, contentType }) => {
+  if(contentType == 'oldcontent'){
+    return (<div>{value}</div>)    
+  }
   const { protocolType, decoded } = decode(value)
   let externalLink, url
   if (!protocolType){

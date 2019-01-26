@@ -12,8 +12,7 @@ export function decode(encoded){
     }else if (contentHash.isHashOfType(encoded, contentHash.Types.swarm)){
       protocolType = 'bzz'
     }else{
-      console.warn(`failed to decode ${encoded}`)
-      decoded = `The content　${encoded.slice(0,10)}... is in invalid format`
+      decoded = encoded
     }
   }
   console.log('decode', {encoded, decoded})

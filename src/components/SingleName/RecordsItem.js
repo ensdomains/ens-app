@@ -13,7 +13,7 @@ import Pencil from '../Forms/Pencil'
 import Bin from '../Forms/Bin'
 import SaveCancel from './SaveCancel'
 import DefaultPendingTx from '../PendingTx'
-import { SET_CONTENT, SET_ADDRESS } from '../../graphql/mutations'
+import { SET_CONTENT, SET_OLDCONTENT, SET_ADDRESS } from '../../graphql/mutations'
 import DetailsItemInput from './DetailsItemInput'
 import { useEditable } from '../hooks'
 
@@ -59,10 +59,14 @@ const PendingTx = styled(DefaultPendingTx)`
   transform: translate(0, -65%);
 `
 
-function chooseMutation(recordType) {
+function chooseMutation(recordType, contentType) {
   switch (recordType) {
     case 'Content':
-      return SET_CONTENT
+      if(contentType === 'oldcontent'){
+        return SET_OLDCONTENT
+      }else{
+        return SET_CONTENT
+      }
     case 'Address':
       return SET_ADDRESS
     default:
@@ -75,9 +79,7 @@ const Actionable = ({
   keyName,
   value
 }) => {
-  if(value && value.error){
-    return(<></>)
-  }else{
+  if(value && !value.error){
     return(
       <Action>
         <Pencil
@@ -110,7 +112,7 @@ const Editable = ({
     startPending,
     setConfirmed
   } = actions
-  const isValid = validateRecord({ type, value: newValue })
+  const isValid = validateRecord({ type, value: newValue, contentType:domain.contentType })
   const isInvalid = !isValid && newValue.length > 0 && type === 'address'
 
   return (
@@ -129,9 +131,9 @@ const Editable = ({
               <RecordsValue editableSmall>
                 {type === 'address' ? (
                   <EtherScanLink address={value}>{value}</EtherScanLink>
-                ) : (
-                  <ContentHashLink value={value} />
-                )}
+                ) : 
+                  <ContentHashLink value={value} contentType={domain.contentType} />
+                }
               </RecordsValue>
 
               {pending && !confirmed && txHash ? (
@@ -143,7 +145,7 @@ const Editable = ({
               ) : editing ? (
                 <Action>
                   <Mutation
-                    mutation={chooseMutation(keyName)}
+                    mutation={chooseMutation(keyName, domain.contentType)}
                     variables={{
                       name: domain.name,
                       recordValue: emptyAddress
@@ -170,12 +172,14 @@ const Editable = ({
                   <DetailsItemInput 
                     newValue={newValue}
                     dataType={type}
+                    contentType={domain.contentType}
                     updateValue={updateValue}
                     isValid={isValid}
                     isInvalid={isInvalid}
                   />
                 </EditRecord>
                 <SaveCancel
+                  oldcontentWarning={ type === 'content' && domain.contentType === 'oldcontent'}
                   mutation={() => {
                     const variables = {
                       name: domain.name,
@@ -204,7 +208,7 @@ const Editable = ({
 
 class RecordItem extends Component {
   _renderViewOnly() {
-    const { keyName, value, type } = this.props
+    const { keyName, value, type, domain } = this.props
     return (
       <RecordsItem>
         <RecordsContent>
@@ -213,7 +217,7 @@ class RecordItem extends Component {
             {type === 'address' ? (
               <EtherScanLink address={value}>{value}</EtherScanLink>
             ) :(
-              <ContentHashLink value = {value} />
+              <ContentHashLink value = {value} contentType={domain.contentType  } />
             )}
           </RecordsValue>
         </RecordsContent>

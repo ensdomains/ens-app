@@ -4,7 +4,7 @@ import { Mutation, Query } from 'react-apollo'
 import { addressUtils } from '@0xproject/utils'
 import PropTypes from 'prop-types'
 import { Transition } from 'react-spring'
-
+import Tooltip from '../Tooltip/Tooltip'
 import { GET_PUBLIC_RESOLVER } from '../../graphql/queries'
 import mq from 'mediaQuery'
 import { useEditable } from '../hooks'
@@ -16,6 +16,7 @@ import SaveCancel from './SaveCancel'
 import DefaultInput from '../Forms/Input'
 import Button from '../Forms/Button'
 import Pencil from '../Forms/Pencil'
+import Info from '../Icons/Info'
 import DefaultPendingTx from '../PendingTx'
 
 const EtherScanLink = styled(DefaultEtherScanLink)``
@@ -130,10 +131,35 @@ const Editable = ({
               data-testid={`details-value-${keyName.toLowerCase()}`}
             >
               {type === 'address' ? (
-                <EtherScanLink address={value}>
-                  <SingleNameBlockies address={value} imageSize={24} />
-                  {value}
-                </EtherScanLink>
+                <>
+                  <EtherScanLink address={value}>
+                    <SingleNameBlockies address={value} imageSize={24} />
+                    {value}
+                  </EtherScanLink>
+                  { keyName === 'Resolver' && domain.contentType === 'oldcontent' ? (
+                    <Tooltip
+                      text='<p>This resolver is outdataed and does not support the new content hash.<br/>Click the "Set" button to update  to the latest public resolver.</p>'
+                      position="top"
+                      border={true}
+                    >
+                      {({ tooltipElement, showTooltip, hideTooltip }) => (
+                        <>
+                        <Info
+                          onMouseOver={()=>{
+                            showTooltip()
+                          }}
+
+                          onMouseLeave={()=>{
+                            hideTooltip()
+                          }}
+                        >
+                        </Info>
+                        {tooltipElement}
+                        </>
+                      )}
+                    </Tooltip>
+                  ): null }
+                </>
               ) : (
                 value
               )}
