@@ -86,6 +86,15 @@ const Buttons = styled('div')`
   align-items: center;
 `
 
+function getDefaultMessage(keyName) {
+  switch (keyName) {
+    case 'Resolver':
+      return ['No Resolver set', 'message']
+    case 'Owner':
+      return ['Not owned yet', 'message']
+  }
+}
+
 const Editable = ({
   keyName,
   value,
@@ -234,9 +243,10 @@ class DetailsEditable extends Component {
   _renderViewOnly() {
     let { value, keyName, type } = this.props
 
-    if (keyName === 'Resolver' && parseInt(value, 16) === 0) {
-      value = 'No Resolver Set'
-      type = 'message'
+    if (parseInt(value, 16) === 0) {
+      const [newValue, newType] = getDefaultMessage(keyName)
+      value = newValue
+      type = newType
     }
     return (
       <DetailsEditableContainer>
