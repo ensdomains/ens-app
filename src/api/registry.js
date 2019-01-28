@@ -11,7 +11,6 @@ import getENS, {
 import { decryptHashes } from './preimage'
 import { uniq, ensStartBlock, checkLabels, mergeLabels } from '../utils/utils'
 import getWeb3, { getAccount } from './web3'
-import { EMPTY_ADDRESS } from '../utils/records'
 
 export async function getOwner(name) {
   const { readENS: ENS } = await getENS()
@@ -145,16 +144,17 @@ export async function setOldContent(name, content) {
   const namehash = await getNamehash(name)
   const resolverAddr = await getResolver(name)
   const { Resolver } = await getOldResolverContract(resolverAddr)
-  return () => Resolver.setContent(namehash, content).send({ from: account })
+  const gas = await Resolver.setName(name).estimateGas()
+  return () => Resolver.setContent(namehash, content).send({ from: account, gas:gas })
 }
 
 export async function setContent(name, content) {
-  debugger
   const account = await getAccount()
   const namehash = await getNamehash(name)
   const resolverAddr = await getResolver(name)
   const { Resolver } = await getResolverContract(resolverAddr)
-  return () => Resolver.setContenthash(namehash, content).send({ from: account })
+  const gas = await Resolver.setContenthash(name).estimateGas()
+  return () => Resolver.setContenthash(namehash, content).send({ from: account, gas:gas })
 }
 
 export async function checkSubDomain(subDomain, domain) {
