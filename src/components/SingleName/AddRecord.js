@@ -1,14 +1,15 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import styled from 'react-emotion'
 import { Mutation } from 'react-apollo'
 
 import { validateRecord, getPlaceholder } from '../../utils/records'
 
-import Editable from './Editable'
+import { useEditable } from '../hooks'
+
 import SaveCancel from './SaveCancel'
 import DefaultInput from '../Forms/Input'
 import Select from '../Forms/Select'
-import TxPending from '../PendingTx'
+import PendingTx from '../PendingTx'
 
 import { SET_CONTENT, SET_ADDRESS } from '../../graphql/mutations'
 
@@ -53,121 +54,117 @@ const Input = styled(DefaultInput)`
   width: 100%;
 `
 
+function chooseMutation(recordType) {
+  switch (recordType.value) {
+    case 'content':
+      return SET_CONTENT
+    case 'address':
+      return SET_ADDRESS
+    default:
+      throw new Error('Not a recognised record type')
+  }
+}
+
+function Editable({ domain, emptyRecords, refetch }) {
+  const [selectedRecord, selectRecord] = useState(null)
+  const { state, actions } = useEditable()
+
+  const handleChange = selectedRecord => {
+    selectRecord(selectedRecord)
+  }
+
+  const { editing, newValue, txHash, pending, confirmed } = state
+
+  const {
+    startEditing,
+    stopEditing,
+    updateValue,
+    startPending,
+    setConfirmed
+  } = actions
+
+  const isValid = validateRecord({
+    type: selectedRecord && selectedRecord.value ? selectedRecord.value : null,
+    value: newValue
+  })
+  return (
+    <>
+      <RecordsTitle>
+        Records
+        {emptyRecords.length > 0 ? (
+          !editing ? (
+            pending && !confirmed ? (
+              <PendingTx
+                txHash={txHash}
+                setConfirmed={setConfirmed}
+                refetch={refetch}
+              />
+            ) : (
+              <ToggleAddRecord onClick={startEditing}>+</ToggleAddRecord>
+            )
+          ) : (
+            <ToggleAddRecord onClick={stopEditing}>-</ToggleAddRecord>
+          )
+        ) : null}
+      </RecordsTitle>
+      {editing && (
+        <AddRecordForm>
+          <Row>
+            <Select
+              selectedRecord={selectedRecord}
+              handleChange={handleChange}
+              placeholder="Select a record"
+              options={emptyRecords}
+            />
+            <Input
+              placeholder={getPlaceholder(
+                selectedRecord ? selectedRecord.value : null
+              )}
+              value={newValue}
+              onChange={e => updateValue(e.target.value)}
+            />
+          </Row>
+          {selectedRecord ? (
+            <Mutation
+              mutation={chooseMutation(selectedRecord)}
+              variables={{
+                name: domain.name,
+                recordValue: newValue
+              }}
+              onCompleted={data => {
+                startPending(Object.values(data)[0])
+              }}
+            >
+              {mutate => (
+                <SaveCancel
+                  isValid={isValid}
+                  stopEditing={() => {
+                    stopEditing()
+                    selectRecord(null)
+                  }}
+                  mutation={e => {
+                    e.preventDefault()
+                    mutate().then(() => {
+                      refetch()
+                    })
+                  }}
+                />
+              )}
+            </Mutation>
+          ) : (
+            <SaveCancel stopEditing={stopEditing} disabled />
+          )}
+        </AddRecordForm>
+      )}
+    </>
+  )
+}
+
 class AddRecord extends Component {
-  state = {
-    selectedRecord: null
-  }
-
-  _chooseMutation(recordType) {
-    switch (recordType.value) {
-      case 'content':
-        return SET_CONTENT
-      case 'address':
-        return SET_ADDRESS
-      default:
-        throw new Error('Not a recognised record type')
-    }
-  }
-
-  handleChange = selectedRecord => {
-    this.setState({ selectedRecord })
-    console.log(`Option selected:`, selectedRecord)
-  }
   _renderEditable() {
-    const { selectedRecord } = this.state
-    const { domain, emptyRecords, refetch } = this.props
     return (
       <AddRecordContainer>
-        <Editable>
-          {({
-            editing,
-            startEditing,
-            stopEditing,
-            newValue,
-            updateValue,
-            startPending,
-            setConfirmed,
-            pending,
-            confirmed
-          }) => {
-            const isValid = validateRecord({
-              type:
-                selectedRecord && selectedRecord.value
-                  ? selectedRecord.value
-                  : null,
-              value: newValue
-            })
-            return (
-              <>
-                <RecordsTitle>
-                  Records
-                  {emptyRecords.length > 0 ? (
-                    !editing ? (
-                      pending && !confirmed ? (
-                        <TxPending />
-                      ) : (
-                        <ToggleAddRecord onClick={startEditing}>
-                          +
-                        </ToggleAddRecord>
-                      )
-                    ) : (
-                      <ToggleAddRecord onClick={stopEditing}>-</ToggleAddRecord>
-                    )
-                  ) : null}
-                </RecordsTitle>
-                {editing && (
-                  <AddRecordForm>
-                    <Row>
-                      <Select
-                        selectedRecord={selectedRecord}
-                        handleChange={this.handleChange}
-                        placeholder="Select a record"
-                        options={emptyRecords}
-                      />
-                      <Input
-                        placeholder={getPlaceholder(
-                          selectedRecord ? selectedRecord.value : null
-                        )}
-                        value={newValue}
-                        onChange={updateValue}
-                      />
-                    </Row>
-                    {selectedRecord ? (
-                      <Mutation
-                        mutation={this._chooseMutation(selectedRecord)}
-                        variables={{
-                          name: domain.name,
-                          recordValue: newValue
-                        }}
-                        onCompleted={(data) => {
-                          startPending(Object.values(data)[0])
-                        }}
-                      >
-                        {mutate => (
-                          <SaveCancel
-                            isValid={isValid}
-                            stopEditing={() => {
-                              stopEditing()
-                              this.setState({ selectedRecord: null })
-                            }}
-                            mutation={e => {
-                              e.preventDefault()
-                              mutate().then(() => {
-                                refetch()
-                              })
-                            }}
-                          />
-                        )}
-                      </Mutation>
-                    ) : (
-                      <SaveCancel stopEditing={stopEditing} disabled />
-                    )}
-                  </AddRecordForm>
-                )}
-              </>
-            )
-          }}
-        </Editable>
+        <Editable {...this.props} />
       </AddRecordContainer>
     )
   }
