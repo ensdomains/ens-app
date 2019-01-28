@@ -220,7 +220,7 @@ describe('Name detail view', () => {
         exact: false
       }).type(content)
       cy.getByText('save', { exact: false }).click()
-      cy.wait(500)
+      cy.wait(1000)
 
       //form closed
       cy.queryByText('save', { exact: false, timeout: 10 }).should('not.exist')
@@ -238,11 +238,11 @@ describe('Name detail view', () => {
     cy.getByTestId('name-details').within(container => {
       cy.getByTestId('edit-address', { exact: false }).click()
       cy.getByTestId('delete-address', { exact: false }).click()
-      cy.wait(500)
+      cy.wait(1000)
 
       cy.getByTestId('edit-content', { exact: false }).click()
       cy.getByTestId('delete-content', { exact: false }).click()
-      cy.wait(500)
+      cy.wait(1000)
 
       //No addresses to edit
       cy.queryByText(
