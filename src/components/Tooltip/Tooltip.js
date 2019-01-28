@@ -6,8 +6,8 @@ import ReactTooltip from 'react-tooltip'
 import styled from 'react-emotion'
 
 const DefaultTooltip = styled(ReactTooltip)`
-  box-shadow: 0 0 10px #000000;
-  z-index: 1;
+  box-shadow: -4px 18px 70px 0 rgba(108, 143, 167, 0.32);
+  opacity:1 !important;
 `
 
 export default class Tooltip extends Component {
@@ -51,6 +51,7 @@ export default class Tooltip extends Component {
           )
         })}
         <DefaultTooltip
+          data-testid='tooltip'
           id={this.id}
           event="dbclick"
           place={position || 'top'}

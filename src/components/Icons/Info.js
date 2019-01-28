@@ -22,6 +22,10 @@ class Info extends Component {
   }
 }
 
-const InfoContainer = styled('svg')``
+const InfoContainer = styled('svg')`
+  opacity: 1 !important;
+  margin-left: 0px !important;
+  margin-right: 5px;
+`
 
 export default Info

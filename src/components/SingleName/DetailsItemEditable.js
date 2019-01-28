@@ -131,11 +131,8 @@ const Editable = ({
               data-testid={`details-value-${keyName.toLowerCase()}`}
             >
               {type === 'address' ? (
-                <>
-                  <EtherScanLink address={value}>
-                    <SingleNameBlockies address={value} imageSize={24} />
-                    {value}
-                  </EtherScanLink>
+                <EtherScanLink address={value}>
+                  <SingleNameBlockies address={value} imageSize={24} />
                   { keyName === 'Resolver' && domain.contentType === 'oldcontent' ? (
                     <Tooltip
                       text='<p>This resolver is outdataed and does not support the new content hash.<br/>Click the "Set" button to update  to the latest public resolver.</p>'
@@ -159,7 +156,8 @@ const Editable = ({
                       )}
                     </Tooltip>
                   ): null }
-                </>
+                  {value}
+                </EtherScanLink>
               ) : (
                 value
               )}
