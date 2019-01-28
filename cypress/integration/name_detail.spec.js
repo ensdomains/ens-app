@@ -2,7 +2,6 @@ const ROOT = Cypress.env('ROOT')
 const NAME_ROOT = Cypress.env('NAME_ROOT')
 
 describe('Name detail view', () => {
-  // Visit a domain  
   it('cannot transfer ownership to a non-ethereum address', () => {
     cy.visit(`${NAME_ROOT}/awesome.eth`)
     cy.getByText('Transfer').click()
@@ -129,6 +128,7 @@ describe('Name detail view', () => {
   })
 
   it('can add a content hash', () => {
+    const content = "ipfs://QmTeW79w7QQ6Npa3b1d5tANreCDxF2iDaAPsDvW6KtLmfB"
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
     cy.getByTestId('name-details').within(container => {
@@ -142,9 +142,7 @@ describe('Name detail view', () => {
         .getByPlaceholderText('Enter a content hash', {
           exact: false
         })
-        .type(
-          '0xd1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162'
-        )
+        .type(content)
         .getByText('save', { exact: false })
         .click()
       //form closed
@@ -157,7 +155,7 @@ describe('Name detail view', () => {
 
       //Value updated
       cy.queryByText(
-        '0xd1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162',
+        content,
         {
           exact: false
         }
@@ -189,7 +187,8 @@ describe('Name detail view', () => {
   })
 
   it('can change the content hash', () => {
-    const content = "ipfs://QmTeW79w7QQ6Npa3b1d5tANreCDxF2iDaAPsDvW6KtLmfB"
+    const content = "bzz://d1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162"
+    
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
     cy.getByTestId('name-details').within(container => {
@@ -210,24 +209,39 @@ describe('Name detail view', () => {
     })
   })
 
-  it('can delete records', () => {
-    cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
+  it('can set old content', () => {
+    const content = "0xd1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162"
+    
+    cy.visit(`${NAME_ROOT}/oldresolver.eth`)
 
     cy.getByTestId('name-details').within(container => {
-      cy.getByTestId('edit-address', { exact: false }).click()
-      cy.getByPlaceholderText('Enter an Ethereum address', {
+      cy.getByTestId('edit-content', { exact: false }).click()
+      cy.getByPlaceholderText('Enter a content', {
         exact: false
-      }).type('0x0000000000000000000000000000000000000000')
+      }).type(content)
       cy.getByText('save', { exact: false }).click()
       cy.wait(500)
 
-      cy.getByTestId('edit-content', { exact: false }).click()
-      cy.getByPlaceholderText('Enter a content hash', {
-        exact: false
-      }).type(
-        '0x'
+      //form closed
+      cy.queryByText('save', { exact: false, timeout: 10 }).should('not.exist')
+      cy.queryByText('cancel', { exact: false, timeout: 10 }).should(
+        'not.exist'
       )
-      cy.getByText('save', { exact: false }).click()
+      //Value updated
+      cy.queryByText(content, { exact: false } ).should('exist')
+    })
+  })
+
+
+  it('can delete records', () => {
+    cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
+    cy.getByTestId('name-details').within(container => {
+      cy.getByTestId('edit-address', { exact: false }).click()
+      cy.getByTestId('delete-address', { exact: false }).click()
+      cy.wait(500)
+
+      cy.getByTestId('edit-content', { exact: false }).click()
+      cy.getByTestId('delete-content', { exact: false }).click()
       cy.wait(500)
 
       //No addresses to edit

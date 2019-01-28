@@ -28,7 +28,7 @@ export function getPlaceholder(recordType, contentType) {
       if(contentType == 'contenthash'){
         return 'Enter a content hash (eg: ifpfs://..., bzz://...)'
       }else{
-        return 'Enter a conent'
+        return 'Enter a content'
       }
     default:
       return ''

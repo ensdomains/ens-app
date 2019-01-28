@@ -156,6 +156,7 @@ const Editable = ({
                   >
                     {mutate => (
                       <Bin
+                        data-testid={`delete-${type.toLowerCase()}`}
                         onClick={e => {
                           e.preventDefault()
                           mutate()
