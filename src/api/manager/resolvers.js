@@ -103,7 +103,8 @@ const resolvers = {
           price: null,
           rent: null,
           referralFeePPM: null,
-          available: null
+          available: null,
+          contentType: null
         }
         let data
         if (nameArray.length < 3 && nameArray[1] === 'eth') {

@@ -58,6 +58,7 @@ const typeDefs = `
     owner: String
     resolver: String
     content: String
+    contentType: String
     addr: String
     nodes: [Node]
   }
