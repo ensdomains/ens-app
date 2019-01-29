@@ -146,7 +146,7 @@ class AddRecord extends Component {
                       >
                         {mutate => (
                           <SaveCancel
-                            warning={
+                            warningMessage={
                               getOldContentWarning(selectedRecord.value, domain.contentType)
                             }
                             isValid={isValid}
