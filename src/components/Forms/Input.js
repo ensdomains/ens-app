@@ -104,7 +104,6 @@ const Input = ({
       value={value}
       large={large}
       invalid={invalid}
-      invalid={invalid}
       placeholder={placeholder}
     />
   </InputContainer>
