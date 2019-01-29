@@ -13,7 +13,7 @@ import Pencil from '../Forms/Pencil'
 import Bin from '../Forms/Bin'
 import SaveCancel from './SaveCancel'
 import DefaultPendingTx from '../PendingTx'
-import { SET_CONTENT, SET_OLDCONTENT, SET_ADDRESS } from '../../graphql/mutations'
+import { SET_CONTENT, SET_CONTENTHASH, SET_ADDRESS } from '../../graphql/mutations'
 import DetailsItemInput from './DetailsItemInput'
 import { useEditable } from '../hooks'
 import { getOldContentWarning } from './OldContentWarning'
@@ -64,9 +64,9 @@ function chooseMutation(recordType, contentType) {
   switch (recordType) {
     case 'Content':
       if(contentType === 'oldcontent'){
-        return SET_OLDCONTENT
-      }else{
         return SET_CONTENT
+      }else{
+        return SET_CONTENTHASH
       }
     case 'Address':
       return SET_ADDRESS
@@ -181,7 +181,7 @@ const Editable = ({
                   />
                 </EditRecord>
                 <SaveCancel
-                  warning={getOldContentWarning(type, domain.contentType)}
+                  warningMessage={getOldContentWarning(type, domain.contentType)}
                   mutation={() => {
                     const variables = {
                       name: domain.name,

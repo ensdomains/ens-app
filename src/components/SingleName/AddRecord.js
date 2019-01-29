@@ -9,7 +9,7 @@ import SaveCancel from './SaveCancel'
 import Select from '../Forms/Select'
 import TxPending from '../PendingTx'
 import { getOldContentWarning } from './OldContentWarning'
-import { SET_CONTENT, SET_OLDCONTENT, SET_ADDRESS } from '../../graphql/mutations'
+import { SET_CONTENT, SET_CONTENTHASH, SET_ADDRESS } from '../../graphql/mutations'
 
 const ToggleAddRecord = styled('span')`
   font-size: 22px;
@@ -56,9 +56,9 @@ class AddRecord extends Component {
     switch (recordType.value) {
       case 'content':
         if(contentType === 'oldcontent'){
-          return SET_OLDCONTENT
-        }else{
           return SET_CONTENT
+        }else{
+          return SET_CONTENTHASH
         }
       case 'address':
         return SET_ADDRESS

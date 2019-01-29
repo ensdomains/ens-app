@@ -73,13 +73,13 @@ const SaveCancel = ({
   value,
   newValue,
   confirm,
-  warning,
+  warningMessage,
   isValid = true
 }) => (
   <SaveCancelContainer className={className}>
     {
-      warning ? (
-        <Warning>{warning}</Warning>
+      warningMessage ? (
+        <Warning>{warningMessage}</Warning>
       ): null
     }
     <Cancel type="hollow" onClick={stopEditing}>

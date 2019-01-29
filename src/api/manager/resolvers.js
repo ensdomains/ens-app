@@ -9,7 +9,7 @@ import {
   setResolver,
   setAddress,
   setContent,
-  setOldContent,
+  setContenthash,
   createSubdomain
 } from '../registry'
 import { getEntry } from '../registrar'
@@ -290,9 +290,9 @@ const resolvers = {
         console.log(e)
       }
     },
-    setOldContent: async (_, { name, recordValue }, { cache }) => {
+    setContenthash: async (_, { name, recordValue }, { cache }) => {
       try {
-        const tx = await setOldContent(name, recordValue)
+        const tx = await setContenthash(name, recordValue)
         console.log(tx)
         return sendHelper(tx)
       } catch (e) {

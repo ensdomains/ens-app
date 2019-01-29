@@ -14,7 +14,7 @@ import {
   SET_RESOLVER,
   SET_ADDRESS,
   SET_CONTENT,
-  SET_OLDCONTENT
+  SET_CONTENTHASH
 } from '../../graphql/mutations'
 
 import { formatDate } from '../../utils/dates'
@@ -80,9 +80,9 @@ class NameDetails extends Component {
 
     let contentMutation
     if(domain.contentType === 'oldcontent'){
-      contentMutation = SET_OLDCONTENT
-    }else{
       contentMutation = SET_CONTENT
+    }else{
+      contentMutation = SET_CONTENTHASH
     }
 
     return (

@@ -75,9 +75,9 @@ export const SET_CONTENT = gql`
     setContent(name: $name, recordValue: $recordValue) @client
   }
 `
-export const SET_OLDCONTENT = gql`
-  mutation setOldContent($name: String, $recordValue: String) {
-    setOldContent(name: $name, recordValue: $recordValue) @client
+export const SET_CONTENTHASH = gql`
+  mutation setContenthash($name: String, $recordValue: String) {
+    setContenthash(name: $name, recordValue: $recordValue) @client
   }
 `
 

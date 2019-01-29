@@ -138,7 +138,7 @@ export async function setAddress(name, address) {
   return () => Resolver.setAddr(namehash, address).send({ from: account })
 }
 
-export async function setOldContent(name, content) {
+export async function setContent(name, content) {
   const web3 = await getWeb3()
   const account = await getAccount()
   const namehash = await getNamehash(name)
@@ -148,7 +148,7 @@ export async function setOldContent(name, content) {
   return () => Resolver.setContent(namehash, content).send({ from: account, gas:gas })
 }
 
-export async function setContent(name, content) {
+export async function setContenthash(name, content) {
   const account = await getAccount()
   const namehash = await getNamehash(name)
   const resolverAddr = await getResolver(name)
