@@ -73,13 +73,13 @@ const SaveCancel = ({
   value,
   newValue,
   confirm,
-  oldcontentWarning,
+  warning,
   isValid = true
 }) => (
   <SaveCancelContainer className={className}>
     {
-      oldcontentWarning ? (
-        <Warning>You should update the resolver before entering content.</Warning>
+      warning ? (
+        <Warning>{warning}</Warning>
       ): null
     }
     <Cancel type="hollow" onClick={stopEditing}>

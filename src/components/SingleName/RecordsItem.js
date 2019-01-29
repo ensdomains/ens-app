@@ -16,6 +16,7 @@ import DefaultPendingTx from '../PendingTx'
 import { SET_CONTENT, SET_OLDCONTENT, SET_ADDRESS } from '../../graphql/mutations'
 import DetailsItemInput from './DetailsItemInput'
 import { useEditable } from '../hooks'
+import { getOldContentWarning } from './OldContentWarning'
 
 const RecordsItem = styled(DetailsItem)`
   border-top: 1px dashed #d3d3d3;
@@ -180,7 +181,7 @@ const Editable = ({
                   />
                 </EditRecord>
                 <SaveCancel
-                  oldcontentWarning={ type === 'content' && domain.contentType === 'oldcontent'}
+                  warning={getOldContentWarning(type, domain.contentType)}
                   mutation={() => {
                     const variables = {
                       name: domain.name,

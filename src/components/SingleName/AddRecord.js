@@ -8,7 +8,7 @@ import Editable from './Editable'
 import SaveCancel from './SaveCancel'
 import Select from '../Forms/Select'
 import TxPending from '../PendingTx'
-
+import { getOldContentWarning } from './OldContentWarning'
 import { SET_CONTENT, SET_OLDCONTENT, SET_ADDRESS } from '../../graphql/mutations'
 
 const ToggleAddRecord = styled('span')`
@@ -146,7 +146,9 @@ class AddRecord extends Component {
                       >
                         {mutate => (
                           <SaveCancel
-                            oldcontentWarning={selectedRecord.value === 'content' && domain.contentType === 'oldcontent'}
+                            warning={
+                              getOldContentWarning(selectedRecord.value, domain.contentType)
+                            }
                             isValid={isValid}
                             stopEditing={() => {
                               stopEditing()
