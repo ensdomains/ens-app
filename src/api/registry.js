@@ -4,8 +4,6 @@ import getENS, {
   getReverseRegistrarContract,
   getResolverContract,
   getResolverReadContract,
-  getOldResolverContract,
-  getOldResolverReadContract,
   getNamehashWithLabelHash
 } from './ens'
 import { decryptHashes } from './preimage'
@@ -68,8 +66,7 @@ export async function getContent(name) {
         contentType: 'contenthash'
       }
     }else{
-      const { OldResolver } = await getOldResolverReadContract(resolverAddr)
-      const value = await OldResolver.content(namehash).call()
+      const value = await Resolver.content(namehash).call()
       return {
         value: value,
         contentType: 'oldcontent'
@@ -144,7 +141,7 @@ export async function setContent(name, content) {
   const account = await getAccount()
   const namehash = await getNamehash(name)
   const resolverAddr = await getResolver(name)
-  const { Resolver } = await getOldResolverContract(resolverAddr)
+  const { Resolver } = await getResolverContract(resolverAddr)
   console.log('setContent1')
   // const gas = await Resolver.setName(namehash, content).estimateGas()
   // console.log('gas', gas)

@@ -6,6 +6,12 @@ import { abi as oldResolverContract } from '@ensdomains/ens-022/build/contracts/
 
 import { abi as fifsRegistrarContract } from '@ensdomains/ens/build/contracts/FIFSRegistrar.json'
 
+oldResolverContract.map( (old, i) =>{
+  if(!resolverContract.map((n)=>{return n.name}).includes(old.name)){
+    resolverContract.push(old)
+  }
+})
+
 var contracts = {
   1: {
     registry: '0x314159265dd8dbb310642f98f50c066173c1259b'
@@ -70,25 +76,6 @@ async function getResolverReadContract(addr) {
   const Resolver = new web3.eth.Contract(resolverContract, addr)
   return {
     Resolver: Resolver.methods,
-    _Resolver: Resolver
-  }
-}
-
-async function getOldResolverContract(addr) {
-  const web3 = await getWeb3()
-
-  const Resolver = new web3.eth.Contract(oldResolverContract, addr)
-  return {
-    Resolver: Resolver.methods,
-    _Resolver: Resolver
-  }
-}
-
-async function getOldResolverReadContract(addr) {
-  const web3 = await getWeb3Read()
-  const Resolver = new web3.eth.Contract(oldResolverContract, addr)
-  return {
-    OldResolver: Resolver.methods,
     _Resolver: Resolver
   }
 }
@@ -206,8 +193,6 @@ export {
   getNamehashWithLabelHash,
   getResolverContract,
   getResolverReadContract,
-  getOldResolverContract,
-  getOldResolverReadContract,
   watchEvent,
   getFifsRegistrarContract
 }
