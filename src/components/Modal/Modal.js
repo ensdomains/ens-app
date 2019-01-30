@@ -1,43 +1,31 @@
-import React, { Component } from 'react'
+import React, { useContext } from 'react'
 import styled from 'react-emotion'
 import GlobalState from '../../globalState'
 import mq from 'mediaQuery'
 
-class Modal extends Component {
-  render() {
-    const { small, name, children, component: Component } = this.props
-
+function Modal({ small, name, children, component: Component }) {
+  const { currentModal, toggleModal } = useContext(GlobalState)
+  if (!currentModal) {
+    return null
+  }
+  if (name === currentModal.name) {
     return (
-      <GlobalState.Consumer>
-        {({ currentModal, toggleModal }) => {
-          if (!currentModal) {
-            return null
-          }
-          if (name === currentModal.name) {
-            return (
-              <ModalContainer
-                show={name === currentModal.name}
-                onClick={event => {
-                  event.stopPropagation()
-                  toggleModal({ name })
-                }}
-              >
-                <ModalContent
-                  onClick={event => event.stopPropagation()}
-                  small={small}
-                >
-                  {Component ? (
-                    <Component {...currentModal} />
-                  ) : currentModal.render ? (
-                    currentModal.render({ ...this.props, toggleModal })
-                  ) : null}
-                  {children}
-                </ModalContent>
-              </ModalContainer>
-            )
-          }
+      <ModalContainer
+        show={name === currentModal.name}
+        onClick={event => {
+          event.stopPropagation()
+          toggleModal({ name })
         }}
-      </GlobalState.Consumer>
+      >
+        <ModalContent onClick={event => event.stopPropagation()} small={small}>
+          {Component ? (
+            <Component {...currentModal} />
+          ) : currentModal.render ? (
+            currentModal.render({ ...this.props, toggleModal })
+          ) : null}
+          {children}
+        </ModalContent>
+      </ModalContainer>
     )
   }
 }
@@ -52,7 +40,7 @@ const ModalContainer = styled('div')`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1001;
+  z-index: 99999999;
   background: rgba(0, 0, 0, 0.5);
 `
 

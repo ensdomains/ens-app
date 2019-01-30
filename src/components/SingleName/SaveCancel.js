@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'react-emotion'
 import Button from '../Forms/Button'
 import GlobalState from '../../globalState'
@@ -24,6 +24,7 @@ const ActionButton = ({
   isValid
 }) => {
   // Ignore isValid == undefined
+  const { toggleModal } = useContext(GlobalState)
   if (disabled || isValid === false) {
     return (
       <Save type="disabled">{mutationButton ? mutationButton : 'Save'}</Save>
@@ -31,26 +32,22 @@ const ActionButton = ({
   }
   if (confirm) {
     return (
-      <GlobalState.Consumer>
-        {({ toggleModal }) => (
-          <Button
-            onClick={() =>
-              toggleModal({
-                name: 'confirm',
-                mutation: mutation,
-                mutationButton: mutationButton,
-                value: value,
-                newValue: newValue,
-                cancel: () => {
-                  toggleModal({ name: 'confirm' })
-                }
-              })
+      <Button
+        onClick={() =>
+          toggleModal({
+            name: 'confirm',
+            mutation: mutation,
+            mutationButton: mutationButton,
+            value: value,
+            newValue: newValue,
+            cancel: () => {
+              toggleModal({ name: 'confirm' })
             }
-          >
-            {mutationButton}
-          </Button>
-        )}
-      </GlobalState.Consumer>
+          })
+        }
+      >
+        {mutationButton}
+      </Button>
     )
   }
   return (
