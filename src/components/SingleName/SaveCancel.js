@@ -23,8 +23,8 @@ const ActionButton = ({
   confirm,
   isValid
 }) => {
-  // Ignore isValid == undefined
   const { toggleModal } = useContext(GlobalState)
+  // Ignore isValid == undefined
   if (disabled || isValid === false) {
     return (
       <Save type="disabled">{mutationButton ? mutationButton : 'Save'}</Save>
