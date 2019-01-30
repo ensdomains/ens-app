@@ -7,7 +7,6 @@ import mq from 'mediaQuery'
 import { useEditable } from '../hooks'
 
 import ReverseRecordQuery from '../ReverseRecordQuery'
-import Editable from './Editable'
 import SaveCancel from './SaveCancel'
 import PendingTx from '../PendingTx'
 
