@@ -92,6 +92,8 @@ function getDefaultMessage(keyName) {
       return ['No Resolver set', 'message']
     case 'Owner':
       return ['Not owned yet', 'message']
+    default:
+      return ['No 0x message set', 'message']
   }
 }
 
