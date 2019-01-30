@@ -16,7 +16,7 @@ import DefaultPendingTx from '../PendingTx'
 import { SET_CONTENT, SET_CONTENTHASH, SET_ADDRESS } from '../../graphql/mutations'
 import DetailsItemInput from './DetailsItemInput'
 import { useEditable } from '../hooks'
-import { getOldContentWarning } from './OldContentWarning'
+import { getOldContentWarning } from './warnings'
 
 const RecordsItem = styled(DetailsItem)`
   border-top: 1px dashed #d3d3d3;

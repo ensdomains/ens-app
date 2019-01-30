@@ -8,7 +8,7 @@ import Editable from './Editable'
 import SaveCancel from './SaveCancel'
 import Select from '../Forms/Select'
 import TxPending from '../PendingTx'
-import { getOldContentWarning } from './OldContentWarning'
+import { getOldContentWarning } from './warnings'
 import { SET_CONTENT, SET_CONTENTHASH, SET_ADDRESS } from '../../graphql/mutations'
 
 const ToggleAddRecord = styled('span')`
