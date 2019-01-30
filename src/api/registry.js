@@ -136,13 +136,11 @@ export async function setAddress(name, address) {
 }
 
 export async function setContent(name, content) {
-  console.log('setContent0')
   const web3 = await getWeb3()
   const account = await getAccount()
   const namehash = await getNamehash(name)
   const resolverAddr = await getResolver(name)
   const { Resolver } = await getResolverContract(resolverAddr)
-  console.log('setContent1')
   // const gas = await Resolver.setName(namehash, content).estimateGas()
   // console.log('gas', gas)
   return () => Resolver.setContent(namehash, content).send({ from: account })
@@ -150,12 +148,10 @@ export async function setContent(name, content) {
 }
 
 export async function setContenthash(name, content) {
-  console.log('setContenthash0')
   const account = await getAccount()
   const namehash = await getNamehash(name)
   const resolverAddr = await getResolver(name)
   const { Resolver } = await getResolverContract(resolverAddr)
-  console.log('setContenthash1')
   // const gas = await Resolver.setContenthash(namehash, content).estimateGas()
   // console.log('gas', gas)
   // return () => Resolver.setContenthash(namehash, content).send({ from: account, gas:gas })
