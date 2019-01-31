@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from 'react-emotion'
 import { Mutation } from 'react-apollo'
 
 import { isLabelValid } from '../../utils/utils'
 import { CREATE_SUBDOMAIN } from '../../graphql/mutations'
 import mq from 'mediaQuery'
+import { useEditable } from '../hooks'
 
 import Button from '../Forms/Button'
 import DefaultInput from '../Forms/Input'
-import Editable from './Editable'
 import SaveCancel from './SaveCancel'
 import PendingTx from '../PendingTx'
 
@@ -35,85 +35,77 @@ const Input = styled(DefaultInput)`
   `}
 `
 
-class AddSubdomain extends Component {
-  render() {
-    const { domain, refetch } = this.props
-    return (
-      <AddSubdomainContainer>
-        <Editable>
-          {({
-            editing,
-            startEditing,
-            stopEditing,
-            newValue,
-            txHash,
-            updateValue,
-            startPending,
-            setConfirmed,
-            pending,
-            confirmed
-          }) => {
-            const isValid = newValue.length > 0 && isLabelValid(newValue)
-            const isInvalid = !isValid && newValue.length > 0
-            return (
-              <>
-                {!editing ? (
-                  pending && !confirmed ? (
-                    <PendingTx
-                      txHash={txHash}
-                      setConfirmed={setConfirmed}
-                      refetch={refetch}
-                    />
-                  ) : (
-                    <Button onClick={startEditing}>+ Add Subdomain</Button>
-                  )
-                ) : null}
-                {editing && (
-                  <AddSubdomainContent>
-                    <Input
-                      value={newValue}
-                      onChange={updateValue}
-                      valid={isValid}
-                      invalid={isInvalid}
-                      placeholder="Type in a label for your subdomain"
-                      large
-                    />
-                    {isValid ? (
-                      <Mutation
-                        mutation={CREATE_SUBDOMAIN}
-                        onCompleted={(data) => {
-                          startPending(Object.values(data)[0])
-                        }}
-                      >
-                        {mutation => (
-                          <SaveCancel
-                            stopEditing={stopEditing}
-                            isValid={isValid}
-                            mutation={() => {
-                              mutation({
-                                variables: {
-                                  name: domain.name,
-                                  label: newValue
-                                }
-                              }).then(() => {
-                                refetch()
-                              })
-                            }}
-                          />
-                        )}
-                      </Mutation>
-                    ) : (
-                      <SaveCancel stopEditing={stopEditing} disabled />
-                    )}
-                  </AddSubdomainContent>
+function AddSubdomain({ domain, refetch }) {
+  const { state, actions } = useEditable()
+  const { editing, newValue, txHash, pending, confirmed } = state
+
+  const {
+    startEditing,
+    stopEditing,
+    updateValue,
+    startPending,
+    setConfirmed
+  } = actions
+
+  const isValid = newValue.length > 0 && isLabelValid(newValue)
+  const isInvalid = !isValid && newValue.length > 0
+
+  return (
+    <AddSubdomainContainer>
+      <>
+        {!editing ? (
+          pending && !confirmed ? (
+            <PendingTx
+              txHash={txHash}
+              setConfirmed={setConfirmed}
+              refetch={refetch}
+            />
+          ) : (
+            <Button onClick={startEditing}>+ Add Subdomain</Button>
+          )
+        ) : null}
+        {editing && (
+          <AddSubdomainContent>
+            <Input
+              value={newValue}
+              onChange={e => updateValue(e.target.value)}
+              valid={isValid}
+              invalid={isInvalid}
+              placeholder="Type in a label for your subdomain"
+              large
+            />
+            {isValid ? (
+              <Mutation
+                mutation={CREATE_SUBDOMAIN}
+                onCompleted={data => {
+                  startPending(Object.values(data)[0])
+                }}
+              >
+                {mutation => (
+                  <SaveCancel
+                    stopEditing={stopEditing}
+                    isValid={isValid}
+                    mutation={() => {
+                      mutation({
+                        variables: {
+                          name: domain.name,
+                          label: newValue
+                        }
+                      }).then(() => {
+                        refetch()
+                      })
+                    }}
+                  />
                 )}
-              </>
-            )
-          }}
-        </Editable>
-      </AddSubdomainContainer>
-    )
-  }
+              </Mutation>
+            ) : (
+              <SaveCancel stopEditing={stopEditing} disabled />
+            )}
+          </AddSubdomainContent>
+        )}
+      </>
+    </AddSubdomainContainer>
+  )
 }
 
 export default AddSubdomain

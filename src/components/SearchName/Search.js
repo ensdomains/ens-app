@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'react-emotion'
 import { parseSearchTerm } from '../../utils/utils'
 import '../../api/subDomainRegistrar'
@@ -68,55 +68,52 @@ const SearchForm = styled('form')`
   }
 `
 
-class Search extends React.Component {
-  state = {
-    type: null,
-    filterOpen: false
-  }
-  handleParse = () => {
-    const type = parseSearchTerm(this.input.value)
-    this.setState({ type })
+function Search({ history, className, style }) {
+  const [type, setType] = useState(null)
+  //const [filterOpen, setFilterOpen] = useState(false)
+  let input
+
+  const handleParse = e => {
+    const type = parseSearchTerm(e.target.value)
+    setType(type)
   }
 
-  render() {
-    const { history, className, style } = this.props
-    return (
-      <SearchForm
-        className={className}
-        style={style}
-        action="#"
-        onSubmit={e => {
-          e.preventDefault()
-          const searchTerm = this.input.value
-          if (searchTerm.length < 1) {
-            return
-          }
+  return (
+    <SearchForm
+      className={className}
+      style={style}
+      action="#"
+      onSubmit={e => {
+        e.preventDefault()
+        const searchTerm = input.value
+        if (searchTerm.length < 1) {
+          return
+        }
 
-          this.input.value = ''
-          if (this.state.type === 'supported' || this.state.type === 'short') {
-            history.push(`/name/${searchTerm}`)
-            return
-          } else {
-            history.push(`/search/${searchTerm}`)
-          }
-        }}
-      >
-        <input
-          placeholder="Search names"
-          ref={el => (this.input = el)}
-          onChange={this.handleParse}
-        />
-        {/* <Caret
-          up={this.state.filterOpen}
+        input.value = ''
+        if (type === 'supported' || type === 'short') {
+          history.push(`/name/${searchTerm}`)
+          return
+        } else {
+          history.push(`/search/${searchTerm}`)
+        }
+      }}
+    >
+      <input
+        placeholder="Search names"
+        ref={el => (input = el)}
+        onChange={handleParse}
+      />
+      {/* <Caret
+          up={filterOpen}
           onClick={() =>
-            this.setState(state => ({ filterOpen: !state.filterOpen }))
+            setFilterOpen(!filterOpen)
           }
         /> */}
-        {/* <Filters show={this.state.filterOpen} /> */}
-        <button type="submit">Search</button>
-      </SearchForm>
-    )
-  }
+      {/* <Filters show={filterOpen} /> */}
+      <button type="submit">Search</button>
+    </SearchForm>
+  )
 }
 
 const SearchWithRouter = withRouter(Search)
