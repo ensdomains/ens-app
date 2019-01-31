@@ -6,7 +6,7 @@ import { abi as oldResolverContract } from '@ensdomains/ens-022/build/contracts/
 
 import { abi as fifsRegistrarContract } from '@ensdomains/ens/build/contracts/FIFSRegistrar.json'
 
-oldResolverContract.map( (old, i) =>{
+oldResolverContract.forEach( (old, i) =>{
   if(!resolverContract.map((n)=>{return n.name}).includes(old.name)){
     resolverContract.push(old)
   }
