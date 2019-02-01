@@ -7,15 +7,13 @@ language: node_js
 node_js:
   - "10"
 
-install:
-  - npm install
-  - npm install -g surge
+cache: yarn
 
 matrix:
   allow_failures:
 
 script:
-  - npm run build
+  - yarn build
 
 notifications:
   email: false
