@@ -4,6 +4,8 @@ import './index.css'
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
 import setupWeb3 from './api/web3'
+import getENS from './api/ens'
+import { SET_ERROR } from './graphql/mutations'
 
 import { ApolloClient } from 'apollo-client'
 import { InMemoryCache } from 'apollo-cache-inmemory'
@@ -32,6 +34,14 @@ export const client = new ApolloClient({
 
 window.addEventListener('load', async () => {
   await setupWeb3()
+  try {
+    await getENS()
+  } catch (e) {
+    await client.mutate({
+      mutation: SET_ERROR,
+      variables: { message: e.message }
+    })
+  }
   ReactDOM.render(
     <ApolloProvider client={client}>
       <GlobalStateProvider>

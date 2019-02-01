@@ -4,9 +4,9 @@ import { Mutation } from 'react-apollo'
 
 import { SET_NAME } from '../../graphql/mutations'
 import mq from 'mediaQuery'
+import { useEditable } from '../hooks'
 
 import ReverseRecordQuery from '../ReverseRecordQuery'
-import Editable from './Editable'
 import SaveCancel from './SaveCancel'
 import PendingTx from '../PendingTx'
 
@@ -109,97 +109,89 @@ const Name = styled('div')`
   `}
 `
 
-class AddReverseRecord extends Component {
-  render() {
-    const { account, name } = this.props
-    return (
-      <AddReverseRecordContainer>
-        <Editable>
-          {({
-            editing,
-            txHash,
-            startEditing,
-            stopEditing,
-            startPending,
-            pending,
-            confirmed,
-            setConfirmed
-          }) => (
-            <ReverseRecordQuery address={account}>
-              {({ data: { getReverseRecord }, loading, refetch }) => {
-                if (loading) return 'loading'
-                return (
-                  <>
-                    <Message onClick={editing ? stopEditing : startEditing}>
-                      {getReverseRecord ? (
-                        name === getReverseRecord.name ? (
-                          <MessageContent>
-                            <Check />
-                            Reverse record: Set to {name}
-                          </MessageContent>
-                        ) : (
-                          <MessageContent>
-                            <BlueWarning />
-                            Reverse record: Set to a different name:
-                            {getReverseRecord.name}
-                          </MessageContent>
-                        )
-                      ) : (
-                        `Reverse record: not set`
-                      )}
-                      {pending && !confirmed && txHash ? (
-                        <PendingTx
-                          txHash={txHash}
-                          setConfirmed={setConfirmed}
-                          refetch={refetch}
-                        />
-                      ) : (
-                        <SmallCaret
-                          rotated={editing}
-                          data-testid="small-caret"
-                        />
-                      )}
-                    </Message>
-                    {editing && (
-                      <SetReverseContainer>
-                        <Explanation>
-                          The Reverse Resolution translates an address into a
-                          name. It allows Dapps to show in their interfaces “
-                          {name}” rather than the long address “{account}
-                          ”. If you would like to set up your reverse for a
-                          different account, please switch accounts in your dapp
-                          browser.
-                        </Explanation>
-                        <Account>{account}</Account>
-                        <Name>{name}</Name>
-                        <Mutation
-                          mutation={SET_NAME}
-                          variables={{
-                            name
-                          }}
-                          onCompleted={data => {
-                            startPending(Object.values(data)[0])
-                            refetch()
-                          }}
-                        >
-                          {mutation => (
-                            <SaveCancel
-                              mutation={mutation}
-                              stopEditing={stopEditing}
-                            />
-                          )}
-                        </Mutation>
-                      </SetReverseContainer>
+function AddReverseRecord({ account, name }) {
+  const { state, actions } = useEditable()
+
+  const { editing, newValue, txHash, pending, confirmed } = state
+
+  const {
+    startEditing,
+    stopEditing,
+    updateValue,
+    startPending,
+    setConfirmed
+  } = actions
+
+  return (
+    <AddReverseRecordContainer>
+      <ReverseRecordQuery address={account}>
+        {({ data: { getReverseRecord }, loading, refetch }) => {
+          if (loading) return null
+          return (
+            <>
+              <Message onClick={editing ? stopEditing : startEditing}>
+                {getReverseRecord ? (
+                  name === getReverseRecord.name ? (
+                    <MessageContent>
+                      <Check />
+                      Reverse record: Set to {name}
+                    </MessageContent>
+                  ) : (
+                    <MessageContent>
+                      <BlueWarning />
+                      Reverse record: Set to a different name:
+                      {getReverseRecord.name}
+                    </MessageContent>
+                  )
+                ) : (
+                  `Reverse record: not set`
+                )}
+                {pending && !confirmed && txHash ? (
+                  <PendingTx
+                    txHash={txHash}
+                    setConfirmed={setConfirmed}
+                    refetch={refetch}
+                  />
+                ) : (
+                  <SmallCaret rotated={editing} data-testid="small-caret" />
+                )}
+              </Message>
+              {editing && (
+                <SetReverseContainer>
+                  <Explanation>
+                    The Reverse Resolution translates an address into a name. It
+                    allows Dapps to show in their interfaces “{name}” rather
+                    than the long address “{account}
+                    ”. If you would like to set up your reverse for a different
+                    account, please switch accounts in your dapp browser.
+                  </Explanation>
+                  <Account>{account}</Account>
+                  <Name>{name}</Name>
+                  <Mutation
+                    mutation={SET_NAME}
+                    variables={{
+                      name
+                    }}
+                    onCompleted={data => {
+                      startPending(Object.values(data)[0])
+                      refetch()
+                    }}
+                  >
+                    {mutation => (
+                      <SaveCancel
+                        mutation={mutation}
+                        stopEditing={stopEditing}
+                      />
                     )}
-                  </>
-                )
-              }}
-            </ReverseRecordQuery>
-          )}
-        </Editable>
-      </AddReverseRecordContainer>
-    )
-  }
+                  </Mutation>
+                </SetReverseContainer>
+              )}
+            </>
+          )
+        }}
+      </ReverseRecordQuery>
+    </AddReverseRecordContainer>
+  )
 }
 
 export default AddReverseRecord

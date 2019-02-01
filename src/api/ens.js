@@ -118,8 +118,10 @@ const getENS = async ensAddress => {
   }
 
   if (!ENS) {
-    if (!ensAddress) {
+    if (!ensAddress && contracts[networkId].registry) {
       ensAddress = contracts[networkId].registry
+    } else {
+      throw new Error(`Unsupported network ${networkId}`)
     }
     contracts[networkId] = {}
     contracts[networkId].registry = ensAddress

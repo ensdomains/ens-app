@@ -10,6 +10,7 @@ export function validateRecord(record) {
   if(record.contentType == 'oldcontent'){
     return value.length > 32
   }
+  console.log('validateRecord', {record})
   switch (type) {
     case 'address':
       return addressUtils.isAddress(value)

@@ -20,6 +20,7 @@ const rootDefaults = {
     networkId: 0,
     __typename: 'Web3'
   },
+  error: null,
   loggedIn: null,
   pendingTransactions: [],
   transactionHistory: []
@@ -76,7 +77,20 @@ const resolvers = {
     }
   },
 
-  Mutation: {}
+  Mutation: {
+    setError: async (_, { message }, { cache }) => {
+      const errorObj = {
+        message,
+        __typename: 'Error'
+      }
+      const data = {
+        error: errorObj
+      }
+      console.log(data)
+      cache.writeData({ data })
+      return errorObj
+    }
+  }
 }
 
 const defaults = merge(

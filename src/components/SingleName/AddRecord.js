@@ -1,13 +1,16 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import styled from 'react-emotion'
 import { Mutation } from 'react-apollo'
 
-import { validateRecord } from '../../utils/records'
+import { validateRecord, getPlaceholder } from '../../utils/records'
 import DetailsItemInput from './DetailsItemInput'
-import Editable from './Editable'
+
+import { useEditable } from '../hooks'
+
 import SaveCancel from './SaveCancel'
 import Select from '../Forms/Select'
-import TxPending from '../PendingTx'
+import PendingTx from '../PendingTx'
+
 import { getOldContentWarning } from './warnings'
 import { SET_CONTENT, SET_CONTENTHASH, SET_ADDRESS } from '../../graphql/mutations'
 
@@ -47,131 +50,125 @@ const Row = styled('div')`
   margin-bottom: 20px;
 `
 
+function chooseMutation(recordType, contentType) {
+  switch (recordType.value) {
+    case 'content':
+      if(contentType === 'oldcontent'){
+        return SET_CONTENT
+      }else{
+        return SET_CONTENTHASH
+      }
+    case 'address':
+      return SET_ADDRESS
+    default:
+      throw new Error('Not a recognised record type')
+  }
+}
+
+function Editable({ domain, emptyRecords, refetch }) {
+  const [selectedRecord, selectRecord] = useState(null)
+  const { state, actions } = useEditable()
+
+  const handleChange = selectedRecord => {
+    selectRecord(selectedRecord)
+  }
+
+  const { editing, newValue, txHash, pending, confirmed } = state
+
+  const {
+    startEditing,
+    stopEditing,
+    updateValue,
+    startPending,
+    setConfirmed
+  } = actions
+
+  const isValid = validateRecord({
+    type: selectedRecord && selectedRecord.value ? selectedRecord.value : null,
+    value: newValue, contentType:domain.contentType
+  })
+  return (
+    <>
+      <RecordsTitle>
+        Records
+        {emptyRecords.length > 0 ? (
+          !editing ? (
+            pending && !confirmed ? (
+              <PendingTx
+                txHash={txHash}
+                setConfirmed={setConfirmed}
+                refetch={refetch}
+              />
+            ) : (
+              <ToggleAddRecord onClick={startEditing}>+</ToggleAddRecord>
+            )
+          ) : (
+            <ToggleAddRecord onClick={stopEditing}>-</ToggleAddRecord>
+          )
+        ) : null}
+      </RecordsTitle>
+      {editing && (
+        <AddRecordForm>
+          <Row>
+            <Select
+              selectedRecord={selectedRecord}
+              handleChange={handleChange}
+              placeholder="Select a record"
+              options={emptyRecords}
+            />
+            <DetailsItemInput 
+              newValue={newValue}
+              dataType={selectedRecord ? selectedRecord.value : null}
+              contentType={domain.contentType}
+              updateValue={updateValue}
+              valid={isValid}
+              invalid={!isValid}
+            />
+          </Row>
+          {selectedRecord ? (
+            <Mutation
+              mutation={chooseMutation(selectedRecord, domain.contentType)}
+              variables={{
+                name: domain.name,
+                recordValue: newValue
+              }}
+              onCompleted={data => {
+                startPending(Object.values(data)[0])
+              }}
+            >
+              {mutate => (
+                <SaveCancel
+                  warningMessage={
+                    getOldContentWarning(selectedRecord.value, domain.contentType)
+                  }
+                  isValid={isValid}
+                  stopEditing={() => {
+                    stopEditing()
+                    selectRecord(null)
+                  }}
+                  mutation={e => {
+                    e.preventDefault()
+                    mutate().then(() => {
+                      refetch()
+                    })
+                  }}
+                />
+              )}
+            </Mutation>
+          ) : (
+            <SaveCancel stopEditing={stopEditing} disabled />
+          )}
+        </AddRecordForm>
+      )}
+    </>
+  )
+}
+
 class AddRecord extends Component {
-  state = {
-    selectedRecord: null
-  }
-
-  _chooseMutation(recordType, contentType) {
-    switch (recordType.value) {
-      case 'content':
-        if(contentType === 'oldcontent'){
-          return SET_CONTENT
-        }else{
-          return SET_CONTENTHASH
-        }
-      case 'address':
-        return SET_ADDRESS
-      default:
-        throw new Error('Not a recognised record type')
-    }
-  }
-
-  handleChange = selectedRecord => {
-    this.setState({ selectedRecord })
-    console.log(`Option selected:`, selectedRecord)
-  }
   _renderEditable() {
-    const { selectedRecord } = this.state
-    const { domain, emptyRecords, refetch } = this.props
     return (
       <AddRecordContainer>
-        <Editable>
-          {({
-            editing,
-            startEditing,
-            stopEditing,
-            newValue,
-            updateValue,
-            updateValueDirect,
-            startPending,
-            setConfirmed,
-            pending,
-            confirmed
-          }) => {
-            const isValid = validateRecord({
-              type:
-                selectedRecord && selectedRecord.value
-                  ? selectedRecord.value
-                  : null,
-              value: newValue,
-              contentType:domain.contentType
-            })
-            return (
-              <>
-                <RecordsTitle>
-                  Records
-                  {emptyRecords.length > 0 ? (
-                    !editing ? (
-                      pending && !confirmed ? (
-                        <TxPending />
-                      ) : (
-                        <ToggleAddRecord onClick={startEditing}>
-                          +
-                        </ToggleAddRecord>
-                      )
-                    ) : (
-                      <ToggleAddRecord onClick={stopEditing}>-</ToggleAddRecord>
-                    )
-                  ) : null}
-                </RecordsTitle>
-                {editing && (
-                  <AddRecordForm>
-                    <Row>
-                      <Select
-                        selectedRecord={selectedRecord}
-                        handleChange={this.handleChange}
-                        placeholder="Select a record"
-                        options={emptyRecords}
-                      />
-                      <DetailsItemInput 
-                        newValue={newValue}
-                        dataType={selectedRecord ? selectedRecord.value : null}
-                        contentType={domain.contentType}
-                        updateValue={updateValueDirect}
-                        valid={isValid}
-                        invalid={!isValid}
-                      />
-                    </Row>
-                    {selectedRecord ? (
-                      <Mutation
-                        mutation={this._chooseMutation(selectedRecord, domain.contentType)}
-                        variables={{
-                          name: domain.name,
-                          recordValue: newValue
-                        }}
-                        onCompleted={(data) => {
-                          startPending(Object.values(data)[0])
-                        }}
-                      >
-                        {mutate => (
-                          <SaveCancel
-                            warningMessage={
-                              getOldContentWarning(selectedRecord.value, domain.contentType)
-                            }
-                            isValid={isValid}
-                            stopEditing={() => {
-                              stopEditing()
-                              this.setState({ selectedRecord: null })
-                            }}
-                            mutation={e => {
-                              e.preventDefault()
-                              mutate().then(() => {
-                                refetch()
-                              })
-                            }}
-                          />
-                        )}
-                      </Mutation>
-                    ) : (
-                      <SaveCancel stopEditing={stopEditing} disabled />
-                    )}
-                  </AddRecordForm>
-                )}
-              </>
-            )
-          }}
-        </Editable>
+        <Editable {...this.props} />
       </AddRecordContainer>
     )
   }

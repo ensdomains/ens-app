@@ -124,3 +124,11 @@ export const GET_DOMAIN_STATE_SINGLE = gql`
     }
   }
 `
+
+export const GET_ERRORS = gql`
+  query getErrors @client {
+    error {
+      message
+    }
+  }
+`
