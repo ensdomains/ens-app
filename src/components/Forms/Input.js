@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'react-emotion'
 import tick from '../../assets/greenTick.svg'
 import warning from '../../assets/warning.svg'
+import yellowwarning from '../../assets/yellowwarning.svg'
 
 import mq from 'mediaQuery'
 
@@ -37,32 +38,38 @@ const StyledInput = styled('input')`
     `  
     color: #DC2E2E
   `};
+  ${p =>
+    p.warning &&
+    `  
+    color: #F5A623
+  `};
 `
 
 const InputContainer = styled('div')`
   position: relative;
+  margin-bottom: 20px;
 
   ${p => {
-    if (p.valid) {
+    if (p.invalid || p.warning) {
       return `
         &:before {
-          background: url(${tick});
+          background: url(${ p.warning ? yellowwarning : warning});
           content: '';
-          height: 14px;
-          width: 20px;
+          height: 17px;
+          width: 19px;
           position: absolute;
           right: 20px;
           top: 22px;
           transform: translateY(-50%);
         }
       `
-    } else if (p.invalid) {
+    } else if (p.valid) {
       return `
         &:before {
-          background: url(${warning});
+          background: url(${tick});
           content: '';
-          height: 17px;
-          width: 19px;
+          height: 14px;
+          width: 20px;
           position: absolute;
           right: 20px;
           top: 22px;
@@ -78,12 +85,18 @@ const Input = ({
   type,
   onChange,
   valid,
+  warning,
   invalid,
   large,
   placeholder,
   value
 }) => (
-  <InputContainer valid={valid} invalid={invalid} className={className}>
+  <InputContainer
+    valid={valid}
+    warning={warning}
+    invalid={invalid}
+    className={className}
+  >
     <StyledInput
       onChange={onChange}
       type={type ? type : 'text'}

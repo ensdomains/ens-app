@@ -14,6 +14,12 @@ const Cancel = styled(Button)`
   margin-right: 20px;
 `
 
+const Warning = styled('div')`
+  color:#F5A623;
+  align-self:center;
+  margin-right: 20px;
+`
+
 const ActionButton = ({
   disabled,
   mutation,
@@ -27,7 +33,7 @@ const ActionButton = ({
   // Ignore isValid == undefined
   if (disabled || isValid === false) {
     return (
-      <Save type="disabled">{mutationButton ? mutationButton : 'Save'}</Save>
+      <Save data-testid="save" type="disabled">{mutationButton ? mutationButton : 'Save'}</Save>
     )
   }
   if (confirm) {
@@ -64,10 +70,16 @@ const SaveCancel = ({
   value,
   newValue,
   confirm,
+  warningMessage,
   isValid = true
 }) => (
   <SaveCancelContainer className={className}>
-    <Cancel type="hollow" onClick={stopEditing}>
+    {
+      warningMessage ? (
+        <Warning>{warningMessage}</Warning>
+      ): null
+    }
+    <Cancel data-testid="cancel" type="hollow" onClick={stopEditing}>
       Cancel
     </Cancel>
     <ActionButton

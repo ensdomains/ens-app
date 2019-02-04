@@ -66,8 +66,8 @@ describe('Search', () => {
       .contains('Search')
       .click()
 
-    cy.getByTestId('details-value-owner',{exact: false} ).should('have.text', Cypress.env('emptyAddress'))
-    cy.getByTestId('details-value-resolver',{exact: false} ).should('have.text', 'No Resolver Set')  
+    cy.getByTestId('details-value-owner',{exact: false} ).should('have.text', 'Not owned yet')
+    cy.getByTestId('details-value-resolver',{exact: false} ).should('have.text', 'No Resolver set')  
   })
 
   it('can see the list of Top level domains and subdomains if no TLDS are specified', () =>{

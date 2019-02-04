@@ -53,14 +53,29 @@ export async function getContent(name) {
     return '0x00000000000000000000000000000000'
   }
   const namehash = await getNamehash(name)
+  let result
+  const { Resolver } = await getResolverReadContract(resolverAddr)
+  const web3 = await getWeb3();
+  const contentHashSignature = web3.utils.sha3('contenthash(bytes32)').slice(0,10);
   try {
-    const { Resolver } = await getResolverReadContract(resolverAddr)
-    return Resolver.content(namehash).call()
+    const isContentHashSupported = await Resolver.supportsInterface(contentHashSignature).call()
+
+    if(isContentHashSupported){
+      return{
+        value: await Resolver.contenthash(namehash).call(),
+        contentType: 'contenthash'
+      }
+    }else{
+      const value = await Resolver.content(namehash).call()
+      return {
+        value: value,
+        contentType: 'oldcontent'
+      }
+    }
   } catch (e) {
-    console.warn(
-      'Error getting content on the resolver contract, are you sure the resolver address is a resolver contract?'
-    )
-    return '0x00000000000000000000000000000000'
+    const message = 'Error getting content on the resolver contract, are you sure the resolver address is a resolver contract?'
+    console.warn(message)
+    return { value:message, contentType: 'error' }
   }
 }
 
@@ -121,11 +136,26 @@ export async function setAddress(name, address) {
 }
 
 export async function setContent(name, content) {
+  const web3 = await getWeb3()
   const account = await getAccount()
   const namehash = await getNamehash(name)
   const resolverAddr = await getResolver(name)
   const { Resolver } = await getResolverContract(resolverAddr)
+  // const gas = await Resolver.setName(namehash, content).estimateGas()
+  // console.log('gas', gas)
   return () => Resolver.setContent(namehash, content).send({ from: account })
+  // return () => Resolver.setContent(namehash, content).send({ from: account, gas:gas })
+}
+
+export async function setContenthash(name, content) {
+  const account = await getAccount()
+  const namehash = await getNamehash(name)
+  const resolverAddr = await getResolver(name)
+  const { Resolver } = await getResolverContract(resolverAddr)
+  // const gas = await Resolver.setContenthash(namehash, content).estimateGas()
+  // console.log('gas', gas)
+  // return () => Resolver.setContenthash(namehash, content).send({ from: account, gas:gas })
+  return () => Resolver.setContenthash(namehash, content).send({ from: account})
 }
 
 export async function checkSubDomain(subDomain, domain) {
@@ -191,13 +221,15 @@ export async function getResolverDetails(node) {
     return {
       ...node,
       addr,
-      content
+      content: content.value,
+      contentType: content.contentType,
     }
   } catch (e) {
     return {
       ...node,
       addr: '0x0',
-      content: '0x0'
+      content: '0x0',
+      contentType: 'error'
     }
   }
 }

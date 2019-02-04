@@ -3,15 +3,16 @@ import styled from 'react-emotion'
 import { Mutation } from 'react-apollo'
 
 import { validateRecord, getPlaceholder } from '../../utils/records'
+import DetailsItemInput from './DetailsItemInput'
 
 import { useEditable } from '../hooks'
 
 import SaveCancel from './SaveCancel'
-import DefaultInput from '../Forms/Input'
 import Select from '../Forms/Select'
 import PendingTx from '../PendingTx'
 
-import { SET_CONTENT, SET_ADDRESS } from '../../graphql/mutations'
+import { getOldContentWarning } from './warnings'
+import { SET_CONTENT, SET_CONTENTHASH, SET_ADDRESS } from '../../graphql/mutations'
 
 const ToggleAddRecord = styled('span')`
   font-size: 22px;
@@ -49,15 +50,14 @@ const Row = styled('div')`
   margin-bottom: 20px;
 `
 
-const Input = styled(DefaultInput)`
-  margin-left: 20px;
-  width: 100%;
-`
-
-function chooseMutation(recordType) {
+function chooseMutation(recordType, contentType) {
   switch (recordType.value) {
     case 'content':
-      return SET_CONTENT
+      if(contentType === 'oldcontent'){
+        return SET_CONTENT
+      }else{
+        return SET_CONTENTHASH
+      }
     case 'address':
       return SET_ADDRESS
     default:
@@ -85,7 +85,7 @@ function Editable({ domain, emptyRecords, refetch }) {
 
   const isValid = validateRecord({
     type: selectedRecord && selectedRecord.value ? selectedRecord.value : null,
-    value: newValue
+    value: newValue, contentType:domain.contentType
   })
   return (
     <>
@@ -116,17 +116,18 @@ function Editable({ domain, emptyRecords, refetch }) {
               placeholder="Select a record"
               options={emptyRecords}
             />
-            <Input
-              placeholder={getPlaceholder(
-                selectedRecord ? selectedRecord.value : null
-              )}
-              value={newValue}
-              onChange={e => updateValue(e.target.value)}
+            <DetailsItemInput 
+              newValue={newValue}
+              dataType={selectedRecord ? selectedRecord.value : null}
+              contentType={domain.contentType}
+              updateValue={updateValue}
+              valid={isValid}
+              invalid={!isValid}
             />
           </Row>
           {selectedRecord ? (
             <Mutation
-              mutation={chooseMutation(selectedRecord)}
+              mutation={chooseMutation(selectedRecord, domain.contentType)}
               variables={{
                 name: domain.name,
                 recordValue: newValue
@@ -137,6 +138,9 @@ function Editable({ domain, emptyRecords, refetch }) {
             >
               {mutate => (
                 <SaveCancel
+                  warningMessage={
+                    getOldContentWarning(selectedRecord.value, domain.contentType)
+                  }
                   isValid={isValid}
                   stopEditing={() => {
                     stopEditing()

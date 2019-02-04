@@ -1,28 +1,36 @@
 import { addressUtils } from '@0xproject/utils'
-
+import { validateContent } from './contents'
 export function validateRecord(record) {
   if (!record.type) {
     return false
   }
 
   const { type, value } = record
-
+  
+  if(record.contentType == 'oldcontent'){
+    return value.length > 32
+  }
+  console.log('validateRecord', {record})
   switch (type) {
     case 'address':
       return addressUtils.isAddress(value)
     case 'content':
-      return true
+      return validateContent(value)
     default:
       throw new Error('Unrecognised record type')
   }
 }
 
-export function getPlaceholder(recordType) {
+export function getPlaceholder(recordType, contentType) {
   switch (recordType) {
     case 'address':
       return 'Enter an Ethereum address'
     case 'content':
-      return 'Enter a content hash'
+      if(contentType == 'contenthash'){
+        return 'Enter a content hash (eg: ipfs://..., bzz://...)'
+      }else{
+        return 'Enter a content'
+      }
     default:
       return ''
   }

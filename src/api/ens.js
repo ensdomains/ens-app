@@ -1,8 +1,22 @@
 import getWeb3, { getWeb3Read, getNetworkId } from './web3'
-import ensContract from './contracts/ensContract.json'
-import reverseRegistrarContract from './contracts/reverseRegistrarContract.json'
-import resolverContract from './contracts/resolverContract.json'
-import fifsRegistrarContract from './contracts/fifsRegistrarContract.json'
+import { abi as ensContract } from '@ensdomains/ens/build/contracts/ENS.json'
+import { abi as reverseRegistrarContract } from '@ensdomains/ens/build/contracts/ReverseRegistrar.json'
+import { abi as resolverContract } from '@ensdomains/resolver/build/contracts/PublicResolver.json'
+import { abi as oldResolverContract } from '@ensdomains/ens-022/build/contracts/PublicResolver.json'
+
+import { abi as fifsRegistrarContract } from '@ensdomains/ens/build/contracts/FIFSRegistrar.json'
+
+oldResolverContract.forEach((old, i) => {
+  if (
+    !resolverContract
+      .map(n => {
+        return n.name
+      })
+      .includes(old.name)
+  ) {
+    resolverContract.push(old)
+  }
+})
 
 var contracts = {
   1: {
@@ -77,12 +91,17 @@ async function getENSContract() {
   const web3Read = await getWeb3Read()
   const networkId = await getNetworkId()
 
+  const readENS = new web3Read.eth.Contract(
+    ensContract,
+    contracts[networkId].registry
+  )
+  const writeENS = new web3.eth.Contract(
+    ensContract,
+    contracts[networkId].registry
+  )
   return {
-    readENS: new web3Read.eth.Contract(
-      ensContract,
-      contracts[networkId].registry
-    ),
-    ENS: new web3.eth.Contract(ensContract, contracts[networkId].registry)
+    readENS: readENS,
+    ENS: writeENS
   }
 }
 
@@ -105,11 +124,14 @@ const getENS = async ensAddress => {
   }
 
   if (!ENS) {
-    if (!ensAddress && contracts[networkId].registry) {
-      ensAddress = contracts[networkId].registry
-    } else {
+    if (contracts[networkId] && !contracts[networkId].registry && !ensAddress) {
       throw new Error(`Unsupported network ${networkId}`)
     }
+
+    if (contracts[networkId]) {
+      ensAddress = contracts[networkId].registry
+    }
+
     contracts[networkId] = {}
     contracts[networkId].registry = ensAddress
   } else {

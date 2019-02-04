@@ -9,6 +9,7 @@ import {
   setResolver,
   setAddress,
   setContent,
+  setContenthash,
   createSubdomain
 } from '../registry'
 import { getEntry } from '../registrar'
@@ -102,7 +103,8 @@ const resolvers = {
           price: null,
           rent: null,
           referralFeePPM: null,
-          available: null
+          available: null,
+          contentType: null
         }
         let data
         if (nameArray.length < 3 && nameArray[1] === 'eth') {
@@ -282,7 +284,16 @@ const resolvers = {
     },
     setContent: async (_, { name, recordValue }, { cache }) => {
       try {
-        const tx = await setContent(name, recordValue)
+        const  tx = await setContent(name, recordValue)
+        console.log(tx)
+        return sendHelper(tx)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    setContenthash: async (_, { name, recordValue }, { cache }) => {
+      try {
+        const tx = await setContenthash(name, recordValue)
         console.log(tx)
         return sendHelper(tx)
       } catch (e) {
