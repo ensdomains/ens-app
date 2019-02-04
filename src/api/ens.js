@@ -6,8 +6,14 @@ import { abi as oldResolverContract } from '@ensdomains/ens-022/build/contracts/
 
 import { abi as fifsRegistrarContract } from '@ensdomains/ens/build/contracts/FIFSRegistrar.json'
 
-oldResolverContract.forEach( (old, i) =>{
-  if(!resolverContract.map((n)=>{return n.name}).includes(old.name)){
+oldResolverContract.forEach((old, i) => {
+  if (
+    !resolverContract
+      .map(n => {
+        return n.name
+      })
+      .includes(old.name)
+  ) {
     resolverContract.push(old)
   }
 })
@@ -118,11 +124,14 @@ const getENS = async ensAddress => {
   }
 
   if (!ENS) {
-    if (!ensAddress && contracts[networkId].registry) {
-      ensAddress = contracts[networkId].registry
-    } else {
+    if (contracts[networkId] && !contracts[networkId].registry && !ensAddress) {
       throw new Error(`Unsupported network ${networkId}`)
     }
+
+    if (contracts[networkId]) {
+      ensAddress = contracts[networkId].registry
+    }
+
     contracts[networkId] = {}
     contracts[networkId].registry = ensAddress
   } else {
