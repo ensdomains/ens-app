@@ -83,7 +83,7 @@ describe('Name detail view', () => {
     cy.getByTestId('name-details').within(container => {
       cy.getByText('+', { exact: false }).click()
       cy.getByText('select a record', { exact: false }).click()
-      cy.get('[role="option"]', { timeout: 1000})
+      cy.get('[role="option"]', { timeout: 10000})
         .contains('Address')
         .click()
       cy.getByPlaceholderText('Enter an Ethereum address', {
@@ -108,7 +108,7 @@ describe('Name detail view', () => {
     cy.getByTestId('name-details').within(container => {
       cy.getByText('+', { exact: false }).click()
       cy.getByText('select a record', { exact: false }).click()
-      cy.get('[role="option"]')
+      cy.get('[role="option"]', { timeout: 10000})
         .contains('Address')
         .click()
 
@@ -136,9 +136,9 @@ describe('Name detail view', () => {
     cy.getByTestId('name-details').within(container => {
       cy.getByText('+', { exact: false })
         .click()
-        .getByText('select', { exact: false })
+        .getByText('select a record', { exact: false })
         .click()
-        .get('[role="option"]')
+        .get('[role="option"]', { timeout: 10000})
         .contains('Content')
         .click()
         .getByPlaceholderText('Enter a content hash', {
