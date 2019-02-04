@@ -33,7 +33,7 @@ const ActionButton = ({
   // Ignore isValid == undefined
   if (disabled || isValid === false) {
     return (
-      <Save type="disabled">{mutationButton ? mutationButton : 'Save'}</Save>
+      <Save data-testid="save" type="disabled">{mutationButton ? mutationButton : 'Save'}</Save>
     )
   }
   if (confirm) {
@@ -79,7 +79,7 @@ const SaveCancel = ({
         <Warning>{warningMessage}</Warning>
       ): null
     }
-    <Cancel type="hollow" onClick={stopEditing}>
+    <Cancel data-testid="cancel" type="hollow" onClick={stopEditing}>
       Cancel
     </Cancel>
     <ActionButton

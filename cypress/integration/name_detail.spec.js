@@ -82,19 +82,23 @@ describe('Name detail view', () => {
 
     cy.getByTestId('name-details').within(container => {
       cy.getByText('+', { exact: false }).click()
-      cy.getByText('select', { exact: false }).click()
-      cy.get('[role="option"]')
+      cy.getByText('select a record', { exact: false }).click()
+      cy.get('[role="option"]', { timeout: 1000})
         .contains('Address')
         .click()
       cy.getByPlaceholderText('Enter an Ethereum address', {
         exact: false
       }).type('blah')
-      cy.queryByText('save', { exact: false }).should('be.disabled')
+      cy.queryByTestId('save', { exact: false }).should('be.disabled')
       //force click like a real user
       cy.getByText('save', { exact: false }).click({ force: true })
 
       // Form was not closed and nothing happened
-      cy.queryByValue('blah').should('exist')
+      // This query seems flakey
+      // cy.queryByValue('blah').should('exist')
+      cy.get(('input[placeholder="Enter an Ethereum address"]')).should(elem => {
+        expect(elem.val()).to.equal('blah');
+      });
     })
   })
 
@@ -115,10 +119,8 @@ describe('Name detail view', () => {
 
       cy.wait(500)
       //form closed
-      cy.queryByText('save', { exact: false, timeout: 10 }).should('not.exist')
-      cy.queryByText('cancel', { exact: false, timeout: 10 }).should(
-        'not.exist'
-      )
+      cy.queryByTestId('save', { exact: false, timeout: 10000 }).should('not.exist')
+      cy.queryByTestId('cancel', { exact: false, timeout: 10000 }).should('not.exist')
 
       //Value updated
       cy.queryByText('0x0000000000000000000000000000000000000003', {
@@ -148,9 +150,9 @@ describe('Name detail view', () => {
       //form closed
 
       cy.wait(500)
-      cy.queryByText('save', { exact: false, timeout: 10 })
+      cy.queryByTestId('save', { exact: false, timeout: 10000 })
         .should('not.exist')
-        .queryByText('cancel', { exact: false, timeout: 10 })
+        .queryByText('cancel', { exact: false, timeout: 10000 })
         .should('not.exist')
 
       //Value updated
@@ -175,8 +177,8 @@ describe('Name detail view', () => {
       cy.wait(500)
 
       //form closed
-      cy.queryByText('save', { exact: false, timeout: 10 }).should('not.exist')
-      cy.queryByText('cancel', { exact: false, timeout: 10 }).should(
+      cy.queryByTestId('save', { exact: false, timeout: 10000 }).should('not.exist')
+      cy.queryByTestId('cancel', { exact: false, timeout: 10000 }).should(
         'not.exist'
       )
       //Value updated
@@ -200,8 +202,8 @@ describe('Name detail view', () => {
       cy.wait(500)
 
       //form closed
-      cy.queryByText('save', { exact: false, timeout: 10 }).should('not.exist')
-      cy.queryByText('cancel', { exact: false, timeout: 10 }).should(
+      cy.queryByTestId('save', { exact: false, timeout: 10000 }).should('not.exist')
+      cy.queryByTestId('cancel', { exact: false, timeout: 10000 }).should(
         'not.exist'
       )
       //Value updated
@@ -223,8 +225,8 @@ describe('Name detail view', () => {
       cy.wait(1000)
 
       //form closed
-      cy.queryByText('save', { exact: false, timeout: 10 }).should('not.exist')
-      cy.queryByText('cancel', { exact: false, timeout: 10 }).should(
+      cy.queryByTestId('save', { exact: false, timeout: 10000 }).should('not.exist')
+      cy.queryByTestId('cancel', { exact: false, timeout: 10000 }).should(
         'not.exist'
       )
       //Value updated
