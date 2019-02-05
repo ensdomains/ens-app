@@ -9,6 +9,7 @@ import { Title } from '../Typography/Basic'
 import DefaultFavourite from '../AddFavourite/Favourite'
 import NameDetails from './NameDetails'
 import NameAuction from './NameAuction'
+import NameRegister from './NameRegister'
 import Tabs from './Tabs'
 import QueryAccount from '../QueryAccount'
 
@@ -88,6 +89,8 @@ function Name({ details: domain, name, pathname, refetch }) {
         if (domain.owner !== EMPTY_ADDRESS) {
           isOwner = domain.owner.toLowerCase() === account.toLowerCase()
         }
+        //TODO: Remove later
+        domain.state = 'Available'
         return (
           <NameContainer state={isOwner ? 'Yours' : domain.state}>
             <TopBar percentDone={percentDone}>
@@ -101,6 +104,8 @@ function Name({ details: domain, name, pathname, refetch }) {
             {!smallBP && <Tabs pathname={pathname} domain={domain} />}
             {domain.state === 'Auction' || domain.state === 'Reveal' ? (
               <NameAuction domain={domain} timeLeft={timeLeft} />
+            ) : domain.state === 'Available' ? (
+              <NameRegister domain={domain} pathname={pathname} />
             ) : (
               <NameDetails
                 domain={domain}
