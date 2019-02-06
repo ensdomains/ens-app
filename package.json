@@ -7,7 +7,7 @@
     "@0xproject/utils": "^0.7.3",
     "@ensdomains/ens": "^0.3.3",
     "@ensdomains/ens-022": "npm:@ensdomains/ens@0.2.2",
-    "@ensdomains/resolver": "^0.1.0",
+    "@ensdomains/resolver": "^0.1.1",
     "apollo-cache-inmemory": "^1.2.9",
     "apollo-client": "^2.4.5",
     "apollo-link": "^1.2.2",

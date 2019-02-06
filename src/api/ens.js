@@ -1,22 +1,8 @@
 import getWeb3, { getWeb3Read, getNetworkId } from './web3'
 import { abi as ensContract } from '@ensdomains/ens/build/contracts/ENS.json'
 import { abi as reverseRegistrarContract } from '@ensdomains/ens/build/contracts/ReverseRegistrar.json'
-import { abi as resolverContract } from '@ensdomains/resolver/build/contracts/PublicResolver.json'
-import { abi as oldResolverContract } from '@ensdomains/ens-022/build/contracts/PublicResolver.json'
-
+import { abi as resolverContract } from '@ensdomains/resolver/build/contracts/Resolver.json'
 import { abi as fifsRegistrarContract } from '@ensdomains/ens/build/contracts/FIFSRegistrar.json'
-
-oldResolverContract.forEach((old, i) => {
-  if (
-    !resolverContract
-      .map(n => {
-        return n.name
-      })
-      .includes(old.name)
-  ) {
-    resolverContract.push(old)
-  }
-})
 
 var contracts = {
   1: {
