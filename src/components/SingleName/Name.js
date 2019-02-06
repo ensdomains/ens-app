@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'react-emotion'
 
 import mq, { useMediaMin } from 'mediaQuery'
-import { getPercentTimeLeft, getTimeLeft } from '../../utils/dates'
 import { EMPTY_ADDRESS } from '../../utils/records'
 
 import { Title } from '../Typography/Basic'
@@ -79,8 +78,7 @@ const Favourite = styled(DefaultFavourite)``
 
 function Name({ details: domain, name, pathname, refetch }) {
   const smallBP = useMediaMin('small')
-  const timeLeft = getTimeLeft(domain)
-  const percentDone = getPercentTimeLeft(timeLeft, domain)
+  const percentDone = 0
   return (
     <QueryAccount>
       {({ account }) => {
