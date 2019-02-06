@@ -8,7 +8,6 @@ import { EMPTY_ADDRESS } from '../../utils/records'
 import { Title } from '../Typography/Basic'
 import DefaultFavourite from '../AddFavourite/Favourite'
 import NameDetails from './NameDetails'
-import NameAuction from './NameAuction'
 import NameRegister from './NameRegister'
 import Tabs from './Tabs'
 import QueryAccount from '../QueryAccount'
@@ -102,9 +101,7 @@ function Name({ details: domain, name, pathname, refetch }) {
               </RightBar>
             </TopBar>
             {!smallBP && <Tabs pathname={pathname} domain={domain} />}
-            {domain.state === 'Auction' || domain.state === 'Reveal' ? (
-              <NameAuction domain={domain} timeLeft={timeLeft} />
-            ) : domain.state === 'Available' ? (
+            {domain.state === 'Available' ? (
               <NameRegister domain={domain} pathname={pathname} />
             ) : (
               <NameDetails
