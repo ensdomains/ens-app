@@ -158,20 +158,9 @@ const Label = ({ domain, timeLeft, isOwner }) => {
     text = 'Owner'
   }
 
-  let timeLeftHuman
-
-  if (domain.state === 'Auction' || domain.state === 'Reveal') {
-    timeLeftHuman = humanizeDate(timeLeft)
-  }
-
   return (
     <LabelContainer className="label-container">
       <LabelText>{text}</LabelText>
-      {domain.state === 'Auction' || domain.state === 'Reveal' ? (
-        <TimeLeft>{`${timeLeftHuman} left`}</TimeLeft>
-      ) : (
-        ''
-      )}
     </LabelContainer>
   )
 }
@@ -185,9 +174,6 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
     )
   }
 
-  let timeLeft = getTimeLeft(domain)
-  let percentDone = getPercentTimeLeft(timeLeft, domain)
-
   return (
     <QueryAccount>
       {({ account }) => {
@@ -196,6 +182,8 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
         if (domain.owner && parseInt(domain.owner, 16) !== 0) {
           isOwner = domain.owner.toLowerCase() === account.toLowerCase()
         }
+
+        const percentDone = 0
         return (
           <DomainContainer
             to={`/name/${domain.name}`}
@@ -207,7 +195,7 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
               {domain.name}
             </DomainName>
             <RightContainer>
-              <Label domain={domain} timeLeft={timeLeft} isOwner={isOwner} />
+              <Label domain={domain} isOwner={isOwner} />
               {isSubDomain && domain.state === 'Open' ? (
                 <Price className="price">
                   {domain.price > 0 ? `${domain.price} ETH` : 'Free'}
