@@ -9,7 +9,7 @@ module.exports = async function deployENS({ web3, accounts }) {
       })
       .send({
         from: accounts[0],
-        gas: 4700000
+        gas: 6700000
       })
   }
 
@@ -35,7 +35,10 @@ module.exports = async function deployENS({ web3, accounts }) {
   const resolverJSON = loadContract('resolver', 'PublicResolver')
   const oldResolverJSON = loadContract('ens-022', 'PublicResolver')
   const reverseRegistrarJSON = loadContract('ens', 'ReverseRegistrar')
-  // const HashRegistrarSimplifiedJSON = loadContract('ens', 'HashRegistrar')
+  const baseRegistrarJSON = require(`ethregistrar/build/contracts/BaseRegistrarImplementation`)
+  const priceOracleJSON = require(`ethregistrar/build/contracts/SimplePriceOracle`)
+  const controllerJSON = require(`ethregistrar/build/contracts/ETHRegistrarController`)
+  const HashRegistrarSimplifiedJSON = loadContract('ens', 'HashRegistrar')
 
   /* Deploy the main contracts  */
   const ens = await deploy(registryJSON)
@@ -47,24 +50,24 @@ module.exports = async function deployENS({ web3, accounts }) {
     resolver._address
   )
   // Disabled for now as the deploy was throwing error and this is not in use.
-  // const ethRegistrar = await deploy(
-  //   HashRegistrarSimplifiedJSON,
-  //   ens._address,
-  //   accounts[0],
-  //   0
-  // )
+  const ethRegistrar = await deploy(
+    HashRegistrarSimplifiedJSON,
+    ens._address,
+    accounts[0],
+    1493895600
+  )
 
   const ensContract = ens.methods
   const resolverContract = resolver.methods
   const oldResolverContract = oldResolver.methods
   const reverseRegistrarContract = reverseRegistrar.methods
-  // const ethRegistrarContract = ethRegistrar.methods
+  const ethRegistrarContract = ethRegistrar.methods
 
   console.log('ENS registry deployed at: ', ens._address)
   console.log('Public resolver deployed at: ', resolver._address)
   console.log('Old Public resolver deployed at: ', oldResolver._address)
   console.log('Reverse Registrar deployed at: ', reverseRegistrar._address)
-  // console.log('Auction Registrar deployed at: ', ethRegistrar._address)
+  console.log('Auction Registrar deployed at: ', ethRegistrar._address)
 
   const tld = 'eth'
   const tldHash = sha3(tld)
@@ -246,9 +249,37 @@ module.exports = async function deployENS({ web3, accounts }) {
     .send({ from: accounts[2], gas: 1000000 })
 
   /* Set the registrar contract as the owner of .eth */
-  // await ensContract
-  //   .setOwner(namehash('eth'), accounts[0])
-  //   .send({ from: accounts[0] })
+  await ensContract
+    .setSubnodeOwner('0x00000000000000000000000000000000', tldHash, ethRegistrar._address)
+    .send({
+      from: accounts[0]
+    })
+
+  const now = (await web3.eth.getBlock('latest')).timestamp;
+  const DAYS = 24 * 60 * 60;
+  
+  const priceOracle = await deploy(priceOracleJSON, 1)
+  const baseRegistrar = await deploy(baseRegistrarJSON, ens._address, namehash('eth'), now + 365 * DAYS)
+  const controller = await deploy(controllerJSON, baseRegistrar._address, priceOracle._address)
+  const baseRegistrarContract = baseRegistrar.methods
+  const controllerContract = controller.methods
+
+  console.log('Price oracle deployed at: ', priceOracle._address)
+  console.log('Base registrar deployed at: ', baseRegistrar._address)
+  console.log('Controller deployed at: ', controller._address)
+
+  console.log('Hand over the root TLD to baseRegistrar')
+  await ensContract
+    .setSubnodeOwner('0x00000000000000000000000000000000', tldHash, baseRegistrar._address)
+    .send({
+      from: accounts[0]
+    })
+
+  await baseRegistrarContract.addController(controller._address).send({from: accounts[0]});
+  const resolverAvailable = await controllerContract.available(sha3('resolver')).call()
+  console.log('.available("resolver") returns false', resolverAvailable)
+  const availableAvailable = await controllerContract.available(sha3('available')).call()
+  console.log('.available("available") returns true', availableAvailable)
 
   return {
     emptyAddress:'0x0000000000000000000000000000000000000000',
