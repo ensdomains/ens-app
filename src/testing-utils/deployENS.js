@@ -331,7 +331,7 @@ module.exports = async function deployENS({ web3, accounts }) {
 
   console.log('time', await web3.eth.getBlockNumber())
   var value = 28 * DAYS + 1;
-  console.log('*** I blows up HERE')
+  console.log('*** It blows up HERE')
   var tx = await controllerContract.register("newname", accounts[0], 28 * DAYS, secret).send({from:accounts[0], value:value});
     console.log('registered')
   // var tx = await controllerContract.register("newname", accounts[0], 28 * DAYS, secret).send({value: value, from:accounts[0]});
