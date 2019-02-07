@@ -1,3 +1,44 @@
+const sha3 = require('web3-utils').sha3;
+const toBN = require('web3-utils').toBN;
+const util = require('util');
+const SALT = sha3('foo');
+const secret = "0x0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF";
+
+async function registerOldNames(web3, interimRegistrar, owner, name) {
+  var hash = sha3(name);
+  var value = toBN(10000000000000000);
+  console.log('registerOldNames1', {hash, owner, value, SALT})
+  var bidHash = await interimRegistrar.shaBid(hash, owner, value, SALT).send({from:owner})
+  console.log('registerOldNames2', bidHash)
+  await interimRegistrar.startAuction(hash).send({from:owner});
+  console.log('registerOldNames3')
+  await interimRegistrar.newBid(bidHash).send({from:owner, value: value});
+  console.log('registerOldNames4')
+  await advanceTime(web3, 3 * DAYS + 1);
+  await interimRegistrar.unsealBid(hash, value, SALT).send({from:owner});
+  console.log('registerOldNames5')
+  await advanceTime(web3, 2 * DAYS + 1);
+  console.log('registerOldNames6')
+  await interimRegistrar.finalizeAuction(hash).send({from:owner});
+}
+
+const advanceTime = util.promisify(function(web3, delay, done) {
+  console.log('advanceTime', delay)
+  return web3.currentProvider.send({
+    jsonrpc: "2.0",
+    "method": "evm_increaseTime",
+    params: [delay]}, done)
+  }
+);
+
+const mine = util.promisify(function(web3, done) {
+  return web3.currentProvider.send({
+    jsonrpc: "2.0",
+    "method": "evm_mine",
+    }, done)
+  }
+);
+
 module.exports = async function deployENS({ web3, accounts }) {
   const { sha3 } = web3.utils
   function deploy(contractJSON, ...args) {
@@ -255,6 +296,8 @@ module.exports = async function deployENS({ web3, accounts }) {
       from: accounts[0]
     })
 
+  // registerOldNames(web3, ethRegistrarContract, accounts[0], 'unavailable')
+
   const now = (await web3.eth.getBlock('latest')).timestamp;
   const DAYS = 24 * 60 * 60;
   
@@ -276,10 +319,25 @@ module.exports = async function deployENS({ web3, accounts }) {
     })
 
   await baseRegistrarContract.addController(controller._address).send({from: accounts[0]});
-  const resolverAvailable = await controllerContract.available(sha3('resolver')).call()
-  console.log('.available("resolver") returns false', resolverAvailable)
-  const availableAvailable = await controllerContract.available(sha3('available')).call()
-  console.log('.available("available") returns true', availableAvailable)
+
+  let newnameAvailable = await controllerContract.available(sha3('newname')).call()
+  var commitment = await controllerContract.makeCommitment("newname", secret).call();
+  await controllerContract.commit(commitment).send({from:accounts[0]});
+  var min_commitment_age = await controllerContract.MIN_COMMITMENT_AGE().call();
+  console.log(new Date((await web3.eth.getBlock('latest')).timestamp * 1000));
+  await advanceTime(web3, parseInt(min_commitment_age));
+  await mine(web3);
+  console.log(new Date((await web3.eth.getBlock('latest')).timestamp * 1000));
+
+  console.log('time', await web3.eth.getBlockNumber())
+  var value = 28 * DAYS + 1;
+  console.log('*** I blows up HERE')
+  var tx = await controllerContract.register("newname", accounts[0], 28 * DAYS, secret).send({from:accounts[0], value:value});
+    console.log('registered')
+  // var tx = await controllerContract.register("newname", accounts[0], 28 * DAYS, secret).send({value: value, from:accounts[0]});
+  newnameAvailable = await controllerContract.available(sha3('newname')).call()
+  console.log('.available("newname") returns', newnameAvailable)
+
 
   return {
     emptyAddress:'0x0000000000000000000000000000000000000000',
