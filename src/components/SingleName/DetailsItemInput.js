@@ -15,26 +15,26 @@ const DetailsItemInput = ({
   dataType,
   contentType
 }) => {
-  return(
-      <Input
-        warning={dataType === 'content' && contentType === 'oldcontent'}
-        valid={isValid}
-        invalid={isInvalid}
-        placeholder={getPlaceholder(dataType, contentType)}
-        onChange={e => {
-          if(dataType === 'address' || contentType === 'oldcontent'){
-            updateValue(e.target.value)
-          }else if (contentType == 'contenthash'){
-            let encoded = encode(e.target.value)
-            if(encoded){
-              updateValue(encoded)
-            }else{
-              updateValue('0x')
-            }
-          }else{
-            console.warn('unsupported type')
+  return (
+    <Input
+      warning={dataType === 'content' && contentType === 'oldcontent'}
+      valid={isValid}
+      invalid={isInvalid}
+      placeholder={getPlaceholder(dataType, contentType)}
+      onChange={e => {
+        if (dataType === 'address' || contentType === 'oldcontent') {
+          updateValue(e.target.value)
+        } else if (contentType === 'contenthash') {
+          let encoded = encode(e.target.value)
+          if (encoded) {
+            updateValue(encoded)
+          } else {
+            updateValue('0x')
           }
-        }}
+        } else {
+          console.warn('unsupported type')
+        }
+      }}
     />
   )
 }
