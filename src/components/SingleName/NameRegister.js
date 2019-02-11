@@ -84,7 +84,7 @@ const NameRegister = ({ domain }) => {
       <CTA incrementStep={incrementStep} />
       <Calendar />
       <div onClick={requestPermission}>Request permission</div>
-      <div onClick={sendNotification}>Notify</div>
+      <div onClick={() => sendNotification('cool')}>Notify</div>
     </NameRegisterContainer>
   )
 }
