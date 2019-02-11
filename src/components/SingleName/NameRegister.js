@@ -4,6 +4,7 @@ import Button from '../Forms/Button'
 import Step from './NameRegister/Step'
 import Years from './NameRegister/Years'
 import Price from './NameRegister/Price'
+import Calendar from './NameRegister/Calendar'
 
 const Explainer = ({ step }) => {
   const titles = [
@@ -77,6 +78,7 @@ const NameRegister = ({ domain }) => {
 
       <Explainer steps={steps} step={step} />
       <CTA incrementStep={incrementStep} />
+      <Calendar />
     </NameRegisterContainer>
   )
 }
