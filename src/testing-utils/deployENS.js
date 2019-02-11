@@ -2,6 +2,8 @@ const sha3 = require('web3-utils').sha3;
 const toBN = require('web3-utils').toBN;
 const util = require('util');
 const SALT = sha3('foo');
+const DAYS = 24 * 60 * 60;
+
 const secret = "0x0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF";
 
 
@@ -21,6 +23,29 @@ const mine = util.promisify(function(web3, done) {
     }, done)
   }
 );
+
+const registerName = async function(web3, account, controllerContract, name){
+  let newnameAvailable = await controllerContract.available(name).call()
+  console.log(`Is ${name} available?`, newnameAvailable)
+
+  var commitment = await controllerContract.makeCommitment(name, secret).call();
+  await controllerContract.commit(commitment).send({from:account});
+  var min_commitment_age = await controllerContract.MIN_COMMITMENT_AGE().call();
+  console.log(new Date((await web3.eth.getBlock('latest')).timestamp * 1000));
+  await advanceTime(web3, parseInt(min_commitment_age));
+  await mine(web3);
+  console.log(new Date((await web3.eth.getBlock('latest')).timestamp * 1000));
+
+  console.log('time', await web3.eth.getBlockNumber())
+  var value = 28 * DAYS + 1;
+
+  var tx = await controllerContract.register(name, account, 28 * DAYS, secret).send({from:account, value:value, gas:5000000});
+  console.log(tx.events.NameRegistered.returnValues)
+
+  newnameAvailable = await controllerContract.available(name).call()
+  console.log(`Is ${name} available?`, newnameAvailable)
+}
+
 
 module.exports = async function deployENS({ web3, accounts }) {
   const { sha3 } = web3.utils
@@ -280,7 +305,6 @@ module.exports = async function deployENS({ web3, accounts }) {
     })
 
   const now = (await web3.eth.getBlock('latest')).timestamp;
-  const DAYS = 24 * 60 * 60;
   
   const priceOracle = await deploy(priceOracleJSON, 1)
   const baseRegistrar = await deploy(baseRegistrarJSON, ens._address, namehash('eth'), now + 365 * DAYS)
@@ -301,26 +325,7 @@ module.exports = async function deployENS({ web3, accounts }) {
 
   await baseRegistrarContract.addController(controller._address).send({from: accounts[0]});
 
-  let newnameAvailable = await controllerContract.available('newname').call()
-  console.log('.available("newname") returns', newnameAvailable)
-
-  var commitment = await controllerContract.makeCommitment("newname", secret).call();
-  await controllerContract.commit(commitment).send({from:accounts[0]});
-  var min_commitment_age = await controllerContract.MIN_COMMITMENT_AGE().call();
-  console.log(new Date((await web3.eth.getBlock('latest')).timestamp * 1000));
-  await advanceTime(web3, parseInt(min_commitment_age));
-  await mine(web3);
-  console.log(new Date((await web3.eth.getBlock('latest')).timestamp * 1000));
-
-  console.log('time', await web3.eth.getBlockNumber())
-  var value = 28 * DAYS + 1;
-
-  var tx = await controllerContract.register("newname", accounts[0], 28 * DAYS, secret).send({from:accounts[0], value:value, gas:5000000});
-  console.log(tx.events.NameRegistered.returnValues)
-
-  newnameAvailable = await controllerContract.available('newname').call()
-  console.log('.available("newname") returns', newnameAvailable)
-
+  await registerName(web3, accounts[0], controllerContract, 'newname');
 
   return {
     emptyAddress:'0x0000000000000000000000000000000000000000',
