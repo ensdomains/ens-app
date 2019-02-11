@@ -4,23 +4,6 @@ const util = require('util');
 const SALT = sha3('foo');
 const secret = "0x0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF";
 
-async function registerOldNames(web3, interimRegistrar, owner, name) {
-  var hash = sha3(name);
-  var value = toBN(10000000000000000);
-  console.log('registerOldNames1', {hash, owner, value, SALT})
-  var bidHash = await interimRegistrar.shaBid(hash, owner, value, SALT).send({from:owner})
-  console.log('registerOldNames2', bidHash)
-  await interimRegistrar.startAuction(hash).send({from:owner});
-  console.log('registerOldNames3')
-  await interimRegistrar.newBid(bidHash).send({from:owner, value: value});
-  console.log('registerOldNames4')
-  await advanceTime(web3, 3 * DAYS + 1);
-  await interimRegistrar.unsealBid(hash, value, SALT).send({from:owner});
-  console.log('registerOldNames5')
-  await advanceTime(web3, 2 * DAYS + 1);
-  console.log('registerOldNames6')
-  await interimRegistrar.finalizeAuction(hash).send({from:owner});
-}
 
 const advanceTime = util.promisify(function(web3, delay, done) {
   console.log('advanceTime', delay)
@@ -94,7 +77,7 @@ module.exports = async function deployENS({ web3, accounts }) {
   const ethRegistrar = await deploy(
     HashRegistrarSimplifiedJSON,
     ens._address,
-    accounts[0],
+    namehash('eth'),
     1493895600
   )
 
@@ -296,8 +279,6 @@ module.exports = async function deployENS({ web3, accounts }) {
       from: accounts[0]
     })
 
-  // registerOldNames(web3, ethRegistrarContract, accounts[0], 'unavailable')
-
   const now = (await web3.eth.getBlock('latest')).timestamp;
   const DAYS = 24 * 60 * 60;
   
@@ -320,7 +301,9 @@ module.exports = async function deployENS({ web3, accounts }) {
 
   await baseRegistrarContract.addController(controller._address).send({from: accounts[0]});
 
-  let newnameAvailable = await controllerContract.available(sha3('newname')).call()
+  let newnameAvailable = await controllerContract.available('newname').call()
+  console.log('.available("newname") returns', newnameAvailable)
+
   var commitment = await controllerContract.makeCommitment("newname", secret).call();
   await controllerContract.commit(commitment).send({from:accounts[0]});
   var min_commitment_age = await controllerContract.MIN_COMMITMENT_AGE().call();
@@ -331,11 +314,11 @@ module.exports = async function deployENS({ web3, accounts }) {
 
   console.log('time', await web3.eth.getBlockNumber())
   var value = 28 * DAYS + 1;
-  console.log('*** It blows up HERE')
-  var tx = await controllerContract.register("newname", accounts[0], 28 * DAYS, secret).send({from:accounts[0], value:value});
-    console.log('registered')
-  // var tx = await controllerContract.register("newname", accounts[0], 28 * DAYS, secret).send({value: value, from:accounts[0]});
-  newnameAvailable = await controllerContract.available(sha3('newname')).call()
+
+  var tx = await controllerContract.register("newname", accounts[0], 28 * DAYS, secret).send({from:accounts[0], value:value, gas:5000000});
+  console.log(tx.events.NameRegistered.returnValues)
+
+  newnameAvailable = await controllerContract.available('newname').call()
   console.log('.available("newname") returns', newnameAvailable)
 
 
