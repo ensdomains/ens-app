@@ -2,10 +2,8 @@ import React, { useState } from 'react'
 import styled from 'react-emotion'
 import Button from '../Forms/Button'
 import Step from './NameRegister/Step'
-
-const Year = () => <div>2</div>
-
-const Price = () => <div>0.98 ETH</div>
+import Years from './NameRegister/Years'
+import Price from './NameRegister/Price'
 
 const Explainer = ({ step }) => {
   const titles = [
@@ -62,15 +60,18 @@ const steps = ['request', 'wait', 'register']
 
 const NameRegister = ({ domain }) => {
   const [step, setStep] = useState(0)
+  const [years, setYears] = useState(1)
 
   const incrementStep = () => setStep(step + 1)
+
+  const pricePerYear = 0.1
 
   return (
     <NameRegisterContainer>
       {steps[step] === 'request' && (
         <>
-          <Year />
-          <Price />
+          <Years years={years} setYears={setYears} />
+          <Price years={years} pricePerYear={pricePerYear} />
         </>
       )}
 
