@@ -5,7 +5,10 @@ import Step from './NameRegister/Step'
 import Years from './NameRegister/Years'
 import Price from './NameRegister/Price'
 import Calendar from './NameRegister/Calendar'
-import { requestPermission } from './NameRegister/notification'
+import {
+  requestPermission,
+  sendNotification
+} from './NameRegister/notification'
 
 const Explainer = ({ step }) => {
   const titles = [
@@ -80,7 +83,8 @@ const NameRegister = ({ domain }) => {
       <Explainer steps={steps} step={step} />
       <CTA incrementStep={incrementStep} />
       <Calendar />
-      <div onClick={requestPermission}>notify me</div>
+      <div onClick={requestPermission}>Request permission</div>
+      <div onClick={sendNotification}>Notify</div>
     </NameRegisterContainer>
   )
 }
