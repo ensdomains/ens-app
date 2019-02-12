@@ -3,12 +3,13 @@ const toBN = require('web3-utils').toBN;
 const util = require('util');
 const SALT = sha3('foo');
 const DAYS = 24 * 60 * 60;
+const DURATION = 28 * DAYS;
+const VALUE = 28 * DAYS + 1;
 
 const secret = "0x0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF";
 
 
 const advanceTime = util.promisify(function(web3, delay, done) {
-  console.log('advanceTime', delay)
   return web3.currentProvider.send({
     jsonrpc: "2.0",
     "method": "evm_increaseTime",
@@ -25,25 +26,21 @@ const mine = util.promisify(function(web3, done) {
 );
 
 const registerName = async function(web3, account, controllerContract, name){
+  console.log(`Registering ${name}`)
   let newnameAvailable = await controllerContract.available(name).call()
-  console.log(`Is ${name} available?`, newnameAvailable)
-
   var commitment = await controllerContract.makeCommitment(name, secret).call();
   await controllerContract.commit(commitment).send({from:account});
   var min_commitment_age = await controllerContract.MIN_COMMITMENT_AGE().call();
-  console.log(new Date((await web3.eth.getBlock('latest')).timestamp * 1000));
   await advanceTime(web3, parseInt(min_commitment_age));
   await mine(web3);
-  console.log(new Date((await web3.eth.getBlock('latest')).timestamp * 1000));
 
-  console.log('time', await web3.eth.getBlockNumber())
-  var value = 28 * DAYS + 1;
+  await controllerContract
+    .register(name, account, 28 * DAYS, secret)
+    .send({from:account, value:VALUE, gas:5000000});
 
-  var tx = await controllerContract.register(name, account, 28 * DAYS, secret).send({from:account, value:value, gas:5000000});
-  console.log(tx.events.NameRegistered.returnValues)
-
+  // The name should be no longer available
   newnameAvailable = await controllerContract.available(name).call()
-  console.log(`Is ${name} available?`, newnameAvailable)
+  if(newnameAvailable) throw(`Failed to register "${name}"`)
 }
 
 
@@ -151,40 +148,44 @@ module.exports = async function deployENS({ web3, accounts }) {
       from: accounts[0]
     })
 
-  /* Register the subdomain resolver.eth */
 
+  /* Set the old hash registrar contract as the owner of .eth */
   await ensContract
-    .setSubnodeOwner(namehash('eth'), sha3('resolver'), accounts[0])
+    .setSubnodeOwner('0x00000000000000000000000000000000', tldHash, ethRegistrar._address)
     .send({
       from: accounts[0]
     })
+  
+  const now = (await web3.eth.getBlock('latest')).timestamp;  
+  const priceOracle = await deploy(priceOracleJSON, 1)
+  const baseRegistrar = await deploy(baseRegistrarJSON, ens._address, namehash('eth'), now + 365 * DAYS)
+  const controller = await deploy(controllerJSON, baseRegistrar._address, priceOracle._address)
+  const baseRegistrarContract = baseRegistrar.methods
+  const controllerContract = controller.methods
 
+  console.log('Price oracle deployed at: ', priceOracle._address)
+  console.log('Base registrar deployed at: ', baseRegistrar._address)
+  console.log('Controller deployed at: ', controller._address)
+
+  /* Set the pernament registrar contract as the owner of .eth */
   await ensContract
-    .setSubnodeOwner(namehash('eth'), sha3('oldresolver'), accounts[0])
+    .setSubnodeOwner('0x00000000000000000000000000000000', tldHash, baseRegistrar._address)
     .send({
       from: accounts[0]
     })
+  console.log('Add controller to base registrar')
+  await baseRegistrarContract.addController(controller._address).send({from: accounts[0]});
 
-  /* Register some test domains */
-
-  await ensContract
-    .setSubnodeOwner(namehash('eth'), sha3('awesome'), accounts[0])
-    .send({
-      from: accounts[0]
-    })
-
-  await ensContract
-    .setSubnodeOwner(namehash('eth'), sha3('superawesome'), accounts[0])
-    .send({
-      from: accounts[0]
-    })
-
-  // Setup domain  with a resolver
-  await ensContract
-    .setSubnodeOwner(namehash('eth'), sha3('notsoawesome'), accounts[0])
-    .send({
-      from: accounts[0]
-    })
+  console.log('Register name')  
+  await registerName(web3, accounts[0], controllerContract, 'newname');
+  await registerName(web3, accounts[0], controllerContract, 'resolver');
+  await registerName(web3, accounts[0], controllerContract, 'oldresolver');
+  await registerName(web3, accounts[0], controllerContract, 'awesome');
+  await registerName(web3, accounts[0], controllerContract, 'superawesome');
+  await registerName(web3, accounts[0], controllerContract, 'notsoawesome');
+  await registerName(web3, accounts[0], controllerContract, 'abittooawesome');
+  await registerName(web3, accounts[0], controllerContract, 'subdomaindummy');
+  await registerName(web3, accounts[0], controllerContract, 'subdomain');
 
   await ensContract
     .setResolver(namehash('notsoawesome.eth'), resolver._address)
@@ -193,12 +194,7 @@ module.exports = async function deployENS({ web3, accounts }) {
     })
 
   /* Setup domain with a resolver and addr/content */
-  await ensContract
-    .setSubnodeOwner(namehash('eth'), sha3('abittooawesome'), accounts[0])
-    .send({
-      from: accounts[0]
-    })
-
+  console.log('Setting up abittooawesome.eth')
   const aBitTooAwesome = namehash('abittooawesome.eth')
 
   await ensContract.setResolver(aBitTooAwesome, resolver._address).send({
@@ -222,11 +218,7 @@ module.exports = async function deployENS({ web3, accounts }) {
     })
 
   /* Setup some domains for subdomain testing */
-  await ensContract
-    .setSubnodeOwner(namehash('eth'), sha3('subdomaindummy'), accounts[0])
-    .send({
-      from: accounts[0]
-    })
+  console.log('Setting up subdomaindummy.eth')
 
   await ensContract
     .setSubnodeOwner(
@@ -238,13 +230,8 @@ module.exports = async function deployENS({ web3, accounts }) {
       from: accounts[0]
     })
 
-  await ensContract
-    .setSubnodeOwner(namehash('eth'), sha3('subdomain'), accounts[0])
-    .send({
-      from: accounts[0]
-    })
-
   /* Point the resolver.eth's resolver to the public resolver */
+  console.log('Setting up resolvers')
   await ensContract
     .setResolver(namehash('resolver.eth'), resolver._address)
     .send({
@@ -271,6 +258,7 @@ module.exports = async function deployENS({ web3, accounts }) {
     })
 
   /* Resolve the resolver.eth content to a 32 byte content hash */
+  console.log('Setting up contenthash')
 
   await resolverContract
     .setContenthash(
@@ -296,36 +284,6 @@ module.exports = async function deployENS({ web3, accounts }) {
   await reverseRegistrarContract
     .setName('eth')
     .send({ from: accounts[2], gas: 1000000 })
-
-  /* Set the registrar contract as the owner of .eth */
-  await ensContract
-    .setSubnodeOwner('0x00000000000000000000000000000000', tldHash, ethRegistrar._address)
-    .send({
-      from: accounts[0]
-    })
-
-  const now = (await web3.eth.getBlock('latest')).timestamp;
-  
-  const priceOracle = await deploy(priceOracleJSON, 1)
-  const baseRegistrar = await deploy(baseRegistrarJSON, ens._address, namehash('eth'), now + 365 * DAYS)
-  const controller = await deploy(controllerJSON, baseRegistrar._address, priceOracle._address)
-  const baseRegistrarContract = baseRegistrar.methods
-  const controllerContract = controller.methods
-
-  console.log('Price oracle deployed at: ', priceOracle._address)
-  console.log('Base registrar deployed at: ', baseRegistrar._address)
-  console.log('Controller deployed at: ', controller._address)
-
-  console.log('Hand over the root TLD to baseRegistrar')
-  await ensContract
-    .setSubnodeOwner('0x00000000000000000000000000000000', tldHash, baseRegistrar._address)
-    .send({
-      from: accounts[0]
-    })
-
-  await baseRegistrarContract.addController(controller._address).send({from: accounts[0]});
-
-  await registerName(web3, accounts[0], controllerContract, 'newname');
 
   return {
     emptyAddress:'0x0000000000000000000000000000000000000000',
