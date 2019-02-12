@@ -18,6 +18,9 @@ export async function getEtherScanAddr() {
     case 3:
     case '3':
       return 'https://ropsten.etherscan.io/'
+    case 4:
+    case '4':
+      return 'https://rinkeby.etherscan.io/'
     default:
       return 'https://etherscan.io/'
   }

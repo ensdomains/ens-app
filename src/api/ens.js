@@ -24,6 +24,9 @@ var contracts = {
   },
   3: {
     registry: '0x112234455c3a32fd11230c42e7bccd4a84e02010'
+  },
+  4: {
+    registry: '0xe7410170f87102df0055eb195163a03b7f2bff4a'
   }
 }
 
