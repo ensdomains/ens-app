@@ -174,8 +174,8 @@ class NameDetails extends Component {
                   </>
                 )}
               </Records>
-              <div>hello</div>
               {parseInt(domain.owner) == 0 && domain.name.match(/\.test$/) ? (
+                <>
                 <Mutation
                   mutation={REGISTER_TESTDOMAIN}
                   onCompleted={data => {
@@ -204,10 +204,12 @@ class NameDetails extends Component {
                       // })
                     }
                   >
-                    <div>world</div>
+                    <div>Claim the test domain</div>
                   </Button>
                 )}
                 </Mutation>
+                <p>Note: .test domain allows anyone to claim an unused name for test purposes, which expires after 28 days</p>
+                </>
               ) : null }
             </Details>
           )}
