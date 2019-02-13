@@ -1,5 +1,11 @@
 import gql from 'graphql-tag'
 
+export const REGISTER_TESTDOMAIN = gql`
+  mutation registerTestdomain($label: String) {
+    registerTestdomain(label: $label) @client
+  }
+`
+
 export const SET_ERROR = gql`
   mutation setError($message: String) {
     setError(message: $message) @client {

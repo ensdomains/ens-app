@@ -10,6 +10,7 @@ import {
   setAddress,
   setContent,
   setContenthash,
+  registerTestdomain,
   createSubdomain
 } from '../registry'
 import { getEntry } from '../registrar'
@@ -248,6 +249,10 @@ const resolvers = {
     }
   },
   Mutation: {
+    registerTestdomain: async (_, { label }) => {
+      const tx = await registerTestdomain(label)
+      return sendHelper(tx)
+    },
     setName: async (_, { name }) => {
       try {
         console.log(name)
