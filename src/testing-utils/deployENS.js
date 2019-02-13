@@ -9,7 +9,7 @@ module.exports = async function deployENS({ web3, accounts }) {
       })
       .send({
         from: accounts[0],
-        gas: 4700000
+        gas: 5700000
       })
   }
 
@@ -35,7 +35,8 @@ module.exports = async function deployENS({ web3, accounts }) {
   const resolverJSON = loadContract('resolver', 'PublicResolver')
   const oldResolverJSON = loadContract('ens-022', 'PublicResolver')
   const reverseRegistrarJSON = loadContract('ens', 'ReverseRegistrar')
-  // const HashRegistrarSimplifiedJSON = loadContract('ens', 'HashRegistrar')
+  const testRegistrarJSON = loadContract('ens', 'TestRegistrar')
+  const hashRegistrarSimplifiedJSON = loadContract('ens', 'HashRegistrar')
 
   /* Deploy the main contracts  */
   const ens = await deploy(registryJSON)
@@ -46,25 +47,33 @@ module.exports = async function deployENS({ web3, accounts }) {
     ens._address,
     resolver._address
   )
+
+  const testRegistrar = await deploy(
+    testRegistrarJSON,
+    ens._address,
+    namehash('test')
+  )
   // Disabled for now as the deploy was throwing error and this is not in use.
-  // const ethRegistrar = await deploy(
-  //   HashRegistrarSimplifiedJSON,
-  //   ens._address,
-  //   accounts[0],
-  //   0
-  // )
+  const ethRegistrar = await deploy(
+    hashRegistrarSimplifiedJSON,
+    ens._address,
+    namehash('eth'),
+    0,
+  )
 
   const ensContract = ens.methods
   const resolverContract = resolver.methods
   const oldResolverContract = oldResolver.methods
   const reverseRegistrarContract = reverseRegistrar.methods
-  // const ethRegistrarContract = ethRegistrar.methods
+  const testRegistrarContract = testRegistrar.methods
+  const ethRegistrarContract = ethRegistrar.methods
 
   console.log('ENS registry deployed at: ', ens._address)
   console.log('Public resolver deployed at: ', resolver._address)
   console.log('Old Public resolver deployed at: ', oldResolver._address)
   console.log('Reverse Registrar deployed at: ', reverseRegistrar._address)
-  // console.log('Auction Registrar deployed at: ', ethRegistrar._address)
+  console.log('Test Registrar deployed at: ', testRegistrar._address)
+  console.log('Auction Registrar deployed at: ', ethRegistrar._address)
 
   const tld = 'eth'
   const tldHash = sha3(tld)
@@ -76,6 +85,27 @@ module.exports = async function deployENS({ web3, accounts }) {
       from: accounts[0]
     })
 
+  await ensContract
+    .setSubnodeOwner('0x00000000000000000000000000000000', sha3('test'), accounts[0])
+    .send({
+      from: accounts[0]
+    })
+
+  await ensContract.setResolver(namehash(''), resolver._address).send({from: accounts[0]})
+  await ensContract.setResolver(namehash('eth'), resolver._address).send({from: accounts[0]})
+  await ensContract.setResolver(namehash('test'), resolver._address).send({from: accounts[0]})
+
+  await ensContract
+    .setSubnodeOwner('0x00000000000000000000000000000000', sha3('test'), testRegistrar._address)
+    .send({
+      from: accounts[0]
+    })
+
+  let rootOwner = await ensContract.owner('0x00000000000000000000000000000000').call() 
+
+  console.log('testRegistrarContract.register', namehash('example'), testRegistrar._address); 
+  let tx = await testRegistrarContract.register(sha3('example'), accounts[0]).send({from:accounts[0]})
+  let exampleTestOwner = await ensContract.owner(namehash('example.test')).call()
   /* Setup the root reverse node */
   await ensContract
     .setSubnodeOwner(
@@ -86,6 +116,19 @@ module.exports = async function deployENS({ web3, accounts }) {
     .send({
       from: accounts[0]
     })
+
+    await ensContract
+    .setSubnodeOwner(
+      namehash('reverse'),
+      sha3('addr'),
+      accounts[0]
+    )
+    .send({
+      from: accounts[0]
+    })
+
+  await ensContract.setResolver(namehash('addr.reverse'), resolver._address).send({from: accounts[0]})
+  
 
 
   /* Setup the reverse subdomain: addr.reverse */
