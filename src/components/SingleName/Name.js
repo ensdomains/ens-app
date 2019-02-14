@@ -4,8 +4,6 @@ import styled from 'react-emotion'
 import mq, { useMediaMin } from 'mediaQuery'
 import { getPercentTimeLeft, getTimeLeft } from '../../utils/dates'
 import { EMPTY_ADDRESS } from '../../utils/records'
-import { REGISTER_TESTDOMAIN } from '../../graphql/mutations'
-import { Mutation } from 'react-apollo'
 
 import { Title } from '../Typography/Basic'
 import DefaultFavourite from '../AddFavourite/Favourite'
@@ -13,7 +11,6 @@ import NameDetails from './NameDetails'
 import NameAuction from './NameAuction'
 import Tabs from './Tabs'
 import QueryAccount from '../QueryAccount'
-import Button from '../Forms/Button'
 
 const NameContainer = styled('div')`
   background: white;
@@ -68,23 +65,6 @@ const TopBar = styled('div')`
       : 'white'};
 `
 
-const BottomBar = styled('div')`
-  padding: 20px 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  border-top: 1px solid #ededed;
-  box-shadow: 0 2px 4px 0 rgba(181, 177, 177, 0.2);
-`
-
-const Note = styled('p')`
-`
-
-const Tld = styled('pre')`
-  display:inline;
-  background-color: #eee;
-  padding: 3px;
-`
 
 const Owner = styled('div')`
   color: #ccd4da;
@@ -132,43 +112,6 @@ function Name({ details: domain, name, pathname, refetch }) {
                 account={account}
               />
             )}
-            {parseInt(domain.owner) === 0 && domain.name.match(/\.test$/) ? (
-              <BottomBar>
-              <Mutation
-                mutation={REGISTER_TESTDOMAIN}
-                onCompleted={data => {
-                  // startPending(Object.values(data)[0])
-                  refetch()
-                }}
-              >
-              {mutation => (
-                <Button
-                  onClick={() => {
-                    mutation({
-                      variables: {
-                        label: domain.label
-                      }
-                    })
-                  }
-                    // toggleModal({
-                    //   name: 'confirm',
-                    //   mutation: mutation,
-                    //   mutationButton: mutationButton,
-                    //   value: value,
-                    //   newValue: newValue,
-                    //   cancel: () => {
-                    //     toggleModal({ name: 'confirm' })
-                    //   }
-                    // })
-                  }
-                >
-                Claim the test domain
-                </Button>
-              )}
-              </Mutation>
-              <Note>Note: <Tld>.test</Tld> domain allows anyone to claim an unused name for test purposes, which expires after 28 days</Note>
-              </BottomBar>
-            ) : null }
           </NameContainer>
         )
       }}

@@ -8,7 +8,6 @@ import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import RecordsItem from './RecordsItem'
 import DetailsItemEditable from './DetailsItemEditable'
 import AddRecord from './AddRecord'
-
 import {
   SET_OWNER,
   SET_RESOLVER,
@@ -16,6 +15,8 @@ import {
   SET_CONTENT,
   SET_CONTENTHASH
 } from '../../graphql/mutations'
+
+import NameClaimTestDomain from './NameClaimTestDomain'
 
 import { formatDate } from '../../utils/dates'
 
@@ -84,7 +85,6 @@ class NameDetails extends Component {
     }else{
       contentMutation = SET_CONTENTHASH
     }
-
     return (
       <Fragment>
         <Route
@@ -171,6 +171,9 @@ class NameDetails extends Component {
                   </>
                 )}
               </Records>
+              {parseInt(domain.owner) == 0 && domain.name.match(/\.test$/) ? (
+                <NameClaimTestDomain domain={domain} refetch={refetch} />
+              ): null}
             </Details>
           )}
         />
