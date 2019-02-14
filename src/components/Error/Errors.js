@@ -31,11 +31,8 @@ const Message = styled('div')``
 
 export const NetworkError = ({ message }) => (
   <ErrorContainer>
-    <Warning src={WarningImage} />
-    <Message>
-      <H2>{message}</H2>
-      Change your network to the Main Ethereum Network or Ropsten Test Network
-      to use the Dapp.
-    </Message>
+    {message}
+    <br />
+    Please change your dapp browser to Mainnet, Ropsten, Rinkeby or Goerli
   </ErrorContainer>
 )
