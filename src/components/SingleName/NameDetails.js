@@ -1,8 +1,6 @@
 import React, { Fragment, Component } from 'react'
 import styled from 'react-emotion'
 import { Link, Route } from 'react-router-dom'
-import { Mutation } from 'react-apollo'
-import { REGISTER_TESTDOMAIN } from '../../graphql/mutations'
 
 import { HR } from '../Typography/Basic'
 import SubDomains from './SubDomains'
@@ -10,7 +8,6 @@ import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import RecordsItem from './RecordsItem'
 import DetailsItemEditable from './DetailsItemEditable'
 import AddRecord from './AddRecord'
-import Button from '../Forms/Button'
 
 import {
   SET_OWNER,
@@ -174,43 +171,6 @@ class NameDetails extends Component {
                   </>
                 )}
               </Records>
-              {parseInt(domain.owner) == 0 && domain.name.match(/\.test$/) ? (
-                <>
-                <Mutation
-                  mutation={REGISTER_TESTDOMAIN}
-                  onCompleted={data => {
-                    // startPending(Object.values(data)[0])
-                    refetch()
-                  }}
-                >
-                {mutation => (
-                  <Button
-                    onClick={() => {
-                      mutation({
-                        variables: {
-                          label: domain.label
-                        }
-                      })
-                    }
-                      // toggleModal({
-                      //   name: 'confirm',
-                      //   mutation: mutation,
-                      //   mutationButton: mutationButton,
-                      //   value: value,
-                      //   newValue: newValue,
-                      //   cancel: () => {
-                      //     toggleModal({ name: 'confirm' })
-                      //   }
-                      // })
-                    }
-                  >
-                    <div>Claim the test domain</div>
-                  </Button>
-                )}
-                </Mutation>
-                <p>Note: .test domain allows anyone to claim an unused name for test purposes, which expires after 28 days</p>
-                </>
-              ) : null }
             </Details>
           )}
         />
