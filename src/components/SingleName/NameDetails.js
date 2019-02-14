@@ -93,7 +93,7 @@ class NameDetails extends Component {
           path="/name/:name"
           render={() => (
             <Details data-testid="name-details">
-              <SetupName />
+              {isOwner && <SetupName />}
               {domain.parent && (
                 <DetailsItem uneditable>
                   <DetailsKey>Parent</DetailsKey>
