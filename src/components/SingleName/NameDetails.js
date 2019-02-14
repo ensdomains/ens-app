@@ -8,6 +8,7 @@ import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import RecordsItem from './RecordsItem'
 import DetailsItemEditable from './DetailsItemEditable'
 import AddRecord from './AddRecord'
+import SetupName from '../SetupName/SetupName'
 
 import {
   SET_OWNER,
@@ -79,9 +80,9 @@ class NameDetails extends Component {
     })
 
     let contentMutation
-    if(domain.contentType === 'oldcontent'){
+    if (domain.contentType === 'oldcontent') {
       contentMutation = SET_CONTENT
-    }else{
+    } else {
       contentMutation = SET_CONTENTHASH
     }
 
@@ -92,6 +93,7 @@ class NameDetails extends Component {
           path="/name/:name"
           render={() => (
             <Details data-testid="name-details">
+              <SetupName />
               {domain.parent && (
                 <DetailsItem uneditable>
                   <DetailsKey>Parent</DetailsKey>
