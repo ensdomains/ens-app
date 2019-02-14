@@ -17,6 +17,12 @@ const NameClaimTestDomainContainer = styled('div')`
 const Note = styled('p')`
 `
 
+const Tld = styled('pre')`
+  display:inline;
+  background-color: #eee;
+  padding: 3px;
+`
+
 function NameClaimTestDomain({domain, refetch}){
   const { state, actions } = useEditable()
   const { txHash, pending, confirmed } = state
@@ -57,7 +63,7 @@ function NameClaimTestDomain({domain, refetch}){
         )}
         </Mutation>
       )}
-      <Note>Note: <tld></tld>.test domain allows anyone to claim an unused name for test purposes, which expires after 28 days</Note>
+      <Note>Note: <Tld>.test</Tld> domain allows anyone to claim an unused name for test purposes, which expires after 28 days</Note>
     </NameClaimTestDomainContainer>
   )
 }
