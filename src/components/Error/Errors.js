@@ -12,6 +12,6 @@ export const NetworkError = ({ message }) => (
   <ErrorContainer>
     {message}
     <br />
-    Please change your dapp browser to Mainnet or Ropsten
+    Please change your dapp browser to Mainnet, Ropsten, Rinkeby or Goerli
   </ErrorContainer>
 )
