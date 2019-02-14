@@ -8,6 +8,7 @@ import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import RecordsItem from './RecordsItem'
 import DetailsItemEditable from './DetailsItemEditable'
 import AddRecord from './AddRecord'
+
 import {
   SET_OWNER,
   SET_RESOLVER,
@@ -85,6 +86,7 @@ class NameDetails extends Component {
     }else{
       contentMutation = SET_CONTENTHASH
     }
+
     return (
       <Fragment>
         <Route

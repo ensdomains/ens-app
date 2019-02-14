@@ -65,7 +65,6 @@ const TopBar = styled('div')`
       : 'white'};
 `
 
-
 const Owner = styled('div')`
   color: #ccd4da;
   margin-right: 20px;
