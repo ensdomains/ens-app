@@ -3,6 +3,8 @@ import styled from 'react-emotion'
 import { REGISTER_TESTDOMAIN } from '../../graphql/mutations'
 import { Mutation } from 'react-apollo'
 import Button from '../Forms/Button'
+import { useEditable } from '../hooks'
+import PendingTx from '../PendingTx'
 
 const NameClaimTestDomainContainer = styled('div')`
   padding: 20px 40px;
@@ -16,40 +18,45 @@ const Note = styled('p')`
 `
 
 function NameClaimTestDomain({domain, refetch}){
+  const { state, actions } = useEditable()
+  const { txHash, pending, confirmed } = state
+
+  const {
+    startPending,
+    setConfirmed
+  } = actions
+
   return(
     <NameClaimTestDomainContainer>
-      <Mutation
+      {pending && !confirmed ? (
+        <PendingTx
+          txHash={txHash}
+          setConfirmed={setConfirmed}
+          refetch={refetch}
+        />
+      ) : (
+        <Mutation
         mutation={REGISTER_TESTDOMAIN}
         onCompleted={data => {
-          // startPending(Object.values(data)[0])
+          startPending(Object.values(data)[0])
           refetch()
         }}
-      >
-      {mutation => (
-        <Button
-          onClick={() => {
-            mutation({
-              variables: {
-                label: domain.label
-              }
-            })
-          }
-            // toggleModal({
-            //   name: 'confirm',
-            //   mutation: mutation,
-            //   mutationButton: mutationButton,
-            //   value: value,
-            //   newValue: newValue,
-            //   cancel: () => {
-            //     toggleModal({ name: 'confirm' })
-            //   }
-            // })
-          }
         >
-        Claim the test domain
-        </Button>
+        {mutation => (
+          <Button
+            onClick={() => {
+              mutation({
+                variables: {
+                  label: domain.label
+                }
+              })
+            }}
+          >
+          Claim the test domain
+          </Button>
+        )}
+        </Mutation>
       )}
-      </Mutation>
       <Note>Note: <tld></tld>.test domain allows anyone to claim an unused name for test purposes, which expires after 28 days</Note>
     </NameClaimTestDomainContainer>
   )
