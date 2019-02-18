@@ -4,7 +4,9 @@ import styled from 'react-emotion'
 const offset = 180
 
 const Number = styled('div')`
+  color: ${p => (p.progress === 100 ? '#42E068' : '#dfdfdf')};
   font-size: 34px;
+  font-weight: 300;
   position: relative;
   width: 60px;
   height: 60px;
@@ -31,14 +33,34 @@ const SVG = styled('svg')`
   }
 `
 
-const Step = ({ number, text, progress = 100 }) => (
-  <div>
-    <Number>
+const Content = styled('div')`
+  margin-left: 8px;
+
+  h3 {
+    margin-top: 2px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  p {
+    font-size: 14px;
+    font-weight: 400;
+  }
+`
+
+const StepContainer = styled('div')`
+  display: flex;
+`
+
+const Step = ({ number, text, title, progress = 100 }) => (
+  <StepContainer>
+    <Number progress={progress}>
       <SVG height="60" width="60" progress={progress}>
         <circle
           cx="30"
           cy="30"
           r="28"
+          stroke="#dfdfdf"
           stroke-width="2"
           fill="none"
           transform="rotate(-90, 30, 30)"
@@ -56,8 +78,11 @@ const Step = ({ number, text, progress = 100 }) => (
       </SVG>
       <span>{number}</span>
     </Number>
-    <p>{text}</p>
-  </div>
+    <Content>
+      <h3>{title}</h3>
+      <p>{text}</p>
+    </Content>
+  </StepContainer>
 )
 
 export default Step

@@ -11,6 +11,13 @@ import {
   sendNotification
 } from './NameRegister/notification'
 
+const Steps = styled('section')`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 30px;
+  grid-template-rows: 1fr;
+`
+
 const Explainer = ({ step }) => {
   const titles = [
     'Registering a name requires you to complete 3 steps:',
@@ -25,21 +32,26 @@ const Explainer = ({ step }) => {
         *Favorite the name for easy access in case you close out of your
         browser.
       </p>
-      <Step
-        number={1}
-        progress={step > 0 ? 100 : 0}
-        text="Metamask will open and you will be asked to confirm the first of two transactions required for registration. "
-      />
-      <Step
-        number={2}
-        progress={75}
-        text="There will be a 10+ minute waiting period before Metamask will ask you to confirm the second transaction."
-      />
-      <Step
-        number={3}
-        progress={0}
-        text="After completing the two transactions, the register button will be active. Click ‘register’ to finalize ownership of the name."
-      />
+      <Steps>
+        <Step
+          number={1}
+          progress={step > 0 ? 100 : 0}
+          title="Request to register"
+          text="Your wallet will open and you will be asked to confirm the first of two transactions required for registration."
+        />
+        <Step
+          number={2}
+          progress={100}
+          title="Wait for 10 minutes"
+          text="The waiting period is required to ensure another person hasn’t tried to register the same name."
+        />
+        <Step
+          number={3}
+          progress={0}
+          title="Complete Registration"
+          text="Click ‘register’ and your wallet will re-open. Upon confirming the second transaction, you can manage your new name."
+        />
+      </Steps>
     </div>
   )
 }
