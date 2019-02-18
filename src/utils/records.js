@@ -6,11 +6,11 @@ export function validateRecord(record) {
   }
 
   const { type, value } = record
-  
-  if(record.contentType == 'oldcontent'){
+
+  if (record.contentType === 'oldcontent') {
     return value.length > 32
   }
-  console.log('validateRecord', {record})
+  console.log('validateRecord', { record })
   switch (type) {
     case 'address':
       return addressUtils.isAddress(value)
@@ -26,9 +26,9 @@ export function getPlaceholder(recordType, contentType) {
     case 'address':
       return 'Enter an Ethereum address'
     case 'content':
-      if(contentType == 'contenthash'){
+      if (contentType === 'contenthash') {
         return 'Enter a content hash (eg: ipfs://..., bzz://...)'
-      }else{
+      } else {
         return 'Enter a content'
       }
     default:
