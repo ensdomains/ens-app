@@ -2,7 +2,7 @@ import React, { Component, useState } from 'react'
 import styled from 'react-emotion'
 import { Mutation } from 'react-apollo'
 
-import { validateRecord, getPlaceholder } from '../../utils/records'
+import { validateRecord } from '../../utils/records'
 import DetailsItemInput from './DetailsItemInput'
 
 import { useEditable } from '../hooks'
@@ -12,7 +12,11 @@ import Select from '../Forms/Select'
 import PendingTx from '../PendingTx'
 
 import { getOldContentWarning } from './warnings'
-import { SET_CONTENT, SET_CONTENTHASH, SET_ADDRESS } from '../../graphql/mutations'
+import {
+  SET_CONTENT,
+  SET_CONTENTHASH,
+  SET_ADDRESS
+} from '../../graphql/mutations'
 
 const ToggleAddRecord = styled('span')`
   font-size: 22px;
@@ -53,9 +57,9 @@ const Row = styled('div')`
 function chooseMutation(recordType, contentType) {
   switch (recordType.value) {
     case 'content':
-      if(contentType === 'oldcontent'){
+      if (contentType === 'oldcontent') {
         return SET_CONTENT
-      }else{
+      } else {
         return SET_CONTENTHASH
       }
     case 'address':
@@ -85,7 +89,8 @@ function Editable({ domain, emptyRecords, refetch }) {
 
   const isValid = validateRecord({
     type: selectedRecord && selectedRecord.value ? selectedRecord.value : null,
-    value: newValue, contentType:domain.contentType
+    value: newValue,
+    contentType: domain.contentType
   })
   return (
     <>
@@ -116,7 +121,7 @@ function Editable({ domain, emptyRecords, refetch }) {
               placeholder="Select a record"
               options={emptyRecords}
             />
-            <DetailsItemInput 
+            <DetailsItemInput
               newValue={newValue}
               dataType={selectedRecord ? selectedRecord.value : null}
               contentType={domain.contentType}
@@ -138,9 +143,10 @@ function Editable({ domain, emptyRecords, refetch }) {
             >
               {mutate => (
                 <SaveCancel
-                  warningMessage={
-                    getOldContentWarning(selectedRecord.value, domain.contentType)
-                  }
+                  warningMessage={getOldContentWarning(
+                    selectedRecord.value,
+                    domain.contentType
+                  )}
                   isValid={isValid}
                   stopEditing={() => {
                     stopEditing()

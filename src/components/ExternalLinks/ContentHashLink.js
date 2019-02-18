@@ -22,28 +22,25 @@ const ContentHashLinkContainer = styled('a')`
 `
 
 const ContentHashLink = ({ value, contentType }) => {
-  if(contentType == 'oldcontent'){
-    return (<div>{value}</div>)    
+  if (contentType === 'oldcontent') {
+    return <div>{value}</div>
   }
   const { protocolType, decoded } = decode(value)
   let externalLink, url
-  if (!protocolType){
-    return (<div>{decoded}</div>)
+  if (!protocolType) {
+    return <div>{decoded}</div>
   }
-  if(protocolType === 'ipfs'){
+  if (protocolType === 'ipfs') {
     externalLink = `https://gateway.ipfs.io/ipfs/${decoded}`
     url = `ipfs://${decoded}`
-  }else if(protocolType === 'bzz'){
+  } else if (protocolType === 'bzz') {
     externalLink = `https://swarm-gateways.net/bzz://${decoded}`
     url = `bzz://${decoded}`
-  }else{
+  } else {
     console.warn(`Unsupported protocol ${protocolType}`)
   }
-  return(
-    <ContentHashLinkContainer
-      target="_blank"
-      href={externalLink}
-    >
+  return (
+    <ContentHashLinkContainer target="_blank" href={externalLink}>
       {url}
       <ExternalLinkIcon />
     </ContentHashLinkContainer>
@@ -51,4 +48,3 @@ const ContentHashLink = ({ value, contentType }) => {
 }
 
 export default ContentHashLink
-
