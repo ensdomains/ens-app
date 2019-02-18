@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'react-emotion'
 
-import WarningImage from '../../assets/warning.svg'
+import warningImage from '../../assets/warning.svg'
 
 const ErrorContainer = styled('div')`
   color: black;
@@ -31,8 +31,11 @@ const Message = styled('div')``
 
 export const NetworkError = ({ message }) => (
   <ErrorContainer>
-    {message}
-    <br />
-    Please change your dapp browser to Mainnet, Ropsten, Rinkeby or Goerli
+    <Message>
+      <Warning src={warningImage} />
+      <H2>{message}</H2>
+      <br />
+      Please change your dapp browser to Mainnet, Ropsten, Rinkeby or Goerli
+    </Message>
   </ErrorContainer>
 )
