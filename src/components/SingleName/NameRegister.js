@@ -6,6 +6,7 @@ import Years from './NameRegister/Years'
 import Price from './NameRegister/Price'
 import Calendar from './NameRegister/Calendar'
 import Progress from './NameRegister/Progress'
+import { ReactComponent as ChainDefault } from '../Icons/chain.svg'
 import {
   requestPermission,
   sendNotification
@@ -16,6 +17,14 @@ const Steps = styled('section')`
   grid-template-columns: repeat(3, 1fr);
   grid-column-gap: 30px;
   grid-template-rows: 1fr;
+`
+
+const PricingContainer = styled('div')`
+  display: grid;
+  grid-template-columns: minmax(min-content, 200px) minmax(
+      min-content,
+      min-content
+    ) minmax(200px, 1fr);
 `
 
 const Explainer = ({ step }) => {
@@ -74,6 +83,12 @@ const NameRegisterContainer = styled('div')`
   padding: 20px 40px;
 `
 
+const Chain = styled(ChainDefault)`
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+`
+
 const steps = ['request', 'wait', 'register']
 
 const NameRegister = ({ domain }) => {
@@ -87,10 +102,11 @@ const NameRegister = ({ domain }) => {
   return (
     <NameRegisterContainer>
       {steps[step] === 'request' && (
-        <>
+        <PricingContainer>
           <Years years={years} setYears={setYears} />
+          <Chain />
           <Price years={years} pricePerYear={pricePerYear} />
-        </>
+        </PricingContainer>
       )}
 
       <Explainer steps={steps} step={step} />
