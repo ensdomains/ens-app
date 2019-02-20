@@ -62,19 +62,22 @@ export async function getContent(name) {
     return '0x00000000000000000000000000000000'
   }
   const namehash = await getNamehash(name)
-  let result
   const { Resolver } = await getResolverReadContract(resolverAddr)
-  const web3 = await getWeb3();
-  const contentHashSignature = web3.utils.sha3('contenthash(bytes32)').slice(0,10);
+  const web3 = await getWeb3()
+  const contentHashSignature = web3.utils
+    .sha3('contenthash(bytes32)')
+    .slice(0, 10)
   try {
-    const isContentHashSupported = await Resolver.supportsInterface(contentHashSignature).call()
+    const isContentHashSupported = await Resolver.supportsInterface(
+      contentHashSignature
+    ).call()
 
-    if(isContentHashSupported){
-      return{
+    if (isContentHashSupported) {
+      return {
         value: await Resolver.contenthash(namehash).call(),
         contentType: 'contenthash'
       }
-    }else{
+    } else {
       const value = await Resolver.content(namehash).call()
       return {
         value: value,
@@ -82,9 +85,10 @@ export async function getContent(name) {
       }
     }
   } catch (e) {
-    const message = 'Error getting content on the resolver contract, are you sure the resolver address is a resolver contract?'
+    const message =
+      'Error getting content on the resolver contract, are you sure the resolver address is a resolver contract?'
     console.warn(message)
-    return { value:message, contentType: 'error' }
+    return { value: message, contentType: 'error' }
   }
 }
 
@@ -120,13 +124,10 @@ export async function setSubnodeOwner(label, node, newOwner) {
   const { ENS } = await getENS()
   const account = await getAccount()
   const parentNamehash = await getNamehash(node)
-  return () => ENS.setSubnodeOwner(
-    parentNamehash,
-    web3.utils.sha3(label),
-    newOwner
-  ).send({
-    from: account
-  })
+  return () =>
+    ENS.setSubnodeOwner(parentNamehash, web3.utils.sha3(label), newOwner).send({
+      from: account
+    })
 }
 
 export async function setResolver(name, resolver) {
@@ -145,7 +146,6 @@ export async function setAddress(name, address) {
 }
 
 export async function setContent(name, content) {
-  const web3 = await getWeb3()
   const account = await getAccount()
   const namehash = await getNamehash(name)
   const resolverAddr = await getResolver(name)
@@ -164,7 +164,8 @@ export async function setContenthash(name, content) {
   // const gas = await Resolver.setContenthash(namehash, content).estimateGas()
   // console.log('gas', gas)
   // return () => Resolver.setContenthash(namehash, content).send({ from: account, gas:gas })
-  return () => Resolver.setContenthash(namehash, content).send({ from: account})
+  return () =>
+    Resolver.setContenthash(namehash, content).send({ from: account })
 }
 
 export async function checkSubDomain(subDomain, domain) {
@@ -231,7 +232,7 @@ export async function getResolverDetails(node) {
       ...node,
       addr,
       content: content.value,
-      contentType: content.contentType,
+      contentType: content.contentType
     }
   } catch (e) {
     return {
@@ -247,9 +248,10 @@ export async function claimAndSetReverseRecordName(name, gasLimit = 0) {
   const { reverseRegistrar } = await getReverseRegistrarContract()
   const account = await getAccount()
   const gas = await reverseRegistrar.setName(name).estimateGas()
-  return () => reverseRegistrar
-    .setName(name)
-    .send({ from: account, gas: gasLimit > gas ? gasLimit : gas })
+  return () =>
+    reverseRegistrar
+      .setName(name)
+      .send({ from: account, gas: gasLimit > gas ? gasLimit : gas })
 }
 
 export async function setReverseRecordName(name) {

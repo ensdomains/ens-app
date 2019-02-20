@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import getWeb3, { getWeb3Read, getNetworkId } from './web3'
 import { abi as ensContract } from '@ensdomains/ens/build/contracts/ENS.json'
 import { abi as reverseRegistrarContract } from '@ensdomains/ens/build/contracts/ReverseRegistrar.json'
@@ -27,6 +28,9 @@ var contracts = {
   },
   4: {
     registry: '0xe7410170f87102df0055eb195163a03b7f2bff4a'
+  },
+  5: {
+    registry: '0x112234455c3a32fd11230c42e7bccd4a84e02010'
   }
 }
 
@@ -135,12 +139,15 @@ async function getTestRegistrarContract() {
 const getENS = async ensAddress => {
   const networkId = await getNetworkId()
 
-  if (process.env.REACT_APP_ENS_ADDRESS && networkId > 4) {
+  if (process.env.REACT_APP_ENS_ADDRESS && networkId > 1000) {
+    //Assuming public main/test networks have a networkId of less than 1000
     ensAddress = process.env.REACT_APP_ENS_ADDRESS
   }
 
+  const hasRegistry = _.has(contracts[networkId], 'registry')
+
   if (!ENS) {
-    if (contracts[networkId] && !contracts[networkId].registry && !ensAddress) {
+    if (!hasRegistry && !ensAddress) {
       throw new Error(`Unsupported network ${networkId}`)
     }
 
@@ -176,41 +183,6 @@ async function getENSEvent(event, params) {
   return _ENS.getPastEvents(event, params)
 }
 
-async function watchEvent(
-  { contract, addr, eventName },
-  filter,
-  params,
-  callback
-) {
-  function eventFactory(contract, eventName, filter, params, callback) {
-    const myEvent = contract.events[eventName](
-      { filter, ...params },
-      (error, log) => {
-        //console.log(event, `here in the ${contract} Event`, log)
-        if (error) {
-          console.error(error)
-        } else {
-          callback(error, log, myEvent)
-        }
-      }
-    )
-    return myEvent
-  }
-
-  switch (contract) {
-    case 'ENS':
-      const { _ENS } = await getENS()
-      console.log(_ENS)
-      return eventFactory(_ENS, eventName, filter, params, callback)
-    case 'Resolver':
-      const { _Resolver } = await getResolverContract(addr)
-
-      return eventFactory(_Resolver, eventName, filter, params, callback)
-    default:
-      throw new Error('Unrecognised contract')
-  }
-}
-
 export default getENS
 export {
   getTestRegistrarContract,
@@ -221,6 +193,5 @@ export {
   getNamehashWithLabelHash,
   getResolverContract,
   getResolverReadContract,
-  watchEvent,
   getFifsRegistrarContract
 }

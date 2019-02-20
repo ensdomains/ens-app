@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from 'react-emotion'
 import { Mutation } from 'react-apollo'
 
@@ -112,15 +112,9 @@ const Name = styled('div')`
 function AddReverseRecord({ account, name }) {
   const { state, actions } = useEditable()
 
-  const { editing, newValue, txHash, pending, confirmed } = state
+  const { editing, txHash, pending, confirmed } = state
 
-  const {
-    startEditing,
-    stopEditing,
-    updateValue,
-    startPending,
-    setConfirmed
-  } = actions
+  const { startEditing, stopEditing, startPending, setConfirmed } = actions
 
   return (
     <AddReverseRecordContainer>
