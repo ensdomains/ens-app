@@ -5,11 +5,6 @@ import { Link } from 'react-router-dom'
 import mq from 'mediaQuery'
 
 import AddFavourite from '../AddFavourite/AddFavourite'
-import {
-  getPercentTimeLeft,
-  getTimeLeft,
-  humanizeDate
-} from '../../utils/dates'
 import QueryAccount from '../QueryAccount'
 import Loader from '../Loader'
 
@@ -126,13 +121,7 @@ const LabelContainer = styled('div')`
 
 const LabelText = styled('div')``
 
-const TimeLeft = styled('div')`
-  border-left: 1px solid #ccd4da;
-  margin-left: 10px;
-  padding-left: 10px;
-`
-
-const Label = ({ domain, timeLeft, isOwner }) => {
+const Label = ({ domain, isOwner }) => {
   let text
   switch (domain.state) {
     case 'Open':

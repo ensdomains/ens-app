@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useReducer } from 'react'
 import styled from 'react-emotion'
 import Button from '../Forms/Button'
 import Step from './NameRegister/Step'
@@ -12,6 +12,56 @@ import {
   sendNotification
 } from './NameRegister/notification'
 
+// steps
+
+// 0 not registered, deciding price
+// 1 transaction sent, waiting for confirmation
+// 2 transaction confirmed, waiting 10 mins
+// 3 10 mins over, waiting for user to hit register
+// 4 transaction sent. waiting for confirmation
+// 5 transaction confirmed, click to manage name
+
+const registerMachine = {
+  initialState: 'PRICE_DECISION',
+  states: {
+    PRICE_DECISION: {
+      on: {
+        NEXT: 'COMMIT_SENT'
+      }
+    },
+    COMMIT_SENT: {
+      on: {
+        NEXT: 'COMMIT_CONFIRMED'
+      }
+    },
+    COMMIT_CONFIRMED: {
+      on: {
+        NEXT: 'AWAITING_REGISTER'
+      }
+    },
+    AWAITING_REGISTER: {
+      on: {
+        NEXT: 'REVEAL_SENT'
+      }
+    },
+    REVEAL_SENT: {
+      on: {
+        NEXT: 'REVEAL_CONFIRMED'
+      }
+    },
+    REVEAL_CONFIRMED: {
+      on: {
+        NEXT: 'REVEAL_CONFIRMED'
+      }
+    }
+  }
+}
+
+const registerReducer = (state, action) => {
+  console.log(action)
+  return registerMachine.states[state].on[action] || state
+}
+
 const Steps = styled('section')`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -21,10 +71,9 @@ const Steps = styled('section')`
 
 const PricingContainer = styled('div')`
   display: grid;
-  grid-template-columns: minmax(min-content, 200px) minmax(
-      min-content,
-      min-content
-    ) minmax(200px, 1fr);
+  grid-template-columns:
+    minmax(min-content, 200px) minmax(min-content, min-content)
+    minmax(200px, 1fr);
 `
 
 const Explainer = ({ step }) => {
@@ -70,12 +119,12 @@ const CTAContainer = styled('div')`
   justify-content: flex-end;
 `
 
-const CTA = () => (
+const CTA = ({ incrementStep }) => (
   <CTAContainer>
     <Button type="hollow" style={{ marginRight: '20px' }}>
       Cancel
     </Button>
-    <Button>Request to register</Button>
+    <Button onClick={incrementStep}>Request to register</Button>
   </CTAContainer>
 )
 
@@ -92,10 +141,14 @@ const Chain = styled(ChainDefault)`
 const steps = ['request', 'wait', 'register']
 
 const NameRegister = ({ domain }) => {
-  const [step, setStep] = useState(0)
+  const [step, dispatch] = useReducer(
+    registerReducer,
+    registerMachine.initialState
+  )
+  // const [step, setStep] = useState(0)
   const [years, setYears] = useState(1)
 
-  const incrementStep = () => setStep(step + 1)
+  const incrementStep = () => dispatch('NEXT')
 
   const pricePerYear = 0.1
 
@@ -108,11 +161,11 @@ const NameRegister = ({ domain }) => {
           <Price years={years} pricePerYear={pricePerYear} />
         </PricingContainer>
       )}
+      {step}
 
-      <Explainer steps={steps} step={step} />
+      <Explainer />
       <Progress />
       <CTA incrementStep={incrementStep} />
-
       <Calendar />
       <div onClick={requestPermission}>Request permission</div>
       <div onClick={() => sendNotification('cool')}>Notify</div>
