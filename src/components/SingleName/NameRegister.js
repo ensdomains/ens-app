@@ -4,7 +4,6 @@ import Button from '../Forms/Button'
 import Step from './NameRegister/Step'
 import Years from './NameRegister/Years'
 import Price from './NameRegister/Price'
-import Calendar from './NameRegister/Calendar'
 import Progress from './NameRegister/Progress'
 import { ReactComponent as ChainDefault } from '../Icons/chain.svg'
 import {
@@ -26,39 +25,44 @@ const registerMachine = {
   states: {
     PRICE_DECISION: {
       on: {
-        NEXT: 'COMMIT_SENT'
+        NEXT: 'COMMIT_SENT',
+        PREVIOUS: 'PRICE_DECISION'
       }
     },
     COMMIT_SENT: {
       on: {
-        NEXT: 'COMMIT_CONFIRMED'
+        NEXT: 'COMMIT_CONFIRMED',
+        PREVIOUS: 'PRICE_DECISION'
       }
     },
     COMMIT_CONFIRMED: {
       on: {
-        NEXT: 'AWAITING_REGISTER'
+        NEXT: 'AWAITING_REGISTER',
+        PREVIOUS: 'COMMIT_SENT'
       }
     },
     AWAITING_REGISTER: {
       on: {
-        NEXT: 'REVEAL_SENT'
+        NEXT: 'REVEAL_SENT',
+        PREVIOUS: 'COMMIT_CONFIRMED'
       }
     },
     REVEAL_SENT: {
       on: {
-        NEXT: 'REVEAL_CONFIRMED'
+        NEXT: 'REVEAL_CONFIRMED',
+        PREVIOUS: 'AWAITING_REGISTER'
       }
     },
     REVEAL_CONFIRMED: {
       on: {
-        NEXT: 'REVEAL_CONFIRMED'
+        NEXT: 'REVEAL_CONFIRMED',
+        PREVIOUS: 'REVEAL_SENT'
       }
     }
   }
 }
 
-const registerReducer = (state, action) => {
-  console.log(action)
+function registerReducer(state, action) {
   return registerMachine.states[state].on[action] || state
 }
 
@@ -76,7 +80,7 @@ const PricingContainer = styled('div')`
     minmax(200px, 1fr);
 `
 
-const Explainer = ({ step }) => {
+const Explainer = ({ step, time }) => {
   const titles = [
     'Registering a name requires you to complete 3 steps:',
     'Don’t close your browser! You’ll be able to register your name soon.',
@@ -93,19 +97,29 @@ const Explainer = ({ step }) => {
       <Steps>
         <Step
           number={1}
-          progress={step > 0 ? 100 : 0}
+          progress={
+            step === 'PRICE_DECISION' ? 0 : step === 'COMMIT_SENT' ? 50 : 100
+          }
           title="Request to register"
           text="Your wallet will open and you will be asked to confirm the first of two transactions required for registration."
         />
         <Step
           number={2}
-          progress={100}
+          progress={
+            step === 'PRICE_DECISION' || step === 'COMMIT_SENT'
+              ? 0
+              : step === 'COMMIT_CONFIRMED'
+              ? time
+              : 100
+          }
           title="Wait for 10 minutes"
           text="The waiting period is required to ensure another person hasn’t tried to register the same name."
         />
         <Step
           number={3}
-          progress={0}
+          progress={
+            step === 'REVEAL_CONFIRMED' ? 100 : step === 'REVEAL_SENT' ? 50 : 0
+          }
           title="Complete Registration"
           text="Click ‘register’ and your wallet will re-open. Upon confirming the second transaction, you can manage your new name."
         />
@@ -119,9 +133,13 @@ const CTAContainer = styled('div')`
   justify-content: flex-end;
 `
 
-const CTA = ({ incrementStep }) => (
+const CTA = ({ incrementStep, decrementStep }) => (
   <CTAContainer>
-    <Button type="hollow" style={{ marginRight: '20px' }}>
+    <Button
+      type="hollow"
+      style={{ marginRight: '20px' }}
+      onClick={decrementStep}
+    >
       Cancel
     </Button>
     <Button onClick={incrementStep}>Request to register</Button>
@@ -145,28 +163,26 @@ const NameRegister = ({ domain }) => {
     registerReducer,
     registerMachine.initialState
   )
-  // const [step, setStep] = useState(0)
   const [years, setYears] = useState(1)
+  const time = 50
 
   const incrementStep = () => dispatch('NEXT')
+  const decrementStep = () => dispatch('PREVIOUS')
 
   const pricePerYear = 0.1
 
   return (
     <NameRegisterContainer>
-      {steps[step] === 'request' && (
+      {step === 'PRICE_DECISION' && (
         <PricingContainer>
           <Years years={years} setYears={setYears} />
           <Chain />
           <Price years={years} pricePerYear={pricePerYear} />
         </PricingContainer>
       )}
-      {step}
-
-      <Explainer />
-      <Progress />
-      <CTA incrementStep={incrementStep} />
-      <Calendar />
+      <Explainer step={step} time={time} />
+      <Progress step={step} />
+      <CTA incrementStep={incrementStep} decrementStep={decrementStep} />
       <div onClick={requestPermission}>Request permission</div>
       <div onClick={() => sendNotification('cool')}>Notify</div>
     </NameRegisterContainer>
