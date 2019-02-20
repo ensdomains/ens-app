@@ -5,16 +5,25 @@ import { Mutation } from 'react-apollo'
 import Button from '../Forms/Button'
 import { useEditable } from '../hooks'
 import PendingTx from '../PendingTx'
+import mq from 'mediaQuery'
 
 const NameClaimTestDomainContainer = styled('div')`
-  padding: 20px 40px;
+  padding: 20px 0px;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  justify-content: space-between;
+  ${mq.medium`
+    flex-direction: row-reverse;
+  `};
   border-top: 1px dashed #d3d3d3
 `      
+const ClaimButton = styled(Button)`
+  max-width: 8em;
+`
 
 const Note = styled('p')`
+  color: #C7D3E3;
+  size: 14pt;
 `
 
 const Tld = styled('pre')`
@@ -49,7 +58,7 @@ function NameClaimTestDomain({domain, refetch}){
         }}
         >
         {mutation => (
-          <Button
+          <ClaimButton
             onClick={() => {
               mutation({
                 variables: {
@@ -58,8 +67,8 @@ function NameClaimTestDomain({domain, refetch}){
               })
             }}
           >
-          Claim the test domain
-          </Button>
+          Claim
+          </ClaimButton>
         )}
         </Mutation>
       )}
