@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'react-emotion'
+import mq from '../../mediaQuery'
 import { ReactComponent as BookPen } from '../Icons/BookPen.svg'
 import DefaultRotatingSmallCaret from '../Icons/RotatingSmallCaret'
 
@@ -35,6 +36,10 @@ const H2 = styled('h2')`
 
 const Content = styled('div')`
   display: ${p => (p.open ? 'flex' : 'none')};
+  flex-direction: column;
+  ${mq.large`
+    flex-direction: row;
+  `}
 `
 
 const Block = styled('section')`
