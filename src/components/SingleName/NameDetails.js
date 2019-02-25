@@ -34,6 +34,15 @@ const Records = styled('div')`
   display: ${p => (!p.isOwner && !p.hasRecord ? 'none' : 'block')};
 `
 
+const ExpirationDetailsValue = styled(DetailsValue)`
+  color: ${ p => (p.isExpired ? 'red' : null) }
+`
+
+function canClaim(domain){
+  if(!domain.name.match(/\.test$/)) return false
+  return parseInt(domain.owner) == 0 || domain.expiryTime < new Date()
+}
+
 class NameDetails extends Component {
   isEmpty(record) {
     if (parseInt(record, 16) === 0) {
@@ -124,6 +133,16 @@ class NameDetails extends Component {
               ) : (
                 ''
               )}
+              {domain.expiryTime ? (
+                <DetailsItem uneditable>
+                  <DetailsKey>Expiration Date</DetailsKey>
+                  <ExpirationDetailsValue isExpired = {domain.expiryTime < new Date()}>
+                    {formatDate(domain.expiryTime)}
+                  </ExpirationDetailsValue>
+                </DetailsItem>
+              ) : (
+                ''
+              )}
               <HR />
               <DetailsItemEditable
                 keyName="Resolver"
@@ -173,7 +192,7 @@ class NameDetails extends Component {
                   </>
                 )}
               </Records>
-              {parseInt(domain.owner) == 0 && domain.name.match(/\.test$/) ? (
+              {canClaim(domain)  ? (
                 <NameClaimTestDomain domain={domain} refetch={refetch} />
               ): null}
             </Details>
