@@ -5,11 +5,6 @@ import { Link } from 'react-router-dom'
 import mq from 'mediaQuery'
 
 import AddFavourite from '../AddFavourite/AddFavourite'
-import {
-  getPercentTimeLeft,
-  getTimeLeft,
-  humanizeDate
-} from '../../utils/dates'
 import QueryAccount from '../QueryAccount'
 import Loader from '../Loader'
 
@@ -126,13 +121,7 @@ const LabelContainer = styled('div')`
 
 const LabelText = styled('div')``
 
-const TimeLeft = styled('div')`
-  border-left: 1px solid #ccd4da;
-  margin-left: 10px;
-  padding-left: 10px;
-`
-
-const Label = ({ domain, timeLeft, isOwner }) => {
+const Label = ({ domain, isOwner }) => {
   let text
   switch (domain.state) {
     case 'Open':
@@ -158,20 +147,9 @@ const Label = ({ domain, timeLeft, isOwner }) => {
     text = 'Owner'
   }
 
-  let timeLeftHuman
-
-  if (domain.state === 'Auction' || domain.state === 'Reveal') {
-    timeLeftHuman = humanizeDate(timeLeft)
-  }
-
   return (
     <LabelContainer className="label-container">
       <LabelText>{text}</LabelText>
-      {domain.state === 'Auction' || domain.state === 'Reveal' ? (
-        <TimeLeft>{`${timeLeftHuman} left`}</TimeLeft>
-      ) : (
-        ''
-      )}
     </LabelContainer>
   )
 }
@@ -185,9 +163,6 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
     )
   }
 
-  let timeLeft = getTimeLeft(domain)
-  let percentDone = getPercentTimeLeft(timeLeft, domain)
-
   return (
     <QueryAccount>
       {({ account }) => {
@@ -196,6 +171,8 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
         if (domain.owner && parseInt(domain.owner, 16) !== 0) {
           isOwner = domain.owner.toLowerCase() === account.toLowerCase()
         }
+
+        const percentDone = 0
         return (
           <DomainContainer
             to={`/name/${domain.name}`}
@@ -207,7 +184,7 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
               {domain.name}
             </DomainName>
             <RightContainer>
-              <Label domain={domain} timeLeft={timeLeft} isOwner={isOwner} />
+              <Label domain={domain} isOwner={isOwner} />
               {isSubDomain && domain.state === 'Open' ? (
                 <Price className="price">
                   {domain.price > 0 ? `${domain.price} ETH` : 'Free'}

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { findDOMNode } from 'react-dom'
 import uuid from 'uuid'
@@ -8,10 +8,10 @@ import { useState, useEffect } from 'react'
 
 const DefaultTooltip = styled(ReactTooltip)`
   box-shadow: -4px 18px 70px 0 rgba(108, 143, 167, 0.32);
-  opacity:1 !important;
+  opacity: 1 !important;
 `
 
-const TooltipContainer = (props) => {
+const TooltipContainer = props => {
   const { text, position, children } = props
   const id = uuid()
   const [show, setShow] = useState(false)
@@ -25,27 +25,28 @@ const TooltipContainer = (props) => {
     }
   })
 
-  const tooltipElement = (
-    <span data-tip={text} data-for={id} ref={tooltipRef} />
-  )
+  const tooltipElement = <span data-tip={text} data-for={id} ref={tooltipRef} />
 
   return (
     <>
       {children({
-        showTooltip: () => { setShow(true) } ,
-        hideTooltip: () => { setShow(false) } ,
+        showTooltip: () => {
+          setShow(true)
+        },
+        hideTooltip: () => {
+          setShow(false)
+        },
         tooltipElement: tooltipElement
       })}
       <DefaultTooltip
-        data-testid='tooltip'
+        data-testid="tooltip"
         id={id}
         event="dbclick"
         place={position || 'top'}
         effect="solid"
         type="light"
         html={true}
-      >
-      </DefaultTooltip>
+      />
     </>
   )
 }

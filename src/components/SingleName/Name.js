@@ -2,13 +2,12 @@ import React from 'react'
 import styled from 'react-emotion'
 
 import mq, { useMediaMin } from 'mediaQuery'
-import { getPercentTimeLeft, getTimeLeft } from '../../utils/dates'
 import { EMPTY_ADDRESS } from '../../utils/records'
 
 import { Title } from '../Typography/Basic'
 import DefaultFavourite from '../AddFavourite/Favourite'
 import NameDetails from './NameDetails'
-import NameAuction from './NameAuction'
+import NameRegister from './NameRegister'
 import Tabs from './Tabs'
 import QueryAccount from '../QueryAccount'
 
@@ -79,8 +78,7 @@ const Favourite = styled(DefaultFavourite)``
 
 function Name({ details: domain, name, pathname, refetch }) {
   const smallBP = useMediaMin('small')
-  const timeLeft = getTimeLeft(domain)
-  const percentDone = getPercentTimeLeft(timeLeft, domain)
+  const percentDone = 0
   return (
     <QueryAccount>
       {({ account }) => {
@@ -88,6 +86,8 @@ function Name({ details: domain, name, pathname, refetch }) {
         if (domain.owner !== EMPTY_ADDRESS) {
           isOwner = domain.owner.toLowerCase() === account.toLowerCase()
         }
+        //TODO: Remove later
+        domain.state = 'Available'
         return (
           <NameContainer state={isOwner ? 'Yours' : domain.state}>
             <TopBar percentDone={percentDone}>
@@ -99,8 +99,8 @@ function Name({ details: domain, name, pathname, refetch }) {
               </RightBar>
             </TopBar>
             {!smallBP && <Tabs pathname={pathname} domain={domain} />}
-            {domain.state === 'Auction' || domain.state === 'Reveal' ? (
-              <NameAuction domain={domain} timeLeft={timeLeft} />
+            {domain.state === 'Available' ? (
+              <NameRegister domain={domain} pathname={pathname} />
             ) : (
               <NameDetails
                 domain={domain}
