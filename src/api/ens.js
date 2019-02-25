@@ -6,7 +6,7 @@ import { abi as resolverContract } from '@ensdomains/resolver/build/contracts/Pu
 import { abi as oldResolverContract } from '@ensdomains/ens-022/build/contracts/PublicResolver.json'
 
 import { abi as fifsRegistrarContract } from '@ensdomains/ens/build/contracts/FIFSRegistrar.json'
-
+import { abi as testRegistrarContract } from '@ensdomains/ens/build/contracts/TestRegistrar.json'
 oldResolverContract.forEach((old, i) => {
   if (
     !resolverContract
@@ -123,6 +123,19 @@ async function getFifsRegistrarContract() {
   }
 }
 
+async function getTestRegistrarContract() {
+  const { ENS, _ENS } = await getENS()
+  const web3 = await getWeb3()
+  const namehash = await getNamehash('test')
+  const testRegistrarAddr = await ENS.owner(namehash).call()
+  const registrar = new web3.eth.Contract(testRegistrarContract, testRegistrarAddr, _ENS._address, namehash)
+
+  return {
+    registrar: registrar.methods,
+    web3
+  }
+}
+
 const getENS = async ensAddress => {
   const networkId = await getNetworkId()
 
@@ -172,6 +185,7 @@ async function getENSEvent(event, params) {
 
 export default getENS
 export {
+  getTestRegistrarContract,
   getReverseRegistrarContract,
   getENSContract,
   getENSEvent,

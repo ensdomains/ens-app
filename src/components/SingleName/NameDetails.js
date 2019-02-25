@@ -17,6 +17,8 @@ import {
   SET_CONTENTHASH
 } from '../../graphql/mutations'
 
+import NameClaimTestDomain from './NameClaimTestDomain'
+
 import { formatDate } from '../../utils/dates'
 
 const Details = styled('section')`
@@ -171,6 +173,9 @@ class NameDetails extends Component {
                   </>
                 )}
               </Records>
+              {parseInt(domain.owner) == 0 && domain.name.match(/\.test$/) ? (
+                <NameClaimTestDomain domain={domain} refetch={refetch} />
+              ): null}
             </Details>
           )}
         />
