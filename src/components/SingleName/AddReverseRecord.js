@@ -12,7 +12,7 @@ import PendingTx from '../PendingTx'
 
 import { ReactComponent as DefaultCheck } from '../Icons/Check.svg'
 import { ReactComponent as DefaultBlueWarning } from '../Icons/BlueWarning.svg'
-import { ReactComponent as DefaultSmallCaret } from '../Icons/SmallCaret.svg'
+import RotatingSmallCaret from '../Icons/RotatingSmallCaret'
 
 const AddReverseRecordContainer = styled('div')`
   background: #f0f6fa;
@@ -57,11 +57,6 @@ const BlueWarning = styled(DefaultBlueWarning)`
 
 const Check = styled(DefaultCheck)`
   ${IconStyles()};
-`
-
-const SmallCaret = styled(DefaultSmallCaret)`
-  flex-shrink: 0;
-  transform: ${p => (p.rotated ? 'rotate(0)' : 'rotate(-90deg)')};
 `
 
 const Explanation = styled('div')`
@@ -147,7 +142,10 @@ function AddReverseRecord({ account, name }) {
                     refetch={refetch}
                   />
                 ) : (
-                  <SmallCaret rotated={editing} data-testid="small-caret" />
+                  <RotatingSmallCaret
+                    rotated={editing}
+                    data-testid="small-caret"
+                  />
                 )}
               </Message>
               {editing && (
