@@ -124,7 +124,8 @@ const resolvers = {
             registrationDate,
             revealDate,
             value,
-            highestBid
+            highestBid,
+            expiryTime
           } = entry
 
           const owner = await getOwner(name)
@@ -137,6 +138,7 @@ const resolvers = {
             value,
             highestBid,
             owner,
+            expiryTime,
             __typename: 'Node'
           }
         } else if (nameArray.length < 3 && nameArray[1] === 'test') {

@@ -86,8 +86,6 @@ function Name({ details: domain, name, pathname, refetch }) {
         if (domain.owner !== EMPTY_ADDRESS) {
           isOwner = domain.owner.toLowerCase() === account.toLowerCase()
         }
-        //TODO: Remove later
-        domain.state = 'Available'
         return (
           <NameContainer state={isOwner ? 'Yours' : domain.state}>
             <TopBar percentDone={percentDone}>
@@ -99,7 +97,7 @@ function Name({ details: domain, name, pathname, refetch }) {
               </RightBar>
             </TopBar>
             {!smallBP && <Tabs pathname={pathname} domain={domain} />}
-            {domain.state === 'Available' ? (
+            {domain.parent == 'eth' && domain.state !== 'Owned' ? (
               <NameRegister domain={domain} pathname={pathname} />
             ) : (
               <NameDetails
