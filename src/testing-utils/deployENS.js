@@ -1,13 +1,8 @@
-const sha3 = require('web3-utils').sha3;
-const toBN = require('web3-utils').toBN;
 const util = require('util');
-const SALT = sha3('foo');
 const DAYS = 24 * 60 * 60;
-const DURATION = 28 * DAYS;
 const VALUE = 28 * DAYS + 1;
 
 const secret = "0x0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF";
-
 
 const advanceTime = util.promisify(function(web3, delay, done) {
   return web3.currentProvider.send({
@@ -42,7 +37,6 @@ const registerName = async function(web3, account, controllerContract, name){
   newnameAvailable = await controllerContract.available(name).call()
   if(newnameAvailable) throw(`Failed to register "${name}"`)
 }
-
 
 module.exports = async function deployENS({ web3, accounts }) {
   const { sha3 } = web3.utils
@@ -81,10 +75,11 @@ module.exports = async function deployENS({ web3, accounts }) {
   const resolverJSON = loadContract('resolver', 'PublicResolver')
   const oldResolverJSON = loadContract('ens-022', 'PublicResolver')
   const reverseRegistrarJSON = loadContract('ens', 'ReverseRegistrar')
-  const baseRegistrarJSON = require(`ethregistrar/build/contracts/BaseRegistrarImplementation`)
-  const priceOracleJSON = require(`ethregistrar/build/contracts/SimplePriceOracle`)
-  const controllerJSON = require(`ethregistrar/build/contracts/ETHRegistrarController`)
-  const HashRegistrarSimplifiedJSON = loadContract('ens', 'HashRegistrar')
+  const baseRegistrarJSON = loadContract('ethregistrar', 'BaseRegistrarImplementation')
+  const priceOracleJSON = loadContract('ethregistrar', 'SimplePriceOracle')
+  const controllerJSON = loadContract('ethregistrar', 'ETHRegistrarController')
+  const testRegistrarJSON = loadContract('ens', 'TestRegistrar')
+  const hashRegistrarSimplifiedJSON = loadContract('ens', 'HashRegistrar')
 
   /* Deploy the main contracts  */
   const ens = await deploy(registryJSON)
@@ -95,9 +90,15 @@ module.exports = async function deployENS({ web3, accounts }) {
     ens._address,
     resolver._address
   )
+
+  const testRegistrar = await deploy(
+    testRegistrarJSON,
+    ens._address,
+    namehash('test')
+  )
   // Disabled for now as the deploy was throwing error and this is not in use.
   const ethRegistrar = await deploy(
-    HashRegistrarSimplifiedJSON,
+    hashRegistrarSimplifiedJSON,
     ens._address,
     namehash('eth'),
     1493895600
@@ -107,12 +108,13 @@ module.exports = async function deployENS({ web3, accounts }) {
   const resolverContract = resolver.methods
   const oldResolverContract = oldResolver.methods
   const reverseRegistrarContract = reverseRegistrar.methods
-  const ethRegistrarContract = ethRegistrar.methods
+  const testRegistrarContract = testRegistrar.methods
 
   console.log('ENS registry deployed at: ', ens._address)
   console.log('Public resolver deployed at: ', resolver._address)
   console.log('Old Public resolver deployed at: ', oldResolver._address)
   console.log('Reverse Registrar deployed at: ', reverseRegistrar._address)
+  console.log('Test Registrar deployed at: ', testRegistrar._address)
   console.log('Auction Registrar deployed at: ', ethRegistrar._address)
 
   const tld = 'eth'
@@ -125,6 +127,27 @@ module.exports = async function deployENS({ web3, accounts }) {
       from: accounts[0]
     })
 
+  await ensContract
+    .setSubnodeOwner('0x00000000000000000000000000000000', sha3('test'), accounts[0])
+    .send({
+      from: accounts[0]
+    })
+
+  await ensContract.setResolver(namehash(''), resolver._address).send({from: accounts[0]})
+  await ensContract.setResolver(namehash('eth'), resolver._address).send({from: accounts[0]})
+  await ensContract.setResolver(namehash('test'), resolver._address).send({from: accounts[0]})
+
+  await ensContract
+    .setSubnodeOwner('0x00000000000000000000000000000000', sha3('test'), testRegistrar._address)
+    .send({
+      from: accounts[0]
+    })
+
+  let rootOwner = await ensContract.owner('0x00000000000000000000000000000000').call() 
+
+  console.log('testRegistrarContract.register', namehash('example'), testRegistrar._address); 
+  await testRegistrarContract.register(sha3('example'), accounts[0]).send({from:accounts[0]})
+
   /* Setup the root reverse node */
   await ensContract
     .setSubnodeOwner(
@@ -136,7 +159,18 @@ module.exports = async function deployENS({ web3, accounts }) {
       from: accounts[0]
     })
 
+    await ensContract
+    .setSubnodeOwner(
+      namehash('reverse'),
+      sha3('addr'),
+      accounts[0]
+    )
+    .send({
+      from: accounts[0]
+    })
 
+  await ensContract.setResolver(namehash('addr.reverse'), resolver._address).send({from: accounts[0]})
+  
   /* Setup the reverse subdomain: addr.reverse */
   await ensContract
     .setSubnodeOwner(
