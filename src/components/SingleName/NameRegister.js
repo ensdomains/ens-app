@@ -81,11 +81,18 @@ const PricingContainer = styled('div')`
 `
 
 const Explainer = ({ step, time }) => {
-  const titles = [
-    'Registering a name requires you to complete 3 steps:',
-    'Don’t close your browser! You’ll be able to register your name soon.',
-    'You’ve completed all the steps, register your name now!'
-  ]
+  const titles = {
+    PRICE_DECISION: 'Registering a name requires you to complete 3 steps',
+    COMMIT_SENT:
+      'Don’t close your browser! You’ll be able to register your name soon.',
+    COMMIT_CONFIRMED:
+      'Don’t close your browser! You’ll be able to register your name soon.',
+    AWAITING_REGISTER:
+      'Don’t close your browser! You’ll be able to register your name soon.',
+    REVEAL_SENT:
+      'Don’t close your browser! You’ll be able to register your name soon.',
+    REVEAL_CONFIRMED: 'You’ve completed all the steps, manage your name now!'
+  }
 
   return (
     <div>
