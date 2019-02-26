@@ -29,6 +29,7 @@ const TabContainer = styled('div')`
 
   ${mq.small`
     margin: 0;
+    margin-left: 20px;
   `}
 `
 

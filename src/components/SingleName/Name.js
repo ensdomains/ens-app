@@ -95,10 +95,14 @@ function Name({ details: domain, name, pathname, refetch }) {
               <RightBar>
                 {isOwner && <Owner>Owner</Owner>}
                 <Favourite domain={domain} />
-                {smallBP && <Tabs pathname={pathname} domain={domain} />}
+                {smallBP && domain.state !== 'Available' && (
+                  <Tabs pathname={pathname} domain={domain} />
+                )}
               </RightBar>
             </TopBar>
-            {!smallBP && <Tabs pathname={pathname} domain={domain} />}
+            {!smallBP && domain.state !== 'Available' && (
+              <Tabs pathname={pathname} domain={domain} />
+            )}
             {domain.state === 'Available' ? (
               <NameRegister domain={domain} pathname={pathname} />
             ) : (
