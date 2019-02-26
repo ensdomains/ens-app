@@ -11,7 +11,8 @@ import {
   setContent,
   setContenthash,
   registerTestdomain,
-  createSubdomain
+  createSubdomain,
+  expiryTimes
 } from '../registry'
 import { getEntry } from '../registrar'
 import { query } from '../subDomainRegistrar'
@@ -105,7 +106,8 @@ const resolvers = {
           rent: null,
           referralFeePPM: null,
           available: null,
-          contentType: null
+          contentType: null,
+          expiryTime: null
         }
         let data
         if (nameArray.length < 3 && nameArray[1] === 'eth') {
@@ -136,6 +138,11 @@ const resolvers = {
             highestBid,
             owner,
             __typename: 'Node'
+          }
+        } else if (nameArray.length < 3 && nameArray[1] === 'test') {
+          const expiryTime = await expiryTimes(nameArray[0])
+          if(expiryTime){
+            node.expiryTime = expiryTime
           }
         } else if (nameArray.length > 2) {
           if (networkId === 1) {

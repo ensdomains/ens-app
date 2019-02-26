@@ -38,6 +38,16 @@ export async function registerTestdomain(label) {
   return () => registrar.register(namehash, account).send({ from: account })
 }
 
+export async function expiryTimes(label, owner) {
+  const { registrar } = await getTestRegistrarContract()
+  const web3 = await getWeb3()
+  const namehash = await web3.utils.sha3(label)
+  const result = await registrar.expiryTimes(namehash).call()
+  if(result > 0){
+    return new Date(result * 1000)
+  }
+}
+
 export async function getAddr(name) {
   const resolverAddr = await getResolver(name)
   if (parseInt(resolverAddr, 16) === 0) {
