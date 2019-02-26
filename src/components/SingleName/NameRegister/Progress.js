@@ -1,7 +1,9 @@
 import React from 'react'
 import styled from 'react-emotion'
 
-const ProgressContainer = styled('div')``
+const ProgressContainer = styled('div')`
+  margin-bottom: 20px;
+`
 
 const states = {
   PRICE_DECISION: 0,
@@ -18,11 +20,10 @@ const ProgressBar = styled('div')`
   border-radius: 10px;
   margin-bottom: 20px;
   background: ${({ percentDone }) =>
-      percentDone
-        ? `
-        linear-gradient(to right, #AFFF8C 0%, #42E068 ${percentDone}%, #ffffff ${percentDone}%);`
-        : 'white'},
-    rgba(66, 224, 104, 0.5);
+      percentDone &&
+      `
+        linear-gradient(to right, #AFFF8C 0%, #42E068 ${percentDone}%, transparent ${percentDone}%),`}
+    rgba(66, 224, 104, 0.1);
 `
 
 const Steps = styled('div')`
@@ -33,12 +34,31 @@ const Step = styled('div')`
   flex-grow: ${p => (p.large ? '2' : '1')};
   display: flex;
   justify-content: center;
-  border: 1px dashed #ccc;
+  border: 1px dotted #ccc;
+  border-right: none;
   border-top: none;
+  position: relative;
+
+  &:last-child {
+    border-right: none;
+  }
 
   &:before {
-    display: block;
-    content: ${p => (p.text ? 'blah' : 'hello')};
+    content: "${p => p.text}";
+    display: flex;
+    background: white;
+    padding: 3px 15px;
+    font-family: Overpass;
+    font-weight: bold;
+    font-size: 14px;
+    color: #2C46A6;
+    letter-spacing: 1px;
+    z-index: 1;
+    position: absolute;
+    transform: translateX(-50%);
+    left: 50%;
+    top: 10px;
+    color: black;
   }
 `
 
