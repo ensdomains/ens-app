@@ -9,19 +9,12 @@ import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 
 const ActiveHeart = styled(ActiveHeartDefault)`
-  ${mq.small`
-    margin-right: 20px;
-  `}
-
   &:hover {
     cursor: pointer;
   }
 `
 
 const InActiveHeart = styled(InActiveHeartDefault)`
-  ${mq.small`
-    margin-right: 20px;
-  `}
   &:hover {
     cursor: pointer;
   }
