@@ -12,7 +12,7 @@ const NameClaimTestDomainContainer = styled('div')`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   ${mq.medium`
     flex-direction: row-reverse;
   `};
