@@ -61,6 +61,7 @@ const typeDefs = `
     contentType: String
     addr: String
     nodes: [Node]
+    expiryTime: Int
   }
 
   extend type Query {

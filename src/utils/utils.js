@@ -49,6 +49,8 @@ export const mergeLabels = (labels1, labels2) =>
   labels1.map((label, index) => (label ? label : labels2[index]))
 
 export function validateName(name) {
+  const hasEmptyLabels = name.split('.').filter(e => e.length < 1).length > 0
+  if (hasEmptyLabels) throw new Error('Domain cannot have empty labels')
   try {
     return uts46.toUnicode(name, {
       useStd3ASCII: true,

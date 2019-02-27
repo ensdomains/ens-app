@@ -11,7 +11,8 @@ import {
   setContent,
   setContenthash,
   registerTestdomain,
-  createSubdomain
+  createSubdomain,
+  expiryTimes
 } from '../registry'
 import { getEntry } from '../registrar'
 import { query } from '../subDomainRegistrar'
@@ -53,13 +54,19 @@ async function addTransaction({ txHash, txState }) {
     updatedAt: new Date().getTime(),
     __typename: 'Transaction'
   }
-  
+
   const previous = client.readQuery({ query: GET_TRANSACTION_HISTORY })
-  const index = previous.transactionHistory.findIndex(trx => trx.txHash === txHash)
+  const index = previous.transactionHistory.findIndex(
+    trx => trx.txHash === txHash
+  )
   const newTransactionHistory = [...previous.transactionHistory]
-  if(index >= 0 ){
-    newTransactionHistory[index] = { ...newTransactionHistory[index], txState, updatedAt: newTransaction.updatedAt}
-  }else{
+  if (index >= 0) {
+    newTransactionHistory[index] = {
+      ...newTransactionHistory[index],
+      txState,
+      updatedAt: newTransaction.updatedAt
+    }
+  } else {
     newTransactionHistory.push(newTransaction)
   }
 
@@ -105,17 +112,11 @@ const resolvers = {
           rent: null,
           referralFeePPM: null,
           available: null,
-          contentType: null
+          contentType: null,
+          expiryTime: null
         }
         let data
         if (nameArray.length < 3 && nameArray[1] === 'eth') {
-          if (nameArray[0].length < 7) {
-            cache.writeData({
-              data: defaults
-            })
-            return null
-          }
-
           const entry = await getEntry(nameArray[0])
           const {
             state,
@@ -136,6 +137,11 @@ const resolvers = {
             highestBid,
             owner,
             __typename: 'Node'
+          }
+        } else if (nameArray.length < 3 && nameArray[1] === 'test') {
+          const expiryTime = await expiryTimes(nameArray[0])
+          if(expiryTime){
+            node.expiryTime = expiryTime
           }
         } else if (nameArray.length > 2) {
           if (networkId === 1) {
@@ -289,7 +295,7 @@ const resolvers = {
     },
     setContent: async (_, { name, recordValue }, { cache }) => {
       try {
-        const  tx = await setContent(name, recordValue)
+        const tx = await setContent(name, recordValue)
         console.log(tx)
         return sendHelper(tx)
       } catch (e) {
