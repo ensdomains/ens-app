@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'react-emotion'
 
+import Tooltip from '../../Tooltip/Tooltip'
+
 const ProgressContainer = styled('div')`
   margin-bottom: 20px;
 `
@@ -28,6 +30,7 @@ const ProgressBar = styled('div')`
 
 const Steps = styled('div')`
   display: flex;
+  margin-bottom: 20px;
 `
 
 const Step = styled('div')`
@@ -68,11 +71,66 @@ function Progress({ step }) {
     <ProgressContainer>
       <ProgressBar percentDone={states[step]} />
       <Steps>
-        <Step text="Step 1">&nbsp;</Step>
-        <Step text="Step 2" large>
-          &nbsp;
-        </Step>
-        <Step text="Step 3">&nbsp;</Step>
+        <Tooltip
+          text="<p>The first transaction is being mined on the blockchain. This should take 15-30 seconds.</p>"
+          position="top"
+          border={true}
+        >
+          {({ tooltipElement, showTooltip, hideTooltip }) => (
+            <Step
+              text="Step 1"
+              onMouseOver={() => {
+                showTooltip()
+              }}
+              onMouseLeave={() => {
+                hideTooltip()
+              }}
+            >
+              &nbsp;
+              {tooltipElement}
+            </Step>
+          )}
+        </Tooltip>
+        <Tooltip
+          text='<p>This resolver is outdated and does not support the new content hash.<br/>Click the "Set" button to update  to the latest public resolver.</p>'
+          position="top"
+          border={true}
+        >
+          {({ tooltipElement, showTooltip, hideTooltip }) => (
+            <Step
+              text="Step 2"
+              onMouseOver={() => {
+                showTooltip()
+              }}
+              onMouseLeave={() => {
+                hideTooltip()
+              }}
+            >
+              &nbsp;
+              {tooltipElement}
+            </Step>
+          )}
+        </Tooltip>
+        <Tooltip
+          text='<p>This resolver is outdated and does not support the new content hash.<br/>Click the "Set" button to update  to the latest public resolver.</p>'
+          position="top"
+          border={true}
+        >
+          {({ tooltipElement, showTooltip, hideTooltip }) => (
+            <Step
+              text="Step 3"
+              onMouseOver={() => {
+                showTooltip()
+              }}
+              onMouseLeave={() => {
+                hideTooltip()
+              }}
+            >
+              &nbsp;
+              {tooltipElement}
+            </Step>
+          )}
+        </Tooltip>
       </Steps>
     </ProgressContainer>
   )

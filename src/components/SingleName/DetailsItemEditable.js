@@ -144,29 +144,28 @@ const Editable = ({
               {type === 'address' ? (
                 <EtherScanLink address={value}>
                   <SingleNameBlockies address={value} imageSize={24} />
-                  { keyName === 'Resolver' && domain.contentType === 'oldcontent' ? (
+                  {keyName === 'Resolver' &&
+                  domain.contentType === 'oldcontent' ? (
                     <Tooltip
-                      text='<p>This resolver is outdataed and does not support the new content hash.<br/>Click the "Set" button to update  to the latest public resolver.</p>'
+                      text='<p>This resolver is outdated and does not support the new content hash.<br/>Click the "Set" button to update  to the latest public resolver.</p>'
                       position="top"
                       border={true}
                     >
                       {({ tooltipElement, showTooltip, hideTooltip }) => (
                         <>
-                        <Info
-                          onMouseOver={()=>{
-                            showTooltip()
-                          }}
-
-                          onMouseLeave={()=>{
-                            hideTooltip()
-                          }}
-                        >
-                        </Info>
-                        {tooltipElement}
+                          <Info
+                            onMouseOver={() => {
+                              showTooltip()
+                            }}
+                            onMouseLeave={() => {
+                              hideTooltip()
+                            }}
+                          />
+                          {tooltipElement}
                         </>
                       )}
                     </Tooltip>
-                  ): null }
+                  ) : null}
                   {value}
                 </EtherScanLink>
               ) : (
