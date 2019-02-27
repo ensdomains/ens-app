@@ -3,6 +3,7 @@ import getENS, {
   getENSEvent,
   getReverseRegistrarContract,
   getResolverContract,
+  getTestRegistrarContract,
   getResolverReadContract,
   getNamehashWithLabelHash
 } from './ens'
@@ -27,6 +28,24 @@ export async function getResolverWithNameHash(label, node, name) {
   let { readENS: ENS } = await getENS()
   let nodeHash = await getNamehashWithLabelHash(label, node)
   return ENS.resolver(nodeHash).call()
+}
+
+export async function registerTestdomain(label) {
+  const { registrar } = await getTestRegistrarContract()
+  const web3 = await getWeb3()
+  const namehash = await web3.utils.sha3(label)
+  const account = await getAccount()
+  return () => registrar.register(namehash, account).send({ from: account })
+}
+
+export async function expiryTimes(label, owner) {
+  const { registrar } = await getTestRegistrarContract()
+  const web3 = await getWeb3()
+  const namehash = await web3.utils.sha3(label)
+  const result = await registrar.expiryTimes(namehash).call()
+  if(result > 0){
+    return new Date(result * 1000)
+  }
 }
 
 export async function getAddr(name) {

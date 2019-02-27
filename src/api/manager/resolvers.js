@@ -10,7 +10,9 @@ import {
   setAddress,
   setContent,
   setContenthash,
-  createSubdomain
+  registerTestdomain,
+  createSubdomain,
+  expiryTimes
 } from '../registry'
 import { getEntry } from '../registrar'
 import { query } from '../subDomainRegistrar'
@@ -104,7 +106,8 @@ const resolvers = {
           rent: null,
           referralFeePPM: null,
           available: null,
-          contentType: null
+          contentType: null,
+          expiryTime: null
         }
         let data
         if (nameArray.length < 3 && nameArray[1] === 'eth') {
@@ -121,7 +124,8 @@ const resolvers = {
             registrationDate,
             revealDate,
             value,
-            highestBid
+            highestBid,
+            expiryTime
           } = entry
 
           const owner = await getOwner(name)
@@ -134,7 +138,13 @@ const resolvers = {
             value,
             highestBid,
             owner,
+            expiryTime,
             __typename: 'Node'
+          }
+        } else if (nameArray.length < 3 && nameArray[1] === 'test') {
+          const expiryTime = await expiryTimes(nameArray[0])
+          if(expiryTime){
+            node.expiryTime = expiryTime
           }
         } else if (nameArray.length > 2) {
           if (networkId === 1) {
@@ -248,6 +258,10 @@ const resolvers = {
     }
   },
   Mutation: {
+    registerTestdomain: async (_, { label }) => {
+      const tx = await registerTestdomain(label)
+      return sendHelper(tx)
+    },
     setName: async (_, { name }) => {
       try {
         console.log(name)

@@ -55,6 +55,7 @@ export const GET_SINGLE_NAME = gql`
       rent
       referralFeePPM
       available
+      expiryTime
     }
   }
 

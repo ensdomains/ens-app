@@ -8,6 +8,7 @@ import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import RecordsItem from './RecordsItem'
 import DetailsItemEditable from './DetailsItemEditable'
 import AddRecord from './AddRecord'
+import SetupName from '../SetupName/SetupName'
 
 import {
   SET_OWNER,
@@ -16,6 +17,8 @@ import {
   SET_CONTENT,
   SET_CONTENTHASH
 } from '../../graphql/mutations'
+
+import NameClaimTestDomain from './NameClaimTestDomain'
 
 import { formatDate } from '../../utils/dates'
 
@@ -31,6 +34,15 @@ const Records = styled('div')`
   padding-bottom: ${p => (p.hasRecord ? '10px' : '0')};
   display: ${p => (!p.isOwner && !p.hasRecord ? 'none' : 'block')};
 `
+
+const ExpirationDetailsValue = styled(DetailsValue)`
+  color: ${ p => (p.isExpired ? 'red' : null) }
+`
+
+function canClaim(domain){
+  if(!domain.name.match(/\.test$/)) return false
+  return parseInt(domain.owner) == 0 || domain.expiryTime < new Date()
+}
 
 class NameDetails extends Component {
   isEmpty(record) {
@@ -79,9 +91,9 @@ class NameDetails extends Component {
     })
 
     let contentMutation
-    if(domain.contentType === 'oldcontent'){
+    if (domain.contentType === 'oldcontent') {
       contentMutation = SET_CONTENT
-    }else{
+    } else {
       contentMutation = SET_CONTENTHASH
     }
 
@@ -92,6 +104,7 @@ class NameDetails extends Component {
           path="/name/:name"
           render={() => (
             <Details data-testid="name-details">
+              {isOwner && <SetupName />}
               {domain.parent && (
                 <DetailsItem uneditable>
                   <DetailsKey>Parent</DetailsKey>
@@ -118,6 +131,16 @@ class NameDetails extends Component {
                   <DetailsValue>
                     {formatDate(domain.registrationDate)}
                   </DetailsValue>
+                </DetailsItem>
+              ) : (
+                ''
+              )}
+              {domain.expiryTime ? (
+                <DetailsItem uneditable>
+                  <DetailsKey>Expiration Date</DetailsKey>
+                  <ExpirationDetailsValue isExpired = {domain.expiryTime < new Date()}>
+                    {formatDate(domain.expiryTime)}
+                  </ExpirationDetailsValue>
                 </DetailsItem>
               ) : (
                 ''
@@ -171,6 +194,9 @@ class NameDetails extends Component {
                   </>
                 )}
               </Records>
+              {canClaim(domain)  ? (
+                <NameClaimTestDomain domain={domain} refetch={refetch} />
+              ): null}
             </Details>
           )}
         />
