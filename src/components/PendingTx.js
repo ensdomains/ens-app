@@ -49,8 +49,8 @@ class PendingTx extends React.Component {
 
 PendingTx.propTypes = {
   txHash: PropTypes.string,
-  setConfirmed: PropTypes.function,
-  reftch: PropTypes.function
+  setConfirmed: PropTypes.func,
+  reftch: PropTypes.func
 }
 
 export default PendingTx

@@ -1,13 +1,13 @@
 import React, { useState, useReducer } from 'react'
 import styled from 'react-emotion'
 
-import Button from '../Forms/Button'
+import Button from '../../Forms/Button'
 
-import Explainer from './NameRegister/Explainer'
-import Years from './NameRegister/Years'
-import Price from './NameRegister/Price'
-import Progress from './NameRegister/Progress'
-import { ReactComponent as ChainDefault } from '../Icons/chain.svg'
+import Explainer from './Explainer'
+import Years from './Years'
+import Price from './Price'
+import Progress from './Progress'
+import { ReactComponent as ChainDefault } from '../../Icons/chain.svg'
 
 // steps
 

@@ -19,6 +19,10 @@ const Header = styled('div')`
   align-items: center;
 `
 
+const NotifyButton = styled(Button)`
+  flex-shrink: 0;
+`
+
 const Explainer = ({ step, time }) => {
   const titles = {
     PRICE_DECISION: 'Registering a name requires you to complete 3 steps',
@@ -37,9 +41,9 @@ const Explainer = ({ step, time }) => {
     <div>
       <Header>
         <h2>{titles[step]}</h2>
-        <Button type="hollow-primary" onClick={requestPermission}>
+        <NotifyButton type="hollow-primary" onClick={requestPermission}>
           Notify me
-        </Button>
+        </NotifyButton>
       </Header>
       <p>
         *Favorite the name for easy access in case you close out of your
