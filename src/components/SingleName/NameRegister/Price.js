@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'react-emotion'
 import mq from 'mediaQuery'
+import EthVal from 'ethval'
 
 const PriceContainer = styled('div')`
   width: 100%;
@@ -28,7 +29,7 @@ const Description = styled('div')`
 const Price = ({ price }) => {
   return (
     <PriceContainer>
-      <Value>{price} ETH</Value>
+      <Value>{new EthVal(price).toEth().toFixed(12)} ETH</Value>
       <Description>Price per amount of time selected</Description>
     </PriceContainer>
   )
