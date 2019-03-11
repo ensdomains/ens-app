@@ -1,12 +1,15 @@
 import getENS, { getNamehash } from './ens'
-import getWeb3, { getWeb3Read, getAccount } from './web3'
+import getWeb3, { getWeb3Read, getAccount, getNetworkId } from './web3'
 import { abi as auctionRegistrarContract } from '@ensdomains/ens/build/contracts/HashRegistrar'
 import { abi as permanentRegistrarContract } from '@ensdomains/ethregistrar/build/contracts/BaseRegistrarImplementation'
+import { abi as permanentRegistrarControllerContract } from '@ensdomains/ethregistrar/build/contracts/ETHRegistrarController'
 
 let ethRegistrar
 let ethRegistrarRead
 let permanentRegistrar
 let permanentRegistrarRead
+let permanentRegistrarController
+let permanentRegistrarControllerRead
 
 export const getAuctionRegistrar = async () => {
   if (ethRegistrar) {
@@ -39,13 +42,16 @@ export const getPermanentRegistrar = async () => {
       permanentRegistrarRead
     }
   }
-  
+
   try {
     const { readENS: ENS } = await getENS()
     const web3 = await getWeb3()
     const web3Read = await getWeb3Read()
     const ethAddr = await ENS.owner(await getNamehash('eth')).call()
-    permanentRegistrar = new web3.eth.Contract(permanentRegistrarContract, ethAddr)
+    permanentRegistrar = new web3.eth.Contract(
+      permanentRegistrarContract,
+      ethAddr
+    )
     permanentRegistrarRead = new web3Read.eth.Contract(
       permanentRegistrarContract,
       ethAddr
@@ -57,21 +63,57 @@ export const getPermanentRegistrar = async () => {
   } catch (e) {}
 }
 
+export const getPermanentRegistrarController = async () => {
+  if (permanentRegistrarController) {
+    return {
+      permanentRegistrarController,
+      permanentRegistrarControllerRead
+    }
+  }
+
+  try {
+    const web3 = await getWeb3()
+    const web3Read = await getWeb3Read()
+    const networkId = await getNetworkId()
+    let controllerAddress
+    if (process.env.REACT_APP_CONTROLLER_ADDRESS && networkId > 1000) {
+      //Assuming public main/test networks have a networkId of less than 1000
+      controllerAddress = process.env.REACT_APP_CONTROLLER_ADDRESS
+    } else {
+      throw new Error('No controller address found')
+    }
+
+    permanentRegistrarController = new web3.eth.Contract(
+      permanentRegistrarControllerContract,
+      controllerAddress
+    )
+
+    permanentRegistrarControllerRead = new web3Read.eth.Contract(
+      permanentRegistrarControllerContract,
+      controllerAddress
+    )
+    return {
+      permanentRegistrarController,
+      permanentRegistrarControllerRead
+    }
+  } catch (e) {}
+}
+
 export const getPermanentEntry = async name => {
   let obj = {
-    available:null,
-    nameExpires:null
+    available: null,
+    nameExpires: null
   }
-  try{
+  try {
     const web3 = await getWeb3()
     const namehash = web3.utils.sha3(name)
     const { permanentRegistrarRead: Registrar } = await getPermanentRegistrar()
     obj.available = await Registrar.methods.available(namehash).call()
     const nameExpires = await Registrar.methods.nameExpires(namehash).call()
-    if(nameExpires > 0){
+    if (nameExpires > 0) {
       obj.nameExpires = new Date(nameExpires * 1000)
     }
-  }catch(e){
+  } catch (e) {
     console.log('error getting permanentRegistrar contract', e)
   }
   return obj
@@ -80,7 +122,7 @@ export const getPermanentEntry = async name => {
 export const getEntry = async name => {
   const { ethRegistrarRead: Registrar } = await getAuctionRegistrar()
   let obj
-  
+
   const web3 = await getWeb3()
   const namehash = web3.utils.sha3(name)
   try {
@@ -101,22 +143,34 @@ export const getEntry = async name => {
       revealDate: 0,
       value: 0,
       highestBid: 0,
-      expiryTime:0
+      expiryTime: 0
     }
   }
-  try{
+  try {
     let permEntry = await getPermanentEntry(name)
-    if(!permEntry.available ){
+    if (!permEntry.available) {
       // Owned
       obj.state = 2
     }
-    if(permEntry.nameExpires){
+    if (permEntry.nameExpires) {
       obj.expiryTime = permEntry.nameExpires
     }
-  } catch(e){
+  } catch (e) {
     console.log('error getting permanent registry', e)
   }
   return obj
+}
+
+export const getRentPrice = async (name, duration) => {
+  const {
+    permanentRegistrarControllerRead
+  } = await getPermanentRegistrarController()
+
+  const price = await permanentRegistrarControllerRead.methods
+    .rentPrice(name, duration)
+    .call()
+
+  return price
 }
 
 export const createSealedBid = async (name, bidAmount, secret) => {

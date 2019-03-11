@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'react-emotion'
 import mq from 'mediaQuery'
-import math from 'mathjs'
 
 const PriceContainer = styled('div')`
   width: 100%;
@@ -26,13 +25,7 @@ const Description = styled('div')`
   margin-top: 10px;
 `
 
-const Price = ({ pricePerYear, years }) => {
-  // default to 0 if years is an empty string
-  if (isNaN(parseInt(years))) {
-    years = 0
-  }
-  const rawPrice = math.eval(`${pricePerYear} * ${years}`)
-  const price = math.format(rawPrice, { precision: 14 })
+const Price = ({ price }) => {
   return (
     <PriceContainer>
       <Value>{price} ETH</Value>

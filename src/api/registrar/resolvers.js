@@ -1,10 +1,18 @@
-import { createSealedBid, getEntry } from '../registrar'
+import { createSealedBid, getEntry, getRentPrice } from '../registrar'
 import { getOwner } from '../registry'
 import modeNames from '../modes'
 
 const defaults = {}
 
 const resolvers = {
+  Query: {
+    getRentPrice: async (_, { name, duration }, { cache }) => {
+      return {
+        price: await getRentPrice(name, duration),
+        __typename: 'RentPrice'
+      }
+    }
+  },
   Mutation: {
     async getDomainAvailability(_, { name }, { cache }) {
       try {

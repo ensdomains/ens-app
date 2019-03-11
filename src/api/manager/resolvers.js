@@ -54,13 +54,19 @@ async function addTransaction({ txHash, txState }) {
     updatedAt: new Date().getTime(),
     __typename: 'Transaction'
   }
-  
+
   const previous = client.readQuery({ query: GET_TRANSACTION_HISTORY })
-  const index = previous.transactionHistory.findIndex(trx => trx.txHash === txHash)
+  const index = previous.transactionHistory.findIndex(
+    trx => trx.txHash === txHash
+  )
   const newTransactionHistory = [...previous.transactionHistory]
-  if(index >= 0 ){
-    newTransactionHistory[index] = { ...newTransactionHistory[index], txState, updatedAt: newTransaction.updatedAt}
-  }else{
+  if (index >= 0) {
+    newTransactionHistory[index] = {
+      ...newTransactionHistory[index],
+      txState,
+      updatedAt: newTransaction.updatedAt
+    }
+  } else {
     newTransactionHistory.push(newTransaction)
   }
 
@@ -143,7 +149,7 @@ const resolvers = {
           }
         } else if (nameArray.length < 3 && nameArray[1] === 'test') {
           const expiryTime = await expiryTimes(nameArray[0])
-          if(expiryTime){
+          if (expiryTime) {
             node.expiryTime = expiryTime
           }
         } else if (nameArray.length > 2) {
@@ -298,7 +304,7 @@ const resolvers = {
     },
     setContent: async (_, { name, recordValue }, { cache }) => {
       try {
-        const  tx = await setContent(name, recordValue)
+        const tx = await setContent(name, recordValue)
         console.log(tx)
         return sendHelper(tx)
       } catch (e) {

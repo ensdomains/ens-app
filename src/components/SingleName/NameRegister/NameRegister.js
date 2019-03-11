@@ -1,5 +1,6 @@
 import React, { useState, useReducer } from 'react'
 import styled from 'react-emotion'
+import { Query } from 'react-apollo'
 
 import mq from 'mediaQuery'
 import Button from '../../Forms/Button'
@@ -9,6 +10,7 @@ import Years from './Years'
 import Price from './Price'
 import Progress from './Progress'
 import { ReactComponent as ChainDefault } from '../../Icons/chain.svg'
+import gql from 'graphql-tag'
 
 // steps
 
@@ -108,6 +110,14 @@ const Chain = styled(ChainDefault)`
   `}
 `
 
+const GET_RENT_PRICE = gql`
+  query getRentPrice($name: String, $duration: Number) @client {
+    getRentPrice(name: $name, duration: $duration) {
+      price
+    }
+  }
+`
+
 const NameRegister = ({ domain }) => {
   const [step, dispatch] = useReducer(
     registerReducer,
@@ -119,16 +129,27 @@ const NameRegister = ({ domain }) => {
   const incrementStep = () => dispatch('NEXT')
   const decrementStep = () => dispatch('PREVIOUS')
 
-  const pricePerYear = 0.1
-
   return (
     <NameRegisterContainer>
       {step === 'PRICE_DECISION' && (
-        <PricingContainer>
-          <Years years={years} setYears={setYears} />
-          <Chain />
-          <Price years={years} pricePerYear={pricePerYear} />
-        </PricingContainer>
+        <Query
+          query={GET_RENT_PRICE}
+          variables={{
+            name: domain.name,
+            duration: 100000
+          }}
+        >
+          {data => {
+            console.log(data)
+            return (
+              <PricingContainer>
+                <Years years={years} setYears={setYears} />
+                <Chain />
+                <Price price={100} />
+              </PricingContainer>
+            )
+          }}
+        </Query>
       )}
       <Explainer step={step} time={time} />
       <Progress step={step} />
