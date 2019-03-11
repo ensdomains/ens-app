@@ -40,11 +40,13 @@ const Content = styled('div')`
     margin-top: 2px;
     font-size: 14px;
     font-weight: 600;
+    margin-bottom: 5px;
   }
 
   p {
     font-size: 14px;
     font-weight: 400;
+    margin-top: 0;
   }
 `
 

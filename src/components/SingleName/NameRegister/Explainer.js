@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'react-emotion'
 
+import mq from 'mediaQuery'
 import Step from './Step'
 import Button from '../../Forms/Button'
 
@@ -8,9 +9,13 @@ import { requestPermission } from './notification'
 
 const Steps = styled('section')`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-column-gap: 30px;
-  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
+  grid-row-gap: 30px;
+  ${mq.large`
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 30px;
+    grid-template-rows: 1fr;
+  `}
 `
 
 const Header = styled('div')`
