@@ -173,6 +173,44 @@ export const getRentPrice = async (name, duration) => {
   return price
 }
 
+export const makeCommitment = async (name, secret = '') => {
+  const {
+    permanentRegistrarControllerRead
+  } = await getPermanentRegistrarController()
+
+  const commitment = await permanentRegistrarControllerRead.methods
+    .makeCommitment(name, secret)
+    .call()
+
+  return commitment
+}
+
+export const commit = async (name, secret = '') => {
+  const {
+    permanentRegistrarController
+  } = await getPermanentRegistrarController()
+  const account = await getAccount()
+
+  const commitment = await makeCommitment(name, secret)
+
+  return () =>
+    permanentRegistrarController.methods
+      .commit(commitment)
+      .send({ from: account })
+}
+
+export const register = async (name, owner, duration, secret) => {
+  const {
+    permanentRegistrarController
+  } = await getPermanentRegistrarController()
+  const account = await getAccount()
+
+  return () =>
+    permanentRegistrarController.methods
+      .register(name, owner, duration, secret)
+      .send({ from: account })
+}
+
 export const createSealedBid = async (name, bidAmount, secret) => {
   const Registrar = await getAuctionRegistrar()
   const web3 = await getWeb3()

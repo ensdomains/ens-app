@@ -136,16 +136,15 @@ const NameRegister = ({ domain }) => {
           query={GET_RENT_PRICE}
           variables={{
             name: domain.name,
-            duration: 100000
+            duration: 31556952 * years
           }}
         >
-          {data => {
-            console.log(data)
+          {({ data, loading }) => {
             return (
               <PricingContainer>
                 <Years years={years} setYears={setYears} />
                 <Chain />
-                <Price price={100} />
+                <Price price={loading ? 0 : data.getRentPrice.price} />
               </PricingContainer>
             )
           }}
