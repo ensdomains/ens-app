@@ -1,6 +1,7 @@
 import React, { useState, useReducer } from 'react'
 import styled from 'react-emotion'
 
+import mq from 'mediaQuery'
 import Button from '../../Forms/Button'
 
 import Explainer from './Explainer'
@@ -66,9 +67,12 @@ function registerReducer(state, action) {
 
 const PricingContainer = styled('div')`
   display: grid;
-  grid-template-columns:
-    minmax(min-content, 200px) minmax(min-content, min-content)
-    minmax(200px, 1fr);
+  grid-template-columns: 1fr;
+  ${mq.medium`
+    grid-template-columns:
+      minmax(min-content, 200px) minmax(min-content, min-content)
+      minmax(200px, 1fr);
+  `}
 `
 
 const CTAContainer = styled('div')`
@@ -94,9 +98,14 @@ const NameRegisterContainer = styled('div')`
 `
 
 const Chain = styled(ChainDefault)`
-  margin-top: 20px;
-  margin-left: 20px;
-  margin-right: 20px;
+  display: none;
+
+  ${mq.medium`
+    display: block;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+  `}
 `
 
 const NameRegister = ({ domain }) => {

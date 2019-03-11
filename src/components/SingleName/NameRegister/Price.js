@@ -1,8 +1,14 @@
 import React from 'react'
 import styled from 'react-emotion'
+import mq from 'mediaQuery'
 import math from 'mathjs'
 
-const PriceContainer = styled('div')``
+const PriceContainer = styled('div')`
+  width: 100%;
+  ${mq.medium`
+    width: auto
+  `}
+`
 
 const Value = styled('div')`
   font-family: Overpass;

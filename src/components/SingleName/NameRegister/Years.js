@@ -1,16 +1,18 @@
 import React from 'react'
 import styled from 'react-emotion'
+import mq from 'mediaQuery'
 
 const YearsContainer = styled('div')`
-  display: flex;
-  flex-direction: column;
-  max-width: 220px;
+  ${mq.medium`
+    max-width: 220px;
+  `}
 `
 
 const Stepper = styled('div')`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns:
+    30px auto
+    30px;
   border-bottom: 1px solid #dfdfdf;
 `
 
@@ -26,6 +28,7 @@ const Icon = styled('div')`
   display: flex;
   justify-content: center;
   align-items: center;
+  align-self: center;
 
   &:hover {
     cursor: pointer;
@@ -40,6 +43,8 @@ const Amount = styled('div')`
   font-size: 28px;
   font-weight: 100;
   color: #2b2b2b;
+  justify-self: left;
+  align-self: center;
 
   input {
     font-family: Overpass;

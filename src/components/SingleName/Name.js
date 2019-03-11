@@ -94,7 +94,7 @@ function Name({ details: domain, name, pathname, refetch }) {
                 {isOwner && <Owner>Owner</Owner>}
                 <Favourite domain={domain} />
                 {smallBP &&
-                  domain.parent == 'eth' &&
+                  domain.parent === 'eth' &&
                   domain.state === 'Owned' && (
                     <Tabs pathname={pathname} domain={domain} />
                   )}
@@ -105,7 +105,7 @@ function Name({ details: domain, name, pathname, refetch }) {
               domain.state === 'Owned' && (
                 <Tabs pathname={pathname} domain={domain} />
               )}
-            {domain.parent == 'eth' && domain.state !== 'Owned' ? (
+            {domain.parent === 'eth' && domain.state !== 'Owned' ? (
               <NameRegister domain={domain} pathname={pathname} />
             ) : (
               <NameDetails
