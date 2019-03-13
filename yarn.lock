@@ -890,18 +890,31 @@
     solc "^0.4.20"
     web3-utils "^1.0.0-beta.31"
 
-"@ensdomains/ethregistrar@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ethregistrar/-/ethregistrar-1.1.0.tgz#3331f8a567feadcec16ae0235c56af32ba81ee7e"
-  integrity sha512-dnRJOp+E8yFfIJCtXIFgbYWMZElZcSLe+acUV1HSr8gRhXCGxzIoewQFXg76/wkM2xk9yDU1qTjVA+ffVzwasw==
+"@ensdomains/ens@^0.3.4":
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ens/-/ens-0.3.4.tgz#81b4c786a1a56444f39ec25b4155c077a9ec7f6a"
+  integrity sha512-Ih07YtC/PvnYihiS7EBuzUOIQlBRROkfQOT83ryH8ofX/MCE8Rpnw6xPwEGZD+M2FZWjcQWFbZOrLzmj3Gt81w==
   dependencies:
-    "@ensdomains/ens" "^0.3.3"
     bluebird "^3.5.2"
+    eth-ens-namehash "^1.0.2"
+    ethereumjs-testrpc "^6.0.3"
+    ganache-cli "^6.1.0"
+    solc "^0.4.20"
+    testrpc "0.0.1"
+    web3-utils "^1.0.0-beta.31"
+
+"@ensdomains/ethregistrar@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ethregistrar/-/ethregistrar-1.1.2.tgz#f45d68f41db1bb60e1493c0e83c4f72f5aa4e099"
+  integrity sha512-RqekaDgq5QpudgqeeKnhiW4xXGzb7SB9zPpLyI/EAZORUaYcKdyCEs5gewVrB2t6tbmjlMkkX4gprq1yPTprKw==
+  dependencies:
+    "@ensdomains/ens" "^0.3.4"
+    bluebird "^3.5.3"
     eth-ens-namehash "^2.0.8"
-    openzeppelin-solidity "^2.1.1"
-    solium "^1.0.4"
-    truffle "^5.0.2"
-    web3-utils "^1.0.0-beta.36"
+    openzeppelin-solidity "^2.1.3"
+    solium "^1.2.3"
+    truffle "^5.0.5"
+    web3-utils "^1.0.0-beta.48"
 
 "@ensdomains/resolver@^0.1.1":
   version "0.1.1"
@@ -962,6 +975,13 @@
   version "3.5.18"
   resolved "https://registry.yarnpkg.com/@types/bluebird/-/bluebird-3.5.18.tgz#6a60435d4663e290f3709898a4f75014f279c4d6"
 
+"@types/bn.js@^4.11.4":
+  version "4.11.4"
+  resolved "https://registry.yarnpkg.com/@types/bn.js/-/bn.js-4.11.4.tgz#a7bed5bdef9f16b25c92ba27745ab261374787d7"
+  integrity sha512-AO8WW+aRcKWKQAYTfKLzwnpL6U+TfPqS+haRrhCy5ff04Da8WZud3ZgVjspQXaEXJDcTlsjUEVvL39wegDek5w==
+  dependencies:
+    "@types/node" "*"
+
 "@types/chai-jquery@1.1.35":
   version "1.1.35"
   resolved "https://registry.yarnpkg.com/@types/chai-jquery/-/chai-jquery-1.1.35.tgz#9a8f0a39ec0851b2768a8f8c764158c2a2568d04"
@@ -1002,6 +1022,11 @@
 "@types/mocha@2.2.44":
   version "2.2.44"
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-2.2.44.tgz#1d4a798e53f35212fd5ad4d04050620171cd5b5e"
+
+"@types/node@*":
+  version "11.11.3"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-11.11.3.tgz#7c6b0f8eaf16ae530795de2ad1b85d34bf2f5c58"
+  integrity sha512-wp6IOGu1lxsfnrD+5mX6qwSwWuqsdkKKxTN4aQc4wByHAKZJf9/D4KXPQ1POUjEbnCP5LMggB0OEFNY9OTsMqg==
 
 "@types/node@9.6.0":
   version "9.6.0"
@@ -2587,7 +2612,7 @@ bluebird@^3.4.7, bluebird@^3.5.1:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.1.tgz#d9551f9de98f1fcda1e683d17ee91a0602ee2eb9"
 
-bluebird@^3.5.0, bluebird@^3.5.2:
+bluebird@^3.5.0, bluebird@^3.5.2, bluebird@^3.5.3:
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.3.tgz#7d01c6f9616c9a51ab0f8c549a79dfe6ec33efa7"
 
@@ -8737,10 +8762,10 @@ onetime@^2.0.0:
   dependencies:
     mimic-fn "^1.0.0"
 
-openzeppelin-solidity@^2.1.1:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/openzeppelin-solidity/-/openzeppelin-solidity-2.1.2.tgz#94e2bb92b60e91abb22c6fe27d983d92850fb324"
-  integrity sha512-1ggh+AZFpMAgGfgnVMQ8dwYawjD2QN4xuWkQS4FUbeUz1fnCKJpguUl2cyadyfDYjBq1XJ6MA6VkzYpTZtJMqw==
+openzeppelin-solidity@^2.1.3:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/openzeppelin-solidity/-/openzeppelin-solidity-2.1.3.tgz#34aea40c2d05665f0dd6bc021e48516cf25b1ef6"
+  integrity sha512-Zz595xw6w4ZrNU3JJJTlPd8bHFbHv5OkJlkqsM2i+NBs6CzImoHI3dZ+nmhkfR+p52cGXKmayAGbnfdCum1SMg==
 
 opn@5.4.0:
   version "5.4.0"
@@ -11216,10 +11241,10 @@ solium-plugin-security@0.1.1:
   resolved "https://registry.yarnpkg.com/solium-plugin-security/-/solium-plugin-security-0.1.1.tgz#2a87bcf8f8c3abf7d198e292e4ac080284e3f3f6"
   integrity sha512-kpLirBwIq4mhxk0Y/nn5cQ6qdJTI+U1LO3gpoNIcqNaW+sI058moXBe2UiHs+9wvF9IzYD49jcKhFTxcR9u9SQ==
 
-solium@^1.0.4:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/solium/-/solium-1.2.2.tgz#9b75abfbff81a93080e75d0cfd3979e22b2e3379"
-  integrity sha512-wsvTuYsS1dhGu3W9N/EPbXC4rUvcPh6SCegk4Sx6nwyKaahYQZ7d9+8VrmG0hH0p0+hDmM409Q8UBZQdVSUpog==
+solium@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/solium/-/solium-1.2.3.tgz#88167ea6c8f7d1b68b59d3a6a78d563ca455ecdd"
+  integrity sha512-xMM/RcsUyZ3OTZWXwNXQGKdQdM2IqwqdRWJMUYFp6YBkd0Zzm4KTxyy0/KSazTaLk+OlmUE19OlSDiAN/GhhAQ==
   dependencies:
     ajv "^5.2.2"
     chokidar "^1.6.0"
@@ -12005,10 +12030,10 @@ trim@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/trim/-/trim-0.0.1.tgz#5858547f6b290757ee95cccc666fb50084c460dd"
 
-truffle@^5.0.2:
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/truffle/-/truffle-5.0.3.tgz#ff54abdd3dba7ff0850356c0aae7c390d013e40b"
-  integrity sha512-XTR1SwWoxNGCBa8zWrv/4J8RNfclL6qhyAp+bfnv4AD3L7GEWziDQvcq5ufSKIPKnoK0a4y1O+EZOW5izyEaKg==
+truffle@^5.0.5:
+  version "5.0.7"
+  resolved "https://registry.yarnpkg.com/truffle/-/truffle-5.0.7.tgz#b5025b568b987b154c6357b4d6d88d9c23f94484"
+  integrity sha512-RofK+kS9l4x6jdhtjLTMDIAF+P34I0/0gzCZeSjixqS5Sp+7gq2WI8ALAW0VgyahuwQl4TIyrGT0lsKjNscvFw==
   dependencies:
     app-module-path "^2.2.0"
     mocha "^4.1.0"
@@ -12699,6 +12724,22 @@ web3-utils@^1.0.0-beta.36:
   integrity sha512-6Vf+jzZEsYoAvECm+/mQx4L0p5eOxpDmbR7baFUZpB+DQyNFBc3XPSMUNWHBLqe/OpXjDrS2TeYv40Ai8bd4bg==
   dependencies:
     "@babel/runtime" "^7.3.1"
+    "@types/node" "^10.12.18"
+    bn.js "4.11.8"
+    eth-lib "0.2.8"
+    ethjs-unit "^0.1.6"
+    lodash "^4.17.11"
+    number-to-bn "1.7.0"
+    randomhex "0.1.5"
+    utf8 "2.1.1"
+
+web3-utils@^1.0.0-beta.48:
+  version "1.0.0-beta.48"
+  resolved "https://registry.yarnpkg.com/web3-utils/-/web3-utils-1.0.0-beta.48.tgz#faf9e4932030d78235efd5dcc17c397d8808fa45"
+  integrity sha512-TK61xy7mRpLt53M8GbPnrFr9lA2SmqLHvWIJN8K9cU4oDH9MWxuxxJ+Lxg+pQPKqIO9f1u+AiMRNvSEuMeeAmg==
+  dependencies:
+    "@babel/runtime" "^7.3.1"
+    "@types/bn.js" "^4.11.4"
     "@types/node" "^10.12.18"
     bn.js "4.11.8"
     eth-lib "0.2.8"

@@ -19,7 +19,7 @@ import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
 import { getNetworkId } from '../web3'
 import domains from '../../constants/domains.json'
-import { client } from '../../index'
+import client from '../../apolloClient'
 import { sendHelper } from '../resolverUtils'
 
 import {
@@ -219,13 +219,13 @@ const resolvers = {
   Mutation: {
     registerTestdomain: async (_, { label }) => {
       const tx = await registerTestdomain(label)
-      return sendHelper(tx, client)
+      return sendHelper(tx)
     },
     setName: async (_, { name }) => {
       try {
         console.log(name)
         const tx = await claimAndSetReverseRecordName(name)
-        return sendHelper(tx, client)
+        return sendHelper(tx)
       } catch (e) {
         console.log(e)
       }
@@ -233,7 +233,7 @@ const resolvers = {
     setOwner: async (_, { name, address }, { cache }) => {
       try {
         const tx = await setOwner(name, address)
-        return sendHelper(tx, client)
+        return sendHelper(tx)
       } catch (e) {
         console.log(e)
       }
@@ -241,8 +241,7 @@ const resolvers = {
     setResolver: async (_, { name, address }, { cache }) => {
       try {
         const tx = await setResolver(name, address)
-        console.log(tx)
-        return sendHelper(tx, client)
+        return sendHelper(tx)
       } catch (e) {
         console.log(e)
       }
@@ -250,7 +249,7 @@ const resolvers = {
     setAddress: async (_, { name, recordValue }, { cache }) => {
       try {
         const tx = await setAddress(name, recordValue)
-        return sendHelper(tx, client)
+        return sendHelper(tx)
       } catch (e) {
         console.log(e)
       }
@@ -258,8 +257,7 @@ const resolvers = {
     setContent: async (_, { name, recordValue }, { cache }) => {
       try {
         const tx = await setContent(name, recordValue)
-        console.log(tx)
-        return sendHelper(tx, client)
+        return sendHelper(tx)
       } catch (e) {
         console.log(e)
       }
@@ -267,8 +265,7 @@ const resolvers = {
     setContenthash: async (_, { name, recordValue }, { cache }) => {
       try {
         const tx = await setContenthash(name, recordValue)
-        console.log(tx)
-        return sendHelper(tx, client)
+        return sendHelper(tx)
       } catch (e) {
         console.log(e)
       }
@@ -276,8 +273,7 @@ const resolvers = {
     createSubdomain: async (_, { name, label }, { cache }) => {
       try {
         const tx = await createSubdomain(label, name)
-        console.log(tx)
-        return sendHelper(tx, client)
+        return sendHelper(tx)
       } catch (e) {
         console.log(e)
       }

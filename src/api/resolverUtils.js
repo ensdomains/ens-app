@@ -1,6 +1,7 @@
 import { GET_TRANSACTION_HISTORY } from '../graphql/queries'
+import client from '../apolloClient'
 
-async function addTransaction({ txHash, txState, client }) {
+async function addTransaction({ txHash, txState }) {
   const newTransaction = {
     txHash,
     txState,
@@ -31,18 +32,18 @@ async function addTransaction({ txHash, txState, client }) {
   return data
 }
 
-export function sendHelper(tx, client) {
+export function sendHelper(tx) {
   return new Promise((resolve, reject) => {
     tx()
       .on('transactionHash', txHash => {
         const txState = 'Pending'
-        addTransaction({ txHash, txState, client })
+        addTransaction({ txHash, txState })
         resolve(txHash)
       })
       .on('receipt', receipt => {
         const txHash = receipt.transactionHash
         const txState = 'Confirmed'
-        addTransaction({ txHash, txState, client })
+        addTransaction({ txHash, txState })
       })
   })
 }

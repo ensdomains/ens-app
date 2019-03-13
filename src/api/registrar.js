@@ -173,25 +173,25 @@ export const getRentPrice = async (name, duration) => {
   return price
 }
 
-export const makeCommitment = async (name, secret = '') => {
+export const makeCommitment = async (name, owner, secret = '') => {
   const {
     permanentRegistrarControllerRead
   } = await getPermanentRegistrarController()
 
   const commitment = await permanentRegistrarControllerRead.methods
-    .makeCommitment(name, secret)
+    .makeCommitment(name, owner, secret)
     .call()
 
   return commitment
 }
 
-export const commit = async (name, secret = '') => {
+export const commit = async (name, owner, secret = '') => {
   const {
     permanentRegistrarController
   } = await getPermanentRegistrarController()
   const account = await getAccount()
 
-  const commitment = await makeCommitment(name, secret)
+  const commitment = await makeCommitment(name, owner, secret)
 
   return () =>
     permanentRegistrarController.methods

@@ -1,6 +1,7 @@
-import { createSealedBid, getEntry, getRentPrice } from '../registrar'
+import { createSealedBid, getEntry, getRentPrice, commit } from '../registrar'
 import { getOwner } from '../registry'
 import modeNames from '../modes'
+import { sendHelper } from '../resolverUtils'
 
 const defaults = {}
 
@@ -14,6 +15,10 @@ const resolvers = {
     }
   },
   Mutation: {
+    async commit(_, { name, owner, secret }, { cache }) {
+      const tx = await commit(name, owner, secret)
+      sendHelper(tx)
+    },
     async getDomainAvailability(_, { name }, { cache }) {
       try {
         const {
