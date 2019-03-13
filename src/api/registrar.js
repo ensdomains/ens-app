@@ -66,8 +66,11 @@ export const getPermanentRegistrar = async () => {
 export const getPermanentRegistrarController = async () => {
   if (permanentRegistrarController) {
     return {
-      permanentRegistrarController,
-      permanentRegistrarControllerRead
+      permanentRegistrarController: permanentRegistrarController.methods,
+      _permanentRegistrarController: permanentRegistrarController,
+      permanentRegistrarControllerRead:
+        permanentRegistrarControllerRead.methods,
+      _permanentRegistrarControllerRead: permanentRegistrarControllerRead
     }
   }
 
