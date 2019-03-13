@@ -113,7 +113,7 @@ const NameRegister = ({ domain }) => {
           query={GET_RENT_PRICE}
           variables={{
             name: domain.name,
-            duration: 31556952 * years
+            duration
           }}
         >
           {({ data, loading }) => {

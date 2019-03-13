@@ -180,7 +180,7 @@ export const getMinimumCommitmentAge = async () => {
   const {
     permanentRegistrarControllerRead
   } = await getPermanentRegistrarController()
-  return await permanentRegistrarControllerRead.MIN_COMMITMENT_AGE().call()
+  return await permanentRegistrarControllerRead.minCommitmentAge().call()
 }
 
 export const makeCommitment = async (name, owner, secret = '') => {

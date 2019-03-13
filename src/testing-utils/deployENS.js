@@ -33,8 +33,8 @@ const registerName = async function(web3, account, controllerContract, name) {
     .makeCommitment(name, account, secret)
     .call()
   await controllerContract.commit(commitment).send({ from: account })
-  var min_commitment_age = await controllerContract.MIN_COMMITMENT_AGE().call()
-  await advanceTime(web3, parseInt(min_commitment_age))
+  var minCommitmentAge = await controllerContract.minCommitmentAge().call()
+  await advanceTime(web3, parseInt(minCommitmentAge))
   await mine(web3)
 
   await controllerContract
@@ -235,7 +235,9 @@ module.exports = async function deployENS({ web3, accounts }) {
   const controller = await deploy(
     controllerJSON,
     baseRegistrar._address,
-    priceOracle._address
+    priceOracle._address,
+    600, // 10 mins in seconds
+    86400 // 24 hours in seconds
   )
   const baseRegistrarContract = baseRegistrar.methods
   const controllerContract = controller.methods
