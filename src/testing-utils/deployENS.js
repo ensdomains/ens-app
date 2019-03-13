@@ -46,6 +46,27 @@ const registerName = async function(web3, account, controllerContract, name) {
   if (newnameAvailable) throw `Failed to register "${name}"`
 }
 
+const auctionName = async function(web3, account, hashRegistrarContract, name){
+  console.log(`Auctioning name ${name}.eth`)
+  let value = web3.utils.toWei('1', 'ether');
+  let labelhash = web3.utils.sha3(name)
+  let salt = web3.utils.sha3('0x01')
+  let auctionlength = 60 * 60 * 24 * 5
+  let reveallength = 60 * 60 * 24 * 2
+  let tx, state;
+  let bidhash = await hashRegistrarContract.shaBid(labelhash, account, value, salt).call()
+  tx = await hashRegistrarContract.startAuctionsAndBid([labelhash], bidhash).send({from:account, value:value, gas:6000000})
+  state = await hashRegistrarContract.state(labelhash).call()
+  await advanceTime(web3, parseInt(auctionlength - reveallength + 100))
+  await mine(web3)
+  state = await hashRegistrarContract.state(labelhash).call()
+  tx = await hashRegistrarContract.unsealBid(labelhash, value, salt).send({from:account, gas:6000000})
+  await advanceTime(web3, parseInt(reveallength * 2));
+  await mine(web3)
+  state = await hashRegistrarContract.state(labelhash).call()
+  tx = await hashRegistrarContract.finalizeAuction(labelhash).send({from:account, gas:6000000})
+}
+
 module.exports = async function deployENS({ web3, accounts }) {
   const { sha3 } = web3.utils
   function deploy(contractJSON, ...args) {
@@ -107,8 +128,8 @@ module.exports = async function deployENS({ web3, accounts }) {
     ens._address,
     namehash('test')
   )
-  // Disabled for now as the deploy was throwing error and this is not in use.
-  const ethRegistrar = await deploy(
+
+  const hashRegistrar = await deploy(
     hashRegistrarSimplifiedJSON,
     ens._address,
     namehash('eth'),
@@ -120,13 +141,13 @@ module.exports = async function deployENS({ web3, accounts }) {
   const oldResolverContract = oldResolver.methods
   const reverseRegistrarContract = reverseRegistrar.methods
   const testRegistrarContract = testRegistrar.methods
-
+  const hashRegistrarContract = hashRegistrar.methods
   console.log('ENS registry deployed at: ', ens._address)
   console.log('Public resolver deployed at: ', resolver._address)
   console.log('Old Public resolver deployed at: ', oldResolver._address)
   console.log('Reverse Registrar deployed at: ', reverseRegistrar._address)
   console.log('Test Registrar deployed at: ', testRegistrar._address)
-  console.log('Auction Registrar deployed at: ', ethRegistrar._address)
+  console.log('Hash Auction Registrar deployed at: ', hashRegistrar._address)
 
   const tld = 'eth'
   const tldHash = sha3(tld)
@@ -167,6 +188,18 @@ module.exports = async function deployENS({ web3, accounts }) {
     .send({
       from: accounts[0]
     })
+
+  await ensContract
+    .setSubnodeOwner(
+      '0x00000000000000000000000000000000',
+      sha3('eth'),
+      hashRegistrar._address
+    )
+    .send({
+      from: accounts[0]
+    })
+
+  await auctionName(web3, accounts[0], hashRegistrarContract, 'auctionedname')
 
   let rootOwner = await ensContract
     .owner('0x00000000000000000000000000000000')
@@ -218,7 +251,7 @@ module.exports = async function deployENS({ web3, accounts }) {
     .setSubnodeOwner(
       '0x00000000000000000000000000000000',
       tldHash,
-      ethRegistrar._address
+      hashRegistrar._address
     )
     .send({
       from: accounts[0]
