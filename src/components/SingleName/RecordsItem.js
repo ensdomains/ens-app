@@ -147,8 +147,10 @@ const Editable = ({
               {pending && !confirmed && txHash ? (
                 <PendingTx
                   txHash={txHash}
-                  setConfirmed={setConfirmed}
-                  onCompleted={refetch}
+                  onConfirmed={() => {
+                    setConfirmed()
+                    refetch()
+                  }}
                 />
               ) : editing ? (
                 <Action>

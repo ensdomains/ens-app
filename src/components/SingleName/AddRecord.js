@@ -101,8 +101,10 @@ function Editable({ domain, emptyRecords, refetch }) {
             pending && !confirmed ? (
               <PendingTx
                 txHash={txHash}
-                setConfirmed={setConfirmed}
-                onCompleted={refetch}
+                onConfirmed={() => {
+                  setConfirmed()
+                  refetch()
+                }}
               />
             ) : (
               <ToggleAddRecord onClick={startEditing}>+</ToggleAddRecord>

@@ -138,8 +138,10 @@ function AddReverseRecord({ account, name }) {
                 {pending && !confirmed && txHash ? (
                   <PendingTx
                     txHash={txHash}
-                    setConfirmed={setConfirmed}
-                    onCompleted={refetch}
+                    onConfirmed={() => {
+                      setConfirmed()
+                      refetch()
+                    }}
                   />
                 ) : (
                   <RotatingSmallCaret

@@ -27,7 +27,7 @@ const Pending = ({ className, children = 'Tx pending' }) => (
 
 class PendingTx extends React.Component {
   render() {
-    const { txHash, setConfirmed, onCompleted } = this.props
+    const { txHash, onConfirmed } = this.props
     return (
       <Query query={GET_TRANSACTION_HISTORY}>
         {({ data: { transactionHistory } }) => {
@@ -37,8 +37,7 @@ class PendingTx extends React.Component {
             lastTransaction.txHash === txHash &&
             lastTransaction.txState === 'Confirmed'
           ) {
-            setConfirmed()
-            onCompleted()
+            onConfirmed()
           }
           return <Pending {...this.props} />
         }}
@@ -49,8 +48,7 @@ class PendingTx extends React.Component {
 
 PendingTx.propTypes = {
   txHash: PropTypes.string,
-  setConfirmed: PropTypes.func,
-  reftch: PropTypes.func
+  onConfirmed: PropTypes.func
 }
 
 export default PendingTx

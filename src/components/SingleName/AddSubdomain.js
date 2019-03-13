@@ -57,8 +57,10 @@ function AddSubdomain({ domain, refetch }) {
           pending && !confirmed ? (
             <PendingTx
               txHash={txHash}
-              setConfirmed={setConfirmed}
-              onCompleted={refetch}
+              onConfirmed={() => {
+                setConfirmed()
+                refetch()
+              }}
             />
           ) : (
             <Button onClick={startEditing}>+ Add Subdomain</Button>
