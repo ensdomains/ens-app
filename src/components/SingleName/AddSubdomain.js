@@ -58,7 +58,7 @@ function AddSubdomain({ domain, refetch }) {
             <PendingTx
               txHash={txHash}
               setConfirmed={setConfirmed}
-              refetch={refetch}
+              onCompleted={refetch}
             />
           ) : (
             <Button onClick={startEditing}>+ Add Subdomain</Button>

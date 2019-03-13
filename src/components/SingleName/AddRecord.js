@@ -102,7 +102,7 @@ function Editable({ domain, emptyRecords, refetch }) {
               <PendingTx
                 txHash={txHash}
                 setConfirmed={setConfirmed}
-                refetch={refetch}
+                onCompleted={refetch}
               />
             ) : (
               <ToggleAddRecord onClick={startEditing}>+</ToggleAddRecord>

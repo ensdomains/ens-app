@@ -176,7 +176,7 @@ const Editable = ({
               <PendingTx
                 txHash={txHash}
                 setConfirmed={setConfirmed}
-                refetch={refetch}
+                onCompleted={refetch}
               />
             ) : (
               <Action>

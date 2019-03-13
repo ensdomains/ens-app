@@ -134,7 +134,7 @@ const NameRegister = ({ domain }) => {
           return (
             <>
               <Explainer step={step} time={time} />
-              <Progress step={step} />
+              <Progress step={step} waitTime={data.getMinimumCommitmentAge} />
               <CTA
                 waitTime={data.getMinimumCommitmentAge}
                 incrementStep={incrementStep}

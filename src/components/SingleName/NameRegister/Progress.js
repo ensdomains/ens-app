@@ -65,8 +65,9 @@ const Step = styled('div')`
   }
 `
 
-function Progress({ step }) {
+function Progress({ step, waitTime }) {
   if (step === 'PRICE_DECISION') return null
+  console.log(waitTime)
   return (
     <ProgressContainer>
       <ProgressBar percentDone={states[step]} />
