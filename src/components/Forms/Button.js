@@ -76,6 +76,12 @@ const ButtonContainer = styled('button')`
   ${p => getButtonStyles(p)};
 `
 
+const ExternalButtonLinkContainer = styled('a')`
+  text-decoration: none;
+  ${p => getButtonDefaultStyles(p)};
+  ${p => getButtonStyles(p)};
+`
+
 const ButtonLinkContainer = styled(Link)`
   color: white;
   &:hover {
@@ -117,6 +123,20 @@ export const ButtonLink = props => {
     <ButtonLinkContainer className={className} to={to} type={type} {...props}>
       {children}
     </ButtonLinkContainer>
+  )
+}
+
+export const ExternalButtonLink = props => {
+  const { className, children, type = 'primary', href } = props
+  return (
+    <ExternalButtonLinkContainer
+      className={className}
+      href={href}
+      type={type}
+      {...props}
+    >
+      {children}
+    </ExternalButtonLinkContainer>
   )
 }
 

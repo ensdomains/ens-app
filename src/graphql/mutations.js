@@ -110,13 +110,7 @@ export const COMMIT = gql`
 `
 
 export const REGISTER = gql`
-  mutation register(
-    $name: String
-    $owner: String
-    $duration: Int
-    $secret: String
-  ) {
-    register(name: $name, owner: $owner, duration: $duration, secret: $secret)
-      @client
+  mutation register($name: String, $duration: Int) {
+    register(name: $name, duration: $duration, secret: $secret) @client
   }
 `

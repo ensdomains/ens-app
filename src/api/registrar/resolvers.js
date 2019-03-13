@@ -3,13 +3,15 @@ import {
   getEntry,
   getRentPrice,
   commit,
-  getMinimumCommitmentAge
+  getMinimumCommitmentAge,
+  register
 } from '../registrar'
 import { getOwner } from '../registry'
 import modeNames from '../modes'
 import { sendHelper } from '../resolverUtils'
 
 const defaults = {}
+const secrets = {}
 
 const resolvers = {
   Query: {
@@ -25,8 +27,18 @@ const resolvers = {
       //Generate secret
       const secret =
         '0x0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF'
+
+      secrets[name] = secret
       //Save secret to localStorage with name as the key
       const tx = await commit(name, secret)
+      return sendHelper(tx)
+    },
+    async register(_, { name, duration }) {
+      const secret = secrets[name]
+      console.log(name, duration, secret)
+      const tx = await register(name, duration, secret)
+
+      console.log(tx)
       return sendHelper(tx)
     },
     async getDomainAvailability(_, { name }, { cache }) {

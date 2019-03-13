@@ -210,16 +210,17 @@ export const commit = async (name, secret = '') => {
     permanentRegistrarController.commit(commitment).send({ from: account })
 }
 
-export const register = async (name, owner, duration, secret) => {
+export const register = async (name, duration, secret) => {
   const {
     permanentRegistrarController
   } = await getPermanentRegistrarController()
   const account = await getAccount()
+  const price = await getRentPrice(name, duration)
 
   return () =>
     permanentRegistrarController
-      .register(name, owner, duration, secret)
-      .send({ from: account })
+      .register(name, account, duration, secret)
+      .send({ from: account, gas: 1000000, value: price })
 }
 
 export const createSealedBid = async (name, bidAmount, secret) => {

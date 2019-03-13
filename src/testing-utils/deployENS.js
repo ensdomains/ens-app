@@ -236,7 +236,7 @@ module.exports = async function deployENS({ web3, accounts }) {
     controllerJSON,
     baseRegistrar._address,
     priceOracle._address,
-    600, // 10 mins in seconds
+    2, // 10 mins in seconds
     86400 // 24 hours in seconds
   )
   const baseRegistrarContract = baseRegistrar.methods
