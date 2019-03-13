@@ -17,7 +17,7 @@ const resolvers = {
   Mutation: {
     async commit(_, { name, owner, secret }, { cache }) {
       const tx = await commit(name, owner, secret)
-      sendHelper(tx)
+      return sendHelper(tx)
     },
     async getDomainAvailability(_, { name }, { cache }) {
       try {

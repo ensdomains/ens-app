@@ -3,9 +3,9 @@ import styled from 'react-emotion'
 import { Query } from 'react-apollo'
 
 import mq from 'mediaQuery'
-import Button from '../../Forms/Button'
 
 import Explainer from './Explainer'
+import CTA from './CTA'
 import Years from './Years'
 import Price from './Price'
 import Progress from './Progress'
@@ -76,24 +76,6 @@ const PricingContainer = styled('div')`
       minmax(200px, 1fr);
   `}
 `
-
-const CTAContainer = styled('div')`
-  display: flex;
-  justify-content: flex-end;
-`
-
-const CTA = ({ incrementStep, decrementStep }) => (
-  <CTAContainer>
-    <Button
-      type="hollow"
-      style={{ marginRight: '20px' }}
-      onClick={decrementStep}
-    >
-      Cancel
-    </Button>
-    <Button onClick={incrementStep}>Request to register</Button>
-  </CTAContainer>
-)
 
 const NameRegisterContainer = styled('div')`
   padding: 20px 40px;
