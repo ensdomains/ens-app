@@ -133,3 +133,17 @@ export const GET_ERRORS = gql`
     }
   }
 `
+
+/* Permanent Registrar */
+
+export const GET_RENT_PRICE = gql`
+  query getRentPrice($name: String, $duration: Number) @client {
+    getRentPrice(name: $name, duration: $duration)
+  }
+`
+
+export const GET_MINIMUM_COMMITMENT_AGE = gql`
+  query getMinimumCommitmentAge @client {
+    getMinimumCommitmentAge
+  }
+`

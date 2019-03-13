@@ -3,14 +3,15 @@ import styled from 'react-emotion'
 import { Query } from 'react-apollo'
 
 import mq from 'mediaQuery'
+import { GET_MINIMUM_COMMITMENT_AGE, GET_RENT_PRICE } from 'graphql/queries'
 
+import Loader from 'components/Loader'
 import Explainer from './Explainer'
 import CTA from './CTA'
 import Years from './Years'
 import Price from './Price'
 import Progress from './Progress'
 import { ReactComponent as ChainDefault } from '../../Icons/chain.svg'
-import gql from 'graphql-tag'
 
 // steps
 
@@ -92,14 +93,6 @@ const Chain = styled(ChainDefault)`
   `}
 `
 
-const GET_RENT_PRICE = gql`
-  query getRentPrice($name: String, $duration: Number) @client {
-    getRentPrice(name: $name, duration: $duration) {
-      price
-    }
-  }
-`
-
 const NameRegister = ({ domain }) => {
   const [step, dispatch] = useReducer(
     registerReducer,
@@ -110,6 +103,8 @@ const NameRegister = ({ domain }) => {
 
   const incrementStep = () => dispatch('NEXT')
   const decrementStep = () => dispatch('PREVIOUS')
+
+  const duration = 31556952 * years
 
   return (
     <NameRegisterContainer>
@@ -126,15 +121,32 @@ const NameRegister = ({ domain }) => {
               <PricingContainer>
                 <Years years={years} setYears={setYears} />
                 <Chain />
-                <Price price={loading ? 0 : data.getRentPrice.price} />
+                <Price price={loading ? 0 : data.getRentPrice} />
               </PricingContainer>
             )
           }}
         </Query>
       )}
-      <Explainer step={step} time={time} />
-      <Progress step={step} />
-      <CTA incrementStep={incrementStep} decrementStep={decrementStep} />
+
+      <Query query={GET_MINIMUM_COMMITMENT_AGE}>
+        {({ data, loading }) => {
+          if (loading) return <Loader />
+          return (
+            <>
+              <Explainer step={step} time={time} />
+              <Progress step={step} />
+              <CTA
+                waitTime={data.getMinimumCommitmentAge}
+                incrementStep={incrementStep}
+                decrementStep={decrementStep}
+                step={step}
+                name={domain.name}
+                duration={duration}
+              />
+            </>
+          )
+        }}
+      </Query>
     </NameRegisterContainer>
   )
 }

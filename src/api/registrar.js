@@ -93,8 +93,11 @@ export const getPermanentRegistrarController = async () => {
       controllerAddress
     )
     return {
-      permanentRegistrarController,
-      permanentRegistrarControllerRead
+      permanentRegistrarController: permanentRegistrarController.methods,
+      _permanentRegistrarController: permanentRegistrarController,
+      permanentRegistrarControllerRead:
+        permanentRegistrarControllerRead.methods,
+      _permanentRegistrarControllerRead: permanentRegistrarControllerRead
     }
   } catch (e) {}
 }
@@ -166,11 +169,18 @@ export const getRentPrice = async (name, duration) => {
     permanentRegistrarControllerRead
   } = await getPermanentRegistrarController()
 
-  const price = await permanentRegistrarControllerRead.methods
+  const price = await permanentRegistrarControllerRead
     .rentPrice(name, duration)
     .call()
 
   return price
+}
+
+export const getMinimumCommitmentAge = async () => {
+  const {
+    permanentRegistrarControllerRead
+  } = await getPermanentRegistrarController()
+  return await permanentRegistrarControllerRead.MIN_COMMITMENT_AGE().call()
 }
 
 export const makeCommitment = async (name, owner, secret = '') => {
@@ -178,25 +188,23 @@ export const makeCommitment = async (name, owner, secret = '') => {
     permanentRegistrarControllerRead
   } = await getPermanentRegistrarController()
 
-  const commitment = await permanentRegistrarControllerRead.methods
+  const commitment = await permanentRegistrarControllerRead
     .makeCommitment(name, owner, secret)
     .call()
 
   return commitment
 }
 
-export const commit = async (name, owner, secret = '') => {
+export const commit = async (name, secret = '') => {
   const {
     permanentRegistrarController
   } = await getPermanentRegistrarController()
   const account = await getAccount()
 
-  const commitment = await makeCommitment(name, owner, secret)
+  const commitment = await makeCommitment(name, account, secret)
 
   return () =>
-    permanentRegistrarController.methods
-      .commit(commitment)
-      .send({ from: account })
+    permanentRegistrarController.commit(commitment).send({ from: account })
 }
 
 export const register = async (name, owner, duration, secret) => {
@@ -206,7 +214,7 @@ export const register = async (name, owner, duration, secret) => {
   const account = await getAccount()
 
   return () =>
-    permanentRegistrarController.methods
+    permanentRegistrarController
       .register(name, owner, duration, secret)
       .send({ from: account })
 }

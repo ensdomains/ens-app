@@ -19,7 +19,6 @@ import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
 import { getNetworkId } from '../web3'
 import domains from '../../constants/domains.json'
-import client from '../../apolloClient'
 import { sendHelper } from '../resolverUtils'
 
 import {

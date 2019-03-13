@@ -1,4 +1,10 @@
-import { createSealedBid, getEntry, getRentPrice, commit } from '../registrar'
+import {
+  createSealedBid,
+  getEntry,
+  getRentPrice,
+  commit,
+  getMinimumCommitmentAge
+} from '../registrar'
 import { getOwner } from '../registry'
 import modeNames from '../modes'
 import { sendHelper } from '../resolverUtils'
@@ -7,16 +13,20 @@ const defaults = {}
 
 const resolvers = {
   Query: {
-    getRentPrice: async (_, { name, duration }, { cache }) => {
-      return {
-        price: await getRentPrice(name, duration),
-        __typename: 'RentPrice'
-      }
+    async getRentPrice(_, { name, duration }, { cache }) {
+      return await getRentPrice(name, duration)
+    },
+    async getMinimumCommitmentAge() {
+      return parseInt(await getMinimumCommitmentAge())
     }
   },
   Mutation: {
-    async commit(_, { name, owner, secret }, { cache }) {
-      const tx = await commit(name, owner, secret)
+    async commit(_, { name }, { cache }) {
+      //Generate secret
+      const secret =
+        '0x0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF'
+      //Save secret to localStorage with name as the key
+      const tx = await commit(name, secret)
       return sendHelper(tx)
     },
     async getDomainAvailability(_, { name }, { cache }) {

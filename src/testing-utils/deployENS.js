@@ -29,7 +29,9 @@ const mine = util.promisify(function(web3, done) {
 const registerName = async function(web3, account, controllerContract, name) {
   console.log(`Registering ${name}`)
   let newnameAvailable = await controllerContract.available(name).call()
-  var commitment = await controllerContract.makeCommitment(name, secret).call()
+  var commitment = await controllerContract
+    .makeCommitment(name, account, secret)
+    .call()
   await controllerContract.commit(commitment).send({ from: account })
   var min_commitment_age = await controllerContract.MIN_COMMITMENT_AGE().call()
   await advanceTime(web3, parseInt(min_commitment_age))
