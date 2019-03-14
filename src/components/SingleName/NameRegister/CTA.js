@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
 
 import { COMMIT, REGISTER } from '../../../graphql/mutations'

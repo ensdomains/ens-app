@@ -1,4 +1,4 @@
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import mq from 'mediaQuery'
 
 export const H2 = styled('h2')`

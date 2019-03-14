@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import tick from '../../assets/greenTick.svg'
 import warning from '../../assets/warning.svg'
 import yellowwarning from '../../assets/yellowwarning.svg'

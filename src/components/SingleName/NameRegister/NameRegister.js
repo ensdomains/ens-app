@@ -1,5 +1,5 @@
 import React, { useState, useReducer } from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import { Query } from 'react-apollo'
 
 import mq from 'mediaQuery'

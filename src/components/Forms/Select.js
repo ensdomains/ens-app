@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import Select from 'react-select'
 
 const SelectContainer = styled('div')`

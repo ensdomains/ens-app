@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
 import { validateRecord } from '../../utils/records'
 import { emptyAddress } from '../../utils/utils'
