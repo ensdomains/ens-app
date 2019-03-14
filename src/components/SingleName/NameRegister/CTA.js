@@ -12,7 +12,15 @@ const CTAContainer = styled('div')`
   justify-content: flex-end;
 `
 
-function getCTA({ step, incrementStep, duration, name, txHash, setTxHash }) {
+function getCTA({
+  step,
+  incrementStep,
+  duration,
+  name,
+  txHash,
+  setTxHash,
+  setTimerRunning
+}) {
   const CTAs = {
     PRICE_DECISION: (
       <Mutation
@@ -31,6 +39,7 @@ function getCTA({ step, incrementStep, duration, name, txHash, setTxHash }) {
         txHash={txHash}
         onConfirmed={() => {
           incrementStep()
+          setTimerRunning(true)
         }}
       />
     ),
@@ -64,7 +73,14 @@ function getCTA({ step, incrementStep, duration, name, txHash, setTxHash }) {
   return CTAs[step]
 }
 
-const CTA = ({ step, incrementStep, decrementStep, duration, name }) => {
+const CTA = ({
+  step,
+  incrementStep,
+  decrementStep,
+  duration,
+  name,
+  setTimerRunning
+}) => {
   const [txHash, setTxHash] = useState(undefined)
   return (
     <CTAContainer>
@@ -84,7 +100,8 @@ const CTA = ({ step, incrementStep, decrementStep, duration, name }) => {
         duration,
         name,
         txHash,
-        setTxHash
+        setTxHash,
+        setTimerRunning
       })}
     </CTAContainer>
   )
