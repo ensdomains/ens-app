@@ -34,7 +34,7 @@ function getCTA({ step, incrementStep, duration, name, txHash, setTxHash }) {
         }}
       />
     ),
-    COMMIT_CONFIRMED: <Button onClick={incrementStep}>Register</Button>,
+    COMMIT_CONFIRMED: <Button type="disabled">Register</Button>,
     AWAITING_REGISTER: (
       <Mutation
         mutation={REGISTER}

@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'react-emotion'
 import { Link } from 'react-router-dom'
 
-function getButtonStyles({ type, color }) {
+function getButtonStyles({ type }) {
   switch (type) {
     case 'primary':
       return `
@@ -93,14 +93,6 @@ const ButtonLinkContainer = styled(Link)`
   ${p => getButtonDefaultStyles(p)};
   ${p => getButtonStyles(p)};
 `
-
-// const types = {
-//   primary: ['#5384FE', '#2c46a6'],
-//   inactive: ['#DFDFDF', '#DFDFDF'],
-//   hollow: ['transparent', 'transparent'],
-//   "hollow-primary": ['trans']
-//   disabled: ['#ccc', '#ccc']
-// }
 
 const Button = props => {
   const { className, children, type = 'primary', onClick } = props
