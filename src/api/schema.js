@@ -62,6 +62,7 @@ const typeDefs = `
     addr: String
     nodes: [Node]
     expiryTime: Int
+    isNewRegistrar: Boolean
   }
 
   extend type Query {

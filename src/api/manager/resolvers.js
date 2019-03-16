@@ -65,7 +65,8 @@ const resolvers = {
           referralFeePPM: null,
           available: null,
           contentType: null,
-          expiryTime: null
+          expiryTime: null,
+          isNewRegistrar: null
         }
         let data
         if (nameArray.length < 3 && nameArray[1] === 'eth') {
@@ -83,9 +84,10 @@ const resolvers = {
             revealDate,
             value,
             highestBid,
-            expiryTime
+            expiryTime,
+            isNewRegistrar
           } = entry
-
+          console.log({entry})
           const owner = await getOwner(name)
           node = {
             ...node,
@@ -97,6 +99,7 @@ const resolvers = {
             highestBid,
             owner,
             expiryTime,
+            isNewRegistrar: !!isNewRegistrar,
             __typename: 'Node'
           }
         } else if (nameArray.length < 3 && nameArray[1] === 'test') {

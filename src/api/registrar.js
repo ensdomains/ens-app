@@ -114,7 +114,10 @@ export const getPermanentEntry = async name => {
     const web3 = await getWeb3()
     const namehash = web3.utils.sha3(name)
     const { permanentRegistrarRead: Registrar } = await getPermanentRegistrar()
+    // Returns true if name is available
     obj.available = await Registrar.methods.available(namehash).call()
+    // Returns registrar address if owned by new registrar
+    obj.ownerOf = await Registrar.methods.ownerOf(namehash).call()
     const nameExpires = await Registrar.methods.nameExpires(namehash).call()
     if (nameExpires > 0) {
       obj.nameExpires = new Date(nameExpires * 1000)
@@ -157,6 +160,10 @@ export const getEntry = async name => {
     if (!permEntry.available) {
       // Owned
       obj.state = 2
+    }
+    if (permEntry.ownerOf) {
+      // Owned
+      obj.isNewRegistrar = true
     }
     if (permEntry.nameExpires) {
       obj.expiryTime = permEntry.nameExpires

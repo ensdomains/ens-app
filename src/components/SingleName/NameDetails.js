@@ -9,6 +9,7 @@ import RecordsItem from './RecordsItem'
 import DetailsItemEditable from './DetailsItemEditable'
 import AddRecord from './AddRecord'
 import SetupName from '../SetupName/SetupName'
+import Button from '../Forms/Button'
 
 import {
   SET_OWNER,
@@ -147,6 +148,19 @@ class NameDetails extends Component {
               ) : (
                 ''
               )}
+              {!domain.isNewRegistrar ? (
+                <DetailsItem>
+                  You have not migrated into permanent registrar yet.
+                  <br/>
+                  Please migrate by 4th November 2019.
+                  <br/>
+                  Failing to migrate by the deadline will lead you losing the domain name.
+                  <Button style={{ width: '160px',   marginLeft: 'auto' }}>Migrate Now</Button>
+                </DetailsItem>
+              ) : (
+                ''
+              )}
+
               <HR />
               <DetailsItemEditable
                 keyName="Resolver"

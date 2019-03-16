@@ -56,6 +56,7 @@ export const GET_SINGLE_NAME = gql`
       referralFeePPM
       available
       expiryTime
+      isNewRegistrar
     }
   }
 
