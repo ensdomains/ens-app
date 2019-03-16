@@ -1,9 +1,10 @@
 import React, { useState, useReducer } from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import { Query } from 'react-apollo'
 
 import mq from 'mediaQuery'
 import { GET_MINIMUM_COMMITMENT_AGE, GET_RENT_PRICE } from 'graphql/queries'
+import { useInterval } from 'components/hooks'
 
 import Loader from 'components/Loader'
 import Explainer from './Explainer'
@@ -93,21 +94,35 @@ const Chain = styled(ChainDefault)`
   `}
 `
 
-const NameRegister = ({ domain }) => {
+const NameRegister = ({ domain, waitTime }) => {
   const [step, dispatch] = useReducer(
     registerReducer,
     registerMachine.initialState
   )
   const [years, setYears] = useState(1)
+  const [secondsPassed, setSecondsPassed] = useState(0)
+  const [timerRunning, setTimerRunning] = useState(false)
+
+  useInterval(
+    () => {
+      if (secondsPassed < waitTime) {
+        setSecondsPassed(s => s + 1)
+      } else {
+        setTimerRunning(false)
+      }
+    },
+    timerRunning ? 1000 : null
+  )
+
   const time = 50
 
   const incrementStep = () => dispatch('NEXT')
   const decrementStep = () => dispatch('PREVIOUS')
-
   const duration = 31556952 * years
 
   return (
     <NameRegisterContainer>
+      {secondsPassed}
       {step === 'PRICE_DECISION' && (
         <Query
           query={GET_RENT_PRICE}
@@ -128,27 +143,32 @@ const NameRegister = ({ domain }) => {
         </Query>
       )}
 
-      <Query query={GET_MINIMUM_COMMITMENT_AGE}>
-        {({ data, loading }) => {
-          if (loading) return <Loader />
-          return (
-            <>
-              <Explainer step={step} time={time} />
-              <Progress step={step} waitTime={data.getMinimumCommitmentAge} />
-              <CTA
-                waitTime={data.getMinimumCommitmentAge}
-                incrementStep={incrementStep}
-                decrementStep={decrementStep}
-                step={step}
-                name={domain.name}
-                duration={duration}
-              />
-            </>
-          )
-        }}
-      </Query>
+      <Explainer step={step} time={time} />
+      <Progress step={step} waitTime={waitTime} />
+      <CTA
+        waitTime={waitTime}
+        incrementStep={incrementStep}
+        decrementStep={decrementStep}
+        step={step}
+        name={domain.name}
+        duration={duration}
+        secondsPassed={secondsPassed}
+        setTimerRunning={setTimerRunning}
+      />
     </NameRegisterContainer>
   )
 }
 
-export default NameRegister
+const NameRegisterDataWrapper = props => {
+  return (
+    <Query query={GET_MINIMUM_COMMITMENT_AGE}>
+      {({ data, loading }) => {
+        if (loading) return <Loader />
+        const { getMinimumCommitmentAge } = data
+        return <NameRegister waitTime={getMinimumCommitmentAge} {...props} />
+      }}
+    </Query>
+  )
+}
+
+export default NameRegisterDataWrapper

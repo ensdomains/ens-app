@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import { parseSearchTerm } from '../../utils/utils'
 import '../../api/subDomainRegistrar'
 import { withRouter } from 'react-router'

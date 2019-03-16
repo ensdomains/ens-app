@@ -74,7 +74,7 @@ const breakpoints = {
 You can use it as follows:
 
 ```js
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import mq from 'mediaQuery'
 
 const SomeComponent = styled('div')`

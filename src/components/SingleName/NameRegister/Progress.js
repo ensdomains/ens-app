@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 
 import Tooltip from '../../Tooltip/Tooltip'
 
@@ -65,9 +65,11 @@ const Step = styled('div')`
   }
 `
 
-function Progress({ step, waitTime }) {
+function Progress({ step, waitTime, secondsPassed }) {
   if (step === 'PRICE_DECISION') return null
-  console.log(waitTime)
+
+  const waitMin = states[step]['COMMIT_CONFIRMED']
+  const waitMax = states[step]['COMMIT_CONFIRMED']
   return (
     <ProgressContainer>
       <ProgressBar percentDone={states[step]} />
@@ -99,6 +101,7 @@ function Progress({ step, waitTime }) {
         >
           {({ tooltipElement, showTooltip, hideTooltip }) => (
             <Step
+              large
               text="Step 2"
               onMouseOver={() => {
                 showTooltip()

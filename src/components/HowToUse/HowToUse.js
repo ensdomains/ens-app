@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import favourite from '../HomePage/images/favourite.svg'
 import manage from '../HomePage/images/manage.svg'
 import search from '../HomePage/images/search.svg'

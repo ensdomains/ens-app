@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import Tick from './Tick'
 import { render } from '../../../node_modules/react-testing-library'
 

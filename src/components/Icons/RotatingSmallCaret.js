@@ -1,4 +1,4 @@
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import { ReactComponent as DefaultSmallCaret } from './SmallCaret.svg'
 
 const RotatingSmallCaret = styled(DefaultSmallCaret)`

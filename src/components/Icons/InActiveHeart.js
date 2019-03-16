@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 
 const Heart = ({ active, className }) => (
   <HeartContainer width="25" height="24" className={className} active={active}>

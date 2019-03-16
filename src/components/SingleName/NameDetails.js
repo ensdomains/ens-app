@@ -1,5 +1,5 @@
 import React, { Fragment, Component } from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import { Link, Route } from 'react-router-dom'
 
 import { HR } from '../Typography/Basic'
