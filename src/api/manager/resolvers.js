@@ -89,6 +89,7 @@ const resolvers = {
           } = entry
           console.log({entry})
           const owner = await getOwner(name)
+          console.log(entry)
           node = {
             ...node,
             name: `${name}`,
@@ -98,8 +99,8 @@ const resolvers = {
             value,
             highestBid,
             owner,
-            expiryTime,
             isNewRegistrar: !!isNewRegistrar,
+            expiryTime: expiryTime || null,
             __typename: 'Node'
           }
         } else if (nameArray.length < 3 && nameArray[1] === 'test') {

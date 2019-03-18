@@ -5,6 +5,7 @@ import { Query } from 'react-apollo'
 import mq from 'mediaQuery'
 import { GET_MINIMUM_COMMITMENT_AGE, GET_RENT_PRICE } from 'graphql/queries'
 import { useInterval } from 'components/hooks'
+import { registerMachine, registerReducer, states } from './registerReducer'
 
 import Loader from 'components/Loader'
 import Explainer from './Explainer'
@@ -13,61 +14,6 @@ import Years from './Years'
 import Price from './Price'
 import Progress from './Progress'
 import { ReactComponent as ChainDefault } from '../../Icons/chain.svg'
-
-// steps
-
-// 0 not registered, deciding price
-// 1 transaction sent, waiting for confirmation
-// 2 transaction confirmed, waiting 10 mins
-// 3 10 mins over, waiting for user to hit register
-// 4 transaction sent. waiting for confirmation
-// 5 transaction confirmed, click to manage name
-
-const registerMachine = {
-  initialState: 'PRICE_DECISION',
-  states: {
-    PRICE_DECISION: {
-      on: {
-        NEXT: 'COMMIT_SENT',
-        PREVIOUS: 'PRICE_DECISION'
-      }
-    },
-    COMMIT_SENT: {
-      on: {
-        NEXT: 'COMMIT_CONFIRMED',
-        PREVIOUS: 'PRICE_DECISION'
-      }
-    },
-    COMMIT_CONFIRMED: {
-      on: {
-        NEXT: 'AWAITING_REGISTER',
-        PREVIOUS: 'COMMIT_SENT'
-      }
-    },
-    AWAITING_REGISTER: {
-      on: {
-        NEXT: 'REVEAL_SENT',
-        PREVIOUS: 'COMMIT_CONFIRMED'
-      }
-    },
-    REVEAL_SENT: {
-      on: {
-        NEXT: 'REVEAL_CONFIRMED',
-        PREVIOUS: 'AWAITING_REGISTER'
-      }
-    },
-    REVEAL_CONFIRMED: {
-      on: {
-        NEXT: 'REVEAL_CONFIRMED',
-        PREVIOUS: 'REVEAL_SENT'
-      }
-    }
-  }
-}
-
-function registerReducer(state, action) {
-  return registerMachine.states[state].on[action] || state
-}
 
 const PricingContainer = styled('div')`
   display: grid;
@@ -94,14 +40,17 @@ const Chain = styled(ChainDefault)`
   `}
 `
 
-const NameRegister = ({ domain, waitTime }) => {
+const NameRegister = ({ domain, waitTime, refetch }) => {
   const [step, dispatch] = useReducer(
     registerReducer,
     registerMachine.initialState
   )
+  const incrementStep = () => dispatch('NEXT')
+  const decrementStep = () => dispatch('PREVIOUS')
   const [years, setYears] = useState(1)
   const [secondsPassed, setSecondsPassed] = useState(0)
   const [timerRunning, setTimerRunning] = useState(false)
+  console.log(states)
 
   useInterval(
     () => {
@@ -109,6 +58,7 @@ const NameRegister = ({ domain, waitTime }) => {
         setSecondsPassed(s => s + 1)
       } else {
         setTimerRunning(false)
+        incrementStep()
       }
     },
     timerRunning ? 1000 : null
@@ -116,8 +66,6 @@ const NameRegister = ({ domain, waitTime }) => {
 
   const time = 50
 
-  const incrementStep = () => dispatch('NEXT')
-  const decrementStep = () => dispatch('PREVIOUS')
   const duration = 31556952 * years
 
   return (
@@ -144,16 +92,17 @@ const NameRegister = ({ domain, waitTime }) => {
       )}
 
       <Explainer step={step} time={time} />
-      <Progress step={step} waitTime={waitTime} />
+      <Progress step={step} waitTime={waitTime} secondsPassed={secondsPassed} />
       <CTA
         waitTime={waitTime}
         incrementStep={incrementStep}
         decrementStep={decrementStep}
         step={step}
-        name={domain.name}
+        label={domain.label}
         duration={duration}
         secondsPassed={secondsPassed}
         setTimerRunning={setTimerRunning}
+        refetch={refetch}
       />
     </NameRegisterContainer>
   )

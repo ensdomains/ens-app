@@ -12,7 +12,7 @@ const DefaultTooltip = styled(ReactTooltip)`
 `
 
 const TooltipContainer = props => {
-  const { text, position, children } = props
+  const { text, position, children, offset } = props
   const id = uuid()
   const [show, setShow] = useState(false)
   const tooltipRef = React.createRef()
@@ -46,6 +46,7 @@ const TooltipContainer = props => {
         effect="solid"
         type="light"
         html={true}
+        offset={offset}
       />
     </>
   )

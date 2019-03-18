@@ -104,13 +104,13 @@ export const CREATE_SUBDOMAIN = gql`
 /* Registrar Mutations */
 
 export const COMMIT = gql`
-  mutation commit($name: String, $owner: String, $secret: String) {
-    commit(name: $name, owner: $owner, secret: $secret) @client
+  mutation commit($label: String, $owner: String, $secret: String) {
+    commit(label: $label, owner: $owner, secret: $secret) @client
   }
 `
 
 export const REGISTER = gql`
-  mutation register($name: String, $duration: Int) {
-    register(name: $name, duration: $duration, secret: $secret) @client
+  mutation register($label: String, $duration: Int) {
+    register(label: $label, duration: $duration, secret: $secret) @client
   }
 `

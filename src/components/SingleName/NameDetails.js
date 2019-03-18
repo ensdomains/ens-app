@@ -152,7 +152,7 @@ class NameDetails extends Component {
                 <DetailsItem>
                   You have not migrated into permanent registrar yet.
                   <br/>
-                  Please migrate by 4th November 2019.
+                  Please migrate by xxx.
                   <br/>
                   Failing to migrate by the deadline will lead you losing the domain name.
                   <Button style={{ width: '160px',   marginLeft: 'auto' }}>Migrate Now</Button>

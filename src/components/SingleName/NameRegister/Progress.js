@@ -2,6 +2,8 @@ import React from 'react'
 import styled from '@emotion/styled'
 
 import Tooltip from '../../Tooltip/Tooltip'
+import { ReactComponent as DefaultQuestionMark } from 'components/Icons/QuestionMarkSmall.svg'
+import { ReactComponent as DefaultCheckCircle } from 'components/Icons/CheckCircle.svg'
 
 const ProgressContainer = styled('div')`
   margin-bottom: 20px;
@@ -33,7 +35,7 @@ const Steps = styled('div')`
   margin-bottom: 20px;
 `
 
-const Step = styled('div')`
+const StepContainer = styled('div')`
   flex-grow: ${p => (p.large ? '2' : '1')};
   display: flex;
   justify-content: center;
@@ -45,43 +47,72 @@ const Step = styled('div')`
   &:last-child {
     border-right: none;
   }
-
-  &:before {
-    content: "${p => p.text}";
-    display: flex;
-    background: white;
-    padding: 3px 15px;
-    font-family: Overpass;
-    font-weight: bold;
-    font-size: 14px;
-    color: #2C46A6;
-    letter-spacing: 1px;
-    z-index: 1;
-    position: absolute;
-    transform: translateX(-50%);
-    left: 50%;
-    top: 10px;
-    color: black;
-  }
 `
+
+const StepContent = styled('div')`
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 3px 15px;
+  font-family: Overpass;
+  font-weight: bold;
+  font-size: 14px;
+  color: #2c46a6;
+  letter-spacing: 1px;
+  margin-bottom: -16px;
+  color: black;
+`
+
+const QuestionMark = styled(DefaultQuestionMark)`
+  margin-left: 5px;
+`
+
+const CheckCircle = styled(DefaultCheckCircle)`
+  margin-left: 5px;
+`
+
+function Step({ children, text, large, icon, onMouseOver, onMouseLeave }) {
+  return (
+    <StepContainer large={large}>
+      <StepContent onMouseOver={onMouseOver} onMouseLeave={onMouseLeave}>
+        {children}
+        {text} {icon}
+      </StepContent>
+    </StepContainer>
+  )
+}
 
 function Progress({ step, waitTime, secondsPassed }) {
   if (step === 'PRICE_DECISION') return null
 
-  const waitMin = states[step]['COMMIT_CONFIRMED']
-  const waitMax = states[step]['COMMIT_CONFIRMED']
+  const waitPercentComplete = (secondsPassed / waitTime) * 100
+  const waitMin = states['COMMIT_CONFIRMED']
+  const waitMax = states['AWAITING_REGISTER']
+  const percentDone = waitPercentComplete / (100 / (waitMax - waitMin)) + 25
+  console.log(step !== 'PRICE_DECISION' && step !== 'COMMIT_SENT')
+  console.log(step)
   return (
     <ProgressContainer>
-      <ProgressBar percentDone={states[step]} />
+      <ProgressBar
+        percentDone={step !== 'COMMIT_CONFIRMED' ? states[step] : percentDone}
+      />
       <Steps>
         <Tooltip
           text="<p>The first transaction is being mined on the blockchain. This should take 15-30 seconds.</p>"
           position="top"
           border={true}
+          offset={{ left: -30, top: 10 }}
         >
           {({ tooltipElement, showTooltip, hideTooltip }) => (
             <Step
               text="Step 1"
+              icon={
+                step !== 'PRICE_DECISION' && step !== 'COMMIT_SENT' ? (
+                  <CheckCircle />
+                ) : (
+                  <QuestionMark />
+                )
+              }
               onMouseOver={() => {
                 showTooltip()
               }}
@@ -95,9 +126,10 @@ function Progress({ step, waitTime, secondsPassed }) {
           )}
         </Tooltip>
         <Tooltip
-          text='<p>This resolver is outdated and does not support the new content hash.<br/>Click the "Set" button to update  to the latest public resolver.</p>'
+          text="<p>Once this step is complete, the ‘register’ button will activate. Sign up for google notifications to remind you when the wait is up.  </p>"
           position="top"
           border={true}
+          offset={{ left: -30, top: 10 }}
         >
           {({ tooltipElement, showTooltip, hideTooltip }) => (
             <Step
@@ -116,9 +148,10 @@ function Progress({ step, waitTime, secondsPassed }) {
           )}
         </Tooltip>
         <Tooltip
-          text='<p>This resolver is outdated and does not support the new content hash.<br/>Click the "Set" button to update  to the latest public resolver.</p>'
+          text="<p>Click ‘register’ to launch the second transaction and complete the registration. </p>"
           position="top"
           border={true}
+          offset={{ left: -30, top: 10 }}
         >
           {({ tooltipElement, showTooltip, hideTooltip }) => (
             <Step

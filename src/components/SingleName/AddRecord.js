@@ -8,7 +8,7 @@ import DetailsItemInput from './DetailsItemInput'
 import { useEditable } from '../hooks'
 
 import SaveCancel from './SaveCancel'
-import Select from '../Forms/Select'
+import DefaultSelect from '../Forms/Select'
 import PendingTx from '../PendingTx'
 
 import { getOldContentWarning } from './warnings'
@@ -24,6 +24,10 @@ const ToggleAddRecord = styled('span')`
   &:hover {
     cursor: pointer;
   }
+`
+
+const Select = styled(DefaultSelect)`
+  margin-right: 20px;
 `
 
 const RecordsTitle = styled('h3')`

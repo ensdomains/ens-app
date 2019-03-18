@@ -23,22 +23,20 @@ const resolvers = {
     }
   },
   Mutation: {
-    async commit(_, { name }, { cache }) {
+    async commit(_, { label }, { cache }) {
       //Generate secret
       const secret =
         '0x0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF'
 
-      secrets[name] = secret
+      secrets[label] = secret
       //Save secret to localStorage with name as the key
-      const tx = await commit(name, secret)
+      const tx = await commit(label, secret)
       return sendHelper(tx)
     },
-    async register(_, { name, duration }) {
-      const secret = secrets[name]
-      console.log(name, duration, secret)
-      const tx = await register(name, duration, secret)
+    async register(_, { label, duration }) {
+      const secret = secrets[label]
+      const tx = await register(label, duration, secret)
 
-      console.log(tx)
       return sendHelper(tx)
     },
     async getDomainAvailability(_, { name }, { cache }) {

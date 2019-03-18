@@ -19,14 +19,26 @@ export const getAuctionRegistrar = async () => {
     }
   }
   try {
-    const { readENS: ENS } = await getENS()
     const web3 = await getWeb3()
+    const networkId = await getNetworkId()
     const web3Read = await getWeb3Read()
-    const ethAddr = await ENS.owner(await getNamehash('eth')).call()
-    ethRegistrar = new web3.eth.Contract(auctionRegistrarContract, ethAddr)
+
+    let legacyAuctionRegistrarAddress
+
+    if (process.env.REACT_APP_AUCTION_REGISTRAR_ADDRESS && networkId > 1000) {
+      //Assuming public main/test networks have a networkId of less than 1000
+      legacyAuctionRegistrarAddress =
+        process.env.REACT_APP_AUCTION_REGISTRAR_ADDRESS
+    } else {
+      throw new Error('No auction address found')
+    }
+    ethRegistrar = new web3.eth.Contract(
+      auctionRegistrarContract,
+      legacyAuctionRegistrarAddress
+    )
     ethRegistrarRead = new web3Read.eth.Contract(
       auctionRegistrarContract,
-      ethAddr
+      legacyAuctionRegistrarAddress
     )
     return {
       ethRegistrar,
@@ -38,8 +50,8 @@ export const getAuctionRegistrar = async () => {
 export const getPermanentRegistrar = async () => {
   if (permanentRegistrar) {
     return {
-      permanentRegistrar,
-      permanentRegistrarRead
+      permanentRegistrar: permanentRegistrar.methods,
+      permanentRegistrarRead: permanentRegistrarRead.methods
     }
   }
 
@@ -57,8 +69,8 @@ export const getPermanentRegistrar = async () => {
       ethAddr
     )
     return {
-      permanentRegistrar,
-      permanentRegistrarRead
+      permanentRegistrar: permanentRegistrar.methods,
+      permanentRegistrarRead: permanentRegistrarRead.methods
     }
   } catch (e) {}
 }
@@ -115,10 +127,10 @@ export const getPermanentEntry = async name => {
     const namehash = web3.utils.sha3(name)
     const { permanentRegistrarRead: Registrar } = await getPermanentRegistrar()
     // Returns true if name is available
-    obj.available = await Registrar.methods.available(namehash).call()
+    obj.available = await Registrar.available(namehash).call()
     // Returns registrar address if owned by new registrar
-    obj.ownerOf = await Registrar.methods.ownerOf(namehash).call()
-    const nameExpires = await Registrar.methods.nameExpires(namehash).call()
+    obj.ownerOf = await Registrar.ownerOf(namehash).call()
+    const nameExpires = await Registrar.nameExpires(namehash).call()
     if (nameExpires > 0) {
       obj.nameExpires = new Date(nameExpires * 1000)
     }
@@ -162,7 +174,6 @@ export const getEntry = async name => {
       obj.state = 2
     }
     if (permEntry.ownerOf) {
-      // Owned
       obj.isNewRegistrar = true
     }
     if (permEntry.nameExpires) {
@@ -205,29 +216,46 @@ export const makeCommitment = async (name, owner, secret = '') => {
   return commitment
 }
 
-export const commit = async (name, secret = '') => {
+export const commit = async (label, secret = '') => {
   const {
     permanentRegistrarController
   } = await getPermanentRegistrarController()
   const account = await getAccount()
 
-  const commitment = await makeCommitment(name, account, secret)
+  const commitment = await makeCommitment(label, account, secret)
 
   return () =>
     permanentRegistrarController.commit(commitment).send({ from: account })
 }
 
-export const register = async (name, duration, secret) => {
+export const register = async (label, duration, secret) => {
   const {
     permanentRegistrarController
   } = await getPermanentRegistrarController()
   const account = await getAccount()
-  const price = await getRentPrice(name, duration)
+  const price = await getRentPrice(label, duration)
 
   return () =>
     permanentRegistrarController
-      .register(name, account, duration, secret)
+      .register(label, account, duration, secret)
       .send({ from: account, gas: 1000000, value: price })
+}
+
+export const isAvailable = async name => {
+  const {
+    permanentRegistrarControllerRead
+  } = await getPermanentRegistrarController()
+  const { readENS: ENS } = await getENS()
+
+  const available = await permanentRegistrarControllerRead
+    .available(name)
+    .call()
+
+  console.log('available, ', available)
+
+  const namehash = await getNamehash(name + '.eth')
+  const owner = await ENS.owner(namehash).call()
+  console.log('owner', owner)
 }
 
 export const createSealedBid = async (name, bidAmount, secret) => {

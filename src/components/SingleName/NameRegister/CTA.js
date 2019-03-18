@@ -3,9 +3,10 @@ import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
 
 import { COMMIT, REGISTER } from '../../../graphql/mutations'
+import { isAvailable } from 'api/registrar'
 
 import PendingTx from '../../PendingTx'
-import Button, { ExternalButtonLink } from '../../Forms/Button'
+import Button from '../../Forms/Button'
 
 const CTAContainer = styled('div')`
   display: flex;
@@ -16,16 +17,18 @@ function getCTA({
   step,
   incrementStep,
   duration,
-  name,
+  label,
   txHash,
   setTxHash,
-  setTimerRunning
+  setTimerRunning,
+  refetch
 }) {
+  console.log(refetch)
   const CTAs = {
     PRICE_DECISION: (
       <Mutation
         mutation={COMMIT}
-        variables={{ name }}
+        variables={{ label }}
         onCompleted={data => {
           setTxHash(Object.values(data)[0])
           incrementStep()
@@ -47,7 +50,7 @@ function getCTA({
     AWAITING_REGISTER: (
       <Mutation
         mutation={REGISTER}
-        variables={{ name, duration }}
+        variables={{ label, duration }}
         onCompleted={data => {
           setTxHash(Object.values(data)[0])
           incrementStep()
@@ -59,16 +62,12 @@ function getCTA({
     REVEAL_SENT: (
       <PendingTx
         txHash={txHash}
-        onConfirmed={() => {
+        onConfirmed={async () => {
           incrementStep()
         }}
       />
     ),
-    REVEAL_CONFIRMED: (
-      <ExternalButtonLink href={`https://manager.ens.domains/name/${name}`}>
-        Manage name
-      </ExternalButtonLink>
-    )
+    REVEAL_CONFIRMED: <Button onClick={() => refetch()}>Manage name</Button>
   }
   return CTAs[step]
 }
@@ -78,8 +77,9 @@ const CTA = ({
   incrementStep,
   decrementStep,
   duration,
-  name,
-  setTimerRunning
+  label,
+  setTimerRunning,
+  refetch
 }) => {
   const [txHash, setTxHash] = useState(undefined)
   return (
@@ -98,10 +98,11 @@ const CTA = ({
         step,
         incrementStep,
         duration,
-        name,
+        label,
         txHash,
         setTxHash,
-        setTimerRunning
+        setTimerRunning,
+        refetch
       })}
     </CTAContainer>
   )
