@@ -3,7 +3,6 @@ import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
 
 import { COMMIT, REGISTER } from '../../../graphql/mutations'
-import { isAvailable } from 'api/registrar'
 
 import PendingTx from '../../PendingTx'
 import Button from '../../Forms/Button'

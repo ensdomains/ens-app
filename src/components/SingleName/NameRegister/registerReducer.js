@@ -44,7 +44,7 @@ export function registerReducer(state, action) {
   return registerMachine.states[state].on[action] || state
 }
 
-function getStates(states, initialState) {
+export function getStates(states, initialState) {
   function traverseLinkedList(list, next) {
     if (states[next].on.NEXT === next) {
       return [...list, next]
@@ -60,4 +60,4 @@ export const states = getStates(
 )
 
 export const hasStatePassed = (state, currentState) =>
-  states.findIndex(s => s === state) > state.findIndex(s => s === currentState)
+  states.findIndex(s => s === state) > states.findIndex(s => s === currentState)
