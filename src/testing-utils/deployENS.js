@@ -411,7 +411,7 @@ module.exports = async function deployENS({ web3, accounts }) {
     resolverAddress: resolver._address,
     reverseRegistrarAddress: reverseRegistrar._address,
     reverseRegistrarOwnerAddress: accounts[0],
-    auctionRegistrarAddress: legacyAuctionRegistrar._address,
+    legacyAuctionRegistrarAddress: legacyAuctionRegistrar._address,
     controllerAddress: controller._address
   }
 }

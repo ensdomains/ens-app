@@ -87,9 +87,7 @@ const resolvers = {
             expiryTime,
             isNewRegistrar
           } = entry
-          console.log({entry})
           const owner = await getOwner(name)
-          console.log(entry)
           node = {
             ...node,
             name: `${name}`,
