@@ -64,8 +64,6 @@ function getCTA({
         txHash={txHash}
         onConfirmed={async () => {
           incrementStep()
-          const available = await isAvailable(label)
-          console.log(available)
         }}
       />
     ),
