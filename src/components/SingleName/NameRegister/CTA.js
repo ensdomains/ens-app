@@ -28,7 +28,7 @@ function getCTA({
     PRICE_DECISION: (
       <Mutation
         mutation={COMMIT}
-        variables={{ name: label }}
+        variables={{ label }}
         onCompleted={data => {
           setTxHash(Object.values(data)[0])
           incrementStep()
@@ -50,7 +50,7 @@ function getCTA({
     AWAITING_REGISTER: (
       <Mutation
         mutation={REGISTER}
-        variables={{ name: label, duration }}
+        variables={{ label, duration }}
         onCompleted={data => {
           setTxHash(Object.values(data)[0])
           incrementStep()
