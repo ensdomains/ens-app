@@ -151,7 +151,7 @@ const NameRegister = ({ domain, waitTime, refetch }) => {
         incrementStep={incrementStep}
         decrementStep={decrementStep}
         step={step}
-        name={domain.name}
+        label={domain.label}
         duration={duration}
         secondsPassed={secondsPassed}
         setTimerRunning={setTimerRunning}

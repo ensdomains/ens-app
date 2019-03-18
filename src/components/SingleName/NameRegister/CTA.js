@@ -3,6 +3,7 @@ import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
 
 import { COMMIT, REGISTER } from '../../../graphql/mutations'
+import { isAvailable } from 'api/registrar'
 
 import PendingTx from '../../PendingTx'
 import Button from '../../Forms/Button'
@@ -16,7 +17,7 @@ function getCTA({
   step,
   incrementStep,
   duration,
-  name,
+  label,
   txHash,
   setTxHash,
   setTimerRunning,
@@ -27,7 +28,7 @@ function getCTA({
     PRICE_DECISION: (
       <Mutation
         mutation={COMMIT}
-        variables={{ name }}
+        variables={{ name: label }}
         onCompleted={data => {
           setTxHash(Object.values(data)[0])
           incrementStep()
@@ -49,7 +50,7 @@ function getCTA({
     AWAITING_REGISTER: (
       <Mutation
         mutation={REGISTER}
-        variables={{ name, duration }}
+        variables={{ name: label, duration }}
         onCompleted={data => {
           setTxHash(Object.values(data)[0])
           incrementStep()
@@ -61,8 +62,10 @@ function getCTA({
     REVEAL_SENT: (
       <PendingTx
         txHash={txHash}
-        onConfirmed={() => {
+        onConfirmed={async () => {
           incrementStep()
+          const available = await isAvailable(label)
+          console.log(available)
         }}
       />
     ),
@@ -76,7 +79,7 @@ const CTA = ({
   incrementStep,
   decrementStep,
   duration,
-  name,
+  label,
   setTimerRunning,
   refetch
 }) => {
@@ -97,7 +100,7 @@ const CTA = ({
         step,
         incrementStep,
         duration,
-        name,
+        label,
         txHash,
         setTxHash,
         setTimerRunning,

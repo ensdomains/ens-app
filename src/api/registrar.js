@@ -210,29 +210,46 @@ export const makeCommitment = async (name, owner, secret = '') => {
   return commitment
 }
 
-export const commit = async (name, secret = '') => {
+export const commit = async (label, secret = '') => {
   const {
     permanentRegistrarController
   } = await getPermanentRegistrarController()
   const account = await getAccount()
 
-  const commitment = await makeCommitment(name, account, secret)
+  const commitment = await makeCommitment(label, account, secret)
 
   return () =>
     permanentRegistrarController.commit(commitment).send({ from: account })
 }
 
-export const register = async (name, duration, secret) => {
+export const register = async (label, duration, secret) => {
   const {
     permanentRegistrarController
   } = await getPermanentRegistrarController()
   const account = await getAccount()
-  const price = await getRentPrice(name, duration)
+  const price = await getRentPrice(label, duration)
 
   return () =>
     permanentRegistrarController
-      .register(name, account, duration, secret)
+      .register(label, account, duration, secret)
       .send({ from: account, gas: 1000000, value: price })
+}
+
+export const isAvailable = async name => {
+  const {
+    permanentRegistrarControllerRead
+  } = await getPermanentRegistrarController()
+  const { readENS: ENS } = await getENS()
+
+  const available = await permanentRegistrarControllerRead
+    .available(name)
+    .call()
+
+  console.log('available, ', available)
+
+  const namehash = await getNamehash(name + '.eth')
+  const owner = await ENS.owner(namehash).call()
+  console.log('owner', owner)
 }
 
 export const createSealedBid = async (name, bidAmount, secret) => {
