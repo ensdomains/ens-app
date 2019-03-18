@@ -94,11 +94,13 @@ const Chain = styled(ChainDefault)`
   `}
 `
 
-const NameRegister = ({ domain, waitTime }) => {
+const NameRegister = ({ domain, waitTime, refetch }) => {
   const [step, dispatch] = useReducer(
     registerReducer,
     registerMachine.initialState
   )
+  const incrementStep = () => dispatch('NEXT')
+  const decrementStep = () => dispatch('PREVIOUS')
   const [years, setYears] = useState(1)
   const [secondsPassed, setSecondsPassed] = useState(0)
   const [timerRunning, setTimerRunning] = useState(false)
@@ -109,6 +111,7 @@ const NameRegister = ({ domain, waitTime }) => {
         setSecondsPassed(s => s + 1)
       } else {
         setTimerRunning(false)
+        incrementStep()
       }
     },
     timerRunning ? 1000 : null
@@ -116,8 +119,6 @@ const NameRegister = ({ domain, waitTime }) => {
 
   const time = 50
 
-  const incrementStep = () => dispatch('NEXT')
-  const decrementStep = () => dispatch('PREVIOUS')
   const duration = 31556952 * years
 
   return (
@@ -144,7 +145,7 @@ const NameRegister = ({ domain, waitTime }) => {
       )}
 
       <Explainer step={step} time={time} />
-      <Progress step={step} waitTime={waitTime} />
+      <Progress step={step} waitTime={waitTime} secondsPassed={secondsPassed} />
       <CTA
         waitTime={waitTime}
         incrementStep={incrementStep}
@@ -154,6 +155,7 @@ const NameRegister = ({ domain, waitTime }) => {
         duration={duration}
         secondsPassed={secondsPassed}
         setTimerRunning={setTimerRunning}
+        refetch={refetch}
       />
     </NameRegisterContainer>
   )

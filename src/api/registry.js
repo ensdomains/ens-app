@@ -43,7 +43,7 @@ export async function expiryTimes(label, owner) {
   const web3 = await getWeb3()
   const namehash = await web3.utils.sha3(label)
   const result = await registrar.expiryTimes(namehash).call()
-  if(result > 0){
+  if (result > 0) {
     return new Date(result * 1000)
   }
 }
@@ -71,13 +71,13 @@ export async function getContent(name) {
   if (parseInt(resolverAddr, 16) === 0) {
     return '0x00000000000000000000000000000000'
   }
-  const namehash = await getNamehash(name)
-  const { Resolver } = await getResolverReadContract(resolverAddr)
-  const web3 = await getWeb3()
-  const contentHashSignature = web3.utils
-    .sha3('contenthash(bytes32)')
-    .slice(0, 10)
   try {
+    const namehash = await getNamehash(name)
+    const { Resolver } = await getResolverReadContract(resolverAddr)
+    const web3 = await getWeb3()
+    const contentHashSignature = web3.utils
+      .sha3('contenthash(bytes32)')
+      .slice(0, 10)
     const isContentHashSupported = await Resolver.supportsInterface(
       contentHashSignature
     ).call()
@@ -98,7 +98,7 @@ export async function getContent(name) {
     const message =
       'Error getting content on the resolver contract, are you sure the resolver address is a resolver contract?'
     console.warn(message)
-    return { value: message, contentType: 'error' }
+    return { value: '0x0', contentType: 'error' }
   }
 }
 

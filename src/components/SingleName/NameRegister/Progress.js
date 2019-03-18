@@ -68,11 +68,16 @@ const Step = styled('div')`
 function Progress({ step, waitTime, secondsPassed }) {
   if (step === 'PRICE_DECISION') return null
 
-  const waitMin = states[step]['COMMIT_CONFIRMED']
-  const waitMax = states[step]['COMMIT_CONFIRMED']
+  const waitPercentComplete = (secondsPassed / waitTime) * 100
+  const waitMin = states['COMMIT_CONFIRMED']
+  const waitMax = states['AWAITING_REGISTER']
+  const percentDone = waitPercentComplete / (100 / (waitMax - waitMin)) + 25
+
   return (
     <ProgressContainer>
-      <ProgressBar percentDone={states[step]} />
+      <ProgressBar
+        percentDone={step !== 'COMMIT_CONFIRMED' ? states[step] : percentDone}
+      />
       <Steps>
         <Tooltip
           text="<p>The first transaction is being mined on the blockchain. This should take 15-30 seconds.</p>"

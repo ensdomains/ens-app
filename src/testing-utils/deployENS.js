@@ -108,7 +108,7 @@ module.exports = async function deployENS({ web3, accounts }) {
     namehash('test')
   )
   // Disabled for now as the deploy was throwing error and this is not in use.
-  const ethRegistrar = await deploy(
+  const auctionRegistrar = await deploy(
     hashRegistrarSimplifiedJSON,
     ens._address,
     namehash('eth'),
@@ -126,7 +126,7 @@ module.exports = async function deployENS({ web3, accounts }) {
   console.log('Old Public resolver deployed at: ', oldResolver._address)
   console.log('Reverse Registrar deployed at: ', reverseRegistrar._address)
   console.log('Test Registrar deployed at: ', testRegistrar._address)
-  console.log('Auction Registrar deployed at: ', ethRegistrar._address)
+  console.log('Auction Registrar deployed at: ', auctionRegistrar._address)
 
   const tld = 'eth'
   const tldHash = sha3(tld)
@@ -218,7 +218,7 @@ module.exports = async function deployENS({ web3, accounts }) {
     .setSubnodeOwner(
       '0x00000000000000000000000000000000',
       tldHash,
-      ethRegistrar._address
+      auctionRegistrar._address
     )
     .send({
       from: accounts[0]
@@ -246,7 +246,7 @@ module.exports = async function deployENS({ web3, accounts }) {
   console.log('Base registrar deployed at: ', baseRegistrar._address)
   console.log('Controller deployed at: ', controller._address)
 
-  /* Set the pernament registrar contract as the owner of .eth */
+  /* Set the permanent registrar contract as the owner of .eth */
   await ensContract
     .setSubnodeOwner(
       '0x00000000000000000000000000000000',
@@ -378,6 +378,7 @@ module.exports = async function deployENS({ web3, accounts }) {
     resolverAddress: resolver._address,
     reverseRegistrarAddress: reverseRegistrar._address,
     reverseRegistrarOwnerAddress: accounts[0],
+    auctionRegistrarAddress: auctionRegistrar._address,
     controllerAddress: controller._address
   }
 }

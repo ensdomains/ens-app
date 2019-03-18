@@ -5,7 +5,7 @@ import { Mutation } from 'react-apollo'
 import { COMMIT, REGISTER } from '../../../graphql/mutations'
 
 import PendingTx from '../../PendingTx'
-import Button, { ExternalButtonLink } from '../../Forms/Button'
+import Button from '../../Forms/Button'
 
 const CTAContainer = styled('div')`
   display: flex;
@@ -19,8 +19,10 @@ function getCTA({
   name,
   txHash,
   setTxHash,
-  setTimerRunning
+  setTimerRunning,
+  refetch
 }) {
+  console.log(refetch)
   const CTAs = {
     PRICE_DECISION: (
       <Mutation
@@ -64,11 +66,7 @@ function getCTA({
         }}
       />
     ),
-    REVEAL_CONFIRMED: (
-      <ExternalButtonLink href={`https://manager.ens.domains/name/${name}`}>
-        Manage name
-      </ExternalButtonLink>
-    )
+    REVEAL_CONFIRMED: <Button onClick={() => refetch()}>Manage name</Button>
   }
   return CTAs[step]
 }
@@ -79,7 +77,8 @@ const CTA = ({
   decrementStep,
   duration,
   name,
-  setTimerRunning
+  setTimerRunning,
+  refetch
 }) => {
   const [txHash, setTxHash] = useState(undefined)
   return (
@@ -101,7 +100,8 @@ const CTA = ({
         name,
         txHash,
         setTxHash,
-        setTimerRunning
+        setTimerRunning,
+        refetch
       })}
     </CTAContainer>
   )

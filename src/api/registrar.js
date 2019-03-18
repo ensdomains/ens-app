@@ -19,14 +19,26 @@ export const getAuctionRegistrar = async () => {
     }
   }
   try {
-    const { readENS: ENS } = await getENS()
     const web3 = await getWeb3()
+    const networkId = await getNetworkId()
     const web3Read = await getWeb3Read()
-    const ethAddr = await ENS.owner(await getNamehash('eth')).call()
-    ethRegistrar = new web3.eth.Contract(auctionRegistrarContract, ethAddr)
+
+    let legacyAuctionRegistrarAddress
+
+    if (process.env.REACT_APP_AUCTION_REGISTRAR_ADDRESS && networkId > 1000) {
+      //Assuming public main/test networks have a networkId of less than 1000
+      legacyAuctionRegistrarAddress =
+        process.env.REACT_APP_AUCTION_REGISTRAR_ADDRESS
+    } else {
+      throw new Error('No auction address found')
+    }
+    ethRegistrar = new web3.eth.Contract(
+      auctionRegistrarContract,
+      legacyAuctionRegistrarAddress
+    )
     ethRegistrarRead = new web3Read.eth.Contract(
       auctionRegistrarContract,
-      ethAddr
+      legacyAuctionRegistrarAddress
     )
     return {
       ethRegistrar,
@@ -38,8 +50,8 @@ export const getAuctionRegistrar = async () => {
 export const getPermanentRegistrar = async () => {
   if (permanentRegistrar) {
     return {
-      permanentRegistrar,
-      permanentRegistrarRead
+      permanentRegistrar: permanentRegistrar.methods,
+      permanentRegistrarRead: permanentRegistrarRead.methods
     }
   }
 
@@ -57,8 +69,8 @@ export const getPermanentRegistrar = async () => {
       ethAddr
     )
     return {
-      permanentRegistrar,
-      permanentRegistrarRead
+      permanentRegistrar: permanentRegistrar.methods,
+      permanentRegistrarRead: permanentRegistrarRead.methods
     }
   } catch (e) {}
 }
@@ -114,8 +126,8 @@ export const getPermanentEntry = async name => {
     const web3 = await getWeb3()
     const namehash = web3.utils.sha3(name)
     const { permanentRegistrarRead: Registrar } = await getPermanentRegistrar()
-    obj.available = await Registrar.methods.available(namehash).call()
-    const nameExpires = await Registrar.methods.nameExpires(namehash).call()
+    obj.available = await Registrar.available(namehash).call()
+    const nameExpires = await Registrar.nameExpires(namehash).call()
     if (nameExpires > 0) {
       obj.nameExpires = new Date(nameExpires * 1000)
     }

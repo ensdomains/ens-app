@@ -86,6 +86,7 @@ function Name({ details: domain, name, pathname, refetch }) {
         if (domain.owner !== EMPTY_ADDRESS) {
           isOwner = domain.owner.toLowerCase() === account.toLowerCase()
         }
+        console.log(domain)
         return (
           <NameContainer state={isOwner ? 'Yours' : domain.state}>
             <TopBar percentDone={percentDone}>
@@ -106,7 +107,11 @@ function Name({ details: domain, name, pathname, refetch }) {
                 <Tabs pathname={pathname} domain={domain} />
               )}
             {domain.parent === 'eth' && domain.state !== 'Owned' ? (
-              <NameRegister domain={domain} pathname={pathname} />
+              <NameRegister
+                domain={domain}
+                pathname={pathname}
+                refetch={refetch}
+              />
             ) : (
               <NameDetails
                 domain={domain}
