@@ -28,7 +28,7 @@ const NotifyButton = styled(Button)`
   flex-shrink: 0;
 `
 
-const Explainer = ({ step, time, waitPercentComplete }) => {
+const Explainer = ({ step, waitPercentComplete }) => {
   const titles = {
     PRICE_DECISION: 'Registering a name requires you to complete 3 steps',
     COMMIT_SENT:
