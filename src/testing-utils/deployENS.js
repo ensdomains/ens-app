@@ -198,7 +198,17 @@ module.exports = async function deployENS({ web3, accounts }) {
       from: accounts[0]
     })
 
-  await auctionLegacyName(web3, accounts[0], legacyAuctionRegistrarContract, 'auctionedname')
+  // Can migrate now
+  await auctionLegacyName(web3, accounts[0], legacyAuctionRegistrarContract, 'auctioned1')
+  await auctionLegacyName(web3, accounts[0], legacyAuctionRegistrarContract, 'auctioned2')
+  await auctionLegacyName(web3, accounts[0], legacyAuctionRegistrarContract, 'auctioned3')
+  await auctionLegacyName(web3, accounts[0], legacyAuctionRegistrarContract, 'auctioned4')
+  await auctionLegacyName(web3, accounts[0], legacyAuctionRegistrarContract, 'auctioned5')
+  const lockoutlength = 60 * 60 * 24 * 190
+  await advanceTime(web3, lockoutlength)
+  await mine(web3)
+  // Need to wait for the lock period to end
+  await auctionLegacyName(web3, accounts[0], legacyAuctionRegistrarContract, 'auctionedtoorecent')
 
   let rootOwner = await ensContract
     .owner('0x00000000000000000000000000000000')

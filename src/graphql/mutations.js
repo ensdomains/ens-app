@@ -114,3 +114,9 @@ export const REGISTER = gql`
     register(label: $label, duration: $duration, secret: $secret) @client
   }
 `
+
+export const TRANSFER_REGISTRARS = gql`
+  mutation transferRegistrars($label: String) {
+    transferRegistrars(label: $label) @client
+  }
+`

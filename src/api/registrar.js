@@ -14,8 +14,8 @@ let permanentRegistrarControllerRead
 export const getLegacyAuctionRegistrar = async () => {
   if (ethRegistrar) {
     return {
-      ethRegistrar,
-      ethRegistrarRead
+      ethRegistrar: ethRegistrar.methods,
+      ethRegistrarRead: ethRegistrarRead.methods
     }
   }
   try {
@@ -298,4 +298,16 @@ export const startAuctionsAndBid = async (
     from: account,
     value: web3.utils.toWei(decoyBidAmount, 'ether')
   })
+}
+
+
+export const transferRegistrars = async (label) => {
+  const { ethRegistrar } = await getLegacyAuctionRegistrar()
+  const account = await getAccount()
+  const web3 = await getWeb3()
+  const hash = web3.utils.sha3(label)
+  return () =>
+    ethRegistrar.transferRegistrars(hash).send({
+      from: account, gas:2000000
+    })  
 }
