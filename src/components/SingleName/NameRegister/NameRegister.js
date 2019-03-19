@@ -50,7 +50,6 @@ const NameRegister = ({ domain, waitTime, refetch }) => {
   const [years, setYears] = useState(1)
   const [secondsPassed, setSecondsPassed] = useState(0)
   const [timerRunning, setTimerRunning] = useState(false)
-  console.log(states)
 
   useInterval(
     () => {
@@ -64,13 +63,11 @@ const NameRegister = ({ domain, waitTime, refetch }) => {
     timerRunning ? 1000 : null
   )
 
-  const time = 50
-
   const duration = 31556952 * years
+  const waitPercentComplete = (secondsPassed / waitTime) * 100
 
   return (
     <NameRegisterContainer>
-      {secondsPassed}
       {step === 'PRICE_DECISION' && (
         <Query
           query={GET_RENT_PRICE}
@@ -91,8 +88,8 @@ const NameRegister = ({ domain, waitTime, refetch }) => {
         </Query>
       )}
 
-      <Explainer step={step} time={time} />
-      <Progress step={step} waitTime={waitTime} secondsPassed={secondsPassed} />
+      <Explainer step={step} waitPercentComplete={waitPercentComplete} />
+      <Progress step={step} waitPercentComplete={waitPercentComplete} />
       <CTA
         waitTime={waitTime}
         incrementStep={incrementStep}

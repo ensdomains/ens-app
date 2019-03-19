@@ -28,7 +28,7 @@ const NotifyButton = styled(Button)`
   flex-shrink: 0;
 `
 
-const Explainer = ({ step, time }) => {
+const Explainer = ({ step, time, waitPercentComplete }) => {
   const titles = {
     PRICE_DECISION: 'Registering a name requires you to complete 3 steps',
     COMMIT_SENT:
@@ -69,7 +69,7 @@ const Explainer = ({ step, time }) => {
             step === 'PRICE_DECISION' || step === 'COMMIT_SENT'
               ? 0
               : step === 'COMMIT_CONFIRMED'
-              ? time
+              ? waitPercentComplete
               : 100
           }
           title="Wait for 10 minutes"

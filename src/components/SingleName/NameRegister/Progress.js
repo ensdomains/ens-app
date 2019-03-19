@@ -37,7 +37,7 @@ const Steps = styled('div')`
   margin-bottom: 20px;
 `
 
-const StepContainer = styled('div')`
+const StepContainer = styled('section')`
   flex: ${p => (p.large ? '2' : '1')};
   display: flex;
   justify-content: center;
@@ -46,8 +46,8 @@ const StepContainer = styled('div')`
   border-top: none;
   position: relative;
 
-  &:last-child {
-    border-right: none;
+  &:last-of-type {
+    border-right: 1px dotted #ccc;
   }
 `
 
@@ -59,24 +59,47 @@ const StepContent = styled('div')`
   font-family: Overpass;
   font-weight: bold;
   font-size: 14px;
-  color: #2c46a6;
   letter-spacing: 1px;
   margin-bottom: -16px;
-  color: black;
+  transition: 0.2s;
+  color: ${p => (p.completed ? 'hsla(134, 72%, 57%, 1)' : 'hsla(0,0%,82%,1)')};
+  &:hover {
+    color: ${p =>
+      p.completed ? 'hsla(134, 72%, 57%, 1)' : 'hsla(227, 58%, 41%, 1)'};
+
+    circle {
+      fill: hsla(227, 58%, 41%, 1);
+    }
+  }
 `
 
 const QuestionMark = styled(DefaultQuestionMark)`
   margin-left: 5px;
+  margin-bottom: 2px;
+  transition: 0.2s;
 `
 
 const CheckCircle = styled(DefaultCheckCircle)`
   margin-left: 5px;
+  margin-bottom: 2px;
 `
 
-function Step({ children, text, large, icon, onMouseOver, onMouseLeave }) {
+function Step({
+  children,
+  completed,
+  text,
+  large,
+  icon,
+  onMouseOver,
+  onMouseLeave
+}) {
   return (
     <StepContainer large={large}>
-      <StepContent onMouseOver={onMouseOver} onMouseLeave={onMouseLeave}>
+      <StepContent
+        completed={completed}
+        onMouseOver={onMouseOver}
+        onMouseLeave={onMouseLeave}
+      >
         {children}
         {text} {icon}
       </StepContent>
@@ -84,10 +107,9 @@ function Step({ children, text, large, icon, onMouseOver, onMouseLeave }) {
   )
 }
 
-function Progress({ step, waitTime, secondsPassed }) {
+function Progress({ step, waitPercentComplete }) {
   if (step === 'PRICE_DECISION') return null
 
-  const waitPercentComplete = (secondsPassed / waitTime) * 100
   const waitMin = states['COMMIT_CONFIRMED']
   const waitMax = states['AWAITING_REGISTER']
   const percentDone = waitPercentComplete / (100 / (waitMax - waitMin)) + 25
@@ -103,27 +125,25 @@ function Progress({ step, waitTime, secondsPassed }) {
           border={true}
           offset={{ left: -30, top: 10 }}
         >
-          {({ tooltipElement, showTooltip, hideTooltip }) => (
-            <Step
-              text="Step 1"
-              icon={
-                hasReachedState('COMMIT_CONFIRMED', step) ? (
-                  <CheckCircle />
-                ) : (
-                  <QuestionMark />
-                )
-              }
-              onMouseOver={() => {
-                showTooltip()
-              }}
-              onMouseLeave={() => {
-                hideTooltip()
-              }}
-            >
-              &nbsp;
-              {tooltipElement}
-            </Step>
-          )}
+          {({ tooltipElement, showTooltip, hideTooltip }) => {
+            const completed = hasReachedState('COMMIT_CONFIRMED', step)
+            return (
+              <Step
+                text="Step 1"
+                completed={completed}
+                icon={completed ? <CheckCircle /> : <QuestionMark />}
+                onMouseOver={() => {
+                  showTooltip()
+                }}
+                onMouseLeave={() => {
+                  hideTooltip()
+                }}
+              >
+                &nbsp;
+                {tooltipElement}
+              </Step>
+            )
+          }}
         </Tooltip>
         <Tooltip
           text="<p>Once this step is complete, the ‘register’ button will activate. Sign up for google notifications to remind you when the wait is up.  </p>"
@@ -131,28 +151,26 @@ function Progress({ step, waitTime, secondsPassed }) {
           border={true}
           offset={{ left: -30, top: 10 }}
         >
-          {({ tooltipElement, showTooltip, hideTooltip }) => (
-            <Step
-              large
-              text="Step 2"
-              icon={
-                hasReachedState('AWAITING_REGISTER', step) ? (
-                  <CheckCircle />
-                ) : (
-                  <QuestionMark />
-                )
-              }
-              onMouseOver={() => {
-                showTooltip()
-              }}
-              onMouseLeave={() => {
-                hideTooltip()
-              }}
-            >
-              &nbsp;
-              {tooltipElement}
-            </Step>
-          )}
+          {({ tooltipElement, showTooltip, hideTooltip }) => {
+            const completed = hasReachedState('AWAITING_REGISTER', step)
+            return (
+              <Step
+                large
+                text="Step 2"
+                completed={completed}
+                icon={completed ? <CheckCircle /> : <QuestionMark />}
+                onMouseOver={() => {
+                  showTooltip()
+                }}
+                onMouseLeave={() => {
+                  hideTooltip()
+                }}
+              >
+                &nbsp;
+                {tooltipElement}
+              </Step>
+            )
+          }}
         </Tooltip>
         <Tooltip
           text="<p>Click ‘register’ to launch the second transaction and complete the registration. </p>"
@@ -160,27 +178,31 @@ function Progress({ step, waitTime, secondsPassed }) {
           border={true}
           offset={{ left: -30, top: 10 }}
         >
-          {({ tooltipElement, showTooltip, hideTooltip }) => (
-            <Step
-              text="Step 3"
-              icon={
-                hasReachedState('REVEAL_CONFIRMED', step) ? (
-                  <CheckCircle />
-                ) : (
-                  <QuestionMark />
-                )
-              }
-              onMouseOver={() => {
-                showTooltip()
-              }}
-              onMouseLeave={() => {
-                hideTooltip()
-              }}
-            >
-              &nbsp;
-              {tooltipElement}
-            </Step>
-          )}
+          {({ tooltipElement, showTooltip, hideTooltip }) => {
+            const completed = hasReachedState('REVEAL_CONFIRMED', step)
+            return (
+              <Step
+                completed={completed}
+                text="Step 3"
+                icon={
+                  hasReachedState('REVEAL_CONFIRMED', step) ? (
+                    <CheckCircle />
+                  ) : (
+                    <QuestionMark />
+                  )
+                }
+                onMouseOver={() => {
+                  showTooltip()
+                }}
+                onMouseLeave={() => {
+                  hideTooltip()
+                }}
+              >
+                &nbsp;
+                {tooltipElement}
+              </Step>
+            )
+          }}
         </Tooltip>
       </Steps>
     </ProgressContainer>
