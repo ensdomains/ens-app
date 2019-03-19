@@ -154,7 +154,7 @@ class NameDetails extends Component {
                   <br/>
                   Please migrate by xxx.
                   <br/>
-                  Failing to migrate by the deadline will lead you losing the domain name.
+                  Failing to migrate by the deadline will lead to you losing the domain name.
                   <Button style={{ width: '160px',   marginLeft: 'auto' }}>Migrate Now</Button>
                 </DetailsItem>
               ) : (
