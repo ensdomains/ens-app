@@ -53,18 +53,17 @@ const auctionLegacyName = async function(web3, account, registrarContract, name)
   let salt = web3.utils.sha3('0x01')
   let auctionlength = 60 * 60 * 24 * 5
   let reveallength = 60 * 60 * 24 * 2
-  let tx, state;
   let bidhash = await registrarContract.shaBid(labelhash, account, value, salt).call()
-  tx = await registrarContract.startAuctionsAndBid([labelhash], bidhash).send({from:account, value:value, gas:6000000})
-  state = await registrarContract.state(labelhash).call()
+  await registrarContract.startAuctionsAndBid([labelhash], bidhash).send({from:account, value:value, gas:6000000})
+  await registrarContract.state(labelhash).call()
   await advanceTime(web3, parseInt(auctionlength - reveallength + 100))
   await mine(web3)
-  state = await registrarContract.state(labelhash).call()
-  tx = await registrarContract.unsealBid(labelhash, value, salt).send({from:account, gas:6000000})
+  await registrarContract.state(labelhash).call()
+  await registrarContract.unsealBid(labelhash, value, salt).send({from:account, gas:6000000})
   await advanceTime(web3, parseInt(reveallength * 2));
   await mine(web3)
-  state = await registrarContract.state(labelhash).call()
-  tx = await registrarContract.finalizeAuction(labelhash).send({from:account, gas:6000000})
+  await registrarContract.state(labelhash).call()
+  await registrarContract.finalizeAuction(labelhash).send({from:account, gas:6000000})
 }
 
 module.exports = async function deployENS({ web3, accounts }) {
