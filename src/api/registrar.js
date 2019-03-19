@@ -304,6 +304,7 @@ export const startAuctionsAndBid = async (
 export const transferRegistrars = async (label) => {
   const { ethRegistrar } = await getLegacyAuctionRegistrar()
   const account = await getAccount()
+  const web3 = await getWeb3()
   const hash = web3.utils.sha3(label)
   return () =>
     ethRegistrar.transferRegistrars(hash).send({
