@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from '@emotion/styled'
 
+import { hasReachedState } from './registerReducer'
+
 import Tooltip from '../../Tooltip/Tooltip'
 import { ReactComponent as DefaultQuestionMark } from 'components/Icons/QuestionMarkSmall.svg'
 import { ReactComponent as DefaultCheckCircle } from 'components/Icons/CheckCircle.svg'
@@ -36,7 +38,7 @@ const Steps = styled('div')`
 `
 
 const StepContainer = styled('div')`
-  flex-grow: ${p => (p.large ? '2' : '1')};
+  flex: ${p => (p.large ? '2' : '1')};
   display: flex;
   justify-content: center;
   border: 1px dotted #ccc;
@@ -89,8 +91,6 @@ function Progress({ step, waitTime, secondsPassed }) {
   const waitMin = states['COMMIT_CONFIRMED']
   const waitMax = states['AWAITING_REGISTER']
   const percentDone = waitPercentComplete / (100 / (waitMax - waitMin)) + 25
-  console.log(step !== 'PRICE_DECISION' && step !== 'COMMIT_SENT')
-  console.log(step)
   return (
     <ProgressContainer>
       <ProgressBar
@@ -107,7 +107,7 @@ function Progress({ step, waitTime, secondsPassed }) {
             <Step
               text="Step 1"
               icon={
-                step !== 'PRICE_DECISION' && step !== 'COMMIT_SENT' ? (
+                hasReachedState('COMMIT_CONFIRMED', step) ? (
                   <CheckCircle />
                 ) : (
                   <QuestionMark />
@@ -135,6 +135,13 @@ function Progress({ step, waitTime, secondsPassed }) {
             <Step
               large
               text="Step 2"
+              icon={
+                hasReachedState('AWAITING_REGISTER', step) ? (
+                  <CheckCircle />
+                ) : (
+                  <QuestionMark />
+                )
+              }
               onMouseOver={() => {
                 showTooltip()
               }}
@@ -156,6 +163,13 @@ function Progress({ step, waitTime, secondsPassed }) {
           {({ tooltipElement, showTooltip, hideTooltip }) => (
             <Step
               text="Step 3"
+              icon={
+                hasReachedState('REVEAL_CONFIRMED', step) ? (
+                  <CheckCircle />
+                ) : (
+                  <QuestionMark />
+                )
+              }
               onMouseOver={() => {
                 showTooltip()
               }}

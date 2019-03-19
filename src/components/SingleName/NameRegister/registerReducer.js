@@ -59,5 +59,8 @@ export const states = getStates(
   registerMachine.initialState
 )
 
-export const hasStatePassed = (state, currentState) =>
-  states.findIndex(s => s === state) > states.findIndex(s => s === currentState)
+export const hasReachedState = (state, currentState) => {
+  const indexToReach = states.findIndex(s => s === state)
+  const currentStateIndex = states.findIndex(s => s === currentState)
+  return currentStateIndex >= indexToReach
+}
