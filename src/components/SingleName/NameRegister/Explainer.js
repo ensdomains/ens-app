@@ -5,8 +5,9 @@ import mq from 'mediaQuery'
 import Step from './Step'
 import Button from '../../Forms/Button'
 import { ReactComponent as Bell } from '../../Icons/Bell.svg'
+import { ReactComponent as Tick } from '../../Icons/GreyCircleTick.svg'
 
-import { requestPermission } from './notification'
+import { requestPermission, hasPermission } from './notification'
 
 const Steps = styled('section')`
   display: grid;
@@ -29,6 +30,10 @@ const NotifyButton = styled(Button)`
   flex-shrink: 0;
 `
 
+const NotifyButtonDisabled = styled('div')`
+  color: hsla(0, 0%, 82%, 1);
+`
+
 const Explainer = ({ step, waitPercentComplete }) => {
   const titles = {
     PRICE_DECISION: 'Registering a name requires you to complete 3 steps',
@@ -47,10 +52,17 @@ const Explainer = ({ step, waitPercentComplete }) => {
     <div>
       <Header>
         <h2>{titles[step]}</h2>
-        <NotifyButton type="hollow-primary" onClick={requestPermission}>
-          <Bell style={{ marginRight: 5 }} />
-          Notify me
-        </NotifyButton>
+        {hasPermission ? (
+          <NotifyButtonDisabled>
+            <Tick style={{ marginRight: 5 }} />
+            Notify me
+          </NotifyButtonDisabled>
+        ) : (
+          <NotifyButton type="hollow-primary" onClick={requestPermission}>
+            <Bell style={{ marginRight: 5 }} />
+            Notify me
+          </NotifyButton>
+        )}
       </Header>
       <p>
         *Favorite the name for easy access in case you close out of your

@@ -22,7 +22,6 @@ function getCTA({
   setTimerRunning,
   refetch
 }) {
-  console.log(refetch)
   const CTAs = {
     PRICE_DECISION: (
       <Mutation

@@ -5,7 +5,8 @@ import { Query } from 'react-apollo'
 import mq from 'mediaQuery'
 import { GET_MINIMUM_COMMITMENT_AGE, GET_RENT_PRICE } from 'graphql/queries'
 import { useInterval } from 'components/hooks'
-import { registerMachine, registerReducer, states } from './registerReducer'
+import { registerMachine, registerReducer } from './registerReducer'
+import { sendNotification } from './notification'
 
 import Loader from 'components/Loader'
 import Explainer from './Explainer'
@@ -58,6 +59,7 @@ const NameRegister = ({ domain, waitTime, refetch }) => {
       } else {
         setTimerRunning(false)
         incrementStep()
+        sendNotification(`${domain.name} is ready to be registered`)
       }
     },
     timerRunning ? 1000 : null

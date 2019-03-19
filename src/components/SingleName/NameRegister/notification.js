@@ -5,10 +5,14 @@ export function sendNotification(message = 'Hi there') {
   }
 
   // Let's check whether notification permissions have already been granted
-  else if (Notification.permission === 'granted') {
+  else if (hasPermission()) {
     // If it's okay let's create a notification
     new Notification(message)
   }
+}
+
+export function hasPermission() {
+  return Notification.permission === 'granted'
 }
 
 export function requestPermission() {
