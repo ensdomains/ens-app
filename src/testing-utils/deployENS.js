@@ -46,6 +46,26 @@ const registerName = async function(web3, account, controllerContract, name) {
   if (newnameAvailable) throw `Failed to register "${name}"`
 }
 
+const auctionLegacyName = async function(web3, account, registrarContract, name){
+  console.log(`Auctioning name ${name}.eth`)
+  let value = web3.utils.toWei('1', 'ether');
+  let labelhash = web3.utils.sha3(name)
+  let salt = web3.utils.sha3('0x01')
+  let auctionlength = 60 * 60 * 24 * 5
+  let reveallength = 60 * 60 * 24 * 2
+  let bidhash = await registrarContract.shaBid(labelhash, account, value, salt).call()
+  await registrarContract.startAuctionsAndBid([labelhash], bidhash).send({from:account, value:value, gas:6000000})
+  await registrarContract.state(labelhash).call()
+  await advanceTime(web3, parseInt(auctionlength - reveallength + 100))
+  await mine(web3)
+  await registrarContract.state(labelhash).call()
+  await registrarContract.unsealBid(labelhash, value, salt).send({from:account, gas:6000000})
+  await advanceTime(web3, parseInt(reveallength * 2));
+  await mine(web3)
+  await registrarContract.state(labelhash).call()
+  await registrarContract.finalizeAuction(labelhash).send({from:account, gas:6000000})
+}
+
 module.exports = async function deployENS({ web3, accounts }) {
   const { sha3 } = web3.utils
   function deploy(contractJSON, ...args) {
@@ -90,7 +110,7 @@ module.exports = async function deployENS({ web3, accounts }) {
   const priceOracleJSON = loadContract('ethregistrar', 'SimplePriceOracle')
   const controllerJSON = loadContract('ethregistrar', 'ETHRegistrarController')
   const testRegistrarJSON = loadContract('ens', 'TestRegistrar')
-  const hashRegistrarSimplifiedJSON = loadContract('ens', 'HashRegistrar')
+  const legacyAuctionRegistrarSimplifiedJSON = loadContract('ens', 'HashRegistrar')
 
   /* Deploy the main contracts  */
   const ens = await deploy(registryJSON)
@@ -108,8 +128,8 @@ module.exports = async function deployENS({ web3, accounts }) {
     namehash('test')
   )
   // Disabled for now as the deploy was throwing error and this is not in use.
-  const auctionRegistrar = await deploy(
-    hashRegistrarSimplifiedJSON,
+  const legacyAuctionRegistrar = await deploy(
+    legacyAuctionRegistrarSimplifiedJSON,
     ens._address,
     namehash('eth'),
     1493895600
@@ -120,13 +140,13 @@ module.exports = async function deployENS({ web3, accounts }) {
   const oldResolverContract = oldResolver.methods
   const reverseRegistrarContract = reverseRegistrar.methods
   const testRegistrarContract = testRegistrar.methods
-
+  const legacyAuctionRegistrarContract = legacyAuctionRegistrar.methods
   console.log('ENS registry deployed at: ', ens._address)
   console.log('Public resolver deployed at: ', resolver._address)
   console.log('Old Public resolver deployed at: ', oldResolver._address)
   console.log('Reverse Registrar deployed at: ', reverseRegistrar._address)
   console.log('Test Registrar deployed at: ', testRegistrar._address)
-  console.log('Auction Registrar deployed at: ', auctionRegistrar._address)
+  console.log('Legacy Auction Registrar deployed at: ', legacyAuctionRegistrar._address)
 
   const tld = 'eth'
   const tldHash = sha3(tld)
@@ -167,6 +187,18 @@ module.exports = async function deployENS({ web3, accounts }) {
     .send({
       from: accounts[0]
     })
+
+  await ensContract
+    .setSubnodeOwner(
+      '0x00000000000000000000000000000000',
+      sha3('eth'),
+      legacyAuctionRegistrar._address
+    )
+    .send({
+      from: accounts[0]
+    })
+
+  await auctionLegacyName(web3, accounts[0], legacyAuctionRegistrarContract, 'auctionedname')
 
   let rootOwner = await ensContract
     .owner('0x00000000000000000000000000000000')
@@ -218,7 +250,7 @@ module.exports = async function deployENS({ web3, accounts }) {
     .setSubnodeOwner(
       '0x00000000000000000000000000000000',
       tldHash,
-      auctionRegistrar._address
+      legacyAuctionRegistrar._address
     )
     .send({
       from: accounts[0]
@@ -378,7 +410,7 @@ module.exports = async function deployENS({ web3, accounts }) {
     resolverAddress: resolver._address,
     reverseRegistrarAddress: reverseRegistrar._address,
     reverseRegistrarOwnerAddress: accounts[0],
-    auctionRegistrarAddress: auctionRegistrar._address,
+    legacyAuctionRegistrarAddress: legacyAuctionRegistrar._address,
     controllerAddress: controller._address
   }
 }

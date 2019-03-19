@@ -1,6 +1,6 @@
 import getENS, { getNamehash } from './ens'
 import getWeb3, { getWeb3Read, getAccount, getNetworkId } from './web3'
-import { abi as auctionRegistrarContract } from '@ensdomains/ens/build/contracts/HashRegistrar'
+import { abi as legacyAuctionRegistrarContract } from '@ensdomains/ens/build/contracts/HashRegistrar'
 import { abi as permanentRegistrarContract } from '@ensdomains/ethregistrar/build/contracts/BaseRegistrarImplementation'
 import { abi as permanentRegistrarControllerContract } from '@ensdomains/ethregistrar/build/contracts/ETHRegistrarController'
 
@@ -11,7 +11,7 @@ let permanentRegistrarRead
 let permanentRegistrarController
 let permanentRegistrarControllerRead
 
-export const getAuctionRegistrar = async () => {
+export const getLegacyAuctionRegistrar = async () => {
   if (ethRegistrar) {
     return {
       ethRegistrar,
@@ -33,11 +33,11 @@ export const getAuctionRegistrar = async () => {
       throw new Error('No auction address found')
     }
     ethRegistrar = new web3.eth.Contract(
-      auctionRegistrarContract,
+      legacyAuctionRegistrarContract,
       legacyAuctionRegistrarAddress
     )
     ethRegistrarRead = new web3Read.eth.Contract(
-      auctionRegistrarContract,
+      legacyAuctionRegistrarContract,
       legacyAuctionRegistrarAddress
     )
     return {
@@ -126,7 +126,10 @@ export const getPermanentEntry = async name => {
     const web3 = await getWeb3()
     const namehash = web3.utils.sha3(name)
     const { permanentRegistrarRead: Registrar } = await getPermanentRegistrar()
+    // Returns true if name is available
     obj.available = await Registrar.available(namehash).call()
+    // Returns registrar address if owned by new registrar
+    obj.ownerOf = await Registrar.ownerOf(namehash).call()
     const nameExpires = await Registrar.nameExpires(namehash).call()
     if (nameExpires > 0) {
       obj.nameExpires = new Date(nameExpires * 1000)
@@ -138,7 +141,7 @@ export const getPermanentEntry = async name => {
 }
 
 export const getEntry = async name => {
-  const { ethRegistrarRead: Registrar } = await getAuctionRegistrar()
+  const { ethRegistrarRead: Registrar } = await getLegacyAuctionRegistrar()
   let obj
 
   const web3 = await getWeb3()
@@ -169,6 +172,9 @@ export const getEntry = async name => {
     if (!permEntry.available) {
       // Owned
       obj.state = 2
+    }
+    if (permEntry.ownerOf) {
+      obj.isNewRegistrar = true
     }
     if (permEntry.nameExpires) {
       obj.expiryTime = permEntry.nameExpires
@@ -253,7 +259,7 @@ export const isAvailable = async name => {
 }
 
 export const createSealedBid = async (name, bidAmount, secret) => {
-  const Registrar = await getAuctionRegistrar()
+  const Registrar = await getLegacyAuctionRegistrar()
   const web3 = await getWeb3()
   const account = await getAccount()
   const namehash = web3.sha3(name)
@@ -269,7 +275,7 @@ export const createSealedBid = async (name, bidAmount, secret) => {
 }
 
 export const newBid = async (sealedBid, decoyBidAmount) => {
-  const Registrar = await getAuctionRegistrar()
+  const Registrar = await getLegacyAuctionRegistrar()
   const web3 = await getWeb3()
   const account = await getAccount()
 
@@ -284,7 +290,7 @@ export const startAuctionsAndBid = async (
   sealedBid,
   decoyBidAmount
 ) => {
-  const Registrar = await getAuctionRegistrar()
+  const Registrar = await getLegacyAuctionRegistrar()
   const web3 = await getWeb3()
   const account = await getAccount()
 
