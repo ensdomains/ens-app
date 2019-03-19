@@ -4,6 +4,7 @@ import styled from '@emotion/styled'
 import mq from 'mediaQuery'
 import Step from './Step'
 import Button from '../../Forms/Button'
+import { ReactComponent as Bell } from '../../Icons/Bell.svg'
 
 import { requestPermission } from './notification'
 
@@ -47,6 +48,7 @@ const Explainer = ({ step, waitPercentComplete }) => {
       <Header>
         <h2>{titles[step]}</h2>
         <NotifyButton type="hollow-primary" onClick={requestPermission}>
+          <Bell style={{ marginRight: 5 }} />
           Notify me
         </NotifyButton>
       </Header>
