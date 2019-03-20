@@ -39,7 +39,8 @@ function getButtonStyles({ type }) {
       `
     case 'disabled':
       return `
-        background: #ccc
+        border: 2px solid #dfdfdf;
+        background: #dfdfdf;
         &:hover {
           cursor: default
         }

@@ -92,16 +92,6 @@ const CTA = ({
   const [txHash, setTxHash] = useState(undefined)
   return (
     <CTAContainer>
-      {step !== 'REVEAL_CONFIRMED' && (
-        <Button
-          type="hollow"
-          style={{ marginRight: '20px' }}
-          onClick={decrementStep}
-        >
-          Cancel
-        </Button>
-      )}
-
       {getCTA({
         step,
         incrementStep,
