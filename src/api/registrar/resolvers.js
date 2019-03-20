@@ -4,7 +4,8 @@ import {
   getRentPrice,
   commit,
   getMinimumCommitmentAge,
-  register
+  register,
+  transferRegistrars
 } from '../registrar'
 import { getOwner } from '../registry'
 import modeNames from '../modes'
@@ -87,6 +88,10 @@ const resolvers = {
     },
     async bid(_, { name, bidAmount, decoyBidAmount, secret }) {
       // const sealedBid = await createSealedBid(name, bidAmount, secret)
+    },
+    async transferRegistrars(_, { label }) {
+      const tx = await transferRegistrars(label)
+      return sendHelper(tx)
     }
   }
 }
