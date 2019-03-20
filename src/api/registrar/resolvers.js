@@ -1,3 +1,5 @@
+import crypto from 'crypto'
+
 import {
   createSealedBid,
   getEntry,
@@ -14,6 +16,10 @@ import { sendHelper } from '../resolverUtils'
 const defaults = {}
 const secrets = {}
 
+function randomSecret() {
+  return '0x' + crypto.randomBytes(32).toString('hex')
+}
+
 const resolvers = {
   Query: {
     async getRentPrice(_, { name, duration }, { cache }) {
@@ -26,8 +32,7 @@ const resolvers = {
   Mutation: {
     async commit(_, { label }, { cache }) {
       //Generate secret
-      const secret =
-        '0x0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF'
+      const secret = randU32Sync()
 
       secrets[label] = secret
       //Save secret to localStorage with name as the key
