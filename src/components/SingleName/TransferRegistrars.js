@@ -1,15 +1,17 @@
-import React, { Fragment, Component } from 'react'
-import styled from '@emotion/styled'
-import { DetailsItem } from './DetailsItem'
-import Button from '../Forms/Button'
+import React from 'react'
 import { Mutation } from 'react-apollo'
-import PendingTx from '../PendingTx'
+import styled from '@emotion/styled'
+
 import { useEditable } from '../hooks'
 import mq from 'mediaQuery'
-
 import {
   TRANSFER_REGISTRARS
 } from '../../graphql/mutations'
+
+import { DetailsItem } from './DetailsItem'
+import Button from '../Forms/Button'
+import PendingTx from '../PendingTx'
+
 
 const TransferButton = styled(Button)`
   width:130px;
