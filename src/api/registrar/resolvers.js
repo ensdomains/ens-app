@@ -32,7 +32,7 @@ const resolvers = {
   Mutation: {
     async commit(_, { label }, { cache }) {
       //Generate secret
-      const secret = randU32Sync()
+      const secret = randomSecret()
 
       secrets[label] = secret
       //Save secret to localStorage with name as the key
