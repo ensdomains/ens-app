@@ -200,7 +200,8 @@ const Editable = ({
                     type,
                     domain.contentType
                   )}
-                  mutation={() => {
+                  mutation={e => {
+                    e.preventDefault()
                     const variables = {
                       name: domain.name,
                       [variableName ? variableName : 'recordValue']: newValue
