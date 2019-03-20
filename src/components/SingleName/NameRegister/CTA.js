@@ -6,10 +6,15 @@ import { COMMIT, REGISTER } from '../../../graphql/mutations'
 
 import PendingTx from '../../PendingTx'
 import Button from '../../Forms/Button'
+import { ReactComponent as DefaultPencil } from '../../Icons/SmallPencil.svg'
 
 const CTAContainer = styled('div')`
   display: flex;
   justify-content: flex-end;
+`
+
+const Pencil = styled(DefaultPencil)`
+  margin-right: 5px;
 `
 
 function getCTA({
@@ -65,7 +70,12 @@ function getCTA({
         }}
       />
     ),
-    REVEAL_CONFIRMED: <Button onClick={() => refetch()}>Manage name</Button>
+    REVEAL_CONFIRMED: (
+      <Button onClick={() => refetch()}>
+        <Pencil />
+        Manage name
+      </Button>
+    )
   }
   return CTAs[step]
 }
