@@ -171,12 +171,11 @@ export async function setContenthash(name, content) {
   const namehash = await getNamehash(name)
   const resolverAddr = await getResolver(name)
   const { Resolver } = await getResolverContract(resolverAddr)
-  const gas = await Resolver.setContenthash(namehash, content).estimateGas()
-  console.log('gas', gas)
+  // const gas = await Resolver.setContenthash(namehash, content).estimateGas()
+  // console.log('gas', gas)
+  // return () => Resolver.setContenthash(namehash, content).send({ from: account, gas:gas })
   return () =>
-    Resolver.setContenthash(namehash, content).send({ from: account, gas: gas })
-  // return () =>
-  //   Resolver.setContenthash(namehash, content).send({ from: account })
+    Resolver.setContenthash(namehash, content).send({ from: account })
 }
 
 export async function checkSubDomain(subDomain, domain) {
