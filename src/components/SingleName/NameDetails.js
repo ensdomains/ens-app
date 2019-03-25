@@ -148,7 +148,12 @@ class NameDetails extends Component {
                 ''
               )}
               {isOwner && !domain.isNewRegistrar ? (
-                <TransferRegistrars label={domain.label} migrationStartDate={formatDate(domain.migrationStartDate)} refetch={refetch} >
+                <TransferRegistrars
+                  label={domain.label}
+                  currentBlockDate={domain.currentBlockDate}
+                  transferEndDate={domain.transferEndDate}
+                  migrationStartDate={domain.migrationStartDate}
+                  refetch={refetch} >
                 </TransferRegistrars>
               ) : ''  }
               <HR />

@@ -205,7 +205,7 @@ module.exports = async function deployENS({ web3, accounts }) {
   await auctionLegacyName(web3, accounts[0], legacyAuctionRegistrarContract, 'auctioned3')
   await auctionLegacyName(web3, accounts[0], legacyAuctionRegistrarContract, 'auctioned4')
   await auctionLegacyName(web3, accounts[0], legacyAuctionRegistrarContract, 'auctioned5')
-  const lockoutlength = 60 * 60 * 24 * 190
+  const lockoutlength = 60 * 60 * 24 * 30
   await advanceTime(web3, lockoutlength)
   await mine(web3)
   // Need to wait for the lock period to end

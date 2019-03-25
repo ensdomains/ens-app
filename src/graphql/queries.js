@@ -5,6 +5,7 @@ export const GET_WEB3 = gql`
   query web3 {
     web3 @client {
       accounts
+      getBlock
     }
   }
 `
@@ -49,6 +50,8 @@ export const GET_SINGLE_NAME = gql`
       revealDate
       registrationDate
       migrationStartDate
+      currentBlockDate
+      transferEndDate
       value
       highestBid
       state
