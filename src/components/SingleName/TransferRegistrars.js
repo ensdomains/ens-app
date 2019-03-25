@@ -38,18 +38,16 @@ const Action = styled('div')`
   `}
 `
 
-function TransferRegistrars({label, refetch}){
+function TransferRegistrars({label, migrationStartDate, refetch}){
   const { state, actions } = useEditable()
   const { txHash, pending, confirmed } = state
   const { startPending, setConfirmed } = actions
   return(
     <>
       <TransferDetail>
-        You have not migrated into permanent registrar yet.
+        You cannot migrate into permanent registrar until  {migrationStartDate}.
         <br/>
-        Please migrate by xxx.
-        <br/>
-        Failing to migrate by the deadline will lead you losing the domain name.
+        Please come back again.
       </TransferDetail>
       <Action>
         {pending && !confirmed && txHash ? (

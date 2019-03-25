@@ -48,6 +48,7 @@ export const GET_SINGLE_NAME = gql`
       ...NodeFields
       revealDate
       registrationDate
+      migrationStartDate
       value
       highestBid
       state

@@ -55,6 +55,7 @@ const resolvers = {
           name: null,
           revealDate: null,
           registrationDate: null,
+          migrationStartDate: null,
           value: null,
           highestBid: null,
           state: null,
@@ -81,6 +82,7 @@ const resolvers = {
           const {
             state,
             registrationDate,
+            migrationStartDate,
             revealDate,
             value,
             highestBid,
@@ -93,6 +95,7 @@ const resolvers = {
             name: `${name}`,
             state: modeNames[state],
             registrationDate,
+            migrationStartDate,
             revealDate,
             value,
             highestBid,

@@ -47,7 +47,6 @@ const registerName = async function(web3, account, controllerContract, name) {
 }
 
 const auctionLegacyName = async function(web3, account, registrarContract, name){
-  console.log(`Auctioning name ${name}.eth`)
   let value = web3.utils.toWei('1', 'ether');
   let labelhash = web3.utils.sha3(name)
   let salt = web3.utils.sha3('0x01')
@@ -64,6 +63,8 @@ const auctionLegacyName = async function(web3, account, registrarContract, name)
   await mine(web3)
   await registrarContract.state(labelhash).call()
   await registrarContract.finalizeAuction(labelhash).send({from:account, gas:6000000})
+  let entry = await registrarContract.entries(labelhash).call()
+  console.log(`Auctioned name ${name}.eth at `, entry[2], new Date(parseInt(entry[2]) * 1000))
 }
 
 module.exports = async function deployENS({ web3, accounts }) {
@@ -412,6 +413,10 @@ module.exports = async function deployENS({ web3, accounts }) {
   await reverseRegistrarContract
     .setName('eth')
     .send({ from: accounts[2], gas: 1000000 })
+
+  await mine(web3)
+  let current = await web3.eth.getBlock('latest');
+  console.log(`The current time is ${new Date(current.timestamp * 1000)}`)
 
   return {
     emptyAddress: '0x0000000000000000000000000000000000000000',

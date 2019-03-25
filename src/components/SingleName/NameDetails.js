@@ -97,7 +97,6 @@ class NameDetails extends Component {
     } else {
       contentMutation = SET_CONTENTHASH
     }
-
     return (
       <Fragment>
         <Route
@@ -148,7 +147,10 @@ class NameDetails extends Component {
               ) : (
                 ''
               )}
-              {isOwner && !domain.isNewRegistrar ? (<TransferRegistrars label={domain.label} refetch={refetch} ></TransferRegistrars>) : ''  }
+              {isOwner && !domain.isNewRegistrar ? (
+                <TransferRegistrars label={domain.label} migrationStartDate={formatDate(domain.migrationStartDate)} refetch={refetch} >
+                </TransferRegistrars>
+              ) : ''  }
               <HR />
               <DetailsItemEditable
                 keyName="Resolver"

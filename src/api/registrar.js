@@ -128,6 +128,8 @@ export const getPermanentEntry = async name => {
     const { permanentRegistrarRead: Registrar } = await getPermanentRegistrar()
     // Returns true if name is available
     obj.available = await Registrar.available(namehash).call()
+    // This is used for old registrar to figure out when the name can be migrated.
+    obj.migrationLockPeriod = parseInt(await Registrar.MIGRATION_LOCK_PERIOD().call())
     // Returns registrar address if owned by new registrar
     obj.ownerOf = await Registrar.ownerOf(namehash).call()
     const nameExpires = await Registrar.nameExpires(namehash).call()
@@ -169,6 +171,9 @@ export const getEntry = async name => {
   }
   try {
     let permEntry = await getPermanentEntry(name)
+    if (obj.registrationDate && permEntry.migrationLockPeriod){
+      obj.migrationStartDate = new Date(obj.registrationDate + (permEntry.migrationLockPeriod * 1000))
+    }
     if (!permEntry.available) {
       // Owned
       obj.state = 2
