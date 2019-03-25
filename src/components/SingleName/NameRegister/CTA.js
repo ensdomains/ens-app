@@ -37,7 +37,11 @@ function getCTA({
           incrementStep()
         }}
       >
-        {mutate => <Button onClick={mutate}>Request to register</Button>}
+        {mutate => (
+          <Button data-testid="request-register-button" onClick={mutate}>
+            Request to register
+          </Button>
+        )}
       </Mutation>
     ),
     COMMIT_SENT: (
@@ -49,7 +53,11 @@ function getCTA({
         }}
       />
     ),
-    COMMIT_CONFIRMED: <Button type="disabled">Register</Button>,
+    COMMIT_CONFIRMED: (
+      <Button data-testid="disabled-register-button" type="disabled">
+        Register
+      </Button>
+    ),
     AWAITING_REGISTER: (
       <Mutation
         mutation={REGISTER}
@@ -59,7 +67,11 @@ function getCTA({
           incrementStep()
         }}
       >
-        {mutate => <Button onClick={mutate}>Register</Button>}
+        {mutate => (
+          <Button data-testid="register-button" onClick={mutate}>
+            Register
+          </Button>
+        )}
       </Mutation>
     ),
     REVEAL_SENT: (
@@ -71,7 +83,7 @@ function getCTA({
       />
     ),
     REVEAL_CONFIRMED: (
-      <Button onClick={() => refetch()}>
+      <Button data-testid="manage-name-button" onClick={() => refetch()}>
         <Pencil />
         Manage name
       </Button>
