@@ -99,7 +99,7 @@ const resolvers = {
             value,
             highestBid,
             owner,
-            deedOwner, //auction not finalised
+            deedOwner,
             isNewRegistrar: !!isNewRegistrar,
             expiryTime: expiryTime || null,
             __typename: 'Node'
