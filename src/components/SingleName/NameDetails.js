@@ -149,7 +149,8 @@ class NameDetails extends Component {
               ) : (
                 ''
               )}
-              {(isOwner && !domain.isNewRegistrar) ||
+              {(domain.parent === 'eth' &&
+                (isOwner && !domain.isNewRegistrar)) ||
               (isDeedOwner && !domain.isNewRegistrar) ? (
                 <TransferRegistrars label={domain.label} refetch={refetch} />
               ) : (
