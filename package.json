@@ -49,6 +49,7 @@
     "test:coverage": "npm test -- --coverage",
     "eject": "react-scripts eject",
     "preTest": "node --experimental-modules src/testing-utils/preTest.mjs",
+    "advance": "node src/testing-utils/advance.js",
     "cypress:open": "yarn run cypress open",
     "deploy:dev": "npm run build && npm run postbuild && surge build ensappdev.surge.sh",
     "deploy": "npm run build && npm run postbuild && surge build manager.ens.domains"
