@@ -263,7 +263,7 @@ describe('Name detail view', () => {
     cy.visit(`${NAME_ROOT}/subdomaindummy.eth`)
       .getByText('subdomains', { exact: false })
       .click()
-      .getByText('original.subdomaindummy.eth')
+      .getByText('original.subdomaindummy.eth', { timeout: 5000 })
       .click()
   })
 
@@ -279,7 +279,7 @@ describe('Name detail view', () => {
         .type('unoriginal')
         .getByText('save', { exact: false })
         .click()
-        .getByText('unoriginal.subdomaindummy.eth')
+        .getByText('unoriginal.subdomaindummy.eth', { timeout: 10000 })
         .click()
         .url()
         .should('include', '/name/unoriginal.subdomaindummy.eth')

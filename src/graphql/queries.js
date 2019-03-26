@@ -60,6 +60,7 @@ export const GET_SINGLE_NAME = gql`
       referralFeePPM
       available
       expiryTime
+      deedOwner
       isNewRegistrar
     }
   }

@@ -72,6 +72,8 @@ class NameDetails extends Component {
   }
   render() {
     const { domain, isOwner, refetch, account } = this.props
+    const isDeedOwner = (domain.deedOwner === account)
+
     const records = [
       {
         label: 'Address',
@@ -97,6 +99,7 @@ class NameDetails extends Component {
     } else {
       contentMutation = SET_CONTENTHASH
     }
+
     return (
       <Fragment>
         <Route
@@ -147,7 +150,9 @@ class NameDetails extends Component {
               ) : (
                 ''
               )}
-              {isOwner && !domain.isNewRegistrar ? (
+              {domain.parent === 'eth' &&
+              ((isOwner && !domain.isNewRegistrar) ||
+                (isDeedOwner && !domain.isNewRegistrar)) ? (
                 <TransferRegistrars
                   label={domain.label}
                   currentBlockDate={domain.currentBlockDate}
@@ -155,7 +160,9 @@ class NameDetails extends Component {
                   migrationStartDate={domain.migrationStartDate}
                   refetch={refetch} >
                 </TransferRegistrars>
-              ) : ''  }
+              ) : (
+                ''
+              )}
               <HR />
               <DetailsItemEditable
                 keyName="Resolver"

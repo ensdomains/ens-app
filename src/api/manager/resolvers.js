@@ -69,7 +69,8 @@ const resolvers = {
           available: null,
           contentType: null,
           expiryTime: null,
-          isNewRegistrar: null
+          isNewRegistrar: null,
+          deedOwner: null
         }
         let data
         if (nameArray.length < 3 && nameArray[1] === 'eth') {
@@ -82,6 +83,7 @@ const resolvers = {
 
           const entry = await getEntry(nameArray[0])
           const {
+            deedOwner,
             state,
             registrationDate,
             migrationStartDate,
@@ -106,6 +108,7 @@ const resolvers = {
             value,
             highestBid,
             owner,
+            deedOwner,
             isNewRegistrar: !!isNewRegistrar,
             expiryTime: expiryTime || null,
             __typename: 'Node'

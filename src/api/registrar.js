@@ -1,6 +1,7 @@
 import getENS, { getNamehash } from './ens'
 import getWeb3, { getWeb3Read, getAccount, getNetworkId, getBlock } from './web3'
 import { abi as legacyAuctionRegistrarContract } from '@ensdomains/ens/build/contracts/HashRegistrar'
+import { abi as deedContract } from '@ensdomains/ens/build/contracts/Deed'
 import { abi as permanentRegistrarContract } from '@ensdomains/ethregistrar/build/contracts/BaseRegistrarImplementation'
 import { abi as permanentRegistrarControllerContract } from '@ensdomains/ethregistrar/build/contracts/ETHRegistrarController'
 
@@ -143,6 +144,12 @@ export const getPermanentEntry = async name => {
   return obj
 }
 
+export const getDeed = async address => {
+  const web3Read = await getWeb3Read()
+  const deed = new web3Read.eth.Contract(deedContract, address)
+  return deed.methods
+}
+
 export const getEntry = async name => {
   const { ethRegistrarRead: Registrar } = await getLegacyAuctionRegistrar()
   let obj
@@ -150,8 +157,14 @@ export const getEntry = async name => {
   const web3 = await getWeb3()
   const namehash = web3.utils.sha3(name)
   try {
+    let deedOwner = '0x0'
     const entry = await Registrar.methods.entries(namehash).call()
+    if (parseInt(entry[1], 16) !== 0) {
+      const deed = await getDeed(entry[1])
+      deedOwner = await deed.owner().call()
+    }
     obj = {
+      deedOwner,
       state: parseInt(entry[0]),
       registrationDate: parseInt(entry[2]) * 1000,
       revealDate: (parseInt(entry[2]) - 24 * 2 * 60 * 60) * 1000,
@@ -162,6 +175,7 @@ export const getEntry = async name => {
   } catch (e) {
     console.log('error getting auction entry', e)
     obj = {
+      deedOwner: '0x0',
       state: 0,
       registrationDate: 0,
       revealDate: 0,
@@ -319,14 +333,16 @@ export const startAuctionsAndBid = async (
   })
 }
 
-
-export const transferRegistrars = async (label) => {
+export const transferRegistrars = async label => {
   const { ethRegistrar } = await getLegacyAuctionRegistrar()
   const account = await getAccount()
   const web3 = await getWeb3()
   const hash = web3.utils.sha3(label)
+  const tx = ethRegistrar.transferRegistrars(hash)
+  const gas = await tx.estimateGas()
   return () =>
-    ethRegistrar.transferRegistrars(hash).send({
-      from: account
-    })  
+    tx.send({
+      from: account,
+      gas: gas
+    })
 }
