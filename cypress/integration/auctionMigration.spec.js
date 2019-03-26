@@ -1,7 +1,7 @@
 const ROOT = Cypress.env('ROOT')
 const NAME_ROOT = Cypress.env('NAME_ROOT')
 
-describe('Migration to Permanent Registrar', () => {
+describe('Migration to Permanent', () => {
   it('can visit a name and migrate it', () => {
     cy.visit(`${ROOT}/name/auctioned3.eth`)
     cy.getByText('Migrate').click()

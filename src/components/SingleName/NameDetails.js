@@ -72,7 +72,7 @@ class NameDetails extends Component {
   }
   render() {
     const { domain, isOwner, refetch, account } = this.props
-    const isDeedOwner = domain.deedOwner === account
+    const isDeedOwner = domain.is
     const records = [
       {
         label: 'Address',
@@ -149,8 +149,9 @@ class NameDetails extends Component {
               ) : (
                 ''
               )}
-              {(isOwner && !domain.isNewRegistrar) ||
-              (isDeedOwner && !domain.isNewRegistrar) ? (
+              {domain.parent === 'eth' &&
+              ((isOwner && !domain.isNewRegistrar) ||
+                (isDeedOwner && !domain.isNewRegistrar)) ? (
                 <TransferRegistrars label={domain.label} refetch={refetch} />
               ) : (
                 ''
