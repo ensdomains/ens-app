@@ -45,6 +45,7 @@ class SingleName extends Component {
             if (loading) return <Loader large center />
             if (error)
               return <div>{(console.log(error), JSON.stringify(error))}</div>
+            console.log(data.singleName)
             return (
               <Name
                 details={data.singleName}
