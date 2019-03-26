@@ -158,8 +158,8 @@ export const getEntry = async name => {
     let deedOwner = '0x0'
     const entry = await Registrar.methods.entries(namehash).call()
     if (parseInt(entry[1], 16) !== 0) {
-      const deed = getDeed(entry(1))
-      deedOwner = await deed.owner()
+      const deed = await getDeed(entry[1])
+      deedOwner = await deed.owner().call()
     }
     obj = {
       deedOwner,
