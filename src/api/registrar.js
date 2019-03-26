@@ -144,7 +144,6 @@ export const getPermanentEntry = async name => {
 export const getDeed = async address => {
   const web3Read = await getWeb3Read()
   const deed = new web3Read.eth.Contract(deedContract, address)
-  console.log(deed)
   return deed.methods
 }
 
@@ -320,8 +319,11 @@ export const transferRegistrars = async label => {
   const account = await getAccount()
   const web3 = await getWeb3()
   const hash = web3.utils.sha3(label)
+  const tx = ethRegistrar.transferRegistrars(hash)
+  const gas = await tx.estimateGas()
   return () =>
-    ethRegistrar.transferRegistrars(hash).send({
-      from: account
+    tx.send({
+      from: account,
+      gas: gas
     })
 }
