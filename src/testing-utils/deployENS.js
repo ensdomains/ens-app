@@ -362,6 +362,7 @@ module.exports = async function deployENS({ web3, accounts }) {
     .send({
       from: accounts[0]
     })
+
   await resolverContract.setAuthorisation(
       namehash('eth'),
       accounts[0],
@@ -370,6 +371,7 @@ module.exports = async function deployENS({ web3, accounts }) {
     .send({
       from: accounts[0]
     })  
+
   await resolverContract.setInterface(
       namehash('eth'),
       web3.utils.sha3('transferRegistrars').slice(0, 10),
@@ -398,6 +400,7 @@ module.exports = async function deployENS({ web3, accounts }) {
     .send({
       from: accounts[0]
     })
+
   console.log('Add controller to base registrar')
   await baseRegistrarContract
     .addController(controller._address)
