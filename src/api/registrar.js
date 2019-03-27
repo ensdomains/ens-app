@@ -25,7 +25,7 @@ export const getLegacyAuctionRegistrar = async () => {
     const { Resolver } = await getEthResolver()
     let legacyAuctionRegistrarAddress = await Resolver.interfaceImplementer(
       await getNamehash('eth'),
-      web3.utils.sha3('legacyRegistrar').slice(0, 10),
+      web3.utils.sha3('transferRegistrars').slice(0, 10),
     ).call()
 
     ethRegistrar = new web3.eth.Contract(
@@ -88,7 +88,7 @@ export const getPermanentRegistrarController = async () => {
     const { Resolver } = await getEthResolver()
     let controllerAddress = await Resolver.interfaceImplementer(
       await getNamehash('eth'),
-      web3.utils.sha3('registrarController').slice(0, 10),
+      web3.utils.sha3('register').slice(0, 10),
     ).call()
     permanentRegistrarController = new web3.eth.Contract(
       permanentRegistrarControllerContract,

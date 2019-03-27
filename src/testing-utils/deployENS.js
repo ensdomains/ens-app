@@ -372,7 +372,7 @@ module.exports = async function deployENS({ web3, accounts }) {
     })  
   await resolverContract.setInterface(
       namehash('eth'),
-      web3.utils.sha3('legacyRegistrar').slice(0, 10),
+      web3.utils.sha3('transferRegistrars').slice(0, 10),
       legacyAuctionRegistrar._address
     )
     .send({
@@ -381,7 +381,7 @@ module.exports = async function deployENS({ web3, accounts }) {
 
   await resolverContract.setInterface(
       namehash('eth'),
-      web3.utils.sha3('registrarController').slice(0, 10),
+      web3.utils.sha3('register').slice(0, 10),
       controller._address
     )
     .send({
