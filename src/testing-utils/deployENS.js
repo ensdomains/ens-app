@@ -478,6 +478,10 @@ module.exports = async function deployENS({ web3, accounts }) {
     .setName('eth')
     .send({ from: accounts[2], gas: 1000000 })
 
+  await mine(web3)
+  let current = await web3.eth.getBlock('latest');
+  console.log(`The current time is ${new Date(current.timestamp * 1000)}`)
+
   return {
     emptyAddress: '0x0000000000000000000000000000000000000000',
     ensAddress: ens._address,

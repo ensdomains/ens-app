@@ -1,11 +1,11 @@
 import moment from 'moment'
 
-export function formatDate(unixTimeStamp) {
-  return (
-    moment(unixTimeStamp).format('YYYY.MM.DD') +
-    ' at ' +
-    moment(unixTimeStamp).format('hh:mm:ss')
-  )
+export function formatDate(unixTimeStamp, noTime) {
+  let date = moment(unixTimeStamp).format('YYYY.MM.DD')
+  if(!noTime){
+    date = date + ' at ' + moment(unixTimeStamp).format('hh:mm:ss')
+  }
+  return date
 }
 
 export function humanizeDate(timeLeft) {

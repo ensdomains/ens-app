@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from 'react'
+import React, { Component } from 'react'
 import styled from '@emotion/styled'
 import { Link, Route } from 'react-router-dom'
 
@@ -73,6 +73,7 @@ class NameDetails extends Component {
   render() {
     const { domain, isOwner, refetch, account } = this.props
     const isDeedOwner = domain.deedOwner === account
+
     const records = [
       {
         label: 'Address',
@@ -100,7 +101,7 @@ class NameDetails extends Component {
     }
 
     return (
-      <Fragment>
+      <>
         <Route
           exact
           path="/name/:name"
@@ -149,10 +150,16 @@ class NameDetails extends Component {
               ) : (
                 ''
               )}
-              {(domain.parent === 'eth' &&
-                (isOwner && !domain.isNewRegistrar)) ||
-              (isDeedOwner && !domain.isNewRegistrar) ? (
-                <TransferRegistrars label={domain.label} refetch={refetch} />
+              {domain.parent === 'eth' &&
+              ((isOwner && !domain.isNewRegistrar) ||
+                (isDeedOwner && !domain.isNewRegistrar)) ? (
+                <TransferRegistrars
+                  label={domain.label}
+                  currentBlockDate={domain.currentBlockDate}
+                  transferEndDate={domain.transferEndDate}
+                  migrationStartDate={domain.migrationStartDate}
+                  refetch={refetch}
+                />
               ) : (
                 ''
               )}
@@ -223,7 +230,7 @@ class NameDetails extends Component {
             />
           )}
         />
-      </Fragment>
+      </>
     )
   }
 }
