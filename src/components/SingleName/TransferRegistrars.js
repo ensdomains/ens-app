@@ -145,7 +145,7 @@ function TransferRegistrars({
     </>
   )
 
-  let CurrentMigrationInstraction, CurrentAction
+  let CurrentMigrationInstruction, CurrentAction
 
   if (currentBlockDate < migrationStartDate) {
     CurrentMigrationInstruction = TooEarly
