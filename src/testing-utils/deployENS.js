@@ -353,6 +353,41 @@ module.exports = async function deployENS({ web3, accounts }) {
   console.log('Base registrar deployed at: ', baseRegistrar._address)
   console.log('Controller deployed at: ', controller._address)
 
+  await ensContract
+    .setSubnodeOwner(
+      '0x00000000000000000000000000000000',
+      tldHash,
+      accounts[0]
+    )
+    .send({
+      from: accounts[0]
+    })
+  await resolverContract.setAuthorisation(
+      namehash('eth'),
+      accounts[0],
+      true
+    )
+    .send({
+      from: accounts[0]
+    })  
+  await resolverContract.setInterface(
+      namehash('eth'),
+      web3.utils.sha3('legacyRegistrar').slice(0, 10),
+      legacyAuctionRegistrar._address
+    )
+    .send({
+      from: accounts[0]
+    })
+
+  await resolverContract.setInterface(
+      namehash('eth'),
+      web3.utils.sha3('registrarController').slice(0, 10),
+      controller._address
+    )
+    .send({
+      from: accounts[0]
+    })
+
   /* Set the permanent registrar contract as the owner of .eth */
   await ensContract
     .setSubnodeOwner(

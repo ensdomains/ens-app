@@ -44,16 +44,10 @@ async function init() {
   fs.writeFileSync('./cypress.env.json', JSON.stringify(addresses))
   fs.writeFile(
     './.env.local',
-    `REACT_APP_ENS_ADDRESS=${ensAddress}\nREACT_APP_CONTROLLER_ADDRESS=${controllerAddress}\nREACT_APP_AUCTION_REGISTRAR_ADDRESS=${legacyAuctionRegistrarAddress}`,
+    `REACT_APP_ENS_ADDRESS=${ensAddress}`,
     err => {
       if (err) throw err
       console.log(`Successfully wrote ENS address ${ensAddress} to .env.local`)
-      console.log(
-        `Successfully wrote controller address ${controllerAddress} to .env.local`
-      )
-      console.log(
-        `Successfully wrote legacy Auction Registrar address ${legacyAuctionRegistrarAddress} to .env.local`
-      )
     }
   )
 }

@@ -1,5 +1,5 @@
-import getENS, { getNamehash } from './ens'
-import getWeb3, { getWeb3Read, getAccount, getNetworkId, getBlock } from './web3'
+import getENS, { getNamehash, getResolverContract } from './ens'
+import getWeb3, { getWeb3Read, getAccount, getBlock } from './web3'
 import { abi as legacyAuctionRegistrarContract } from '@ensdomains/ens/build/contracts/HashRegistrar'
 import { abi as deedContract } from '@ensdomains/ens/build/contracts/Deed'
 import { abi as permanentRegistrarContract } from '@ensdomains/ethregistrar/build/contracts/BaseRegistrarImplementation'
@@ -21,18 +21,13 @@ export const getLegacyAuctionRegistrar = async () => {
   }
   try {
     const web3 = await getWeb3()
-    const networkId = await getNetworkId()
     const web3Read = await getWeb3Read()
+    const { Resolver } = await getEthResolver()
+    let legacyAuctionRegistrarAddress = await Resolver.interfaceImplementer(
+      await getNamehash('eth'),
+      web3.utils.sha3('legacyRegistrar').slice(0, 10),
+    ).call()
 
-    let legacyAuctionRegistrarAddress
-
-    if (process.env.REACT_APP_AUCTION_REGISTRAR_ADDRESS && networkId > 1000) {
-      //Assuming public main/test networks have a networkId of less than 1000
-      legacyAuctionRegistrarAddress =
-        process.env.REACT_APP_AUCTION_REGISTRAR_ADDRESS
-    } else {
-      throw new Error('No auction address found')
-    }
     ethRegistrar = new web3.eth.Contract(
       legacyAuctionRegistrarContract,
       legacyAuctionRegistrarAddress
@@ -90,15 +85,11 @@ export const getPermanentRegistrarController = async () => {
   try {
     const web3 = await getWeb3()
     const web3Read = await getWeb3Read()
-    const networkId = await getNetworkId()
-    let controllerAddress
-    if (process.env.REACT_APP_CONTROLLER_ADDRESS && networkId > 1000) {
-      //Assuming public main/test networks have a networkId of less than 1000
-      controllerAddress = process.env.REACT_APP_CONTROLLER_ADDRESS
-    } else {
-      throw new Error('No controller address found')
-    }
-
+    const { Resolver } = await getEthResolver()
+    let controllerAddress = await Resolver.interfaceImplementer(
+      await getNamehash('eth'),
+      web3.utils.sha3('registrarController').slice(0, 10),
+    ).call()
     permanentRegistrarController = new web3.eth.Contract(
       permanentRegistrarControllerContract,
       controllerAddress
@@ -116,6 +107,13 @@ export const getPermanentRegistrarController = async () => {
       _permanentRegistrarControllerRead: permanentRegistrarControllerRead
     }
   } catch (e) {}
+}
+
+const getEthResolver = async () => {
+  const { readENS: ENS } = await getENS()
+  const ethnamehash = await getNamehash('eth')
+  const resolverAddr = await ENS.resolver(ethnamehash).call()
+  return await getResolverContract(resolverAddr)
 }
 
 export const getPermanentEntry = async name => {
