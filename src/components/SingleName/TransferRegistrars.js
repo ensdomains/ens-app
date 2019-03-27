@@ -25,11 +25,16 @@ const MigrationInstruction = styled('h3')`
 `
 
 const MigrationExplanation = styled('p')`
-  font-weight: 700;
+  font-weight: 300;
   font-size: 14px;
   color: #adbbcd;
   letter-spacing: 0;
   margin-bottom: 20px;
+
+  strong {
+    font-weight: 700;
+    text-decoration: underline;
+  }
 
   ${mq.small`
     margin: 0;
@@ -91,8 +96,12 @@ function TransferRegistrars({
         You cannot migrate into permanent registrar yet
       </MigrationInstruction>
       <MigrationExplanation>
-        Migrate between {formatDate(migrationStartDate, true)} -{' '}
-        {formatDate(transferEndDate, true)}. You will otherwise lose your name
+        Migrate between{' '}
+        <strong>
+          {formatDate(migrationStartDate, true)} -{' '}
+          {formatDate(transferEndDate, true)}
+        </strong>
+        . You will otherwise lose your name
       </MigrationExplanation>
     </>
   )
@@ -103,8 +112,8 @@ function TransferRegistrars({
         Migrate your name to the Permanent Registrar
       </MigrationInstruction>
       <MigrationExplanation>
-        Migrate by {formatDate(transferEndDate, true)}. You will otherwise lose
-        your name
+        Migrate by <strong>{formatDate(transferEndDate, true)}</strong>. You
+        will otherwise lose your name
       </MigrationExplanation>
     </>
   )
