@@ -60,11 +60,13 @@ const TransferDetail = styled(DetailsItem)`
   background-color: #f0f6fa;
   position: relative;
   padding-top: 65px;
+  margin-bottom: 25px;
 
   ${mq.small`
     padding-top: 20px;
     padding-right: 150px;
     padding-left: 75px;
+    margin-bottom: 25px;
   `}
 `
 
