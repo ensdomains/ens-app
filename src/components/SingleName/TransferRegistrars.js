@@ -86,8 +86,7 @@ function TransferRegistrars({
   const { startPending, setConfirmed } = actions
 
   const TooEarly = (
-    <TransferDetail>
-      <MigrationIcon />
+    <>
       <MigrationInstruction>
         You cannot migrate into permanent registrar yet
       </MigrationInstruction>
@@ -95,12 +94,11 @@ function TransferRegistrars({
         Migrate between {formatDate(migrationStartDate, true)} -{' '}
         {formatDate(transferEndDate, true)}. You will otherwise lose your name
       </MigrationExplanation>
-    </TransferDetail>
+    </>
   )
 
   const MigrateNow = (
-    <TransferDetail>
-      <MigrationIcon />
+    <>
       <MigrationInstruction>
         Migrate your name to the Permanent Registrar
       </MigrationInstruction>
@@ -108,12 +106,11 @@ function TransferRegistrars({
         Migrate by {formatDate(transferEndDate, true)}. You will otherwise lose
         your name
       </MigrationExplanation>
-    </TransferDetail>
+    </>
   )
 
   const TooLate = (
-    <TransferDetail>
-      <MigrationIcon />
+    <>
       <MigrationInstruction>
         Migration period was ended at {formatDate(transferEndDate, true)}
       </MigrationInstruction>
@@ -121,7 +118,7 @@ function TransferRegistrars({
         You no longer has ownership on this name but you can still get your
         locked ETH back.
       </MigrationExplanation>
-    </TransferDetail>
+    </>
   )
 
   const MigrateAction = (
@@ -163,10 +160,11 @@ function TransferRegistrars({
   }
 
   return (
-    <>
+    <TransferDetail>
+      <MigrationIcon />
       {CurrentMigrationInstraction}
       <Action>{CurrentAction}</Action>
-    </>
+    </TransferDetail>
   )
 }
 
