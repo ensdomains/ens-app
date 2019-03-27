@@ -148,13 +148,13 @@ function TransferRegistrars({
   let CurrentMigrationInstraction, CurrentAction
 
   if (currentBlockDate < migrationStartDate) {
-    CurrentMigrationInstraction = TooEarly
+    CurrentMigrationInstruction = TooEarly
     CurrentAction = <TransferButton type="disabled">Migrate</TransferButton>
   } else if (currentBlockDate < transferEndDate) {
-    CurrentMigrationInstraction = MigrateNow
+    CurrentMigrationInstruction = MigrateNow
     CurrentAction = MigrateAction
   } else {
-    CurrentMigrationInstraction = TooLate
+    CurrentMigrationInstruction = TooLate
     // This is TBD
     CurrentAction = <TransferButton>Release</TransferButton>
   }
@@ -162,7 +162,7 @@ function TransferRegistrars({
   return (
     <TransferDetail>
       <MigrationIcon />
-      {CurrentMigrationInstraction}
+      {CurrentMigrationInstruction}
       <Action>{CurrentAction}</Action>
     </TransferDetail>
   )
