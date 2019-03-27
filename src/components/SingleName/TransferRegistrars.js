@@ -123,10 +123,10 @@ function TransferRegistrars({
   const TooLate = (
     <>
       <MigrationInstruction>
-        Migration period was ended at {formatDate(transferEndDate, true)}
+        Migration period was ended on {formatDate(transferEndDate, true)}
       </MigrationInstruction>
       <MigrationExplanation>
-        You no longer has ownership on this name but you can still get your
+        You no longer have ownership of this name but you can still get your
         locked ETH back.
       </MigrationExplanation>
     </>

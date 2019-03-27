@@ -25,6 +25,11 @@ describe('Migration to Permanent', () => {
     cy.queryByText('Migrate', { timeout: 50 }).should('not.exist')
   })
 
+  it('cannot migrate a domain that is still in the lock period', () => {
+    cy.visit(`${ROOT}/name/auctionedtoorecent.eth`)
+    cy.queryByText('Migrate', { timeout: 1000 }).should('be.disabled')
+  })
+
   it('cannot migrate a domain that is already on the permanent registrar', () => {
     cy.visit(`${ROOT}/name/newname.eth`)
     cy.queryByText('Migrate', { timeout: 50 }).should('not.exist')
