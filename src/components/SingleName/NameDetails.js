@@ -72,7 +72,7 @@ class NameDetails extends Component {
   }
   render() {
     const { domain, isOwner, refetch, account } = this.props
-    const isDeedOwner = (domain.deedOwner === account)
+    const isDeedOwner = domain.deedOwner === account
 
     const records = [
       {
@@ -101,7 +101,7 @@ class NameDetails extends Component {
     }
 
     return (
-      <Fragment>
+      <>
         <Route
           exact
           path="/name/:name"
@@ -158,8 +158,8 @@ class NameDetails extends Component {
                   currentBlockDate={domain.currentBlockDate}
                   transferEndDate={domain.transferEndDate}
                   migrationStartDate={domain.migrationStartDate}
-                  refetch={refetch} >
-                </TransferRegistrars>
+                  refetch={refetch}
+                />
               ) : (
                 ''
               )}
@@ -230,7 +230,7 @@ class NameDetails extends Component {
             />
           )}
         />
-      </Fragment>
+      </>
     )
   }
 }

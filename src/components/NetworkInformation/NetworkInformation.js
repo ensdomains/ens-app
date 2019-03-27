@@ -8,6 +8,7 @@ import UnstyledBlockies from '../Blockies'
 import ReverseRecord from '../ReverseRecord'
 import NoAccountsModal from '../NoAccounts/NoAccountsModal'
 import { formatDate } from '../../utils/dates'
+
 const NetworkInformationContainer = styled('div')`
   position: relative;
   display: flex;
@@ -53,9 +54,10 @@ const NetworkStatus = styled('div')`
 `
 
 const BlockStatus = styled('div')`
+  color: #cacaca;
   font-size: 14px;
   text-transform: capitalize;
-  font-weight: bold;
+  font-weight: 300;
   margin-top: -2px;
   margin-left: 1px;
   display: flex;
@@ -106,8 +108,13 @@ class NetworkInformation extends Component {
                 </Account>
                 <NetworkStatus>{network}</NetworkStatus>
                 {network === 'private' ? (
-                  <BlockStatus>Block:{block.number}({formatDate(block.timestamp * 1000, true)})</BlockStatus>
-                ):''}
+                  <BlockStatus>
+                    Block:{block.number}(
+                    {formatDate(block.timestamp * 1000, true)})
+                  </BlockStatus>
+                ) : (
+                  ''
+                )}
               </AccountContainer>
             ) : (
               <NoAccountsModal colour={'#F5A623'} />
