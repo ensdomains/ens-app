@@ -994,9 +994,9 @@
     web3-utils "^1.0.0-beta.48"
 
 "@ensdomains/resolver@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@ensdomains/resolver/-/resolver-0.1.1.tgz#2501655fcc992328cc93646ade913c6eef8c6a25"
-  integrity sha512-E6qt8GZwhg2Gc6rpzg9pZAsXwiSBArpaC8cQXxOSNyi/yrCUqSONjiatZF+PJlBD40Kx+3fiTutw/1qW9DroGQ==
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/@ensdomains/resolver/-/resolver-0.1.3.tgz#e347031dc08f822d39364585e9f9ab2ac1147621"
+  integrity sha512-nYbvYDSdNBYznGRPMcV3lMJ36VTnNwDb0gpb31bjIeRjQXoYuizBmE3540uQ2fWwxIlM4viIEBrQh4u39iDbPw==
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
