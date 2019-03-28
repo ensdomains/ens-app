@@ -1,4 +1,8 @@
 const util = require('util')
+const {
+  legacyRegistrar: legacyRegistrarInterfaceId,
+  permanentRegistrar: permanentRegistrarInterfaceId
+} = require('../constants/interfaces')
 const DAYS = 24 * 60 * 60
 const VALUE = 28 * DAYS + 1
 
@@ -354,36 +358,31 @@ module.exports = async function deployENS({ web3, accounts }) {
   console.log('Controller deployed at: ', controller._address)
 
   await ensContract
-    .setSubnodeOwner(
-      '0x00000000000000000000000000000000',
-      tldHash,
-      accounts[0]
-    )
+    .setSubnodeOwner('0x00000000000000000000000000000000', tldHash, accounts[0])
     .send({
       from: accounts[0]
     })
 
-  await resolverContract.setAuthorisation(
-      namehash('eth'),
-      accounts[0],
-      true
-    )
+  await resolverContract
+    .setAuthorisation(namehash('eth'), accounts[0], true)
     .send({
       from: accounts[0]
-    })  
+    })
 
-  await resolverContract.setInterface(
+  await resolverContract
+    .setInterface(
       namehash('eth'),
-      web3.utils.sha3('transferRegistrars').slice(0, 10),
+      legacyRegistrarInterfaceId,
       legacyAuctionRegistrar._address
     )
     .send({
       from: accounts[0]
     })
 
-  await resolverContract.setInterface(
+  await resolverContract
+    .setInterface(
       namehash('eth'),
-      web3.utils.sha3('register').slice(0, 10),
+      permanentRegistrarInterfaceId,
       controller._address
     )
     .send({
@@ -517,7 +516,7 @@ module.exports = async function deployENS({ web3, accounts }) {
     .send({ from: accounts[2], gas: 1000000 })
 
   await mine(web3)
-  let current = await web3.eth.getBlock('latest');
+  let current = await web3.eth.getBlock('latest')
   console.log(`The current time is ${new Date(current.timestamp * 1000)}`)
 
   return {
