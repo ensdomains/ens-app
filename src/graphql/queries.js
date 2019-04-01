@@ -5,7 +5,6 @@ export const GET_WEB3 = gql`
   query web3 {
     web3 @client {
       accounts
-      getBlock
     }
   }
 `

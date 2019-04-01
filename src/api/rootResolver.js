@@ -1,4 +1,4 @@
-import getWeb3, { getAccounts, getNetworkId, getBlock } from './web3'
+import getWeb3, { getAccounts, getNetworkId } from './web3'
 import { getAddr } from './registry'
 import merge from 'lodash/merge'
 import fifsResolvers, {
@@ -32,9 +32,6 @@ const resolvers = {
     networkId: async () => {
       const networkId = await getNetworkId()
       return networkId
-    },
-    block: async () => {
-      return await getBlock()
     },
     network: async () => {
       const networkId = await getNetworkId()
