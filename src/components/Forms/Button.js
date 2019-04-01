@@ -37,6 +37,15 @@ function getButtonStyles({ type }) {
           color: #2C46A6;
         }
       `
+    case 'hollow-primary-disabled':
+      return `
+        color: #dfdfdf;
+        background: transparent;
+        border: 2px solid #dfdfdf;
+        &:hover {
+          cursor: default
+        }
+      `
     case 'disabled':
       return `
         border: 2px solid #dfdfdf;

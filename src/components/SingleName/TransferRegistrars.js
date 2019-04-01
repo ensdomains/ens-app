@@ -150,7 +150,11 @@ function TransferRegistrars({
             startPending(Object.values(data)[0])
           }}
         >
-          {mutate => <TransferButton onClick={mutate}>Migrate</TransferButton>}
+          {mutate => <TransferButton
+                      onClick={mutate}
+                      type="hollow-primary"
+                     >Migrate</TransferButton>
+          }
         </Mutation>
       )}
     </>
@@ -160,7 +164,7 @@ function TransferRegistrars({
 
   if (currentBlockDate < migrationStartDate) {
     CurrentMigrationInstruction = TooEarly
-    CurrentAction = <TransferButton type="disabled">Migrate</TransferButton>
+    CurrentAction = <TransferButton type="hollow-primary-disabled">Migrate</TransferButton>
   } else if (currentBlockDate < transferEndDate) {
     CurrentMigrationInstruction = MigrateNow
     CurrentAction = MigrateAction
