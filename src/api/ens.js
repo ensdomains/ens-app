@@ -119,12 +119,16 @@ async function getTestRegistrarContract() {
   const web3 = await getWeb3()
   const namehash = await getNamehash('test')
   const testRegistrarAddr = await ENS.owner(namehash).call()
+<<<<<<< HEAD
   const registrar = new web3.eth.Contract(
     testRegistrarContract,
     testRegistrarAddr,
     _ENS._address,
     namehash
   )
+=======
+  const registrar = new web3.eth.Contract(testRegistrarContract, testRegistrarAddr, _ENS._address, namehash)
+>>>>>>> dev
 
   return {
     registrar: registrar.methods,
