@@ -90,7 +90,11 @@ const NameRegister = ({ domain, waitTime, refetch }) => {
         </Query>
       )}
 
-      <Explainer step={step} waitPercentComplete={waitPercentComplete} />
+      <Explainer
+        step={step}
+        waitTime={waitTime}
+        waitPercentComplete={waitPercentComplete}
+      />
       <Progress step={step} waitPercentComplete={waitPercentComplete} />
       <CTA
         waitTime={waitTime}

@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import moment from 'moment'
 
 import mq from 'mediaQuery'
 import Step from './Step'
@@ -34,7 +35,7 @@ const NotifyButtonDisabled = styled('div')`
   color: hsla(0, 0%, 82%, 1);
 `
 
-const Explainer = ({ step, waitPercentComplete }) => {
+const Explainer = ({ step, waitPercentComplete, waitTime }) => {
   const titles = {
     PRICE_DECISION: 'Registering a name requires you to complete 3 steps',
     COMMIT_SENT:
@@ -49,7 +50,7 @@ const Explainer = ({ step, waitPercentComplete }) => {
   }
 
   return (
-    <div>
+    <>
       <Header>
         <h2>{titles[step]}</h2>
         {hasPermission ? (
@@ -86,7 +87,9 @@ const Explainer = ({ step, waitPercentComplete }) => {
               ? waitPercentComplete
               : 100
           }
-          title="Wait for 10 minutes"
+          title={`Wait for ${moment
+            .duration({ seconds: waitTime })
+            .humanize()}`}
           text="The waiting period is required to ensure another person hasn’t tried to register the same name."
         />
         <Step
@@ -98,7 +101,7 @@ const Explainer = ({ step, waitPercentComplete }) => {
           text="Click ‘register’ and your wallet will re-open. Upon confirming the second transaction, you can manage your new name."
         />
       </Steps>
-    </div>
+    </>
   )
 }
 
