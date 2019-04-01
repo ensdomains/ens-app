@@ -25,6 +25,32 @@ const Header = styled('div')`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px;
+
+  h2 {
+    font-family: Overpass;
+    font-weight: 300;
+    font-size: 18px;
+    color: #2b2b2b;
+    letter-spacing: 0;
+    margin: 0;
+    margin-bottom: 5px;
+
+    ${mq.medium`
+      font-size: 24px;
+      color: #2B2B2B;
+      letter-spacing: 0;
+    `}
+  }
+
+  p {
+    margin: 0;
+    font-weight: 400;
+    font-family: Overpass;
+    font-size: 14px;
+    color: #adbbcd;
+    letter-spacing: 0;
+  }
 `
 
 const NotifyButton = styled(Button)`
@@ -52,7 +78,13 @@ const Explainer = ({ step, waitPercentComplete, waitTime }) => {
   return (
     <>
       <Header>
-        <h2>{titles[step]}</h2>
+        <div>
+          <h2>{titles[step]}</h2>
+          <p>
+            *Favorite the name for easy access in case you close out of your
+            browser.
+          </p>
+        </div>
         {hasPermission ? (
           <NotifyButtonDisabled>
             <Tick style={{ marginRight: 5 }} />
@@ -65,10 +97,7 @@ const Explainer = ({ step, waitPercentComplete, waitTime }) => {
           </NotifyButton>
         )}
       </Header>
-      <p>
-        *Favorite the name for easy access in case you close out of your
-        browser.
-      </p>
+
       <Steps>
         <Step
           number={1}
