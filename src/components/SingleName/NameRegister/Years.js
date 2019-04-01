@@ -77,7 +77,7 @@ const Years = ({ years, setYears }) => {
             type="number"
             value={years}
             onChange={e => {
-              setYears(e.target.value)
+              setYears(parseInt(e.target.value))
             }}
           />{' '}
           year{years > 1 && 's'}
