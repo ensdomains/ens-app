@@ -30,7 +30,7 @@ const Price = ({ price }) => {
   return (
     <PriceContainer>
       <Value>{new EthVal(price).toEth().toFixed(12)} ETH</Value>
-      <Description>Price per amount of time selected</Description>
+      <Description>Total Price</Description>
     </PriceContainer>
   )
 }
