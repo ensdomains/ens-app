@@ -63,9 +63,13 @@ async function getReverseRegistrarContract() {
 
 async function getResolverContract(addr) {
   const web3 = await getWeb3()
+  const web3Read = await getWeb3Read()
 
   const Resolver = new web3.eth.Contract(resolverContract, addr)
+  const ResolverRead = new web3Read.eth.Contract(resolverContract, addr)
   return {
+    ResolverRead: ResolverRead.methods,
+    _ResolverRead: ResolverRead,
     Resolver: Resolver.methods,
     _Resolver: Resolver
   }
@@ -115,7 +119,12 @@ async function getTestRegistrarContract() {
   const web3 = await getWeb3()
   const namehash = await getNamehash('test')
   const testRegistrarAddr = await ENS.owner(namehash).call()
-  const registrar = new web3.eth.Contract(testRegistrarContract, testRegistrarAddr, _ENS._address, namehash)
+  const registrar = new web3.eth.Contract(
+    testRegistrarContract,
+    testRegistrarAddr,
+    _ENS._address,
+    namehash
+  )
 
   return {
     registrar: registrar.methods,
