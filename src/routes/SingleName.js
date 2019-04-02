@@ -14,14 +14,14 @@ function SingleName({
   location: { pathname }
 }) {
   const [valid, setValid] = useState(false)
-
   useEffect(() => {
-    let valid = false
+    let validName = false
     try {
-      valid = validateName(searchTerm) && true
-      setValid(valid)
-    } catch (e) {
-      setValid(false)
+      // This is under the assumption that validateName never returns false
+      validateName(searchTerm)
+      if(!valid) setValid(true)
+    } catch {
+      if(valid) setValid(false)
     }
 
     document.title = valid ? searchTerm : 'Error finding name'
