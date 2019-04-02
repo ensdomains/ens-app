@@ -117,17 +117,8 @@ function TransferRegistrars({
         Migrate by <strong>{formatDate(transferEndDate, true)}</strong>. You
         will otherwise lose your name
       </MigrationExplanation>
-    </>
-  )
-
-  const TooLate = (
-    <>
-      <MigrationInstruction>
-        Migration period was ended on {formatDate(transferEndDate, true)}
-      </MigrationInstruction>
       <MigrationExplanation>
-        You no longer have ownership of this name but you can still get your
-        locked ETH back.
+        If you do not wish to migrate, <a>release</a> your name to get back your locked ETH.
       </MigrationExplanation>
     </>
   )
@@ -160,26 +151,28 @@ function TransferRegistrars({
     </>
   )
 
+  
   let CurrentMigrationInstruction, CurrentAction
 
+  
   if (currentBlockDate < migrationStartDate) {
     CurrentMigrationInstruction = TooEarly
     CurrentAction = <TransferButton type="hollow-primary-disabled">Migrate</TransferButton>
   } else if (currentBlockDate < transferEndDate) {
     CurrentMigrationInstruction = MigrateNow
     CurrentAction = MigrateAction
-  } else {
-    CurrentMigrationInstruction = TooLate
-    // This is TBD
-    CurrentAction = <TransferButton>Release</TransferButton>
   }
 
   return (
-    <TransferDetail>
-      <MigrationIcon />
-      {CurrentMigrationInstruction}
-      <Action>{CurrentAction}</Action>
-    </TransferDetail>
+    <>
+    {currentBlockDate < transferEndDate ? (
+      <TransferDetail>
+        <MigrationIcon />
+        {CurrentMigrationInstruction}
+        <Action>{CurrentAction}</Action>
+      </TransferDetail>
+    ): ('')} 
+    </>
   )
 }
 

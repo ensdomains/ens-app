@@ -7,7 +7,6 @@ import NetworkInfoQuery from './NetworkInfoQuery'
 import UnstyledBlockies from '../Blockies'
 import ReverseRecord from '../ReverseRecord'
 import NoAccountsModal from '../NoAccounts/NoAccountsModal'
-import { formatDate } from '../../utils/dates'
 
 const NetworkInformationContainer = styled('div')`
   position: relative;
@@ -51,17 +50,6 @@ const NetworkStatus = styled('div')`
     background: #5284ff;
     margin-right: 5px;
   }
-`
-
-const BlockStatus = styled('div')`
-  color: #cacaca;
-  font-size: 14px;
-  text-transform: capitalize;
-  font-weight: 300;
-  margin-top: -2px;
-  margin-left: 1px;
-  display: flex;
-  align-items: center;
 `
 
 const Account = styled('div')`

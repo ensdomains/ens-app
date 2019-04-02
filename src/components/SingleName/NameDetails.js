@@ -10,6 +10,7 @@ import DetailsItemEditable from './DetailsItemEditable'
 import AddRecord from './AddRecord'
 import SetupName from '../SetupName/SetupName'
 import TransferRegistrars from './TransferRegistrars'
+import ReleaseDeed from './ReleaseDeed'
 
 import {
   SET_OWNER,
@@ -153,13 +154,19 @@ class NameDetails extends Component {
               {domain.parent === 'eth' &&
               ((isOwner && !domain.isNewRegistrar) ||
                 (isDeedOwner && !domain.isNewRegistrar)) ? (
-                <TransferRegistrars
-                  label={domain.label}
-                  currentBlockDate={domain.currentBlockDate}
-                  transferEndDate={domain.transferEndDate}
-                  migrationStartDate={domain.migrationStartDate}
-                  refetch={refetch}
-                />
+                <>
+                  <TransferRegistrars
+                    label={domain.label}
+                    currentBlockDate={domain.currentBlockDate}
+                    transferEndDate={domain.transferEndDate}
+                    migrationStartDate={domain.migrationStartDate}
+                    refetch={refetch}
+                  />
+                  <ReleaseDeed
+                    label={domain.label}
+                    refetch={refetch}
+                  />
+                </>
               ) : (
                 ''
               )}

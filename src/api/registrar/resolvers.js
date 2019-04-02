@@ -7,7 +7,8 @@ import {
   commit,
   getMinimumCommitmentAge,
   register,
-  transferRegistrars
+  transferRegistrars,
+  releaseDeed
 } from '../registrar'
 import { getOwner } from '../registry'
 import modeNames from '../modes'
@@ -96,6 +97,10 @@ const resolvers = {
     },
     async transferRegistrars(_, { label }) {
       const tx = await transferRegistrars(label)
+      return sendHelper(tx)
+    },
+    async releaseDeed(_, { label }) {
+      const tx = await releaseDeed(label)
       return sendHelper(tx)
     }
   }
