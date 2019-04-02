@@ -8,7 +8,6 @@ export const GET_WEB3 = gql`
     web3 @client {
       accounts
       network
-      block
     }
   }
 `
@@ -18,9 +17,9 @@ const NetworkInfoQuery = ({ noLoader, children }) => (
     {({ data, loading, error }) => {
       if (loading) return noLoader ? '' : <Loader />
       const {
-        web3: { accounts, network, block }
+        web3: { accounts, network }
       } = data
-      return children({ accounts, network, block })
+      return children({ accounts, network })
     }}
   </Query>
 )

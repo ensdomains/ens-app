@@ -98,7 +98,7 @@ class NetworkInformation extends Component {
   render() {
     return (
       <NetworkInfoQuery>
-        {({ accounts, network, block }) => (
+        {({ accounts, network }) => (
           <NetworkInformationContainer hasAccount={accounts.length > 0}>
             {accounts.length > 0 ? (
               <AccountContainer>
@@ -107,14 +107,6 @@ class NetworkInformation extends Component {
                   <ReverseRecord address={accounts[0]} />
                 </Account>
                 <NetworkStatus>{network}</NetworkStatus>
-                {network === 'private' ? (
-                  <BlockStatus>
-                    Block:{block.number}(
-                    {formatDate(block.timestamp * 1000, true)})
-                  </BlockStatus>
-                ) : (
-                  ''
-                )}
               </AccountContainer>
             ) : (
               <NoAccountsModal colour={'#F5A623'} />
