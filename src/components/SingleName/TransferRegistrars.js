@@ -31,15 +31,13 @@ const MigrationExplanation = styled('p')`
   color: #adbbcd;
   letter-spacing: 0;
   margin-bottom: 20px;
+  margin-right: 10px;
 
   strong {
     font-weight: 700;
     text-decoration: underline;
   }
 
-  ${mq.small`
-    margin: 0;
-  `}
 `
 
 const TransferButton = styled(Button)`
