@@ -74,13 +74,6 @@ const resolvers = {
         }
         let data
         if (nameArray.length < 3 && nameArray[1] === 'eth') {
-          if (nameArray[0].length < 7) {
-            cache.writeData({
-              data: defaults
-            })
-            return null
-          }
-
           const entry = await getEntry(nameArray[0])
           const {
             deedOwner,
