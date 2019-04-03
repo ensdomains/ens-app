@@ -10,7 +10,6 @@ import DetailsItemEditable from './DetailsItemEditable'
 import AddRecord from './AddRecord'
 import SetupName from '../SetupName/SetupName'
 import TransferRegistrars from './TransferRegistrars'
-import ReleaseDeed from './ReleaseDeed'
 
 import {
   SET_OWNER,
@@ -100,14 +99,23 @@ class NameDetails extends Component {
     } else {
       contentMutation = SET_CONTENTHASH
     }
-
     return (
       <>
         <Route
           exact
           path="/name/:name"
-          render={() => (
+          render={() => { return (isDeedOwner && domain.currentBlockDate > domain.transferEndDate) ? (
             <Details data-testid="name-details">
+                <TransferRegistrars
+                  label={domain.label}
+                  currentBlockDate={domain.currentBlockDate}
+                  transferEndDate={domain.transferEndDate}
+                  migrationStartDate={domain.migrationStartDate}
+                  refetch={refetch}
+                />
+              </Details>
+            ): (
+              <Details data-testid="name-details">
               {isOwner && <SetupName />}
               {domain.parent && (
                 <DetailsItem uneditable>
@@ -154,19 +162,13 @@ class NameDetails extends Component {
               {domain.parent === 'eth' &&
               ((isOwner && !domain.isNewRegistrar) ||
                 (isDeedOwner && !domain.isNewRegistrar)) ? (
-                <>
-                  <TransferRegistrars
-                    label={domain.label}
-                    currentBlockDate={domain.currentBlockDate}
-                    transferEndDate={domain.transferEndDate}
-                    migrationStartDate={domain.migrationStartDate}
-                    refetch={refetch}
-                  />
-                  <ReleaseDeed
-                    label={domain.label}
-                    refetch={refetch}
-                  />
-                </>
+                <TransferRegistrars
+                  label={domain.label}
+                  currentBlockDate={domain.currentBlockDate}
+                  transferEndDate={domain.transferEndDate}
+                  migrationStartDate={domain.migrationStartDate}
+                  refetch={refetch}
+                />
               ) : (
                 ''
               )}
@@ -223,7 +225,8 @@ class NameDetails extends Component {
                 <NameClaimTestDomain domain={domain} refetch={refetch} />
               ) : null}
             </Details>
-          )}
+            )}
+          }
         />
 
         <Route

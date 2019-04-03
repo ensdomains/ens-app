@@ -72,16 +72,20 @@ const Confirm = ({
   disabled,
   className,
   value,
-  newValue
+  newValue,
+  explanation
 }) => (
   <ConfirmContainer className={className}>
     <Title>Are you sure you want to do this?</Title>
     <SubTitle>This action will modify the state of the blockchain.</SubTitle>
     <Content>
+      {explanation ? (<p>{explanation}</p>): ''}
+      {value || newValue ? (
       <Values>
         <Value old={true} ><span>PREVIOUS</span><span>{value}</span></Value>
         <Value><span>FUTURE</span><span>{newValue}</span></Value>
       </Values>
+      ): ''}
       <Buttons>
         <Cancel type="hollow" onClick={cancel}>
         Cancel

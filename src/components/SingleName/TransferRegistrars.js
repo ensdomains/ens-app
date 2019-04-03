@@ -11,6 +11,7 @@ import Button from '../Forms/Button'
 import PendingTx from '../PendingTx'
 import { formatDate } from '../../utils/dates'
 import { ReactComponent as DefaultMigrationIcon } from 'components/Icons/Migration.svg'
+import ReleaseDeed from './ReleaseDeed'
 
 const MigrationInstruction = styled('h3')`
   margin: 0;
@@ -108,6 +109,18 @@ function TransferRegistrars({
     </>
   )
 
+  const TooLate = (
+    <>
+      <MigrationInstruction>
+        Migration period was ended on {formatDate(transferEndDate, true)}
+      </MigrationInstruction>
+      <MigrationExplanation>
+        You no longer have ownership of this name but you can still release and get your
+        locked ETH back.
+      </MigrationExplanation>
+    </>
+  )
+
   const MigrateNow = (
     <>
       <MigrationInstruction>
@@ -118,9 +131,27 @@ function TransferRegistrars({
         will otherwise lose your name
       </MigrationExplanation>
       <MigrationExplanation>
-        If you do not wish to migrate, <a>release</a> your name to get back your locked ETH.
+        If you do not wish to migrate,
+        <ReleaseDeed
+          label={label}
+          refetch={refetch}
+          actionText = 'release'
+          actionType = 'link'
+          explanation = 'You will no longer have ownership of this name'
+        />
+        your name to get back your locked ETH.
       </MigrationExplanation>
     </>
+  )
+
+  const ReleaseAction = (
+    <ReleaseDeed
+      label={label}
+      refetch={refetch}
+      actionText = 'Release'
+      actionType = 'button'
+      explanation = 'You already lost ownership of this name but will get ETH back'
+    />
   )
 
   const MigrateAction = (
@@ -151,9 +182,8 @@ function TransferRegistrars({
     </>
   )
 
-  
-  let CurrentMigrationInstruction, CurrentAction
 
+  let CurrentMigrationInstruction, CurrentAction
   
   if (currentBlockDate < migrationStartDate) {
     CurrentMigrationInstruction = TooEarly
@@ -161,18 +191,17 @@ function TransferRegistrars({
   } else if (currentBlockDate < transferEndDate) {
     CurrentMigrationInstruction = MigrateNow
     CurrentAction = MigrateAction
+  } else if (currentBlockDate >= transferEndDate){
+    CurrentMigrationInstruction = TooLate
+    CurrentAction = ReleaseAction
   }
 
   return (
-    <>
-    {currentBlockDate < transferEndDate ? (
-      <TransferDetail>
-        <MigrationIcon />
-        {CurrentMigrationInstruction}
-        <Action>{CurrentAction}</Action>
-      </TransferDetail>
-    ): ('')} 
-    </>
+    <TransferDetail>
+      <MigrationIcon />
+      {CurrentMigrationInstruction}
+      <Action>{CurrentAction}</Action>
+    </TransferDetail>
   )
 }
 
