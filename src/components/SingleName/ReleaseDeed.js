@@ -14,7 +14,6 @@ const ReleaseButton = styled(Button)`
 `
 
 const ReleaseLink = styled('a')`
-  margin: 0 0.5em;
   &:hover {
     cursor: pointer;
   }

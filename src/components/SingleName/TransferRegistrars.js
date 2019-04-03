@@ -58,7 +58,7 @@ const MigrationIcon = styled(DefaultMigrationIcon)`
 
 const TransferDetail = styled(DetailsItem)`
   padding: 20px;
-  background-color: #f0f6fa;
+  background-color: ${props => props.condition === 'warning' ? '#fef6e9' : '#f0f6fa'};
   position: relative;
   padding-top: 65px;
   margin-bottom: 25px;
@@ -82,6 +82,32 @@ const Action = styled('div')`
   `}
 `
 
+const LearnMoreLink = styled('a')`
+`
+
+const LearnMore = () => (
+  <LearnMoreLink
+    // Temp link until we get better blog post explaining the detail.
+    href="https://medium.com/the-ethereum-name-service/the-future-of-ens-as-explained-in-our-ethcc-talks-videos-inside-395fbaaa6cad"
+    target="_blank"
+  >
+    Learn More
+  </LearnMoreLink>
+)
+
+const ReleaseInstead = (label, refetch) =>(
+  <MigrationExplanation>
+    <ReleaseDeed
+      label={label}
+      refetch={refetch}
+      actionText = 'Release'
+      actionType = 'link'
+      explanation = 'You will no longer have ownership of this name'
+    />{' '}
+    the domain to get your locked ETH back if you don’t want it anymore.
+ </MigrationExplanation>
+)
+
 function TransferRegistrars({
   label,
   currentBlockDate,
@@ -96,27 +122,32 @@ function TransferRegistrars({
   const TooEarly = (
     <>
       <MigrationInstruction>
-        You cannot migrate into permanent registrar yet
+        Be Ready! ENS is migrating to a new Registrar.
       </MigrationInstruction>
       <MigrationExplanation>
-        Migrate between{' '}
+        This domain is currently recorded in the old ENS Registrar which will be discontinued after May 4th 2019.
+        Migrate to the new ENS Registrar between{' '}
         <strong>
           {formatDate(migrationStartDate, true)} -{' '}
           {formatDate(transferEndDate, true)}
         </strong>
-        . You will otherwise lose your name
+        {' '}
+        if you want to keep your domain.
+        {' '}<LearnMore />
       </MigrationExplanation>
+      <ReleaseInstead label={label} refetch={refetch} />
     </>
   )
 
   const TooLate = (
     <>
       <MigrationInstruction>
-        Migration period was ended on {formatDate(transferEndDate, true)}
+        Migration period ended {formatDate(transferEndDate, true)}
       </MigrationInstruction>
       <MigrationExplanation>
-        You no longer have ownership of this name but you can still release and get your
-        locked ETH back.
+        You no longer own this name and it has been made available for registration in the new ENS Permanent Registrar.
+        You can release the domain from the older registrar to get your locked ETH back and register it again in the new ENS Permanent Registrar.
+        {' '}<LearnMore />
       </MigrationExplanation>
     </>
   )
@@ -124,23 +155,14 @@ function TransferRegistrars({
   const MigrateNow = (
     <>
       <MigrationInstruction>
-        Migrate your name to the Permanent Registrar
+        Migrate your name to the Permanent Registrar. 
       </MigrationInstruction>
       <MigrationExplanation>
-        Migrate by <strong>{formatDate(transferEndDate, true)}</strong>. You
-        will otherwise lose your name
+        Migrate now to get your locked ETH back and free registration for one year.
+        If you do not migrate by <strong>{formatDate(transferEndDate, true)}</strong>, you will lose your domain, and others will be able to register it.
+        {' '}<LearnMore />
       </MigrationExplanation>
-      <MigrationExplanation>
-        If you do not wish to migrate,
-        <ReleaseDeed
-          label={label}
-          refetch={refetch}
-          actionText = 'release'
-          actionType = 'link'
-          explanation = 'You will no longer have ownership of this name'
-        />
-        your name to get back your locked ETH.
-      </MigrationExplanation>
+      <ReleaseInstead label={label} refetch={refetch} />
     </>
   )
 
@@ -183,21 +205,21 @@ function TransferRegistrars({
   )
 
 
-  let CurrentMigrationInstruction, CurrentAction
-  
+  let CurrentMigrationInstruction, CurrentAction, condition
   if (currentBlockDate < migrationStartDate) {
     CurrentMigrationInstruction = TooEarly
     CurrentAction = <TransferButton type="hollow-primary-disabled">Migrate</TransferButton>
+    condition = 'warning'
   } else if (currentBlockDate < transferEndDate) {
     CurrentMigrationInstruction = MigrateNow
     CurrentAction = MigrateAction
+    condition = 'warning'
   } else if (currentBlockDate >= transferEndDate){
     CurrentMigrationInstruction = TooLate
     CurrentAction = ReleaseAction
   }
-
   return (
-    <TransferDetail>
+    <TransferDetail condition={condition}>
       <MigrationIcon />
       {CurrentMigrationInstruction}
       <Action>{CurrentAction}</Action>
