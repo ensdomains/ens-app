@@ -30,14 +30,13 @@ const MigrationExplanation = styled('p')`
   font-size: 14px;
   color: #adbbcd;
   letter-spacing: 0;
-  margin-bottom: 20px;
+  margin-bottom: 0;
   margin-right: 10px;
 
   strong {
     font-weight: 700;
     text-decoration: underline;
   }
-
 `
 
 const TransferButton = styled(Button)`
@@ -123,7 +122,7 @@ function TransferRegistrars({
         Be Ready! ENS is migrating to a new Registrar.
       </MigrationInstruction>
       <MigrationExplanation>
-        This domain is currently recorded in the old ENS Registrar which will be discontinued after May 4th 2019.
+        This domain is currently recorded in the old ENS Registrar which will be discontinued after 2019.05.04.
         Migrate to the new ENS Registrar between{' '}
         <strong>
           {formatDate(migrationStartDate, true)} -{' '}
