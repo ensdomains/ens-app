@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { validateName } from '../utils/utils'
 import { GET_SINGLE_NAME } from '../graphql/queries'
 import { Query } from 'react-apollo'
@@ -15,13 +15,12 @@ function SingleName({
 }) {
   const [valid, setValid] = useState(false)
   useEffect(() => {
-    let validName = false
     try {
       // This is under the assumption that validateName never returns false
       validateName(searchTerm)
-      if(!valid) setValid(true)
+      if (!valid) setValid(true)
     } catch {
-      if(valid) setValid(false)
+      if (valid) setValid(false)
     }
 
     document.title = valid ? searchTerm : 'Error finding name'
