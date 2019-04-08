@@ -29,9 +29,11 @@ function SingleName({
 
   const name = normalize(searchTerm)
 
+  console.log(name)
+
   if (valid) {
     return (
-      <Query query={GET_SINGLE_NAME} variables={{ name: searchTerm }}>
+      <Query query={GET_SINGLE_NAME} variables={{ name }}>
         {({ loading, error, data, refetch }) => {
           if (loading) return <Loader large center />
           if (error)

@@ -5,6 +5,7 @@ import { Mutation } from 'react-apollo'
 import { SET_NAME } from '../../graphql/mutations'
 import mq from 'mediaQuery'
 import { useEditable } from '../hooks'
+import { normalize } from 'api/ens'
 
 import ReverseRecordQuery from '../ReverseRecordQuery'
 import SaveCancel from './SaveCancel'
