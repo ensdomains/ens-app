@@ -100,7 +100,7 @@ const LearnMore = () => (
   </LearnMoreLink>
 )
 
-const ReleaseInstead = (label, refetch) =>(
+const ReleaseInstead = ({label, refetch}) =>(
   <MigrationExplanation>
     <ReleaseDeed
       label={label}
