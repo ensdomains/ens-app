@@ -58,7 +58,7 @@ export const getPermanentRegistrar = async () => {
     const { readENS: ENS } = await getENS()
     const web3 = await getWeb3()
     const web3Read = await getWeb3Read()
-    const ethAddr = await ENS.owner(await getNamehash('eth')).call()
+    const ethAddr = await ENS.owner(getNamehash('eth')).call()
     permanentRegistrar = new web3.eth.Contract(
       permanentRegistrarContract,
       ethAddr

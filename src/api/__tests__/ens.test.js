@@ -73,15 +73,15 @@ describe('Blockchain tests', () => {
       const { ENS } = await getENS()
       const accounts = await getAccounts()
 
-      const eth = await getNamehash('eth')
+      const eth = getNamehash('eth')
       const ethOwner = await ENS.owner(eth).call()
       expect(ethOwner).toBe(accounts[0])
 
-      const reverse = await getNamehash('reverse')
+      const reverse = getNamehash('reverse')
       const reverseOwner = await ENS.owner(reverse).call()
       expect(reverseOwner).toBe(accounts[0])
 
-      const reverseNode = await getNamehash('addr.reverse')
+      const reverseNode = getNamehash('addr.reverse')
       const reverseNodeOwner = await ENS.owner(reverseNode).call()
       expect(reverseNodeOwner).toBe(reverseRegistrar)
     })
