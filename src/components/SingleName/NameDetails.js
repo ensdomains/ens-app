@@ -112,6 +112,10 @@ class NameDetails extends Component {
                   transferEndDate={domain.transferEndDate}
                   migrationStartDate={domain.migrationStartDate}
                   refetch={refetch}
+                  parent ={domain.parent}
+                  isOwner={isOwner}
+                  isDeedOwner={isDeedOwner}
+                  isNewRegistrar={domain.isNewRegistrar}
                 />
               </Details>
             ): (
@@ -159,19 +163,17 @@ class NameDetails extends Component {
               ) : (
                 ''
               )}
-              {domain.parent === 'eth' &&
-              ((isOwner && !domain.isNewRegistrar) ||
-                (isDeedOwner && !domain.isNewRegistrar)) ? (
-                <TransferRegistrars
-                  label={domain.label}
-                  currentBlockDate={domain.currentBlockDate}
-                  transferEndDate={domain.transferEndDate}
-                  migrationStartDate={domain.migrationStartDate}
-                  refetch={refetch}
-                />
-              ) : (
-                ''
-              )}
+              <TransferRegistrars
+                label={domain.label}
+                currentBlockDate={domain.currentBlockDate}
+                transferEndDate={domain.transferEndDate}
+                migrationStartDate={domain.migrationStartDate}
+                refetch={refetch}
+                parent ={domain.parent}
+                isOwner={isOwner}
+                isDeedOwner={isDeedOwner}
+                isNewRegistrar={domain.isNewRegistrar}
+              />
               <HR />
               <DetailsItemEditable
                 keyName="Resolver"

@@ -13,6 +13,14 @@ import { formatDate } from '../../utils/dates'
 import { ReactComponent as DefaultMigrationIcon } from 'components/Icons/Migration.svg'
 import ReleaseDeed from './ReleaseDeed'
 
+const CloseLink = styled('a')`
+  position: relative;
+  cursor:pointer;
+  ${mq.small`
+    top:-46px;
+  `}
+ `
+
 const MigrationInstruction = styled('h3')`
   margin: 0;
   margin-bottom: 0px;
@@ -105,16 +113,39 @@ const ReleaseInstead = (label, refetch) =>(
  </MigrationExplanation>
 )
 
+function displayMigrationDiralogue({parent, isOwner,isDeedOwner, isNewRegistrar, confirmed}){
+  return (
+          parent === 'eth' && 
+          ((isOwner || isDeedOwner) && !isNewRegistrar)
+         ) || confirmed
+}
+
 function TransferRegistrars({
   label,
   currentBlockDate,
   transferEndDate,
   migrationStartDate,
-  refetch
+  refetch,
+  parent,
+  isOwner,
+  isDeedOwner,
+  isNewRegistrar
 }) {
   const { state, actions } = useEditable()
   const { txHash, pending, confirmed } = state
-  const { startPending, setConfirmed } = actions
+  const { startPending, stopEditing, setConfirmed } = actions
+
+  const MigrationConfirmed = (
+    <>
+      <MigrationInstruction>
+        Congratulations on Migrating your domain!
+      </MigrationInstruction>
+      <MigrationExplanation>
+        You successfully migrated this domain to the new ENS Permanent Registrar.
+        We've sent back to you the ETH that you had locked in the older registrar contract. 
+      </MigrationExplanation>
+    </>
+  )
 
   const TooEarly = (
     <>
@@ -194,33 +225,39 @@ function TransferRegistrars({
           {mutate => <TransferButton
                       onClick={mutate}
                       type="hollow-primary"
-                     >Migrate</TransferButton>
+                    >Migrate</TransferButton>
           }
         </Mutation>
       )}
     </>
   )
 
-
   let CurrentMigrationInstruction, CurrentAction, condition
-  if (currentBlockDate < migrationStartDate) {
-    CurrentMigrationInstruction = TooEarly
-    CurrentAction = <TransferButton type="hollow-primary-disabled">Migrate</TransferButton>
-    condition = 'warning'
-  } else if (currentBlockDate < transferEndDate) {
-    CurrentMigrationInstruction = MigrateNow
-    CurrentAction = MigrateAction
-    condition = 'warning'
-  } else if (currentBlockDate >= transferEndDate){
-    CurrentMigrationInstruction = TooLate
-    CurrentAction = ReleaseAction
+  if(confirmed){
+    CurrentMigrationInstruction = MigrationConfirmed
+    CurrentAction = <CloseLink onClick={stopEditing}>x</CloseLink>
+  }else{
+    if (currentBlockDate < migrationStartDate) {
+      CurrentMigrationInstruction = TooEarly
+      CurrentAction = <TransferButton type="hollow-primary-disabled">Migrate</TransferButton>
+      condition = 'warning'
+    } else if (currentBlockDate < transferEndDate) {
+      CurrentMigrationInstruction = MigrateNow
+      CurrentAction = MigrateAction
+      condition = 'warning'
+    } else if (currentBlockDate >= transferEndDate){
+      CurrentMigrationInstruction = TooLate
+      CurrentAction = ReleaseAction
+    }  
   }
   return (
-    <TransferDetail condition={condition}>
-      <MigrationIcon />
-      {CurrentMigrationInstruction}
-      <Action>{CurrentAction}</Action>
-    </TransferDetail>
+    displayMigrationDiralogue({parent, isOwner, isDeedOwner, isNewRegistrar, confirmed}) ? (
+      <TransferDetail condition={condition}>
+        <MigrationIcon />
+        {CurrentMigrationInstruction}
+        <Action>{CurrentAction}</Action>
+      </TransferDetail>
+    ): ''
   )
 }
 
