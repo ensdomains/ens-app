@@ -116,11 +116,12 @@ function AddReverseRecord({ account, name }) {
       <ReverseRecordQuery address={account}>
         {({ data: { getReverseRecord }, loading, refetch }) => {
           if (loading) return null
+          console.log('reverseRecord', getReverseRecord)
           return (
             <>
               <Message onClick={editing ? stopEditing : startEditing}>
-                {getReverseRecord ? (
-                  name === getReverseRecord.name ? (
+                {getReverseRecord && getReverseRecord.name !== null ? (
+                  name.toLowerCase() === getReverseRecord.name ? (
                     <MessageContent>
                       <Check />
                       Reverse record: Set to {name}
