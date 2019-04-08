@@ -14,18 +14,23 @@ function SingleName({
   },
   location: { pathname }
 }) {
-  const [valid, setValid] = useState(false)
+  const [valid, setValid] = useState(undefined)
+  const [name, setNormalisedName] = useState('')
+
   useEffect(() => {
     try {
       // This is under the assumption that validateName never returns false
-      validateName(searchTerm)
-      if (!valid) setValid(true)
+      const normalisedName = validateName(searchTerm)
+      if (!valid) {
+        setValid(true)
+        setNormalisedName(normalisedName)
+      }
     } catch {
-      if (valid) setValid(false)
+      setValid(false)
     }
 
     document.title = valid ? searchTerm : 'Error finding name'
-  })
+  }, [searchTerm])
 
   const name = normalize(searchTerm)
 
@@ -47,9 +52,11 @@ function SingleName({
         }}
       </Query>
     )
+  } else if (valid === false) {
+    return <SearchErrors errors={['domainMalformed']} searchTerm={searchTerm} />
+  } else {
+    return <Loader large center />
   }
-
-  return <SearchErrors errors={['domainMalformed']} searchTerm={searchTerm} />
 }
 
 export default SingleName
