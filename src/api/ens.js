@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import getWeb3, { getWeb3Read, getNetworkId } from './web3'
-import { hash } from 'eth-ens-namehash'
+import { hash, normalize } from 'eth-ens-namehash'
 import { abi as ensContract } from '@ensdomains/ens/build/contracts/ENS.json'
 import { abi as reverseRegistrarContract } from '@ensdomains/ens/build/contracts/ReverseRegistrar.json'
 import { abi as resolverContract } from '@ensdomains/resolver/build/contracts/PublicResolver.json'
@@ -117,7 +117,12 @@ async function getTestRegistrarContract() {
   const web3 = await getWeb3()
   const namehash = await getNamehash('test')
   const testRegistrarAddr = await ENS.owner(namehash).call()
-  const registrar = new web3.eth.Contract(testRegistrarContract, testRegistrarAddr, _ENS._address, namehash)
+  const registrar = new web3.eth.Contract(
+    testRegistrarContract,
+    testRegistrarAddr,
+    _ENS._address,
+    namehash
+  )
 
   return {
     registrar: registrar.methods,
@@ -182,5 +187,6 @@ export {
   getNamehashWithLabelHash,
   getResolverContract,
   getResolverReadContract,
-  getFifsRegistrarContract
+  getFifsRegistrarContract,
+  normalize
 }
