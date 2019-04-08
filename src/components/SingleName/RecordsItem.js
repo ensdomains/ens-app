@@ -227,24 +227,25 @@ const Editable = ({
 class RecordItem extends Component {
   _renderViewOnly() {
     const { keyName, value, type, domain, account } = this.props
-    return (
+    const {name, contentType} = domain
+    return ( (keyName !== 'Address' && contentType === 'error') ? '':(
       <RecordsItem>
-        <RecordsContent>
-          <RecordsKey>{keyName}</RecordsKey>
-          <RecordsValue>
-            {type === 'address' ? (
-              <EtherScanLink address={value}>{value}</EtherScanLink>
-            ) : (
-              <ContentHashLink value={value} contentType={domain.contentType} />
-            )}
-          </RecordsValue>
-        </RecordsContent>
-        {keyName === 'Address' &&
-          value.toLowerCase() === account.toLowerCase() && (
-            <AddReverseRecord account={account} name={domain.name} />
-          )}
+      <RecordsContent>
+        <RecordsKey>{keyName}</RecordsKey>
+        <RecordsValue>
+          {type === 'address' ? (
+            <EtherScanLink address={value}>{value}</EtherScanLink>
+          ) : 
+            <ContentHashLink value={value} contentType={contentType} />
+          }
+        </RecordsValue>
+      </RecordsContent>
+      {keyName === 'Address' &&
+        value.toLowerCase() === account.toLowerCase() && (
+          <AddReverseRecord account={account} name={name} />
+        )}
       </RecordsItem>
-    )
+    ))
   }
   render() {
     const { isOwner } = this.props
