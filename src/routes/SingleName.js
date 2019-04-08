@@ -29,8 +29,6 @@ function SingleName({
 
   const name = normalize(searchTerm)
 
-  console.log(name)
-
   if (valid) {
     return (
       <Query query={GET_SINGLE_NAME} variables={{ name }}>
