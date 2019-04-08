@@ -71,7 +71,6 @@ class NameDetails extends Component {
   }
   render() {
     const { domain, isOwner, refetch, account } = this.props
-    console.log(domain)
     const records = [
       {
         label: 'Address',

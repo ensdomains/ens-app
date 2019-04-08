@@ -75,9 +75,7 @@ async function getResolverContract(addr) {
 
 async function getResolverReadContract(addr) {
   const web3 = await getWeb3Read()
-  console.log('here4')
   const Resolver = new web3.eth.Contract(resolverContract, addr)
-  console.log('here5')
   return {
     Resolver: Resolver.methods,
     _Resolver: Resolver

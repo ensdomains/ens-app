@@ -117,7 +117,6 @@ function AddReverseRecord({ account, name }) {
       <ReverseRecordQuery address={account}>
         {({ data: { getReverseRecord }, loading, refetch }) => {
           if (loading) return null
-          console.log('reverseRecord', getReverseRecord)
           return (
             <>
               <Message onClick={editing ? stopEditing : startEditing}>
