@@ -5,7 +5,8 @@ import getENS, {
   getResolverContract,
   getTestRegistrarContract,
   getResolverReadContract,
-  getNamehashWithLabelHash
+  getNamehashWithLabelHash,
+  normalize
 } from './ens'
 import { decryptHashes } from './preimage'
 import { uniq, ensStartBlock, checkLabels, mergeLabels } from '../utils/utils'
@@ -129,10 +130,11 @@ export async function setOwner(name, newOwner) {
   return () => ENS.setOwner(namehash, newOwner).send({ from: account })
 }
 
-export async function setSubnodeOwner(label, node, newOwner) {
+export async function setSubnodeOwner(unnormalizedLabel, node, newOwner) {
   const web3 = await getWeb3()
   const { ENS } = await getENS()
   const account = await getAccount()
+  const label = normalize(unnormalizedLabel)
   const parentNamehash = await getNamehash(node)
   return () =>
     ENS.setSubnodeOwner(parentNamehash, web3.utils.sha3(label), newOwner).send({
