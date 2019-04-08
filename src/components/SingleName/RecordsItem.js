@@ -13,7 +13,11 @@ import Pencil from '../Forms/Pencil'
 import Bin from '../Forms/Bin'
 import SaveCancel from './SaveCancel'
 import DefaultPendingTx from '../PendingTx'
-import { SET_CONTENT, SET_CONTENTHASH, SET_ADDRESS } from '../../graphql/mutations'
+import {
+  SET_CONTENT,
+  SET_CONTENTHASH,
+  SET_ADDRESS
+} from '../../graphql/mutations'
 import DetailsItemInput from './DetailsItemInput'
 import { useEditable } from '../hooks'
 import { getOldContentWarning } from './warnings'
@@ -63,9 +67,9 @@ const PendingTx = styled(DefaultPendingTx)`
 function chooseMutation(recordType, contentType) {
   switch (recordType) {
     case 'Content':
-      if(contentType === 'oldcontent'){
+      if (contentType === 'oldcontent') {
         return SET_CONTENT
-      }else{
+      } else {
         return SET_CONTENTHASH
       }
     case 'Address':
@@ -75,13 +79,9 @@ function chooseMutation(recordType, contentType) {
   }
 }
 
-const Actionable = ({
-  startEditing,
-  keyName,
-  value
-}) => {
-  if(value && !value.error){
-    return(
+const Actionable = ({ startEditing, keyName, value }) => {
+  if (value && !value.error) {
+    return (
       <Action>
         <Pencil
           onClick={startEditing}
@@ -113,7 +113,11 @@ const Editable = ({
     startPending,
     setConfirmed
   } = actions
-  const isValid = validateRecord({ type, value: newValue, contentType:domain.contentType })
+  const isValid = validateRecord({
+    type,
+    value: newValue,
+    contentType: domain.contentType
+  })
   const isInvalid = !isValid && newValue.length > 0 && type === 'address'
 
   return (
@@ -132,9 +136,12 @@ const Editable = ({
               <RecordsValue editableSmall>
                 {type === 'address' ? (
                   <EtherScanLink address={value}>{value}</EtherScanLink>
-                ) : 
-                  <ContentHashLink value={value} contentType={domain.contentType} />
-                }
+                ) : (
+                  <ContentHashLink
+                    value={value}
+                    contentType={domain.contentType}
+                  />
+                )}
               </RecordsValue>
 
               {pending && !confirmed && txHash ? (
@@ -166,12 +173,18 @@ const Editable = ({
                     )}
                   </Mutation>
                 </Action>
-              ) : <Actionable startEditing={startEditing} keyName={keyName} value={value} />}
+              ) : (
+                <Actionable
+                  startEditing={startEditing}
+                  keyName={keyName}
+                  value={value}
+                />
+              )}
             </RecordsContent>
             {editing ? (
               <>
                 <EditRecord>
-                  <DetailsItemInput 
+                  <DetailsItemInput
                     newValue={newValue}
                     dataType={type}
                     contentType={domain.contentType}
@@ -181,7 +194,10 @@ const Editable = ({
                   />
                 </EditRecord>
                 <SaveCancel
-                  warningMessage={getOldContentWarning(type, domain.contentType)}
+                  warningMessage={getOldContentWarning(
+                    type,
+                    domain.contentType
+                  )}
                   mutation={() => {
                     const variables = {
                       name: domain.name,
@@ -210,7 +226,7 @@ const Editable = ({
 
 class RecordItem extends Component {
   _renderViewOnly() {
-    const { keyName, value, type, domain } = this.props
+    const { keyName, value, type, domain, account } = this.props
     return (
       <RecordsItem>
         <RecordsContent>
@@ -218,11 +234,15 @@ class RecordItem extends Component {
           <RecordsValue>
             {type === 'address' ? (
               <EtherScanLink address={value}>{value}</EtherScanLink>
-            ) :(
-              <ContentHashLink value = {value} contentType={domain.contentType  } />
+            ) : (
+              <ContentHashLink value={value} contentType={domain.contentType} />
             )}
           </RecordsValue>
         </RecordsContent>
+        {keyName === 'Address' &&
+          value.toLowerCase() === account.toLowerCase() && (
+            <AddReverseRecord account={account} name={domain.name} />
+          )}
       </RecordsItem>
     )
   }
