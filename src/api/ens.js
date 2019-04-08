@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import getWeb3, { getWeb3Read, getNetworkId } from './web3'
+import { hash, normalize } from 'eth-ens-namehash'
 import { abi as ensContract } from '@ensdomains/ens/build/contracts/ENS.json'
 import { abi as reverseRegistrarContract } from '@ensdomains/ens/build/contracts/ReverseRegistrar.json'
 import { abi as resolverContract } from '@ensdomains/resolver/build/contracts/PublicResolver.json'
@@ -37,20 +38,8 @@ var contracts = {
 let ENS
 let readENS
 
-async function getNamehash(unsanitizedName) {
-  const web3 = await getWeb3()
-  const name = unsanitizedName.toLowerCase()
-  let node =
-    '0x0000000000000000000000000000000000000000000000000000000000000000'
-  if (name !== '') {
-    let labels = name.split('.')
-    for (let i = labels.length - 1; i >= 0; i--) {
-      node = web3.utils.sha3(node + web3.utils.sha3(labels[i]).slice(2), {
-        encoding: 'hex'
-      })
-    }
-  }
-  return node.toString()
+function getNamehash(unsanitizedName) {
+  return hash(unsanitizedName)
 }
 
 async function getNamehashWithLabelHash(labelHash, nodeHash) {
@@ -62,7 +51,7 @@ async function getNamehashWithLabelHash(labelHash, nodeHash) {
 async function getReverseRegistrarContract() {
   const { ENS } = await getENS()
   const web3 = await getWeb3()
-  const namehash = await getNamehash('addr.reverse')
+  const namehash = getNamehash('addr.reverse')
   const reverseRegistrarAddr = await ENS.owner(namehash).call()
   const reverseRegistrar = new web3.eth.Contract(
     reverseRegistrarContract,
@@ -126,9 +115,14 @@ async function getFifsRegistrarContract() {
 async function getTestRegistrarContract() {
   const { ENS, _ENS } = await getENS()
   const web3 = await getWeb3()
-  const namehash = await getNamehash('test')
+  const namehash = getNamehash('test')
   const testRegistrarAddr = await ENS.owner(namehash).call()
-  const registrar = new web3.eth.Contract(testRegistrarContract, testRegistrarAddr, _ENS._address, namehash)
+  const registrar = new web3.eth.Contract(
+    testRegistrarContract,
+    testRegistrarAddr,
+    _ENS._address,
+    namehash
+  )
 
   return {
     registrar: registrar.methods,
@@ -193,5 +187,6 @@ export {
   getNamehashWithLabelHash,
   getResolverContract,
   getResolverReadContract,
-  getFifsRegistrarContract
+  getFifsRegistrarContract,
+  normalize
 }
