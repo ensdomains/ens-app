@@ -38,7 +38,7 @@ var contracts = {
 let ENS
 let readENS
 
-function getNamehash(unsanitizedName) {
+async function getNamehash(unsanitizedName) {
   return hash(unsanitizedName)
 }
 
