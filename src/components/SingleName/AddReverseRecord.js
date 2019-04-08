@@ -5,6 +5,7 @@ import { Mutation } from 'react-apollo'
 import { SET_NAME } from '../../graphql/mutations'
 import mq from 'mediaQuery'
 import { useEditable } from '../hooks'
+import { normalize } from 'api/ens'
 
 import ReverseRecordQuery from '../ReverseRecordQuery'
 import SaveCancel from './SaveCancel'
@@ -119,8 +120,8 @@ function AddReverseRecord({ account, name }) {
           return (
             <>
               <Message onClick={editing ? stopEditing : startEditing}>
-                {getReverseRecord ? (
-                  name === getReverseRecord.name ? (
+                {getReverseRecord && getReverseRecord.name !== null ? (
+                  name.toLowerCase() === getReverseRecord.name ? (
                     <MessageContent>
                       <Check />
                       Reverse record: Set to {name}

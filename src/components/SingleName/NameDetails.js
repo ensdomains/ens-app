@@ -36,12 +36,12 @@ const Records = styled('div')`
 `
 
 const ExpirationDetailsValue = styled(DetailsValue)`
-  color: ${ p => (p.isExpired ? 'red' : null) }
+  color: ${p => (p.isExpired ? 'red' : null)};
 `
 
-function canClaim(domain){
-  if(!domain.name.match(/\.test$/)) return false
-  return parseInt(domain.owner) == 0 || domain.expiryTime < new Date()
+function canClaim(domain) {
+  if (!domain.name.match(/\.test$/)) return false
+  return parseInt(domain.owner) === 0 || domain.expiryTime < new Date()
 }
 
 class NameDetails extends Component {
@@ -138,7 +138,9 @@ class NameDetails extends Component {
               {domain.expiryTime ? (
                 <DetailsItem uneditable>
                   <DetailsKey>Expiration Date</DetailsKey>
-                  <ExpirationDetailsValue isExpired = {domain.expiryTime < new Date()}>
+                  <ExpirationDetailsValue
+                    isExpired={domain.expiryTime < new Date()}
+                  >
                     {formatDate(domain.expiryTime)}
                   </ExpirationDetailsValue>
                 </DetailsItem>
@@ -194,9 +196,9 @@ class NameDetails extends Component {
                   </>
                 )}
               </Records>
-              {canClaim(domain)  ? (
+              {canClaim(domain) ? (
                 <NameClaimTestDomain domain={domain} refetch={refetch} />
-              ): null}
+              ) : null}
             </Details>
           )}
         />
