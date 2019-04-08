@@ -134,6 +134,8 @@ class NameDetails extends Component {
                 keyName="Owner"
                 value={domain.owner}
                 isOwner={isOwner}
+                deedOwner={domain.deedOwner}
+                isDeedOwner={isDeedOwner}
                 type="address"
                 editButton="Transfer"
                 mutationButton="Transfer"

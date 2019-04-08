@@ -268,12 +268,17 @@ const Editable = ({
 
 class DetailsEditable extends Component {
   _renderViewOnly() {
-    let { value, keyName, type } = this.props
-
+    let { value, keyName, type, isOwner, deedOwner, isDeedOwner } = this.props
     if (parseInt(value, 16) === 0) {
-      const [newValue, newType] = getDefaultMessage(keyName)
+      let [newValue, newType] = getDefaultMessage(keyName)
       value = newValue
       type = newType
+      if(keyName == 'Owner' && parseInt(deedOwner, 16) !== 0){
+        value = 'Pending'
+        if(isDeedOwner){
+          value+='(You have not finalised)'
+        }
+      }
     }
     return (
       <DetailsEditableContainer>
