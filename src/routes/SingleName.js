@@ -6,7 +6,6 @@ import Loader from '../components/Loader'
 import SearchErrors from '../components/SearchErrors/SearchErrors'
 
 import Name from '../components/SingleName/Name'
-import { normalize } from 'api/ens'
 
 function SingleName({
   match: {
@@ -14,24 +13,27 @@ function SingleName({
   },
   location: { pathname }
 }) {
-  const [valid, setValid] = useState(false)
+  const [valid, setValid] = useState(undefined)
+  const [name, setNormalisedName] = useState('')
+
   useEffect(() => {
     try {
       // This is under the assumption that validateName never returns false
-      validateName(searchTerm)
-      if (!valid) setValid(true)
+      const normalisedName = validateName(searchTerm)
+      if (!valid) {
+        setValid(true)
+        setNormalisedName(normalisedName)
+      }
     } catch {
-      if (valid) setValid(false)
+      setValid(false)
     }
 
     document.title = valid ? searchTerm : 'Error finding name'
-  })
-
-  const name = normalize(searchTerm)
+  }, [searchTerm])
 
   if (valid) {
     return (
-      <Query query={GET_SINGLE_NAME} variables={{ name: searchTerm }}>
+      <Query query={GET_SINGLE_NAME} variables={{ name }}>
         {({ loading, error, data, refetch }) => {
           if (loading) return <Loader large center />
           if (error)
@@ -47,9 +49,11 @@ function SingleName({
         }}
       </Query>
     )
+  } else if (valid === false) {
+    return <SearchErrors errors={['domainMalformed']} searchTerm={searchTerm} />
+  } else {
+    return <Loader large center />
   }
-
-  return <SearchErrors errors={['domainMalformed']} searchTerm={searchTerm} />
 }
 
 export default SingleName

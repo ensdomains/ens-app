@@ -229,8 +229,11 @@ const Editable = ({
 
 class RecordItem extends Component {
   _renderViewOnly() {
-    const { keyName, value, type, domain } = this.props
-    return (
+    const { keyName, value, type, domain, account } = this.props
+    const { name, contentType } = domain
+    return keyName !== 'Address' && contentType === 'error' ? (
+      ''
+    ) : (
       <RecordsItem>
         <RecordsContent>
           <RecordsKey>{keyName}</RecordsKey>
@@ -238,10 +241,14 @@ class RecordItem extends Component {
             {type === 'address' ? (
               <EtherScanLink address={value}>{value}</EtherScanLink>
             ) : (
-              <ContentHashLink value={value} contentType={domain.contentType} />
+              <ContentHashLink value={value} contentType={contentType} />
             )}
           </RecordsValue>
         </RecordsContent>
+        {keyName === 'Address' &&
+          value.toLowerCase() === account.toLowerCase() && (
+            <AddReverseRecord account={account} name={name} />
+          )}
       </RecordsItem>
     )
   }

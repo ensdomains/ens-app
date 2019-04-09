@@ -98,8 +98,8 @@ export async function getContent(name) {
   } catch (e) {
     const message =
       'Error getting content on the resolver contract, are you sure the resolver address is a resolver contract?'
-    console.warn(message)
-    return { value: '0x0', contentType: 'error' }
+    console.warn(message, e)
+    return { value: message, contentType: 'error' }
   }
 }
 
@@ -112,8 +112,9 @@ export async function getName(address) {
       name: null
     }
   }
-  const { Resolver } = await getResolverReadContract(resolverAddr)
+
   try {
+    const { Resolver } = await getResolverReadContract(resolverAddr)
     const name = await Resolver.name(reverseNamehash).call()
     return {
       name
@@ -253,14 +254,10 @@ export async function getResolverDetails(node) {
   }
 }
 
-export async function claimAndSetReverseRecordName(name, gasLimit = 0) {
+export async function claimAndSetReverseRecordName(name) {
   const { reverseRegistrar } = await getReverseRegistrarContract()
   const account = await getAccount()
-  const gas = await reverseRegistrar.setName(name).estimateGas()
-  return () =>
-    reverseRegistrar
-      .setName(name)
-      .send({ from: account, gas: gasLimit > gas ? gasLimit : gas })
+  return () => reverseRegistrar.setName(name).send({ from: account })
 }
 
 export async function setReverseRecordName(name) {

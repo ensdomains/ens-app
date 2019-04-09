@@ -119,8 +119,8 @@ function AddReverseRecord({ account, name }) {
           return (
             <>
               <Message onClick={editing ? stopEditing : startEditing}>
-                {getReverseRecord ? (
-                  name === getReverseRecord.name ? (
+                {getReverseRecord && getReverseRecord.name !== null ? (
+                  name.toLowerCase() === getReverseRecord.name ? (
                     <MessageContent>
                       <Check />
                       Reverse record: Set to {name}
