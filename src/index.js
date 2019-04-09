@@ -2,16 +2,14 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { ApolloProvider } from 'react-apollo'
 
-import './index.css'
-import App from './App'
-import registerServiceWorker from './registerServiceWorker'
-import setupWeb3 from './api/web3'
-import getENS from './api/ens'
-import { SET_ERROR } from './graphql/mutations'
+import App from 'App'
+import setupWeb3 from 'api/web3'
+import getENS from 'api/ens'
+import { SET_ERROR } from 'graphql/mutations'
 
-import client from './apolloClient'
-import { GlobalStateProvider } from './globalState'
-import './globalStyles'
+import client from 'apolloClient'
+import { GlobalStateProvider } from 'globalState'
+import 'globalStyles'
 
 window.addEventListener('load', async () => {
   await setupWeb3()
@@ -32,5 +30,3 @@ window.addEventListener('load', async () => {
     document.getElementById('root')
   )
 })
-
-registerServiceWorker()

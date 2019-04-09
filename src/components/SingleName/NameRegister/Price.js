@@ -26,10 +26,21 @@ const Description = styled('div')`
   margin-top: 10px;
 `
 
-const Price = ({ price }) => {
+const USD = styled('span')`
+  color: #adbbcd;
+  margin-left: 20px;
+`
+
+const Price = ({ price, ethUsdPrice, ethUsdPriceLoading }) => {
+  const ethVal = new EthVal(price).toEth()
   return (
     <PriceContainer>
-      <Value>{new EthVal(price).toEth().toFixed(12)} ETH</Value>
+      <Value>
+        {ethVal.toFixed(5)} ETH
+        {!ethUsdPriceLoading && (
+          <USD>${ethVal.mul(ethUsdPrice).toFixed(2)} USD</USD>
+        )}
+      </Value>
       <Description>Total price to pay</Description>
     </PriceContainer>
   )

@@ -4,7 +4,7 @@ import { Query } from 'react-apollo'
 
 import mq from 'mediaQuery'
 import { GET_MINIMUM_COMMITMENT_AGE, GET_RENT_PRICE } from 'graphql/queries'
-import { useInterval } from 'components/hooks'
+import { useInterval, useEthPrice } from 'components/hooks'
 import { registerMachine, registerReducer } from './registerReducer'
 import { sendNotification } from './notification'
 
@@ -52,6 +52,7 @@ const NameRegister = ({ domain, waitTime, refetch }) => {
   const [years, setYears] = useState(1)
   const [secondsPassed, setSecondsPassed] = useState(0)
   const [timerRunning, setTimerRunning] = useState(false)
+  const { loading: ethUsdPriceLoading, price: ethUsdPrice } = useEthPrice()
 
   useInterval(
     () => {
@@ -84,7 +85,11 @@ const NameRegister = ({ domain, waitTime, refetch }) => {
               <PricingContainer>
                 <Years years={years} setYears={setYears} />
                 <Chain />
-                <Price price={loading ? 0 : data.getRentPrice} />
+                <Price
+                  price={loading ? 0 : data.getRentPrice}
+                  ethUsdPriceLoading={ethUsdPriceLoading}
+                  ethUsdPrice={ethUsdPrice}
+                />
               </PricingContainer>
             )
           }}

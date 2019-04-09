@@ -1,4 +1,5 @@
-import { useEffect, useReducer, useRef } from 'react'
+import { useEffect, useReducer, useRef, useState } from 'react'
+import getEtherPrice from 'api/price'
 
 export function useDocumentTitle(title) {
   useEffect(() => {
@@ -94,4 +95,21 @@ export function useInterval(callback, delay) {
       return () => clearInterval(id)
     }
   }, [delay])
+}
+
+export function useEthPrice() {
+  const [loading, setLoading] = useState(true)
+  const [price, setPrice] = useState(undefined)
+
+  useEffect(() => {
+    getEtherPrice().then(res => {
+      setPrice(res.result.ethusd)
+      setLoading(false)
+    })
+  }, [])
+
+  return {
+    loading,
+    price
+  }
 }
