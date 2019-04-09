@@ -39,7 +39,7 @@ const MigrationExplanation = styled('p')`
   color: #adbbcd;
   letter-spacing: 0;
   margin-bottom: 0;
-  margin-right: 10px;
+  margin-right: 2em;
 
   strong {
     font-weight: 700;
