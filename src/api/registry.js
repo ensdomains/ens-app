@@ -98,7 +98,7 @@ export async function getContent(name) {
   } catch (e) {
     const message =
       'Error getting content on the resolver contract, are you sure the resolver address is a resolver contract?'
-    console.warn(message)
+    console.warn(message, e)
     return { value: message, contentType: 'error' }
   }
 }
