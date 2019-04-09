@@ -28,7 +28,6 @@ const DecodedError = styled('div')`
 `
 
 const ContentHashLink = ({ value, contentType }) => {
-  console.log({value, contentType})
   if (contentType === 'oldcontent') {
     return <div>{value}</div>
   }
