@@ -120,3 +120,9 @@ export const TRANSFER_REGISTRARS = gql`
     transferRegistrars(label: $label) @client
   }
 `
+
+export const RELEASE_DEED = gql`
+  mutation releaseDeed($hash: String) {
+    releaseDeed(label: $label) @client
+  }
+`

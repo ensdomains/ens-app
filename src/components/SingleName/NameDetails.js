@@ -99,14 +99,27 @@ class NameDetails extends Component {
     } else {
       contentMutation = SET_CONTENTHASH
     }
-
     return (
       <>
         <Route
           exact
           path="/name/:name"
-          render={() => (
+          render={() => { return (isDeedOwner && domain.currentBlockDate > domain.transferEndDate) ? (
             <Details data-testid="name-details">
+                <TransferRegistrars
+                  label={domain.label}
+                  currentBlockDate={domain.currentBlockDate}
+                  transferEndDate={domain.transferEndDate}
+                  migrationStartDate={domain.migrationStartDate}
+                  refetch={refetch}
+                  parent ={domain.parent}
+                  isOwner={isOwner}
+                  isDeedOwner={isDeedOwner}
+                  isNewRegistrar={domain.isNewRegistrar}
+                />
+              </Details>
+            ): (
+              <Details data-testid="name-details">
               {isOwner && <SetupName />}
               {domain.parent && (
                 <DetailsItem uneditable>
@@ -121,6 +134,8 @@ class NameDetails extends Component {
                 keyName="Owner"
                 value={domain.owner}
                 isOwner={isOwner}
+                deedOwner={domain.deedOwner}
+                isDeedOwner={isDeedOwner}
                 type="address"
                 editButton="Transfer"
                 mutationButton="Transfer"
@@ -150,19 +165,17 @@ class NameDetails extends Component {
               ) : (
                 ''
               )}
-              {domain.parent === 'eth' &&
-              ((isOwner && !domain.isNewRegistrar) ||
-                (isDeedOwner && !domain.isNewRegistrar)) ? (
-                <TransferRegistrars
-                  label={domain.label}
-                  currentBlockDate={domain.currentBlockDate}
-                  transferEndDate={domain.transferEndDate}
-                  migrationStartDate={domain.migrationStartDate}
-                  refetch={refetch}
-                />
-              ) : (
-                ''
-              )}
+              <TransferRegistrars
+                label={domain.label}
+                currentBlockDate={domain.currentBlockDate}
+                transferEndDate={domain.transferEndDate}
+                migrationStartDate={domain.migrationStartDate}
+                refetch={refetch}
+                parent ={domain.parent}
+                isOwner={isOwner}
+                isDeedOwner={isDeedOwner}
+                isNewRegistrar={domain.isNewRegistrar}
+              />
               <HR />
               <DetailsItemEditable
                 keyName="Resolver"
@@ -216,7 +229,8 @@ class NameDetails extends Component {
                 <NameClaimTestDomain domain={domain} refetch={refetch} />
               ) : null}
             </Details>
-          )}
+            )}
+          }
         />
 
         <Route

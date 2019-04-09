@@ -351,3 +351,17 @@ export const transferRegistrars = async label => {
       gas: gas
     })
 }
+
+export const releaseDeed = async label => {
+  const { ethRegistrar } = await getLegacyAuctionRegistrar()
+  const account = await getAccount()
+  const web3 = await getWeb3()
+  const hash = web3.utils.sha3(label)
+  const tx = ethRegistrar.releaseDeed(hash)
+  const gas = await tx.estimateGas()
+  return () =>
+    tx.send({
+      from: account,
+      gas: gas
+    })
+}
