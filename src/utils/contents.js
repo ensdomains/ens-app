@@ -1,22 +1,25 @@
 import contentHash from 'content-hash'
 
 export function decode(encoded){
-  let decoded, protocolType
+  let decoded, protocolType, error
   if(encoded.error){
     return { protocolType:null, decoded:encoded.error }
   }
   if(encoded){
-    decoded = contentHash.decode(encoded)
-    if(contentHash.isHashOfType(encoded, contentHash.Types.ipfs)){
-      protocolType = 'ipfs'
-    }else if (contentHash.isHashOfType(encoded, contentHash.Types.swarm)){
-      protocolType = 'bzz'
-    }else{
-      decoded = encoded
+    try{
+      decoded = contentHash.decode(encoded)
+      if(contentHash.isHashOfType(encoded, contentHash.Types.ipfs)){
+        protocolType = 'ipfs'
+      }else if (contentHash.isHashOfType(encoded, contentHash.Types.swarm)){
+        protocolType = 'bzz'
+      }else{
+        decoded = encoded
+      }        
+    }catch(e){
+      error = e.message
     }
   }
-  console.log('decode', {encoded, decoded})
-  return { protocolType, decoded }
+  return { protocolType, decoded, error }
 }
 
 export function validateContent(encoded){
