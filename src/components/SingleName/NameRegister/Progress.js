@@ -8,7 +8,7 @@ import { ReactComponent as DefaultQuestionMark } from 'components/Icons/Question
 import { ReactComponent as DefaultCheckCircle } from 'components/Icons/CheckCircle.svg'
 
 const ProgressContainer = styled('div')`
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 `
 
 const states = {
