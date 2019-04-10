@@ -29,8 +29,11 @@ const Icon = styled('div')`
   justify-content: center;
   align-items: center;
   align-self: center;
+  transition: 0.2s;
 
   &:hover {
+    border: solid #2500a6 1px;
+    color: #2500a6;
     cursor: pointer;
   }
 `
