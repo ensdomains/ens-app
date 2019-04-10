@@ -11,10 +11,16 @@ import { ReactComponent as DefaultPencil } from '../../Icons/SmallPencil.svg'
 const CTAContainer = styled('div')`
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 `
 
 const Pencil = styled(DefaultPencil)`
   margin-right: 5px;
+`
+
+const Prompt = styled('span')`
+  color: #ffa600;
+  margin-right: 10px;
 `
 
 function getCTA({
@@ -68,9 +74,12 @@ function getCTA({
         }}
       >
         {mutate => (
+          <>
+          <Prompt>Click register to move to the 3rd step</Prompt>
           <Button data-testid="register-button" onClick={mutate}>
             Register
           </Button>
+          </>
         )}
       </Mutation>
     ),
