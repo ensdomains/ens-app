@@ -36,6 +36,7 @@ export const GET_ALL_NODES = gql`
       value
       highestBid
       state
+      migrationStartDate
     }
   }
 

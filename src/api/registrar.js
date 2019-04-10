@@ -58,7 +58,7 @@ export const getPermanentRegistrar = async () => {
     const { readENS: ENS } = await getENS()
     const web3 = await getWeb3()
     const web3Read = await getWeb3Read()
-    const ethAddr = await ENS.owner(getNamehash('eth')).call()
+    const ethAddr = await ENS.owner(await getNamehash('eth')).call()
     permanentRegistrar = new web3.eth.Contract(
       permanentRegistrarContract,
       ethAddr
@@ -142,9 +142,10 @@ export const getPermanentEntry = async name => {
       obj.nameExpires = new Date(nameExpires * 1000)
     }
   } catch (e) {
-    console.log('error getting permanentRegistrar contract', e)
+    obj.error = e.message
+  } finally{
+    return obj
   }
-  return obj
 }
 
 export const getDeed = async address => {
@@ -206,7 +207,7 @@ export const getEntry = async name => {
     if (permEntry.transferPeriodEnds) {
       obj.transferEndDate = new Date(permEntry.transferPeriodEnds * 1000)
     }
-
+    obj.available = permEntry.available
     if (!permEntry.available) {
       // Owned
       obj.state = 2
