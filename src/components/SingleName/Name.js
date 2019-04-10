@@ -78,7 +78,7 @@ const Favourite = styled(DefaultFavourite)``
 
 function isRegistrationOpen(domain, isDeedOwner, isOwner){
   let {available, parent} = domain
-  return parent == 'eth' && !isDeedOwner && available
+  return parent === 'eth' && !isDeedOwner && available
 }
 
 function Name({ details: domain, name, pathname, refetch }) {
