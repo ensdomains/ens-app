@@ -48,7 +48,6 @@ function getParent(name) {
 const resolvers = {
   Query: {
     singleName: async (_, { name }, { cache }) => {
-      console.log(name)
       try {
         const nameArray = name.split('.')
         const networkId = await getNetworkId()
@@ -76,7 +75,6 @@ const resolvers = {
         }
         let data
         if (nameArray.length < 3 && nameArray[1] === 'eth') {
-          console.log('here')
           const entry = await getEntry(nameArray[0])
           const {
             registrant,
