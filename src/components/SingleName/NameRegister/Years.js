@@ -77,10 +77,15 @@ const Years = ({ years, setYears }) => {
         <Icon onClick={decrementYears}>-</Icon>
         <Amount>
           <input
-            type="number"
+            type="text"
             value={years}
             onChange={e => {
-              setYears(parseInt(e.target.value))
+              const sign = Math.sign(e.target.value)
+              if (sign === -1 || isNaN(sign)) {
+                setYears(0)
+              } else {
+                setYears(e.target.value)
+              }
             }}
           />{' '}
           year{years > 1 && 's'}
