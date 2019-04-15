@@ -191,6 +191,7 @@ export const getEntry = async name => {
   // Could move into own object
   let block = await getBlock()
   obj.currentBlockDate = new Date(block.timestamp * 1000)
+  obj.registrant = 0
 
   try {
     let permEntry = await getPermanentEntry(name)
@@ -213,6 +214,7 @@ export const getEntry = async name => {
     }
     if (permEntry.ownerOf) {
       obj.isNewRegistrar = true
+      obj.registrant = permEntry.ownerOf
     }
     if (permEntry.nameExpires) {
       obj.expiryTime = permEntry.nameExpires
@@ -221,6 +223,21 @@ export const getEntry = async name => {
     console.log('error getting permanent registry', e)
   }
   return obj
+}
+
+export const transferOwner = async ({ to, name }) => {
+  try {
+    const web3 = await getWeb3()
+    const nameArray = name.split('.')
+    const labelHash = web3.utils.sha3(nameArray[0])
+    const account = await getAccount()
+    const { permanentRegistrarRead: Registrar } = await getPermanentRegistrar()
+    return Registrar.safeTransferFrom(account, to, labelHash).send({
+      from: account
+    })
+  } catch (e) {
+    console.log('error getting permanentRegistrar contract', e)
+  }
 }
 
 export const getRentPrice = async (name, duration) => {
