@@ -179,6 +179,7 @@ export const getEntry = async name => {
     console.log('error getting auction entry', e)
     obj = {
       deedOwner: '0x0',
+      registrant: 0,
       state: 0,
       registrationDate: 0,
       revealDate: 0,
@@ -213,6 +214,7 @@ export const getEntry = async name => {
     }
     if (permEntry.ownerOf) {
       obj.isNewRegistrar = true
+      obj.registrant = permEntry.ownerOf
     }
     if (permEntry.nameExpires) {
       obj.expiryTime = permEntry.nameExpires
@@ -221,6 +223,22 @@ export const getEntry = async name => {
     console.log('error getting permanent registry', e)
   }
   return obj
+}
+
+export const transferOwner = async ({ to, name }) => {
+  try {
+    console.log(name)
+    const web3 = await getWeb3()
+    const nameArray = name.split('.')
+    const labelHash = web3.utils.sha3(nameArray[0])
+    const account = await getAccount()
+    const { permanentRegistrarRead: Registrar } = await getPermanentRegistrar()
+    return Registrar.safeTransferFrom(account, to, labelHash).send({
+      from: account
+    })
+  } catch (e) {
+    console.log('error getting permanentRegistrar contract', e)
+  }
 }
 
 export const getRentPrice = async (name, duration) => {

@@ -1,14 +1,14 @@
 import crypto from 'crypto'
 
 import {
-  createSealedBid,
   getEntry,
   getRentPrice,
   commit,
   getMinimumCommitmentAge,
   register,
   transferRegistrars,
-  releaseDeed
+  releaseDeed,
+  transferOwner
 } from '../registrar'
 import { getOwner } from '../registry'
 import modeNames from '../modes'
@@ -36,7 +36,7 @@ const resolvers = {
       const secret = randomSecret()
 
       secrets[label] = secret
-      //Save secret to localStorage with name as the key
+      //TODO: Save secret to localStorage with name as the key
       const tx = await commit(label, secret)
       return sendHelper(tx)
     },
@@ -88,12 +88,9 @@ const resolvers = {
         console.log('Error in getDomainAvailability', e)
       }
     },
-    async startAuctionAndBid(_, { name, bidAmount, decoyBidAmount, secret }) {
-      const sealedBid = await createSealedBid(name, bidAmount, secret)
-      console.log(sealedBid)
-    },
-    async bid(_, { name, bidAmount, decoyBidAmount, secret }) {
-      // const sealedBid = await createSealedBid(name, bidAmount, secret)
+    async setRegistrant(_, { name, address }) {
+      const tx = transferOwner({ name, to: address })
+      return sendHelper(tx)
     },
     async transferRegistrars(_, { label }) {
       const tx = await transferRegistrars(label)

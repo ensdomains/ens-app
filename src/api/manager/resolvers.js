@@ -70,12 +70,14 @@ const resolvers = {
           contentType: null,
           expiryTime: null,
           isNewRegistrar: null,
-          deedOwner: null
+          deedOwner: null,
+          registrant: null
         }
         let data
         if (nameArray.length < 3 && nameArray[1] === 'eth') {
           const entry = await getEntry(nameArray[0])
           const {
+            registrant,
             deedOwner,
             state,
             registrationDate,
@@ -101,6 +103,7 @@ const resolvers = {
             value,
             highestBid,
             owner,
+            registrant,
             deedOwner,
             isNewRegistrar: !!isNewRegistrar,
             expiryTime: expiryTime || null,

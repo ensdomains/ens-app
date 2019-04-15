@@ -60,6 +60,7 @@ export const GET_SINGLE_NAME = gql`
       available
       expiryTime
       deedOwner
+      registrant
       isNewRegistrar
     }
   }
