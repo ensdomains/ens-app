@@ -227,7 +227,6 @@ export const getEntry = async name => {
 
 export const transferOwner = async ({ to, name }) => {
   try {
-    console.log(name)
     const web3 = await getWeb3()
     const nameArray = name.split('.')
     const labelHash = web3.utils.sha3(nameArray[0])
