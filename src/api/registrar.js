@@ -179,7 +179,6 @@ export const getEntry = async name => {
     console.log('error getting auction entry', e)
     obj = {
       deedOwner: '0x0',
-      registrant: 0,
       state: 0,
       registrationDate: 0,
       revealDate: 0,
@@ -192,6 +191,7 @@ export const getEntry = async name => {
   // Could move into own object
   let block = await getBlock()
   obj.currentBlockDate = new Date(block.timestamp * 1000)
+  obj.registrant = 0
 
   try {
     let permEntry = await getPermanentEntry(name)
