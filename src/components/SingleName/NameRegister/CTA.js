@@ -7,6 +7,7 @@ import { COMMIT, REGISTER } from '../../../graphql/mutations'
 import PendingTx from '../../PendingTx'
 import Button from '../../Forms/Button'
 import { ReactComponent as DefaultPencil } from '../../Icons/SmallPencil.svg'
+import { ReactComponent as DefaultOrangeExclamation } from '../../Icons/OrangeExclamation.svg'
 
 const CTAContainer = styled('div')`
   display: flex;
@@ -21,6 +22,10 @@ const Pencil = styled(DefaultPencil)`
 const Prompt = styled('span')`
   color: #ffa600;
   margin-right: 10px;
+`
+
+const OrangeExclamation = styled(DefaultOrangeExclamation)`
+  margin-right: 5px;
 `
 
 function getCTA({
@@ -75,10 +80,13 @@ function getCTA({
       >
         {mutate => (
           <>
-          <Prompt>Click register to move to the 3rd step</Prompt>
-          <Button data-testid="register-button" onClick={mutate}>
-            Register
-          </Button>
+            <Prompt>
+              <OrangeExclamation />
+              Click register to move to the 3rd step
+            </Prompt>
+            <Button data-testid="register-button" onClick={mutate}>
+              Register
+            </Button>
           </>
         )}
       </Mutation>
