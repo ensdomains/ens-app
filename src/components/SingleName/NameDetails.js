@@ -133,7 +133,7 @@ class NameDetails extends Component {
                     </DetailsValue>
                   </DetailsItem>
                 )}
-                {domain.parent === 'eth' ? (
+                {domain.parent === 'eth' && domain.isNewRegistrar ? (
                   <>
                     <DetailsItemEditable
                       domain={domain}
