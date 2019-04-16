@@ -2,19 +2,11 @@ import React, { Fragment } from 'react'
 import DomainInfo from '../components/SearchName/DomainInfo'
 import SubDomainResults from '../components/SubDomainResults/SubDomainResults'
 import { SubDomainStateFields } from '../graphql/fragments'
+import { GET_SINGLE_NAME } from '../graphql/queries'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import { parseSearchTerm } from '../utils/utils'
 import SearchErrors from '../components/SearchErrors/SearchErrors'
-
-const GET_DOMAIN_STATE = gql`
-  mutation getDomainAvailability($name: String) {
-    getDomainAvailability(name: $name) @client {
-      name
-      state
-    }
-  }
-`
 
 const GET_SUBDOMAIN_AVAILABILITY = gql`
   mutation getSubDomainAvailability($name: String) {
@@ -53,11 +45,9 @@ class Results extends React.Component {
       this.setState({
         errors: ['tooShort']
       })
-      getDomainState({ variables: { name: searchTerm } })
-      getSubDomainAvailability({ variables: { name: searchTerm } })
+      //getSubDomainAvailability({ variables: { name: searchTerm } })
     } else {
-      getDomainState({ variables: { name: searchTerm } })
-      getSubDomainAvailability({ variables: { name: searchTerm } })
+      //getSubDomainAvailability({ variables: { name: searchTerm } })
     }
   }
   componentDidMount() {
@@ -79,7 +69,7 @@ class Results extends React.Component {
             searchTerm={this.props.searchTerm}
           />
           {console.log('IN RESULTS', searchTerm)}
-          <SubDomainResults searchTerm={searchTerm} />
+          {/* <SubDomainResults searchTerm={searchTerm} /> */}
         </Fragment>
       )
     } else if (this.state.errors.length > 0) {
@@ -106,25 +96,11 @@ const ResultsContainer = ({ searchDomain, match }) => {
       refetchQueries={['getSubDomainState']}
     >
       {getSubDomainAvailability => (
-        <Mutation
-          mutation={GET_DOMAIN_STATE}
-          optimisticResponse={{
-            __typename: 'Mutation',
-            domainState: {
-              __typename: 'DomainState'
-            }
-          }}
-          refetchQueries={['getDomainState']}
-        >
-          {getDomainState => (
-            <Results
-              searchTerm={match.params.searchTerm}
-              getDomainState={getDomainState}
-              getSubDomainAvailability={getSubDomainAvailability}
-              searchDomain={searchDomain}
-            />
-          )}
-        </Mutation>
+        <Results
+          searchTerm={match.params.searchTerm}
+          getSubDomainAvailability={getSubDomainAvailability}
+          searchDomain={searchDomain}
+        />
       )}
     </Mutation>
   )
