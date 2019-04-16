@@ -88,7 +88,8 @@ const resolvers = {
             value,
             highestBid,
             expiryTime,
-            isNewRegistrar
+            isNewRegistrar,
+            available
           } = entry
           const owner = await getOwner(name)
           node = {
@@ -106,6 +107,7 @@ const resolvers = {
             registrant,
             deedOwner,
             isNewRegistrar: !!isNewRegistrar,
+            available,
             expiryTime: expiryTime || null,
             __typename: 'Node'
           }

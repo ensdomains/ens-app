@@ -76,6 +76,11 @@ const RightBar = styled('div')`
 
 const Favourite = styled(DefaultFavourite)``
 
+function isRegistrationOpen(domain, isDeedOwner, isOwner){
+  let {available, parent} = domain
+  return parent === 'eth' && !isDeedOwner && available
+}
+
 function Name({ details: domain, name, pathname, refetch }) {
   const smallBP = useMediaMin('small')
   const percentDone = 0
@@ -86,6 +91,7 @@ function Name({ details: domain, name, pathname, refetch }) {
         if (domain.owner !== EMPTY_ADDRESS) {
           isOwner = domain.owner.toLowerCase() === account.toLowerCase()
         }
+        const isDeedOwner = domain.deedOwner === account
         return (
           <NameContainer state={isOwner ? 'Yours' : domain.state}>
             <TopBar percentDone={percentDone}>
@@ -105,7 +111,7 @@ function Name({ details: domain, name, pathname, refetch }) {
               domain.state === 'Owned' && (
                 <Tabs pathname={pathname} domain={domain} />
               )}
-            {domain.parent === 'eth' && domain.state !== 'Owned' ? (
+            {isRegistrationOpen(domain, isDeedOwner, isOwner) ? (
               <NameRegister
                 domain={domain}
                 pathname={pathname}

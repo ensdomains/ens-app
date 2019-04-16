@@ -58,7 +58,7 @@ export const getPermanentRegistrar = async () => {
     const { readENS: ENS } = await getENS()
     const web3 = await getWeb3()
     const web3Read = await getWeb3Read()
-    const ethAddr = await ENS.owner(getNamehash('eth')).call()
+    const ethAddr = await ENS.owner(await getNamehash('eth')).call()
     permanentRegistrar = new web3.eth.Contract(
       permanentRegistrarContract,
       ethAddr
@@ -119,6 +119,42 @@ const getEthResolver = async () => {
   return await getResolverContract(resolverAddr)
 }
 
+export const getLegacyEntry = async name =>{
+  const { ethRegistrarRead: Registrar } = await getLegacyAuctionRegistrar()
+  const web3 = await getWeb3()
+  const namehash = web3.utils.sha3(name)
+  let obj
+
+  try {
+    let deedOwner = '0x0'
+    const entry = await Registrar.methods.entries(namehash).call()
+    if (parseInt(entry[1], 16) !== 0) {
+      const deed = await getDeed(entry[1])
+      deedOwner = await deed.owner().call()
+    }
+    obj = {
+      deedOwner,
+      state: parseInt(entry[0]),
+      registrationDate: parseInt(entry[2]) * 1000,
+      revealDate: (parseInt(entry[2]) - 24 * 2 * 60 * 60) * 1000,
+      value: parseInt(entry[3]),
+      highestBid: parseInt(entry[4])
+    }
+  } catch (e) {
+    obj = {
+      deedOwner: '0x0',
+      state: 0,
+      registrationDate: 0,
+      revealDate: 0,
+      value: 0,
+      highestBid: 0,
+      expiryTime: 0,
+      error: e.message
+    }
+  }
+  return obj
+}
+
 export const getPermanentEntry = async name => {
   let obj = {
     available: null,
@@ -142,9 +178,10 @@ export const getPermanentEntry = async name => {
       obj.nameExpires = new Date(nameExpires * 1000)
     }
   } catch (e) {
-    console.log('error getting permanentRegistrar contract', e)
+    obj.error = e.message
+  } finally{
+    return obj
   }
-  return obj
 }
 
 export const getDeed = async address => {
@@ -154,41 +191,7 @@ export const getDeed = async address => {
 }
 
 export const getEntry = async name => {
-  const { ethRegistrarRead: Registrar } = await getLegacyAuctionRegistrar()
-  let obj
-
-  const web3 = await getWeb3()
-  const namehash = web3.utils.sha3(name)
-  try {
-    let deedOwner = '0x0'
-    const entry = await Registrar.methods.entries(namehash).call()
-    if (parseInt(entry[1], 16) !== 0) {
-      const deed = await getDeed(entry[1])
-      deedOwner = await deed.owner().call()
-    }
-    obj = {
-      deedOwner,
-      state: parseInt(entry[0]),
-      registrationDate: parseInt(entry[2]) * 1000,
-      revealDate: (parseInt(entry[2]) - 24 * 2 * 60 * 60) * 1000,
-      value: parseInt(entry[3]),
-      highestBid: parseInt(entry[4]),
-      _entry: entry
-    }
-  } catch (e) {
-    console.log('error getting auction entry', e)
-    obj = {
-      deedOwner: '0x0',
-      state: 0,
-      registrationDate: 0,
-      revealDate: 0,
-      value: 0,
-      highestBid: 0,
-      expiryTime: 0
-    }
-  }
-
-  // Could move into own object
+  let obj = await getLegacyEntry(name)
   let block = await getBlock()
   obj.currentBlockDate = new Date(block.timestamp * 1000)
   obj.registrant = 0
@@ -207,7 +210,7 @@ export const getEntry = async name => {
     if (permEntry.transferPeriodEnds) {
       obj.transferEndDate = new Date(permEntry.transferPeriodEnds * 1000)
     }
-
+    obj.available = permEntry.available
     if (!permEntry.available) {
       // Owned
       obj.state = 2
@@ -296,22 +299,6 @@ export const register = async (label, duration, secret) => {
       .send({ from: account, gas: 1000000, value: price })
 }
 
-export const isAvailable = async name => {
-  const {
-    permanentRegistrarControllerRead
-  } = await getPermanentRegistrarController()
-  const { readENS: ENS } = await getENS()
-
-  const available = await permanentRegistrarControllerRead
-    .available(name)
-    .call()
-
-  console.log('available, ', available)
-
-  const namehash = await getNamehash(name + '.eth')
-  const owner = await ENS.owner(namehash).call()
-  console.log('owner', owner)
-}
 
 export const createSealedBid = async (name, bidAmount, secret) => {
   const Registrar = await getLegacyAuctionRegistrar()

@@ -93,7 +93,7 @@ const auctionLegacyName = async function(
     .send({ from: account, gas: 6000000 })
 }
 
-module.exports = async function deployENS({ web3, accounts }) {
+async function deployENS({ web3, accounts }) {
   const { sha3 } = web3.utils
   function deploy(contractJSON, ...args) {
     const contract = new web3.eth.Contract(contractJSON.abi)
@@ -530,3 +530,4 @@ module.exports = async function deployENS({ web3, accounts }) {
     controllerAddress: controller._address
   }
 }
+export default deployENS
