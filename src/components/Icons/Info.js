@@ -6,7 +6,7 @@ class Info extends Component {
     const { className, onClick, onMouseOver, onMouseLeave} = this.props
 
     return (
-      <InfoContainer width="19" height="17"
+      <InfoContainer width="18" height="18"
         className={className}
         onClick={onClick}
         onMouseOver={onMouseOver}
