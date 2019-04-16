@@ -19,7 +19,14 @@ import Pencil from '../Forms/Pencil'
 import Info from '../Icons/Info'
 import DefaultPendingTx from '../PendingTx'
 
-const EtherScanLink = styled(DefaultEtherScanLink)``
+// without inline-block, i icon will be hidden as the width gets narrower
+const EtherScanLinkContainer = styled('div')`
+  display: inline-block;
+`
+
+const EtherScanLink = styled(DefaultEtherScanLink)`
+  display:flex;
+  `
 
 const EditButton = styled(Button)`
   width: 130px;
@@ -39,11 +46,11 @@ const DetailsContent = styled('div')`
   justify-content: flex-start;
   position: relative;
   flex-direction: column;
-  width: 100%;
   ${({ editing }) => editing && 'margin-bottom: 30px'};
   transition: 0.3s;
   ${mq.small`
     flex-direction: row;
+    padding-right:150px;
   `}
 `
 
@@ -142,6 +149,7 @@ const Editable = ({
               data-testid={`details-value-${keyName.toLowerCase()}`}
             >
               {type === 'address' ? (
+                <EtherScanLinkContainer>
                 <EtherScanLink address={value}>
                   <SingleNameBlockies address={value} imageSize={24} />
                   { keyName === 'Resolver' && domain.contentType === 'oldcontent' ? (
@@ -169,6 +177,7 @@ const Editable = ({
                   ): null }
                   {value}
                 </EtherScanLink>
+                </EtherScanLinkContainer>
               ) : (
                 value
               )}
