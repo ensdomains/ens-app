@@ -93,7 +93,7 @@ class Results extends React.Component {
     return (
       <Fragment>
         <DomainInfo searchTerm={searchTerm} />
-        <SubDomainResults searchTerm={searchTerm} />
+        {/* <SubDomainResults searchTerm={searchTerm} /> */}
       </Fragment>
     )
   }
