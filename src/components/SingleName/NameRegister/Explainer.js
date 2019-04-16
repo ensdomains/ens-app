@@ -85,7 +85,7 @@ const Explainer = ({ step, waitPercentComplete, waitTime }) => {
             browser.
           </p>
         </div>
-        {hasPermission ? (
+        {hasPermission() ? (
           <NotifyButtonDisabled>
             <Tick style={{ marginRight: 5 }} />
             Notify me
