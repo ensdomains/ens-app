@@ -121,7 +121,7 @@ const NameRegisterDataWrapper = props => {
   return (
     <Query query={GET_MINIMUM_COMMITMENT_AGE}>
       {({ data, loading }) => {
-        if (loading) return <Loader />
+        if (loading) return <Loader withWrap={true} large />
         const { getMinimumCommitmentAge } = data
         return <NameRegister waitTime={getMinimumCommitmentAge} {...props} />
       }}
