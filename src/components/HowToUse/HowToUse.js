@@ -3,7 +3,7 @@ import styled from '@emotion/styled'
 import favourite from '../HomePage/images/favourite.svg'
 import manage from '../HomePage/images/manage.svg'
 import search from '../HomePage/images/search.svg'
-import tag from '../HomePage/images/tag.svg'
+import register from '../HomePage/images/register.svg'
 
 import mq from 'mediaQuery'
 
@@ -102,11 +102,11 @@ const HowToUse = ({ text = false, className }) => (
         }
       />
       <Icon
-        src={tag}
-        title="Bid for names"
+        src={register}
+        title="Register names"
         text={
           text
-            ? 'Open auctions, or participate in auctions opened by others, to secure the name you want.'
+            ? 'Register .eth names for ~$5/year. Renew or cancel your name registration at any time.'
             : ''
         }
       />
