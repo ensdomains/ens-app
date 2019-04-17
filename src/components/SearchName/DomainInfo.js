@@ -3,7 +3,7 @@ import { Query } from 'react-apollo'
 import Loader from '../Loader'
 import DomainItem from '../DomainItem/DomainItem'
 import { H2 } from '../Typography/Basic'
-import { GET_FAVOURITES, GET_DOMAIN_STATE } from '../../graphql/queries'
+import { GET_FAVOURITES, GET_SINGLE_NAME } from '../../graphql/queries'
 
 export const DomainInfo = ({ domainState, isFavourite }) => {
   if (!domainState) return <Loader />
@@ -11,10 +11,11 @@ export const DomainInfo = ({ domainState, isFavourite }) => {
   return <DomainItem domain={domainState} isFavourite={isFavourite} />
 }
 
-const DomainInfoContainer = () => {
+const DomainInfoContainer = ({ searchTerm }) => {
   return (
-    <Query query={GET_DOMAIN_STATE}>
-      {({ data: { domainState }, loading }) => {
+    <Query query={GET_SINGLE_NAME} variables={{ name: searchTerm + '.eth' }}>
+      {({ data, loading, error }) => {
+        const { singleName } = data
         return (
           <Query query={GET_FAVOURITES}>
             {({ data: { favourites } }) => (
@@ -26,11 +27,11 @@ const DomainInfoContainer = () => {
                   </Fragment>
                 ) : (
                   <DomainInfo
-                    domainState={domainState}
+                    domainState={singleName}
                     isFavourite={
-                      domainState &&
+                      singleName &&
                       favourites.filter(
-                        domain => domain.name === domainState.name
+                        domain => domain.name === singleName.name
                       ).length > 0
                     }
                   />
