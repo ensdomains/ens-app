@@ -119,13 +119,12 @@ const getEthResolver = async () => {
   return await getResolverContract(resolverAddr)
 }
 
-export const getLegacyEntry = async name =>{
-  const { ethRegistrarRead: Registrar } = await getLegacyAuctionRegistrar()
-  const web3 = await getWeb3()
-  const namehash = web3.utils.sha3(name)
+export const getLegacyEntry = async name => {
   let obj
-
   try {
+    const { ethRegistrarRead: Registrar } = await getLegacyAuctionRegistrar()
+    const web3 = await getWeb3()
+    const namehash = web3.utils.sha3(name)
     let deedOwner = '0x0'
     const entry = await Registrar.methods.entries(namehash).call()
     if (parseInt(entry[1], 16) !== 0) {
@@ -179,7 +178,7 @@ export const getPermanentEntry = async name => {
     }
   } catch (e) {
     obj.error = e.message
-  } finally{
+  } finally {
     return obj
   }
 }
@@ -191,10 +190,14 @@ export const getDeed = async address => {
 }
 
 export const getEntry = async name => {
-  let obj = await getLegacyEntry(name)
+  let legacyEntry = await getLegacyEntry(name)
   let block = await getBlock()
-  obj.currentBlockDate = new Date(block.timestamp * 1000)
-  obj.registrant = 0
+  let obj = {
+    currentBlockDate: new Date(block.timestamp * 1000),
+    registrant: 0,
+    transferEndDate: null,
+    isNewRegistrar: false
+  }
 
   try {
     let permEntry = await getPermanentEntry(name)
@@ -225,7 +228,10 @@ export const getEntry = async name => {
   } catch (e) {
     console.log('error getting permanent registry', e)
   }
-  return obj
+  return {
+    ...legacyEntry,
+    ...obj
+  }
 }
 
 export const transferOwner = async ({ to, name }) => {
@@ -298,7 +304,6 @@ export const register = async (label, duration, secret) => {
       .register(label, account, duration, secret)
       .send({ from: account, gas: 1000000, value: price })
 }
-
 
 export const createSealedBid = async (name, bidAmount, secret) => {
   const Registrar = await getLegacyAuctionRegistrar()
