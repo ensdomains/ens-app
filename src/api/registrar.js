@@ -192,7 +192,7 @@ export const getDeed = async address => {
 export const getEntry = async name => {
   let legacyEntry = await getLegacyEntry(name)
   let block = await getBlock()
-  let obj = {
+  let ret = {
     currentBlockDate: new Date(block.timestamp * 1000),
     registrant: 0,
     transferEndDate: null,
@@ -202,36 +202,35 @@ export const getEntry = async name => {
   try {
     let permEntry = await getPermanentEntry(name)
 
-    if (obj.registrationDate && permEntry.migrationLockPeriod) {
-      obj.migrationStartDate = new Date(
-        obj.registrationDate + permEntry.migrationLockPeriod * 1000
+    if (ret.registrationDate && permEntry.migrationLockPeriod) {
+      ret.migrationStartDate = new Date(
+        ret.registrationDate + permEntry.migrationLockPeriod * 1000
       )
     } else {
-      obj.migrationStartDate = null
+      ret.migrationStartDate = null
     }
 
     if (permEntry.transferPeriodEnds) {
-      obj.transferEndDate = new Date(permEntry.transferPeriodEnds * 1000)
+      ret.transferEndDate = new Date(permEntry.transferPeriodEnds * 1000)
     }
-    obj.available = permEntry.available
+    ret.available = permEntry.available
     if (!permEntry.available) {
       // Owned
-      obj.state = 2
+      ret.state = 2
     }
     if (permEntry.ownerOf) {
-      obj.isNewRegistrar = true
-      obj.registrant = permEntry.ownerOf
+      ret.isNewRegistrar = true
+      ret.registrant = permEntry.ownerOf
     }
     if (permEntry.nameExpires) {
-      obj.expiryTime = permEntry.nameExpires
+      ret.expiryTime = permEntry.nameExpires
     }
   } catch (e) {
     console.log('error getting permanent registry', e)
   }
-  console.log(obj)
   return {
     ...legacyEntry,
-    ...obj
+    ...ret
   }
 }
 
