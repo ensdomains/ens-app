@@ -79,6 +79,7 @@ export async function getContent(name) {
     const contentHashSignature = web3.utils
       .sha3('contenthash(bytes32)')
       .slice(0, 10)
+
     const isContentHashSupported = await Resolver.supportsInterface(
       contentHashSignature
     ).call()
@@ -91,7 +92,7 @@ export async function getContent(name) {
     } else {
       const value = await Resolver.content(namehash).call()
       return {
-        value: value,
+        value,
         contentType: 'oldcontent'
       }
     }

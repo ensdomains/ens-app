@@ -119,13 +119,12 @@ const getEthResolver = async () => {
   return await getResolverContract(resolverAddr)
 }
 
-export const getLegacyEntry = async name =>{
-  const { ethRegistrarRead: Registrar } = await getLegacyAuctionRegistrar()
-  const web3 = await getWeb3()
-  const namehash = web3.utils.sha3(name)
+export const getLegacyEntry = async name => {
   let obj
-
   try {
+    const { ethRegistrarRead: Registrar } = await getLegacyAuctionRegistrar()
+    const web3 = await getWeb3()
+    const namehash = web3.utils.sha3(name)
     let deedOwner = '0x0'
     const entry = await Registrar.methods.entries(namehash).call()
     if (parseInt(entry[1], 16) !== 0) {
@@ -179,7 +178,7 @@ export const getPermanentEntry = async name => {
     }
   } catch (e) {
     obj.error = e.message
-  } finally{
+  } finally {
     return obj
   }
 }
@@ -191,41 +190,48 @@ export const getDeed = async address => {
 }
 
 export const getEntry = async name => {
-  let obj = await getLegacyEntry(name)
+  let legacyEntry = await getLegacyEntry(name)
   let block = await getBlock()
-  obj.currentBlockDate = new Date(block.timestamp * 1000)
-  obj.registrant = 0
+  let ret = {
+    currentBlockDate: new Date(block.timestamp * 1000),
+    registrant: 0,
+    transferEndDate: null,
+    isNewRegistrar: false
+  }
 
   try {
     let permEntry = await getPermanentEntry(name)
 
-    if (obj.registrationDate && permEntry.migrationLockPeriod) {
-      obj.migrationStartDate = new Date(
-        obj.registrationDate + permEntry.migrationLockPeriod * 1000
+    if (ret.registrationDate && permEntry.migrationLockPeriod) {
+      ret.migrationStartDate = new Date(
+        ret.registrationDate + permEntry.migrationLockPeriod * 1000
       )
     } else {
-      obj.migrationStartDate = null
+      ret.migrationStartDate = null
     }
 
     if (permEntry.transferPeriodEnds) {
-      obj.transferEndDate = new Date(permEntry.transferPeriodEnds * 1000)
+      ret.transferEndDate = new Date(permEntry.transferPeriodEnds * 1000)
     }
-    obj.available = permEntry.available
+    ret.available = permEntry.available
     if (!permEntry.available) {
       // Owned
-      obj.state = 2
+      ret.state = 2
     }
     if (permEntry.ownerOf) {
-      obj.isNewRegistrar = true
-      obj.registrant = permEntry.ownerOf
+      ret.isNewRegistrar = true
+      ret.registrant = permEntry.ownerOf
     }
     if (permEntry.nameExpires) {
-      obj.expiryTime = permEntry.nameExpires
+      ret.expiryTime = permEntry.nameExpires
     }
   } catch (e) {
     console.log('error getting permanent registry', e)
   }
-  return obj
+  return {
+    ...legacyEntry,
+    ...ret
+  }
 }
 
 export const transferOwner = async ({ to, name }) => {
@@ -298,7 +304,6 @@ export const register = async (label, duration, secret) => {
       .register(label, account, duration, secret)
       .send({ from: account, gas: 1000000, value: price })
 }
-
 
 export const createSealedBid = async (name, bidAmount, secret) => {
   const Registrar = await getLegacyAuctionRegistrar()

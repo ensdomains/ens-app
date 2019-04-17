@@ -46,6 +46,14 @@ function canClaim(domain) {
   return parseInt(domain.owner) === 0 || domain.expiryTime < new Date()
 }
 
+function showTransfer(domain, isDeedOwner, isPermanentRegistrarDeployed) {
+  return (
+    isPermanentRegistrarDeployed &&
+    isDeedOwner &&
+    domain.currentBlockDate > domain.transferEndDate
+  )
+}
+
 class NameDetails extends Component {
   isEmpty(record) {
     if (parseInt(record, 16) === 0) {
@@ -75,6 +83,7 @@ class NameDetails extends Component {
     const { domain, isOwner, refetch, account } = this.props
     const isDeedOwner = domain.deedOwner === account
     const isRegistrant = domain.registrant === account
+    const isPermanentRegistrarDeployed = domain.available !== null
 
     const records = [
       {
@@ -107,8 +116,11 @@ class NameDetails extends Component {
           exact
           path="/name/:name"
           render={() => {
-            return isDeedOwner &&
-              domain.currentBlockDate > domain.transferEndDate ? (
+            return showTransfer(
+              domain,
+              isDeedOwner,
+              isPermanentRegistrarDeployed
+            ) ? (
               <Details data-testid="name-details">
                 <TransferRegistrars
                   label={domain.label}
@@ -201,17 +213,19 @@ class NameDetails extends Component {
                 ) : (
                   ''
                 )}
-                <TransferRegistrars
-                  label={domain.label}
-                  currentBlockDate={domain.currentBlockDate}
-                  transferEndDate={domain.transferEndDate}
-                  migrationStartDate={domain.migrationStartDate}
-                  refetch={refetch}
-                  parent={domain.parent}
-                  isOwner={isOwner}
-                  isDeedOwner={isDeedOwner}
-                  isNewRegistrar={domain.isNewRegistrar}
-                />
+                {isPermanentRegistrarDeployed && (
+                  <TransferRegistrars
+                    label={domain.label}
+                    currentBlockDate={domain.currentBlockDate}
+                    transferEndDate={domain.transferEndDate}
+                    migrationStartDate={domain.migrationStartDate}
+                    refetch={refetch}
+                    parent={domain.parent}
+                    isOwner={isOwner}
+                    isDeedOwner={isDeedOwner}
+                    isNewRegistrar={domain.isNewRegistrar}
+                  />
+                )}
                 <HR />
                 <DetailsItemEditable
                   keyName="Resolver"

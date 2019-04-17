@@ -16,10 +16,24 @@ import SaveCancel from './SaveCancel'
 import DefaultInput from '../Forms/Input'
 import Button from '../Forms/Button'
 import Pencil from '../Forms/Pencil'
-import Info from '../Icons/Info'
+import DefaultInfo from '../Icons/Info'
 import DefaultPendingTx from '../PendingTx'
 
-const EtherScanLink = styled(DefaultEtherScanLink)``
+const EtherScanLink = styled(DefaultEtherScanLink)`
+  display: flex;
+  align-items: center;
+`
+
+const Address = styled('span')`
+  display: inline-block;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
+
+const Info = styled(DefaultInfo)`
+  flex-shrink: 0;
+`
 
 const EditButton = styled(Button)`
   width: 130px;
@@ -166,7 +180,7 @@ const Editable = ({
                       )}
                     </Tooltip>
                   ) : null}
-                  {value}
+                  <Address>{value}</Address>
                 </EtherScanLink>
               ) : (
                 value
@@ -268,15 +282,19 @@ const Editable = ({
 
 class DetailsEditable extends Component {
   _renderViewOnly() {
-    let { value, keyName, type, deedOwner, isDeedOwner } = this.props
+    let { value, keyName, type, deedOwner, isDeedOwner, domain } = this.props
     if (parseInt(value, 16) === 0) {
       let [newValue, newType] = getDefaultMessage(keyName)
       value = newValue
       type = newType
-      if(keyName === 'Owner' && parseInt(deedOwner, 16) !== 0){
+      if (
+        keyName === 'Owner' &&
+        domain.parent === 'eth' &&
+        parseInt(deedOwner, 16) !== 0
+      ) {
         value = 'Pending'
-        if(isDeedOwner){
-          value+='(You have not finalised)'
+        if (isDeedOwner) {
+          value += '(You have not finalised)'
         }
       }
     }
