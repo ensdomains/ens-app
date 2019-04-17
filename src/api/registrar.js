@@ -353,7 +353,7 @@ export const transferRegistrars = async label => {
   const web3 = await getWeb3()
   const hash = web3.utils.sha3(label)
   const tx = ethRegistrar.transferRegistrars(hash)
-  const gas = await tx.estimateGas()
+  const gas = await tx.estimateGas({from:account})
   return () =>
     tx.send({
       from: account,
@@ -367,7 +367,7 @@ export const releaseDeed = async label => {
   const web3 = await getWeb3()
   const hash = web3.utils.sha3(label)
   const tx = ethRegistrar.releaseDeed(hash)
-  const gas = await tx.estimateGas()
+  const gas = await tx.estimateGas({from:account})
   return () =>
     tx.send({
       from: account,
