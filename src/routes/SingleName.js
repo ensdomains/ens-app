@@ -6,7 +6,6 @@ import Loader from '../components/Loader'
 import SearchErrors from '../components/SearchErrors/SearchErrors'
 
 import Name from '../components/SingleName/Name'
-import { normalize } from 'api/ens'
 
 function SingleName({
   match: {
@@ -30,8 +29,6 @@ function SingleName({
       document.title = 'Error finding name'
     }
   }, [searchTerm])
-
-  const name = normalize(searchTerm)
 
   if (valid) {
     return (
