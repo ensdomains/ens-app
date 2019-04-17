@@ -36,6 +36,7 @@ function getCTA({
   txHash,
   setTxHash,
   setTimerRunning,
+  isAboveMinDuration,
   refetch
 }) {
   const CTAs = {
@@ -48,11 +49,17 @@ function getCTA({
           incrementStep()
         }}
       >
-        {mutate => (
-          <Button data-testid="request-register-button" onClick={mutate}>
-            Request to register
-          </Button>
-        )}
+        {mutate =>
+          isAboveMinDuration ? (
+            <Button data-testid="request-register-button" onClick={mutate}>
+              Request to register
+            </Button>
+          ) : (
+            <Button data-testid="request-register-button" type="disabled">
+              Request to register
+            </Button>
+          )
+        }
       </Mutation>
     ),
     COMMIT_SENT: (
@@ -116,6 +123,7 @@ const CTA = ({
   duration,
   label,
   setTimerRunning,
+  isAboveMinDuration,
   refetch
 }) => {
   const [txHash, setTxHash] = useState(undefined)
@@ -129,6 +137,7 @@ const CTA = ({
         txHash,
         setTxHash,
         setTimerRunning,
+        isAboveMinDuration,
         refetch
       })}
     </CTAContainer>

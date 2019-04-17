@@ -67,7 +67,12 @@ const NameRegister = ({ domain, waitTime, refetch }) => {
     timerRunning ? 1000 : null
   )
 
-  const duration = 31556952 * parseInt(years)
+  const parsedYears = parseFloat(years)
+  const yearInSeconds = 31556952
+  const duration = yearInSeconds * parsedYears
+  const oneMonthInSeconds = 2419200
+  const twentyEightDaysInYears = oneMonthInSeconds / yearInSeconds
+  const isAboveMinDuration = parsedYears > twentyEightDaysInYears
   const waitPercentComplete = (secondsPassed / waitTime) * 100
 
   return (
@@ -83,7 +88,11 @@ const NameRegister = ({ domain, waitTime, refetch }) => {
           {({ data, loading }) => {
             return (
               <PricingContainer>
-                <Years years={years} setYears={setYears} />
+                <Years
+                  years={years}
+                  setYears={setYears}
+                  yearInSeconds={yearInSeconds}
+                />
                 <Chain />
                 <Price
                   price={loading ? 0 : data.getRentPrice}
@@ -112,6 +121,7 @@ const NameRegister = ({ domain, waitTime, refetch }) => {
         secondsPassed={secondsPassed}
         setTimerRunning={setTimerRunning}
         refetch={refetch}
+        isAboveMinDuration={isAboveMinDuration}
       />
     </NameRegisterContainer>
   )
