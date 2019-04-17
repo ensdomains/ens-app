@@ -1,14 +1,13 @@
 import React from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 
 import mq, { useMediaMin } from 'mediaQuery'
-import { getPercentTimeLeft, getTimeLeft } from '../../utils/dates'
 import { EMPTY_ADDRESS } from '../../utils/records'
 
 import { Title } from '../Typography/Basic'
 import DefaultFavourite from '../AddFavourite/Favourite'
 import NameDetails from './NameDetails'
-import NameAuction from './NameAuction'
+import NameRegister from './NameRegister'
 import Tabs from './Tabs'
 import QueryAccount from '../QueryAccount'
 
@@ -77,10 +76,14 @@ const RightBar = styled('div')`
 
 const Favourite = styled(DefaultFavourite)``
 
+function isRegistrationOpen(domain, isDeedOwner) {
+  let { available, parent } = domain
+  return parent === 'eth' && !isDeedOwner && available
+}
+
 function Name({ details: domain, name, pathname, refetch }) {
   const smallBP = useMediaMin('small')
-  const timeLeft = getTimeLeft(domain)
-  const percentDone = getPercentTimeLeft(timeLeft, domain)
+  const percentDone = 0
   return (
     <QueryAccount>
       {({ account }) => {
@@ -88,6 +91,7 @@ function Name({ details: domain, name, pathname, refetch }) {
         if (domain.owner !== EMPTY_ADDRESS) {
           isOwner = domain.owner.toLowerCase() === account.toLowerCase()
         }
+        const isDeedOwner = domain.deedOwner === account
         return (
           <NameContainer state={isOwner ? 'Yours' : domain.state}>
             <TopBar percentDone={percentDone}>
@@ -95,12 +99,24 @@ function Name({ details: domain, name, pathname, refetch }) {
               <RightBar>
                 {isOwner && <Owner>Owner</Owner>}
                 <Favourite domain={domain} />
-                {smallBP && <Tabs pathname={pathname} domain={domain} />}
+                {smallBP &&
+                  domain.parent === 'eth' &&
+                  domain.state === 'Owned' && (
+                    <Tabs pathname={pathname} domain={domain} />
+                  )}
               </RightBar>
             </TopBar>
-            {!smallBP && <Tabs pathname={pathname} domain={domain} />}
-            {domain.state === 'Auction' || domain.state === 'Reveal' ? (
-              <NameAuction domain={domain} timeLeft={timeLeft} />
+            {!smallBP &&
+              domain.parent === 'eth' &&
+              domain.state === 'Owned' && (
+                <Tabs pathname={pathname} domain={domain} />
+              )}
+            {isRegistrationOpen(domain, isDeedOwner) ? (
+              <NameRegister
+                domain={domain}
+                pathname={pathname}
+                refetch={refetch}
+              />
             ) : (
               <NameDetails
                 domain={domain}

@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import { ReactComponent as ExternalLinkIcon } from '../Icons/externalLink.svg'
 import { decode } from '../../utils/contents'
 
@@ -7,7 +7,8 @@ const ContentHashLinkContainer = styled('a')`
   display: inline-block;
   align-items: center;
   text-overflow: ellipsis;
-
+  white-space: normal;
+  overflow: scroll;
   svg {
     margin-left: 10px;
     transition: 0.1s;
@@ -21,14 +22,19 @@ const ContentHashLinkContainer = styled('a')`
   }
 `
 
+const DecodedError = styled('div')`
+  white-space: normal;
+  overflow: scroll;
+`
+
 const ContentHashLink = ({ value, contentType }) => {
   if (contentType === 'oldcontent') {
     return <div>{value}</div>
   }
-  const { protocolType, decoded } = decode(value)
+  const { protocolType, decoded, error } = decode(value)
   let externalLink, url
-  if (!protocolType) {
-    return <div>{decoded}</div>
+  if (error) {
+    return <DecodedError>{error}</DecodedError>
   }
   if (protocolType === 'ipfs') {
     externalLink = `https://gateway.ipfs.io/ipfs/${decoded}`

@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import { Query } from 'react-apollo'
 
 import { GET_TRANSACTION_HISTORY } from '../graphql/queries'
@@ -27,7 +27,7 @@ const Pending = ({ className, children = 'Tx pending' }) => (
 
 class PendingTx extends React.Component {
   render() {
-    const { txHash, setConfirmed, refetch } = this.props
+    const { txHash, onConfirmed } = this.props
     return (
       <Query query={GET_TRANSACTION_HISTORY}>
         {({ data: { transactionHistory } }) => {
@@ -37,8 +37,7 @@ class PendingTx extends React.Component {
             lastTransaction.txHash === txHash &&
             lastTransaction.txState === 'Confirmed'
           ) {
-            setConfirmed()
-            refetch()
+            onConfirmed()
           }
           return <Pending {...this.props} />
         }}
@@ -49,8 +48,7 @@ class PendingTx extends React.Component {
 
 PendingTx.propTypes = {
   txHash: PropTypes.string,
-  setConfirmed: PropTypes.function,
-  reftch: PropTypes.function
+  onConfirmed: PropTypes.func
 }
 
 export default PendingTx

@@ -36,6 +36,7 @@ export const GET_ALL_NODES = gql`
       value
       highestBid
       state
+      migrationStartDate
     }
   }
 
@@ -48,6 +49,9 @@ export const GET_SINGLE_NAME = gql`
       ...NodeFields
       revealDate
       registrationDate
+      migrationStartDate
+      currentBlockDate
+      transferEndDate
       value
       highestBid
       state
@@ -56,6 +60,9 @@ export const GET_SINGLE_NAME = gql`
       referralFeePPM
       available
       expiryTime
+      deedOwner
+      registrant
+      isNewRegistrar
     }
   }
 
@@ -131,5 +138,19 @@ export const GET_ERRORS = gql`
     error {
       message
     }
+  }
+`
+
+/* Permanent Registrar */
+
+export const GET_RENT_PRICE = gql`
+  query getRentPrice($name: String, $duration: Number) @client {
+    getRentPrice(name: $name, duration: $duration)
+  }
+`
+
+export const GET_MINIMUM_COMMITMENT_AGE = gql`
+  query getMinimumCommitmentAge @client {
+    getMinimumCommitmentAge
   }
 `

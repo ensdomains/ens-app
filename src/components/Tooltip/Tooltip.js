@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { findDOMNode } from 'react-dom'
 import uuid from 'uuid'
 import ReactTooltip from 'react-tooltip'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import { useState, useEffect } from 'react'
 
 const DefaultTooltip = styled(ReactTooltip)`
@@ -12,7 +12,7 @@ const DefaultTooltip = styled(ReactTooltip)`
 `
 
 const TooltipContainer = props => {
-  const { text, position, children } = props
+  const { text, position, children, offset } = props
   const id = uuid()
   const [show, setShow] = useState(false)
   const tooltipRef = React.createRef()
@@ -46,6 +46,7 @@ const TooltipContainer = props => {
         effect="solid"
         type="light"
         html={true}
+        offset={offset}
       />
     </>
   )

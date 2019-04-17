@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
 
 import { isLabelValid } from '../../utils/utils'
@@ -57,8 +57,10 @@ function AddSubdomain({ domain, refetch }) {
           pending && !confirmed ? (
             <PendingTx
               txHash={txHash}
-              setConfirmed={setConfirmed}
-              refetch={refetch}
+              onConfirmed={() => {
+                setConfirmed()
+                refetch()
+              }}
             />
           ) : (
             <Button onClick={startEditing}>+ Add Subdomain</Button>

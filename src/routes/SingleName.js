@@ -21,15 +21,14 @@ function SingleName({
     try {
       // This is under the assumption that validateName never returns false
       const normalisedName = validateName(searchTerm)
-      if (!valid) {
-        setValid(true)
-        setNormalisedName(normalisedName)
-      }
+      setValid(true)
+      setNormalisedName(normalisedName)
+
+      document.title = searchTerm
     } catch {
       setValid(false)
+      document.title = 'Error finding name'
     }
-
-    document.title = valid ? searchTerm : 'Error finding name'
   }, [searchTerm])
 
   const name = normalize(searchTerm)

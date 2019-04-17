@@ -5,9 +5,9 @@ import { abi as ensContract } from '@ensdomains/ens/build/contracts/ENS.json'
 import { abi as reverseRegistrarContract } from '@ensdomains/ens/build/contracts/ReverseRegistrar.json'
 import { abi as resolverContract } from '@ensdomains/resolver/build/contracts/PublicResolver.json'
 import { abi as oldResolverContract } from '@ensdomains/ens-022/build/contracts/PublicResolver.json'
-
 import { abi as fifsRegistrarContract } from '@ensdomains/ens/build/contracts/FIFSRegistrar.json'
 import { abi as testRegistrarContract } from '@ensdomains/ens/build/contracts/TestRegistrar.json'
+
 oldResolverContract.forEach((old, i) => {
   if (
     !resolverContract
@@ -65,9 +65,13 @@ async function getReverseRegistrarContract() {
 
 async function getResolverContract(addr) {
   const web3 = await getWeb3()
+  const web3Read = await getWeb3Read()
 
   const Resolver = new web3.eth.Contract(resolverContract, addr)
+  const ResolverRead = new web3Read.eth.Contract(resolverContract, addr)
   return {
+    ResolverRead: ResolverRead.methods,
+    _ResolverRead: ResolverRead,
     Resolver: Resolver.methods,
     _Resolver: Resolver
   }

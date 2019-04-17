@@ -39,13 +39,17 @@ async function init() {
   const accounts = await getAccounts(web3)
 
   const addresses = await deployTestEns({ web3, accounts })
-  const ensAddress = addresses.ensAddress
+  const { ensAddress, controllerAddress, legacyAuctionRegistrarAddress } = addresses
 
   fs.writeFileSync('./cypress.env.json', JSON.stringify(addresses))
-  fs.writeFile('./.env.local', `REACT_APP_ENS_ADDRESS=${ensAddress}`, err => {
-    if (err) throw err
-    console.log('Wrote address ' + ensAddress + ' to .env.local')
-  })
+  fs.writeFile(
+    './.env.local',
+    `REACT_APP_ENS_ADDRESS=${ensAddress}`,
+    err => {
+      if (err) throw err
+      console.log(`Successfully wrote ENS address ${ensAddress} to .env.local`)
+    }
+  )
 }
 
 init()

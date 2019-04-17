@@ -62,6 +62,10 @@ const typeDefs = `
     addr: String
     nodes: [Node]
     expiryTime: Int
+    migrationStartDate: Int
+    currentBlockDate: Int
+    transferEndDate: Int
+    isNewRegistrar: Boolean
   }
 
   extend type Query {

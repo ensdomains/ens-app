@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import { Mutation, Query } from 'react-apollo'
 import { addressUtils } from '@0xproject/utils'
 import PropTypes from 'prop-types'
@@ -16,10 +16,24 @@ import SaveCancel from './SaveCancel'
 import DefaultInput from '../Forms/Input'
 import Button from '../Forms/Button'
 import Pencil from '../Forms/Pencil'
-import Info from '../Icons/Info'
+import DefaultInfo from '../Icons/Info'
 import DefaultPendingTx from '../PendingTx'
 
-const EtherScanLink = styled(DefaultEtherScanLink)``
+const EtherScanLink = styled(DefaultEtherScanLink)`
+  display: flex;
+  align-items: center;
+`
+
+const Address = styled('span')`
+  display: inline-block;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
+
+const Info = styled(DefaultInfo)`
+  flex-shrink: 0;
+`
 
 const EditButton = styled(Button)`
   width: 130px;
@@ -144,30 +158,29 @@ const Editable = ({
               {type === 'address' ? (
                 <EtherScanLink address={value}>
                   <SingleNameBlockies address={value} imageSize={24} />
-                  { keyName === 'Resolver' && domain.contentType === 'oldcontent' ? (
+                  {keyName === 'Resolver' &&
+                  domain.contentType === 'oldcontent' ? (
                     <Tooltip
-                      text='<p>This resolver is outdataed and does not support the new content hash.<br/>Click the "Set" button to update  to the latest public resolver.</p>'
+                      text='<p>This resolver is outdated and does not support the new content hash.<br/>Click the "Set" button to update  to the latest public resolver.</p>'
                       position="top"
                       border={true}
                     >
                       {({ tooltipElement, showTooltip, hideTooltip }) => (
                         <>
-                        <Info
-                          onMouseOver={()=>{
-                            showTooltip()
-                          }}
-
-                          onMouseLeave={()=>{
-                            hideTooltip()
-                          }}
-                        >
-                        </Info>
-                        {tooltipElement}
+                          <Info
+                            onMouseOver={() => {
+                              showTooltip()
+                            }}
+                            onMouseLeave={() => {
+                              hideTooltip()
+                            }}
+                          />
+                          {tooltipElement}
                         </>
                       )}
                     </Tooltip>
-                  ): null }
-                  {value}
+                  ) : null}
+                  <Address>{value}</Address>
                 </EtherScanLink>
               ) : (
                 value
@@ -176,8 +189,10 @@ const Editable = ({
             {editing ? null : pending && !confirmed ? (
               <PendingTx
                 txHash={txHash}
-                setConfirmed={setConfirmed}
-                refetch={refetch}
+                onConfirmed={() => {
+                  refetch()
+                  setConfirmed()
+                }}
               />
             ) : (
               <Action>
@@ -267,12 +282,21 @@ const Editable = ({
 
 class DetailsEditable extends Component {
   _renderViewOnly() {
-    let { value, keyName, type } = this.props
-
+    let { value, keyName, type, deedOwner, isDeedOwner, domain } = this.props
     if (parseInt(value, 16) === 0) {
-      const [newValue, newType] = getDefaultMessage(keyName)
+      let [newValue, newType] = getDefaultMessage(keyName)
       value = newValue
       type = newType
+      if (
+        keyName === 'Owner' &&
+        domain.parent === 'eth' &&
+        parseInt(deedOwner, 16) !== 0
+      ) {
+        value = 'Pending'
+        if (isDeedOwner) {
+          value += '(You have not finalised)'
+        }
+      }
     }
     return (
       <DetailsEditableContainer>

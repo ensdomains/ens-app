@@ -19,10 +19,9 @@ import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
 import { getNetworkId } from '../web3'
 import domains from '../../constants/domains.json'
-import { client } from '../../index'
+import { sendHelper } from '../resolverUtils'
 
 import {
-  GET_TRANSACTION_HISTORY,
   GET_FAVOURITES,
   GET_SUBDOMAIN_FAVOURITES,
   GET_ALL_NODES
@@ -46,53 +45,6 @@ function getParent(name) {
   return nameArray.join('.')
 }
 
-async function addTransaction({ txHash, txState }) {
-  const newTransaction = {
-    txHash,
-    txState,
-    createdAt: new Date().getTime(),
-    updatedAt: new Date().getTime(),
-    __typename: 'Transaction'
-  }
-
-  const previous = client.readQuery({ query: GET_TRANSACTION_HISTORY })
-  const index = previous.transactionHistory.findIndex(
-    trx => trx.txHash === txHash
-  )
-  const newTransactionHistory = [...previous.transactionHistory]
-  if (index >= 0) {
-    newTransactionHistory[index] = {
-      ...newTransactionHistory[index],
-      txState,
-      updatedAt: newTransaction.updatedAt
-    }
-  } else {
-    newTransactionHistory.push(newTransaction)
-  }
-
-  const data = {
-    transactionHistory: newTransactionHistory
-  }
-  client.writeQuery({ query: GET_TRANSACTION_HISTORY, data })
-  return data
-}
-
-function sendHelper(tx) {
-  return new Promise((resolve, reject) => {
-    tx()
-      .on('transactionHash', txHash => {
-        const txState = 'Pending'
-        addTransaction({ txHash, txState })
-        resolve(txHash)
-      })
-      .on('receipt', receipt => {
-        const txHash = receipt.transactionHash
-        const txState = 'Confirmed'
-        addTransaction({ txHash, txState })
-      })
-  })
-}
-
 const resolvers = {
   Query: {
     singleName: async (_, { name }, { cache }) => {
@@ -103,6 +55,9 @@ const resolvers = {
           name: null,
           revealDate: null,
           registrationDate: null,
+          migrationStartDate: null,
+          currentBlockDate: null,
+          transferEndDate: null,
           value: null,
           highestBid: null,
           state: null,
@@ -113,34 +68,52 @@ const resolvers = {
           referralFeePPM: null,
           available: null,
           contentType: null,
-          expiryTime: null
+          expiryTime: null,
+          isNewRegistrar: null,
+          deedOwner: null,
+          registrant: null
         }
         let data
         if (nameArray.length < 3 && nameArray[1] === 'eth') {
           const entry = await getEntry(nameArray[0])
           const {
+            registrant,
+            deedOwner,
             state,
             registrationDate,
+            migrationStartDate,
+            currentBlockDate,
+            transferEndDate,
             revealDate,
             value,
-            highestBid
+            highestBid,
+            expiryTime,
+            isNewRegistrar,
+            available
           } = entry
-
           const owner = await getOwner(name)
           node = {
             ...node,
             name: `${name}`,
             state: modeNames[state],
             registrationDate,
+            migrationStartDate,
+            currentBlockDate,
+            transferEndDate,
             revealDate,
             value,
             highestBid,
             owner,
+            registrant,
+            deedOwner,
+            isNewRegistrar: !!isNewRegistrar,
+            available,
+            expiryTime: expiryTime || null,
             __typename: 'Node'
           }
         } else if (nameArray.length < 3 && nameArray[1] === 'test') {
           const expiryTime = await expiryTimes(nameArray[0])
-          if(expiryTime){
+          if (expiryTime) {
             node.expiryTime = expiryTime
           }
         } else if (nameArray.length > 2) {
@@ -279,7 +252,6 @@ const resolvers = {
     setResolver: async (_, { name, address }, { cache }) => {
       try {
         const tx = await setResolver(name, address)
-        console.log(tx)
         return sendHelper(tx)
       } catch (e) {
         console.log(e)
@@ -296,7 +268,6 @@ const resolvers = {
     setContent: async (_, { name, recordValue }, { cache }) => {
       try {
         const tx = await setContent(name, recordValue)
-        console.log(tx)
         return sendHelper(tx)
       } catch (e) {
         console.log(e)
@@ -305,7 +276,6 @@ const resolvers = {
     setContenthash: async (_, { name, recordValue }, { cache }) => {
       try {
         const tx = await setContenthash(name, recordValue)
-        console.log(tx)
         return sendHelper(tx)
       } catch (e) {
         console.log(e)
@@ -314,14 +284,10 @@ const resolvers = {
     createSubdomain: async (_, { name, label }, { cache }) => {
       try {
         const tx = await createSubdomain(label, name)
-        console.log(tx)
         return sendHelper(tx)
       } catch (e) {
         console.log(e)
       }
-    },
-    addTransaction: async (_, { txHash, txState }) => {
-      return addTransaction({ txHash, txState })
     },
     addFavourite: async (_, { domain }, { cache }) => {
       const newFavourite = {
