@@ -67,7 +67,7 @@ const NameRegister = ({ domain, waitTime, refetch }) => {
     timerRunning ? 1000 : null
   )
 
-  const duration = 31556952 * parseInt(years)
+  const duration = 31556952 * parseFloat(years)
   const waitPercentComplete = (secondsPassed / waitTime) * 100
 
   return (
