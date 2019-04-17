@@ -228,6 +228,7 @@ export const getEntry = async name => {
   } catch (e) {
     console.log('error getting permanent registry', e)
   }
+  console.log(obj)
   return {
     ...legacyEntry,
     ...obj
