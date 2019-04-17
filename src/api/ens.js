@@ -4,8 +4,21 @@ import { hash, normalize } from 'eth-ens-namehash'
 import { abi as ensContract } from '@ensdomains/ens/build/contracts/ENS.json'
 import { abi as reverseRegistrarContract } from '@ensdomains/ens/build/contracts/ReverseRegistrar.json'
 import { abi as resolverContract } from '@ensdomains/resolver/build/contracts/PublicResolver.json'
+import { abi as oldResolverContract } from '@ensdomains/ens-022/build/contracts/PublicResolver.json'
 import { abi as fifsRegistrarContract } from '@ensdomains/ens/build/contracts/FIFSRegistrar.json'
 import { abi as testRegistrarContract } from '@ensdomains/ens/build/contracts/TestRegistrar.json'
+
+oldResolverContract.forEach((old, i) => {
+  if (
+    !resolverContract
+      .map(n => {
+        return n.name
+      })
+      .includes(old.name)
+  ) {
+    resolverContract.push(old)
+  }
+})
 
 var contracts = {
   1: {
