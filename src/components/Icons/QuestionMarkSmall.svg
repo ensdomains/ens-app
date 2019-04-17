@@ -1,0 +1,8 @@
+<svg width="11" height="11" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(0 -1)" fill="none" fill-rule="evenodd">
+    <circle fill="hsla(0,0%,82%,1)" cx="5.5" cy="6.5" r="5.5"/>
+    <text font-family="Overpass-Bold, Overpass" font-size="10" font-weight="bold" letter-spacing=".3125" fill="#FFF">
+      <tspan x="3" y="10">?</tspan>
+    </text>
+  </g>
+</svg>

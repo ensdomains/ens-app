@@ -65,12 +65,12 @@ describe('Name detail view', () => {
     cy.visit(`${NAME_ROOT}/superawesome.eth`)
     cy.getByTestId('edit-resolver').click()
 
-    cy.getByText('Public Resolver', { exact: false }).click()
+    cy.getByText('Use Public Resolver', { exact: true, timeout: 5000 }).click()
 
     cy.getByTestId('name-details').within(container => {
       cy.getByPlaceholderText('address', { container, exact: false }).then(
         $address => {
-          cy.getByText('Save').click()
+          cy.getByText('Save', { timeout: 5000 }).click()
           cy.getByText($address.val()).should('exist')
         }
       )
@@ -81,9 +81,9 @@ describe('Name detail view', () => {
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
     cy.getByTestId('name-details').within(container => {
-      cy.getByText('+', { exact: false }).click()
+      cy.getByText('+').click()
       cy.getByText('select a record', { exact: false }).click()
-      cy.get('[role="option"]', { timeout: 10000})
+      cy.get('[role="option"]', { timeout: 10000 })
         .contains('Address')
         .click()
       cy.getByPlaceholderText('Enter an Ethereum address', {
@@ -96,9 +96,9 @@ describe('Name detail view', () => {
       // Form was not closed and nothing happened
       // This query seems flakey
       // cy.queryByValue('blah').should('exist')
-      cy.get(('input[placeholder="Enter an Ethereum address"]')).should(elem => {
-        expect(elem.val()).to.equal('blah');
-      });
+      cy.get('input[placeholder="Enter an Ethereum address"]').should(elem => {
+        expect(elem.val()).to.equal('blah')
+      })
     })
   })
 
@@ -106,21 +106,25 @@ describe('Name detail view', () => {
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
     cy.getByTestId('name-details').within(container => {
-      cy.getByText('+', { exact: false }).click()
+      cy.getByText('+').click()
       cy.getByText('select a record', { exact: false }).click()
-      cy.get('[role="option"]', { timeout: 10000})
+      cy.get('[role="option"]', { timeout: 10000 })
         .contains('Address')
         .click()
 
       cy.getByPlaceholderText('Enter an Ethereum address', {
         exact: false
       }).type('0x0000000000000000000000000000000000000003')
-      cy.getByText('save', { exact: false }).click()
+      cy.getByText('Save').click()
 
       cy.wait(500)
       //form closed
-      cy.queryByTestId('save', { exact: false, timeout: 10000 }).should('not.exist')
-      cy.queryByTestId('cancel', { exact: false, timeout: 10000 }).should('not.exist')
+      cy.queryByTestId('Save', { exact: false, timeout: 500 }).should(
+        'not.exist'
+      )
+      cy.queryByTestId('cancel', { exact: false, timeout: 500 }).should(
+        'not.exist'
+      )
 
       //Value updated
       cy.queryByText('0x0000000000000000000000000000000000000003', {
@@ -130,90 +134,93 @@ describe('Name detail view', () => {
   })
 
   it('can add a content hash', () => {
-    const content = "ipfs://QmTeW79w7QQ6Npa3b1d5tANreCDxF2iDaAPsDvW6KtLmfB"
+    const content = 'ipfs://QmTeW79w7QQ6Npa3b1d5tANreCDxF2iDaAPsDvW6KtLmfB'
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
     cy.getByTestId('name-details').within(container => {
-      cy.getByText('+', { exact: false })
+      cy.getByText('+')
         .click()
         .getByText('select a record', { exact: false })
         .click()
-        .get('[role="option"]', { timeout: 10000})
+        .get('[role="option"]', { timeout: 10000 })
         .contains('Content')
         .click()
         .getByPlaceholderText('Enter a content hash', {
           exact: false
         })
         .type(content)
-        .getByText('save', { exact: false })
-        .click()
+      cy.getByText('Save').click()
       //form closed
 
       cy.wait(500)
-      cy.queryByTestId('save', { exact: false, timeout: 10000 })
+      cy.queryByText('Save', { timeout: 50 })
         .should('not.exist')
-        .queryByText('cancel', { exact: false, timeout: 10000 })
+        .queryByText('cancel', { exact: false, timeout: 50 })
         .should('not.exist')
 
       //Value updated
-      cy.queryByText(
-        content,
-        {
-          exact: false
-        }
-      ).should('exist')
+      cy.queryByText(content, {
+        exact: false
+      }).should('exist')
     })
   })
 
   it('can change the address', () => {
-    cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
+    cy.visit(`${NAME_ROOT}/abittooawesome.eth`)
 
     cy.getByTestId('name-details').within(container => {
       cy.getByTestId('edit-address', { exact: false }).click()
       cy.getByPlaceholderText('Enter an Ethereum address', {
         exact: false
       }).type('0x0000000000000000000000000000000000000003')
-      cy.getByText('save', { exact: false }).click()
+      cy.getByText('Save').click()
       cy.wait(500)
 
       //form closed
-      cy.queryByTestId('save', { exact: false, timeout: 10000 }).should('not.exist')
-      cy.queryByTestId('cancel', { exact: false, timeout: 10000 }).should(
+      cy.queryByTestId('save', { exact: false, timeout: 10 }).should(
+        'not.exist'
+      )
+      cy.queryByTestId('cancel', { exact: false, timeout: 10 }).should(
         'not.exist'
       )
       //Value updated
       cy.queryByText('0x0000000000000000000000000000000000000003', {
-        exact: false
+        exact: false,
+        timeout: 10
       }).should('exist')
     })
   })
 
   it('can change the content hash', () => {
-    const content = "bzz://d1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162"
-    
-    cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
+    const content =
+      'bzz://d1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162'
+
+    cy.visit(`${NAME_ROOT}/abittooawesome.eth`)
 
     cy.getByTestId('name-details').within(container => {
       cy.getByTestId('edit-content', { exact: false }).click()
       cy.getByPlaceholderText('Enter a content hash', {
         exact: false
       }).type(content)
-      cy.getByText('save', { exact: false }).click()
+      cy.getByText('Save').click()
       cy.wait(500)
 
       //form closed
-      cy.queryByTestId('save', { exact: false, timeout: 10000 }).should('not.exist')
-      cy.queryByTestId('cancel', { exact: false, timeout: 10000 }).should(
+      cy.queryByTestId('save', { exact: false, timeout: 10 }).should(
+        'not.exist'
+      )
+      cy.queryByTestId('cancel', { exact: false, timeout: 10 }).should(
         'not.exist'
       )
       //Value updated
-      cy.queryByText(content, { exact: false } ).should('exist')
+      cy.queryByText(content, { exact: false }).should('exist')
     })
   })
 
   it('can set old content', () => {
-    const content = "0xd1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162"
-    
+    const content =
+      '0xd1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162'
+
     cy.visit(`${NAME_ROOT}/oldresolver.eth`)
 
     cy.getByTestId('name-details').within(container => {
@@ -221,19 +228,20 @@ describe('Name detail view', () => {
       cy.getByPlaceholderText('Enter a content', {
         exact: false
       }).type(content)
-      cy.getByText('save', { exact: false }).click()
+      cy.getByText('Save').click()
       cy.wait(1000)
 
       //form closed
-      cy.queryByTestId('save', { exact: false, timeout: 10000 }).should('not.exist')
-      cy.queryByTestId('cancel', { exact: false, timeout: 10000 }).should(
+      cy.queryByTestId('save', { exact: false, timeout: 50 }).should(
+        'not.exist'
+      )
+      cy.queryByTestId('cancel', { exact: false, timeout: 50 }).should(
         'not.exist'
       )
       //Value updated
-      cy.queryByText(content, { exact: false } ).should('exist')
+      cy.queryByText(content, { exact: false }).should('exist')
     })
   })
-
 
   it('can delete records', () => {
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
@@ -247,9 +255,7 @@ describe('Name detail view', () => {
       cy.wait(1000)
 
       //No addresses to edit
-      cy.queryByText(
-        '+',{ exact: false}
-      ).should('exist')
+      cy.queryByText('+', { exact: false }).should('exist')
     })
   })
 
@@ -257,7 +263,7 @@ describe('Name detail view', () => {
     cy.visit(`${NAME_ROOT}/subdomaindummy.eth`)
       .getByText('subdomains', { exact: false })
       .click()
-      .getByText('original.subdomaindummy.eth')
+      .getByText('original.subdomaindummy.eth', { timeout: 5000 })
       .click()
   })
 
@@ -273,7 +279,7 @@ describe('Name detail view', () => {
         .type('unoriginal')
         .getByText('save', { exact: false })
         .click()
-        .getByText('unoriginal.subdomaindummy.eth')
+        .getByText('unoriginal.subdomaindummy.eth', { timeout: 10000 })
         .click()
         .url()
         .should('include', '/name/unoriginal.subdomaindummy.eth')

@@ -1,14 +1,14 @@
 import React from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import { Link } from 'react-router-dom'
 
-function getButtonStyles({ type, color }) {
+function getButtonStyles({ type }) {
   switch (type) {
     case 'primary':
       return `
         &:hover {
           cursor: pointer;
-          border: 2px solid ${color[1]};
+          border: 2px solid #2c46a6;
           background: #2c46a6;
           box-shadow: 0 10px 21px 0 rgba(161, 175, 184, 0.89);
           border-radius: 23px;
@@ -16,17 +16,40 @@ function getButtonStyles({ type, color }) {
       `
     case 'hollow':
       return `
+        background: transparent;
         color: #DFDFDF;
         border: 2px solid #DFDFDF;
         &:hover {
           cursor: pointer;
-          border: 2px solid ${color[1]};
+          border: 2px solid transparent;
           background: #2c46a6;
           box-shadow: 0 10px 21px 0 rgba(161, 175, 184, 0.89);
         }
       `
+    case 'hollow-primary':
+      return `
+        color: #5384FE;
+        background: transparent;
+        border: 2px solid #5384FE;
+        &:hover {
+          cursor: pointer;
+          border: 2px solid #2C46A6;
+          color: #2C46A6;
+        }
+      `
+    case 'hollow-primary-disabled':
+      return `
+        color: #dfdfdf;
+        background: transparent;
+        border: 2px solid #dfdfdf;
+        &:hover {
+          cursor: default
+        }
+      `
     case 'disabled':
       return `
+        border: 2px solid #dfdfdf;
+        background: #dfdfdf;
         &:hover {
           cursor: default
         }
@@ -40,7 +63,7 @@ function getButtonStyles({ type, color }) {
 function getButtonDefaultStyles(p) {
   return `
     color: white;
-    background: ${p.color[0]};
+    background: #5384FE;
     padding: 10px 25px;
     border-radius: 25px;
     font-size: 14px;
@@ -50,7 +73,7 @@ function getButtonDefaultStyles(p) {
     letter-spacing: 1.5px;
     //box-shadow: 0 10px 21px 0 #bed0dc;
     transition: 0.2s all;
-    border: 2px solid ${p.color[0]};
+    border: 2px solid #5384FE;
 
     &:focus {
       outline: 0;
@@ -59,6 +82,12 @@ function getButtonDefaultStyles(p) {
 }
 
 const ButtonContainer = styled('button')`
+  ${p => getButtonDefaultStyles(p)};
+  ${p => getButtonStyles(p)};
+`
+
+const ExternalButtonLinkContainer = styled('a')`
+  text-decoration: none;
   ${p => getButtonDefaultStyles(p)};
   ${p => getButtonStyles(p)};
 `
@@ -75,19 +104,11 @@ const ButtonLinkContainer = styled(Link)`
   ${p => getButtonStyles(p)};
 `
 
-const types = {
-  primary: ['#5384FE', '#2c46a6'],
-  inactive: ['#DFDFDF', '#DFDFDF'],
-  hollow: ['transparent', 'transparent'],
-  disabled: ['#ccc', '#ccc']
-}
-
 const Button = props => {
   const { className, children, type = 'primary', onClick } = props
   return (
     <ButtonContainer
       className={className}
-      color={types[type]}
       type={type}
       onClick={onClick}
       disabled={type === 'disabled'}
@@ -101,15 +122,23 @@ const Button = props => {
 export const ButtonLink = props => {
   const { className, children, type = 'primary', to = '' } = props
   return (
-    <ButtonLinkContainer
+    <ButtonLinkContainer className={className} to={to} type={type} {...props}>
+      {children}
+    </ButtonLinkContainer>
+  )
+}
+
+export const ExternalButtonLink = props => {
+  const { className, children, type = 'primary', href } = props
+  return (
+    <ExternalButtonLinkContainer
       className={className}
-      to={to}
-      color={types[type]}
+      href={href}
       type={type}
       {...props}
     >
       {children}
-    </ButtonLinkContainer>
+    </ExternalButtonLinkContainer>
   )
 }
 

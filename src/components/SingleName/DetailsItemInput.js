@@ -1,6 +1,6 @@
 import React from 'react'
 import { encode } from '../../utils/contents'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import { getPlaceholder } from '../../utils/records'
 import DefaultInput from '../Forms/Input'
 

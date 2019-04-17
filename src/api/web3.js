@@ -123,3 +123,12 @@ export async function getNetworkId() {
   const web3 = await getWeb3()
   return web3.eth.net.getId()
 }
+
+export async function getBlock() {
+  const web3 = await getWeb3()
+  let block =  await web3.eth.getBlock('latest');
+  return {
+    number: block.number,
+    timestamp: block.timestamp
+  }
+}

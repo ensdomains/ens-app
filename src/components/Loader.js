@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 
 const LoaderContainer = styled('div')`
   ${p =>
@@ -55,12 +55,33 @@ const LoaderContainer = styled('div')`
   }
 `
 
-const Loader = props => (
-  <LoaderContainer className="lds-css" {...props}>
-    <div className="lds-dual-ring">
-      <div />
-    </div>
-  </LoaderContainer>
-)
+const LoaderWrapper = styled('div')`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 0;
+`
+
+const Loader = props => {
+  const { withWrap } = props
+  if (withWrap) {
+    return (
+      <LoaderWrapper>
+        <LoaderContainer className="lds-css" {...props}>
+          <div className="lds-dual-ring">
+            <div />
+          </div>
+        </LoaderContainer>
+      </LoaderWrapper>
+    )
+  }
+  return (
+    <LoaderContainer className="lds-css" {...props}>
+      <div className="lds-dual-ring">
+        <div />
+      </div>
+    </LoaderContainer>
+  )
+}
 
 export default Loader

@@ -1,11 +1,51 @@
-import { createSealedBid, getEntry } from '../registrar'
+import crypto from 'crypto'
+
+import {
+  getEntry,
+  getRentPrice,
+  commit,
+  getMinimumCommitmentAge,
+  register,
+  transferRegistrars,
+  releaseDeed,
+  transferOwner
+} from '../registrar'
 import { getOwner } from '../registry'
 import modeNames from '../modes'
+import { sendHelper } from '../resolverUtils'
 
 const defaults = {}
+const secrets = {}
+
+function randomSecret() {
+  return '0x' + crypto.randomBytes(32).toString('hex')
+}
 
 const resolvers = {
+  Query: {
+    async getRentPrice(_, { name, duration }, { cache }) {
+      return await getRentPrice(name, duration)
+    },
+    async getMinimumCommitmentAge() {
+      return parseInt(await getMinimumCommitmentAge())
+    }
+  },
   Mutation: {
+    async commit(_, { label }, { cache }) {
+      //Generate secret
+      const secret = randomSecret()
+
+      secrets[label] = secret
+      //TODO: Save secret to localStorage with name as the key
+      const tx = await commit(label, secret)
+      return sendHelper(tx)
+    },
+    async register(_, { label, duration }) {
+      const secret = secrets[label]
+      const tx = await register(label, duration, secret)
+
+      return sendHelper(tx)
+    },
     async getDomainAvailability(_, { name }, { cache }) {
       try {
         const {
@@ -48,12 +88,17 @@ const resolvers = {
         console.log('Error in getDomainAvailability', e)
       }
     },
-    async startAuctionAndBid(_, { name, bidAmount, decoyBidAmount, secret }) {
-      const sealedBid = await createSealedBid(name, bidAmount, secret)
-      console.log(sealedBid)
+    async setRegistrant(_, { name, address }) {
+      const tx = transferOwner({ name, to: address })
+      return sendHelper(tx)
     },
-    async bid(_, { name, bidAmount, decoyBidAmount, secret }) {
-      // const sealedBid = await createSealedBid(name, bidAmount, secret)
+    async transferRegistrars(_, { label }) {
+      const tx = await transferRegistrars(label)
+      return sendHelper(tx)
+    },
+    async releaseDeed(_, { label }) {
+      const tx = await releaseDeed(label)
+      return sendHelper(tx)
     }
   }
 }

@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import { Query } from 'react-apollo'
 import DomainItem from '../components/DomainItem/DomainItem'
 import {

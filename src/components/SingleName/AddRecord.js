@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
 
 import { validateRecord } from '../../utils/records'
@@ -8,7 +8,7 @@ import DetailsItemInput from './DetailsItemInput'
 import { useEditable } from '../hooks'
 
 import SaveCancel from './SaveCancel'
-import Select from '../Forms/Select'
+import DefaultSelect from '../Forms/Select'
 import PendingTx from '../PendingTx'
 
 import { getOldContentWarning } from './warnings'
@@ -24,6 +24,10 @@ const ToggleAddRecord = styled('span')`
   &:hover {
     cursor: pointer;
   }
+`
+
+const Select = styled(DefaultSelect)`
+  margin-right: 20px;
 `
 
 const RecordsTitle = styled('h3')`
@@ -101,8 +105,10 @@ function Editable({ domain, emptyRecords, refetch }) {
             pending && !confirmed ? (
               <PendingTx
                 txHash={txHash}
-                setConfirmed={setConfirmed}
-                refetch={refetch}
+                onConfirmed={() => {
+                  setConfirmed()
+                  refetch()
+                }}
               />
             ) : (
               <ToggleAddRecord onClick={startEditing}>+</ToggleAddRecord>

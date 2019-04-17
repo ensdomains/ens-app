@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import { ReactComponent as ExternalLinkIcon } from '../Icons/externalLink.svg'
 
 const EtherScanLinkContainer = styled('a')`
@@ -11,6 +11,7 @@ const EtherScanLinkContainer = styled('a')`
     margin-left: 10px;
     transition: 0.1s;
     opacity: 0;
+    flex-shrink: 0;
   }
 
   &:hover {

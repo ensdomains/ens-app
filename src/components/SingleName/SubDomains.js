@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import { Query } from 'react-apollo'
 
 import { GET_SUBDOMAINS } from '../../graphql/queries'
@@ -36,13 +36,6 @@ const SubDomainLink = styled(Link)`
   }
 `
 
-const LoaderWrapper = styled('div')`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 50px 0;
-`
-
 const SubDomains = ({ domain, isOwner, ...rest }) => (
   <SubDomainsContainer {...rest}>
     {parseInt(domain.owner, 16) !== 0 ? (
@@ -55,9 +48,7 @@ const SubDomains = ({ domain, isOwner, ...rest }) => (
             return (
               <>
                 {isOwner && <AddSubdomain domain={domain} refetch={refetch} />}
-                <LoaderWrapper>
-                  <Loader large />
-                </LoaderWrapper>
+                <Loader withWrap large />
               </>
             )
           if (data && data.getSubDomains.subDomains.length === 0) {

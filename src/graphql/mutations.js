@@ -100,3 +100,35 @@ export const CREATE_SUBDOMAIN = gql`
     createSubdomain(name: $name, label: $label) @client
   }
 `
+
+/* Registrar Mutations */
+
+export const SET_REGISTRANT = gql`
+  mutation setRegistrant($name: String, $address: String) {
+    setRegistrant(name: $name, address: $address) @client
+  }
+`
+
+export const COMMIT = gql`
+  mutation commit($label: String, $owner: String, $secret: String) {
+    commit(label: $label, owner: $owner, secret: $secret) @client
+  }
+`
+
+export const REGISTER = gql`
+  mutation register($label: String, $duration: Int) {
+    register(label: $label, duration: $duration, secret: $secret) @client
+  }
+`
+
+export const TRANSFER_REGISTRARS = gql`
+  mutation transferRegistrars($label: String) {
+    transferRegistrars(label: $label) @client
+  }
+`
+
+export const RELEASE_DEED = gql`
+  mutation releaseDeed($hash: String) {
+    releaseDeed(label: $label) @client
+  }
+`

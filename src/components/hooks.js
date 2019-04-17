@@ -1,4 +1,5 @@
-import { useEffect, useReducer } from 'react'
+import { useEffect, useReducer, useRef, useState } from 'react'
+import getEtherPrice from 'api/price'
 
 export function useDocumentTitle(title) {
   useEffect(() => {
@@ -73,5 +74,42 @@ export function useEditable(
   return {
     state,
     actions
+  }
+}
+
+export function useInterval(callback, delay) {
+  const savedCallback = useRef()
+
+  // Remember the latest callback.
+  useEffect(() => {
+    savedCallback.current = callback
+  }, [callback])
+
+  // Set up the interval.
+  useEffect(() => {
+    function tick() {
+      savedCallback.current()
+    }
+    if (delay !== null) {
+      let id = setInterval(tick, delay)
+      return () => clearInterval(id)
+    }
+  }, [delay])
+}
+
+export function useEthPrice() {
+  const [loading, setLoading] = useState(true)
+  const [price, setPrice] = useState(undefined)
+
+  useEffect(() => {
+    getEtherPrice().then(res => {
+      setPrice(res.result.ethusd)
+      setLoading(false)
+    })
+  }, [])
+
+  return {
+    loading,
+    price
   }
 }

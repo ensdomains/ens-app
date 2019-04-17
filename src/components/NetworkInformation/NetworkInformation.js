@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 
 import mq from 'mediaQuery'
 
@@ -94,7 +94,7 @@ class NetworkInformation extends Component {
                 <Account data-testid="account" className="account">
                   <ReverseRecord address={accounts[0]} />
                 </Account>
-                <NetworkStatus>{network} network</NetworkStatus>
+                <NetworkStatus>{network}</NetworkStatus>
               </AccountContainer>
             ) : (
               <NoAccountsModal colour={'#F5A623'} />

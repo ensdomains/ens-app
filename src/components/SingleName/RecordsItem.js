@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
 import { validateRecord } from '../../utils/records'
 import { emptyAddress } from '../../utils/utils'
@@ -147,8 +147,10 @@ const Editable = ({
               {pending && !confirmed && txHash ? (
                 <PendingTx
                   txHash={txHash}
-                  setConfirmed={setConfirmed}
-                  refetch={refetch}
+                  onConfirmed={() => {
+                    setConfirmed()
+                    refetch()
+                  }}
                 />
               ) : editing ? (
                 <Action>
@@ -198,7 +200,8 @@ const Editable = ({
                     type,
                     domain.contentType
                   )}
-                  mutation={() => {
+                  mutation={e => {
+                    e.preventDefault()
                     const variables = {
                       name: domain.name,
                       [variableName ? variableName : 'recordValue']: newValue
@@ -227,25 +230,27 @@ const Editable = ({
 class RecordItem extends Component {
   _renderViewOnly() {
     const { keyName, value, type, domain, account } = this.props
-    const {name, contentType} = domain
-    return ( (keyName !== 'Address' && contentType === 'error') ? '':(
+    const { name, contentType } = domain
+    return keyName !== 'Address' && contentType === 'error' ? (
+      ''
+    ) : (
       <RecordsItem>
-      <RecordsContent>
-        <RecordsKey>{keyName}</RecordsKey>
-        <RecordsValue>
-          {type === 'address' ? (
-            <EtherScanLink address={value}>{value}</EtherScanLink>
-          ) : 
-            <ContentHashLink value={value} contentType={contentType} />
-          }
-        </RecordsValue>
-      </RecordsContent>
-      {keyName === 'Address' &&
-        value.toLowerCase() === account.toLowerCase() && (
-          <AddReverseRecord account={account} name={name} />
-        )}
+        <RecordsContent>
+          <RecordsKey>{keyName}</RecordsKey>
+          <RecordsValue>
+            {type === 'address' ? (
+              <EtherScanLink address={value}>{value}</EtherScanLink>
+            ) : (
+              <ContentHashLink value={value} contentType={contentType} />
+            )}
+          </RecordsValue>
+        </RecordsContent>
+        {keyName === 'Address' &&
+          value.toLowerCase() === account.toLowerCase() && (
+            <AddReverseRecord account={account} name={name} />
+          )}
       </RecordsItem>
-    ))
+    )
   }
   render() {
     const { isOwner } = this.props
