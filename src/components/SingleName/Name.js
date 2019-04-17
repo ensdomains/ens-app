@@ -76,8 +76,8 @@ const RightBar = styled('div')`
 
 const Favourite = styled(DefaultFavourite)``
 
-function isRegistrationOpen(domain, isDeedOwner, isOwner){
-  let {available, parent} = domain
+function isRegistrationOpen(domain, isDeedOwner) {
+  let { available, parent } = domain
   return parent === 'eth' && !isDeedOwner && available
 }
 
@@ -111,7 +111,7 @@ function Name({ details: domain, name, pathname, refetch }) {
               domain.state === 'Owned' && (
                 <Tabs pathname={pathname} domain={domain} />
               )}
-            {isRegistrationOpen(domain, isDeedOwner, isOwner) ? (
+            {isRegistrationOpen(domain, isDeedOwner) ? (
               <NameRegister
                 domain={domain}
                 pathname={pathname}
