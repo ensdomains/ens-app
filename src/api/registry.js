@@ -164,7 +164,7 @@ export async function setContent(name, content) {
   const namehash = getNamehash(name)
   const resolverAddr = await getResolver(name)
   const { Resolver } = await getResolverContract(resolverAddr)
-  const gas = await Resolver.setContent(namehash, content).estimateGas()
+  const gas = await Resolver.setContent(namehash, content).estimateGas({from:account})
   return () =>
     Resolver.setContent(namehash, content).send({ from: account, gas })
 }
@@ -175,7 +175,7 @@ export async function setContenthash(name, content) {
   const resolverAddr = await getResolver(name)
   const { Resolver } = await getResolverContract(resolverAddr)
   const tx = Resolver.setContenthash(namehash, content)
-  const gas = await tx.estimateGas()
+  const gas = await tx.estimateGas({from:account})
   return () => tx.send({ from: account, gas: gas })
 }
 
