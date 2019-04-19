@@ -163,7 +163,7 @@ class NameDetails extends Component {
                       domain={domain}
                       keyName="Controller"
                       value={domain.owner}
-                      isOwner={isOwner}
+                      isOwner={isOwner || isRegistrant}
                       deedOwner={domain.deedOwner}
                       isDeedOwner={isDeedOwner}
                       type="address"
