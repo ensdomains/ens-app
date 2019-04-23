@@ -20,6 +20,7 @@ import { NetworkError } from './components/Error/Errors'
 import { CONFIRM } from './modals'
 
 import DefaultLayout from './components/Layout/DefaultLayout'
+import Analytics from './utils/analytics'
 
 const HomePageLayout = ({ children }) => <Fragment>{children}</Fragment>
 
@@ -28,6 +29,7 @@ const Route = ({
   layout: Layout = DefaultLayout,
   ...rest
 }) => {
+  Analytics.pageview()
   return (
     <DefaultRoute
       {...rest}
@@ -44,6 +46,7 @@ const App = () => (
   <>
     <Query query={GET_ERRORS}>
       {({ data }) => {
+        Analytics.setup()
         if (data.error && data.error.message) {
           return <NetworkError message={data.error.message} />
         } else {
