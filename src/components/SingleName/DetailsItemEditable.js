@@ -217,6 +217,7 @@ const Editable = ({
   )
   if (keyName === 'Expiration Date') {
     duration = parseFloat(years) * yearInSeconds
+    console.log(duration)
     expirationDate = new Date(new Date(value).getTime() + duration * 1000)
   }
 
@@ -345,14 +346,14 @@ const Editable = ({
                     <SaveCancel
                       stopEditing={stopEditing}
                       mutation={() => {
-                        mutation(
-                          getVariables(keyName, {
-                            domain,
-                            variableName,
-                            newValue,
-                            duration
-                          })
-                        )
+                        const variables = getVariables(keyName, {
+                          domain,
+                          variableName,
+                          newValue,
+                          duration
+                        })
+                        console.log(variables)
+                        mutation({ variables })
                       }}
                       value={
                         keyName === 'Expiration Date'
