@@ -1,14 +1,16 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import styled from '@emotion/styled'
 import { Mutation, Query } from 'react-apollo'
 import { addressUtils } from '@0xproject/utils'
 import PropTypes from 'prop-types'
 import { Transition } from 'react-spring'
-import Tooltip from '../Tooltip/Tooltip'
+
 import { GET_PUBLIC_RESOLVER } from '../../graphql/queries'
 import mq from 'mediaQuery'
-import { useEditable } from '../hooks'
+import { useEditable, useEthPrice } from '../hooks'
+import { yearInSeconds } from 'utils/dates'
 
+import Tooltip from '../Tooltip/Tooltip'
 import { SingleNameBlockies } from './SingleNameBlockies'
 import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
@@ -18,6 +20,7 @@ import Button from '../Forms/Button'
 import Pencil from '../Forms/Pencil'
 import DefaultInfo from '../Icons/Info'
 import DefaultPendingTx from '../PendingTx'
+import Pricer from './Pricer'
 
 const EtherScanLink = styled(DefaultEtherScanLink)`
   display: flex;
@@ -112,10 +115,33 @@ function getDefaultMessage(keyName) {
   }
 }
 
-function getInputType(keyName, { newValue, updateValue, isValid, isInvalid }) {
+function getInputType(
+  keyName,
+  {
+    newValue,
+    updateValue,
+    isValid,
+    isInvalid,
+    name,
+    ethUsdPriceLoading,
+    ethUsdPrice,
+    years,
+    setYears,
+    duration
+  }
+) {
   switch (keyName) {
     case 'Expiration Date':
-      return <div />
+      return (
+        <Pricer
+          name={name}
+          duration={duration}
+          years={years}
+          setYears={setYears}
+          ethUsdPriceLoading={ethUsdPriceLoading}
+          ethUsdPrice={ethUsdPrice}
+        />
+      )
     default:
       return (
         <Input
@@ -153,6 +179,13 @@ const Editable = ({
     startPending,
     setConfirmed
   } = actions
+
+  //only used with Expiration date
+  const [years, setYears] = useState(1)
+  const { price: ethUsdPrice, loading: ethUsdPriceLoading } = useEthPrice(
+    keyName === 'Expiration Date'
+  )
+  const duration = parseFloat(years) * yearInSeconds
 
   const isValid = addressUtils.isAddress(newValue)
   const isInvalid = !isValid && newValue.length > 0
@@ -245,7 +278,13 @@ const Editable = ({
                       newValue,
                       updateValue,
                       isValid,
-                      isInvalid
+                      isInvalid,
+                      years,
+                      name: domain.name,
+                      setYears,
+                      ethUsdPrice,
+                      ethUsdPriceLoading,
+                      duration
                     })}
                   </EditRecord>
                   <Buttons>

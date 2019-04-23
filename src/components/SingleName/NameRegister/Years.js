@@ -50,6 +50,7 @@ const Amount = styled('div')`
   align-self: center;
 
   input {
+    background: transparent;
     font-family: Overpass;
     font-size: 28px;
     font-weight: 100;

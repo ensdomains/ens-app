@@ -10,6 +10,7 @@ import Price from './NameRegister/Price'
 import mq from 'mediaQuery'
 
 import { ReactComponent as ChainDefault } from '../Icons/chain.svg'
+
 const PricingContainer = styled('div')`
   display: grid;
   grid-template-columns: 1fr;
@@ -34,7 +35,6 @@ const Chain = styled(ChainDefault)`
 export default function Pricer({
   years,
   setYears,
-  yearInSeconds,
   duration,
   ethUsdPriceLoading,
   ethUsdPrice,
@@ -51,11 +51,7 @@ export default function Pricer({
       {({ data, loading }) => {
         return (
           <PricingContainer>
-            <Years
-              years={years}
-              setYears={setYears}
-              yearInSeconds={yearInSeconds}
-            />
+            <Years years={years} setYears={setYears} />
             <Chain />
             <Price
               price={loading ? 0 : data.getRentPrice}

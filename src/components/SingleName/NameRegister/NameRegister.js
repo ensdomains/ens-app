@@ -6,6 +6,7 @@ import { GET_MINIMUM_COMMITMENT_AGE } from 'graphql/queries'
 import { useInterval, useEthPrice } from 'components/hooks'
 import { registerMachine, registerReducer } from './registerReducer'
 import { sendNotification } from './notification'
+import { yearInSeconds } from 'utils/dates'
 
 import Loader from 'components/Loader'
 import Explainer from './Explainer'
@@ -43,7 +44,6 @@ const NameRegister = ({ domain, waitTime, refetch }) => {
   )
 
   const parsedYears = parseFloat(years)
-  const yearInSeconds = 31556952
   const duration = yearInSeconds * parsedYears
   const oneMonthInSeconds = 2419200
   const twentyEightDaysInYears = oneMonthInSeconds / yearInSeconds
@@ -58,7 +58,6 @@ const NameRegister = ({ domain, waitTime, refetch }) => {
           duration={duration}
           years={years}
           setYears={setYears}
-          yearInSeconds={yearInSeconds}
           ethUsdPriceLoading={ethUsdPriceLoading}
           ethUsdPrice={ethUsdPrice}
         />
