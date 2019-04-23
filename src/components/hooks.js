@@ -108,7 +108,7 @@ export function useEthPrice(enabled = true) {
         setLoading(false)
       })
     }
-  }, [])
+  }, [enabled])
 
   return {
     loading,
