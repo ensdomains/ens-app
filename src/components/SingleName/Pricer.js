@@ -2,14 +2,14 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { Query } from 'react-apollo'
 
-import { GET_MINIMUM_COMMITMENT_AGE, GET_RENT_PRICE } from 'graphql/queries'
+import { GET_RENT_PRICE } from 'graphql/queries'
 
-import Years from './Years'
-import Price from './Price'
+import Years from './NameRegister/Years'
+import Price from './NameRegister/Price'
 
 import mq from 'mediaQuery'
 
-import { ReactComponent as ChainDefault } from '../../Icons/chain.svg'
+import { ReactComponent as ChainDefault } from '../Icons/chain.svg'
 const PricingContainer = styled('div')`
   display: grid;
   grid-template-columns: 1fr;

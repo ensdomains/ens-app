@@ -11,7 +11,7 @@ import Loader from 'components/Loader'
 import Explainer from './Explainer'
 import CTA from './CTA'
 import Progress from './Progress'
-import Pricer from './Pricer'
+import Pricer from '../Pricer'
 
 const NameRegisterContainer = styled('div')`
   padding: 20px 40px;
