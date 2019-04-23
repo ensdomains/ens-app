@@ -17,7 +17,8 @@ import {
   SET_ADDRESS,
   SET_CONTENT,
   SET_CONTENTHASH,
-  SET_REGISTRANT
+  SET_REGISTRANT,
+  RENEW
 } from '../../graphql/mutations'
 
 import NameClaimTestDomain from './NameClaimTestDomain'
@@ -206,12 +207,12 @@ class NameDetails extends Component {
                     <DetailsItemEditable
                       domain={domain}
                       keyName="Expiration Date"
-                      value={formatDate(domain.expiryTime)}
+                      value={domain.expiryTime}
                       isOwner={isOwner}
                       type="date"
                       editButton="Renew"
                       mutationButton="Renew"
-                      mutation={SET_OWNER}
+                      mutation={RENEW}
                       refetch={refetch}
                       confirm={true}
                     />

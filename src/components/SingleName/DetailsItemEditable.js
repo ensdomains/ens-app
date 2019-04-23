@@ -8,7 +8,7 @@ import { Transition } from 'react-spring'
 import { GET_PUBLIC_RESOLVER } from '../../graphql/queries'
 import mq from 'mediaQuery'
 import { useEditable, useEthPrice } from '../hooks'
-import { yearInSeconds } from 'utils/dates'
+import { yearInSeconds, formatDate } from 'utils/dates'
 
 import Tooltip from '../Tooltip/Tooltip'
 import { SingleNameBlockies } from './SingleNameBlockies'
@@ -127,7 +127,8 @@ function getInputType(
     ethUsdPrice,
     years,
     setYears,
-    duration
+    duration,
+    expirationDate
   }
 ) {
   switch (keyName) {
@@ -137,9 +138,13 @@ function getInputType(
           name={name}
           duration={duration}
           years={years}
-          setYears={setYears}
+          setYears={years => {
+            setYears(years)
+            updateValue(formatDate(expirationDate))
+          }}
           ethUsdPriceLoading={ethUsdPriceLoading}
           ethUsdPrice={ethUsdPrice}
+          expirationDate={expirationDate}
         />
       )
     default:
@@ -153,6 +158,29 @@ function getInputType(
           large
         />
       )
+  }
+}
+
+function getValidation(keyName, newValue) {
+  switch (keyName) {
+    case 'Expiration Date':
+      return true
+    default:
+      return addressUtils.isAddress(newValue)
+  }
+}
+
+function getVariables(keyName, { domain, variableName, newValue, duration }) {
+  if (keyName === 'Expiration Date') {
+    return {
+      label: domain.name.split('.')[0],
+      duration
+    }
+  } else {
+    return {
+      name: domain.name,
+      [variableName ? variableName : 'address']: newValue
+    }
   }
 }
 
@@ -181,13 +209,18 @@ const Editable = ({
   } = actions
 
   //only used with Expiration date
+  let duration
+  let expirationDate
   const [years, setYears] = useState(1)
   const { price: ethUsdPrice, loading: ethUsdPriceLoading } = useEthPrice(
     keyName === 'Expiration Date'
   )
-  const duration = parseFloat(years) * yearInSeconds
+  if (keyName === 'Expiration Date') {
+    duration = parseFloat(years) * yearInSeconds
+    expirationDate = new Date(new Date(value).getTime() + duration * 1000)
+  }
 
-  const isValid = addressUtils.isAddress(newValue)
+  const isValid = getValidation(keyName, newValue)
   const isInvalid = !isValid && newValue.length > 0
 
   return (
@@ -233,6 +266,8 @@ const Editable = ({
                   ) : null}
                   <Address>{value}</Address>
                 </EtherScanLink>
+              ) : type === 'date' ? (
+                formatDate(value)
               ) : (
                 value
               )}
@@ -284,7 +319,8 @@ const Editable = ({
                       setYears,
                       ethUsdPrice,
                       ethUsdPriceLoading,
-                      duration
+                      duration,
+                      expirationDate
                     })}
                   </EditRecord>
                   <Buttons>
@@ -309,17 +345,25 @@ const Editable = ({
                     <SaveCancel
                       stopEditing={stopEditing}
                       mutation={() => {
-                        const variables = {
-                          name: domain.name,
-                          [variableName ? variableName : 'address']: newValue
-                        }
-
-                        mutation({
-                          variables
-                        })
+                        mutation(
+                          getVariables(keyName, {
+                            domain,
+                            variableName,
+                            newValue,
+                            duration
+                          })
+                        )
                       }}
-                      value={value}
-                      newValue={newValue}
+                      value={
+                        keyName === 'Expiration Date'
+                          ? formatDate(value)
+                          : value
+                      }
+                      newValue={
+                        keyName === 'Expiration Date'
+                          ? formatDate(expirationDate)
+                          : value
+                      }
                       mutationButton={mutationButton}
                       confirm={confirm}
                       isValid={isValid}
