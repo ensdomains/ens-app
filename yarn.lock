@@ -993,10 +993,10 @@
     truffle "^5.0.5"
     web3-utils "^1.0.0-beta.48"
 
-"@ensdomains/resolver@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@ensdomains/resolver/-/resolver-0.1.4.tgz#5933b94d1b24521d08153a09c60a939f7cc9543b"
-  integrity sha512-hF4lm8tcao8WWowJEBihii53C3/wDDT2vz+1WKhAJLMKAKyBjz2DQTGuIJE0aPGzFKl8GFR6Be/OxqF6U9reGA==
+"@ensdomains/resolver@^0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@ensdomains/resolver/-/resolver-0.1.6.tgz#15e070a58d5f2be6b46787661121dddae0cfe132"
+  integrity sha512-6+xbVrajjDJJiTqtqjl18tO98YM3ceiNCOwjDzI/LZU9PadJZlKreGTgaZOQJi4bj5hyXZf3xwRU2tJOHSaPpQ==
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
