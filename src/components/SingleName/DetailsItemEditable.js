@@ -112,6 +112,24 @@ function getDefaultMessage(keyName) {
   }
 }
 
+function getInputType(keyName, { newValue, updateValue, isValid, isInvalid }) {
+  switch (keyName) {
+    case 'Expiration Date':
+      return <div />
+    default:
+      return (
+        <Input
+          value={newValue}
+          onChange={e => updateValue(e.target.value)}
+          valid={isValid}
+          invalid={isInvalid}
+          placeholder="Type in a new Ethereum address"
+          large
+        />
+      )
+  }
+}
+
 const Editable = ({
   keyName,
   value,
@@ -223,14 +241,12 @@ const Editable = ({
               (props => (
                 <div style={props}>
                   <EditRecord>
-                    <Input
-                      value={newValue}
-                      onChange={e => updateValue(e.target.value)}
-                      valid={isValid}
-                      invalid={isInvalid}
-                      placeholder="Type in a new Ethereum address"
-                      large
-                    />
+                    {getInputType(keyName, {
+                      newValue,
+                      updateValue,
+                      isValid,
+                      isInvalid
+                    })}
                   </EditRecord>
                   <Buttons>
                     {keyName === 'Resolver' && (

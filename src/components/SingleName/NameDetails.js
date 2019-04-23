@@ -202,14 +202,29 @@ class NameDetails extends Component {
                   ''
                 )}
                 {domain.expiryTime ? (
-                  <DetailsItem uneditable>
-                    <DetailsKey>Expiration Date</DetailsKey>
-                    <ExpirationDetailsValue
-                      isExpired={domain.expiryTime < new Date()}
-                    >
-                      {formatDate(domain.expiryTime)}
-                    </ExpirationDetailsValue>
-                  </DetailsItem>
+                  domain.isNewRegistrar ? (
+                    <DetailsItemEditable
+                      domain={domain}
+                      keyName="Expiration Date"
+                      value={formatDate(domain.expiryTime)}
+                      isOwner={isOwner}
+                      type="date"
+                      editButton="Renew"
+                      mutationButton="Renew"
+                      mutation={SET_OWNER}
+                      refetch={refetch}
+                      confirm={true}
+                    />
+                  ) : (
+                    <DetailsItem uneditable>
+                      <DetailsKey>Expiration Date</DetailsKey>
+                      <ExpirationDetailsValue
+                        isExpired={domain.expiryTime < new Date()}
+                      >
+                        {formatDate(domain.expiryTime)}
+                      </ExpirationDetailsValue>
+                    </DetailsItem>
+                  )
                 ) : (
                   ''
                 )}
