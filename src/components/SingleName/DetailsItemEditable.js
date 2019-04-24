@@ -20,7 +20,7 @@ import Button from '../Forms/Button'
 import Pencil from '../Forms/Pencil'
 import DefaultInfo from '../Icons/Info'
 import DefaultPendingTx from '../PendingTx'
-import Pricer from './Pricer'
+import DefaultPricer from './Pricer'
 
 const EtherScanLink = styled(DefaultEtherScanLink)`
   display: flex;
@@ -97,6 +97,8 @@ const DefaultResolverButton = styled('a')`
     cursor: pointer;
   }
 `
+
+const Pricer = styled(DefaultPricer)``
 
 const Buttons = styled('div')`
   display: flex;
@@ -351,7 +353,6 @@ const Editable = ({
                           newValue,
                           duration
                         })
-                        console.log(variables)
                         mutation({ variables })
                       }}
                       value={

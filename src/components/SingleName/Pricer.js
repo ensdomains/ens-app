@@ -38,7 +38,8 @@ export default function Pricer({
   duration,
   ethUsdPriceLoading,
   ethUsdPrice,
-  name
+  name,
+  className
 }) {
   return (
     <Query
@@ -50,7 +51,7 @@ export default function Pricer({
     >
       {({ data, loading }) => {
         return (
-          <PricingContainer>
+          <PricingContainer className={className}>
             <Years years={years} setYears={setYears} />
             <Chain />
             <Price
