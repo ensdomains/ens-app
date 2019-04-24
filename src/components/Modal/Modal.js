@@ -34,21 +34,25 @@ const ModalContainer = styled('div')`
   top: 0;
   width: 100%;
   height: 100%;
-  padding: 20px;
+  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 99999999;
   background: rgba(0, 0, 0, 0.5);
+
+  ${mq.small`
+    padding: 20px;
+  `};
 `
 
 const ModalContent = styled('div')`
   background: white;
-  padding: 40px;
+  padding: 20px;
   overflow-y: scroll;
-  height: auto%;
-  min-width: 850px;
+  height: auto;
   ${mq.medium`
+    padding: 40px;
     width: 70%;
   `};
 
