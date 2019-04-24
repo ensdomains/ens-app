@@ -24,10 +24,6 @@ const Content = styled('div')`
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-
-  ${mq.large`
-    flex-direction: row;
-  `}
 `
 
 const Title = styled('h3')`
