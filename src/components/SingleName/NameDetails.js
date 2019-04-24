@@ -203,7 +203,7 @@ class NameDetails extends Component {
                   ''
                 )}
                 {domain.expiryTime ? (
-                  domain.isNewRegistrar ? (
+                  domain.isNewRegistrar && isOwner ? (
                     <DetailsItemEditable
                       domain={domain}
                       keyName="Expiration Date"
