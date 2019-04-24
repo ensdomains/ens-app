@@ -363,7 +363,7 @@ const Editable = ({
                       newValue={
                         keyName === 'Expiration Date'
                           ? formatDate(expirationDate)
-                          : value
+                          : newValue
                       }
                       mutationButton={mutationButton}
                       confirm={confirm}

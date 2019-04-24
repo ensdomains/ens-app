@@ -150,7 +150,7 @@ class NameDetails extends Component {
                   <>
                     <DetailsItemEditable
                       domain={domain}
-                      keyName="Owner"
+                      keyName="Registrant"
                       value={domain.registrant}
                       isOwner={isRegistrant}
                       type="address"
@@ -168,8 +168,8 @@ class NameDetails extends Component {
                       deedOwner={domain.deedOwner}
                       isDeedOwner={isDeedOwner}
                       type="address"
-                      editButton="Set"
-                      mutationButton="Set"
+                      editButton={isRegistrant ? 'Set' : 'Transfer'}
+                      mutationButton={isRegistrant ? 'Set' : 'Transfer'}
                       mutation={SET_OWNER}
                       refetch={refetch}
                       confirm={true}
@@ -178,7 +178,7 @@ class NameDetails extends Component {
                 ) : (
                   <DetailsItemEditable
                     domain={domain}
-                    keyName="Owner"
+                    keyName="Controller"
                     value={domain.owner}
                     isOwner={isOwner}
                     deedOwner={domain.deedOwner}
