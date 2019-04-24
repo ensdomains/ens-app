@@ -6,6 +6,7 @@ import {
   commit,
   getMinimumCommitmentAge,
   register,
+  renew,
   transferRegistrars,
   releaseDeed,
   transferOwner
@@ -44,6 +45,10 @@ const resolvers = {
       const secret = secrets[label]
       const tx = await register(label, duration, secret)
 
+      return sendHelper(tx)
+    },
+    async renew(_, { label, duration }) {
+      const tx = await renew(label, duration)
       return sendHelper(tx)
     },
     async getDomainAvailability(_, { name }, { cache }) {

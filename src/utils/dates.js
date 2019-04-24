@@ -2,7 +2,7 @@ import moment from 'moment'
 
 export function formatDate(unixTimeStamp, noTime) {
   let date = moment(unixTimeStamp).format('YYYY.MM.DD')
-  if(!noTime){
+  if (!noTime) {
     date = date + ' at ' + moment(unixTimeStamp).format('hh:mm:ss')
   }
   return date
@@ -25,3 +25,5 @@ export function humanizeDate(timeLeft) {
       .toFixed(0)}m`
   }
 }
+
+export const yearInSeconds = 31556952
