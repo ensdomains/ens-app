@@ -1,4 +1,3 @@
-import React from 'react'
 import ReactGA from 'react-ga';
 const TrackingID = 'UA-138903307-1'
 
