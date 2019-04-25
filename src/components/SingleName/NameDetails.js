@@ -18,6 +18,7 @@ import {
   SET_CONTENT,
   SET_CONTENTHASH,
   SET_REGISTRANT,
+  RECLAIM,
   RENEW
 } from '../../graphql/mutations'
 
@@ -170,7 +171,7 @@ class NameDetails extends Component {
                       type="address"
                       editButton={isRegistrant ? 'Set' : 'Transfer'}
                       mutationButton={isRegistrant ? 'Set' : 'Transfer'}
-                      mutation={SET_OWNER}
+                      mutation={isRegistrant ? RECLAIM : SET_OWNER}
                       refetch={refetch}
                       confirm={true}
                     />

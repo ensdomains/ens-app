@@ -38,12 +38,11 @@ const registerName = async function(web3, account, controllerContract, name) {
     .call()
   await controllerContract.commit(commitment).send({ from: account })
   var minCommitmentAge = await controllerContract.minCommitmentAge().call()
-  await advanceTime(web3, parseInt(minCommitmentAge))
+  const time = await advanceTime(web3, parseInt(minCommitmentAge))
   await mine(web3)
-
   await controllerContract
     .register(name, account, 28 * DAYS, secret)
-    .send({ from: account, value: VALUE, gas: 5000000 })
+    .send({ from: account, value: VALUE, gas: 6000000 })
 
   // The name should be no longer available
   newnameAvailable = await controllerContract.available(name).call()
@@ -292,6 +291,8 @@ async function deployENS({ web3, accounts }) {
     .register(sha3('example'), accounts[0])
     .send({ from: accounts[0] })
 
+  console.log('registered example.test')
+
   /* Setup the root reverse node */
   await ensContract
     .setSubnodeOwner(
@@ -303,15 +304,21 @@ async function deployENS({ web3, accounts }) {
       from: accounts[0]
     })
 
+  console.log('setup root reverse')
+
   await ensContract
     .setSubnodeOwner(namehash('reverse'), sha3('addr'), accounts[0])
     .send({
       from: accounts[0]
     })
 
+  console.log('setup root reverse with addr label')
+
   await ensContract
     .setResolver(namehash('addr.reverse'), resolver._address)
     .send({ from: accounts[0] })
+
+  console.log('setup root reverse with public resolver')
 
   /* Setup the reverse subdomain: addr.reverse */
   await ensContract
@@ -324,6 +331,8 @@ async function deployENS({ web3, accounts }) {
       from: accounts[0]
     })
 
+  console.log('setup root reverse with the reverse registrar')
+
   /* Set the old hash registrar contract as the owner of .eth */
   await ensContract
     .setSubnodeOwner(
@@ -335,14 +344,18 @@ async function deployENS({ web3, accounts }) {
       from: accounts[0]
     })
 
+  console.log('Successfully setup old hash registrar')
+
   const now = (await web3.eth.getBlock('latest')).timestamp
   const priceOracle = await deploy(priceOracleJSON, 1)
   const baseRegistrar = await deploy(
     baseRegistrarJSON,
     ens._address,
+    legacyAuctionRegistrar._address,
     namehash('eth'),
     now + 365 * DAYS
   )
+  console.log('Successfully setup base registrar')
   const controller = await deploy(
     controllerJSON,
     baseRegistrar._address,
@@ -350,6 +363,8 @@ async function deployENS({ web3, accounts }) {
     2, // 10 mins in seconds
     86400 // 24 hours in seconds
   )
+
+  console.log('Successfully setup permanent registrar controller')
   const baseRegistrarContract = baseRegistrar.methods
   const controllerContract = controller.methods
 
@@ -406,15 +421,19 @@ async function deployENS({ web3, accounts }) {
     .send({ from: accounts[0] })
 
   console.log('Register name')
-  await registerName(web3, accounts[0], controllerContract, 'newname')
-  await registerName(web3, accounts[0], controllerContract, 'resolver')
-  await registerName(web3, accounts[0], controllerContract, 'oldresolver')
-  await registerName(web3, accounts[0], controllerContract, 'awesome')
-  await registerName(web3, accounts[0], controllerContract, 'superawesome')
-  await registerName(web3, accounts[0], controllerContract, 'notsoawesome')
-  await registerName(web3, accounts[0], controllerContract, 'abittooawesome')
-  await registerName(web3, accounts[0], controllerContract, 'subdomaindummy')
-  await registerName(web3, accounts[0], controllerContract, 'subdomain')
+  try {
+    await registerName(web3, accounts[0], controllerContract, 'newname')
+    await registerName(web3, accounts[0], controllerContract, 'resolver')
+    await registerName(web3, accounts[0], controllerContract, 'oldresolver')
+    await registerName(web3, accounts[0], controllerContract, 'awesome')
+    await registerName(web3, accounts[0], controllerContract, 'superawesome')
+    await registerName(web3, accounts[0], controllerContract, 'notsoawesome')
+    await registerName(web3, accounts[0], controllerContract, 'abittooawesome')
+    await registerName(web3, accounts[0], controllerContract, 'subdomaindummy')
+    await registerName(web3, accounts[0], controllerContract, 'subdomain')
+  } catch (e) {
+    console.log('Failed to register a name', e)
+  }
 
   await ensContract
     .setResolver(namehash('notsoawesome.eth'), resolver._address)

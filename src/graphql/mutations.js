@@ -109,6 +109,12 @@ export const SET_REGISTRANT = gql`
   }
 `
 
+export const RECLAIM = gql`
+  mutation reclaim($name: String, $address: String) {
+    reclaim(name: $name, address: $address) @client
+  }
+`
+
 export const COMMIT = gql`
   mutation commit($label: String) {
     commit(label: $label) @client
