@@ -47,6 +47,10 @@ const resolvers = {
 
       return sendHelper(tx)
     },
+    async reclaim(_, { name, address }) {
+      const tx = await reclaim(name, address)
+      return sendHelper(tx)
+    },
     async renew(_, { label, duration }) {
       const tx = await renew(label, duration)
       return sendHelper(tx)
