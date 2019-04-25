@@ -9,7 +9,8 @@ import {
   renew,
   transferRegistrars,
   releaseDeed,
-  transferOwner
+  transferOwner,
+  reclaim
 } from '../registrar'
 import { getOwner } from '../registry'
 import modeNames from '../modes'
