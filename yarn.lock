@@ -980,10 +980,10 @@
     testrpc "0.0.1"
     web3-utils "^1.0.0-beta.31"
 
-"@ensdomains/ethregistrar@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ethregistrar/-/ethregistrar-1.2.1.tgz#bd8d6049e3251d1b323333bdd7f1043991d6865e"
-  integrity sha512-gSAue9C2B2zUOFemDa6Bq8N9ZqCn1+ZE7U1AL6eR7zbsIWTx4QZlyGGIZpP2vNEPO6LMBE1u79El3jAqghdV2Q==
+"@ensdomains/ethregistrar@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ethregistrar/-/ethregistrar-1.2.2.tgz#4b770cad47a805cf0629d255cfcd5998d7b704e2"
+  integrity sha512-F0XH1jGqy0M1k5YNlkOz+ZUSIMxiijsRvS59WJrsQiMa2fUcSX+snB/lZBpkoZTd0xu5bwDYlKlVHmzGxmYArg==
   dependencies:
     "@ensdomains/ens" "^0.3.4"
     bluebird "^3.5.3"

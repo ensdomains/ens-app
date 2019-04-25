@@ -171,7 +171,7 @@ class NameDetails extends Component {
                       type="address"
                       editButton={isRegistrant ? 'Set' : 'Transfer'}
                       mutationButton={isRegistrant ? 'Set' : 'Transfer'}
-                      mutation={isRegistrant ? SET_OWNER : RECLAIM}
+                      mutation={isRegistrant ? RECLAIM : SET_OWNER}
                       refetch={refetch}
                       confirm={true}
                     />
