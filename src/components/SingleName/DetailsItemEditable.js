@@ -110,7 +110,7 @@ function getDefaultMessage(keyName) {
   switch (keyName) {
     case 'Resolver':
       return ['No Resolver set', 'message']
-    case 'Owner':
+    case 'Controller':
       return ['Not owned yet', 'message']
     default:
       return ['No 0x message set', 'message']
