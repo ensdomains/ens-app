@@ -249,6 +249,21 @@ export const transferOwner = async ({ to, name }) => {
   }
 }
 
+export const reclaim = async ({ name, address }) => {
+  try {
+    const web3 = await getWeb3()
+    const nameArray = name.split('.')
+    const labelHash = web3.utils.sha3(nameArray[0])
+    const account = await getAccount()
+    const { permanentRegistrarRead: Registrar } = await getPermanentRegistrar()
+    return Registrar.reclaim(labelHash, address).send({
+      from: account
+    })
+  } catch (e) {
+    console.log('error getting permanentRegistrar contract', e)
+  }
+}
+
 export const getRentPrice = async (name, duration) => {
   const {
     permanentRegistrarControllerRead
