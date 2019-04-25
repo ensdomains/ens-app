@@ -17,7 +17,7 @@ function SingleName({
   const [type, setType] = useState(undefined)
   const [name, setNormalisedName] = useState('')
   let normalisedName, errorMessage, _type
-  
+
   useEffect(() => {
     try {
       // This is under the assumption that validateName never returns false
@@ -26,16 +26,16 @@ function SingleName({
       document.title = searchTerm
     } catch {
       document.title = 'Error finding name'
-    } finally{
-      if(normalisedName){
+    } finally {
+      if (normalisedName) {
         _type = parseSearchTerm(normalisedName)
-      }else{
+      } else {
         _type = parseSearchTerm(searchTerm)
       }
       setType(_type)
-      if(_type === 'supported'){
+      if (_type === 'supported') {
         setValid(true)
-      }else{
+      } else {
         setValid(false)
       }
     }
@@ -60,14 +60,19 @@ function SingleName({
       </Query>
     )
   } else if (valid === false) {
-    if(type === 'invalid'){
+    if (type === 'invalid') {
       errorMessage = 'domainMalformed'
-    }else if(type === 'short'){
+    } else if (type === 'short') {
       errorMessage = 'tooShort'
-    }else{
+    } else {
       errorMessage = type
     }
-    return <SearchErrors errors={[errorMessage]} searchTerm={ normalisedName || searchTerm } />
+    return (
+      <SearchErrors
+        errors={[errorMessage]}
+        searchTerm={normalisedName || searchTerm}
+      />
+    )
   } else {
     return <Loader large center />
   }
