@@ -1,14 +1,16 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import styled from '@emotion/styled'
 import { Mutation, Query } from 'react-apollo'
 import { addressUtils } from '@0xproject/utils'
 import PropTypes from 'prop-types'
 import { Transition } from 'react-spring'
-import Tooltip from '../Tooltip/Tooltip'
+
 import { GET_PUBLIC_RESOLVER } from '../../graphql/queries'
 import mq from 'mediaQuery'
-import { useEditable } from '../hooks'
+import { useEditable, useEthPrice } from '../hooks'
+import { yearInSeconds, formatDate } from 'utils/dates'
 
+import Tooltip from '../Tooltip/Tooltip'
 import { SingleNameBlockies } from './SingleNameBlockies'
 import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
@@ -18,6 +20,7 @@ import Button from '../Forms/Button'
 import Pencil from '../Forms/Pencil'
 import DefaultInfo from '../Icons/Info'
 import DefaultPendingTx from '../PendingTx'
+import DefaultPricer from './Pricer'
 
 const EtherScanLink = styled(DefaultEtherScanLink)`
   display: flex;
@@ -95,6 +98,8 @@ const DefaultResolverButton = styled('a')`
   }
 `
 
+const Pricer = styled(DefaultPricer)``
+
 const Buttons = styled('div')`
   display: flex;
   justify-content: flex-end;
@@ -105,10 +110,79 @@ function getDefaultMessage(keyName) {
   switch (keyName) {
     case 'Resolver':
       return ['No Resolver set', 'message']
-    case 'Owner':
+    case 'Controller':
       return ['Not owned yet', 'message']
     default:
       return ['No 0x message set', 'message']
+  }
+}
+
+function getInputType(
+  keyName,
+  {
+    newValue,
+    updateValue,
+    isValid,
+    isInvalid,
+    name,
+    ethUsdPriceLoading,
+    ethUsdPrice,
+    years,
+    setYears,
+    duration,
+    expirationDate
+  }
+) {
+  switch (keyName) {
+    case 'Expiration Date':
+      return (
+        <Pricer
+          name={name}
+          duration={duration}
+          years={years}
+          setYears={years => {
+            setYears(years)
+            updateValue(formatDate(expirationDate))
+          }}
+          ethUsdPriceLoading={ethUsdPriceLoading}
+          ethUsdPrice={ethUsdPrice}
+          expirationDate={expirationDate}
+        />
+      )
+    default:
+      return (
+        <Input
+          value={newValue}
+          onChange={e => updateValue(e.target.value)}
+          valid={isValid}
+          invalid={isInvalid}
+          placeholder="Type in a new Ethereum address"
+          large
+        />
+      )
+  }
+}
+
+function getValidation(keyName, newValue) {
+  switch (keyName) {
+    case 'Expiration Date':
+      return true
+    default:
+      return addressUtils.isAddress(newValue)
+  }
+}
+
+function getVariables(keyName, { domain, variableName, newValue, duration }) {
+  if (keyName === 'Expiration Date') {
+    return {
+      label: domain.name.split('.')[0],
+      duration
+    }
+  } else {
+    return {
+      name: domain.name,
+      [variableName ? variableName : 'address']: newValue
+    }
   }
 }
 
@@ -136,7 +210,19 @@ const Editable = ({
     setConfirmed
   } = actions
 
-  const isValid = addressUtils.isAddress(newValue)
+  //only used with Expiration date
+  let duration
+  let expirationDate
+  const [years, setYears] = useState(1)
+  const { price: ethUsdPrice, loading: ethUsdPriceLoading } = useEthPrice(
+    keyName === 'Expiration Date'
+  )
+  if (keyName === 'Expiration Date') {
+    duration = parseFloat(years) * yearInSeconds
+    expirationDate = new Date(new Date(value).getTime() + duration * 1000)
+  }
+
+  const isValid = getValidation(keyName, newValue)
   const isInvalid = !isValid && newValue.length > 0
 
   return (
@@ -182,6 +268,8 @@ const Editable = ({
                   ) : null}
                   <Address>{value}</Address>
                 </EtherScanLink>
+              ) : type === 'date' ? (
+                formatDate(value)
               ) : (
                 value
               )}
@@ -223,14 +311,19 @@ const Editable = ({
               (props => (
                 <div style={props}>
                   <EditRecord>
-                    <Input
-                      value={newValue}
-                      onChange={e => updateValue(e.target.value)}
-                      valid={isValid}
-                      invalid={isInvalid}
-                      placeholder="Type in a new Ethereum address"
-                      large
-                    />
+                    {getInputType(keyName, {
+                      newValue,
+                      updateValue,
+                      isValid,
+                      isInvalid,
+                      years,
+                      name: domain.name,
+                      setYears,
+                      ethUsdPrice,
+                      ethUsdPriceLoading,
+                      duration,
+                      expirationDate
+                    })}
                   </EditRecord>
                   <Buttons>
                     {keyName === 'Resolver' && (
@@ -254,17 +347,24 @@ const Editable = ({
                     <SaveCancel
                       stopEditing={stopEditing}
                       mutation={() => {
-                        const variables = {
-                          name: domain.name,
-                          [variableName ? variableName : 'address']: newValue
-                        }
-
-                        mutation({
-                          variables
+                        const variables = getVariables(keyName, {
+                          domain,
+                          variableName,
+                          newValue,
+                          duration
                         })
+                        mutation({ variables })
                       }}
-                      value={value}
-                      newValue={newValue}
+                      value={
+                        keyName === 'Expiration Date'
+                          ? formatDate(value)
+                          : value
+                      }
+                      newValue={
+                        keyName === 'Expiration Date'
+                          ? formatDate(expirationDate)
+                          : newValue
+                      }
                       mutationButton={mutationButton}
                       confirm={confirm}
                       isValid={isValid}

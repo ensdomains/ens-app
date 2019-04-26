@@ -32,7 +32,8 @@ const Select = styled(DefaultSelect)`
 
 const RecordsTitle = styled('h3')`
   /* Pointers: */
-  font-family: Overpass-Bold;
+  font-family: Overpass;
+  font-weight: 700;
   font-size: 12px;
   color: #adbbcd;
   letter-spacing: 0.5px;

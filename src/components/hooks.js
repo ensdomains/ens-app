@@ -97,16 +97,18 @@ export function useInterval(callback, delay) {
   }, [delay])
 }
 
-export function useEthPrice() {
+export function useEthPrice(enabled = true) {
   const [loading, setLoading] = useState(true)
   const [price, setPrice] = useState(undefined)
 
   useEffect(() => {
-    getEtherPrice().then(res => {
-      setPrice(res.result.ethusd)
-      setLoading(false)
-    })
-  }, [])
+    if (enabled) {
+      getEtherPrice().then(res => {
+        setPrice(res.result.ethusd)
+        setLoading(false)
+      })
+    }
+  }, [enabled])
 
   return {
     loading,

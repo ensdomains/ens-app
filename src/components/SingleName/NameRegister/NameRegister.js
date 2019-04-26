@@ -2,44 +2,20 @@ import React, { useState, useReducer } from 'react'
 import styled from '@emotion/styled'
 import { Query } from 'react-apollo'
 
-import mq from 'mediaQuery'
-import { GET_MINIMUM_COMMITMENT_AGE, GET_RENT_PRICE } from 'graphql/queries'
+import { GET_MINIMUM_COMMITMENT_AGE } from 'graphql/queries'
 import { useInterval, useEthPrice } from 'components/hooks'
 import { registerMachine, registerReducer } from './registerReducer'
 import { sendNotification } from './notification'
+import { yearInSeconds } from 'utils/dates'
 
 import Loader from 'components/Loader'
 import Explainer from './Explainer'
 import CTA from './CTA'
-import Years from './Years'
-import Price from './Price'
 import Progress from './Progress'
-import { ReactComponent as ChainDefault } from '../../Icons/chain.svg'
-
-const PricingContainer = styled('div')`
-  display: grid;
-  grid-template-columns: 1fr;
-  margin-bottom: 20px;
-  ${mq.medium`
-    grid-template-columns:
-      minmax(min-content, 200px) minmax(min-content, min-content)
-      minmax(200px, 1fr);
-  `}
-`
+import Pricer from '../Pricer'
 
 const NameRegisterContainer = styled('div')`
   padding: 20px 40px;
-`
-
-const Chain = styled(ChainDefault)`
-  display: none;
-
-  ${mq.medium`
-    display: block;
-    margin-top: 20px;
-    margin-left: 20px;
-    margin-right: 20px;
-  `}
 `
 
 const NameRegister = ({ domain, waitTime, refetch }) => {
@@ -68,7 +44,6 @@ const NameRegister = ({ domain, waitTime, refetch }) => {
   )
 
   const parsedYears = parseFloat(years)
-  const yearInSeconds = 31556952
   const duration = yearInSeconds * parsedYears
   const oneMonthInSeconds = 2419200
   const twentyEightDaysInYears = oneMonthInSeconds / yearInSeconds
@@ -78,31 +53,14 @@ const NameRegister = ({ domain, waitTime, refetch }) => {
   return (
     <NameRegisterContainer>
       {step === 'PRICE_DECISION' && (
-        <Query
-          query={GET_RENT_PRICE}
-          variables={{
-            name: domain.name,
-            duration
-          }}
-        >
-          {({ data, loading }) => {
-            return (
-              <PricingContainer>
-                <Years
-                  years={years}
-                  setYears={setYears}
-                  yearInSeconds={yearInSeconds}
-                />
-                <Chain />
-                <Price
-                  price={loading ? 0 : data.getRentPrice}
-                  ethUsdPriceLoading={ethUsdPriceLoading}
-                  ethUsdPrice={ethUsdPrice}
-                />
-              </PricingContainer>
-            )
-          }}
-        </Query>
+        <Pricer
+          name={domain.name}
+          duration={duration}
+          years={years}
+          setYears={setYears}
+          ethUsdPriceLoading={ethUsdPriceLoading}
+          ethUsdPrice={ethUsdPrice}
+        />
       )}
 
       <Explainer

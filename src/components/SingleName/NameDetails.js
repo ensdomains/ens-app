@@ -17,7 +17,9 @@ import {
   SET_ADDRESS,
   SET_CONTENT,
   SET_CONTENTHASH,
-  SET_REGISTRANT
+  SET_REGISTRANT,
+  RECLAIM,
+  RENEW
 } from '../../graphql/mutations'
 
 import NameClaimTestDomain from './NameClaimTestDomain'
@@ -149,7 +151,7 @@ class NameDetails extends Component {
                   <>
                     <DetailsItemEditable
                       domain={domain}
-                      keyName="Owner"
+                      keyName="Registrant"
                       value={domain.registrant}
                       isOwner={isRegistrant}
                       type="address"
@@ -163,13 +165,13 @@ class NameDetails extends Component {
                       domain={domain}
                       keyName="Controller"
                       value={domain.owner}
-                      isOwner={isOwner}
+                      isOwner={isOwner || isRegistrant}
                       deedOwner={domain.deedOwner}
                       isDeedOwner={isDeedOwner}
                       type="address"
-                      editButton="Set"
-                      mutationButton="Set"
-                      mutation={SET_OWNER}
+                      editButton={isRegistrant ? 'Set' : 'Transfer'}
+                      mutationButton={isRegistrant ? 'Set' : 'Transfer'}
+                      mutation={isRegistrant ? RECLAIM : SET_OWNER}
                       refetch={refetch}
                       confirm={true}
                     />
@@ -177,7 +179,7 @@ class NameDetails extends Component {
                 ) : (
                   <DetailsItemEditable
                     domain={domain}
-                    keyName="Owner"
+                    keyName="Controller"
                     value={domain.owner}
                     isOwner={isOwner}
                     deedOwner={domain.deedOwner}
@@ -202,14 +204,29 @@ class NameDetails extends Component {
                   ''
                 )}
                 {domain.expiryTime ? (
-                  <DetailsItem uneditable>
-                    <DetailsKey>Expiration Date</DetailsKey>
-                    <ExpirationDetailsValue
-                      isExpired={domain.expiryTime < new Date()}
-                    >
-                      {formatDate(domain.expiryTime)}
-                    </ExpirationDetailsValue>
-                  </DetailsItem>
+                  domain.isNewRegistrar && isOwner ? (
+                    <DetailsItemEditable
+                      domain={domain}
+                      keyName="Expiration Date"
+                      value={domain.expiryTime}
+                      isOwner={isOwner}
+                      type="date"
+                      editButton="Renew"
+                      mutationButton="Renew"
+                      mutation={RENEW}
+                      refetch={refetch}
+                      confirm={true}
+                    />
+                  ) : (
+                    <DetailsItem uneditable>
+                      <DetailsKey>Expiration Date</DetailsKey>
+                      <ExpirationDetailsValue
+                        isExpired={domain.expiryTime < new Date()}
+                      >
+                        {formatDate(domain.expiryTime)}
+                      </ExpirationDetailsValue>
+                    </DetailsItem>
+                  )
                 ) : (
                   ''
                 )}

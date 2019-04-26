@@ -13,9 +13,12 @@ const PriceContainer = styled('div')`
 const Value = styled('div')`
   font-family: Overpass;
   font-weight: 100;
-  font-size: 28px;
+  font-size: 22px;
   color: #2b2b2b;
   border-bottom: 1px solid #dbdbdb;
+  ${mq.small`
+    font-size: 28px;
+  `}
 `
 
 const Description = styled('div')`
@@ -27,8 +30,12 @@ const Description = styled('div')`
 `
 
 const USD = styled('span')`
+  font-size: 22px;
   color: #adbbcd;
   margin-left: 20px;
+  ${mq.small`
+    font-size: 28px;
+  `}
 `
 
 const Price = ({ price, ethUsdPrice, ethUsdPriceLoading }) => {
@@ -36,7 +43,7 @@ const Price = ({ price, ethUsdPrice, ethUsdPriceLoading }) => {
   return (
     <PriceContainer>
       <Value>
-        {ethVal.toFixed(5)} ETH
+        {ethVal.toFixed(3)} ETH
         {!ethUsdPriceLoading && (
           <USD>${ethVal.mul(ethUsdPrice).toFixed(2)} USD</USD>
         )}

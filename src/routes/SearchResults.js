@@ -1,8 +1,6 @@
 import React, { Fragment } from 'react'
 import DomainInfo from '../components/SearchName/DomainInfo'
-import SubDomainResults from '../components/SubDomainResults/SubDomainResults'
 import { SubDomainStateFields } from '../graphql/fragments'
-import { GET_SINGLE_NAME } from '../graphql/queries'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import { parseSearchTerm } from '../utils/utils'
@@ -24,7 +22,7 @@ class Results extends React.Component {
     errorType: ''
   }
   checkValidity = () => {
-    const { searchTerm, getDomainState, getSubDomainAvailability } = this.props
+    const { searchTerm, getSubDomainAvailability } = this.props
 
     this.setState({
       errors: []

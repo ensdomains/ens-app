@@ -109,15 +109,27 @@ export const SET_REGISTRANT = gql`
   }
 `
 
+export const RECLAIM = gql`
+  mutation reclaim($name: String, $address: String) {
+    reclaim(name: $name, address: $address) @client
+  }
+`
+
 export const COMMIT = gql`
-  mutation commit($label: String, $owner: String, $secret: String) {
-    commit(label: $label, owner: $owner, secret: $secret) @client
+  mutation commit($label: String) {
+    commit(label: $label) @client
   }
 `
 
 export const REGISTER = gql`
   mutation register($label: String, $duration: Int) {
-    register(label: $label, duration: $duration, secret: $secret) @client
+    register(label: $label, duration: $duration) @client
+  }
+`
+
+export const RENEW = gql`
+  mutation renew($label: String, $duration: Int) {
+    renew(label: $label, duration: $duration) @client
   }
 `
 

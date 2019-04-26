@@ -6,9 +6,11 @@ import {
   commit,
   getMinimumCommitmentAge,
   register,
+  renew,
   transferRegistrars,
   releaseDeed,
-  transferOwner
+  transferOwner,
+  reclaim
 } from '../registrar'
 import { getOwner } from '../registry'
 import modeNames from '../modes'
@@ -44,6 +46,14 @@ const resolvers = {
       const secret = secrets[label]
       const tx = await register(label, duration, secret)
 
+      return sendHelper(tx)
+    },
+    async reclaim(_, { name, address }) {
+      const tx = await reclaim({ name, address })
+      return sendHelper(tx)
+    },
+    async renew(_, { label, duration }) {
+      const tx = await renew(label, duration)
       return sendHelper(tx)
     },
     async getDomainAvailability(_, { name }, { cache }) {
@@ -89,7 +99,7 @@ const resolvers = {
       }
     },
     async setRegistrant(_, { name, address }) {
-      const tx = transferOwner({ name, to: address })
+      const tx = await transferOwner({ name, to: address })
       return sendHelper(tx)
     },
     async transferRegistrars(_, { label }) {
