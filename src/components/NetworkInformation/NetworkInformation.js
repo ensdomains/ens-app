@@ -94,7 +94,7 @@ class NetworkInformation extends Component {
                 <Account data-testid="account" className="account">
                   <ReverseRecord address={accounts[0]} />
                 </Account>
-                <NetworkStatus>{network}</NetworkStatus>
+                <NetworkStatus>{network} Network</NetworkStatus>
               </AccountContainer>
             ) : (
               <NoAccountsModal colour={'#F5A623'} />

@@ -153,7 +153,7 @@ class NameDetails extends Component {
                       domain={domain}
                       keyName="Registrant"
                       value={domain.registrant}
-                      isOwner={isRegistrant}
+                      canEdit={isRegistrant}
                       type="address"
                       editButton="Transfer"
                       mutationButton="Transfer"
@@ -165,7 +165,7 @@ class NameDetails extends Component {
                       domain={domain}
                       keyName="Controller"
                       value={domain.owner}
-                      isOwner={isOwner || isRegistrant}
+                      canEdit={isOwner || isRegistrant}
                       deedOwner={domain.deedOwner}
                       isDeedOwner={isDeedOwner}
                       type="address"
@@ -181,7 +181,7 @@ class NameDetails extends Component {
                     domain={domain}
                     keyName="Controller"
                     value={domain.owner}
-                    isOwner={isOwner}
+                    canEdit={isOwner}
                     deedOwner={domain.deedOwner}
                     isDeedOwner={isDeedOwner}
                     type="address"
@@ -204,12 +204,12 @@ class NameDetails extends Component {
                   ''
                 )}
                 {domain.expiryTime ? (
-                  domain.isNewRegistrar && isOwner ? (
+                  domain.isNewRegistrar ? (
                     <DetailsItemEditable
                       domain={domain}
                       keyName="Expiration Date"
                       value={domain.expiryTime}
-                      isOwner={isOwner}
+                      canEdit={parseInt(account, 16) !== 0}
                       type="date"
                       editButton="Renew"
                       mutationButton="Renew"
@@ -248,7 +248,7 @@ class NameDetails extends Component {
                   keyName="Resolver"
                   type="address"
                   value={domain.resolver}
-                  isOwner={isOwner}
+                  canEdit={isOwner}
                   domain={domain}
                   editButton="Set"
                   mutationButton="Save"

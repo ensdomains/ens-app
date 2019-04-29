@@ -4,6 +4,7 @@ import { Mutation } from 'react-apollo'
 
 import { COMMIT, REGISTER } from '../../../graphql/mutations'
 
+import Tooltip from 'components/Tooltip/Tooltip'
 import PendingTx from '../../PendingTx'
 import Button from '../../Forms/Button'
 import { ReactComponent as DefaultPencil } from '../../Icons/SmallPencil.svg'
@@ -37,7 +38,8 @@ function getCTA({
   setTxHash,
   setTimerRunning,
   isAboveMinDuration,
-  refetch
+  refetch,
+  readOnly
 }) {
   const CTAs = {
     PRICE_DECISION: (
@@ -50,10 +52,35 @@ function getCTA({
         }}
       >
         {mutate =>
-          isAboveMinDuration ? (
+          isAboveMinDuration && !readOnly ? (
             <Button data-testid="request-register-button" onClick={mutate}>
               Request to register
             </Button>
+          ) : readOnly ? (
+            <Tooltip
+              text="<p>You are not connected to a web3 browser. Please connect to a web3 browser and try again</p>"
+              position="top"
+              border={true}
+              offset={{ left: -30, top: 10 }}
+            >
+              {({ tooltipElement, showTooltip, hideTooltip }) => {
+                return (
+                  <Button
+                    data-testid="request-register-button"
+                    type="disabled"
+                    onMouseOver={() => {
+                      showTooltip()
+                    }}
+                    onMouseLeave={() => {
+                      hideTooltip()
+                    }}
+                  >
+                    Request to register
+                    {tooltipElement}
+                  </Button>
+                )
+              }}
+            </Tooltip>
           ) : (
             <Button data-testid="request-register-button" type="disabled">
               Request to register
@@ -119,12 +146,12 @@ function getCTA({
 const CTA = ({
   step,
   incrementStep,
-  decrementStep,
   duration,
   label,
   setTimerRunning,
   isAboveMinDuration,
-  refetch
+  refetch,
+  readOnly
 }) => {
   const [txHash, setTxHash] = useState(undefined)
   return (
@@ -138,7 +165,8 @@ const CTA = ({
         setTxHash,
         setTimerRunning,
         isAboveMinDuration,
-        refetch
+        refetch,
+        readOnly
       })}
     </CTAContainer>
   )

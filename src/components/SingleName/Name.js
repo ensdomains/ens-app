@@ -81,17 +81,23 @@ function isRegistrationOpen(domain, isDeedOwner) {
   return parent === 'eth' && !isDeedOwner && available
 }
 
+function isOwnerOfDomain(domain, account) {
+  if (domain.owner !== EMPTY_ADDRESS) {
+    return domain.owner.toLowerCase() === account.toLowerCase()
+  }
+  return false
+}
+
 function Name({ details: domain, name, pathname, refetch }) {
   const smallBP = useMediaMin('small')
   const percentDone = 0
+
   return (
     <QueryAccount>
       {({ account }) => {
-        let isOwner = false
-        if (domain.owner !== EMPTY_ADDRESS) {
-          isOwner = domain.owner.toLowerCase() === account.toLowerCase()
-        }
+        const isOwner = isOwnerOfDomain(domain, account)
         const isDeedOwner = domain.deedOwner === account
+
         return (
           <NameContainer state={isOwner ? 'Yours' : domain.state}>
             <TopBar percentDone={percentDone}>
@@ -116,6 +122,7 @@ function Name({ details: domain, name, pathname, refetch }) {
                 domain={domain}
                 pathname={pathname}
                 refetch={refetch}
+                readOnly={account === EMPTY_ADDRESS}
               />
             ) : (
               <NameDetails
