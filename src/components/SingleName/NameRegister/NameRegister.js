@@ -30,8 +30,6 @@ const NameRegister = ({ domain, waitTime, refetch, readOnly }) => {
   const [timerRunning, setTimerRunning] = useState(false)
   const { loading: ethUsdPriceLoading, price: ethUsdPrice } = useEthPrice()
 
-  console.log(readOnly)
-
   useInterval(
     () => {
       if (secondsPassed < waitTime) {
