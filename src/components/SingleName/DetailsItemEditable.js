@@ -380,46 +380,45 @@ const Editable = ({
   )
 }
 
-class DetailsEditable extends Component {
-  _renderViewOnly() {
-    let { value, keyName, type, deedOwner, isDeedOwner, domain } = this.props
-    if (parseInt(value, 16) === 0) {
-      let [newValue, newType] = getDefaultMessage(keyName)
-      value = newValue
-      type = newType
-      if (
-        keyName === 'Owner' &&
-        domain.parent === 'eth' &&
-        parseInt(deedOwner, 16) !== 0
-      ) {
-        value = 'Pending'
-        if (isDeedOwner) {
-          value += '(You have not finalised)'
-        }
+function ViewOnly({ value, keyName, type, deedOwner, isDeedOwner, domain }) {
+  if (parseInt(value, 16) === 0) {
+    let [newValue, newType] = getDefaultMessage(keyName)
+    value = newValue
+    type = newType
+    if (
+      keyName === 'Owner' &&
+      domain.parent === 'eth' &&
+      parseInt(deedOwner, 16) !== 0
+    ) {
+      value = 'Pending'
+      if (isDeedOwner) {
+        value += '(You have not finalised)'
       }
     }
-    return (
-      <DetailsEditableContainer>
-        <DetailsContent>
-          <DetailsKey>{keyName}</DetailsKey>
-          <DetailsValue data-testid={`details-value-${keyName.toLowerCase()}`}>
-            {type === 'address' ? (
-              <EtherScanLink address={value}>
-                <SingleNameBlockies address={value} imageSize={24} />
-                {value}
-              </EtherScanLink>
-            ) : (
-              value
-            )}
-          </DetailsValue>
-        </DetailsContent>
-      </DetailsEditableContainer>
-    )
   }
-  render() {
-    const { isOwner } = this.props
-    return isOwner ? <Editable {...this.props} /> : this._renderViewOnly()
-  }
+  return (
+    <DetailsEditableContainer>
+      <DetailsContent>
+        <DetailsKey>{keyName}</DetailsKey>
+        <DetailsValue data-testid={`details-value-${keyName.toLowerCase()}`}>
+          {type === 'address' ? (
+            <EtherScanLink address={value}>
+              <SingleNameBlockies address={value} imageSize={24} />
+              {value}
+            </EtherScanLink>
+          ) : type === 'date' ? (
+            formatDate(value)
+          ) : (
+            value
+          )}
+        </DetailsValue>
+      </DetailsContent>
+    </DetailsEditableContainer>
+  )
+}
+
+function DetailsEditable(props) {
+  return props.canEdit ? <Editable {...props} /> : <ViewOnly {...props} />
 }
 
 DetailsEditable.propTypes = {
@@ -429,6 +428,7 @@ DetailsEditable.propTypes = {
   mutation: PropTypes.object.isRequired, //graphql mutation string for making tx
   mutationButton: PropTypes.string, // Mutation button text
   editButton: PropTypes.string, //Edit button text
+  canEdit: PropTypes.bool,
   domain: PropTypes.object.isRequired,
   variableName: PropTypes.string, //can change the variable name for mutation
   refetch: PropTypes.func.isRequired
