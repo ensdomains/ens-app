@@ -18,7 +18,7 @@ const NameRegisterContainer = styled('div')`
   padding: 20px 40px;
 `
 
-const NameRegister = ({ domain, waitTime, refetch }) => {
+const NameRegister = ({ domain, waitTime, refetch, readOnly }) => {
   const [step, dispatch] = useReducer(
     registerReducer,
     registerMachine.initialState
@@ -29,6 +29,8 @@ const NameRegister = ({ domain, waitTime, refetch }) => {
   const [secondsPassed, setSecondsPassed] = useState(0)
   const [timerRunning, setTimerRunning] = useState(false)
   const { loading: ethUsdPriceLoading, price: ethUsdPrice } = useEthPrice()
+
+  console.log(readOnly)
 
   useInterval(
     () => {
@@ -80,6 +82,7 @@ const NameRegister = ({ domain, waitTime, refetch }) => {
         setTimerRunning={setTimerRunning}
         refetch={refetch}
         isAboveMinDuration={isAboveMinDuration}
+        readOnly={readOnly}
       />
     </NameRegisterContainer>
   )
