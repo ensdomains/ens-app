@@ -1,4 +1,4 @@
-import getWeb3, { getAccounts, getNetworkId } from './web3'
+import getWeb3, { getAccounts, getNetworkId, isReadOnly } from './web3'
 import { getAddr } from './registry'
 import merge from 'lodash/merge'
 import fifsResolvers, {
@@ -55,10 +55,11 @@ const resolvers = {
     }
   },
   Query: {
-    web3: async (_, variables, context) => {
+    web3: async () => {
       try {
         return {
           ...(await getWeb3()),
+          isReadOnly: isReadOnly(),
           __typename: 'Web3'
         }
       } catch (e) {
@@ -88,7 +89,6 @@ const resolvers = {
       const data = {
         error: errorObj
       }
-      console.log(data)
       cache.writeData({ data })
       return errorObj
     }

@@ -126,7 +126,7 @@ export async function getNetworkId() {
 
 export async function getBlock() {
   const web3 = await getWeb3()
-  let block =  await web3.eth.getBlock('latest');
+  let block = await web3.eth.getBlock('latest')
   return {
     number: block.number,
     timestamp: block.timestamp
