@@ -26,6 +26,18 @@ function getButtonStyles({ type }) {
           box-shadow: 0 10px 21px 0 rgba(161, 175, 184, 0.89);
         }
       `
+    case 'hollow-white':
+      return `
+        background: transparent;
+        color: #DFDFDF;
+        border: 2px solid #fff;
+        &:hover {
+          cursor: pointer;
+          border: 2px solid transparent;
+          background: #2c46a6;
+          box-shadow: 0 10px 21px 0 rgba(161, 175, 184, 0.89);
+        }
+      `
     case 'hollow-primary':
       return `
         color: #5384FE;

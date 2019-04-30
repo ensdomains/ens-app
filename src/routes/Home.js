@@ -14,6 +14,7 @@ import QuestionMarkDefault from '../components/Icons/QuestionMark'
 import HowToUseDefault from '../components/HowToUse/HowToUse'
 import Alice from '../components/HomePage/Alice'
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
+import { ReactComponent as DefaultPermanentRegistrarIcon } from '../components/Icons/PermanentRegistrar.svg'
 
 const HowToUse = styled(HowToUseDefault)`
   padding: 70px;
@@ -178,6 +179,28 @@ const LogoLarge = styled('img')`
   `}
 `
 
+const PermanentRegistrar = styled('div')`
+  background-image: linear-gradient(24deg, #52e5ff 0%, #513eff 100%);
+  padding: 80px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+const PermanentRegistrarIcon = styled(DefaultPermanentRegistrarIcon)`
+  margin-left: 15px;
+`
+
+const PermanentRegistrarTitle = styled('h2')`
+  font-family: Overpass;
+  font-weight: 500;
+  font-size: 30px;
+  color: #ffffff;
+  text-align: center;
+  line-height: 38px;
+  max-width: 500px;
+`
+
 export default props => (
   <Fragment>
     <Hero>
@@ -253,5 +276,12 @@ export default props => (
         </Inner>
       </HowItWorks>
     </Explanation>
+    <PermanentRegistrar>
+      <PermanentRegistrarIcon />
+      <PermanentRegistrarTitle>
+        Learn about the Permanent Registrar and the migration process.
+      </PermanentRegistrarTitle>
+      <ButtonLink type="hollow-white">Learn more</ButtonLink>
+    </PermanentRegistrar>
   </Fragment>
 )
