@@ -173,10 +173,24 @@ const QuestionMark = styled(QuestionMarkDefault)`
 
 const LogoLarge = styled('img')`
   width: 50%;
-  margin: 0 auto 50px;
+  margin: 0 auto 0;
   ${mq.medium`
     width: 223px;
   `}
+`
+
+const PermanentRegistrarLogo = styled('h1')`
+  font-family: Overpass;
+  font-weight: 800;
+  font-size: 18px;
+  text-transform: uppercase;
+  color: #4258d3;
+  letter-spacing: 1.8px;
+  text-align: right;
+  line-height: 24px;
+  margin-top: 10px;
+  margin-bottom: 50px;
+  text-align: center;
 `
 
 const PermanentRegistrar = styled('div')`
@@ -232,6 +246,9 @@ export default props => (
                 }}
                 src={ENSLogo}
               />
+              <PermanentRegistrarLogo>
+                Permanent Registrar
+              </PermanentRegistrarLogo>
               <Search />
             </Fragment>
           )}
