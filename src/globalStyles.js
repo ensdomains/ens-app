@@ -7,6 +7,7 @@ injectGlobal`
   body {
     font-family: Overpass;
     background: #F0F6FA;
+    margin: 0;
   }
 
   a {

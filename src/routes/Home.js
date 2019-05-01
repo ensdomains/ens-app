@@ -8,12 +8,13 @@ import SearchDefault from '../components/SearchName/Search'
 import NoAccountsDefault from '../components/NoAccounts/NoAccountsModal'
 import bg from '../assets/heroBG.jpg'
 import NetworkInfoQuery from '../components/NetworkInformation/NetworkInfoQuery'
-import { ButtonLink } from '../components/Forms/Button'
+import { ExternalButtonLink, ButtonLink } from '../components/Forms/Button'
 import TextBubbleDefault from '../components/Icons/TextBubble'
 import QuestionMarkDefault from '../components/Icons/QuestionMark'
 import HowToUseDefault from '../components/HowToUse/HowToUse'
 import Alice from '../components/HomePage/Alice'
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
+import { ReactComponent as DefaultPermanentRegistrarIcon } from '../components/Icons/PermanentRegistrar.svg'
 
 const HowToUse = styled(HowToUseDefault)`
   padding: 70px;
@@ -172,10 +173,46 @@ const QuestionMark = styled(QuestionMarkDefault)`
 
 const LogoLarge = styled('img')`
   width: 50%;
-  margin: 0 auto 50px;
+  margin: 0 auto 0;
   ${mq.medium`
     width: 223px;
   `}
+`
+
+const PermanentRegistrarLogo = styled('h1')`
+  font-family: Overpass;
+  font-weight: 800;
+  font-size: 18px;
+  text-transform: uppercase;
+  color: #4258d3;
+  letter-spacing: 1.8px;
+  text-align: right;
+  line-height: 24px;
+  margin-top: 10px;
+  margin-bottom: 50px;
+  text-align: center;
+`
+
+const PermanentRegistrar = styled('div')`
+  background-image: linear-gradient(24deg, #52e5ff 0%, #513eff 100%);
+  padding: 80px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+const PermanentRegistrarIcon = styled(DefaultPermanentRegistrarIcon)`
+  margin-left: 15px;
+`
+
+const PermanentRegistrarTitle = styled('h2')`
+  font-family: Overpass;
+  font-weight: 500;
+  font-size: 30px;
+  color: #ffffff;
+  text-align: center;
+  line-height: 38px;
+  max-width: 500px;
 `
 
 export default props => (
@@ -209,6 +246,14 @@ export default props => (
                 }}
                 src={ENSLogo}
               />
+              <PermanentRegistrarLogo
+                style={{
+                  opacity,
+                  transform: `scale(${scale})`
+                }}
+              >
+                Permanent Registrar
+              </PermanentRegistrarLogo>
               <Search />
             </Fragment>
           )}
@@ -253,5 +298,17 @@ export default props => (
         </Inner>
       </HowItWorks>
     </Explanation>
+    <PermanentRegistrar>
+      <PermanentRegistrarIcon />
+      <PermanentRegistrarTitle>
+        Learn about the Permanent Registrar and the migration process.
+      </PermanentRegistrarTitle>
+      <ExternalButtonLink
+        type="hollow-white"
+        href="https://docs.ens.domains/permanent-registrar-faq"
+      >
+        Learn more
+      </ExternalButtonLink>
+    </PermanentRegistrar>
   </Fragment>
 )
