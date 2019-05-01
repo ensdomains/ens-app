@@ -29,8 +29,11 @@ function getButtonStyles({ type }) {
     case 'hollow-white':
       return `
         background: transparent;
-        color: #DFDFDF;
+        color: white;
         border: 2px solid #fff;
+        &:visited {
+          color: white;
+        }
         &:hover {
           cursor: pointer;
           border: 2px solid transparent;

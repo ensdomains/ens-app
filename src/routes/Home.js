@@ -8,7 +8,7 @@ import SearchDefault from '../components/SearchName/Search'
 import NoAccountsDefault from '../components/NoAccounts/NoAccountsModal'
 import bg from '../assets/heroBG.jpg'
 import NetworkInfoQuery from '../components/NetworkInformation/NetworkInfoQuery'
-import { ButtonLink } from '../components/Forms/Button'
+import { ExternalButtonLink, ButtonLink } from '../components/Forms/Button'
 import TextBubbleDefault from '../components/Icons/TextBubble'
 import QuestionMarkDefault from '../components/Icons/QuestionMark'
 import HowToUseDefault from '../components/HowToUse/HowToUse'
@@ -246,7 +246,12 @@ export default props => (
                 }}
                 src={ENSLogo}
               />
-              <PermanentRegistrarLogo>
+              <PermanentRegistrarLogo
+                style={{
+                  opacity,
+                  transform: `scale(${scale})`
+                }}
+              >
                 Permanent Registrar
               </PermanentRegistrarLogo>
               <Search />
@@ -298,7 +303,12 @@ export default props => (
       <PermanentRegistrarTitle>
         Learn about the Permanent Registrar and the migration process.
       </PermanentRegistrarTitle>
-      <ButtonLink type="hollow-white">Learn more</ButtonLink>
+      <ExternalButtonLink
+        type="hollow-white"
+        href="https://docs.ens.domains/permanent-registrar-faq"
+      >
+        Learn more
+      </ExternalButtonLink>
     </PermanentRegistrar>
   </Fragment>
 )
