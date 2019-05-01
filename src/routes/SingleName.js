@@ -33,7 +33,7 @@ function SingleName({
         _type = parseSearchTerm(searchTerm)
       }
       setType(_type)
-      if (_type === 'supported') {
+      if (_type === 'supported' || _type === 'tld') {
         setValid(true)
       } else {
         setValid(false)

@@ -15,11 +15,11 @@ import ReleaseDeed from './ReleaseDeed'
 
 const CloseLink = styled('a')`
   position: relative;
-  cursor:pointer;
+  cursor: pointer;
   ${mq.small`
     top:-46px;
   `}
- `
+`
 
 const MigrationInstruction = styled('h3')`
   margin: 0;
@@ -63,7 +63,8 @@ const MigrationIcon = styled(DefaultMigrationIcon)`
 
 const TransferDetail = styled(DetailsItem)`
   padding: 20px;
-  background-color: ${props => props.condition === 'warning' ? '#fef6e9' : '#f0f6fa'};
+  background-color: ${props =>
+    props.condition === 'warning' ? '#fef6e9' : '#f0f6fa'};
   position: relative;
   padding-top: 65px;
   margin-bottom: 25px;
@@ -87,37 +88,42 @@ const Action = styled('div')`
   `}
 `
 
-const LearnMoreLink = styled('a')`
-`
+const LearnMoreLink = styled('a')``
 
 const LearnMore = () => (
   <LearnMoreLink
     // Temp link until we get better blog post explaining the detail.
-    href="https://medium.com/the-ethereum-name-service/the-future-of-ens-as-explained-in-our-ethcc-talks-videos-inside-395fbaaa6cad"
+    href="https://docs.ens.domains/permanent-registrar-faq"
     target="_blank"
   >
     Learn More
   </LearnMoreLink>
 )
 
-const ReleaseInstead = ({label, refetch}) =>(
+const ReleaseInstead = ({ label, refetch }) => (
   <MigrationExplanation>
     <ReleaseDeed
       label={label}
       refetch={refetch}
-      actionText = 'Release'
-      actionType = 'link'
-      explanation = 'You will no longer have ownership of this name'
+      actionText="Release"
+      actionType="link"
+      explanation="You will no longer have ownership of this name"
     />{' '}
     the domain to get your locked ETH back if you don’t want it anymore.
- </MigrationExplanation>
+  </MigrationExplanation>
 )
 
-function displayMigrationDiralogue({parent, isOwner,isDeedOwner, isNewRegistrar, confirmed}){
+function displayMigrationDiralogue({
+  parent,
+  isOwner,
+  isDeedOwner,
+  isNewRegistrar,
+  confirmed
+}) {
   return (
-          parent === 'eth' && 
-          ((isOwner || isDeedOwner) && !isNewRegistrar)
-         ) || confirmed
+    (parent === 'eth' && ((isOwner || isDeedOwner) && !isNewRegistrar)) ||
+    confirmed
+  )
 }
 
 function TransferRegistrars({
@@ -141,8 +147,9 @@ function TransferRegistrars({
         Congratulations on Migrating your domain!
       </MigrationInstruction>
       <MigrationExplanation>
-        You successfully migrated this domain to the new ENS Permanent Registrar.
-        We've sent back to you the ETH that you had locked in the older registrar contract. 
+        You successfully migrated this domain to the new ENS Permanent
+        Registrar. We've sent back to you the ETH that you had locked in the
+        older registrar contract.
       </MigrationExplanation>
     </>
   )
@@ -153,15 +160,13 @@ function TransferRegistrars({
         Be Ready! ENS is migrating to a new Registrar.
       </MigrationInstruction>
       <MigrationExplanation>
-        This domain is currently recorded in the old ENS Registrar which will be discontinued after 2019.05.04.
-        Migrate to the new ENS Registrar between{' '}
+        This domain is currently recorded in the old ENS Registrar which will be
+        discontinued after 2019.05.04. Migrate to the new ENS Registrar between{' '}
         <strong>
           {formatDate(migrationStartDate, true)} -{' '}
           {formatDate(transferEndDate, true)}
-        </strong>
-        {' '}
-        if you want to keep your domain.
-        {' '}<LearnMore />
+        </strong>{' '}
+        if you want to keep your domain. <LearnMore />
       </MigrationExplanation>
       <ReleaseInstead label={label} refetch={refetch} />
     </>
@@ -173,9 +178,10 @@ function TransferRegistrars({
         Migration period ended {formatDate(transferEndDate, true)}
       </MigrationInstruction>
       <MigrationExplanation>
-        You no longer own this name and it has been made available for registration in the new ENS Permanent Registrar.
-        You can release the domain from the older registrar to get your locked ETH back and register it again in the new ENS Permanent Registrar.
-        {' '}<LearnMore />
+        You no longer own this name and it has been made available for
+        registration in the new ENS Permanent Registrar. You can release the
+        domain from the older registrar to get your locked ETH back and register
+        it again in the new ENS Permanent Registrar. <LearnMore />
       </MigrationExplanation>
     </>
   )
@@ -183,12 +189,13 @@ function TransferRegistrars({
   const MigrateNow = (
     <>
       <MigrationInstruction>
-        Migrate your name to the Permanent Registrar. 
+        Migrate your name to the Permanent Registrar.
       </MigrationInstruction>
       <MigrationExplanation>
-        Migrate now to get your locked ETH back and free registration for one year.
-        If you do not migrate by <strong>{formatDate(transferEndDate, true)}</strong>, you will lose your domain, and others will be able to register it.
-        {' '}<LearnMore />
+        Migrate now to get your locked ETH back and free registration for one
+        year. If you do not migrate by{' '}
+        <strong>{formatDate(transferEndDate, true)}</strong>, you will lose your
+        domain, and others will be able to register it. <LearnMore />
       </MigrationExplanation>
       <ReleaseInstead label={label} refetch={refetch} />
     </>
@@ -198,9 +205,9 @@ function TransferRegistrars({
     <ReleaseDeed
       label={label}
       refetch={refetch}
-      actionText = 'Release'
-      actionType = 'button'
-      explanation = 'You already lost ownership of this name but will get ETH back'
+      actionText="Release"
+      actionType="button"
+      explanation="You already lost ownership of this name but will get ETH back"
     />
   )
 
@@ -222,42 +229,50 @@ function TransferRegistrars({
             startPending(Object.values(data)[0])
           }}
         >
-          {mutate => <TransferButton
-                      onClick={mutate}
-                      type="hollow-primary"
-                    >Migrate</TransferButton>
-          }
+          {mutate => (
+            <TransferButton onClick={mutate} type="hollow-primary">
+              Migrate
+            </TransferButton>
+          )}
         </Mutation>
       )}
     </>
   )
 
   let CurrentMigrationInstruction, CurrentAction, condition
-  if(confirmed){
+  if (confirmed) {
     CurrentMigrationInstruction = MigrationConfirmed
     CurrentAction = <CloseLink onClick={stopEditing}>x</CloseLink>
-  }else{
+  } else {
     if (currentBlockDate < migrationStartDate) {
       CurrentMigrationInstruction = TooEarly
-      CurrentAction = <TransferButton type="hollow-primary-disabled">Migrate</TransferButton>
+      CurrentAction = (
+        <TransferButton type="hollow-primary-disabled">Migrate</TransferButton>
+      )
       condition = 'warning'
     } else if (currentBlockDate < transferEndDate) {
       CurrentMigrationInstruction = MigrateNow
       CurrentAction = MigrateAction
       condition = 'warning'
-    } else if (currentBlockDate >= transferEndDate){
+    } else if (currentBlockDate >= transferEndDate) {
       CurrentMigrationInstruction = TooLate
       CurrentAction = ReleaseAction
-    }  
+    }
   }
-  return (
-    displayMigrationDiralogue({parent, isOwner, isDeedOwner, isNewRegistrar, confirmed}) ? (
-      <TransferDetail condition={condition}>
-        <MigrationIcon />
-        {CurrentMigrationInstruction}
-        <Action>{CurrentAction}</Action>
-      </TransferDetail>
-    ): ''
+  return displayMigrationDiralogue({
+    parent,
+    isOwner,
+    isDeedOwner,
+    isNewRegistrar,
+    confirmed
+  }) ? (
+    <TransferDetail condition={condition}>
+      <MigrationIcon />
+      {CurrentMigrationInstruction}
+      <Action>{CurrentAction}</Action>
+    </TransferDetail>
+  ) : (
+    ''
   )
 }
 
