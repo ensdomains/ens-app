@@ -201,10 +201,9 @@ export const getEntry = async name => {
 
   try {
     let permEntry = await getPermanentEntry(name)
-
-    if (ret.registrationDate && permEntry.migrationLockPeriod) {
+    if (legacyEntry.registrationDate && permEntry.migrationLockPeriod) {
       ret.migrationStartDate = new Date(
-        ret.registrationDate + permEntry.migrationLockPeriod * 1000
+        legacyEntry.registrationDate + permEntry.migrationLockPeriod * 1000
       )
     } else {
       ret.migrationStartDate = null
