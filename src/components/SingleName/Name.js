@@ -95,9 +95,10 @@ function Name({ details: domain, name, pathname, refetch }) {
   return (
     <QueryAccount>
       {({ account }) => {
+        const hasAnOwner = account !== EMPTY_ADDRESS
         const isOwner = isOwnerOfDomain(domain, account)
         const isDeedOwner = domain.deedOwner === account
-
+        const registrationOpen = isRegistrationOpen(domain, isDeedOwner)
         return (
           <NameContainer state={isOwner ? 'Yours' : domain.state}>
             <TopBar percentDone={percentDone}>
@@ -105,19 +106,15 @@ function Name({ details: domain, name, pathname, refetch }) {
               <RightBar>
                 {isOwner && <Owner>Owner</Owner>}
                 <Favourite domain={domain} />
-                {smallBP &&
-                  domain.parent === 'eth' &&
-                  domain.state === 'Owned' && (
-                    <Tabs pathname={pathname} domain={domain} />
-                  )}
+                {smallBP && hasAnOwner && (
+                  <Tabs pathname={pathname} domain={domain} />
+                )}
               </RightBar>
             </TopBar>
-            {!smallBP &&
-              domain.parent === 'eth' &&
-              domain.state === 'Owned' && (
-                <Tabs pathname={pathname} domain={domain} />
-              )}
-            {isRegistrationOpen(domain, isDeedOwner) ? (
+            {!smallBP && hasAnOwner && (
+              <Tabs pathname={pathname} domain={domain} />
+            )}
+            {registrationOpen ? (
               <NameRegister
                 domain={domain}
                 pathname={pathname}
