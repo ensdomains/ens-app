@@ -106,7 +106,7 @@ const HowToUse = ({ text = false, className }) => (
         title="Register names"
         text={
           text
-            ? 'Register .eth names for ~$5/year. Renew or cancel your name registration at any time.'
+            ? 'Register .eth names for $5/year. Renew or cancel your name registration at any time.'
             : ''
         }
       />
