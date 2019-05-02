@@ -56,6 +56,10 @@ function showTransfer(domain, isDeedOwner, isPermanentRegistrarDeployed) {
   )
 }
 
+function isLegacyAuctionedName(domain) {
+  return domain.parent === 'eth' && !domain.isNewRegistrar
+}
+
 class NameDetails extends Component {
   isEmpty(record) {
     if (parseInt(record, 16) === 0) {
@@ -227,7 +231,7 @@ class NameDetails extends Component {
                       </ExpirationDetailsValue>
                     </DetailsItem>
                   )
-                ) : domain.parent === 'eth' && !domain.isNewRegistrar ? (
+                ) : isLegacyAuctionedName(domain) ? (
                   <DetailsItem uneditable>
                     <DetailsKey>Expiration Date</DetailsKey>
                     <ExpirationDetailsValue
