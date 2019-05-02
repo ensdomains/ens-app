@@ -75,7 +75,7 @@ const Search = styled(SearchDefault)`
   input {
     width: 100%;
     border-radius: 6px;
-    ${mq.small`
+    ${mq.medium`
       border-radius: 6px 0 0 6px;
       font-size: 28px;
     `}

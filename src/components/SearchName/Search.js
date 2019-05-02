@@ -58,7 +58,7 @@ const SearchForm = styled('form')`
     width: 162px;
     border: none;
     display: none;
-    ${mq.small`
+    ${mq.medium`
       display: block;
     `}
 
