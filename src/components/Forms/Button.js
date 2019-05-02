@@ -35,6 +35,7 @@ function getButtonStyles({ type }) {
           color: white;
         }
         &:hover {
+          color: white;
           cursor: pointer;
           border: 2px solid transparent;
           background: #2c46a6;
