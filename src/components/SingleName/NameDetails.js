@@ -227,6 +227,15 @@ class NameDetails extends Component {
                       </ExpirationDetailsValue>
                     </DetailsItem>
                   )
+                ) : domain.parent === 'eth' && !domain.isNewRegistrar ? (
+                  <DetailsItem uneditable>
+                    <DetailsKey>Expiration Date</DetailsKey>
+                    <ExpirationDetailsValue
+                      isExpired={domain.transferEndDate < new Date()}
+                    >
+                      {formatDate(domain.transferEndDate)}
+                    </ExpirationDetailsValue>
+                  </DetailsItem>
                 ) : (
                   ''
                 )}
