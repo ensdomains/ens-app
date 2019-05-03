@@ -10,6 +10,8 @@ import DetailsItemEditable from './DetailsItemEditable'
 import AddRecord from './AddRecord'
 import SetupName from '../SetupName/SetupName'
 import TransferRegistrars from './TransferRegistrars'
+import { SingleNameBlockies } from './SingleNameBlockies'
+import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
 
 import {
   SET_OWNER,
@@ -41,6 +43,11 @@ const Records = styled('div')`
 
 const ExpirationDetailsValue = styled(DetailsValue)`
   color: ${p => (p.isExpired ? 'red' : null)};
+`
+
+const EtherScanLink = styled(DefaultEtherScanLink)`
+  display: flex;
+  align-items: center;
 `
 
 function canClaim(domain) {
@@ -86,7 +93,8 @@ function hasAnyRecord(domain) {
   }
 }
 
-function NameDetails({ domain, isOwner, refetch, account, registrationOpen }) {
+function NameDetails({ domain, isOwner, refetch, account }) {
+  console.log('deedOwner', domain.deedOwner)
   const isDeedOwner = domain.deedOwner === account
   const isRegistrant = domain.registrant === account
   const isPermanentRegistrarDeployed = domain.available !== null
@@ -165,6 +173,35 @@ function NameDetails({ domain, isOwner, refetch, account, registrationOpen }) {
                     refetch={refetch}
                     confirm={true}
                   />
+                  <DetailsItemEditable
+                    domain={domain}
+                    keyName="Controller"
+                    value={domain.owner}
+                    canEdit={isOwner || isRegistrant}
+                    deedOwner={domain.deedOwner}
+                    isDeedOwner={isDeedOwner}
+                    type="address"
+                    editButton={isRegistrant ? 'Set' : 'Transfer'}
+                    mutationButton={isRegistrant ? 'Set' : 'Transfer'}
+                    mutation={isRegistrant ? RECLAIM : SET_OWNER}
+                    refetch={refetch}
+                    confirm={true}
+                  />
+                </>
+              ) : domain.parent === 'eth' && !domain.isNewRegistrar ? (
+                <>
+                  <DetailsItem uneditable>
+                    <DetailsKey>Registrant</DetailsKey>
+                    <DetailsValue>
+                      <EtherScanLink address={domain.deedOwner}>
+                        <SingleNameBlockies
+                          address={domain.deedOwner}
+                          imageSize={24}
+                        />
+                        {domain.deedOwner}
+                      </EtherScanLink>
+                    </DetailsValue>
+                  </DetailsItem>
                   <DetailsItemEditable
                     domain={domain}
                     keyName="Controller"
