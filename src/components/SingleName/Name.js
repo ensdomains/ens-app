@@ -123,6 +123,7 @@ function Name({ details: domain, name, pathname, refetch }) {
               />
             ) : (
               <NameDetails
+                registrationOpen={registrationOpen}
                 domain={domain}
                 pathname={pathname}
                 name={name}

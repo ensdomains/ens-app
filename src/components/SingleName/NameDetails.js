@@ -60,74 +60,190 @@ function isLegacyAuctionedName(domain) {
   return domain.parent === 'eth' && !domain.isNewRegistrar
 }
 
-class NameDetails extends Component {
-  isEmpty(record) {
-    if (parseInt(record, 16) === 0) {
-      return true
-    }
-    if (record === '0x') {
-      return true
-    }
-    if (!record) {
-      return true
-    }
+function isEmpty(record) {
+  if (parseInt(record, 16) === 0) {
+    return true
+  }
+  if (record === '0x') {
+    return true
+  }
+  if (!record) {
+    return true
+  }
+  return false
+}
+
+function hasAnyRecord(domain) {
+  if (parseInt(domain.resolver, 16) === 0) {
     return false
   }
-  hasAnyRecord(domain) {
-    if (parseInt(domain.resolver, 16) === 0) {
-      return false
-    }
-    if (!this.isEmpty(domain.addr)) {
-      return true
-    }
-
-    if (!this.isEmpty(domain.content)) {
-      return true
-    }
+  if (!isEmpty(domain.addr)) {
+    return true
   }
-  render() {
-    const { domain, isOwner, refetch, account } = this.props
-    const isDeedOwner = domain.deedOwner === account
-    const isRegistrant = domain.registrant === account
-    const isPermanentRegistrarDeployed = domain.available !== null
 
-    const records = [
-      {
-        label: 'Address',
-        value: 'address'
-      },
-      {
-        label: 'Content',
-        value: 'content'
-      }
-    ]
+  if (!isEmpty(domain.content)) {
+    return true
+  }
+}
 
-    const emptyRecords = records.filter(record => {
-      if (record.value === 'address') {
-        return this.isEmpty(domain['addr']) ? true : false
-      }
+function NameDetails({ domain, isOwner, refetch, account, registrationOpen }) {
+  const isDeedOwner = domain.deedOwner === account
+  const isRegistrant = domain.registrant === account
+  const isPermanentRegistrarDeployed = domain.available !== null
 
-      return this.isEmpty(domain[record.value]) ? true : false
-    })
-
-    let contentMutation
-    if (domain.contentType === 'oldcontent') {
-      contentMutation = SET_CONTENT
-    } else {
-      contentMutation = SET_CONTENTHASH
+  const records = [
+    {
+      label: 'Address',
+      value: 'address'
+    },
+    {
+      label: 'Content',
+      value: 'content'
     }
-    return (
-      <>
-        <Route
-          exact
-          path="/name/:name"
-          render={() => {
-            return showTransfer(
-              domain,
-              isDeedOwner,
-              isPermanentRegistrarDeployed
-            ) ? (
-              <Details data-testid="name-details">
+  ]
+
+  const emptyRecords = records.filter(record => {
+    if (record.value === 'address') {
+      return isEmpty(domain['addr']) ? true : false
+    }
+
+    return isEmpty(domain[record.value]) ? true : false
+  })
+
+  let contentMutation
+  if (domain.contentType === 'oldcontent') {
+    contentMutation = SET_CONTENT
+  } else {
+    contentMutation = SET_CONTENTHASH
+  }
+  return (
+    <>
+      <Route
+        exact
+        path="/name/:name"
+        render={() => {
+          return showTransfer(
+            domain,
+            isDeedOwner,
+            isPermanentRegistrarDeployed
+          ) ? (
+            <Details data-testid="name-details">
+              <TransferRegistrars
+                label={domain.label}
+                currentBlockDate={domain.currentBlockDate}
+                transferEndDate={domain.transferEndDate}
+                migrationStartDate={domain.migrationStartDate}
+                refetch={refetch}
+                parent={domain.parent}
+                isOwner={isOwner}
+                isDeedOwner={isDeedOwner}
+                isNewRegistrar={domain.isNewRegistrar}
+              />
+            </Details>
+          ) : (
+            <Details data-testid="name-details">
+              {isOwner && <SetupName />}
+              {domain.parent && (
+                <DetailsItem uneditable>
+                  <DetailsKey>Parent</DetailsKey>
+                  <DetailsValue>
+                    <Link to={`/name/${domain.parent}`}>{domain.parent}</Link>
+                  </DetailsValue>
+                </DetailsItem>
+              )}
+              {domain.parent === 'eth' && domain.isNewRegistrar ? (
+                <>
+                  <DetailsItemEditable
+                    domain={domain}
+                    keyName="Registrant"
+                    value={domain.registrant}
+                    canEdit={isRegistrant}
+                    type="address"
+                    editButton="Transfer"
+                    mutationButton="Transfer"
+                    mutation={SET_REGISTRANT}
+                    refetch={refetch}
+                    confirm={true}
+                  />
+                  <DetailsItemEditable
+                    domain={domain}
+                    keyName="Controller"
+                    value={domain.owner}
+                    canEdit={isOwner || isRegistrant}
+                    deedOwner={domain.deedOwner}
+                    isDeedOwner={isDeedOwner}
+                    type="address"
+                    editButton={isRegistrant ? 'Set' : 'Transfer'}
+                    mutationButton={isRegistrant ? 'Set' : 'Transfer'}
+                    mutation={isRegistrant ? RECLAIM : SET_OWNER}
+                    refetch={refetch}
+                    confirm={true}
+                  />
+                </>
+              ) : (
+                <DetailsItemEditable
+                  domain={domain}
+                  keyName="Controller"
+                  value={domain.owner}
+                  canEdit={isOwner}
+                  deedOwner={domain.deedOwner}
+                  isDeedOwner={isDeedOwner}
+                  type="address"
+                  editButton="Transfer"
+                  mutationButton="Transfer"
+                  mutation={SET_OWNER}
+                  refetch={refetch}
+                  confirm={true}
+                />
+              )}
+
+              {domain.registrationDate ? (
+                <DetailsItem uneditable>
+                  <DetailsKey>Registration Date</DetailsKey>
+                  <DetailsValue>
+                    {formatDate(domain.registrationDate)}
+                  </DetailsValue>
+                </DetailsItem>
+              ) : (
+                ''
+              )}
+              {domain.expiryTime ? (
+                domain.isNewRegistrar ? (
+                  <DetailsItemEditable
+                    domain={domain}
+                    keyName="Expiration Date"
+                    value={domain.expiryTime}
+                    canEdit={parseInt(account, 16) !== 0}
+                    type="date"
+                    editButton="Renew"
+                    mutationButton="Renew"
+                    mutation={RENEW}
+                    refetch={refetch}
+                    confirm={true}
+                  />
+                ) : (
+                  <DetailsItem uneditable>
+                    <DetailsKey>Expiration Date</DetailsKey>
+                    <ExpirationDetailsValue
+                      isExpired={domain.expiryTime < new Date()}
+                    >
+                      {formatDate(domain.expiryTime)}
+                    </ExpirationDetailsValue>
+                  </DetailsItem>
+                )
+              ) : registrationOpen && isLegacyAuctionedName(domain) ? (
+                <DetailsItem uneditable>
+                  <DetailsKey>Expiration Date</DetailsKey>
+                  <ExpirationDetailsValue
+                    isExpired={domain.transferEndDate < new Date()}
+                  >
+                    {formatDate(domain.transferEndDate)}
+                  </ExpirationDetailsValue>
+                </DetailsItem>
+              ) : (
+                ''
+              )}
+              {isPermanentRegistrarDeployed && (
                 <TransferRegistrars
                   label={domain.label}
                   currentBlockDate={domain.currentBlockDate}
@@ -139,196 +255,77 @@ class NameDetails extends Component {
                   isDeedOwner={isDeedOwner}
                   isNewRegistrar={domain.isNewRegistrar}
                 />
-              </Details>
-            ) : (
-              <Details data-testid="name-details">
-                {isOwner && <SetupName />}
-                {domain.parent && (
-                  <DetailsItem uneditable>
-                    <DetailsKey>Parent</DetailsKey>
-                    <DetailsValue>
-                      <Link to={`/name/${domain.parent}`}>{domain.parent}</Link>
-                    </DetailsValue>
-                  </DetailsItem>
-                )}
-                {domain.parent === 'eth' && domain.isNewRegistrar ? (
-                  <>
-                    <DetailsItemEditable
-                      domain={domain}
-                      keyName="Registrant"
-                      value={domain.registrant}
-                      canEdit={isRegistrant}
-                      type="address"
-                      editButton="Transfer"
-                      mutationButton="Transfer"
-                      mutation={SET_REGISTRANT}
-                      refetch={refetch}
-                      confirm={true}
-                    />
-                    <DetailsItemEditable
-                      domain={domain}
-                      keyName="Controller"
-                      value={domain.owner}
-                      canEdit={isOwner || isRegistrant}
-                      deedOwner={domain.deedOwner}
-                      isDeedOwner={isDeedOwner}
-                      type="address"
-                      editButton={isRegistrant ? 'Set' : 'Transfer'}
-                      mutationButton={isRegistrant ? 'Set' : 'Transfer'}
-                      mutation={isRegistrant ? RECLAIM : SET_OWNER}
-                      refetch={refetch}
-                      confirm={true}
-                    />
-                  </>
-                ) : (
-                  <DetailsItemEditable
-                    domain={domain}
-                    keyName="Controller"
-                    value={domain.owner}
-                    canEdit={isOwner}
-                    deedOwner={domain.deedOwner}
-                    isDeedOwner={isDeedOwner}
-                    type="address"
-                    editButton="Transfer"
-                    mutationButton="Transfer"
-                    mutation={SET_OWNER}
-                    refetch={refetch}
-                    confirm={true}
-                  />
-                )}
-
-                {domain.registrationDate ? (
-                  <DetailsItem uneditable>
-                    <DetailsKey>Registration Date</DetailsKey>
-                    <DetailsValue>
-                      {formatDate(domain.registrationDate)}
-                    </DetailsValue>
-                  </DetailsItem>
-                ) : (
-                  ''
-                )}
-                {domain.expiryTime ? (
-                  domain.isNewRegistrar ? (
-                    <DetailsItemEditable
-                      domain={domain}
-                      keyName="Expiration Date"
-                      value={domain.expiryTime}
-                      canEdit={parseInt(account, 16) !== 0}
-                      type="date"
-                      editButton="Renew"
-                      mutationButton="Renew"
-                      mutation={RENEW}
-                      refetch={refetch}
-                      confirm={true}
-                    />
-                  ) : (
-                    <DetailsItem uneditable>
-                      <DetailsKey>Expiration Date</DetailsKey>
-                      <ExpirationDetailsValue
-                        isExpired={domain.expiryTime < new Date()}
-                      >
-                        {formatDate(domain.expiryTime)}
-                      </ExpirationDetailsValue>
-                    </DetailsItem>
-                  )
-                ) : isLegacyAuctionedName(domain) ? (
-                  <DetailsItem uneditable>
-                    <DetailsKey>Expiration Date</DetailsKey>
-                    <ExpirationDetailsValue
-                      isExpired={domain.transferEndDate < new Date()}
-                    >
-                      {formatDate(domain.transferEndDate)}
-                    </ExpirationDetailsValue>
-                  </DetailsItem>
-                ) : (
-                  ''
-                )}
-                {isPermanentRegistrarDeployed && (
-                  <TransferRegistrars
-                    label={domain.label}
-                    currentBlockDate={domain.currentBlockDate}
-                    transferEndDate={domain.transferEndDate}
-                    migrationStartDate={domain.migrationStartDate}
-                    refetch={refetch}
-                    parent={domain.parent}
-                    isOwner={isOwner}
-                    isDeedOwner={isDeedOwner}
-                    isNewRegistrar={domain.isNewRegistrar}
-                  />
-                )}
-                <HR />
-                <DetailsItemEditable
-                  keyName="Resolver"
-                  type="address"
-                  value={domain.resolver}
-                  canEdit={isOwner}
-                  domain={domain}
-                  editButton="Set"
-                  mutationButton="Save"
-                  mutation={SET_RESOLVER}
-                  refetch={refetch}
-                  account={account}
-                />
-                <Records
-                  hasRecord={this.hasAnyRecord(domain)}
+              )}
+              <HR />
+              <DetailsItemEditable
+                keyName="Resolver"
+                type="address"
+                value={domain.resolver}
+                canEdit={isOwner}
+                domain={domain}
+                editButton="Set"
+                mutationButton="Save"
+                mutation={SET_RESOLVER}
+                refetch={refetch}
+                account={account}
+              />
+              <Records hasRecord={hasAnyRecord(domain)} isOwner={isOwner}>
+                <AddRecord
+                  emptyRecords={emptyRecords}
+                  title="Records"
                   isOwner={isOwner}
-                >
-                  <AddRecord
-                    emptyRecords={emptyRecords}
-                    title="Records"
-                    isOwner={isOwner}
-                    domain={domain}
-                    refetch={refetch}
-                  />
-                  {this.hasAnyRecord(domain) && (
-                    <>
-                      {!this.isEmpty(domain.addr) && (
-                        <RecordsItem
-                          domain={domain}
-                          isOwner={isOwner}
-                          keyName="Address"
-                          value={domain.addr}
-                          mutation={SET_ADDRESS}
-                          type="address"
-                          refetch={refetch}
-                          account={account}
-                        />
-                      )}
-                      {!this.isEmpty(domain.content) && (
-                        <RecordsItem
-                          domain={domain}
-                          isOwner={isOwner}
-                          keyName="Content"
-                          type="content"
-                          mutation={contentMutation}
-                          value={domain.content}
-                          refetch={refetch}
-                        />
-                      )}
-                    </>
-                  )}
-                </Records>
-                {canClaim(domain) ? (
-                  <NameClaimTestDomain domain={domain} refetch={refetch} />
-                ) : null}
-              </Details>
-            )
-          }}
-        />
+                  domain={domain}
+                  refetch={refetch}
+                />
+                {hasAnyRecord(domain) && (
+                  <>
+                    {!isEmpty(domain.addr) && (
+                      <RecordsItem
+                        domain={domain}
+                        isOwner={isOwner}
+                        keyName="Address"
+                        value={domain.addr}
+                        mutation={SET_ADDRESS}
+                        type="address"
+                        refetch={refetch}
+                        account={account}
+                      />
+                    )}
+                    {!isEmpty(domain.content) && (
+                      <RecordsItem
+                        domain={domain}
+                        isOwner={isOwner}
+                        keyName="Content"
+                        type="content"
+                        mutation={contentMutation}
+                        value={domain.content}
+                        refetch={refetch}
+                      />
+                    )}
+                  </>
+                )}
+              </Records>
+              {canClaim(domain) ? (
+                <NameClaimTestDomain domain={domain} refetch={refetch} />
+              ) : null}
+            </Details>
+          )
+        }}
+      />
 
-        <Route
-          exact
-          path="/name/:name/subdomains"
-          render={() => (
-            <SubDomains
-              domain={domain}
-              isOwner={isOwner}
-              data-testid="subdomains"
-            />
-          )}
-        />
-      </>
-    )
-  }
+      <Route
+        exact
+        path="/name/:name/subdomains"
+        render={() => (
+          <SubDomains
+            domain={domain}
+            isOwner={isOwner}
+            data-testid="subdomains"
+          />
+        )}
+      />
+    </>
+  )
 }
+
 export default NameDetails
