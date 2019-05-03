@@ -121,7 +121,7 @@ function displayMigrationDiralogue({
   confirmed
 }) {
   return (
-    (parent === 'eth' && ((isOwner || isDeedOwner) && !isNewRegistrar)) ||
+    (parent === 'eth' && ((isDeedOwner) && !isNewRegistrar)) ||
     confirmed
   )
 }
