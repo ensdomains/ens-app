@@ -231,7 +231,8 @@ function NameDetails({ domain, isOwner, refetch, account, registrationOpen }) {
                     </ExpirationDetailsValue>
                   </DetailsItem>
                 )
-              ) : registrationOpen && isLegacyAuctionedName(domain) ? (
+              ) : isPermanentRegistrarDeployed &&
+                isLegacyAuctionedName(domain) ? (
                 <DetailsItem uneditable>
                   <DetailsKey>Expiration Date</DetailsKey>
                   <ExpirationDetailsValue
