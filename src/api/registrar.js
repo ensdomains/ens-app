@@ -40,8 +40,8 @@ export const getLegacyAuctionRegistrar = async () => {
       legacyAuctionRegistrarAddress
     )
     return {
-      ethRegistrar,
-      ethRegistrarRead
+      ethRegistrar: ethRegistrar.methods,
+      ethRegistrarRead: ethRegistrarRead.methods
     }
   } catch (e) {}
 }
@@ -126,7 +126,7 @@ export const getLegacyEntry = async name => {
     const web3 = await getWeb3()
     const namehash = web3.utils.sha3(name)
     let deedOwner = '0x0'
-    const entry = await Registrar.methods.entries(namehash).call()
+    const entry = await Registrar.entries(namehash).call()
     if (parseInt(entry[1], 16) !== 0) {
       const deed = await getDeed(entry[1])
       deedOwner = await deed.owner().call()
