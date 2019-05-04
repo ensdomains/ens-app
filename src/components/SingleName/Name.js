@@ -95,7 +95,7 @@ function Name({ details: domain, name, pathname, refetch }) {
   return (
     <QueryAccount>
       {({ account }) => {
-        const hasAnOwner = account !== EMPTY_ADDRESS
+        const hasAnOwner = domain.owner !== EMPTY_ADDRESS
         const isOwner = isOwnerOfDomain(domain, account)
         const isDeedOwner = domain.deedOwner === account
         const registrationOpen = isRegistrationOpen(domain, isDeedOwner)
