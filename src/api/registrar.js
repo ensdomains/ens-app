@@ -161,10 +161,13 @@ export const getPermanentEntry = async name => {
   }
   try {
     const web3 = await getWeb3()
-    const namehash = web3.utils.sha3(name)
+    const namehash = web3.utils.soliditySha3({ type: 'string', value: name })
     const { permanentRegistrarRead: Registrar } = await getPermanentRegistrar()
+    const {
+      permanentRegistrarController: RegistrarController
+    } = await getPermanentRegistrarController()
     // Returns true if name is available
-    obj.available = await Registrar.available(namehash).call()
+    obj.available = await RegistrarController.available(name).call()
     // This is used for old registrar to figure out when the name can be migrated.
     obj.migrationLockPeriod = parseInt(
       await Registrar.MIGRATION_LOCK_PERIOD().call()
@@ -177,6 +180,7 @@ export const getPermanentEntry = async name => {
       obj.nameExpires = new Date(nameExpires * 1000)
     }
   } catch (e) {
+    console.log(e)
     obj.error = e.message
   } finally {
     return obj
@@ -239,7 +243,7 @@ export const transferOwner = async ({ to, name }) => {
     const nameArray = name.split('.')
     const labelHash = web3.utils.sha3(nameArray[0])
     const account = await getAccount()
-    const { permanentRegistrar: Registrar } = await getPermanentRegistrar()
+    const { permanentRegistrarRead: Registrar } = await getPermanentRegistrar()
     return () =>
       Registrar.safeTransferFrom(account, to, labelHash).send({
         from: account
