@@ -174,7 +174,7 @@ export const getPermanentEntry = async name => {
     )
     obj.transferPeriodEnds = await Registrar.transferPeriodEnds().call()
     // Returns registrar address if owned by new registrar
-    obj.ownerOf = await Registrar.ownerOf(namehash).call({ from: account })
+    obj.ownerOf = await Registrar.ownerOf(namehash).call()
     const nameExpires = await Registrar.nameExpires(namehash).call()
     if (nameExpires > 0) {
       obj.nameExpires = new Date(nameExpires * 1000)
