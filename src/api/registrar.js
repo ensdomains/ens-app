@@ -180,7 +180,7 @@ export const getPermanentEntry = async name => {
       obj.nameExpires = new Date(nameExpires * 1000)
     }
   } catch (e) {
-    console.log(e)
+    console.log('Error getting permanent registrar entry', e)
     obj.error = e.message
   } finally {
     return obj
