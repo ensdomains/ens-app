@@ -91,7 +91,6 @@ function isOwnerOfDomain(domain, account) {
 function Name({ details: domain, name, pathname, refetch }) {
   const smallBP = useMediaMin('small')
   const percentDone = 0
-  console.log(domain)
 
   return (
     <QueryAccount>
