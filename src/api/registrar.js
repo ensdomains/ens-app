@@ -124,7 +124,7 @@ export const getLegacyEntry = async name => {
   try {
     const { ethRegistrarRead: Registrar } = await getLegacyAuctionRegistrar()
     const web3 = await getWeb3()
-    const namehash = web3.utils.sha3(name)
+    const namehash = web3.utils.soliditySha3({ type: 'string', value: name })
     let deedOwner = '0x0'
     const entry = await Registrar.entries(namehash).call()
     if (parseInt(entry[1], 16) !== 0) {
@@ -174,7 +174,7 @@ export const getPermanentEntry = async name => {
     )
     obj.transferPeriodEnds = await Registrar.transferPeriodEnds().call()
     // Returns registrar address if owned by new registrar
-    obj.ownerOf = await Registrar.ownerOf(namehash).call()
+    obj.ownerOf = await Registrar.ownerOf(namehash).call({ from: account })
     const nameExpires = await Registrar.nameExpires(namehash).call()
     if (nameExpires > 0) {
       obj.nameExpires = new Date(nameExpires * 1000)
