@@ -97,6 +97,7 @@ function Editable({ domain, emptyRecords, refetch }) {
     value: newValue,
     contentType: domain.contentType
   })
+  const isInvalid = newValue !== "" && !isValid
   return (
     <>
       <RecordsTitle>
@@ -133,8 +134,8 @@ function Editable({ domain, emptyRecords, refetch }) {
               dataType={selectedRecord ? selectedRecord.value : null}
               contentType={domain.contentType}
               updateValue={updateValue}
-              valid={isValid}
-              invalid={!isValid}
+              isValid={isValid}
+              isInvalid={isInvalid}
             />
           </Row>
           {selectedRecord ? (
