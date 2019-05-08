@@ -3,7 +3,7 @@ import moment from 'moment'
 export function formatDate(unixTimeStamp, noTime) {
   let date = moment(unixTimeStamp).format('YYYY.MM.DD')
   if (!noTime) {
-    date = date + ' at ' + moment(unixTimeStamp).format('hh:mm:ss')
+    date = date + ' at ' + moment(unixTimeStamp).format('HH:mm:ss')
   }
   return date
 }
