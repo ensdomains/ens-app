@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { ApolloProvider } from 'react-apollo'
-import 'notification-polyfill'
 
 import App from 'App'
 import setupWeb3 from 'api/web3'
