@@ -118,8 +118,8 @@ const Editable = ({
     value: newValue,
     contentType: domain.contentType
   })
-  const isInvalid = !isValid && newValue.length > 0 && type === 'address'
 
+  const isInvalid = newValue !== "" && !isValid
   return (
     <>
       <Mutation
