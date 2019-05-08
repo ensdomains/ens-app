@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 import GanacheCLI from 'ganache-cli'
-import setupWeb3, { getAccounts } from '../web3'
+import { setupWeb3, getAccounts } from '@ensdomains/ui'
 import deployENS from '../../testing-utils/deployENS'
 import {
   getOwner,
@@ -21,7 +21,7 @@ import {
   getName,
   claimAndSetReverseRecordName
 } from '../registry'
-import getENS, { getNamehash } from '../ens'
+import getENS, { getNamehash } from '@ensdomains/ui'
 import '../../testing-utils/extendExpect'
 import Web3 from 'web3'
 
@@ -35,15 +35,15 @@ describe('Blockchain tests', () => {
     switch (ENV) {
       case 'GANACHE_CLI':
         var provider = GanacheCLI.provider()
-        var web3 = await setupWeb3(provider)
+        var web3 = await setupWeb3({ provider })
         break
       case 'GANACHE_GUI':
         var provider = new Web3.providers.HttpProvider('http://localhost:7545')
-        var web3 = await setupWeb3(provider)
+        var web3 = await setupWeb3({ provider })
         break
       case 'GANACHE_CLI_MANUAL':
         var provider = new Web3.providers.HttpProvider('http://localhost:8545')
-        var web3 = await setupWeb3(provider)
+        var web3 = await setupWeb3({ provider })
         break
       default:
         const options = ENVIRONMENTS.join(' or ')
