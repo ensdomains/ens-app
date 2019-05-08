@@ -259,7 +259,7 @@ export const reclaim = async ({ name, address }) => {
     const nameArray = name.split('.')
     const labelHash = web3.utils.sha3(nameArray[0])
     const account = await getAccount()
-    const { permanentRegistrarRead: Registrar } = await getPermanentRegistrar()
+    const { permanentRegistrar: Registrar } = await getPermanentRegistrar()
     return () =>
       Registrar.reclaim(labelHash, address).send({
         from: account
