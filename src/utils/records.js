@@ -7,10 +7,10 @@ export function validateRecord(record) {
 
   const { type, value } = record
 
-  if (record.contentType === 'oldcontent') {
+  if (type == 'content' && record.contentType === 'oldcontent') {
     return value.length > 32
   }
-  console.log('validateRecord', { record })
+
   switch (type) {
     case 'address':
       return addressUtils.isAddress(value)
