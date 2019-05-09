@@ -8616,6 +8616,11 @@ normalize-url@^3.0.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-3.3.0.tgz#b2e1c4dc4f7c6d57743df733a4f5978d18650559"
 
+notification-polyfill@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/notification-polyfill/-/notification-polyfill-1.0.0.tgz#6e5f0efc2dd8e2db17c0510fa4331c40c9579d9a"
+  integrity sha1-bl8O/C3Y4tsXwFEPpDMcQMlXnZo=
+
 npm-bundled@^1.0.1:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/npm-bundled/-/npm-bundled-1.0.5.tgz#3c1732b7ba936b3a10325aef616467c0ccbcc979"
