@@ -1,3 +1,5 @@
+import 'notification-polyfill'
+
 export function sendNotification(message = 'Hi there') {
   // Let's check if the browser supports notifications
   if (!('Notification' in window)) {
