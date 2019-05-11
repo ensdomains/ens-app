@@ -5,6 +5,14 @@ let web3Read
 let readOnly = false
 
 export default async function getWeb3(customProvider) {
+
+  /**
+   * NOTE: imToken ethereum provider has `on` method, but don't support `eth_subscrbe` now.
+   */
+  if (window.imToken && window.ethereum && !window.ethereum.supportsSubscriptions) {
+    window.ethereum.on = null
+  }
+
   if (web3) {
     return web3
   }
