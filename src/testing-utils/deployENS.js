@@ -93,7 +93,7 @@ const auctionLegacyName = async function(
     .send({ from: account, gas: 6000000 })
 }
 
-async function deployENS({ web3, accounts }) {
+async function deployENS({ web3, accounts, dnssec = false }) {
   const { sha3 } = web3.utils
   function deploy(contractJSON, ...args) {
     const contract = new web3.eth.Contract(contractJSON.abi)
@@ -181,7 +181,9 @@ async function deployENS({ web3, accounts }) {
     legacyAuctionRegistrar._address
   )
 
-  const { dnssec } = await deployDNSSEC(web3, accounts, ens)
+  if (dnssec) {
+    await deployDNSSEC(web3, accounts, ens)
+  }
 
   const tld = 'eth'
   const tldHash = sha3(tld)
@@ -233,53 +235,58 @@ async function deployENS({ web3, accounts }) {
       from: accounts[0]
     })
 
-  // Can migrate now
-  await auctionLegacyName(
-    web3,
-    accounts[0],
-    legacyAuctionRegistrarContract,
-    'auctioned1'
-  )
-  await auctionLegacyName(
-    web3,
-    accounts[0],
-    legacyAuctionRegistrarContract,
-    'auctioned2'
-  )
-  await auctionLegacyName(
-    web3,
-    accounts[0],
-    legacyAuctionRegistrarContract,
-    'auctioned3'
-  )
-  await auctionLegacyName(
-    web3,
-    accounts[0],
-    legacyAuctionRegistrarContract,
-    'auctioned4'
-  )
-  await auctionLegacyName(
-    web3,
-    accounts[0],
-    legacyAuctionRegistrarContract,
-    'auctioned5'
-  )
-  await auctionLegacyNameWithoutFinalise(
-    web3,
-    accounts[0],
-    legacyAuctionRegistrarContract,
-    'auctionednofinalise'
-  )
-  const lockoutlength = 60 * 60 * 24 * 190
-  await advanceTime(web3, lockoutlength)
-  await mine(web3)
-  // Need to wait for the lock period to end
-  await auctionLegacyName(
-    web3,
-    accounts[0],
-    legacyAuctionRegistrarContract,
-    'auctionedtoorecent'
-  )
+  if (dnssec) {
+    // You cannot auction and traverse time as DNSSEC relies on the proof not to expire
+    console.log('*** Skipping auction to make DNSSEC work')
+  } else {
+    // Can migrate now
+    await auctionLegacyName(
+      web3,
+      accounts[0],
+      legacyAuctionRegistrarContract,
+      'auctioned1'
+    )
+    await auctionLegacyName(
+      web3,
+      accounts[0],
+      legacyAuctionRegistrarContract,
+      'auctioned2'
+    )
+    await auctionLegacyName(
+      web3,
+      accounts[0],
+      legacyAuctionRegistrarContract,
+      'auctioned3'
+    )
+    await auctionLegacyName(
+      web3,
+      accounts[0],
+      legacyAuctionRegistrarContract,
+      'auctioned4'
+    )
+    await auctionLegacyName(
+      web3,
+      accounts[0],
+      legacyAuctionRegistrarContract,
+      'auctioned5'
+    )
+    await auctionLegacyNameWithoutFinalise(
+      web3,
+      accounts[0],
+      legacyAuctionRegistrarContract,
+      'auctionednofinalise'
+    )
+    const lockoutlength = 60 * 60 * 24 * 190
+    await advanceTime(web3, lockoutlength)
+    await mine(web3)
+    // Need to wait for the lock period to end
+    await auctionLegacyName(
+      web3,
+      accounts[0],
+      legacyAuctionRegistrarContract,
+      'auctionedtoorecent'
+    )
+  }
 
   let rootOwner = await ensContract
     .owner('0x00000000000000000000000000000000')

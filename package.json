@@ -56,6 +56,7 @@
     "test:coverage": "npm test -- --coverage",
     "eject": "react-scripts eject",
     "preTest": "node -r esm src/testing-utils/preTest.js",
+    "preTest:dnssec": "node -r esm src/testing-utils/preTest.js default dnssec",
     "advance": "node src/testing-utils/advance.js",
     "cypress:open": "yarn run cypress open",
     "deploy:dev": "npm run build && npm run postbuild && surge build ensappdev.surge.sh",
