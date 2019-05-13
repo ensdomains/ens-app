@@ -1,4 +1,5 @@
 import crypto from 'crypto'
+import { isShortName } from '../uti../utils/utils'
 
 import {
   getEntry,
@@ -66,8 +67,7 @@ const resolvers = {
           highestBid
         } = await getEntry(name)
         let owner = null
-
-        if (name.length < 7) {
+        if (isShortName(name)) {
           cache.writeData({
             data: defaults
           })
