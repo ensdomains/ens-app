@@ -85,7 +85,7 @@ function Search({ history, className, style }) {
       action="#"
       onSubmit={e => {
         e.preventDefault()
-        const searchTerm = input.value
+        const searchTerm = input.value.toLowerCase()
         if (searchTerm.length < 1) {
           return
         }
