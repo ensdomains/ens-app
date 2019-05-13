@@ -1,5 +1,5 @@
 import crypto from 'crypto'
-import { isShortName } from '../uti../utils/utils'
+import { isShortName } from '../../utils/utils'
 
 import {
   getEntry,
