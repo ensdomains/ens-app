@@ -98,13 +98,21 @@ function Name({ details: domain, name, pathname, refetch }) {
         const hasAnOwner = domain.owner !== EMPTY_ADDRESS
         const isOwner = isOwnerOfDomain(domain, account)
         const isDeedOwner = domain.deedOwner === account
+        const isRegistrant = domain.registrant === account
         const registrationOpen = isRegistrationOpen(domain, isDeedOwner)
+        let ownerType
+        if(isDeedOwner || isRegistrant){
+          ownerType = 'Registrant'
+        }else if(isOwner){
+          ownerType = 'Controller'
+        }
+         
         return (
           <NameContainer state={isOwner ? 'Yours' : domain.state}>
             <TopBar percentDone={percentDone}>
               <Title>{name}</Title>
               <RightBar>
-                {isOwner && <Owner>Owner</Owner>}
+                {!!ownerType && <Owner>{ownerType}</Owner>}
                 <Favourite domain={domain} />
                 {smallBP && hasAnOwner && (
                   <Tabs pathname={pathname} domain={domain} />

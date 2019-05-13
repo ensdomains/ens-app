@@ -65,13 +65,13 @@ const Explainer = ({ step, waitPercentComplete, waitTime }) => {
   const titles = {
     PRICE_DECISION: 'Registering a name requires you to complete 3 steps',
     COMMIT_SENT:
-      'Don’t close your browser! You’ll be able to register your name soon.',
+      'Don’t close your browser! You’ll be able to manage your name soon.',
     COMMIT_CONFIRMED:
-      'Don’t close your browser! You’ll be able to register your name soon.',
+      'Don’t close your browser! You’ll be able to manage your name soon.',
     AWAITING_REGISTER:
-      'Don’t close your browser! You’ll be able to register your name soon.',
+      'Don’t close your browser! You’ll be able to manage your name soon.',
     REVEAL_SENT:
-      'Don’t close your browser! You’ll be able to register your name soon.',
+      'Don’t close your browser! You’ll be able to manage your name soon.',
     REVEAL_CONFIRMED: 'You’ve completed all the steps, manage your name now!'
   }
 
@@ -119,7 +119,7 @@ const Explainer = ({ step, waitPercentComplete, waitTime }) => {
           title={`Wait for ${moment
             .duration({ seconds: waitTime })
             .humanize()}`}
-          text="The waiting period is required to ensure another person hasn’t tried to register the same name."
+          text="The waiting period is required to ensure another person hasn’t tried to register the same name and protect you after your request."
         />
         <Step
           number={3}
@@ -127,7 +127,7 @@ const Explainer = ({ step, waitPercentComplete, waitTime }) => {
             step === 'REVEAL_CONFIRMED' ? 100 : step === 'REVEAL_SENT' ? 50 : 0
           }
           title="Complete Registration"
-          text="Click ‘register’ and your wallet will re-open. Upon confirming the second transaction, you can manage your new name."
+          text="Click ‘register’ and your wallet will re-open. Only after the 2nd transaction is confirmed you'll know if you got the domain"
         />
       </Steps>
     </>

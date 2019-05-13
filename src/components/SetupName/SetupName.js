@@ -60,6 +60,13 @@ const Block = styled('section')`
 
 function SetupName({ initialState = false }) {
   const [open, setOpen] = useState(initialState)
+  const [initial, setInitial] = useState(initialState)
+  // Change the open state when resolver is set/unset
+  if(initial !== initialState){
+    setInitial(initialState)
+    setOpen(initialState)
+  }
+ 
   const toggleOpen = () => setOpen(!open)
   return (
     <SetupNameContainer>

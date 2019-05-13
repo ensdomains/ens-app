@@ -146,7 +146,7 @@ function Progress({ step, waitPercentComplete }) {
           }}
         </Tooltip>
         <Tooltip
-          text="<p>Once this step is complete, the ‘register’ button will activate. Sign up for google notifications to remind you when the wait is up.  </p>"
+          text="<p>Once this step is complete, the ‘register’ button will activate. Sign up for browser notifications to remind you when the wait is up.  </p>"
           position="top"
           border={true}
           offset={{ left: -30, top: 10 }}

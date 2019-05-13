@@ -64,6 +64,11 @@
     "editor.formatOnSave": true,
     "singleQuote": true
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
   "devDependencies": {
     "apollo-client-mock": "0.0.8",
     "apollo-link-schema": "^1.1.0",
@@ -71,7 +76,10 @@
     "cypress": "^3.2.0",
     "cypress-testing-library": "^2.3.4",
     "ganache-cli": "^6.1.0",
+    "husky": "^2.2.0",
     "js-sha3": "^0.7.0",
+    "prettier": "1.17.0",
+    "pretty-quick": "^1.10.0",
     "react-testing-library": "^3.0.2",
     "solc": "^0.4.23",
     "surge": "^0.20.1"

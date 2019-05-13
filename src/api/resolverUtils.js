@@ -47,3 +47,15 @@ export function sendHelper(tx) {
       })
   })
 }
+
+export async function estimateAndSend(tx, account){
+  let gas
+  try{
+    gas = await tx.estimateGas({from:account})
+  }catch(e){
+    console.log('gasEstimate error', {e, gas})
+  }
+  return () =>
+  tx.send({ from: account, gas })
+}
+
