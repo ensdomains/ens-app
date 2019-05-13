@@ -14,13 +14,13 @@ import {
   createSubdomain,
   expiryTimes
 } from '../registry'
-import { getEntry } from '../registrar'
+import { getEntry, getDNSEntry } from '../registrar'
 import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
 import { getNetworkId } from '../web3'
 import domains from '../../constants/domains.json'
 import { sendHelper } from '../resolverUtils'
-
+import { emptyAddress } from '../../utils/utils'
 import {
   GET_FAVOURITES,
   GET_SUBDOMAIN_FAVOURITES,
@@ -132,6 +132,22 @@ const resolvers = {
               state: subdomain.available ? 'Open' : 'Owned'
             }
           }
+        } else {
+          // either dnssect domain or non existing domain
+          let tld = nameArray[1]
+          let owner
+          let tldowner = (await getOwner(tld)).toLocaleLowerCase()
+          try {
+            owner = (await getOwner(name)).toLocaleLowerCase()
+          } catch {}
+
+          if (tldowner !== emptyAddress) {
+            const dnsEntry = await getDNSEntry(name, tldowner, null)
+            node.state = dnsEntry.state
+          } else {
+            //  Unsupported domain
+          }
+          console.log({ owner, node })
         }
 
         const { names } = cache.readQuery({ query: GET_ALL_NODES })

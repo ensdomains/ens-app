@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import { Link, Route } from 'react-router-dom'
+import SubmitProof from './SubmitProof'
+import dnsSecModes from '../../api/dnssecmodes'
 
 import { HR } from '../Typography/Basic'
 import SubDomains from './SubDomains'
@@ -125,6 +127,7 @@ function NameDetails({ domain, isOwner, refetch, account }) {
   }
 
   const showExplainer = !parseInt(domain.resolver)
+  console.log('dd', dnsSecModes, dnsSecModes[domain.state], domain.state)
   return (
     <>
       <Route
@@ -233,6 +236,24 @@ function NameDetails({ domain, isOwner, refetch, account }) {
                   refetch={refetch}
                   confirm={true}
                 />
+              )}
+
+              {/* To be replaced with a logic a function to detect dnsregistrar */}
+              {domain.parent === 'xyz' ? (
+                <DetailsItem uneditable>
+                  <DetailsKey>State</DetailsKey>
+                  <DetailsValue>{dnsSecModes[domain.state].title}</DetailsValue>
+                  {dnsSecModes[domain.state].action ? (
+                    <SubmitProof
+                      refetch={refetch}
+                      actionText={dnsSecModes[domain.state].button}
+                    />
+                  ) : (
+                    ''
+                  )}
+                </DetailsItem>
+              ) : (
+                ''
               )}
 
               {domain.registrationDate ? (

@@ -8,13 +8,14 @@ import {
   legacyRegistrar as legacyRegistrarInterfaceId,
   permanentRegistrar as permanentRegistrarInterfaceId
 } from '../constants/interfaces'
-import { estimateAndSend } from './resolverUtils'
+import DNSRegistrarJS from '@ensdomains/dnsregistrar'
 let ethRegistrar
 let ethRegistrarRead
 let permanentRegistrar
 let permanentRegistrarRead
 let permanentRegistrarController
 let permanentRegistrarControllerRead
+let dnsRegistrar
 
 export const getLegacyAuctionRegistrar = async () => {
   if (ethRegistrar) {
@@ -41,8 +42,8 @@ export const getLegacyAuctionRegistrar = async () => {
       legacyAuctionRegistrarAddress
     )
     return {
-      ethRegistrar: ethRegistrar.methods,
-      ethRegistrarRead: ethRegistrarRead.methods
+      ethRegistrar,
+      ethRegistrarRead
     }
   } catch (e) {}
 }
@@ -125,9 +126,9 @@ export const getLegacyEntry = async name => {
   try {
     const { ethRegistrarRead: Registrar } = await getLegacyAuctionRegistrar()
     const web3 = await getWeb3()
-    const namehash = web3.utils.soliditySha3({ type: 'string', value: name })
+    const namehash = web3.utils.sha3(name)
     let deedOwner = '0x0'
-    const entry = await Registrar.entries(namehash).call()
+    const entry = await Registrar.methods.entries(namehash).call()
     if (parseInt(entry[1], 16) !== 0) {
       const deed = await getDeed(entry[1])
       deedOwner = await deed.owner().call()
@@ -162,13 +163,10 @@ export const getPermanentEntry = async name => {
   }
   try {
     const web3 = await getWeb3()
-    const namehash = web3.utils.soliditySha3({ type: 'string', value: name })
+    const namehash = web3.utils.sha3(name)
     const { permanentRegistrarRead: Registrar } = await getPermanentRegistrar()
-    const {
-      permanentRegistrarController: RegistrarController
-    } = await getPermanentRegistrarController()
     // Returns true if name is available
-    obj.available = await RegistrarController.available(name).call()
+    obj.available = await Registrar.available(namehash).call()
     // This is used for old registrar to figure out when the name can be migrated.
     obj.migrationLockPeriod = parseInt(
       await Registrar.MIGRATION_LOCK_PERIOD().call()
@@ -181,11 +179,60 @@ export const getPermanentEntry = async name => {
       obj.nameExpires = new Date(nameExpires * 1000)
     }
   } catch (e) {
-    console.log('Error getting permanent registrar entry', e)
     obj.error = e.message
   } finally {
     return obj
   }
+}
+
+export const getDNSEntry = async (name, tldOwner, owner) => {
+  if (dnsRegistrar) {
+    return dnsRegistrar
+  } else {
+    dnsRegistrar = {}
+  }
+  const web3Read = await getWeb3Read()
+  const provider = web3Read.currentProvider
+  const registrarjs = new DNSRegistrarJS(provider, tldOwner)
+  try {
+    const claim = await registrarjs.claim(name)
+    const result = claim.getResult()
+    dnsRegistrar.claim = claim
+    dnsRegistrar.result = result
+    if (result.found) {
+      const dnsOwner = claim.getOwner()
+      const proofs = result.proofs
+      const proof = proofs[proofs.length - 1]
+      const proven = await claim.oracle.knownProof(proof)
+      if (proven.matched) {
+        dnsRegistrar.state = 5
+      } else if (!owner) {
+        dnsRegistrar.state = 4
+      } else if (dnsOwner !== owner) {
+        dnsRegistrar.state = 6
+      } else {
+        if (owner) {
+          dnsRegistrar.state = 7
+        } else {
+          dnsRegistrar.state = 3
+        }
+      }
+    } else {
+      if (result.nsec) {
+        if (owner) {
+          dnsRegistrar.state = 7
+        } else {
+          dnsRegistrar.state = 2
+        }
+      } else {
+        dnsRegistrar.state = 1
+      }
+    }
+  } catch (e) {
+    console.log(e)
+    dnsRegistrar.state = 0
+  }
+  return dnsRegistrar
 }
 
 export const getDeed = async address => {
@@ -206,9 +253,10 @@ export const getEntry = async name => {
 
   try {
     let permEntry = await getPermanentEntry(name)
-    if (legacyEntry.registrationDate && permEntry.migrationLockPeriod) {
+
+    if (ret.registrationDate && permEntry.migrationLockPeriod) {
       ret.migrationStartDate = new Date(
-        legacyEntry.registrationDate + permEntry.migrationLockPeriod * 1000
+        ret.registrationDate + permEntry.migrationLockPeriod * 1000
       )
     } else {
       ret.migrationStartDate = null
@@ -244,7 +292,7 @@ export const transferOwner = async ({ to, name }) => {
     const nameArray = name.split('.')
     const labelHash = web3.utils.sha3(nameArray[0])
     const account = await getAccount()
-    const { permanentRegistrar: Registrar } = await getPermanentRegistrar()
+    const { permanentRegistrarRead: Registrar } = await getPermanentRegistrar()
     return () =>
       Registrar.safeTransferFrom(account, to, labelHash).send({
         from: account
@@ -260,7 +308,7 @@ export const reclaim = async ({ name, address }) => {
     const nameArray = name.split('.')
     const labelHash = web3.utils.sha3(nameArray[0])
     const account = await getAccount()
-    const { permanentRegistrar: Registrar } = await getPermanentRegistrar()
+    const { permanentRegistrarRead: Registrar } = await getPermanentRegistrar()
     return () =>
       Registrar.reclaim(labelHash, address).send({
         from: account
@@ -386,10 +434,13 @@ export const transferRegistrars = async label => {
   const account = await getAccount()
   const web3 = await getWeb3()
   const hash = web3.utils.sha3(label)
-  return await estimateAndSend(
-    ethRegistrar.transferRegistrars(hash),
-    account
-  )
+  const tx = ethRegistrar.transferRegistrars(hash)
+  const gas = await tx.estimateGas({ from: account })
+  return () =>
+    tx.send({
+      from: account,
+      gas: gas
+    })
 }
 
 export const releaseDeed = async label => {
@@ -397,8 +448,34 @@ export const releaseDeed = async label => {
   const account = await getAccount()
   const web3 = await getWeb3()
   const hash = web3.utils.sha3(label)
-  return await estimateAndSend(
-    ethRegistrar.releaseDeed(hash),
-    account
-  )
+  const tx = ethRegistrar.releaseDeed(hash)
+  const gas = await tx.estimateGas({ from: account })
+  return () =>
+    tx.send({
+      from: account,
+      gas: gas
+    })
+}
+
+export const submitProof = async () => {
+  const { claim, result } = await getDNSEntry()
+  const account = await getAccount()
+  const data = await claim.oracle.getAllProofs(result, {})
+  const allProven = await claim.oracle.allProven(result)
+  let tx
+  if (allProven) {
+    tx = claim.registrar.methods.claim(claim.encodedName, data[1])
+  } else {
+    tx = claim.registrar.methods.proveAndClaim(
+      claim.encodedName,
+      data[0],
+      data[1]
+    )
+  }
+  const gas = await tx.estimateGas({ from: account })
+  return () =>
+    tx.send({
+      from: account,
+      gas: gas
+    })
 }

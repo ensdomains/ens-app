@@ -1,3 +1,4 @@
+import deployDNSSEC from './deployDNSSEC'
 const util = require('util')
 const {
   legacyRegistrar: legacyRegistrarInterfaceId,
@@ -179,6 +180,8 @@ async function deployENS({ web3, accounts }) {
     'Legacy Auction Registrar deployed at: ',
     legacyAuctionRegistrar._address
   )
+
+  const { dnssec } = await deployDNSSEC(web3, accounts, ens)
 
   const tld = 'eth'
   const tldHash = sha3(tld)

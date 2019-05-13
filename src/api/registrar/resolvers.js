@@ -9,6 +9,7 @@ import {
   renew,
   transferRegistrars,
   releaseDeed,
+  submitProof,
   transferOwner,
   reclaim
 } from '../registrar'
@@ -108,6 +109,10 @@ const resolvers = {
     },
     async releaseDeed(_, { label }) {
       const tx = await releaseDeed(label)
+      return sendHelper(tx)
+    },
+    async submitProof(_) {
+      const tx = await submitProof()
       return sendHelper(tx)
     }
   }
