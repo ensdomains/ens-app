@@ -32,15 +32,15 @@ function SingleName({
       } else {
         _type = parseSearchTerm(searchTerm)
       }
-      setType(_type)
       if (_type === 'supported' || _type === 'tld') {
         setValid(true)
       } else {
+        _type = 'unsupported'
         setValid(false)
       }
+      setType(_type)
     }
   }, [searchTerm])
-
   if (valid) {
     return (
       <Query query={GET_SINGLE_NAME} variables={{ name }}>
