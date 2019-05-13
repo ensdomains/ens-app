@@ -243,7 +243,7 @@ export const transferOwner = async ({ to, name }) => {
     const nameArray = name.split('.')
     const labelHash = web3.utils.sha3(nameArray[0])
     const account = await getAccount()
-    const { permanentRegistrarRead: Registrar } = await getPermanentRegistrar()
+    const { permanentRegistrar: Registrar } = await getPermanentRegistrar()
     return () =>
       Registrar.safeTransferFrom(account, to, labelHash).send({
         from: account
