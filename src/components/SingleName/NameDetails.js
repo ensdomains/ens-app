@@ -221,11 +221,12 @@ function NameDetails({ domain, isOwner, refetch, account }) {
                   />
                 </>
               ) : (
+                // Either subdomain, .test, or .dns(eg. .xyz)
                 <DetailsItemEditable
                   domain={domain}
                   keyName="Controller"
                   value={domain.owner}
-                  canEdit={isOwner}
+                  canEdit={!domain.isDNSRegistrar && isOwner}
                   deedOwner={domain.deedOwner}
                   isDeedOwner={isDeedOwner}
                   type="address"
@@ -238,7 +239,7 @@ function NameDetails({ domain, isOwner, refetch, account }) {
               )}
 
               {/* To be replaced with a logic a function to detect dnsregistrar */}
-              {domain.state !== -1 ? (
+              {domain.isDNSRegistrar ? (
                 <DetailsItem uneditable>
                   <DetailsKey>State</DetailsKey>
                   <DetailsValue>{dnsSecModes[domain.state].title}</DetailsValue>

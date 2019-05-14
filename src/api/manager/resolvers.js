@@ -70,6 +70,7 @@ const resolvers = {
           contentType: null,
           expiryTime: null,
           isNewRegistrar: null,
+          isDNSRegistrar: null,
           deedOwner: null,
           registrant: null
         }
@@ -144,12 +145,9 @@ const resolvers = {
           let isDNSRegistrarSupported = await isDNSRegistrar(tld)
           if (isDNSRegistrarSupported && tldowner !== emptyAddress) {
             const dnsEntry = await getDNSEntry(name, tldowner, null)
+            node.isDNSRegistrar = true
             node.state = dnsEntry.state
-          } else {
-            //  Unsupported domain
-            node.state = -1
           }
-          console.log({ owner, node })
         }
 
         const { names } = cache.readQuery({ query: GET_ALL_NODES })

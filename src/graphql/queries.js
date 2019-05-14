@@ -64,6 +64,7 @@ export const GET_SINGLE_NAME = gql`
       deedOwner
       registrant
       isNewRegistrar
+      isDNSRegistrar
     }
   }
 
