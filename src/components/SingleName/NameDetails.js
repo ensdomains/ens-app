@@ -242,7 +242,12 @@ function NameDetails({ domain, isOwner, refetch, account }) {
               {domain.isDNSRegistrar ? (
                 <DetailsItem uneditable>
                   <DetailsKey>State</DetailsKey>
-                  <DetailsValue>{dnsSecModes[domain.state].title}</DetailsValue>
+                  <DetailsValue>
+                    {dnsSecModes[domain.state].title}
+                    {dnsSecModes[domain.state].displayOwner
+                      ? ` by ${domain.dnsOwner}`
+                      : ''}
+                  </DetailsValue>
                   {dnsSecModes[domain.state].action ? (
                     <SubmitProof
                       refetch={refetch}

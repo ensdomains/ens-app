@@ -71,6 +71,7 @@ const resolvers = {
           expiryTime: null,
           isNewRegistrar: null,
           isDNSRegistrar: null,
+          dnsOwner: null,
           deedOwner: null,
           registrant: null
         }
@@ -146,6 +147,7 @@ const resolvers = {
           if (isDNSRegistrarSupported && tldowner !== emptyAddress) {
             const dnsEntry = await getDNSEntry(name, tldowner, null)
             node.isDNSRegistrar = true
+            node.dnsOwner = dnsEntry.dnsOwner
             node.state = dnsEntry.state
           }
         }

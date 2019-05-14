@@ -16,9 +16,10 @@ export default [
     action: false
   },
   {
-    title: 'Register ENS Record',
+    title: 'DNS is owned',
     action: true,
-    button: 'Register'
+    button: 'Register',
+    displayOwner: true
   },
   {
     title: 'ENS is registered',

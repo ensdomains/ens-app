@@ -218,7 +218,7 @@ export const getDNSEntry = async (name, tldOwner, owner) => {
     dnsRegistrar.claim = claim
     dnsRegistrar.result = result
     if (result.found) {
-      const dnsOwner = claim.getOwner()
+      dnsRegistrar.dnsOwner = claim.getOwner()
       const proofs = result.proofs
       const proof = proofs[proofs.length - 1]
       const proven = await claim.oracle.knownProof(proof)
@@ -226,7 +226,7 @@ export const getDNSEntry = async (name, tldOwner, owner) => {
         dnsRegistrar.state = 5
       } else if (!owner) {
         dnsRegistrar.state = 4
-      } else if (dnsOwner !== owner) {
+      } else if (dnsRegistrar.dnsOwner !== owner) {
         dnsRegistrar.state = 6
       } else {
         if (owner) {
