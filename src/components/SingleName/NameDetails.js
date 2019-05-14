@@ -127,7 +127,6 @@ function NameDetails({ domain, isOwner, refetch, account }) {
   }
 
   const showExplainer = !parseInt(domain.resolver)
-  console.log('dd', dnsSecModes, dnsSecModes[domain.state], domain.state)
   return (
     <>
       <Route
@@ -239,7 +238,7 @@ function NameDetails({ domain, isOwner, refetch, account }) {
               )}
 
               {/* To be replaced with a logic a function to detect dnsregistrar */}
-              {domain.parent === 'xyz' ? (
+              {domain.state !== -1 ? (
                 <DetailsItem uneditable>
                   <DetailsKey>State</DetailsKey>
                   <DetailsValue>{dnsSecModes[domain.state].title}</DetailsValue>

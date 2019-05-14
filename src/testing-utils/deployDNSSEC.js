@@ -58,6 +58,9 @@ async function deployDNSSEC(web3, accounts, ens) {
   const sha256digest = await deploy(SHA256Digest)
   const sha1digest = await deploy(SHA1Digest)
   const sha1nsec3digest = await deploy(SHA1NSEC3Digest)
+  console.log('DNSSSC ORACLE contract is deployed at ', dnssec._address)
+  console.log('DNSregistrar contract is deployed at ', registrar._address)
+
   await dnssec.methods
     .setAlgorithm(5, rsasha1._address)
     .send({ from: accounts[0] })

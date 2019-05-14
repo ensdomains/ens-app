@@ -1,4 +1,8 @@
-import getENS, { getNamehash, getResolverContract } from './ens'
+import getENS, {
+  getNamehash,
+  getResolverContract,
+  getDnsRegistrarContract
+} from './ens'
 import getWeb3, { getWeb3Read, getAccount, getBlock } from './web3'
 import { abi as legacyAuctionRegistrarContract } from '@ensdomains/ens/build/contracts/HashRegistrar'
 import { abi as deedContract } from '@ensdomains/ens/build/contracts/Deed'
@@ -6,7 +10,8 @@ import { abi as permanentRegistrarContract } from '@ensdomains/ethregistrar/buil
 import { abi as permanentRegistrarControllerContract } from '@ensdomains/ethregistrar/build/contracts/ETHRegistrarController'
 import {
   legacyRegistrar as legacyRegistrarInterfaceId,
-  permanentRegistrar as permanentRegistrarInterfaceId
+  permanentRegistrar as permanentRegistrarInterfaceId,
+  DNSSEC_CLAIM_ID
 } from '../constants/interfaces'
 import DNSRegistrarJS from '@ensdomains/dnsregistrar'
 let ethRegistrar
@@ -183,6 +188,19 @@ export const getPermanentEntry = async name => {
   } finally {
     return obj
   }
+}
+
+export const isDNSRegistrar = async name => {
+  const { registrar } = await getDnsRegistrarContract(name)
+  let isDNSSECSupported = false
+  try {
+    isDNSSECSupported = await registrar.methods
+      .supportsInterface(DNSSEC_CLAIM_ID)
+      .call()
+  } catch (e) {
+    console.log('isDNSRegistrar not supported', e)
+  }
+  return isDNSSECSupported
 }
 
 export const getDNSEntry = async (name, tldOwner, owner) => {

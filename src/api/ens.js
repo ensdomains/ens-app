@@ -6,6 +6,7 @@ import { abi as reverseRegistrarContract } from '@ensdomains/ens/build/contracts
 import { abi as resolverContract } from '@ensdomains/resolver/build/contracts/Resolver.json'
 import { abi as fifsRegistrarContract } from '@ensdomains/ens/build/contracts/FIFSRegistrar.json'
 import { abi as testRegistrarContract } from '@ensdomains/ens/build/contracts/TestRegistrar.json'
+import { abi as dnsRegistrarContract } from '@ensdomains/dnsregistrar/build/contracts/DNSRegistrar.json'
 
 var contracts = {
   1: {
@@ -121,6 +122,18 @@ async function getTestRegistrarContract() {
   }
 }
 
+async function getDnsRegistrarContract(name) {
+  const { ENS } = await getENS()
+  const web3 = await getWeb3()
+  const namehash = getNamehash(name)
+  const address = await ENS.owner(namehash).call()
+  const registrar = new web3.eth.Contract(dnsRegistrarContract, address)
+  return {
+    registrar: registrar,
+    web3
+  }
+}
+
 const getENS = async ensAddress => {
   const networkId = await getNetworkId()
 
@@ -179,5 +192,6 @@ export {
   getResolverContract,
   getResolverReadContract,
   getFifsRegistrarContract,
+  getDnsRegistrarContract,
   normalize
 }

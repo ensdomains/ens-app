@@ -14,7 +14,7 @@ import {
   createSubdomain,
   expiryTimes
 } from '../registry'
-import { getEntry, getDNSEntry } from '../registrar'
+import { getEntry, getDNSEntry, isDNSRegistrar } from '../registrar'
 import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
 import { getNetworkId } from '../web3'
@@ -141,11 +141,13 @@ const resolvers = {
             owner = (await getOwner(name)).toLocaleLowerCase()
           } catch {}
 
-          if (tldowner !== emptyAddress) {
+          let isDNSRegistrarSupported = await isDNSRegistrar(tld)
+          if (isDNSRegistrarSupported && tldowner !== emptyAddress) {
             const dnsEntry = await getDNSEntry(name, tldowner, null)
             node.state = dnsEntry.state
           } else {
             //  Unsupported domain
+            node.state = -1
           }
           console.log({ owner, node })
         }
