@@ -226,7 +226,7 @@ function NameDetails({ domain, isOwner, refetch, account }) {
                   domain={domain}
                   keyName="Controller"
                   value={domain.owner}
-                  canEdit={isOwner}
+                  canEdit={!domain.isDNSRegistrar && isOwner}
                   deedOwner={domain.deedOwner}
                   isDeedOwner={isDeedOwner}
                   type="address"
