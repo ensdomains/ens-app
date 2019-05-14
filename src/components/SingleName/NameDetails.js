@@ -226,7 +226,7 @@ function NameDetails({ domain, isOwner, refetch, account }) {
                   domain={domain}
                   keyName="Controller"
                   value={domain.owner}
-                  canEdit={!domain.isDNSRegistrar && isOwner}
+                  canEdit={isOwner}
                   deedOwner={domain.deedOwner}
                   isDeedOwner={isDeedOwner}
                   type="address"
@@ -245,7 +245,7 @@ function NameDetails({ domain, isOwner, refetch, account }) {
                   <DetailsValue>
                     {dnsSecModes[domain.state].title}
                     {dnsSecModes[domain.state].displayOwner
-                      ? ` by ${domain.dnsOwner}`
+                      ? ` (DNS is owned by ${domain.dnsOwner})`
                       : ''}
                   </DetailsValue>
                   {dnsSecModes[domain.state].action ? (

@@ -145,7 +145,7 @@ const resolvers = {
 
           let isDNSRegistrarSupported = await isDNSRegistrar(tld)
           if (isDNSRegistrarSupported && tldowner !== emptyAddress) {
-            const dnsEntry = await getDNSEntry(name, tldowner, null)
+            const dnsEntry = await getDNSEntry(name, tldowner, owner)
             node.isDNSRegistrar = true
             node.dnsOwner = dnsEntry.dnsOwner
             node.state = dnsEntry.state

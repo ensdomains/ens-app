@@ -8,6 +8,7 @@ import { abi as legacyAuctionRegistrarContract } from '@ensdomains/ens/build/con
 import { abi as deedContract } from '@ensdomains/ens/build/contracts/Deed'
 import { abi as permanentRegistrarContract } from '@ensdomains/ethregistrar/build/contracts/BaseRegistrarImplementation'
 import { abi as permanentRegistrarControllerContract } from '@ensdomains/ethregistrar/build/contracts/ETHRegistrarController'
+import { emptyAddress } from '../utils/utils'
 import {
   legacyRegistrar as legacyRegistrarInterfaceId,
   permanentRegistrar as permanentRegistrarInterfaceId,
@@ -222,11 +223,17 @@ export const getDNSEntry = async (name, tldOwner, owner) => {
       const proofs = result.proofs
       const proof = proofs[proofs.length - 1]
       const proven = await claim.oracle.knownProof(proof)
-      if (proven.matched) {
+      const dnsOwnerLower =
+        dnsRegistrar &&
+        dnsRegistrar.dnsOwner &&
+        dnsRegistrar.dnsOwner.toLowerCase()
+      const ownerLower = owner && owner.toLowerCase()
+      const sameOwner = dnsOwnerLower === ownerLower
+      if (proven.matched && sameOwner) {
         dnsRegistrar.state = 5
-      } else if (!owner) {
+      } else if (owner === emptyAddress) {
         dnsRegistrar.state = 4
-      } else if (dnsRegistrar.dnsOwner !== owner) {
+      } else if (!sameOwner) {
         dnsRegistrar.state = 6
       } else {
         if (owner) {

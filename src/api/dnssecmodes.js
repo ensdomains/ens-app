@@ -16,7 +16,7 @@ export default [
     action: false
   },
   {
-    title: 'DNS is owned',
+    title: 'Ready to register',
     action: true,
     button: 'Register',
     displayOwner: true
@@ -28,6 +28,7 @@ export default [
   {
     title: 'Update ENS Record',
     action: true,
+    displayOwner: true,
     button: 'Update'
   },
   {
