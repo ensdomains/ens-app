@@ -241,7 +241,7 @@ function NameDetails({ domain, isOwner, refetch, account }) {
               {/* To be replaced with a logic a function to detect dnsregistrar */}
               {domain.isDNSRegistrar ? (
                 <DetailsItem uneditable>
-                  <DetailsKey>State</DetailsKey>
+                  <DetailsKey>Status</DetailsKey>
                   <DetailsValue>
                     {dnsSecModes[domain.state].title}
                     {dnsSecModes[domain.state].displayOwner
