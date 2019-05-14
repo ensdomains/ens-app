@@ -87,7 +87,7 @@ export const parseSearchTerm = term => {
     const tld = term.match(regex) ? term.match(regex)[0] : ''
 
     if (tlds[tld] && tlds[tld].supported) {
-      if (tld === 'eth' && termArray[termArray.length - 2].length < 7) {
+      if (tld === 'eth' && isShortName(termArray[termArray.length - 2])) {
         return 'short'
       }
       return 'supported'
@@ -151,3 +151,7 @@ export function isElementInViewport(el) {
 }
 
 export const emptyAddress = '0x0000000000000000000000000000000000000000'
+
+export function isShortName(term) {
+  return [...term].length < 7
+}

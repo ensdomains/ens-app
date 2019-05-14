@@ -5,6 +5,7 @@ import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import { parseSearchTerm } from '../utils/utils'
 import SearchErrors from '../components/SearchErrors/SearchErrors'
+import { isShortName } from '../utils/utils'
 
 const GET_SUBDOMAIN_AVAILABILITY = gql`
   mutation getSubDomainAvailability($name: String) {
@@ -39,7 +40,7 @@ class Results extends React.Component {
       this.setState({
         errors: ['domainMalformed']
       })
-    } else if (searchTerm.length < 7) {
+    } else if (isShortName(searchTerm)) {
       this.setState({
         errors: ['tooShort']
       })
