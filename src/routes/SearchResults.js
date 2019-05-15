@@ -25,14 +25,14 @@ class Results extends React.Component {
   }
   checkValidity = () => {
     const { searchTerm, getSubDomainAvailability } = this.props
-
+    let parsed
     this.setState({
       errors: []
     })
     const type = parseSearchTerm(searchTerm)
 
     if (!['unsupported', 'invalid'].includes(type)) {
-      const parsed = validateName(searchTerm)
+      parsed = validateName(searchTerm)
       this.setState({
         parsed
       })
@@ -47,7 +47,7 @@ class Results extends React.Component {
       this.setState({
         errors: ['domainMalformed']
       })
-    } else if (isShortName(searchTerm)) {
+    } else if (isShortName(parsed || searchTerm)) {
       this.setState({
         errors: ['tooShort']
       })
