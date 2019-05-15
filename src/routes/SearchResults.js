@@ -21,7 +21,6 @@ class Results extends React.Component {
   state = {
     errors: [],
     errorType: '',
-    type: null,
     parsed: null
   }
   checkValidity = () => {
