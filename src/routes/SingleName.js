@@ -16,6 +16,7 @@ function SingleName({
   location: { pathname }
 }) {
   useScrollTo(0)
+  document.body.style.zoom = window.innerWidth / window.outerWidth
   const [valid, setValid] = useState(undefined)
   const [type, setType] = useState(undefined)
   const [name, setNormalisedName] = useState('')

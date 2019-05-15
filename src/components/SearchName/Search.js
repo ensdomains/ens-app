@@ -30,7 +30,7 @@ const SearchForm = styled('form')`
     width: 100%;
     border: none;
     border-radius: 0;
-    font-size: 14px;
+    font-size: 18px;
     font-family: Overpass;
     font-weight: 100;
     ${mq.medium`
