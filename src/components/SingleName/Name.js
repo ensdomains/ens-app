@@ -101,12 +101,12 @@ function Name({ details: domain, name, pathname, refetch }) {
         const isRegistrant = domain.registrant === account
         const registrationOpen = isRegistrationOpen(domain, isDeedOwner)
         let ownerType
-        if(isDeedOwner || isRegistrant){
+        if (isDeedOwner || isRegistrant) {
           ownerType = 'Registrant'
-        }else if(isOwner){
+        } else if (isOwner) {
           ownerType = 'Controller'
         }
-         
+
         return (
           <NameContainer state={isOwner ? 'Yours' : domain.state}>
             <TopBar percentDone={percentDone}>

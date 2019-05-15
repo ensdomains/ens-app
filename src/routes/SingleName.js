@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { validateName, parseSearchTerm } from '../utils/utils'
+import { useScrollTo } from '../components/hooks'
+
 import { GET_SINGLE_NAME } from '../graphql/queries'
 import { Query } from 'react-apollo'
 import Loader from '../components/Loader'
@@ -13,6 +15,7 @@ function SingleName({
   },
   location: { pathname }
 }) {
+  useScrollTo(0)
   const [valid, setValid] = useState(undefined)
   const [type, setType] = useState(undefined)
   const [name, setNormalisedName] = useState('')
