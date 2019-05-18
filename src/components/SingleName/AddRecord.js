@@ -13,6 +13,7 @@ import PendingTx from '../PendingTx'
 
 import { getOldContentWarning } from './warnings'
 import {
+  SET_ONION,
   SET_CONTENT,
   SET_CONTENTHASH,
   SET_ADDRESS
@@ -67,6 +68,8 @@ function chooseMutation(recordType, contentType) {
       } else {
         return SET_CONTENTHASH
       }
+    case 'onion':
+      return SET_ONION
     case 'address':
       return SET_ADDRESS
     default:
@@ -97,7 +100,7 @@ function Editable({ domain, emptyRecords, refetch }) {
     value: newValue,
     contentType: domain.contentType
   })
-  const isInvalid = newValue !== "" && !isValid
+  const isInvalid = newValue !== '' && !isValid
   return (
     <>
       <RecordsTitle>

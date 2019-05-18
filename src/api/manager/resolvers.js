@@ -9,6 +9,7 @@ import {
   setResolver,
   setAddress,
   setContent,
+  setOnion,
   setContenthash,
   registerTestdomain,
   createSubdomain,
@@ -260,6 +261,14 @@ const resolvers = {
     setAddress: async (_, { name, recordValue }, { cache }) => {
       try {
         const tx = await setAddress(name, recordValue)
+        return sendHelper(tx)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    setOnion: async (_, { name, recordValue }, { cache }) => {
+      try {
+        const tx = await setOnion(name, recordValue)
         return sendHelper(tx)
       } catch (e) {
         console.log(e)

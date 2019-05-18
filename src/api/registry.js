@@ -160,15 +160,22 @@ export async function setAddress(name, address) {
   return () => Resolver.setAddr(namehash, address).send({ from: account })
 }
 
-export async function setContent(name, content) {
+export async function setOnion(name, content) {
   let account = await getAccount()
   const namehash = getNamehash(name)
   const resolverAddr = await getResolver(name)
   const { Resolver } = await getResolverContract(resolverAddr)
   return await estimateAndSend(
-    Resolver.setContent(namehash, content),
+    Resolver.setText(namehash, 'onion', content),
     account
   )
+}
+export async function setContent(name, content) {
+  let account = await getAccount()
+  const namehash = getNamehash(name)
+  const resolverAddr = await getResolver(name)
+  const { Resolver } = await getResolverContract(resolverAddr)
+  return await estimateAndSend(Resolver.setContent(namehash, content), account)
 }
 
 export async function setContenthash(name, content) {

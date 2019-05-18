@@ -84,6 +84,11 @@ export const SET_ADDRESS = gql`
   }
 `
 
+export const SET_ONION = gql`
+  mutation setOnion($name: String, $recordValue: String) {
+    setOnion(name: $name, recordValue: $recordValue) @client
+  }
+`
 export const SET_CONTENT = gql`
   mutation setContent($name: String, $recordValue: String) {
     setContent(name: $name, recordValue: $recordValue) @client
