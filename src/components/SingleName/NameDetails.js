@@ -100,6 +100,10 @@ function NameDetails({ domain, isOwner, refetch, account }) {
 
   const records = [
     {
+      label: 'Onion',
+      value: 'onion'
+    },
+    {
       label: 'Address',
       value: 'address'
     },

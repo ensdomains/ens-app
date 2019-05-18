@@ -14,6 +14,8 @@ export function validateRecord(record) {
   switch (type) {
     case 'address':
       return addressUtils.isAddress(value)
+    case 'onion':
+      return true
     case 'content':
       return validateContent(value)
     default:
@@ -25,6 +27,8 @@ export function getPlaceholder(recordType, contentType) {
   switch (recordType) {
     case 'address':
       return 'Enter an Ethereum address'
+    case 'onion':
+      return 'Enter an onion address'
     case 'content':
       if (contentType === 'contenthash') {
         return 'Enter a content hash (eg: ipfs://..., bzz://...)'
