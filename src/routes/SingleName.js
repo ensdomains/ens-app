@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { validateName, parseSearchTerm } from '../utils/utils'
+import { useScrollTo } from '../components/hooks'
+
 import { GET_SINGLE_NAME } from '../graphql/queries'
 import { Query } from 'react-apollo'
 import Loader from '../components/Loader'
@@ -13,6 +15,8 @@ function SingleName({
   },
   location: { pathname }
 }) {
+  useScrollTo(0)
+  document.body.style.zoom = window.innerWidth / window.outerWidth
   const [valid, setValid] = useState(undefined)
   const [type, setType] = useState(undefined)
   const [name, setNormalisedName] = useState('')
@@ -32,15 +36,15 @@ function SingleName({
       } else {
         _type = parseSearchTerm(searchTerm)
       }
-      setType(_type)
       if (_type === 'supported' || _type === 'tld') {
         setValid(true)
       } else {
+        _type = 'unsupported'
         setValid(false)
       }
+      setType(_type)
     }
   }, [searchTerm])
-
   if (valid) {
     return (
       <Query query={GET_SINGLE_NAME} variables={{ name }}>

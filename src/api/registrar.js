@@ -8,6 +8,7 @@ import {
   legacyRegistrar as legacyRegistrarInterfaceId,
   permanentRegistrar as permanentRegistrarInterfaceId
 } from '../constants/interfaces'
+import { estimateAndSend } from './resolverUtils'
 let ethRegistrar
 let ethRegistrarRead
 let permanentRegistrar
@@ -243,7 +244,7 @@ export const transferOwner = async ({ to, name }) => {
     const nameArray = name.split('.')
     const labelHash = web3.utils.sha3(nameArray[0])
     const account = await getAccount()
-    const { permanentRegistrarRead: Registrar } = await getPermanentRegistrar()
+    const { permanentRegistrar: Registrar } = await getPermanentRegistrar()
     return () =>
       Registrar.safeTransferFrom(account, to, labelHash).send({
         from: account
@@ -385,13 +386,7 @@ export const transferRegistrars = async label => {
   const account = await getAccount()
   const web3 = await getWeb3()
   const hash = web3.utils.sha3(label)
-  const tx = ethRegistrar.transferRegistrars(hash)
-  const gas = await tx.estimateGas({ from: account })
-  return () =>
-    tx.send({
-      from: account,
-      gas: gas
-    })
+  return await estimateAndSend(ethRegistrar.transferRegistrars(hash), account)
 }
 
 export const releaseDeed = async label => {
@@ -399,11 +394,5 @@ export const releaseDeed = async label => {
   const account = await getAccount()
   const web3 = await getWeb3()
   const hash = web3.utils.sha3(label)
-  const tx = ethRegistrar.releaseDeed(hash)
-  const gas = await tx.estimateGas({ from: account })
-  return () =>
-    tx.send({
-      from: account,
-      gas: gas
-    })
+  return await estimateAndSend(ethRegistrar.releaseDeed(hash), account)
 }

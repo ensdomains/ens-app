@@ -3,8 +3,9 @@ import DomainInfo from '../components/SearchName/DomainInfo'
 import { SubDomainStateFields } from '../graphql/fragments'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
-import { parseSearchTerm } from '../utils/utils'
+import { validateName, parseSearchTerm } from '../utils/utils'
 import SearchErrors from '../components/SearchErrors/SearchErrors'
+import { isShortName } from '../utils/utils'
 
 const GET_SUBDOMAIN_AVAILABILITY = gql`
   mutation getSubDomainAvailability($name: String) {
@@ -19,16 +20,23 @@ const GET_SUBDOMAIN_AVAILABILITY = gql`
 class Results extends React.Component {
   state = {
     errors: [],
-    errorType: ''
+    errorType: '',
+    parsed: null
   }
   checkValidity = () => {
     const { searchTerm, getSubDomainAvailability } = this.props
-
+    let parsed
     this.setState({
       errors: []
     })
     const type = parseSearchTerm(searchTerm)
 
+    if (!['unsupported', 'invalid'].includes(type)) {
+      parsed = validateName(searchTerm)
+      this.setState({
+        parsed
+      })
+    }
     document.title = `ENS Search: ${searchTerm}`
 
     if (type === 'unsupported') {
@@ -39,7 +47,7 @@ class Results extends React.Component {
       this.setState({
         errors: ['domainMalformed']
       })
-    } else if (searchTerm.length < 7) {
+    } else if (isShortName(parsed || searchTerm)) {
       this.setState({
         errors: ['tooShort']
       })
@@ -78,12 +86,16 @@ class Results extends React.Component {
         />
       )
     }
-    return (
-      <Fragment>
-        <DomainInfo searchTerm={searchTerm} />
-        {/* <SubDomainResults searchTerm={searchTerm} /> */}
-      </Fragment>
-    )
+    if (this.state.parsed) {
+      return (
+        <Fragment>
+          <DomainInfo searchTerm={this.state.parsed} />
+          {/* <SubDomainResults searchTerm={searchTerm} /> */}
+        </Fragment>
+      )
+    } else {
+      return ''
+    }
   }
 }
 

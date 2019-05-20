@@ -123,6 +123,8 @@ function NameDetails({ domain, isOwner, refetch, account }) {
   } else {
     contentMutation = SET_CONTENTHASH
   }
+
+  const showExplainer = !parseInt(domain.resolver)
   return (
     <>
       <Route
@@ -149,7 +151,7 @@ function NameDetails({ domain, isOwner, refetch, account }) {
             </Details>
           ) : (
             <Details data-testid="name-details">
-              {isOwner && <SetupName />}
+              {isOwner && <SetupName initialState={showExplainer} />}
               {domain.parent && (
                 <DetailsItem uneditable>
                   <DetailsKey>Parent</DetailsKey>

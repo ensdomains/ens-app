@@ -60,6 +60,13 @@ const Block = styled('section')`
 
 function SetupName({ initialState = false }) {
   const [open, setOpen] = useState(initialState)
+  const [initial, setInitial] = useState(initialState)
+  // Change the open state when resolver is set/unset
+  if (initial !== initialState) {
+    setInitial(initialState)
+    setOpen(initialState)
+  }
+
   const toggleOpen = () => setOpen(!open)
   return (
     <SetupNameContainer>
@@ -91,7 +98,7 @@ function SetupName({ initialState = false }) {
           <p>
             Once you set your address, you will see a message saying the reverse
             pointer is not set. Click the arrow in the field to expand, then
-            click the button ‘point’. This will translate your address into your
+            click the button ‘save’. This will translate your address into your
             new name.
           </p>
         </Block>

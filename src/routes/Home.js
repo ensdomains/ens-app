@@ -89,10 +89,13 @@ const Search = styled(SearchDefault)`
 const NetworkStatus = styled('div')`
   position: absolute;
   top: 20px;
-  left: 40px;
+  left: 30px;
   color: white;
   font-weight: 200;
   text-transform: capitalize;
+  ${mq.medium`
+    left: 40px;
+  `}
 
   &:before {
     position: absolute;
@@ -208,11 +211,16 @@ const PermanentRegistrarIcon = styled(DefaultPermanentRegistrarIcon)`
 const PermanentRegistrarTitle = styled('h2')`
   font-family: Overpass;
   font-weight: 500;
-  font-size: 30px;
+  font-size: 22px;
   color: #ffffff;
   text-align: center;
   line-height: 38px;
   max-width: 500px;
+  padding: 0 20px;
+
+  ${mq.medium`
+    font-size: 30px;
+  `}
 `
 
 export default props => (

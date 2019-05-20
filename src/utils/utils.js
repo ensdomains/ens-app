@@ -1,7 +1,8 @@
-import { getNetworkId } from '@ensdomains/ui'
-import uts46 from 'idna-uts46-hx'
+import { getNetworkId } from '../api/web3'
 import { addressUtils } from '@0xproject/utils'
 import tlds from '../constants/tlds.json'
+import { normalize } from 'eth-ens-namehash'
+
 //import { checkLabelHash } from '../updaters/preImageDB'
 
 export const uniq = (a, param) =>
@@ -52,10 +53,7 @@ export function validateName(name) {
   const hasEmptyLabels = name.split('.').filter(e => e.length < 1).length > 0
   if (hasEmptyLabels) throw new Error('Domain cannot have empty labels')
   try {
-    return uts46.toUnicode(name, {
-      useStd3ASCII: true,
-      transitional: false
-    })
+    return normalize(name)
   } catch (e) {
     throw e
   }
@@ -87,7 +85,7 @@ export const parseSearchTerm = term => {
     const tld = term.match(regex) ? term.match(regex)[0] : ''
 
     if (tlds[tld] && tlds[tld].supported) {
-      if (tld === 'eth' && termArray[termArray.length - 2].length < 7) {
+      if (tld === 'eth' && isShortName(termArray[termArray.length - 2])) {
         return 'short'
       }
       return 'supported'
@@ -151,3 +149,7 @@ export function isElementInViewport(el) {
 }
 
 export const emptyAddress = '0x0000000000000000000000000000000000000000'
+
+export function isShortName(term) {
+  return [...term].length < 7
+}
