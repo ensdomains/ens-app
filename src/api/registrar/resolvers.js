@@ -38,14 +38,9 @@ const resolvers = {
       //Generate secret
       const secret = randomSecret()
 
-      const blah = commit(label, secret)
-      console.log('commit', blah)
-      blah.on('transactionHash', () => console.log('foo'))
-
       secrets[label] = secret
       //TODO: Save secret to localStorage with name as the key
-      const tx = () => commit(label, secret)
-      //console.log(tx)
+      const tx = await commit(label, secret)
       return sendHelper(tx)
     },
     async register(_, { label, duration }) {
