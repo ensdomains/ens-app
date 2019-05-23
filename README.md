@@ -194,6 +194,8 @@ const className = {
 <Address className={className} provider={web3.givenProvider} />
 
 You can rewrite the css to suite your UI.
+
+I highly recommend using styled-components so that you can have the elements named same as what we have here.
 ```
 
 ## End to end Testing
