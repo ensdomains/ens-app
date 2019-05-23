@@ -13,6 +13,7 @@ import Home from './routes/Home'
 import SearchResults from './routes/SearchResults'
 import SingleName from './routes/SingleName'
 import Favourites from './routes/Favourites'
+import Demo from './routes/Demo'
 import About from './routes/About'
 import Modal from './components/Modal/Modal'
 import Confirm from './components/SingleName/Confirm'
@@ -64,6 +65,7 @@ const App = () => (
                   <Route path="/favourites" component={Favourites} />
                   <Route path="/my-bids" component={SearchResults} />
                   <Route path="/about" component={About} />
+                  <Route path="/demo" component={Demo} />
                   <Route path="/how-it-works" component={SearchResults} />
                   <Route path="/search/:searchTerm" component={SearchResults} />
                   <Route path="/name/:name" component={SingleName} />
