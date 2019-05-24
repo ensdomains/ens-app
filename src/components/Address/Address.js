@@ -24,16 +24,12 @@ class AddressInput extends React.Component {
       error: null
     }
 
-    this.placeholder =
-      'placeholder' in props
-        ? props.placeholder
-        : 'Enter Ethereum name or address'
-    this.showBlockies = 'showBlockies' in props ? props.showBlockies : true
-    this.showSearchIcon =
-      'showSearchIcon' in props ? props.showSearchIcon : true
-    this.className = props.className || ''
-    this.onError = props.onError || function() {}
-    this.onResolve = props.onResolve || function() {}
+    this.placeholder = props.placeholder;
+    this.showBlockies = props.showBlockies;
+    this.showSearchIcon = props.showSearchIcon;
+    this.className = props.className;
+    this.onError = props.onError;
+    this.onResolve = props.onResolve;
 
     this.ens = new ENS(props.provider)
 
@@ -47,7 +43,7 @@ class AddressInput extends React.Component {
 
       this.onResolve(result)
       this.onError(null)
-    } catch (error) {
+    } catch(error) {
       this.setState({ error: error.toString(), resolvedAddress: null })
 
       this.onResolve(null)
@@ -70,7 +66,7 @@ class AddressInput extends React.Component {
     try {
       this.setState({ isResolvingInProgress: true, resolvedAddress: null })
       return await fn()
-    } catch (error) {
+    } catch(error) {
       if (error && error.message && error.message === ENS_NOT_FOUND) return
       throw error
     } finally {
@@ -118,7 +114,7 @@ class AddressInput extends React.Component {
       <div
         className={`cmp-address ${this.className} ${
           this.state.resolvedAddress ? 'resolved' : ''
-        } ${this.state.error ? 'error' : ''}`}
+          } ${this.state.error ? 'error' : ''}`}
       >
         <div className="input-wrapper">
           <div className="indicator">
@@ -156,6 +152,17 @@ AddressInput.propTypes = {
   onError: PropTypes.func,
   onResolve: PropTypes.func,
   className: PropTypes.string
+}
+
+AddressInput.defaultProps = {
+  placeholder: 'Enter Ethereum name or address',
+  showBlockies: true,
+  showSearchIcon: true,
+  className: '',
+  onError: function() {
+  },
+  onResolve: function() {
+  }
 }
 
 export default AddressInput
