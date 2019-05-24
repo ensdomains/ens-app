@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import ENS from 'ethereum-ens'
 
 function useDebounce(value, timeout) {
@@ -108,6 +109,17 @@ function Address({ className, provider, onComplete, placeholder }) {
       )}
     </AutoComplete>
   )
+}
+
+Address.propTypes = {
+  className: PropTypes.object.isRequired,
+  provider: PropTypes.object.isRequired,
+  onComplete: PropTypes.func.isRequired,
+  placeholder: PropTypes.string
+}
+
+Address.defaultProps = {
+  placeholder: 'Enter Address or ENS Name'
 }
 
 export default Address
