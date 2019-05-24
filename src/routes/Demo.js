@@ -75,6 +75,7 @@ const DemoView = () => (
     className={ClassName}
     provider={web3.givenProvider}
     onComplete={response => onComplete(response)}
+    placeholder="Enter Address or ENS Name"
   />
 )
 export default DemoView
