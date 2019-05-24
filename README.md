@@ -178,15 +178,15 @@ const className = {
 
 ### Props definition
 
-The provider is a web3 provider that is passed down to the Address component to use to resolve the inputs provided.
+| Props       | Definition                                                                                                                                                |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Provider    | The provider is a web3 provider that is passed down to the Address component to use to resolve the inputs provided.                                       |
+| ClassName   | ClassName is used to pass styles down to the component from the parent component.                                                                         |
+| Placeholder | Placeholder is optional. If it is not provided, don't worry there is a default placeholder title.                                                         |
+| onComplete  | The onComplete props is passed down to the Address Component so that the address component can send message back to the parent component as events happen |
 
-ClassName is used to pass styles down to the component from the parent component.
 You can rewrite the css to suite your UI.
 I highly recommend using styled-components so that you can have the elements named same as what we have here.
-
-Placeholder is optional. If it is not provided, don't worry there is a default placeholder title.
-
-The onComplete props is passed down to the Address Component so that the address component can send message back to the parent component as events happen
 
 See localhost:<YOUR_PORT_NUMBER>/demo to view this component in action
 
