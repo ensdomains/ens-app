@@ -175,6 +175,9 @@ The onComplete props is passed down to the Address Component so that the address
 You can rewrite the css to suite your UI.
 
 I highly recommend using styled-components so that you can have the elements named same as what we have here.
+
+See localhost:<YOUR_PORT_NUMBER>/demo to view this component in action
+
 ```
 
 ## End to end Testing
