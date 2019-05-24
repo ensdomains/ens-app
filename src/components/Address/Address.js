@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import ENS from 'ethereum-ens'
-import { isValid } from 'ipaddr.js'
 
 function useDebounce(value, delay) {
   const [debouncedValue, setDebouncedValue] = useState(value)
@@ -52,11 +51,11 @@ function resolveAddress(search, ens) {
     .then(addr => addr)
     .catch(err => {
       console.error(err)
-      return 'Unable to find address'
+      return 'Unable to find name'
     })
 }
 
-const AddressInput = ({ provider, className }) => {
+const AddressInput = ({ provider, classNames }) => {
   const [inputValue, setInputValue] = useState('')
   const [inputType, setInputType] = useState('')
   const [resolvedAddress, setResolvedAddress] = useState('')
@@ -84,7 +83,7 @@ const AddressInput = ({ provider, className }) => {
         }
       } else {
         setIsResolving(false)
-        alert('wrong input')
+        setResolvedAddress('Invalid Input')
       }
     } else {
       setIsResolving(false)
@@ -93,9 +92,10 @@ const AddressInput = ({ provider, className }) => {
 
   return (
     <>
-      <label>Search ENS name </label>
+      <label className={`${classNames.label}`}>Search ENS name </label>
       <input
-        onChange={async e => {
+        className={`${classNames.input}`}
+        onChange={e => {
           setInputValue(e.currentTarget.value)
         }}
       />
@@ -106,7 +106,8 @@ const AddressInput = ({ provider, className }) => {
 }
 
 AddressInput.propTypes = {
-  provider: PropTypes.object
+  provider: PropTypes.object,
+  classNames: PropTypes.object
 }
 
 export default AddressInput
