@@ -134,7 +134,7 @@ const AutoComplete = styled.div`
     font-family: Overpass;
     font-weight: 100;
     ${mq.medium`
-      width: calc(100% - 162px);
+      width: calc(100% - 20px);
       font-size: 28px;
     `}
 
@@ -168,17 +168,27 @@ const className = {
   AutoComplete,
 }
 
-<Address className={className} provider={web3.givenProvider} onComplete={msg => YourMethodHandler(msg)}/>
-
-The onComplete props is passed down to the Address Component so that the address (child) component can send message back to the parent component as events happen
-
-You can rewrite the css to suite your UI.
-
-I highly recommend using styled-components so that you can have the elements named same as what we have here.
-
-See localhost:<YOUR_PORT_NUMBER>/demo to view this component in action
+<Address
+  className={className}
+  provider={web3.givenProvider}
+  placeholder="Search with ETH Address and ENS Names"
+  onComplete={msg => YourMethodHandler(msg)}/>
 
 ```
+
+### Props definition
+
+The provider is a web3 provider that is passed down to the Address component to use to resolve the inputs provided.
+
+ClassName is used to pass styles down to the component from the parent component.
+You can rewrite the css to suite your UI.
+I highly recommend using styled-components so that you can have the elements named same as what we have here.
+
+Placeholder is optional. If it is not provided, don't worry there is a default placeholder title.
+
+The onComplete props is passed down to the Address Component so that the address component can send message back to the parent component as events happen
+
+See localhost:<YOUR_PORT_NUMBER>/demo to view this component in action
 
 ## End to end Testing
 
