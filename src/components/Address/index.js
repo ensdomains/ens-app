@@ -24,18 +24,32 @@ async function resolveENSName(value, provider) {
   const ethereumRegEx = /^0x[a-fA-F0-9]{40}$/
   const ens = new ENS(provider)
   if (ethereumRegEx.test(value)) {
-    const name = await ens.reverse(value).name()
-    if (value != (await ens.resolver(name).addr())) {
-      return {
-        type: 'error',
-        data: 'Invalid resolver'
-      }
-    } else {
-      return {
-        type: 'success',
-        data: name
-      }
-    }
+    return await ens
+      .reverse(value)
+      .name()
+      .then(async result => {
+        const address = await ens.resolver(result).addr()
+        if (value !== address) {
+          return {
+            type: 'error',
+            data: ''
+          }
+        } else {
+          return {
+            type: 'success',
+            data: {
+              resolved: result,
+              address: address
+            }
+          }
+        }
+      })
+      .catch(err => {
+        return {
+          type: 'error',
+          data: ''
+        }
+      })
   } else {
     if (value.includes('.')) {
       return ens
@@ -44,7 +58,10 @@ async function resolveENSName(value, provider) {
         .then(response => {
           return {
             type: 'success',
-            data: response
+            data: {
+              resolved: response,
+              address: response
+            }
           }
         })
         .catch(err => {
@@ -73,9 +90,13 @@ function Address({ className, provider, onComplete, placeholder }) {
         setIsSearching(true)
 
         resolveENSName(debounceSearchTerm, provider).then(response => {
+          console.log(response.type)
           setIsSearching(false)
           if (response.type === 'success') {
             setResolvedAddress(response.data)
+            setErrorMessage(null)
+          } else if (response.type === 'empty') {
+            setResolvedAddress(null)
             setErrorMessage(null)
           } else {
             setResolvedAddress(null)
@@ -99,8 +120,10 @@ function Address({ className, provider, onComplete, placeholder }) {
       />
       {!isSearching && resolvedAddress && (
         <>
-          {Blockies && <Blockies address={resolvedAddress} imageSize={40} />}
-          <span className="address">{resolvedAddress}</span>
+          {Blockies && (
+            <Blockies address={resolvedAddress.address} imageSize={40} />
+          )}
+          <span className="address">{resolvedAddress.resolved}</span>
         </>
       )}
       {isSearching && <span className="searching">Searching...</span>}
