@@ -43,7 +43,7 @@ function resolveENSName(value, provider) {
   }
 }
 
-function Address({ className, provider }) {
+function Address({ className, provider, onComplete }) {
   const { Blockies, AutoComplete } = className
   const [value, setValue] = useState(null)
   const [resolvedAddress, setResolvedAddress] = useState(null)
@@ -80,6 +80,7 @@ function Address({ className, provider }) {
         value={value ? value : ''}
         onChange={e => setValue(e.target.value)}
         placeholder="Enter Address or ENS Name"
+        onComplete={onComplete(resolvedAddress || errorMessage)}
       />
       {!isSearching && resolvedAddress && (
         <>

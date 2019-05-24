@@ -67,8 +67,14 @@ const ClassName = {
 }
 
 const web3 = new Web3(Web3.givenProvider || 'ws://localhost:8546', null, {})
-
+const onComplete = data => {
+  console.log('Response ', data)
+}
 const DemoView = () => (
-  <Address className={ClassName} provider={web3.givenProvider} />
+  <Address
+    className={ClassName}
+    provider={web3.givenProvider}
+    onComplete={response => onComplete(response)}
+  />
 )
 export default DemoView
