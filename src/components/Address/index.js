@@ -36,21 +36,24 @@ async function resolveENSName(value, provider) {
       }
     }
   } else {
-    return ens
-      .resolver(value)
-      .addr()
-      .then(response => {
-        return {
-          type: 'success',
-          data: response
-        }
-      })
-      .catch(err => {
-        return {
-          type: 'error',
-          data: err.toString()
-        }
-      })
+    if (value.includes('.')) {
+      return ens
+        .resolver(value)
+        .addr()
+        .then(response => {
+          return {
+            type: 'success',
+            data: response
+          }
+        })
+        .catch(err => {
+          return {
+            type: 'error',
+            data: err.toString()
+          }
+        })
+    }
+    return false
   }
 }
 
