@@ -19,11 +19,22 @@ function useDebounce(value, timeout) {
   return debounceValue
 }
 
-function resolveENSName(value, provider) {
+async function resolveENSName(value, provider) {
   const ethereumRegEx = /^0x[a-fA-F0-9]{40}$/
   const ens = new ENS(provider)
   if (ethereumRegEx.test(value)) {
-    return value
+    const name = await ens.reverse(value).name()
+    if (value != (await ens.resolver(name).addr())) {
+      return {
+        type: 'error',
+        data: 'Invalid resolver'
+      }
+    } else {
+      return {
+        type: 'success',
+        data: name
+      }
+    }
   } else {
     return ens
       .resolver(value)
@@ -43,7 +54,7 @@ function resolveENSName(value, provider) {
   }
 }
 
-function Address({ className, provider, onComplete }) {
+function Address({ className, provider, onComplete, placeholder }) {
   const { Blockies, AutoComplete } = className
   const [value, setValue] = useState(null)
   const [resolvedAddress, setResolvedAddress] = useState(null)
@@ -79,8 +90,8 @@ function Address({ className, provider, onComplete }) {
         type="text"
         value={value ? value : ''}
         onChange={e => setValue(e.target.value)}
-        placeholder="Enter Address or ENS Name"
         onComplete={onComplete(resolvedAddress || errorMessage)}
+        placeholder={placeholder}
       />
       {!isSearching && resolvedAddress && (
         <>
