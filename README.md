@@ -168,7 +168,9 @@ const className = {
   AutoComplete,
 }
 
-<Address className={className} provider={web3.givenProvider} />
+<Address className={className} provider={web3.givenProvider} onComplete={msg => YourMethodHandler(msg)}/>
+
+The onComplete props is passed down to the Address Component so that the address (child) component can send message back to the parent component as events happen
 
 You can rewrite the css to suite your UI.
 
