@@ -16,6 +16,7 @@ import Favourites from './routes/Favourites'
 import About from './routes/About'
 import Modal from './components/Modal/Modal'
 import Confirm from './components/SingleName/Confirm'
+import { TestPage } from './routes/Test'
 import { NetworkError } from './components/Error/Errors'
 import { CONFIRM } from './modals'
 
@@ -60,6 +61,7 @@ const App = () => (
                     component={Home}
                     layout={HomePageLayout}
                   />
+                  <Route path="/test" component={TestPage} />
                   <Route path="/test-registrar" component={TestRegistrar} />
                   <Route path="/favourites" component={Favourites} />
                   <Route path="/my-bids" component={SearchResults} />
