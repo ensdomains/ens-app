@@ -32,7 +32,7 @@ const AutoComplete = styled.div`
     font-family: Overpass;
     font-weight: 100;
     ${mq.medium`
-      width: calc(100% - 162px);
+      width: calc(100% - 20px);
       font-size: 28px;
     `}
 
