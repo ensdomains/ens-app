@@ -90,13 +90,9 @@ function Address({ className, provider, onComplete, placeholder }) {
         setIsSearching(true)
 
         resolveENSName(debounceSearchTerm, provider).then(response => {
-          console.log(response.type)
           setIsSearching(false)
           if (response.type === 'success') {
             setResolvedAddress(response.data)
-            setErrorMessage(null)
-          } else if (response.type === 'empty') {
-            setResolvedAddress(null)
             setErrorMessage(null)
           } else {
             setResolvedAddress(null)
