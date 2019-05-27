@@ -59,7 +59,6 @@ describe('Address', () => {
       .should('have.value', NAME)
 
     cy.get('.cmp-address:nth(2) .blockies').should('not.be.visible')
-    cy.get('.cmp-address:nth(2) .tick-icon').should('be.visible')
   })
 
   it('test #4 custom placeholder', () => {
@@ -76,13 +75,16 @@ describe('Address', () => {
       .should('have.value', NAME)
 
     cy.get('.resolve-result').should('contain', ADDRESS)
+    cy.get('.blockies').should('have.attr', 'style').then((attr) => {
+      cy.get('.cmp-address:nth(4) input')
+        .clear()
+        .type(ADDRESS)
+        .should('have.value', ADDRESS)
 
-    cy.get('.cmp-address:nth(4) input')
-      .clear()
-      .type(ADDRESS)
-      .should('have.value', ADDRESS)
+      cy.get('.resolve-result').should('contain', NAME)
 
-    cy.get('.resolve-result').should('contain', NAME)
+      cy.get('.blockies').should('have.attr', 'style', attr)
+    })
   })
 
   it('test #6 check onResolve', () => {
