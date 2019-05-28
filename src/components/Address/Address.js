@@ -100,7 +100,7 @@ function Address(props) {
 
       if (address) {
         return <SingleNameBlockies
-          address={address}
+          address={address.toLowerCase()}
           imageSize={40}
           className="blockies"
         />
