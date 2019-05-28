@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import ENS from 'ethereum-ens'
 import _ from 'lodash'
@@ -17,12 +17,11 @@ function Address(props) {
   const [inputValue, setInputValue] = useState('')
   const [isResolvingInProgress, setIsResolvingInProgress] = useState(false)
   const [error, setError] = useState(null)
+  const [inputDebouncer, setInputDebouncer] = useState(null)
 
-  const ens = new ENS(props.provider)
-
-  const inputDebouncerHandler = async (address) => {
+  const inputDebouncerHandler = async (ens, address) => {
     try {
-      const result = await resolveName(address)
+      const result = await resolveName(ens, address)
       setError(null)
       setResolvedAddress(result)
 
@@ -37,7 +36,10 @@ function Address(props) {
     }
   }
 
-  const inputDebouncer = useCallback(_.debounce(inputDebouncerHandler, 300), [])
+  useEffect(() => {
+    const ens = new ENS(props.provider)
+    setInputDebouncer(() => _.debounce(inputDebouncerHandler.bind(null, ens), 500))
+  }, [props.provider])
 
   const handleInput = async (address) => {
     if (!address) {
@@ -65,7 +67,7 @@ function Address(props) {
     }
   }
 
-  const resolveName = async (address) => {
+  const resolveName = async (ens, address) => {
     const addressType = getEthAddressType(address)
 
     if (addressType === ETH_ADDRESS_TYPE.name) {
