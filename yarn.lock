@@ -1019,9 +1019,9 @@
     web3-utils "^1.0.0-beta.31"
 
 "@ensdomains/ens@^0.3.5":
-  version "0.3.6"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ens/-/ens-0.3.6.tgz#232af3b1b0eaff06eee265f95465448e61d69d2d"
-  integrity sha512-yV7bypuU8ZSTvfAdcPQxhyLUdUnoZz7krORunfLAMFOgJ1tBr+2A4o9VaHXAa/GAg3LI+YdYc4J55RsZPXv11A==
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ens/-/ens-0.3.8.tgz#d5135ff9edf310a2f879a9fa9f384f91db16e4cd"
+  integrity sha512-XuZU35xAvuUE/IxXD5NJu/EKCYUne0Ru011nhFvqzMuOfCt8YLC5N45al309tsa4LubbDYiWCxmSFovam0BvNg==
   dependencies:
     bluebird "^3.5.2"
     eth-ens-namehash "^1.0.2"
@@ -1045,9 +1045,9 @@
     web3-utils "^1.0.0-beta.48"
 
 "@ensdomains/mock@^1.0.7":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-1.0.7.tgz#cc57501316f2b6f0ebfe11439f5b224b25cec898"
-  integrity sha512-/H/tiIHvCcCA5HbZUjYbazCv/sHfeMrKizUWgafeWnIfBzEqQyXsK29HKdD9X3A6H1RtbRfRAfrGSji5ESr0ng==
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-1.0.9.tgz#01f937a15aa4dd7f6bf30e95485114fa27f8b748"
+  integrity sha512-tNW/d1JrVI13BY4fCNTBWB6vNfahtDb49zWRXP6FTuSvm1NiueJtCCe4HUhYFsDrOOuTO3YThMvAZXXwej+BuA==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
@@ -1066,9 +1066,9 @@
   integrity sha512-6+xbVrajjDJJiTqtqjl18tO98YM3ceiNCOwjDzI/LZU9PadJZlKreGTgaZOQJi4bj5hyXZf3xwRU2tJOHSaPpQ==
 
 "@ensdomains/ui@^1.0.8":
-  version "1.0.42"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.0.42.tgz#8c084a16d1a9924aecbab9ba77163ae563e40469"
-  integrity sha512-WQJ/Ip2TyipuItF267RH+EEElmNugZJhO1hVK+Xl+hZVHR0CfcuhUJEEgOjFLiOn9iQ+mCyNbv1Yycq06/Fmhw==
+  version "1.0.44"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.0.44.tgz#7350e066d2239cd0740b8418a6010b2694ef72a0"
+  integrity sha512-Iyt0qdpw5xi/zRTB7saWyGc7Gmexr9nWoOtUGuMC0BxhMqWQnKsmcC2X8DqiOjqKF5knOeJzDq2hJ6zLvoI6OQ==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
@@ -4486,6 +4486,7 @@ detect-newline@^2.1.0:
 detect-node@2.0.3, detect-node@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/detect-node/-/detect-node-2.0.3.tgz#a2033c09cc8e158d37748fbde7507832bd6ce127"
+  integrity sha1-ogM8CcyOFY03dI+951B4Mr1s4Sc=
 
 detect-port-alt@1.1.6:
   version "1.1.6"
@@ -7481,6 +7482,7 @@ isobject@^3.0.0, isobject@^3.0.1:
 isomorphic-fetch@^2.1.1, isomorphic-fetch@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/isomorphic-fetch/-/isomorphic-fetch-2.2.1.tgz#611ae1acf14f5e81f729507472819fe9733558a9"
+  integrity sha1-YRrhrPFPXoH3KVB0coGf6XM1WKk=
   dependencies:
     node-fetch "^1.0.1"
     whatwg-fetch ">=0.10.0"
