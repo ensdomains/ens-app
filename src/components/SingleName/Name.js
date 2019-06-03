@@ -88,6 +88,13 @@ function isOwnerOfDomain(domain, account) {
   return false
 }
 
+function isOwnerOfParentDomain(domain, account) {
+  if (domain.parentOwner !== EMPTY_ADDRESS) {
+    return domain.parentOwner.toLowerCase() === account.toLowerCase()
+  }
+  return false
+}
+
 function Name({ details: domain, name, pathname, refetch }) {
   const smallBP = useMediaMin('small')
   const percentDone = 0
@@ -97,6 +104,7 @@ function Name({ details: domain, name, pathname, refetch }) {
       {({ account }) => {
         const hasAnOwner = domain.owner !== EMPTY_ADDRESS
         const isOwner = isOwnerOfDomain(domain, account)
+        const isOwnerOfParent = isOwnerOfParentDomain(domain, account)
         const isDeedOwner = domain.deedOwner === account
         const isRegistrant = domain.registrant === account
         const registrationOpen = isRegistrationOpen(domain, isDeedOwner)
@@ -135,6 +143,7 @@ function Name({ details: domain, name, pathname, refetch }) {
                 pathname={pathname}
                 name={name}
                 isOwner={isOwner}
+                isOwnerOfParent={isOwnerOfParent}
                 refetch={refetch}
                 account={account}
               />
