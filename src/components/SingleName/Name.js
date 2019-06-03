@@ -118,7 +118,13 @@ function Name({ details: domain, name, pathname, refetch }) {
         return (
           <NameContainer state={isOwner ? 'Yours' : domain.state}>
             <TopBar percentDone={percentDone}>
-              <Title>{name}</Title>
+              <Title>
+                {domain.decrypted
+                  ? name
+                  : domain.name.split('.')[0].slice(0, 10) +
+                    '.' +
+                    domain.parent}
+              </Title>
               <RightBar>
                 {!!ownerType && <Owner>{ownerType}</Owner>}
                 <Favourite domain={domain} />

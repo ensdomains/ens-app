@@ -13,7 +13,8 @@ import {
   setContenthash,
   registerTestdomain,
   createSubdomain,
-  expiryTimes
+  expiryTimes,
+  isDecrypted
 } from '@ensdomains/ui'
 import { getEntry } from '@ensdomains/ui'
 import { query } from '../subDomainRegistrar'
@@ -56,6 +57,7 @@ const resolvers = {
     singleName: async (_, { name }, { cache }) => {
       try {
         const nameArray = name.split('.')
+        const decrypted = isDecrypted(name)
         const networkId = await getNetworkId()
         let node = {
           name: null,
@@ -68,6 +70,7 @@ const resolvers = {
           highestBid: null,
           state: null,
           label: null,
+          decrypted,
           domain: null,
           price: null,
           rent: null,
