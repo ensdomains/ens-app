@@ -243,7 +243,7 @@ const resolvers = {
     },
     setOwner: async (_, { name, address }, { cache }) => {
       try {
-        const tx = async () => await setOwner(name, address)
+        const tx = await setOwner(name, address)
         return sendHelper(tx)
       } catch (e) {
         console.log(e)
