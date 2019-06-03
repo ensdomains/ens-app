@@ -13,7 +13,8 @@ import {
   setContenthash,
   registerTestdomain,
   createSubdomain,
-  expiryTimes
+  expiryTimes,
+  isDecrypted
 } from '@ensdomains/ui'
 import { getEntry } from '@ensdomains/ui'
 import { query } from '../subDomainRegistrar'
@@ -51,16 +52,12 @@ async function getParent(name) {
   return [parent, parentOwner]
 }
 
-function isDecrypted(label) {
-  return label.length === 66 && label.startsWith('0x') ? false : true
-}
-
 const resolvers = {
   Query: {
     singleName: async (_, { name }, { cache }) => {
       try {
         const nameArray = name.split('.')
-        const decrypted = isDecrypted(nameArray[0])
+        const decrypted = isDecrypted(name)
         const networkId = await getNetworkId()
         let node = {
           name: null,
