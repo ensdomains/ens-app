@@ -1,5 +1,5 @@
 import subDomainRegistrarContract from './contracts/subDomainRegistrarContract.json'
-import getWeb3 from './web3'
+import { getWeb3 } from '@ensdomains/ui'
 import domains from '../constants/domains.json'
 let subDomainRegistrars = {}
 
