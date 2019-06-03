@@ -51,11 +51,16 @@ async function getParent(name) {
   return [parent, parentOwner]
 }
 
+function isDecrypted(label) {
+  return label.length === 66 && label.startsWith('0x') ? false : true
+}
+
 const resolvers = {
   Query: {
     singleName: async (_, { name }, { cache }) => {
       try {
         const nameArray = name.split('.')
+        const decrypted = isDecrypted(nameArray[0])
         const networkId = await getNetworkId()
         let node = {
           name: null,
@@ -68,6 +73,7 @@ const resolvers = {
           highestBid: null,
           state: null,
           label: null,
+          decrypted,
           domain: null,
           price: null,
           rent: null,
