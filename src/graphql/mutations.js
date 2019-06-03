@@ -72,6 +72,12 @@ export const SET_OWNER = gql`
   }
 `
 
+export const SET_SUBNODE_OWNER = gql`
+  mutation setSubnodeOwner($name: String, $address: String) {
+    setSubnodeOwner(name: $name, address: $address) @client
+  }
+`
+
 export const SET_NAME = gql`
   mutation setName($name: String) {
     setName(name: $name) @client
