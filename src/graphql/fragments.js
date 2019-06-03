@@ -4,6 +4,7 @@ export const NodeFields = gql`
   fragment NodeFields on Node {
     name
     parent
+    parentOwner
     owner
     label
     resolver

@@ -39,10 +39,15 @@ const defaults = {
   transactionHistory: []
 }
 
-function getParent(name) {
+async function getParent(name) {
   const nameArray = name.split('.')
+  if (nameArray.length < 1) {
+    return [null, null]
+  }
   nameArray.shift()
-  return nameArray.join('.')
+  const parent = nameArray.join('.')
+  const parentOwner = await getOwner(parent)
+  return [parent, parentOwner]
 }
 
 const resolvers = {
@@ -136,11 +141,12 @@ const resolvers = {
 
         const { names } = cache.readQuery({ query: GET_ALL_NODES })
         const nodeDetails = await getDomainDetails(name)
-
+        const [parent, parentOwner] = await getParent(name)
         var detailedNode = {
           ...node,
           ...nodeDetails,
-          parent: nameArray.length > 1 ? getParent(name) : null,
+          parent,
+          parentOwner,
           __typename: 'Node'
         }
 
@@ -244,6 +250,18 @@ const resolvers = {
     setOwner: async (_, { name, address }, { cache }) => {
       try {
         const tx = await setOwner(name, address)
+        return sendHelper(tx)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    setSubnodeOwner: async (_, { name, address }, { cache }) => {
+      const nameArray = name.split('.')
+      const label = nameArray[0]
+      const parentArray = nameArray.slice(0)
+      const parent = parentArray.join('.')
+      try {
+        const tx = await setSubnodeOwner(label, parent, address)
         return sendHelper(tx)
       } catch (e) {
         console.log(e)
