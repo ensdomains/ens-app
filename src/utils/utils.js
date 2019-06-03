@@ -1,4 +1,4 @@
-import { getNetworkId } from '../api/web3'
+import { getNetworkId } from '@ensdomains/ui'
 import { addressUtils } from '@0xproject/utils'
 import tlds from '../constants/tlds.json'
 import { normalize } from 'eth-ens-namehash'

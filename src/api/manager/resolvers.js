@@ -13,11 +13,11 @@ import {
   registerTestdomain,
   createSubdomain,
   expiryTimes
-} from '../registry'
-import { getEntry } from '../registrar'
+} from '@ensdomains/ui'
+import { getEntry } from '@ensdomains/ui'
 import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
-import { getNetworkId } from '../web3'
+import { getNetworkId } from '@ensdomains/ui'
 import domains from '../../constants/domains.json'
 import { sendHelper } from '../resolverUtils'
 
@@ -243,7 +243,7 @@ const resolvers = {
     },
     setOwner: async (_, { name, address }, { cache }) => {
       try {
-        const tx = await setOwner(name, address)
+        const tx = async () => await setOwner(name, address)
         return sendHelper(tx)
       } catch (e) {
         console.log(e)
