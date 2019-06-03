@@ -1,5 +1,6 @@
 import {
   getOwner,
+  setSubnodeOwner,
   getDomainDetails,
   getSubDomains,
   getName,
@@ -258,7 +259,7 @@ const resolvers = {
     setSubnodeOwner: async (_, { name, address }, { cache }) => {
       const nameArray = name.split('.')
       const label = nameArray[0]
-      const parentArray = nameArray.slice(0)
+      const parentArray = nameArray.slice(1)
       const parent = parentArray.join('.')
       try {
         const tx = await setSubnodeOwner(label, parent, address)
