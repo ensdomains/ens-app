@@ -13,11 +13,11 @@ import {
   registerTestdomain,
   createSubdomain,
   expiryTimes
-} from '../registry'
-import { getEntry } from '../registrar'
+} from '@ensdomains/ui'
+import { getEntry } from '@ensdomains/ui'
 import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
-import { getNetworkId } from '../web3'
+import { getNetworkId } from '@ensdomains/ui'
 import domains from '../../constants/domains.json'
 import { sendHelper } from '../resolverUtils'
 

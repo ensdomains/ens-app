@@ -39,7 +39,9 @@ function SingleName({
       if (_type === 'supported' || _type === 'tld') {
         setValid(true)
       } else {
-        _type = 'unsupported'
+        if (_type == !'short') {
+          _type = 'unsupported'
+        }
         setValid(false)
       }
       setType(_type)

@@ -11,9 +11,9 @@ import {
   transferRegistrars,
   releaseDeed,
   transferOwner,
-  reclaim
-} from '../registrar'
-import { getOwner } from '../registry'
+  reclaim,
+  getOwner
+} from '@ensdomains/ui'
 import modeNames from '../modes'
 import { sendHelper } from '../resolverUtils'
 

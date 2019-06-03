@@ -1,7 +1,8 @@
-import { getNetworkId } from '../api/web3'
-import uts46 from 'idna-uts46-hx'
+import { getNetworkId } from '@ensdomains/ui'
 import { addressUtils } from '@0xproject/utils'
 import tlds from '../constants/tlds.json'
+import { normalize } from 'eth-ens-namehash'
+
 //import { checkLabelHash } from '../updaters/preImageDB'
 
 export const uniq = (a, param) =>
@@ -52,10 +53,7 @@ export function validateName(name) {
   const hasEmptyLabels = name.split('.').filter(e => e.length < 1).length > 0
   if (hasEmptyLabels) throw new Error('Domain cannot have empty labels')
   try {
-    return uts46.toUnicode(name, {
-      useStd3ASCII: true,
-      transitional: false
-    })
+    return normalize(name)
   } catch (e) {
     throw e
   }
