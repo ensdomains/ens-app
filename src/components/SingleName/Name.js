@@ -121,7 +121,9 @@ function Name({ details: domain, name, pathname, refetch }) {
               <Title>
                 {domain.decrypted
                   ? name
-                  : domain.name.split('.')[0].slice(0, 10) +
+                  : '[unknown' +
+                    domain.name.split('.')[0].slice(1, 10) +
+                    ']' +
                     '.' +
                     domain.parent}
               </Title>
