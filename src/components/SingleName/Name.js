@@ -122,7 +122,7 @@ function Name({ details: domain, name, pathname, refetch }) {
                 {domain.decrypted
                   ? name
                   : '[unknown' +
-                    domain.name.split('.')[0].slice(1, 10) +
+                    domain.name.split('.')[0].slice(1, 11) +
                     ']' +
                     '.' +
                     domain.parent}
