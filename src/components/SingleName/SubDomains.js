@@ -36,70 +36,61 @@ const SubDomainLink = styled(Link)`
   }
 `
 
-const SubDomains = ({ domain, isOwner, ...rest }) => {
-  return (
-    <SubDomainsContainer {...rest}>
-      {parseInt(domain.owner, 16) !== 0 ? (
-        <Query
-          query={GET_SUBDOMAINS_FROM_SUBGRAPH}
-          variables={{
-            id: getNamehash(domain.name)
-          }}
-        >
-          {({ loading, error, data, refetch }) => {
-            if (error) {
-              console.log('error getting subdomains', error)
-            }
-            if (loading)
-              return (
-                <>
-                  {isOwner && (
-                    <AddSubdomain domain={domain} refetch={refetch} />
-                  )}
-                  <Loader withWrap large />
-                </>
-              )
-            if (data && data.domain.subdomains.length === 0) {
-              return (
-                <>
-                  {isOwner && (
-                    <AddSubdomain domain={domain} refetch={refetch} />
-                  )}
-                  <SubDomainH2>No subdomains have been added.</SubDomainH2>
-                </>
-              )
-            }
+const SubDomains = ({ domain, isOwner, ...rest }) => (
+  <SubDomainsContainer {...rest}>
+    {parseInt(domain.owner, 16) !== 0 ? (
+      <Query
+        query={GET_SUBDOMAINS_FROM_SUBGRAPH}
+        variables={{
+          id: getNamehash(domain.name)
+        }}
+      >
+        {({ loading, error, data, refetch }) => {
+          if (error) {
+            console.error('Unable to get subdomains, error: ', error)
+          }
+          if (loading)
             return (
               <>
                 {isOwner && <AddSubdomain domain={domain} refetch={refetch} />}
-                {data &&
-                  data.domain.subdomains.map(d => {
-                    let nodeName
-                    const splitName = d.name.split('.')
-                    if (splitName.length > 1) {
-                      nodeName = splitName.slice(1).join('.')
-                    }
-                    return (
-                      <SubDomainLink key={d.name} to={`/name/${d.name}`}>
-                        <SingleNameBlockies
-                          imageSize={24}
-                          address={d.owner.id}
-                        />
-                        {d.labelName !== null
-                          ? d.name
-                          : `[unknown${d.labelHash.slice(2, 12)}].${nodeName}`}
-                      </SubDomainLink>
-                    )
-                  })}
+                <Loader withWrap large />
               </>
             )
-          }}
-        </Query>
-      ) : (
-        <SubDomainH2>No subdomains have been added.</SubDomainH2>
-      )}
-    </SubDomainsContainer>
-  )
-}
+          if (data && data.domain.subdomains.length === 0) {
+            return (
+              <>
+                {isOwner && <AddSubdomain domain={domain} refetch={refetch} />}
+                <SubDomainH2>No subdomains have been added.</SubDomainH2>
+              </>
+            )
+          }
+          return (
+            <>
+              {isOwner && <AddSubdomain domain={domain} refetch={refetch} />}
+              {data &&
+                data.domain.subdomains.map(d => {
+                  let nodeName
+                  const splitName = d.name.split('.')
+                  if (splitName.length > 1) {
+                    nodeName = splitName.slice(1).join('.')
+                  }
+                  return (
+                    <SubDomainLink key={d.name} to={`/name/${d.name}`}>
+                      <SingleNameBlockies imageSize={24} address={d.owner.id} />
+                      {d.labelName !== null
+                        ? d.name
+                        : `[unknown${d.labelhash.slice(2, 12)}].${nodeName}`}
+                    </SubDomainLink>
+                  )
+                })}
+            </>
+          )
+        }}
+      </Query>
+    ) : (
+      <SubDomainH2>No subdomains have been added.</SubDomainH2>
+    )}
+  </SubDomainsContainer>
+)
 
 export default SubDomains
