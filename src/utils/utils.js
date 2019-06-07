@@ -1,4 +1,4 @@
-import { getNetworkId } from '../api/web3'
+import { getNetworkId, isEncodedLabelHash } from '@ensdomains/ui'
 import { addressUtils } from '@0xproject/utils'
 import tlds from '../constants/tlds.json'
 import { normalize } from 'eth-ens-namehash'
@@ -50,10 +50,14 @@ export const mergeLabels = (labels1, labels2) =>
   labels1.map((label, index) => (label ? label : labels2[index]))
 
 export function validateName(name) {
-  const hasEmptyLabels = name.split('.').filter(e => e.length < 1).length > 0
+  const nameArray = name.split('.')
+  const hasEmptyLabels = nameArray.filter(e => e.length < 1).length > 0
   if (hasEmptyLabels) throw new Error('Domain cannot have empty labels')
+  const normalizedArray = nameArray.map(label => {
+    return isEncodedLabelHash(label) ? label : normalize(label)
+  })
   try {
-    return normalize(name)
+    return normalizedArray.join('.')
   } catch (e) {
     throw e
   }
