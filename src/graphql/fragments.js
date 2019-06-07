@@ -3,7 +3,9 @@ import gql from 'graphql-tag'
 export const NodeFields = gql`
   fragment NodeFields on Node {
     name
+    decrypted
     parent
+    parentOwner
     owner
     label
     resolver

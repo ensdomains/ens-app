@@ -15,6 +15,7 @@ import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
 
 import {
   SET_OWNER,
+  SET_SUBNODE_OWNER,
   SET_RESOLVER,
   SET_ADDRESS,
   SET_CONTENT,
@@ -93,7 +94,7 @@ function hasAnyRecord(domain) {
   }
 }
 
-function NameDetails({ domain, isOwner, refetch, account }) {
+function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
   const isDeedOwner = domain.deedOwner === account
   const isRegistrant = domain.registrant === account
   const isPermanentRegistrarDeployed = domain.available !== null
@@ -223,13 +224,13 @@ function NameDetails({ domain, isOwner, refetch, account }) {
                   domain={domain}
                   keyName="Controller"
                   value={domain.owner}
-                  canEdit={isOwner}
+                  canEdit={isOwner || isOwnerOfParent}
                   deedOwner={domain.deedOwner}
                   isDeedOwner={isDeedOwner}
                   type="address"
-                  editButton="Transfer"
-                  mutationButton="Transfer"
-                  mutation={SET_OWNER}
+                  editButton={isOwnerOfParent ? 'Set' : 'Transfer'}
+                  mutationButton={isOwnerOfParent ? 'Set' : 'Transfer'}
+                  mutation={isOwnerOfParent ? SET_SUBNODE_OWNER : SET_OWNER}
                   refetch={refetch}
                   confirm={true}
                 />

@@ -1,5 +1,6 @@
 import {
   getOwner,
+  setSubnodeOwner,
   getDomainDetails,
   getSubDomains,
   getName,
@@ -12,12 +13,13 @@ import {
   setContenthash,
   registerTestdomain,
   createSubdomain,
-  expiryTimes
-} from '../registry'
-import { getEntry } from '../registrar'
+  expiryTimes,
+  isDecrypted
+} from '@ensdomains/ui'
+import { getEntry } from '@ensdomains/ui'
 import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
-import { getNetworkId } from '../web3'
+import { getNetworkId } from '@ensdomains/ui'
 import domains from '../../constants/domains.json'
 import { sendHelper } from '../resolverUtils'
 
@@ -39,10 +41,15 @@ const defaults = {
   transactionHistory: []
 }
 
-function getParent(name) {
+async function getParent(name) {
   const nameArray = name.split('.')
+  if (nameArray.length < 1) {
+    return [null, null]
+  }
   nameArray.shift()
-  return nameArray.join('.')
+  const parent = nameArray.join('.')
+  const parentOwner = await getOwner(parent)
+  return [parent, parentOwner]
 }
 
 const resolvers = {
@@ -50,6 +57,7 @@ const resolvers = {
     singleName: async (_, { name }, { cache }) => {
       try {
         const nameArray = name.split('.')
+        const decrypted = isDecrypted(name)
         const networkId = await getNetworkId()
         let node = {
           name: null,
@@ -62,6 +70,7 @@ const resolvers = {
           highestBid: null,
           state: null,
           label: null,
+          decrypted,
           domain: null,
           price: null,
           rent: null,
@@ -136,11 +145,12 @@ const resolvers = {
 
         const { names } = cache.readQuery({ query: GET_ALL_NODES })
         const nodeDetails = await getDomainDetails(name)
-
+        const [parent, parentOwner] = await getParent(name)
         var detailedNode = {
           ...node,
           ...nodeDetails,
-          parent: nameArray.length > 1 ? getParent(name) : null,
+          parent,
+          parentOwner,
           __typename: 'Node'
         }
 
@@ -244,6 +254,18 @@ const resolvers = {
     setOwner: async (_, { name, address }, { cache }) => {
       try {
         const tx = await setOwner(name, address)
+        return sendHelper(tx)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    setSubnodeOwner: async (_, { name, address }, { cache }) => {
+      const nameArray = name.split('.')
+      const label = nameArray[0]
+      const parentArray = nameArray.slice(1)
+      const parent = parentArray.join('.')
+      try {
+        const tx = await setSubnodeOwner(label, parent, address)
         return sendHelper(tx)
       } catch (e) {
         console.log(e)

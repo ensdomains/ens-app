@@ -1,5 +1,5 @@
-import getWeb3, { getAccounts, getNetworkId, isReadOnly } from './web3'
-import { getAddr } from './registry'
+import { getWeb3, getAccounts, getNetworkId, isReadOnly } from '@ensdomains/ui'
+import { getAddr } from '@ensdomains/ui'
 import merge from 'lodash/merge'
 import fifsResolvers, {
   defaults as fifsDefaults
