@@ -117,6 +117,19 @@ function getDefaultMessage(keyName) {
   }
 }
 
+function getToolTipMessage(keyName) {
+  switch (keyName) {
+    case 'Resolver':
+      return 'You can only set the resolver on this name if you are the controller and are logged into your wallet'
+    case 'Controller':
+      return 'You can only transfer the controller if you are the controller or registrant and are logged into your wallet'
+    case 'Registrant':
+      return 'You can only transfer the registrant if you are the registrant and are logged into your wallet'
+    default:
+      return 'You can only make changes if you are the controller and are logged into your wallet'
+  }
+}
+
 function getInputType(
   keyName,
   {
@@ -380,7 +393,15 @@ const Editable = ({
   )
 }
 
-function ViewOnly({ value, keyName, type, deedOwner, isDeedOwner, domain }) {
+function ViewOnly({
+  editButton,
+  value,
+  keyName,
+  type,
+  deedOwner,
+  isDeedOwner,
+  domain
+}) {
   if (parseInt(value, 16) === 0) {
     let [newValue, newType] = getDefaultMessage(keyName)
     value = newValue
@@ -412,6 +433,41 @@ function ViewOnly({ value, keyName, type, deedOwner, isDeedOwner, domain }) {
             value
           )}
         </DetailsValue>
+
+        <Action>
+          {editButton ? (
+            <Tooltip
+              text={getToolTipMessage(keyName)}
+              position="top"
+              border={true}
+              warning={true}
+              offset={{ left: -30, top: 10 }}
+            >
+              {({ tooltipElement, showTooltip, hideTooltip }) => {
+                return (
+                  <EditButton
+                    onMouseOver={() => {
+                      showTooltip()
+                    }}
+                    onMouseLeave={() => {
+                      hideTooltip()
+                    }}
+                    data-testid={`edit-${keyName.toLowerCase()}`}
+                    type="disabled"
+                  >
+                    {editButton}
+                    {tooltipElement}
+                  </EditButton>
+                )
+              }}
+            </Tooltip>
+          ) : (
+            <Pencil
+              data-testid={`edit-${keyName.toLowerCase()}`}
+              disabled={true}
+            />
+          )}
+        </Action>
       </DetailsContent>
     </DetailsEditableContainer>
   )

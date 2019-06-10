@@ -251,6 +251,12 @@ class RecordItem extends Component {
               <ContentHashLink value={value} contentType={contentType} />
             )}
           </RecordsValue>
+          <Action>
+            <Pencil
+              disabled={true}
+              data-testid={`edit-${keyName.toLowerCase()}`}
+            />
+          </Action>
         </RecordsContent>
         {keyName === 'Address' &&
           value.toLowerCase() === account.toLowerCase() && (
