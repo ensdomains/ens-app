@@ -117,6 +117,19 @@ function getDefaultMessage(keyName) {
   }
 }
 
+function getToolTipMessage(keyName) {
+  switch (keyName) {
+    case 'Resolver':
+      return 'You can only set the resolver on this name if you are the controller and are logged into your wallet'
+    case 'Controller':
+      return 'You can only transfer the controller if you are the controller or registrant and are logged into your wallet'
+    case 'Registrant':
+      return 'You can only transfer the registrant if you are the registrant and are logged into your wallet'
+    default:
+      return 'You can only make changes if you are the controller and are logged into your wallet'
+  }
+}
+
 function getInputType(
   keyName,
   {
@@ -423,12 +436,30 @@ function ViewOnly({
 
         <Action>
           {editButton ? (
-            <EditButton
-              data-testid={`edit-${keyName.toLowerCase()}`}
-              type="disabled"
+            <Tooltip
+              text={getToolTipMessage(keyName)}
+              position="top"
+              border={true}
+              offset={{ left: -30, top: 10 }}
             >
-              {editButton}
-            </EditButton>
+              {({ tooltipElement, showTooltip, hideTooltip }) => {
+                return (
+                  <EditButton
+                    onMouseOver={() => {
+                      showTooltip()
+                    }}
+                    onMouseLeave={() => {
+                      hideTooltip()
+                    }}
+                    data-testid={`edit-${keyName.toLowerCase()}`}
+                    type="disabled"
+                  >
+                    {editButton}
+                    {tooltipElement}
+                  </EditButton>
+                )
+              }}
+            </Tooltip>
           ) : (
             <Pencil
               data-testid={`edit-${keyName.toLowerCase()}`}
