@@ -440,6 +440,7 @@ function ViewOnly({
               text={getToolTipMessage(keyName)}
               position="top"
               border={true}
+              warning={true}
               offset={{ left: -30, top: 10 }}
             >
               {({ tooltipElement, showTooltip, hideTooltip }) => {
