@@ -380,7 +380,15 @@ const Editable = ({
   )
 }
 
-function ViewOnly({ value, keyName, type, deedOwner, isDeedOwner, domain }) {
+function ViewOnly({
+  editButton,
+  value,
+  keyName,
+  type,
+  deedOwner,
+  isDeedOwner,
+  domain
+}) {
   if (parseInt(value, 16) === 0) {
     let [newValue, newType] = getDefaultMessage(keyName)
     value = newValue
@@ -412,6 +420,22 @@ function ViewOnly({ value, keyName, type, deedOwner, isDeedOwner, domain }) {
             value
           )}
         </DetailsValue>
+
+        <Action>
+          {editButton ? (
+            <EditButton
+              data-testid={`edit-${keyName.toLowerCase()}`}
+              type="disabled"
+            >
+              {editButton}
+            </EditButton>
+          ) : (
+            <Pencil
+              data-testid={`edit-${keyName.toLowerCase()}`}
+              disabled={true}
+            />
+          )}
+        </Action>
       </DetailsContent>
     </DetailsEditableContainer>
   )
