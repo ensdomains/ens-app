@@ -69,6 +69,15 @@ export const GET_SINGLE_NAME = gql`
 
   ${NodeFields}
 `
+
+export const GET_SUBDOMAINS = gql`
+  query getSubDomains($name: String) @client {
+    getSubDomains(name: $name) {
+      subDomains
+    }
+  }
+`
+
 export const GET_SUBDOMAINS_FROM_SUBGRAPH = gql`
   query getSubdomains($id: ID!) {
     domain(id: $id) {
