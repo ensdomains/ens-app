@@ -30,7 +30,7 @@ const SearchForm = styled('form')`
     width: 100%;
     border: none;
     border-radius: 0;
-    font-size: 14px;
+    font-size: 18px;
     font-family: Overpass;
     font-weight: 100;
     ${mq.medium`
@@ -85,7 +85,7 @@ function Search({ history, className, style }) {
       action="#"
       onSubmit={e => {
         e.preventDefault()
-        const searchTerm = input.value
+        const searchTerm = input.value.toLowerCase()
         if (searchTerm.length < 1) {
           return
         }

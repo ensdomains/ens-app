@@ -4,6 +4,7 @@ import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
 import { validateRecord } from '../../utils/records'
 import { emptyAddress } from '../../utils/utils'
+import mq from 'mediaQuery'
 
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import AddReverseRecord from './AddReverseRecord'
@@ -33,6 +34,7 @@ const RecordsItem = styled(DetailsItem)`
 const RecordsContent = styled('div')`
   display: flex;
   justify-content: flex-start;
+  align-items: center;
   position: relative;
   ${({ editing }) => editing && 'margin-bottom: 30px'};
 `
@@ -40,7 +42,12 @@ const RecordsContent = styled('div')`
 const RecordsKey = styled(DetailsKey)`
   font-size: 12px;
   margin-bottom: 0;
-  width: 200px;
+  max-width: 100%;
+  margin-right: 10px;
+  ${mq.medium`
+    width: 200px;
+    margin-right: 0px;
+  `}
 `
 
 const RecordsValue = styled(DetailsValue)`
@@ -119,7 +126,7 @@ const Editable = ({
     contentType: domain.contentType
   })
 
-  const isInvalid = newValue !== "" && !isValid
+  const isInvalid = newValue !== '' && !isValid
   return (
     <>
       <Mutation
@@ -244,6 +251,12 @@ class RecordItem extends Component {
               <ContentHashLink value={value} contentType={contentType} />
             )}
           </RecordsValue>
+          <Action>
+            <Pencil
+              disabled={true}
+              data-testid={`edit-${keyName.toLowerCase()}`}
+            />
+          </Action>
         </RecordsContent>
         {keyName === 'Address' &&
           value.toLowerCase() === account.toLowerCase() && (

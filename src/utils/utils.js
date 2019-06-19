@@ -1,7 +1,8 @@
-import { getNetworkId } from '../api/web3'
-import uts46 from 'idna-uts46-hx'
+import { getNetworkId, isEncodedLabelHash } from '@ensdomains/ui'
 import { addressUtils } from '@0xproject/utils'
 import tlds from '../constants/tlds.json'
+import { normalize } from 'eth-ens-namehash'
+
 //import { checkLabelHash } from '../updaters/preImageDB'
 
 export const uniq = (a, param) =>
@@ -49,13 +50,14 @@ export const mergeLabels = (labels1, labels2) =>
   labels1.map((label, index) => (label ? label : labels2[index]))
 
 export function validateName(name) {
-  const hasEmptyLabels = name.split('.').filter(e => e.length < 1).length > 0
+  const nameArray = name.split('.')
+  const hasEmptyLabels = nameArray.filter(e => e.length < 1).length > 0
   if (hasEmptyLabels) throw new Error('Domain cannot have empty labels')
+  const normalizedArray = nameArray.map(label => {
+    return isEncodedLabelHash(label) ? label : normalize(label)
+  })
   try {
-    return uts46.toUnicode(name, {
-      useStd3ASCII: true,
-      transitional: false
-    })
+    return normalizedArray.join('.')
   } catch (e) {
     throw e
   }
@@ -87,7 +89,7 @@ export const parseSearchTerm = term => {
     const tld = term.match(regex) ? term.match(regex)[0] : ''
 
     if (tlds[tld] && tlds[tld].supported) {
-      if (tld === 'eth' && termArray[termArray.length - 2].length < 7) {
+      if (tld === 'eth' && isShortName(termArray[termArray.length - 2])) {
         return 'short'
       }
       return 'supported'
@@ -151,3 +153,7 @@ export function isElementInViewport(el) {
 }
 
 export const emptyAddress = '0x0000000000000000000000000000000000000000'
+
+export function isShortName(term) {
+  return [...term].length < 7
+}

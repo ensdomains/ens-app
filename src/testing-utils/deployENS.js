@@ -94,6 +94,7 @@ const auctionLegacyName = async function(
 }
 
 async function deployENS({ web3, accounts, dnssec = false }) {
+  console.log({ dnssec })
   const { sha3 } = web3.utils
   function deploy(contractJSON, ...args) {
     const contract = new web3.eth.Contract(contractJSON.abi)

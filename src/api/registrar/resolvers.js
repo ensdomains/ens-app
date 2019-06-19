@@ -1,4 +1,5 @@
 import crypto from 'crypto'
+import { isShortName } from '../../utils/utils'
 
 import {
   getEntry,
@@ -9,11 +10,12 @@ import {
   renew,
   transferRegistrars,
   releaseDeed,
-  submitProof,
   transferOwner,
-  reclaim
-} from '../registrar'
-import { getOwner } from '../registry'
+  reclaim,
+  getOwner
+} from '@ensdomains/ui'
+
+import { submitProof } from '../registrar'
 import modeNames from '../modes'
 import { sendHelper } from '../resolverUtils'
 
@@ -67,8 +69,7 @@ const resolvers = {
           highestBid
         } = await getEntry(name)
         let owner = null
-
-        if (name.length < 7) {
+        if (isShortName(name)) {
           cache.writeData({
             data: defaults
           })
