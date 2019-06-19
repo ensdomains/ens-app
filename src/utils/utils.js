@@ -1,4 +1,4 @@
-import { getNetworkId, isEncodedLabelHash } from '@ensdomains/ui'
+import { getNetworkId, isEncodedLabelhash } from '@ensdomains/ui'
 import { addressUtils } from '@0xproject/utils'
 import tlds from '../constants/tlds.json'
 import { normalize } from 'eth-ens-namehash'
@@ -54,7 +54,7 @@ export function validateName(name) {
   const hasEmptyLabels = nameArray.filter(e => e.length < 1).length > 0
   if (hasEmptyLabels) throw new Error('Domain cannot have empty labels')
   const normalizedArray = nameArray.map(label => {
-    return isEncodedLabelHash(label) ? label : normalize(label)
+    return isEncodedLabelhash(label) ? label : normalize(label)
   })
   try {
     return normalizedArray.join('.')
