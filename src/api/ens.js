@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import getWeb3, { getWeb3Read, getNetworkId } from './web3'
+import { getWeb3, getWeb3Read, getNetworkId } from '@ensdomains/ui'
 import { hash, normalize } from 'eth-ens-namehash'
 import { abi as ensContract } from '@ensdomains/ens/build/contracts/ENS.json'
 import { abi as reverseRegistrarContract } from '@ensdomains/ens/build/contracts/ReverseRegistrar.json'

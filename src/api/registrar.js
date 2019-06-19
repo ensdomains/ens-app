@@ -4,7 +4,7 @@ import getENS, {
   getDnsRegistrarContract
 } from './ens'
 
-import getWeb3, { getWeb3Read, getAccount, getBlock } from './web3'
+import { getWeb3, getWeb3Read, getAccount, getBlock } from '@ensdomains/ui'
 import { abi as legacyAuctionRegistrarContract } from '@ensdomains/ens/build/contracts/HashRegistrar'
 import { abi as deedContract } from '@ensdomains/ens/build/contracts/Deed'
 import { abi as permanentRegistrarContract } from '@ensdomains/ethregistrar/build/contracts/BaseRegistrarImplementation'
