@@ -36,21 +36,11 @@ export async function sendHelper(txObj) {
   return new Promise(async (resolve, reject) => {
     resolve(txObj.hash)
     let txState = 'Pending'
-    addTransaction({ txHash, txState })
+    addTransaction({ txHash: txObj.hash, txState })
 
     const receipt = await txObj.wait()
     const txHash = receipt.transactionHash
     txState = 'Confirmed'
     addTransaction({ txHash, txState })
   })
-}
-
-export async function estimateAndSend(tx, account) {
-  let gas
-  try {
-    gas = await tx.estimateGas({ from: account })
-  } catch (e) {
-    console.log('gasEstimate error', { e, gas })
-  }
-  return () => tx.send({ from: account, gas })
 }
