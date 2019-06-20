@@ -69,6 +69,7 @@ function isLegacyAuctionedName(domain) {
 }
 
 function isEmpty(record) {
+  console.log(record)
   if (parseInt(record, 16) === 0) {
     return true
   }
@@ -331,7 +332,10 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                         account={account}
                       />
                     )}
-                    {!isEmpty(domain.content) && (
+                    {!isEmpty(
+                      domain.content,
+                      console.log('domain.content', domain.content)
+                    ) && (
                       <RecordsItem
                         domain={domain}
                         isOwner={isOwner}

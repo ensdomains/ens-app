@@ -1,5 +1,8 @@
-import { getNetworkId, isEncodedLabelHash } from '@ensdomains/ui'
-import { addressUtils } from '@0xproject/utils'
+import {
+  getNetworkId,
+  validateName as _validateName,
+  parseSearchTerm as _parseSearchTerm
+} from '@ensdomains/ui'
 import tlds from '../constants/tlds.json'
 import { normalize } from 'eth-ens-namehash'
 
@@ -50,17 +53,7 @@ export const mergeLabels = (labels1, labels2) =>
   labels1.map((label, index) => (label ? label : labels2[index]))
 
 export function validateName(name) {
-  const nameArray = name.split('.')
-  const hasEmptyLabels = nameArray.filter(e => e.length < 1).length > 0
-  if (hasEmptyLabels) throw new Error('Domain cannot have empty labels')
-  const normalizedArray = nameArray.map(label => {
-    return isEncodedLabelHash(label) ? label : normalize(label)
-  })
-  try {
-    return normalizedArray.join('.')
-  } catch (e) {
-    throw e
-  }
+  return _validateName(name)
 }
 
 export function isLabelValid(name) {
@@ -76,35 +69,7 @@ export function isLabelValid(name) {
 }
 
 export const parseSearchTerm = term => {
-  let regex = /[^.]+$/
-
-  try {
-    validateName(term)
-  } catch (e) {
-    return 'invalid'
-  }
-
-  if (term.indexOf('.') !== -1) {
-    const termArray = term.split('.')
-    const tld = term.match(regex) ? term.match(regex)[0] : ''
-
-    if (tlds[tld] && tlds[tld].supported) {
-      if (tld === 'eth' && isShortName(termArray[termArray.length - 2])) {
-        return 'short'
-      }
-      return 'supported'
-    }
-
-    return 'unsupported'
-  } else if (addressUtils.isAddress(term)) {
-    return 'address'
-  } else {
-    //check if the search term is actually a tld
-    if (Object.keys(tlds).filter(tld => term === tld).length > 0) {
-      return 'tld'
-    }
-    return 'search'
-  }
+  return _parseSearchTerm(term)
 }
 
 export function modulate(value, rangeA, rangeB, limit) {
