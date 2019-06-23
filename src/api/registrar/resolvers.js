@@ -12,10 +12,10 @@ import {
   releaseDeed,
   transferOwner,
   reclaim,
+  submitProof,
   getOwner
 } from '@ensdomains/ui'
 
-import { submitProof } from '../registrar'
 import modeNames from '../modes'
 import { sendHelper } from '../resolverUtils'
 
