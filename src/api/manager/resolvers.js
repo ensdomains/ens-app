@@ -1,5 +1,8 @@
 import {
   getOwner,
+  getEntry,
+  getDNSEntry,
+  isDNSRegistrar,
   setSubnodeOwner,
   getDomainDetails,
   getSubDomains,
@@ -16,7 +19,6 @@ import {
   expiryTimes,
   isDecrypted
 } from '@ensdomains/ui'
-import { getEntry, getDNSEntry, isDNSRegistrar } from '../registrar'
 import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
 import { getNetworkId } from '@ensdomains/ui'

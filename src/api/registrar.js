@@ -1,10 +1,13 @@
-import getENS, {
+import {
+  getWeb3,
+  getWeb3Read,
+  getAccount,
+  getBlock,
   getNamehash,
   getResolverContract,
+  getENS,
   getDnsRegistrarContract
-} from './ens'
-
-import { getWeb3, getWeb3Read, getAccount, getBlock } from '@ensdomains/ui'
+} from '@ensdomains/ui'
 import { abi as legacyAuctionRegistrarContract } from '@ensdomains/ens/build/contracts/HashRegistrar'
 import { abi as deedContract } from '@ensdomains/ens/build/contracts/Deed'
 import { abi as permanentRegistrarContract } from '@ensdomains/ethregistrar/build/contracts/BaseRegistrarImplementation'
@@ -199,9 +202,7 @@ export const isDNSRegistrar = async name => {
     isDNSSECSupported = await registrar.methods
       .supportsInterface(DNSSEC_CLAIM_ID)
       .call()
-  } catch (e) {
-    console.log('isDNSRegistrar not supported', e)
-  }
+  } catch (e) {}
   return isDNSSECSupported
 }
 
