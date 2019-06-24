@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { ApolloProvider } from 'react-apollo'
-import Web3 from 'web3'
 
 import App from 'App'
 import { setupENS } from '@ensdomains/ui'
