@@ -44,3 +44,19 @@ export async function sendHelper(txObj) {
     addTransaction({ txHash, txState })
   })
 }
+
+export function sendHelperOld(tx) {
+  return new Promise((resolve, reject) => {
+    tx()
+      .on('transactionHash', txHash => {
+        const txState = 'Pending'
+        addTransaction({ txHash, txState })
+        resolve(txHash)
+      })
+      .on('receipt', receipt => {
+        const txHash = receipt.transactionHash
+        const txState = 'Confirmed'
+        addTransaction({ txHash, txState })
+      })
+  })
+}

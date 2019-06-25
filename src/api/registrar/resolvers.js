@@ -17,7 +17,7 @@ import {
 } from '@ensdomains/ui'
 
 import modeNames from '../modes'
-import { sendHelper } from '../resolverUtils'
+import { sendHelper, sendHelperOld } from '../resolverUtils'
 
 const defaults = {}
 const secrets = {}
@@ -114,7 +114,7 @@ const resolvers = {
     },
     async submitProof(_) {
       const tx = await submitProof()
-      return sendHelper(tx)
+      return sendHelperOld(tx)
     }
   }
 }
