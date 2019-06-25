@@ -244,7 +244,6 @@ const resolvers = {
     },
     setName: async (_, { name }) => {
       try {
-        console.log(name)
         const tx = await claimAndSetReverseRecordName(name)
         return sendHelper(tx)
       } catch (e) {
