@@ -32,28 +32,15 @@ async function addTransaction({ txHash, txState }) {
   return data
 }
 
-export function sendHelper(tx) {
-  return new Promise((resolve, reject) => {
-    tx()
-      .on('transactionHash', txHash => {
-        const txState = 'Pending'
-        addTransaction({ txHash, txState })
-        resolve(txHash)
-      })
-      .on('receipt', receipt => {
-        const txHash = receipt.transactionHash
-        const txState = 'Confirmed'
-        addTransaction({ txHash, txState })
-      })
-  })
-}
+export async function sendHelper(txObj) {
+  return new Promise(async (resolve, reject) => {
+    resolve(txObj.hash)
+    let txState = 'Pending'
+    addTransaction({ txHash: txObj.hash, txState })
 
-export async function estimateAndSend(tx, account) {
-  let gas
-  try {
-    gas = await tx.estimateGas({ from: account })
-  } catch (e) {
-    console.log('gasEstimate error', { e, gas })
-  }
-  return () => tx.send({ from: account, gas })
+    const receipt = await txObj.wait()
+    const txHash = receipt.transactionHash
+    txState = 'Confirmed'
+    addTransaction({ txHash, txState })
+  })
 }
