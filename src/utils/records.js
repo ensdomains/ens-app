@@ -1,4 +1,5 @@
 import { addressUtils } from '@0xproject/utils'
+import { encodeContenthash } from '@ensdomains/ui'
 import { validateContent } from './contents'
 export function validateRecord(record) {
   if (!record.type) {
@@ -15,7 +16,12 @@ export function validateRecord(record) {
     case 'address':
       return addressUtils.isAddress(value)
     case 'content':
-      return validateContent(value)
+      const encoded = encodeContenthash(value)
+      if (encoded) {
+        return validateContent(encoded)
+      } else {
+        return false
+      }
     default:
       throw new Error('Unrecognised record type')
   }

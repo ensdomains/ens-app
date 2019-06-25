@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import { ReactComponent as ExternalLinkIcon } from '../Icons/externalLink.svg'
-import { decode } from '../../utils/contents'
+import { decodeContenthash, encodeContenthash } from '@ensdomains/ui'
 
 const ContentHashLinkContainer = styled('a')`
   display: inline-block;
@@ -31,7 +31,9 @@ const ContentHashLink = ({ value, contentType }) => {
   if (contentType === 'oldcontent') {
     return <div>{value}</div>
   }
-  const { protocolType, decoded, error } = decode(value)
+
+  const encoded = encodeContenthash(value)
+  const { protocolType, decoded, error } = decodeContenthash(encoded)
   let externalLink, url
   if (error) {
     return <DecodedError>{error}</DecodedError>

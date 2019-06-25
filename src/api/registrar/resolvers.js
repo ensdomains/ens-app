@@ -52,7 +52,7 @@ const resolvers = {
       return sendHelper(tx)
     },
     async reclaim(_, { name, address }) {
-      const tx = await reclaim({ name, address })
+      const tx = await reclaim(name, address)
       return sendHelper(tx)
     },
     async renew(_, { label, duration }) {
@@ -101,7 +101,7 @@ const resolvers = {
       }
     },
     async setRegistrant(_, { name, address }) {
-      const tx = await transferOwner({ name, to: address })
+      const tx = await transferOwner(name, address)
       return sendHelper(tx)
     },
     async transferRegistrars(_, { label }) {
