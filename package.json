@@ -7,7 +7,6 @@
     "@0xproject/utils": "^0.7.3",
     "@emotion/core": "^10.0.9",
     "@emotion/styled": "^10.0.9",
-    "@ensdomains/dnsregistrar": "^0.3.5",
     "@ensdomains/dnssec-oracle": "^0.1.2",
     "@ensdomains/ens": "^0.3.3",
     "@ensdomains/ens-022": "npm:@ensdomains/ens@0.2.2",
