@@ -1,10 +1,11 @@
 import {
   getNetworkId,
   validateName as _validateName,
-  parseSearchTerm as _parseSearchTerm
+  parseSearchTerm as _parseSearchTerm,
+  ensStartBlock as _ensStartBlock,
+  isLabelValid as _isLabelValid,
+  emptyAddress as _emptyAddress
 } from '@ensdomains/ui'
-import tlds from '../constants/tlds.json'
-import { normalize } from 'eth-ens-namehash'
 
 //import { checkLabelHash } from '../updaters/preImageDB'
 
@@ -31,17 +32,7 @@ export async function getEtherScanAddr() {
 }
 
 export async function ensStartBlock() {
-  const networkId = await getNetworkId()
-  switch (networkId) {
-    case 1:
-    case '1':
-      return 3327417
-    case 3:
-    case '3':
-      return 25409
-    default:
-      return 0
-  }
+  return _ensStartBlock()
 }
 
 export const checkLabels = (...labelHashes) => labelHashes.map(hash => null)
@@ -57,15 +48,7 @@ export function validateName(name) {
 }
 
 export function isLabelValid(name) {
-  try {
-    validateName(name)
-    if (name.indexOf('.') === -1) {
-      return true
-    }
-  } catch (e) {
-    console.log(e)
-    return false
-  }
+  return _isLabelValid(name)
 }
 
 export const parseSearchTerm = term => {
@@ -117,7 +100,7 @@ export function isElementInViewport(el) {
   )
 }
 
-export const emptyAddress = '0x0000000000000000000000000000000000000000'
+export const emptyAddress = _emptyAddress
 
 export function isShortName(term) {
   return [...term].length < 7
