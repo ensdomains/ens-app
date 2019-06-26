@@ -55,16 +55,25 @@ function getCTA({
   const CTAs = {
     ENABLE_DNSSEC: <Button onClick={() => incrementStep()}>Refresh</Button>,
     ADD_TEXT: <Button onClick={() => incrementStep()}>Refresh</Button>,
-    SUBMIT_PROOF: <Button onClick={() => incrementStep()}>Register</Button>,
+    SUBMIT_PROOF: (
+      <Button
+        onClick={() => {
+          incrementStep()
+          setTimeout(() => {
+            incrementStep()
+          }, 2000)
+        }}
+      >
+        Register
+      </Button>
+    ),
     SUBMIT_SENT: (
-      <Button onClick={() => incrementStep()}>Pending</Button>
-
-      // <PendingTx
-      //   txHash={txHash}
-      //   onConfirmed={() => {
-      //     incrementStep()
-      //   }}
-      // />
+      <PendingTx
+        txHash={txHash}
+        onConfirmed={() => {
+          incrementStep()
+        }}
+      />
     ),
     SUBMIT_CONFIRMED: (
       <Button onClick={() => refetch()}>
