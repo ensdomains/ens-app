@@ -10,7 +10,7 @@ const Steps = styled('section')`
   display: grid;
   grid-template-columns: 1fr;
   grid-row-gap: 30px;
-  border-bottom: 1px solid #dfdfdf;
+  border-bottom: ${p => (p.border ? '1' : '0')}px solid #dfdfdf;
   ${mq.large`
     grid-template-columns: repeat(3, 1fr);
     grid-column-gap: 30px;
@@ -18,10 +18,10 @@ const Steps = styled('section')`
   `}
 `
 
-const Explainer = ({ step, number, title, text }) => {
+const Explainer = ({ step, number, title, text, border }) => {
   return (
     <>
-      <Steps>
+      <Steps border={border}>
         <Step
           number={number}
           progress={

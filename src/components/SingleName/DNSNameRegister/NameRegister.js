@@ -4,6 +4,15 @@ import { registerMachine, registerReducer } from './registerReducer'
 
 import Explainer from './Explainer'
 import CTA from './CTA'
+import { SingleNameBlockies } from '../SingleNameBlockies'
+import DefaultEtherScanLink from '../../ExternalLinks/EtherScanLink'
+
+const EtherScanLink = styled(DefaultEtherScanLink)`
+  display: flex;
+  svg {
+    flex-grow: 1;
+  }
+`
 
 const NameRegisterContainer = styled('div')`
   padding: 20px 40px;
@@ -11,6 +20,13 @@ const NameRegisterContainer = styled('div')`
 
 const Title = styled('span')`
   color: ${p => p.color};
+`
+
+const DNSOwnerContainer = styled('div')`
+  background: #f0f6fa;
+  display: flex;
+  padding: 1em;
+  justify-content: space-evenly;
 `
 
 const BreadcrumbsCaontainer = styled('ul')`
@@ -165,7 +181,7 @@ const NameRegister = ({ account, domain, refetch, readOnly }) => {
     content =
       domain.dnsOwner === account.toLowerCase() ? content[0] : content[1]
   }
-
+  const showDNSOwner = domain.dnsOwner && [3, 4].includes(content.number)
   return (
     <NameRegisterContainer>
       <BreadcrumbsCaontainer>
@@ -196,10 +212,20 @@ const NameRegister = ({ account, domain, refetch, readOnly }) => {
       </BreadcrumbsCaontainer>
       <Explainer
         step={step}
+        border={!showDNSOwner}
         number={content.number}
         title={content.title}
         text={content.text}
       />
+      {showDNSOwner ? (
+        <DNSOwnerContainer>
+          <span>DNS Owner</span>
+          <EtherScanLink address={domain.dnsOwner}>
+            <SingleNameBlockies address={domain.dnsOwner} imageSize={24} />
+            {domain.dnsOwner}
+          </EtherScanLink>
+        </DNSOwnerContainer>
+      ) : null}
       <CTA
         incrementStep={incrementStep}
         step={step}
