@@ -36,7 +36,7 @@ const SVG = styled('svg')`
 const Content = styled('div')`
   margin-left: 8px;
 
-  h3 {
+  div {
     font-weight: 100;
     font-size: 20px;
     color: #2b2b2b;
@@ -80,7 +80,7 @@ const Step = ({ number, text, title, progress = 100 }) => (
       <span>{number}</span>
     </Number>
     <Content>
-      <h3>{title}</h3>
+      <div>{title}</div>
       <p>{text}</p>
     </Content>
   </StepContainer>
