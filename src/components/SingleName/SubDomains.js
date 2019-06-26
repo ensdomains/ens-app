@@ -154,10 +154,7 @@ class SubDomains extends Component {
                             />
                             {d.labelName !== null
                               ? d.name
-                              : `[unknown${d.labelhash.slice(
-                                  2,
-                                  12
-                                )}].${nodeName}`}
+                              : `[${d.labelhash.slice(2)}]`}
                           </SubDomainLink>
                         )
                       })}
