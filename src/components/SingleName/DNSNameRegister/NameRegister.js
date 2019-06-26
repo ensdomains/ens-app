@@ -22,6 +22,10 @@ const Title = styled('span')`
   color: ${p => p.color};
 `
 
+const Address = styled('span')`
+  color: #d8d8d8;
+`
+
 const DNSOwnerContainer = styled('div')`
   background: #f0f6fa;
   display: flex;
@@ -61,7 +65,7 @@ const NumberContainer = styled('span')`
 
 const Number = ({ number, currentNumber, text }) => {
   const green = '#42E068'
-  const grey = 'grey'
+  const grey = '#D8D8D8'
   const black = '#2B2B2B'
   const displayNumber = number < currentNumber ? '✓' : number
   let color
@@ -108,66 +112,77 @@ const Number = ({ number, currentNumber, text }) => {
   )
 }
 
-const contetns = {
-  ENABLE_DNSSEC: {
-    title:
-      'Visit your domain registrar to enable DNSSEC. Once enabled, click refresh to see if you can move to the next step.',
-    text: 'Click ‘learn more’ to read about the process.',
-    number: 1
-  },
-  ADD_TEXT: {
-    title:
-      'Set up a text record in your domain registrar, then click refresh. The text record should contain your Ethereum address in the form: a=0x4cbe58c5g5255745f31a7fbD555eC6461F4052',
-    text: 'Click ‘learn more’ to read about the process.',
-    number: 2
-  },
-  SUBMIT_PROOF: [
-    {
+const getContent = (step, account, dnsOwner) => {
+  let content = {
+    ENABLE_DNSSEC: {
       title:
-        'You are the owner of this address. Add your domain to the ENS Registry now.',
-      text:
-        'The address that appears in the DNS txt record is your same address.',
-      number: 3
+        'Visit your domain registrar to enable DNSSEC. Once enabled, click refresh to see if you can move to the next step.',
+      text: "Click 'learn more' to read about the process.",
+      number: 1
     },
-    {
-      title:
-        'You don’t appear to be the DNS Owner of this domain, but anyone can add this domain to the ENS Registry. ',
-      text:
-        'If you know you own this domain, change it’s TXT record to contain your Ethereum Address and refresh this page to perform the DNSSEC verification again.',
-      number: 3
-    }
-  ],
-  SUBMIT_SENT: [
-    {
-      title:
-        'You are the owner of this address. Add your domain to the ENS Registry now.',
-      text:
-        'The address that appears in the DNS txt record is your same address.',
-      number: 3
+    ADD_TEXT: {
+      title: (
+        <>
+          Set up a text record in your domain registrar, then click refresh. The
+          text record should contain your Ethereum address in the form:{' '}
+          <Address>a={account}</Address>
+        </>
+      ),
+      text: "Click 'learn more' to read about the process.",
+      number: 2
     },
-    {
-      title:
-        'You don’t appear to be the DNS Owner of this domain, but anyone can add this domain to the ENS Registry. ',
-      text:
-        'If you know you own this domain, change it’s TXT record to contain your Ethereum Address and refresh this page to perform the DNSSEC verification again.',
-      number: 3
-    }
-  ],
-  SUBMIT_CONFIRMED: [
-    {
-      title:
-        'Congratulations! You have successfully added this DNS domain to the ENS Registry.',
-      text: 'Since you are the owner, you can manage your name now. ',
-      number: 4
-    },
-    {
-      title:
-        'Congratulations! You have successfully added this DNS domain to the ENS Registry.',
-      text:
-        'Since you are not the owner, you can only view the name in the manager.',
-      number: 4
-    }
-  ]
+    SUBMIT_PROOF: [
+      {
+        title:
+          'You are the owner of this address. Add your domain to the ENS Registry now.',
+        text:
+          'The address that appears in the DNS txt record is your same address.',
+        number: 3
+      },
+      {
+        title:
+          "You don't appear to be the DNS Owner of this domain, but anyone can add this domain to the ENS Registry. ",
+        text:
+          "If you know you own this domain, change it's TXT record to contain your Ethereum Address and refresh this page to perform the DNSSEC verification again.",
+        number: 3
+      }
+    ],
+    SUBMIT_SENT: [
+      {
+        title:
+          'You are the owner of this address. Add your domain to the ENS Registry now.',
+        text:
+          'The address that appears in the DNS txt record is your same address.',
+        number: 3
+      },
+      {
+        title:
+          "You don't appear to be the DNS Owner of this domain, but anyone can add this domain to the ENS Registry. ",
+        text:
+          "If you know you own this domain, change it's TXT record to contain your Ethereum Address and refresh this page to perform the DNSSEC verification again.",
+        number: 3
+      }
+    ],
+    SUBMIT_CONFIRMED: [
+      {
+        title:
+          'Congratulations! You have successfully added this DNS domain to the ENS Registry.',
+        text: 'Since you are the owner, you can manage your name now. ',
+        number: 4
+      },
+      {
+        title:
+          'Congratulations! You have successfully added this DNS domain to the ENS Registry.',
+        text:
+          'Since you are not the owner, you can only view the name in the manager.',
+        number: 4
+      }
+    ]
+  }[step]
+  if (content.length >= 0) {
+    content = dnsOwner === account.toLowerCase() ? content[0] : content[1]
+  }
+  return content
 }
 
 const NameRegister = ({ account, domain, refetch, readOnly }) => {
@@ -176,11 +191,7 @@ const NameRegister = ({ account, domain, refetch, readOnly }) => {
     registerMachine.initialState
   )
   const incrementStep = () => dispatch('NEXT')
-  let content = contetns[step]
-  if (content.length >= 0) {
-    content =
-      domain.dnsOwner === account.toLowerCase() ? content[0] : content[1]
-  }
+  const content = getContent(step, account, domain.dnsOwner)
   const showDNSOwner = domain.dnsOwner && [3, 4].includes(content.number)
   return (
     <NameRegisterContainer>
