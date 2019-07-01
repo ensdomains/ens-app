@@ -4,10 +4,12 @@ export default [
     action: false
   },
   {
+    state: 'ENABLE_DNSSEC',
     title: 'Please enable DNSSEC',
     action: false
   },
   {
+    state: 'ADD_TEXT',
     title: 'Please add text record into _ens.name.tld',
     action: false
   },
@@ -16,6 +18,7 @@ export default [
     action: false
   },
   {
+    state: 'SUBMIT_PROOF',
     title: 'Ready to register',
     action: true,
     button: 'Register',

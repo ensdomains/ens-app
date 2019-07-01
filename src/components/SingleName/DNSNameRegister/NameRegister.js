@@ -6,6 +6,7 @@ import Explainer from './Explainer'
 import CTA from './CTA'
 import { SingleNameBlockies } from '../SingleNameBlockies'
 import DefaultEtherScanLink from '../../ExternalLinks/EtherScanLink'
+import dnssecmodes from '../../../api/dnssecmodes'
 
 const EtherScanLink = styled(DefaultEtherScanLink)`
   display: flex;
@@ -188,7 +189,7 @@ const getContent = (step, account, dnsOwner) => {
 const NameRegister = ({ account, domain, refetch, readOnly }) => {
   const [step, dispatch] = useReducer(
     registerReducer,
-    registerMachine.initialState
+    dnssecmodes[domain.state].state || registerMachine.initialState
   )
   const incrementStep = () => dispatch('NEXT')
   const content = getContent(step, account, domain.dnsOwner)
