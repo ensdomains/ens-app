@@ -1,0 +1,98 @@
+.cmp-address {
+  border-radius: 6px;
+  border: 1px solid transparent;
+  padding: 20px 0 20px 20px;
+  background: #fff;
+  position: relative;
+}
+
+.cmp-address .input-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.cmp-address .info-wrapper {
+  margin: 0 0 0 60px;
+}
+
+.cmp-address .info-wrapper .resolved {
+  position: absolute;
+  bottom: 15px;
+  width: calc(100% - 100px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #666;
+}
+
+.cmp-address .loader {
+  margin: 0 20px 0 0;
+}
+
+.cmp-address .indicator {
+  width: 60px;
+  height: 40px;
+}
+
+.cmp-address .loader .lds-dual-ring,
+.cmp-address .loader .lds-dual-ring > div,
+.cmp-address .icon-wrapper {
+  height: 40px !important;
+  width: 40px !important;
+}
+
+.cmp-address.error {
+  border-color: red;
+}
+
+.cmp-address input {
+  width: calc(100% - 70px);
+  font-size: 28px;
+  font-family: Overpass;
+  font-weight: 100;
+  border-width: initial;
+  border-style: none;
+  border-color: initial;
+  border-image: initial;
+  position: relative;
+  outline: none;
+  color: #333;
+}
+
+.cmp-address.resolved input {
+  top: -20px;
+}
+
+.cmp-address.small {
+  padding: 10px 5px;
+}
+
+.cmp-address.small input {
+  font-size: 16px;
+}
+
+.cmp-address .loader .lds-dual-ring,
+.cmp-address .loader .lds-dual-ring > div,
+.cmp-address .icon-wrapper,
+.cmp-address.small .indicator .blockies {
+  height: 30px !important;
+  width: 30px !important;
+}
+
+.cmp-address.small .indicator {
+  height: 30px;
+  width: 40px;
+}
+
+.cmp-address.small.resolved input {
+  top: -10px;
+}
+
+.cmp-address.small .info-wrapper {
+  margin: 0 0 0 40px;
+}
+
+.cmp-address.small .info-wrapper .resolved {
+  bottom: 2px;
+  font-size: 12px;
+  width: calc(100% - 50px);
+}
