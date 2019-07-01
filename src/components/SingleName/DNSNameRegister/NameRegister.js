@@ -187,9 +187,10 @@ const getContent = (step, account, dnsOwner) => {
 }
 
 const NameRegister = ({ account, domain, refetch, readOnly }) => {
+  const dnssecmode = dnssecmodes[domain.state]
   const [step, dispatch] = useReducer(
     registerReducer,
-    dnssecmodes[domain.state].state || registerMachine.initialState
+    dnssecmode.state || registerMachine.initialState
   )
   const incrementStep = () => dispatch('NEXT')
   const content = getContent(step, account, domain.dnsOwner)
@@ -241,6 +242,7 @@ const NameRegister = ({ account, domain, refetch, readOnly }) => {
       <CTA
         incrementStep={incrementStep}
         step={step}
+        error={dnssecmode.display_error ? dnssecmode.title : null}
         state={domain.state}
         label={domain.label}
         refetch={refetch}

@@ -10,6 +10,7 @@ import Button from '../../Forms/Button'
 import { ReactComponent as DefaultPencil } from '../../Icons/SmallPencil.svg'
 import { ReactComponent as DefaultOrangeExclamation } from '../../Icons/OrangeExclamation.svg'
 import { ReactComponent as ExternalLinkIcon } from '../../Icons/externalLink.svg'
+import yellowwarning from '../../../assets/yellowwarning.svg'
 
 const EtherScanLinkContainer = styled('span')`
   display: inline-block;
@@ -28,6 +29,7 @@ const LinkToLearnMore = styled('a')`
   font-size: 14px;
   letter-spacing: 0.58px;
   text-align: center;
+  margin-left: auto;
 `
 
 const Pencil = styled(DefaultPencil)`
@@ -41,6 +43,22 @@ const Prompt = styled('span')`
 
 const OrangeExclamation = styled(DefaultOrangeExclamation)`
   margin-right: 5px;
+`
+
+const Exclamation = () => (
+  <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M8.739 5.82c-.039.746-.096 1.512-.134 2.258-.02.25-.02.268-.02.517a.723.723 0 0 1-.727.708.707.707 0 0 1-.727-.689c-.058-1.167-.134-2.143-.192-3.311l-.057-.938c-.02-.478.268-.9.727-1.034a.972.972 0 0 1 1.13.556c.057.153.095.306.095.478-.019.479-.057.976-.095 1.455m-.88 6.316a.98.98 0 0 1-.977-.976.98.98 0 0 1 .976-.976c.536 0 .976.44.957.995.02.517-.44.957-.957.957M7.93 0a7.93 7.93 0 1 0 0 15.86A7.93 7.93 0 0 0 7.93 0"
+      fill="#F5A623"
+      fillRule="evenodd"
+    />
+  </svg>
+)
+
+const Error = styled('span')`
+  margin-left: 0.2em;
+  font-size: 14px;
+  color: #f5a623;
 `
 
 function getCTA({
@@ -87,10 +105,16 @@ function getCTA({
   return CTAs[step]
 }
 
-const CTA = ({ step, incrementStep, label, refetch, readOnly }) => {
+const CTA = ({ step, incrementStep, label, refetch, readOnly, error }) => {
   const [txHash, setTxHash] = useState(undefined)
   return (
     <CTAContainer>
+      {error ? (
+        <>
+          <Exclamation />
+          <Error>{error}</Error>
+        </>
+      ) : null}
       <LinkToLearnMore
         href="https://medium.com/the-ethereum-name-service/how-to-claim-your-dns-domain-on-ens-e600ef2d92ca"
         target="_blank"
