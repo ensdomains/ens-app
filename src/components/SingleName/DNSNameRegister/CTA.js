@@ -53,8 +53,10 @@ function getCTA({
   readOnly
 }) {
   const CTAs = {
-    ENABLE_DNSSEC: <Button onClick={() => incrementStep()}>Refresh</Button>,
-    ADD_TEXT: <Button onClick={() => incrementStep()}>Refresh</Button>,
+    ENABLE_DNSSEC: (
+      <Button onClick={() => window.location.reload()}>Refresh</Button>
+    ),
+    ADD_TEXT: <Button onClick={() => window.location.reload()}>Refresh</Button>,
     SUBMIT_PROOF: (
       <Button
         onClick={() => {
