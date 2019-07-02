@@ -169,27 +169,17 @@ function getInputType(
         />
       )
     default:
-      const web3 = new Web3(
-        'https://mainnet.infura.io/v3/b608a8ce95964c469961c30385809cca'
-      )
-
-      web3.currentProvider.sendAsync = web3.currentProvider.send
+      //console.log(window.web3, window.ethereum)
+      const web3Instance = new Web3(window.ethereum)
+      console.log(web3Instance)
       return (
         <AddressInput
-          provider={web3.currentProvider}
+          provider={web3Instance.currentProvider}
           onResolve={({ address }) => {
             updateValue(address)
           }}
           onError={error => console.log(error)}
         />
-        // <Input
-        //   value={newValue}
-        //   onChange={e => updateValue(e.target.value)}
-        //   valid={isValid}
-        //   invalid={isInvalid}
-        //   placeholder="Type in a new Ethereum address"
-        //   large
-        // />
       )
   }
 }

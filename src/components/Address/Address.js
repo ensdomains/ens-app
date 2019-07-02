@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import ENS from 'ethereum-ens'
+import { setupENS, getAddress, getName } from '@ensdomains/ui'
 import _ from 'lodash'
 import {
   getEthAddressType,
@@ -49,8 +49,13 @@ function Address(props) {
     }
   }
 
-  useEffect(() => {
-    const ens = new ENS(props.provider)
+  useEffect(async () => {
+    let ens
+    if (props.provider) {
+      await setupENS({ customProvider: props.provider })
+    } else {
+      await setupENS({})
+    }
     setInputDebouncer(() =>
       _.debounce(inputDebouncerHandler.bind(null, ens), 500)
     )
@@ -87,13 +92,13 @@ function Address(props) {
 
     if (addressType === ETH_ADDRESS_TYPE.name) {
       return await handleResolver(async () => ({
-        address: await ens.resolver(inputValue).addr(),
+        address: await getAddress(inputValue),
         name: inputValue,
         type: 'name'
       }))
     } else if (addressType === ETH_ADDRESS_TYPE.address) {
       return await handleResolver(async () => ({
-        name: await ens.reverse(inputValue).name(),
+        name: (await getName(inputValue)).name,
         address: inputValue,
         type: 'address'
       }))
