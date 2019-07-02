@@ -2,9 +2,9 @@ import {
   getOwner,
   setSubnodeOwner,
   getDomainDetails,
-  getSubDomains,
+  getSubdomains,
   getName,
-  getAddr,
+  getAddress,
   claimAndSetReverseRecordName,
   setOwner,
   setResolver,
@@ -175,7 +175,7 @@ const resolvers = {
       }
 
       const data = cache.readQuery({ query: GET_ALL_NODES })
-      const rawSubDomains = await getSubDomains(name)
+      const rawSubDomains = await getSubdomains(name)
       const subDomains = rawSubDomains.map(s => ({
         ...s,
         __typename: 'SubDomain'
@@ -213,7 +213,7 @@ const resolvers = {
       try {
         const { name } = await getName(address)
         if (name !== null) {
-          const addr = await getAddr(name)
+          const addr = await getAddress(name)
           return {
             ...obj,
             name,
