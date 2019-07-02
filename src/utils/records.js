@@ -1,6 +1,7 @@
-import { addressUtils } from '@0xproject/utils'
 import { encodeContenthash } from '@ensdomains/ui'
 import { validateContent } from './contents'
+import { addressUtils } from 'utils/utils'
+
 export function validateRecord(record) {
   if (!record.type) {
     return false
@@ -14,7 +15,8 @@ export function validateRecord(record) {
 
   switch (type) {
     case 'address':
-      return addressUtils.isAddress(value)
+      const isAddress = addressUtils.isAddress(value)
+      return isAddress
     case 'content':
       const encoded = encodeContenthash(value)
       if (encoded) {
