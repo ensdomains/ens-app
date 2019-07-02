@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Web3 from 'web3'
 import styled from '@emotion/styled'
 import { Mutation, Query } from 'react-apollo'
 import { addressUtils } from '@0xproject/utils'
@@ -21,6 +22,7 @@ import Pencil from '../Forms/Pencil'
 import DefaultInfo from '../Icons/Info'
 import DefaultPendingTx from '../PendingTx'
 import DefaultPricer from './Pricer'
+import AddressInput from '../Address/Address'
 
 const EtherScanLink = styled(DefaultEtherScanLink)`
   display: flex;
@@ -163,15 +165,21 @@ function getInputType(
         />
       )
     default:
+      const web3 = new Web3(
+        'https://mainnet.infura.io/v3/b608a8ce95964c469961c30385809cca'
+      )
+
+      web3.currentProvider.sendAsync = web3.currentProvider.send
       return (
-        <Input
-          value={newValue}
-          onChange={e => updateValue(e.target.value)}
-          valid={isValid}
-          invalid={isInvalid}
-          placeholder="Type in a new Ethereum address"
-          large
-        />
+        <AddressInput provider={web3.currentProvider} />
+        // <Input
+        //   value={newValue}
+        //   onChange={e => updateValue(e.target.value)}
+        //   valid={isValid}
+        //   invalid={isInvalid}
+        //   placeholder="Type in a new Ethereum address"
+        //   large
+        // />
       )
   }
 }
