@@ -11,7 +11,7 @@
     "@ensdomains/ens-022": "npm:@ensdomains/ens@0.2.2",
     "@ensdomains/ethregistrar": "^1.2.2",
     "@ensdomains/resolver": "^0.1.6",
-    "@ensdomains/ui": "^1.0.83",
+    "@ensdomains/ui": "^1.0.84",
     "apollo-cache-inmemory": "^1.2.9",
     "apollo-client": "^2.4.5",
     "apollo-link": "^1.2.2",
