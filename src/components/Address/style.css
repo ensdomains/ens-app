@@ -1,9 +1,14 @@
+.cmp-address-wrapper {
+  height: 60px;
+}
+
 .cmp-address {
   border-radius: 6px;
   border: 1px solid transparent;
-  padding: 20px 0 20px 20px;
   background: #fff;
   position: relative;
+  height: 42px;
+  transition: 0.2s;
 }
 
 .cmp-address .input-wrapper {
@@ -12,12 +17,12 @@
 }
 
 .cmp-address .info-wrapper {
-  margin: 0 0 0 60px;
+  margin: 0 0 0 50px;
 }
 
 .cmp-address .info-wrapper .resolved {
   position: absolute;
-  bottom: 15px;
+  top: 30px;
   width: calc(100% - 100px);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -29,8 +34,11 @@
 }
 
 .cmp-address .indicator {
-  width: 60px;
-  height: 40px;
+  /* width: 60px;
+  height: 40px; */
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 
 .cmp-address .loader .lds-dual-ring,
@@ -46,9 +54,10 @@
 
 .cmp-address input {
   width: calc(100% - 70px);
-  font-size: 28px;
-  font-family: Overpass;
-  font-weight: 100;
+  font-family: Overpass Mono;
+  font-weight: 300;
+  font-size: 18px;
+  margin-left: 50px;
   border-width: initial;
   border-style: none;
   border-color: initial;
@@ -58,8 +67,8 @@
   color: #333;
 }
 
-.cmp-address.resolved input {
-  top: -20px;
+.cmp-address.resolved {
+  height: 60px;
 }
 
 .cmp-address.small {
@@ -67,7 +76,8 @@
 }
 
 .cmp-address.small input {
-  font-size: 16px;
+  font-size: 14px;
+  font-family: Overpass;
 }
 
 .cmp-address .loader .lds-dual-ring,
@@ -78,9 +88,19 @@
   width: 30px !important;
 }
 
-.cmp-address.small .indicator {
-  height: 30px;
-  width: 40px;
+.cmp-address .blockies {
+  /* margin-left: 10px;
+  margin-top: 10px; */
+}
+
+.cmp-address .indicator {
+  margin-left: 5px;
+  margin-top: 5px;
+}
+
+.cmp-address.resolved .indicator {
+  margin-left: 10px;
+  margin-top: 10px;
 }
 
 .cmp-address.small.resolved input {

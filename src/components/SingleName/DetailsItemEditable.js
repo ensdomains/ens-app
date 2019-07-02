@@ -22,7 +22,11 @@ import Pencil from '../Forms/Pencil'
 import DefaultInfo from '../Icons/Info'
 import DefaultPendingTx from '../PendingTx'
 import DefaultPricer from './Pricer'
-import AddressInput from '../Address/Address'
+import DefaultAddressInput from '../Address/Address'
+
+const AddressInput = styled(DefaultAddressInput)`
+  margin-bottom: 10px;
+`
 
 const EtherScanLink = styled(DefaultEtherScanLink)`
   display: flex;

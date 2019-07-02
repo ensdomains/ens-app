@@ -17,14 +17,10 @@ export function getEthAddressType(address) {
     return ETH_ADDRESS_TYPE.address
   }
 
-  console.log('value', address)
-
   try {
     validateName(address)
-    console.log('here')
     return ETH_ADDRESS_TYPE.name
   } catch (e) {
-    console.log('error in getEthAddressType')
     return ETH_ADDRESS_TYPE.name
   }
 }

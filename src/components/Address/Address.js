@@ -125,7 +125,7 @@ function Address(props) {
         return (
           <SingleNameBlockies
             address={address.toLowerCase()}
-            imageSize={40}
+            imageSize={30}
             className="blockies"
           />
         )
@@ -134,31 +134,33 @@ function Address(props) {
   }
 
   return (
-    <div
-      className={`cmp-address ${props.className} ${
-        resolvedAddress ? 'resolved' : ''
-      } ${error ? 'error' : ''}`}
-    >
-      <div className="input-wrapper">
-        <div className="indicator">
-          {isResolvingInProgress && <Loader className="loader" />}
-          {!isResolvingInProgress && showBlockies()}
-          {isResolveNameNotFound() && (
-            <img src={warningImage} className="icon-wrapper error-icon" />
-          )}
-          {props.showSearchIcon && !inputValue && (
-            <img src={searchImage} className="icon-wrapper search-icon" />
-          )}
+    <div className={`cmp-address-wrapper ${props.className}`}>
+      <div
+        className={`cmp-address  ${resolvedAddress ? 'resolved' : ''} ${
+          error ? 'error' : ''
+        }`}
+      >
+        <div className="input-wrapper">
+          <div className="indicator">
+            {isResolvingInProgress && <Loader className="loader" />}
+            {!isResolvingInProgress && showBlockies()}
+            {isResolveNameNotFound() && (
+              <img src={warningImage} className="icon-wrapper error-icon" />
+            )}
+            {props.showSearchIcon && !inputValue && (
+              <img src={searchImage} className="icon-wrapper search-icon" />
+            )}
+          </div>
+          <input
+            onChange={e => handleInput(e.currentTarget.value)}
+            placeholder={props.placeholder}
+            spellCheck={false}
+            name="ethereum"
+          />
         </div>
-        <input
-          onChange={e => handleInput(e.currentTarget.value)}
-          placeholder={props.placeholder}
-          spellCheck={false}
-          name="ethereum"
-        />
-      </div>
-      <div className="info-wrapper">
-        {resolvedAddress && <div className="resolved">{resolvedAddress}</div>}
+        <div className="info-wrapper">
+          {resolvedAddress && <div className="resolved">{resolvedAddress}</div>}
+        </div>
       </div>
     </div>
   )
@@ -177,7 +179,7 @@ Address.propTypes = {
 Address.defaultProps = {
   placeholder: 'Enter Ethereum name or address',
   showBlockies: true,
-  showSearchIcon: true,
+  showSearchIcon: false,
   className: '',
   onError: function() {},
   onResolve: function() {}
