@@ -28,6 +28,7 @@
     "graphql-tag": "2.9.1",
     "graphql-tools": "^2.23.1",
     "gsap": "^2.0.1",
+    "js-sha3": "^0.8.0",
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
     "notification-polyfill": "^1.0.0",
