@@ -1,3 +1,5 @@
+import { validateName } from './utils'
+
 export const ETH_ADDRESS_TYPE = {
   name: 'name',
   address: 'address',
@@ -5,10 +7,26 @@ export const ETH_ADDRESS_TYPE = {
 }
 
 export function getEthAddressType(address) {
-  if (!address) return ETH_ADDRESS_TYPE.error;
-  if (address.endsWith('.eth') || address === 'eth') return ETH_ADDRESS_TYPE.name
-  if (address.length === 42 && ((address.startsWith('0x') && !address.endsWith('.addr.reverse')) || (address.endsWith('.addr.reverse') && !address.startsWith('0x')))) return ETH_ADDRESS_TYPE.address
-  return ETH_ADDRESS_TYPE.error
+  if (!address) return ETH_ADDRESS_TYPE.error
+
+  if (
+    address.length === 42 &&
+    ((address.startsWith('0x') && !address.endsWith('.addr.reverse')) ||
+      (address.endsWith('.addr.reverse') && !address.startsWith('0x')))
+  ) {
+    return ETH_ADDRESS_TYPE.address
+  }
+
+  console.log('value', address)
+
+  try {
+    validateName(address)
+    console.log('here')
+    return ETH_ADDRESS_TYPE.name
+  } catch (e) {
+    console.log('error in getEthAddressType')
+    return ETH_ADDRESS_TYPE.name
+  }
 }
 
 export function isAddress(address) {

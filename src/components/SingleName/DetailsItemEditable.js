@@ -171,7 +171,13 @@ function getInputType(
 
       web3.currentProvider.sendAsync = web3.currentProvider.send
       return (
-        <AddressInput provider={web3.currentProvider} />
+        <AddressInput
+          provider={web3.currentProvider}
+          onResolve={({ address }) => {
+            updateValue(address)
+          }}
+          onError={error => console.log(error)}
+        />
         // <Input
         //   value={newValue}
         //   onChange={e => updateValue(e.target.value)}
