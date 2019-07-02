@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import { Mutation, Query } from 'react-apollo'
-import { addressUtils } from '@0xproject/utils'
 import PropTypes from 'prop-types'
 import { Transition } from 'react-spring'
 
@@ -9,6 +8,7 @@ import { GET_PUBLIC_RESOLVER } from '../../graphql/queries'
 import mq from 'mediaQuery'
 import { useEditable, useEthPrice } from '../hooks'
 import { yearInSeconds, formatDate } from 'utils/dates'
+import { addressUtils } from 'utils/utils'
 
 import Tooltip from '../Tooltip/Tooltip'
 import { SingleNameBlockies } from './SingleNameBlockies'
