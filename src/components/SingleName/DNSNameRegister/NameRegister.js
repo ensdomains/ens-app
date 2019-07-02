@@ -138,7 +138,8 @@ const getContent = (step, account, dnsOwner) => {
           'You are the owner of this address. Add your domain to the ENS Registry now.',
         text:
           'The address that appears in the DNS txt record is your same address.',
-        number: 3
+        number: 3,
+        owner: true
       },
       {
         title:
@@ -154,7 +155,8 @@ const getContent = (step, account, dnsOwner) => {
           'You are the owner of this address. Add your domain to the ENS Registry now.',
         text:
           'The address that appears in the DNS txt record is your same address.',
-        number: 3
+        number: 3,
+        owner: true
       },
       {
         title:
@@ -169,7 +171,8 @@ const getContent = (step, account, dnsOwner) => {
         title:
           'Congratulations! You have successfully added this DNS domain to the ENS Registry.',
         text: 'Since you are the owner, you can manage your name now. ',
-        number: 4
+        number: 4,
+        owner: true
       },
       {
         title:
@@ -181,7 +184,8 @@ const getContent = (step, account, dnsOwner) => {
     ]
   }[step]
   if (content.length >= 0) {
-    content = dnsOwner === account.toLowerCase() ? content[0] : content[1]
+    content =
+      dnsOwner.toLowerCase() === account.toLowerCase() ? content[0] : content[1]
   }
   return content
 }
@@ -192,7 +196,7 @@ const NameRegister = ({ account, domain, refetch, readOnly }) => {
     registerReducer,
     dnssecmode.state || registerMachine.initialState
   )
-  console.log({ dnssecmode, step })
+
   step = dnssecmode.state
   const incrementStep = () => dispatch('NEXT')
   const content = getContent(step, account, domain.dnsOwner)
@@ -234,7 +238,7 @@ const NameRegister = ({ account, domain, refetch, readOnly }) => {
       />
       {showDNSOwner ? (
         <DNSOwnerContainer>
-          <span>DNS Owner</span>
+          <span>DNS Owner {content.owner ? '(You)' : null}</span>
           <EtherScanLink address={domain.dnsOwner}>
             <SingleNameBlockies address={domain.dnsOwner} imageSize={24} />
             {domain.dnsOwner}
