@@ -152,7 +152,7 @@ export const RELEASE_DEED = gql`
 `
 
 export const SUBMIT_PROOF = gql`
-  mutation submitProof {
-    submitProof @client
+  mutation submitProof($name: String, $parentOwner: String) {
+    submitProof(name: $name, parentOwner: $parentOwner) @client
   }
 `

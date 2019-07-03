@@ -196,8 +196,6 @@ const NameRegister = ({ account, domain, refetch, readOnly }) => {
     registerReducer,
     dnssecmode.state || registerMachine.initialState
   )
-
-  step = dnssecmode.state
   const incrementStep = () => dispatch('NEXT')
   const content = getContent(step, account, domain.dnsOwner)
   const showDNSOwner = domain.dnsOwner && [2, 3, 4].includes(content.number)
@@ -246,6 +244,8 @@ const NameRegister = ({ account, domain, refetch, readOnly }) => {
         </DNSOwnerContainer>
       ) : null}
       <CTA
+        name={domain.name}
+        parentOwner={domain.parentOwner}
         incrementStep={incrementStep}
         step={step}
         error={dnssecmode.displayError ? dnssecmode.title : null}

@@ -112,8 +112,8 @@ const resolvers = {
       const tx = await releaseDeed(label)
       return sendHelper(tx)
     },
-    async submitProof(_) {
-      const tx = await submitProof()
+    async submitProof(_, { name, parentOwner }) {
+      const tx = await submitProof(name, parentOwner)
       return sendHelperOld(tx)
     }
   }

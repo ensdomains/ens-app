@@ -1,16 +1,13 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
+import { SUBMIT_PROOF } from '../../../graphql/mutations'
 
-import { COMMIT, REGISTER } from '../../../graphql/mutations'
-
-import Tooltip from 'components/Tooltip/Tooltip'
 import PendingTx from '../../PendingTx'
 import Button from '../../Forms/Button'
 import { ReactComponent as DefaultPencil } from '../../Icons/SmallPencil.svg'
 import { ReactComponent as DefaultOrangeExclamation } from '../../Icons/OrangeExclamation.svg'
 import { ReactComponent as ExternalLinkIcon } from '../../Icons/externalLink.svg'
-import yellowwarning from '../../../assets/yellowwarning.svg'
 
 const EtherScanLinkContainer = styled('span')`
   display: inline-block;
@@ -63,6 +60,8 @@ const Error = styled('span')`
 
 function getCTA({
   step,
+  name,
+  parentOwner,
   incrementStep,
   label,
   txHash,
@@ -74,16 +73,24 @@ function getCTA({
     ENABLE_DNSSEC: <Button onClick={() => refetch()}>Refresh</Button>,
     ADD_TEXT: <Button onClick={() => refetch()}>Refresh</Button>,
     SUBMIT_PROOF: (
-      <Button
-        onClick={() => {
+      <Mutation
+        mutation={SUBMIT_PROOF}
+        onCompleted={data => {
+          setTxHash(Object.values(data)[0])
           incrementStep()
-          setTimeout(() => {
-            incrementStep()
-          }, 2000)
         }}
       >
-        Register
-      </Button>
+        {mutate => (
+          <Button
+            onClick={() => {
+              mutate({ variables: { name, parentOwner } })
+            }}
+            type="primary"
+          >
+            Register
+          </Button>
+        )}
+      </Mutation>
     ),
     SUBMIT_SENT: (
       <PendingTx
@@ -103,7 +110,16 @@ function getCTA({
   return CTAs[step]
 }
 
-const CTA = ({ step, incrementStep, label, refetch, readOnly, error }) => {
+const CTA = ({
+  name,
+  parentOwner,
+  step,
+  incrementStep,
+  label,
+  refetch,
+  readOnly,
+  error
+}) => {
   const [txHash, setTxHash] = useState(undefined)
   return (
     <CTAContainer>
@@ -124,6 +140,8 @@ const CTA = ({ step, incrementStep, label, refetch, readOnly, error }) => {
       </LinkToLearnMore>
       {getCTA({
         step,
+        name,
+        parentOwner,
         incrementStep,
         label,
         txHash,
