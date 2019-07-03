@@ -3,8 +3,9 @@ import styled from '@emotion/styled'
 import { Link, Route } from 'react-router-dom'
 import SubmitProof from './SubmitProof'
 import dnsSecModes from '../../api/dnssecmodes'
-
+import Tooltip from '../Tooltip/Tooltip'
 import { HR } from '../Typography/Basic'
+import DefaultButton from '../Forms/Button'
 import SubDomains from './SubDomains'
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import RecordsItem from './RecordsItem'
@@ -34,6 +35,20 @@ import { formatDate } from '../../utils/dates'
 const Details = styled('section')`
   padding: 40px;
   transition: 0.4s;
+`
+
+const Button = styled(DefaultButton)`
+  position: absolute;
+  width: 130px;
+`
+
+const ButtonContainer = styled('div')`
+  margin-top: 0;
+  position: absolute;
+  right: 180px;
+  -webkit-transform: translate(0, -65%);
+  -ms-transform: translate(0, -65%);
+  transform: translate(0, -65%);
 `
 
 const Records = styled('div')`
@@ -126,7 +141,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
   } else {
     contentMutation = SET_CONTENTHASH
   }
-
+  console.log('domain.owner', domain.owner, 'domain.dnsOwner', domain.dnsOwner)
   const showExplainer = !parseInt(domain.resolver)
   return (
     <>
@@ -221,6 +236,55 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                     confirm={true}
                   />
                 </>
+              ) : domain.isDNSRegistrar ? (
+                <DetailsItem uneditable>
+                  <DetailsKey>Controller</DetailsKey>
+                  <DetailsValue>
+                    <EtherScanLink address={domain.owner}>
+                      <SingleNameBlockies
+                        address={domain.owner}
+                        imageSize={24}
+                      />
+                      {domain.owner}
+                    </EtherScanLink>
+                  </DetailsValue>
+                  <ButtonContainer>
+                    {domain.owner.toLowerCase() !==
+                    domain.dnsOwner.toLowerCase() ? (
+                      <SubmitProof
+                        name={domain.name}
+                        parentOwner={domain.parentOwner}
+                        refetch={refetch}
+                        actionText={!domain.dnsOwner ? 'Delete' : 'Transfer'}
+                      />
+                    ) : (
+                      <Tooltip
+                        text="You can only transfer or delete the controller if you update the DNS owner"
+                        position="top"
+                        border={true}
+                        warning={true}
+                        offset={{ left: -30, top: 10 }}
+                      >
+                        {({ tooltipElement, showTooltip, hideTooltip }) => {
+                          return (
+                            <Button
+                              onMouseOver={() => {
+                                showTooltip()
+                              }}
+                              onMouseLeave={() => {
+                                hideTooltip()
+                              }}
+                              type="disabled"
+                            >
+                              Transfer
+                              {tooltipElement}
+                            </Button>
+                          )
+                        }}
+                      </Tooltip>
+                    )}
+                  </ButtonContainer>
+                </DetailsItem>
               ) : (
                 // Either subdomain, .test, or .dns(eg. .xyz)
                 <DetailsItemEditable
@@ -228,7 +292,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                   keyName="Controller"
                   value={domain.owner}
                   canEdit={
-                    !domain.isDNSRegistrar && (isOwner || isOwnerOfParent)
+                    domain.isDNSRegistrar && domain.owner !== domain.dnsOwner
                   }
                   deedOwner={domain.deedOwner}
                   isDeedOwner={isDeedOwner}
@@ -240,25 +304,22 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                   confirm={true}
                 />
               )}
-
               {/* To be replaced with a logic a function to detect dnsregistrar */}
               {domain.isDNSRegistrar ? (
                 <DetailsItem uneditable>
-                  <DetailsKey>Status</DetailsKey>
+                  <DetailsKey>DNS Owner</DetailsKey>
                   <DetailsValue>
-                    {dnsSecModes[domain.state].title}
-                    {dnsSecModes[domain.state].displayOwner
-                      ? ` (DNS is owned by ${domain.dnsOwner})`
-                      : ''}
+                    <EtherScanLink address={domain.dnsOwner}>
+                      <SingleNameBlockies
+                        address={domain.dnsOwner}
+                        imageSize={24}
+                      />
+                      {domain.dnsOwner}
+                    </EtherScanLink>
                   </DetailsValue>
-                  {dnsSecModes[domain.state].action ? (
-                    <SubmitProof
-                      refetch={refetch}
-                      actionText={dnsSecModes[domain.state].button}
-                    />
-                  ) : (
-                    ''
-                  )}
+                  <ButtonContainer>
+                    <Button onClick={() => refetch()}>Refresh</Button>
+                  </ButtonContainer>
                 </DetailsItem>
               ) : (
                 ''

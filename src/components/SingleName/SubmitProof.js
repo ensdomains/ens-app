@@ -4,6 +4,7 @@ import styled from '@emotion/styled'
 import mq from 'mediaQuery'
 import { useEditable } from '../hooks'
 import { SUBMIT_PROOF } from '../../graphql/mutations'
+import { ReactComponent as Pencil } from '../Icons/SmallPencil.svg'
 
 import Button from '../Forms/Button'
 import PendingTx from '../PendingTx'
@@ -13,25 +14,30 @@ const SubmitButton = styled(Button)`
 `
 
 const Action = styled('div')`
-  margin-top: 20px;
-  ${mq.small`
-    position: absolute;
-    right: 35px;
-    transform: translate(0, -65%);
-  `}
+  position: absolute;
 `
 
-function SubmitProof({ refetch, actionText }) {
+function SubmitProof({ name, parentOwner, refetch, actionText }) {
   const { state, actions } = useEditable()
   const { txHash, pending, confirmed } = state
   const { startPending, setConfirmed } = actions
+  console.log('SubmitProof component', {
+    name,
+    parentOwner,
+    refetch,
+    actionText,
+    txHash,
+    pending,
+    confirmed
+  })
   return (
     <Action>
       {pending && !confirmed && txHash ? (
         <PendingTx
           txHash={txHash}
           onConfirmed={() => {
-            setConfirmed()
+            console.log('onConfirmed')
+            // setConfirmed()
             refetch()
           }}
         />
@@ -39,11 +45,17 @@ function SubmitProof({ refetch, actionText }) {
         <Mutation
           mutation={SUBMIT_PROOF}
           onCompleted={data => {
+            console.log('SubmitProof:onCompleted', { data })
             startPending(Object.values(data)[0])
           }}
         >
           {mutate => (
-            <SubmitButton onClick={mutate} type="primary">
+            <SubmitButton
+              onClick={() => {
+                mutate({ variables: { name, parentOwner } })
+              }}
+              type="primary"
+            >
               {actionText}
             </SubmitButton>
           )}

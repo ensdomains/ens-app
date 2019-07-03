@@ -1,10 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import moment from 'moment'
-
-import mq from 'mediaQuery'
 import Step from './Step'
-import Button from '../../Forms/Button'
 
 const Steps = styled('section')`
   display: grid;
