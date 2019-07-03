@@ -102,8 +102,8 @@ export const SET_CONTENTHASH = gql`
 `
 
 export const CREATE_SUBDOMAIN = gql`
-  mutation createSubdomain($name: String, $label: String) {
-    createSubdomain(name: $name, label: $label) @client
+  mutation createSubdomain($name: String) {
+    createSubdomain(name: $name) @client
   }
 `
 

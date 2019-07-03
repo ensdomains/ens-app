@@ -302,9 +302,9 @@ const resolvers = {
         console.log(e)
       }
     },
-    createSubdomain: async (_, { name, label }, { cache }) => {
+    createSubdomain: async (_, { name }, { cache }) => {
       try {
-        const tx = await createSubdomain(label, name)
+        const tx = await createSubdomain(name)
         return sendHelper(tx)
       } catch (e) {
         console.log(e)
