@@ -140,6 +140,7 @@ function getInputType(
   keyName,
   {
     newValue,
+    presetValue,
     updateValue,
     isValid,
     isInvalid,
@@ -169,16 +170,18 @@ function getInputType(
         />
       )
     default:
-      //console.log(window.web3, window.ethereum)
       const web3Instance = new Web3(window.ethereum)
-      console.log(web3Instance)
       return (
         <AddressInput
+          presetValue={presetValue || ''}
           provider={web3Instance.currentProvider}
           onResolve={({ address }) => {
-            updateValue(address)
+            if (address) {
+              updateValue(address)
+            } else {
+              updateValue('')
+            }
           }}
-          onError={error => console.log(error)}
         />
       )
   }
@@ -220,6 +223,7 @@ const Editable = ({
   confirm
 }) => {
   const { state, actions } = useEditable()
+  const [presetValue, setPresetValue] = useState('')
 
   const { editing, newValue, txHash, pending, confirmed } = state
 
@@ -335,6 +339,7 @@ const Editable = ({
                     {getInputType(keyName, {
                       newValue,
                       updateValue,
+                      presetValue,
                       isValid,
                       isInvalid,
                       years,
@@ -355,7 +360,7 @@ const Editable = ({
                             <DefaultResolverButton
                               onClick={e => {
                                 e.preventDefault()
-                                updateValue(data.publicResolver.address)
+                                setPresetValue(data.publicResolver.address)
                               }}
                             >
                               Use Public Resolver

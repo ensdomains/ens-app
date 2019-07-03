@@ -13,6 +13,7 @@
 
 .cmp-address .input-wrapper {
   display: flex;
+  margin-top: 5px;
   align-items: center;
 }
 

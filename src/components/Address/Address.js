@@ -16,16 +16,16 @@ import './style.css'
 
 const ENS_NOT_FOUND = 'ENS name not found'
 
-function Address(props) {
+function Address(props = { presetValue: '' }) {
   const [resolvedAddress, setResolvedAddress] = useState(null)
   const [inputValue, setInputValue] = useState('')
   const [isResolvingInProgress, setIsResolvingInProgress] = useState(false)
   const [error, setError] = useState(null)
-  const [inputDebouncer, setInputDebouncer] = useState(null)
+  let ens
 
-  const inputDebouncerHandler = async (ens, input) => {
+  const inputDebouncerHandler = async input => {
     try {
-      const result = await resolveName(ens, input)
+      const result = await resolveName(input)
       setError(null)
       const { address, type, name } = result
       if (type === 'name') {
@@ -49,29 +49,37 @@ function Address(props) {
     }
   }
 
+  const inputDebouncer = _.debounce(inputDebouncerHandler, 500)
+
   useEffect(async () => {
-    let ens
     if (props.provider) {
       await setupENS({ customProvider: props.provider })
     } else {
       await setupENS({})
     }
-    setInputDebouncer(() =>
-      _.debounce(inputDebouncerHandler.bind(null, ens), 500)
-    )
   }, [props.provider])
 
+  useEffect(async () => {
+    if (props.presetValue.length !== 0) {
+      handleInput(props.presetValue)
+    }
+  }, [props.presetValue])
+
   const handleInput = async address => {
-    if (!address) {
+    if (!address || address.length === 0) {
       setInputValue('')
       setError(null)
       setResolvedAddress(null)
 
-      return inputDebouncer.cancel()
+      if (inputDebouncer) {
+        inputDebouncer.cancel()
+      }
     }
 
     setInputValue(address)
-    inputDebouncer(address)
+    if (inputDebouncer) {
+      inputDebouncer(address)
+    }
   }
 
   const handleResolver = async fn => {
@@ -87,7 +95,7 @@ function Address(props) {
     }
   }
 
-  const resolveName = async (ens, inputValue) => {
+  const resolveName = async inputValue => {
     const addressType = getEthAddressType(inputValue)
 
     if (addressType === ETH_ADDRESS_TYPE.name) {
@@ -157,6 +165,7 @@ function Address(props) {
             )}
           </div>
           <input
+            value={inputValue}
             onChange={e => handleInput(e.currentTarget.value)}
             placeholder={props.placeholder}
             spellCheck={false}
