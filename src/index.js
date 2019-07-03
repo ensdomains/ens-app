@@ -12,7 +12,7 @@ import 'globalStyles'
 
 window.addEventListener('load', async () => {
   try {
-    await setupENS({})
+    await setupENS({ reloadOnAccountsChange: true })
   } catch (e) {
     console.log(e)
     await client.mutate({
