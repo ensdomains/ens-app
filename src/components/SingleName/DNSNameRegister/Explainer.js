@@ -11,11 +11,6 @@ const Steps = styled('section')`
   grid-template-columns: 1fr;
   grid-row-gap: 30px;
   border-bottom: ${p => (p.border ? '1' : '0')}px solid #dfdfdf;
-  ${mq.large`
-    grid-template-columns: repeat(3, 1fr);
-    grid-column-gap: 30px;
-    grid-template-rows: 1fr;
-  `}
 `
 
 const Explainer = ({ step, number, title, text, border }) => {
