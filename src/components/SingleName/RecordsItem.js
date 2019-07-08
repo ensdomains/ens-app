@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Web3 from 'web3'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
@@ -22,6 +23,11 @@ import {
 import DetailsItemInput from './DetailsItemInput'
 import { useEditable } from '../hooks'
 import { getOldContentWarning } from './warnings'
+import DefaultAddressInput from '../Address/Address'
+
+const AddressInput = styled(DefaultAddressInput)`
+  margin-bottom: 10px;
+`
 
 const RecordsItem = styled(DetailsItem)`
   border-top: 1px dashed #d3d3d3;
@@ -193,14 +199,27 @@ const Editable = ({
             {editing ? (
               <>
                 <EditRecord>
-                  <DetailsItemInput
-                    newValue={newValue}
-                    dataType={type}
-                    contentType={domain.contentType}
-                    updateValue={updateValue}
-                    isValid={isValid}
-                    isInvalid={isInvalid}
-                  />
+                  {type === 'address' ? (
+                    <AddressInput
+                      provider={window.ethereum || window.web3}
+                      onResolve={({ address }) => {
+                        if (address) {
+                          updateValue(address)
+                        } else {
+                          updateValue('')
+                        }
+                      }}
+                    />
+                  ) : (
+                    <DetailsItemInput
+                      newValue={newValue}
+                      dataType={type}
+                      contentType={domain.contentType}
+                      updateValue={updateValue}
+                      isValid={isValid}
+                      isInvalid={isInvalid}
+                    />
+                  )}
                 </EditRecord>
                 <SaveCancel
                   warningMessage={getOldContentWarning(

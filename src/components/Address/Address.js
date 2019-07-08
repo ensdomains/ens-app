@@ -16,12 +16,11 @@ import './style.css'
 
 const ENS_NOT_FOUND = 'ENS name not found'
 
-function Address(props = { presetValue: '' }) {
+function Address(props) {
   const [resolvedAddress, setResolvedAddress] = useState(null)
   const [inputValue, setInputValue] = useState('')
   const [isResolvingInProgress, setIsResolvingInProgress] = useState(false)
   const [error, setError] = useState(null)
-  let ens
 
   const inputDebouncerHandler = async input => {
     try {
@@ -191,6 +190,7 @@ Address.propTypes = {
 }
 
 Address.defaultProps = {
+  presetValue: '',
   placeholder: 'Enter Ethereum name or address',
   showBlockies: true,
   showSearchIcon: false,

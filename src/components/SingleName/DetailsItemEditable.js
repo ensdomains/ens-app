@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Web3 from 'web3'
 import styled from '@emotion/styled'
 import { Mutation, Query } from 'react-apollo'
 import PropTypes from 'prop-types'
@@ -170,11 +169,10 @@ function getInputType(
         />
       )
     default:
-      const web3Instance = new Web3(window.ethereum)
       return (
         <AddressInput
           presetValue={presetValue || ''}
-          provider={web3Instance.currentProvider}
+          provider={window.ethereum || window.web3}
           onResolve={({ address }) => {
             if (address) {
               updateValue(address)
