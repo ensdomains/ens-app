@@ -18,6 +18,12 @@ import {
   SET_ADDRESS
 } from '../../graphql/mutations'
 
+import DefaultAddressInput from '../Address/Address'
+
+const AddressInput = styled(DefaultAddressInput)`
+  margin-bottom: 10px;
+`
+
 const ToggleAddRecord = styled('span')`
   font-size: 22px;
 
@@ -97,7 +103,8 @@ function Editable({ domain, emptyRecords, refetch }) {
     value: newValue,
     contentType: domain.contentType
   })
-  const isInvalid = newValue !== "" && !isValid
+
+  const isInvalid = newValue !== '' && !isValid
   return (
     <>
       <RecordsTitle>
@@ -129,14 +136,27 @@ function Editable({ domain, emptyRecords, refetch }) {
               placeholder="Select a record"
               options={emptyRecords}
             />
-            <DetailsItemInput
-              newValue={newValue}
-              dataType={selectedRecord ? selectedRecord.value : null}
-              contentType={domain.contentType}
-              updateValue={updateValue}
-              isValid={isValid}
-              isInvalid={isInvalid}
-            />
+            {selectedRecord && selectedRecord.value === 'address' ? (
+              <AddressInput
+                provider={window.ethereum || window.web3}
+                onResolve={({ address }) => {
+                  if (address) {
+                    updateValue(address)
+                  } else {
+                    updateValue('')
+                  }
+                }}
+              />
+            ) : (
+              <DetailsItemInput
+                newValue={newValue}
+                dataType={selectedRecord ? selectedRecord.value : null}
+                contentType={domain.contentType}
+                updateValue={updateValue}
+                isValid={isValid}
+                isInvalid={isInvalid}
+              />
+            )}
           </Row>
           {selectedRecord ? (
             <Mutation
