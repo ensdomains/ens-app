@@ -8,6 +8,16 @@ import Button from '../../Forms/Button'
 import { ReactComponent as DefaultPencil } from '../../Icons/SmallPencil.svg'
 import { ReactComponent as DefaultOrangeExclamation } from '../../Icons/OrangeExclamation.svg'
 import { ReactComponent as ExternalLinkIcon } from '../../Icons/externalLink.svg'
+import DefaultLoader from '../../Loader'
+import { useEditable } from '../../hooks'
+
+const LoaderContainer = styled('div')`
+  width: 60px;
+`
+const Loader = styled(DefaultLoader)`
+  width: 30%;
+  margin: auto;
+`
 
 const EtherScanLinkContainer = styled('span')`
   display: inline-block;
@@ -69,9 +79,40 @@ function getCTA({
   refetch,
   readOnly
 }) {
+  const { state, actions } = useEditable()
+  const [loading, setLoading] = useState(undefined)
+  const RefreshButton = number => {
+    return loading ? (
+      <Button>
+        <LoaderContainer>
+          <Loader />
+        </LoaderContainer>
+      </Button>
+    ) : (
+      <Button
+        onClick={() => {
+          setLoading(true)
+          refetch().then(data => {
+            setLoading(false)
+            console.log(
+              data.data.singleName.state,
+              number,
+              data.data.singleName.state > number
+            )
+            if (data.data.singleName.state > number) {
+              incrementStep()
+            }
+          })
+        }}
+      >
+        Refresh
+      </Button>
+    )
+  }
+
   const CTAs = {
-    ENABLE_DNSSEC: <Button onClick={() => refetch()}>Refresh</Button>,
-    ADD_TEXT: <Button onClick={() => refetch()}>Refresh</Button>,
+    ENABLE_DNSSEC: RefreshButton(2),
+    ADD_TEXT: RefreshButton(4),
     SUBMIT_PROOF: (
       <Mutation
         mutation={SUBMIT_PROOF}

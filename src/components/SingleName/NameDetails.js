@@ -15,6 +15,8 @@ import SetupName from '../SetupName/SetupName'
 import TransferRegistrars from './TransferRegistrars'
 import { SingleNameBlockies } from './SingleNameBlockies'
 import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
+import { useState } from 'react'
+import DefaultLoader from '../Loader'
 
 import {
   SET_OWNER,
@@ -37,9 +39,15 @@ const Details = styled('section')`
   transition: 0.4s;
 `
 
+const Loader = styled(DefaultLoader)`
+  width: 30%;
+  margin: auto;
+`
+
 const Button = styled(DefaultButton)`
   position: absolute;
   width: 130px;
+  background-colore: white;
 `
 
 const ButtonContainer = styled('div')`
@@ -143,6 +151,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
   }
   console.log('domain.owner', domain.owner, 'domain.dnsOwner', domain.dnsOwner)
   const showExplainer = !parseInt(domain.resolver)
+  const [loading, setLoading] = useState(undefined)
   return (
     <>
       <Route
@@ -318,7 +327,22 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                     </EtherScanLink>
                   </DetailsValue>
                   <ButtonContainer>
-                    <Button onClick={() => refetch()}>Refresh</Button>
+                    {loading ? (
+                      <Button>
+                        <Loader />
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={() => {
+                          setLoading(true)
+                          refetch().then(dd => {
+                            setLoading(false)
+                          })
+                        }}
+                      >
+                        Refresh{' '}
+                      </Button>
+                    )}
                   </ButtonContainer>
                 </DetailsItem>
               ) : (
