@@ -259,12 +259,8 @@ const resolvers = {
       }
     },
     setSubnodeOwner: async (_, { name, address }, { cache }) => {
-      const nameArray = name.split('.')
-      const label = nameArray[0]
-      const parentArray = nameArray.slice(1)
-      const parent = parentArray.join('.')
       try {
-        const tx = await setSubnodeOwner(label, parent, address)
+        const tx = await setSubnodeOwner(name, address)
         return sendHelper(tx)
       } catch (e) {
         console.log(e)

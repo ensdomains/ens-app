@@ -10,7 +10,7 @@
     "@ensdomains/ens": "^0.3.3",
     "@ensdomains/ens-022": "npm:@ensdomains/ens@0.2.2",
     "@ensdomains/ethregistrar": "^1.2.2",
-    "@ensdomains/react-ens-address": "^0.0.7",
+    "@ensdomains/react-ens-address": "^0.0.8",
     "@ensdomains/resolver": "^0.1.6",
     "@ensdomains/ui": "^1.0.88",
     "apollo-cache-inmemory": "^1.2.9",
@@ -44,7 +44,6 @@
     "react-spring": "^6.1.7",
     "react-tooltip": "^3.9.2",
     "react-transition-group-plus": "^0.5.3",
-    "web3": "1.0.0-beta.34",
     "whatwg-fetch": "^3.0.0"
   },
   "scripts": {

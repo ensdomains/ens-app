@@ -1185,39 +1185,21 @@
     lodash "^4.17.11"
     web3 "1.0.0-beta.34"
 
-"@ensdomains/react-ens-address@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@ensdomains/react-ens-address/-/react-ens-address-0.0.7.tgz#07fd01c3b4443a322cf5dd593ff2e85fe53d0384"
-  integrity sha512-RwXO2E5X6twmtmXKoZs1b3ibdDgvX0L1WMSv67c+bfioXuBLMqK2EgRP3jRh1NeV/cdrFvYxxg3ClH3n3xR7uQ==
+"@ensdomains/react-ens-address@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@ensdomains/react-ens-address/-/react-ens-address-0.0.8.tgz#587602a347c59022ddecdd0849a4ca2f87582e84"
+  integrity sha512-Jn1T7cvz5+R0RTpuwDmV2TV/IEiXPNg152n3yFcjB3FOaQvESxZywrkXHoPh8zUDa9BjUF77fM7SXAz0vZ9+Hg==
   dependencies:
     "@emotion/core" "^10.0.14"
     "@emotion/styled" "^10.0.14"
     "@ensdomains/ui" "^1.0.88"
+    ethers "^4.0.32"
     lodash "^4.17.11"
 
 "@ensdomains/resolver@^0.1.6":
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/@ensdomains/resolver/-/resolver-0.1.6.tgz#15e070a58d5f2be6b46787661121dddae0cfe132"
   integrity sha512-6+xbVrajjDJJiTqtqjl18tO98YM3ceiNCOwjDzI/LZU9PadJZlKreGTgaZOQJi4bj5hyXZf3xwRU2tJOHSaPpQ==
-
-"@ensdomains/ui@^1.0.88":
-  version "1.0.88"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.0.88.tgz#cbcef15ad428909fac3356ca0d7b88e5c3448a5b"
-  integrity sha512-u0/whdduXDuQNJcvf0hA630+lV0wBO3MtgULjA2Wf3rL/2d3vSH1EcBPknNtoaoAl/OJ1TZiUnF1NCgGWyuOmg==
-  dependencies:
-    "@0xproject/utils" "^2.0.2"
-    "@babel/runtime" "^7.4.4"
-    "@ensdomains/ens" "^0.3.5"
-    "@ensdomains/ens-022" "npm:@ensdomains/ens@0.2.2"
-    "@ensdomains/ethregistrar" "^1.2.2"
-    "@ensdomains/resolver" "^0.1.6"
-    content-hash "^2.3.2"
-    cross-fetch "^3.0.2"
-    eth-ens-namehash "^2.0.8"
-    ethers "^4.0.30"
-    js-sha3 "^0.8.0"
-    lodash "^4.17.11"
-    web3 "1.0.0-beta.34"
 
 "@ensdomains/ui@^1.0.88":
   version "1.0.88"
@@ -5503,7 +5485,7 @@ ethers@4.0.0-beta.14:
     uuid "2.0.1"
     xmlhttprequest "1.8.0"
 
-ethers@^4.0.30:
+ethers@^4.0.30, ethers@^4.0.32:
   version "4.0.32"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-4.0.32.tgz#46378864cb3bf29b57c2effd17508b560743abf6"
   integrity sha512-r0k2tBNF6MYEsvwmINeP3VPppD/7eAZyiOk/ifDDawXGCKqr3iEQkPq6OZSDVD+4Jie38WPteS9thXzpn2+A5Q==

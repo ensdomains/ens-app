@@ -1,11 +1,6 @@
 import React, { useState } from 'react'
 import Web3 from 'web3'
-import AddressInput from '../components/Address/Address'
-
-const web3 = new Web3(
-  'https://mainnet.infura.io/v3/b608a8ce95964c469961c30385809cca'
-)
-web3.currentProvider.sendAsync = web3.currentProvider.send
+import AddressInput from '@ensdomains/react-ens-address'
 
 export const TestPage = () => {
   const [resolvedAddress, setResolvedAddress] = useState(null)
@@ -14,21 +9,24 @@ export const TestPage = () => {
   return (
     <>
       <p>Default</p>
-      <AddressInput provider={web3.currentProvider} />
+      <AddressInput provider={window.web3 || window.ethereum} />
 
       <p>Without search icon</p>
-      <AddressInput provider={web3.currentProvider} showSearchIcon={false} />
+      <AddressInput
+        provider={window.web3 || window.ethereum}
+        showSearchIcon={false}
+      />
 
       <p>Without search icon & without blockies</p>
       <AddressInput
-        provider={web3.currentProvider}
+        provider={window.web3 || window.ethereum}
         showSearchIcon={false}
         showBlockies={false}
       />
 
       <p>Custom placeholder</p>
       <AddressInput
-        provider={web3.currentProvider}
+        provider={window.web3 || window.ethereum}
         placeholder="Test test test"
       />
 
@@ -37,17 +35,23 @@ export const TestPage = () => {
         <span className="resolve-result">{resolvedAddress}</span>
       </p>
       <AddressInput
-        provider={web3.currentProvider}
+        provider={window.web3 || window.ethereum}
         onResolve={setResolvedAddress}
       />
 
       <p>
         With onError handler: <span className="error-result">{error}</span>
       </p>
-      <AddressInput provider={web3.currentProvider} onError={setError} />
+      <AddressInput
+        provider={window.web3 || window.ethereum}
+        onError={setError}
+      />
 
       <p>Small</p>
-      <AddressInput provider={web3.currentProvider} className="small" />
+      <AddressInput
+        provider={window.web3 || window.ethereum}
+        className="small"
+      />
 
       <br />
     </>
