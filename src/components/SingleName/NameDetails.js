@@ -246,12 +246,19 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
               ) : (
                 ''
               )}
-              {domain.expiryTime ? (
-                domain.isNewRegistrar ? (
+              {!domain.available ? (
+                domain.isNewRegistrar || domain.gracePeriodEndDate ? (
                   <DetailsItemEditable
                     domain={domain}
                     keyName="Expiration Date"
                     value={domain.expiryTime}
+                    notes={
+                      domain.gracePeriodEndDate
+                        ? `(grace period ends ${formatDate(
+                            domain.gracePeriodEndDate
+                          )} )`
+                        : null
+                    }
                     canEdit={parseInt(account, 16) !== 0}
                     type="date"
                     editButton="Renew"

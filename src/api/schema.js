@@ -65,6 +65,7 @@ const typeDefs = `
     migrationStartDate: Int
     currentBlockDate: Int
     transferEndDate: Int
+    gracePeriodEndDate: Int
     isNewRegistrar: Boolean
   }
 

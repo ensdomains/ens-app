@@ -53,6 +53,7 @@ export const GET_SINGLE_NAME = gql`
       migrationStartDate
       currentBlockDate
       transferEndDate
+      gracePeriodEndDate
       value
       highestBid
       state
