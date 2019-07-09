@@ -267,7 +267,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                     refetch={refetch}
                     confirm={true}
                   />
-                ) : (
+                ) : domain.expiryTime ? (
                   <DetailsItem uneditable>
                     <DetailsKey>Expiration Date</DetailsKey>
                     <ExpirationDetailsValue
@@ -276,6 +276,8 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                       {formatDate(domain.expiryTime)}
                     </ExpirationDetailsValue>
                   </DetailsItem>
+                ) : (
+                  ''
                 )
               ) : isPermanentRegistrarDeployed &&
                 isLegacyAuctionedName(domain) ? (
