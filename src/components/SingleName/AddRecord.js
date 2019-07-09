@@ -18,7 +18,7 @@ import {
   SET_ADDRESS
 } from '../../graphql/mutations'
 
-import DefaultAddressInput from '../Address/Address'
+import DefaultAddressInput from '@ensdomains/react-ens-address'
 
 const AddressInput = styled(DefaultAddressInput)`
   margin-bottom: 10px;

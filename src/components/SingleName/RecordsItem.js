@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import Web3 from 'web3'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
+import DefaultAddressInput from '@ensdomains/react-ens-address'
+
 import { validateRecord } from '../../utils/records'
 import { emptyAddress } from '../../utils/utils'
 import mq from 'mediaQuery'
@@ -23,7 +24,6 @@ import {
 import DetailsItemInput from './DetailsItemInput'
 import { useEditable } from '../hooks'
 import { getOldContentWarning } from './warnings'
-import DefaultAddressInput from '../Address/Address'
 
 const AddressInput = styled(DefaultAddressInput)`
   margin-bottom: 10px;
