@@ -1185,10 +1185,10 @@
     lodash "^4.17.11"
     web3 "1.0.0-beta.34"
 
-"@ensdomains/react-ens-address@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@ensdomains/react-ens-address/-/react-ens-address-0.0.8.tgz#587602a347c59022ddecdd0849a4ca2f87582e84"
-  integrity sha512-Jn1T7cvz5+R0RTpuwDmV2TV/IEiXPNg152n3yFcjB3FOaQvESxZywrkXHoPh8zUDa9BjUF77fM7SXAz0vZ9+Hg==
+"@ensdomains/react-ens-address@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@ensdomains/react-ens-address/-/react-ens-address-0.0.9.tgz#11915621646c07650000da2684603563a7e9bb2a"
+  integrity sha512-RiWC6SJoGO0lm9GkYn+oe6otxIS8OyZrg13qt38oH/n9ZeWoPRPBu8hx4aNiJpO6cFTeJPoxsavFsWFHuZanDQ==
   dependencies:
     "@emotion/core" "^10.0.14"
     "@emotion/styled" "^10.0.14"

@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Web3 from 'web3'
 import AddressInput from '@ensdomains/react-ens-address'
 
 export const TestPage = () => {
