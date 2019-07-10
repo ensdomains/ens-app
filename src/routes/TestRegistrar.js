@@ -1,7 +1,6 @@
 import React, { Fragment, Component } from 'react'
 import { Query, Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
-import 'ethereum-ens'
 import { GET_WEB3 } from '../graphql/queries'
 
 const GET_PENDING_TRANSACTIONS = gql`
