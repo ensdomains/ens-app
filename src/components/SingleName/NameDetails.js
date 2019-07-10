@@ -152,6 +152,9 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
   console.log('domain.owner', domain.owner, 'domain.dnsOwner', domain.dnsOwner)
   const showExplainer = !parseInt(domain.resolver)
   const [loading, setLoading] = useState(undefined)
+  const canSubmit =
+    domain.state === 5 && // This is for not allowing the case user does not have record rather than having empty address record.
+    domain.owner.toLowerCase() !== domain.dnsOwner.toLowerCase()
   return (
     <>
       <Route
@@ -258,18 +261,17 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                     </EtherScanLink>
                   </DetailsValue>
                   <ButtonContainer>
-                    {domain.owner.toLowerCase() !==
-                    domain.dnsOwner.toLowerCase() ? (
+                    {canSubmit ? (
                       <SubmitProof
                         name={domain.name}
                         parentOwner={domain.parentOwner}
                         refetch={refetch}
-                        actionText={!domain.dnsOwner ? 'Delete' : 'Transfer'}
+                        actionText={'Transfer'}
                       />
                     ) : (
                       <Tooltip
-                        text="You can only transfer or delete the controller if you update the DNS owner"
-                        position="top"
+                        text="You can only transfer the controller if you update the DNS owner. Deleting is disabled for now"
+                        position="left"
                         border={true}
                         warning={true}
                         offset={{ left: -30, top: 10 }}
