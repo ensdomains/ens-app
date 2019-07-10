@@ -21,6 +21,11 @@ import Pencil from '../Forms/Pencil'
 import DefaultInfo from '../Icons/Info'
 import DefaultPendingTx from '../PendingTx'
 import DefaultPricer from './Pricer'
+import DefaultAddressInput from '@ensdomains/react-ens-address'
+
+const AddressInput = styled(DefaultAddressInput)`
+  margin-bottom: 10px;
+`
 
 const EtherScanLink = styled(DefaultEtherScanLink)`
   display: flex;
@@ -132,8 +137,10 @@ function getToolTipMessage(keyName) {
 
 function getInputType(
   keyName,
+  type,
   {
     newValue,
+    presetValue,
     updateValue,
     isValid,
     isInvalid,
@@ -146,34 +153,49 @@ function getInputType(
     expirationDate
   }
 ) {
-  switch (keyName) {
-    case 'Expiration Date':
-      return (
-        <Pricer
-          name={name}
-          duration={duration}
-          years={years}
-          setYears={years => {
-            setYears(years)
-            updateValue(formatDate(expirationDate))
-          }}
-          ethUsdPriceLoading={ethUsdPriceLoading}
-          ethUsdPrice={ethUsdPrice}
-          expirationDate={expirationDate}
-        />
-      )
-    default:
-      return (
-        <Input
-          value={newValue}
-          onChange={e => updateValue(e.target.value)}
-          valid={isValid}
-          invalid={isInvalid}
-          placeholder="Type in a new Ethereum address"
-          large
-        />
-      )
+  if (keyName === 'Expiration Date') {
+    return (
+      <Pricer
+        name={name}
+        duration={duration}
+        years={years}
+        setYears={years => {
+          setYears(years)
+          updateValue(formatDate(expirationDate))
+        }}
+        ethUsdPriceLoading={ethUsdPriceLoading}
+        ethUsdPrice={ethUsdPrice}
+        expirationDate={expirationDate}
+      />
+    )
   }
+
+  if (type === 'address') {
+    return (
+      <AddressInput
+        presetValue={presetValue || ''}
+        provider={window.ethereum || window.web3}
+        onResolve={({ address }) => {
+          if (address) {
+            updateValue(address)
+          } else {
+            updateValue('')
+          }
+        }}
+      />
+    )
+  }
+
+  return (
+    <Input
+      value={newValue}
+      onChange={e => updateValue(e.target.value)}
+      valid={isValid}
+      invalid={isInvalid}
+      placeholder=""
+      large
+    />
+  )
 }
 
 function getValidation(keyName, newValue) {
@@ -212,6 +234,7 @@ const Editable = ({
   confirm
 }) => {
   const { state, actions } = useEditable()
+  const [presetValue, setPresetValue] = useState('')
 
   const { editing, newValue, txHash, pending, confirmed } = state
 
@@ -324,9 +347,10 @@ const Editable = ({
               (props => (
                 <div style={props}>
                   <EditRecord>
-                    {getInputType(keyName, {
+                    {getInputType(keyName, type, {
                       newValue,
                       updateValue,
+                      presetValue,
                       isValid,
                       isInvalid,
                       years,
@@ -347,7 +371,7 @@ const Editable = ({
                             <DefaultResolverButton
                               onClick={e => {
                                 e.preventDefault()
-                                updateValue(data.publicResolver.address)
+                                setPresetValue(data.publicResolver.address)
                               }}
                             >
                               Use Public Resolver
