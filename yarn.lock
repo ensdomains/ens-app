@@ -1220,10 +1220,10 @@
     lodash "^4.17.11"
     web3 "1.0.0-beta.34"
 
-"@ensdomains/ui@^1.0.89":
-  version "1.0.89"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.0.89.tgz#96102d1e37134c944f3f2bbcd0d8c6fed41f8c43"
-  integrity sha512-FlfHEgfMPpytu/mU9AqHEDTIZb94RuXJ5ozKxF8vjDl8x09FszAQQGY3qLOUXyj3/oGIJjMYoGBqmka8Dqh/rw==
+"@ensdomains/ui@^1.0.90":
+  version "1.0.90"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.0.90.tgz#077dff302ba7131f4d31d7badc1e2dbb7a31d9ce"
+  integrity sha512-ZwWG+JACBY9SvvRYnbuhGTd2O/FojaPwjfASHuc5BTh7Q4UHqA6KLLM62AVHlk80AP9YG80BRXmSC+doD1gmLA==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
