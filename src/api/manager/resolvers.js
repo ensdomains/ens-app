@@ -2,9 +2,9 @@ import {
   getOwner,
   setSubnodeOwner,
   getDomainDetails,
-  getSubDomains,
+  getSubdomains,
   getName,
-  getAddr,
+  getAddress,
   claimAndSetReverseRecordName,
   setOwner,
   setResolver,
@@ -175,7 +175,7 @@ const resolvers = {
       }
 
       const data = cache.readQuery({ query: GET_ALL_NODES })
-      const rawSubDomains = await getSubDomains(name)
+      const rawSubDomains = await getSubdomains(name)
       const subDomains = rawSubDomains.map(s => ({
         ...s,
         __typename: 'SubDomain'
@@ -213,7 +213,7 @@ const resolvers = {
       try {
         const { name } = await getName(address)
         if (name !== null) {
-          const addr = await getAddr(name)
+          const addr = await getAddress(name)
           return {
             ...obj,
             name,
@@ -244,7 +244,6 @@ const resolvers = {
     },
     setName: async (_, { name }) => {
       try {
-        console.log(name)
         const tx = await claimAndSetReverseRecordName(name)
         return sendHelper(tx)
       } catch (e) {
@@ -260,12 +259,8 @@ const resolvers = {
       }
     },
     setSubnodeOwner: async (_, { name, address }, { cache }) => {
-      const nameArray = name.split('.')
-      const label = nameArray[0]
-      const parentArray = nameArray.slice(1)
-      const parent = parentArray.join('.')
       try {
-        const tx = await setSubnodeOwner(label, parent, address)
+        const tx = await setSubnodeOwner(name, address)
         return sendHelper(tx)
       } catch (e) {
         console.log(e)
@@ -303,9 +298,9 @@ const resolvers = {
         console.log(e)
       }
     },
-    createSubdomain: async (_, { name, label }, { cache }) => {
+    createSubdomain: async (_, { name }, { cache }) => {
       try {
-        const tx = await createSubdomain(label, name)
+        const tx = await createSubdomain(name)
         return sendHelper(tx)
       } catch (e) {
         console.log(e)

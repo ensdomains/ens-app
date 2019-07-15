@@ -39,7 +39,7 @@ const USD = styled('span')`
 `
 
 const Price = ({ price, ethUsdPrice, ethUsdPriceLoading }) => {
-  const ethVal = new EthVal(price).toEth()
+  const ethVal = new EthVal(`${price}`).toEth()
   return (
     <PriceContainer>
       <Value>

@@ -90,8 +90,7 @@ function AddSubdomain({ domain, refetch }) {
                     mutation={() => {
                       mutation({
                         variables: {
-                          name: domain.name,
-                          label: newValue
+                          name: `${newValue}.${domain.name}`
                         }
                       }).then(() => {
                         refetch()

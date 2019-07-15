@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
+import DefaultAddressInput from '@ensdomains/react-ens-address'
+
 import { validateRecord } from '../../utils/records'
 import { emptyAddress } from '../../utils/utils'
 import mq from 'mediaQuery'
@@ -22,6 +24,10 @@ import {
 import DetailsItemInput from './DetailsItemInput'
 import { useEditable } from '../hooks'
 import { getOldContentWarning } from './warnings'
+
+const AddressInput = styled(DefaultAddressInput)`
+  margin-bottom: 10px;
+`
 
 const RecordsItem = styled(DetailsItem)`
   border-top: 1px dashed #d3d3d3;
@@ -193,14 +199,27 @@ const Editable = ({
             {editing ? (
               <>
                 <EditRecord>
-                  <DetailsItemInput
-                    newValue={newValue}
-                    dataType={type}
-                    contentType={domain.contentType}
-                    updateValue={updateValue}
-                    isValid={isValid}
-                    isInvalid={isInvalid}
-                  />
+                  {type === 'address' ? (
+                    <AddressInput
+                      provider={window.ethereum || window.web3}
+                      onResolve={({ address }) => {
+                        if (address) {
+                          updateValue(address)
+                        } else {
+                          updateValue('')
+                        }
+                      }}
+                    />
+                  ) : (
+                    <DetailsItemInput
+                      newValue={newValue}
+                      dataType={type}
+                      contentType={domain.contentType}
+                      updateValue={updateValue}
+                      isValid={isValid}
+                      isInvalid={isInvalid}
+                    />
+                  )}
                 </EditRecord>
                 <SaveCancel
                   warningMessage={getOldContentWarning(
@@ -251,6 +270,12 @@ class RecordItem extends Component {
               <ContentHashLink value={value} contentType={contentType} />
             )}
           </RecordsValue>
+          <Action>
+            <Pencil
+              disabled={true}
+              data-testid={`edit-${keyName.toLowerCase()}`}
+            />
+          </Action>
         </RecordsContent>
         {keyName === 'Address' &&
           value.toLowerCase() === account.toLowerCase() && (

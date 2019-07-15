@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import { Mutation, Query } from 'react-apollo'
-import { addressUtils } from '@0xproject/utils'
 import PropTypes from 'prop-types'
 import { Transition } from 'react-spring'
 
@@ -9,6 +8,7 @@ import { GET_PUBLIC_RESOLVER } from '../../graphql/queries'
 import mq from 'mediaQuery'
 import { useEditable, useEthPrice } from '../hooks'
 import { yearInSeconds, formatDate } from 'utils/dates'
+import { addressUtils } from 'utils/utils'
 
 import Tooltip from '../Tooltip/Tooltip'
 import { SingleNameBlockies } from './SingleNameBlockies'
@@ -21,6 +21,11 @@ import Pencil from '../Forms/Pencil'
 import DefaultInfo from '../Icons/Info'
 import DefaultPendingTx from '../PendingTx'
 import DefaultPricer from './Pricer'
+import DefaultAddressInput from '@ensdomains/react-ens-address'
+
+const AddressInput = styled(DefaultAddressInput)`
+  margin-bottom: 10px;
+`
 
 const EtherScanLink = styled(DefaultEtherScanLink)`
   display: flex;
@@ -117,10 +122,25 @@ function getDefaultMessage(keyName) {
   }
 }
 
+function getToolTipMessage(keyName) {
+  switch (keyName) {
+    case 'Resolver':
+      return 'You can only set the resolver on this name if you are the controller and are logged into your wallet'
+    case 'Controller':
+      return 'You can only transfer the controller if you are the controller or registrant and are logged into your wallet'
+    case 'Registrant':
+      return 'You can only transfer the registrant if you are the registrant and are logged into your wallet'
+    default:
+      return 'You can only make changes if you are the controller and are logged into your wallet'
+  }
+}
+
 function getInputType(
   keyName,
+  type,
   {
     newValue,
+    presetValue,
     updateValue,
     isValid,
     isInvalid,
@@ -133,34 +153,49 @@ function getInputType(
     expirationDate
   }
 ) {
-  switch (keyName) {
-    case 'Expiration Date':
-      return (
-        <Pricer
-          name={name}
-          duration={duration}
-          years={years}
-          setYears={years => {
-            setYears(years)
-            updateValue(formatDate(expirationDate))
-          }}
-          ethUsdPriceLoading={ethUsdPriceLoading}
-          ethUsdPrice={ethUsdPrice}
-          expirationDate={expirationDate}
-        />
-      )
-    default:
-      return (
-        <Input
-          value={newValue}
-          onChange={e => updateValue(e.target.value)}
-          valid={isValid}
-          invalid={isInvalid}
-          placeholder="Type in a new Ethereum address"
-          large
-        />
-      )
+  if (keyName === 'Expiration Date') {
+    return (
+      <Pricer
+        name={name}
+        duration={duration}
+        years={years}
+        setYears={years => {
+          setYears(years)
+          updateValue(formatDate(expirationDate))
+        }}
+        ethUsdPriceLoading={ethUsdPriceLoading}
+        ethUsdPrice={ethUsdPrice}
+        expirationDate={expirationDate}
+      />
+    )
   }
+
+  if (type === 'address') {
+    return (
+      <AddressInput
+        presetValue={presetValue || ''}
+        provider={window.ethereum || window.web3}
+        onResolve={({ address }) => {
+          if (address) {
+            updateValue(address)
+          } else {
+            updateValue('')
+          }
+        }}
+      />
+    )
+  }
+
+  return (
+    <Input
+      value={newValue}
+      onChange={e => updateValue(e.target.value)}
+      valid={isValid}
+      invalid={isInvalid}
+      placeholder=""
+      large
+    />
+  )
 }
 
 function getValidation(keyName, newValue) {
@@ -199,6 +234,7 @@ const Editable = ({
   confirm
 }) => {
   const { state, actions } = useEditable()
+  const [presetValue, setPresetValue] = useState('')
 
   const { editing, newValue, txHash, pending, confirmed } = state
 
@@ -311,9 +347,10 @@ const Editable = ({
               (props => (
                 <div style={props}>
                   <EditRecord>
-                    {getInputType(keyName, {
+                    {getInputType(keyName, type, {
                       newValue,
                       updateValue,
+                      presetValue,
                       isValid,
                       isInvalid,
                       years,
@@ -334,7 +371,7 @@ const Editable = ({
                             <DefaultResolverButton
                               onClick={e => {
                                 e.preventDefault()
-                                updateValue(data.publicResolver.address)
+                                setPresetValue(data.publicResolver.address)
                               }}
                             >
                               Use Public Resolver
@@ -380,7 +417,15 @@ const Editable = ({
   )
 }
 
-function ViewOnly({ value, keyName, type, deedOwner, isDeedOwner, domain }) {
+function ViewOnly({
+  editButton,
+  value,
+  keyName,
+  type,
+  deedOwner,
+  isDeedOwner,
+  domain
+}) {
   if (parseInt(value, 16) === 0) {
     let [newValue, newType] = getDefaultMessage(keyName)
     value = newValue
@@ -412,6 +457,41 @@ function ViewOnly({ value, keyName, type, deedOwner, isDeedOwner, domain }) {
             value
           )}
         </DetailsValue>
+
+        <Action>
+          {editButton ? (
+            <Tooltip
+              text={getToolTipMessage(keyName)}
+              position="top"
+              border={true}
+              warning={true}
+              offset={{ left: -30, top: 10 }}
+            >
+              {({ tooltipElement, showTooltip, hideTooltip }) => {
+                return (
+                  <EditButton
+                    onMouseOver={() => {
+                      showTooltip()
+                    }}
+                    onMouseLeave={() => {
+                      hideTooltip()
+                    }}
+                    data-testid={`edit-${keyName.toLowerCase()}`}
+                    type="disabled"
+                  >
+                    {editButton}
+                    {tooltipElement}
+                  </EditButton>
+                )
+              }}
+            </Tooltip>
+          ) : (
+            <Pencil
+              data-testid={`edit-${keyName.toLowerCase()}`}
+              disabled={true}
+            />
+          )}
+        </Action>
       </DetailsContent>
     </DetailsEditableContainer>
   )
