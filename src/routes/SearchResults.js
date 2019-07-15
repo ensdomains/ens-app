@@ -1,8 +1,10 @@
-import React, { Fragment } from 'react'
-import DomainInfo from '../components/SearchName/DomainInfo'
-import { SubDomainStateFields } from '../graphql/fragments'
+import React from 'react'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
+
+import { H2 } from '../components/Typography/Basic'
+import DomainInfo from '../components/SearchName/DomainInfo'
+import { SubDomainStateFields } from '../graphql/fragments'
 import { validateName, parseSearchTerm } from '../utils/utils'
 import SearchErrors from '../components/SearchErrors/SearchErrors'
 import { isShortName } from '../utils/utils'
@@ -69,14 +71,14 @@ class Results extends React.Component {
     const { searchTerm } = this.props
     if (this.state.errors[0] === 'tooShort') {
       return (
-        <Fragment>
+        <>
           <SearchErrors
             errors={this.state.errors}
             searchTerm={this.props.searchTerm}
           />
           {console.log('IN RESULTS', searchTerm)}
           {/* <SubDomainResults searchTerm={searchTerm} /> */}
-        </Fragment>
+        </>
       )
     } else if (this.state.errors.length > 0) {
       return (
@@ -88,10 +90,11 @@ class Results extends React.Component {
     }
     if (this.state.parsed) {
       return (
-        <Fragment>
+        <>
+          <H2>Top Level Domains</H2>
           <DomainInfo searchTerm={this.state.parsed} />
           {/* <SubDomainResults searchTerm={searchTerm} /> */}
-        </Fragment>
+        </>
       )
     } else {
       return ''

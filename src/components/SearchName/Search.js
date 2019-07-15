@@ -90,6 +90,13 @@ function Search({ history, className, style }) {
           return
         }
 
+        console.log(type)
+
+        if (type === 'address') {
+          history.push(`/address/${searchTerm}`)
+          return
+        }
+
         input.value = ''
         if (type === 'supported' || type === 'short') {
           history.push(`/name/${searchTerm}`)

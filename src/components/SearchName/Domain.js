@@ -1,8 +1,6 @@
 import React, { Fragment } from 'react'
 import { Query } from 'react-apollo'
-import Loader from '../Loader'
 import DomainItem from '../DomainItem/DomainItem'
-import { H2 } from '../Typography/Basic'
 import { GET_FAVOURITES, GET_SINGLE_NAME } from '../../graphql/queries'
 
 export const DomainInfo = ({ domainState, isFavourite, loading }) => {
@@ -15,9 +13,9 @@ export const DomainInfo = ({ domainState, isFavourite, loading }) => {
   )
 }
 
-const DomainInfoContainer = ({ searchTerm }) => {
+const DomainInfoContainer = ({ name }) => {
   return (
-    <Query query={GET_SINGLE_NAME} variables={{ name: searchTerm + '.eth' }}>
+    <Query query={GET_SINGLE_NAME} variables={{ name }}>
       {({ data, loading, error }) => {
         const { singleName } = data
         return (

@@ -160,6 +160,22 @@ export const GET_ERRORS = gql`
   }
 `
 
+/* Subgraph only queries */
+
+export const GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH = gql`
+  query getDomains($id: ID!) {
+    account(id: $id) {
+      domains {
+        labelName
+        name
+        parent {
+          name
+        }
+      }
+    }
+  }
+`
+
 /* Permanent Registrar */
 
 export const GET_RENT_PRICE = gql`
