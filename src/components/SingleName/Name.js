@@ -125,7 +125,6 @@ function Name({ details: domain, name, pathname, refetch }) {
         } else {
           containerState = isOwner ? 'Yours' : domain.state
         }
-        console.log({ domain })
         return (
           <NameContainer state={containerState}>
             <TopBar percentDone={percentDone}>
