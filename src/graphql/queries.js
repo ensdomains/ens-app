@@ -46,7 +46,7 @@ export const GET_ALL_NODES = gql`
 
 export const GET_SINGLE_NAME = gql`
   query singleName($name: String) @client {
-    singleName(name: $name) {
+    singleName(name: $name) @client {
       ...NodeFields
       revealDate
       registrationDate
@@ -74,6 +74,24 @@ export const GET_SUBDOMAINS = gql`
   query getSubDomains($name: String) @client {
     getSubDomains(name: $name) {
       subDomains
+    }
+  }
+`
+
+export const GET_SUBDOMAINS_FROM_SUBGRAPH = gql`
+  query getSubdomains($id: ID!) {
+    domain(id: $id) {
+      id
+      labelName
+      subdomains {
+        id
+        labelName
+        labelhash
+        name
+        owner {
+          id
+        }
+      }
     }
   }
 `
