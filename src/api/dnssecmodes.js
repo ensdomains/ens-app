@@ -40,23 +40,5 @@ export default [
     action: true,
     button: 'Register',
     displayOwner: true
-  },
-  // 6,
-  {
-    title: 'ENS is registered',
-    action: false
-  },
-  // 7,
-  {
-    title: 'Update ENS Record',
-    action: true,
-    displayOwner: true,
-    button: 'Update'
-  },
-  // 8,
-  {
-    title: 'DNS Record is invalid',
-    action: true,
-    claim: 'Delete'
   }
 ]
