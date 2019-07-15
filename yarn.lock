@@ -1220,6 +1220,25 @@
     lodash "^4.17.11"
     web3 "1.0.0-beta.34"
 
+"@ensdomains/ui@^1.0.90":
+  version "1.0.90"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.0.90.tgz#077dff302ba7131f4d31d7badc1e2dbb7a31d9ce"
+  integrity sha512-ZwWG+JACBY9SvvRYnbuhGTd2O/FojaPwjfASHuc5BTh7Q4UHqA6KLLM62AVHlk80AP9YG80BRXmSC+doD1gmLA==
+  dependencies:
+    "@0xproject/utils" "^2.0.2"
+    "@babel/runtime" "^7.4.4"
+    "@ensdomains/ens" "^0.3.5"
+    "@ensdomains/ens-022" "npm:@ensdomains/ens@0.2.2"
+    "@ensdomains/ethregistrar" "^1.2.2"
+    "@ensdomains/resolver" "^0.1.6"
+    content-hash "^2.3.2"
+    cross-fetch "^3.0.2"
+    eth-ens-namehash "^2.0.8"
+    ethers "^4.0.30"
+    js-sha3 "^0.8.0"
+    lodash "^4.17.11"
+    web3 "1.0.0-beta.34"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
