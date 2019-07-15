@@ -1,10 +1,8 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Mutation } from 'react-apollo'
 import styled from '@emotion/styled'
-import mq from 'mediaQuery'
 import { useEditable } from '../hooks'
 import { SUBMIT_PROOF } from '../../graphql/mutations'
-import { ReactComponent as Pencil } from '../Icons/SmallPencil.svg'
 
 import Button from '../Forms/Button'
 import PendingTx from '../PendingTx'
@@ -20,24 +18,14 @@ const Action = styled('div')`
 function SubmitProof({ name, parentOwner, refetch, actionText }) {
   const { state, actions } = useEditable()
   const { txHash, pending, confirmed } = state
-  const { startPending, setConfirmed } = actions
-  console.log('SubmitProof component', {
-    name,
-    parentOwner,
-    refetch,
-    actionText,
-    txHash,
-    pending,
-    confirmed
-  })
+  const { startPending } = actions
+
   return (
     <Action>
       {pending && !confirmed && txHash ? (
         <PendingTx
           txHash={txHash}
           onConfirmed={() => {
-            console.log('onConfirmed')
-            // setConfirmed()
             refetch()
           }}
         />
@@ -45,7 +33,6 @@ function SubmitProof({ name, parentOwner, refetch, actionText }) {
         <Mutation
           mutation={SUBMIT_PROOF}
           onCompleted={data => {
-            console.log('SubmitProof:onCompleted', { data })
             startPending(Object.values(data)[0])
           }}
         >

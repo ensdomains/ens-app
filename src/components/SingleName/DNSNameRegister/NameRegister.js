@@ -30,8 +30,10 @@ const Address = styled('span')`
 const DNSOwnerContainer = styled('div')`
   background: #f0f6fa;
   display: flex;
-  padding: 1em;
-  justify-content: space-evenly;
+  padding: 1em 0;
+  *{
+    padding-left 24px;
+  }
 `
 
 const BreadcrumbsCaontainer = styled('ul')`
@@ -70,7 +72,7 @@ const Number = ({ number, currentNumber, text }) => {
   const black = '#2B2B2B'
   const displayNumber = number < currentNumber ? '✓' : number
   let color
-  if (number == currentNumber) {
+  if (number === currentNumber) {
     color = black
   } else if (number < currentNumber) {
     color = green
@@ -198,7 +200,10 @@ const NameRegister = ({ account, domain, refetch, readOnly }) => {
   )
   const incrementStep = () => dispatch('NEXT')
   const content = getContent(step, account, domain.dnsOwner)
-  const showDNSOwner = domain.dnsOwner && [2, 3, 4].includes(content.number)
+  const showDNSOwner =
+    domain.dnsOwner &&
+    [2, 3, 4].includes(content.number) &&
+    parseInt(domain.dnsOwner) !== 0
   return (
     <NameRegisterContainer>
       <BreadcrumbsCaontainer>

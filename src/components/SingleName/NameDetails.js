@@ -2,7 +2,6 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { Link, Route } from 'react-router-dom'
 import SubmitProof from './SubmitProof'
-import dnsSecModes from '../../api/dnssecmodes'
 import Tooltip from '../Tooltip/Tooltip'
 import { HR } from '../Typography/Basic'
 import DefaultButton from '../Forms/Button'
@@ -149,7 +148,6 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
   } else {
     contentMutation = SET_CONTENTHASH
   }
-  console.log('domain.owner', domain.owner, 'domain.dnsOwner', domain.dnsOwner)
   const showExplainer = !parseInt(domain.resolver)
   const [loading, setLoading] = useState(undefined)
   const canSubmit =
@@ -318,7 +316,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
               {/* To be replaced with a logic a function to detect dnsregistrar */}
               {domain.isDNSRegistrar ? (
                 <DetailsItem uneditable>
-                  <DetailsKey>DNS Owner</DetailsKey>
+                  <DetailsKey>DNS OWNER</DetailsKey>
                   <DetailsValue>
                     <EtherScanLink address={domain.dnsOwner}>
                       <SingleNameBlockies

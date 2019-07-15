@@ -6,10 +6,8 @@ import { SUBMIT_PROOF } from '../../../graphql/mutations'
 import PendingTx from '../../PendingTx'
 import Button from '../../Forms/Button'
 import { ReactComponent as DefaultPencil } from '../../Icons/SmallPencil.svg'
-import { ReactComponent as DefaultOrangeExclamation } from '../../Icons/OrangeExclamation.svg'
 import { ReactComponent as ExternalLinkIcon } from '../../Icons/externalLink.svg'
 import DefaultLoader from '../../Loader'
-import { useEditable } from '../../hooks'
 
 const LoaderContainer = styled('div')`
   width: 60px;
@@ -43,15 +41,6 @@ const Pencil = styled(DefaultPencil)`
   margin-right: 5px;
 `
 
-const Prompt = styled('span')`
-  color: #ffa600;
-  margin-right: 10px;
-`
-
-const OrangeExclamation = styled(DefaultOrangeExclamation)`
-  margin-right: 5px;
-`
-
 const Exclamation = () => (
   <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
     <path
@@ -73,13 +62,10 @@ function getCTA({
   name,
   parentOwner,
   incrementStep,
-  label,
   txHash,
   setTxHash,
-  refetch,
-  readOnly
+  refetch
 }) {
-  const { state, actions } = useEditable()
   const [loading, setLoading] = useState(undefined)
   const RefreshButton = number => {
     return loading ? (
@@ -94,11 +80,6 @@ function getCTA({
           setLoading(true)
           refetch().then(data => {
             setLoading(false)
-            console.log(
-              data.data.singleName.state,
-              number,
-              data.data.singleName.state > number
-            )
             if (data.data.singleName.state > number) {
               incrementStep()
             }
@@ -151,16 +132,7 @@ function getCTA({
   return CTAs[step]
 }
 
-const CTA = ({
-  name,
-  parentOwner,
-  step,
-  incrementStep,
-  label,
-  refetch,
-  readOnly,
-  error
-}) => {
+const CTA = ({ name, parentOwner, step, incrementStep, refetch, error }) => {
   const [txHash, setTxHash] = useState(undefined)
   return (
     <CTAContainer>
@@ -184,11 +156,9 @@ const CTA = ({
         name,
         parentOwner,
         incrementStep,
-        label,
         txHash,
         setTxHash,
-        refetch,
-        readOnly
+        refetch
       })}
     </CTAContainer>
   )

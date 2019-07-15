@@ -7,6 +7,7 @@ import {
   getDomainDetails,
   getSubdomains,
   getName,
+  getNetworkId,
   getAddress,
   claimAndSetReverseRecordName,
   setOwner,
@@ -21,7 +22,6 @@ import {
 } from '@ensdomains/ui'
 import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
-import { getNetworkId } from '@ensdomains/ui'
 import domains from '../../constants/domains.json'
 import { sendHelper } from '../resolverUtils'
 import { emptyAddress } from '../../utils/utils'
