@@ -8,7 +8,7 @@ import { SET_ERROR } from 'graphql/mutations'
 
 import { GlobalStateProvider } from 'globalState'
 import 'globalStyles'
-import setupClient from 'apolloClient'
+import { setupClient } from 'apolloClient'
 
 window.addEventListener('load', async () => {
   let client

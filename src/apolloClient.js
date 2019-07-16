@@ -7,6 +7,8 @@ import { HttpLink } from 'apollo-link-http'
 import resolvers, { defaults } from './api/rootResolver'
 import typeDefs from './api/schema'
 
+let client
+
 const cache = new InMemoryCache({
   addTypename: true
 })
@@ -50,17 +52,21 @@ const stateLink = withClientState({
   typeDefs
 })
 
-export default async function setupClient() {
+export async function setupClient() {
   const network = await getNetwork()
 
   const httpLink = new HttpLink({
     uri: getGraphQLAPI(network)
   })
 
-  const client = new ApolloClient({
+  client = new ApolloClient({
     cache,
     addTypename: true,
     link: ApolloLink.from([stateLink, httpLink], cache)
   })
+  return client
+}
+
+export default function getClient() {
   return client
 }
