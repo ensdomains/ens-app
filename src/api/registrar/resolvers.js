@@ -30,7 +30,12 @@ const resolvers = {
       return await getRentPrice(name, duration)
     },
     async getMinimumCommitmentAge() {
-      return parseInt(await getMinimumCommitmentAge())
+      try {
+        const minCommitmentAge = await getMinimumCommitmentAge()
+        return parseInt(minCommitmentAge)
+      } catch (e) {
+        console.log(e)
+      }
     }
   },
   Mutation: {

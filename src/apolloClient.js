@@ -20,8 +20,6 @@ const endpoints = {
 async function getNetwork() {
   let network
 
-  console.log(window.ethereum, window.web3)
-
   if (window.ethereum) {
     network = window.ethereum.networkVersion
   } else if (window.web3) {
@@ -38,8 +36,10 @@ async function getNetwork() {
 function getGraphQLAPI(network) {
   if (endpoints[network]) {
     return endpoints[network]
-  } else {
+  } else if (process.env.REACT_APP_GRAPH_NODE_URI) {
     return process.env.REACT_APP_GRAPH_NODE_URI
+  } else {
+    return endpoints['1']
   }
 }
 

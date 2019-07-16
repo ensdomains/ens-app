@@ -179,13 +179,13 @@ export const GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH = gql`
 /* Permanent Registrar */
 
 export const GET_RENT_PRICE = gql`
-  query getRentPrice($name: String, $duration: Number) @client {
-    getRentPrice(name: $name, duration: $duration)
+  query getRentPrice($name: String, $duration: Number) {
+    getRentPrice(name: $name, duration: $duration) @client
   }
 `
 
 export const GET_MINIMUM_COMMITMENT_AGE = gql`
-  query getMinimumCommitmentAge @client {
-    getMinimumCommitmentAge
+  query getMinimumCommitmentAge {
+    getMinimumCommitmentAge @client
   }
 `
