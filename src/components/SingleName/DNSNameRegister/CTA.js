@@ -92,8 +92,8 @@ function getCTA({
   }
 
   const CTAs = {
-    ENABLE_DNSSEC: RefreshButton(2),
-    ADD_TEXT: RefreshButton(4),
+    ENABLE_DNSSEC: <RefreshButton number={2} />,
+    ADD_TEXT: <RefreshButton number={4} />,
     SUBMIT_PROOF: (
       <Mutation
         mutation={SUBMIT_PROOF}
