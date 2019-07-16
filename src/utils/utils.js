@@ -3,7 +3,7 @@ import {
   validateName as _validateName,
   parseSearchTerm as _parseSearchTerm,
   ensStartBlock as _ensStartBlock,
-  // isLabelValid as _isLabelValid,
+  isLabelValid as _isLabelValid,
   emptyAddress as _emptyAddress
 } from '@ensdomains/ui'
 import * as jsSHA3 from 'js-sha3'
@@ -91,7 +91,7 @@ export function validateName(name) {
 }
 
 export function isLabelValid(name) {
-  // return _isLabelValid(name)
+  return _isLabelValid(name)
 }
 
 export const parseSearchTerm = term => {
