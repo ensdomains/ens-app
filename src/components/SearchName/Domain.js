@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Query } from 'react-apollo'
 import DomainItem from '../DomainItem/DomainItem'
 import { GET_FAVOURITES, GET_SINGLE_NAME } from '../../graphql/queries'

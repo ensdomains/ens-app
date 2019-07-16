@@ -141,20 +141,18 @@ class SubDomains extends Component {
                     )}
                     {data &&
                       data.domain.subdomains.map(d => {
-                        let nodeName
-                        const splitName = d.name.split('.')
-                        if (splitName.length > 1) {
-                          nodeName = splitName.slice(1).join('.')
-                        }
+                        const name = `${d.labelName}.${domain.name}`
                         return (
-                          <SubDomainLink key={d.name} to={`/name/${d.name}`}>
+                          <SubDomainLink key={d.name} to={`/name/${name}`}>
                             <SingleNameBlockies
                               imageSize={24}
                               address={d.owner.id}
                             />
                             {d.labelName !== null
-                              ? d.name
-                              : `[${d.labelhash.slice(2)}]`}
+                              ? `${name}`
+                              : `[unknown${d.labelhash.slice(2, 10)}].${
+                                  domain.name
+                                }`}
                           </SubDomainLink>
                         )
                       })}
