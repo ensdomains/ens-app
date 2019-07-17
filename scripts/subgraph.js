@@ -19,4 +19,3 @@ doc.dataSources.forEach(s => {
   }
 })
 fs.writeFileSync(fileName, yaml.safeDump(doc))
-console.log(2)
