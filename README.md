@@ -140,7 +140,7 @@ Get graph-node
 git clone https://github.com/graphprotocol/graph-node
 ```
 
-From now on, we assumed that `graph-node`, `ens-app`, and `ens-subgraph` all exists under same directory
+From now on, we assume that `graph-node`, `ens-app`, and `ens-subgraph` all exist under the same directory
 
 ### Start ganache
 
@@ -165,7 +165,7 @@ yarn preTest
 yarn subgraph
 ```
 
-`subgraph` job will update ENS contract addresses and change environment from `mainnet` to `dev`
+`subgraph` job updates ENS contract addresses and updates environment from `mainnet` to `dev`
 
 ### Deploy ENS subgraph
 
