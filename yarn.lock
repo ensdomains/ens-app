@@ -1185,14 +1185,14 @@
     lodash "^4.17.11"
     web3 "1.0.0-beta.34"
 
-"@ensdomains/react-ens-address@^0.0.9":
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/@ensdomains/react-ens-address/-/react-ens-address-0.0.9.tgz#11915621646c07650000da2684603563a7e9bb2a"
-  integrity sha512-RiWC6SJoGO0lm9GkYn+oe6otxIS8OyZrg13qt38oH/n9ZeWoPRPBu8hx4aNiJpO6cFTeJPoxsavFsWFHuZanDQ==
+"@ensdomains/react-ens-address@^0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@ensdomains/react-ens-address/-/react-ens-address-0.0.11.tgz#b22741bfca0dfc1081c1e54b4c7a7381aef89a79"
+  integrity sha512-dDdSlR5QoXCf6QNDIWi3uCmV/zkwx2SgiodUYGumyRl/QP74MoVdK6GrTdu6OCmSEqA1lYGxln+CVkcGRud+Zw==
   dependencies:
     "@emotion/core" "^10.0.14"
     "@emotion/styled" "^10.0.14"
-    "@ensdomains/ui" "^1.0.88"
+    "@ensdomains/ui" "^1.0.92"
     ethers "^4.0.32"
     lodash "^4.17.11"
 
@@ -1201,29 +1201,10 @@
   resolved "https://registry.yarnpkg.com/@ensdomains/resolver/-/resolver-0.1.6.tgz#15e070a58d5f2be6b46787661121dddae0cfe132"
   integrity sha512-6+xbVrajjDJJiTqtqjl18tO98YM3ceiNCOwjDzI/LZU9PadJZlKreGTgaZOQJi4bj5hyXZf3xwRU2tJOHSaPpQ==
 
-"@ensdomains/ui@^1.0.88":
-  version "1.0.88"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.0.88.tgz#cbcef15ad428909fac3356ca0d7b88e5c3448a5b"
-  integrity sha512-u0/whdduXDuQNJcvf0hA630+lV0wBO3MtgULjA2Wf3rL/2d3vSH1EcBPknNtoaoAl/OJ1TZiUnF1NCgGWyuOmg==
-  dependencies:
-    "@0xproject/utils" "^2.0.2"
-    "@babel/runtime" "^7.4.4"
-    "@ensdomains/ens" "^0.3.5"
-    "@ensdomains/ens-022" "npm:@ensdomains/ens@0.2.2"
-    "@ensdomains/ethregistrar" "^1.2.2"
-    "@ensdomains/resolver" "^0.1.6"
-    content-hash "^2.3.2"
-    cross-fetch "^3.0.2"
-    eth-ens-namehash "^2.0.8"
-    ethers "^4.0.30"
-    js-sha3 "^0.8.0"
-    lodash "^4.17.11"
-    web3 "1.0.0-beta.34"
-
-"@ensdomains/ui@^1.0.90":
-  version "1.0.90"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.0.90.tgz#077dff302ba7131f4d31d7badc1e2dbb7a31d9ce"
-  integrity sha512-ZwWG+JACBY9SvvRYnbuhGTd2O/FojaPwjfASHuc5BTh7Q4UHqA6KLLM62AVHlk80AP9YG80BRXmSC+doD1gmLA==
+"@ensdomains/ui@^1.0.92":
+  version "1.0.92"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.0.92.tgz#a2e41ebf32a181b1cbb081ec81c87d00a2cb9cd5"
+  integrity sha512-WT1oP3vxM1lsj3N52Xsog5rAqAoUaAgOqnHspEJudWoSnuLqM1PLN5plZVsaWVzDHHj//WHcJHwjRWUGtjDAvQ==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
