@@ -60,6 +60,9 @@ export async function setupClient() {
   })
 
   client = new ApolloClient({
+    fetchOptions: {
+      mode: 'no-cors'
+    },
     cache,
     addTypename: true,
     link: ApolloLink.from([stateLink, httpLink], cache)

@@ -124,7 +124,12 @@ class SubDomains extends Component {
                       <Loader withWrap large />
                     </>
                   )
-                if (data && data.domain.subdomains.length === 0) {
+                if (
+                  data &&
+                  data.domain &&
+                  data.domain.subdomains &&
+                  data.domain.subdomains.length === 0
+                ) {
                   return (
                     <>
                       {isOwner && (
