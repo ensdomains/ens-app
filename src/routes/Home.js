@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import { Link } from 'react-router-dom'
 import styled from '@emotion/styled'
 import { Spring } from 'react-spring'
 
@@ -32,6 +33,16 @@ const ShortNameAuctions = styled('div')`
   a {
     color: white;
     text-decoration: underline;
+  }
+`
+
+const Favourites = styled('div')`
+  position: absolute;
+  right: 40px;
+  top: 20px;
+  a {
+    font-weight: 300;
+    color: white;
   }
 `
 
@@ -254,6 +265,9 @@ export default props => (
           )
         }
       </NetworkInfoQuery>
+      <Favourites>
+        <Link to="/favourites">Favourites</Link>
+      </Favourites>
 
       <SearchContainer>
         <Spring

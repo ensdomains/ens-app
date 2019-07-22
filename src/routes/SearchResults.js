@@ -47,12 +47,9 @@ class Results extends React.Component {
       this.setState({
         errors: ['domainMalformed']
       })
-    } else if (isShortName(parsed || searchTerm)) {
-      this.setState({
-        errors: ['tooShort']
-      })
-      //getSubDomainAvailability({ variables: { name: searchTerm } })
-    } else {
+    }
+    //getSubDomainAvailability({ variables: { name: searchTerm } })
+    else {
       //getSubDomainAvailability({ variables: { name: searchTerm } })
     }
   }
