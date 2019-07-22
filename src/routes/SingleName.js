@@ -42,7 +42,7 @@ function SingleName({
         if (_type === !'short') {
           _type = 'unsupported'
         }
-        setValid(false)
+        setValid(true)
       }
       setType(_type)
     }
@@ -59,6 +59,7 @@ function SingleName({
               details={data.singleName}
               name={name}
               pathname={pathname}
+              type={type}
               refetch={refetch}
             />
           )
