@@ -47,9 +47,7 @@ class Results extends React.Component {
       this.setState({
         errors: ['domainMalformed']
       })
-    }
-    //getSubDomainAvailability({ variables: { name: searchTerm } })
-    else {
+    } else {
       //getSubDomainAvailability({ variables: { name: searchTerm } })
     }
   }
