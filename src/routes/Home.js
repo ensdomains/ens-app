@@ -16,6 +16,25 @@ import Alice from '../components/HomePage/Alice'
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
 import { ReactComponent as DefaultPermanentRegistrarIcon } from '../components/Icons/PermanentRegistrar.svg'
 
+const ShortNameAuctions = styled('div')`
+  display: flex;
+  justify-content: center;
+  background: #5284ff;
+  border-bottom: #5284ff solid 3px;
+
+  h3 {
+    color: white;
+    font-weight: 400;
+    text-align: center;
+    padding: 0 20px;
+  }
+
+  a {
+    color: white;
+    text-decoration: underline;
+  }
+`
+
 const HowToUse = styled(HowToUseDefault)`
   padding: 70px;
 `
@@ -268,6 +287,12 @@ export default props => (
         </Spring>
       </SearchContainer>
     </Hero>
+    <ShortNameAuctions>
+      <h3>
+        The short name reservations are in progress at&nbsp;
+        <a href="https://reserve.ens.domains">reserve.ens.domains</a>
+      </h3>
+    </ShortNameAuctions>
     <Explanation>
       <WhatItIs>
         <Inner>
