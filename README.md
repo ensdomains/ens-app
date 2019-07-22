@@ -119,3 +119,73 @@ yarn start
 ```bash
 yarn run cypress:open
 ```
+
+## Setting up subraph
+
+Subgraph is used to list subdomains and all the names you have registered.
+
+### Prerequisit
+
+Get ens subgraph
+
+```
+git clone https://github.com/graphprotocol/ens-subgraph
+cd ens-subgraph
+yarn
+```
+
+Get graph-node
+
+```
+git clone https://github.com/graphprotocol/graph-node
+```
+
+From now on, we assume that `graph-node`, `ens-app`, and `ens-subgraph` all exist under the same directory
+
+### Start ganache
+
+```
+ganache-cli
+```
+
+### Start thegraph node
+
+This starts up docker with ipfs, postgresdb, and the-graph node.
+
+```
+cd ../graph-node
+cd docker-compose up
+```
+
+### Deploy ENS contracts and update subgraph.yml
+
+```
+cd ../ens-app
+yarn preTest
+yarn subgraph
+```
+
+`subgraph` job updates ENS contract addresses and updates environment from `mainnet` to `dev`
+
+### Deploy ENS subgraph
+
+### Generate deployment code
+
+```
+cd ../ens-subgraph
+yarn
+yarn codegen
+```
+
+### Deploy
+
+```
+yarn create-local
+yarn deploy-local
+```
+
+NOTE: If it raises error, try to delete `graph-node/docker/data` and startup the docker again.
+
+#### Confirm that you can query from browser
+
+<img width="1000" alt="Screenshot 2019-07-17 at 11 34 59" src="https://user-images.githubusercontent.com/2630/61370435-4fd7b280-a88a-11e9-80e6-ba6d5e13d0ee.png">
