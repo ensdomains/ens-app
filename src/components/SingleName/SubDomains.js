@@ -68,7 +68,7 @@ const SubDomains = ({ domain, isOwner, ...rest }) => (
                     <SingleNameBlockies imageSize={24} address={d.owner} />
                     {d.decrypted
                       ? d.name
-                      : `[unknown${d.labelHash.slice(2, 12)}].${d.node}`}
+                      : `[unknown${d.labelhash.slice(2, 12)}].${d.node}`}
                   </SubDomainLink>
                 ))}
             </>
