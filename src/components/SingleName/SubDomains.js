@@ -50,7 +50,7 @@ class SubDomains extends Component {
   async componentDidMount() {
     const networkId = await getNetworkId()
     // hack for test purposes - use subgraph only in production
-    this.setState({ isTestNetwork: parseInt(networkId, 10) > 50 })
+    //this.setState({ isTestNetwork: parseInt(networkId, 10) > 50 })
   }
 
   render() {
