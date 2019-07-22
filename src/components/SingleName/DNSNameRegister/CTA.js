@@ -143,7 +143,7 @@ const CTA = ({ name, parentOwner, step, incrementStep, refetch, error }) => {
         </>
       ) : null}
       <LinkToLearnMore
-        href="https://medium.com/the-ethereum-name-service/how-to-claim-your-dns-domain-on-ens-e600ef2d92ca"
+        href="https://docs.ens.domains/dns-registrar-guide"
         target="_blank"
       >
         Learn More{' '}
