@@ -10,6 +10,8 @@ import client from 'apolloClient'
 import { GlobalStateProvider } from 'globalState'
 import 'globalStyles'
 
+import '@ethvault/iframe-provider-polyfill'
+
 window.addEventListener('load', async () => {
   try {
     await setupENS({ reloadOnAccountsChange: true })

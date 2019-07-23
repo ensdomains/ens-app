@@ -13,6 +13,7 @@
     "@ensdomains/react-ens-address": "^0.0.11",
     "@ensdomains/resolver": "^0.1.6",
     "@ensdomains/ui": "^1.0.93",
+    "@ethvault/iframe-provider-polyfill": "^0.1.5",
     "apollo-cache-inmemory": "^1.2.9",
     "apollo-client": "^2.4.5",
     "apollo-link": "^1.2.2",
