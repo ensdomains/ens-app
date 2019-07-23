@@ -154,6 +154,7 @@ This starts up docker with ipfs, postgresdb, and the-graph node.
 
 ```
 cd ../graph-node
+cd docker
 cd docker-compose up
 ```
 
