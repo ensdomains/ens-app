@@ -1239,6 +1239,11 @@
     lodash "^4.17.11"
     web3 "1.0.0-beta.34"
 
+"@ethvault/iframe-provider-polyfill@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@ethvault/iframe-provider-polyfill/-/iframe-provider-polyfill-0.1.5.tgz#571dfe5928e8e9d7f120f7eca0159157b32d1a14"
+  integrity sha512-w5OXSAA8cuSNjOwlvQWO/dRVSSzOy/3TqhkLPTB03jpE1jm7BTR/VJYLIBTWUTRzEfsEqchBGyarwyPC76NS0Q==
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
