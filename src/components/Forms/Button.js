@@ -47,6 +47,9 @@ function getButtonStyles({ type }) {
         color: #5384FE;
         background: transparent;
         border: 2px solid #5384FE;
+        &:visited {
+          color: #5384FE;
+        }
         &:hover {
           cursor: pointer;
           border: 2px solid #2C46A6;
