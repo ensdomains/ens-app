@@ -76,6 +76,7 @@ const AddressContainer = ({ match }) => {
             </NoDomainsContainer>
           )
         }
+        console.log(data)
         return (
           <Address
             address={match.params.address}

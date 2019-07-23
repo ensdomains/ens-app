@@ -120,11 +120,11 @@ yarn start
 yarn run cypress:open
 ```
 
-## Setting up subraph
+## Setting up subgraph
 
 Subgraph is used to list subdomains and all the names you have registered.
 
-### Prerequisit
+### Prerequisite
 
 Get ens subgraph
 
@@ -147,6 +147,10 @@ From now on, we assume that `graph-node`, `ens-app`, and `ens-subgraph` all exis
 ```
 ganache-cli
 ```
+
+### Download and start docker
+
+Download and start [docker](https://www.docker.com/) first
 
 ### Start thegraph node
 
