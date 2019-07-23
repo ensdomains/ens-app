@@ -34,7 +34,7 @@ export function getPlaceholder(recordType, contentType) {
       return 'Enter an Ethereum address'
     case 'content':
       if (contentType === 'contenthash') {
-        return 'Enter a content hash (eg: ipfs://..., bzz://...)'
+        return 'Enter a content hash (eg: ipfs://..., bzz://..., onion://...)'
       } else {
         return 'Enter a content'
       }
