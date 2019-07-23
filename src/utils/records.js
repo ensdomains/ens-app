@@ -1,5 +1,4 @@
-import { encodeContenthash } from '@ensdomains/ui'
-import { validateContent } from './contents'
+import { encodeContenthash, isValidContenthash } from '@ensdomains/ui'
 import { addressUtils } from 'utils/utils'
 
 export function validateRecord(record) {
@@ -20,7 +19,7 @@ export function validateRecord(record) {
     case 'content':
       const encoded = encodeContenthash(value)
       if (encoded) {
-        return validateContent(encoded)
+        return isValidContenthash(encoded)
       } else {
         return false
       }
@@ -35,7 +34,7 @@ export function getPlaceholder(recordType, contentType) {
       return 'Enter an Ethereum address'
     case 'content':
       if (contentType === 'contenthash') {
-        return 'Enter a content hash (eg: ipfs://..., bzz://...)'
+        return 'Enter a content hash (eg: ipfs://..., bzz://..., onion://...)'
       } else {
         return 'Enter a content'
       }
