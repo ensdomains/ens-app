@@ -264,11 +264,11 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                         name={domain.name}
                         parentOwner={domain.parentOwner}
                         refetch={refetch}
-                        actionText={'Transfer'}
+                        actionText={'Sync'}
                       />
                     ) : (
                       <Tooltip
-                        text="You can only transfer the controller if you update the DNS owner. Deleting is disabled for now"
+                        text="The controller and DNS owner are already in sync"
                         position="left"
                         border={true}
                         warning={true}
@@ -285,7 +285,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                               }}
                               type="disabled"
                             >
-                              Transfer
+                              Sync
                               {tooltipElement}
                             </Button>
                           )
