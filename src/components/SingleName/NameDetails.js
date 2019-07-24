@@ -33,6 +33,14 @@ import NameClaimTestDomain from './NameClaimTestDomain'
 
 import { formatDate } from '../../utils/dates'
 
+const You = styled('span')`
+  color: white;
+  background: #c7d3e3;
+  border-radius: 6px;
+  border: 1px solid #ededed;
+  padding: 0 2px;
+`
+
 const Details = styled('section')`
   padding: 40px;
   transition: 0.4s;
@@ -248,7 +256,9 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                 </>
               ) : domain.isDNSRegistrar ? (
                 <DetailsItem uneditable>
-                  <DetailsKey>Controller</DetailsKey>
+                  <DetailsKey>
+                    Controller {isDeedOwner ? <You>You</You> : ''}
+                  </DetailsKey>
                   <DetailsValue>
                     <EtherScanLink address={domain.owner}>
                       <SingleNameBlockies
