@@ -17,7 +17,12 @@ const InnerWrapper = styled('div')`
   padding: 20px;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  flex-direction: column;
+  align-items: center;
+  ${mq.medium`
+    flex-direction: row;
+    align-items: flex-start;
+  `}
   p {
     text-align: left;
     max-width: 500px;
