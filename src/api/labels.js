@@ -10,7 +10,7 @@ function _saveLabel(hash, label) {
     'labels',
     JSON.stringify({
       ...labels,
-      hash: label
+      [hash]: label
     })
   )
   return hash
@@ -23,6 +23,13 @@ export function saveLabel(label) {
   } catch (e) {
     throw e
   }
+}
+
+export function saveName(name) {
+  const nameArray = name.split('.')
+  nameArray.forEach(label => {
+    saveLabel(label)
+  })
 }
 
 export function checkLabel(hash) {

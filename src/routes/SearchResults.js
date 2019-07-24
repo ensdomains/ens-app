@@ -7,7 +7,6 @@ import DomainInfo from '../components/SearchName/DomainInfo'
 import { SubDomainStateFields } from '../graphql/fragments'
 import { validateName, parseSearchTerm } from '../utils/utils'
 import SearchErrors from '../components/SearchErrors/SearchErrors'
-import { isShortName } from '../utils/utils'
 
 const GET_SUBDOMAIN_AVAILABILITY = gql`
   mutation getSubDomainAvailability($name: String) {

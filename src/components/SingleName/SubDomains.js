@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from '@emotion/styled'
 import { Query } from 'react-apollo'
@@ -39,139 +39,116 @@ const SubDomainLink = styled(Link)`
   }
 `
 
-class SubDomains extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      isTestNetwork: false
-    }
-  }
-
-  async componentDidMount() {
-    const networkId = await getNetworkId()
-    // hack for test purposes - use subgraph only in production
-    //this.setState({ isTestNetwork: parseInt(networkId, 10) > 50 })
-  }
-
-  render() {
-    const { domain, isOwner, ...rest } = this.props
-    return (
-      <SubDomainsContainer {...rest}>
-        {parseInt(domain.owner, 16) !== 0 ? (
-          this.state.isTestNetwork ? (
-            <Query query={GET_SUBDOMAINS} variables={{ name: domain.name }}>
-              {({ loading, error, data, refetch }) => {
-                if (error) {
-                  console.log('error getting subdomains', error)
-                }
-                if (loading)
-                  return (
-                    <>
-                      {isOwner && (
-                        <AddSubdomain domain={domain} refetch={refetch} />
-                      )}
-                      <Loader withWrap large />
-                    </>
-                  )
-                if (data && data.getSubDomains.subDomains.length === 0) {
-                  return (
-                    <>
-                      {isOwner && (
-                        <AddSubdomain domain={domain} refetch={refetch} />
-                      )}
-                      <SubDomainH2>No subdomains have been added.</SubDomainH2>
-                    </>
-                  )
-                }
-                return (
-                  <>
-                    {isOwner && (
-                      <AddSubdomain domain={domain} refetch={refetch} />
-                    )}
-                    {data &&
-                      data.getSubDomains.subDomains.map(d => (
-                        <SubDomainLink key={d.name} to={`/name/${d.name}`}>
-                          <SingleNameBlockies
-                            imageSize={24}
-                            address={d.owner}
-                          />
-                          {d.decrypted
-                            ? d.name
-                            : `[unknown${d.labelHash.slice(2, 12)}].${d.node}`}
-                        </SubDomainLink>
-                      ))}
-                  </>
-                )
-              }}
-            </Query>
-          ) : (
-            <Query
-              query={GET_SUBDOMAINS_FROM_SUBGRAPH}
-              variables={{
-                id: getNamehash(domain.name)
-              }}
-            >
-              {({ loading, error, data, refetch }) => {
-                if (error) {
-                  console.error('Unable to get subdomains, error: ', error)
-                }
-                if (loading)
-                  return (
-                    <>
-                      {isOwner && (
-                        <AddSubdomain domain={domain} refetch={refetch} />
-                      )}
-                      <Loader withWrap large />
-                    </>
-                  )
-                if (
-                  data &&
-                  data.domain &&
-                  data.domain.subdomains &&
-                  data.domain.subdomains.length === 0
-                ) {
-                  return (
-                    <>
-                      {isOwner && (
-                        <AddSubdomain domain={domain} refetch={refetch} />
-                      )}
-                      <SubDomainH2>No subdomains have been added.</SubDomainH2>
-                    </>
-                  )
-                }
-                return (
-                  <>
-                    {isOwner && (
-                      <AddSubdomain domain={domain} refetch={refetch} />
-                    )}
-                    {data &&
-                      data.domain.subdomains.map(d => {
-                        const name = `${d.labelName}.${domain.name}`
-                        return (
-                          <SubDomainLink key={d.name} to={`/name/${name}`}>
-                            <SingleNameBlockies
-                              imageSize={24}
-                              address={d.owner.id}
-                            />
-                            {d.labelName !== null
-                              ? `${name}`
-                              : `[unknown${d.labelhash.slice(2, 10)}].${
-                                  domain.name
-                                }`}
-                          </SubDomainLink>
-                        )
-                      })}
-                  </>
-                )
-              }}
-            </Query>
+function SubDomainsFromWeb3(domain, isOwner) {
+  return (
+    <Query query={GET_SUBDOMAINS} variables={{ name: domain.name }}>
+      {({ loading, error, data, refetch }) => {
+        if (error) {
+          console.log('error getting subdomains', error)
+        }
+        if (loading)
+          return (
+            <>
+              {isOwner && <AddSubdomain domain={domain} refetch={refetch} />}
+              <Loader withWrap large />
+            </>
           )
-        ) : (
-          <SubDomainH2>No subdomains have been added.</SubDomainH2>
-        )}
-      </SubDomainsContainer>
-    )
-  }
+        if (data && data.getSubDomains.subDomains.length === 0) {
+          return (
+            <>
+              {isOwner && <AddSubdomain domain={domain} refetch={refetch} />}
+              <SubDomainH2>No subdomains have been added.</SubDomainH2>
+            </>
+          )
+        }
+        return (
+          <>
+            {isOwner && <AddSubdomain domain={domain} refetch={refetch} />}
+            {data &&
+              data.getSubDomains.subDomains.map(d => (
+                <SubDomainLink key={d.name} to={`/name/${d.name}`}>
+                  <SingleNameBlockies imageSize={24} address={d.owner} />
+                  {d.decrypted
+                    ? d.name
+                    : `[unknown${d.labelHash.slice(2, 12)}].${d.node}`}
+                </SubDomainLink>
+              ))}
+          </>
+        )
+      }}
+    </Query>
+  )
+}
+
+function SubDomains({ domain, isOwner, ...rest }) {
+  return (
+    <SubDomainsContainer {...rest}>
+      {parseInt(domain.owner, 16) !== 0 ? (
+        <Query
+          query={GET_SUBDOMAINS_FROM_SUBGRAPH}
+          variables={{
+            id: getNamehash(domain.name)
+          }}
+        >
+          {({ loading, error, data, refetch }) => {
+            if (error) {
+              console.error('Unable to get subdomains, error: ', error)
+
+              return <SubDomainsFromWeb3 domain={domain} isOwner={isOwner} />
+            }
+            if (loading)
+              return (
+                <>
+                  {isOwner && (
+                    <AddSubdomain domain={domain} refetch={refetch} />
+                  )}
+                  <Loader withWrap large />
+                </>
+              )
+            if (
+              data &&
+              data.domain &&
+              data.domain.subdomains &&
+              data.domain.subdomains.length === 0
+            ) {
+              return (
+                <>
+                  {isOwner && (
+                    <AddSubdomain domain={domain} refetch={refetch} />
+                  )}
+                  <SubDomainH2>No subdomains have been added.</SubDomainH2>
+                </>
+              )
+            }
+            return (
+              <>
+                {isOwner && <AddSubdomain domain={domain} refetch={refetch} />}
+                {data &&
+                  data.domain.subdomains.map(d => {
+                    const name = `${d.labelName}.${domain.name}`
+                    return (
+                      <SubDomainLink key={d.name} to={`/name/${name}`}>
+                        <SingleNameBlockies
+                          imageSize={24}
+                          address={d.owner.id}
+                        />
+                        {d.labelName !== null
+                          ? `${name}`
+                          : `[unknown${d.labelhash.slice(2, 10)}].${
+                              domain.name
+                            }`}
+                      </SubDomainLink>
+                    )
+                  })}
+              </>
+            )
+          }}
+        </Query>
+      ) : (
+        <SubDomainH2>No subdomains have been added.</SubDomainH2>
+      )}
+    </SubDomainsContainer>
+  )
 }
 
 export default SubDomains
