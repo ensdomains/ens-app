@@ -20,8 +20,7 @@ import { ReactComponent as DefaultPermanentRegistrarIcon } from '../components/I
 const ShortNameAuctions = styled('div')`
   display: flex;
   justify-content: center;
-  background: #5284ff;
-  border-bottom: #5284ff solid 3px;
+  background: #52e5ff;
 
   h3 {
     color: white;
