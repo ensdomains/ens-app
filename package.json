@@ -17,7 +17,7 @@
     "apollo-client": "^2.4.5",
     "apollo-link": "^1.2.2",
     "apollo-link-state": "^0.4.1",
-    "content-hash": "^2.2.0",
+    "content-hash": "^2.4.1",
     "cross-fetch": "^2.2.3",
     "emotion": "^10.0.9",
     "esm": "^3.2.22",
