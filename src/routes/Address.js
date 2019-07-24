@@ -3,6 +3,8 @@ import styled from '@emotion/styled'
 import { Query } from 'react-apollo'
 import { GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH } from '../graphql/queries'
 import Domain from '../components/SearchName/Domain'
+import { humaniseName } from '../utils/utils'
+import { decryptName } from '../api/labels'
 
 const NoDomainsContainer = styled('div')`
   display: flex;
@@ -40,7 +42,7 @@ function Address({ address, domains }) {
   return (
     <div>
       {domains.map(domain => (
-        <Domain name={domain.name} />
+        <Domain name={decryptName(domain.name)} />
       ))}
     </div>
   )
@@ -76,7 +78,6 @@ const AddressContainer = ({ match }) => {
             </NoDomainsContainer>
           )
         }
-        console.log(data)
         return (
           <Address
             address={match.params.address}

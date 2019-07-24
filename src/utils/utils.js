@@ -8,6 +8,7 @@ import {
   emptyAddress as _emptyAddress
 } from '@ensdomains/ui'
 import * as jsSHA3 from 'js-sha3'
+import { saveName, checkLabel } from '../api/labels'
 
 //import { checkLabelHash } from '../updaters/preImageDB'
 
@@ -88,7 +89,9 @@ export const mergeLabels = (labels1, labels2) =>
   labels1.map((label, index) => (label ? label : labels2[index]))
 
 export function validateName(name) {
-  return _validateName(name)
+  const normalisedName = _validateName(name)
+  saveName(normalisedName)
+  return normalisedName
 }
 
 export function isLabelValid(name) {
