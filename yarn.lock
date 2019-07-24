@@ -1318,6 +1318,25 @@
     lodash "^4.17.11"
     web3 "1.0.0-beta.34"
 
+"@ensdomains/ui@^1.0.93":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.1.0.tgz#fa9cc54fa2826ac280f842c398273c368128eeab"
+  integrity sha512-JJBdP4O3T9W/6XD5tlHzmCGtmeERI+KLrUNuLN+ewe62ZuJB7zeZ9VTCZEqQnJtIiBGlOphs7KOpEKffQAyMGA==
+  dependencies:
+    "@0xproject/utils" "^2.0.2"
+    "@babel/runtime" "^7.4.4"
+    "@ensdomains/ens" "^0.3.5"
+    "@ensdomains/ens-022" "npm:@ensdomains/ens@0.2.2"
+    "@ensdomains/ethregistrar" "^1.2.2"
+    "@ensdomains/resolver" "^0.1.6"
+    content-hash "^2.4.1"
+    cross-fetch "^3.0.2"
+    eth-ens-namehash "^2.0.8"
+    ethers "^4.0.30"
+    js-sha3 "^0.8.0"
+    lodash "^4.17.11"
+    web3 "1.0.0-beta.34"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -4343,6 +4362,15 @@ content-hash@^2.3.2:
     cids "^0.6.0"
     multicodec "^0.5.1"
     multihashes "^0.4.14"
+
+content-hash@^2.4.1:
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/content-hash/-/content-hash-2.4.3.tgz#89e6d295bbf2c53fb69b3d8fb43ae572ac7b6096"
+  integrity sha512-QBfQRlBBCJP94fV8zcUMChGMKzQMAZX6rn36yldc2A16C47tWdOTYjPosyZ7/AfdyW/xB5cP3RgZIAomnUDGIA==
+  dependencies:
+    cids "^0.6.0"
+    multicodec "^0.5.4"
+    multihashes "^0.4.15"
 
 content-type@~1.0.4:
   version "1.0.4"
@@ -10149,10 +10177,25 @@ multicodec@^0.5.1, multicodec@~0.5.0:
   dependencies:
     varint "^5.0.0"
 
+multicodec@^0.5.4:
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/multicodec/-/multicodec-0.5.4.tgz#ab2afb0cd00cd853c5a2eecb0dd1404dc7745388"
+  integrity sha512-0lPLiZ58b2jyXylx2qgda9/6N0YCNIpBxRsZ8sxYayVjEKh58XyNN74VTTQOR/ZCQFgbj0CsqfyRpEDPPlOMkw==
+  dependencies:
+    varint "^5.0.0"
+
 multihashes@^0.4.14, multihashes@~0.4.14:
   version "0.4.14"
   resolved "https://registry.yarnpkg.com/multihashes/-/multihashes-0.4.14.tgz#774db9a161f81a8a27dc60788f91248e020f5244"
   integrity sha512-V/g/EIN6nALXfS/xHUAgtfPP3mn3sPIF/i9beuGKf25QXS2QZYCpeVJbDPEannkz32B2fihzCe2D/KMrbcmefg==
+  dependencies:
+    bs58 "^4.0.1"
+    varint "^5.0.0"
+
+multihashes@^0.4.15:
+  version "0.4.15"
+  resolved "https://registry.yarnpkg.com/multihashes/-/multihashes-0.4.15.tgz#6dbc55f7f312c6782f5367c03c9783681589d8a6"
+  integrity sha512-G/Smj1GWqw1RQP3dRuRRPe3oyLqvPqUaEDIaoi7JF7Loxl4WAWvhJNk84oyDEodSucv0MmSW/ZT0RKUrsIFD3g==
   dependencies:
     bs58 "^4.0.1"
     varint "^5.0.0"
