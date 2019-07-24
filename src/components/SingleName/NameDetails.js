@@ -16,6 +16,7 @@ import { SingleNameBlockies } from './SingleNameBlockies'
 import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
 import { useState } from 'react'
 import DefaultLoader from '../Loader'
+import You from '../Icons/You'
 
 import {
   SET_OWNER,
@@ -32,14 +33,6 @@ import {
 import NameClaimTestDomain from './NameClaimTestDomain'
 
 import { formatDate } from '../../utils/dates'
-
-const You = styled('span')`
-  color: white;
-  background: #c7d3e3;
-  border-radius: 6px;
-  border: 1px solid #ededed;
-  padding: 0 2px;
-`
 
 const Details = styled('section')`
   padding: 40px;
@@ -127,6 +120,7 @@ function hasAnyRecord(domain) {
 }
 
 function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
+  const deedOwner = domain.deedOwner
   const isDeedOwner = domain.deedOwner === account
   const isRegistrant = domain.registrant === account
   const isPermanentRegistrarDeployed = domain.available !== null
@@ -256,9 +250,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                 </>
               ) : domain.isDNSRegistrar ? (
                 <DetailsItem uneditable>
-                  <DetailsKey>
-                    Controller {isDeedOwner ? <You>You</You> : ''}
-                  </DetailsKey>
+                  <DetailsKey>Controller {isOwner ? <You /> : ''}</DetailsKey>
                   <DetailsValue>
                     <EtherScanLink address={domain.owner}>
                       <SingleNameBlockies

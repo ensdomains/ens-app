@@ -7,6 +7,7 @@ import CTA from './CTA'
 import { SingleNameBlockies } from '../SingleNameBlockies'
 import DefaultEtherScanLink from '../../ExternalLinks/EtherScanLink'
 import dnssecmodes from '../../../api/dnssecmodes'
+import You from '../../Icons/You'
 
 const EtherScanLink = styled(DefaultEtherScanLink)`
   display: flex;
@@ -241,7 +242,7 @@ const NameRegister = ({ account, domain, refetch, readOnly }) => {
       />
       {showDNSOwner ? (
         <DNSOwnerContainer>
-          <span>DNS Owner {content.owner ? '(You)' : null}</span>
+          <span>DNS Owner {content.owner ? <You /> : null}</span>
           <EtherScanLink address={domain.dnsOwner}>
             <SingleNameBlockies address={domain.dnsOwner} imageSize={24} />
             {domain.dnsOwner}
