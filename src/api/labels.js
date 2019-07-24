@@ -6,10 +6,13 @@ function getLabels() {
 
 function _saveLabel(hash, label) {
   const labels = getLabels()
-  localStorage.setItem('labels', {
-    ...labels,
-    hash: label
-  })
+  localStorage.setItem(
+    'labels',
+    JSON.stringify({
+      ...labels,
+      hash: label
+    })
+  )
   return hash
 }
 
@@ -22,4 +25,7 @@ export function saveLabel(label) {
   }
 }
 
-export function getLabel(hash) {}
+export function checkLabel(hash) {
+  const labels = getLabels()
+  return labels[hash]
+}
