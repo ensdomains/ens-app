@@ -14,6 +14,7 @@ import SetupName from '../SetupName/SetupName'
 import TransferRegistrars from './TransferRegistrars'
 import { SingleNameBlockies } from './SingleNameBlockies'
 import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
+import { ReactComponent as ExternalLinkIcon } from '../Icons/externalLink.svg'
 import { useState } from 'react'
 import DefaultLoader from '../Loader'
 import You from '../Icons/You'
@@ -74,6 +75,29 @@ const ExpirationDetailsValue = styled(DetailsValue)`
 const EtherScanLink = styled(DefaultEtherScanLink)`
   display: flex;
   align-items: center;
+`
+
+const Explainer = styled('div')`
+  background: #f0f6fa;
+  color: #adbbcd;
+  display: flex;
+  padding: 1em 0;
+  margin-left: 180px;
+  margin-bottom: 50px;
+  padding-left 24px;
+`
+
+const EtherScanLinkContainer = styled('span')`
+  display: inline-block;
+  transform: translate(25%, 20%);
+`
+
+const LinkToLearnMore = styled('a')`
+  margin-right: 2em;
+  font-size: 14px;
+  letter-spacing: 0.58px;
+  text-align: center;
+  margin-left: auto;
 `
 
 function canClaim(domain) {
@@ -350,6 +374,19 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
               ) : (
                 ''
               )}
+              <Explainer>
+                *Click ‘refresh’ if you make changes to the domain in the DNS
+                Registrar.
+                <LinkToLearnMore
+                  href="https://docs.ens.domains/dns-registrar-guide"
+                  target="_blank"
+                >
+                  Learn More{' '}
+                  <EtherScanLinkContainer>
+                    <ExternalLinkIcon />
+                  </EtherScanLinkContainer>
+                </LinkToLearnMore>
+              </Explainer>
 
               {domain.registrationDate ? (
                 <DetailsItem uneditable>

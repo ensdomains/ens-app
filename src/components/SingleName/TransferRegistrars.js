@@ -92,7 +92,6 @@ const LearnMoreLink = styled('a')``
 
 const LearnMore = () => (
   <LearnMoreLink
-    // Temp link until we get better blog post explaining the detail.
     href="https://docs.ens.domains/permanent-registrar-faq"
     target="_blank"
   >
@@ -120,10 +119,7 @@ function displayMigrationDiralogue({
   isNewRegistrar,
   confirmed
 }) {
-  return (
-    (parent === 'eth' && ((isDeedOwner) && !isNewRegistrar)) ||
-    confirmed
-  )
+  return (parent === 'eth' && (isDeedOwner && !isNewRegistrar)) || confirmed
 }
 
 function TransferRegistrars({
