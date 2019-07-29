@@ -65,7 +65,7 @@ const AddressContainer = ({ match }) => {
   return (
     <Query
       query={GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH}
-      variables={{ id: match.params.address }}
+      variables={{ id: match.params.address.toLowerCase() }}
     >
       {({ data, loading }) => {
         if (loading) {
