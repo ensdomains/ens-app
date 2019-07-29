@@ -157,14 +157,14 @@ Download and start [docker](https://www.docker.com/) first
 This starts up docker with ipfs, postgresdb, and the-graph node.
 
 ```
-cd ../graph-node
+cd graph-node/docker
 docker-compose up
 ```
 
 ### Deploy ENS contracts and update subgraph.yml
 
 ```
-cd ../ens-app
+cd ens-app
 yarn preTest
 yarn subgraph
 ```
