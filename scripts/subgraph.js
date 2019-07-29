@@ -5,8 +5,6 @@ var fileName = '../ens-subgraph/subgraph.yaml'
 var doc = yaml.safeLoad(fs.readFileSync(fileName))
 var addresses = JSON.parse(fs.readFileSync('./cypress.env.json', 'utf8'))
 
-console.log(doc, addresses)
-
 doc.dataSources.forEach(s => {
   s.network = 'dev'
   switch (s.name) {
