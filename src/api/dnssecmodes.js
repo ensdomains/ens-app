@@ -25,14 +25,21 @@ export default [
   {
     state: 'ADD_TEXT',
     title: 'DNS Record is invalid',
-    displayOwner: true,
     displayError: true
   },
   // 5,
   {
     state: 'SUBMIT_PROOF',
     title: 'Ready to register',
-    button: 'Register',
-    displayOwner: true
+    explainer:
+      "*Click 'refresh' if you make changes to the domain in the DNS Registrar."
+  },
+  // 6,
+  {
+    state: 'SUBMIT_PROOF',
+    title: 'DNS is out of sync',
+    explainer:
+      "The Controller and DNS Owner are out of sync. Click 'sync' to make the DNS Owner the Controller. Click 'refresh' if you make changes to the domain in the DNS Registrar.",
+    outOfSync: true
   }
 ]

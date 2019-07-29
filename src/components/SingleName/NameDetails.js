@@ -81,6 +81,7 @@ const EtherScanLink = styled(DefaultEtherScanLink)`
 
 const Explainer = styled('div')`
   background: #f0f6fa;
+  outOfSync
   color: #adbbcd;
   display: flex;
   padding: 1em 0;
@@ -91,6 +92,12 @@ const Explainer = styled('div')`
 
 const ErrorExplainer = styled(Explainer)`
   background: #fef7e9;
+`
+
+const OutOfSyncExplainer = styled('div')`
+  margin-top: 20px;
+  background: #fef7e9;
+  display: flex;
 `
 
 const EtherScanLinkContainer = styled('span')`
@@ -109,12 +116,22 @@ const LinkToLearnMore = styled('a')`
 const OrangeExclamation = styled(DefaultOrangeExclamation)`
   margin-right: 5px;
   margin-top: 6px;
-  width: 15px;
-  height: 15px;
+  width: 20px;
+  height: 20px;
 `
 
 const DNSOwnerError = styled('span')`
   color: #f5a623;
+`
+
+const OwnerFields = styled('div')`
+  background: ${props => (props.outOfSync ? '#fef7e9' : '')};
+  padding: ${props => (props.outOfSync ? '1.5em' : '0')};
+  margin-bottom: ${props => (props.outOfSync ? '1.5em' : '0')};
+`
+
+const DomainOwnerAddress = styled(`span`)`
+  color: ${props => (props.outOfSync ? '#CACACA' : '')};
 `
 
 function canClaim(domain) {
@@ -194,7 +211,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
   const showExplainer = !parseInt(domain.resolver)
   const [loading, setLoading] = useState(undefined)
   const canSubmit =
-    domain.state === 5 && // This is for not allowing the case user does not have record rather than having empty address record.
+    dnssecmode.state === 'SUBMIT_PROOF' && // This is for not allowing the case user does not have record rather than having empty address record.
     domain.owner.toLowerCase() !== domain.dnsOwner.toLowerCase()
   return (
     <>
@@ -231,267 +248,295 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                   </DetailsValue>
                 </DetailsItem>
               )}
-              {domain.parent === 'eth' && domain.isNewRegistrar ? (
-                <>
-                  <DetailsItemEditable
-                    domain={domain}
-                    keyName="Registrant"
-                    value={domain.registrant}
-                    canEdit={isRegistrant}
-                    type="address"
-                    editButton="Transfer"
-                    mutationButton="Transfer"
-                    mutation={SET_REGISTRANT}
-                    refetch={refetch}
-                    confirm={true}
-                  />
-                  <DetailsItemEditable
-                    domain={domain}
-                    keyName="Controller"
-                    value={domain.owner}
-                    canEdit={isOwner || isRegistrant}
-                    deedOwner={domain.deedOwner}
-                    isDeedOwner={isDeedOwner}
-                    type="address"
-                    editButton={isRegistrant ? 'Set' : 'Transfer'}
-                    mutationButton={isRegistrant ? 'Set' : 'Transfer'}
-                    mutation={isRegistrant ? RECLAIM : SET_OWNER}
-                    refetch={refetch}
-                    confirm={true}
-                  />
-                </>
-              ) : domain.parent === 'eth' && !domain.isNewRegistrar ? (
-                <>
-                  <DetailsItem uneditable>
-                    <DetailsKey>Registrant</DetailsKey>
-                    <DetailsValue>
-                      <EtherScanLink address={domain.deedOwner}>
-                        <SingleNameBlockies
-                          address={domain.deedOwner}
-                          imageSize={24}
-                        />
-                        {domain.deedOwner}
-                      </EtherScanLink>
-                    </DetailsValue>
-                  </DetailsItem>
-                  <DetailsItemEditable
-                    domain={domain}
-                    keyName="Controller"
-                    value={domain.owner}
-                    canEdit={isOwner || isRegistrant}
-                    deedOwner={domain.deedOwner}
-                    isDeedOwner={isDeedOwner}
-                    type="address"
-                    editButton={isRegistrant ? 'Set' : 'Transfer'}
-                    mutationButton={isRegistrant ? 'Set' : 'Transfer'}
-                    mutation={isRegistrant ? RECLAIM : SET_OWNER}
-                    refetch={refetch}
-                    confirm={true}
-                  />
-                </>
-              ) : domain.isDNSRegistrar ? (
-                <DetailsItem uneditable>
-                  <DetailsKey>Controller {isOwner ? <You /> : ''}</DetailsKey>
-                  <DetailsValue>
-                    <EtherScanLink address={domain.owner}>
-                      <SingleNameBlockies
-                        address={domain.owner}
-                        imageSize={24}
-                      />
-                      {domain.owner}
-                    </EtherScanLink>
-                  </DetailsValue>
-                  <ButtonContainer>
-                    {canSubmit ? (
-                      <SubmitProof
-                        name={domain.name}
-                        parentOwner={domain.parentOwner}
-                        refetch={refetch}
-                        actionText={'Sync'}
-                      />
-                    ) : (
-                      <Tooltip
-                        text="The controller and DNS owner are already in sync"
-                        position="left"
-                        border={true}
-                        warning={true}
-                        offset={{ left: -30, top: 10 }}
-                      >
-                        {({ tooltipElement, showTooltip, hideTooltip }) => {
-                          return (
-                            <Button
-                              onMouseOver={() => {
-                                showTooltip()
-                              }}
-                              onMouseLeave={() => {
-                                hideTooltip()
-                              }}
-                              type="disabled"
-                            >
-                              Sync
-                              {tooltipElement}
-                            </Button>
-                          )
-                        }}
-                      </Tooltip>
-                    )}
-                  </ButtonContainer>
-                </DetailsItem>
-              ) : (
-                // Either subdomain, .test, or .dns(eg. .xyz)
-                <DetailsItemEditable
-                  domain={domain}
-                  keyName="Controller"
-                  value={domain.owner}
-                  canEdit={
-                    domain.isDNSRegistrar && domain.owner !== domain.dnsOwner
-                  }
-                  deedOwner={domain.deedOwner}
-                  isDeedOwner={isDeedOwner}
-                  type="address"
-                  editButton={isOwnerOfParent ? 'Set' : 'Transfer'}
-                  mutationButton={isOwnerOfParent ? 'Set' : 'Transfer'}
-                  mutation={isOwnerOfParent ? SET_SUBNODE_OWNER : SET_OWNER}
-                  refetch={refetch}
-                  confirm={true}
-                />
-              )}
-              {/* To be replaced with a logic a function to detect dnsregistrar */}
-              {domain.isDNSRegistrar ? (
-                <>
-                  <DetailsItem uneditable>
-                    <DetailsKey>DNS OWNER</DetailsKey>
-                    <DetailsValue>
-                      {dnssecmode.displayError ? (
-                        <DNSOwnerError>{dnssecmode.title}</DNSOwnerError>
-                      ) : (
-                        <EtherScanLink address={domain.dnsOwner}>
+              <OwnerFields outOfSync={dnssecmode.outOfSync}>
+                {domain.parent === 'eth' && domain.isNewRegistrar ? (
+                  <>
+                    <DetailsItemEditable
+                      domain={domain}
+                      keyName="Registrant"
+                      value={domain.registrant}
+                      canEdit={isRegistrant}
+                      type="address"
+                      editButton="Transfer"
+                      mutationButton="Transfer"
+                      mutation={SET_REGISTRANT}
+                      refetch={refetch}
+                      confirm={true}
+                    />
+                    <DetailsItemEditable
+                      domain={domain}
+                      keyName="Controller"
+                      value={domain.owner}
+                      canEdit={isOwner || isRegistrant}
+                      deedOwner={domain.deedOwner}
+                      isDeedOwner={isDeedOwner}
+                      type="address"
+                      editButton={isRegistrant ? 'Set' : 'Transfer'}
+                      mutationButton={isRegistrant ? 'Set' : 'Transfer'}
+                      mutation={isRegistrant ? RECLAIM : SET_OWNER}
+                      refetch={refetch}
+                      confirm={true}
+                    />
+                  </>
+                ) : domain.parent === 'eth' && !domain.isNewRegistrar ? (
+                  <>
+                    <DetailsItem uneditable>
+                      <DetailsKey>Registrant</DetailsKey>
+                      <DetailsValue>
+                        <EtherScanLink address={domain.deedOwner}>
                           <SingleNameBlockies
-                            address={domain.dnsOwner}
+                            address={domain.deedOwner}
                             imageSize={24}
                           />
-                          {domain.dnsOwner}
+                          {domain.deedOwner}
                         </EtherScanLink>
-                      )}
+                      </DetailsValue>
+                    </DetailsItem>
+                    <DetailsItemEditable
+                      domain={domain}
+                      keyName="Controller"
+                      value={domain.owner}
+                      canEdit={isOwner || isRegistrant}
+                      deedOwner={domain.deedOwner}
+                      isDeedOwner={isDeedOwner}
+                      type="address"
+                      editButton={isRegistrant ? 'Set' : 'Transfer'}
+                      mutationButton={isRegistrant ? 'Set' : 'Transfer'}
+                      mutation={isRegistrant ? RECLAIM : SET_OWNER}
+                      refetch={refetch}
+                      confirm={true}
+                    />
+                  </>
+                ) : domain.isDNSRegistrar ? (
+                  <DetailsItem uneditable>
+                    <DetailsKey>Controller {isOwner ? <You /> : ''}</DetailsKey>
+                    <DetailsValue>
+                      <EtherScanLink address={domain.owner}>
+                        {dnssecmode.outOfSync ? (
+                          <SingleNameBlockies
+                            address={domain.owner}
+                            imageSize={24}
+                            color={'#E1E1E1'}
+                            bgcolor={'#FFFFFF'}
+                            spotcolor={'#CFCFCF'}
+                          />
+                        ) : (
+                          <SingleNameBlockies
+                            address={domain.owner}
+                            imageSize={24}
+                          />
+                        )}
+                        <DomainOwnerAddress outOfSync={dnssecmode.outOfSync}>
+                          {domain.owner}
+                        </DomainOwnerAddress>
+                      </EtherScanLink>
                     </DetailsValue>
                     <ButtonContainer>
-                      {loading ? (
-                        <Button>
-                          <Loader />
-                        </Button>
+                      {canSubmit ? (
+                        <SubmitProof
+                          name={domain.name}
+                          parentOwner={domain.parentOwner}
+                          refetch={refetch}
+                          actionText={'Sync'}
+                        />
                       ) : (
-                        <Button
-                          onClick={() => {
-                            setLoading(true)
-                            refetch()
-                              .then(dd => {
-                                setLoading(false)
-                              })
-                              .catch(err => {
-                                console.log('failed to refetch', err)
-                              })
-                          }}
+                        <Tooltip
+                          text="The controller and DNS owner are already in sync"
+                          position="left"
+                          border={true}
+                          warning={true}
+                          offset={{ left: -30, top: 10 }}
                         >
-                          Refresh{' '}
-                        </Button>
+                          {({ tooltipElement, showTooltip, hideTooltip }) => {
+                            return (
+                              <Button
+                                onMouseOver={() => {
+                                  showTooltip()
+                                }}
+                                onMouseLeave={() => {
+                                  hideTooltip()
+                                }}
+                                type="disabled"
+                              >
+                                Sync
+                                {tooltipElement}
+                              </Button>
+                            )
+                          }}
+                        </Tooltip>
                       )}
                     </ButtonContainer>
                   </DetailsItem>
-                  {dnssecmode.displayError ? (
-                    <ErrorExplainer>
-                      <OrangeExclamation />
-                      Solve the error in your Domain registrar. Refresh to
-                      reflect updates.
-                      <LinkToLearnMore
-                        href="https://docs.ens.domains/dns-registrar-guide"
-                        target="_blank"
-                      >
-                        Learn More{' '}
-                        <EtherScanLinkContainer>
-                          <ExternalLinkIcon />
-                        </EtherScanLinkContainer>
-                      </LinkToLearnMore>
-                    </ErrorExplainer>
-                  ) : (
-                    <Explainer>
-                      *Click ‘refresh’ if you make changes to the domain in the
-                      DNS Registrar.
-                      <LinkToLearnMore
-                        href="https://docs.ens.domains/dns-registrar-guide"
-                        target="_blank"
-                      >
-                        Learn More{' '}
-                        <EtherScanLinkContainer>
-                          <ExternalLinkIcon />
-                        </EtherScanLinkContainer>
-                      </LinkToLearnMore>
-                    </Explainer>
-                  )}
-                </>
-              ) : (
-                ''
-              )}
-
-              {domain.registrationDate ? (
-                <DetailsItem uneditable>
-                  <DetailsKey>Registration Date</DetailsKey>
-                  <DetailsValue>
-                    {formatDate(domain.registrationDate)}
-                  </DetailsValue>
-                </DetailsItem>
-              ) : (
-                ''
-              )}
-              {domain.expiryTime ? (
-                domain.isNewRegistrar ? (
+                ) : (
+                  // Either subdomain, .test, or .dns(eg. .xyz)
                   <DetailsItemEditable
                     domain={domain}
-                    keyName="Expiration Date"
-                    value={domain.expiryTime}
-                    canEdit={parseInt(account, 16) !== 0}
-                    type="date"
-                    editButton="Renew"
-                    mutationButton="Renew"
-                    mutation={RENEW}
+                    keyName="Controller"
+                    value={domain.owner}
+                    canEdit={
+                      domain.isDNSRegistrar && domain.owner !== domain.dnsOwner
+                    }
+                    deedOwner={domain.deedOwner}
+                    isDeedOwner={isDeedOwner}
+                    outOfSync={dnssecmode.outOfSync}
+                    type="address"
+                    editButton={isOwnerOfParent ? 'Set' : 'Transfer'}
+                    mutationButton={isOwnerOfParent ? 'Set' : 'Transfer'}
+                    mutation={isOwnerOfParent ? SET_SUBNODE_OWNER : SET_OWNER}
                     refetch={refetch}
                     confirm={true}
                   />
+                )}
+                {/* To be replaced with a logic a function to detect dnsregistrar */}
+                {domain.isDNSRegistrar ? (
+                  <>
+                    <DetailsItem uneditable>
+                      <DetailsKey>DNS OWNER</DetailsKey>
+                      <DetailsValue>
+                        {dnssecmode.displayError ? (
+                          <DNSOwnerError>{dnssecmode.title}</DNSOwnerError>
+                        ) : (
+                          <EtherScanLink address={domain.dnsOwner}>
+                            <SingleNameBlockies
+                              address={domain.dnsOwner}
+                              imageSize={24}
+                            />
+                            {domain.dnsOwner}
+                          </EtherScanLink>
+                        )}
+                      </DetailsValue>
+                      <ButtonContainer>
+                        {loading ? (
+                          <Button>
+                            <Loader />
+                          </Button>
+                        ) : (
+                          <Button
+                            onClick={() => {
+                              setLoading(true)
+                              refetch()
+                                .then(dd => {
+                                  setLoading(false)
+                                })
+                                .catch(err => {
+                                  console.log('failed to refetch', err)
+                                })
+                            }}
+                          >
+                            Refresh{' '}
+                          </Button>
+                        )}
+                      </ButtonContainer>
+                    </DetailsItem>
+                    {dnssecmode.displayError ? (
+                      <ErrorExplainer>
+                        <OrangeExclamation />
+                        Solve the error in your Domain registrar. Refresh to
+                        reflect updates.
+                        <LinkToLearnMore
+                          href="https://docs.ens.domains/dns-registrar-guide"
+                          target="_blank"
+                        >
+                          Learn More{' '}
+                          <EtherScanLinkContainer>
+                            <ExternalLinkIcon />
+                          </EtherScanLinkContainer>
+                        </LinkToLearnMore>
+                      </ErrorExplainer>
+                    ) : dnssecmode.outOfSync ? (
+                      <OutOfSyncExplainer>
+                        <OrangeExclamation />
+                        {dnssecmode.explainer}
+                        <LinkToLearnMore
+                          href="https://docs.ens.domains/dns-registrar-guide"
+                          target="_blank"
+                        >
+                          Learn More{' '}
+                          <EtherScanLinkContainer>
+                            <ExternalLinkIcon />
+                          </EtherScanLinkContainer>
+                        </LinkToLearnMore>
+                      </OutOfSyncExplainer>
+                    ) : (
+                      <Explainer>
+                        {dnssecmode.explainer}
+                        <LinkToLearnMore
+                          href="https://docs.ens.domains/dns-registrar-guide"
+                          target="_blank"
+                        >
+                          Learn More{' '}
+                          <EtherScanLinkContainer>
+                            <ExternalLinkIcon />
+                          </EtherScanLinkContainer>
+                        </LinkToLearnMore>
+                      </Explainer>
+                    )}
+                  </>
                 ) : (
+                  ''
+                )}
+
+                {domain.registrationDate ? (
+                  <DetailsItem uneditable>
+                    <DetailsKey>Registration Date</DetailsKey>
+                    <DetailsValue>
+                      {formatDate(domain.registrationDate)}
+                    </DetailsValue>
+                  </DetailsItem>
+                ) : (
+                  ''
+                )}
+                {domain.expiryTime ? (
+                  domain.isNewRegistrar ? (
+                    <DetailsItemEditable
+                      domain={domain}
+                      keyName="Expiration Date"
+                      value={domain.expiryTime}
+                      canEdit={parseInt(account, 16) !== 0}
+                      type="date"
+                      editButton="Renew"
+                      mutationButton="Renew"
+                      mutation={RENEW}
+                      refetch={refetch}
+                      confirm={true}
+                    />
+                  ) : (
+                    <DetailsItem uneditable>
+                      <DetailsKey>Expiration Date</DetailsKey>
+                      <ExpirationDetailsValue
+                        isExpired={domain.expiryTime < new Date()}
+                      >
+                        {formatDate(domain.expiryTime)}
+                      </ExpirationDetailsValue>
+                    </DetailsItem>
+                  )
+                ) : isPermanentRegistrarDeployed &&
+                  isLegacyAuctionedName(domain) ? (
                   <DetailsItem uneditable>
                     <DetailsKey>Expiration Date</DetailsKey>
                     <ExpirationDetailsValue
-                      isExpired={domain.expiryTime < new Date()}
+                      isExpired={domain.transferEndDate < new Date()}
                     >
-                      {formatDate(domain.expiryTime)}
+                      {formatDate(domain.transferEndDate)}
                     </ExpirationDetailsValue>
                   </DetailsItem>
-                )
-              ) : isPermanentRegistrarDeployed &&
-                isLegacyAuctionedName(domain) ? (
-                <DetailsItem uneditable>
-                  <DetailsKey>Expiration Date</DetailsKey>
-                  <ExpirationDetailsValue
-                    isExpired={domain.transferEndDate < new Date()}
-                  >
-                    {formatDate(domain.transferEndDate)}
-                  </ExpirationDetailsValue>
-                </DetailsItem>
-              ) : (
-                ''
-              )}
-              {isPermanentRegistrarDeployed && (
-                <TransferRegistrars
-                  label={domain.label}
-                  currentBlockDate={domain.currentBlockDate}
-                  transferEndDate={domain.transferEndDate}
-                  migrationStartDate={domain.migrationStartDate}
-                  refetch={refetch}
-                  parent={domain.parent}
-                  isOwner={isOwner}
-                  isDeedOwner={isDeedOwner}
-                  isNewRegistrar={domain.isNewRegistrar}
-                />
-              )}
+                ) : (
+                  ''
+                )}
+                {isPermanentRegistrarDeployed && (
+                  <TransferRegistrars
+                    label={domain.label}
+                    currentBlockDate={domain.currentBlockDate}
+                    transferEndDate={domain.transferEndDate}
+                    migrationStartDate={domain.migrationStartDate}
+                    refetch={refetch}
+                    parent={domain.parent}
+                    isOwner={isOwner}
+                    isDeedOwner={isDeedOwner}
+                    isNewRegistrar={domain.isNewRegistrar}
+                  />
+                )}
+              </OwnerFields>
               <HR />
               <DetailsItemEditable
                 keyName="Resolver"
