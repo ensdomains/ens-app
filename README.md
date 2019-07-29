@@ -158,7 +158,7 @@ This starts up docker with ipfs, postgresdb, and the-graph node.
 
 ```
 cd ../graph-node
-cd docker-compose up
+docker-compose up
 ```
 
 ### Deploy ENS contracts and update subgraph.yml

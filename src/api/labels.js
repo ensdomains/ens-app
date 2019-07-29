@@ -6,7 +6,7 @@ import {
 } from '@ensdomains/ui'
 
 function getLabels() {
-  return JSON.parse(localStorage.getItem('labels'))
+  return JSON.parse(localStorage.getItem('labels')) || {}
 }
 
 function _saveLabel(hash, label) {
