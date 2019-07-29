@@ -51,9 +51,6 @@ export function checkLabel(hash) {
 export function decryptName(name) {
   return name
     .split('.')
-    .map(label => {
-      const decodedLabel = checkLabel(label)
-      return decodedLabel || label
-    })
+    .map(label => checkLabel(label) || label)
     .join('.')
 }

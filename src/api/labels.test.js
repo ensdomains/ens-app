@@ -1,14 +1,16 @@
 import { checkLabel, saveLabel, saveName } from './labels'
 const KEY = 'labels'
 
+const blahblahHash =
+  '0x36940f34a2ec6afe46b7db53e6611470cd76c4f5999209a04a670682e2c33f75'
+
 beforeEach(() => {
   localStorage.clear()
 })
 
 function setupStorage() {
   localStorage.__STORE__[KEY] = JSON.stringify({
-    '0x36940f34a2ec6afe46b7db53e6611470cd76c4f5999209a04a670682e2c33f75':
-      'blahblah'
+    [blahblahHash]: 'blahblah'
   })
 }
 
@@ -19,37 +21,25 @@ function getLabelsFromStorage() {
 describe('checkLabel', () => {
   test('should return label in localStorage', () => {
     setupStorage()
-    const hash =
-      '0x36940f34a2ec6afe46b7db53e6611470cd76c4f5999209a04a670682e2c33f75'
-    expect(
-      checkLabel(
-        '0x36940f34a2ec6afe46b7db53e6611470cd76c4f5999209a04a670682e2c33f75'
-      )
-    ).toBe('blahblah')
+    expect(checkLabel(blahblahHash)).toBe('blahblah')
   })
 
   test('should return undefined if label is not in localStorage', () => {
     setupStorage()
-    const hash =
-      '0x36940f34a2ec6afe46b7db53e6611470cd76c4f5999209a04a670682e2c33f75'
-    expect(
-      checkLabel(
-        '0x36940f34a2ec6afe46b7db53e6611470cd76c4f5999209a04a670682e2c33f74'
-      )
-    ).toBe(undefined)
+    const nonExistingHash =
+      '0x36940f34a2ec6afe46b7db53e6611470cd76c4f5999209a04a670682e2c33f74'
+    expect(checkLabel(nonExistingHash)).toBe(undefined)
   })
 })
 
 describe('saveLabel', () => {
   test('should save label to localStorage', () => {
     const label = 'blahblah'
-    const hash =
-      '0x36940f34a2ec6afe46b7db53e6611470cd76c4f5999209a04a670682e2c33f75'
     saveLabel('blahblah')
     expect(localStorage.setItem).toHaveBeenLastCalledWith(
       'labels',
       JSON.stringify({
-        [hash]: label
+        [blahblahHash]: label
       })
     )
     const labels = getLabelsFromStorage()
