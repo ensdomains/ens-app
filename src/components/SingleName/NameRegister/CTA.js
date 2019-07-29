@@ -27,6 +27,8 @@ const Prompt = styled('span')`
 
 const OrangeExclamation = styled(DefaultOrangeExclamation)`
   margin-right: 5px;
+  height: 12px;
+  width: 12px;
 `
 
 function getCTA({

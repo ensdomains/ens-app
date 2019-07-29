@@ -18,6 +18,8 @@ import { ReactComponent as ExternalLinkIcon } from '../Icons/externalLink.svg'
 import { useState } from 'react'
 import DefaultLoader from '../Loader'
 import You from '../Icons/You'
+import dnssecmodes from '../../api/dnssecmodes'
+import { ReactComponent as DefaultOrangeExclamation } from '../Icons/OrangeExclamation.svg'
 
 import {
   SET_OWNER,
@@ -87,6 +89,10 @@ const Explainer = styled('div')`
   padding-left 24px;
 `
 
+const ErrorExplainer = styled(Explainer)`
+  background: #fef7e9;
+`
+
 const EtherScanLinkContainer = styled('span')`
   display: inline-block;
   transform: translate(25%, 20%);
@@ -98,6 +104,17 @@ const LinkToLearnMore = styled('a')`
   letter-spacing: 0.58px;
   text-align: center;
   margin-left: auto;
+`
+
+const OrangeExclamation = styled(DefaultOrangeExclamation)`
+  margin-right: 5px;
+  margin-top: 6px;
+  width: 15px;
+  height: 15px;
+`
+
+const DNSOwnerError = styled('span')`
+  color: #f5a623;
 `
 
 function canClaim(domain) {
@@ -148,7 +165,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
   const isDeedOwner = domain.deedOwner === account
   const isRegistrant = domain.registrant === account
   const isPermanentRegistrarDeployed = domain.available !== null
-
+  const dnssecmode = dnssecmodes[domain.state]
   const records = [
     {
       label: 'Address',
@@ -341,52 +358,79 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
               )}
               {/* To be replaced with a logic a function to detect dnsregistrar */}
               {domain.isDNSRegistrar ? (
-                <DetailsItem uneditable>
-                  <DetailsKey>DNS OWNER</DetailsKey>
-                  <DetailsValue>
-                    <EtherScanLink address={domain.dnsOwner}>
-                      <SingleNameBlockies
-                        address={domain.dnsOwner}
-                        imageSize={24}
-                      />
-                      {domain.dnsOwner}
-                    </EtherScanLink>
-                  </DetailsValue>
-                  <ButtonContainer>
-                    {loading ? (
-                      <Button>
-                        <Loader />
-                      </Button>
-                    ) : (
-                      <Button
-                        onClick={() => {
-                          setLoading(true)
-                          refetch().then(dd => {
-                            setLoading(false)
-                          })
-                        }}
+                <>
+                  <DetailsItem uneditable>
+                    <DetailsKey>DNS OWNER</DetailsKey>
+                    <DetailsValue>
+                      {dnssecmode.displayError ? (
+                        <DNSOwnerError>{dnssecmode.title}</DNSOwnerError>
+                      ) : (
+                        <EtherScanLink address={domain.dnsOwner}>
+                          <SingleNameBlockies
+                            address={domain.dnsOwner}
+                            imageSize={24}
+                          />
+                          {domain.dnsOwner}
+                        </EtherScanLink>
+                      )}
+                    </DetailsValue>
+                    <ButtonContainer>
+                      {loading ? (
+                        <Button>
+                          <Loader />
+                        </Button>
+                      ) : (
+                        <Button
+                          onClick={() => {
+                            setLoading(true)
+                            refetch()
+                              .then(dd => {
+                                setLoading(false)
+                              })
+                              .catch(err => {
+                                console.log('failed to refetch', err)
+                              })
+                          }}
+                        >
+                          Refresh{' '}
+                        </Button>
+                      )}
+                    </ButtonContainer>
+                  </DetailsItem>
+                  {dnssecmode.displayError ? (
+                    <ErrorExplainer>
+                      <OrangeExclamation />
+                      Solve the error in your Domain registrar. Refresh to
+                      reflect updates.
+                      <LinkToLearnMore
+                        href="https://docs.ens.domains/dns-registrar-guide"
+                        target="_blank"
                       >
-                        Refresh{' '}
-                      </Button>
-                    )}
-                  </ButtonContainer>
-                </DetailsItem>
+                        Learn More{' '}
+                        <EtherScanLinkContainer>
+                          <ExternalLinkIcon />
+                        </EtherScanLinkContainer>
+                      </LinkToLearnMore>
+                    </ErrorExplainer>
+                  ) : (
+                    <Explainer>
+                      *Click ‘refresh’ if you make changes to the domain in the
+                      DNS Registrar.
+                      <LinkToLearnMore
+                        href="https://docs.ens.domains/dns-registrar-guide"
+                        target="_blank"
+                      >
+                        Learn More{' '}
+                        <EtherScanLinkContainer>
+                          <ExternalLinkIcon />
+                        </EtherScanLinkContainer>
+                      </LinkToLearnMore>
+                    </Explainer>
+                  )}
+                </>
               ) : (
                 ''
               )}
-              <Explainer>
-                *Click ‘refresh’ if you make changes to the domain in the DNS
-                Registrar.
-                <LinkToLearnMore
-                  href="https://docs.ens.domains/dns-registrar-guide"
-                  target="_blank"
-                >
-                  Learn More{' '}
-                  <EtherScanLinkContainer>
-                    <ExternalLinkIcon />
-                  </EtherScanLinkContainer>
-                </LinkToLearnMore>
-              </Explainer>
 
               {domain.registrationDate ? (
                 <DetailsItem uneditable>
