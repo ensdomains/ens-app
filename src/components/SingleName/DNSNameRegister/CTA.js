@@ -64,9 +64,10 @@ function getCTA({
   incrementStep,
   txHash,
   setTxHash,
-  refetch
+  refetch,
+  loading,
+  setLoading
 }) {
-  const [loading, setLoading] = useState(undefined)
   const RefreshButton = number => {
     return loading ? (
       <Button>
@@ -134,6 +135,8 @@ function getCTA({
 
 const CTA = ({ name, parentOwner, step, incrementStep, refetch, error }) => {
   const [txHash, setTxHash] = useState(undefined)
+  const [loading, setLoading] = useState(undefined)
+
   return (
     <CTAContainer>
       {error ? (
@@ -158,7 +161,9 @@ const CTA = ({ name, parentOwner, step, incrementStep, refetch, error }) => {
         incrementStep,
         txHash,
         setTxHash,
-        refetch
+        refetch,
+        loading,
+        setLoading
       })}
     </CTAContainer>
   )
