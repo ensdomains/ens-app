@@ -20,7 +20,6 @@ import You from '../Icons/You'
 import dnssecmodes from '../../api/dnssecmodes'
 import { ReactComponent as DefaultOrangeExclamation } from '../Icons/OrangeExclamation.svg'
 import DefaultAddressLink from '../Links/AddressLink'
-import DefaultEtherScanLink from '../Links/EtherScanLink'
 import {
   SET_OWNER,
   SET_SUBNODE_OWNER,
@@ -36,13 +35,6 @@ import {
 import NameClaimTestDomain from './NameClaimTestDomain'
 
 import { formatDate } from '../../utils/dates'
-
-const EtherScanLink = styled(DefaultEtherScanLink)`
-  display: flex;
-  svg {
-    flex-grow: 1;
-  }
-`
 
 const Details = styled('section')`
   padding: 40px;
@@ -294,13 +286,13 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                     <DetailsItem uneditable>
                       <DetailsKey>Registrant</DetailsKey>
                       <DetailsValue>
-                        <EtherScanLink address={domain.deedOwner}>
+                        <AddressLink address={domain.deedOwner}>
                           <SingleNameBlockies
                             address={domain.deedOwner}
                             imageSize={24}
                           />
                           {domain.deedOwner}
-                        </EtherScanLink>
+                        </AddressLink>
                       </DetailsValue>
                     </DetailsItem>
                     <DetailsItemEditable
@@ -322,7 +314,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                   <DetailsItem uneditable>
                     <DetailsKey>Controller {isOwner ? <You /> : ''}</DetailsKey>
                     <DetailsValue>
-                      <EtherScanLink address={domain.owner}>
+                      <AddressLink address={domain.owner}>
                         {dnssecmode.outOfSync ? (
                           <SingleNameBlockies
                             address={domain.owner}
@@ -340,7 +332,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                         <DomainOwnerAddress outOfSync={dnssecmode.outOfSync}>
                           {domain.owner}
                         </DomainOwnerAddress>
-                      </EtherScanLink>
+                      </AddressLink>
                     </DetailsValue>
                     <ButtonContainer outOfSync={dnssecmode.outOfSync}>
                       {canSubmit ? (
@@ -407,13 +399,13 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                         {dnssecmode.displayError ? (
                           <DNSOwnerError>{dnssecmode.title}</DNSOwnerError>
                         ) : (
-                          <EtherScanLink address={domain.dnsOwner}>
+                          <AddressLink address={domain.dnsOwner}>
                             <SingleNameBlockies
                               address={domain.dnsOwner}
                               imageSize={24}
                             />
                             {domain.dnsOwner}
-                          </EtherScanLink>
+                          </AddressLink>
                         )}
                       </DetailsValue>
                       <ButtonContainer outOfSync={dnssecmode.outOfSync}>
