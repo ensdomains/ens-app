@@ -257,7 +257,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                         ? `(grace period ends ${formatDate(
                             domain.gracePeriodEndDate
                           )} )`
-                        : null
+                        : ''
                     }
                     canEdit={parseInt(account, 16) !== 0}
                     type="date"
