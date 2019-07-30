@@ -4,13 +4,13 @@ import getEtherPrice from 'api/price'
 export function useDocumentTitle(title) {
   useEffect(() => {
     document.title = title
-  }, [])
+  }, [title])
 }
 
 export function useScrollTo(pos) {
   useEffect(() => {
     window.scrollTo(0, pos)
-  }, [])
+  }, [pos])
 }
 
 export function useEditable(

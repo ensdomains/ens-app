@@ -4,11 +4,11 @@ import {
   parseSearchTerm as _parseSearchTerm,
   ensStartBlock as _ensStartBlock,
   isLabelValid as _isLabelValid,
+  isEncodedLabelhash,
   emptyAddress as _emptyAddress
 } from '@ensdomains/ui'
 import * as jsSHA3 from 'js-sha3'
-
-//import { checkLabelHash } from '../updaters/preImageDB'
+import { saveName } from '../api/labels'
 
 // From https://github.com/0xProject/0x-monorepo/blob/development/packages/utils/src/address_utils.ts
 
@@ -87,7 +87,9 @@ export const mergeLabels = (labels1, labels2) =>
   labels1.map((label, index) => (label ? label : labels2[index]))
 
 export function validateName(name) {
-  return _validateName(name)
+  const normalisedName = _validateName(name)
+  saveName(normalisedName)
+  return normalisedName
 }
 
 export function isLabelValid(name) {
@@ -96,6 +98,15 @@ export function isLabelValid(name) {
 
 export const parseSearchTerm = term => {
   return _parseSearchTerm(term)
+}
+
+export function humaniseName(name) {
+  return name
+    .split('.')
+    .map(label => {
+      return isEncodedLabelhash(label) ? `[unknown${label.slice(1, 8)}]` : label
+    })
+    .join('.')
 }
 
 export function modulate(value, rangeA, rangeB, limit) {
