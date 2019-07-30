@@ -5,7 +5,8 @@ import { registerMachine, registerReducer } from './registerReducer'
 import Explainer from './Explainer'
 import CTA from './CTA'
 import { SingleNameBlockies } from '../SingleNameBlockies'
-import DefaultEtherScanLink from '../../ExternalLinks/EtherScanLink'
+import DefaultEtherScanLink from '../../Links/EtherScanLink'
+
 import dnssecmodes from '../../../api/dnssecmodes'
 import You from '../../Icons/You'
 
