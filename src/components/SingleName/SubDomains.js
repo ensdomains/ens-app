@@ -10,7 +10,7 @@ import Loader from '../Loader'
 import { H2 } from '../Typography/Basic'
 import { SingleNameBlockies } from './SingleNameBlockies'
 import AddSubdomain from './AddSubdomain'
-import { getNamehash, getNetworkId } from '@ensdomains/ui'
+import { getNamehash, encodeLabelhash } from '@ensdomains/ui'
 
 const SubDomainsContainer = styled('div')`
   padding-bottom: 30px;
@@ -125,9 +125,14 @@ function SubDomains({ domain, isOwner, ...rest }) {
                 {isOwner && <AddSubdomain domain={domain} refetch={refetch} />}
                 {data &&
                   data.domain.subdomains.map(d => {
-                    const name = `${d.labelName}.${domain.name}`
+                    let name
+                    if (d.labelName !== null) {
+                      name = `${d.labelName}.${domain.name}`
+                    } else {
+                      name = `${encodeLabelhash(d.labelhash)}.${domain.name}`
+                    }
                     return (
-                      <SubDomainLink key={d.name} to={`/name/${name}`}>
+                      <SubDomainLink key={name} to={`/name/${name}`}>
                         <SingleNameBlockies
                           imageSize={24}
                           address={d.owner.id}
