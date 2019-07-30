@@ -105,7 +105,7 @@ function Search({ history, className, style }) {
       }}
     >
       <input
-        placeholder="Search names"
+        placeholder="Search name or addresse"
         ref={el => (input = el)}
         onChange={handleParse}
       />
