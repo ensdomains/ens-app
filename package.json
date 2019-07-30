@@ -18,6 +18,7 @@
     "apollo-link": "^1.2.2",
     "apollo-link-state": "^0.4.1",
     "content-hash": "^2.4.1",
+    "core-js": "^3.1.4",
     "cross-fetch": "^2.2.3",
     "emotion": "^10.0.9",
     "esm": "^3.2.22",
