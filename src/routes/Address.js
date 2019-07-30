@@ -3,7 +3,6 @@ import styled from '@emotion/styled'
 import { Query } from 'react-apollo'
 import { GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH } from '../graphql/queries'
 import Domain from '../components/SearchName/Domain'
-import { humaniseName } from '../utils/utils'
 import { decryptName } from '../api/labels'
 
 const NoDomainsContainer = styled('div')`

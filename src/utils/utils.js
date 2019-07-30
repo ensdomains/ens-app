@@ -8,9 +8,7 @@ import {
   emptyAddress as _emptyAddress
 } from '@ensdomains/ui'
 import * as jsSHA3 from 'js-sha3'
-import { saveName, checkLabel } from '../api/labels'
-
-//import { checkLabelHash } from '../updaters/preImageDB'
+import { saveName } from '../api/labels'
 
 // From https://github.com/0xProject/0x-monorepo/blob/development/packages/utils/src/address_utils.ts
 
