@@ -7,6 +7,7 @@ import mq from 'mediaQuery'
 import AddFavourite from '../AddFavourite/AddFavourite'
 import QueryAccount from '../QueryAccount'
 import Loader from '../Loader'
+import { humaniseName } from '../../utils/utils'
 
 const DomainContainer = styled(Link)`
   &:before {
@@ -181,7 +182,7 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
             percentDone={percentDone}
           >
             <DomainName state={isOwner ? 'Yours' : domain.state}>
-              {domain.name}
+              {humaniseName(domain.name)}
             </DomainName>
             <RightContainer>
               <Label domain={domain} isOwner={isOwner} />

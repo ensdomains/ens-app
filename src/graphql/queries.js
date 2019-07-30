@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { NodesRecursive, NodeFields, SubDomainStateFields } from './fragments'
+import { NodeFields, SubDomainStateFields } from './fragments'
 
 export const GET_WEB3 = gql`
   query web3 {
@@ -18,26 +18,10 @@ export const GET_PUBLIC_RESOLVER = gql`
   }
 `
 
-export const GET_NODES = gql`
-  query nodes {
-    nodes {
-      ...NodesRecursive
-    }
-  }
-
-  ${NodesRecursive}
-`
-
 export const GET_ALL_NODES = gql`
-  query names {
+  query names @client {
     names {
       ...NodeFields
-      revealDate
-      registrationDate
-      value
-      highestBid
-      state
-      migrationStartDate
     }
   }
 
@@ -46,7 +30,7 @@ export const GET_ALL_NODES = gql`
 
 export const GET_SINGLE_NAME = gql`
   query singleName($name: String) @client {
-    singleName(name: $name) {
+    singleName(name: $name) @client {
       ...NodeFields
       revealDate
       registrationDate
@@ -74,6 +58,24 @@ export const GET_SUBDOMAINS = gql`
   query getSubDomains($name: String) @client {
     getSubDomains(name: $name) {
       subDomains
+    }
+  }
+`
+
+export const GET_SUBDOMAINS_FROM_SUBGRAPH = gql`
+  query getSubdomains($id: ID!) {
+    domain(id: $id) {
+      id
+      labelName
+      subdomains {
+        id
+        labelName
+        labelhash
+        name
+        owner {
+          id
+        }
+      }
     }
   }
 `
@@ -142,16 +144,32 @@ export const GET_ERRORS = gql`
   }
 `
 
+/* Subgraph only queries */
+
+export const GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH = gql`
+  query getDomains($id: ID!) {
+    account(id: $id) {
+      domains {
+        labelName
+        name
+        parent {
+          name
+        }
+      }
+    }
+  }
+`
+
 /* Permanent Registrar */
 
 export const GET_RENT_PRICE = gql`
-  query getRentPrice($name: String, $duration: Number) @client {
-    getRentPrice(name: $name, duration: $duration)
+  query getRentPrice($name: String, $duration: Number) {
+    getRentPrice(name: $name, duration: $duration) @client
   }
 `
 
 export const GET_MINIMUM_COMMITMENT_AGE = gql`
-  query getMinimumCommitmentAge @client {
-    getMinimumCommitmentAge
+  query getMinimumCommitmentAge {
+    getMinimumCommitmentAge @client
   }
 `

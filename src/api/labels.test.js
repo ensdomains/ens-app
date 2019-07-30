@@ -1,0 +1,83 @@
+import { checkLabel, saveLabel, saveName } from './labels'
+const KEY = 'labels'
+
+const blahblahHash =
+  '0x36940f34a2ec6afe46b7db53e6611470cd76c4f5999209a04a670682e2c33f75'
+
+beforeEach(() => {
+  localStorage.clear()
+})
+
+function setupStorage() {
+  localStorage.__STORE__[KEY] = JSON.stringify({
+    [blahblahHash]: 'blahblah'
+  })
+}
+
+function getLabelsFromStorage() {
+  return JSON.parse(localStorage.__STORE__[KEY])
+}
+
+describe('checkLabel', () => {
+  test('should return label in localStorage', () => {
+    setupStorage()
+    expect(checkLabel(blahblahHash)).toBe('blahblah')
+  })
+
+  test('should return undefined if label is not in localStorage', () => {
+    setupStorage()
+    const nonExistingHash =
+      '0x36940f34a2ec6afe46b7db53e6611470cd76c4f5999209a04a670682e2c33f74'
+    expect(checkLabel(nonExistingHash)).toBe(undefined)
+  })
+})
+
+describe('saveLabel', () => {
+  test('should save label to localStorage', () => {
+    const label = 'blahblah'
+    saveLabel('blahblah')
+    expect(localStorage.setItem).toHaveBeenLastCalledWith(
+      'labels',
+      JSON.stringify({
+        [blahblahHash]: label
+      })
+    )
+    const labels = getLabelsFromStorage()
+    expect(labels).toEqual({ [hash]: label })
+    expect(Object.keys(localStorage.__STORE__).length).toBe(1)
+  })
+})
+
+describe('saveName', () => {
+  test('should save all labels to localStorage', () => {
+    const name = 'vitalik.eth'
+    const nameArray = ['vitalik', 'eth']
+    const hashes = [
+      '0xaf2caa1c2ca1d027f1ac823b529d0a67cd144264b2789fa2ea4d63a67c7103cc',
+      '0x4f5b812789fc606be1b3b16908db13fc7a9adf7ca72641f84d75b47069d3d7f0'
+    ]
+    saveName(name)
+    const labels = getLabelsFromStorage()
+    expect(labels).toEqual({
+      [hashes[0]]: nameArray[0],
+      [hashes[1]]: nameArray[1]
+    })
+  })
+
+  test('should save all labels to localStorage', () => {
+    const name = 'awesome.vitalik.eth'
+    const nameArray = ['awesome', 'vitalik', 'eth']
+    const hashes = [
+      '0xd17d1d80d5d7a434b56ee59bc2ed8f0fd2a890dfba40fc63344b9c3654c935ee',
+      '0xaf2caa1c2ca1d027f1ac823b529d0a67cd144264b2789fa2ea4d63a67c7103cc',
+      '0x4f5b812789fc606be1b3b16908db13fc7a9adf7ca72641f84d75b47069d3d7f0'
+    ]
+    saveName(name)
+    const labels = getLabelsFromStorage()
+    expect(labels).toEqual({
+      [hashes[0]]: nameArray[0],
+      [hashes[1]]: nameArray[1],
+      [hashes[2]]: nameArray[2]
+    })
+  })
+})

@@ -12,7 +12,7 @@ import { addressUtils } from 'utils/utils'
 
 import Tooltip from '../Tooltip/Tooltip'
 import { SingleNameBlockies } from './SingleNameBlockies'
-import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
+import DefaultAddressLink from '../Links/AddressLink'
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import SaveCancel from './SaveCancel'
 import DefaultInput from '../Forms/Input'
@@ -27,7 +27,7 @@ const AddressInput = styled(DefaultAddressInput)`
   margin-bottom: 10px;
 `
 
-const EtherScanLink = styled(DefaultEtherScanLink)`
+const AddressLink = styled(DefaultAddressLink)`
   display: flex;
   align-items: center;
 `
@@ -278,7 +278,7 @@ const Editable = ({
               data-testid={`details-value-${keyName.toLowerCase()}`}
             >
               {type === 'address' ? (
-                <EtherScanLink address={value}>
+                <AddressLink address={value}>
                   <SingleNameBlockies address={value} imageSize={24} />
                   {keyName === 'Resolver' &&
                   domain.contentType === 'oldcontent' ? (
@@ -303,7 +303,7 @@ const Editable = ({
                     </Tooltip>
                   ) : null}
                   <Address>{value}</Address>
-                </EtherScanLink>
+                </AddressLink>
               ) : type === 'date' ? (
                 formatDate(value)
               ) : (
@@ -447,10 +447,10 @@ function ViewOnly({
         <DetailsKey>{keyName}</DetailsKey>
         <DetailsValue data-testid={`details-value-${keyName.toLowerCase()}`}>
           {type === 'address' ? (
-            <EtherScanLink address={value}>
+            <AddressLink address={value}>
               <SingleNameBlockies address={value} imageSize={24} />
               {value}
-            </EtherScanLink>
+            </AddressLink>
           ) : type === 'date' ? (
             formatDate(value)
           ) : (
