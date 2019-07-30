@@ -106,7 +106,7 @@ const resolvers = {
             name: `${name}`,
             state: modeNames[state],
             registrationDate,
-            migrationStartDate,
+            migrationStartDate: migrationStartDate || null,
             currentBlockDate,
             transferEndDate,
             revealDate,
@@ -143,6 +143,8 @@ const resolvers = {
           }
         }
 
+        console.log(node)
+
         const { names } = cache.readQuery({ query: GET_ALL_NODES })
         const nodeDetails = await getDomainDetails(name)
         const [parent, parentOwner] = await getParent(name)
@@ -153,6 +155,8 @@ const resolvers = {
           parentOwner,
           __typename: 'Node'
         }
+
+        console.log(detailedNode)
 
         data = {
           names: [...names, detailedNode]
