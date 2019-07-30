@@ -13,14 +13,14 @@ import AddRecord from './AddRecord'
 import SetupName from '../SetupName/SetupName'
 import TransferRegistrars from './TransferRegistrars'
 import { SingleNameBlockies } from './SingleNameBlockies'
-import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
 import { ReactComponent as ExternalLinkIcon } from '../Icons/externalLink.svg'
 import { useState } from 'react'
 import DefaultLoader from '../Loader'
 import You from '../Icons/You'
 import dnssecmodes from '../../api/dnssecmodes'
 import { ReactComponent as DefaultOrangeExclamation } from '../Icons/OrangeExclamation.svg'
-
+import DefaultAddressLink from '../Links/AddressLink'
+import DefaultEtherScanLink from '../Links/EtherScanLink'
 import {
   SET_OWNER,
   SET_SUBNODE_OWNER,
@@ -36,6 +36,13 @@ import {
 import NameClaimTestDomain from './NameClaimTestDomain'
 
 import { formatDate } from '../../utils/dates'
+
+const EtherScanLink = styled(DefaultEtherScanLink)`
+  display: flex;
+  svg {
+    flex-grow: 1;
+  }
+`
 
 const Details = styled('section')`
   padding: 40px;
@@ -74,7 +81,7 @@ const ExpirationDetailsValue = styled(DetailsValue)`
   color: ${p => (p.isExpired ? 'red' : null)};
 `
 
-const EtherScanLink = styled(DefaultEtherScanLink)`
+const AddressLink = styled(DefaultAddressLink)`
   display: flex;
   align-items: center;
 `

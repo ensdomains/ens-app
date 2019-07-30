@@ -9,6 +9,7 @@ import DefaultFavourite from '../AddFavourite/Favourite'
 import NameDetails from './NameDetails'
 import NameRegister from './NameRegister'
 import DNSNameRegister from './DNSNameRegister'
+import ShortName from './ShortName'
 import Tabs from './Tabs'
 import QueryAccount from '../QueryAccount'
 
@@ -100,7 +101,7 @@ function isOwnerOfParentDomain(domain, account) {
   return false
 }
 
-function Name({ details: domain, name, pathname, refetch }) {
+function Name({ details: domain, name, pathname, type, refetch }) {
   const smallBP = useMediaMin('small')
   const percentDone = 0
 
@@ -163,6 +164,8 @@ function Name({ details: domain, name, pathname, refetch }) {
                 account={account}
                 readOnly={account === EMPTY_ADDRESS}
               />
+            ) : type === 'short' ? (
+              <ShortName />
             ) : (
               <NameDetails
                 domain={domain}

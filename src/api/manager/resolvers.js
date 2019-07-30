@@ -110,9 +110,9 @@ const resolvers = {
             name: `${name}`,
             state: modeNames[state],
             registrationDate,
-            migrationStartDate,
-            currentBlockDate,
-            transferEndDate,
+            migrationStartDate: migrationStartDate || null,
+            currentBlockDate: currentBlockDate || null,
+            transferEndDate: transferEndDate || null,
             revealDate,
             value,
             highestBid,
@@ -162,6 +162,8 @@ const resolvers = {
             node.state = dnsEntry.state
           }
         }
+
+        console.log(node)
 
         const { names } = cache.readQuery({ query: GET_ALL_NODES })
         const nodeDetails = await getDomainDetails(name)

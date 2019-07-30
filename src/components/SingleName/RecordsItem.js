@@ -10,8 +10,8 @@ import mq from 'mediaQuery'
 
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import AddReverseRecord from './AddReverseRecord'
-import EtherScanLink from '../ExternalLinks/EtherScanLink'
-import ContentHashLink from '../ExternalLinks/ContentHashLink'
+import AddressLink from '../Links/AddressLink'
+import ContentHashLink from '../Links/ContentHashLink'
 import Pencil from '../Forms/Pencil'
 import Bin from '../Forms/Bin'
 import SaveCancel from './SaveCancel'
@@ -148,7 +148,7 @@ const Editable = ({
               <RecordsKey>{keyName}</RecordsKey>
               <RecordsValue editableSmall>
                 {type === 'address' ? (
-                  <EtherScanLink address={value}>{value}</EtherScanLink>
+                  <AddressLink address={value}>{value}</AddressLink>
                 ) : (
                   <ContentHashLink
                     value={value}
@@ -265,7 +265,7 @@ class RecordItem extends Component {
           <RecordsKey>{keyName}</RecordsKey>
           <RecordsValue>
             {type === 'address' ? (
-              <EtherScanLink address={value}>{value}</EtherScanLink>
+              <AddressLink address={value}>{value}</AddressLink>
             ) : (
               <ContentHashLink value={value} contentType={contentType} />
             )}
