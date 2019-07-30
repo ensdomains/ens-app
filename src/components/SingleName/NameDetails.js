@@ -56,7 +56,7 @@ const Button = styled(DefaultButton)`
 const ButtonContainer = styled('div')`
   margin-top: 0;
   position: absolute;
-  right: 180px;
+  right: ${props => (props.outOfSync ? '195px' : '180px')};
   -webkit-transform: translate(0, -65%);
   -ms-transform: translate(0, -65%);
   transform: translate(0, -65%);
@@ -81,12 +81,11 @@ const EtherScanLink = styled(DefaultEtherScanLink)`
 
 const Explainer = styled('div')`
   background: #f0f6fa;
-  outOfSync
   color: #adbbcd;
   display: flex;
   padding: 1em 0;
   margin-left: 180px;
-  margin-bottom: 50px;
+  margin-bottom: 45px;
   padding-left 24px;
 `
 
@@ -100,17 +99,22 @@ const OutOfSyncExplainer = styled('div')`
   display: flex;
 `
 
+const OutOfSyncExplainerContainer = styled('div')`
+  margin-top: 15px;
+`
+
 const EtherScanLinkContainer = styled('span')`
   display: inline-block;
   transform: translate(25%, 20%);
 `
 
 const LinkToLearnMore = styled('a')`
-  margin-right: 2em;
+  margin-right: ${props => (props.outOfSync ? '' : '2em')};
   font-size: 14px;
   letter-spacing: 0.58px;
   text-align: center;
   margin-left: auto;
+  min-width: 130px;
 `
 
 const OrangeExclamation = styled(DefaultOrangeExclamation)`
@@ -331,7 +335,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                         </DomainOwnerAddress>
                       </EtherScanLink>
                     </DetailsValue>
-                    <ButtonContainer>
+                    <ButtonContainer outOfSync={dnssecmode.outOfSync}>
                       {canSubmit ? (
                         <SubmitProof
                           name={domain.name}
@@ -405,7 +409,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                           </EtherScanLink>
                         )}
                       </DetailsValue>
-                      <ButtonContainer>
+                      <ButtonContainer outOfSync={dnssecmode.outOfSync}>
                         {loading ? (
                           <Button>
                             <Loader />
@@ -444,19 +448,23 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                         </LinkToLearnMore>
                       </ErrorExplainer>
                     ) : dnssecmode.outOfSync ? (
-                      <OutOfSyncExplainer>
-                        <OrangeExclamation />
-                        {dnssecmode.explainer}
-                        <LinkToLearnMore
-                          href="https://docs.ens.domains/dns-registrar-guide"
-                          target="_blank"
-                        >
-                          Learn More{' '}
-                          <EtherScanLinkContainer>
-                            <ExternalLinkIcon />
-                          </EtherScanLinkContainer>
-                        </LinkToLearnMore>
-                      </OutOfSyncExplainer>
+                      <OutOfSyncExplainerContainer>
+                        <HR />
+                        <OutOfSyncExplainer>
+                          <OrangeExclamation />
+                          {dnssecmode.explainer}
+                          <LinkToLearnMore
+                            href="https://docs.ens.domains/dns-registrar-guide"
+                            target="_blank"
+                            outOfSync={dnssecmode.outOfSync}
+                          >
+                            Learn More{' '}
+                            <EtherScanLinkContainer>
+                              <ExternalLinkIcon />
+                            </EtherScanLinkContainer>
+                          </LinkToLearnMore>
+                        </OutOfSyncExplainer>
+                      </OutOfSyncExplainerContainer>
                     ) : (
                       <Explainer>
                         {dnssecmode.explainer}
