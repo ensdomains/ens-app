@@ -18,26 +18,10 @@ export const GET_PUBLIC_RESOLVER = gql`
   }
 `
 
-export const GET_NODES = gql`
-  query nodes {
-    nodes {
-      ...NodesRecursive
-    }
-  }
-
-  ${NodesRecursive}
-`
-
 export const GET_ALL_NODES = gql`
-  query names {
+  query names @client {
     names {
       ...NodeFields
-      revealDate
-      registrationDate
-      value
-      highestBid
-      state
-      migrationStartDate
     }
   }
 

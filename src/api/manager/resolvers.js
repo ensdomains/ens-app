@@ -107,8 +107,8 @@ const resolvers = {
             state: modeNames[state],
             registrationDate,
             migrationStartDate: migrationStartDate || null,
-            currentBlockDate,
-            transferEndDate,
+            currentBlockDate: currentBlockDate || null,
+            transferEndDate: transferEndDate || null,
             revealDate,
             value,
             highestBid,
@@ -155,8 +155,6 @@ const resolvers = {
           parentOwner,
           __typename: 'Node'
         }
-
-        console.log(detailedNode)
 
         data = {
           names: [...names, detailedNode]
