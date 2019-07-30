@@ -11,7 +11,7 @@ import AddRecord from './AddRecord'
 import SetupName from '../SetupName/SetupName'
 import TransferRegistrars from './TransferRegistrars'
 import { SingleNameBlockies } from './SingleNameBlockies'
-import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
+import DefaultAddressLink from '../Links/AddressLink'
 
 import {
   SET_OWNER,
@@ -46,7 +46,7 @@ const ExpirationDetailsValue = styled(DetailsValue)`
   color: ${p => (p.isExpired ? 'red' : null)};
 `
 
-const EtherScanLink = styled(DefaultEtherScanLink)`
+const AddressLink = styled(DefaultAddressLink)`
   display: flex;
   align-items: center;
 `
@@ -195,13 +195,13 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                   <DetailsItem uneditable>
                     <DetailsKey>Registrant</DetailsKey>
                     <DetailsValue>
-                      <EtherScanLink address={domain.deedOwner}>
+                      <AddressLink address={domain.deedOwner}>
                         <SingleNameBlockies
                           address={domain.deedOwner}
                           imageSize={24}
                         />
                         {domain.deedOwner}
-                      </EtherScanLink>
+                      </AddressLink>
                     </DetailsValue>
                   </DetailsItem>
                   <DetailsItemEditable

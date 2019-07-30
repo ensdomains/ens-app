@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import { Link } from 'react-router-dom'
 import styled from '@emotion/styled'
 import { Spring } from 'react-spring'
 
@@ -15,6 +16,34 @@ import HowToUseDefault from '../components/HowToUse/HowToUse'
 import Alice from '../components/HomePage/Alice'
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
 import { ReactComponent as DefaultPermanentRegistrarIcon } from '../components/Icons/PermanentRegistrar.svg'
+
+const ShortNameAuctions = styled('div')`
+  display: flex;
+  justify-content: center;
+  background: #52e5ff;
+
+  h3 {
+    color: white;
+    font-weight: 400;
+    text-align: center;
+    padding: 0 20px;
+  }
+
+  a {
+    color: white;
+    text-decoration: underline;
+  }
+`
+
+const Favourites = styled('div')`
+  position: absolute;
+  right: 40px;
+  top: 20px;
+  a {
+    font-weight: 300;
+    color: white;
+  }
+`
 
 const HowToUse = styled(HowToUseDefault)`
   padding: 70px;
@@ -235,6 +264,9 @@ export default props => (
           )
         }
       </NetworkInfoQuery>
+      <Favourites>
+        <Link to="/favourites">Favourites</Link>
+      </Favourites>
 
       <SearchContainer>
         <Spring
@@ -268,6 +300,12 @@ export default props => (
         </Spring>
       </SearchContainer>
     </Hero>
+    <ShortNameAuctions>
+      <h3>
+        The short name reservations are in progress at&nbsp;
+        <a href="https://reserve.ens.domains">reserve.ens.domains</a>
+      </h3>
+    </ShortNameAuctions>
     <Explanation>
       <WhatItIs>
         <Inner>

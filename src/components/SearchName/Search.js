@@ -3,7 +3,7 @@ import styled from '@emotion/styled'
 import { parseSearchTerm } from '../../utils/utils'
 import '../../api/subDomainRegistrar'
 import { withRouter } from 'react-router'
-import searchIcon from './search.svg'
+import searchIcon from '../../assets/search.svg'
 import mq from 'mediaQuery'
 // import Caret from './Caret'
 // import Filters from './Filters'
@@ -90,6 +90,11 @@ function Search({ history, className, style }) {
           return
         }
 
+        if (type === 'address') {
+          history.push(`/address/${searchTerm}`)
+          return
+        }
+
         input.value = ''
         if (type === 'supported' || type === 'short') {
           history.push(`/name/${searchTerm}`)
@@ -100,7 +105,7 @@ function Search({ history, className, style }) {
       }}
     >
       <input
-        placeholder="Search names"
+        placeholder="Search names or addresses"
         ref={el => (input = el)}
         onChange={handleParse}
       />

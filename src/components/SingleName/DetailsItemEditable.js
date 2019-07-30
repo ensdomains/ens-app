@@ -12,7 +12,7 @@ import { addressUtils } from 'utils/utils'
 
 import Tooltip from '../Tooltip/Tooltip'
 import { SingleNameBlockies } from './SingleNameBlockies'
-import DefaultEtherScanLink from '../ExternalLinks/EtherScanLink'
+import DefaultAddressLink from '../Links/AddressLink'
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import SaveCancel from './SaveCancel'
 import DefaultInput from '../Forms/Input'
@@ -21,8 +21,13 @@ import Pencil from '../Forms/Pencil'
 import DefaultInfo from '../Icons/Info'
 import DefaultPendingTx from '../PendingTx'
 import DefaultPricer from './Pricer'
+import DefaultAddressInput from '@ensdomains/react-ens-address'
 
-const EtherScanLink = styled(DefaultEtherScanLink)`
+const AddressInput = styled(DefaultAddressInput)`
+  margin-bottom: 10px;
+`
+
+const AddressLink = styled(DefaultAddressLink)`
   display: flex;
   align-items: center;
 `
@@ -133,8 +138,10 @@ function getToolTipMessage(keyName) {
 
 function getInputType(
   keyName,
+  type,
   {
     newValue,
+    presetValue,
     updateValue,
     isValid,
     isInvalid,
@@ -147,34 +154,49 @@ function getInputType(
     expirationDate
   }
 ) {
-  switch (keyName) {
-    case 'Expiration Date':
-      return (
-        <Pricer
-          name={name}
-          duration={duration}
-          years={years}
-          setYears={years => {
-            setYears(years)
-            updateValue(formatDate(expirationDate))
-          }}
-          ethUsdPriceLoading={ethUsdPriceLoading}
-          ethUsdPrice={ethUsdPrice}
-          expirationDate={expirationDate}
-        />
-      )
-    default:
-      return (
-        <Input
-          value={newValue}
-          onChange={e => updateValue(e.target.value)}
-          valid={isValid}
-          invalid={isInvalid}
-          placeholder="Type in a new Ethereum address"
-          large
-        />
-      )
+  if (keyName === 'Expiration Date') {
+    return (
+      <Pricer
+        name={name}
+        duration={duration}
+        years={years}
+        setYears={years => {
+          setYears(years)
+          updateValue(formatDate(expirationDate))
+        }}
+        ethUsdPriceLoading={ethUsdPriceLoading}
+        ethUsdPrice={ethUsdPrice}
+        expirationDate={expirationDate}
+      />
+    )
   }
+
+  if (type === 'address') {
+    return (
+      <AddressInput
+        presetValue={presetValue || ''}
+        provider={window.ethereum || window.web3}
+        onResolve={({ address }) => {
+          if (address) {
+            updateValue(address)
+          } else {
+            updateValue('')
+          }
+        }}
+      />
+    )
+  }
+
+  return (
+    <Input
+      value={newValue}
+      onChange={e => updateValue(e.target.value)}
+      valid={isValid}
+      invalid={isInvalid}
+      placeholder=""
+      large
+    />
+  )
 }
 
 function getValidation(keyName, newValue) {
@@ -214,6 +236,7 @@ const Editable = ({
   confirm
 }) => {
   const { state, actions } = useEditable()
+  const [presetValue, setPresetValue] = useState('')
 
   const { editing, newValue, txHash, pending, confirmed } = state
 
@@ -257,7 +280,7 @@ const Editable = ({
               data-testid={`details-value-${keyName.toLowerCase()}`}
             >
               {type === 'address' ? (
-                <EtherScanLink address={value}>
+                <AddressLink address={value}>
                   <SingleNameBlockies address={value} imageSize={24} />
                   {keyName === 'Resolver' &&
                   domain.contentType === 'oldcontent' ? (
@@ -282,7 +305,7 @@ const Editable = ({
                     </Tooltip>
                   ) : null}
                   <Address>{value}</Address>
-                </EtherScanLink>
+                </AddressLink>
               ) : type === 'date' ? (
                 formatDate(value) + notes
               ) : (
@@ -326,9 +349,10 @@ const Editable = ({
               (props => (
                 <div style={props}>
                   <EditRecord>
-                    {getInputType(keyName, {
+                    {getInputType(keyName, type, {
                       newValue,
                       updateValue,
+                      presetValue,
                       isValid,
                       isInvalid,
                       years,
@@ -349,7 +373,7 @@ const Editable = ({
                             <DefaultResolverButton
                               onClick={e => {
                                 e.preventDefault()
-                                updateValue(data.publicResolver.address)
+                                setPresetValue(data.publicResolver.address)
                               }}
                             >
                               Use Public Resolver
@@ -425,10 +449,10 @@ function ViewOnly({
         <DetailsKey>{keyName}</DetailsKey>
         <DetailsValue data-testid={`details-value-${keyName.toLowerCase()}`}>
           {type === 'address' ? (
-            <EtherScanLink address={value}>
+            <AddressLink address={value}>
               <SingleNameBlockies address={value} imageSize={24} />
               {value}
-            </EtherScanLink>
+            </AddressLink>
           ) : type === 'date' ? (
             formatDate(value)
           ) : (

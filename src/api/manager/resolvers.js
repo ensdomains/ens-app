@@ -108,10 +108,10 @@ const resolvers = {
             name: `${name}`,
             state: modeNames[state],
             registrationDate,
-            migrationStartDate,
-            currentBlockDate,
-            transferEndDate,
-            gracePeriodEndDate,
+            gracePeriodEndDate: gracePeriodEndDate || null,
+            migrationStartDate: migrationStartDate || null,
+            currentBlockDate: currentBlockDate || null,
+            transferEndDate: transferEndDate || null,
             revealDate,
             value,
             highestBid,
@@ -145,6 +145,8 @@ const resolvers = {
             }
           }
         }
+
+        console.log(node)
 
         const { names } = cache.readQuery({ query: GET_ALL_NODES })
         const nodeDetails = await getDomainDetails(name)
@@ -262,12 +264,8 @@ const resolvers = {
       }
     },
     setSubnodeOwner: async (_, { name, address }, { cache }) => {
-      const nameArray = name.split('.')
-      const label = nameArray[0]
-      const parentArray = nameArray.slice(1)
-      const parent = parentArray.join('.')
       try {
-        const tx = await setSubnodeOwner(label, parent, address)
+        const tx = await setSubnodeOwner(name, address)
         return sendHelper(tx)
       } catch (e) {
         console.log(e)

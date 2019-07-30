@@ -2,14 +2,16 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
+import DefaultAddressInput from '@ensdomains/react-ens-address'
+
 import { validateRecord } from '../../utils/records'
 import { emptyAddress } from '../../utils/utils'
 import mq from 'mediaQuery'
 
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import AddReverseRecord from './AddReverseRecord'
-import EtherScanLink from '../ExternalLinks/EtherScanLink'
-import ContentHashLink from '../ExternalLinks/ContentHashLink'
+import AddressLink from '../Links/AddressLink'
+import ContentHashLink from '../Links/ContentHashLink'
 import Pencil from '../Forms/Pencil'
 import Bin from '../Forms/Bin'
 import SaveCancel from './SaveCancel'
@@ -22,6 +24,10 @@ import {
 import DetailsItemInput from './DetailsItemInput'
 import { useEditable } from '../hooks'
 import { getOldContentWarning } from './warnings'
+
+const AddressInput = styled(DefaultAddressInput)`
+  margin-bottom: 10px;
+`
 
 const RecordsItem = styled(DetailsItem)`
   border-top: 1px dashed #d3d3d3;
@@ -142,7 +148,7 @@ const Editable = ({
               <RecordsKey>{keyName}</RecordsKey>
               <RecordsValue editableSmall>
                 {type === 'address' ? (
-                  <EtherScanLink address={value}>{value}</EtherScanLink>
+                  <AddressLink address={value}>{value}</AddressLink>
                 ) : (
                   <ContentHashLink
                     value={value}
@@ -193,14 +199,27 @@ const Editable = ({
             {editing ? (
               <>
                 <EditRecord>
-                  <DetailsItemInput
-                    newValue={newValue}
-                    dataType={type}
-                    contentType={domain.contentType}
-                    updateValue={updateValue}
-                    isValid={isValid}
-                    isInvalid={isInvalid}
-                  />
+                  {type === 'address' ? (
+                    <AddressInput
+                      provider={window.ethereum || window.web3}
+                      onResolve={({ address }) => {
+                        if (address) {
+                          updateValue(address)
+                        } else {
+                          updateValue('')
+                        }
+                      }}
+                    />
+                  ) : (
+                    <DetailsItemInput
+                      newValue={newValue}
+                      dataType={type}
+                      contentType={domain.contentType}
+                      updateValue={updateValue}
+                      isValid={isValid}
+                      isInvalid={isInvalid}
+                    />
+                  )}
                 </EditRecord>
                 <SaveCancel
                   warningMessage={getOldContentWarning(
@@ -246,7 +265,7 @@ class RecordItem extends Component {
           <RecordsKey>{keyName}</RecordsKey>
           <RecordsValue>
             {type === 'address' ? (
-              <EtherScanLink address={value}>{value}</EtherScanLink>
+              <AddressLink address={value}>{value}</AddressLink>
             ) : (
               <ContentHashLink value={value} contentType={contentType} />
             )}

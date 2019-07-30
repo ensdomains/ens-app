@@ -4,7 +4,7 @@ import gql from 'graphql-tag'
 
 const GET_REVERSE_RECORD = gql`
   query getReverseRecord($address: String) @client {
-    getReverseRecord(address: $address) {
+    getReverseRecord(address: $address) @client {
       name
       address
       match
