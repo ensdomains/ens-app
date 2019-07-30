@@ -1,3 +1,5 @@
+import 'core-js/es/object'
+
 import React, { Fragment } from 'react'
 import {
   BrowserRouter as Router,
