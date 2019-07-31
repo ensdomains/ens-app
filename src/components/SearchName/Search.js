@@ -90,6 +90,11 @@ function Search({ history, className, style }) {
           return
         }
 
+        if (type === 'address') {
+          history.push(`/address/${searchTerm}`)
+          return
+        }
+
         input.value = ''
         if (type === 'supported' || type === 'short') {
           history.push(`/name/${searchTerm}`)
@@ -100,7 +105,7 @@ function Search({ history, className, style }) {
       }}
     >
       <input
-        placeholder="Search names"
+        placeholder="Search names or addresses"
         ref={el => (input = el)}
         onChange={handleParse}
       />

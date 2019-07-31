@@ -13,15 +13,11 @@ export const DomainInfo = ({ domainState, isFavourite, loading }) => {
   )
 }
 
-const DomainInfoContainer = ({ searchTerm }) => {
+const DomainInfoContainer = ({ name }) => {
   return (
-    <Query query={GET_SINGLE_NAME} variables={{ name: searchTerm + '.eth' }}>
+    <Query query={GET_SINGLE_NAME} variables={{ name }}>
       {({ data, loading, error }) => {
         const { singleName } = data
-        if (error) {
-          console.error(error)
-          return null
-        }
         return (
           <Query query={GET_FAVOURITES}>
             {({ data: { favourites } }) => (
