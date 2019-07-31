@@ -214,8 +214,11 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
   const showExplainer = !parseInt(domain.resolver)
   const [loading, setLoading] = useState(undefined)
   const canSubmit =
+    domain.isDNSRegistrar &&
     dnssecmode.state === 'SUBMIT_PROOF' && // This is for not allowing the case user does not have record rather than having empty address record.
     domain.owner.toLowerCase() !== domain.dnsOwner.toLowerCase()
+  const outOfSync = dnssecmode && dnssecmode.outOfSync
+
   return (
     <>
       <Route
@@ -251,7 +254,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                   </DetailsValue>
                 </DetailsItem>
               )}
-              <OwnerFields outOfSync={dnssecmode.outOfSync}>
+              <OwnerFields outOfSync={outOfSync}>
                 {domain.parent === 'eth' && domain.isNewRegistrar ? (
                   <>
                     <DetailsItemEditable
@@ -315,7 +318,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                     <DetailsKey>Controller {isOwner ? <You /> : ''}</DetailsKey>
                     <DetailsValue>
                       <AddressLink address={domain.owner}>
-                        {dnssecmode.outOfSync ? (
+                        {outOfSync ? (
                           <SingleNameBlockies
                             address={domain.owner}
                             imageSize={24}
@@ -329,12 +332,12 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                             imageSize={24}
                           />
                         )}
-                        <DomainOwnerAddress outOfSync={dnssecmode.outOfSync}>
+                        <DomainOwnerAddress outOfSync={outOfSync}>
                           {domain.owner}
                         </DomainOwnerAddress>
                       </AddressLink>
                     </DetailsValue>
-                    <ButtonContainer outOfSync={dnssecmode.outOfSync}>
+                    <ButtonContainer outOfSync={outOfSync}>
                       {canSubmit ? (
                         <SubmitProof
                           name={domain.name}
@@ -381,7 +384,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                     }
                     deedOwner={domain.deedOwner}
                     isDeedOwner={isDeedOwner}
-                    outOfSync={dnssecmode.outOfSync}
+                    outOfSync={outOfSync}
                     type="address"
                     editButton={isOwnerOfParent ? 'Set' : 'Transfer'}
                     mutationButton={isOwnerOfParent ? 'Set' : 'Transfer'}
@@ -408,7 +411,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                           </AddressLink>
                         )}
                       </DetailsValue>
-                      <ButtonContainer outOfSync={dnssecmode.outOfSync}>
+                      <ButtonContainer outOfSync={outOfSync}>
                         {loading ? (
                           <Button>
                             <Loader />
@@ -446,7 +449,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                           </EtherScanLinkContainer>
                         </LinkToLearnMore>
                       </ErrorExplainer>
-                    ) : dnssecmode.outOfSync ? (
+                    ) : outOfSync ? (
                       <OutOfSyncExplainerContainer>
                         <HR />
                         <OutOfSyncExplainer>
@@ -455,7 +458,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                           <LinkToLearnMore
                             href="https://docs.ens.domains/dns-registrar-guide"
                             target="_blank"
-                            outOfSync={dnssecmode.outOfSync}
+                            outOfSync={outOfSync}
                           >
                             Learn More{' '}
                             <EtherScanLinkContainer>
