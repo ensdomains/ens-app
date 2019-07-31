@@ -1280,12 +1280,14 @@
     web3-utils "^1.0.0-beta.48"
 
 "@ensdomains/mock@^1.0.12":
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-1.0.12.tgz#3626cbd12049d7f42094fc2e2c1fd4a822045e78"
-  integrity sha512-F0AHDBvFP6pFFm4qBofdmXTe39/z7gjae25FSVta56XTm8x0ACrP3kltDqd8cEPuTsJdfrGjRgTBwnFVuO4gOA==
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-1.0.13.tgz#8f6a40461d6134b4f5011c3dff1eda68fc74915d"
+  integrity sha512-Czn7+aAuEcgTywqC8T2RA6Wf/MdI8xNbqyoG4FpeL3uBQZQ3kR6kancX0DkEYxe3G11V78Jfc5NN3aih7ItxtQ==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
+    "@ensdomains/dnsregistrar" "^0.3.5"
+    "@ensdomains/dnssec-oracle" "^0.1.2"
     "@ensdomains/ens" "^0.3.10"
     "@ensdomains/ens-022" "npm:@ensdomains/ens@0.2.2"
     "@ensdomains/ethregistrar" "^1.2.2"
@@ -1311,13 +1313,33 @@
   resolved "https://registry.yarnpkg.com/@ensdomains/resolver/-/resolver-0.1.9.tgz#013bc88397c2c204737aaaf602380145d845e09e"
   integrity sha512-eSZIEWi2UcxNZXJhAeoTYUZr20fyly9eMUy17WQ5UjszXf0QgE1Zzh/Oj9Mhl0i8s7xqoPOsntr2ZI0JhsX78w==
 
-"@ensdomains/ui@^1.0.92", "@ensdomains/ui@^1.0.93":
+"@ensdomains/ui@^1.0.92":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.1.0.tgz#fa9cc54fa2826ac280f842c398273c368128eeab"
   integrity sha512-JJBdP4O3T9W/6XD5tlHzmCGtmeERI+KLrUNuLN+ewe62ZuJB7zeZ9VTCZEqQnJtIiBGlOphs7KOpEKffQAyMGA==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
+    "@ensdomains/ens" "^0.3.5"
+    "@ensdomains/ens-022" "npm:@ensdomains/ens@0.2.2"
+    "@ensdomains/ethregistrar" "^1.2.2"
+    "@ensdomains/resolver" "^0.1.6"
+    content-hash "^2.4.1"
+    cross-fetch "^3.0.2"
+    eth-ens-namehash "^2.0.8"
+    ethers "^4.0.30"
+    js-sha3 "^0.8.0"
+    lodash "^4.17.11"
+    web3 "1.0.0-beta.34"
+
+"@ensdomains/ui@^1.0.93":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.1.1.tgz#35038799b859d907c9eed526b6831af5bf4e485c"
+  integrity sha512-vskqRUjye22t/r8eQR7w5D8dxiSti255Cw1YWImysgTS9IenkVUpKFbhWL+qNjY4vtveT7LnUyIlHCidWyuEEQ==
+  dependencies:
+    "@0xproject/utils" "^2.0.2"
+    "@babel/runtime" "^7.4.4"
+    "@ensdomains/dnsregistrar" "^0.3.5"
     "@ensdomains/ens" "^0.3.5"
     "@ensdomains/ens-022" "npm:@ensdomains/ens@0.2.2"
     "@ensdomains/ethregistrar" "^1.2.2"
@@ -8887,9 +8909,9 @@ multicast-dns@^6.0.1:
     thunky "^1.0.2"
 
 multicodec@^0.5.4, multicodec@~0.5.0:
-  version "0.5.4"
-  resolved "https://registry.yarnpkg.com/multicodec/-/multicodec-0.5.4.tgz#ab2afb0cd00cd853c5a2eecb0dd1404dc7745388"
-  integrity sha512-0lPLiZ58b2jyXylx2qgda9/6N0YCNIpBxRsZ8sxYayVjEKh58XyNN74VTTQOR/ZCQFgbj0CsqfyRpEDPPlOMkw==
+  version "0.5.5"
+  resolved "https://registry.yarnpkg.com/multicodec/-/multicodec-0.5.5.tgz#55c2535b44eca9ea40a13771420153fe075bb36d"
+  integrity sha512-1kOifvwAqp9IdiiTKmpK2tS+LY6GHZdKpk3S2EvW4T32vlwDyA3hJoZtGauzqdedUPVNGChnTksEotVOCVlC+Q==
   dependencies:
     varint "^5.0.0"
 
@@ -13720,7 +13742,15 @@ webpack-manifest-plugin@2.0.4:
     lodash ">=3.5 <5"
     tapable "^1.0.0"
 
-webpack-sources@^1.0.1, webpack-sources@^1.1.0, webpack-sources@^1.3.0:
+webpack-sources@^1.0.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-1.4.1.tgz#b91b2c5b1c4e890ff50d1d35b7fa3657040da1da"
+  integrity sha512-XSz38193PTo/1csJabKaV4b53uRVotlMgqJXm3s3eje0Bu6gQTxYDqpD38CmQfDBA+gN+QqaGjasuC8I/7eW3Q==
+  dependencies:
+    source-list-map "^2.0.0"
+    source-map "~0.6.1"
+
+webpack-sources@^1.1.0, webpack-sources@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-1.3.0.tgz#2a28dcb9f1f45fe960d8f1493252b5ee6530fa85"
   integrity sha512-OiVgSrbGu7NEnEvQJJgdSFPl2qWKkWq5lHMhgiToIiN9w34EBnjYzSYs+VbL5KoYiLNtFFa7BZIKxRED3I32pA==
