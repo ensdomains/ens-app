@@ -66,6 +66,8 @@ const typeDefs = `
     currentBlockDate: Int
     transferEndDate: Int
     isNewRegistrar: Boolean
+    isDNSRegistrar: Boolean
+    dnsOwner: String
   }
 
   extend type Query {

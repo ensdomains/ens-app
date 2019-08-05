@@ -8,6 +8,7 @@ import { Title } from '../Typography/Basic'
 import DefaultFavourite from '../AddFavourite/Favourite'
 import NameDetails from './NameDetails'
 import NameRegister from './NameRegister'
+import DNSNameRegister from './DNSNameRegister'
 import ShortName from './ShortName'
 import Tabs from './Tabs'
 import QueryAccount from '../QueryAccount'
@@ -82,6 +83,10 @@ function isRegistrationOpen(domain, isDeedOwner) {
   return parent === 'eth' && !isDeedOwner && available
 }
 
+function isDNSRegistrationOpen(domain) {
+  return domain.isDNSRegistrar && domain.owner === EMPTY_ADDRESS
+}
+
 function isOwnerOfDomain(domain, account) {
   if (domain.owner !== EMPTY_ADDRESS) {
     return domain.owner.toLowerCase() === account.toLowerCase()
@@ -115,9 +120,14 @@ function Name({ details: domain, name, pathname, type, refetch }) {
         } else if (isOwner) {
           ownerType = 'Controller'
         }
-
+        let containerState
+        if (isDNSRegistrationOpen(domain)) {
+          containerState = 'Open'
+        } else {
+          containerState = isOwner ? 'Yours' : domain.state
+        }
         return (
-          <NameContainer state={isOwner ? 'Yours' : domain.state}>
+          <NameContainer state={containerState}>
             <TopBar percentDone={percentDone}>
               <Title>
                 {domain.decrypted
@@ -144,6 +154,14 @@ function Name({ details: domain, name, pathname, type, refetch }) {
                 domain={domain}
                 pathname={pathname}
                 refetch={refetch}
+                readOnly={account === EMPTY_ADDRESS}
+              />
+            ) : isDNSRegistrationOpen(domain) ? (
+              <DNSNameRegister
+                domain={domain}
+                pathname={pathname}
+                refetch={refetch}
+                account={account}
                 readOnly={account === EMPTY_ADDRESS}
               />
             ) : type === 'short' ? (
