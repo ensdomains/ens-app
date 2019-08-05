@@ -1279,7 +1279,7 @@
     truffle "^5.0.5"
     web3-utils "^1.0.0-beta.48"
 
-"@ensdomains/mock@^1.0.12":
+"@ensdomains/mock@^1.0.13":
   version "1.0.13"
   resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-1.0.13.tgz#8f6a40461d6134b4f5011c3dff1eda68fc74915d"
   integrity sha512-Czn7+aAuEcgTywqC8T2RA6Wf/MdI8xNbqyoG4FpeL3uBQZQ3kR6kancX0DkEYxe3G11V78Jfc5NN3aih7ItxtQ==
@@ -1332,7 +1332,7 @@
     lodash "^4.17.11"
     web3 "1.0.0-beta.34"
 
-"@ensdomains/ui@^1.0.93":
+"@ensdomains/ui@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.1.1.tgz#35038799b859d907c9eed526b6831af5bf4e485c"
   integrity sha512-vskqRUjye22t/r8eQR7w5D8dxiSti255Cw1YWImysgTS9IenkVUpKFbhWL+qNjY4vtveT7LnUyIlHCidWyuEEQ==
