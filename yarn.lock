@@ -1311,7 +1311,7 @@
   resolved "https://registry.yarnpkg.com/@ensdomains/resolver/-/resolver-0.1.9.tgz#013bc88397c2c204737aaaf602380145d845e09e"
   integrity sha512-eSZIEWi2UcxNZXJhAeoTYUZr20fyly9eMUy17WQ5UjszXf0QgE1Zzh/Oj9Mhl0i8s7xqoPOsntr2ZI0JhsX78w==
 
-"@ensdomains/ui@^1.0.92", "@ensdomains/ui@^1.0.93":
+"@ensdomains/ui@^1.0.92":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.1.0.tgz#fa9cc54fa2826ac280f842c398273c368128eeab"
   integrity sha512-JJBdP4O3T9W/6XD5tlHzmCGtmeERI+KLrUNuLN+ewe62ZuJB7zeZ9VTCZEqQnJtIiBGlOphs7KOpEKffQAyMGA==
@@ -1329,6 +1329,34 @@
     js-sha3 "^0.8.0"
     lodash "^4.17.11"
     web3 "1.0.0-beta.34"
+
+"@ensdomains/ui@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.1.2.tgz#9dcdfc74900f167274ec06c56eeb7b8559d2e182"
+  integrity sha512-63N3CgAfo8biWDowkjsgIIMKeiwGJQ5b1d9rufWRGCQXd2Y+1CNOcgdSx1uZL7UJy/0OM2g/U+Ra1FJ6TZFiew==
+  dependencies:
+    "@0xproject/utils" "^2.0.2"
+    "@babel/runtime" "^7.4.4"
+    "@ensdomains/dnsregistrar" "^0.3.5"
+    "@ensdomains/ens" "^0.3.5"
+    "@ensdomains/ens-022" "npm:@ensdomains/ens@0.2.2"
+    "@ensdomains/ethregistrar" "^1.2.2"
+    "@ensdomains/resolver" "^0.1.6"
+    "@ethvault/iframe-provider" "0.1.9"
+    content-hash "^2.4.1"
+    cross-fetch "^3.0.2"
+    eth-ens-namehash "^2.0.8"
+    ethers "^4.0.30"
+    js-sha3 "^0.8.0"
+    lodash "^4.17.11"
+    web3 "1.0.0-beta.34"
+
+"@ethvault/iframe-provider@0.1.9":
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/@ethvault/iframe-provider/-/iframe-provider-0.1.9.tgz#59d50733283bfa4a35632a47291986375cd6f4e8"
+  integrity sha512-rOSGAcpNdSLjsnuulhLYV5hNi/ZDunHHY8WV8wA5/TSK4+qKfU24gkmQgR9LtZc7+3RNgVbKQym2gPZgI4zAAw==
+  dependencies:
+    eventemitter3 "^4.0.0"
 
 "@hapi/address@2.x.x":
   version "2.0.0"
@@ -5277,6 +5305,11 @@ eventemitter3@^3.0.0:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-3.1.2.tgz#2d3d48f9c346698fce83a85d7d664e98535df6e7"
   integrity sha512-tvtQIeLVHjDkJYnzf2dgVMxfuSGJeM/7UCG17TT4EumTfNtF+0nebF/4zWOIkCreAbtNqhGEboB6BWrwqNaw4Q==
+
+eventemitter3@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-4.0.0.tgz#d65176163887ee59f386d64c82610b696a4a74eb"
+  integrity sha512-qerSRB0p+UDEssxTtm6EDKcE7W4OaoisfIMl4CngyEhjpYglocpNg6UEqCvemdGhosAsg4sO2dXJOdyBifPGCg==
 
 events@^3.0.0:
   version "3.0.0"
