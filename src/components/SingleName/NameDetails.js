@@ -343,7 +343,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                           name={domain.name}
                           parentOwner={domain.parentOwner}
                           refetch={refetch}
-                          actionText={'Sync'}
+                          actionText={dnssecmode.delete ? 'Delete' : 'Sync'}
                         />
                       ) : (
                         <Tooltip
