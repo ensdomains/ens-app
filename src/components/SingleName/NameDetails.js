@@ -374,14 +374,12 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                     </ButtonContainer>
                   </DetailsItem>
                 ) : (
-                  // Either subdomain, .test, or .dns(eg. .xyz)
+                  // Either subdomain, or .test
                   <DetailsItemEditable
                     domain={domain}
                     keyName="Controller"
                     value={domain.owner}
-                    canEdit={
-                      domain.isDNSRegistrar && domain.owner !== domain.dnsOwner
-                    }
+                    canEdit={isOwner || isOwnerOfParent}
                     deedOwner={domain.deedOwner}
                     isDeedOwner={isDeedOwner}
                     outOfSync={outOfSync}
