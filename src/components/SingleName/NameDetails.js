@@ -46,9 +46,27 @@ const ExpirationDetailsValue = styled(DetailsValue)`
   color: ${p => (p.isExpired ? 'red' : null)};
 `
 
+const GracePeriodWarningContainer = styled('div')`
+  background: #fef7e9;
+  padding: 10px 20px;
+  margin: 5px 0px;
+`
+
+const GracePeriodText = styled('span')`
+  color: #cacaca;
+`
+const GracePeriodDate = styled('span')`
+  font-weight: bold;
+`
+
 const AddressLink = styled(DefaultAddressLink)`
   display: flex;
   align-items: center;
+`
+
+const Expiration = styled('span')`
+  color: #f5a623;
+  font-weight: bold;
 `
 
 function canClaim(domain) {
@@ -123,6 +141,18 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
     contentMutation = SET_CONTENT
   } else {
     contentMutation = SET_CONTENTHASH
+  }
+
+  const GracePeriodWarning = ({ date }) => {
+    return (
+      <GracePeriodWarningContainer>
+        <Expiration>Expiring soon.</Expiration>
+        <GracePeriodText>
+          Grace period ends{' '}
+          <GracePeriodDate>{formatDate(date)}</GracePeriodDate>
+        </GracePeriodText>
+      </GracePeriodWarningContainer>
+    )
   }
 
   const showExplainer = !parseInt(domain.resolver)
@@ -253,11 +283,11 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                     keyName="Expiration Date"
                     value={domain.expiryTime}
                     notes={
-                      domain.gracePeriodEndDate
-                        ? `(grace period ends ${formatDate(
-                            domain.gracePeriodEndDate
-                          )} )`
-                        : ''
+                      domain.gracePeriodEndDate ? (
+                        <GracePeriodWarning date={domain.gracePeriodEndDate} />
+                      ) : (
+                        ''
+                      )
                     }
                     canEdit={parseInt(account, 16) !== 0}
                     type="date"

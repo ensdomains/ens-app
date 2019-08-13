@@ -307,10 +307,11 @@ const Editable = ({
                   <Address>{value}</Address>
                 </AddressLink>
               ) : type === 'date' ? (
-                formatDate(value) + notes
+                formatDate(value)
               ) : (
                 value
               )}
+              {notes}
             </DetailsValue>
             {editing ? null : pending && !confirmed ? (
               <PendingTx
