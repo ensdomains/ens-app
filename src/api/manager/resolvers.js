@@ -1,9 +1,13 @@
 import {
   getOwner,
+  getEntry,
+  getDNSEntry,
+  isDNSRegistrar,
   setSubnodeOwner,
   getDomainDetails,
   getSubdomains,
   getName,
+  getNetworkId,
   getAddress,
   claimAndSetReverseRecordName,
   setOwner,
@@ -16,13 +20,11 @@ import {
   expiryTimes,
   isDecrypted
 } from '@ensdomains/ui'
-import { getEntry } from '@ensdomains/ui'
 import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
-import { getNetworkId } from '@ensdomains/ui'
 import domains from '../../constants/domains.json'
 import { sendHelper } from '../resolverUtils'
-
+import { emptyAddress } from '../../utils/utils'
 import {
   GET_FAVOURITES,
   GET_SUBDOMAIN_FAVOURITES,
@@ -80,6 +82,8 @@ const resolvers = {
           contentType: null,
           expiryTime: null,
           isNewRegistrar: null,
+          isDNSRegistrar: null,
+          dnsOwner: null,
           deedOwner: null,
           registrant: null
         }
@@ -143,6 +147,22 @@ const resolvers = {
               ...subdomain,
               state: subdomain.available ? 'Open' : 'Owned'
             }
+          }
+        } else {
+          // either dnssect domain or non existing domain
+          let tld = nameArray[1]
+          let owner
+          let tldowner = (await getOwner(tld)).toLocaleLowerCase()
+          try {
+            owner = (await getOwner(name)).toLocaleLowerCase()
+          } catch {}
+
+          let isDNSRegistrarSupported = await isDNSRegistrar(tld)
+          if (isDNSRegistrarSupported && tldowner !== emptyAddress) {
+            const dnsEntry = await getDNSEntry(name, tldowner, owner)
+            node.isDNSRegistrar = true
+            node.dnsOwner = dnsEntry.dnsOwner || emptyAddress
+            node.state = dnsEntry.state
           }
         }
 

@@ -20,7 +20,7 @@ async function setupWeb3(customProvider) {
 
 async function init() {
   const ENV = process.argv[2]
-
+  const dnssec = process.argv[3] == 'dnssec'
   switch (ENV) {
     case 'GANACHE_GUI':
       var provider = new Web3.providers.HttpProvider('http://localhost:7545')
@@ -38,7 +38,7 @@ async function init() {
 
   const accounts = await getAccounts(web3)
 
-  const addresses = await deployTestEns({ web3, accounts })
+  const addresses = await deployTestEns({ web3, accounts, dnssec })
   const {
     ensAddress,
     controllerAddress,

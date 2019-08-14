@@ -67,6 +67,8 @@ const typeDefs = `
     transferEndDate: Int
     gracePeriodEndDate: Int
     isNewRegistrar: Boolean
+    isDNSRegistrar: Boolean
+    dnsOwner: String
   }
 
   extend type Query {

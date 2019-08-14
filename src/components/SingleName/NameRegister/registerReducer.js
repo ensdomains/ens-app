@@ -1,3 +1,5 @@
+import registerReducerFactory from '../registerReducerFactory'
+
 export const registerMachine = {
   initialState: 'PRICE_DECISION',
   states: {
@@ -40,27 +42,6 @@ export const registerMachine = {
   }
 }
 
-export function registerReducer(state, action) {
-  return registerMachine.states[state].on[action] || state
-}
-
-export function getStates(states, initialState) {
-  function traverseLinkedList(list, next) {
-    if (states[next].on.NEXT === next) {
-      return [...list, next]
-    }
-    return traverseLinkedList([...list, next], states[next].on.NEXT)
-  }
-  return traverseLinkedList([], initialState)
-}
-
-export const states = getStates(
-  registerMachine.states,
-  registerMachine.initialState
+export const { registerReducer, hasReachedState } = registerReducerFactory(
+  registerMachine
 )
-
-export const hasReachedState = (state, currentState) => {
-  const indexToReach = states.findIndex(s => s === state)
-  const currentStateIndex = states.findIndex(s => s === currentState)
-  return currentStateIndex >= indexToReach
-}

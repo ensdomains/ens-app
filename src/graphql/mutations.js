@@ -150,3 +150,9 @@ export const RELEASE_DEED = gql`
     releaseDeed(label: $label) @client
   }
 `
+
+export const SUBMIT_PROOF = gql`
+  mutation submitProof($name: String, $parentOwner: String) {
+    submitProof(name: $name, parentOwner: $parentOwner) @client
+  }
+`
