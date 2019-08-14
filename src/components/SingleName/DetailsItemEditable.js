@@ -116,7 +116,8 @@ function getDefaultMessage(keyName) {
     case 'Resolver':
       return ['No Resolver set', 'message']
     case 'Controller':
-      return ['Not owned yet', 'message']
+    case 'Registrant':
+      return ['Not owned', 'message']
     default:
       return ['No 0x message set', 'message']
   }
@@ -225,6 +226,7 @@ const Editable = ({
   keyName,
   value,
   type,
+  notes,
   mutation,
   mutationButton,
   editButton,
@@ -309,6 +311,7 @@ const Editable = ({
               ) : (
                 value
               )}
+              {notes}
             </DetailsValue>
             {editing ? null : pending && !confirmed ? (
               <PendingTx
@@ -505,6 +508,7 @@ DetailsEditable.propTypes = {
   keyName: PropTypes.string.isRequired, // key of the record
   value: PropTypes.string.isRequired, // value of the record (normally hex address)
   type: PropTypes.string, // type of value. Defaults to address
+  notes: PropTypes.string,
   mutation: PropTypes.object.isRequired, //graphql mutation string for making tx
   mutationButton: PropTypes.string, // Mutation button text
   editButton: PropTypes.string, //Edit button text
