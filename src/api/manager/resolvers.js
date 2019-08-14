@@ -60,6 +60,61 @@ const resolvers = {
       const owner = await getOwner(name)
       return owner
     },
+
+    /**
+     
+
+    //no dependencies
+    name: null,
+    owner: null,
+    label: null,
+    labelhash, null
+    decrypted,
+    parent
+    parentOwner
+
+    //records,
+    name
+    label
+    resolver
+    addr
+    content
+    contentType
+
+    addr,
+    content,
+    contentType: null,
+
+    //auction registrar
+    revealDate: null,
+    registrationDate: null,
+    migrationStartDate: null,
+    currentBlockDate: null,
+    transferEndDate: null,
+    value: null,
+    state: null,
+    deedOwner: null,
+
+    //Subdomain registrar
+    label: null,
+    domain: null,
+    price: null,
+    rent: null,
+    referralFeePPM: null,
+    available: null,
+    
+    //permanent registrar
+    label,
+    expiryTime: null,
+    registrant: null
+
+    //dns registrar
+    isNewRegistrar: null,
+    isDNSRegistrar: null,
+    dnsOwner: null,
+   
+    
+     */
     singleName: async (_, { name }, { cache }) => {
       try {
         const nameArray = name.split('.')
@@ -77,7 +132,6 @@ const resolvers = {
           state: null,
           label: null,
           decrypted,
-          domain: null,
           price: null,
           rent: null,
           referralFeePPM: null,
