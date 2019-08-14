@@ -37,6 +37,7 @@ export const GET_SINGLE_NAME = gql`
       migrationStartDate
       currentBlockDate
       transferEndDate
+      gracePeriodEndDate
       value
       highestBid
       state
@@ -48,6 +49,8 @@ export const GET_SINGLE_NAME = gql`
       deedOwner
       registrant
       isNewRegistrar
+      isDNSRegistrar
+      dnsOwner
     }
   }
 

@@ -75,16 +75,18 @@ describe('Address', () => {
       .should('have.value', NAME)
 
     cy.get('.resolve-result').should('contain', ADDRESS)
-    cy.get('.blockies').should('have.attr', 'style').then((attr) => {
-      cy.get('.cmp-address:nth(4) input')
-        .clear()
-        .type(ADDRESS)
-        .should('have.value', ADDRESS)
+    cy.get('.blockies')
+      .should('have.attr', 'style')
+      .then(attr => {
+        cy.get('.cmp-address:nth(4) input')
+          .clear()
+          .type(ADDRESS)
+          .should('have.value', ADDRESS)
 
-      cy.get('.resolve-result').should('contain', NAME)
+        cy.get('.resolve-result').should('contain', NAME)
 
-      cy.get('.blockies').should('have.attr', 'style', attr)
-    })
+        cy.get('.blockies').should('have.attr', 'style', attr)
+      })
   })
 
   it('test #6 check onResolve', () => {

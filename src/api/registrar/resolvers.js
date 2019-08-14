@@ -12,8 +12,10 @@ import {
   releaseDeed,
   transferOwner,
   reclaim,
+  submitProof,
   getOwner
 } from '@ensdomains/ui'
+
 import modeNames from '../modes'
 import { sendHelper } from '../resolverUtils'
 
@@ -113,6 +115,10 @@ const resolvers = {
     },
     async releaseDeed(_, { label }) {
       const tx = await releaseDeed(label)
+      return sendHelper(tx)
+    },
+    async submitProof(_, { name, parentOwner }) {
+      const tx = await submitProof(name, parentOwner)
       return sendHelper(tx)
     }
   }

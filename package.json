@@ -1,6 +1,6 @@
 {
   "name": "ens-app",
-  "version": "1.0.0",
+  "version": "1.1.4",
   "private": true,
   "homepage": "https://manager.ens.domains",
   "dependencies": {
@@ -12,7 +12,7 @@
     "@ensdomains/ethregistrar": "^1.2.2",
     "@ensdomains/react-ens-address": "^0.0.11",
     "@ensdomains/resolver": "^0.1.6",
-    "@ensdomains/ui": "^1.0.93",
+    "@ensdomains/ui": "^1.1.5",
     "apollo-cache-inmemory": "^1.2.9",
     "apollo-client": "^2.4.5",
     "apollo-link": "^1.2.2",
@@ -56,6 +56,7 @@
     "test:coverage": "npm test -- --coverage",
     "eject": "react-scripts eject",
     "preTest": "node -r esm src/testing-utils/preTest.js",
+    "preTest:dnssec": "node -r esm src/testing-utils/preTest.js default dnssec",
     "subgraph": "node scripts/subgraph.js",
     "advance": "node src/testing-utils/advance.js",
     "cypress:open": "yarn run cypress open",
@@ -73,7 +74,7 @@
     }
   },
   "devDependencies": {
-    "@ensdomains/mock": "^1.0.12",
+    "@ensdomains/mock": "^1.0.13",
     "apollo-client-mock": "0.0.8",
     "apollo-link-schema": "^1.1.0",
     "babel-plugin-macros": "^2.4.2",

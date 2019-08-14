@@ -5,11 +5,22 @@ import styled from '@emotion/styled'
 
 const BlockiesContainer = styled('span')``
 
-const Blockies = ({ address, imageSize = 42, className }) => {
+const Blockies = ({
+  address,
+  imageSize = 42,
+  color,
+  bgcolor,
+  spotcolor,
+  className
+}) => {
+  console.log({ address, imageSize, color, bgcolor, spotcolor, className })
   var imgURL = createIcon({
     seed: address.toLowerCase(),
     size: 8,
-    scale: 5
+    scale: 5,
+    color,
+    bgcolor,
+    spotcolor
   }).toDataURL()
   var style = {
     backgroundImage: 'url(' + imgURL + ')',
@@ -25,6 +36,9 @@ const Blockies = ({ address, imageSize = 42, className }) => {
 Blockies.propTypes = {
   address: PropTypes.string.isRequired,
   imageSize: PropTypes.number,
+  color: PropTypes.string,
+  bgcolor: PropTypes.string,
+  spotcolor: PropTypes.string,
   className: PropTypes.string
 }
 
