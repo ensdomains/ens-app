@@ -213,7 +213,6 @@ function hasAnyRecord(domain) {
 }
 
 function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
-  const deedOwner = domain.deedOwner
   const isDeedOwner = domain.deedOwner === account
   const isRegistrant = domain.registrant === account
   const isPermanentRegistrarDeployed = domain.available !== null

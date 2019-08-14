@@ -1332,10 +1332,10 @@
     lodash "^4.17.11"
     web3 "1.0.0-beta.34"
 
-"@ensdomains/ui@^1.1.4":
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.1.4.tgz#ae117c7e889a29c9a195c22be82be9728274c14a"
-  integrity sha512-QEkPTpbkliIFWv8+rCzOVBZU6DPcCMGlmwOaMVv6mpDF4pSso+A5VdSJbOKbYkJP6DhozAmR0LFpOyhy8B9KcA==
+"@ensdomains/ui@^1.1.5":
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.1.5.tgz#5dd05b9eca04cbb420999e13ee7bfed3b09cb245"
+  integrity sha512-tUdy5Gd9b8j5KmTpJte6hRxYHAKuoBVJo2jMgzuPiMfAiQ9M21A2KzphsJ5gCxkmIL9kAeROQQADJhkJr0pnng==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
