@@ -47,6 +47,7 @@ const ExpirationDetailsValue = styled(DetailsValue)`
 `
 
 const GracePeriodWarningContainer = styled('div')`
+  font-family: 'Overpass';
   background: #fef7e9;
   padding: 10px 20px;
   margin: 5px 0px;
@@ -54,6 +55,7 @@ const GracePeriodWarningContainer = styled('div')`
 
 const GracePeriodText = styled('span')`
   color: #cacaca;
+  margin-left: 0.5em;
 `
 const GracePeriodDate = styled('span')`
   font-weight: bold;
