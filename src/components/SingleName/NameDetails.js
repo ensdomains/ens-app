@@ -137,6 +137,38 @@ const DomainOwnerAddress = styled(`span`)`
   color: ${props => (props.outOfSync ? '#CACACA' : '')};
 `
 
+const GracePeriodWarningContainer = styled('div')`
+  font-family: 'Overpass';
+  background: #fef7e9;
+  padding: 10px 20px;
+  margin: 5px 0px;
+`
+
+const GracePeriodText = styled('span')`
+  color: #cacaca;
+  margin-left: 0.5em;
+`
+
+const GracePeriodDate = styled('span')`
+  font-weight: bold;
+`
+
+const Expiration = styled('span')`
+  color: #f5a623;
+  font-weight: bold;
+`
+
+const GracePeriodWarning = ({ date }) => {
+  return (
+    <GracePeriodWarningContainer>
+      <Expiration>Expiring soon.</Expiration>
+      <GracePeriodText>
+        Grace period ends <GracePeriodDate>{formatDate(date)}</GracePeriodDate>
+      </GracePeriodText>
+    </GracePeriodWarningContainer>
+  )
+}
+
 function canClaim(domain) {
   if (!domain.name.match(/\.test$/)) return false
   return parseInt(domain.owner) === 0 || domain.expiryTime < new Date()
@@ -494,12 +526,21 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                 ) : (
                   ''
                 )}
-                {domain.expiryTime ? (
-                  domain.isNewRegistrar ? (
+                {!domain.available ? (
+                  domain.isNewRegistrar || domain.gracePeriodEndDate ? (
                     <DetailsItemEditable
                       domain={domain}
                       keyName="Expiration Date"
                       value={domain.expiryTime}
+                      notes={
+                        domain.gracePeriodEndDate ? (
+                          <GracePeriodWarning
+                            date={domain.gracePeriodEndDate}
+                          />
+                        ) : (
+                          ''
+                        )
+                      }
                       canEdit={parseInt(account, 16) !== 0}
                       type="date"
                       editButton="Renew"
@@ -508,7 +549,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                       refetch={refetch}
                       confirm={true}
                     />
-                  ) : (
+                  ) : domain.expiryTime ? (
                     <DetailsItem uneditable>
                       <DetailsKey>Expiration Date</DetailsKey>
                       <ExpirationDetailsValue
@@ -517,6 +558,8 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                         {formatDate(domain.expiryTime)}
                       </ExpirationDetailsValue>
                     </DetailsItem>
+                  ) : (
+                    ''
                   )
                 ) : isPermanentRegistrarDeployed &&
                   isLegacyAuctionedName(domain) ? (
