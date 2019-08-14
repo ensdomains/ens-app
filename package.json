@@ -36,7 +36,7 @@
     "notification-polyfill": "^1.0.0",
     "react": "16.7.0-alpha.0",
     "react-add-to-calendar": "^0.1.5",
-    "react-apollo": "^2.1.2",
+    "react-apollo": "^3.0.0",
     "react-dom": "16.7.0-alpha.0",
     "react-ga": "^2.5.7",
     "react-router": "^4.2.0",

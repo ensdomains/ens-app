@@ -90,9 +90,8 @@ const DomainName = styled('h2')`
   color: ${p => {
     switch (p.state) {
       case 'Yours':
-        return '#2b2b2b'
       case 'Owned':
-        return '#CCD4DA'
+        return '#2b2b2b'
       default:
         return '#2b2b2b'
     }
@@ -128,17 +127,8 @@ const Label = ({ domain, isOwner }) => {
     case 'Open':
       text = 'Available'
       break
-    case 'Auction':
-      text = 'Bidding Period'
-      break
     case 'Owned':
       text = 'Unavailable'
-      break
-    case 'Forbidden':
-      text = 'Forbidden'
-      break
-    case 'Reveal':
-      text = 'Reveal Period'
       break
     default:
       text = 'Unknown State'
@@ -188,7 +178,11 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
               <Label domain={domain} isOwner={isOwner} />
               {isSubDomain && domain.state === 'Open' ? (
                 <Price className="price">
-                  {domain.price > 0 ? `${domain.price} ETH` : 'Free'}
+                  {domain.price
+                    ? domain.price > 0
+                      ? `${domain.price} ETH`
+                      : 'Free'
+                    : ''}
                 </Price>
               ) : (
                 ''

@@ -56,6 +56,10 @@ async function getParent(name) {
 
 const resolvers = {
   Query: {
+    getOwner: async (_, { name }, { cache }) => {
+      const owner = await getOwner(name)
+      return owner
+    },
     singleName: async (_, { name }, { cache }) => {
       try {
         const nameArray = name.split('.')
