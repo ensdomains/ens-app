@@ -28,6 +28,21 @@ export const GET_ALL_NODES = gql`
   ${NodeFields}
 `
 
+export const GET_ALL_OWNERS = gql`
+  query names @client {
+    owners {
+      name
+      owner
+    }
+  }
+`
+
+export const GET_OWNER = gql`
+  query getOwner($name: String) @client {
+    getOwner(name: $name) @client
+  }
+`
+
 export const GET_SINGLE_NAME = gql`
   query singleName($name: String) @client {
     singleName(name: $name) @client {
