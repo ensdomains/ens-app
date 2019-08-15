@@ -49,6 +49,12 @@ export const GET_RESOLVER_AND_OWNER = gql`
   }
 `
 
+export const GET_ENTRY = gql`
+  query getEntry($name: String) @client {
+    getEntry(name: $name) @client
+  }
+`
+
 export const GET_RECORDS = gql`
   query getRecords($name: String) @client {
     getRecords(name: $name) @client
@@ -64,6 +70,7 @@ export const GET_SINGLE_NAME = gql`
       migrationStartDate
       currentBlockDate
       transferEndDate
+      gracePeriodEndDate
       value
       highestBid
       state
