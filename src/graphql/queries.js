@@ -43,18 +43,6 @@ export const GET_OWNER = gql`
   }
 `
 
-export const GET_RESOLVER_AND_OWNER = gql`
-  query getResolverAndOwner($name: String) @client {
-    getResolverAndOwner(name: $name) @client
-  }
-`
-
-export const GET_RECORDS = gql`
-  query getRecords($name: String) @client {
-    getRecords(name: $name) @client
-  }
-`
-
 export const GET_SINGLE_NAME = gql`
   query singleName($name: String) @client {
     singleName(name: $name) @client {
