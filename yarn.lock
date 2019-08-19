@@ -1381,10 +1381,10 @@
     lodash "^4.17.11"
     web3 "1.0.0-beta.34"
 
-"@ensdomains/ui@^1.1.5":
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.1.5.tgz#5dd05b9eca04cbb420999e13ee7bfed3b09cb245"
-  integrity sha512-tUdy5Gd9b8j5KmTpJte6hRxYHAKuoBVJo2jMgzuPiMfAiQ9M21A2KzphsJ5gCxkmIL9kAeROQQADJhkJr0pnng==
+"@ensdomains/ui@^1.1.6":
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.1.6.tgz#0d8b8de85530d109bad0d7a850f34a25cb7e9439"
+  integrity sha512-UYA16uLcYTogf1joHNtuGqESlrXoZmo1N+4bGCvJ1N1duBTHrQikelwx1uBfR7M50vxDpWjpNhK06ssaZt3L3A==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
@@ -3741,7 +3741,7 @@ content-disposition@0.5.3:
   dependencies:
     safe-buffer "5.1.2"
 
-content-hash@^2.2.0, content-hash@^2.4.1:
+content-hash@^2.4.1:
   version "2.4.3"
   resolved "https://registry.yarnpkg.com/content-hash/-/content-hash-2.4.3.tgz#89e6d295bbf2c53fb69b3d8fb43ae572ac7b6096"
   integrity sha512-QBfQRlBBCJP94fV8zcUMChGMKzQMAZX6rn36yldc2A16C47tWdOTYjPosyZ7/AfdyW/xB5cP3RgZIAomnUDGIA==
