@@ -61,6 +61,19 @@ const resolvers = {
       return owner
     },
 
+    getRegistryDetails: async (_, { name }, { cache }) => {
+      const [[parent, parentOwner, details]] = Promise.all(
+        getParent(name),
+        getDomainDetails(name)
+      )
+      return {
+        parent,
+        parentOwner,
+        details,
+        __typename: Node
+      }
+    },
+
     /**
      
 
@@ -72,8 +85,6 @@ const resolvers = {
     decrypted,
     parent
     parentOwner
-
-    //records,
     name
     label
     resolver
@@ -81,11 +92,22 @@ const resolvers = {
     content
     contentType
 
-    addr,
-    content,
-    contentType: null,
+    **/
 
-    //auction registrar
+    getAuctionRegistrarDetails: async (_, { name }, { cache }) => {
+      const [[parent, parentOwner, details]] = Promise.all(
+        getParent(name),
+        getDomainDetails(name)
+      )
+      return {
+        parent,
+        parentOwner,
+        details,
+        __typename: Node
+      }
+    },
+
+    /* auction registrar
     revealDate: null,
     registrationDate: null,
     migrationStartDate: null,
@@ -94,27 +116,26 @@ const resolvers = {
     value: null,
     state: null,
     deedOwner: null,
+    */
 
     //Subdomain registrar
-    label: null,
-    domain: null,
-    price: null,
-    rent: null,
-    referralFeePPM: null,
-    available: null,
-    
+    // label: null,
+    // domain: null,
+    // price: null,
+    // rent: null,
+    // referralFeePPM: null,
+    // available: null,
+
     //permanent registrar
-    label,
-    expiryTime: null,
-    registrant: null
+    // label,
+    // expiryTime: null,
+    // registrant: null
 
     //dns registrar
-    isNewRegistrar: null,
-    isDNSRegistrar: null,
-    dnsOwner: null,
-   
-    
-     */
+    // isNewRegistrar: null,
+    // isDNSRegistrar: null,
+    // dnsOwner: null,
+
     singleName: async (_, { name }, { cache }) => {
       try {
         const nameArray = name.split('.')

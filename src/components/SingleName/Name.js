@@ -1,4 +1,5 @@
 import React from 'react'
+import { useQuery } from 'react-apollo'
 import styled from '@emotion/styled'
 
 import mq, { useMediaMin } from 'mediaQuery'
@@ -111,6 +112,7 @@ function Name({ details: domain, name, pathname, type, refetch }) {
         const hasAnOwner = domain.owner !== EMPTY_ADDRESS
         const isOwner = isOwnerOfDomain(domain, account)
         const isOwnerOfParent = isOwnerOfParentDomain(domain, account)
+
         const isDeedOwner = domain.deedOwner === account
         const isRegistrant = domain.registrant === account
         const registrationOpen = isRegistrationOpen(domain, isDeedOwner)

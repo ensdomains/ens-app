@@ -49,14 +49,14 @@ function SingleName({
   }, [searchTerm])
   if (valid) {
     return (
-      <Query query={GET_SINGLE_NAME} variables={{ name }}>
+      <Query query={GET_REGISTRY_DETAILS} variables={{ name }}>
         {({ loading, error, data, refetch }) => {
           if (loading) return <Loader large center />
           if (error)
             return <div>{(console.log(error), JSON.stringify(error))}</div>
           return (
             <Name
-              details={data.singleName}
+              details={data.getRegistryDetails}
               name={name}
               pathname={pathname}
               type={type}
