@@ -2,6 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 import mq from 'mediaQuery'
 import { ExternalButtonLink } from '../Forms/Button'
+import jsSHA3 from 'js-sha3'
 
 const ShortNameContainer = styled('div')`
   padding: 20px;
@@ -13,7 +14,7 @@ const ShortNameContainer = styled('div')`
 `
 
 const InnerWrapper = styled('div')`
-  background: hsla(37, 91%, 55%, 0.1);
+  background: #f0f6fa;
   padding: 20px;
   display: flex;
   justify-content: space-between;
@@ -36,20 +37,20 @@ const InnerWrapper = styled('div')`
   `}
 `
 
-export default function ShortName() {
+export default function ShortName({ name }) {
+  const label = name.split('.')[0]
+  const labelhash = `${jsSHA3.keccak256(label.toLowerCase())}`
+  const link = `https://opensea.io/assets/0xFaC7BEA255a6990f749363002136aF6556b31e04/${labelhash}`
   return (
     <ShortNameContainer>
       <InnerWrapper>
         <p>
-          Short names are not currently on auction, but they can be reserved at{' '}
-          <a href="https://reserve.ens.domains">reserve.ens.domains</a>. The
-          auctions will begin soon after the reservation process.
+          Short names are currently on auction, but they can be reserved at{' '}
+          <a href={link}>OpenSea</a>. The auctions will begin soon after the
+          reservation process.
         </p>
-        <ExternalButtonLink
-          href="https://reserve.ens.domains"
-          type="hollow-primary"
-        >
-          Reserve Now
+        <ExternalButtonLink href={link} type="hollow-primary">
+          Bid Now
         </ExternalButtonLink>
       </InnerWrapper>
     </ShortNameContainer>

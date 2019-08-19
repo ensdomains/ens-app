@@ -302,8 +302,8 @@ export default props => (
     </Hero>
     <ShortNameAuctions>
       <h3>
-        The short name reservations are in progress at&nbsp;
-        <a href="https://reserve.ens.domains">reserve.ens.domains</a>
+        The short name auctions are in progress at&nbsp;
+        <a href="https://opensea.io/ens-landing">opensea.io/ens-landing</a>
       </h3>
     </ShortNameAuctions>
     <Explanation>
