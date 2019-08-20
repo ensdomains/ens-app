@@ -165,7 +165,7 @@ function Name({ details: domain, name, pathname, type, refetch }) {
                 readOnly={account === EMPTY_ADDRESS}
               />
             ) : type === 'short' ? (
-              <ShortName />
+              <ShortName name={name} />
             ) : (
               <NameDetails
                 domain={domain}

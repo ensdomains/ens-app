@@ -13,7 +13,7 @@ const ShortNameContainer = styled('div')`
 `
 
 const InnerWrapper = styled('div')`
-  background: hsla(37, 91%, 55%, 0.1);
+  background: #f0f6fa;
   padding: 20px;
   display: flex;
   justify-content: space-between;
@@ -36,20 +36,16 @@ const InnerWrapper = styled('div')`
   `}
 `
 
-export default function ShortName() {
+export default function ShortName({ name }) {
+  const link = `https://opensea.io/ens-landing`
   return (
     <ShortNameContainer>
       <InnerWrapper>
         <p>
-          Short names are not currently on auction, but they can be reserved at{' '}
-          <a href="https://reserve.ens.domains">reserve.ens.domains</a>. The
-          auctions will begin soon after the reservation process.
+          Short names auctions will start soon at <a href={link}>OpenSea</a>
         </p>
-        <ExternalButtonLink
-          href="https://reserve.ens.domains"
-          type="hollow-primary"
-        >
-          Reserve Now
+        <ExternalButtonLink href={link} type="hollow-primary-disabled">
+          Bid Now
         </ExternalButtonLink>
       </InnerWrapper>
     </ShortNameContainer>
