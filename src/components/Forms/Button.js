@@ -62,6 +62,7 @@ function getButtonStyles({ type }) {
         background: transparent;
         border: 2px solid #dfdfdf;
         &:hover {
+          color: #dfdfdf;
           cursor: default
         }
       `
