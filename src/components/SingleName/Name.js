@@ -12,7 +12,7 @@ import NameRegister from './NameRegister'
 import DNSNameRegister from './DNSNameRegister'
 import ShortName from './ShortName'
 import Tabs from './Tabs'
-import QueryAccount from '../QueryAccount'
+import QueryAccount, { useAccount } from '../QueryAccount'
 
 const NameContainer = styled('div')`
   background: white;
@@ -79,8 +79,7 @@ const RightBar = styled('div')`
 
 const Favourite = styled(DefaultFavourite)``
 
-function isRegistrationOpen(domain, isDeedOwner) {
-  let { available, parent } = domain
+function isRegistrationOpen(available, parent, isDeedOwner) {
   return parent === 'eth' && !isDeedOwner && available
 }
 
@@ -105,84 +104,80 @@ function isOwnerOfParentDomain(domain, account) {
 function Name({ details: domain, name, pathname, type, refetch }) {
   const smallBP = useMediaMin('small')
   const percentDone = 0
+  const account = useAccount()
+  const hasAnOwner = domain.owner !== EMPTY_ADDRESS
+  const isOwner = isOwnerOfDomain(domain, account)
+  const isOwnerOfParent = isOwnerOfParentDomain(domain, account)
 
+  const isDeedOwner = domain.deedOwner === account
+  const isRegistrant = domain.registrant === account
+  const registrationOpen = isRegistrationOpen(
+    domain.available,
+    domain.parent,
+    isDeedOwner
+  )
+  let ownerType
+  if (isDeedOwner || isRegistrant) {
+    ownerType = 'Registrant'
+  } else if (isOwner) {
+    ownerType = 'Controller'
+  }
+  let containerState
+  if (isDNSRegistrationOpen(domain)) {
+    containerState = 'Open'
+  } else {
+    containerState = isOwner ? 'Yours' : domain.state
+  }
   return (
-    <QueryAccount>
-      {({ account }) => {
-        const hasAnOwner = domain.owner !== EMPTY_ADDRESS
-        const isOwner = isOwnerOfDomain(domain, account)
-        const isOwnerOfParent = isOwnerOfParentDomain(domain, account)
-
-        const isDeedOwner = domain.deedOwner === account
-        const isRegistrant = domain.registrant === account
-        const registrationOpen = isRegistrationOpen(domain, isDeedOwner)
-        let ownerType
-        if (isDeedOwner || isRegistrant) {
-          ownerType = 'Registrant'
-        } else if (isOwner) {
-          ownerType = 'Controller'
-        }
-        let containerState
-        if (isDNSRegistrationOpen(domain)) {
-          containerState = 'Open'
-        } else {
-          containerState = isOwner ? 'Yours' : domain.state
-        }
-        return (
-          <NameContainer state={containerState}>
-            <TopBar percentDone={percentDone}>
-              <Title>
-                {domain.decrypted
-                  ? name
-                  : '[unknown' +
-                    domain.name.split('.')[0].slice(1, 11) +
-                    ']' +
-                    '.' +
-                    domain.parent}
-              </Title>
-              <RightBar>
-                {!!ownerType && <Owner>{ownerType}</Owner>}
-                <Favourite domain={domain} />
-                {smallBP && hasAnOwner && (
-                  <Tabs pathname={pathname} domain={domain} />
-                )}
-              </RightBar>
-            </TopBar>
-            {!smallBP && hasAnOwner && (
-              <Tabs pathname={pathname} domain={domain} />
-            )}
-            {registrationOpen ? (
-              <NameRegister
-                domain={domain}
-                pathname={pathname}
-                refetch={refetch}
-                readOnly={account === EMPTY_ADDRESS}
-              />
-            ) : isDNSRegistrationOpen(domain) ? (
-              <DNSNameRegister
-                domain={domain}
-                pathname={pathname}
-                refetch={refetch}
-                account={account}
-                readOnly={account === EMPTY_ADDRESS}
-              />
-            ) : type === 'short' ? (
-              <ShortName />
-            ) : (
-              <NameDetails
-                domain={domain}
-                pathname={pathname}
-                name={name}
-                isOwner={isOwner}
-                isOwnerOfParent={isOwnerOfParent}
-                refetch={refetch}
-                account={account}
-              />
-            )}
-          </NameContainer>
-        )
-      }}
-    </QueryAccount>
+    <NameContainer state={containerState}>
+      <TopBar percentDone={percentDone}>
+        <Title>
+          {domain.decrypted
+            ? name
+            : '[unknown' +
+              domain.name.split('.')[0].slice(1, 11) +
+              ']' +
+              '.' +
+              domain.parent}
+        </Title>
+        <RightBar>
+          {!!ownerType && <Owner>{ownerType}</Owner>}
+          <Favourite domain={domain} />
+          {smallBP && hasAnOwner && (
+            <Tabs pathname={pathname} domain={domain} />
+          )}
+        </RightBar>
+      </TopBar>
+      {!smallBP && hasAnOwner && <Tabs pathname={pathname} domain={domain} />}
+      {registrationOpen ? (
+        <NameRegister
+          domain={domain}
+          pathname={pathname}
+          refetch={refetch}
+          readOnly={account === EMPTY_ADDRESS}
+        />
+      ) : isDNSRegistrationOpen(domain) ? (
+        <DNSNameRegister
+          domain={domain}
+          pathname={pathname}
+          refetch={refetch}
+          account={account}
+          readOnly={account === EMPTY_ADDRESS}
+        />
+      ) : type === 'short' ? (
+        <ShortName />
+      ) : (
+        <NameDetails
+          domain={domain}
+          pathname={pathname}
+          name={name}
+          isOwner={isOwner}
+          isOwnerOfParent={isOwnerOfParent}
+          refetch={refetch}
+          account={account}
+        />
+      )}
+    </NameContainer>
   )
 }
 

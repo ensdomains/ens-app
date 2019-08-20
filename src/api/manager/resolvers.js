@@ -54,6 +54,102 @@ async function getParent(name) {
   return [parent, parentOwner]
 }
 
+async function getRegistrarEntry(name) {
+  const nameArray = name.split('.')
+  if (nameArray.length > 3 && nameArray[1] !== 'eth') {
+    return {}
+  }
+  const entry = await getEntry(nameArray[0])
+  const {
+    registrant,
+    deedOwner,
+    state,
+    registrationDate,
+    migrationStartDate,
+    currentBlockDate,
+    transferEndDate,
+    gracePeriodEndDate,
+    revealDate,
+    value,
+    highestBid,
+    expiryTime,
+    isNewRegistrar,
+    available
+  } = entry
+
+  const node = {
+    name: `${name}`,
+    state: modeNames[state],
+    registrationDate,
+    gracePeriodEndDate: gracePeriodEndDate || null,
+    migrationStartDate: migrationStartDate || null,
+    currentBlockDate: currentBlockDate || null,
+    transferEndDate: transferEndDate || null,
+    revealDate,
+    value,
+    highestBid,
+    registrant,
+    deedOwner,
+    isNewRegistrar: !!isNewRegistrar,
+    available,
+    expiryTime: expiryTime || null
+  }
+
+  return node
+}
+
+async function getDNSEntryDetails(name) {
+  const nameArray = name.split('.')
+  if (nameArray.length > 3) return {}
+
+  let tld = nameArray[1]
+  let owner
+  let tldowner = (await getOwner(tld)).toLocaleLowerCase()
+  try {
+    owner = (await getOwner(name)).toLocaleLowerCase()
+  } catch {
+    return {}
+  }
+
+  let isDNSRegistrarSupported = await isDNSRegistrar(tld)
+  if (isDNSRegistrarSupported && tldowner !== emptyAddress) {
+    const dnsEntry = await getDNSEntry(name, tldowner, owner)
+    const node = {
+      isDNSRegistrar: true,
+      dnsOwner: dnsEntry.dnsOwner || emptyAddress,
+      state: dnsEntry.state
+    }
+
+    return node
+  }
+}
+
+async function getTestEntry(name) {
+  const nameArray = name.split('.')
+  if (nameArray.length < 3 && nameArray[1] === 'test') {
+    const expiryTime = await expiryTimes(nameArray[0])
+    if (expiryTime) return { expiryTime }
+  }
+  return {}
+}
+
+async function getSubDomainSaleEntry(name) {
+  const nameArray = name.split('.')
+  const networkId = await getNetworkId()
+  if (nameArray.length < 3) return {}
+
+  if (networkId === 1) {
+    const domain = domains.find(domain => domain.name === nameArray[1]) || {}
+    const subdomain = await query(nameArray[1], nameArray[0], domain.registrar)
+    const node = {
+      name: `${name}`,
+      ...subdomain,
+      state: subdomain.available ? 'Open' : 'Owned'
+    }
+    return node
+  }
+}
+
 const resolvers = {
   Query: {
     getOwner: async (_, { name }, { cache }) => {
@@ -62,14 +158,18 @@ const resolvers = {
     },
 
     getRegistryDetails: async (_, { name }, { cache }) => {
-      const [[parent, parentOwner, details]] = Promise.all(
+      const [[parent, parentOwner], details] = await Promise.all([
         getParent(name),
         getDomainDetails(name)
-      )
+      ])
+
+      const decrypted = isDecrypted(name)
+
       return {
+        decrypted,
         parent,
         parentOwner,
-        details,
+        ...details,
         __typename: Node
       }
     },
@@ -91,7 +191,6 @@ const resolvers = {
     addr
     content
     contentType
-
     **/
 
     getAuctionRegistrarDetails: async (_, { name }, { cache }) => {
@@ -138,9 +237,7 @@ const resolvers = {
 
     singleName: async (_, { name }, { cache }) => {
       try {
-        const nameArray = name.split('.')
         const decrypted = isDecrypted(name)
-        const networkId = await getNetworkId()
         let node = {
           name: null,
           revealDate: null,
@@ -166,99 +263,42 @@ const resolvers = {
           deedOwner: null,
           registrant: null
         }
-        let data
-        if (nameArray.length < 3 && nameArray[1] === 'eth') {
-          const entry = await getEntry(nameArray[0])
-          const {
-            registrant,
-            deedOwner,
-            state,
-            registrationDate,
-            migrationStartDate,
-            currentBlockDate,
-            transferEndDate,
-            gracePeriodEndDate,
-            revealDate,
-            value,
-            highestBid,
-            expiryTime,
-            isNewRegistrar,
-            available
-          } = entry
-          const owner = await getOwner(name)
-          node = {
-            ...node,
-            name: `${name}`,
-            state: modeNames[state],
-            registrationDate,
-            gracePeriodEndDate: gracePeriodEndDate || null,
-            migrationStartDate: migrationStartDate || null,
-            currentBlockDate: currentBlockDate || null,
-            transferEndDate: transferEndDate || null,
-            revealDate,
-            value,
-            highestBid,
-            owner,
-            registrant,
-            deedOwner,
-            isNewRegistrar: !!isNewRegistrar,
-            available,
-            expiryTime: expiryTime || null,
-            __typename: 'Node'
-          }
-        } else if (nameArray.length < 3 && nameArray[1] === 'test') {
-          const expiryTime = await expiryTimes(nameArray[0])
-          if (expiryTime) {
-            node.expiryTime = expiryTime
-          }
-        } else if (nameArray.length > 2) {
-          if (networkId === 1) {
-            const domain =
-              domains.find(domain => domain.name === nameArray[1]) || {}
-            const subdomain = await query(
-              nameArray[1],
-              nameArray[0],
-              domain.registrar
-            )
-            node = {
-              name: `${name}`,
-              ...node,
-              ...subdomain,
-              state: subdomain.available ? 'Open' : 'Owned'
-            }
-          }
-        } else {
-          // either dnssect domain or non existing domain
-          let tld = nameArray[1]
-          let owner
-          let tldowner = (await getOwner(tld)).toLocaleLowerCase()
-          try {
-            owner = (await getOwner(name)).toLocaleLowerCase()
-          } catch {}
 
-          let isDNSRegistrarSupported = await isDNSRegistrar(tld)
-          if (isDNSRegistrarSupported && tldowner !== emptyAddress) {
-            const dnsEntry = await getDNSEntry(name, tldowner, owner)
-            node.isDNSRegistrar = true
-            node.dnsOwner = dnsEntry.dnsOwner || emptyAddress
-            node.state = dnsEntry.state
-          }
-        }
+        const dataSources = [
+          getRegistrarEntry(name),
+          getDomainDetails(name),
+          getParent(name),
+          getDNSEntryDetails(name),
+          getTestEntry(name),
+          getSubDomainSaleEntry(name)
+        ]
 
-        console.log(node)
+        const [
+          registrarEntry,
+          domainDetails,
+          [parent, parentOwner],
+          dnsEntry,
+          testEntry,
+          subDomainSaleEntry
+        ] = await Promise.all(dataSources)
 
         const { names } = cache.readQuery({ query: GET_ALL_NODES })
-        const nodeDetails = await getDomainDetails(name)
-        const [parent, parentOwner] = await getParent(name)
+
         var detailedNode = {
           ...node,
-          ...nodeDetails,
+          ...registrarEntry,
+          ...domainDetails,
+          ...dnsEntry,
+          ...testEntry,
+          ...subDomainSaleEntry,
           parent,
           parentOwner,
           __typename: 'Node'
         }
 
-        data = {
+        console.log(detailedNode)
+
+        const data = {
           names: [...names, detailedNode]
         }
 

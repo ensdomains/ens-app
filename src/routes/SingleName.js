@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { validateName, parseSearchTerm } from '../utils/utils'
 import { useScrollTo } from '../components/hooks'
 
-import { GET_SINGLE_NAME } from '../graphql/queries'
+import { GET_SINGLE_NAME, GET_REGISTRY_DETAILS } from '../graphql/queries'
 import { Query } from 'react-apollo'
 import Loader from '../components/Loader'
 import SearchErrors from '../components/SearchErrors/SearchErrors'
@@ -49,18 +49,23 @@ function SingleName({
   }, [searchTerm])
   if (valid) {
     return (
-      <Query query={GET_REGISTRY_DETAILS} variables={{ name }}>
-        {({ loading, error, data, refetch }) => {
+      <Query query={GET_SINGLE_NAME} variables={{ name }}>
+        {({ loading, error, data, refetch: registryRefetch }) => {
+          console.time('single name')
           if (loading) return <Loader large center />
           if (error)
             return <div>{(console.log(error), JSON.stringify(error))}</div>
+
+          if (data) {
+            console.timeEnd('single name')
+          }
           return (
             <Name
-              details={data.getRegistryDetails}
+              details={data.singleName}
               name={name}
               pathname={pathname}
               type={type}
-              refetch={refetch}
+              registryRefetch={registryRefetch}
             />
           )
         }}

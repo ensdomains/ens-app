@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { NodeFields, SubDomainStateFields } from './fragments'
+import { NodeFields, SubDomainStateFields, RecordFields } from './fragments'
 
 export const GET_WEB3 = gql`
   query web3 {
@@ -49,16 +49,21 @@ export const GET_RESOLVER_AND_OWNER = gql`
   }
 `
 
-export const GET_ENTRY = gql`
-  query getEntry($name: String) @client {
-    getEntry(name: $name) @client
-  }
-`
+// export const GET_ENTRY = gql`
+//   query getEntry($name: String) @client {
+//     getEntry(name: $name) @client
+//   }
+// `
 
-export const GET_RECORDS = gql`
-  query getRecords($name: String) @client {
-    getRecords(name: $name) @client
+export const GET_REGISTRY_DETAILS = gql`
+  query getRegistryDetails($name: String) @client {
+    getRegistryDetails(name: $name) @client {
+      ...NodeFields
+    }
   }
+
+  ${NodeFields}
+  ${RecordFields}
 `
 
 export const GET_SINGLE_NAME = gql`
