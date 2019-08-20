@@ -3,7 +3,6 @@ import styled from '@emotion/styled'
 import { Link } from 'react-router-dom'
 
 function getButtonStyles({ type }) {
-  console.log(type)
   switch (type) {
     case 'primary':
       return `
