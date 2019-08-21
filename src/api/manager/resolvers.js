@@ -43,15 +43,7 @@ const defaults = {
   transactionHistory: []
 }
 
-async function _getDomainDetails(name) {
-  console.time('getDomainDetails')
-  const details = await getDomainDetails(name)
-  console.timeEnd('getDomainDetails')
-  return details
-}
-
 async function getParent(name) {
-  console.time('getParent')
   const nameArray = name.split('.')
   if (nameArray.length < 1) {
     return [null, null]
@@ -59,12 +51,10 @@ async function getParent(name) {
   nameArray.shift()
   const parent = nameArray.join('.')
   const parentOwner = await getOwner(parent)
-  console.timeEnd('getParent')
   return [parent, parentOwner]
 }
 
 async function getRegistrarEntry(name) {
-  console.time('getRegistrarEntry')
   const nameArray = name.split('.')
   if (nameArray.length > 3 && nameArray[1] !== 'eth') {
     return {}
@@ -105,13 +95,10 @@ async function getRegistrarEntry(name) {
     expiryTime: expiryTime || null
   }
 
-  console.timeEnd('getRegistrarEntry')
-
   return node
 }
 
 async function getDNSEntryDetails(name) {
-  console.time('getDNSEntryDetails')
   const nameArray = name.split('.')
   if (nameArray.length > 3) return {}
 
@@ -135,23 +122,18 @@ async function getDNSEntryDetails(name) {
 
     return node
   }
-
-  console.timeEnd('getDNSEntryDetails')
 }
 
 async function getTestEntry(name) {
-  console.time('getTestEntry')
   const nameArray = name.split('.')
   if (nameArray.length < 3 && nameArray[1] === 'test') {
     const expiryTime = await expiryTimes(nameArray[0])
     if (expiryTime) return { expiryTime }
   }
-  console.timeEnd('getTestEntry')
   return {}
 }
 
 async function getSubDomainSaleEntry(name) {
-  console.time('getSubDomainSaleEntry')
   const nameArray = name.split('.')
   const networkId = await getNetworkId()
   if (nameArray.length < 3) return {}
@@ -164,7 +146,6 @@ async function getSubDomainSaleEntry(name) {
       ...subdomain,
       state: subdomain.available ? 'Open' : 'Owned'
     }
-    console.timeEnd('getSubDomainSaleEntry')
     return node
   }
 }
@@ -285,7 +266,7 @@ const resolvers = {
 
         const dataSources = [
           getRegistrarEntry(name),
-          _getDomainDetails(name),
+          getDomainDetails(name),
           getParent(name),
           getDNSEntryDetails(name),
           getTestEntry(name),
