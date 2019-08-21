@@ -12,14 +12,6 @@ export const NodeFields = gql`
   }
 `
 
-export const RecordFields = gql`
-  fragment RecordFields on Node {
-    addr
-    content
-    contentType
-  }
-`
-
 export const SubDomainStateFields = gql`
   fragment SubDomainStateFields on SubDomain {
     label
