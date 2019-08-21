@@ -51,14 +51,10 @@ function SingleName({
     return (
       <Query query={GET_SINGLE_NAME} variables={{ name }}>
         {({ loading, error, data, refetch: registryRefetch }) => {
-          console.time('single name')
           if (loading) return <Loader large center />
           if (error)
             return <div>{(console.log(error), JSON.stringify(error))}</div>
 
-          if (data) {
-            console.timeEnd('single name')
-          }
           return (
             <Name
               details={data.singleName}

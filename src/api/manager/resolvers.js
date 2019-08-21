@@ -218,8 +218,6 @@ const resolvers = {
           __typename: 'Node'
         }
 
-        console.log(detailedNode)
-
         const data = {
           names: [...names, detailedNode]
         }
