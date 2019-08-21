@@ -61,7 +61,11 @@ function getButtonStyles({ type }) {
         color: #dfdfdf;
         background: transparent;
         border: 2px solid #dfdfdf;
+        &:visited {
+          color: #dfdfdf;
+        }
         &:hover {
+          color: #dfdfdf;
           cursor: default
         }
       `

@@ -1,5 +1,4 @@
 import React from 'react'
-import { useQuery } from 'react-apollo'
 import styled from '@emotion/styled'
 
 import mq, { useMediaMin } from 'mediaQuery'
@@ -12,7 +11,7 @@ import NameRegister from './NameRegister'
 import DNSNameRegister from './DNSNameRegister'
 import ShortName from './ShortName'
 import Tabs from './Tabs'
-import QueryAccount, { useAccount } from '../QueryAccount'
+import { useAccount } from '../QueryAccount'
 
 const NameContainer = styled('div')`
   background: white;
