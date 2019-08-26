@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { validateName, parseSearchTerm } from '../utils/utils'
 import { useScrollTo } from '../components/hooks'
 
-import { GET_SINGLE_NAME, GET_REGISTRY_DETAILS } from '../graphql/queries'
+import { GET_SINGLE_NAME } from '../graphql/queries'
 import { Query } from 'react-apollo'
 import Loader from '../components/Loader'
 import SearchErrors from '../components/SearchErrors/SearchErrors'

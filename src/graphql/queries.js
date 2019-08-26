@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { NodeFields, SubDomainStateFields, RecordFields } from './fragments'
+import { NodeFields, SubDomainStateFields } from './fragments'
 
 export const GET_WEB3 = gql`
   query web3 {
