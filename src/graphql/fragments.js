@@ -9,9 +9,6 @@ export const NodeFields = gql`
     owner
     label
     resolver
-    addr
-    content
-    contentType
   }
 `
 
@@ -27,24 +24,4 @@ export const SubDomainStateFields = gql`
     available
     state
   }
-`
-
-export const NodesRecursive = gql`
-  fragment NodesRecursive on Node {
-    ...NodeFields
-    nodes {
-      ...NodeFields
-      nodes {
-        ...NodeFields
-        nodes {
-          ...NodeFields
-          nodes {
-            ...NodeFields
-          }
-        }
-      }
-    }
-  }
-
-  ${NodeFields}
 `
