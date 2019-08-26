@@ -20,9 +20,11 @@ function SingleName({
   const [valid, setValid] = useState(undefined)
   const [type, setType] = useState(undefined)
   const [name, setNormalisedName] = useState('')
-  let normalisedName, errorMessage, _type
+  let errorMessage
 
   useEffect(() => {
+    let normalisedName
+    let _type
     try {
       // This is under the assumption that validateName never returns false
       normalisedName = validateName(searchTerm)
@@ -76,10 +78,7 @@ function SingleName({
       errorMessage = type
     }
     return (
-      <SearchErrors
-        errors={[errorMessage]}
-        searchTerm={normalisedName || searchTerm}
-      />
+      <SearchErrors errors={[errorMessage]} searchTerm={name || searchTerm} />
     )
   } else {
     return <Loader large center />
