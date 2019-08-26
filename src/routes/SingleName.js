@@ -52,7 +52,7 @@ function SingleName({
   if (valid) {
     return (
       <Query query={GET_SINGLE_NAME} variables={{ name }}>
-        {({ loading, error, data, refetch: registryRefetch }) => {
+        {({ loading, error, data, refetch }) => {
           if (loading) return <Loader large center />
           if (error)
             return <div>{(console.log(error), JSON.stringify(error))}</div>
@@ -63,7 +63,7 @@ function SingleName({
               name={name}
               pathname={pathname}
               type={type}
-              registryRefetch={registryRefetch}
+              refetch={refetch}
             />
           )
         }}
