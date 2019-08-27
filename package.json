@@ -76,7 +76,6 @@
   "devDependencies": {
     "@ensdomains/mock": "^1.0.13",
     "apollo-client-mock": "0.0.8",
-    "apollo-link-schema": "^1.1.0",
     "babel-plugin-macros": "^2.4.2",
     "cypress": "^3.2.0",
     "cypress-testing-library": "^2.3.4",
