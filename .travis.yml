@@ -14,7 +14,7 @@ matrix:
 
 jobs:
   include:
-    - stage: 'test'
+    - stage: test
       name: 'Test'
       script: yarn build
     - stage: deploy
