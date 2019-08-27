@@ -14,12 +14,11 @@ matrix:
 
 jobs:
   include:
-    - stage: "test"
-      name: "Test"
+    - stage: 'test'
+      name: 'Test'
       script: yarn build
-      name: "Build"
     - stage: deploy
-      name: "Deploy to live"
+      name: 'Deploy to live'
       script: yarn deploy
 
 stages:
