@@ -50,7 +50,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "CI=false react-scripts build",
+    "build": "CI=false react-scripts --max_old_space_size=4096 build",
     "postbuild": "cp build/index.html build/200.html",
     "test": "react-scripts test --env=jsdom",
     "test:coverage": "npm test -- --coverage",
