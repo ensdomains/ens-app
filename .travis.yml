@@ -5,15 +5,19 @@ dist: trusty
 language: node_js
 
 node_js:
-  - "10"
+  - '10'
 
 cache: yarn
 
 matrix:
   allow_failures:
 
+branches:
+  only:
+    - master
+
 script:
-  - yarn build
+  - yarn deploy
 
 notifications:
   email: false
