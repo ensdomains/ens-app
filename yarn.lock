@@ -1257,7 +1257,28 @@
   resolved "https://registry.yarnpkg.com/@ensdomains/resolver/-/resolver-0.1.9.tgz#013bc88397c2c204737aaaf602380145d845e09e"
   integrity sha512-eSZIEWi2UcxNZXJhAeoTYUZr20fyly9eMUy17WQ5UjszXf0QgE1Zzh/Oj9Mhl0i8s7xqoPOsntr2ZI0JhsX78w==
 
-"@ensdomains/ui@^1.0.92", "@ensdomains/ui@^1.1.7":
+"@ensdomains/ui@1.1.8":
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.1.8.tgz#7e91906722eeae0f7dbd935fb0bf5b1e71088c47"
+  integrity sha512-wUPHSvatTgE92F665+H0I21OJlk27b4u1nPiPjT+vG+SlW4VEOp4kplokx89VTTE2JjS3ErXWEacQFkAE54SFw==
+  dependencies:
+    "@0xproject/utils" "^2.0.2"
+    "@babel/runtime" "^7.4.4"
+    "@ensdomains/dnsregistrar" "^0.3.5"
+    "@ensdomains/ens" "^0.3.5"
+    "@ensdomains/ens-022" "npm:@ensdomains/ens@0.2.2"
+    "@ensdomains/ethregistrar" "^1.2.2"
+    "@ensdomains/resolver" "^0.1.6"
+    "@ethvault/iframe-provider" "0.1.9"
+    content-hash "^2.4.1"
+    cross-fetch "^3.0.2"
+    eth-ens-namehash "^2.0.8"
+    ethers "4.0.36"
+    js-sha3 "^0.8.0"
+    lodash "^4.17.11"
+    web3 "1.0.0-beta.34"
+
+"@ensdomains/ui@^1.0.92":
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.1.7.tgz#85027fbf77d232786d5184463f553b21187f93b0"
   integrity sha512-5Gd8drNz0Z3B7ihzC2pxAzrk7M5trG+1A6uMw0kzxBgRz97ebW1UoKYv+Pzq6fhefZAIQAEbUWBXM8xbIJJR1Q==
@@ -5194,6 +5215,22 @@ ethers@4.0.0-beta.14:
     hash.js "1.1.3"
     js-sha3 "0.5.7"
     scrypt-js "2.0.3"
+    setimmediate "1.0.4"
+    uuid "2.0.1"
+    xmlhttprequest "1.8.0"
+
+ethers@4.0.36:
+  version "4.0.36"
+  resolved "https://registry.yarnpkg.com/ethers/-/ethers-4.0.36.tgz#96519fd3cc9317f938c8ee4d22050f34e3c2ef0e"
+  integrity sha512-rWdchEhUyXx01GiwexH6Sha97CQ9tJdQwe6FtYKxShC7VEZV41nuKt+lzCQ4OqvQwZK5PcAKaAZv2GDsCH33SA==
+  dependencies:
+    "@types/node" "^10.3.2"
+    aes-js "3.0.0"
+    bn.js "^4.4.0"
+    elliptic "6.3.3"
+    hash.js "1.1.3"
+    js-sha3 "0.5.7"
+    scrypt-js "2.0.4"
     setimmediate "1.0.4"
     uuid "2.0.1"
     xmlhttprequest "1.8.0"
