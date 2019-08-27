@@ -12,12 +12,21 @@ cache: yarn
 matrix:
   allow_failures:
 
-branches:
-  only:
-    - master
+jobs:
+  include:
+    - stage: "test"
+      name: "Test"
+      script: yarn build
+      name: "Build"
+    - stage: deploy
+      name: "Deploy to live"
+      script: yarn deploy
 
-script:
-  - yarn deploy
+stages:
+  - name: test
+    if: branch != master
+  - name: deploy
+    if: branch = master
 
 notifications:
   email: false
