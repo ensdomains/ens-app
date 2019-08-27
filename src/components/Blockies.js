@@ -13,7 +13,6 @@ const Blockies = ({
   spotcolor,
   className
 }) => {
-  console.log({ address, imageSize, color, bgcolor, spotcolor, className })
   var imgURL = createIcon({
     seed: address.toLowerCase(),
     size: 8,

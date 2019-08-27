@@ -163,7 +163,7 @@ function Name({ details: domain, name, pathname, type, refetch }) {
           account={account}
           readOnly={account === EMPTY_ADDRESS}
         />
-      ) : type === 'short' ? (
+      ) : type === 'short' && domain.owner === EMPTY_ADDRESS ? ( // check it's short and hasn't been claimed already
         <ShortName />
       ) : (
         <NameDetails
