@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 import { useQuery } from 'react-apollo'
 
@@ -6,8 +6,11 @@ import { GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH } from '../../graphql/querie
 import DomainItem from '../DomainItem/ChildDomainItem'
 import { decryptName } from '../../api/labels'
 import AddressContainer from '../Basic/MainContainer'
-import TopBar from '../Basic/TopBar'
+import DefaultTopBar from '../Basic/TopBar'
 import { Title } from '../Typography/Basic'
+import { ExternalButtonLink as DefaultExternalButtonLink } from '../Forms/Button'
+import { getEtherScanAddr } from '../../utils/utils'
+import Loader from '../Loader'
 
 const NoDomainsContainer = styled('div')`
   display: flex;
@@ -41,6 +44,15 @@ const NoDomainsContainer = styled('div')`
   }
 `
 
+const TopBar = styled(DefaultTopBar)`
+  margin-bottom: 30px;
+`
+
+const ExternalButtonLink = styled(DefaultExternalButtonLink)`
+  margin-bottom: 30px;
+  margin-left: 40px;
+`
+
 const DomainsContainer = styled('div')`
   padding-bottom: 30px;
   padding-left: 40px;
@@ -71,7 +83,7 @@ function DomainList({ domains, address }) {
   }
 
   if (loading) {
-    return null
+    return <Loader withWrap large />
   }
 
   if (hasNoDomains(data)) {
@@ -92,11 +104,26 @@ function DomainList({ domains, address }) {
 }
 
 export default function Address({ address }) {
+  let [etherScanAddr, setEtherScanAddr] = useState(null)
+
+  useEffect(() => {
+    getEtherScanAddr().then(setEtherScanAddr)
+  }, [])
+
   return (
     <AddressContainer>
       <TopBar>
         <Title>{address}</Title>
       </TopBar>
+      {etherScanAddr && (
+        <ExternalButtonLink
+          type="primary"
+          target="_blank"
+          href={`${etherScanAddr}/address/${address}`}
+        >
+          See on EtherScan
+        </ExternalButtonLink>
+      )}
       <DomainList address={address} />
     </AddressContainer>
   )
