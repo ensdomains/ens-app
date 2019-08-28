@@ -116,7 +116,7 @@ function SubDomains({ domain, isOwner, ...rest }) {
                       name = `${encodeLabelhash(d.labelhash)}.${domain.name}`
                     }
                     return (
-                      <ChildDomainitem
+                      <ChildDomainItem
                         name={name}
                         owner={d.owner.id}
                         parent={domain.name}
