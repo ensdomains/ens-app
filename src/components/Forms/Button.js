@@ -6,6 +6,9 @@ function getButtonStyles({ type }) {
   switch (type) {
     case 'primary':
       return `
+        &:visited {
+          color: white;
+        }
         &:hover {
           cursor: pointer;
           border: 2px solid #2c46a6;
