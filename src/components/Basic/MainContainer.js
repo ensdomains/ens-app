@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import mq, { useMediaMin } from 'mediaQuery'
+import mq from 'mediaQuery'
 
 const MainContainer = styled('div')`
   background: white;

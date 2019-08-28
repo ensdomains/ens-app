@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 
-import mq, { useMediaMin } from 'mediaQuery'
+import { useMediaMin } from 'mediaQuery'
 import { EMPTY_ADDRESS } from '../../utils/records'
 
 import { Title } from '../Typography/Basic'
