@@ -8,7 +8,7 @@ import {
 import Loader from '../Loader'
 import { H2 } from '../Typography/Basic'
 import AddSubdomain from './AddSubdomain'
-import ChildDomainitem from '../DomainItem/ChildDomainItem'
+import ChildDomainItem from '../DomainItem/ChildDomainItem'
 import { getNamehash, encodeLabelhash } from '@ensdomains/ui'
 
 const SubDomainsContainer = styled('div')`
@@ -50,7 +50,7 @@ function SubDomainsFromWeb3(domain, isOwner) {
             {isOwner && <AddSubdomain domain={domain} refetch={refetch} />}
             {data &&
               data.getSubDomains.subDomains.map(d => (
-                <ChildDomainitem
+                <ChildDomainItem
                   name={d.name}
                   owner={d.owner}
                   parent={d.node}
