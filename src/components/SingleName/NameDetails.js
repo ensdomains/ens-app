@@ -601,13 +601,15 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                 account={account}
               />
               <Records hasRecord={hasAnyRecord(domain)} isOwner={isOwner}>
-                <AddRecord
-                  emptyRecords={emptyRecords}
-                  title="Records"
-                  isOwner={isOwner}
-                  domain={domain}
-                  refetch={refetch}
-                />
+                {hasAnyRecord(domain) && isOwner && (
+                  <AddRecord
+                    emptyRecords={emptyRecords}
+                    title="Records"
+                    isOwner={isOwner}
+                    domain={domain}
+                    refetch={refetch}
+                  />
+                )}
                 {hasAnyRecord(domain) && (
                   <>
                     {!isEmpty(domain.addr) && (
