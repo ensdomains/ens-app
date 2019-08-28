@@ -45,15 +45,15 @@ const NoDomainsContainer = styled('div')`
 `
 
 const TopBar = styled(DefaultTopBar)`
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 `
 
 const ExternalButtonLink = styled(DefaultExternalButtonLink)`
-  margin-bottom: 30px;
   margin-left: 40px;
 `
 
 const DomainsContainer = styled('div')`
+  margin-top: 20px;
   padding-bottom: 30px;
   padding-left: 40px;
   padding-right: 40px;
@@ -121,7 +121,7 @@ export default function Address({ address }) {
           target="_blank"
           href={`${etherScanAddr}/address/${address}`}
         >
-          See on EtherScan
+          View on EtherScan
         </ExternalButtonLink>
       )}
       <DomainList address={address} />
