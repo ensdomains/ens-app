@@ -56,9 +56,10 @@ async function getParent(name) {
 
 async function getRegistrarEntry(name) {
   const nameArray = name.split('.')
-  if (nameArray.length > 3 && nameArray[1] !== 'eth') {
+  if (nameArray.length > 3 || nameArray[1] !== 'eth') {
     return {}
   }
+
   const entry = await getEntry(nameArray[0])
   const {
     registrant,

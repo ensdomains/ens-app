@@ -66,7 +66,7 @@ const Records = styled('div')`
   border: 1px solid #ededed;
   box-shadow: inset 0 0 10px 0 rgba(235, 235, 235, 0.5);
   padding-bottom: ${p => (p.hasRecord ? '10px' : '0')};
-  display: ${p => (!p.isOwner && !p.hasRecord ? 'none' : 'block')};
+  display: ${p => (!p.hasRecord ? 'none' : 'block')};
 `
 
 const ExpirationDetailsValue = styled(DetailsValue)`
@@ -601,15 +601,13 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                 account={account}
               />
               <Records hasRecord={hasAnyRecord(domain)} isOwner={isOwner}>
-                {hasAnyRecord(domain) && isOwner && (
-                  <AddRecord
-                    emptyRecords={emptyRecords}
-                    title="Records"
-                    isOwner={isOwner}
-                    domain={domain}
-                    refetch={refetch}
-                  />
-                )}
+                <AddRecord
+                  emptyRecords={emptyRecords}
+                  title="Records"
+                  isOwner={isOwner}
+                  domain={domain}
+                  refetch={refetch}
+                />
                 {hasAnyRecord(domain) && (
                   <>
                     {!isEmpty(domain.addr) && (
