@@ -9,6 +9,9 @@ export const NodeFields = gql`
     owner
     label
     resolver
+    addr
+    content
+    contentType
   }
 `
 
