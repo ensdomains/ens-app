@@ -61,7 +61,7 @@
     "advance": "node src/testing-utils/advance.js",
     "cypress:open": "yarn run cypress open",
     "deploy:dev": "npm run build && npm run postbuild && surge build ensappdev.surge.sh",
-    "deploy": "npm run build && npm run postbuild && surge build app.ens.domains"
+    "deploy": "npm run build && npm run postbuild && surge build manager.ens.domains"
   },
   "prettier": {
     "semi": false,
