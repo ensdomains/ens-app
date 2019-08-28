@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from '@emotion/styledSu'
+import styled from '@emotion/styled'
 import { Link } from 'react-router-dom'
 import { SingleNameBlockies } from '../SingleName/SingleNameBlockies'
 
