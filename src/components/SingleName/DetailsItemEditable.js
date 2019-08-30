@@ -249,9 +249,7 @@ const Editable = ({
   domain,
   variableName,
   refetch,
-  confirm,
-  deedOwner,
-  isDeedOwner
+  confirm
 }) => {
   const { state, actions } = useEditable()
   const [presetValue, setPresetValue] = useState('')
