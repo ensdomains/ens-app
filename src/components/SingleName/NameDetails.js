@@ -65,8 +65,9 @@ const Records = styled('div')`
   border-radius: 6px;
   border: 1px solid #ededed;
   box-shadow: inset 0 0 10px 0 rgba(235, 235, 235, 0.5);
-  padding-bottom: ${p => (p.shouldShowRecords ? '0' : '10px')};
+  padding-bottom: ${p => (p.shouldShowRecords ? '10px' : '0')};
   display: ${p => (p.shouldShowRecords ? 'block' : 'none')};
+  margin-bottom: 20px;
 `
 
 const ExpirationDetailsValue = styled(DetailsValue)`
