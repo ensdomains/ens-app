@@ -271,8 +271,6 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
     hasRecords
   )
 
-  console.log(shouldShowRecords)
-
   return (
     <>
       <Route

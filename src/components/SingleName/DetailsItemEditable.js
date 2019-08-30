@@ -111,6 +111,22 @@ const Buttons = styled('div')`
   align-items: center;
 `
 
+function getMessages({ keyName, parent, deedOwner, isDeedOwner }) {
+  let [newValue, newType] = getDefaultMessage(keyName)
+  if (
+    keyName === 'Owner' &&
+    parent === 'eth' &&
+    parseInt(deedOwner, 16) !== 0
+  ) {
+    newValue = 'Pending'
+    if (isDeedOwner) {
+      newValue += '(You have not finalised)'
+    }
+  }
+
+  return [newValue, newType]
+}
+
 function getDefaultMessage(keyName) {
   switch (keyName) {
     case 'Resolver':
@@ -252,19 +268,15 @@ const Editable = ({
 
   // set default message if no value
   if (parseInt(value, 16) === 0) {
-    let [newValue, newType] = getDefaultMessage(keyName)
+    let [newValue, newType] = getMessages({
+      keyName,
+      parent: domain.parent,
+      deedOwner,
+      isDeedOwner
+    })
+
     value = newValue
     type = newType
-    if (
-      keyName === 'Owner' &&
-      domain.parent === 'eth' &&
-      parseInt(deedOwner, 16) !== 0
-    ) {
-      value = 'Pending'
-      if (isDeedOwner) {
-        value += '(You have not finalised)'
-      }
-    }
   }
 
   //only used with Expiration date
@@ -448,20 +460,17 @@ function ViewOnly({
   isDeedOwner,
   domain
 }) {
+  //get default messages for 0x values
   if (parseInt(value, 16) === 0) {
-    let [newValue, newType] = getDefaultMessage(keyName)
+    let [newValue, newType] = getMessages({
+      keyName,
+      parent: domain.parent,
+      deedOwner,
+      isDeedOwner
+    })
+
     value = newValue
     type = newType
-    if (
-      keyName === 'Owner' &&
-      domain.parent === 'eth' &&
-      parseInt(deedOwner, 16) !== 0
-    ) {
-      value = 'Pending'
-      if (isDeedOwner) {
-        value += '(You have not finalised)'
-      }
-    }
   }
   return (
     <DetailsEditableContainer>
