@@ -233,7 +233,9 @@ const Editable = ({
   domain,
   variableName,
   refetch,
-  confirm
+  confirm,
+  deedOwner,
+  isDeedOwner
 }) => {
   const { state, actions } = useEditable()
   const [presetValue, setPresetValue] = useState('')
@@ -247,6 +249,23 @@ const Editable = ({
     startPending,
     setConfirmed
   } = actions
+
+  // set default message if no value
+  if (parseInt(value, 16) === 0) {
+    let [newValue, newType] = getDefaultMessage(keyName)
+    value = newValue
+    type = newType
+    if (
+      keyName === 'Owner' &&
+      domain.parent === 'eth' &&
+      parseInt(deedOwner, 16) !== 0
+    ) {
+      value = 'Pending'
+      if (isDeedOwner) {
+        value += '(You have not finalised)'
+      }
+    }
+  }
 
   //only used with Expiration date
   let duration
