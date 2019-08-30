@@ -266,19 +266,6 @@ const Editable = ({
     setConfirmed
   } = actions
 
-  // set default message if no value
-  if (parseInt(value, 16) === 0) {
-    let [newValue, newType] = getMessages({
-      keyName,
-      parent: domain.parent,
-      deedOwner,
-      isDeedOwner
-    })
-
-    value = newValue
-    type = newType
-  }
-
   //only used with Expiration date
   let duration
   let expirationDate
