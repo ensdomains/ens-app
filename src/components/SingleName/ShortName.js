@@ -2,6 +2,8 @@ import React from 'react'
 import styled from '@emotion/styled'
 import mq from 'mediaQuery'
 import { ExternalButtonLink } from '../Forms/Button'
+import jsSHA3 from 'js-sha3'
+import BigInt from 'big-integer'
 
 const ShortNameContainer = styled('div')`
   padding: 20px;
@@ -37,14 +39,21 @@ const InnerWrapper = styled('div')`
 `
 
 export default function ShortName({ name }) {
-  const link = `https://opensea.io/ens-landing`
+  const label = name.split('.')[0]
+  const labelhash = `${jsSHA3.keccak256(label.toLowerCase())}`
+  const bn = BigInt(labelhash, 16)
+  const decimalLabelHash = bn.toString(10)
+  console.log(decimalLabelHash)
+  const link = `https://opensea.io/assets/0xFaC7BEA255a6990f749363002136aF6556b31e04/${decimalLabelHash}`
   return (
     <ShortNameContainer>
       <InnerWrapper>
         <p>
-          Short names auctions will start soon at <a href={link}>OpenSea</a>
+          Short names are currently on auction at <a href={link}>OpenSea</a>. 5+
+          letter auctions end September 29, 4 letter auctions end October 6, and
+          3 letter auctions end October 13
         </p>
-        <ExternalButtonLink href={link} type="hollow-primary-disabled">
+        <ExternalButtonLink href={link} type="hollow-primary">
           Bid Now
         </ExternalButtonLink>
       </InnerWrapper>
