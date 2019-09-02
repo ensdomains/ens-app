@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 import mq from 'mediaQuery'
 import { ExternalButtonLink } from '../Forms/Button'
@@ -39,21 +39,54 @@ const InnerWrapper = styled('div')`
 `
 
 export default function ShortName({ name }) {
+  const [urlReady, setUrlReady] = useState(false)
   const label = name.split('.')[0]
   const labelhash = `${jsSHA3.keccak256(label.toLowerCase())}`
   const bn = BigInt(labelhash, 16)
   const decimalLabelHash = bn.toString(10)
-  console.log(decimalLabelHash)
   const link = `https://opensea.io/assets/0xFaC7BEA255a6990f749363002136aF6556b31e04/${decimalLabelHash}`
+
+  useEffect(() => {
+    const api = `https://api.opensea.io/misc/ens_short_name_asset/${label}`
+    fetch(api).then(() => {
+      setUrlReady(true)
+    })
+  }, [name])
+
+  function openSeaRedirect() {
+    const api = `https://api.opensea.io/misc/ens_short_name_asset/${label}`
+    fetch(api).then(res => {
+      if (res.ok) {
+        window.location.href = link
+      }
+    })
+  }
+
   return (
     <ShortNameContainer>
       <InnerWrapper>
         <p>
-          Short names are currently on auction at <a href={link}>OpenSea</a>. 5+
-          letter auctions end September 29, 4 letter auctions end October 6, and
-          3 letter auctions end October 13
+          Short names are currently on auction at{' '}
+          {urlReady ? (
+            <a href={link}>OpenSea</a>
+          ) : (
+            <a href="#" onClick={openSeaRedirect}>
+              OpenSea
+            </a>
+          )}
+          . 5+ letter auctions end September 29, 4 letter auctions end October
+          6, and 3 letter auctions end October 13
         </p>
-        <ExternalButtonLink href={link} type="hollow-primary">
+        {urlReady ? (
+          <ExternalButtonLink href={link} type="hollow-primary">
+            Bid Now
+          </ExternalButtonLink>
+        ) : (
+          <ExternalButtonLink onClick={openSeaRedirect} type="hollow-primary">
+            Bid Now
+          </ExternalButtonLink>
+        )}
+        <ExternalButtonLink onClick={openSeaRedirect} type="hollow-primary">
           Bid Now
         </ExternalButtonLink>
       </InnerWrapper>
