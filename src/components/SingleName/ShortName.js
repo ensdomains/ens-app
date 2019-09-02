@@ -43,17 +43,29 @@ export default function ShortName({ name }) {
   const labelhash = `${jsSHA3.keccak256(label.toLowerCase())}`
   const bn = BigInt(labelhash, 16)
   const decimalLabelHash = bn.toString(10)
-  console.log(decimalLabelHash)
   const link = `https://opensea.io/assets/0xFaC7BEA255a6990f749363002136aF6556b31e04/${decimalLabelHash}`
+
+  function openSeaRedirect() {
+    const api = `https://api.opensea.io/misc/ens_short_name_asset/${label}`
+    fetch(api).then(res => {
+      if (res.ok) {
+        window.location.href = link
+      }
+    })
+  }
+
   return (
     <ShortNameContainer>
       <InnerWrapper>
         <p>
-          Short names are currently on auction at <a href={link}>OpenSea</a>. 5+
-          letter auctions end September 29, 4 letter auctions end October 6, and
-          3 letter auctions end October 13
+          Short names are currently on auction at{' '}
+          <a href="#" onClick={openSeaRedirect}>
+            OpenSea
+          </a>
+          . 5+ letter auctions end September 29, 4 letter auctions end October
+          6, and 3 letter auctions end October 13
         </p>
-        <ExternalButtonLink href={link} type="hollow-primary">
+        <ExternalButtonLink onClick={openSeaRedirect} type="hollow-primary">
           Bid Now
         </ExternalButtonLink>
       </InnerWrapper>
