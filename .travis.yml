@@ -24,7 +24,7 @@ jobs:
         - ganache-cli --accounts 500 >ganache.log 2>&1 &
         - yarn start --silent &
         - yarn preTest
-      script: $(npm bin)/cypress run --record
+      script: $(npm bin)/cypress run
     - stage: deploy
       name: 'Deploy to live'
       script: yarn deploy
