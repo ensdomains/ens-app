@@ -86,9 +86,6 @@ export default function ShortName({ name }) {
             Bid Now
           </ExternalButtonLink>
         )}
-        <ExternalButtonLink onClick={openSeaRedirect} type="hollow-primary">
-          Bid Now
-        </ExternalButtonLink>
       </InnerWrapper>
     </ShortNameContainer>
   )

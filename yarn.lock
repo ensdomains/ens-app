@@ -820,6 +820,14 @@
     "@babel/helper-regex" "^7.4.4"
     regexpu-core "^4.5.4"
 
+"@babel/polyfill@7.4.4":
+  version "7.4.4"
+  resolved "https://registry.yarnpkg.com/@babel/polyfill/-/polyfill-7.4.4.tgz#78801cf3dbe657844eeabf31c1cae3828051e893"
+  integrity sha512-WlthFLfhQQhh+A2Gn5NSFl0Huxz36x86Jn+E9OW7ibK8edKPq+KLy4apM1yDpQ8kJOVi1OVjpP4vSDLdrI04dg==
+  dependencies:
+    core-js "^2.6.5"
+    regenerator-runtime "^0.13.2"
+
 "@babel/preset-env@7.5.5", "@babel/preset-env@^7.1.6":
   version "7.5.5"
   resolved "https://registry.yarnpkg.com/@babel/preset-env/-/preset-env-7.5.5.tgz#bc470b53acaa48df4b8db24a570d6da1fef53c9a"
@@ -1145,6 +1153,21 @@
     isomorphic-fetch "^2.2.1"
     web3 "1.0.0-beta.34"
 
+"@ensdomains/dnsprovejs@^0.1.8":
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/@ensdomains/dnsprovejs/-/dnsprovejs-0.1.8.tgz#1ddb7025b92c936f0bfefadf36d9880648d406fa"
+  integrity sha512-VMPVAa6kBVLdVnigfYbYhvjNTQ5rFhySIHdwn39dgEgL0p1lbcaUQIVx++zdrM4jNe5DTqDiRkNtZZJYUYgoAw==
+  dependencies:
+    "@ensdomains/dnsregistrar" "^0.3.3"
+    "@ensdomains/dnssec-oracle" "0.1.2"
+    dns-packet "^5.0.4"
+    es6-promise "^4.2.4"
+    eth-ens-namehash "^2.0.8"
+    ethereumjs-util "^5.2.0"
+    idempotent-babel-polyfill "^7.4.4"
+    isomorphic-fetch "^2.2.1"
+    web3 "1.0.0-beta.34"
+
 "@ensdomains/dnsregistrar@^0.3.3", "@ensdomains/dnsregistrar@^0.3.5":
   version "0.3.8"
   resolved "https://registry.yarnpkg.com/@ensdomains/dnsregistrar/-/dnsregistrar-0.3.8.tgz#ae893cd5bec6f9cc31a08a0b70ac02e835e62225"
@@ -1152,6 +1175,20 @@
   dependencies:
     "@ensdomains/buffer" "0.0.6"
     "@ensdomains/dnsprovejs" "^0.1.6"
+    "@ensdomains/dnssec-oracle" "0.1.0"
+    "@ensdomains/ens" "^0.3.0"
+    dns-packet "^5.0.4"
+    eth-ens-namehash "^2.0.8"
+    js-sha3 "^0.5.7"
+    web3 "1.0.0-beta.34"
+
+"@ensdomains/dnsregistrar@^0.3.9":
+  version "0.3.9"
+  resolved "https://registry.yarnpkg.com/@ensdomains/dnsregistrar/-/dnsregistrar-0.3.9.tgz#abd37a7cefad4eb622ec9e06f9865dd1a5d54352"
+  integrity sha512-o5bETbeQeYZJuW9E9StK68WeuPXUoFbciROm2STEIgE0n2nCX04sr7CKD9CAyPZUXeMUWjX6FlSq0fa3m2Vcbw==
+  dependencies:
+    "@ensdomains/buffer" "0.0.6"
+    "@ensdomains/dnsprovejs" "^0.1.8"
     "@ensdomains/dnssec-oracle" "0.1.0"
     "@ensdomains/ens" "^0.3.0"
     dns-packet "^5.0.4"
@@ -1173,7 +1210,7 @@
   dependencies:
     dns-packet "^5.0.4"
 
-"@ensdomains/dnssec-oracle@^0.1.2":
+"@ensdomains/dnssec-oracle@0.1.2", "@ensdomains/dnssec-oracle@^0.1.2":
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@ensdomains/dnssec-oracle/-/dnssec-oracle-0.1.2.tgz#d7df73b01f75b3765178fc04f4d5f7bf18f63748"
   integrity sha512-MzyBsplrnHJcGPZqTwO9kJh+H00+JnUFvbk/Q60ib6P8xmQSmn/BzYRFLu0BBRYA+vLhYHJXuAW9YwS+QpNycQ==
@@ -1240,51 +1277,30 @@
     lodash "^4.17.11"
     web3 "1.0.0-beta.34"
 
-"@ensdomains/react-ens-address@^0.0.11":
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/@ensdomains/react-ens-address/-/react-ens-address-0.0.11.tgz#b22741bfca0dfc1081c1e54b4c7a7381aef89a79"
-  integrity sha512-dDdSlR5QoXCf6QNDIWi3uCmV/zkwx2SgiodUYGumyRl/QP74MoVdK6GrTdu6OCmSEqA1lYGxln+CVkcGRud+Zw==
+"@ensdomains/react-ens-address@^0.0.14":
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/@ensdomains/react-ens-address/-/react-ens-address-0.0.14.tgz#cdc2926820f15f49e28940d61a777b0f252b8909"
+  integrity sha512-X4jkRd8Mgn8rfxoAhnLR3HbhDtLKYSoupXXe8fuzf0fC6J0+jlIENFeAQOQ4L+BX4cpPUpuD+9241kQBUHI4gw==
   dependencies:
     "@emotion/core" "^10.0.14"
     "@emotion/styled" "^10.0.14"
-    "@ensdomains/ui" "^1.0.92"
+    "@ensdomains/ui" "^1.1.15"
     ethers "^4.0.32"
-    lodash "^4.17.11"
+    lodash "^4.17.13"
 
 "@ensdomains/resolver@^0.1.6":
   version "0.1.9"
   resolved "https://registry.yarnpkg.com/@ensdomains/resolver/-/resolver-0.1.9.tgz#013bc88397c2c204737aaaf602380145d845e09e"
   integrity sha512-eSZIEWi2UcxNZXJhAeoTYUZr20fyly9eMUy17WQ5UjszXf0QgE1Zzh/Oj9Mhl0i8s7xqoPOsntr2ZI0JhsX78w==
 
-"@ensdomains/ui@1.1.8":
-  version "1.1.8"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.1.8.tgz#7e91906722eeae0f7dbd935fb0bf5b1e71088c47"
-  integrity sha512-wUPHSvatTgE92F665+H0I21OJlk27b4u1nPiPjT+vG+SlW4VEOp4kplokx89VTTE2JjS3ErXWEacQFkAE54SFw==
+"@ensdomains/ui@1.1.15", "@ensdomains/ui@^1.1.15":
+  version "1.1.15"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.1.15.tgz#b36a0eec39b14153bcc83e7f228473e7c15f3057"
+  integrity sha512-jogg4b4zZ7p2XVQWY4qUndJBOBkeHGBOAraJIhbgDccggNJXlAFTICLvce3XrpTokVXkXE13zJ65Uqp9yBZSMA==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
-    "@ensdomains/dnsregistrar" "^0.3.5"
-    "@ensdomains/ens" "^0.3.5"
-    "@ensdomains/ens-022" "npm:@ensdomains/ens@0.2.2"
-    "@ensdomains/ethregistrar" "^1.2.2"
-    "@ensdomains/resolver" "^0.1.6"
-    "@ethvault/iframe-provider" "0.1.9"
-    content-hash "^2.4.1"
-    cross-fetch "^3.0.2"
-    eth-ens-namehash "^2.0.8"
-    ethers "4.0.36"
-    js-sha3 "^0.8.0"
-    lodash "^4.17.11"
-    web3 "1.0.0-beta.34"
-
-"@ensdomains/ui@^1.0.92":
-  version "1.1.13"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.1.13.tgz#e9ebd214e7ec81d95bb2c8cdf97335a61743b4e7"
-  integrity sha512-At4Y01IcaZMMoHNZZF28tansIR7jXb1RjBhvAQzznaKYSmjCQlAjqMAWrT9Ahbd8I1+54w5fC+OlWsS0/UcQcw==
-  dependencies:
-    "@0xproject/utils" "^2.0.2"
-    "@babel/runtime" "^7.4.4"
-    "@ensdomains/dnsregistrar" "^0.3.5"
+    "@ensdomains/dnsregistrar" "^0.3.9"
     "@ensdomains/ens" "^0.3.5"
     "@ensdomains/ens-022" "npm:@ensdomains/ens@0.2.2"
     "@ensdomains/ethregistrar" "^1.2.2"
@@ -3715,7 +3731,7 @@ core-js@^1.0.0:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
   integrity sha1-ZSKUwUZR2yj6k70tX/KYOk8IxjY=
 
-core-js@^2.4.0, core-js@^2.5.0:
+core-js@^2.4.0, core-js@^2.5.0, core-js@^2.6.5:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.9.tgz#6b4b214620c834152e179323727fc19741b084f2"
   integrity sha512-HOpZf6eXmnl7la+cUdMnLvUxKNqLUzJvgIziQ0DiF3JwSImNphIqdGqzj6hIKyX04MmV0poclQ7+wjWvxQyR2A==
@@ -6695,6 +6711,13 @@ icss-utils@^4.1.0:
   integrity sha512-4aFq7wvWyMHKgxsH8QQtGpvbASCf+eM3wPRLI6R+MgAnTCZ6STYsRvttLvRWK0Nfif5piF394St3HeJDaljGPA==
   dependencies:
     postcss "^7.0.14"
+
+idempotent-babel-polyfill@^7.4.4:
+  version "7.4.4"
+  resolved "https://registry.yarnpkg.com/idempotent-babel-polyfill/-/idempotent-babel-polyfill-7.4.4.tgz#de34305a23cffbc7f31c0ee1bea55522e9b470a4"
+  integrity sha512-ULnqegUJke43XlsW5bI2zvoOCiFwn5AjRK/DJA5V6jj4yf+vKEZmiYll2x9+FQb9e6a+KQ/D+r8w7ydCYuiaRA==
+  dependencies:
+    "@babel/polyfill" "7.4.4"
 
 identity-obj-proxy@3.0.0:
   version "3.0.0"
