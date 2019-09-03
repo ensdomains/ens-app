@@ -22,8 +22,9 @@ jobs:
         - yarn global add wait-on
       before_script:
         - ganache-cli --accounts 500 >ganache.log 2>&1 &
-        - yarn preTest && yarn start
-      script: cypress run
+        - yarn start --silent &
+        - yarn preTest
+      script: $(npm bin)/cypress run --record
     - stage: deploy
       name: 'Deploy to live'
       script: yarn deploy
