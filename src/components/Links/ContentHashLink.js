@@ -7,8 +7,8 @@ const ContentHashLinkContainer = styled('a')`
   display: inline-block;
   align-items: center;
   text-overflow: ellipsis;
-  white-space: normal;
-  overflow: scroll;
+  white-space: nowrap;
+  overflow: hidden;
   svg {
     margin-left: 10px;
     transition: 0.1s;
