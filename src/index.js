@@ -14,7 +14,16 @@ window.addEventListener('load', async () => {
   let client
   try {
     client = await setupClient()
-    await setupENS({ reloadOnAccountsChange: true })
+    if (process.env.REACT_APP_STAGE === 'local') {
+      await setupENS({
+        reloadOnAccountsChange: true,
+        customProvider: 'http://localhost:8545'
+      })
+    } else {
+      await setupENS({
+        reloadOnAccountsChange: true
+      })
+    }
   } catch (e) {
     console.log(e)
     await client.mutate({
