@@ -19,8 +19,8 @@ export const GET_PUBLIC_RESOLVER = gql`
 `
 
 export const GET_ALL_NODES = gql`
-  query names @client {
-    names {
+  query names {
+    names @client {
       ...NodeFields
     }
   }
@@ -28,8 +28,14 @@ export const GET_ALL_NODES = gql`
   ${NodeFields}
 `
 
+export const GET_OWNER = gql`
+  query getOwner($name: String) {
+    getOwner(name: $name) @client
+  }
+`
+
 export const GET_SINGLE_NAME = gql`
-  query singleName($name: String) @client {
+  query singleName($name: String) {
     singleName(name: $name) @client {
       ...NodeFields
       revealDate
@@ -37,6 +43,7 @@ export const GET_SINGLE_NAME = gql`
       migrationStartDate
       currentBlockDate
       transferEndDate
+      gracePeriodEndDate
       value
       highestBid
       state
@@ -57,8 +64,8 @@ export const GET_SINGLE_NAME = gql`
 `
 
 export const GET_SUBDOMAINS = gql`
-  query getSubDomains($name: String) @client {
-    getSubDomains(name: $name) {
+  query getSubDomains($name: String) {
+    getSubDomains(name: $name) @client {
       subDomains
     }
   }
@@ -83,8 +90,8 @@ export const GET_SUBDOMAINS_FROM_SUBGRAPH = gql`
 `
 
 export const GET_TRANSACTION_HISTORY = gql`
-  query getTransactionHistory @client {
-    transactionHistory {
+  query getTransactionHistory {
+    transactionHistory @client {
       txHash
       txState
       createdAt
@@ -108,34 +115,6 @@ export const GET_SUBDOMAIN_FAVOURITES = gql`
   }
 
   ${SubDomainStateFields}
-`
-
-export const GET_DOMAIN_STATE = gql`
-  query getDomainState @client {
-    domainState {
-      name
-      revealDate
-      registrationDate
-      value
-      highestBid
-      state
-      owner
-    }
-  }
-`
-
-export const GET_DOMAIN_STATE_SINGLE = gql`
-  query getDomainStateSingle($name: String) @client {
-    domainStateSingle(name: $name) {
-      name
-      revealDate
-      registrationDate
-      value
-      highestBid
-      state
-      owner
-    }
-  }
 `
 
 export const GET_ERRORS = gql`

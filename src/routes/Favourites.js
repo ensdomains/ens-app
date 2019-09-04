@@ -5,7 +5,7 @@ import DomainItem from '../components/DomainItem/DomainItem'
 import {
   GET_FAVOURITES,
   GET_SUBDOMAIN_FAVOURITES,
-  GET_SINGLE_NAME
+  GET_OWNER
 } from '../graphql/queries'
 
 import mq from 'mediaQuery'
@@ -65,6 +65,10 @@ const NoDomains = ({ type }) => (
   </NoDomainsContainer>
 )
 
+function getDomainState(owner) {
+  return parseInt(owner, 16) === 0 ? 'Open' : 'Owned'
+}
+
 class Favourites extends Component {
   state = {
     hasFavourites: true,
@@ -87,7 +91,7 @@ class Favourites extends Component {
               <>
                 {data.favourites.map(domain => (
                   <Query
-                    query={GET_SINGLE_NAME}
+                    query={GET_OWNER}
                     variables={{ name: domain.name }}
                     key={domain.name}
                   >
@@ -101,7 +105,11 @@ class Favourites extends Component {
                       return (
                         <DomainItem
                           loading={loading}
-                          domain={data.singleName}
+                          domain={{
+                            ...domain,
+                            state: getDomainState(data.getOwner),
+                            owner: data.getOwner
+                          }}
                           isFavourite={true}
                         />
                       )
@@ -131,7 +139,7 @@ class Favourites extends Component {
               <Fragment>
                 {data.subDomainFavourites.map(domain => (
                   <Query
-                    query={GET_SINGLE_NAME}
+                    query={GET_OWNER}
                     variables={{ name: domain.name }}
                     key={domain.name}
                   >
@@ -145,7 +153,11 @@ class Favourites extends Component {
                       return (
                         <DomainItem
                           loading={loading}
-                          domain={data.singleName}
+                          domain={{
+                            ...domain,
+                            state: getDomainState(data.getOwner),
+                            owner: data.getOwner
+                          }}
                           isSubDomain={true}
                           isFavourite={true}
                         />

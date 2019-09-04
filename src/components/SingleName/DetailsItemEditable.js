@@ -111,12 +111,29 @@ const Buttons = styled('div')`
   align-items: center;
 `
 
+function getMessages({ keyName, parent, deedOwner, isDeedOwner }) {
+  let [newValue, newType] = getDefaultMessage(keyName)
+  if (
+    keyName === 'Owner' &&
+    parent === 'eth' &&
+    parseInt(deedOwner, 16) !== 0
+  ) {
+    newValue = 'Pending'
+    if (isDeedOwner) {
+      newValue += '(You have not finalised)'
+    }
+  }
+
+  return [newValue, newType]
+}
+
 function getDefaultMessage(keyName) {
   switch (keyName) {
     case 'Resolver':
       return ['No Resolver set', 'message']
     case 'Controller':
-      return ['Not owned yet', 'message']
+    case 'Registrant':
+      return ['Not owned', 'message']
     default:
       return ['No 0x message set', 'message']
   }
@@ -225,6 +242,7 @@ const Editable = ({
   keyName,
   value,
   type,
+  notes,
   mutation,
   mutationButton,
   editButton,
@@ -309,6 +327,7 @@ const Editable = ({
               ) : (
                 value
               )}
+              {notes}
             </DetailsValue>
             {editing ? null : pending && !confirmed ? (
               <PendingTx
@@ -426,20 +445,17 @@ function ViewOnly({
   isDeedOwner,
   domain
 }) {
+  //get default messages for 0x values
   if (parseInt(value, 16) === 0) {
-    let [newValue, newType] = getDefaultMessage(keyName)
+    let [newValue, newType] = getMessages({
+      keyName,
+      parent: domain.parent,
+      deedOwner,
+      isDeedOwner
+    })
+
     value = newValue
     type = newType
-    if (
-      keyName === 'Owner' &&
-      domain.parent === 'eth' &&
-      parseInt(deedOwner, 16) !== 0
-    ) {
-      value = 'Pending'
-      if (isDeedOwner) {
-        value += '(You have not finalised)'
-      }
-    }
   }
   return (
     <DetailsEditableContainer>
@@ -505,6 +521,7 @@ DetailsEditable.propTypes = {
   keyName: PropTypes.string.isRequired, // key of the record
   value: PropTypes.string.isRequired, // value of the record (normally hex address)
   type: PropTypes.string, // type of value. Defaults to address
+  notes: PropTypes.string,
   mutation: PropTypes.object.isRequired, //graphql mutation string for making tx
   mutationButton: PropTypes.string, // Mutation button text
   editButton: PropTypes.string, //Edit button text
