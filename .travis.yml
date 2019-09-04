@@ -22,7 +22,7 @@ jobs:
         - yarn global add ganache-cli@6.1.8
         - yarn global add wait-on
       before_script:
-        - ganache-cli --accounts 500 >ganache.log 2>&1 &
+        - ganache-cli >ganache.log 2>&1 &
         - yarn preTest
         - yarn start:test --silent & wait-on http://localhost:3000
       script: cypress run
