@@ -54,6 +54,10 @@ window.addEventListener('load', async () => {
     }
   } catch (e) {
     console.log(e)
+    await client.mutate({
+      mutation: SET_ERROR,
+      variables: { message: e.message }
+    })
   }
   ReactDOM.render(
     <ApolloProvider client={client}>

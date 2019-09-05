@@ -1293,10 +1293,10 @@
   resolved "https://registry.yarnpkg.com/@ensdomains/resolver/-/resolver-0.1.9.tgz#013bc88397c2c204737aaaf602380145d845e09e"
   integrity sha512-eSZIEWi2UcxNZXJhAeoTYUZr20fyly9eMUy17WQ5UjszXf0QgE1Zzh/Oj9Mhl0i8s7xqoPOsntr2ZI0JhsX78w==
 
-"@ensdomains/ui@1.1.16":
-  version "1.1.16"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.1.16.tgz#85c817d5ff5990cfb71da39b1e479a9fa2a7de0b"
-  integrity sha512-NWrrjb9OoSHpgX5VzCwzAw7+CYR5nOnUEqsRuW82giLqRqN8WFuNg844ew9pNnapTxxti6wghzVDtdrBr7GXtA==
+"@ensdomains/ui@1.1.18":
+  version "1.1.18"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.1.18.tgz#5b9111374cf1f04cce689657afb857832eb72770"
+  integrity sha512-nPmmaPnMgyeIknOOlmgZx7imsh//VmViV2Y86KUb0BpuKmJ5196ac2UMDCARMM3Zcr1r6egF//u9PeLrIfr98g==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
