@@ -31,6 +31,10 @@ window.addEventListener('load', async () => {
   let ensAddress
 
   const networkId = await getNetwork()
+  console.log(
+    'process.env.REACT_APP_ENS_ADDRESS',
+    process.env.REACT_APP_ENS_ADDRESS
+  )
   if (process.env.REACT_APP_ENS_ADDRESS && networkId > 1000) {
     //Assuming public main/test networks have a networkId of less than 1000
     ensAddress = process.env.REACT_APP_ENS_ADDRESS
@@ -62,6 +66,7 @@ window.addEventListener('load', async () => {
   ReactDOM.render(
     <ApolloProvider client={client}>
       <GlobalStateProvider>
+        {process.env.REACT_APP_ENS_ADDRESS}
         <App />
       </GlobalStateProvider>
     </ApolloProvider>,
