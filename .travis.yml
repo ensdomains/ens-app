@@ -22,7 +22,7 @@ jobs:
         - yarn global add ganache-cli@6.1.8
         - yarn global add wait-on
       before_script:
-        - ganache-cli &
+        - ganache-cli & wait-on localhost:8545
       script: yarn preTest && start-server-and-test start:test http://localhost:3000 cypress:run
     - stage: deploy
       name: 'Deploy to live'
