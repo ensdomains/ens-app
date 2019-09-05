@@ -2,8 +2,15 @@ const ROOT = Cypress.env('ROOT')
 const NAME_ROOT = Cypress.env('NAME_ROOT')
 
 describe('Favorites', () => {
-  it('can add and remove favourites', () => {
+  beforeEach(() => {
     cy.visit(`${ROOT}/favourites`)
+  })
+  it('can visit the favourites page', () => {
+    cy.queryByText('No names have been saved.', { exact: false }).should(
+      'exist'
+    )
+  })
+  it('can add and remove favourites', () => {
     cy.queryByText('No names have been saved.', { exact: false }).should(
       'exist'
     )
