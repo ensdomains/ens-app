@@ -91,6 +91,7 @@
     "pretty-quick": "^1.10.0",
     "react-testing-library": "^3.0.2",
     "solc": "^0.4.23",
+    "start-server-and-test": "^1.10.0",
     "surge": "^0.20.1"
   },
   "browserslist": {
