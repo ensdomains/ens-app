@@ -44,26 +44,41 @@ const Route = ({
   )
 }
 
-const App = () => {
-  Analytics.setup()
-  return (
-    <>
-      <Router>
-        <Switch>
-          <Route exact path="/" component={Home} layout={HomePageLayout} />
-          <Route path="/test" component={TestPage} />
-          <Route path="/test-registrar" component={TestRegistrar} />
-          <Route path="/favourites" component={Favourites} />
-          <Route path="/my-bids" component={SearchResults} />
-          <Route path="/about" component={About} />
-          <Route path="/how-it-works" component={SearchResults} />
-          <Route path="/search/:searchTerm" component={SearchResults} />
-          <Route path="/name/:name" component={SingleName} />
-          <Route path="/address/:address" component={Address} />
-        </Switch>
-      </Router>
-      <Modal name={CONFIRM} component={Confirm} />
-    </>
-  )
-}
+const App = () => (
+  <>
+    <Query query={GET_ERRORS}>
+      {({ data }) => {
+        Analytics.setup()
+        if (data.error && data.error.message) {
+          return <NetworkError message={data.error.message} />
+        } else {
+          return (
+            <>
+              <Router>
+                <Switch>
+                  <Route
+                    exact
+                    path="/"
+                    component={Home}
+                    layout={HomePageLayout}
+                  />
+                  <Route path="/test" component={TestPage} />
+                  <Route path="/test-registrar" component={TestRegistrar} />
+                  <Route path="/favourites" component={Favourites} />
+                  <Route path="/my-bids" component={SearchResults} />
+                  <Route path="/about" component={About} />
+                  <Route path="/how-it-works" component={SearchResults} />
+                  <Route path="/search/:searchTerm" component={SearchResults} />
+                  <Route path="/name/:name" component={SingleName} />
+                  <Route path="/address/:address" component={Address} />
+                </Switch>
+              </Router>
+              <Modal name={CONFIRM} component={Confirm} />
+            </>
+          )
+        }
+      }}
+    </Query>
+  </>
+)
 export default App
