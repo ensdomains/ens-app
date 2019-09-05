@@ -10,35 +10,8 @@ import { GlobalStateProvider } from 'globalState'
 import 'globalStyles'
 import { setupClient } from 'apolloClient'
 
-async function getNetwork() {
-  let network
-
-  if (window.ethereum) {
-    network = window.ethereum.networkVersion
-  } else if (window.web3) {
-    network = await new Promise((resolve, reject) => {
-      window.version.web3.getNetwork((err, network) => {
-        resolve(network)
-      })
-    })
-  }
-
-  return network
-}
-
 window.addEventListener('load', async () => {
   let client
-  let ensAddress
-
-  const networkId = await getNetwork()
-  console.log(
-    'process.env.REACT_APP_ENS_ADDRESS',
-    process.env.REACT_APP_ENS_ADDRESS
-  )
-  if (process.env.REACT_APP_ENS_ADDRESS && networkId > 1000) {
-    //Assuming public main/test networks have a networkId of less than 1000
-    ensAddress = process.env.REACT_APP_ENS_ADDRESS
-  }
 
   try {
     client = await setupClient()
@@ -49,7 +22,7 @@ window.addEventListener('load', async () => {
       await setupENS({
         reloadOnAccountsChange: true,
         customProvider: 'http://localhost:8545',
-        ensAddress
+        ensAddress: process.env.REACT_APP_ENS_ADDRESS
       })
     } else {
       await setupENS({
@@ -66,7 +39,6 @@ window.addEventListener('load', async () => {
   ReactDOM.render(
     <ApolloProvider client={client}>
       <GlobalStateProvider>
-        {process.env.REACT_APP_ENS_ADDRESS}
         <App />
       </GlobalStateProvider>
     </ApolloProvider>,
