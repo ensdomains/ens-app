@@ -62,7 +62,7 @@
     "subgraph": "node scripts/subgraph.js",
     "advance": "node src/testing-utils/advance.js",
     "cypress:open": "yarn run cypress open",
-    "cypress:run": "yarn run cypress run --record --key $CYPRESS_TOKEN",
+    "cypress:run": "yarn run cypress run --record --key $CYPRESS_TOKEN --spec 'cypress/integration/favourites.spec.js'",
     "deploy:dev": "npm run build && npm run postbuild && surge build ensappdev.surge.sh",
     "deploy": "npm run build && npm run postbuild && surge build manager.ens.domains"
   },
