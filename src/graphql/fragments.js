@@ -28,23 +28,3 @@ export const SubDomainStateFields = gql`
     state
   }
 `
-
-export const NodesRecursive = gql`
-  fragment NodesRecursive on Node {
-    ...NodeFields
-    nodes {
-      ...NodeFields
-      nodes {
-        ...NodeFields
-        nodes {
-          ...NodeFields
-          nodes {
-            ...NodeFields
-          }
-        }
-      }
-    }
-  }
-
-  ${NodeFields}
-`

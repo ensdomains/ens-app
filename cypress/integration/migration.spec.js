@@ -2,14 +2,10 @@ const ROOT = Cypress.env('ROOT')
 const NAME_ROOT = Cypress.env('NAME_ROOT')
 
 describe('Migration to Permanent', () => {
-  it('can visit a name and migrate it', () => {
+  it.only('can visit a name and migrate it', () => {
     cy.visit(`${ROOT}/name/auctioned3.eth`)
-    cy.getByText('Migrate').click()
+    cy.getByText('Migrate').click({ force: true })
     cy.wait(500)
-    cy.getByTestId('details-value-owner', { exact: false }).should(
-      'have.text',
-      Cypress.env('ownerAddress')
-    )
 
     cy.queryByText('Migrate', { timeout: 50 }).should('not.exist')
   })

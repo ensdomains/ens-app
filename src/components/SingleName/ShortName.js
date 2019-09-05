@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 import mq from 'mediaQuery'
 import { ExternalButtonLink } from '../Forms/Button'
+import jsSHA3 from 'js-sha3'
+import BigInt from 'big-integer'
 
 const ShortNameContainer = styled('div')`
   padding: 20px;
@@ -13,7 +15,7 @@ const ShortNameContainer = styled('div')`
 `
 
 const InnerWrapper = styled('div')`
-  background: hsla(37, 91%, 55%, 0.1);
+  background: #f0f6fa;
   padding: 20px;
   display: flex;
   justify-content: space-between;
@@ -36,21 +38,54 @@ const InnerWrapper = styled('div')`
   `}
 `
 
-export default function ShortName() {
+export default function ShortName({ name }) {
+  const [urlReady, setUrlReady] = useState(false)
+  const label = name.split('.')[0]
+  const labelhash = `${jsSHA3.keccak256(label.toLowerCase())}`
+  const bn = BigInt(labelhash, 16)
+  const decimalLabelHash = bn.toString(10)
+  const link = `https://opensea.io/assets/0xFaC7BEA255a6990f749363002136aF6556b31e04/${decimalLabelHash}`
+
+  useEffect(() => {
+    const api = `https://api.opensea.io/misc/ens_short_name_asset/${label}`
+    fetch(api).then(() => {
+      setUrlReady(true)
+    })
+  }, [name])
+
+  function openSeaRedirect() {
+    const api = `https://api.opensea.io/misc/ens_short_name_asset/${label}`
+    fetch(api).then(res => {
+      if (res.ok) {
+        window.location.href = link
+      }
+    })
+  }
+
   return (
     <ShortNameContainer>
       <InnerWrapper>
         <p>
-          Short names are not currently on auction, but they can be reserved at{' '}
-          <a href="https://reserve.ens.domains">reserve.ens.domains</a>. The
-          auctions will begin soon after the reservation process.
+          Short names are currently on auction at{' '}
+          {urlReady ? (
+            <a href={link}>OpenSea</a>
+          ) : (
+            <a href="#" onClick={openSeaRedirect}>
+              OpenSea
+            </a>
+          )}
+          . 5+ letter auctions end September 29, 4 letter auctions end October
+          6, and 3 letter auctions end October 13
         </p>
-        <ExternalButtonLink
-          href="https://reserve.ens.domains"
-          type="hollow-primary"
-        >
-          Reserve Now
-        </ExternalButtonLink>
+        {urlReady ? (
+          <ExternalButtonLink href={link} type="hollow-primary">
+            Bid Now
+          </ExternalButtonLink>
+        ) : (
+          <ExternalButtonLink onClick={openSeaRedirect} type="hollow-primary">
+            Bid Now
+          </ExternalButtonLink>
+        )}
       </InnerWrapper>
     </ShortNameContainer>
   )

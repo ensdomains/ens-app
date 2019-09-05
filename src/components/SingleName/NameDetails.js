@@ -65,8 +65,9 @@ const Records = styled('div')`
   border-radius: 6px;
   border: 1px solid #ededed;
   box-shadow: inset 0 0 10px 0 rgba(235, 235, 235, 0.5);
-  padding-bottom: ${p => (p.hasRecord ? '10px' : '0')};
-  display: ${p => (!p.isOwner && !p.hasRecord ? 'none' : 'block')};
+  padding-bottom: ${p => (p.shouldShowRecords ? '10px' : '0')};
+  display: ${p => (p.shouldShowRecords ? 'block' : 'none')};
+  margin-bottom: 20px;
 `
 
 const ExpirationDetailsValue = styled(DetailsValue)`
@@ -137,6 +138,38 @@ const DomainOwnerAddress = styled(`span`)`
   color: ${props => (props.outOfSync ? '#CACACA' : '')};
 `
 
+const GracePeriodWarningContainer = styled('div')`
+  font-family: 'Overpass';
+  background: #fef7e9;
+  padding: 10px 20px;
+  margin: 5px 0px;
+`
+
+const GracePeriodText = styled('span')`
+  color: #cacaca;
+  margin-left: 0.5em;
+`
+
+const GracePeriodDate = styled('span')`
+  font-weight: bold;
+`
+
+const Expiration = styled('span')`
+  color: #f5a623;
+  font-weight: bold;
+`
+
+const GracePeriodWarning = ({ date }) => {
+  return (
+    <GracePeriodWarningContainer>
+      <Expiration>Expiring soon.</Expiration>
+      <GracePeriodText>
+        Grace period ends <GracePeriodDate>{formatDate(date)}</GracePeriodDate>
+      </GracePeriodText>
+    </GracePeriodWarningContainer>
+  )
+}
+
 function canClaim(domain) {
   if (!domain.name.match(/\.test$/)) return false
   return parseInt(domain.owner) === 0 || domain.expiryTime < new Date()
@@ -167,10 +200,11 @@ function isEmpty(record) {
   return false
 }
 
+function hasAResolver(resolver) {
+  return parseInt(resolver, 16) !== 0
+}
+
 function hasAnyRecord(domain) {
-  if (parseInt(domain.resolver, 16) === 0) {
-    return false
-  }
   if (!isEmpty(domain.addr)) {
     return true
   }
@@ -180,8 +214,19 @@ function hasAnyRecord(domain) {
   }
 }
 
+function getShouldShowRecords(isOwner, hasResolver, hasRecords) {
+  //do no show records if it only has a resolver if not owner
+  if (!isOwner && hasRecords) {
+    return true
+  }
+  //show records if it only has a resolver if owner so they can add
+  if (isOwner && hasResolver) {
+    return true
+  }
+  return false
+}
+
 function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
-  const deedOwner = domain.deedOwner
   const isDeedOwner = domain.deedOwner === account
   const isRegistrant = domain.registrant === account
   const isPermanentRegistrarDeployed = domain.available !== null
@@ -218,6 +263,14 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
     dnssecmode.state === 'SUBMIT_PROOF' && // This is for not allowing the case user does not have record rather than having empty address record.
     domain.owner.toLowerCase() !== domain.dnsOwner.toLowerCase()
   const outOfSync = dnssecmode && dnssecmode.outOfSync
+
+  const hasResolver = hasAResolver(domain.resolver)
+  const hasRecords = hasAnyRecord(domain)
+  const shouldShowRecords = getShouldShowRecords(
+    isOwner,
+    hasResolver,
+    hasRecords
+  )
 
   return (
     <>
@@ -374,14 +427,12 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                     </ButtonContainer>
                   </DetailsItem>
                 ) : (
-                  // Either subdomain, .test, or .dns(eg. .xyz)
+                  // Either subdomain, or .test
                   <DetailsItemEditable
                     domain={domain}
                     keyName="Controller"
                     value={domain.owner}
-                    canEdit={
-                      domain.isDNSRegistrar && domain.owner !== domain.dnsOwner
-                    }
+                    canEdit={isOwner || isOwnerOfParent}
                     deedOwner={domain.deedOwner}
                     isDeedOwner={isDeedOwner}
                     outOfSync={outOfSync}
@@ -496,12 +547,21 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                 ) : (
                   ''
                 )}
-                {domain.expiryTime ? (
-                  domain.isNewRegistrar ? (
+                {!domain.available ? (
+                  domain.isNewRegistrar || domain.gracePeriodEndDate ? (
                     <DetailsItemEditable
                       domain={domain}
                       keyName="Expiration Date"
                       value={domain.expiryTime}
+                      notes={
+                        domain.gracePeriodEndDate ? (
+                          <GracePeriodWarning
+                            date={domain.gracePeriodEndDate}
+                          />
+                        ) : (
+                          ''
+                        )
+                      }
                       canEdit={parseInt(account, 16) !== 0}
                       type="date"
                       editButton="Renew"
@@ -510,7 +570,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                       refetch={refetch}
                       confirm={true}
                     />
-                  ) : (
+                  ) : domain.expiryTime ? (
                     <DetailsItem uneditable>
                       <DetailsKey>Expiration Date</DetailsKey>
                       <ExpirationDetailsValue
@@ -519,6 +579,8 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                         {formatDate(domain.expiryTime)}
                       </ExpirationDetailsValue>
                     </DetailsItem>
+                  ) : (
+                    ''
                   )
                 ) : isPermanentRegistrarDeployed &&
                   isLegacyAuctionedName(domain) ? (
@@ -560,7 +622,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                 refetch={refetch}
                 account={account}
               />
-              <Records hasRecord={hasAnyRecord(domain)} isOwner={isOwner}>
+              <Records shouldShowRecords={shouldShowRecords} isOwner={isOwner}>
                 <AddRecord
                   emptyRecords={emptyRecords}
                   title="Records"
@@ -568,7 +630,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                   domain={domain}
                   refetch={refetch}
                 />
-                {hasAnyRecord(domain) && (
+                {hasResolver && hasAnyRecord && (
                   <>
                     {!isEmpty(domain.addr) && (
                       <RecordsItem

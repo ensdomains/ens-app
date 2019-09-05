@@ -25,7 +25,7 @@ class Results extends React.Component {
     parsed: null
   }
   checkValidity = () => {
-    const { searchTerm, getSubDomainAvailability } = this.props
+    const { searchTerm /* getSubDomainAvailability */ } = this.props
     let parsed
     this.setState({
       errors: []

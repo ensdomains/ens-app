@@ -44,9 +44,7 @@ const resolvers = {
     async commit(_, { label }, { cache }) {
       //Generate secret
       const secret = randomSecret()
-
       secrets[label] = secret
-      //TODO: Save secret to localStorage with name as the key
       const tx = await commit(label, secret)
       return sendHelper(tx)
     },

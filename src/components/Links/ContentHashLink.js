@@ -7,8 +7,8 @@ const ContentHashLinkContainer = styled('a')`
   display: inline-block;
   align-items: center;
   text-overflow: ellipsis;
-  white-space: normal;
-  overflow: scroll;
+  white-space: nowrap;
+  overflow: hidden;
   svg {
     margin-left: 10px;
     transition: 0.1s;
@@ -44,8 +44,8 @@ const ContentHashLink = ({ value, contentType }) => {
   } else if (protocolType === 'bzz') {
     externalLink = `https://swarm-gateways.net/bzz://${decoded}`
     url = `bzz://${decoded}`
-  } else if (protocolType === 'onion') {
-    externalLink = `https://${decoded}.onion.link`
+  } else if (protocolType === 'onion' || protocolType === 'onion3') {
+    externalLink = `https://${decoded}.onion`
     url = `onion://${decoded}`
   } else {
     console.warn(`Unsupported protocol ${protocolType}`)

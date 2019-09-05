@@ -5,15 +5,34 @@ dist: trusty
 language: node_js
 
 node_js:
-  - "10"
+  - '10'
 
 cache: yarn
 
 matrix:
   allow_failures:
+    #
+jobs:
+  include:
+    - stage: test
+      name: 'Test'
+      install:
+        - yarn
+        - yarn global add cypress
+        - yarn global add ganache-cli@6.1.8
+        - yarn global add wait-on
+      before_script:
+        - ganache-cli >ganache.log 2>&1 &
+      script: yarn preTest && start-server-and-test start:test http://localhost:3000 cypress:run
+    - stage: deploy
+      name: 'Deploy to live'
+      script: yarn deploy
 
-script:
-  - yarn build
+stages:
+  - name: test
+    if: branch != master
+  - name: deploy
+    if: branch = master
 
 notifications:
   email: false

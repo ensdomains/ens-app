@@ -21,13 +21,15 @@ const endpoints = {
 }
 
 function getGraphQLAPI(network) {
+  if (network > 100 && process.env.REACT_APP_GRAPH_NODE_URI) {
+    return process.env.REACT_APP_GRAPH_NODE_URI
+  }
+
   if (endpoints[network]) {
     return endpoints[network]
-  } else if (process.env.REACT_APP_GRAPH_NODE_URI) {
-    return process.env.REACT_APP_GRAPH_NODE_URI
-  } else {
-    return endpoints['1']
   }
+
+  return endpoints['1']
 }
 
 const stateLink = withClientState({
