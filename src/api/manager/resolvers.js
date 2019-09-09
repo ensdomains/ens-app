@@ -230,15 +230,8 @@ const resolvers = {
         console.log('Error in Single Name', e)
       }
     },
-    getSubDomains: async (_, { name, owner }, { cache }) => {
-      if (!owner) {
-        owner = await getOwner(name)
-      }
-
-      if (parseInt(owner, 16) === 0) {
-        return null
-      }
-
+    getSubDomains: async (_, { name }, { cache }) => {
+      console.log(name)
       const data = cache.readQuery({ query: GET_ALL_NODES })
       const rawSubDomains = await getSubdomains(name)
       const subDomains = rawSubDomains.map(s => ({

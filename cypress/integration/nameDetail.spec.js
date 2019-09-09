@@ -147,7 +147,7 @@ describe('Name detail view', () => {
     })
   })
 
-  it.only('can add an address', () => {
+  it('can add an address', () => {
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
     cy.getByTestId('name-details').within(container => {
@@ -178,29 +178,23 @@ describe('Name detail view', () => {
 
     cy.getByTestId('name-details').within(container => {
       cy.getByText('+')
-        .click()
+        .click({ force: true })
         .getByText('select a record', { exact: false })
-        .click()
-        .get('[role="option"]', { timeout: 10000 })
+        .click({ force: true })
+        .get('#react-select-2-option-0', { timeout: 10000 })
         .contains('Content')
-        .click()
+        .click({ force: true })
         .getByPlaceholderText('Enter a content hash', {
           exact: false
         })
-        .type(content)
-      cy.getByText('Save').click()
-      //form closed
-
-      cy.wait(500)
-      cy.queryByText('Save', { timeout: 50 })
-        .should('not.exist')
-        .queryByText('cancel', { exact: false, timeout: 50 })
-        .should('not.exist')
-
-      //Value updated
-      cy.queryByText(content, {
-        exact: false
-      }).should('exist')
+        .type(content, { force: true })
+      waitUntilInputResolves('Save').then(() => {
+        cy.getByText('Save').click({ force: true })
+        //Value updated
+        cy.queryByText(content, {
+          exact: false
+        }).should('exist')
+      })
     })
   })
 
@@ -208,25 +202,28 @@ describe('Name detail view', () => {
     cy.visit(`${NAME_ROOT}/abittooawesome.eth`)
 
     cy.getByTestId('name-details').within(container => {
-      cy.getByTestId('edit-address', { exact: false }).click()
+      cy.getByTestId('edit-address', { exact: false }).click({ force: true })
       cy.getByPlaceholderText('Enter Ethereum name or address', {
         exact: false
-      }).type('0x0000000000000000000000000000000000000003')
-      cy.getByText('Save').click()
-      cy.wait(500)
+      }).type('0x0000000000000000000000000000000000000003', { force: true })
 
-      //form closed
-      cy.queryByTestId('save', { exact: false, timeout: 10 }).should(
-        'not.exist'
-      )
-      cy.queryByTestId('cancel', { exact: false, timeout: 10 }).should(
-        'not.exist'
-      )
-      //Value updated
-      cy.queryByText('0x0000000000000000000000000000000000000003', {
-        exact: false,
-        timeout: 10
-      }).should('exist')
+      waitUntilInputResolves('Save').then(() => {
+        cy.getByText('Save').click({ force: true })
+
+        cy.wait(500)
+        //form closed
+        cy.queryByTestId('save', { exact: false, timeout: 10 }).should(
+          'not.exist'
+        )
+        cy.queryByTestId('cancel', { exact: false, timeout: 10 }).should(
+          'not.exist'
+        )
+        //Value updated
+        cy.queryByText('0x0000000000000000000000000000000000000003', {
+          exact: false,
+          timeout: 10
+        }).should('exist')
+      })
     })
   })
 
@@ -237,22 +234,25 @@ describe('Name detail view', () => {
     cy.visit(`${NAME_ROOT}/abittooawesome.eth`)
 
     cy.getByTestId('name-details').within(container => {
-      cy.getByTestId('edit-content', { exact: false }).click()
+      cy.getByTestId('edit-content', { exact: false }).click({ force: true })
       cy.getByPlaceholderText('Enter a content hash', {
         exact: false
-      }).type(content)
-      cy.getByText('Save').click()
-      cy.wait(500)
+      }).type(content, { force: true })
 
-      //form closed
-      cy.queryByTestId('save', { exact: false, timeout: 10 }).should(
-        'not.exist'
-      )
-      cy.queryByTestId('cancel', { exact: false, timeout: 10 }).should(
-        'not.exist'
-      )
-      //Value updated
-      cy.queryByText(content, { exact: false }).should('exist')
+      waitUntilInputResolves('Save').then(() => {
+        cy.getByText('Save').click({ force: true })
+        cy.wait(200)
+
+        //form closed
+        cy.queryByTestId('save', { exact: false, timeout: 10 }).should(
+          'not.exist'
+        )
+        cy.queryByTestId('cancel', { exact: false, timeout: 10 }).should(
+          'not.exist'
+        )
+        //Value updated
+        cy.queryByText(content, { exact: false }).should('exist')
+      })
     })
   })
 
@@ -263,34 +263,36 @@ describe('Name detail view', () => {
     cy.visit(`${NAME_ROOT}/oldresolver.eth`)
 
     cy.getByTestId('name-details').within(container => {
-      cy.getByTestId('edit-content', { exact: false }).click()
+      cy.getByTestId('edit-content', { exact: false }).click({ force: true })
       cy.getByPlaceholderText('Enter a content', {
         exact: false
-      }).type(content)
-      cy.getByText('Save').click()
-      cy.wait(1000)
+      }).type(content, { force: true })
+      waitUntilInputResolves('Save').then(() => {
+        cy.getByText('Save').click({ force: true })
+        cy.wait(1000)
 
-      //form closed
-      cy.queryByTestId('save', { exact: false, timeout: 50 }).should(
-        'not.exist'
-      )
-      cy.queryByTestId('cancel', { exact: false, timeout: 50 }).should(
-        'not.exist'
-      )
-      //Value updated
-      cy.queryByText(content, { exact: false }).should('exist')
+        //form closed
+        cy.queryByTestId('save', { exact: false, timeout: 50 }).should(
+          'not.exist'
+        )
+        cy.queryByTestId('cancel', { exact: false, timeout: 50 }).should(
+          'not.exist'
+        )
+        //Value updated
+        cy.queryByText(content, { exact: false }).should('exist')
+      })
     })
   })
 
   it('can delete records', () => {
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
     cy.getByTestId('name-details').within(container => {
-      cy.getByTestId('edit-address', { exact: false }).click()
-      cy.getByTestId('delete-address', { exact: false }).click()
+      cy.getByTestId('edit-address', { exact: false }).click({ force: true })
+      cy.getByTestId('delete-address', { exact: false }).click({ force: true })
       cy.wait(1000)
 
-      cy.getByTestId('edit-content', { exact: false }).click()
-      cy.getByTestId('delete-content', { exact: false }).click()
+      cy.getByTestId('edit-content', { exact: false }).click({ force: true })
+      cy.getByTestId('delete-content', { exact: false }).click({ force: true })
       cy.wait(1000)
 
       //No addresses to edit
@@ -298,28 +300,28 @@ describe('Name detail view', () => {
     })
   })
 
-  it('can navigate to a subdomain', () => {
+  it.only('can navigate to a subdomain', () => {
     cy.visit(`${NAME_ROOT}/subdomaindummy.eth`)
       .getByText('subdomains', { exact: false })
-      .click()
+      .click({ force: true })
       .getByText('original.subdomaindummy.eth', { timeout: 5000 })
-      .click()
+      .click({ force: true })
   })
 
   it('can add a subdomain', () => {
     cy.visit(`${NAME_ROOT}/subdomaindummy.eth`)
       .getByText('subdomains', { exact: false })
-      .click()
+      .click({ force: true })
 
     cy.getByTestId('subdomains').within(() => {
       cy.getByText('add', { exact: false })
-        .click()
+        .click({ force: true })
         .get('input')
-        .type('unoriginal')
+        .type('unoriginal', { force: true })
         .getByText('save', { exact: false })
-        .click()
+        .click({ force: true })
         .getByText('unoriginal.subdomaindummy.eth', { timeout: 10000 })
-        .click()
+        .click({ force: true })
         .url()
         .should('include', '/name/unoriginal.subdomaindummy.eth')
     })
