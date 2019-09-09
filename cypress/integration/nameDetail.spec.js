@@ -119,7 +119,7 @@ describe('Name detail view', () => {
     cy.getByTestId('name-details').within(container => {
       cy.getByText('+').click({ force: true })
       cy.getByText('select a record', { exact: false }).click({ force: true })
-      cy.get('#react-select-2-option-0', { timeout: 10000 })
+      cy.get('#react-select-2-option-0')
         .contains('Address')
         .click({ force: true })
       cy.getByPlaceholderText('Enter Ethereum name or address', {
@@ -147,34 +147,28 @@ describe('Name detail view', () => {
     })
   })
 
-  it('can add an address', () => {
+  it.only('can add an address', () => {
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
     cy.getByTestId('name-details').within(container => {
-      cy.getByText('+').click()
-      cy.getByText('select a record', { exact: false }).click()
-      cy.get('[role="option"]', { timeout: 10000 })
+      cy.getByText('+').click({ force: true })
+      cy.getByText('select a record', { exact: false }).click({ force: true })
+      cy.get('#react-select-2-option-0')
         .contains('Address')
-        .click()
+        .click({ force: true })
 
-      cy.getByPlaceholderText('Enter an Ethereum address', {
+      cy.getByPlaceholderText('Enter Ethereum name or address', {
         exact: false
-      }).type('0x0000000000000000000000000000000000000003')
-      cy.getByText('Save').click()
+      }).type('0x0000000000000000000000000000000000000003', { force: true })
 
-      cy.wait(500)
-      //form closed
-      cy.queryByTestId('Save', { exact: false, timeout: 500 }).should(
-        'not.exist'
-      )
-      cy.queryByTestId('cancel', { exact: false, timeout: 500 }).should(
-        'not.exist'
-      )
+      waitUntilInputResolves('Save').then(() => {
+        cy.getByText('Save').click({ force: true })
 
-      //Value updated
-      cy.queryByText('0x0000000000000000000000000000000000000003', {
-        exact: false
-      }).should('exist')
+        //Value updated
+        cy.queryByText('0x0000000000000000000000000000000000000003', {
+          exact: false
+        }).should('exist')
+      })
     })
   })
 
@@ -215,7 +209,7 @@ describe('Name detail view', () => {
 
     cy.getByTestId('name-details').within(container => {
       cy.getByTestId('edit-address', { exact: false }).click()
-      cy.getByPlaceholderText('Enter an Ethereum address', {
+      cy.getByPlaceholderText('Enter Ethereum name or address', {
         exact: false
       }).type('0x0000000000000000000000000000000000000003')
       cy.getByText('Save').click()

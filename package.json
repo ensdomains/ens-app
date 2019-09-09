@@ -63,6 +63,8 @@
     "advance": "node src/testing-utils/advance.js",
     "cypress:open": "yarn run cypress open",
     "cypress:run": "yarn run cypress run --record --key $CYPRESS_TOKEN --spec 'cypress/integration/favorites.spec.js'",
+    "cypress:run-local": "yarn run cypress run",
+    "cypress:ci": "ganache-cli >ganache.log 2>&1 & sleep 5 && yarn preTest && start-server-and-test start:test http://localhost:3000 cypress:run-local",
     "deploy:dev": "npm run build && npm run postbuild && surge build ensappdev.surge.sh",
     "deploy": "npm run build && npm run postbuild && surge build manager.ens.domains"
   },

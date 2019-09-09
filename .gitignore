@@ -25,3 +25,4 @@ cypress.env.json
 
 cypress/screenshots
 cypress/videos
+ganache.log
