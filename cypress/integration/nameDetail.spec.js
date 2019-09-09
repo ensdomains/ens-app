@@ -300,7 +300,7 @@ describe('Name detail view', () => {
     })
   })
 
-  it.only('can navigate to a subdomain', () => {
+  it('can navigate to a subdomain', () => {
     cy.visit(`${NAME_ROOT}/subdomaindummy.eth`)
       .getByText('subdomains', { exact: false })
       .click({ force: true })
