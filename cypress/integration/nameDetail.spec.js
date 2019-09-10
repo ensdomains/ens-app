@@ -200,29 +200,42 @@ describe('Name detail view', () => {
 
   it('can change the address', () => {
     cy.visit(`${NAME_ROOT}/abittooawesome.eth`)
+    const ADDRESS = '0x0000000000000000000000000000000000000007'
 
     cy.getByTestId('name-details').within(container => {
       cy.getByTestId('edit-address', { exact: false }).click({ force: true })
       cy.getByPlaceholderText('Enter Ethereum name or address', {
         exact: false
-      }).type('0x0000000000000000000000000000000000000003', { force: true })
+      }).type(ADDRESS, { force: true })
 
       waitUntilInputResolves('Save').then(() => {
         cy.getByText('Save').click({ force: true })
 
-        cy.wait(500)
-        //form closed
-        cy.queryByTestId('save', { exact: false, timeout: 10 }).should(
-          'not.exist'
-        )
-        cy.queryByTestId('cancel', { exact: false, timeout: 10 }).should(
-          'not.exist'
-        )
-        //Value updated
-        cy.queryByText('0x0000000000000000000000000000000000000003', {
-          exact: false,
-          timeout: 10
-        }).should('exist')
+        cy.waitUntil(
+          () => {
+            return cy.getByText(ADDRESS, {
+              exact: false,
+              timeout: 100
+            })
+          },
+          { timeout: 2000, interval: 100 }
+        ).then(() => {
+          //Value updated
+          cy.queryByText(ADDRESS, {
+            exact: false,
+            timeout: 100
+          }).should('exist')
+
+          cy.wait(200)
+
+          //form closed
+          cy.queryByTestId('save', { exact: false, timeout: 10 }).should(
+            'not.exist'
+          )
+          cy.queryByTestId('cancel', { exact: false, timeout: 10 }).should(
+            'not.exist'
+          )
+        })
       })
     })
   })
