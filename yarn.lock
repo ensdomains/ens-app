@@ -1259,10 +1259,10 @@
     truffle "^5.0.5"
     web3-utils "^1.0.0-beta.48"
 
-"@ensdomains/mock@^1.0.13":
-  version "1.0.13"
-  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-1.0.13.tgz#8f6a40461d6134b4f5011c3dff1eda68fc74915d"
-  integrity sha512-Czn7+aAuEcgTywqC8T2RA6Wf/MdI8xNbqyoG4FpeL3uBQZQ3kR6kancX0DkEYxe3G11V78Jfc5NN3aih7ItxtQ==
+"@ensdomains/mock@^1.0.15":
+  version "1.0.14"
+  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-1.0.14.tgz#76c427e9f81efa229d464c0f13eda97a488c7106"
+  integrity sha512-ZfGOEg4QPdo/XG/+Lc4dqXd8XZYeQIigxln28ADdzZpOeCQyQ+UMWVl1gxiMyENQP8JrzLqy7JRXzkWIlTJOBw==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
@@ -1277,10 +1277,10 @@
     lodash "^4.17.11"
     web3 "1.0.0-beta.34"
 
-"@ensdomains/react-ens-address@^0.0.14":
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/@ensdomains/react-ens-address/-/react-ens-address-0.0.14.tgz#cdc2926820f15f49e28940d61a777b0f252b8909"
-  integrity sha512-X4jkRd8Mgn8rfxoAhnLR3HbhDtLKYSoupXXe8fuzf0fC6J0+jlIENFeAQOQ4L+BX4cpPUpuD+9241kQBUHI4gw==
+"@ensdomains/react-ens-address@^0.0.16":
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/@ensdomains/react-ens-address/-/react-ens-address-0.0.16.tgz#d16f537c942c72a6ca6889ccf2604a97f2b3338f"
+  integrity sha512-CMBdISCqB7GhlBGNqRB2KaVv8Ze1dtmJ2AG7kyIb5/oVPFeW20IJj/gXRSGXZ9TQasydqzw7D0W/jO/OHoHPVg==
   dependencies:
     "@emotion/core" "^10.0.14"
     "@emotion/styled" "^10.0.14"

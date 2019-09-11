@@ -79,7 +79,7 @@
     }
   },
   "devDependencies": {
-    "@ensdomains/mock": "^1.0.13",
+    "@ensdomains/mock": "^1.0.15",
     "apollo-client-mock": "0.0.8",
     "babel-plugin-macros": "^2.4.2",
     "cypress": "^3.4.1",
