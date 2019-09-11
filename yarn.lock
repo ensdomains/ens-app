@@ -1260,9 +1260,9 @@
     web3-utils "^1.0.0-beta.48"
 
 "@ensdomains/mock@^1.0.15":
-  version "1.0.14"
-  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-1.0.14.tgz#76c427e9f81efa229d464c0f13eda97a488c7106"
-  integrity sha512-ZfGOEg4QPdo/XG/+Lc4dqXd8XZYeQIigxln28ADdzZpOeCQyQ+UMWVl1gxiMyENQP8JrzLqy7JRXzkWIlTJOBw==
+  version "1.0.15"
+  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-1.0.15.tgz#5e98211f829166ea5583445fd1d3719aa333727c"
+  integrity sha512-4DZceA2TiS4ilN54/PliF8qSziIbhCX50/+MuKkI7mlnc1Ddwp4jeVOcrV9YnhublxpT87xV9loQ+xS6/6mwoQ==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
