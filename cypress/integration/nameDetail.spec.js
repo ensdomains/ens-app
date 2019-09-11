@@ -17,13 +17,15 @@ function waitUntilInputResolves(buttonText) {
 
 function waitUntilTestIdDoesNotExist(testId) {
   return cy
-    .waitUntil(() =>
-      cy.queryByTestId(testId, { exact: false, timeout: 1000 }).then($el => {
-        if ($el === null) {
-          return true
-        }
-        return false
-      })
+    .waitUntil(
+      () =>
+        cy.queryByTestId(testId, { exact: false, timeout: 1000 }).then($el => {
+          if ($el === null) {
+            return true
+          }
+          return false
+        }),
+      { timeout: 2000, interval: 10 }
     )
     .then(() => {
       cy.queryByTestId(testId, { exact: false, timeout: 1000 }).should(
@@ -244,9 +246,6 @@ describe('Name detail view', () => {
         cy.wait(10)
         cy.getByText('Save').click({ force: true })
 
-        //wait for the async func to resolve
-        cy.wait(500)
-
         //form closed
         waitUntilTestIdDoesNotExist('action')
         waitUntilTestIdDoesNotExist('cancel')
@@ -259,7 +258,7 @@ describe('Name detail view', () => {
     })
   })
 
-  it.only('can change the content hash', () => {
+  it('can change the content hash', () => {
     const content =
       'bzz://d1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162'
 
@@ -273,7 +272,6 @@ describe('Name detail view', () => {
 
       waitUntilInputResolves('Save').then(() => {
         cy.getByText('Save').click({ force: true })
-        cy.wait(500)
 
         //form closed
         waitUntilTestIdDoesNotExist('action')
@@ -298,15 +296,10 @@ describe('Name detail view', () => {
       }).type(content, { force: true })
       waitUntilInputResolves('Save').then(() => {
         cy.getByText('Save').click({ force: true })
-        cy.wait(1000)
 
         //form closed
-        cy.queryByTestId('save', { exact: false, timeout: 50 }).should(
-          'not.exist'
-        )
-        cy.queryByTestId('cancel', { exact: false, timeout: 50 }).should(
-          'not.exist'
-        )
+        waitUntilTestIdDoesNotExist('action')
+        waitUntilTestIdDoesNotExist('cancel')
         //Value updated
         cy.queryByText(content, { exact: false }).should('exist')
       })
