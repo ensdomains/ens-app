@@ -129,7 +129,7 @@ describe('Name detail view', () => {
       cy.getByPlaceholderText('Enter Ethereum name or address').should(elem => {
         expect(elem.val()).to.equal('blah')
       })
-      cy.queryByTestId('save', { exact: false }).should(
+      cy.queryByTestId('action', { exact: false }).should(
         'have.css',
         'background-color',
         DISABLED_CLOUR
@@ -198,9 +198,9 @@ describe('Name detail view', () => {
     })
   })
 
-  it.only('can change the address', () => {
+  it('can change the address', () => {
     cy.visit(`${NAME_ROOT}/abittooawesome.eth`)
-    const ADDRESS = '0x0000000000000000000000000000000000000006'
+    const ADDRESS = '0x0000000000000000000000000000000000000007'
 
     cy.getByTestId('name-details').within(container => {
       cy.getByTestId('edit-address', { exact: false }).click({ force: true })
@@ -216,7 +216,7 @@ describe('Name detail view', () => {
         cy.wait(500)
 
         //form closed
-        cy.queryByTestId('save', { exact: false, timeout: 100 }).should(
+        cy.queryByTestId('action', { exact: false, timeout: 100 }).should(
           'not.exist'
         )
         cy.queryByTestId('cancel', { exact: false, timeout: 100 }).should(
@@ -245,10 +245,10 @@ describe('Name detail view', () => {
 
       waitUntilInputResolves('Save').then(() => {
         cy.getByText('Save').click({ force: true })
-        cy.wait(200)
+        cy.wait(500)
 
         //form closed
-        cy.queryByTestId('save', { exact: false, timeout: 10 }).should(
+        cy.queryByTestId('action', { exact: false, timeout: 10 }).should(
           'not.exist'
         )
         cy.queryByTestId('cancel', { exact: false, timeout: 10 }).should(
@@ -312,22 +312,24 @@ describe('Name detail view', () => {
       .click({ force: true })
   })
 
-  it('can add a subdomain', () => {
+  it.only('can add a subdomain', () => {
+    const LABEL = 'okay'
     cy.visit(`${NAME_ROOT}/subdomaindummy.eth`)
       .getByText('subdomains', { exact: false })
       .click({ force: true })
 
     cy.getByTestId('subdomains').within(() => {
-      cy.getByText('add', { exact: false })
-        .click({ force: true })
-        .get('input')
-        .type('unoriginal', { force: true })
-        .getByText('save', { exact: false })
-        .click({ force: true })
-        .getByText('unoriginal.subdomaindummy.eth', { timeout: 10000 })
+      cy.wait(1000)
+      cy.getByText('add', { exact: false }).click({ force: true })
+      cy.getByPlaceholderText('Type in a label', { exact: false }).type(LABEL, {
+        force: true
+      })
+      cy.getByText('save', { exact: false }).click({ force: true })
+
+      cy.getByText(`${LABEL}.subdomaindummy.eth`, { timeout: 10000 })
         .click({ force: true })
         .url()
-        .should('include', '/name/unoriginal.subdomaindummy.eth')
+        .should('include', `/name/${LABEL}.subdomaindummy.eth`)
     })
   })
 })
