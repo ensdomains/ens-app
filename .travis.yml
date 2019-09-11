@@ -31,7 +31,7 @@ jobs:
 
 stages:
   - name: test
-    if: branch != master
+    if: branch != master && [ "${TRAVIS_PULL_REQUEST}" = "true" ]
   - name: deploy
     if: branch = master
 
