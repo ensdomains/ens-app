@@ -312,7 +312,7 @@ describe('Name detail view', () => {
       .click({ force: true })
   })
 
-  it.only('can add a subdomain', () => {
+  it('can add a subdomain', () => {
     const LABEL = 'okay'
     cy.visit(`${NAME_ROOT}/subdomaindummy.eth`)
       .getByText('subdomains', { exact: false })
