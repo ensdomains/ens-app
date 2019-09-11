@@ -24,14 +24,14 @@ jobs:
       before_script:
         - ganache-cli >ganache.log 2>&1 &
         - sleep 5
-      script: yarn preTest && start-server-and-test start:test http://localhost:3000 cypress:run
+      script: '[ "${TRAVIS_PULL_REQUEST}" = "true" ] && yarn preTest && start-server-and-test start:test http://localhost:3000 cypress:run'
     - stage: deploy
       name: 'Deploy to live'
       script: yarn deploy
 
 stages:
   - name: test
-    if: branch != master && [ "${TRAVIS_PULL_REQUEST}" = "true" ]
+    if: branch != master
   - name: deploy
     if: branch = master
 
