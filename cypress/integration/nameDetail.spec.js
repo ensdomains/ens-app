@@ -15,6 +15,38 @@ function waitUntilInputResolves(buttonText) {
   )
 }
 
+function waitUntilTestIdDoesNotExist(testId) {
+  return cy
+    .waitUntil(() =>
+      cy.queryByTestId(testId, { exact: false, timeout: 1000 }).then($el => {
+        if ($el === null) {
+          return true
+        }
+        return false
+      })
+    )
+    .then(() => {
+      cy.queryByTestId(testId, { exact: false, timeout: 1000 }).should(
+        'not.exist'
+      )
+    })
+}
+
+function waitUntilTextDoesNotExist(text) {
+  return cy
+    .waitUntil(() =>
+      cy.queryByText(text, { exact: false, timeout: 1000 }).then($el => {
+        if ($el === null) {
+          return true
+        }
+        return false
+      })
+    )
+    .then(() => {
+      cy.queryByText(text, { exact: false, timeout: 1000 }).should('not.exist')
+    })
+}
+
 describe('Name detail view', () => {
   it('cannot transfer ownership to a non-ethereum address', () => {
     cy.visit(`${NAME_ROOT}/awesome.eth`)
@@ -216,12 +248,8 @@ describe('Name detail view', () => {
         cy.wait(500)
 
         //form closed
-        cy.queryByTestId('action', { exact: false, timeout: 100 }).should(
-          'not.exist'
-        )
-        cy.queryByTestId('cancel', { exact: false, timeout: 100 }).should(
-          'not.exist'
-        )
+        waitUntilTestIdDoesNotExist('action')
+        waitUntilTestIdDoesNotExist('cancel')
 
         cy.queryByText(ADDRESS, {
           exact: false,
@@ -231,7 +259,7 @@ describe('Name detail view', () => {
     })
   })
 
-  it('can change the content hash', () => {
+  it.only('can change the content hash', () => {
     const content =
       'bzz://d1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162'
 
@@ -248,12 +276,9 @@ describe('Name detail view', () => {
         cy.wait(500)
 
         //form closed
-        cy.queryByTestId('action', { exact: false, timeout: 10 }).should(
-          'not.exist'
-        )
-        cy.queryByTestId('cancel', { exact: false, timeout: 10 }).should(
-          'not.exist'
-        )
+        waitUntilTestIdDoesNotExist('action')
+        waitUntilTestIdDoesNotExist('cancel')
+
         //Value updated
         cy.queryByText(content, { exact: false }).should('exist')
       })
