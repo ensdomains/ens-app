@@ -27,7 +27,7 @@ async function getNetwork() {
     network = window.ethereum.networkVersion
   } else if (window.web3) {
     network = await new Promise((resolve, reject) => {
-      window.version.web3.getNetwork((err, network) => {
+      window.web3.version.getNetwork((err, network) => {
         resolve(network)
       })
     })
