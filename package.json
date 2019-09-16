@@ -62,7 +62,7 @@
     "subgraph": "node scripts/subgraph.js",
     "advance": "node src/testing-utils/advance.js",
     "cypress:open": "yarn run cypress open",
-    "cypress:record": "yarn run cypress run --record --key $CYPRESS_TOKEN",
+    "cypress:record": "yarn run cypress run --record --key $CYPRESS_TOKEN --spec 'cypress/integration/migraiton.spec.js,cypress/integration/registerTest.spec.js'",
     "cypress:run-local": "yarn run cypress run",
     "cypress:run": "yarn preTest && start-server-and-test start:test http://localhost:3000 cypress:record",
     "cypress:ci": "/bin/sh -c 'if [ \"$TRAVIS_PULL_REQUEST\" = \"true\" ]; then yarn cypress:run; else yarn cypress:run; fi'",

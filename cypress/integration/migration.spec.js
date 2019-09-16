@@ -7,7 +7,7 @@ describe('Migration to Permanent', () => {
     cy.getByText('Migrate').click({ force: true })
     cy.wait(500)
 
-    cy.queryByText('Migrate', { timeout: 50 }).should('not.exist')
+    cy.waitUntilTextDoesNotExist('Migrate')
   })
 
   it('can visit a name that is unfinalised and migrate it', () => {

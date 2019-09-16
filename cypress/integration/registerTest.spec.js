@@ -5,10 +5,10 @@ describe('Register', () => {
   it('can not register test domain if already owned', () => {
     cy.visit(`${NAME_ROOT}/example.test`)
     cy.queryByText('Transfer', { exact: false, timeout: 1000 }).should('exist')
-    cy.queryByText('Not owned yet', { exact: false, timeout: 10 }).should(
+    cy.queryByText('Not owned yet', { exact: false, timeout: 5000 }).should(
       'not.exist'
     )
-    cy.queryByText('Claim', { exact: false, timeout: 10 }).should('not.exist')
+    cy.queryByText('Claim', { exact: false, timeout: 5000 }).should('not.exist')
   })
 
   it('can register test domain', () => {
