@@ -65,7 +65,7 @@
     "cypress:record": "yarn run cypress run --record --key $CYPRESS_TOKEN",
     "cypress:run-local": "yarn run cypress run",
     "cypress:run": "yarn preTest && start-server-and-test start:test http://localhost:3000 cypress:record",
-    "cypress:ci": "/bin/sh -c 'if [ \"$TRAVIS_PULL_REQUEST\" = \"true\" ]; then cypress:ci; else cypress:ci; fi'",
+    "cypress:ci": "/bin/sh -c 'if [ \"$TRAVIS_PULL_REQUEST\" = \"true\" ]; then yarn cypress:ci; else yarn cypress:ci; fi'",
     "deploy:dev": "npm run build && npm run postbuild && surge build ensappdev.surge.sh",
     "deploy": "npm run build && npm run postbuild && surge build manager.ens.domains"
   },
