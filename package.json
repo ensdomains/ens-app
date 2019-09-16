@@ -62,10 +62,10 @@
     "subgraph": "node scripts/subgraph.js",
     "advance": "node src/testing-utils/advance.js",
     "cypress:open": "yarn run cypress open",
-    "cypress:record": "yarn run cypress run --record --key $CYPRESS_TOKEN --spec 'cypress/integration/nameDetail.spec.js'",
+    "cypress:record": "yarn run cypress run --record --key $CYPRESS_TOKEN",
     "cypress:run-local": "yarn run cypress run",
     "cypress:run": "yarn preTest && start-server-and-test start:test http://localhost:3000 cypress:run-local",
-    "cypress:ci": "/bin/sh -c 'if [ \"$TRAVIS_PULL_REQUEST\" = \"true\" ]; then yarn cypress:run; else yarn cypress:run; fi'",
+    "cypress:ci": "/bin/sh -c 'if [ \"$TRAVIS_PULL_REQUEST\" = \"true\" ]; then yarn cypress:run; else yarn cypress:record; fi'",
     "deploy:dev": "npm run build && npm run postbuild && surge build ensappdev.surge.sh",
     "deploy": "npm run build && npm run postbuild && surge build manager.ens.domains"
   },
