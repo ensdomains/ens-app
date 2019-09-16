@@ -14,20 +14,24 @@ window.addEventListener('load', async () => {
   let client
   try {
     client = await setupClient()
-    await setupENS({ reloadOnAccountsChange: true })
+    try {
+      await setupENS({ reloadOnAccountsChange: true })
+    } catch (e) {
+      console.warn('setupENS', e)
+      await client.mutate({
+        mutation: SET_ERROR,
+        variables: { message: e.message }
+      })
+    }
+    ReactDOM.render(
+      <ApolloProvider client={client}>
+        <GlobalStateProvider>
+          <App />
+        </GlobalStateProvider>
+      </ApolloProvider>,
+      document.getElementById('root')
+    )
   } catch (e) {
-    console.log(e)
-    await client.mutate({
-      mutation: SET_ERROR,
-      variables: { message: e.message }
-    })
+    console.error('setupClient', e)
   }
-  ReactDOM.render(
-    <ApolloProvider client={client}>
-      <GlobalStateProvider>
-        <App />
-      </GlobalStateProvider>
-    </ApolloProvider>,
-    document.getElementById('root')
-  )
 })
