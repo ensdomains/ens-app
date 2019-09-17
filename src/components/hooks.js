@@ -103,10 +103,12 @@ export function useEthPrice(enabled = true) {
 
   useEffect(() => {
     if (enabled) {
-      getEtherPrice().then(res => {
-        setPrice(res.result.ethusd)
-        setLoading(false)
-      })
+      getEtherPrice()
+        .then(res => {
+          setPrice(res.result.ethusd)
+          setLoading(false)
+        })
+        .catch(() => '') // ignore error
     }
   }, [enabled])
 
