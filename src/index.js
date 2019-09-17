@@ -12,26 +12,36 @@ import { setupClient } from 'apolloClient'
 
 window.addEventListener('load', async () => {
   let client
+
   try {
     client = await setupClient()
-    try {
-      await setupENS({ reloadOnAccountsChange: true })
-    } catch (e) {
-      console.warn('setupENS', e)
-      await client.mutate({
-        mutation: SET_ERROR,
-        variables: { message: e.message }
+    if (
+      process.env.REACT_APP_STAGE === 'local' &&
+      process.env.REACT_APP_ENS_ADDRESS
+    ) {
+      await setupENS({
+        reloadOnAccountsChange: true,
+        customProvider: 'http://localhost:8545',
+        ensAddress: process.env.REACT_APP_ENS_ADDRESS
+      })
+    } else {
+      await setupENS({
+        reloadOnAccountsChange: true
       })
     }
-    ReactDOM.render(
-      <ApolloProvider client={client}>
-        <GlobalStateProvider>
-          <App />
-        </GlobalStateProvider>
-      </ApolloProvider>,
-      document.getElementById('root')
-    )
   } catch (e) {
-    console.error('setupClient', e)
+    console.log(e)
+    await client.mutate({
+      mutation: SET_ERROR,
+      variables: { message: e.message }
+    })
   }
+  ReactDOM.render(
+    <ApolloProvider client={client}>
+      <GlobalStateProvider>
+        <App />
+      </GlobalStateProvider>
+    </ApolloProvider>,
+    document.getElementById('root')
+  )
 })

@@ -250,6 +250,8 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
     return isEmpty(domain[record.value]) ? true : false
   })
 
+  console.log(domain)
+
   let contentMutation
   if (domain.contentType === 'oldcontent') {
     contentMutation = SET_CONTENT

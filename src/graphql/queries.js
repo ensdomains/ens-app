@@ -64,7 +64,7 @@ export const GET_SINGLE_NAME = gql`
 `
 
 export const GET_SUBDOMAINS = gql`
-  query getSubDomains($name: String) {
+  query getSubDomains($name: String!) @client {
     getSubDomains(name: $name) @client {
       subDomains
     }
