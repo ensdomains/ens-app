@@ -2,6 +2,9 @@ const ROOT = Cypress.env('ROOT')
 const NAME_ROOT = Cypress.env('NAME_ROOT')
 
 describe('PermanentRegistrar', () => {
+  beforeEach(() => {
+    cy.viewport('macbook-15')
+  })
   it('can visit a name and register it', () => {
     cy.visit(`${ROOT}/name/vitalik.eth`)
     cy.getByTestId('request-register-button').click({ force: true })

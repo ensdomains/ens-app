@@ -326,7 +326,7 @@ describe('Name detail view', () => {
     cy.visit(`${NAME_ROOT}/subdomaindummy.eth`)
       .getByText('subdomains', { exact: false })
       .click({ force: true })
-      .getByText('original.subdomaindummy.eth', { timeout: 5000 })
+      .getByText('original.subdomaindummy.eth', { timeout: 10000 })
       .click({ force: true })
   })
 
