@@ -5,7 +5,7 @@ describe('PermanentRegistrar', () => {
   it('can visit a name and register it', () => {
     cy.visit(`${ROOT}/name/vitalik.eth`)
     cy.getByTestId('request-register-button').click({ force: true })
-    cy.getByTestId('register-button').click({ force: true })
+    cy.getByTestId('register-button').click({ force: true, timeout: 10000 })
     cy.getByTestId('manage-name-button').click({ force: true })
 
     cy.getByTestId('details-value-registrant', { exact: false }).should(
@@ -20,10 +20,10 @@ describe('PermanentRegistrar', () => {
 
   it('cannot register a name that is already owned', () => {
     cy.visit(`${ROOT}/name/vitalik.eth`)
-    cy.getByTestId('details-value-registrant', { exact: false }).should(
-      'have.text',
-      Cypress.env('ownerAddress')
-    )
+    cy.getByTestId('details-value-registrant', {
+      exact: false,
+      timeout: 10000
+    }).should('have.text', Cypress.env('ownerAddress'))
     cy.getByTestId('details-value-controller', { exact: false }).should(
       'have.text',
       Cypress.env('ownerAddress')
