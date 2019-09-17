@@ -16,15 +16,18 @@ Cypress.Commands.add('waitUntilInputResolves', function waitUntilInputResolves(
 
 Cypress.Commands.add(
   'waitUntilTextDoesNotExist',
-  function waitUntilTextDoesNotExist(text) {
+  function waitUntilTextDoesNotExist(text, options) {
     return cy
-      .waitUntil(() =>
-        cy.queryByText(text, { exact: false, timeout: 1000 }).then($el => {
-          if ($el === null) {
-            return true
-          }
-          return false
-        })
+      .waitUntil(
+        () =>
+          cy.queryByText(text, { exact: false, timeout: 1000 }).then($el => {
+            Cypress.log($el)
+            if ($el === null) {
+              return true
+            }
+            return false
+          }),
+        { timeout: 10000, interval: 10, ...options }
       )
       .then(() => {
         cy.queryByText(text, { exact: false, timeout: 1000 }).should(
@@ -53,6 +56,28 @@ Cypress.Commands.add(
       .then(() => {
         cy.queryByTestId(testId, { exact: false, timeout: 1000 }).should(
           'not.exist'
+        )
+      })
+  }
+)
+
+Cypress.Commands.add(
+  'waitUntilTextHasBackgroundColor',
+  function waitUntilTextHasBackgroundColor(text, color) {
+    return cy
+      .waitUntil(
+        () => {
+          return cy.queryByText(text, { exact: false }).then($el => {
+            return $el.css('background-color') === color
+          })
+        },
+        { timeout: 1000, interval: 100 }
+      )
+      .then(() => {
+        cy.queryByText(text, { exact: false, timeout: 1000 }).should(
+          'have.css',
+          'background-color',
+          color
         )
       })
   }
