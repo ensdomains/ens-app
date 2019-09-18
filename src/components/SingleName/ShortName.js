@@ -70,6 +70,7 @@ export default function ShortName({ name }) {
           {urlReady ? (
             <a href={link}>OpenSea</a>
           ) : (
+            // eslint-disable-next-line
             <a href="#" onClick={openSeaRedirect}>
               OpenSea
             </a>

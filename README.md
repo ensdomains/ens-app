@@ -112,8 +112,10 @@ ganache-cli
 yarn run preTest
 ```
 
+This runs the app in local ganache mode)
+
 ```bash
-yarn start
+yarn start:test
 ```
 
 ```bash

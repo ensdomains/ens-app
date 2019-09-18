@@ -10,7 +10,8 @@ describe('Search', () => {
       .contains('Search')
       .click()
 
-    cy.queryByText('owner', { exact: false }).should('exist')
+    cy.queryByText('registrant', { exact: false }).should('exist')
+    cy.queryByText('controller', { exact: false }).should('exist')
     cy.queryByText('resolver', { exact: false }).should('exist')
   })
 
@@ -21,7 +22,11 @@ describe('Search', () => {
       .contains('Search')
       .click()
 
-    cy.getByTestId('details-value-owner', { exact: false }).should(
+    cy.getByTestId('details-value-registrant', { exact: false }).should(
+      'have.text',
+      Cypress.env('ownerAddress')
+    )
+    cy.getByTestId('details-value-controller', { exact: false }).should(
       'have.text',
       Cypress.env('ownerAddress')
     )
@@ -29,20 +34,6 @@ describe('Search', () => {
       'have.text',
       Cypress.env('resolverAddress')
     )
-  })
-
-  it('can not search short name', () => {
-    cy.visit(ROOT)
-    cy.getByPlaceholderText('Search', { exact: false }).type('short.eth')
-    cy.get('button')
-      .contains('Search')
-      .click()
-
-    cy.queryByText('Names must be at least 7 characters long', {
-      exact: false
-    }).should('exist')
-    cy.queryByText('Owner', { exact: false, timeout: 1 }).should('not.exist')
-    cy.queryByText('Resolver', { exact: false, timeout: 1 }).should('not.exist')
   })
 
   it('can not search names with invalid format', () => {
@@ -59,26 +50,7 @@ describe('Search', () => {
     cy.queryByText('Resolver', { exact: false, timeout: 1 }).should('not.exist')
   })
 
-  it('can search name with no owners', () => {
-    cy.visit(ROOT)
-    cy.getByPlaceholderText('Search', { exact: false }).type(
-      'nonexistingdomain.eth'
-    )
-    cy.get('button')
-      .contains('Search')
-      .click()
-
-    cy.getByTestId('details-value-owner', { exact: false }).should(
-      'have.text',
-      'Not owned yet'
-    )
-    cy.getByTestId('details-value-resolver', { exact: false }).should(
-      'have.text',
-      'No Resolver set'
-    )
-  })
-
-  it('can see the list of Top level domains and subdomains if no TLDS are specified', () => {
+  it('can see the list of Top level domains if no TLDS are specified', () => {
     cy.visit(ROOT)
     cy.getByPlaceholderText('Search', { exact: false }).type('notldispsecified')
     cy.get('button')
@@ -87,6 +59,5 @@ describe('Search', () => {
 
     cy.queryByText('Top Level Domains', { exact: false }).should('exist')
     cy.queryByText('notldispsecified.eth', { exact: false }).should('exist')
-    cy.queryByText('Subdomains', { exact: false }).should('exist')
   })
 })

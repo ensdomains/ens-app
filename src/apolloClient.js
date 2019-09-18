@@ -20,22 +20,6 @@ const endpoints = {
   '5': 'https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli'
 }
 
-async function getNetwork() {
-  let network
-
-  if (window.ethereum) {
-    network = window.ethereum.networkVersion
-  } else if (window.web3) {
-    network = await new Promise((resolve, reject) => {
-      window.web3.version.getNetwork((err, network) => {
-        resolve(network)
-      })
-    })
-  }
-
-  return network
-}
-
 function getGraphQLAPI(network) {
   if (network > 100 && process.env.REACT_APP_GRAPH_NODE_URI) {
     return process.env.REACT_APP_GRAPH_NODE_URI
@@ -55,9 +39,7 @@ const stateLink = withClientState({
   typeDefs
 })
 
-export async function setupClient() {
-  const network = await getNetwork()
-
+export async function setupClient(network) {
   const httpLink = new HttpLink({
     uri: getGraphQLAPI(network)
   })
