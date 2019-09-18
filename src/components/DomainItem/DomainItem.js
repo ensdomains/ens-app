@@ -127,6 +127,9 @@ const Label = ({ domain, isOwner }) => {
     case 'Open':
       text = 'Available'
       break
+    case 'Auction':
+      text = 'In Auction'
+      break
     case 'Owned':
       text = 'Unavailable'
       break
