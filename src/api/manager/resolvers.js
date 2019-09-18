@@ -155,8 +155,6 @@ function adjustForShortNames(node) {
   const nameArray = node.name.split('.')
   const { label, parent } = node
 
-  console.log(nameArray.length, parent, label.length)
-
   // return original node if is subdomain or not eth
   if (nameArray.length > 2 || parent !== 'eth' || label.length > 6) return node
 
@@ -185,6 +183,17 @@ function adjustForShortNames(node) {
     auctionEnds,
     onAuction,
     state: onAuction ? 'Auction' : node.state
+  }
+}
+
+function setState(node) {
+  let state
+  if (parseInt(node.owner, 16) !== 0) {
+    state = 'Owned'
+  }
+  return {
+    ...node,
+    state
   }
 }
 
@@ -257,7 +266,7 @@ const resolvers = {
           __typename: 'Node'
         })
 
-        console.log(detailedNode)
+        detailedNode = setState(detailedNode)
 
         const data = {
           names: [...names, detailedNode]
