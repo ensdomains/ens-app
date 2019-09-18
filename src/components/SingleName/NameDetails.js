@@ -8,6 +8,7 @@ import DefaultButton from '../Forms/Button'
 import SubDomains from './SubDomains'
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import RecordsItem from './RecordsItem'
+import TextRecord from './TextRecord'
 import DetailsItemEditable from './DetailsItemEditable'
 import AddRecord from './AddRecord'
 import SetupName from '../SetupName/SetupName'
@@ -657,6 +658,18 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                         refetch={refetch}
                       />
                     )}
+                    {!isEmpty(domain.content) && (
+                      <RecordsItem
+                        domain={domain}
+                        isOwner={isOwner}
+                        keyName="Content"
+                        type="content"
+                        mutation={contentMutation}
+                        value={domain.content}
+                        refetch={refetch}
+                      />
+                    )}
+                    <TextRecord domain={domain} isOwner={isOwner} />
                   </>
                 )}
               </Records>
