@@ -19,6 +19,7 @@ const DomainContainer = styled(Link)`
         case 'Open':
           return '#42E068'
         case 'Auction':
+          return 'rgb(237,169,56)'
         case 'Reveal':
           return 'linear-gradient(-180deg, #42E068 0%, #52E5FF 100%)'
         case 'Owned':
@@ -126,6 +127,9 @@ const Label = ({ domain, isOwner }) => {
   switch (domain.state) {
     case 'Open':
       text = 'Available'
+      break
+    case 'Auction':
+      text = 'In Auction'
       break
     case 'Owned':
       text = 'Unavailable'

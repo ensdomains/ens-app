@@ -151,6 +151,43 @@ async function getSubDomainSaleEntry(name) {
   }
 }
 
+function adjustForShortNames(node) {
+  const nameArray = node.name.split('.')
+  const { label, parent } = node
+
+  console.log(nameArray.length, parent, label.length)
+
+  // return original node if is subdomain or not eth
+  if (nameArray.length > 2 || parent !== 'eth' || label.length > 6) return node
+
+  //if the auctions are over
+  if (new Date() > new Date(1570924800000)) {
+    return node
+  }
+
+  let auctionEnds
+  let onAuction = true
+
+  if (label.length >= 5) {
+    auctionEnds = new Date(1569715200000) // 29 September
+  } else if (label.length >= 4) {
+    auctionEnds = new Date(1570320000000) // 6 October
+  } else if (label.length >= 3) {
+    auctionEnds = new Date(1570924800000) // 13 October
+  }
+
+  if (new Date() > auctionEnds) {
+    onAuction = false
+  }
+
+  return {
+    ...node,
+    auctionEnds,
+    onAuction,
+    state: onAuction ? 'Auction' : node.state
+  }
+}
+
 const resolvers = {
   Query: {
     getOwner: async (_, { name }, { cache }) => {
@@ -184,7 +221,8 @@ const resolvers = {
           isDNSRegistrar: null,
           dnsOwner: null,
           deedOwner: null,
-          registrant: null
+          registrant: null,
+          auctionEnds: null // remove when auction is over
         }
 
         const dataSources = [
@@ -207,7 +245,7 @@ const resolvers = {
 
         const { names } = cache.readQuery({ query: GET_ALL_NODES })
 
-        var detailedNode = {
+        let detailedNode = adjustForShortNames({
           ...node,
           ...registrarEntry,
           ...domainDetails,
@@ -217,7 +255,9 @@ const resolvers = {
           parent,
           parentOwner,
           __typename: 'Node'
-        }
+        })
+
+        console.log(detailedNode)
 
         const data = {
           names: [...names, detailedNode]

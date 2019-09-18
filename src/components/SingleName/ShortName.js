@@ -51,7 +51,7 @@ export default function ShortName({ name }) {
     fetch(api).then(() => {
       setUrlReady(true)
     })
-  }, [name])
+  }, [label])
 
   function openSeaRedirect() {
     const api = `https://api.opensea.io/misc/ens_short_name_asset/${label}`
