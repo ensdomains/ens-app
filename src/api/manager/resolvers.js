@@ -187,7 +187,7 @@ function adjustForShortNames(node) {
 }
 
 function setState(node) {
-  let state
+  let state = node.state
   if (parseInt(node.owner, 16) !== 0) {
     state = 'Owned'
   }
