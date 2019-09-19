@@ -11,12 +11,20 @@ cache: yarn
 
 matrix:
   allow_failures:
-
+    #
 jobs:
   include:
     - stage: test
       name: 'Test'
-      script: yarn build
+      install:
+        - yarn
+        - yarn global add cypress
+        - yarn global add ganache-cli@6.1.8
+        - yarn global add wait-on
+      before_script:
+        - ganache-cli >ganache.log 2>&1 &
+        - sleep 5
+      script: 'yarn cypress:ci'
     - stage: deploy
       name: 'Deploy to live'
       script: yarn deploy

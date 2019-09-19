@@ -15,8 +15,8 @@ const Cancel = styled(Button)`
 `
 
 const Warning = styled('div')`
-  color:#F5A623;
-  align-self:center;
+  color: #f5a623;
+  align-self: center;
   margin-right: 20px;
 `
 
@@ -33,12 +33,15 @@ const ActionButton = ({
   // Ignore isValid == undefined
   if (disabled || isValid === false) {
     return (
-      <Save data-testid="save" type="disabled">{mutationButton ? mutationButton : 'Save'}</Save>
+      <Save data-testid="action" type="disabled">
+        {mutationButton ? mutationButton : 'Save'}
+      </Save>
     )
   }
   if (confirm) {
     return (
       <Button
+        data-testid="action"
         onClick={() =>
           toggleModal({
             name: 'confirm',
@@ -57,7 +60,9 @@ const ActionButton = ({
     )
   }
   return (
-    <Save onClick={mutation}>{mutationButton ? mutationButton : 'Save'}</Save>
+    <Save data-testid="action" onClick={mutation}>
+      {mutationButton ? mutationButton : 'Save'}
+    </Save>
   )
 }
 
@@ -74,11 +79,7 @@ const SaveCancel = ({
   isValid = true
 }) => (
   <SaveCancelContainer className={className}>
-    {
-      warningMessage ? (
-        <Warning>{warningMessage}</Warning>
-      ): null
-    }
+    {warningMessage ? <Warning>{warningMessage}</Warning> : null}
     <Cancel data-testid="cancel" type="hollow" onClick={stopEditing}>
       Cancel
     </Cancel>
@@ -90,6 +91,7 @@ const SaveCancel = ({
       newValue={newValue}
       confirm={confirm}
       isValid={isValid}
+      data-testid="action"
     />
   </SaveCancelContainer>
 )

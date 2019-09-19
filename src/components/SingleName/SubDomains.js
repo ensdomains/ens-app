@@ -23,7 +23,7 @@ const SubDomainH2 = styled(H2)`
   color: #ccd4da;
 `
 
-function SubDomainsFromWeb3(domain, isOwner) {
+function SubDomainsFromWeb3({ domain, isOwner }) {
   return (
     <Query query={GET_SUBDOMAINS} variables={{ name: domain.name }}>
       {({ loading, error, data, refetch }) => {
@@ -37,7 +37,12 @@ function SubDomainsFromWeb3(domain, isOwner) {
               <Loader withWrap large />
             </>
           )
-        if (data && data.getSubDomains.subDomains.length === 0) {
+        if (
+          data &&
+          data.getSubDomains &&
+          data.getSubDomains.subDomains &&
+          data.getSubDomains.subDomains.length === 0
+        ) {
           return (
             <>
               {isOwner && <AddSubdomain domain={domain} refetch={refetch} />}
@@ -48,12 +53,13 @@ function SubDomainsFromWeb3(domain, isOwner) {
         return (
           <>
             {isOwner && <AddSubdomain domain={domain} refetch={refetch} />}
+
             {data &&
               data.getSubDomains.subDomains.map(d => (
                 <ChildDomainItem
                   name={d.name}
                   owner={d.owner}
-                  parent={d.node}
+                  parent={d.parent}
                   labelhash={d.labelHash}
                 />
               ))}
@@ -103,6 +109,10 @@ function SubDomains({ domain, isOwner, ...rest }) {
                   <SubDomainH2>No subdomains have been added.</SubDomainH2>
                 </>
               )
+            }
+
+            if (data.domain === null) {
+              return <SubDomainsFromWeb3 domain={domain} isOwner={isOwner} />
             }
             return (
               <>

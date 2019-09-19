@@ -1,6 +1,6 @@
 {
   "name": "ens-app",
-  "version": "1.1.5",
+  "version": "1.1.9",
   "private": true,
   "homepage": "https://manager.ens.domains",
   "dependencies": {
@@ -10,9 +10,9 @@
     "@ensdomains/ens": "^0.3.3",
     "@ensdomains/ens-022": "npm:@ensdomains/ens@0.2.2",
     "@ensdomains/ethregistrar": "^1.2.2",
-    "@ensdomains/react-ens-address": "^0.0.14",
+    "@ensdomains/react-ens-address": "^0.0.16",
     "@ensdomains/resolver": "^0.1.6",
-    "@ensdomains/ui": "1.1.15",
+    "@ensdomains/ui": "1.1.19",
     "apollo-cache-inmemory": "^1.2.9",
     "apollo-client": "^2.4.5",
     "apollo-link": "^1.2.2",
@@ -51,6 +51,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:test": "REACT_APP_STAGE=local yarn start",
     "build": "CI=false react-scripts --max_old_space_size=4096 build",
     "postbuild": "cp build/index.html build/200.html",
     "test": "react-scripts test --env=jsdom",
@@ -61,6 +62,10 @@
     "subgraph": "node scripts/subgraph.js",
     "advance": "node src/testing-utils/advance.js",
     "cypress:open": "yarn run cypress open",
+    "cypress:record": "yarn run cypress run --record --key $CYPRESS_TOKEN",
+    "cypress:run-local": "yarn run cypress run",
+    "cypress:run": "yarn preTest && start-server-and-test start:test http://localhost:3000 cypress:record",
+    "cypress:ci": "/bin/sh -c 'if [ \"$TRAVIS_PULL_REQUEST\" = \"true\" ]; then yarn cypress:run; else yarn cypress:run; fi'",
     "deploy:dev": "npm run build && npm run postbuild && surge build ensappdev.surge.sh",
     "deploy": "npm run build && npm run postbuild && surge build manager.ens.domains"
   },
@@ -75,11 +80,13 @@
     }
   },
   "devDependencies": {
-    "@ensdomains/mock": "^1.0.13",
+    "@ensdomains/mock": "^1.0.15",
     "apollo-client-mock": "0.0.8",
     "babel-plugin-macros": "^2.4.2",
-    "cypress": "^3.2.0",
+    "cypress": "^3.4.1",
+    "cypress-pipe": "^1.5.0",
     "cypress-testing-library": "^2.3.4",
+    "cypress-wait-until": "^1.3.0",
     "ganache-cli": "^6.1.0",
     "husky": "^2.2.0",
     "jest-localstorage-mock": "^2.4.0",
@@ -87,6 +94,7 @@
     "pretty-quick": "^1.10.0",
     "react-testing-library": "^3.0.2",
     "solc": "^0.4.23",
+    "start-server-and-test": "^1.10.0",
     "surge": "^0.20.1"
   },
   "browserslist": {

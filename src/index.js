@@ -12,9 +12,23 @@ import { setupClient } from 'apolloClient'
 
 window.addEventListener('load', async () => {
   let client
+
   try {
     client = await setupClient()
-    await setupENS({ reloadOnAccountsChange: true })
+    if (
+      process.env.REACT_APP_STAGE === 'local' &&
+      process.env.REACT_APP_ENS_ADDRESS
+    ) {
+      await setupENS({
+        reloadOnAccountsChange: true,
+        customProvider: 'http://localhost:8545',
+        ensAddress: process.env.REACT_APP_ENS_ADDRESS
+      })
+    } else {
+      await setupENS({
+        reloadOnAccountsChange: true
+      })
+    }
   } catch (e) {
     console.log(e)
     await client.mutate({
