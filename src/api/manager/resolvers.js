@@ -332,8 +332,12 @@ const resolvers = {
       }
     },
     getText: async (_, { name, key }) => {
-      console.log('getText', name, key)
-      return getText(name, key)
+      const text = await getText(name, key)
+      if (text === '') {
+        return null
+      }
+
+      return text
     }
   },
   Mutation: {
