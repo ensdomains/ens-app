@@ -332,6 +332,7 @@ const resolvers = {
       }
     },
     getText: async (_, { name, key }) => {
+      console.log('getText', name, key)
       return getText(name, key)
     }
   },
@@ -396,9 +397,10 @@ const resolvers = {
         console.log(e)
       }
     },
-    setText: async (_, { name, key, value }, { cache }) => {
+    setText: async (_, { name, key, recordValue }, { cache }) => {
+      console.log(name, key, recordValue)
       try {
-        const tx = await setText(name, key, value)
+        const tx = await setText(name, key, recordValue)
         return sendHelper(tx)
       } catch (e) {
         console.log(e)
