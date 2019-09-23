@@ -9,12 +9,14 @@ import {
   getName,
   getNetworkId,
   getAddress,
+  getText,
   claimAndSetReverseRecordName,
   setOwner,
   setResolver,
   setAddress,
   setContent,
   setContenthash,
+  setText,
   registerTestdomain,
   createSubdomain,
   expiryTimes,
@@ -155,8 +157,6 @@ function adjustForShortNames(node) {
   const nameArray = node.name.split('.')
   const { label, parent } = node
 
-  console.log(nameArray.length, parent, label.length)
-
   // return original node if is subdomain or not eth
   if (nameArray.length > 2 || parent !== 'eth' || label.length > 6) return node
 
@@ -257,8 +257,6 @@ const resolvers = {
           __typename: 'Node'
         })
 
-        console.log(detailedNode)
-
         const data = {
           names: [...names, detailedNode]
         }
@@ -271,7 +269,6 @@ const resolvers = {
       }
     },
     getSubDomains: async (_, { name }, { cache }) => {
-      console.log(name)
       const data = cache.readQuery({ query: GET_ALL_NODES })
       const rawSubDomains = await getSubdomains(name)
       const subDomains = rawSubDomains.map(s => ({
@@ -333,6 +330,9 @@ const resolvers = {
           match: false
         }
       }
+    },
+    getText: async (_, { name, key }) => {
+      return getText(name, key)
     }
   },
   Mutation: {
@@ -391,6 +391,14 @@ const resolvers = {
     setContenthash: async (_, { name, recordValue }, { cache }) => {
       try {
         const tx = await setContenthash(name, recordValue)
+        return sendHelper(tx)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    setText: async (_, { name, key, value }, { cache }) => {
+      try {
+        const tx = await setText(name, key, value)
         return sendHelper(tx)
       } catch (e) {
         console.log(e)

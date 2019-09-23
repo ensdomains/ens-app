@@ -101,6 +101,12 @@ export const SET_CONTENTHASH = gql`
   }
 `
 
+export const SET_TEXT = gql`
+  mutation setText($name: String, $key: String, $recordValue: String) {
+    setText(name: $name, key: $key, recordValue: $recordValue) @client
+  }
+`
+
 export const CREATE_SUBDOMAIN = gql`
   mutation createSubdomain($name: String) {
     createSubdomain(name: $name) @client
