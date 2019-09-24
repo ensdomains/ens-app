@@ -31,7 +31,7 @@ const AddressInput = styled(DefaultAddressInput)`
 
 export const RecordsItem = styled(DetailsItem)`
   ${p => !p.hasRecord && 'display: none;'}
-  border-top: 1px dashed #d3d3d3;
+  ${p => (p.noBorder ? '' : 'border-top: 1px dashed #d3d3d3;')}
   padding: 20px;
   flex-direction: column;
 

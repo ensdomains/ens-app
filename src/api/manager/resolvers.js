@@ -402,7 +402,6 @@ const resolvers = {
       }
     },
     setText: async (_, { name, key, recordValue }, { cache }) => {
-      console.log(name, key, recordValue)
       try {
         const tx = await setText(name, key, recordValue)
         return sendHelper(tx)

@@ -15,7 +15,8 @@ import { getOldContentWarning } from './warnings'
 import {
   SET_CONTENT,
   SET_CONTENTHASH,
-  SET_ADDRESS
+  SET_ADDRESS,
+  SET_TEXT
 } from '../../graphql/mutations'
 
 import DefaultAddressInput from '@ensdomains/react-ens-address'
@@ -75,13 +76,34 @@ function chooseMutation(recordType, contentType) {
       }
     case 'address':
       return SET_ADDRESS
+    case 'text':
+      return SET_TEXT
     default:
       throw new Error('Not a recognised record type')
   }
 }
 
-function Editable({ domain, emptyRecords, refetch }) {
+function TextRecordInput({
+  updateValue,
+  newValue,
+  selectedKey,
+  setSelectedKey
+}) {
+  return (
+    <>
+      <input
+        onChange={e => setSelectedKey(e.target.value)}
+        value={selectedKey}
+      />
+      <input onChange={e => updateValue(e.target.value)} value={newValue} />
+      <button type="submit">Add Text Record</button>
+    </>
+  )
+}
+
+function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
   const [selectedRecord, selectRecord] = useState(null)
+  const [selectedKey, setSelectedKey] = useState('')
   const { state, actions } = useEditable()
 
   const handleChange = selectedRecord => {
@@ -117,6 +139,9 @@ function Editable({ domain, emptyRecords, refetch }) {
                 onConfirmed={() => {
                   setConfirmed()
                   refetch()
+                  if (selectedKey) {
+                    setRecordAdded(selectedKey)
+                  }
                 }}
               />
             ) : (
@@ -147,6 +172,13 @@ function Editable({ domain, emptyRecords, refetch }) {
                   }
                 }}
               />
+            ) : selectedRecord && selectedRecord.value === 'text' ? (
+              <TextRecordInput
+                newValue={newValue}
+                updateValue={updateValue}
+                selectedKey={selectedKey}
+                setSelectedKey={setSelectedKey}
+              />
             ) : (
               <DetailsItemInput
                 newValue={newValue}
@@ -163,7 +195,8 @@ function Editable({ domain, emptyRecords, refetch }) {
               mutation={chooseMutation(selectedRecord, domain.contentType)}
               variables={{
                 name: domain.name,
-                recordValue: newValue
+                recordValue: newValue,
+                key: selectedKey
               }}
               onCompleted={data => {
                 startPending(Object.values(data)[0])

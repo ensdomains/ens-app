@@ -228,6 +228,8 @@ function getShouldShowRecords(isOwner, hasResolver, hasRecords) {
 }
 
 function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
+  const [loading, setLoading] = useState(undefined)
+  const [recordAdded, setRecordAdded] = useState(0)
   const isDeedOwner = domain.deedOwner === account
   const isRegistrant = domain.registrant === account
   const isPermanentRegistrarDeployed = domain.available !== null
@@ -240,6 +242,10 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
     {
       label: 'Content',
       value: 'content'
+    },
+    {
+      label: 'Text',
+      value: 'text'
     }
   ]
 
@@ -251,8 +257,6 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
     return isEmpty(domain[record.value]) ? true : false
   })
 
-  console.log(domain)
-
   let contentMutation
   if (domain.contentType === 'oldcontent') {
     contentMutation = SET_CONTENT
@@ -260,7 +264,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
     contentMutation = SET_CONTENTHASH
   }
   const showExplainer = !parseInt(domain.resolver)
-  const [loading, setLoading] = useState(undefined)
+
   const canSubmit =
     domain.isDNSRegistrar &&
     dnssecmode.state === 'SUBMIT_PROOF' && // This is for not allowing the case user does not have record rather than having empty address record.
@@ -632,6 +636,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                   isOwner={isOwner}
                   domain={domain}
                   refetch={refetch}
+                  setRecordAdded={setRecordAdded}
                 />
                 {hasResolver && hasAnyRecord && (
                   <>
@@ -658,18 +663,11 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                         refetch={refetch}
                       />
                     )}
-                    {!isEmpty(domain.content) && (
-                      <RecordsItem
-                        domain={domain}
-                        isOwner={isOwner}
-                        keyName="Content"
-                        type="content"
-                        mutation={contentMutation}
-                        value={domain.content}
-                        refetch={refetch}
-                      />
-                    )}
-                    <TextRecord domain={domain} isOwner={isOwner} />
+                    <TextRecord
+                      domain={domain}
+                      isOwner={isOwner}
+                      recordAdded={recordAdded}
+                    />
                   </>
                 )}
               </Records>
