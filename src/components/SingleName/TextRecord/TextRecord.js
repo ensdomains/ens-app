@@ -31,6 +31,12 @@ const TextRecordItem = styled(RecordsItem)`
   ${mq.medium`
     flex-direction: row;
   `}
+
+  ${p =>
+    p.editing &&
+    mq.medium`
+    flex-direction: column;
+  `}
 `
 
 const TextRecordContainer = styled('div')`
@@ -72,9 +78,11 @@ const TextRecordsValue = styled(RecordsValue)`
 const TextRecordsContent = styled(RecordsContent)`
   display: grid;
   width: 100%;
+  grid-template-columns: 1fr;
+  padding-right: 30px;
 
   ${mq.small`
-    grid-template-columns: 150px 1fr 50px;
+    grid-template-columns: 150px 1fr;
   `}
 `
 
