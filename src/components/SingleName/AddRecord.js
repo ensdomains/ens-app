@@ -82,23 +82,32 @@ function chooseMutation(recordType, contentType) {
 }
 
 function TextRecordInput({
+  selectedRecord,
   updateValue,
   newValue,
   selectedKey,
-  setSelectedKey
+  setSelectedKey,
+  isValid,
+  isInvalid
 }) {
   return (
     <>
       <Select
         selectedRecord={selectedKey}
         handleChange={setSelectedKey}
-        placeholder="Select a key"
+        placeholder="Key"
         options={TEXT_RECORD_KEYS.map(key => ({
           label: key,
           value: key
         }))}
       />
-      <input onChange={e => updateValue(e.target.value)} value={newValue} />
+      <DetailsItemInput
+        newValue={newValue}
+        dataType={selectedRecord ? selectedRecord.value : null}
+        updateValue={updateValue}
+        isValid={isValid}
+        isInvalid={isInvalid}
+      />
     </>
   )
 }
@@ -176,10 +185,13 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
               />
             ) : selectedRecord && selectedRecord.value === 'text' ? (
               <TextRecordInput
+                selectedRecord={selectedRecord}
                 newValue={newValue}
                 updateValue={updateValue}
                 selectedKey={selectedKey}
                 setSelectedKey={setSelectedKey}
+                isValid={isValid}
+                isInvalid={isInvalid}
               />
             ) : (
               <DetailsItemInput

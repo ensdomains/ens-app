@@ -116,7 +116,7 @@ const Editable = ({ domain, textKey, value, type, refetch }) => {
                 variables={{
                   name: domain.name,
                   key: textKey,
-                  recordValue: emptyAddress
+                  recordValue: ''
                 }}
                 onCompleted={data => {
                   startPending(Object.values(data)[0])
