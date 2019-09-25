@@ -32,10 +32,14 @@ const AddressInput = styled(DefaultAddressInput)`
 export const RecordsItem = styled(DetailsItem)`
   ${p => !p.hasRecord && 'display: none;'}
   ${p => (p.noBorder ? '' : 'border-top: 1px dashed #d3d3d3;')}
+  display: block;
   padding: 20px;
   flex-direction: column;
 
   background: ${({ editing }) => (editing ? '#F0F6FA' : 'white')};
+  ${mq.medium`
+    display: flex;
+  `}
 `
 
 export const RecordsContent = styled('div')`

@@ -5,7 +5,6 @@ import mq from 'mediaQuery'
 
 import { SET_TEXT } from 'graphql/mutations'
 import { GET_TEXT } from 'graphql/queries'
-import { emptyAddress } from 'utils/utils'
 import TEXT_RECORD_KEYS from './constants'
 
 import {
@@ -24,29 +23,59 @@ import SaveCancel from '../SaveCancel'
 
 const TextRecordItem = styled(RecordsItem)`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   border-radius: 5px;
+  width: 100%;
   padding ${p => (p.editing ? '20px' : '0')};
+
+  ${mq.medium`
+    flex-direction: row;
+  `}
 `
 
 const TextRecordContainer = styled('div')`
   ${p => (p.noRecords ? 'display: none' : 'display:flex')};
-  flex-direction: row;
+  flex-direction: column;
   padding: 20px;
+
+  ${mq.medium`
+    flex-direction: row;
+  `}
 `
 
 const TextRecordsList = styled('div')`
   display: flex;
   flex-direction: column;
-  width: calc(100% - 200px);
+  width: 100%;
   ${mq.medium`
+    width: calc(100% - 200px);
   `};
 `
 
-const TextRecordKey = styled(RecordsKey)``
+const TextRecordKey = styled(RecordsKey)`
+  margin-bottom: 20px;
+`
 
 const RecordsListItem = styled('div')`
   display: flex;
+  flex-direction: column;
+
+  ${mq.medium`
+    flex-direction: row;
+  `}
+`
+
+const TextRecordsValue = styled(RecordsValue)`
+  padding-right: 0;
+`
+
+const TextRecordsContent = styled(RecordsContent)`
+  display: grid;
+  width: 100%;
+
+  ${mq.small`
+    grid-template-columns: 150px 1fr 50px;
+  `}
 `
 
 const Action = styled('div')`
@@ -95,85 +124,83 @@ const Editable = ({ domain, textKey, value, type, refetch }) => {
 
   const isInvalid = newValue !== '' && !isValid
   return (
-    <>
-      <TextRecordItem editing={editing} hasRecord={true} noBorder>
-        <RecordsContent editing={editing}>
-          <RecordsSubKey>{textKey}</RecordsSubKey>
-          <RecordsValue editableSmall>{value}</RecordsValue>
+    <TextRecordItem editing={editing} hasRecord={true} noBorder>
+      <TextRecordsContent editing={editing}>
+        <RecordsSubKey>{textKey}</RecordsSubKey>
+        <TextRecordsValue editableSmall>{value}</TextRecordsValue>
 
-          {pending && !confirmed && txHash ? (
-            <PendingTx
-              txHash={txHash}
-              onConfirmed={() => {
-                setConfirmed()
-                refetch()
+        {pending && !confirmed && txHash ? (
+          <PendingTx
+            txHash={txHash}
+            onConfirmed={() => {
+              setConfirmed()
+              refetch()
+            }}
+          />
+        ) : editing ? (
+          <Action>
+            <Mutation
+              mutation={SET_TEXT}
+              variables={{
+                name: domain.name,
+                key: textKey,
+                recordValue: ''
               }}
-            />
-          ) : editing ? (
-            <Action>
-              <Mutation
-                mutation={SET_TEXT}
-                variables={{
-                  name: domain.name,
-                  key: textKey,
-                  recordValue: ''
-                }}
-                onCompleted={data => {
-                  startPending(Object.values(data)[0])
-                }}
-              >
-                {mutate => (
-                  <Bin
-                    data-testid={`delete-textrecord-${textKey.toLowerCase()}`}
-                    onClick={e => {
-                      e.preventDefault()
-                      mutate()
-                    }}
-                  />
-                )}
-              </Mutation>
-            </Action>
-          ) : (
-            <Actionable
-              startEditing={startEditing}
-              keyName={textKey}
-              value={value}
-            />
-          )}
-        </RecordsContent>
-        {editing ? (
-          <>
-            <EditRecord>
-              <DetailsItemInput
-                newValue={newValue}
-                dataType={type}
-                contentType={domain.contentType}
-                updateValue={updateValue}
-                isValid={isValid}
-                isInvalid={isInvalid}
-              />
-            </EditRecord>
-            <SaveCancel
-              mutation={e => {
-                e.preventDefault()
-                const variables = {
-                  name: domain.name,
-                  key: textKey,
-                  recordValue: newValue
-                }
-                setText({
-                  variables
-                })
+              onCompleted={data => {
+                startPending(Object.values(data)[0])
               }}
-              isValid={isValid}
-              stopEditing={stopEditing}
-            />
-          </>
+            >
+              {mutate => (
+                <Bin
+                  data-testid={`delete-textrecord-${textKey.toLowerCase()}`}
+                  onClick={e => {
+                    e.preventDefault()
+                    mutate()
+                  }}
+                />
+              )}
+            </Mutation>
+          </Action>
         ) : (
-          ''
+          <Actionable
+            startEditing={startEditing}
+            keyName={textKey}
+            value={value}
+          />
         )}
-      </TextRecordItem>
-    </>
+      </TextRecordsContent>
+      {editing ? (
+        <>
+          <EditRecord>
+            <DetailsItemInput
+              newValue={newValue}
+              dataType={type}
+              contentType={domain.contentType}
+              updateValue={updateValue}
+              isValid={isValid}
+              isInvalid={isInvalid}
+            />
+          </EditRecord>
+          <SaveCancel
+            mutation={e => {
+              e.preventDefault()
+              const variables = {
+                name: domain.name,
+                key: textKey,
+                recordValue: newValue
+              }
+              setText({
+                variables
+              })
+            }}
+            isValid={isValid}
+            stopEditing={stopEditing}
+          />
+        </>
+      ) : (
+        ''
+      )}
+    </TextRecordItem>
   )
 }
 
