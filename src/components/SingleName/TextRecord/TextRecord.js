@@ -6,6 +6,7 @@ import mq from 'mediaQuery'
 import { SET_TEXT } from 'graphql/mutations'
 import { GET_TEXT } from 'graphql/queries'
 import { emptyAddress } from 'utils/utils'
+import TEXT_RECORD_KEYS from './constants'
 
 import {
   RecordsContent,
@@ -20,17 +21,6 @@ import PendingTx from 'components/PendingTx'
 import Pencil from '../../Forms/Pencil'
 import Bin from '../../Forms/Bin'
 import SaveCancel from '../SaveCancel'
-
-const TEXT_RECORD_KEYS = [
-  'email',
-  'url',
-  'avatar',
-  'description',
-  'notice',
-  'keywords',
-  'vnd.twitter',
-  'vnd.github'
-]
 
 const TextRecordItem = styled(RecordsItem)`
   display: flex;
