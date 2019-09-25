@@ -188,6 +188,17 @@ function adjustForShortNames(node) {
   }
 }
 
+function setState(node) {
+  let state = node.state
+  if (parseInt(node.owner, 16) !== 0) {
+    state = 'Owned'
+  }
+  return {
+    ...node,
+    state
+  }
+}
+
 const resolvers = {
   Query: {
     getOwner: async (_, { name }, { cache }) => {
@@ -256,6 +267,8 @@ const resolvers = {
           parentOwner,
           __typename: 'Node'
         })
+
+        detailedNode = setState(detailedNode)
 
         const data = {
           names: [...names, detailedNode]
