@@ -9,12 +9,14 @@ import {
   getName,
   getNetworkId,
   getAddress,
+  getText,
   claimAndSetReverseRecordName,
   setOwner,
   setResolver,
   setAddress,
   setContent,
   setContenthash,
+  setText,
   registerTestdomain,
   createSubdomain,
   expiryTimes,
@@ -280,7 +282,6 @@ const resolvers = {
       }
     },
     getSubDomains: async (_, { name }, { cache }) => {
-      console.log(name)
       const data = cache.readQuery({ query: GET_ALL_NODES })
       const rawSubDomains = await getSubdomains(name)
       const subDomains = rawSubDomains.map(s => ({
@@ -342,6 +343,14 @@ const resolvers = {
           match: false
         }
       }
+    },
+    getText: async (_, { name, key }) => {
+      const text = await getText(name, key)
+      if (text === '') {
+        return null
+      }
+
+      return text
     }
   },
   Mutation: {
@@ -400,6 +409,14 @@ const resolvers = {
     setContenthash: async (_, { name, recordValue }, { cache }) => {
       try {
         const tx = await setContenthash(name, recordValue)
+        return sendHelper(tx)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    setText: async (_, { name, key, recordValue }, { cache }) => {
+      try {
+        const tx = await setText(name, key, recordValue)
         return sendHelper(tx)
       } catch (e) {
         console.log(e)

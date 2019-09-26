@@ -29,15 +29,20 @@ const AddressInput = styled(DefaultAddressInput)`
   margin-bottom: 10px;
 `
 
-const RecordsItem = styled(DetailsItem)`
-  border-top: 1px dashed #d3d3d3;
+export const RecordsItem = styled(DetailsItem)`
+  ${p => !p.hasRecord && 'display: none;'}
+  ${p => (p.noBorder ? '' : 'border-top: 1px dashed #d3d3d3;')}
+  display: block;
   padding: 20px;
   flex-direction: column;
 
   background: ${({ editing }) => (editing ? '#F0F6FA' : 'white')};
+  ${mq.medium`
+    display: flex;
+  `}
 `
 
-const RecordsContent = styled('div')`
+export const RecordsContent = styled('div')`
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -45,7 +50,7 @@ const RecordsContent = styled('div')`
   ${({ editing }) => editing && 'margin-bottom: 30px'};
 `
 
-const RecordsKey = styled(DetailsKey)`
+export const RecordsKey = styled(DetailsKey)`
   font-size: 12px;
   margin-bottom: 0;
   max-width: 100%;
@@ -56,7 +61,21 @@ const RecordsKey = styled(DetailsKey)`
   `}
 `
 
-const RecordsValue = styled(DetailsValue)`
+export const RecordsSubKey = styled('div')`
+  font-family: Overpass Mono;
+  font-weight: 500;
+  font-size: 14px;
+  color: #adbbcd;
+  letter-spacing: 0;
+
+  ${mq.small`
+    font-size: 16px;
+    max-width: 220px;
+    min-width: 180px;
+  `}
+`
+
+export const RecordsValue = styled(DetailsValue)`
   font-size: 14px;
 `
 
@@ -143,7 +162,7 @@ const Editable = ({
         }}
       >
         {mutation => (
-          <RecordsItem editing={editing}>
+          <RecordsItem editing={editing} hasRecord={true}>
             <RecordsContent editing={editing}>
               <RecordsKey>{keyName}</RecordsKey>
               <RecordsValue editableSmall>
