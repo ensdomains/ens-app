@@ -68,17 +68,17 @@ export default function ShortName({ name }) {
         <p>
           Short names are currently on auction at{' '}
           {urlReady ? (
-            <a href={/* link*/ 'https://opensea.io/'}>OpenSea</a>
+            <a href={link}>OpenSea</a>
           ) : (
             // eslint-disable-next-line
-            <a href="#" onClick={'https://opensea.io/' /* openSeaRedirect */}>
+            <a href="#" onClick={openSeaRedirect}>
               OpenSea
             </a>
           )}
           . 5+ letter auctions end September 29, 4 letter auctions end October
           6, and 3 letter auctions end October 13
         </p>
-        {/* {urlReady ? (
+        {urlReady ? (
           <ExternalButtonLink href={link} type="hollow-primary">
             Bid Now
           </ExternalButtonLink>
@@ -86,7 +86,7 @@ export default function ShortName({ name }) {
           <ExternalButtonLink onClick={openSeaRedirect} type="hollow-primary">
             Bid Now
           </ExternalButtonLink>
-        )} */}
+        )}
       </InnerWrapper>
     </ShortNameContainer>
   )
