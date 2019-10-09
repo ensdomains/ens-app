@@ -29,9 +29,12 @@ import {
   SET_CONTENT,
   SET_CONTENTHASH,
   SET_REGISTRANT,
+  SET_TEXT,
   RECLAIM,
   RENEW
 } from '../../graphql/mutations'
+
+import { GET_TEXT } from '../../graphql/queries'
 
 import NameClaimTestDomain from './NameClaimTestDomain'
 
@@ -667,6 +670,8 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                       domain={domain}
                       isOwner={isOwner}
                       recordAdded={recordAdded}
+                      mutation={SET_TEXT}
+                      query={GET_TEXT}
                     />
                   </>
                 )}
