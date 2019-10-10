@@ -75,8 +75,8 @@ export default function ShortName({ name }) {
               OpenSea
             </a>
           )}
-          . 5+ letter auctions end September 29, 4 letter auctions end October
-          6, and 3 letter auctions end October 13
+          . 5+ letter auctions end 15-22 October, 4 letter auctions end 22-29
+          October, and 3 letter auctions end 29 October - 5 November
         </p>
         {urlReady ? (
           <ExternalButtonLink href={link} type="hollow-primary">
