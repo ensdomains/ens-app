@@ -9,6 +9,7 @@ import SubDomains from './SubDomains'
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import RecordsItem from './RecordsItem'
 import TextRecord from './TextRecord'
+import Address from './Address'
 import DetailsItemEditable from './DetailsItemEditable'
 import AddRecord from './AddRecord'
 import SetupName from '../SetupName/SetupName'
@@ -30,11 +31,12 @@ import {
   SET_CONTENTHASH,
   SET_REGISTRANT,
   SET_TEXT,
+  SET_ADDR,
   RECLAIM,
   RENEW
 } from '../../graphql/mutations'
 
-import { GET_TEXT } from '../../graphql/queries'
+import { GET_TEXT, GET_ADDR } from '../../graphql/queries'
 
 import NameClaimTestDomain from './NameClaimTestDomain'
 
@@ -254,7 +256,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
 
   const emptyRecords = records.filter(record => {
     if (record.value === 'address') {
-      return isEmpty(domain['addr']) ? true : false
+      return true
     }
 
     return isEmpty(domain[record.value]) ? true : false
