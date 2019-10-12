@@ -105,15 +105,7 @@ const EditRecord = styled('div')`
   width: 100%;
 `
 
-const Editable = ({
-  domain,
-  textKey,
-  value,
-  type,
-  refetch,
-  query,
-  mutation
-}) => {
+const Editable = ({ domain, textKey, value, type, refetch, mutation }) => {
   const { state, actions } = useEditable()
 
   const { editing, newValue, txHash, pending, confirmed } = state

@@ -666,6 +666,13 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                         refetch={refetch}
                       />
                     )}
+                    <Address
+                      domain={domain}
+                      isOwner={isOwner}
+                      recordAdded={recordAdded}
+                      mutation={SET_ADDR}
+                      query={GET_ADDR}
+                    />
                     <TextRecord
                       domain={domain}
                       isOwner={isOwner}
