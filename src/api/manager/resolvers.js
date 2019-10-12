@@ -359,12 +359,12 @@ const resolvers = {
       return text
     },
     getAddr: async (_, { name, key }) => {
-      const text = await getAddr(name, key)
-      if (text === '') {
+      const address = await getAddr(name, key)
+      if (address === '') {
         return null
       }
 
-      return text
+      return address
     }
   },
   Mutation: {
@@ -413,6 +413,7 @@ const resolvers = {
       }
     },
     setAddr: async (_, { name, key, recordValue }, { cache }) => {
+      console.log(name, key, recordValue)
       try {
         const tx = await setAddr(name, key, recordValue)
         return sendHelper(tx)

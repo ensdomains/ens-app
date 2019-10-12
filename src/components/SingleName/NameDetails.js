@@ -245,6 +245,10 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
       value: 'address'
     },
     {
+      label: 'Other addresses',
+      value: 'otherAddresses'
+    },
+    {
       label: 'Content',
       value: 'content'
     },
@@ -256,7 +260,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
 
   const emptyRecords = records.filter(record => {
     if (record.value === 'address') {
-      return true
+      return isEmpty(domain['addr']) ? true : false
     }
 
     return isEmpty(domain[record.value]) ? true : false
@@ -674,6 +678,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                       recordAdded={recordAdded}
                       mutation={SET_ADDR}
                       query={GET_ADDR}
+                      title="Other Addresses"
                     />
                     <TextRecord
                       domain={domain}
@@ -681,6 +686,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                       recordAdded={recordAdded}
                       mutation={SET_TEXT}
                       query={GET_TEXT}
+                      title="Text Record"
                     />
                   </>
                 )}

@@ -120,7 +120,7 @@ const Editable = ({ domain, textKey, value, type, refetch, mutation }) => {
 
   const isValid = true
 
-  const [setText] = useMutation(mutation, {
+  const [setRecord] = useMutation(mutation, {
     onCompleted: data => {
       startPending(Object.values(data)[0])
     }
@@ -193,7 +193,7 @@ const Editable = ({ domain, textKey, value, type, refetch, mutation }) => {
                 key: textKey,
                 recordValue: newValue
               }
-              setText({
+              setRecord({
                 variables
               })
             }}
@@ -225,6 +225,8 @@ function Record(props) {
       key: textKey
     }
   })
+
+  const dataValue = Object.values(data)[0]
   useEffect(() => {
     if (recordAdded === textKey) {
       let timeToWait = 200
@@ -232,7 +234,7 @@ function Record(props) {
       let timesTried = 0
       refetch().then(({ data }) => {
         //retry until record is there or tried more than timesToTry
-        if (data.getText === null) {
+        if (Object.values(data)[0] === null) {
           if (timesTried < timesToTry) {
             setTimeout(() => {
               refetch()
@@ -244,23 +246,23 @@ function Record(props) {
     }
   }, [recordAdded])
   useEffect(() => {
-    if (data.getText && !hasRecord) {
+    if (dataValue && !hasRecord) {
       setHasRecord(true)
     }
-  }, [data.getText, hasRecord])
+  }, [dataValue, hasRecord])
 
-  if (error || loading || !data.getText) {
+  if (error || loading || !dataValue || parseInt(dataValue, 16) === 0) {
     return null
   }
   return isOwner ? (
     <Editable
       {...props}
-      value={data.getText}
+      value={dataValue}
       refetch={refetch}
       mutation={mutation}
     />
   ) : (
-    <ViewOnly textKey={textKey} value={data.getText} />
+    <ViewOnly textKey={textKey} value={dataValue} />
   )
 }
 
@@ -273,11 +275,19 @@ function ViewOnly({ textKey, value }) {
   )
 }
 
-function Records({ domain, isOwner, recordAdded, query, mutation, keys }) {
+function Records({
+  domain,
+  isOwner,
+  recordAdded,
+  query,
+  mutation,
+  keys,
+  title
+}) {
   const [hasRecord, setHasRecord] = useState(false)
   return (
     <KeyValueContainer hasRecord={hasRecord}>
-      {hasRecord && <Key>Text Record</Key>}
+      {hasRecord && <Key>{title}</Key>}
       <KeyValuesList>
         {keys.map(key => (
           <Record
@@ -305,20 +315,20 @@ export default function KeyValueRecord({
   recordAdded,
   query,
   mutation,
-  keys
+  keys,
+  title
 }) {
   return (
-    <>
-      <Records
-        keys={keys}
-        name={domain.name}
-        domain={domain}
-        isOwner={isOwner}
-        refetch={refetch}
-        recordAdded={recordAdded}
-        query={query}
-        mutation={mutation}
-      />
-    </>
+    <Records
+      keys={keys}
+      name={domain.name}
+      domain={domain}
+      isOwner={isOwner}
+      refetch={refetch}
+      recordAdded={recordAdded}
+      query={query}
+      mutation={mutation}
+      title={title}
+    />
   )
 }

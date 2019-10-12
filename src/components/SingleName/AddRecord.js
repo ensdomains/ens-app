@@ -8,6 +8,7 @@ import {
   SET_CONTENT,
   SET_CONTENTHASH,
   SET_ADDRESS,
+  SET_ADDR,
   SET_TEXT
 } from '../../graphql/mutations'
 import { getOldContentWarning } from './warnings'
@@ -75,6 +76,8 @@ function chooseMutation(recordType, contentType) {
       }
     case 'address':
       return SET_ADDRESS
+    case 'otherAddresses':
+      return SET_ADDR
     case 'text':
       return SET_TEXT
     default:
@@ -205,7 +208,7 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
               placeholder="Select a record"
               options={emptyRecords}
             />
-            {selectedRecord && selectedRecord.value === 'address' ? (
+            {selectedRecord && selectedRecord.value === 'otherAddresses' ? (
               <AddressRecordInput
                 selectedRecord={selectedRecord}
                 newValue={newValue}
@@ -214,6 +217,17 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
                 setSelectedKey={setSelectedKey}
                 isValid={isValid}
                 isInvalid={isInvalid}
+              />
+            ) : selectedRecord && selectedRecord.value === 'address' ? (
+              <AddressInput
+                provider={window.ethereum || window.web3}
+                onResolve={({ address }) => {
+                  if (address) {
+                    updateValue(address)
+                  } else {
+                    updateValue('')
+                  }
+                }}
               />
             ) : selectedRecord && selectedRecord.value === 'text' ? (
               <TextRecordInput
