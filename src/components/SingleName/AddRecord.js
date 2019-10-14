@@ -8,10 +8,12 @@ import {
   SET_CONTENT,
   SET_CONTENTHASH,
   SET_ADDRESS,
+  SET_ADDR,
   SET_TEXT
 } from '../../graphql/mutations'
 import { getOldContentWarning } from './warnings'
 import TEXT_RECORD_KEYS from './TextRecord/constants'
+import { COIN_LIST } from './Address/constants'
 
 import DetailsItemInput from './DetailsItemInput'
 import SaveCancel from './SaveCancel'
@@ -74,6 +76,8 @@ function chooseMutation(recordType, contentType) {
       }
     case 'address':
       return SET_ADDRESS
+    case 'otherAddresses':
+      return SET_ADDR
     case 'text':
       return SET_TEXT
     default:
@@ -107,6 +111,38 @@ function TextRecordInput({
         updateValue={updateValue}
         isValid={isValid}
         isInvalid={isInvalid}
+      />
+    </>
+  )
+}
+
+function AddressRecordInput({
+  selectedRecord,
+  updateValue,
+  newValue,
+  selectedKey,
+  setSelectedKey,
+  isValid,
+  isInvalid
+}) {
+  return (
+    <>
+      <Select
+        selectedRecord={selectedKey}
+        handleChange={setSelectedKey}
+        placeholder="Coin"
+        options={COIN_LIST.map(key => ({
+          label: key,
+          value: key
+        }))}
+      />
+      <DetailsItemInput
+        newValue={newValue}
+        dataType={selectedRecord ? selectedRecord.value : null}
+        updateValue={updateValue}
+        isValid={isValid}
+        isInvalid={isInvalid}
+        placeholder={selectedKey ? `Enter a ${selectedKey.value} address` : ''}
       />
     </>
   )
@@ -172,7 +208,17 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
               placeholder="Select a record"
               options={emptyRecords}
             />
-            {selectedRecord && selectedRecord.value === 'address' ? (
+            {selectedRecord && selectedRecord.value === 'otherAddresses' ? (
+              <AddressRecordInput
+                selectedRecord={selectedRecord}
+                newValue={newValue}
+                updateValue={updateValue}
+                selectedKey={selectedKey}
+                setSelectedKey={setSelectedKey}
+                isValid={isValid}
+                isInvalid={isInvalid}
+              />
+            ) : selectedRecord && selectedRecord.value === 'address' ? (
               <AddressInput
                 provider={window.ethereum || window.web3}
                 onResolve={({ address }) => {

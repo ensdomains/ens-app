@@ -9,11 +9,13 @@ import {
   getName,
   getNetworkId,
   getAddress,
+  getAddr,
   getText,
   claimAndSetReverseRecordName,
   setOwner,
   setResolver,
   setAddress,
+  setAddr,
   setContent,
   setContenthash,
   setText,
@@ -355,6 +357,14 @@ const resolvers = {
       }
 
       return text
+    },
+    getAddr: async (_, { name, key }) => {
+      const address = await getAddr(name, key)
+      if (address === '') {
+        return null
+      }
+
+      return address
     }
   },
   Mutation: {
@@ -397,6 +407,15 @@ const resolvers = {
     setAddress: async (_, { name, recordValue }, { cache }) => {
       try {
         const tx = await setAddress(name, recordValue)
+        return sendHelper(tx)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    setAddr: async (_, { name, key, recordValue }, { cache }) => {
+      console.log(name, key, recordValue)
+      try {
+        const tx = await setAddr(name, key, recordValue)
         return sendHelper(tx)
       } catch (e) {
         console.log(e)

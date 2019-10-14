@@ -12,14 +12,15 @@ const DetailsItemInput = ({
   isValid,
   isInvalid,
   dataType,
-  contentType
+  contentType,
+  placeholder
 }) => {
   return (
     <Input
       warning={dataType === 'content' && contentType === 'oldcontent'}
       valid={isValid}
       invalid={isInvalid}
-      placeholder={getPlaceholder(dataType, contentType)}
+      placeholder={placeholder || getPlaceholder(dataType, contentType)}
       onChange={e => {
         updateValue(e.target.value)
       }}

@@ -107,6 +107,12 @@ export const SET_TEXT = gql`
   }
 `
 
+export const SET_ADDR = gql`
+  mutation setAddr($name: String, $key: String, $recordValue: String) {
+    setAddr(name: $name, key: $key, recordValue: $recordValue) @client
+  }
+`
+
 export const CREATE_SUBDOMAIN = gql`
   mutation createSubdomain($name: String) {
     createSubdomain(name: $name) @client

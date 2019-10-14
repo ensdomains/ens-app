@@ -9,6 +9,7 @@ import SubDomains from './SubDomains'
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import RecordsItem from './RecordsItem'
 import TextRecord from './TextRecord'
+import Address from './Address'
 import DetailsItemEditable from './DetailsItemEditable'
 import AddRecord from './AddRecord'
 import SetupName from '../SetupName/SetupName'
@@ -29,9 +30,13 @@ import {
   SET_CONTENT,
   SET_CONTENTHASH,
   SET_REGISTRANT,
+  SET_TEXT,
+  SET_ADDR,
   RECLAIM,
   RENEW
 } from '../../graphql/mutations'
+
+import { GET_TEXT, GET_ADDR } from '../../graphql/queries'
 
 import NameClaimTestDomain from './NameClaimTestDomain'
 
@@ -238,6 +243,10 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
     {
       label: 'Address',
       value: 'address'
+    },
+    {
+      label: 'Other addresses',
+      value: 'otherAddresses'
     },
     {
       label: 'Content',
@@ -663,10 +672,21 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                         refetch={refetch}
                       />
                     )}
+                    <Address
+                      domain={domain}
+                      isOwner={isOwner}
+                      recordAdded={recordAdded}
+                      mutation={SET_ADDR}
+                      query={GET_ADDR}
+                      title="Other Addresses"
+                    />
                     <TextRecord
                       domain={domain}
                       isOwner={isOwner}
                       recordAdded={recordAdded}
+                      mutation={SET_TEXT}
+                      query={GET_TEXT}
+                      title="Text Record"
                     />
                   </>
                 )}
