@@ -9,7 +9,7 @@ export function validateRecord(record) {
   const { type, value } = record
 
   if (type === 'content' && record.contentType === 'oldcontent') {
-    return value.length > 32
+    return true
   }
 
   switch (type) {
