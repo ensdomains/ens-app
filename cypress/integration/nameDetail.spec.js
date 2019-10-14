@@ -215,7 +215,7 @@ describe('Name detail view', () => {
         .click({ force: true })
         .getByText('select a record', { exact: false })
         .click({ force: true })
-        .get('#react-select-2-option-0', { timeout: 10000 })
+        .get('#react-select-2-option-1', { timeout: 10000 })
         .contains('Content')
         .click({ force: true })
         .getByPlaceholderText('Enter a content hash', {
