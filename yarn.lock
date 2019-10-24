@@ -1142,6 +1142,19 @@
     ripple-address-codec "^4.0.0"
     safe-buffer "^5.2.0"
 
+"@ensdomains/address-encoder@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@ensdomains/address-encoder/-/address-encoder-0.1.2.tgz#2c75a36d7fa7b067e0ed755cae24833154ad0e62"
+  integrity sha512-aW6UV6rTJR4NNVlz7PlRS7/YeD0ZSQy/xZsbWlx8/Zt7hDzBRiigCl5ud0tCYt88C7bCl+luoKhScMtq2LPFVw==
+  dependencies:
+    "@types/cashaddrjs" "^0.3.0"
+    bech32 "^1.1.3"
+    bs58check "^2.1.2"
+    cashaddrjs "^0.3.8"
+    ripple-address-codec "^4.0.0"
+    rskjs-util "^1.0.3"
+    safe-buffer "^5.2.0"
+
 "@ensdomains/buffer@0.0.10":
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/@ensdomains/buffer/-/buffer-0.0.10.tgz#3b9f8b6a34c6160ae8a8cb8f0f033aa35c1a9970"
@@ -1313,14 +1326,14 @@
   resolved "https://registry.yarnpkg.com/@ensdomains/resolver/-/resolver-0.1.9.tgz#013bc88397c2c204737aaaf602380145d845e09e"
   integrity sha512-eSZIEWi2UcxNZXJhAeoTYUZr20fyly9eMUy17WQ5UjszXf0QgE1Zzh/Oj9Mhl0i8s7xqoPOsntr2ZI0JhsX78w==
 
-"@ensdomains/ui@1.1.24":
-  version "1.1.24"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.1.24.tgz#a780b038441ff89113cee58591a9ff91a55461fa"
-  integrity sha512-xqoJKeh8HmjKID5PkOGEq8g3QZ4g4xuhdun7BRMdYz76erKNFHC+H24kfQspedDbrZPkaXTKF0/BOFbXXdJyZA==
+"@ensdomains/ui@1.1.25":
+  version "1.1.25"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.1.25.tgz#098f5be7bf91e9cf13939b4332fbb28656db2e7c"
+  integrity sha512-AfKkK2QN0CxuCDiZttVcsPcIW+IiaW/Y0l8MB+KGI7Gc51Vn/BwhxvLSBHe8+8SF+uUmGcie/3TyNsQDo8Zc1Q==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
-    "@ensdomains/address-encoder" "^0.1.1"
+    "@ensdomains/address-encoder" "^0.1.2"
     "@ensdomains/dnsregistrar" "^0.3.9"
     "@ensdomains/ens" "^0.3.5"
     "@ensdomains/ens-022" "npm:@ensdomains/ens@0.2.2"
@@ -11802,6 +11815,13 @@ rlp@^2.0.0:
   dependencies:
     bn.js "^4.11.1"
     safe-buffer "^5.1.1"
+
+rskjs-util@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/rskjs-util/-/rskjs-util-1.0.3.tgz#c0242d9308d7dc1eb653ffbf0dd1af1309bf55ca"
+  integrity sha512-Q6zfYFQndaBln1iY2gnBfYgDLymbZHAxKXOcZVLAKJkHilcieoUN3ZXVxLA3K30KlgAfmRVG72iTzi+yPNZB1w==
+  dependencies:
+    keccak "^1.0.2"
 
 rsvp@^4.8.4:
   version "4.8.5"
