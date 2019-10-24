@@ -105,7 +105,15 @@ const EditRecord = styled('div')`
   width: 100%;
 `
 
-const Editable = ({ domain, textKey, value, type, refetch, mutation }) => {
+const Editable = ({
+  domain,
+  textKey,
+  validator,
+  value,
+  type,
+  refetch,
+  mutation
+}) => {
   const { state, actions } = useEditable()
 
   const { editing, newValue, txHash, pending, confirmed } = state
@@ -118,7 +126,8 @@ const Editable = ({ domain, textKey, value, type, refetch, mutation }) => {
     setConfirmed
   } = actions
 
-  const isValid = true
+  let isValid = true
+  let isInvalid = false
 
   const [setRecord] = useMutation(mutation, {
     onCompleted: data => {
@@ -126,7 +135,14 @@ const Editable = ({ domain, textKey, value, type, refetch, mutation }) => {
     }
   })
 
-  const isInvalid = newValue !== '' && !isValid
+  if (newValue === '') {
+    isValid = false
+  } else if (validator) {
+    isValid = validator(textKey, newValue)
+    isInvalid = !isValid
+  } else {
+    isValid = true
+  }
   return (
     <KeyValueItem editing={editing} hasRecord={true} noBorder>
       <KeyValuesContent editing={editing}>
@@ -179,10 +195,10 @@ const Editable = ({ domain, textKey, value, type, refetch, mutation }) => {
             <DetailsItemInput
               newValue={newValue}
               dataType={type}
-              contentType={domain.contentType}
-              updateValue={updateValue}
               isValid={isValid}
               isInvalid={isInvalid}
+              contentType={domain.contentType}
+              updateValue={updateValue}
             />
           </EditRecord>
           <SaveCancel
@@ -211,6 +227,7 @@ const Editable = ({ domain, textKey, value, type, refetch, mutation }) => {
 function Record(props) {
   const {
     textKey,
+    validator,
     name,
     setHasRecord,
     hasRecord,
@@ -225,7 +242,6 @@ function Record(props) {
       key: textKey
     }
   })
-
   const dataValue = Object.values(data)[0]
   useEffect(() => {
     if (recordAdded === textKey) {
@@ -258,6 +274,7 @@ function Record(props) {
     <Editable
       {...props}
       value={dataValue}
+      validator={validator}
       refetch={refetch}
       mutation={mutation}
     />
@@ -282,6 +299,7 @@ function Records({
   query,
   mutation,
   keys,
+  validator,
   title
 }) {
   const [hasRecord, setHasRecord] = useState(false)
@@ -292,6 +310,7 @@ function Records({
         {keys.map(key => (
           <Record
             key={key}
+            validator={validator}
             textKey={key}
             domain={domain}
             name={domain.name}
@@ -316,11 +335,13 @@ export default function KeyValueRecord({
   query,
   mutation,
   keys,
+  validator,
   title
 }) {
   return (
     <Records
       keys={keys}
+      validator={validator}
       name={domain.name}
       domain={domain}
       isOwner={isOwner}
