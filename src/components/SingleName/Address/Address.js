@@ -1,16 +1,14 @@
 import React from 'react'
 import { COIN_LIST } from './constants'
 import KeyValueRecord from '../KeyValueRecord'
-import { formatsByName } from '@ensdomains/address-encoder'
+import { validateRecord } from '../../../utils/records'
 
 const validator = (symbol, value) => {
-  let isValid = true
-  try {
-    formatsByName[symbol].decoder(value)
-  } catch {
-    isValid = false
-  }
-  return isValid
+  return validateRecord({
+    type: 'otherAddresses',
+    selectedKey: symbol,
+    value
+  })
 }
 
 export default function Address(props) {
