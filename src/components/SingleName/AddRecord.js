@@ -170,7 +170,8 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
   const isValid = validateRecord({
     type: selectedRecord && selectedRecord.value ? selectedRecord.value : null,
     value: newValue,
-    contentType: domain.contentType
+    contentType: domain.contentType,
+    selectedKey: selectedKey && selectedKey.value
   })
 
   const isInvalid = newValue !== '' && !isValid

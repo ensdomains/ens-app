@@ -1,14 +1,10 @@
 import { encodeContenthash, isValidContenthash } from '@ensdomains/ui'
 import { addressUtils } from 'utils/utils'
+import { formatsByName } from '@ensdomains/address-encoder'
 
-export function validateRecord(record) {
-  if (!record.type) {
-    return false
-  }
-
-  const { type, value } = record
-
-  if (type === 'content' && record.contentType === 'oldcontent') {
+export function validateRecord({ type, value, contentType, selectedKey }) {
+  if (!type) return false
+  if (type === 'content' && contentType === 'oldcontent') {
     return value.length > 32
   }
 
@@ -26,7 +22,13 @@ export function validateRecord(record) {
     case 'text':
       return true
     case 'otherAddresses':
-      return true
+      if (value === '') return false
+      try {
+        formatsByName[selectedKey].decoder(value)
+        return true
+      } catch {
+        return false
+      }
     default:
       throw new Error('Unrecognised record type')
   }
