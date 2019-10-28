@@ -13,7 +13,7 @@
     "@ensdomains/ethregistrar": "^1.2.2",
     "@ensdomains/react-ens-address": "^0.0.16",
     "@ensdomains/resolver": "^0.1.11",
-    "@ensdomains/ui": "1.1.26",
+    "@ensdomains/ui": "1.1.28",
     "apollo-cache-inmemory": "^1.2.9",
     "apollo-client": "^2.4.5",
     "apollo-link": "^1.2.2",
