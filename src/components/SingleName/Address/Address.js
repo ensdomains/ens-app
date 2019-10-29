@@ -11,6 +11,17 @@ const validator = (symbol, value) => {
   })
 }
 
+const getPlaceholder = symbol => {
+  return `Enter a ${symbol} address`
+}
+
 export default function Address(props) {
-  return <KeyValueRecord {...props} keys={COIN_LIST} validator={validator} />
+  return (
+    <KeyValueRecord
+      {...props}
+      keys={COIN_LIST}
+      validator={validator}
+      getPlaceholder={getPlaceholder}
+    />
+  )
 }

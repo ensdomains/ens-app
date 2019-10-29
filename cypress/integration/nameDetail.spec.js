@@ -232,6 +232,58 @@ describe('Name detail view', () => {
     })
   })
 
+  it('can add other address', () => {
+    const address = 'MQMcJhpWHYVeQArcZR3sBgyPZxxRtnH441'
+    cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
+
+    cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
+      cy.getByText('+')
+        .click({ force: true })
+        .getByText('select a record', { exact: false })
+        .click({ force: true })
+        .getByText('Other addresses')
+        .click({ force: true })
+        .getByText('Coin', { exact: false })
+        .click({ force: true })
+        .getByText('LTC', { exact: false })
+        .click({ force: true })
+        .getByPlaceholderText('Enter a LTC address', { exact: false })
+        .type(address, { force: true })
+      waitUntilInputResolves('Save').then(() => {
+        cy.getByText('Save').click({ force: true })
+        cy.queryByText(address, {
+          exact: false
+        }).should('exist')
+      })
+    })
+  })
+
+  it('can add Text', () => {
+    const text = 'Hello'
+    cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
+
+    cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
+      cy.getByText('+')
+        .click({ force: true })
+        .getByText('select a record', { exact: false })
+        .click({ force: true })
+        .getByText('Text')
+        .click({ force: true })
+        .getByText('Key', { exact: false })
+        .click({ force: true })
+        .getByText('Notice', { exact: false })
+        .click({ force: true })
+        .getByPlaceholderText('Enter notice', { exact: false })
+        .type(text, { force: true })
+      waitUntilInputResolves('Save').then(() => {
+        cy.getByText('Save').click({ force: true })
+        cy.queryByText(text, {
+          exact: false
+        }).should('exist')
+      })
+    })
+  })
+
   it('can change the address', () => {
     cy.visit(`${NAME_ROOT}/abittooawesome.eth`)
     const ADDRESS = '0x0000000000000000000000000000000000000007'
@@ -283,6 +335,53 @@ describe('Name detail view', () => {
     })
   })
 
+  it('can change text', () => {
+    const content = 'world'
+    cy.visit(`${NAME_ROOT}/abittooawesome.eth`)
+
+    cy.getByTestId('name-details').within(container => {
+      cy.getByTestId('edit-notice', { exact: false }).click({ force: true })
+      cy.getByPlaceholderText('Enter notice', {
+        exact: false
+      }).type(content, { force: true })
+
+      waitUntilInputResolves('Save').then(() => {
+        cy.getByText('Save').click({ force: true })
+
+        //form closed
+        waitUntilTestIdDoesNotExist('action')
+        waitUntilTestIdDoesNotExist('cancel')
+
+        //Value updated
+        cy.queryByText(content, { exact: false }).should('exist')
+      })
+    })
+  })
+
+  it('can change other address', () => {
+    const content = 'MQMcJhpWHYVeQArcZR3sBgyPZxxRtnH441'
+
+    cy.visit(`${NAME_ROOT}/abittooawesome.eth`)
+
+    cy.getByTestId('name-details').within(container => {
+      cy.getByTestId('edit-ltc', { exact: false }).click({ force: true })
+      cy.getByPlaceholderText('Enter a LTC address', {
+        exact: false
+      }).type(content, { force: true })
+
+      waitUntilInputResolves('Save').then(() => {
+        cy.getByText('Save').click({ force: true })
+
+        //form closed
+        waitUntilTestIdDoesNotExist('action')
+        waitUntilTestIdDoesNotExist('cancel')
+
+        //Value updated
+        cy.queryByText(content, { exact: false }).should('exist')
+      })
+    })
+  })
+
   it('can set old content', () => {
     const content =
       '0xd1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162'
@@ -315,6 +414,12 @@ describe('Name detail view', () => {
 
       cy.getByTestId('edit-content', { exact: false }).click({ force: true })
       cy.getByTestId('delete-content', { exact: false }).click({ force: true })
+
+      cy.getByTestId('edit-ltc', { exact: false }).click({ force: true })
+      cy.getByTestId('delete-ltc', { exact: false }).click({ force: true })
+
+      cy.getByTestId('edit-notice', { exact: false }).click({ force: true })
+      cy.getByTestId('delete-notice', { exact: false }).click({ force: true })
       cy.wait(1000)
 
       //No addresses to edit
