@@ -109,6 +109,7 @@ const Editable = ({
   domain,
   textKey,
   validator,
+  getPlaceholder,
   value,
   type,
   refetch,
@@ -199,6 +200,8 @@ const Editable = ({
               isInvalid={isInvalid}
               contentType={domain.contentType}
               updateValue={updateValue}
+              placeholder={textKey}
+              placeholder={getPlaceholder ? getPlaceholder(textKey) : ''}
             />
           </EditRecord>
           <SaveCancel
@@ -228,6 +231,7 @@ function Record(props) {
   const {
     textKey,
     validator,
+    getPlaceholder,
     name,
     setHasRecord,
     hasRecord,
@@ -275,6 +279,7 @@ function Record(props) {
       {...props}
       value={dataValue}
       validator={validator}
+      getPlaceholde={getPlaceholder}
       refetch={refetch}
       mutation={mutation}
     />
@@ -300,6 +305,7 @@ function Records({
   mutation,
   keys,
   validator,
+  getPlaceholder,
   title
 }) {
   const [hasRecord, setHasRecord] = useState(false)
@@ -311,6 +317,7 @@ function Records({
           <Record
             key={key}
             validator={validator}
+            getPlaceholder={getPlaceholder}
             textKey={key}
             domain={domain}
             name={domain.name}
@@ -336,12 +343,14 @@ export default function KeyValueRecord({
   mutation,
   keys,
   validator,
+  getPlaceholder,
   title
 }) {
   return (
     <Records
       keys={keys}
       validator={validator}
+      getPlaceholder={getPlaceholder}
       name={domain.name}
       domain={domain}
       isOwner={isOwner}

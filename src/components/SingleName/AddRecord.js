@@ -111,6 +111,7 @@ function TextRecordInput({
         updateValue={updateValue}
         isValid={isValid}
         isInvalid={isInvalid}
+        placeholder={selectedKey ? `Enter ${selectedKey.value}` : ''}
       />
     </>
   )

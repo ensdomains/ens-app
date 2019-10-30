@@ -1316,7 +1316,12 @@
     ethers "^4.0.32"
     lodash "^4.17.13"
 
-"@ensdomains/resolver@0.1.11", "@ensdomains/resolver@^0.1.11":
+"@ensdomains/resolver@0.1.12":
+  version "0.1.12"
+  resolved "https://registry.yarnpkg.com/@ensdomains/resolver/-/resolver-0.1.12.tgz#44ca93d6a3c4fa0a4080f2d59496ca5cd011d4e5"
+  integrity sha512-7Fv+KVSH7PBgRmHoWumI18HlI8ePcXp9ojUiY72VQCmmjOVoXDO/cd4ChoeCQIGxfd0TP1XkK3yOnGz22utHMQ==
+
+"@ensdomains/resolver@^0.1.11":
   version "0.1.11"
   resolved "https://registry.yarnpkg.com/@ensdomains/resolver/-/resolver-0.1.11.tgz#7202f787622d80cfd9a177264b979cf2fdb16aa9"
   integrity sha512-mDSxoPj3E8ZvHHUjKL86b/sqo/aJOf+zWCs3d7nRt5tqOOh55L1HW0NrFSm54x7eEaYf/CozAiQbcRo61crW+g==
@@ -1326,10 +1331,10 @@
   resolved "https://registry.yarnpkg.com/@ensdomains/resolver/-/resolver-0.1.9.tgz#013bc88397c2c204737aaaf602380145d845e09e"
   integrity sha512-eSZIEWi2UcxNZXJhAeoTYUZr20fyly9eMUy17WQ5UjszXf0QgE1Zzh/Oj9Mhl0i8s7xqoPOsntr2ZI0JhsX78w==
 
-"@ensdomains/ui@1.1.28":
-  version "1.1.28"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.1.28.tgz#6cbee1c191d0e5ae1dea6bdfc5cf5b290cfef9b4"
-  integrity sha512-yOAFxdTH7ujeeRZzEtYzOFB3ML7ucvzg4I4ZMvXNuMy491EpN84MmR4R7n5DT5Sy+EnED8V8LoBYcwZszpHLSw==
+"@ensdomains/ui@1.1.31":
+  version "1.1.31"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.1.31.tgz#225f5a9af1b9586cd103d0d361d4bacee3eb1a86"
+  integrity sha512-LfGDLmGFFxLbqBA+/GVeF7VK5ULl2vdQf+OvFVGbnnNA2tU+nC5krzLwCaxC1RK7Jviur5Cix8rXppVyABvEgw==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
@@ -1338,7 +1343,7 @@
     "@ensdomains/ens" "^0.3.5"
     "@ensdomains/ens-022" "npm:@ensdomains/ens@0.2.2"
     "@ensdomains/ethregistrar" "^1.2.2"
-    "@ensdomains/resolver" "0.1.11"
+    "@ensdomains/resolver" "0.1.12"
     "@ethvault/iframe-provider" "0.1.9"
     base58check "^2.0.0"
     bech32 "^1.1.3"
@@ -1793,6 +1798,11 @@
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
+
+"@types/sizzle@2.3.2":
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/@types/sizzle/-/sizzle-2.3.2.tgz#a811b8c18e2babab7d542b3365887ae2e4d9de47"
+  integrity sha512-7EJYyKTL7tFR8+gDbB6Wwz/arpGa0Mywk1TJbNzKzHtzbwVmY4HR9WqS5VV7dsBUKQmPNr192jHr/VpBluj/hg==
 
 "@types/stack-utils@^1.0.1":
   version "1.0.1"
@@ -4254,13 +4264,14 @@ cypress-wait-until@^1.3.0:
   resolved "https://registry.yarnpkg.com/cypress-wait-until/-/cypress-wait-until-1.3.0.tgz#0000da5c82f8e74ee30fb31ceb996b8e041bab02"
   integrity sha512-ILbrvhfcuSnG6dWXqHADNyGwwSBpiSecP8vlaldSIcD2+RUiPRKebDqUhn0uJGQaGwysf7Y6e5kyBjXccdmxsg==
 
-cypress@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-3.4.1.tgz#ca2e4e9864679da686c6a6189603efd409664c30"
-  integrity sha512-1HBS7t9XXzkt6QHbwfirWYty8vzxNMawGj1yI+Fu6C3/VZJ8UtUngMW6layqwYZzLTZV8tiDpdCNBypn78V4Dg==
+cypress@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-3.5.0.tgz#e188bc8f48782953f6865d8830a4dc342334b81c"
+  integrity sha512-I1iSReD2C8CTP6s4BvQky4gEqHBnKLmhBIqFyCUZdj6BQ6ZDxGnmIbQPM5g79E2iP60KTIbTK99ZPSDVtsNUUg==
   dependencies:
     "@cypress/listr-verbose-renderer" "0.4.1"
     "@cypress/xvfb" "1.2.4"
+    "@types/sizzle" "2.3.2"
     arch "2.1.1"
     bluebird "3.5.0"
     cachedir "1.3.0"
@@ -4287,6 +4298,7 @@ cypress@^3.4.1:
     request-progress "3.0.0"
     supports-color "5.5.0"
     tmp "0.1.0"
+    untildify "3.0.3"
     url "0.11.0"
     yauzl "2.10.0"
 
@@ -13434,6 +13446,11 @@ unset-value@^1.0.0:
   dependencies:
     has-value "^0.3.1"
     isobject "^3.0.0"
+
+untildify@3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/untildify/-/untildify-3.0.3.tgz#1e7b42b140bcfd922b22e70ca1265bfe3634c7c9"
+  integrity sha512-iSk/J8efr8uPT/Z4eSUywnqyrQU7DSdMfdqK4iWEaUVVmcP5JcnpRqmVMwcwcnmI1ATFNgC5V90u09tBynNFKA==
 
 upath@^1.1.1:
   version "1.1.2"
