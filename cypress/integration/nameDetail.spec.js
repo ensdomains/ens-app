@@ -337,7 +337,7 @@ describe('Name detail view', () => {
 
   it('can change text', () => {
     const content = 'world'
-    cy.visit(`${NAME_ROOT}/abittooawesome.eth`)
+    cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
     cy.getByTestId('name-details').within(container => {
       cy.getByTestId('edit-notice', { exact: false }).click({ force: true })
@@ -361,7 +361,7 @@ describe('Name detail view', () => {
   it('can change other address', () => {
     const content = 'MQMcJhpWHYVeQArcZR3sBgyPZxxRtnH441'
 
-    cy.visit(`${NAME_ROOT}/abittooawesome.eth`)
+    cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
     cy.getByTestId('name-details').within(container => {
       cy.getByTestId('edit-ltc', { exact: false }).click({ force: true })
