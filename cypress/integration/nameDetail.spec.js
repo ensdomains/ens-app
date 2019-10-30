@@ -416,10 +416,14 @@ describe('Name detail view', () => {
       cy.getByTestId('delete-content', { exact: false }).click({ force: true })
 
       cy.getByTestId('edit-ltc', { exact: false }).click({ force: true })
-      cy.getByTestId('delete-ltc', { exact: false }).click({ force: true })
+      cy.getByTestId('delete-KeyValue-ltc', { exact: false }).click({
+        force: true
+      })
 
       cy.getByTestId('edit-notice', { exact: false }).click({ force: true })
-      cy.getByTestId('delete-notice', { exact: false }).click({ force: true })
+      cy.getByTestId('delete-KeyValue-notice', { exact: false }).click({
+        force: true
+      })
       cy.wait(1000)
 
       //No addresses to edit
