@@ -9,6 +9,7 @@ import SearchDefault from '../components/SearchName/Search'
 import NoAccountsDefault from '../components/NoAccounts/NoAccountsModal'
 import bg from '../assets/heroBG.jpg'
 import NetworkInfoQuery from '../components/NetworkInformation/NetworkInfoQuery'
+import WCstateQuery from '../components/NetworkInformation/WCstateQuery'
 import { ExternalButtonLink, ButtonLink } from '../components/Forms/Button'
 import TextBubbleDefault from '../components/Icons/TextBubble'
 import QuestionMarkDefault from '../components/Icons/QuestionMark'
@@ -16,6 +17,8 @@ import HowToUseDefault from '../components/HowToUse/HowToUse'
 import Alice from '../components/HomePage/Alice'
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
 import { ReactComponent as DefaultPermanentRegistrarIcon } from '../components/Icons/PermanentRegistrar.svg'
+import { connectWC, disconnectWC } from 'connectWC'
+import Button from '../components/Forms/Button'
 
 const Favourites = styled('div')`
   position: absolute;
@@ -234,6 +237,21 @@ const PermanentRegistrarTitle = styled('h2')`
   `}
 `
 
+const WCState = styled(Button)`
+  position: absolute;
+  top: 14px;
+  left: 180px;
+  text-transform: capitalize;
+
+  padding: 4px 15px;
+
+  &:hover {
+    background: #2c46a636;
+    box-shadow: none;
+  }
+`
+
+
 export default props => (
   <Fragment>
     <Hero>
@@ -246,6 +264,21 @@ export default props => (
           )
         }
       </NetworkInfoQuery>
+      <WCstateQuery noLoader>
+        {({ isWalletConnect, isWalletConnectConnected, refetch }) =>
+          isWalletConnectConnected ? (
+            <WCState type="hollow-white" onClick={async () => {
+              await disconnectWC()
+              await refetch()
+            }}>Disconnect WalletConnect</WCState>
+          ) : (
+              <WCState type="hollow-white" onClick={async () => {
+                await connectWC()
+                await refetch()
+              }}>Connect WalletConnect</WCState>
+            )
+        }
+      </WCstateQuery>
       <Favourites>
         <Link to="/favourites">Favourites</Link>
       </Favourites>
