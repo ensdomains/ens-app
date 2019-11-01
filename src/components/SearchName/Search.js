@@ -11,7 +11,7 @@ import mq from 'mediaQuery'
 const SearchForm = styled('form')`
   display: flex;
   position: relative;
-  z-index: 10000;
+  z-index: 100;
 
   &:before {
     content: '';
