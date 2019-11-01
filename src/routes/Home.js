@@ -258,10 +258,10 @@ export default props => (
       <NetworkInfoQuery noLoader={true}>
         {({ accounts, network }) =>
           accounts.length > 0 && network ? (
-            <NetworkStatus>{network} network</NetworkStatus>
+            <NetworkStatus>{network} network <br/><br/> {accounts[0]}</NetworkStatus>
           ) : (
-            <NoAccounts textColour={'white'} />
-          )
+              <NoAccounts textColour={'white'} />
+            )
         }
       </NetworkInfoQuery>
       <WCstateQuery noLoader>
