@@ -21,7 +21,6 @@ jobs:
       name: 'Test'
       install:
         - yarn
-        - yarn global add cypress
         - yarn global add ganache-cli@6.1.8
         - yarn global add wait-on
       before_script:
