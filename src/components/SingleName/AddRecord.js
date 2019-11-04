@@ -1,6 +1,7 @@
 import React, { Component, useState } from 'react'
 import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
+import mq from 'mediaQuery'
 
 import { validateRecord } from '../../utils/records'
 import { useEditable } from '../hooks'
@@ -35,6 +36,13 @@ const ToggleAddRecord = styled('span')`
 
 const Select = styled(DefaultSelect)`
   margin-right: 20px;
+  flex-direction: row;
+  margin-bottom: 10px;
+  width: 100%;
+  ${mq.small`
+    margin-bottom: 0px;
+    max-width: 150px;
+  `}
 `
 
 const RecordsTitle = styled('h3')`
@@ -64,6 +72,10 @@ const Row = styled('div')`
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
+  flex-direction: column;
+  ${mq.small`
+    flex-direction: row;
+  `}
 `
 
 function chooseMutation(recordType, contentType) {

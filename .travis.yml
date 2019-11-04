@@ -7,8 +7,11 @@ language: node_js
 node_js:
   - '8.11.4'
 
-cache: yarn
-
+cache:
+  yarn: true
+  directories:
+    # we also need to cache folder with Cypress binary
+    - ~/.cache/Cypress
 matrix:
   allow_failures:
     #
@@ -19,6 +22,7 @@ jobs:
       install:
         - yarn
         - yarn global add cypress
+        - cypress install
         - yarn global add ganache-cli@6.1.8
         - yarn global add wait-on
       before_script:
