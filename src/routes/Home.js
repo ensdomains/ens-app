@@ -267,13 +267,10 @@ export default props => (
       <WCstateQuery noLoader>
         {({ isWalletConnectConnected, refetch }) =>
           isWalletConnectConnected ? (
-            <WCState type="hollow-white" onClick={async () => {
-              await disconnectWC()
-              await refetch()
-            }}>Disconnect WalletConnect</WCState>
+            <WCState type="hollow-white" onClick={disconnectWC}>Disconnect WalletConnect</WCState>
           ) : (
               <WCState type="hollow-white" onClick={async () => {
-                await connectWC()
+                await connectWC(refetch)
                 await refetch()
               }}>Connect WalletConnect</WCState>
             )
