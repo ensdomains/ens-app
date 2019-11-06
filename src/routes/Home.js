@@ -265,7 +265,7 @@ export default props => (
         }
       </NetworkInfoQuery>
       <WCstateQuery noLoader>
-        {({ isWalletConnect, isWalletConnectConnected, refetch }) =>
+        {({ isWalletConnectConnected, refetch }) =>
           isWalletConnectConnected ? (
             <WCState type="hollow-white" onClick={async () => {
               await disconnectWC()
