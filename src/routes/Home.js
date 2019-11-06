@@ -270,8 +270,12 @@ export default props => (
             <WCState type="hollow-white" onClick={disconnectWC}>Disconnect WalletConnect</WCState>
           ) : (
               <WCState type="hollow-white" onClick={async () => {
-                await connectWC(refetch)
-                await refetch()
+                try {
+                  await connectWC(refetch)
+                  await refetch()
+                } catch (error) {
+                  console.log('Error connecting to WalletConnect', error);
+                }
               }}>Connect WalletConnect</WCState>
             )
         }
