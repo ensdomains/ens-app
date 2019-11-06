@@ -2,7 +2,7 @@ import WalletConnectProvider from '@walletconnect/web3-provider'
 
 import { getWeb3, setupENS, clearCache } from '@ensdomains/ui'
 
-export const connectWC = async () => {
+export const connectWC = async (onDisconnect) => {
     const provider = new WalletConnectProvider({
         //  id from @ensdomains/ui
         infuraId: '90f210707d3c450f847659dc9a3436ea',
@@ -16,6 +16,15 @@ export const connectWC = async () => {
         reloadOnAccountsChange: true,
     })
 
+    provider.once('stop', async () => {
+        clearCache()
+
+        await setupENS({
+            reloadOnAccountsChange: true,
+        })
+
+        onDisconnect()
+    })
     return provider
 }
 
@@ -26,10 +35,5 @@ export const disconnectWC = async () => {
 
     if (isWalletConnect(provider) && provider._web3Provider.wc.connected) await provider._web3Provider.close()
 
-    clearCache()
-
-    await setupENS({
-        reloadOnAccountsChange: true,
-    })
     return getWeb3()
 }
