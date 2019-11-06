@@ -54,7 +54,7 @@ const NameRegister = ({ domain, waitTime, refetch, readOnly }) => {
     <NameRegisterContainer>
       {step === 'PRICE_DECISION' && (
         <Pricer
-          name={domain.name}
+          name={domain.label}
           duration={duration}
           years={years}
           setYears={setYears}
