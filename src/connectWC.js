@@ -5,7 +5,9 @@ import { getWeb3, setupENS, clearCache } from '@ensdomains/ui'
 export const connectWC = async (onDisconnect) => {
     const provider = new WalletConnectProvider({
         //  id from @ensdomains/ui
-        infuraId: '90f210707d3c450f847659dc9a3436ea',
+        // infuraId: '90f210707d3c450f847659dc9a3436ea',
+        // temporary id to avoid `rejected due to project ID settings` origin error
+        infuraId: '081969a3f92249908e4b476de9c3e6f9',
     });
 
     // this will reject if user closes WC qr-modal
