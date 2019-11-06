@@ -101,6 +101,7 @@ const ResultsContainer = ({ searchDomain, match }) => {
     <Mutation
       mutation={GET_SUBDOMAIN_AVAILABILITY}
       refetchQueries={['getSubDomainState']}
+      fetchPolicy="network-only"
     >
       {getSubDomainAvailability => (
         <Results

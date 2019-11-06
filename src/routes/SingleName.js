@@ -51,7 +51,7 @@ function SingleName({
   }, [searchTerm])
   if (valid) {
     return (
-      <Query query={GET_SINGLE_NAME} variables={{ name }}>
+      <Query query={GET_SINGLE_NAME} variables={{ name }} fetchPolicy="network-only">
         {({ loading, error, data, refetch }) => {
           if (loading) return <Loader large center />
           if (error)

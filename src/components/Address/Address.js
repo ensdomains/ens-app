@@ -75,7 +75,10 @@ function filterOutReverse(domains) {
 function DomainList({ domains, address }) {
   const { loading, data, error } = useQuery(
     GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH,
-    { variables: { id: address } }
+    {
+      variables: { id: address },
+      fetchPolicy: 'network-only',
+    },
   )
 
   if (error) {
