@@ -1286,10 +1286,27 @@
     truffle "^5.0.5"
     web3-utils "^1.0.0-beta.48"
 
-"@ensdomains/mock@^1.0.17":
-  version "1.0.17"
-  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-1.0.17.tgz#1e4f237b25a360486a20f3f853ab4cc592dc1f57"
-  integrity sha512-veSqw3h2YVukISRuQEWK2yuAJllDELdQUEXf/kactXAKVMpzpUg0ILPYrsr8tGGxf3WAiCZtAcPsCSf6reLcHA==
+"@ensdomains/ethregistrar@^1.2.9":
+  version "1.2.9"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ethregistrar/-/ethregistrar-1.2.9.tgz#4b0c4bc6e4384eccd1016966104f9cdd0e85e8da"
+  integrity sha512-0cqP/WnrQfvYVneY4fOdi9z1s+mjCegG5L91a9JWDKeTmQxvmJRjpliUhp1tqxrWKQA8g8Rlecp/8puAB5KPHA==
+  dependencies:
+    "@ensdomains/buffer" "0.0.10"
+    "@ensdomains/dnsregistrar" "^0.3.5"
+    "@ensdomains/dnssec-oracle" "^0.1.2"
+    "@ensdomains/ens" "^0.3.6"
+    "@ensdomains/resolver" "^0.1.13"
+    bluebird "^3.5.3"
+    eth-ens-namehash "^2.0.8"
+    openzeppelin-solidity "2.1.3"
+    solium "^1.2.3"
+    truffle "^5.0.5"
+    web3-utils "^1.0.0-beta.48"
+
+"@ensdomains/mock@^1.0.18":
+  version "1.0.18"
+  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-1.0.18.tgz#936aa56abf719c39fcc58f9f792e0eace3368b88"
+  integrity sha512-xeO8o2W4ycNcSE1eOTCf3LL63pwGMpucddWztuz1wTDs456r4xSnSFMlqt4oRae2StNkCjpSeC+R2d4ulV9nNw==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
@@ -1298,7 +1315,7 @@
     "@ensdomains/dnssec-oracle" "^0.1.2"
     "@ensdomains/ens" "^0.3.10"
     "@ensdomains/ens-022" "npm:@ensdomains/ens@0.2.2"
-    "@ensdomains/ethregistrar" "^1.2.2"
+    "@ensdomains/ethregistrar" "^1.2.9"
     "@ensdomains/resolver" "^0.1.11"
     cross-fetch "^3.0.2"
     eth-ens-namehash "^2.0.8"
@@ -1325,6 +1342,11 @@
   version "0.1.11"
   resolved "https://registry.yarnpkg.com/@ensdomains/resolver/-/resolver-0.1.11.tgz#7202f787622d80cfd9a177264b979cf2fdb16aa9"
   integrity sha512-mDSxoPj3E8ZvHHUjKL86b/sqo/aJOf+zWCs3d7nRt5tqOOh55L1HW0NrFSm54x7eEaYf/CozAiQbcRo61crW+g==
+
+"@ensdomains/resolver@^0.1.13":
+  version "0.1.13"
+  resolved "https://registry.yarnpkg.com/@ensdomains/resolver/-/resolver-0.1.13.tgz#3a43df9f2d6f4e60c677adf60311805643aac781"
+  integrity sha512-VcMygGO/b0H4AXkN4CRAHw0CZd5XvTJW8YdIdZEmpJGs/O3eMzBzxpgJJ7UerD7U098rbBDSJmj0zjGudV0/aQ==
 
 "@ensdomains/resolver@^0.1.6":
   version "0.1.9"
