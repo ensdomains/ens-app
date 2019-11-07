@@ -52,8 +52,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:ipfs": "REACT_APP_IPFS=True PUBLIC_URL='.' yarn start",
     "start:test": "REACT_APP_STAGE=local yarn start",
     "build": "CI=false react-scripts --max_old_space_size=4096 build",
+    "build:ipfs": "REACT_APP_IPFS=True PUBLIC_URL='.' yarn build",
     "postbuild": "cp build/index.html build/200.html",
     "test": "react-scripts test --env=jsdom",
     "test:coverage": "npm test -- --coverage",
