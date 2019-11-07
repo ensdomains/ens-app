@@ -18,6 +18,8 @@ const rootDefaults = {
   web3: {
     accounts: [],
     networkId: 0,
+    isWalletConnect: false,
+    isWalletConnectConnected: false,
     __typename: 'Web3'
   },
   error: null,
