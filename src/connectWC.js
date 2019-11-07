@@ -37,5 +37,5 @@ export const disconnectWC = async () => {
 
     if (isWalletConnect(provider) && provider._web3Provider.wc.connected) await provider._web3Provider.close()
 
-    return getWeb3()
+    return null
 }
