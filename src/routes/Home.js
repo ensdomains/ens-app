@@ -17,8 +17,7 @@ import HowToUseDefault from '../components/HowToUse/HowToUse'
 import Alice from '../components/HomePage/Alice'
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
 import { ReactComponent as DefaultPermanentRegistrarIcon } from '../components/Icons/PermanentRegistrar.svg'
-import { connectWC, disconnectWC } from 'connectWC'
-import Button from '../components/Forms/Button'
+import WCconnector from '../components/WalletConnect/Connector'
 
 const Favourites = styled('div')`
   position: absolute;
@@ -237,48 +236,20 @@ const PermanentRegistrarTitle = styled('h2')`
   `}
 `
 
-const WCState = styled(Button)`
-  position: absolute;
-  top: 14px;
-  left: 180px;
-  text-transform: capitalize;
-
-  padding: 4px 15px;
-
-  &:hover {
-    background: #2c46a636;
-    box-shadow: none;
-  }
-`
-
-
 export default props => (
   <Fragment>
     <Hero>
       <NetworkInfoQuery noLoader={true}>
         {({ accounts, network }) =>
           accounts.length > 0 && network ? (
-            <NetworkStatus>{network} network <br/><br/> {accounts[0]}</NetworkStatus>
+            <NetworkStatus>{network} network <br /><br /> {accounts[0]}</NetworkStatus>
           ) : (
               <NoAccounts textColour={'white'} />
             )
         }
       </NetworkInfoQuery>
       <WCstateQuery noLoader>
-        {({ isWalletConnectConnected, refetch }) =>
-          isWalletConnectConnected ? (
-            <WCState type="hollow-white" onClick={disconnectWC}>Disconnect WalletConnect</WCState>
-          ) : (
-              <WCState type="hollow-white" onClick={async () => {
-                try {
-                  await connectWC(refetch)
-                  await refetch()
-                } catch (error) {
-                  console.log('Error connecting to WalletConnect', error);
-                }
-              }}>Connect WalletConnect</WCState>
-            )
-        }
+        {props => <WCconnector {...props} />}
       </WCstateQuery>
       <Favourites>
         <Link to="/favourites">Favourites</Link>
