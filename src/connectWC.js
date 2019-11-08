@@ -63,7 +63,7 @@ export const connectWC = async ({onDisconnect, onURI} = {}) => {
     return provider
 }
 
-const isWalletConnect = provider => provider._web3Provider && provider._web3Provider.isWalletConnect
+export const isWalletConnect = provider => provider && provider._web3Provider && provider._web3Provider.isWalletConnect
 
 export const disconnectWC = async () => {
     const provider = await getWeb3()

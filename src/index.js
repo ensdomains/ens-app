@@ -3,12 +3,14 @@ import ReactDOM from 'react-dom'
 import { ApolloProvider } from 'react-apollo'
 import 'core-js/es/object'
 import App from 'App'
-import { setupENS } from '@ensdomains/ui'
+import { setupENS, getWeb3 } from '@ensdomains/ui'
 import { SET_ERROR } from 'graphql/mutations'
 
 import { GlobalStateProvider } from 'globalState'
 import 'globalStyles'
 import { setupClient } from 'apolloClient'
+
+import { isWalletConnect, getWCIfConnected } from './connectWC'
 
 window.addEventListener('load', async () => {
   let client
@@ -44,4 +46,14 @@ window.addEventListener('load', async () => {
     </ApolloProvider>,
     document.getElementById('root')
   )
+})
+
+
+const wasLastProviderWC = () => localStorage.getItem('lastProvider') === 'WalletConnect'
+
+window.addEventListener('unload', async () => {
+  const provider = await getWeb3()
+
+  const providerType = isWalletConnect(provider) ? 'WalletConnect' : 'default'
+  window.localStorage.setItem('lastProvider', providerType)
 })
