@@ -4,7 +4,7 @@ import { getWeb3, setupENS, clearCache } from '@ensdomains/ui'
 
 const delay = (ms = 100) => new Promise(resolve => setTimeout(resolve, ms))
 
-export const getWCIfConnected = async () => {
+export const getWCIfConnected = async ({ onDisconnect } = {}) => {
     const provider = new WalletConnectProvider({
         //  id from @ensdomains/ui
         // infuraId: '90f210707d3c450f847659dc9a3436ea',
@@ -20,6 +20,16 @@ export const getWCIfConnected = async () => {
 
     try {
         await provider.enable()
+
+        provider.once('stop', async () => {
+            clearCache()
+    
+            await setupENS({
+                reloadOnAccountsChange: true,
+            })
+    
+            onDisconnect && onDisconnect()
+        })
     } catch (error) {
         console.log('Error reestablishing previous WC connection', error)
         return false
