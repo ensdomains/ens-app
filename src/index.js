@@ -11,6 +11,7 @@ import 'globalStyles'
 import { setupClient } from 'apolloClient'
 
 import { isWalletConnect, getWCIfConnected } from './connectWC'
+import { GET_WC_STATE } from './components/NetworkInformation/WCstateQuery'
 
 window.addEventListener('load', async () => {
   let client
@@ -30,7 +31,9 @@ window.addEventListener('load', async () => {
       // false if no previous connection to WC
       // or previous connection was terminated outside of page context
       // (without clearing localStorage.walletconnect)
-      const customProvider = wasLastProviderWC() && await getWCIfConnected()
+      const customProvider = wasLastProviderWC() && await getWCIfConnected({
+        onDisconnect: () => client && client.query({query: GET_WC_STATE, fetchPolicy: 'network-only'})
+      })
 
       await setupENS({
         reloadOnAccountsChange: false,
