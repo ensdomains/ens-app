@@ -27,8 +27,14 @@ window.addEventListener('load', async () => {
         ensAddress: process.env.REACT_APP_ENS_ADDRESS
       })
     } else {
+      // false if no previous connection to WC
+      // or previous connection was terminated outside of page context
+      // (without clearing localStorage.walletconnect)
+      const customProvider = wasLastProviderWC() && await getWCIfConnected()
+
       await setupENS({
-        reloadOnAccountsChange: false
+        reloadOnAccountsChange: false,
+        customProvider,
       })
     }
   } catch (e) {
