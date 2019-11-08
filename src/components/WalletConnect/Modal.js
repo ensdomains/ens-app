@@ -1,4 +1,4 @@
-import React, {useState, useMemo, useRef} from 'react'
+import React, {useState, useRef} from 'react'
 import {createPortal} from 'react-dom'
 import styled from '@emotion/styled'
 
