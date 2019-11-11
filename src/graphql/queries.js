@@ -101,6 +101,19 @@ export const GET_SUBDOMAINS_FROM_SUBGRAPH = gql`
   }
 `
 
+export const GET_RESOLVER_RECORD_FROM_SUBGRAPH = gql`
+  query getResolverRecord($id: ID!) {
+    domain(id: $id) {
+      id
+      labelName
+      resolver {
+        texts
+        coinTypes
+      }
+    }
+  }
+`
+
 export const GET_TRANSACTION_HISTORY = gql`
   query getTransactionHistory {
     transactionHistory @client {
