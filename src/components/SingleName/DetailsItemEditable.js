@@ -188,19 +188,22 @@ function getInputType(
   }
 
   if (type === 'address') {
-    return (
-      <AddressInput
-        presetValue={presetValue || ''}
-        provider={window.ethereum || window.web3}
-        onResolve={({ address }) => {
-          if (address) {
-            updateValue(address)
-          } else {
-            updateValue('')
-          }
-        }}
-      />
-    )
+    let option = {
+      presetValue: presetValue || '',
+      provider: window.ethereum || window.web3,
+      onResolve: ({ address }) => {
+        if (address) {
+          updateValue(address)
+        } else {
+          updateValue('')
+        }
+      }
+    }
+    if (keyName === 'Resolver') {
+      option.placeholder =
+        'Use the Public Resolver or enter the address of your custom resolver contract'
+    }
+    return <AddressInput {...option} />
   }
 
   return (
