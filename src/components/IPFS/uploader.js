@@ -36,7 +36,7 @@ class Uploader {
 
 function IPFSUploader(userOpts) {
   const upl = new Uploader(userOpts)
-  return <Title>Hello World</Title>
+  return <Title>IPFS Uploader</Title>
 }
 
 export default IPFSUploader
