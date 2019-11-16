@@ -1,6 +1,15 @@
 import React from 'react'
 import { Title } from '../Typography/Basic'
+import TopBar from '../Basic/TopBar'
+import styled from '@emotion/styled'
+import NameContainer from '../Basic/MainContainer'
+
 var ipfsClient = require('ipfs-http-client')
+
+const RightBar = styled('div')`
+  display: flex;
+  align-items: center;
+`
 
 // Uploader is a generalized ipfs upload capable of uploading
 // and interacting with an IPFS HTTP API
@@ -35,8 +44,19 @@ class Uploader {
 }
 
 function IPFSUploader(userOpts) {
+  let containerState
+
   const upl = new Uploader(userOpts)
-  return <Title>IPFS Uploader</Title>
+  return (
+    <NameContainer>
+      <TopBar>
+        <Title>IPFS Uploader</Title>
+        <RightBar>
+          Upload files or pin content to IPFS through different IPFS providers
+        </RightBar>
+      </TopBar>
+    </NameContainer>
+  )
 }
 
 export default IPFSUploader
