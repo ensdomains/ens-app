@@ -18,6 +18,7 @@ import Address from './routes/AddressPage'
 import { TestPage } from './routes/Test'
 import Modal from './components/Modal/Modal'
 import Confirm from './components/SingleName/Confirm'
+import IPFSUPloader from './components/IPFS/uploader'
 import { NetworkError } from './components/Error/Errors'
 import { CONFIRM } from './modals'
 
@@ -71,6 +72,7 @@ const App = () => (
                   <Route path="/search/:searchTerm" component={SearchResults} />
                   <Route path="/name/:name" component={SingleName} />
                   <Route path="/address/:address" component={Address} />
+                  <Route path="/ipfs/upload" component={IPFSUPloader} />
                 </Switch>
               </Router>
               <Modal name={CONFIRM} component={Confirm} />
