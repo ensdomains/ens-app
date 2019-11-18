@@ -173,7 +173,7 @@ function getInputType(
   if (keyName === 'Expiration Date') {
     return (
       <Pricer
-        name={name}
+        name={name.split('.')[0]}
         duration={duration}
         years={years}
         setYears={years => {

@@ -26,7 +26,7 @@ window.addEventListener('load', async () => {
       })
     } else {
       await setupENS({
-        reloadOnAccountsChange: true
+        reloadOnAccountsChange: false
       })
     }
   } catch (e) {
