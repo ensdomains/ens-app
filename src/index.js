@@ -20,7 +20,7 @@ window.addEventListener('load', async () => {
       process.env.REACT_APP_ENS_ADDRESS
     ) {
       await setupENS({
-        reloadOnAccountsChange: false,
+        reloadOnAccountsChange: true,
         customProvider: 'http://localhost:8545',
         ensAddress: process.env.REACT_APP_ENS_ADDRESS
       })
