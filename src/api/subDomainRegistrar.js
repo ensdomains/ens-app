@@ -7,13 +7,9 @@ let subDomainRegistrars = {}
 const defaultAddress = '0x0b07463b30b302a98407d3e3df85ebc073b0dbd1'
 
 const getSubDomainRegistrar = async address => {
-  const signerOrProvider = await getProvider()
+  const provider = await getProvider()
   function instantiateContract(address) {
-    const contract = new Contract(
-      address,
-      subDomainRegistrarContract,
-      signerOrProvider
-    )
+    const contract = new Contract(address, subDomainRegistrarContract, provider)
     subDomainRegistrars[address] = contract
     return contract
   }
