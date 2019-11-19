@@ -236,7 +236,7 @@ describe('Name detail view', () => {
     const address = 'MQMcJhpWHYVeQArcZR3sBgyPZxxRtnH441'
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
-    cy.getByTestId('name-details', { timeout: 20000 }).within(container => {
+    cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
       cy.getByText('+')
         .click({ force: true })
         .getByText('select a record', { exact: false })
@@ -252,7 +252,6 @@ describe('Name detail view', () => {
       waitUntilInputResolves('Save').then(() => {
         cy.getByText('Save').click({ force: true })
         cy.queryByText(address, {
-          timeout: 5000,
           exact: false
         }).should('exist')
       })
