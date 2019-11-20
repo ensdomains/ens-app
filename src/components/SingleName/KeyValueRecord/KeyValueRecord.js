@@ -200,7 +200,6 @@ const Editable = ({
               isInvalid={isInvalid}
               contentType={domain.contentType}
               updateValue={updateValue}
-              placeholder={textKey}
               placeholder={getPlaceholder ? getPlaceholder(textKey) : ''}
             />
           </EditRecord>
@@ -264,12 +263,12 @@ function Record(props) {
         }
       })
     }
-  }, [recordAdded])
+  }, [recordAdded, refetch, textKey])
   useEffect(() => {
     if (dataValue && !hasRecord) {
       setHasRecord(true)
     }
-  }, [dataValue, hasRecord])
+  }, [dataValue, hasRecord, setHasRecord])
 
   if (error || loading || !dataValue || parseInt(dataValue, 16) === 0) {
     return null
