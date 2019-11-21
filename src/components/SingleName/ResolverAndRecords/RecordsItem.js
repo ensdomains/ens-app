@@ -4,25 +4,21 @@ import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
 import DefaultAddressInput from '@ensdomains/react-ens-address'
 
-import { validateRecord } from '../../utils/records'
-import { emptyAddress } from '../../utils/utils'
+import { validateRecord } from 'utils/records'
+import { emptyAddress } from 'utils/utils'
 import mq from 'mediaQuery'
 
-import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
+import { DetailsItem, DetailsKey, DetailsValue } from '../DetailsItem'
 import AddReverseRecord from './AddReverseRecord'
-import AddressLink from '../Links/AddressLink'
-import ContentHashLink from '../Links/ContentHashLink'
-import Pencil from '../Forms/Pencil'
-import Bin from '../Forms/Bin'
-import SaveCancel from './SaveCancel'
-import DefaultPendingTx from '../PendingTx'
-import {
-  SET_CONTENT,
-  SET_CONTENTHASH,
-  SET_ADDRESS
-} from '../../graphql/mutations'
-import DetailsItemInput from './DetailsItemInput'
-import { useEditable } from '../hooks'
+import AddressLink from '../../Links/AddressLink'
+import ContentHashLink from '../../Links/ContentHashLink'
+import Pencil from '../../Forms/Pencil'
+import Bin from '../../Forms/Bin'
+import SaveCancel from '../SaveCancel'
+import DefaultPendingTx from '../../PendingTx'
+import { SET_CONTENT, SET_CONTENTHASH, SET_ADDRESS } from 'graphql/mutations'
+import DetailsItemInput from '../DetailsItemInput'
+import { useEditable } from '../../hooks'
 import { getOldContentWarning } from './warnings'
 
 const AddressInput = styled(DefaultAddressInput)`

@@ -22,7 +22,8 @@ import {
   registerTestdomain,
   createSubdomain,
   expiryTimes,
-  isDecrypted
+  isDecrypted,
+  getAddrWithResolver
 } from '@ensdomains/ui'
 import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
@@ -285,6 +286,74 @@ const resolvers = {
         return detailedNode
       } catch (e) {
         console.log('Error in Single Name', e)
+      }
+    },
+    getResolverMigrationInfo: async (_, { name, resolver }, { cache }) => {
+      /* TODO add hardcoded resolver addresses */
+
+      const DEPRECATED_RESOLVERS = ['0x1', '0x2']
+      const OLD_RESOLVERS = ['0x3']
+
+      /* Deprecated resolvers are using the old registry and must be migrated */
+
+      function calculateIsDeprecatedResolver(address) {
+        return DEPRECATED_RESOLVERS.includes(address)
+      }
+
+      /* Old Public resolvers are using the new registry and can be continued to be used */
+
+      function calculateIsOldPublicResolver(address) {
+        return OLD_RESOLVERS.includes(address)
+      }
+
+      async function areRecordsMigrated(
+        isDeprecatedResolver,
+        isOldPublicResolver
+      ) {
+        if (!isDeprecatedResolver && !isOldPublicResolver) {
+          return null
+        }
+
+        const publicResolver = await getAddr('resolver.eth')
+
+        if (isOldPublicResolver || isDeprecatedResolver) {
+          /* Get original addr record */
+          const currentAddr = await getAddr(name, 'ETH')
+          /* Get new resolver addr record */
+          const addrOnPublicResolver = await getAddrWithResolver(
+            name,
+            'ETH',
+            publicResolver
+          )
+          /* Check if they match and return true if so*/
+          if (currentAddr === addrOnPublicResolver) {
+            return true
+          }
+          /* TODO add all other records */
+        }
+      }
+
+      let isDeprecatedResolver = calculateIsDeprecatedResolver(resolver)
+      let isOldPublicResolver = calculateIsOldPublicResolver(resolver)
+
+      const ret = {
+        name,
+        isDeprecatedResolver,
+        isOldPublicResolver,
+        areRecordsMigrated: await areRecordsMigrated(
+          isDeprecatedResolver,
+          isOldPublicResolver
+        ),
+        __typename: 'ResolverMigration'
+      }
+
+      /* mock object */
+      return {
+        name,
+        isDeprecatedResolver: false,
+        isOldPublicResolver: true,
+        areRecordsMigrated: false,
+        __typename: 'ResolverMigration'
       }
     },
     getSubDomains: async (_, { name }, { cache }) => {

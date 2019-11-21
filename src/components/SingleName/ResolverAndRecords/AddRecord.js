@@ -3,23 +3,23 @@ import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
 import mq from 'mediaQuery'
 
-import { validateRecord } from '../../utils/records'
-import { useEditable } from '../hooks'
+import { validateRecord } from '../../../utils/records'
+import { useEditable } from '../../hooks'
 import {
   SET_CONTENT,
   SET_CONTENTHASH,
   SET_ADDRESS,
   SET_ADDR,
   SET_TEXT
-} from '../../graphql/mutations'
+} from '../../../graphql/mutations'
 import { getOldContentWarning } from './warnings'
 import TEXT_RECORD_KEYS from './TextRecord/constants'
 import { COIN_LIST } from './Address/constants'
 
-import DetailsItemInput from './DetailsItemInput'
-import SaveCancel from './SaveCancel'
-import DefaultSelect from '../Forms/Select'
-import PendingTx from '../PendingTx'
+import DetailsItemInput from '../DetailsItemInput'
+import SaveCancel from '../SaveCancel'
+import DefaultSelect from '../../Forms/Select'
+import PendingTx from '../../PendingTx'
 import DefaultAddressInput from '@ensdomains/react-ens-address'
 
 const AddressInput = styled(DefaultAddressInput)`

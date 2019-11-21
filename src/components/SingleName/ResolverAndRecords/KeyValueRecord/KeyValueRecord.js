@@ -10,12 +10,12 @@ import {
   RecordsSubKey,
   RecordsValue
 } from '../RecordsItem'
-import DetailsItemInput from '../DetailsItemInput'
-import { useEditable } from '../../hooks'
+import DetailsItemInput from '../../DetailsItemInput'
+import { useEditable } from '../../../hooks'
 import PendingTx from 'components/PendingTx'
-import Pencil from '../../Forms/Pencil'
-import Bin from '../../Forms/Bin'
-import SaveCancel from '../SaveCancel'
+import Pencil from '../../../Forms/Pencil'
+import Bin from '../../../Forms/Bin'
+import SaveCancel from '../../SaveCancel'
 
 const KeyValueItem = styled(RecordsItem)`
   display: flex;
