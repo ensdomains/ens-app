@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
@@ -120,7 +120,7 @@ const Actionable = ({ startEditing, keyName, value }) => {
   }
 }
 
-const Editable = ({
+const RecordItemEditable = ({
   domain,
   keyName,
   value,
@@ -268,41 +268,42 @@ const Editable = ({
   )
 }
 
-class RecordItem extends Component {
-  _renderViewOnly() {
-    const { keyName, value, type, domain, account } = this.props
-    const { name, contentType } = domain
-    return keyName !== 'Address' && contentType === 'error' ? (
-      ''
-    ) : (
-      <RecordsItem>
-        <RecordsContent>
-          <RecordsKey>{keyName}</RecordsKey>
-          <RecordsValue>
-            {type === 'address' ? (
-              <AddressLink address={value}>{value}</AddressLink>
-            ) : (
-              <ContentHashLink value={value} contentType={contentType} />
-            )}
-          </RecordsValue>
-          <Action>
-            <Pencil
-              disabled={true}
-              data-testid={`edit-${keyName.toLowerCase()}`}
-            />
-          </Action>
-        </RecordsContent>
-        {keyName === 'Address' &&
-          value.toLowerCase() === account.toLowerCase() && (
-            <AddReverseRecord account={account} name={name} />
+function RecordItemViewOnly({ keyName, value, type, domain, account }) {
+  const { name, contentType } = domain
+  return keyName !== 'Address' && contentType === 'error' ? (
+    ''
+  ) : (
+    <RecordsItem>
+      <RecordsContent>
+        <RecordsKey>{keyName}</RecordsKey>
+        <RecordsValue>
+          {type === 'address' ? (
+            <AddressLink address={value}>{value}</AddressLink>
+          ) : (
+            <ContentHashLink value={value} contentType={contentType} />
           )}
-      </RecordsItem>
-    )
-  }
-  render() {
-    const { isOwner } = this.props
-    return isOwner ? <Editable {...this.props} /> : this._renderViewOnly()
-  }
+        </RecordsValue>
+        <Action>
+          <Pencil
+            disabled={true}
+            data-testid={`edit-${keyName.toLowerCase()}`}
+          />
+        </Action>
+      </RecordsContent>
+      {keyName === 'Address' &&
+        value.toLowerCase() === account.toLowerCase() && (
+          <AddReverseRecord account={account} name={name} />
+        )}
+    </RecordsItem>
+  )
+}
+
+function RecordItem(props) {
+  const { canEdit } = props
+
+  if (canEdit) return <RecordItemEditable {...props} />
+
+  return <RecordItemViewOnly {...props} />
 }
 
 RecordItem.propTypes = {

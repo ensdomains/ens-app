@@ -31,6 +31,13 @@ const RecordsWrapper = styled('div')`
   margin-bottom: 20px;
 `
 
+const CantEdit = styled('div')`
+  padding: 20px;
+  font-size: 14px;
+  color: #adbbcd;
+  background: hsla(37, 91%, 55%, 0.1);
+`
+
 const RECORDS = [
   {
     label: 'Address',
@@ -89,26 +96,19 @@ function calculateShouldShowRecords(isOwner, hasResolver, hasRecords) {
   return false
 }
 
-function calculateCanEditRecords(domain) {
-  /* If it is not old resolver, can edit */
-  if (!domain.isOldPublicResolver) {
-    return true
-  }
-  /* Otherwise is an oldPublicResolver so don't let edits*/
-  return false
-}
-
-function Records({ domain, isOwner, refetch, account }) {
+function Records({
+  domain,
+  isOwner,
+  refetch,
+  account,
+  hasResolver,
+  isOldPublicResolver,
+  isDeprecatedResolver,
+  hasMigratedRecords,
+  needsToBeMigrated
+}) {
   const [recordAdded, setRecordAdded] = useState(0)
-  const { data, loading: loadingResolverMigration, error } = useQuery(
-    GET_RESOLVER_MIGRATION_INFO,
-    {
-      variables: {
-        name: domain.name,
-        resolver: domain.resolver
-      }
-    }
-  )
+
   const emptyRecords = RECORDS.filter(record => {
     if (record.value === 'address') {
       return isEmpty(domain['addr']) ? true : false
@@ -124,36 +124,43 @@ function Records({ domain, isOwner, refetch, account }) {
     contentMutation = SET_CONTENTHASH
   }
 
-  const hasResolver = hasAResolver(domain.resolver)
   const hasRecords = hasAnyRecord(domain)
   const shouldShowRecords = calculateShouldShowRecords(
     isOwner,
     hasResolver,
     hasRecords
   )
-  const canEditRecords = calculateCanEditRecords(domain)
+  const canEditRecords = !isOldPublicResolver && isOwner
 
   if (!shouldShowRecords) {
     return null
   }
 
   return (
-    <RecordsWrapper shouldShowRecords={shouldShowRecords}>
-      <AddRecord
-        emptyRecords={emptyRecords}
-        title="Records"
-        isOwner={isOwner}
-        domain={domain}
-        refetch={refetch}
-        setRecordAdded={setRecordAdded}
-      />
+    <RecordsWrapper
+      shouldShowRecords={shouldShowRecords}
+      needsToBeMigrated={needsToBeMigrated}
+    >
+      {isOldPublicResolver ? (
+        <CantEdit>
+          You can’t edit or add records until you migrate to the new resolver.
+        </CantEdit>
+      ) : (
+        <AddRecord
+          emptyRecords={emptyRecords}
+          title="Records"
+          canEdit={canEditRecords}
+          domain={domain}
+          refetch={refetch}
+          setRecordAdded={setRecordAdded}
+        />
+      )}
       {hasResolver && hasAnyRecord && (
         <>
           {!isEmpty(domain.addr) && (
             <RecordsItem
               canEdit={canEditRecords}
               domain={domain}
-              isOwner={isOwner}
               keyName="Address"
               value={domain.addr}
               mutation={SET_ADDRESS}
@@ -166,7 +173,6 @@ function Records({ domain, isOwner, refetch, account }) {
             <RecordsItem
               canEdit={canEditRecords}
               domain={domain}
-              isOwner={isOwner}
               keyName="Content"
               type="content"
               mutation={contentMutation}
@@ -177,7 +183,6 @@ function Records({ domain, isOwner, refetch, account }) {
           <Address
             canEdit={canEditRecords}
             domain={domain}
-            isOwner={isOwner}
             recordAdded={recordAdded}
             mutation={SET_ADDR}
             query={GET_ADDR}
@@ -186,7 +191,6 @@ function Records({ domain, isOwner, refetch, account }) {
           <TextRecord
             canEdit={canEditRecords}
             domain={domain}
-            isOwner={isOwner}
             recordAdded={recordAdded}
             mutation={SET_TEXT}
             query={GET_TEXT}
@@ -198,27 +202,92 @@ function Records({ domain, isOwner, refetch, account }) {
   )
 }
 
+function MigrationWarning() {
+  return (
+    <div>
+      You’re using an outdated version of the public resolver, Click to migrate
+      your resolver and records. You will need to confirm two transactions in
+      order to migrate both your records and resolver. Learn More
+    </div>
+  )
+}
+
+const ResolverWrapper = styled('div')`
+  ${p =>
+    p.needsToBeMigrated
+      ? `
+    color: #ADBBCD;
+    font-size: 14px;
+    background: hsla(37, 91%, 55%, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+  `
+      : 'background: none;'}
+`
+
 export default function ResolverAndRecords({
   domain,
   isOwner,
   refetch,
   account
 }) {
+  const hasResolver = hasAResolver(domain.resolver)
+  let isOldPublicResolver = false
+  let isDeprecatedResolver = false
+  let areRecordsMigrated = true
+
+  const {
+    data: { getResolverMigrationInfo },
+    loading
+  } = useQuery(GET_RESOLVER_MIGRATION_INFO, {
+    variables: {
+      name: domain.name,
+      resolver: domain.resolver
+    },
+    skip: !hasResolver
+  })
+
+  if (getResolverMigrationInfo) {
+    isOldPublicResolver = getResolverMigrationInfo.isOldPublicResolver
+    isDeprecatedResolver = getResolverMigrationInfo.isDeprecatedResolver
+    areRecordsMigrated = getResolverMigrationInfo.areRecordsMigrated
+  }
+
+  const needsToBeMigrated =
+    !loading && (isOldPublicResolver || isDeprecatedResolver)
+
   return (
     <>
-      <DetailsItemEditable
-        keyName="Resolver"
-        type="address"
-        value={domain.resolver}
-        canEdit={isOwner}
-        domain={domain}
-        editButton="Set"
-        mutationButton="Save"
-        mutation={SET_RESOLVER}
-        refetch={refetch}
-        account={account}
-      />
-      <Records domain={domain} isOwner={isOwner} />
+      <ResolverWrapper needsToBeMigrated={needsToBeMigrated}>
+        <DetailsItemEditable
+          keyName="Resolver"
+          type="address"
+          value={domain.resolver}
+          canEdit={isOwner}
+          domain={domain}
+          editButton="Set"
+          mutationButton="Save"
+          mutation={SET_RESOLVER}
+          refetch={refetch}
+          account={account}
+          needsToBeMigrated={needsToBeMigrated}
+        />
+        {needsToBeMigrated && <MigrationWarning />}
+      </ResolverWrapper>
+
+      {hasResolver && (
+        <Records
+          domain={domain}
+          refetch={refetch}
+          account={account}
+          isOwner={isOwner}
+          hasResolver={hasResolver}
+          needsToBeMigrated={needsToBeMigrated}
+          isOldPublicResolver={isOldPublicResolver}
+          isDeprecatedResolver={isDeprecatedResolver}
+          areRecordsMigrated={areRecordsMigrated}
+        />
+      )}
     </>
   )
 }

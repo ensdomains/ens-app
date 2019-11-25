@@ -50,7 +50,7 @@ const EditButton = styled(Button)`
 const DetailsEditableContainer = styled(DetailsItem)`
   flex-direction: column;
 
-  background: ${({ editing }) => (editing ? '#F0F6FA' : 'white')};
+  background: ${({ editing }) => (editing ? '#F0F6FA' : 'transparent')};
   padding: ${({ editing }) => (editing ? '20px' : '0')};
   ${({ editing }) => (editing ? `margin-bottom: 20px;` : '')}
   transition: 0.3s;

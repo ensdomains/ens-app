@@ -234,7 +234,7 @@ function Record(props) {
     name,
     setHasRecord,
     hasRecord,
-    isOwner,
+    canEdit,
     recordAdded,
     query,
     mutation
@@ -273,7 +273,7 @@ function Record(props) {
   if (error || loading || !dataValue || parseInt(dataValue, 16) === 0) {
     return null
   }
-  return isOwner ? (
+  return canEdit ? (
     <Editable
       {...props}
       value={dataValue}
@@ -298,7 +298,7 @@ function ViewOnly({ textKey, value }) {
 
 function Records({
   domain,
-  isOwner,
+  canEdit,
   recordAdded,
   query,
   mutation,
@@ -322,7 +322,7 @@ function Records({
             name={domain.name}
             setHasRecord={setHasRecord}
             hasRecord={hasRecord}
-            isOwner={isOwner}
+            canEdit={canEdit}
             recordAdded={recordAdded}
             query={query}
             mutation={mutation}
@@ -335,7 +335,7 @@ function Records({
 
 export default function KeyValueRecord({
   domain,
-  isOwner,
+  canEdit,
   refetch,
   recordAdded,
   query,
@@ -352,7 +352,7 @@ export default function KeyValueRecord({
       getPlaceholder={getPlaceholder}
       name={domain.name}
       domain={domain}
-      isOwner={isOwner}
+      canEdit={canEdit}
       refetch={refetch}
       recordAdded={recordAdded}
       query={query}

@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
 import mq from 'mediaQuery'
@@ -305,26 +305,17 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
   )
 }
 
-class AddRecord extends Component {
-  _renderEditable() {
-    return (
-      <AddRecordContainer>
-        <Editable {...this.props} />
-      </AddRecordContainer>
-    )
-  }
-
-  _renderViewOnly() {
-    return (
-      <AddRecordContainer>
-        <RecordsTitle>Records</RecordsTitle>
-      </AddRecordContainer>
-    )
-  }
-  render() {
-    const { isOwner } = this.props
-    return isOwner ? this._renderEditable() : this._renderViewOnly()
-  }
+function AddRecord(props) {
+  const { canEdit } = props
+  return canEdit ? (
+    <AddRecordContainer>
+      <Editable {...props} />
+    </AddRecordContainer>
+  ) : (
+    <AddRecordContainer>
+      <RecordsTitle>Records</RecordsTitle>
+    </AddRecordContainer>
+  )
 }
 
 export default AddRecord
