@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import { useMutation } from 'react-apollo'
+import { MIGRATE_RESOLVER } from 'graphql/mutations'
 import { DetailsItem, DetailsKey, DetailsValue } from '../DetailsItem'
 import Button from '../../Forms/Button'
 
@@ -19,7 +21,10 @@ const SVG = styled('svg')`
   margin-right: 10px;
 `
 
-export default function MigrateResolver({ value }) {
+export default function MigrateResolver({ value, name }) {
+  const [migrateResolver] = useMutation(MIGRATE_RESOLVER, {
+    variables: { name }
+  })
   return (
     <DetailsItem>
       <MigrateKey>
@@ -33,7 +38,9 @@ export default function MigrateResolver({ value }) {
         Resolver
       </MigrateKey>
       <MigrateValue>{value}</MigrateValue>
-      <MigrateButton type="hollow-primary">Migrate</MigrateButton>
+      <MigrateButton onClick={migrateResolver} type="hollow-primary">
+        Migrate
+      </MigrateButton>
     </DetailsItem>
   )
 }

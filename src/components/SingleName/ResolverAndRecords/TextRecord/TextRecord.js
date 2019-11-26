@@ -1,5 +1,5 @@
 import React from 'react'
-import TEXT_RECORD_KEYS from './constants'
+import TEXT_RECORD_KEYS from 'constants/textRecords'
 import KeyValueRecord from '../KeyValueRecord'
 
 const getPlaceholder = key => {

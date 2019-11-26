@@ -1,3 +1,4 @@
+import zipObject from 'lodash.zipobject'
 import {
   getOwner,
   getEntry,
@@ -23,13 +24,23 @@ import {
   createSubdomain,
   expiryTimes,
   isDecrypted,
-  getAddrWithResolver
+  getAddressWithResolver,
+  getAddrWithResolver,
+  getContenthashWithResolver,
+  getTextWithResolver,
+
+  /* lower level calls possibly can be refactored out */
+  encodeContenthash,
+  getResolverContract,
+  getNamehash
 } from '@ensdomains/ui'
 import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
 import domains from '../../constants/domains.json'
 import { sendHelper } from '../resolverUtils'
 import { emptyAddress } from '../../utils/utils'
+import TEXT_RECORD_KEYS from 'constants/textRecords'
+import COIN_LIST_KEYS from 'constants/coinList'
 import {
   GET_FAVOURITES,
   GET_SUBDOMAIN_FAVOURITES,
@@ -512,6 +523,124 @@ const resolvers = {
         return sendHelper(tx)
       } catch (e) {
         console.log(e)
+      }
+    },
+    migrateResolver: async (_, { name }, { cache }) => {
+      function buildKeyValueObjects(keys, values) {
+        return values.map((record, i) => ({
+          key: keys[i],
+          value: record
+        }))
+      }
+
+      async function getAllTextRecords(name) {
+        const promises = TEXT_RECORD_KEYS.map(key => getText(name, key))
+        const records = await Promise.all(promises)
+        return buildKeyValueObjects(TEXT_RECORD_KEYS, records)
+      }
+
+      async function getAllTextRecordsWithResolver(name, resolver) {
+        const promises = TEXT_RECORD_KEYS.map(key =>
+          getTextWithResolver(name, key, resolver)
+        )
+        const records = await Promise.all(promises)
+        return buildKeyValueObjects(TEXT_RECORD_KEYS, records)
+      }
+
+      async function getAllAddresses(name) {
+        const promises = COIN_LIST_KEYS.map(key => getAddr(name, key))
+        const records = await Promise.all(promises)
+        return buildKeyValueObjects(COIN_LIST_KEYS, records)
+      }
+
+      async function getAllAddressesWithResolver(name, resolver) {
+        const promises = COIN_LIST_KEYS.map(key => getAddr(name, key, resolver))
+        const records = await Promise.all(promises)
+        return buildKeyValueObjects(COIN_LIST_KEYS, records)
+      }
+
+      async function getAllRecords(name) {
+        const promises = [
+          getAddress(name),
+          getContenthash(name),
+          getAllTextRecords(name),
+          getAllAddresses(name)
+        ]
+        return Promise.all(promises)
+      }
+
+      async function getAllRecordsNew(name, publicResolver) {
+        const promises = [
+          getAddressWithResolver(name, resolver),
+          getContenthashWithResolver(name, resolver),
+          getAllTextRecordsWithResolver(name, resolver),
+          getAllAddressesWithResolver(name, resolver)
+        ]
+        return Promise.all(promises)
+      }
+
+      function areRecordsEqual(oldRecords, newRecords) {
+        //TODO add a function to detect if the old records equal the new records
+        return false
+      }
+
+      function setupTransactions(name, records, resolver) {
+        const namehash = getNamehash(name)
+        const transactionArray = records.map((record, i) => {
+          switch (i) {
+            //TODO find out if params are an array or just commar separated arguments
+            case 0:
+              return resolver['setAddr(bytes32,address)'].encode(
+                namehash,
+                record
+              )
+            case 1:
+              const encodedContenthash = encodeContenthash(record)
+              return resolver.setContenthash.encode(
+                namehash,
+                encodedContenthash
+              )
+            case 2:
+              return record.map(textRecord => {
+                resolver.setText.encode(
+                  namehash,
+                  textRecord.key,
+                  textRecord.value
+                )
+              })
+            case 3:
+              return record.map(coinRecord => {
+                resolver['setAddr(bytes32,uint256,bytes)'].encode(
+                  namehash,
+                  coinRecord.key,
+                  coinRecord.value
+                )
+              })
+          }
+        })
+
+        return transactionArray.flat()
+      }
+
+      // get public resolver
+      const publicResolver = await getAddr('resolver.eth')
+      // get old and new records in parallel
+      const [records, newResolverRecords] = Promise.all([
+        getAllRecords(name),
+        getAllRecordsNew(name, publicResolver)
+      ])
+      // compare new and old records
+      if (!areRecordsEqual(records, newResolverRecords)) {
+        //get the transaction by using contract.method.encode from ethers
+        const resolver = await getResolverContract(resolver)
+        const transactionArray = setupTransactions(name, records, resolver)
+        //add them all together into one transaction
+        resolver.multicall(transactionArray)
+        //once the record has been migrated, migrate teh resolver using setResolver to the new public resolver
+        setResolver(namehash, publicResolver)
+        //await migrate records into new resolver
+      } else {
+        setResolver(namehash, publicResolver)
       }
     },
     createSubdomain: async (_, { name }, { cache }) => {

@@ -258,7 +258,11 @@ export default function ResolverAndRecords({
     <>
       <ResolverWrapper needsToBeMigrated={needsToBeMigrated}>
         {needsToBeMigrated ? (
-          <MigrateResolver value={domain.resolver} refetch={refetch} />
+          <MigrateResolver
+            value={domain.resolver}
+            name={domain.name}
+            refetch={refetch}
+          />
         ) : (
           <DetailsItemEditable
             keyName="Resolver"

@@ -78,6 +78,14 @@ export const SET_SUBNODE_OWNER = gql`
   }
 `
 
+export const CREATE_SUBDOMAIN = gql`
+  mutation createSubdomain($name: String) {
+    createSubdomain(name: $name) @client
+  }
+`
+
+/* Resolver Mutations */
+
 export const SET_NAME = gql`
   mutation setName($name: String) {
     setName(name: $name) @client
@@ -113,9 +121,9 @@ export const SET_ADDR = gql`
   }
 `
 
-export const CREATE_SUBDOMAIN = gql`
-  mutation createSubdomain($name: String) {
-    createSubdomain(name: $name) @client
+export const MIGRATE_RESOLVER = gql`
+  mutation migrateResolver($name: String) {
+    migrateResolver(name: $name) @client
   }
 `
 
