@@ -16,7 +16,7 @@ export const DetailsItem = styled('div')`
       ? mq.small`
     flex-direction: row;
   `
-      : mq.small`flex-direction: column;`}
+      : mq.small`flex-direction: row;`}
 `
 
 export const DetailsKey = styled('div')`

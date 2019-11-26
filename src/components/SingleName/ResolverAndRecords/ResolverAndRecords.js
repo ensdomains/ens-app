@@ -21,6 +21,7 @@ import AddRecord from './AddRecord'
 import RecordsItem from './RecordsItem'
 import TextRecord from './TextRecord'
 import Address from './Address'
+import MigrateResolver from './MigrateResolver'
 
 const RecordsWrapper = styled('div')`
   border-radius: 6px;
@@ -236,10 +237,7 @@ export default function ResolverAndRecords({
   let isDeprecatedResolver = false
   let areRecordsMigrated = true
 
-  const {
-    data: { getResolverMigrationInfo },
-    loading
-  } = useQuery(GET_RESOLVER_MIGRATION_INFO, {
+  const { data, loading } = useQuery(GET_RESOLVER_MIGRATION_INFO, {
     variables: {
       name: domain.name,
       resolver: domain.resolver
@@ -247,10 +245,10 @@ export default function ResolverAndRecords({
     skip: !hasResolver
   })
 
-  if (getResolverMigrationInfo) {
-    isOldPublicResolver = getResolverMigrationInfo.isOldPublicResolver
-    isDeprecatedResolver = getResolverMigrationInfo.isDeprecatedResolver
-    areRecordsMigrated = getResolverMigrationInfo.areRecordsMigrated
+  if (data && data.getResolverMigrationInfo) {
+    isOldPublicResolver = data.getResolverMigrationInfo.isOldPublicResolver
+    isDeprecatedResolver = data.getResolverMigrationInfo.isDeprecatedResolver
+    areRecordsMigrated = data.getResolverMigrationInfo.areRecordsMigrated
   }
 
   const needsToBeMigrated =
@@ -259,19 +257,23 @@ export default function ResolverAndRecords({
   return (
     <>
       <ResolverWrapper needsToBeMigrated={needsToBeMigrated}>
-        <DetailsItemEditable
-          keyName="Resolver"
-          type="address"
-          value={domain.resolver}
-          canEdit={isOwner}
-          domain={domain}
-          editButton="Set"
-          mutationButton="Save"
-          mutation={SET_RESOLVER}
-          refetch={refetch}
-          account={account}
-          needsToBeMigrated={needsToBeMigrated}
-        />
+        {needsToBeMigrated ? (
+          <MigrateResolver value={domain.resolver} refetch={refetch} />
+        ) : (
+          <DetailsItemEditable
+            keyName="Resolver"
+            type="address"
+            value={domain.resolver}
+            canEdit={isOwner}
+            domain={domain}
+            editButton="Set"
+            mutationButton="Save"
+            mutation={SET_RESOLVER}
+            refetch={refetch}
+            account={account}
+            needsToBeMigrated={needsToBeMigrated}
+          />
+        )}
         {needsToBeMigrated && <MigrationWarning />}
       </ResolverWrapper>
 
