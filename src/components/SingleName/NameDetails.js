@@ -1,46 +1,35 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import { Link, Route } from 'react-router-dom'
+
+import {
+  SET_OWNER,
+  SET_SUBNODE_OWNER,
+  SET_REGISTRANT,
+  RECLAIM,
+  RENEW
+} from '../../graphql/mutations'
+
+import { formatDate } from '../../utils/dates'
+
 import SubmitProof from './SubmitProof'
 import Tooltip from '../Tooltip/Tooltip'
 import { HR } from '../Typography/Basic'
 import DefaultButton from '../Forms/Button'
 import SubDomains from './SubDomains'
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
-import RecordsItem from './RecordsItem'
-import TextRecord from './TextRecord'
-import Address from './Address'
 import DetailsItemEditable from './DetailsItemEditable'
-import AddRecord from './AddRecord'
 import SetupName from '../SetupName/SetupName'
 import TransferRegistrars from './TransferRegistrars'
 import { SingleNameBlockies } from './SingleNameBlockies'
 import { ReactComponent as ExternalLinkIcon } from '../Icons/externalLink.svg'
-import { useState } from 'react'
 import DefaultLoader from '../Loader'
 import You from '../Icons/You'
 import dnssecmodes from '../../api/dnssecmodes'
 import { ReactComponent as DefaultOrangeExclamation } from '../Icons/OrangeExclamation.svg'
 import DefaultAddressLink from '../Links/AddressLink'
-import {
-  SET_OWNER,
-  SET_SUBNODE_OWNER,
-  SET_RESOLVER,
-  SET_ADDRESS,
-  SET_CONTENT,
-  SET_CONTENTHASH,
-  SET_REGISTRANT,
-  SET_TEXT,
-  SET_ADDR,
-  RECLAIM,
-  RENEW
-} from '../../graphql/mutations'
-
-import { GET_TEXT, GET_ADDR } from '../../graphql/queries'
-
+import ResolverAndRecords from './ResolverAndRecords'
 import NameClaimTestDomain from './NameClaimTestDomain'
-
-import { formatDate } from '../../utils/dates'
 
 const Details = styled('section')`
   padding: 40px;
@@ -65,15 +54,6 @@ const ButtonContainer = styled('div')`
   -webkit-transform: translate(0, -65%);
   -ms-transform: translate(0, -65%);
   transform: translate(0, -65%);
-`
-
-const Records = styled('div')`
-  border-radius: 6px;
-  border: 1px solid #ededed;
-  box-shadow: inset 0 0 10px 0 rgba(235, 235, 235, 0.5);
-  padding-bottom: ${p => (p.shouldShowRecords ? '10px' : '0')};
-  display: ${p => (p.shouldShowRecords ? 'block' : 'none')};
-  margin-bottom: 20px;
 `
 
 const ExpirationDetailsValue = styled(DetailsValue)`
@@ -193,85 +173,13 @@ function isLegacyAuctionedName(domain) {
   return domain.parent === 'eth' && !domain.isNewRegistrar
 }
 
-function isEmpty(record) {
-  if (parseInt(record, 16) === 0) {
-    return true
-  }
-  if (record === '0x') {
-    return true
-  }
-  if (!record) {
-    return true
-  }
-  return false
-}
-
-function hasAResolver(resolver) {
-  return parseInt(resolver, 16) !== 0
-}
-
-function hasAnyRecord(domain) {
-  if (!isEmpty(domain.addr)) {
-    return true
-  }
-
-  if (!isEmpty(domain.content)) {
-    return true
-  }
-}
-
-function getShouldShowRecords(isOwner, hasResolver, hasRecords) {
-  //do no show records if it only has a resolver if not owner
-  if (!isOwner && hasRecords) {
-    return true
-  }
-  //show records if it only has a resolver if owner so they can add
-  if (isOwner && hasResolver) {
-    return true
-  }
-  return false
-}
-
 function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
   const [loading, setLoading] = useState(undefined)
-  const [recordAdded, setRecordAdded] = useState(0)
   const isDeedOwner = domain.deedOwner === account
   const isRegistrant = domain.registrant === account
   const isPermanentRegistrarDeployed = domain.available !== null
   const dnssecmode = dnssecmodes[domain.state]
-  const records = [
-    {
-      label: 'Address',
-      value: 'address'
-    },
-    {
-      label: 'Other addresses',
-      value: 'otherAddresses'
-    },
-    {
-      label: 'Content',
-      value: 'content'
-    },
-    {
-      label: 'Text',
-      value: 'text'
-    }
-  ]
 
-  const emptyRecords = records.filter(record => {
-    if (record.value === 'address') {
-      return isEmpty(domain['addr']) ? true : false
-    }
-
-    return isEmpty(domain[record.value]) ? true : false
-  })
-
-  let contentMutation
-  if (domain.contentType === 'oldcontent') {
-    contentMutation = SET_CONTENT
-  } else {
-    contentMutation = SET_CONTENTHASH
-  }
   const showExplainer = !parseInt(domain.resolver)
 
   const canSubmit =
@@ -279,14 +187,6 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
     dnssecmode.state === 'SUBMIT_PROOF' && // This is for not allowing the case user does not have record rather than having empty address record.
     domain.owner.toLowerCase() !== domain.dnsOwner.toLowerCase()
   const outOfSync = dnssecmode && dnssecmode.outOfSync
-
-  const hasResolver = hasAResolver(domain.resolver)
-  const hasRecords = hasAnyRecord(domain)
-  const shouldShowRecords = getShouldShowRecords(
-    isOwner,
-    hasResolver,
-    hasRecords
-  )
 
   return (
     <>
@@ -626,71 +526,12 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                 )}
               </OwnerFields>
               <HR />
-              <DetailsItemEditable
-                keyName="Resolver"
-                type="address"
-                value={domain.resolver}
-                canEdit={isOwner}
+              <ResolverAndRecords
                 domain={domain}
-                editButton="Set"
-                mutationButton="Save"
-                mutation={SET_RESOLVER}
+                isOwner={isOwner}
                 refetch={refetch}
                 account={account}
               />
-              <Records shouldShowRecords={shouldShowRecords} isOwner={isOwner}>
-                <AddRecord
-                  emptyRecords={emptyRecords}
-                  title="Records"
-                  isOwner={isOwner}
-                  domain={domain}
-                  refetch={refetch}
-                  setRecordAdded={setRecordAdded}
-                />
-                {hasResolver && hasAnyRecord && (
-                  <>
-                    {!isEmpty(domain.addr) && (
-                      <RecordsItem
-                        domain={domain}
-                        isOwner={isOwner}
-                        keyName="Address"
-                        value={domain.addr}
-                        mutation={SET_ADDRESS}
-                        type="address"
-                        refetch={refetch}
-                        account={account}
-                      />
-                    )}
-                    {!isEmpty(domain.content) && (
-                      <RecordsItem
-                        domain={domain}
-                        isOwner={isOwner}
-                        keyName="Content"
-                        type="content"
-                        mutation={contentMutation}
-                        value={domain.content}
-                        refetch={refetch}
-                      />
-                    )}
-                    <Address
-                      domain={domain}
-                      isOwner={isOwner}
-                      recordAdded={recordAdded}
-                      mutation={SET_ADDR}
-                      query={GET_ADDR}
-                      title="Other Addresses"
-                    />
-                    <TextRecord
-                      domain={domain}
-                      isOwner={isOwner}
-                      recordAdded={recordAdded}
-                      mutation={SET_TEXT}
-                      query={GET_TEXT}
-                      title="Text Record"
-                    />
-                  </>
-                )}
-              </Records>
               {canClaim(domain) ? (
                 <NameClaimTestDomain domain={domain} refetch={refetch} />
               ) : null}

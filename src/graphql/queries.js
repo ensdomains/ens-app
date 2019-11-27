@@ -75,6 +75,17 @@ export const GET_SINGLE_NAME = gql`
   ${NodeFields}
 `
 
+export const GET_RESOLVER_MIGRATION_INFO = gql`
+  query getResolverMigrationInfo($name: String) {
+    getResolverMigrationInfo(name: $name) @client {
+      name
+      isDeprecatedResolver
+      isOldPublicResolver
+      areRecordsMigrated
+    }
+  }
+`
+
 export const GET_SUBDOMAINS = gql`
   query getSubDomains($name: String!) @client {
     getSubDomains(name: $name) @client {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
@@ -25,9 +25,45 @@ const Pending = ({ className, children = 'Tx pending' }) => (
   </PendingContainer>
 )
 
+function MultiplePendingTx(txHashes) {
+  const [txHashesStatus, setTxHashesStatus] = useState(txHashes)
+  return (
+    <Query query={GET_TRANSACTION_HISTORY}>
+      {({ data: { transactionHistory } }) => {
+        const lastTransaction = _.last(transactionHistory)
+        txHashesStatus.forEach(txHash => {
+          if (
+            lastTransaction &&
+            lastTransaction.txHash === txHash &&
+            lastTransaction.txState === 'Confirmed'
+          ) {
+            const index = txHashesStatuses.findIndex(txHash)
+            const newTxHashesStatus = [...txHashesStatus]
+            newTxHashesStatus[index] = 1
+            setTxHashesStatus(newTxHashesStatus)
+          }
+
+          if (
+            newTxHashesStatus.reduce(acc, curr => acc + curr) ===
+            newTxHashesStatus.length
+          ) {
+            onConfirmed()
+          }
+        })
+
+        return <Pending {...this.props} />
+      }}
+    </Query>
+  )
+}
+
 class PendingTx extends React.Component {
   render() {
-    const { txHash, onConfirmed } = this.props
+    const { txHash, txHashes, onConfirmed } = this.props
+
+    if (txHashes) {
+      return <MultiplePendingTx txHashes={txHashes} onConfirmed={onConfirmed} />
+    }
     return (
       <Query query={GET_TRANSACTION_HISTORY}>
         {({ data: { transactionHistory } }) => {
@@ -48,6 +84,7 @@ class PendingTx extends React.Component {
 
 PendingTx.propTypes = {
   txHash: PropTypes.string,
+  txHashes: PropTypes.array,
   onConfirmed: PropTypes.func
 }
 

@@ -1,25 +1,25 @@
-import React, { Component, useState } from 'react'
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
 import mq from 'mediaQuery'
 
-import { validateRecord } from '../../utils/records'
-import { useEditable } from '../hooks'
+import { validateRecord } from '../../../utils/records'
+import { useEditable } from '../../hooks'
 import {
   SET_CONTENT,
   SET_CONTENTHASH,
   SET_ADDRESS,
   SET_ADDR,
   SET_TEXT
-} from '../../graphql/mutations'
+} from '../../../graphql/mutations'
 import { getOldContentWarning } from './warnings'
 import TEXT_RECORD_KEYS from './TextRecord/constants'
 import { COIN_LIST } from './Address/constants'
 
-import DetailsItemInput from './DetailsItemInput'
-import SaveCancel from './SaveCancel'
-import DefaultSelect from '../Forms/Select'
-import PendingTx from '../PendingTx'
+import DetailsItemInput from '../DetailsItemInput'
+import SaveCancel from '../SaveCancel'
+import DefaultSelect from '../../Forms/Select'
+import PendingTx from '../../PendingTx'
 import DefaultAddressInput from '@ensdomains/react-ens-address'
 
 const AddressInput = styled(DefaultAddressInput)`
@@ -305,26 +305,17 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
   )
 }
 
-class AddRecord extends Component {
-  _renderEditable() {
-    return (
-      <AddRecordContainer>
-        <Editable {...this.props} />
-      </AddRecordContainer>
-    )
-  }
-
-  _renderViewOnly() {
-    return (
-      <AddRecordContainer>
-        <RecordsTitle>Records</RecordsTitle>
-      </AddRecordContainer>
-    )
-  }
-  render() {
-    const { isOwner } = this.props
-    return isOwner ? this._renderEditable() : this._renderViewOnly()
-  }
+function AddRecord(props) {
+  const { canEdit } = props
+  return canEdit ? (
+    <AddRecordContainer>
+      <Editable {...props} />
+    </AddRecordContainer>
+  ) : (
+    <AddRecordContainer>
+      <RecordsTitle>Records</RecordsTitle>
+    </AddRecordContainer>
+  )
 }
 
 export default AddRecord

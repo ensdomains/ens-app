@@ -1,7 +1,7 @@
 import React from 'react'
-import { COIN_LIST } from './constants'
+import { COIN_LIST } from 'constants/coinList'
 import KeyValueRecord from '../KeyValueRecord'
-import { validateRecord } from '../../../utils/records'
+import { validateRecord } from '../../../../utils/records'
 
 const validator = (symbol, value) => {
   return validateRecord({
