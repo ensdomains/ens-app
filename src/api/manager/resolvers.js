@@ -37,7 +37,7 @@ import {
 import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
 import domains from '../../constants/domains.json'
-import { sendHelper } from '../resolverUtils'
+import { sendHelper, sendHelperArray } from '../resolverUtils'
 import { emptyAddress } from '../../utils/utils'
 import TEXT_RECORD_KEYS from 'constants/textRecords'
 import COIN_LIST_KEYS from 'constants/coinList'
@@ -588,7 +588,6 @@ const resolvers = {
         const namehash = getNamehash(name)
         const transactionArray = records.map((record, i) => {
           switch (i) {
-            //TODO find out if params are an array or just commar separated arguments
             case 0:
               return resolver['setAddr(bytes32,address)'].encode(
                 namehash,
@@ -619,6 +618,7 @@ const resolvers = {
           }
         })
 
+        // flatten textrecords and addresses
         return transactionArray.flat()
       }
 
@@ -635,12 +635,14 @@ const resolvers = {
         const resolver = await getResolverContract(resolver)
         const transactionArray = setupTransactions(name, records, resolver)
         //add them all together into one transaction
-        resolver.multicall(transactionArray)
+        const tx = await resolver.multicall(transactionArray)
         //once the record has been migrated, migrate teh resolver using setResolver to the new public resolver
-        setResolver(namehash, publicResolver)
+        const tx2 = await setResolver(namehash, publicResolver)
         //await migrate records into new resolver
+        return sendHelperArray([tx1, tx2])
       } else {
-        setResolver(namehash, publicResolver)
+        const tx = await setResolver(namehash, publicResolver)
+        return sendHelper(tx)
       }
     },
     createSubdomain: async (_, { name }, { cache }) => {

@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import { useMutation } from 'react-apollo'
+import { useEditable } from 'components/hooks'
 import { MIGRATE_RESOLVER } from 'graphql/mutations'
 import { DetailsItem, DetailsKey, DetailsValue } from '../DetailsItem'
 import Button from '../../Forms/Button'
@@ -22,8 +23,21 @@ const SVG = styled('svg')`
 `
 
 export default function MigrateResolver({ value, name }) {
+  const { state: state1, actions: actions1 } = useEditable()
+  const { state: state2, actions: actions2 } = useEditable()
+
+  const { txHash: txHash1, pending: pending1, confirmed: confirmed1 } = state1
+  const { txHash: txHash2, pending: pending2, confirmed: confirmed2 } = state2
+
+  const { startPending: startPending1, setConfirmed: setConfirmed1 } = actions1
+
+  const { startPending: startPending2, setConfirmed: setConfirmed2 } = actions2
   const [migrateResolver] = useMutation(MIGRATE_RESOLVER, {
-    variables: { name }
+    variables: { name },
+    onCompleted: data => {
+      startPending1(Object.values(data)[0])
+      startPending2(Object.values(data)[0])
+    }
   })
   return (
     <DetailsItem>
@@ -38,9 +52,23 @@ export default function MigrateResolver({ value, name }) {
         Resolver
       </MigrateKey>
       <MigrateValue>{value}</MigrateValue>
-      <MigrateButton onClick={migrateResolver} type="hollow-primary">
-        Migrate
-      </MigrateButton>
+      {pending1 &&
+      pending2 &&
+      (!confirmed1 && !confirmed2) &&
+      (txHash1 && txHash2) ? (
+        <PendingTx
+          txHashes={[txHash1, txhash2]}
+          onConfirmed={() => {
+            setConfirmed1()
+            setConfirmed2()
+            refetch()
+          }}
+        />
+      ) : (
+        <MigrateButton onClick={migrateResolver} type="hollow-primary">
+          Migrate
+        </MigrateButton>
+      )}
     </DetailsItem>
   )
 }
