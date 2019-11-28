@@ -184,7 +184,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
     }
   })
 
-  const isOnOldRegistry = data && data.isMigrated
+  const isMigratedToNewRegistry = !loadingIsMigrated && data && data.isMigrated
 
   const isDeedOwner = domain.deedOwner === account
   const isRegistrant = domain.registrant === account
@@ -226,7 +226,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
           ) : (
             <Details data-testid="name-details">
               {isOwner && <SetupName initialState={showExplainer} />}
-              {isOnOldRegistry && <MigrationWarning domain={domain} />}
+              {!isMigratedToNewRegistry && <MigrationWarning domain={domain} />}
               {domain.parent && (
                 <DetailsItem uneditable>
                   <DetailsKey>Parent</DetailsKey>
