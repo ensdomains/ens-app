@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useQuery } from 'react-apollo'
 import styled from '@emotion/styled'
 import { Link, Route } from 'react-router-dom'
 
@@ -9,6 +10,7 @@ import {
   RECLAIM,
   RENEW
 } from '../../graphql/mutations'
+import { IS_MIGRATED } from '../../graphql/queries'
 
 import { formatDate } from '../../utils/dates'
 
@@ -30,6 +32,7 @@ import { ReactComponent as DefaultOrangeExclamation } from '../Icons/OrangeExcla
 import DefaultAddressLink from '../Links/AddressLink'
 import ResolverAndRecords from './ResolverAndRecords'
 import NameClaimTestDomain from './NameClaimTestDomain'
+import MigrationWarning from './MigrationWarning'
 
 const Details = styled('section')`
   padding: 40px;
@@ -175,6 +178,14 @@ function isLegacyAuctionedName(domain) {
 
 function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
   const [loading, setLoading] = useState(undefined)
+  const { data, loading: loadingIsMigrated } = useQuery(IS_MIGRATED, {
+    variables: {
+      name: domain.name
+    }
+  })
+
+  const isOnOldRegistry = data && data.isMigrated
+
   const isDeedOwner = domain.deedOwner === account
   const isRegistrant = domain.registrant === account
   const isPermanentRegistrarDeployed = domain.available !== null
@@ -215,6 +226,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
           ) : (
             <Details data-testid="name-details">
               {isOwner && <SetupName initialState={showExplainer} />}
+              {isOnOldRegistry && <MigrationWarning domain={domain} />}
               {domain.parent && (
                 <DetailsItem uneditable>
                   <DetailsKey>Parent</DetailsKey>

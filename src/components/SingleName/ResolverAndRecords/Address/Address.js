@@ -1,5 +1,5 @@
 import React from 'react'
-import { COIN_LIST } from 'constants/coinList'
+import COIN_LIST from 'constants/coinList'
 import KeyValueRecord from '../KeyValueRecord'
 import { validateRecord } from '../../../../utils/records'
 

@@ -25,7 +25,7 @@ const Pending = ({ className, children = 'Tx pending' }) => (
   </PendingContainer>
 )
 
-function MultiplePendingTx(txHashes) {
+function MultiplePendingTx({ txHashes, onConfirmed }) {
   const [txHashesStatus, setTxHashesStatus] = useState(txHashes)
   return (
     <Query query={GET_TRANSACTION_HISTORY}>
@@ -37,17 +37,17 @@ function MultiplePendingTx(txHashes) {
             lastTransaction.txHash === txHash &&
             lastTransaction.txState === 'Confirmed'
           ) {
-            const index = txHashesStatuses.findIndex(txHash)
+            const index = txHashesStatus.findIndex(txHash)
             const newTxHashesStatus = [...txHashesStatus]
             newTxHashesStatus[index] = 1
             setTxHashesStatus(newTxHashesStatus)
-          }
 
-          if (
-            newTxHashesStatus.reduce(acc, curr => acc + curr) ===
-            newTxHashesStatus.length
-          ) {
-            onConfirmed()
+            if (
+              newTxHashesStatus.reduce((acc, curr) => acc + curr) ===
+              newTxHashesStatus.length
+            ) {
+              onConfirmed()
+            }
           }
         })
 

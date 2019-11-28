@@ -4,6 +4,7 @@ import { useMutation } from 'react-apollo'
 import { useEditable } from 'components/hooks'
 import { MIGRATE_RESOLVER } from 'graphql/mutations'
 import { DetailsItem, DetailsKey, DetailsValue } from '../DetailsItem'
+import PendingTx from '../../PendingTx'
 import Button from '../../Forms/Button'
 
 const MigrateKey = styled(DetailsKey)`
@@ -22,7 +23,7 @@ const SVG = styled('svg')`
   margin-right: 10px;
 `
 
-export default function MigrateResolver({ value, name }) {
+export default function MigrateResolver({ value, name, refetch }) {
   const { state: state1, actions: actions1 } = useEditable()
   const { state: state2, actions: actions2 } = useEditable()
 
@@ -57,7 +58,7 @@ export default function MigrateResolver({ value, name }) {
       (!confirmed1 && !confirmed2) &&
       (txHash1 && txHash2) ? (
         <PendingTx
-          txHashes={[txHash1, txhash2]}
+          txHashes={[txHash1, txHash2]}
           onConfirmed={() => {
             setConfirmed1()
             setConfirmed2()

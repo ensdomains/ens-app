@@ -1,4 +1,3 @@
-import zipObject from 'lodash.zipobject'
 import {
   getOwner,
   getEntry,
@@ -24,9 +23,10 @@ import {
   createSubdomain,
   expiryTimes,
   isDecrypted,
-  getAddressWithResolver,
+  getContent,
+  getEthAddressWithResolver,
   getAddrWithResolver,
-  getContenthashWithResolver,
+  getContentWithResolver,
   getTextWithResolver,
 
   /* lower level calls possibly can be refactored out */
@@ -367,6 +367,10 @@ const resolvers = {
         __typename: 'ResolverMigration'
       }
     },
+    isMigrated: async (_, { name }, { cache }) => {
+      //TODO write resolver to get whether a name is migrated
+      return false
+    },
     getSubDomains: async (_, { name }, { cache }) => {
       const data = cache.readQuery({ query: GET_ALL_NODES })
       const rawSubDomains = await getSubdomains(name)
@@ -525,7 +529,7 @@ const resolvers = {
         console.log(e)
       }
     },
-    migrateResolver: async (_, { name }, { cache }) => {
+    migrateResolver: async (_, { name, resolver }, { cache }) => {
       function buildKeyValueObjects(keys, values) {
         return values.map((record, i) => ({
           key: keys[i],
@@ -562,7 +566,7 @@ const resolvers = {
       async function getAllRecords(name) {
         const promises = [
           getAddress(name),
-          getContenthash(name),
+          getContent(name),
           getAllTextRecords(name),
           getAllAddresses(name)
         ]
@@ -571,10 +575,10 @@ const resolvers = {
 
       async function getAllRecordsNew(name, publicResolver) {
         const promises = [
-          getAddressWithResolver(name, resolver),
-          getContenthashWithResolver(name, resolver),
-          getAllTextRecordsWithResolver(name, resolver),
-          getAllAddressesWithResolver(name, resolver)
+          getEthAddressWithResolver(name, publicResolver),
+          getContentWithResolver(name, publicResolver),
+          getAllTextRecordsWithResolver(name, publicResolver),
+          getAllAddressesWithResolver(name, publicResolver)
         ]
         return Promise.all(promises)
       }
@@ -600,21 +604,23 @@ const resolvers = {
                 encodedContenthash
               )
             case 2:
-              return record.map(textRecord => {
+              return record.map(textRecord =>
                 resolver.setText.encode(
                   namehash,
                   textRecord.key,
                   textRecord.value
                 )
-              })
+              )
             case 3:
-              return record.map(coinRecord => {
+              return record.map(coinRecord =>
                 resolver['setAddr(bytes32,uint256,bytes)'].encode(
                   namehash,
                   coinRecord.key,
                   coinRecord.value
                 )
-              })
+              )
+            default:
+              throw Error('More records than expected')
           }
         })
 
@@ -632,16 +638,16 @@ const resolvers = {
       // compare new and old records
       if (!areRecordsEqual(records, newResolverRecords)) {
         //get the transaction by using contract.method.encode from ethers
-        const resolver = await getResolverContract(resolver)
+        const resolverInstance = await getResolverContract(resolver)
         const transactionArray = setupTransactions(name, records, resolver)
         //add them all together into one transaction
-        const tx = await resolver.multicall(transactionArray)
+        const tx1 = await resolverInstance.multicall(transactionArray)
         //once the record has been migrated, migrate teh resolver using setResolver to the new public resolver
-        const tx2 = await setResolver(namehash, publicResolver)
+        const tx2 = await setResolver(name, publicResolver)
         //await migrate records into new resolver
         return sendHelperArray([tx1, tx2])
       } else {
-        const tx = await setResolver(namehash, publicResolver)
+        const tx = await setResolver(name, publicResolver)
         return sendHelper(tx)
       }
     },

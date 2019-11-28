@@ -177,3 +177,11 @@ export const GET_MINIMUM_COMMITMENT_AGE = gql`
     getMinimumCommitmentAge @client
   }
 `
+
+/* Registry Migration */
+
+export const IS_MIGRATED = gql`
+  query isMigrated($name: String) {
+    isMigrated(name: $name) @client
+  }
+`

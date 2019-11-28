@@ -13,8 +13,8 @@ import {
   SET_TEXT
 } from '../../../graphql/mutations'
 import { getOldContentWarning } from './warnings'
-import TEXT_RECORD_KEYS from './TextRecord/constants'
-import { COIN_LIST } from './Address/constants'
+import TEXT_RECORD_KEYS from 'constants/textRecords'
+import COIN_LIST from 'constants/coinList'
 
 import DetailsItemInput from '../DetailsItemInput'
 import SaveCancel from '../SaveCancel'
