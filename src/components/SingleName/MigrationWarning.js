@@ -37,7 +37,7 @@ export default function MigrationWarning({ domain, account }) {
       </WarningContent>
       <Migrate
         onClick={canMigrate ? mutation : () => {}}
-        type="hollow-primary"
+        type={canMigrate ? 'hollow-primary' : 'hollow-primary-disabled'}
         href="#"
       >
         Migrate
