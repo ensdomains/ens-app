@@ -315,9 +315,11 @@ class AddRecord extends Component {
   }
 
   _renderViewOnly() {
+    const { title } = this.props
+
     return (
       <AddRecordContainer>
-        <RecordsTitle>Records</RecordsTitle>
+        <RecordsTitle>{title}</RecordsTitle>
       </AddRecordContainer>
     )
   }

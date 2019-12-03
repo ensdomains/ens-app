@@ -41,6 +41,7 @@ import { GET_TEXT, GET_ADDR } from '../../graphql/queries'
 import NameClaimTestDomain from './NameClaimTestDomain'
 
 import { formatDate } from '../../utils/dates'
+import ArtRecords from './ArtRecords'
 
 const Details = styled('section')`
   padding: 40px;
@@ -220,6 +221,10 @@ function hasAnyRecord(domain) {
   }
 }
 
+function isArt(name) {
+  return !!name.match(/\.art$/)
+}
+
 function getShouldShowRecords(isOwner, hasResolver, hasRecords) {
   //do no show records if it only has a resolver if not owner
   if (!isOwner && hasRecords) {
@@ -287,6 +292,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
     hasResolver,
     hasRecords
   )
+  const hasArtRecords = hasResolver && isArt(domain.name)
 
   return (
     <>
@@ -691,6 +697,9 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                   </>
                 )}
               </Records>
+
+              {hasArtRecords && <ArtRecords domain={domain} query={GET_TEXT} />}
+
               {canClaim(domain) ? (
                 <NameClaimTestDomain domain={domain} refetch={refetch} />
               ) : null}
