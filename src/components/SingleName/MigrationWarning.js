@@ -18,6 +18,13 @@ const WarningBox = styled('div')`
 
 const WarningContent = styled('div')`
   width: calc(100% - 120px);
+  padding-right: 20px;
+`
+
+const SubWarning = styled('p')`
+  font-size: 14px;
+  color: #2b2b2b;
+  font-weight: 500;
 `
 
 const Migrate = styled(ExternalButtonLink)`
@@ -34,6 +41,9 @@ export default function MigrationWarning({ domain, account }) {
       <WarningContent>
         This name needs to be migrated to the new Registry. Only the parent of
         the TLD can do this.
+        <SubWarning>
+          *If you trade ENS names, do not accept this name!
+        </SubWarning>
       </WarningContent>
       <Migrate
         onClick={canMigrate ? mutation : () => {}}
