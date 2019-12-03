@@ -292,7 +292,7 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
     hasResolver,
     hasRecords
   )
-  const hasArtRecords = hasResolver && isArt(domain.name)
+  const shouldShowArtRecords = hasResolver && isArt(domain.name)
 
   return (
     <>
@@ -698,7 +698,9 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
                 )}
               </Records>
 
-              {hasArtRecords && <ArtRecords domain={domain} query={GET_TEXT} />}
+              {shouldShowArtRecords && (
+                <ArtRecords domain={domain} query={GET_TEXT} />
+              )}
 
               {canClaim(domain) ? (
                 <NameClaimTestDomain domain={domain} refetch={refetch} />
