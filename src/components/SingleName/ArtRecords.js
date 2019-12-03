@@ -92,7 +92,7 @@ class ArtRecords extends Component {
           if (this._isEmpty(records)) return null
 
           return (
-            <Records shouldShowRecords={true}>
+            <Records>
               <AddRecord title="Art records" />
               {records.map((r, i) => this._renderItem(r, i))}
             </Records>
