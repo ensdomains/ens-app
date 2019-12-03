@@ -161,7 +161,7 @@ function AddressRecordInput({
   )
 }
 
-function Editable({ domain, emptyRecords, refetch, setRecordAdded, title }) {
+function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
   const [selectedRecord, selectRecord] = useState(null)
   const [selectedKey, setSelectedKey] = useState(null)
   const { state, actions } = useEditable()
