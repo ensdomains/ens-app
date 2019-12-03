@@ -1,4 +1,6 @@
 import React from 'react'
+import { useMutation } from 'react-apollo'
+import { MIGRATE_REGISTRY } from 'graphql/mutations'
 import styled from '@emotion/styled'
 import { ExternalButtonLink } from '../Forms/Button'
 
@@ -15,23 +17,31 @@ const WarningBox = styled('div')`
 `
 
 const WarningContent = styled('div')`
-  width: calc(100% - 150px);
+  width: calc(100% - 120px);
 `
 
-const LearnMore = styled(ExternalButtonLink)`
+const Migrate = styled(ExternalButtonLink)`
   flex: 2 1 auto;
 `
 
-export default function MigrationWarning({ domain }) {
+export default function MigrationWarning({ domain, account }) {
+  const [mutation] = useMutation(MIGRATE_REGISTRY, {
+    variables: { name: domain.name }
+  })
+  const canMigrate = account === domain.parentOwner
   return (
     <WarningBox>
       <WarningContent>
-        The parent of this subdomain ({domain.parent}) needs to migrate their
-        resolver. Until they do so, this name should not be used or traded.
+        This name needs to be migrated to the new Registry. Only the parent of
+        the TLD can do this.
       </WarningContent>
-      <LearnMore type="hollow-primary" href="#">
-        Learn More
-      </LearnMore>
+      <Migrate
+        onClick={canMigrate ? mutation : () => {}}
+        type="hollow-primary"
+        href="#"
+      >
+        Migrate
+      </Migrate>
     </WarningBox>
   )
 }

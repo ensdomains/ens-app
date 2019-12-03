@@ -176,3 +176,11 @@ export const SUBMIT_PROOF = gql`
     submitProof(name: $name, parentOwner: $parentOwner) @client
   }
 `
+
+/* Registry Migration */
+
+export const MIGRATE_REGISTRY = gql`
+  mutation migrateRegistry($name: String) {
+    migrateRegistry(name: $name) @client
+  }
+`

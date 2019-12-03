@@ -651,6 +651,10 @@ const resolvers = {
         return sendHelper(tx)
       }
     },
+    migrateRegistry: (_, { name }, { cache }) => {
+      //TODO add code to migrate name to new registry
+      console.log('migrating to new registry')
+    },
     createSubdomain: async (_, { name }, { cache }) => {
       try {
         const tx = await createSubdomain(name)
