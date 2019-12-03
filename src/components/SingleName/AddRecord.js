@@ -161,7 +161,7 @@ function AddressRecordInput({
   )
 }
 
-function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
+function Editable({ domain, emptyRecords, refetch, setRecordAdded, title }) {
   const [selectedRecord, selectRecord] = useState(null)
   const [selectedKey, setSelectedKey] = useState(null)
   const { state, actions } = useEditable()
@@ -315,11 +315,9 @@ class AddRecord extends Component {
   }
 
   _renderViewOnly() {
-    const { title } = this.props
-
     return (
       <AddRecordContainer>
-        <RecordsTitle>{title}</RecordsTitle>
+        <RecordsTitle>Records</RecordsTitle>
       </AddRecordContainer>
     )
   }

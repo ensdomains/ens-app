@@ -11,7 +11,6 @@ import {
   RecordsKey,
   RecordsValue
 } from './RecordsItem'
-import AddRecord from './AddRecord'
 
 const Records = styled('div')`
   border-radius: 6px;
@@ -20,6 +19,24 @@ const Records = styled('div')`
   padding-bottom: 10px;
   display: block;
   margin-bottom: 20px;
+`
+
+const RecordsHeader = styled('div')`
+  background: #f0f6fa;
+`
+
+const RecordsTitle = styled('h3')`
+  font-family: Overpass;
+  font-weight: 700;
+  font-size: 12px;
+  color: #adbbcd;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `
 
 class ArtRecords extends Component {
@@ -93,7 +110,10 @@ class ArtRecords extends Component {
 
           return (
             <Records>
-              <AddRecord title="Art records" />
+              <RecordsHeader>
+                <RecordsTitle>Art records</RecordsTitle>
+              </RecordsHeader>
+
               {records.map((r, i) => this._renderItem(r, i))}
             </Records>
           )
