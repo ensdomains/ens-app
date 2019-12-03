@@ -22,12 +22,12 @@ const LearnMore = styled(ExternalButtonLink)`
   flex: 2 1 auto;
 `
 
-export default function MigrationWarning() {
+export default function MigrationWarning({ domain }) {
   return (
     <WarningBox>
       <WarningContent>
-        The parent of this subdomain (yourname.eth) needs to migrate their
-        resolver. Until they do so, this name can not be used or traded.
+        The parent of this subdomain ({domain.parent}) needs to migrate their
+        resolver. Until they do so, this name should not be used or traded.
       </WarningContent>
       <LearnMore type="hollow-primary" href="#">
         Learn More
