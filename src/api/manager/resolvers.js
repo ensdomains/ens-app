@@ -371,6 +371,9 @@ const resolvers = {
       //TODO write resolver to get whether a name is migrated
       return false
     },
+    canWrite: async (_, { name, account }, { cache }) => {
+      //TODO write canWrite check
+    },
     getSubDomains: async (_, { name }, { cache }) => {
       const data = cache.readQuery({ query: GET_ALL_NODES })
       const rawSubDomains = await getSubdomains(name)
@@ -651,9 +654,13 @@ const resolvers = {
         return sendHelper(tx)
       }
     },
-    migrateRegistry: (_, { name }, { cache }) => {
-      //TODO add code to migrate name to new registry
-      console.log('migrating to new registry')
+    migrateRegistry: async (_, { name, account }, { cache }) => {
+      try {
+        const tx = await setSubnodeOwner(name, account)
+        return sendHelper(tx)
+      } catch (e) {
+        console.log(e)
+      }
     },
     createSubdomain: async (_, { name }, { cache }) => {
       try {

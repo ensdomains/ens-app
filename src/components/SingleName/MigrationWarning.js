@@ -1,5 +1,6 @@
 import React from 'react'
 import { useMutation } from 'react-apollo'
+import { CAN_WRITE } from 'graphql/queries'
 import { MIGRATE_REGISTRY } from 'graphql/mutations'
 import styled from '@emotion/styled'
 import { ExternalButtonLink } from '../Forms/Button'
@@ -32,6 +33,7 @@ const Migrate = styled(ExternalButtonLink)`
 `
 
 export default function MigrationWarning({ domain, account }) {
+  const { data, loading } = useQuery(CAN_WRITE, { variables: { account } })
   const [mutation] = useMutation(MIGRATE_REGISTRY, {
     variables: { name: domain.name }
   })
