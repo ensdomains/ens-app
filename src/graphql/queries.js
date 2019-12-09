@@ -76,8 +76,8 @@ export const GET_SINGLE_NAME = gql`
 `
 
 export const GET_RESOLVER_MIGRATION_INFO = gql`
-  query getResolverMigrationInfo($name: String) {
-    getResolverMigrationInfo(name: $name) @client {
+  query getResolverMigrationInfo($name: String, $resolver: String) {
+    getResolverMigrationInfo(name: $name, resolver: $resolver) @client {
       name
       isDeprecatedResolver
       isOldPublicResolver

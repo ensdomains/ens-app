@@ -306,6 +306,13 @@ const resolvers = {
       const DEPRECATED_RESOLVERS = ['0x1', '0x2']
       const OLD_RESOLVERS = ['0x3']
 
+      if (
+        process &&
+        process.env.REACT_APP_STAGE == 'local' &&
+        process.env.REACT_APP_DEPRECATED_RESOLVERS
+      ) {
+        DEPRECATED_RESOLVERS.push(process.env.REACT_APP_DEPRECATED_RESOLVERS)
+      }
       /* Deprecated resolvers are using the old registry and must be migrated */
 
       function calculateIsDeprecatedResolver(address) {
@@ -348,7 +355,7 @@ const resolvers = {
       let isDeprecatedResolver = calculateIsDeprecatedResolver(resolver)
       let isOldPublicResolver = calculateIsOldPublicResolver(resolver)
 
-      const ret = {
+      return {
         name,
         isDeprecatedResolver,
         isOldPublicResolver,
@@ -356,15 +363,6 @@ const resolvers = {
           isDeprecatedResolver,
           isOldPublicResolver
         ),
-        __typename: 'ResolverMigration'
-      }
-
-      /* mock object */
-      return {
-        name,
-        isDeprecatedResolver: false,
-        isOldPublicResolver: true,
-        areRecordsMigrated: false,
         __typename: 'ResolverMigration'
       }
     },
