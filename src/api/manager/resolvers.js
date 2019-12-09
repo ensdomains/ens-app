@@ -23,6 +23,7 @@ import {
   createSubdomain,
   expiryTimes,
   isDecrypted,
+  isMigrated,
   getContent,
   getEthAddressWithResolver,
   getAddrWithResolver,
@@ -368,8 +369,8 @@ const resolvers = {
       }
     },
     isMigrated: async (_, { name }, { cache }) => {
-      //TODO write resolver to get whether a name is migrated
-      return false
+      let result = await isMigrated(name)
+      return result
     },
     getSubDomains: async (_, { name }, { cache }) => {
       const data = cache.readQuery({ query: GET_ALL_NODES })
