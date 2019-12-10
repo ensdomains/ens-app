@@ -181,7 +181,7 @@ export const GET_MINIMUM_COMMITMENT_AGE = gql`
 /* Registry Migration */
 
 export const CAN_WRITE = gql`
-  query canWrite($name: String, account: String) {
+  query canWrite($name: String, $account: String) {
     canWrite(name: $name, account: $account) @client
   }
 `

@@ -369,7 +369,7 @@ const resolvers = {
     },
     isMigrated: async (_, { name }, { cache }) => {
       //TODO write resolver to get whether a name is migrated
-      return false
+      return true
     },
     canWrite: async (_, { name, account }, { cache }) => {
       //TODO write canWrite check

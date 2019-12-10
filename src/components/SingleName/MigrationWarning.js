@@ -1,5 +1,5 @@
 import React from 'react'
-import { useMutation } from 'react-apollo'
+import { useMutation, useQuery } from 'react-apollo'
 import { CAN_WRITE } from 'graphql/queries'
 import { MIGRATE_REGISTRY } from 'graphql/mutations'
 import styled from '@emotion/styled'

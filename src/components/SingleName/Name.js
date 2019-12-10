@@ -64,6 +64,8 @@ function Name({ details: domain, name, pathname, type, refetch }) {
     domain.parent,
     isDeedOwner
   )
+
+  console.log(domain.available, domain.parent, isDeedOwner)
   let ownerType
   if (isDeedOwner || isRegistrant) {
     ownerType = 'Registrant'
