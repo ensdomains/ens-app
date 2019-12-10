@@ -23,6 +23,7 @@ import {
   createSubdomain,
   expiryTimes,
   isDecrypted,
+  isMigrated,
   getContent,
   getEthAddressWithResolver,
   getAddrWithResolver,
@@ -305,6 +306,13 @@ const resolvers = {
       const DEPRECATED_RESOLVERS = ['0x1', '0x2']
       const OLD_RESOLVERS = ['0x3']
 
+      if (
+        process &&
+        process.env.REACT_APP_STAGE == 'local' &&
+        process.env.REACT_APP_DEPRECATED_RESOLVERS
+      ) {
+        DEPRECATED_RESOLVERS.push(process.env.REACT_APP_DEPRECATED_RESOLVERS)
+      }
       /* Deprecated resolvers are using the old registry and must be migrated */
 
       function calculateIsDeprecatedResolver(address) {
@@ -347,7 +355,7 @@ const resolvers = {
       let isDeprecatedResolver = calculateIsDeprecatedResolver(resolver)
       let isOldPublicResolver = calculateIsOldPublicResolver(resolver)
 
-      const ret = {
+      return {
         name,
         isDeprecatedResolver,
         isOldPublicResolver,
@@ -357,22 +365,10 @@ const resolvers = {
         ),
         __typename: 'ResolverMigration'
       }
-
-      /* mock object */
-      return {
-        name,
-        isDeprecatedResolver: false,
-        isOldPublicResolver: true,
-        areRecordsMigrated: false,
-        __typename: 'ResolverMigration'
-      }
     },
     isMigrated: async (_, { name }, { cache }) => {
-      //TODO write resolver to get whether a name is migrated
-      return true
-    },
-    canWrite: async (_, { name, account }, { cache }) => {
-      //TODO write canWrite check
+      let result = await isMigrated(name)
+      return result
     },
     getSubDomains: async (_, { name }, { cache }) => {
       const data = cache.readQuery({ query: GET_ALL_NODES })

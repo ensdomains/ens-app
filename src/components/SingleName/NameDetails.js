@@ -184,6 +184,8 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
     }
   })
 
+  console.log(data)
+
   const isMigratedToNewRegistry = !loadingIsMigrated && data && data.isMigrated
 
   const isDeedOwner = domain.deedOwner === account

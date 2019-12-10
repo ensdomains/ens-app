@@ -39,13 +39,19 @@ async function init() {
   const accounts = await getAccounts(web3)
 
   const addresses = await deployTestEns({ web3, accounts, dnssec })
-  const { ensAddress } = addresses
-
+  const { ensAddress, oldResolverAddress } = addresses
+  const envLocalFile = './.env.local'
   fs.writeFileSync('./cypress.env.json', JSON.stringify(addresses))
-  fs.writeFile('./.env.local', `REACT_APP_ENS_ADDRESS=${ensAddress}`, err => {
-    if (err) throw err
-    console.log(`Successfully wrote ENS address ${ensAddress} to .env.local`)
-  })
+  fs.writeFileSync(envLocalFile, `REACT_APP_ENS_ADDRESS=${ensAddress}`)
+  fs.appendFileSync(envLocalFile, '\n')
+  console.log(`Successfully wrote ENS address ${ensAddress} to .env.local`)
+  fs.appendFileSync(
+    envLocalFile,
+    `REACT_APP_DEPRECATED_RESOLVERS=${oldResolverAddress}`
+  )
+  console.log(
+    `Successfully wrote Old resolver address ${oldResolverAddress} to .env.local`
+  )
 }
 
 init()

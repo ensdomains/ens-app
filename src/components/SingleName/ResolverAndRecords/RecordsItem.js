@@ -35,6 +35,7 @@ export const RecordsItem = styled(DetailsItem)`
   background: ${({ editing }) => (editing ? '#F0F6FA' : 'white')};
   ${mq.medium`
     display: flex;
+    flex-direction: column;
   `}
 `
 
