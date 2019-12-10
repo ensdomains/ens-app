@@ -13,7 +13,9 @@ import {
 import { IS_MIGRATED } from '../../graphql/queries'
 
 import { formatDate } from '../../utils/dates'
+import { EMPTY_ADDRESS } from '../../utils/records'
 
+import NameRegister from './NameRegister'
 import SubmitProof from './SubmitProof'
 import Tooltip from '../Tooltip/Tooltip'
 import { HR } from '../Typography/Basic'
@@ -176,15 +178,20 @@ function isLegacyAuctionedName(domain) {
   return domain.parent === 'eth' && !domain.isNewRegistrar
 }
 
-function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
+function NameDetails({
+  domain,
+  isOwner,
+  isOwnerOfParent,
+  refetch,
+  account,
+  registrationOpen
+}) {
   const [loading, setLoading] = useState(undefined)
   const { data, loading: loadingIsMigrated } = useQuery(IS_MIGRATED, {
     variables: {
       name: domain.name
     }
   })
-
-  console.log(data)
 
   const isMigratedToNewRegistry = !loadingIsMigrated && data && data.isMigrated
 
@@ -228,7 +235,9 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
           ) : (
             <Details data-testid="name-details">
               {isOwner && <SetupName initialState={showExplainer} />}
-              {!isMigratedToNewRegistry && <MigrationWarning domain={domain} />}
+              {!isMigratedToNewRegistry && (
+                <MigrationWarning account={account} domain={domain} />
+              )}
               {domain.parent && (
                 <DetailsItem uneditable>
                   <DetailsKey>Parent</DetailsKey>
@@ -562,6 +571,19 @@ function NameDetails({ domain, isOwner, isOwnerOfParent, refetch, account }) {
             domain={domain}
             isOwner={isOwner}
             data-testid="subdomains"
+          />
+        )}
+      />
+
+      <Route
+        exact
+        path="/name/:name/register"
+        render={() => (
+          <NameRegister
+            registrationOpen={registrationOpen}
+            domain={domain}
+            refetch={refetch}
+            readOnly={account === EMPTY_ADDRESS}
           />
         )}
       />

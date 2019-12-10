@@ -18,7 +18,13 @@ const NameRegisterContainer = styled('div')`
   padding: 20px 40px;
 `
 
-const NameRegister = ({ domain, waitTime, refetch, readOnly }) => {
+const NameRegister = ({
+  domain,
+  waitTime,
+  refetch,
+  readOnly,
+  registrationOpen
+}) => {
   const [step, dispatch] = useReducer(
     registerReducer,
     registerMachine.initialState
@@ -49,6 +55,14 @@ const NameRegister = ({ domain, waitTime, refetch, readOnly }) => {
   const twentyEightDaysInYears = oneMonthInSeconds / yearInSeconds
   const isAboveMinDuration = parsedYears > twentyEightDaysInYears
   const waitPercentComplete = (secondsPassed / waitTime) * 100
+
+  if (!registrationOpen) {
+    return (
+      <NameRegisterContainer>
+        This name is not avaiable for registration
+      </NameRegisterContainer>
+    )
+  }
 
   return (
     <NameRegisterContainer>

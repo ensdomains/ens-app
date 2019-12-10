@@ -8,7 +8,6 @@ import { Title } from '../Typography/Basic'
 import TopBar from '../Basic/TopBar'
 import DefaultFavourite from '../AddFavourite/Favourite'
 import NameDetails from './NameDetails'
-import NameRegister from './NameRegister'
 import DNSNameRegister from './DNSNameRegister'
 import ShortName from './ShortName'
 import Tabs from './Tabs'
@@ -65,7 +64,6 @@ function Name({ details: domain, name, pathname, type, refetch }) {
     isDeedOwner
   )
 
-  console.log(domain.available, domain.parent, isDeedOwner)
   let ownerType
   if (isDeedOwner || isRegistrant) {
     ownerType = 'Registrant'
@@ -99,14 +97,7 @@ function Name({ details: domain, name, pathname, type, refetch }) {
         </RightBar>
       </TopBar>
       {!smallBP && hasAnOwner && <Tabs pathname={pathname} domain={domain} />}
-      {registrationOpen ? (
-        <NameRegister
-          domain={domain}
-          pathname={pathname}
-          refetch={refetch}
-          readOnly={account === EMPTY_ADDRESS}
-        />
-      ) : isDNSRegistrationOpen(domain) ? (
+      {isDNSRegistrationOpen(domain) ? (
         <DNSNameRegister
           domain={domain}
           pathname={pathname}
@@ -125,6 +116,7 @@ function Name({ details: domain, name, pathname, type, refetch }) {
           isOwnerOfParent={isOwnerOfParent}
           refetch={refetch}
           account={account}
+          registrationOpen={registrationOpen}
         />
       )}
     </NameContainer>

@@ -180,7 +180,7 @@ export const SUBMIT_PROOF = gql`
 /* Registry Migration */
 
 export const MIGRATE_REGISTRY = gql`
-  mutation migrateRegistry($name: String) {
-    migrateRegistry(name: $name) @client
+  mutation migrateRegistry($name: String, $address: String) {
+    migrateRegistry(name: $name, address: $address) @client
   }
 `

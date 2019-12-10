@@ -293,6 +293,8 @@ const resolvers = {
           names: [...names, detailedNode]
         }
 
+        console.log(data)
+
         cache.writeData({ data })
 
         return detailedNode
@@ -650,9 +652,9 @@ const resolvers = {
         return sendHelper(tx)
       }
     },
-    migrateRegistry: async (_, { name, account }, { cache }) => {
+    migrateRegistry: async (_, { name, address }, { cache }) => {
       try {
-        const tx = await setSubnodeOwner(name, account)
+        const tx = await setSubnodeOwner(name, address)
         return sendHelper(tx)
       } catch (e) {
         console.log(e)

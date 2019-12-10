@@ -21,7 +21,6 @@ const TabLink = styled(Link)`
 const TabContainer = styled('div')`
   display: flex;
   justify-content: flex-start;
-  width: 240px;
   border: 1px solid #dfdfdf;
   border-radius: 90px;
   margin-left: 43px;
@@ -38,6 +37,12 @@ const Tabs = ({ domain, pathname }) => {
   return (
     (state !== 'Auction' || state !== 'Reveal') && (
       <TabContainer>
+        <TabLink
+          active={pathname === `/name/${name}/register`}
+          to={`/name/${name}/register`}
+        >
+          Register
+        </TabLink>
         <TabLink active={pathname === `/name/${name}`} to={`/name/${name}`}>
           Details
         </TabLink>
