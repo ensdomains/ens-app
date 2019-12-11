@@ -168,7 +168,6 @@ function AddReverseRecord({ account, name }) {
                     }}
                     onCompleted={data => {
                       startPending(Object.values(data)[0])
-                      refetch()
                     }}
                   >
                     {mutation => (

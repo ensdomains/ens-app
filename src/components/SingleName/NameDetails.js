@@ -34,7 +34,7 @@ import { ReactComponent as DefaultOrangeExclamation } from '../Icons/OrangeExcla
 import DefaultAddressLink from '../Links/AddressLink'
 import ResolverAndRecords from './ResolverAndRecords'
 import NameClaimTestDomain from './NameClaimTestDomain'
-import MigrationWarning from './MigrationWarning'
+import RegistryMigration from './RegistryMigration'
 
 const Details = styled('section')`
   padding: 40px;
@@ -187,7 +187,11 @@ function NameDetails({
   registrationOpen
 }) {
   const [loading, setLoading] = useState(undefined)
-  const { data, loading: loadingIsMigrated } = useQuery(IS_MIGRATED, {
+  const {
+    data,
+    loading: loadingIsMigrated,
+    refetch: refetchIsMigrated
+  } = useQuery(IS_MIGRATED, {
     variables: {
       name: domain.name
     }
@@ -236,7 +240,11 @@ function NameDetails({
             <Details data-testid="name-details">
               {isOwner && <SetupName initialState={showExplainer} />}
               {!isMigratedToNewRegistry && (
-                <MigrationWarning account={account} domain={domain} />
+                <RegistryMigration
+                  account={account}
+                  domain={domain}
+                  refetchIsMigrated={refetchIsMigrated}
+                />
               )}
               {domain.parent && (
                 <DetailsItem uneditable>

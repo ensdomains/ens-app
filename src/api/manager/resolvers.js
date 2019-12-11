@@ -310,7 +310,7 @@ const resolvers = {
 
       if (
         process &&
-        process.env.REACT_APP_STAGE == 'local' &&
+        process.env.REACT_APP_STAGE === 'local' &&
         process.env.REACT_APP_DEPRECATED_RESOLVERS
       ) {
         DEPRECATED_RESOLVERS.push(process.env.REACT_APP_DEPRECATED_RESOLVERS)
