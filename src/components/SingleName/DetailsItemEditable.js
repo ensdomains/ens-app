@@ -287,7 +287,6 @@ const Editable = ({
       mutation={mutation}
       onCompleted={data => {
         startPending(Object.values(data)[0])
-        refetch()
       }}
     >
       {mutation => (

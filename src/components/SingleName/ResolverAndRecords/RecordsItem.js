@@ -155,7 +155,6 @@ const RecordItemEditable = ({
         mutation={mutation}
         onCompleted={data => {
           startPending(Object.values(data)[0])
-          refetch()
         }}
       >
         {mutation => (
