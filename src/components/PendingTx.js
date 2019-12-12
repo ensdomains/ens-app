@@ -25,7 +25,8 @@ const Pending = ({ className, children = 'Tx pending' }) => (
   </PendingContainer>
 )
 
-function MultiplePendingTx({ txHashes, onConfirmed }) {
+function MultiplePendingTx(props) {
+  const { txHashes, onConfirmed } = props
   const [txHashesStatus, setTxHashesStatus] = useState(txHashes)
   return (
     <Query query={GET_TRANSACTION_HISTORY}>
@@ -51,35 +52,33 @@ function MultiplePendingTx({ txHashes, onConfirmed }) {
           }
         })
 
-        return <Pending {...this.props} />
+        return <Pending {...props} />
       }}
     </Query>
   )
 }
 
-class PendingTx extends React.Component {
-  render() {
-    const { txHash, txHashes, onConfirmed } = this.props
+function PendingTx(props) {
+  const { txHash, txHashes, onConfirmed } = props
 
-    if (txHashes) {
-      return <MultiplePendingTx txHashes={txHashes} onConfirmed={onConfirmed} />
-    }
-    return (
-      <Query query={GET_TRANSACTION_HISTORY}>
-        {({ data: { transactionHistory } }) => {
-          const lastTransaction = _.last(transactionHistory)
-          if (
-            lastTransaction &&
-            lastTransaction.txHash === txHash &&
-            lastTransaction.txState === 'Confirmed'
-          ) {
-            onConfirmed()
-          }
-          return <Pending {...this.props} />
-        }}
-      </Query>
-    )
+  if (txHashes) {
+    return <MultiplePendingTx txHashes={txHashes} onConfirmed={onConfirmed} />
   }
+  return (
+    <Query query={GET_TRANSACTION_HISTORY}>
+      {({ data: { transactionHistory } }) => {
+        const lastTransaction = _.last(transactionHistory)
+        if (
+          lastTransaction &&
+          lastTransaction.txHash === txHash &&
+          lastTransaction.txState === 'Confirmed'
+        ) {
+          onConfirmed()
+        }
+        return <Pending {...this.props} />
+      }}
+    </Query>
+  )
 }
 
 PendingTx.propTypes = {

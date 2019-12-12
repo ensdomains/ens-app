@@ -36,8 +36,14 @@ export default function MigrateResolver({ value, name, refetch }) {
   const [migrateResolver] = useMutation(MIGRATE_RESOLVER, {
     variables: { name },
     onCompleted: data => {
-      startPending1(Object.values(data)[0])
-      startPending2(Object.values(data)[0])
+      if (data.length > 1) {
+        startPending1(Object.values(data)[0])
+        startPending2(Object.values(data)[0])
+      } else {
+        startPending1(Object.values(data)[0])
+        startPending2('0x123')
+        setConfirmed2()
+      }
     }
   })
   return (
@@ -55,7 +61,7 @@ export default function MigrateResolver({ value, name, refetch }) {
       <MigrateValue>{value}</MigrateValue>
       {pending1 &&
       pending2 &&
-      (!confirmed1 && !confirmed2) &&
+      (!confirmed1 || !confirmed2) &&
       (txHash1 && txHash2) ? (
         <PendingTx
           txHashes={[txHash1, txHash2]}

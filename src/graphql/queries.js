@@ -81,7 +81,6 @@ export const GET_RESOLVER_MIGRATION_INFO = gql`
       name
       isDeprecatedResolver
       isOldPublicResolver
-      areRecordsMigrated
     }
   }
 `

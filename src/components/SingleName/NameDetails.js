@@ -167,11 +167,7 @@ function canClaim(domain) {
 }
 
 function showTransfer(domain, isDeedOwner, isPermanentRegistrarDeployed) {
-  return (
-    isPermanentRegistrarDeployed &&
-    isDeedOwner &&
-    domain.currentBlockDate > domain.transferEndDate
-  )
+  return false
 }
 
 function isLegacyAuctionedName(domain) {
@@ -212,6 +208,7 @@ function NameDetails({
     domain.owner.toLowerCase() !== domain.dnsOwner.toLowerCase()
   const outOfSync = dnssecmode && dnssecmode.outOfSync
 
+  console.log(showTransfer(domain, isDeedOwner, isPermanentRegistrarDeployed))
   return (
     <>
       <Route

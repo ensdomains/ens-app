@@ -21,7 +21,7 @@ import AddRecord from './AddRecord'
 import RecordsItem from './RecordsItem'
 import TextRecord from './TextRecord'
 import Address from './Address'
-import MigrateResolver from './MigrateResolver'
+import ResolverMigration from './ResolverMigration'
 
 const RecordsWrapper = styled('div')`
   border-radius: 6px;
@@ -258,7 +258,7 @@ export default function ResolverAndRecords({
     <>
       <ResolverWrapper needsToBeMigrated={needsToBeMigrated}>
         {needsToBeMigrated ? (
-          <MigrateResolver
+          <ResolverMigration
             value={domain.resolver}
             name={domain.name}
             refetch={refetch}

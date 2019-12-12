@@ -35,6 +35,7 @@ import {
   getResolverContract,
   getNamehash
 } from '@ensdomains/ui'
+import isEqual from 'lodash/isEqual'
 import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
 import domains from '../../constants/domains.json'
@@ -52,7 +53,6 @@ let savedFavourites =
   JSON.parse(window.localStorage.getItem('ensFavourites')) || []
 let savedSubDomainFavourites =
   JSON.parse(window.localStorage.getItem('ensSubDomainFavourites')) || []
-
 const defaults = {
   names: [],
   favourites: savedFavourites,
@@ -317,6 +317,7 @@ const resolvers = {
       }
       /* Deprecated resolvers are using the old registry and must be migrated */
 
+      console.log(DEPRECATED_RESOLVERS)
       function calculateIsDeprecatedResolver(address) {
         return DEPRECATED_RESOLVERS.includes(address)
       }
@@ -327,46 +328,17 @@ const resolvers = {
         return OLD_RESOLVERS.includes(address)
       }
 
-      async function areRecordsMigrated(
-        isDeprecatedResolver,
-        isOldPublicResolver
-      ) {
-        if (!isDeprecatedResolver && !isOldPublicResolver) {
-          return null
-        }
-
-        const publicResolver = await getAddr('resolver.eth')
-
-        if (isOldPublicResolver || isDeprecatedResolver) {
-          /* Get original addr record */
-          const currentAddr = await getAddr(name, 'ETH')
-          /* Get new resolver addr record */
-          const addrOnPublicResolver = await getAddrWithResolver(
-            name,
-            'ETH',
-            publicResolver
-          )
-          /* Check if they match and return true if so*/
-          if (currentAddr === addrOnPublicResolver) {
-            return true
-          }
-          /* TODO add all other records */
-        }
-      }
-
       let isDeprecatedResolver = calculateIsDeprecatedResolver(resolver)
       let isOldPublicResolver = calculateIsOldPublicResolver(resolver)
 
-      return {
+      const resolverMigrationInfo = {
         name,
         isDeprecatedResolver,
         isOldPublicResolver,
-        areRecordsMigrated: await areRecordsMigrated(
-          isDeprecatedResolver,
-          isOldPublicResolver
-        ),
         __typename: 'ResolverMigration'
       }
+      console.log(resolverMigrationInfo)
+      return resolverMigrationInfo
     },
     isMigrated: async (_, { name }, { cache }) => {
       let result = await isMigrated(name)
@@ -559,7 +531,9 @@ const resolvers = {
       }
 
       async function getAllAddressesWithResolver(name, resolver) {
-        const promises = COIN_LIST_KEYS.map(key => getAddr(name, key, resolver))
+        const promises = COIN_LIST_KEYS.map(key =>
+          getAddrWithResolver(name, key, resolver)
+        )
         const records = await Promise.all(promises)
         return buildKeyValueObjects(COIN_LIST_KEYS, records)
       }
@@ -571,7 +545,7 @@ const resolvers = {
           getAllTextRecords(name),
           getAllAddresses(name)
         ]
-        return Promise.all(promises)
+        return Promise.all(promises).catch(console.log)
       }
 
       async function getAllRecordsNew(name, publicResolver) {
@@ -581,12 +555,11 @@ const resolvers = {
           getAllTextRecordsWithResolver(name, publicResolver),
           getAllAddressesWithResolver(name, publicResolver)
         ]
-        return Promise.all(promises)
+        return Promise.all(promises).catch(console.log)
       }
 
       function areRecordsEqual(oldRecords, newRecords) {
-        //TODO add a function to detect if the old records equal the new records
-        return false
+        return isEqual(oldRecords, newRecords)
       }
 
       function setupTransactions(name, records, resolver) {
@@ -630,12 +603,14 @@ const resolvers = {
       }
 
       // get public resolver
-      const publicResolver = await getAddr('resolver.eth')
+      const publicResolver = await getAddress('resolver.eth')
       // get old and new records in parallel
-      const [records, newResolverRecords] = Promise.all([
+      //console.log(getAllRecords(name))
+      const [records, newResolverRecords] = await Promise.all([
         getAllRecords(name),
         getAllRecordsNew(name, publicResolver)
       ])
+
       // compare new and old records
       if (!areRecordsEqual(records, newResolverRecords)) {
         //get the transaction by using contract.method.encode from ethers
@@ -649,7 +624,7 @@ const resolvers = {
         return sendHelperArray([tx1, tx2])
       } else {
         const tx = await setResolver(name, publicResolver)
-        return sendHelper(tx)
+        return [sendHelper(tx)]
       }
     },
     migrateRegistry: async (_, { name, address }, { cache }) => {
