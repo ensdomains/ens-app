@@ -236,7 +236,7 @@ function NameDetails({
           ) : (
             <Details data-testid="name-details">
               {isOwner && <SetupName initialState={showExplainer} />}
-              {!isMigratedToNewRegistry && (
+              {!loadingIsMigrated && !isMigratedToNewRegistry && (
                 <RegistryMigration
                   account={account}
                   domain={domain}
