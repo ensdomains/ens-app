@@ -31,10 +31,12 @@ import {
   getTextWithResolver,
 
   /* lower level calls possibly can be refactored out */
+  getSigner,
   encodeContenthash,
   getResolverContract,
   getNamehash
 } from '@ensdomains/ui'
+import { formatsByName } from '@ensdomains/address-encoder'
 import isEqual from 'lodash/isEqual'
 import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
@@ -502,7 +504,7 @@ const resolvers = {
         console.log(e)
       }
     },
-    migrateResolver: async (_, { name, resolver }, { cache }) => {
+    migrateResolver: async (_, { name }, { cache }) => {
       function buildKeyValueObjects(keys, values) {
         return values.map((record, i) => ({
           key: keys[i],
@@ -562,44 +564,54 @@ const resolvers = {
         return isEqual(oldRecords, newRecords)
       }
 
-      function setupTransactions(name, records, resolver) {
-        const namehash = getNamehash(name)
-        const transactionArray = records.map((record, i) => {
-          switch (i) {
-            case 0:
-              return resolver['setAddr(bytes32,address)'].encode(
-                namehash,
-                record
-              )
-            case 1:
-              const encodedContenthash = encodeContenthash(record)
-              return resolver.setContenthash.encode(
-                namehash,
-                encodedContenthash
-              )
-            case 2:
-              return record.map(textRecord =>
-                resolver.setText.encode(
+      function setupTransactions(name, records, resolverInstance) {
+        try {
+          const resolver = resolverInstance.interface.functions
+          const namehash = getNamehash(name)
+          const transactionArray = records.map((record, i) => {
+            switch (i) {
+              case 0:
+                if (parseInt(record, 16) === 0) return undefined
+                let encoded = resolver['setAddr(bytes32,address)'].encode([
                   namehash,
-                  textRecord.key,
-                  textRecord.value
-                )
-              )
-            case 3:
-              return record.map(coinRecord =>
-                resolver['setAddr(bytes32,uint256,bytes)'].encode(
+                  record
+                ])
+                return encoded
+              case 1:
+                if (!record.value) return undefined
+                const encodedContenthash = encodeContenthash(record.value)
+                return resolver.setContenthash.encode([
                   namehash,
-                  coinRecord.key,
-                  coinRecord.value
-                )
-              )
-            default:
-              throw Error('More records than expected')
-          }
-        })
+                  encodedContenthash
+                ])
+              case 2:
+                return record.map(textRecord => {
+                  if (textRecord.value.length === 0) return undefined
+                  return resolver.setText.encode([
+                    namehash,
+                    textRecord.key,
+                    textRecord.value
+                  ])
+                })
+              case 3:
+                return record.map(coinRecord => {
+                  if (parseInt(coinRecord.value, 16) === 0) return undefined
+                  return resolver['setAddr(bytes32,uint256,bytes)'].encode([
+                    namehash,
+                    formatsByName[coinRecord.key].coinType,
+                    coinRecord.value
+                  ])
+                })
+              default:
+                throw Error('More records than expected')
+            }
+          })
 
-        // flatten textrecords and addresses
-        return transactionArray.flat()
+          // flatten textrecords and addresses and remove undefined
+          return transactionArray.flat().filter(bytes => bytes)
+        } catch (e) {
+          console.log('error creating transaction array', e)
+        }
       }
 
       // get public resolver
@@ -614,8 +626,18 @@ const resolvers = {
       // compare new and old records
       if (!areRecordsEqual(records, newResolverRecords)) {
         //get the transaction by using contract.method.encode from ethers
-        const resolverInstance = await getResolverContract(resolver)
-        const transactionArray = setupTransactions(name, records, resolver)
+        const resolverInstanceWithoutSigner = await getResolverContract(
+          publicResolver
+        )
+        const signer = await getSigner()
+        const resolverInstance = resolverInstanceWithoutSigner.connect(signer)
+        const transactionArray = setupTransactions(
+          name,
+          records,
+          resolverInstance
+        )
+        console.log('transactionArray', transactionArray)
+        console.log(resolverInstance)
         //add them all together into one transaction
         const tx1 = await resolverInstance.multicall(transactionArray)
         //once the record has been migrated, migrate teh resolver using setResolver to the new public resolver
