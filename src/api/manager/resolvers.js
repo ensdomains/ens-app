@@ -624,7 +624,9 @@ const resolvers = {
         return sendHelperArray([tx1, tx2])
       } else {
         const tx = await setResolver(name, publicResolver)
-        return [sendHelper(tx)]
+        const value = await sendHelper(tx)
+        console.log(value)
+        return [value]
       }
     },
     migrateRegistry: async (_, { name, address }, { cache }) => {

@@ -48,5 +48,6 @@ export async function sendHelper(txObj) {
 
 export async function sendHelperArray(arrayOfTxObj) {
   const promises = arrayOfTxObj.map(txObj => sendHelper(txObj))
-  return Promise.all(promises)
+  const values = await Promise.all(promises)
+  return values
 }

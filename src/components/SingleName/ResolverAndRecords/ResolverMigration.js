@@ -32,17 +32,39 @@ export default function MigrateResolver({ value, name, refetch }) {
 
   const { startPending: startPending1, setConfirmed: setConfirmed1 } = actions1
 
+  console.log(
+    'pending',
+    pending1,
+    pending2,
+    'confirmed',
+    confirmed1,
+    confirmed2,
+    'txhash',
+    txHash1,
+    txHash2
+  )
+
+  console.log(
+    'pending tx logic',
+    pending1 && pending2 && (!confirmed1 || !confirmed2) && (txHash1 && txHash2)
+  )
+
+  console.log(
+    'pending tcx logic 2',
+    pending1 && pending2 && (txHash1 && txHash2) && (!confirmed1 || !confirmed2)
+  )
+
   const { startPending: startPending2, setConfirmed: setConfirmed2 } = actions2
   const [migrateResolver] = useMutation(MIGRATE_RESOLVER, {
     variables: { name },
     onCompleted: data => {
+      console.log(data, Object.values(data)[0][0])
       if (data.length > 1) {
-        startPending1(Object.values(data)[0])
-        startPending2(Object.values(data)[0])
+        startPending1(Object.values(data)[0][0])
+        startPending2(Object.values(data)[0][1])
       } else {
-        startPending1(Object.values(data)[0])
-        startPending2('0x123')
-        setConfirmed2()
+        startPending1(Object.values(data)[0][0])
+        startPending2('notatx')
       }
     }
   })
@@ -61,11 +83,13 @@ export default function MigrateResolver({ value, name, refetch }) {
       <MigrateValue>{value}</MigrateValue>
       {pending1 &&
       pending2 &&
-      (!confirmed1 || !confirmed2) &&
-      (txHash1 && txHash2) ? (
+      (txHash1 && txHash2) &&
+      (!confirmed1 || !confirmed2) ? (
         <PendingTx
-          txHashes={[txHash1, txHash2]}
+          txHashes={txHash2 === 'notatx' ? undefined : [txHash1, txHash2]}
+          txHash={txHash2 === 'notatx' ? txHash1 : undefined}
           onConfirmed={() => {
+            console.log('onconfirmed')
             setConfirmed1()
             setConfirmed2()
             refetch()

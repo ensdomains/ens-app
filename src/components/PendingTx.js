@@ -68,6 +68,7 @@ function PendingTx(props) {
     <Query query={GET_TRANSACTION_HISTORY}>
       {({ data: { transactionHistory } }) => {
         const lastTransaction = _.last(transactionHistory)
+        console.log(lastTransaction)
         if (
           lastTransaction &&
           lastTransaction.txHash === txHash &&
@@ -75,7 +76,7 @@ function PendingTx(props) {
         ) {
           onConfirmed()
         }
-        return <Pending {...this.props} />
+        return <Pending {...props} />
       }}
     </Query>
   )
