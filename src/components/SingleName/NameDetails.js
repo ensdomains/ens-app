@@ -203,7 +203,7 @@ function NameDetails({
     dnssecmode.state === 'SUBMIT_PROOF' && // This is for not allowing the case user does not have record rather than having empty address record.
     domain.owner.toLowerCase() !== domain.dnsOwner.toLowerCase()
   const outOfSync = dnssecmode && dnssecmode.outOfSync
-
+  const releaseDeed = domain.deedOwner && parseInt(domain.deedOwner, 16) !== 0
   return (
     <>
       <Route
@@ -213,9 +213,7 @@ function NameDetails({
           return (
             <Details data-testid="name-details">
               {isOwner && <SetupName initialState={showExplainer} />}
-              {parseInt(domain.deedOwner, 16) !== 0 && (
-                <ReleaseDeed domain={domain} refetch={refetch} />
-              )}
+              {releaseDeed && <ReleaseDeed domain={domain} refetch={refetch} />}
               {!loadingIsMigrated && !isMigratedToNewRegistry && (
                 <RegistryMigration
                   account={account}
