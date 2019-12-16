@@ -7,6 +7,15 @@ import { ExternalButtonLink } from '../Forms/Button'
 
 import { useEditable } from '../hooks'
 
+const LinkToLearnMore = styled('a')`
+  margin-right: ${props => (props.outOfSync ? '' : '2em')};
+  font-size: 14px;
+  letter-spacing: 0.58px;
+  text-align: center;
+  margin-left: auto;
+  min-width: 130px;
+`
+
 const WarningBox = styled('div')`
   display: flex;
   justify-content: space-between;
@@ -30,7 +39,7 @@ const SubWarning = styled('p')`
   font-weight: 500;
 `
 
-const Migrate = styled(ExternalButtonLink)`
+const Return = styled(ExternalButtonLink)`
   flex: 2 1 auto;
 `
 
@@ -44,13 +53,24 @@ export default function MigrationWarning({ domain, refetch }) {
       startPending(Object.values(data)[0])
     }
   })
-  return (
+  return confirmed ? (
+    <WarningBox>
+      <WarningContent>Your deposit is now returned.</WarningContent>
+    </WarningBox>
+  ) : (
     <WarningBox>
       <WarningContent>
         Your name was automatically migrated to the new Registrar. To get your
         deposited eth back, click the ‘return’ button.
         <SubWarning>
-          *To understand why your name was migrated Learn More
+          *To understand why your name was migrated
+          <LinkToLearnMore
+            href="https://medium.com/the-ethereum-name-service"
+            target="_blank"
+          >
+            {' '}
+            Learn More
+          </LinkToLearnMore>
         </SubWarning>
       </WarningContent>
       {pending && !confirmed && txHash ? (
@@ -58,13 +78,12 @@ export default function MigrationWarning({ domain, refetch }) {
           txHash={txHash}
           onConfirmed={() => {
             setConfirmed()
-            refetch()
           }}
         />
       ) : (
-        <Migrate onClick={releaseDeed} type={'hollow-primary'} href="#">
+        <Return onClick={releaseDeed} type={'hollow-primary'} href="#">
           Return
-        </Migrate>
+        </Return>
       )}
     </WarningBox>
   )

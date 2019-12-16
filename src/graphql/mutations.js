@@ -159,12 +159,6 @@ export const RENEW = gql`
   }
 `
 
-export const TRANSFER_REGISTRARS = gql`
-  mutation transferRegistrars($label: String) {
-    transferRegistrars(label: $label) @client
-  }
-`
-
 export const RELEASE_DEED = gql`
   mutation releaseDeed($label: String) {
     releaseDeed(label: $label) @client
