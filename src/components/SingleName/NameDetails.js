@@ -35,6 +35,7 @@ import DefaultAddressLink from '../Links/AddressLink'
 import ResolverAndRecords from './ResolverAndRecords'
 import NameClaimTestDomain from './NameClaimTestDomain'
 import RegistryMigration from './RegistryMigration'
+import ReleaseDeed from './ReleaseDeed'
 
 const Details = styled('section')`
   padding: 40px;
@@ -235,6 +236,9 @@ function NameDetails({
           ) : (
             <Details data-testid="name-details">
               {isOwner && <SetupName initialState={showExplainer} />}
+              {parseInt(domain.deedOwner, 16) !== 0 && (
+                <ReleaseDeed domain={domain} refetch={refetch} />
+              )}
               {!loadingIsMigrated && !isMigratedToNewRegistry && (
                 <RegistryMigration
                   account={account}

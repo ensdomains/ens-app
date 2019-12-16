@@ -166,7 +166,7 @@ export const TRANSFER_REGISTRARS = gql`
 `
 
 export const RELEASE_DEED = gql`
-  mutation releaseDeed($hash: String) {
+  mutation releaseDeed($label: String) {
     releaseDeed(label: $label) @client
   }
 `
