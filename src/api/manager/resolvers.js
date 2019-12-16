@@ -307,8 +307,27 @@ const resolvers = {
     getResolverMigrationInfo: async (_, { name, resolver }, { cache }) => {
       /* TODO add hardcoded resolver addresses */
 
-      const DEPRECATED_RESOLVERS = ['0x1', '0x2']
-      const OLD_RESOLVERS = ['0x3']
+      const networkId = await getNetworkId()
+
+      const RESOLVERS = {
+        1: {
+          DEPRECATED: [
+            '0x5ffc014343cd971b7eb70732021e26c35b744cc4',
+            '0x6dbc5978711cb22d7ba611bc18cec308ea12ea95',
+            '0xd3ddccdd3b25a8a7423b5bee360a42146eb4baf3',
+            '0x226159d592e2b063810a10ebf6dcbada94ed68b8'
+          ],
+          OLD: ['0x3']
+        }
+      }
+
+      let DEPRECATED_RESOLVERS = []
+      let OLD_RESOLVERS = []
+
+      if (RESOLVERS[networkId]) {
+        DEPRECATED_RESOLVERS = [...RESOLVERS[networkId].DEPRECATED]
+        OLD_RESOLVERS = [...RESOLVERS[networkId].OLD]
+      }
 
       if (
         process &&
