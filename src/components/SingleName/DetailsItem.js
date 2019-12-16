@@ -52,3 +52,16 @@ export const DetailsValue = styled('div')`
     `}
   ${p => p.editableSmall && `padding-right: 50px;`}
 `
+/* Container element for key/value */
+export const DetailsContent = styled('div')`
+  display: flex;
+  justify-content: flex-start;
+  position: relative;
+  flex-direction: column;
+  width: 100%;
+  ${({ editing }) => editing && 'margin-bottom: 30px'};
+  transition: 0.3s;
+  ${mq.small`
+    flex-direction: row;
+  `}
+`

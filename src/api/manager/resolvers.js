@@ -319,7 +319,6 @@ const resolvers = {
       }
       /* Deprecated resolvers are using the old registry and must be migrated */
 
-      console.log(DEPRECATED_RESOLVERS)
       function calculateIsDeprecatedResolver(address) {
         return DEPRECATED_RESOLVERS.includes(address)
       }
@@ -339,7 +338,6 @@ const resolvers = {
         isOldPublicResolver,
         __typename: 'ResolverMigration'
       }
-      console.log(resolverMigrationInfo)
       return resolverMigrationInfo
     },
     isMigrated: async (_, { name }, { cache }) => {
@@ -578,7 +576,13 @@ const resolvers = {
                 ])
                 return encoded
               case 1:
-                if (!record.value) return undefined
+                console.log(record)
+                if (
+                  !record.value ||
+                  parseInt(record.value, 16) === 0 ||
+                  parseInt(record.text, 16) === 0
+                )
+                  return undefined
                 const encodedContenthash = encodeContenthash(record.value)
                 return resolver.setContenthash.encode([
                   namehash,

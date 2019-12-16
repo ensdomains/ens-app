@@ -208,7 +208,6 @@ function NameDetails({
     domain.owner.toLowerCase() !== domain.dnsOwner.toLowerCase()
   const outOfSync = dnssecmode && dnssecmode.outOfSync
 
-  console.log(showTransfer(domain, isDeedOwner, isPermanentRegistrarDeployed))
   return (
     <>
       <Route

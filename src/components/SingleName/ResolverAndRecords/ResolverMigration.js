@@ -6,6 +6,11 @@ import { MIGRATE_RESOLVER } from 'graphql/mutations'
 import { DetailsItem, DetailsKey, DetailsValue } from '../DetailsItem'
 import PendingTx from '../../PendingTx'
 import Button from '../../Forms/Button'
+import mq from 'mediaQuery'
+
+const MigrateItem = styled(DetailsItem)`
+  position: relative;
+`
 
 const MigrateKey = styled(DetailsKey)`
   color: #2b2b2b;
@@ -17,6 +22,16 @@ const MigrateValue = styled(DetailsValue)`
 
 const MigrateButton = styled(Button)`
   margin-left: 10px;
+`
+
+const MigrateAction = styled('div')`
+  ${mq.small`
+    margin-top: 0;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translate(0, -65%);
+  `}
 `
 
 const SVG = styled('svg')`
@@ -32,34 +47,11 @@ export default function MigrateResolver({ value, name, refetch }) {
 
   const { startPending: startPending1, setConfirmed: setConfirmed1 } = actions1
 
-  console.log(
-    'pending',
-    pending1,
-    pending2,
-    'confirmed',
-    confirmed1,
-    confirmed2,
-    'txhash',
-    txHash1,
-    txHash2
-  )
-
-  console.log(
-    'pending tx logic',
-    pending1 && pending2 && (!confirmed1 || !confirmed2) && (txHash1 && txHash2)
-  )
-
-  console.log(
-    'pending tcx logic 2',
-    pending1 && pending2 && (txHash1 && txHash2) && (!confirmed1 || !confirmed2)
-  )
-
   const { startPending: startPending2, setConfirmed: setConfirmed2 } = actions2
   const [migrateResolver] = useMutation(MIGRATE_RESOLVER, {
     variables: { name },
     onCompleted: data => {
-      console.log(data, Object.values(data)[0][0])
-      if (data.length > 1) {
+      if (Object.values(data)[0].length > 1) {
         startPending1(Object.values(data)[0][0])
         startPending2(Object.values(data)[0][1])
       } else {
@@ -69,7 +61,7 @@ export default function MigrateResolver({ value, name, refetch }) {
     }
   })
   return (
-    <DetailsItem>
+    <MigrateItem>
       <MigrateKey>
         <SVG width="16" height="16" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -80,26 +72,28 @@ export default function MigrateResolver({ value, name, refetch }) {
         </SVG>
         Resolver
       </MigrateKey>
-      <MigrateValue>{value}</MigrateValue>
-      {pending1 &&
-      pending2 &&
-      (txHash1 && txHash2) &&
-      (!confirmed1 || !confirmed2) ? (
-        <PendingTx
-          txHashes={txHash2 === 'notatx' ? undefined : [txHash1, txHash2]}
-          txHash={txHash2 === 'notatx' ? txHash1 : undefined}
-          onConfirmed={() => {
-            console.log('onconfirmed')
-            setConfirmed1()
-            setConfirmed2()
-            refetch()
-          }}
-        />
-      ) : (
-        <MigrateButton onClick={migrateResolver} type="hollow-primary">
-          Migrate
-        </MigrateButton>
-      )}
-    </DetailsItem>
+      <MigrateValue editable>{value}</MigrateValue>
+      <MigrateAction>
+        {pending1 &&
+        pending2 &&
+        (txHash1 && txHash2) &&
+        (!confirmed1 || !confirmed2) ? (
+          <PendingTx
+            txHashes={txHash2 === 'notatx' ? undefined : [txHash1, txHash2]}
+            txHash={txHash2 === 'notatx' ? txHash1 : undefined}
+            onConfirmed={() => {
+              console.log('onconfirmed')
+              setConfirmed1()
+              setConfirmed2()
+              refetch()
+            }}
+          />
+        ) : (
+          <MigrateButton onClick={migrateResolver} type="hollow-primary">
+            Migrate
+          </MigrateButton>
+        )}
+      </MigrateAction>
+    </MigrateItem>
   )
 }

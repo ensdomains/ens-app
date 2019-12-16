@@ -13,7 +13,12 @@ import { addressUtils } from 'utils/utils'
 import Tooltip from '../Tooltip/Tooltip'
 import { SingleNameBlockies } from './SingleNameBlockies'
 import DefaultAddressLink from '../Links/AddressLink'
-import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
+import {
+  DetailsItem,
+  DetailsKey,
+  DetailsValue,
+  DetailsContent
+} from './DetailsItem'
 import SaveCancel from './SaveCancel'
 import DefaultInput from '../Forms/Input'
 import Button from '../Forms/Button'
@@ -54,19 +59,6 @@ const DetailsEditableContainer = styled(DetailsItem)`
   padding: ${({ editing }) => (editing ? '20px' : '0')};
   ${({ editing }) => (editing ? `margin-bottom: 20px;` : '')}
   transition: 0.3s;
-`
-
-const DetailsContent = styled('div')`
-  display: flex;
-  justify-content: flex-start;
-  position: relative;
-  flex-direction: column;
-  width: 100%;
-  ${({ editing }) => editing && 'margin-bottom: 30px'};
-  transition: 0.3s;
-  ${mq.small`
-    flex-direction: row;
-  `}
 `
 
 const EditRecord = styled('div')`
