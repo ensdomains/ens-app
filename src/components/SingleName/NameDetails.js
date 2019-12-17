@@ -166,10 +166,6 @@ function canClaim(domain) {
   return parseInt(domain.owner) === 0 || domain.expiryTime < new Date()
 }
 
-function isLegacyAuctionedName(domain) {
-  return domain.parent === 'eth' && !domain.isNewRegistrar
-}
-
 function NameDetails({
   domain,
   isOwner,
@@ -193,7 +189,6 @@ function NameDetails({
 
   const isDeedOwner = domain.deedOwner === account
   const isRegistrant = domain.registrant === account
-  const isPermanentRegistrarDeployed = domain.available !== null
   const dnssecmode = dnssecmodes[domain.state]
 
   const showExplainer = !parseInt(domain.resolver)
