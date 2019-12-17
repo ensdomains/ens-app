@@ -504,16 +504,6 @@ function NameDetails({
                   ) : (
                     ''
                   )
-                ) : isPermanentRegistrarDeployed &&
-                  isLegacyAuctionedName(domain) ? (
-                  <DetailsItem uneditable>
-                    <DetailsKey>Expiration Date</DetailsKey>
-                    <ExpirationDetailsValue
-                      isExpired={domain.transferEndDate < new Date()}
-                    >
-                      {formatDate(domain.transferEndDate)}
-                    </ExpirationDetailsValue>
-                  </DetailsItem>
                 ) : (
                   ''
                 )}

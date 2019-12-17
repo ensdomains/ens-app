@@ -59,7 +59,7 @@ const NameRegister = ({
   if (!registrationOpen) {
     return (
       <NameRegisterContainer>
-        This name is not avaiable for registration
+        This name is not available for registration
       </NameRegisterContainer>
     )
   }

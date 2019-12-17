@@ -52,7 +52,6 @@ function Name({ details: domain, name, pathname, type, refetch }) {
   const smallBP = useMediaMin('small')
   const percentDone = 0
   const account = useAccount()
-  const hasAnOwner = domain.owner !== EMPTY_ADDRESS
   const isOwner = isOwnerOfDomain(domain, account)
   const isOwnerOfParent = isOwnerOfParentDomain(domain, account)
 
@@ -91,12 +90,10 @@ function Name({ details: domain, name, pathname, type, refetch }) {
         <RightBar>
           {!!ownerType && <Owner>{ownerType}</Owner>}
           <Favourite domain={domain} />
-          {smallBP && hasAnOwner && (
-            <Tabs pathname={pathname} domain={domain} />
-          )}
+          {smallBP && <Tabs pathname={pathname} domain={domain} />}
         </RightBar>
       </TopBar>
-      {!smallBP && hasAnOwner && <Tabs pathname={pathname} domain={domain} />}
+      {!smallBP && <Tabs pathname={pathname} domain={domain} />}
       {isDNSRegistrationOpen(domain) ? (
         <DNSNameRegister
           domain={domain}
