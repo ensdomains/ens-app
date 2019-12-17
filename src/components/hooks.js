@@ -16,6 +16,7 @@ export function useScrollTo(pos) {
 export function useEditable(
   initialState = {
     editing: false,
+    uploading: false,
     newValue: '',
     pending: false,
     confirmed: false,
@@ -25,6 +26,7 @@ export function useEditable(
   const types = {
     UPDATE_VALUE: 'UPDATE_VALUE',
     START_EDITING: 'START_EDITING',
+    START_UPLOADING: 'START_UPLOADING',
     STOP_EDITING: 'STOP_EDITING',
     START_PENDING: 'START_PENDING',
     SET_CONFIRMED: 'SET_CONFIRMED'
@@ -33,6 +35,7 @@ export function useEditable(
   const [state, dispatch] = useReducer(reducer, initialState)
 
   const startEditing = () => dispatch({ type: types.START_EDITING })
+  const startUploading = () => dispatch({ type: types.START_UPLOADING })
   const stopEditing = () => dispatch({ type: types.STOP_EDITING })
   const updateValue = value => dispatch({ type: types.UPDATE_VALUE, value })
   const startPending = txHash => dispatch({ type: types.START_PENDING, txHash })
@@ -40,6 +43,7 @@ export function useEditable(
 
   const actions = {
     startEditing,
+    startUploading,
     stopEditing,
     updateValue,
     startPending,
@@ -55,8 +59,22 @@ export function useEditable(
         }
       case types.START_EDITING:
         return { ...state, editing: true, confirmed: false, pending: false }
+      case types.START_UPLOADING:
+        return {
+          ...state,
+          editing: true,
+          confirmed: false,
+          pending: false,
+          uploading: true
+        }
       case types.STOP_EDITING:
-        return { ...state, editing: false, confirmed: false, pending: false }
+        return {
+          ...state,
+          editing: false,
+          confirmed: false,
+          pending: false,
+          uploading: false
+        }
       case types.START_PENDING:
         return {
           ...state,

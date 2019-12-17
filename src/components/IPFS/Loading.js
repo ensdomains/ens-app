@@ -23,12 +23,10 @@ class Loading extends Component {
   render() {
     return (
       <LoadingBar>
-        <Loaded
-          style={{ width: this.props.loaded + '%' }}
-        />
+        <Loaded style={{ width: this.props.loaded + '%' }} />
       </LoadingBar>
     )
   }
 }
 
-export default Progress
+export default Loading

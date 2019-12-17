@@ -16,7 +16,7 @@ const RightBar = styled('div')`
 class Uploader {
   // initializes the ipfs uploader class
   constructor(userOpts) {
-    this.ipfsapi = ipfsClient({
+    this.ipfs = ipfsClient({
       // the hostname (or ip address) of the endpoint providing the ipfs api
       host: userOpts.host,
       // the port to connect on

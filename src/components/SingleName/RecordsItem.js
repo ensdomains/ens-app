@@ -12,6 +12,8 @@ import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import AddReverseRecord from './AddReverseRecord'
 import AddressLink from '../Links/AddressLink'
 import ContentHashLink from '../Links/ContentHashLink'
+import Upload from '../IPFS/Upload'
+import StyledUpload from '../Forms/Upload'
 import Pencil from '../Forms/Pencil'
 import Bin from '../Forms/Bin'
 import SaveCancel from './SaveCancel'
@@ -22,7 +24,7 @@ import {
   SET_ADDRESS
 } from '../../graphql/mutations'
 import DetailsItemInput from './DetailsItemInput'
-import { useEditable } from '../hooks'
+import { useEditable, useUploadable } from '../hooks'
 import { getOldContentWarning } from './warnings'
 
 const AddressInput = styled(DefaultAddressInput)`
@@ -89,6 +91,14 @@ const Action = styled('div')`
   top: 0;
 `
 
+const SecondaryAction = styled('div')`
+  position: absolute;
+  right: 44px;
+  top: 0;
+`
+
+const ActionContainer = styled('div')``
+
 const PendingTx = styled(DefaultPendingTx)`
   position: absolute;
   right: 10px;
@@ -124,6 +134,19 @@ const Actionable = ({ startEditing, keyName, value }) => {
   }
 }
 
+const Uploadable = ({ startUploading, keyName, value }) => {
+  if (value && !value.error) {
+    return (
+      <SecondaryAction>
+        <StyledUpload
+          onClick={startUploading}
+          data-testid={`edit-${keyName.toLowerCase()}`}
+        />
+      </SecondaryAction>
+    )
+  }
+}
+
 const Editable = ({
   domain,
   keyName,
@@ -136,15 +159,17 @@ const Editable = ({
 }) => {
   const { state, actions } = useEditable()
 
-  const { editing, newValue, txHash, pending, confirmed } = state
+  const { editing, uploading, newValue, txHash, pending, confirmed } = state
 
   const {
     startEditing,
     stopEditing,
     updateValue,
     startPending,
-    setConfirmed
+    setConfirmed,
+    startUploading
   } = actions
+
   const isValid = validateRecord({
     type,
     value: newValue,
@@ -208,56 +233,95 @@ const Editable = ({
                   </Mutation>
                 </Action>
               ) : (
-                <Actionable
-                  startEditing={startEditing}
-                  keyName={keyName}
-                  value={value}
-                />
+                <ActionContainer>
+                  <Uploadable
+                    startUploading={startUploading}
+                    keyName={keyName}
+                    value={value}
+                  />
+                  <Actionable
+                    startEditing={startEditing}
+                    keyName={keyName}
+                    value={value}
+                  />
+                </ActionContainer>
               )}
             </RecordsContent>
             {editing ? (
               <>
-                <EditRecord>
-                  {type === 'address' ? (
-                    <AddressInput
-                      provider={window.ethereum || window.web3}
-                      onResolve={({ address }) => {
-                        if (address) {
-                          updateValue(address)
-                        } else {
-                          updateValue('')
+                {uploading ? (
+                  <>
+                    <EditRecord>
+                      <Upload />
+                    </EditRecord>
+                    <SaveCancel
+                      warningMessage={getOldContentWarning(
+                        type,
+                        domain.contentType
+                      )}
+                      mutation={e => {
+                        e.preventDefault()
+                        const variables = {
+                          name: domain.name,
+                          [variableName
+                            ? variableName
+                            : 'recordValue']: newValue
                         }
+                        mutation({
+                          variables
+                        })
                       }}
-                    />
-                  ) : (
-                    <DetailsItemInput
-                      newValue={newValue}
-                      dataType={type}
-                      contentType={domain.contentType}
-                      updateValue={updateValue}
                       isValid={isValid}
-                      isInvalid={isInvalid}
+                      stopEditing={stopEditing}
                     />
-                  )}
-                </EditRecord>
-                <SaveCancel
-                  warningMessage={getOldContentWarning(
-                    type,
-                    domain.contentType
-                  )}
-                  mutation={e => {
-                    e.preventDefault()
-                    const variables = {
-                      name: domain.name,
-                      [variableName ? variableName : 'recordValue']: newValue
-                    }
-                    mutation({
-                      variables
-                    })
-                  }}
-                  isValid={isValid}
-                  stopEditing={stopEditing}
-                />
+                  </>
+                ) : (
+                  <>
+                    <EditRecord>
+                      {type === 'address' ? (
+                        <AddressInput
+                          provider={window.ethereum || window.web3}
+                          onResolve={({ address }) => {
+                            if (address) {
+                              updateValue(address)
+                            } else {
+                              updateValue('')
+                            }
+                          }}
+                        />
+                      ) : (
+                        <DetailsItemInput
+                          newValue={newValue}
+                          dataType={type}
+                          contentType={domain.contentType}
+                          updateValue={updateValue}
+                          isValid={isValid}
+                          isInvalid={isInvalid}
+                        />
+                      )}
+                    </EditRecord>
+                    <SaveCancel
+                      warningMessage={getOldContentWarning(
+                        type,
+                        domain.contentType
+                      )}
+                      mutation={e => {
+                        e.preventDefault()
+                        const variables = {
+                          name: domain.name,
+                          [variableName
+                            ? variableName
+                            : 'recordValue']: newValue
+                        }
+                        mutation({
+                          variables
+                        })
+                      }}
+                      isValid={isValid}
+                      stopEditing={stopEditing}
+                    />
+                  </>
+                )}
               </>
             ) : (
               ''
