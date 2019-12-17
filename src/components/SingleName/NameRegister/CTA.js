@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
+import { useHistory } from 'react-router-dom'
 import { Mutation } from 'react-apollo'
 
 import { COMMIT, REGISTER } from '../../../graphql/mutations'
@@ -41,7 +42,8 @@ function getCTA({
   setTimerRunning,
   isAboveMinDuration,
   refetch,
-  readOnly
+  readOnly,
+  history
 }) {
   const CTAs = {
     PRICE_DECISION: (
@@ -136,7 +138,13 @@ function getCTA({
       />
     ),
     REVEAL_CONFIRMED: (
-      <Button data-testid="manage-name-button" onClick={() => refetch()}>
+      <Button
+        data-testid="manage-name-button"
+        onClick={async () => {
+          await refetch()
+          history.push(`/name/${label}.eth`)
+        }}
+      >
         <Pencil />
         Manage name
       </Button>
@@ -155,6 +163,7 @@ const CTA = ({
   refetch,
   readOnly
 }) => {
+  const history = useHistory()
   const [txHash, setTxHash] = useState(undefined)
   return (
     <CTAContainer>
@@ -168,7 +177,8 @@ const CTA = ({
         setTimerRunning,
         isAboveMinDuration,
         refetch,
-        readOnly
+        readOnly,
+        history
       })}
     </CTAContainer>
   )

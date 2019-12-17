@@ -170,10 +170,6 @@ function showTransfer(domain, isDeedOwner, isPermanentRegistrarDeployed) {
   return false
 }
 
-function isLegacyAuctionedName(domain) {
-  return domain.parent === 'eth' && !domain.isNewRegistrar
-}
-
 function NameDetails({
   domain,
   isOwner,
@@ -525,16 +521,6 @@ function NameDetails({
                   ) : (
                     ''
                   )
-                ) : isPermanentRegistrarDeployed &&
-                  isLegacyAuctionedName(domain) ? (
-                  <DetailsItem uneditable>
-                    <DetailsKey>Expiration Date</DetailsKey>
-                    <ExpirationDetailsValue
-                      isExpired={domain.transferEndDate < new Date()}
-                    >
-                      {formatDate(domain.transferEndDate)}
-                    </ExpirationDetailsValue>
-                  </DetailsItem>
                 ) : (
                   ''
                 )}
