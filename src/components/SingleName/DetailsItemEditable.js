@@ -59,6 +59,8 @@ const DetailsEditableContainer = styled(DetailsItem)`
   padding: ${({ editing }) => (editing ? '20px' : '0')};
   ${({ editing }) => (editing ? `margin-bottom: 20px;` : '')}
   transition: 0.3s;
+
+  ${({ editing }) => editing && mq.small` flex-direction: column;`};
 `
 
 const EditRecord = styled('div')`
@@ -286,6 +288,7 @@ const Editable = ({
           <DetailsContent editing={editing}>
             <DetailsKey>{keyName}</DetailsKey>
             <DetailsValue
+              editing={editing}
               editable
               data-testid={`details-value-${keyName.toLowerCase()}`}
             >
