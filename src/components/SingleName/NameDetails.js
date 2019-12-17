@@ -24,7 +24,6 @@ import SubDomains from './SubDomains'
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import DetailsItemEditable from './DetailsItemEditable'
 import SetupName from '../SetupName/SetupName'
-import TransferRegistrars from './TransferRegistrars'
 import { SingleNameBlockies } from './SingleNameBlockies'
 import { ReactComponent as ExternalLinkIcon } from '../Icons/externalLink.svg'
 import DefaultLoader from '../Loader'
@@ -35,6 +34,7 @@ import DefaultAddressLink from '../Links/AddressLink'
 import ResolverAndRecords from './ResolverAndRecords'
 import NameClaimTestDomain from './NameClaimTestDomain'
 import RegistryMigration from './RegistryMigration'
+import ReleaseDeed from './ReleaseDeed'
 
 const Details = styled('section')`
   padding: 40px;
@@ -166,8 +166,8 @@ function canClaim(domain) {
   return parseInt(domain.owner) === 0 || domain.expiryTime < new Date()
 }
 
-function showTransfer(domain, isDeedOwner, isPermanentRegistrarDeployed) {
-  return false
+function isLegacyAuctionedName(domain) {
+  return domain.parent === 'eth' && !domain.isNewRegistrar
 }
 
 function NameDetails({
@@ -203,34 +203,17 @@ function NameDetails({
     dnssecmode.state === 'SUBMIT_PROOF' && // This is for not allowing the case user does not have record rather than having empty address record.
     domain.owner.toLowerCase() !== domain.dnsOwner.toLowerCase()
   const outOfSync = dnssecmode && dnssecmode.outOfSync
-
+  const releaseDeed = domain.deedOwner && parseInt(domain.deedOwner, 16) !== 0
   return (
     <>
       <Route
         exact
         path="/name/:name"
         render={() => {
-          return showTransfer(
-            domain,
-            isDeedOwner,
-            isPermanentRegistrarDeployed
-          ) ? (
-            <Details data-testid="name-details">
-              <TransferRegistrars
-                label={domain.label}
-                currentBlockDate={domain.currentBlockDate}
-                transferEndDate={domain.transferEndDate}
-                migrationStartDate={domain.migrationStartDate}
-                refetch={refetch}
-                parent={domain.parent}
-                isOwner={isOwner}
-                isDeedOwner={isDeedOwner}
-                isNewRegistrar={domain.isNewRegistrar}
-              />
-            </Details>
-          ) : (
+          return (
             <Details data-testid="name-details">
               {isOwner && <SetupName initialState={showExplainer} />}
+              {releaseDeed && <ReleaseDeed domain={domain} refetch={refetch} />}
               {!loadingIsMigrated && !isMigratedToNewRegistry && (
                 <RegistryMigration
                   account={account}
@@ -523,19 +506,6 @@ function NameDetails({
                   )
                 ) : (
                   ''
-                )}
-                {isPermanentRegistrarDeployed && (
-                  <TransferRegistrars
-                    label={domain.label}
-                    currentBlockDate={domain.currentBlockDate}
-                    transferEndDate={domain.transferEndDate}
-                    migrationStartDate={domain.migrationStartDate}
-                    refetch={refetch}
-                    parent={domain.parent}
-                    isOwner={isOwner}
-                    isDeedOwner={isDeedOwner}
-                    isNewRegistrar={domain.isNewRegistrar}
-                  />
                 )}
               </OwnerFields>
               <HR />
