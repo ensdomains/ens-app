@@ -361,6 +361,7 @@ const resolvers = {
     },
     isMigrated: async (_, { name }, { cache }) => {
       let result = await isMigrated(name)
+      console.log(result)
       return result
     },
     getSubDomains: async (_, { name }, { cache }) => {

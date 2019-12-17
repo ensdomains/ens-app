@@ -90,10 +90,14 @@ function Name({ details: domain, name, pathname, type, refetch }) {
         <RightBar>
           {!!ownerType && <Owner>{ownerType}</Owner>}
           <Favourite domain={domain} />
-          {smallBP && <Tabs pathname={pathname} domain={domain} />}
+          {smallBP && domain.parent === 'eth' && (
+            <Tabs pathname={pathname} domain={domain} />
+          )}
         </RightBar>
       </TopBar>
-      {!smallBP && <Tabs pathname={pathname} domain={domain} />}
+      {!smallBP && domain.parent === 'eth' && (
+        <Tabs pathname={pathname} domain={domain} />
+      )}
       {isDNSRegistrationOpen(domain) ? (
         <DNSNameRegister
           domain={domain}

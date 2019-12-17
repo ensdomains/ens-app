@@ -209,13 +209,15 @@ function NameDetails({
             <Details data-testid="name-details">
               {isOwner && <SetupName initialState={showExplainer} />}
               {releaseDeed && <ReleaseDeed domain={domain} refetch={refetch} />}
-              {!loadingIsMigrated && !isMigratedToNewRegistry && (
-                <RegistryMigration
-                  account={account}
-                  domain={domain}
-                  refetchIsMigrated={refetchIsMigrated}
-                />
-              )}
+              {parseInt(domain.owner, 16) !== 0 &&
+                !loadingIsMigrated &&
+                !isMigratedToNewRegistry && (
+                  <RegistryMigration
+                    account={account}
+                    domain={domain}
+                    refetchIsMigrated={refetchIsMigrated}
+                  />
+                )}
               {domain.parent && (
                 <DetailsItem uneditable>
                   <DetailsKey>Parent</DetailsKey>
