@@ -4,7 +4,7 @@ import styled from '@emotion/styled'
 import Loading from './Loading'
 import ipfsClient from 'ipfs-http-client'
 
-const JWT = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzY3MjcyMzIsImlkIjoiZGMiLCJvcmlnX2lhdCI6MTU3NjY0MDgzMn0.DK7m1FGklBvGMSj1vhk2qFFat3nLXpus2D3pqWBxowo`
+const JWT = ENV_IPFS_JWT
 
 const Container = styled('div')`
   display: flex;
@@ -13,7 +13,6 @@ const Container = styled('div')`
   align-items: flex-start;
   text-align: left;
   overflow: hidden;
-  padding: 0px 50px;
 `
 
 const Name = styled('span')`
@@ -33,6 +32,7 @@ const Content = styled('div')`
   padding-top: 16px;
   box-sizing: border-box;
   width: 100%;
+  margin: 50 100;
 `
 
 const Files = styled('div')`
@@ -74,35 +74,6 @@ const LoadingWrapper = styled('div')`
   align-items: center;
 `
 
-const Button = styled('button')`
-  font-family: 'Roboto medium', sans-serif;
-  font-size: 14px;
-  display: inline-block;
-  height: 36px;
-  min-width: 88px;
-  padding: 6px 16px;
-  line-height: 1.42857143;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  border: 0;
-  border-radius: 2px;
-  background: rgba(103, 58, 183, 1);
-  color: #fff;
-  outline: 0;
-  &:disabled {
-    background: rgb(189, 189, 189);
-    cursor: default;
-  }
-`
-
 class Upload extends Component {
   constructor(props) {
     super(props)
@@ -111,6 +82,7 @@ class Upload extends Component {
       uploading: false,
       loading: {},
       successfullUploaded: false,
+      uploadError: false,
       newHash: null
     }
 
@@ -120,88 +92,48 @@ class Upload extends Component {
       'api-path': '/api/v0/',
       protocol: 'https',
       headers: {
-        authorization:
-          'Bearer ' +
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzY3NDA4ODEsImlkIjoiZGMiLCJvcmlnX2lhdCI6MTU3NjY1NDQ4MX0.y0eLLBYjdedE0ecWxn7NUMlUDRVNulEXTEJ2NeBmX1k'
+        authorization: 'Bearer ' + JWT
       }
     })
 
     this.onFilesAdded = this.onFilesAdded.bind(this)
     this.sendRequest = this.sendRequest.bind(this)
+    this.renderProgress = this.renderProgress.bind(this)
   }
 
   onFilesAdded(files) {
     this.setState(prevState => ({
       files: prevState.files.concat(files)
     }))
+    this.setState({ uploading: true })
     this.sendRequest(files)
   }
 
   sendRequest(files) {
     const file = [...files][0]
     let ipfsId
-    const options = {
-      progress: prog => {
-        console.log(`received: ${prog}`)
-        const copy = { ...this.state.loading }
-        copy[file.name] = {
-          state: 'pending',
-          percentage: prog
-        }
-        this.setState({ loading: copy })
-      }
-    }
+    const copy = { ...this.state.loading }
+    copy[file.name] = { state: 'pending', percentage: 0 }
+    this.setState({ loading: copy })
+
     this.ipfs
-      .add([...files], options)
+      .add([...files], { progress: prog => console.log(`received: ${prog}`) })
       .then(response => {
         console.log(response)
         ipfsId = response[0].hash
         console.log(ipfsId)
-        this.setState({ newHash: ipfsId })
+        if (this.props.updateValue) {
+          this.props.updateValue(ipfsId)
+        }
+        this.setState({ uploading: false, successfullUploaded: true })
       })
       .catch(err => {
+        copy[file.name] = { state: 'error', percentage: 0 }
+        this.setState({ loading: copy })
         console.error(err)
         console.error(err.field)
+        this.setState({ uploading: true, uploadError: true })
       })
-
-    // return new Promise((resolve, reject) => {
-    //   const req = new XMLHttpRequest()
-    //   req.withCredentials = false
-
-    //   req.upload.addEventListener('progress', event => {
-    //     if (event.lengthComputable) {
-    //       const copy = { ...this.state.loading }
-    //       copy[file.name] = {
-    //         state: 'pending',
-    //         percentage: (event.loaded / event.total) * 100
-    //       }
-    //       this.setState({ loading: copy })
-    //     }
-    //   })
-
-    //   req.upload.addEventListener('load', event => {
-    //     const copy = { ...this.state.loading }
-    //     copy[file.name] = { state: 'done', percentage: 100 }
-    //     this.setState({ loading: copy })
-    //     this.setState({ newHash: req.response })
-    //     resolve(req.response)
-    //   })
-
-    //   req.upload.addEventListener('error', event => {
-    //     const copy = { ...this.state.loading }
-    //     copy[file.name] = { state: 'error', percentage: 0 }
-    //     this.setState({ loading: copy })
-    //     reject(req.response)
-    //   })
-
-    //   const formData = new FormData()
-    //   formData.append('file', file, file.name)
-
-    //   req.open('POST', 'https://api.temporal.cloud/v2/ipfs/public/file/add')
-    //   req.setRequestHeader('Cache-Control', 'no-cache')
-    //   req.setRequestHeader('Authorization', 'Bearer ' + JWT)
-    //   req.send(formData)
-    // })
   }
 
   renderProgress(file) {

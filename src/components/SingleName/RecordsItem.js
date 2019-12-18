@@ -263,7 +263,7 @@ const Editable = ({
                 {uploading ? (
                   <>
                     <EditRecord>
-                      <Upload />
+                      <Upload updateValue={updateValue} />
                     </EditRecord>
                     <SaveCancel
                       warningMessage={getOldContentWarning(
