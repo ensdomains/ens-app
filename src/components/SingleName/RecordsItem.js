@@ -24,7 +24,7 @@ import {
   SET_ADDRESS
 } from '../../graphql/mutations'
 import DetailsItemInput from './DetailsItemInput'
-import { useEditable, useUploadable } from '../hooks'
+import { useEditable } from '../hooks'
 import { getOldContentWarning } from './warnings'
 
 const AddressInput = styled(DefaultAddressInput)`
@@ -234,16 +234,27 @@ const Editable = ({
                 </Action>
               ) : (
                 <ActionContainer>
-                  <Uploadable
-                    startUploading={startUploading}
-                    keyName={keyName}
-                    value={value}
-                  />
-                  <Actionable
-                    startEditing={startEditing}
-                    keyName={keyName}
-                    value={value}
-                  />
+                  {type === 'address' ? (
+                    <Uploadable
+                      startUploading={startUploading}
+                      keyName={keyName}
+                      value={value}
+                    />
+                  ) : (
+                    <>
+                      <Actionable
+                        startEditing={startEditing}
+                        keyName={keyName}
+                        value={value}
+                      />
+
+                      <Uploadable
+                        startUploading={startUploading}
+                        keyName={keyName}
+                        value={value}
+                      />
+                    </>
+                  )}
                 </ActionContainer>
               )}
             </RecordsContent>
