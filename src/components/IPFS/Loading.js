@@ -4,12 +4,12 @@ import styled from '@emotion/styled'
 const LoadingBar = styled('div')`
   width: 100%;
   height: 8px;
-  background-color: rgb(183, 155, 229);
+  background-color: #5284ff;
   border-radius: 5px;
 `
 
 const Loaded = styled('div')`
-  background-color: rgba(103, 58, 183, 1);
+  background-color: 2c46a6;
   height: 100%;
   margin: 0;
   border-radius: 5px;
