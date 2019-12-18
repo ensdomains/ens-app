@@ -12,6 +12,7 @@ import Loader from 'components/Loader'
 import Explainer from './Explainer'
 import CTA from './CTA'
 import Progress from './Progress'
+import NotAvailable from './NotAvailable'
 import Pricer from '../Pricer'
 
 const NameRegisterContainer = styled('div')`
@@ -56,13 +57,7 @@ const NameRegister = ({
   const isAboveMinDuration = parsedYears > twentyEightDaysInYears
   const waitPercentComplete = (secondsPassed / waitTime) * 100
 
-  if (!registrationOpen) {
-    return (
-      <NameRegisterContainer>
-        This name is not available for registration
-      </NameRegisterContainer>
-    )
-  }
+  if (!registrationOpen) return <NotAvailable domain={domain} />
 
   return (
     <NameRegisterContainer>

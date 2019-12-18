@@ -53,8 +53,10 @@ function SubDomainsFromWeb3({ domain, isOwner }) {
         return (
           <>
             {isOwner && <AddSubdomain domain={domain} refetch={refetch} />}
-
+            {console.log(data)}
             {data &&
+              data.getSubDomains &&
+              data.getSubDomains.subDomains &&
               data.getSubDomains.subDomains.map(d => (
                 <ChildDomainItem
                   name={d.name}
@@ -81,8 +83,11 @@ function SubDomains({ domain, isOwner, ...rest }) {
           }}
         >
           {({ loading, error, data, refetch }) => {
-            if (error) {
-              console.error('Unable to get subdomains, error: ', error)
+            if (error || !data.domain) {
+              console.error(
+                'Unable to get subdomains from subgraph, falling back to web3 ',
+                error
+              )
 
               return <SubDomainsFromWeb3 domain={domain} isOwner={isOwner} />
             }
@@ -118,6 +123,8 @@ function SubDomains({ domain, isOwner, ...rest }) {
               <>
                 {isOwner && <AddSubdomain domain={domain} refetch={refetch} />}
                 {data &&
+                  data.domain &&
+                  data.domain.subdomains &&
                   data.domain.subdomains.map(d => {
                     let name
                     if (d.labelName !== null) {

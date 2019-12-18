@@ -365,33 +365,10 @@ const resolvers = {
       return result
     },
     getSubDomains: async (_, { name }, { cache }) => {
-      const data = cache.readQuery({ query: GET_ALL_NODES })
       const rawSubDomains = await getSubdomains(name)
-      const subDomains = rawSubDomains.map(s => ({
-        ...s,
-        __typename: 'SubDomain'
-      }))
-
-      const names = data.names.map(node => {
-        return node.name === name
-          ? {
-              ...node,
-              subDomains
-            }
-          : node
-      })
-
-      const newData = {
-        ...data,
-        names
-      }
-
-      cache.writeData({
-        data: newData
-      })
 
       return {
-        subDomains,
+        subDomains: rawSubDomains,
         __typename: 'SubDomains'
       }
     },
