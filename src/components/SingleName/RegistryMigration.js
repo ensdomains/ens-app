@@ -53,8 +53,8 @@ export default function MigrationWarning({
   return (
     <WarningBox>
       <WarningContent>
-        This name needs to be migrated to the new Registry. Only the parent this
-        name ({domain.parent}) can do this.
+        This name needs to be migrated to the new Registry. Only the parent of
+        this name ({domain.parent}) can do this.
         <SubWarning>
           *If you trade ENS names, do not accept this name!
         </SubWarning>
