@@ -4,7 +4,7 @@ import styled from '@emotion/styled'
 import Loading from './Loading'
 import ipfsClient from 'ipfs-http-client'
 
-const JWT = ENV_JWT_IPFS
+const JWT = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzY3MjcyMzIsImlkIjoiZGMiLCJvcmlnX2lhdCI6MTU3NjY0MDgzMn0.DK7m1FGklBvGMSj1vhk2qFFat3nLXpus2D3pqWBxowo`
 
 const Container = styled('div')`
   display: flex;
@@ -111,21 +111,97 @@ class Upload extends Component {
       uploading: false,
       loading: {},
       successfullUploaded: false,
-      newHash: {}
+      newHash: null
     }
 
-    this.uploadFiles = this.uploadFiles.bind(this)
+    this.ipfs = ipfsClient({
+      host: 'api.ipfs.temporal.cloud',
+      port: '443',
+      'api-path': '/api/v0/',
+      protocol: 'https',
+      headers: {
+        authorization:
+          'Bearer ' +
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzY3NDA4ODEsImlkIjoiZGMiLCJvcmlnX2lhdCI6MTU3NjY1NDQ4MX0.y0eLLBYjdedE0ecWxn7NUMlUDRVNulEXTEJ2NeBmX1k'
+      }
+    })
+
     this.onFilesAdded = this.onFilesAdded.bind(this)
-    this.uploadFiles = this.uploadFiles.bind(this)
     this.sendRequest = this.sendRequest.bind(this)
-    this.renderActions = this.renderActions.bind(this)
   }
 
   onFilesAdded(files) {
     this.setState(prevState => ({
       files: prevState.files.concat(files)
     }))
-    this.uploadFiles()
+    this.sendRequest(files)
+  }
+
+  sendRequest(files) {
+    const file = [...files][0]
+    let ipfsId
+    const options = {
+      progress: prog => {
+        console.log(`received: ${prog}`)
+        const copy = { ...this.state.loading }
+        copy[file.name] = {
+          state: 'pending',
+          percentage: prog
+        }
+        this.setState({ loading: copy })
+      }
+    }
+    this.ipfs
+      .add([...files], options)
+      .then(response => {
+        console.log(response)
+        ipfsId = response[0].hash
+        console.log(ipfsId)
+        this.setState({ newHash: ipfsId })
+      })
+      .catch(err => {
+        console.error(err)
+        console.error(err.field)
+      })
+
+    // return new Promise((resolve, reject) => {
+    //   const req = new XMLHttpRequest()
+    //   req.withCredentials = false
+
+    //   req.upload.addEventListener('progress', event => {
+    //     if (event.lengthComputable) {
+    //       const copy = { ...this.state.loading }
+    //       copy[file.name] = {
+    //         state: 'pending',
+    //         percentage: (event.loaded / event.total) * 100
+    //       }
+    //       this.setState({ loading: copy })
+    //     }
+    //   })
+
+    //   req.upload.addEventListener('load', event => {
+    //     const copy = { ...this.state.loading }
+    //     copy[file.name] = { state: 'done', percentage: 100 }
+    //     this.setState({ loading: copy })
+    //     this.setState({ newHash: req.response })
+    //     resolve(req.response)
+    //   })
+
+    //   req.upload.addEventListener('error', event => {
+    //     const copy = { ...this.state.loading }
+    //     copy[file.name] = { state: 'error', percentage: 0 }
+    //     this.setState({ loading: copy })
+    //     reject(req.response)
+    //   })
+
+    //   const formData = new FormData()
+    //   formData.append('file', file, file.name)
+
+    //   req.open('POST', 'https://api.temporal.cloud/v2/ipfs/public/file/add')
+    //   req.setRequestHeader('Cache-Control', 'no-cache')
+    //   req.setRequestHeader('Authorization', 'Bearer ' + JWT)
+    //   req.send(formData)
+    // })
   }
 
   renderProgress(file) {
@@ -144,88 +220,6 @@ class Upload extends Component {
         </LoadingWrapper>
       )
     }
-  }
-
-  renderActions() {
-    if (this.state.successfullUploaded) {
-      return (
-        <Button
-          onClick={() =>
-            this.setState({ files: [], successfullUploaded: false })
-          }
-        >
-          Clear
-        </Button>
-      )
-    } else {
-      return (
-        <Button
-          disabled={this.state.files.length < 0 || this.state.uploading}
-          onClick={this.uploadFiles}
-        >
-          Upload
-        </Button>
-      )
-    }
-  }
-
-  async uploadFiles() {
-    this.setState({ loading: {}, uploading: true })
-    const promises = []
-    this.state.files.forEach(file => {
-      promises.push(this.sendRequest(file))
-    })
-    try {
-      await Promise.all(promises)
-
-      this.setState({ successfullUploaded: true, uploading: false })
-    } catch (e) {
-      // @TODO Need to do proper error handling
-      this.setState({ successfullUploaded: true, uploading: false })
-      console.error(e)
-    }
-  }
-
-  sendRequest(file) {
-    return new Promise((resolve, reject) => {
-      const req = new XMLHttpRequest()
-      req.withCredentials = false
-
-      req.upload.addEventListener('progress', event => {
-        if (event.lengthComputable) {
-          const copy = { ...this.state.loading }
-          copy[file.name] = {
-            state: 'pending',
-            percentage: (event.loaded / event.total) * 100
-          }
-          this.setState({ loading: copy })
-        }
-      })
-
-      req.upload.addEventListener('load', event => {
-        const copy = { ...this.state.loading }
-        copy[file.name] = { state: 'done', percentage: 100 }
-        this.setState({ loading: copy })
-        this.setState({ newHash: req.response })
-        console.log(req.response)
-        resolve(req.response)
-      })
-
-      req.upload.addEventListener('error', event => {
-        const copy = { ...this.state.loading }
-        copy[file.name] = { state: 'error', percentage: 0 }
-        this.setState({ loading: copy })
-        reject(req.response)
-      })
-
-      const formData = new FormData()
-      formData.append('file', file, file.name)
-
-      req.open('POST', 'https://api.temporal.cloud/v2/ipfs/public/file/add')
-      req.setRequestHeader('Cache-Control', 'no-cache')
-      req.setRequestHeader('Authorization', 'Bearer ' + JWT)
-      req.send(formData)
-    })
   }
 
   render() {

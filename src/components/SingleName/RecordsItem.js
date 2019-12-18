@@ -235,8 +235,8 @@ const Editable = ({
               ) : (
                 <ActionContainer>
                   {type === 'address' ? (
-                    <Uploadable
-                      startUploading={startUploading}
+                    <Actionable
+                      startEditing={startEditing}
                       keyName={keyName}
                       value={value}
                     />
