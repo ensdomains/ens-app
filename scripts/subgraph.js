@@ -1,25 +1,40 @@
 #!/usr/bin/env node
 yaml = require('js-yaml')
 fs = require('fs')
-var fileName = '../ens-subgraph/subgraph.yaml'
+var fileName = '../ens-subgraph-ghsa-m9g2-g2hw-pq94/subgraph.yaml'
 var doc = yaml.safeLoad(fs.readFileSync(fileName))
 var addresses = JSON.parse(fs.readFileSync('./cypress.env.json', 'utf8'))
-
+let name, address
 doc.dataSources.forEach(s => {
-  s.network = 'dev'
   switch (s.name) {
-    case 'ENSRegistry':
-      s.source.address = addresses.ensAddress
+    case 'OldENSRegistry':
+      name = 'oldEnsAddress'
+      break
+    case 'OldBaseRegistrar':
+      name = 'oldBaseRegistrarAddress'
+      break
+    case 'OldEthRegistrarController':
+      name = 'oldControllerAddress'
       break
     case 'AuctionRegistrar':
-      s.source.address = addresses.legacyAuctionRegistrarAddress
+      name = 'legacyAuctionRegistrarAddress'
+      break
+    case 'ENSRegistryWithFallback':
+      name = 'ensAddress'
       break
     case 'BaseRegistrar':
-      s.source.address = addresses.baseRegistrarAddress
+      name = 'baseRegistrarAddress'
       break
     case 'EthRegistrarController':
-      s.source.address = addresses.controllerAddress
+      name = 'controllerAddress'
       break
+    default:
+      name = null
+  }
+  if (name) {
+    address = addresses[name]
+    console.log(`${s.name} == ${name}(${address})`)
+    s.source.address = address
   }
 })
 fs.writeFileSync(fileName, yaml.safeDump(doc))
