@@ -4,7 +4,7 @@ import styled from '@emotion/styled'
 import Loading from './Loading'
 import ipfsClient from 'ipfs-http-client'
 
-const JWT = ENV_IPFS_JWT
+const JWT = ``
 
 const Container = styled('div')`
   display: flex;
@@ -32,7 +32,7 @@ const Content = styled('div')`
   padding-top: 16px;
   box-sizing: border-box;
   width: 100%;
-  margin: 50 100;
+  padding: 0% 10%;
 `
 
 const Files = styled('div')`
@@ -87,12 +87,12 @@ class Upload extends Component {
     }
 
     this.ipfs = ipfsClient({
-      host: 'api.ipfs.temporal.cloud',
+      host: 'dev.api.ipfs.temporal.cloud',
       port: '443',
       'api-path': '/api/v0/',
       protocol: 'https',
       headers: {
-        authorization: 'Bearer ' + JWT
+        Authorization: 'Bearer ' + JWT
       }
     })
 
@@ -109,31 +109,74 @@ class Upload extends Component {
     this.sendRequest(files)
   }
 
+  // sendRequest(files) {
+  //   const file = [...files][0]
+  //   let ipfsId
+  //   const copy = { ...this.state.loading }
+  //   copy[file.name] = { state: 'pending', percentage: 0 }
+  //   this.setState({ loading: copy })
+  //   this.ipfs.add(file, {})
+  //     .then(response => {
+  //       console.log(response)
+  //       ipfsId = response[0].hash
+  //       console.log(ipfsId)
+  //       if (this.props.updateValue) {
+  //         this.props.updateValue(ipfsId)
+  //       }
+  //       this.setState({ uploading: false, successfullUploaded: true })
+  //     })
+  //     .catch(err => {
+  //       copy[file.name] = { state: 'error', percentage: 0 }
+  //       this.setState({ loading: copy })
+  //       console.error(err)
+  //       this.setState({ uploading: true, uploadError: true })
+  //     })
+  // }
+
   sendRequest(files) {
     const file = [...files][0]
-    let ipfsId
-    const copy = { ...this.state.loading }
-    copy[file.name] = { state: 'pending', percentage: 0 }
-    this.setState({ loading: copy })
+    const data = new FormData()
+    data.append('file', file)
+    data.append('hold_time', 1)
 
-    this.ipfs
-      .add([...files], { progress: prog => console.log(`received: ${prog}`) })
-      .then(response => {
-        console.log(response)
-        ipfsId = response[0].hash
-        console.log(ipfsId)
-        if (this.props.updateValue) {
-          this.props.updateValue(ipfsId)
+    const req = new XMLHttpRequest()
+    req.withCredentials = false
+    req.responseType = 'text'
+
+    req.upload.addEventListener('progress', event => {
+      if (event.lengthComputable) {
+        const copy = { ...this.state.loading }
+        copy[file.name] = {
+          state: 'pending',
+          percentage: (event.loaded / event.total) * 100
         }
-        this.setState({ uploading: false, successfullUploaded: true })
-      })
-      .catch(err => {
-        copy[file.name] = { state: 'error', percentage: 0 }
         this.setState({ loading: copy })
-        console.error(err)
-        console.error(err.field)
-        this.setState({ uploading: true, uploadError: true })
-      })
+      }
+    })
+
+    req.onload = function() {
+      const copy = { ...this.state.loading }
+      copy[file.name] = { state: 'done', percentage: 100 }
+      this.setState({ loading: copy })
+      const result = JSON.parse(req.responseText)
+      console.log('done')
+      console.log(result)
+      if (this.props.updateValue) {
+        this.props.updateValue('ipfs://' + result.response)
+      }
+    }.bind(this)
+
+    req.upload.addEventListener('error', event => {
+      const copy = { ...this.state.loading }
+      copy[file.name] = { state: 'error', percentage: 0 }
+      this.setState({ loading: copy })
+      console.log(req.response)
+    })
+
+    req.open('POST', 'https://dev.api.temporal.cloud/v2/ipfs/public/file/add')
+    req.setRequestHeader('Cache-Control', 'no-cache')
+    req.setRequestHeader('Authorization', 'Bearer ' + JWT)
+    req.send(data)
   }
 
   renderProgress(file) {
@@ -157,7 +200,6 @@ class Upload extends Component {
   render() {
     return (
       <Container>
-        <Name>Upload Files</Name>
         <Content>
           <Dropzone
             onFilesAdded={this.onFilesAdded}
