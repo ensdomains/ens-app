@@ -98,6 +98,7 @@ class Dropzone extends Component {
           ref={this.fileInputRef}
           type="file"
           multiple
+          webkitdirectory
           onChange={this.onFilesAdded}
         />
         <Icon />
