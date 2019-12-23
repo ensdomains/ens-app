@@ -116,7 +116,7 @@ class Upload extends Component {
     copy[file.name] = { state: 'pending', percentage: 0 }
     this.setState({ loading: copy })
 
-    if (files.length() > 1) {
+    if (files.length > 1) {
       this.ipfs
         .add(files, {})
         .then(response => {
@@ -124,7 +124,7 @@ class Upload extends Component {
           const root = response[response.length - 1]
           console.log(root.hash)
           if (this.props.updateValue) {
-            this.props.updateValue(root.hash)
+            this.props.updateValue('ipfs://' + root.hash)
           }
           this.setState({ uploading: false, successfullUploaded: true })
         })
@@ -144,7 +144,7 @@ class Upload extends Component {
           ipfsId = response[0].hash
           console.log(ipfsId)
           if (this.props.updateValue) {
-            this.props.updateValue(ipfsId)
+            this.props.updateValue('ipfs://' + ipfsId)
           }
           this.setState({ uploading: false, successfullUploaded: true })
         })
