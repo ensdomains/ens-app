@@ -4,7 +4,7 @@ import styled from '@emotion/styled'
 import Loading from './Loading'
 import ipfsClient from 'ipfs-http-client'
 
-const JWT = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzY4OTQwNjgsImlkIjoiZGMiLCJvcmlnX2lhdCI6MTU3NjgwNzY2OH0.jKc06sTq88iSFWUfS3a5kzlZv4qU9B1dMpwcFn2pOEo`
+const JWT = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzcxNTg2NDIsImlkIjoiZGMiLCJvcmlnX2lhdCI6MTU3NzA3MjI0Mn0.clViDdd2g2Bxh2sYybIZlGaPb2dQhrWrSRr9Z5BlsAQ`
 
 const Container = styled('div')`
   display: flex;
@@ -86,20 +86,14 @@ class Upload extends Component {
       newHash: null
     }
 
-    // this.ipfs = ipfsClient({
-    //   host: 'dev.api.ipfs.temporal.cloud',
-    //   port: '443',
-    //   'api-path': '/api/v0/',
-    //   protocol: 'https',
-    //   headers: {
-    //     Authorization: 'Bearer ' + JWT
-    //   }
-    // })
-
     this.ipfs = ipfsClient({
-      host: '192.168.0.105',
-      port: '8081',
-      protocol: 'http'
+      host: 'dev.api.ipfs.temporal.cloud',
+      port: '443',
+      'api-path': '/api/v0/',
+      protocol: 'https',
+      headers: {
+        Authorization: 'Bearer ' + JWT
+      }
     })
 
     this.onFilesAdded = this.onFilesAdded.bind(this)
@@ -122,73 +116,47 @@ class Upload extends Component {
     copy[file.name] = { state: 'pending', percentage: 0 }
     this.setState({ loading: copy })
 
-    // this.ipfs.pubsub.ls()
-    this.ipfs
-      .add(file, {})
-      .then(response => {
-        console.log(response)
-        ipfsId = response[0].hash
-        console.log(ipfsId)
-        if (this.props.updateValue) {
-          this.props.updateValue(ipfsId)
-        }
-        this.setState({ uploading: false, successfullUploaded: true })
-      })
-      .catch(err => {
-        copy[file.name] = { state: 'error', percentage: 0 }
-        this.setState({ loading: copy })
-        console.error(err)
-        this.setState({ uploading: true, uploadError: true })
-      })
+    if (files.length() > 1) {
+      this.ipfs
+        .add(files, {})
+        .then(response => {
+          console.log(response)
+          const root = response[response.length - 1]
+          console.log(root.hash)
+          if (this.props.updateValue) {
+            this.props.updateValue(root.hash)
+          }
+          this.setState({ uploading: false, successfullUploaded: true })
+        })
+        .catch(err => {
+          copy[file.name] = { state: 'error', percentage: 0 }
+          this.setState({ loading: copy })
+          console.log('error')
+          console.error(err)
+          this.setState({ uploading: true, uploadError: true })
+        })
+    } else {
+      console.log('starting')
+      this.ipfs
+        .add(file, {})
+        .then(response => {
+          console.log(response)
+          ipfsId = response[0].hash
+          console.log(ipfsId)
+          if (this.props.updateValue) {
+            this.props.updateValue(ipfsId)
+          }
+          this.setState({ uploading: false, successfullUploaded: true })
+        })
+        .catch(err => {
+          copy[file.name] = { state: 'error', percentage: 0 }
+          this.setState({ loading: copy })
+          console.log('error')
+          console.error(err)
+          this.setState({ uploading: true, uploadError: true })
+        })
+    }
   }
-
-  // sendRequest(files) {
-  //   const file = [...files][0]
-  //   const data = new FormData()
-  //   const fileDetails = {
-  //     path: file.name,
-  //     content: file
-  //   }
-  //   data.append('file', fileDetails)
-
-  //   const req = new XMLHttpRequest()
-  //   req.withCredentials = false
-  //   req.responseType = 'text'
-
-  //   req.upload.addEventListener('progress', event => {
-  //     if (event.lengthComputable) {
-  //       const copy = { ...this.state.loading }
-  //       copy[file.name] = {
-  //         state: 'pending',
-  //         percentage: (event.loaded / event.total) * 100
-  //       }
-  //       this.setState({ loading: copy })
-  //     }
-  //   })
-
-  //   req.onload = function() {
-  //     const copy = { ...this.state.loading }
-  //     copy[file.name] = { state: 'done', percentage: 100 }
-  //     this.setState({ loading: copy })
-  //     const result = JSON.parse(req.responseText)
-  //     console.log('done')
-  //     console.log(result)
-  //     if (this.props.updateValue) {
-  //       this.props.updateValue('ipfs://' + result.response)
-  //     }
-  //   }.bind(this)
-
-  //   req.upload.addEventListener('error', event => {
-  //     const copy = { ...this.state.loading }
-  //     copy[file.name] = { state: 'error', percentage: 0 }
-  //     this.setState({ loading: copy })
-  //     console.log(req.response)
-  //   })
-
-  //   req.open('POST', 'localhost:5001/api/v0/add')
-  //   req.setRequestHeader('Cache-Control', 'no-cache')
-  //   req.send(data)
-  // }
 
   renderProgress(file) {
     const loading = this.state.loading[file.name]

@@ -51,8 +51,13 @@ class Dropzone extends Component {
     if (this.props.disabled) return
     const files = evt.target.files
     if (this.props.onFilesAdded) {
-      const array = this.fileListToArray(files)
-      this.props.onFilesAdded(array)
+      if (files.length > 1) {
+        const array = this.directoryListToArray(files)
+        this.props.onFilesAdded(array)
+      } else {
+        const array = this.fileListToArray(files)
+        this.props.onFilesAdded(array)
+      }
     }
   }
 
@@ -85,6 +90,18 @@ class Dropzone extends Component {
     return array
   }
 
+  directoryListToArray(list) {
+    const array = []
+    for (var i = 0; i < list.length; i++) {
+      const item = {
+        path: `${list.item(i).webkitRelativePath}`,
+        content: list.item(i)
+      }
+      array.push(item)
+    }
+    return array
+  }
+
   render() {
     return (
       <DropzoneArea
@@ -94,11 +111,12 @@ class Dropzone extends Component {
         onClick={this.openFileDialog}
         style={{ cursor: this.props.disabled ? 'default' : 'pointer' }}
       >
-        <FileInput
-          ref={this.fileInputRef}
+        <input
           type="file"
-          multiple
-          webkitdirectory
+          webkitdirectory="webkitdirectory"
+          multiple="multiple"
+          ref={this.fileInputRef}
+          style={{ display: `none` }}
           onChange={this.onFilesAdded}
         />
         <Icon />
