@@ -1312,10 +1312,10 @@
     lodash "^4.17.11"
     web3 "1.0.0-beta.34"
 
-"@ensdomains/react-ens-address@^0.0.16":
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/@ensdomains/react-ens-address/-/react-ens-address-0.0.16.tgz#d16f537c942c72a6ca6889ccf2604a97f2b3338f"
-  integrity sha512-CMBdISCqB7GhlBGNqRB2KaVv8Ze1dtmJ2AG7kyIb5/oVPFeW20IJj/gXRSGXZ9TQasydqzw7D0W/jO/OHoHPVg==
+"@ensdomains/react-ens-address@0.0.17":
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/@ensdomains/react-ens-address/-/react-ens-address-0.0.17.tgz#aa273c038d5078c990f5c76356b6701e10c85cbd"
+  integrity sha512-TmjcLfuBpvseedPk6CXJ0CezJOHzUf+EXhEiv5ILAIGs/UvBVQfYTwQDB8M7uxaI/mnDv1ErzXCoo7AowkZbgQ==
   dependencies:
     "@emotion/core" "^10.0.14"
     "@emotion/styled" "^10.0.14"
