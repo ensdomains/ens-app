@@ -540,6 +540,7 @@ function NameDetails({
             registrationOpen={registrationOpen}
             domain={domain}
             refetch={refetch}
+            refetchIsMigrated={refetchIsMigrated}
             readOnly={account === EMPTY_ADDRESS}
           />
         )}

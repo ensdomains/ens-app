@@ -42,6 +42,7 @@ function getCTA({
   setTimerRunning,
   isAboveMinDuration,
   refetch,
+  refetchIsMigrated,
   readOnly,
   history
 }) {
@@ -141,7 +142,7 @@ function getCTA({
       <Button
         data-testid="manage-name-button"
         onClick={async () => {
-          await refetch()
+          await Promise.all([refetch(), refetchIsMigrated()])
           history.push(`/name/${label}.eth`)
         }}
       >
@@ -161,6 +162,7 @@ const CTA = ({
   setTimerRunning,
   isAboveMinDuration,
   refetch,
+  refetchIsMigrated,
   readOnly
 }) => {
   const history = useHistory()
@@ -177,6 +179,7 @@ const CTA = ({
         setTimerRunning,
         isAboveMinDuration,
         refetch,
+        refetchIsMigrated,
         readOnly,
         history
       })}

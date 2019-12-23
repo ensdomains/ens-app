@@ -23,6 +23,7 @@ const NameRegister = ({
   domain,
   waitTime,
   refetch,
+  refetchIsMigrated,
   readOnly,
   registrationOpen
 }) => {
@@ -88,6 +89,7 @@ const NameRegister = ({
         secondsPassed={secondsPassed}
         setTimerRunning={setTimerRunning}
         refetch={refetch}
+        refetchIsMigrated={refetchIsMigrated}
         isAboveMinDuration={isAboveMinDuration}
         readOnly={readOnly}
       />
