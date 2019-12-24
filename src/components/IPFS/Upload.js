@@ -4,7 +4,7 @@ import styled from '@emotion/styled'
 import Loading from './Loading'
 import ipfsClient from 'ipfs-http-client'
 
-const JWT = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzcxNTg2NDIsImlkIjoiZGMiLCJvcmlnX2lhdCI6MTU3NzA3MjI0Mn0.clViDdd2g2Bxh2sYybIZlGaPb2dQhrWrSRr9Z5BlsAQ`
+const JWT = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzcyNjIwNTcsImlkIjoiZGMiLCJvcmlnX2lhdCI6MTU3NzE3NTY1N30.kgg0SuM7OKwZ2mnzwSgdgZSuim1jLX6tT54mcW1KTg8`
 
 const Container = styled('div')`
   display: flex;
@@ -13,11 +13,6 @@ const Container = styled('div')`
   align-items: flex-start;
   text-align: left;
   overflow: hidden;
-`
-
-const Name = styled('span')`
-  margin-bottom: 32px;
-  color: #555;
 `
 
 const FileName = styled('span')`
@@ -43,14 +38,6 @@ const Files = styled('div')`
   overflow-y: auto;
 `
 
-const Actions = styled('div')`
-  display: flex;
-  flex: 1;
-  width: 100%;
-  align-items: flex-end;
-  flex-direction: column;
-  margin-top: 32px;
-`
 const Row = styled('div')`
   display: flex;
   flex: 1;
@@ -113,10 +100,11 @@ class Upload extends Component {
     const file = [...files][0]
     let ipfsId
     const copy = { ...this.state.loading }
-    copy[file.name] = { state: 'pending', percentage: 0 }
     this.setState({ loading: copy })
 
     if (files.length > 1) {
+      copy[file.path] = { state: 'pending', percentage: 0 }
+      this.setState({ loading: copy })
       this.ipfs
         .add(files, {})
         .then(response => {
@@ -129,7 +117,7 @@ class Upload extends Component {
           this.setState({ uploading: false, successfullUploaded: true })
         })
         .catch(err => {
-          copy[file.name] = { state: 'error', percentage: 0 }
+          copy[file.path] = { state: 'error', percentage: 0 }
           this.setState({ loading: copy })
           console.log('error')
           console.error(err)
@@ -137,6 +125,8 @@ class Upload extends Component {
         })
     } else {
       console.log('starting')
+      copy[file.name] = { state: 'pending', percentage: 0 }
+      this.setState({ loading: copy })
       this.ipfs
         .add(file, {})
         .then(response => {
@@ -185,14 +175,23 @@ class Upload extends Component {
             disabled={this.state.uploading || this.state.successfullUploaded}
           />
           <Files>
-            {this.state.files.map(file => {
-              return (
-                <Row key={file.name}>
-                  <FileName>{file.name}</FileName>
-                  {this.renderProgress(file)}
-                </Row>
-              )
-            })}
+            {this.state.files.length > 1
+              ? this.state.files.map(file => {
+                  return (
+                    <Row key={file.path}>
+                      <FileName>{file.path}</FileName>
+                      {this.renderProgress(file)}
+                    </Row>
+                  )
+                })
+              : this.state.files.map(file => {
+                  return (
+                    <Row key={file.name}>
+                      <FileName>{file.name}</FileName>
+                      {this.renderProgress(file)}
+                    </Row>
+                  )
+                })}
           </Files>
         </Content>
       </Container>

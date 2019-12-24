@@ -25,10 +25,6 @@ const IconText = styled('span')`
   opacity: 0.3;
 `
 
-const FileInput = styled('input')`
-  display: none;
-`
-
 class Dropzone extends Component {
   constructor(props) {
     super(props)

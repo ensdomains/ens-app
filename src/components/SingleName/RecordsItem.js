@@ -81,6 +81,17 @@ export const RecordsValue = styled(DetailsValue)`
   font-size: 14px;
 `
 
+const NewRecordsContainer = styled('div')`
+  font-size: 14px;
+  justify-content: center;
+  padding-top: 10px;
+  padding-bottom: 5px;
+`
+
+const NewRecordsValue = styled(DetailsValue)`
+  font-size: 14px;
+`
+
 const EditRecord = styled('div')`
   width: 100%;
 `
@@ -265,6 +276,19 @@ const Editable = ({
                     <EditRecord>
                       <Upload updateValue={updateValue} />
                     </EditRecord>
+                    {newValue !== '' ? (
+                      <NewRecordsContainer>
+                        <NewRecordsValue>
+                          <RecordsKey>New IPFS Hash</RecordsKey>
+                          <ContentHashLink
+                            value={newValue}
+                            contentType={domain.contentType}
+                          />
+                        </NewRecordsValue>
+                      </NewRecordsContainer>
+                    ) : (
+                      <></>
+                    )}
                     <SaveCancel
                       warningMessage={getOldContentWarning(
                         type,
