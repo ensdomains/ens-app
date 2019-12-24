@@ -32,21 +32,32 @@ const TabContainer = styled('div')`
   `}
 `
 
-const Tabs = ({ domain, pathname, parent }) => {
+const Tabs = ({ domain, pathname, parent, tab }) => {
   const { name, state } = domain
   return (
     (state !== 'Auction' || state !== 'Reveal') && (
       <TabContainer>
         {parent === 'eth' && (
           <TabLink
-            active={pathname === `/name/${name}/register`}
+            active={
+              (tab === 'register' || pathname === `/name/${name}/register`) &&
+              (pathname !== `/name/${name}/details` &&
+                pathname !== `/name/${name}/subdomains`)
+            }
             to={`/name/${name}/register`}
           >
             Register
           </TabLink>
         )}
 
-        <TabLink active={pathname === `/name/${name}`} to={`/name/${name}`}>
+        <TabLink
+          active={
+            (tab === 'details' || pathname === `/name/${name}/details`) &&
+            (pathname !== `/name/${name}/register` &&
+              pathname !== `/name/${name}/subdomains`)
+          }
+          to={`/name/${name}/details`}
+        >
           Details
         </TabLink>
         <TabLink

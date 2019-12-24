@@ -54,6 +54,8 @@ function Name({ details: domain, name, pathname, type, refetch }) {
   const account = useAccount()
   const isOwner = isOwnerOfDomain(domain, account)
   const isOwnerOfParent = isOwnerOfParentDomain(domain, account)
+  const hasAnOwner = parseInt(domain.owner, 16) !== 0
+  const preferredTab = hasAnOwner ? 'details' : 'register'
 
   const isDeedOwner = domain.deedOwner === account
   const isRegistrant = domain.registrant === account
@@ -91,12 +93,22 @@ function Name({ details: domain, name, pathname, type, refetch }) {
           {!!ownerType && <Owner>{ownerType}</Owner>}
           <Favourite domain={domain} />
           {smallBP && (
-            <Tabs pathname={pathname} domain={domain} parent={domain.parent} />
+            <Tabs
+              pathname={pathname}
+              tab={preferredTab}
+              domain={domain}
+              parent={domain.parent}
+            />
           )}
         </RightBar>
       </TopBar>
       {!smallBP && (
-        <Tabs pathname={pathname} domain={domain} parent={domain.parent} />
+        <Tabs
+          pathname={pathname}
+          tab={preferredTab}
+          domain={domain}
+          parent={domain.parent}
+        />
       )}
       {isDNSRegistrationOpen(domain) ? (
         <DNSNameRegister
@@ -110,6 +122,7 @@ function Name({ details: domain, name, pathname, type, refetch }) {
         <ShortName name={name} />
       ) : (
         <NameDetails
+          tab={preferredTab}
           domain={domain}
           pathname={pathname}
           name={name}
