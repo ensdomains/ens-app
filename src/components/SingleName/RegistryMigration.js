@@ -37,7 +37,9 @@ const Migrate = styled(ExternalButtonLink)`
 export default function MigrationWarning({
   domain,
   account,
-  refetchIsMigrated
+  refetchIsMigrated,
+  IsParentMigrated,
+  loadingIsParentMigrated
 }) {
   const { state, actions } = useEditable()
   const { txHash, pending, confirmed } = state
@@ -49,7 +51,10 @@ export default function MigrationWarning({
       startPending(Object.values(data)[0])
     }
   })
-  const canMigrate = account === domain.parentOwner
+  const canMigrate =
+    !loadingIsParentMigrated &&
+    IsParentMigrated &&
+    account === domain.parentOwner
   return (
     <WarningBox>
       <WarningContent>

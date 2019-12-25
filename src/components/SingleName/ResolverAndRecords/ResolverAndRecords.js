@@ -230,7 +230,8 @@ export default function ResolverAndRecords({
   domain,
   isOwner,
   refetch,
-  account
+  account,
+  isMigratedToNewRegistry
 }) {
   const hasResolver = hasAResolver(domain.resolver)
   let isOldPublicResolver = false
@@ -268,7 +269,7 @@ export default function ResolverAndRecords({
             keyName="Resolver"
             type="address"
             value={domain.resolver}
-            canEdit={isOwner}
+            canEdit={isOwner && isMigratedToNewRegistry}
             domain={domain}
             editButton="Set"
             mutationButton="Save"

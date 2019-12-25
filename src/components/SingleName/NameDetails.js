@@ -183,7 +183,9 @@ function DetailsContainer({
   dnssecmode,
   account,
   loadingIsMigrated,
-  refetchIsMigrated
+  refetchIsMigrated,
+  isParentMigratedToNewRegistry,
+  loadingIsParentMigrated
 }) {
   return (
     <Details data-testid="name-details">
@@ -196,6 +198,8 @@ function DetailsContainer({
             account={account}
             domain={domain}
             refetchIsMigrated={refetchIsMigrated}
+            isParentMigratedToNewRegistry={isParentMigratedToNewRegistry}
+            loadingIsParentMigrated={loadingIsParentMigrated}
           />
         )}
       {domain.parent && (
@@ -225,7 +229,7 @@ function DetailsContainer({
               domain={domain}
               keyName="Controller"
               value={domain.owner}
-              canEdit={isOwner || isRegistrant}
+              canEdit={(isOwner || isRegistrant) && isMigratedToNewRegistry}
               deedOwner={domain.deedOwner}
               isDeedOwner={isDeedOwner}
               type="address"
@@ -254,7 +258,7 @@ function DetailsContainer({
               domain={domain}
               keyName="Controller"
               value={domain.owner}
-              canEdit={isOwner || isRegistrant}
+              canEdit={(isOwner || isRegistrant) && isMigratedToNewRegistry}
               deedOwner={domain.deedOwner}
               isDeedOwner={isDeedOwner}
               type="address"
@@ -328,7 +332,7 @@ function DetailsContainer({
             domain={domain}
             keyName="Controller"
             value={domain.owner}
-            canEdit={isOwner || isOwnerOfParent}
+            canEdit={(isOwner || isOwnerOfParent) && isMigratedToNewRegistry}
             deedOwner={domain.deedOwner}
             isDeedOwner={isDeedOwner}
             outOfSync={outOfSync}
@@ -484,6 +488,7 @@ function DetailsContainer({
         isOwner={isOwner}
         refetch={refetch}
         account={account}
+        isMigratedToNewRegistry={isMigratedToNewRegistry}
       />
       {canClaim(domain) ? (
         <NameClaimTestDomain domain={domain} refetch={refetch} />
@@ -503,7 +508,7 @@ function NameDetails({
 }) {
   const [loading, setLoading] = useState(undefined)
   const {
-    data,
+    data: { isMigrated },
     loading: loadingIsMigrated,
     refetch: refetchIsMigrated
   } = useQuery(IS_MIGRATED, {
@@ -512,7 +517,18 @@ function NameDetails({
     }
   })
 
-  const isMigratedToNewRegistry = !loadingIsMigrated && data && data.isMigrated
+  const {
+    data: { isMigrated: isParentMigrated },
+    loading: loadingIsParentMigrated
+  } = useQuery(IS_MIGRATED, {
+    variables: {
+      name: domain.parent
+    }
+  })
+
+  const isMigratedToNewRegistry = !loadingIsMigrated && isMigrated
+  const isParentMigratedToNewRegistry =
+    !loadingIsParentMigrated && isParentMigrated
 
   const isDeedOwner = domain.deedOwner === account
   const isRegistrant = domain.registrant === account
@@ -542,6 +558,9 @@ function NameDetails({
     return (
       <DetailsContainer
         isMigratedToNewRegistry={isMigratedToNewRegistry}
+        loadingIsMigrated={loadingIsMigrated}
+        isParentMigratedToNewRegistry={isParentMigratedToNewRegistry}
+        loadingIsParentMigrated={loadingIsParentMigrated}
         isDeedOwner={isDeedOwner}
         isRegistrant={isRegistrant}
         showExplainer={showExplainer}
