@@ -19,6 +19,16 @@ const Header = styled('h2')`
   color: #fff;
 `
 
+const ErrorMsg = styled('h3')`
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 10px;
+  font-weight: normal;
+  text-align: center;
+  text-transform: uppercase;
+  color: red;
+`
+
 const InputWrapper = styled('p')`
   margin-top: 0;
   margin-bottom: 0;
@@ -72,30 +82,50 @@ const Button = styled('input')`
 class IpfsLogin extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      error: '',
+      username: '',
+      password: ''
+    }
+
+    this.handleChange = this.handleChange.bind(this)
+    this.handleLogin = this.handleLogin.bind(this)
   }
 
-  login(username, password) {
+  handleChange(e) {
+    const { name, value } = e.target
+    this.setState({ [name]: value })
+  }
+
+  handleSubmit(e) {
+    e.preventDefault()
+
+    this.setState({ submitted: true })
+    const { username, password } = this.state
+    if (username && password) {
+      this.props.login(username, password)
+    }
+  }
+
+  handleLogin(e) {
     var data = new FormData()
-    data.append('username', username)
-    data.append('password', password)
+    data.append('username', this.state.username)
+    data.append('password', this.state.password)
 
     var xhr = new XMLHttpRequest()
     xhr.withCredentials = false
 
-    xhr.addEventListener(
-      'readystatechange',
-      function() {
-        if (xhr.readyState === 4) {
-          let result = JSON.parse(xhr.responseText)
-          if (result.code === 200) {
-            console.log(result)
-          } else {
-            // @TODO Error handling
-          }
+    xhr.addEventListener('readystatechange', event => {
+      if (xhr.readyState === 4) {
+        let result = JSON.parse(xhr.responseText)
+        if (result.code === 200) {
+          this.setToken(res.token)
+          console.log(result)
+        } else {
+          this.error = result.message
         }
-      }.bind(this)
-    )
+      }
+    })
 
     xhr.open('POST', 'https://api.temporal.cloud/v2/auth/login')
     xhr.setRequestHeader('Cache-Control', 'no-cache')
@@ -108,15 +138,30 @@ class IpfsLogin extends Component {
         <Triangle />
         <Header>Log in</Header>
 
-        <LoginForm>
+        <LoginForm onSubmit={this.handleLogin}>
+          {this.state.error !== '' ? (
+            <ErrorMsg>this.state.error</ErrorMsg>
+          ) : (
+            <></>
+          )}
           <InputWrapper>
-            <TextInput type="email" placeholder="Email" />
+            <TextInput
+              type="username"
+              name="username"
+              placeholder="Username"
+              onChange={this.handleChange}
+            />
           </InputWrapper>
           <InputWrapper>
-            <TextInput type="password" placeholder="Password" />
+            <TextInput
+              type="password"
+              name="password"
+              placeholder="Password"
+              onChange={this.handleChange}
+            />
           </InputWrapper>
           <InputWrapper>
-            <Button type="submit" value="Log in" onClick={this.login} />
+            <Button type="submit" value="Log in" onClick={this.handleLogin} />
           </InputWrapper>
         </LoginForm>
       </Login>
