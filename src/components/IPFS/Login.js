@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import AuthService from './Auth'
 import styled from '@emotion/styled'
 
 const Login = styled('div')`
@@ -89,7 +90,8 @@ class IpfsLogin extends Component {
     }
 
     this.handleChange = this.handleChange.bind(this)
-    this.handleLogin = this.handleLogin.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.Auth = new AuthService()
   }
 
   handleChange(e) {
@@ -100,36 +102,13 @@ class IpfsLogin extends Component {
   handleSubmit(e) {
     e.preventDefault()
 
-    this.setState({ submitted: true })
-    const { username, password } = this.state
-    if (username && password) {
-      this.props.login(username, password)
-    }
-  }
-
-  handleLogin(e) {
-    var data = new FormData()
-    data.append('username', this.state.username)
-    data.append('password', this.state.password)
-
-    var xhr = new XMLHttpRequest()
-    xhr.withCredentials = false
-
-    xhr.addEventListener('readystatechange', event => {
-      if (xhr.readyState === 4) {
-        let result = JSON.parse(xhr.responseText)
-        if (result.code === 200) {
-          this.setToken(res.token)
-          console.log(result)
-        } else {
-          this.error = result.message
-        }
-      }
-    })
-
-    xhr.open('POST', 'https://api.temporal.cloud/v2/auth/login')
-    xhr.setRequestHeader('Cache-Control', 'no-cache')
-    xhr.send(data)
+    this.Auth.login(this.state.username, this.state.password)
+      .then(res => {
+        console.log('logged in')
+      })
+      .catch(err => {
+        alert(err)
+      })
   }
 
   render() {
@@ -161,7 +140,7 @@ class IpfsLogin extends Component {
             />
           </InputWrapper>
           <InputWrapper>
-            <Button type="submit" value="Log in" onClick={this.handleLogin} />
+            <Button type="submit" value="Log in" />
           </InputWrapper>
         </LoginForm>
       </Login>
