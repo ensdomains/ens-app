@@ -1,56 +1,69 @@
-export default class AuthService {
-  constructor(domain) {
-    this.domain = domain || 'https://api.temporal.cloud/v2/auth/login'
-    this.login = this.login.bind(this)
-  }
+export function login(username, password) {
+  var data = JSON.stringify({
+    username: username.toString(),
+    password: password.toString()
+  })
 
-  login(username, password) {
-    return this.fetch(`${this.domain}`, {
-      method: 'POST',
-      body: JSON.stringify({
-        username: username.toString(),
-        password: password.toString()
-      })
-    }).then(res => {
-      this.setToken(res.token)
-      return Promise.resolve(res)
-    })
-  }
+  var req = new XMLHttpRequest()
+  req.withCredentials = false
 
-  loggedIn() {
-    const token = this.getToken()
-    const expire = this.getExpire()
-    return !!token && !this.isTokenExpired(expire)
-  }
+  req.addEventListener(
+    'readystatechange',
+    function() {
+      if (req.readyState === 4) {
+        let result = JSON.parse(req.responseText)
+        if (result.code === 200) {
+          console.log(result)
+          localStorage.setItem('Cat', 'Tom')
+          localStorage.setItem('id_token', result.token)
+          setExp(result.expire)
+        } else {
+          console.log(result)
+        }
+      }
+    }.bind(this)
+  )
 
-  isTokenExpired(expire) {
-    try {
-      if (expire < Date.now() / 1000) {
-        return true
-      } else return false
-    } catch (err) {
-      return false
-    }
-  }
+  req.open('POST', 'https://dev.api.temporal.cloud/v2/auth/login')
+  req.setRequestHeader('Cache-Control', 'no-cache')
+  req.setRequestHeader('Content-Type', 'text/plain')
+  req.send(data)
+}
 
-  setToken(token) {
-    localStorage.setItem('id_token', token)
-  }
+export function loggedIn() {
+  const token = getToken()
+  const expire = getExpire()
+  return !!token && !isTokenExpired(expire)
+}
 
-  setExp(expire) {
-    localStorage.setItem('id_expire', expire)
+function isTokenExpired(expire) {
+  try {
+    if (expire < Date.now() / 1000) {
+      return true
+    } else return false
+  } catch (err) {
+    return false
   }
+}
 
-  getToken() {
-    return localStorage.getItem('id_token')
-  }
+function setToken(token) {
+  localStorage.setItem('id_token', token)
+  localStorage.setItem('Cat', 'Tom')
+}
 
-  getExpire() {
-    return localStorage.getItem('id_expire')
-  }
+function setExp(expire) {
+  localStorage.setItem('id_expire', expire)
+}
 
-  logout() {
-    localStorage.removeItem('id_token')
-    localStorage.removeItem('id_expire')
-  }
+function getToken() {
+  return localStorage.getItem('id_token')
+}
+
+function getExpire() {
+  return localStorage.getItem('id_expire')
+}
+
+export function logout() {
+  localStorage.removeItem('id_token')
+  localStorage.removeItem('id_expire')
 }

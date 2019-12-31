@@ -14,7 +14,7 @@ import AddressLink from '../Links/AddressLink'
 import ContentHashLink from '../Links/ContentHashLink'
 import Upload from '../IPFS/Upload'
 import IpfsLogin from '../IPFS/Login'
-import AuthService from '../IPFS/Auth'
+import { loggedIn } from '../IPFS/Auth'
 import StyledUpload from '../Forms/Upload'
 import Pencil from '../Forms/Pencil'
 import Bin from '../Forms/Bin'
@@ -190,8 +190,7 @@ const Editable = ({
   })
 
   const isInvalid = newValue !== '' && !isValid
-  const auth = new AuthService()
-  const loggedIn = auth.loggedIn()
+  let authenticated = loggedIn()
 
   return (
     <>
@@ -278,7 +277,7 @@ const Editable = ({
               <>
                 {uploading ? (
                   <>
-                    {loggedIn ? (
+                    {authenticated ? (
                       <>
                         <EditRecord>
                           <Upload updateValue={updateValue} />
@@ -319,7 +318,7 @@ const Editable = ({
                       </>
                     ) : (
                       <>
-                        <IpfsLogin />
+                        <IpfsLogin authenticated={authenticated} />
                       </>
                     )}
                   </>

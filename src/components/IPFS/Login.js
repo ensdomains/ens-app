@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import AuthService from './Auth'
 import styled from '@emotion/styled'
 
 const Login = styled('div')`
@@ -89,9 +88,43 @@ class IpfsLogin extends Component {
       password: ''
     }
 
+    this.login = this.login.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.Auth = new AuthService()
+  }
+
+  login(username, password) {
+    var data = JSON.stringify({
+      username: username.toString(),
+      password: password.toString()
+    })
+
+    var req = new XMLHttpRequest()
+    req.withCredentials = false
+
+    req.addEventListener(
+      'readystatechange',
+      function() {
+        if (req.readyState === 4) {
+          let result = JSON.parse(req.responseText)
+          if (result.token) {
+            console.log(result)
+            localStorage.setItem('id_expire', result.expire)
+            localStorage.setItem('id_token', result.token)
+            console.log(`yay`)
+            console.log(this.props.authenticated)
+            this.props.authenticated = true
+          } else {
+            console.log('error')
+          }
+        }
+      }.bind(this)
+    )
+
+    req.open('POST', 'https://dev.api.temporal.cloud/v2/auth/login')
+    req.setRequestHeader('Cache-Control', 'no-cache')
+    req.setRequestHeader('Content-Type', 'text/plain')
+    req.send(data)
   }
 
   handleChange(e) {
@@ -101,14 +134,7 @@ class IpfsLogin extends Component {
 
   handleSubmit(e) {
     e.preventDefault()
-
-    this.Auth.login(this.state.username, this.state.password)
-      .then(res => {
-        console.log('logged in')
-      })
-      .catch(err => {
-        alert(err)
-      })
+    this.login(this.state.username, this.state.password)
   }
 
   render() {
@@ -117,7 +143,7 @@ class IpfsLogin extends Component {
         <Triangle />
         <Header>Log in</Header>
 
-        <LoginForm onSubmit={this.handleLogin}>
+        <LoginForm onSubmit={this.handleSubmit}>
           {this.state.error !== '' ? (
             <ErrorMsg>this.state.error</ErrorMsg>
           ) : (
