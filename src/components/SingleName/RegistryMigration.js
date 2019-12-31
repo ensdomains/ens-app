@@ -34,11 +34,11 @@ const Migrate = styled(ExternalButtonLink)`
   flex: 2 1 auto;
 `
 
-export default function MigrationWarning({
+export default function RegistryMigration({
   domain,
   account,
   refetchIsMigrated,
-  IsParentMigrated,
+  isParentMigratedToNewRegistry,
   loadingIsParentMigrated
 }) {
   const { state, actions } = useEditable()
@@ -51,9 +51,10 @@ export default function MigrationWarning({
       startPending(Object.values(data)[0])
     }
   })
+
   const canMigrate =
     !loadingIsParentMigrated &&
-    IsParentMigrated &&
+    isParentMigratedToNewRegistry &&
     account === domain.parentOwner
   return (
     <WarningBox>

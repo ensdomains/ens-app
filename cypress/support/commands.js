@@ -1,6 +1,9 @@
 import 'cypress-testing-library/add-commands'
 import 'cypress-wait-until'
 
+const ACTIVE_COLOUR = 'rgb(83, 132, 254)'
+const DISABLED_CLOUR = 'rgb(223, 223, 223)'
+
 Cypress.Commands.add('waitUntilInputResolves', function waitUntilInputResolves(
   buttonText
 ) {
@@ -13,6 +16,20 @@ Cypress.Commands.add('waitUntilInputResolves', function waitUntilInputResolves(
     { timeout: 1000, interval: 10 }
   )
 })
+
+Cypress.Commands.add(
+  'waitUntilHollowInputResolves',
+  function waitUntilHollowInputResolves(buttonText) {
+    return cy.waitUntil(
+      () => {
+        return cy
+          .getByText(buttonText)
+          .then($el => $el.css('color') === ACTIVE_COLOUR)
+      },
+      { timeout: 1000, interval: 10 }
+    )
+  }
+)
 
 Cypress.Commands.add(
   'waitUntilTextDoesNotExist',

@@ -517,6 +517,8 @@ function NameDetails({
     }
   })
 
+  console.log(refetchIsMigrated)
+
   const {
     data: { isMigrated: isParentMigrated },
     loading: loadingIsParentMigrated
@@ -562,6 +564,7 @@ function NameDetails({
       <DetailsContainer
         isMigratedToNewRegistry={isMigratedToNewRegistry}
         loadingIsMigrated={loadingIsMigrated}
+        refetchIsMigrated={refetchIsMigrated}
         isParentMigratedToNewRegistry={isParentMigratedToNewRegistry}
         loadingIsParentMigrated={loadingIsParentMigrated}
         isDeedOwner={isDeedOwner}
