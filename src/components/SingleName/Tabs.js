@@ -31,7 +31,23 @@ const TabContainer = styled('div')`
     margin-left: 20px;
   `}
 `
-
+function getDetailsActive(domain, pathname, tab) {
+  const { name } = domain
+  console.log('getDetailsActive')
+  if (domain.parent !== 'eth') {
+    console.log('here')
+    return (
+      pathname !== `/name/${name}/register` &&
+      pathname !== `/name/${name}/subdomains`
+    )
+  } else {
+    return (
+      (tab === 'details' || pathname === `/name/${name}/details`) &&
+      (pathname !== `/name/${name}/register` &&
+        pathname !== `/name/${name}/subdomains`)
+    )
+  }
+}
 const Tabs = ({ domain, pathname, parent, tab }) => {
   const { name, state } = domain
   return (
@@ -51,11 +67,7 @@ const Tabs = ({ domain, pathname, parent, tab }) => {
         )}
 
         <TabLink
-          active={
-            (tab === 'details' || pathname === `/name/${name}/details`) &&
-            (pathname !== `/name/${name}/register` &&
-              pathname !== `/name/${name}/subdomains`)
-          }
+          active={getDetailsActive(domain, pathname, tab)}
           to={`/name/${name}/details`}
         >
           Details

@@ -544,7 +544,7 @@ function NameDetails({
   const releaseDeed = domain.deedOwner && parseInt(domain.deedOwner, 16) !== 0
   const isAnAbsolutePath = pathname.split('/').length > 3
 
-  if (tab === 'register' && !isAnAbsolutePath) {
+  if (domain.parent === 'eth' && tab === 'register' && !isAnAbsolutePath) {
     return (
       <NameRegister
         registrationOpen={registrationOpen}
@@ -554,7 +554,10 @@ function NameDetails({
         readOnly={account === EMPTY_ADDRESS}
       />
     )
-  } else if (tab === 'details' && !isAnAbsolutePath) {
+  } else if (
+    (tab === 'details' && !isAnAbsolutePath) ||
+    domain.parent !== 'eth'
+  ) {
     return (
       <DetailsContainer
         isMigratedToNewRegistry={isMigratedToNewRegistry}
