@@ -1,63 +1,18 @@
 const ROOT = Cypress.env('ROOT')
 const NAME_ROOT = Cypress.env('NAME_ROOT')
 
-const ACTIVE_COLOUR = 'rgb(83, 132, 254)'
-const DISABLED_CLOUR = 'rgb(223, 223, 223)'
+const DISABLED_COLOUR = 'rgb(223, 223, 223)'
 
 function waitUntilInputResolves(buttonTextOrOptions) {
-  if (typeof buttonTextOrOptions === 'object') {
-    return cy.waitUntil(
-      () => {
-        return cy
-          .getByTestId(buttonTextOrOptions.value)
-          .then($el => $el.css('background-color') === ACTIVE_COLOUR)
-      },
-      { timeout: 5000, interval: 10 }
-    )
-  } else {
-    return cy.waitUntil(
-      () => {
-        return cy
-          .getByText(buttonTextOrOptions)
-          .then($el => $el.css('background-color') === ACTIVE_COLOUR)
-      },
-      { timeout: 5000, interval: 10 }
-    )
-  }
+  return cy.waitUntilInputResolves(buttonTextOrOptions)
 }
 
 function waitUntilTestIdDoesNotExist(testId) {
-  return cy
-    .waitUntil(
-      () =>
-        cy.queryByTestId(testId, { exact: false, timeout: 1000 }).then($el => {
-          if ($el === null) {
-            return true
-          }
-          return false
-        }),
-      { timeout: 2000, interval: 10 }
-    )
-    .then(() => {
-      cy.queryByTestId(testId, { exact: false, timeout: 1000 }).should(
-        'not.exist'
-      )
-    })
+  return cy.waitUntilTestIdDoesNotExist(testId)
 }
 
 function waitUntilTextDoesNotExist(text) {
-  return cy
-    .waitUntil(() =>
-      cy.queryByText(text, { exact: false, timeout: 1000 }).then($el => {
-        if ($el === null) {
-          return true
-        }
-        return false
-      })
-    )
-    .then(() => {
-      cy.queryByText(text, { exact: false, timeout: 1000 }).should('not.exist')
-    })
+  return cy.waitUntilTextDoesNotExist(text)
 }
 
 describe('Name detail view', () => {
@@ -175,7 +130,7 @@ describe('Name detail view', () => {
       cy.queryByTestId('action', { exact: false }).should(
         'have.css',
         'background-color',
-        DISABLED_CLOUR
+        DISABLED_COLOUR
       )
       //force click like a real user
       cy.getByText('save', { exact: false }).click({ force: true })
