@@ -1,0 +1,8 @@
+{
+  "env": {
+    "ROOT": "http://localhost:3000/#",
+    "TEST": "http://localhost:3000/#/Test",
+    "NAME_ROOT": "http://localhost:3000/#/name"
+  },
+  "projectId": "rzedru"
+}
