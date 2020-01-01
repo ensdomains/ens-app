@@ -12,10 +12,9 @@ export function login(username, password) {
     function() {
       if (req.readyState === 4) {
         let result = JSON.parse(req.responseText)
-        if (result.code === 200) {
+        if (result) {
           console.log(result)
-          localStorage.setItem('Cat', 'Tom')
-          localStorage.setItem('id_token', result.token)
+          setToken(result.token)
           setExp(result.expire)
         } else {
           console.log(result)
@@ -48,14 +47,13 @@ function isTokenExpired(expire) {
 
 function setToken(token) {
   localStorage.setItem('id_token', token)
-  localStorage.setItem('Cat', 'Tom')
 }
 
 function setExp(expire) {
   localStorage.setItem('id_expire', expire)
 }
 
-function getToken() {
+export function getToken() {
   return localStorage.getItem('id_token')
 }
 

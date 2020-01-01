@@ -111,9 +111,7 @@ class IpfsLogin extends Component {
             console.log(result)
             localStorage.setItem('id_expire', result.expire)
             localStorage.setItem('id_token', result.token)
-            console.log(`yay`)
-            console.log(this.props.authenticated)
-            this.props.authenticated = true
+            this.props.startAuthorizing()
           } else {
             console.log('error')
           }

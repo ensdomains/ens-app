@@ -172,7 +172,15 @@ const Editable = ({
 }) => {
   const { state, actions } = useEditable()
 
-  const { editing, uploading, newValue, txHash, pending, confirmed } = state
+  const {
+    editing,
+    authorized,
+    uploading,
+    newValue,
+    txHash,
+    pending,
+    confirmed
+  } = state
 
   const {
     startEditing,
@@ -180,7 +188,8 @@ const Editable = ({
     updateValue,
     startPending,
     setConfirmed,
-    startUploading
+    startUploading,
+    startAuthorizing
   } = actions
 
   const isValid = validateRecord({
@@ -190,7 +199,6 @@ const Editable = ({
   })
 
   const isInvalid = newValue !== '' && !isValid
-  let authenticated = loggedIn()
 
   return (
     <>
@@ -277,7 +285,7 @@ const Editable = ({
               <>
                 {uploading ? (
                   <>
-                    {authenticated ? (
+                    {authorized ? (
                       <>
                         <EditRecord>
                           <Upload updateValue={updateValue} />
@@ -318,7 +326,7 @@ const Editable = ({
                       </>
                     ) : (
                       <>
-                        <IpfsLogin authenticated={authenticated} />
+                        <IpfsLogin startAuthorizing={startAuthorizing} />
                       </>
                     )}
                   </>

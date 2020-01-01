@@ -1,5 +1,6 @@
 import { useEffect, useReducer, useRef, useState } from 'react'
 import getEtherPrice from 'api/price'
+import { loggedIn } from './IPFS/Auth'
 
 export function useDocumentTitle(title) {
   useEffect(() => {
@@ -17,6 +18,7 @@ export function useEditable(
   initialState = {
     editing: false,
     uploading: false,
+    authorized: loggedIn(),
     newValue: '',
     pending: false,
     confirmed: false,
@@ -36,6 +38,7 @@ export function useEditable(
 
   const startEditing = () => dispatch({ type: types.START_EDITING })
   const startUploading = () => dispatch({ type: types.START_UPLOADING })
+  const startAuthorizing = () => dispatch({ type: types.START_AUTHORIZING })
   const stopEditing = () => dispatch({ type: types.STOP_EDITING })
   const updateValue = value => dispatch({ type: types.UPDATE_VALUE, value })
   const startPending = txHash => dispatch({ type: types.START_PENDING, txHash })
@@ -44,6 +47,7 @@ export function useEditable(
   const actions = {
     startEditing,
     startUploading,
+    startAuthorizing,
     stopEditing,
     updateValue,
     startPending,
@@ -66,6 +70,11 @@ export function useEditable(
           confirmed: false,
           pending: false,
           uploading: true
+        }
+      case types.START_AUTHORIZING:
+        return {
+          ...state,
+          authorized: true
         }
       case types.STOP_EDITING:
         return {

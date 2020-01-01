@@ -3,8 +3,7 @@ import Dropzone from './Dropzone'
 import styled from '@emotion/styled'
 import Loading from './Loading'
 import ipfsClient from 'ipfs-http-client'
-
-const JWT = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzcyNjIwNTcsImlkIjoiZGMiLCJvcmlnX2lhdCI6MTU3NzE3NTY1N30.kgg0SuM7OKwZ2mnzwSgdgZSuim1jLX6tT54mcW1KTg8`
+import { loggedIn, getToken } from './Auth'
 
 const Container = styled('div')`
   display: flex;
@@ -79,7 +78,7 @@ class Upload extends Component {
       'api-path': '/api/v0/',
       protocol: 'https',
       headers: {
-        Authorization: 'Bearer ' + JWT
+        Authorization: loggedIn() ? 'Bearer ' + getToken() : ''
       }
     })
 
