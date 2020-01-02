@@ -59,8 +59,12 @@ export default function RegistryMigration({
   return (
     <WarningBox>
       <WarningContent>
-        This name needs to be migrated to the new Registry. Only the parent of
-        this name ({domain.parent}) can do this.
+        {isParentMigratedToNewRegistry
+          ? `This name needs to be migrated to the new Registry. Only the parent of
+        this name (${domain.parent}) can do this.`
+          : `You must first migrate the parent domain ${
+              domain.parent
+            } before you can migrate this subdomain`}
         <SubWarning>
           *If you trade ENS names, do not accept this name!
         </SubWarning>

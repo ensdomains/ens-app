@@ -131,7 +131,7 @@ function Records({
     hasResolver,
     hasRecords
   )
-  const canEditRecords = !isOldPublicResolver && isOwner
+  const canEditRecords = !isDeprecatedResolver && isOwner
 
   if (!shouldShowRecords) {
     return null
@@ -142,7 +142,7 @@ function Records({
       shouldShowRecords={shouldShowRecords}
       needsToBeMigrated={needsToBeMigrated}
     >
-      {isOldPublicResolver ? (
+      {!canEditRecords && isOwner ? (
         <CantEdit>
           You can’t edit or add records until you migrate to the new resolver.
         </CantEdit>
@@ -208,7 +208,7 @@ function MigrationWarning() {
     <div>
       You’re using an outdated version of the public resolver, Click to migrate
       your resolver and records. You will need to confirm two transactions in
-      order to migrate both your records and resolver. Learn More
+      order to migrate both your records and resolver.
     </div>
   )
 }
