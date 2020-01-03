@@ -1183,9 +1183,10 @@
   version "0.1.9"
   resolved "https://registry.yarnpkg.com/@ensdomains/resolver/-/resolver-0.1.9.tgz#013bc88397c2c204737aaaf602380145d845e09e"
 
-"@ensdomains/ui@1.1.31":
-  version "1.1.31"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.1.31.tgz#225f5a9af1b9586cd103d0d361d4bacee3eb1a86"
+"@ensdomains/ui@1.1.39":
+  version "1.1.39"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-1.1.39.tgz#e3bdc7b4450c3e0fe91731f9622aba66274afead"
+  integrity sha512-9GU8HXUI7fYwtgKDrCsndiYv9v88LAruv50TMebYJeaPzzuYKS+eCgi5W1tOo8kbaymles1yCvdiUTAQK3DZwQ==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
