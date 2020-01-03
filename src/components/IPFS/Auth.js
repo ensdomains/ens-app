@@ -1,4 +1,7 @@
+import { getConfig } from './Config'
+
 export function login(username, password) {
+  const client = getConfig('Temporal')
   var data = JSON.stringify({
     username: username.toString(),
     password: password.toString()
@@ -12,18 +15,19 @@ export function login(username, password) {
     function() {
       if (req.readyState === 4) {
         let result = JSON.parse(req.responseText)
-        if (result) {
+        if (result.token) {
           console.log(result)
-          setToken(result.token)
-          setExp(result.expire)
+          localStorage.setItem('id_expire', result.expire)
+          localStorage.setItem('id_token', result.token)
+          this.props.startAuthorizing()
         } else {
-          console.log(result)
+          console.log('error')
         }
       }
     }.bind(this)
   )
 
-  req.open('POST', 'https://dev.api.temporal.cloud/v2/auth/login')
+  req.open('POST', client.loginDev)
   req.setRequestHeader('Cache-Control', 'no-cache')
   req.setRequestHeader('Content-Type', 'text/plain')
   req.send(data)
@@ -43,14 +47,6 @@ function isTokenExpired(expire) {
   } catch (err) {
     return false
   }
-}
-
-function setToken(token) {
-  localStorage.setItem('id_token', token)
-}
-
-function setExp(expire) {
-  localStorage.setItem('id_expire', expire)
 }
 
 export function getToken() {

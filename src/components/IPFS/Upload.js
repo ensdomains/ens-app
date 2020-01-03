@@ -4,6 +4,7 @@ import styled from '@emotion/styled'
 import Loading from './Loading'
 import ipfsClient from 'ipfs-http-client'
 import { loggedIn, getToken } from './Auth'
+import { getConfig } from './Config'
 
 const Container = styled('div')`
   display: flex;
@@ -72,16 +73,6 @@ class Upload extends Component {
       newHash: null
     }
 
-    this.ipfs = ipfsClient({
-      host: 'dev.api.ipfs.temporal.cloud',
-      port: '443',
-      'api-path': '/api/v0/',
-      protocol: 'https',
-      headers: {
-        Authorization: loggedIn() ? 'Bearer ' + getToken() : ''
-      }
-    })
-
     this.onFilesAdded = this.onFilesAdded.bind(this)
     this.sendRequest = this.sendRequest.bind(this)
     this.renderProgress = this.renderProgress.bind(this)
@@ -96,6 +87,17 @@ class Upload extends Component {
   }
 
   sendRequest(files) {
+    const client = getConfig('Temporal')
+    console.log(client)
+    const ipfs = ipfsClient({
+      host: client.dev,
+      port: client.port,
+      'api-path': client.apiPath,
+      protocol: client.protocol,
+      headers: {
+        Authorization: loggedIn() ? 'Bearer ' + getToken() : ''
+      }
+    })
     const file = [...files][0]
     let ipfsId
     const copy = { ...this.state.loading }
@@ -104,7 +106,7 @@ class Upload extends Component {
     if (files.length > 1) {
       copy[file.path] = { state: 'pending', percentage: 0 }
       this.setState({ loading: copy })
-      this.ipfs
+      ipfs
         .add(files, {})
         .then(response => {
           console.log(response)
@@ -126,7 +128,7 @@ class Upload extends Component {
       console.log('starting')
       copy[file.name] = { state: 'pending', percentage: 0 }
       this.setState({ loading: copy })
-      this.ipfs
+      ipfs
         .add(file, {})
         .then(response => {
           console.log(response)

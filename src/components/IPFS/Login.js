@@ -10,7 +10,7 @@ const Login = styled('div')`
 const Header = styled('h2')`
   margin-top: 0;
   margin-bottom: 0;
-  background: #28d;
+  background: #5483fe;
   padding: 20px;
   font-size: 1.4em;
   font-weight: normal;
@@ -67,15 +67,17 @@ const TextInput = styled('input')`
 `
 
 const Button = styled('input')`
-  background: #28d;
+  background: #5384fe;
+  width: 100%;
+  height: 35px;
   border-color: transparent;
   color: #fff;
   cursor: pointer;
   :hover {
-    background: #17c;
+    background: #2c46a6;
   }
   :focus {
-    border-color: #05a;
+    border-color: #2c46a6;
   }
 `
 
@@ -138,7 +140,6 @@ class IpfsLogin extends Component {
   render() {
     return (
       <Login>
-        <Triangle />
         <Header>Log in</Header>
 
         <LoginForm onSubmit={this.handleSubmit}>
