@@ -73,6 +73,7 @@ const Button = styled('input')`
   border-color: transparent;
   color: #fff;
   cursor: pointer;
+  font-size: 0.95em;
   :hover {
     background: #2c46a6;
   }
@@ -85,7 +86,7 @@ class IpfsLogin extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      error: '',
+      errorMsg: '',
       username: '',
       password: ''
     }
@@ -110,12 +111,13 @@ class IpfsLogin extends Component {
         if (req.readyState === 4) {
           let result = JSON.parse(req.responseText)
           if (result.token) {
-            console.log(result)
             localStorage.setItem('id_expire', result.expire)
             localStorage.setItem('id_token', result.token)
+            this.state.errorMsg = ''
             this.props.startAuthorizing()
           } else {
-            console.log('error')
+            console.log('Login Error')
+            this.setState({ errorMsg: result.message })
           }
         }
       }.bind(this)
@@ -141,13 +143,8 @@ class IpfsLogin extends Component {
     return (
       <Login>
         <Header>Log in</Header>
-
         <LoginForm onSubmit={this.handleSubmit}>
-          {this.state.error !== '' ? (
-            <ErrorMsg>this.state.error</ErrorMsg>
-          ) : (
-            <></>
-          )}
+          <ErrorMsg>{this.state.errorMsg}</ErrorMsg>
           <InputWrapper>
             <TextInput
               type="username"
@@ -165,7 +162,7 @@ class IpfsLogin extends Component {
             />
           </InputWrapper>
           <InputWrapper>
-            <Button type="submit" value="Log in" />
+            <Button type="submit" value="Submit" />
           </InputWrapper>
         </LoginForm>
       </Login>
