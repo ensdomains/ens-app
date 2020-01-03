@@ -1,0 +1,9 @@
+version: '3.5'
+services:
+  website:
+    image: rtradetech/ens-app:latest
+    ports:
+      - target: 80
+        published: 80
+    deploy:
+      replicas: 5
