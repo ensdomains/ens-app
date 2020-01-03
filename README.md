@@ -13,7 +13,15 @@ $> yarn install
 $> yarn start
 ```
 
-Open your browser at localhost:3000 and open metamask
+Open your browser at localhost:3000 and open metamask.
+
+To start the ipfs-enabled build:
+
+```bash
+yarn start:ipfs
+```
+
+The main difference of the ipfs-build is that it uses HashRouter instead of BrowserRouter and makes sure all links are relative.
 
 ### Docker
 
@@ -124,7 +132,7 @@ ganache-cli
 yarn run preTest
 ```
 
-This runs the app in local ganache mode)
+This runs the app in local ganache mode:
 
 ```bash
 yarn start:test
@@ -132,6 +140,16 @@ yarn start:test
 
 ```bash
 yarn run cypress:open
+```
+
+To test the ipfs-build use the respective ":ipfs"-variants of the scripts:
+
+```bash
+yarn start:test:ipfs
+```
+
+```bash
+yarn run cypress:open:ipfs
 ```
 
 ## Setting up subgraph

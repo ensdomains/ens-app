@@ -157,5 +157,5 @@ export function isElementInViewport(el) {
 export const emptyAddress = _emptyAddress
 
 export function isShortName(term) {
-  return [...term].length < 7
+  return [...term].length < 3
 }

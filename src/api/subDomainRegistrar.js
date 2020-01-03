@@ -1,5 +1,5 @@
 import subDomainRegistrarContract from './contracts/subDomainRegistrarContract.json'
-import { getSignerOrProvider } from '@ensdomains/ui'
+import { getProvider } from '@ensdomains/ui'
 import { Contract, utils } from 'ethers'
 import domains from '../constants/domains.json'
 let subDomainRegistrars = {}
@@ -7,13 +7,9 @@ let subDomainRegistrars = {}
 const defaultAddress = '0x0b07463b30b302a98407d3e3df85ebc073b0dbd1'
 
 const getSubDomainRegistrar = async address => {
-  const signerOrProvider = await getSignerOrProvider()
+  const provider = await getProvider()
   function instantiateContract(address) {
-    const contract = new Contract(
-      address,
-      subDomainRegistrarContract,
-      signerOrProvider
-    )
+    const contract = new Contract(address, subDomainRegistrarContract, provider)
     subDomainRegistrars[address] = contract
     return contract
   }

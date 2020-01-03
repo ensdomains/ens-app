@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import {
-  BrowserRouter as Router,
+  HashRouter,
+  BrowserRouter,
   Route as DefaultRoute,
   Switch
 } from 'react-router-dom'
@@ -24,6 +25,10 @@ import { CONFIRM } from './modals'
 
 import DefaultLayout from './components/Layout/DefaultLayout'
 import Analytics from './utils/analytics'
+
+// If we are targeting an IPFS build we need to use HashRouter
+const Router =
+  process.env.REACT_APP_IPFS === 'True' ? HashRouter : BrowserRouter
 
 const HomePageLayout = ({ children }) => <Fragment>{children}</Fragment>
 
