@@ -4,12 +4,24 @@ ENS Application
 
 ## Installation
 
-```bash
-yarn install
-yarn start
+### Manual
+
+```shell
+$> git clone https://github.com/ensdomains/ens-app.git
+$> cd ens-app
+$> yarn install
+$> yarn start
 ```
 
 Open your browser at localhost:3000 and open metamask
+
+### Docker
+
+```shell
+$> docker run -p 80:80 -d rtradetech/ens-app:latest
+```
+
+Open your browser to localhost:80 and open metamask
 
 ## Unit Testing
 
