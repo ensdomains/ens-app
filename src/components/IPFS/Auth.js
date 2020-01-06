@@ -36,15 +36,19 @@ export function login(username, password) {
 export function loggedIn() {
   const token = getToken()
   const expire = getExpire()
-  return !!token && !isTokenExpired(expire)
+  return !!token && isTokenExpired(expire)
 }
 
 function isTokenExpired(expire) {
   try {
-    if (expire < Date.now() / 1000) {
+    if (new Date(expire) > new Date()) {
       return true
-    } else return false
+    } else {
+      console.log('WTF')
+      return false
+    }
   } catch (err) {
+    console.log('WTF Error')
     return false
   }
 }
