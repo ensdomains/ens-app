@@ -104,10 +104,13 @@ class Upload extends Component {
     this.setState({ loading: copy })
 
     if (files.length > 1) {
-      copy[file.path] = { state: 'pending', percentage: 0 }
-      this.setState({ loading: copy })
+      var x
+      for (x in files) {
+        copy[files[x].path] = { state: 'pending', percentage: 0 }
+        this.setState({ loading: copy })
+      }
       ipfs
-        .add(files, {})
+        .add(files, { progress: prog => console.log(`received: ${prog}`) })
         .then(response => {
           console.log(response)
           const root = response[response.length - 1]
