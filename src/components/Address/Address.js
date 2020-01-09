@@ -69,7 +69,9 @@ function hasNoDomains(data) {
 }
 
 function filterOutReverse(domains) {
-  return domains.filter(domain => domain.parent.name !== 'addr.reverse')
+  return domains.filter(
+    domain => domain.parent && domain.parent.name !== 'addr.reverse'
+  )
 }
 
 function DomainList({ domains, address }) {

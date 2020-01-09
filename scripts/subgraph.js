@@ -7,26 +7,20 @@ var addresses = JSON.parse(fs.readFileSync('./cypress.env.json', 'utf8'))
 let name, address
 doc.dataSources.forEach(s => {
   switch (s.name) {
-    case 'OldENSRegistry':
-      name = 'oldEnsAddress'
+    case 'ENSRegistry':
+      s.source.address = addresses.ensAddress
       break
-    case 'OldBaseRegistrar':
-      name = 'oldBaseRegistrarAddress'
-      break
-    case 'OldEthRegistrarController':
-      name = 'oldControllerAddress'
+    case 'ENSRegistryOld':
+      s.source.address = addresses.oldEnsAddress
       break
     case 'AuctionRegistrar':
-      name = 'legacyAuctionRegistrarAddress'
-      break
-    case 'ENSRegistryWithFallback':
-      name = 'ensAddress'
+      s.source.address = addresses.legacyAuctionRegistrarAddress
       break
     case 'BaseRegistrar':
-      name = 'baseRegistrarAddress'
+      s.source.address = addresses.baseRegistrarAddress
       break
     case 'EthRegistrarController':
-      name = 'controllerAddress'
+      s.source.address = addresses.controllerAddress
       break
     default:
       name = null
