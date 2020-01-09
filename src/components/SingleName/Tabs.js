@@ -33,9 +33,7 @@ const TabContainer = styled('div')`
 `
 function getDetailsActive(domain, pathname, tab) {
   const { name } = domain
-  console.log('getDetailsActive')
   if (domain.parent !== 'eth') {
-    console.log('here')
     return (
       pathname !== `/name/${name}/register` &&
       pathname !== `/name/${name}/subdomains`

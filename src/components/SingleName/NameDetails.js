@@ -517,8 +517,6 @@ function NameDetails({
     }
   })
 
-  console.log(refetchIsMigrated)
-
   const {
     data: { isMigrated: isParentMigrated },
     loading: loadingIsParentMigrated
@@ -557,9 +555,35 @@ function NameDetails({
       />
     )
   } else if (
-    (tab === 'details' && !isAnAbsolutePath) ||
-    domain.parent !== 'eth'
+    domain.parent === 'eth' &&
+    tab === 'details' &&
+    !isAnAbsolutePath
   ) {
+    return (
+      <DetailsContainer
+        isMigratedToNewRegistry={isMigratedToNewRegistry}
+        loadingIsMigrated={loadingIsMigrated}
+        refetchIsMigrated={refetchIsMigrated}
+        isParentMigratedToNewRegistry={isParentMigratedToNewRegistry}
+        loadingIsParentMigrated={loadingIsParentMigrated}
+        isDeedOwner={isDeedOwner}
+        isRegistrant={isRegistrant}
+        showExplainer={showExplainer}
+        canSubmit={canSubmit}
+        outOfSync={outOfSync}
+        releaseDeed={releaseDeed}
+        loading={loading}
+        setLoading={setLoading}
+        isOwnerOfParent={isOwnerOfParent}
+        isOwner={isOwner}
+        refetch={refetch}
+        domain={domain}
+        dnssecmode={dnssecmode}
+        account={account}
+      />
+    )
+  } else if (domain.parent !== 'eth' && !isAnAbsolutePath) {
+    //subdomain or dns
     return (
       <DetailsContainer
         isMigratedToNewRegistry={isMigratedToNewRegistry}
