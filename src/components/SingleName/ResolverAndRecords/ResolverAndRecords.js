@@ -263,6 +263,7 @@ export default function ResolverAndRecords({
             value={domain.resolver}
             name={domain.name}
             refetch={refetch}
+            isOwner={isOwner}
           />
         ) : (
           <DetailsItemEditable

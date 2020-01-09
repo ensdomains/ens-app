@@ -38,7 +38,7 @@ const SVG = styled('svg')`
   margin-right: 10px;
 `
 
-export default function MigrateResolver({ value, name, refetch }) {
+export default function MigrateResolver({ value, name, refetch, isOwner }) {
   const { state: state1, actions: actions1 } = useEditable()
   const { state: state2, actions: actions2 } = useEditable()
 
@@ -82,14 +82,16 @@ export default function MigrateResolver({ value, name, refetch }) {
             txHashes={txHash2 === 'notatx' ? undefined : [txHash1, txHash2]}
             txHash={txHash2 === 'notatx' ? txHash1 : undefined}
             onConfirmed={() => {
-              console.log('onconfirmed')
               setConfirmed1()
               setConfirmed2()
               refetch()
             }}
           />
         ) : (
-          <MigrateButton onClick={migrateResolver} type="hollow-primary">
+          <MigrateButton
+            onClick={isOwner ? migrateResolver : () => {}}
+            type={isOwner ? 'hollow-primary' : 'hollow-primary-disabled'}
+          >
             Migrate
           </MigrateButton>
         )}
