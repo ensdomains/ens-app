@@ -258,7 +258,7 @@ function DetailsContainer({
               domain={domain}
               keyName="Controller"
               value={domain.owner}
-              canEdit={(isOwner || isRegistrant) && isMigratedToNewRegistry}
+              canEdit={isRegistrant || (isOwner && isMigratedToNewRegistry)}
               deedOwner={domain.deedOwner}
               isDeedOwner={isDeedOwner}
               type="address"
