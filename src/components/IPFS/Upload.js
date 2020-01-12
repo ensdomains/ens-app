@@ -5,48 +5,25 @@ import Loading from './Loading'
 import ipfsClient from 'ipfs-http-client'
 import { loggedIn, getToken } from './Auth'
 import { getConfig } from './Config'
+import Loader from '../Loader'
 
 const Container = styled('div')`
   display: flex;
   flex-direction: column;
   flex: 1;
-  align-items: flex-start;
+  align-items: center;
   text-align: left;
   overflow: hidden;
 `
 
 const FileName = styled('span')`
-  margin-bottom: 8px;
-  font-size: 16px;
-  color: #555;
-`
-
-const Content = styled('div')`
-  display: flex;
-  flex-direction: row;
-  padding-top: 16px;
-  box-sizing: border-box;
-  width: 100%;
-  padding: 0% 10%;
+  margin-bottom: 12px;
+  font-size: 26px;
 `
 
 const Files = styled('div')`
-  margin-left: 32px;
   align-items: flex-start;
   justify-items: flex-start;
-  flex: 1;
-  overflow-y: auto;
-`
-
-const Row = styled('div')`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 50px;
-  padding: 8px;
-  overflow: hidden;
-  box-sizing: border-box;
 `
 
 const Checkmark = styled('img')`
@@ -118,14 +95,18 @@ class Upload extends Component {
           if (this.props.updateValue) {
             this.props.updateValue('ipfs://' + root.hash)
           }
-          this.setState({ uploading: false, successfullUploaded: true })
+          this.setState({
+            uploading: false,
+            successfullUploaded: true,
+            newHash: `ipfs://` + root.hash
+          })
         })
         .catch(err => {
           copy[file.path] = { state: 'error', percentage: 0 }
           this.setState({ loading: copy })
           console.log('error')
           console.error(err)
-          this.setState({ uploading: true, uploadError: true })
+          this.setState({ uploading: false, uploadError: true })
         })
     } else {
       console.log('starting')
@@ -140,14 +121,18 @@ class Upload extends Component {
           if (this.props.updateValue) {
             this.props.updateValue('ipfs://' + ipfsId)
           }
-          this.setState({ uploading: false, successfullUploaded: true })
+          this.setState({
+            uploading: false,
+            successfullUploaded: true,
+            newHash: `ipfs://` + ipfsId
+          })
         })
         .catch(err => {
           copy[file.name] = { state: 'error', percentage: 0 }
           this.setState({ loading: copy })
           console.log('error')
           console.error(err)
-          this.setState({ uploading: true, uploadError: true })
+          this.setState({ uploading: false, uploadError: true })
         })
     }
   }
@@ -173,31 +158,24 @@ class Upload extends Component {
   render() {
     return (
       <Container>
-        <Content>
+        {this.state.uploading ? (
+          <Loader withWrap large />
+        ) : this.state.successfullUploaded ? (
+          <>
+            <Files>
+              {this.state.files.length > 1 ? (
+                <FileName>Directory Successfully Uploaded!</FileName>
+              ) : (
+                <FileName>File Successfully Uploaded!</FileName>
+              )}
+            </Files>
+          </>
+        ) : (
           <Dropzone
             onFilesAdded={this.onFilesAdded}
             disabled={this.state.uploading || this.state.successfullUploaded}
           />
-          <Files>
-            {this.state.files.length > 1
-              ? this.state.files.map(file => {
-                  return (
-                    <Row key={file.path}>
-                      <FileName>{file.path}</FileName>
-                      {this.renderProgress(file)}
-                    </Row>
-                  )
-                })
-              : this.state.files.map(file => {
-                  return (
-                    <Row key={file.name}>
-                      <FileName>{file.name}</FileName>
-                      {this.renderProgress(file)}
-                    </Row>
-                  )
-                })}
-          </Files>
-        </Content>
+        )}
       </Container>
     )
   }

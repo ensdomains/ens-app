@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from '@emotion/styled'
+import { getConfig } from './Config'
 
 const Login = styled('div')`
   width: 400px;
@@ -33,14 +34,6 @@ const InputWrapper = styled('p')`
   margin-top: 0;
   margin-bottom: 0;
   padding: 12px;
-`
-
-const Triangle = styled('div')`
-  width: 0;
-  margin-right: auto;
-  margin-left: auto;
-  border: 12px solid transparent;
-  border-bottom-color: #28d;
 `
 
 const LoginForm = styled('form')`
@@ -88,7 +81,8 @@ class IpfsLogin extends Component {
     this.state = {
       errorMsg: '',
       username: '',
-      password: ''
+      password: '',
+      provider: ''
     }
 
     this.login = this.login.bind(this)
@@ -113,7 +107,7 @@ class IpfsLogin extends Component {
           if (result.token) {
             localStorage.setItem('id_expire', result.expire)
             localStorage.setItem('id_token', result.token)
-            this.state.errorMsg = ''
+            this.setState({ errorMsg: '' })
             this.props.startAuthorizing()
           } else {
             console.log('Login Error')

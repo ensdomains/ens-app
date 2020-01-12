@@ -14,7 +14,6 @@ import AddressLink from '../Links/AddressLink'
 import ContentHashLink from '../Links/ContentHashLink'
 import Upload from '../IPFS/Upload'
 import IpfsLogin from '../IPFS/Login'
-import { loggedIn } from '../IPFS/Auth'
 import StyledUpload from '../Forms/Upload'
 import Pencil from '../Forms/Pencil'
 import Bin from '../Forms/Bin'
@@ -84,14 +83,13 @@ export const RecordsValue = styled(DetailsValue)`
 `
 
 const NewRecordsContainer = styled('div')`
-  font-size: 14px;
+  display: flex;
   justify-content: center;
-  padding-top: 10px;
-  padding-bottom: 5px;
-`
-
-const NewRecordsValue = styled(DetailsValue)`
-  font-size: 14px;
+  align-items: center;
+  position: relative;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-size: 21px;
 `
 
 const EditRecord = styled('div')`
@@ -289,20 +287,18 @@ const Editable = ({
                       <>
                         <EditRecord>
                           <Upload updateValue={updateValue} />
-                        </EditRecord>
-                        {newValue !== '' ? (
-                          <NewRecordsContainer>
-                            <NewRecordsValue>
-                              <RecordsKey>New IPFS Hash</RecordsKey>
+                          {newValue !== '' ? (
+                            <NewRecordsContainer>
+                              <RecordsKey>New IPFS Hash:</RecordsKey>
                               <ContentHashLink
                                 value={newValue}
                                 contentType={domain.contentType}
                               />
-                            </NewRecordsValue>
-                          </NewRecordsContainer>
-                        ) : (
-                          <></>
-                        )}
+                            </NewRecordsContainer>
+                          ) : (
+                            <></>
+                          )}
+                        </EditRecord>
                         <SaveCancel
                           warningMessage={getOldContentWarning(
                             type,
