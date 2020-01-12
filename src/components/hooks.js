@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useRef, useState } from 'react'
 import getEtherPrice from 'api/price'
-import { loggedIn } from './IPFS/Auth'
+import { loggedIn, logout } from './IPFS/Auth'
 
 export function useDocumentTitle(title) {
   useEffect(() => {
@@ -29,6 +29,8 @@ export function useEditable(
     UPDATE_VALUE: 'UPDATE_VALUE',
     START_EDITING: 'START_EDITING',
     START_UPLOADING: 'START_UPLOADING',
+    START_AUTHORIZING: 'START_AUTHORIZING',
+    STOP_AUTHORIZING: 'STOP_AUTHORIZING',
     STOP_EDITING: 'STOP_EDITING',
     START_PENDING: 'START_PENDING',
     SET_CONFIRMED: 'SET_CONFIRMED'
@@ -39,6 +41,7 @@ export function useEditable(
   const startEditing = () => dispatch({ type: types.START_EDITING })
   const startUploading = () => dispatch({ type: types.START_UPLOADING })
   const startAuthorizing = () => dispatch({ type: types.START_AUTHORIZING })
+  const stopAuthorizing = () => dispatch({ type: types.STOP_AUTHORIZING })
   const stopEditing = () => dispatch({ type: types.STOP_EDITING })
   const updateValue = value => dispatch({ type: types.UPDATE_VALUE, value })
   const startPending = txHash => dispatch({ type: types.START_PENDING, txHash })
@@ -48,6 +51,7 @@ export function useEditable(
     startEditing,
     startUploading,
     startAuthorizing,
+    stopAuthorizing,
     stopEditing,
     updateValue,
     startPending,
@@ -72,9 +76,15 @@ export function useEditable(
           uploading: true
         }
       case types.START_AUTHORIZING:
+        logout()
         return {
           ...state,
           authorized: true
+        }
+      case types.STOP_AUTHORIZING:
+        return {
+          ...state,
+          authorized: false
         }
       case types.STOP_EDITING:
         return {

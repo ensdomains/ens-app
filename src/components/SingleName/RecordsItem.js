@@ -17,7 +17,7 @@ import IpfsLogin from '../IPFS/Login'
 import StyledUpload from '../Forms/Upload'
 import Pencil from '../Forms/Pencil'
 import Bin from '../Forms/Bin'
-import SaveCancel from './SaveCancel'
+import { SaveCancel, SaveCancelSwitch } from './SaveCancel'
 import DefaultPendingTx from '../PendingTx'
 import {
   SET_CONTENT,
@@ -187,7 +187,8 @@ const Editable = ({
     startPending,
     setConfirmed,
     startUploading,
-    startAuthorizing
+    startAuthorizing,
+    stopAuthorizing
   } = actions
 
   const isValid = validateRecord({
@@ -299,7 +300,7 @@ const Editable = ({
                             <></>
                           )}
                         </EditRecord>
-                        <SaveCancel
+                        <SaveCancelSwitch
                           warningMessage={getOldContentWarning(
                             type,
                             domain.contentType
@@ -318,6 +319,7 @@ const Editable = ({
                           }}
                           isValid={isValid}
                           stopEditing={stopEditing}
+                          stopAuthorizing={stopAuthorizing}
                         />
                       </>
                     ) : (

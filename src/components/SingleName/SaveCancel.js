@@ -14,6 +14,10 @@ const Cancel = styled(Button)`
   margin-right: 20px;
 `
 
+const Switch = styled(Button)`
+  margin-right: 20px;
+`
+
 const Warning = styled('div')`
   color: #f5a623;
   align-self: center;
@@ -66,7 +70,7 @@ const ActionButton = ({
   )
 }
 
-const SaveCancel = ({
+export const SaveCancel = ({
   mutation,
   mutationButton,
   stopEditing,
@@ -80,6 +84,40 @@ const SaveCancel = ({
 }) => (
   <SaveCancelContainer className={className}>
     {warningMessage ? <Warning>{warningMessage}</Warning> : null}
+    <Cancel data-testid="cancel" type="hollow" onClick={stopEditing}>
+      Cancel
+    </Cancel>
+    <ActionButton
+      disabled={disabled}
+      mutation={mutation}
+      mutationButton={mutationButton}
+      value={value}
+      newValue={newValue}
+      confirm={confirm}
+      isValid={isValid}
+      data-testid="action"
+    />
+  </SaveCancelContainer>
+)
+
+export const SaveCancelSwitch = ({
+  mutation,
+  mutationButton,
+  stopEditing,
+  stopAuthorizing,
+  disabled,
+  className,
+  value,
+  newValue,
+  confirm,
+  warningMessage,
+  isValid = true
+}) => (
+  <SaveCancelContainer className={className}>
+    {warningMessage ? <Warning>{warningMessage}</Warning> : null}
+    <Switch data-testid="switch" type="hollow" onClick={stopAuthorizing}>
+      Switch Providers
+    </Switch>
     <Cancel data-testid="cancel" type="hollow" onClick={stopEditing}>
       Cancel
     </Cancel>
