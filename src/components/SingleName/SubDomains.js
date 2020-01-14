@@ -9,7 +9,8 @@ import Loader from '../Loader'
 import { H2 } from '../Typography/Basic'
 import AddSubdomain from './AddSubdomain'
 import ChildDomainItem from '../DomainItem/ChildDomainItem'
-import { getNamehash, encodeLabelhash } from '@ensdomains/ui'
+import { getNamehash } from '@ensdomains/ui'
+import { decryptName } from '../../api/labels'
 
 const SubDomainsContainer = styled('div')`
   padding-bottom: 30px;
@@ -143,7 +144,7 @@ function SubDomains({
                     if (d.labelName !== null) {
                       name = `${d.labelName}.${domain.name}`
                     } else {
-                      name = `${encodeLabelhash(d.labelhash)}.${domain.name}`
+                      name = `${decryptName(d.labelhash)}.${domain.name}`
                     }
                     return (
                       <ChildDomainItem
