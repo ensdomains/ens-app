@@ -644,6 +644,8 @@ function NameDetails({
             domain={domain}
             isOwner={isOwner}
             data-testid="subdomains"
+            isParentMigratedToNewRegistry={isParentMigratedToNewRegistry}
+            loadingIsParentMigrated={loadingIsParentMigrated}
           />
         )}
       />
