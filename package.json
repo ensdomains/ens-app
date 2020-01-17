@@ -14,7 +14,7 @@
     "@ensdomains/react-ens-address": "^0.0.16",
     "@ensdomains/resolver": "^0.1.11",
     "@ensdomains/ui": "https://github.com/Velenir/ui.git#allow_skip_cache",
-    "@walletconnect/web3-provider": "^1.0.0-beta.38",
+    "@walletconnect/web3-provider": "^1.0.0-beta.44",
     "apollo-cache-inmemory": "^1.2.9",
     "apollo-client": "^2.4.5",
     "apollo-link": "^1.2.2",
