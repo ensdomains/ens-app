@@ -190,3 +190,9 @@ export const IS_MIGRATED = gql`
     isMigrated(name: $name) @client
   }
 `
+
+export const IS_CONTRACT_CONTROLLER = gql`
+  query isContractController($address: String) {
+    isContractController(address: $address) @client
+  }
+`

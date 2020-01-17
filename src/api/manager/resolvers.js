@@ -29,6 +29,7 @@ import {
   getAddrWithResolver,
   getContentWithResolver,
   getTextWithResolver,
+  getWeb3,
 
   /* lower level calls possibly can be refactored out */
   getSigner,
@@ -360,6 +361,11 @@ const resolvers = {
     isMigrated: async (_, { name }, { cache }) => {
       let result = await isMigrated(name)
       return result
+    },
+    isContractController: async (_, { address }, { cache }) => {
+      let provider = await getWeb3()
+      const bytecode = await provider.getCode(address)
+      return bytecode !== '0x'
     },
     getSubDomains: async (_, { name }, { cache }) => {
       const rawSubDomains = await getSubdomains(name)
