@@ -1,5 +1,5 @@
 import qrImage from 'qr-image'
-import React, {useState, useMemo, useRef} from 'react'
+import React, {useMemo} from 'react'
 import styled from '@emotion/styled'
 
 const WCheader = styled.div`

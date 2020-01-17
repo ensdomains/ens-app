@@ -1,6 +1,5 @@
 import { getWeb3, setupENS, clearCache } from '@ensdomains/ui'
 import WalletConnectProvider from '@walletconnect/web3-provider'
-import WalletConnectQRCodeModal from '@walletconnect/qrcode-modal'
 
 const delay = (ms = 100) => new Promise(resolve => setTimeout(resolve, ms))
 
