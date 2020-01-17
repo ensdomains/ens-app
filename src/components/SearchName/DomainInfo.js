@@ -17,11 +17,13 @@ const DomainInfoContainer = ({ searchTerm }) => {
   return (
     <Query query={GET_SINGLE_NAME} variables={{ name: searchTerm + '.eth' }}>
       {({ data, loading, error }) => {
-        const { singleName } = data
         if (error) {
           console.error(error)
           return null
         }
+
+        const singleName = loading ? undefined : data.singleName
+
         return (
           <Query query={GET_FAVOURITES}>
             {({ data: { favourites } }) => (
