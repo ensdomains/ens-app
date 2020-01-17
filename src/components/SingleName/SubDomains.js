@@ -34,7 +34,9 @@ function SubDomainsFromWeb3({ domain, isOwner, canAddSubdomain }) {
         if (loading)
           return (
             <>
-              {isOwner && <AddSubdomain domain={domain} refetch={refetch} />}
+              {canAddSubdomain && (
+                <AddSubdomain domain={domain} refetch={refetch} />
+              )}
               <Loader withWrap large />
             </>
           )
