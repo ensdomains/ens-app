@@ -1,14 +1,14 @@
 import { getWeb3, setupENS, clearCache } from '@ensdomains/ui'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 
+//  id from @ensdomains/ui
+const INFURA_ID = '90f210707d3c450f847659dc9a3436ea'
+
 const delay = (ms = 100) => new Promise(resolve => setTimeout(resolve, ms))
 
 export const getWCIfConnected = async ({ onDisconnect } = {}) => {
   const provider = new WalletConnectProvider({
-    //  id from @ensdomains/ui
-    // infuraId: '90f210707d3c450f847659dc9a3436ea',
-    // temporary id to avoid `rejected due to project ID settings` origin error
-    infuraId: '081969a3f92249908e4b476de9c3e6f9',
+    infuraId: INFURA_ID,
     qrcode: false
   })
 
@@ -39,10 +39,7 @@ export const getWCIfConnected = async ({ onDisconnect } = {}) => {
 
 export const connectWC = async ({ onDisconnect, onURI } = {}) => {
   const provider = new WalletConnectProvider({
-    //  id from @ensdomains/ui
-    // infuraId: '90f210707d3c450f847659dc9a3436ea',
-    // temporary id to avoid `rejected due to project ID settings` origin error
-    infuraId: '081969a3f92249908e4b476de9c3e6f9',
+    infuraId: INFURA_ID,
     qrcode: !onURI
   })
   // no already open session
