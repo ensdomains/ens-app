@@ -645,6 +645,8 @@ function NameDetails({
             domain={domain}
             isOwner={isOwner}
             data-testid="subdomains"
+            isMigratedToNewRegistry={isMigratedToNewRegistry}
+            loadingIsMigrated={loadingIsMigrated}
             isParentMigratedToNewRegistry={isParentMigratedToNewRegistry}
             loadingIsParentMigrated={loadingIsParentMigrated}
           />

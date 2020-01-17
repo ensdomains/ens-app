@@ -95,11 +95,17 @@ function SubDomains({
   isOwner,
   loadingIsParentMigrated,
   isParentMigratedToNewRegistry,
+  isMigratedToNewRegistry,
+  loadingIsMigrated,
   ...rest
 }) {
   const canAddSubdomain =
-    isOwner && !loadingIsParentMigrated && isParentMigratedToNewRegistry
-  console.log(isOwner, !loadingIsParentMigrated, isParentMigratedToNewRegistry)
+    isOwner &&
+    !loadingIsParentMigrated &&
+    !loadingIsMigrated &&
+    isParentMigratedToNewRegistry &&
+    isMigratedToNewRegistry
+
   return (
     <SubDomainsContainer {...rest}>
       {parseInt(domain.owner, 16) !== 0 ? (
