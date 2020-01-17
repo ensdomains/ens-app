@@ -24,7 +24,7 @@ const SubDomainH2 = styled(H2)`
   color: #ccd4da;
 `
 
-function SubDomainsFromWeb3({ domain, isOwner, canAddSubdomain }) {
+function SubDomainsFromWeb3({ domain, canAddSubdomain }) {
   return (
     <Query query={GET_SUBDOMAINS} variables={{ name: domain.name }}>
       {({ loading, error, data, refetch }) => {
@@ -34,9 +34,11 @@ function SubDomainsFromWeb3({ domain, isOwner, canAddSubdomain }) {
         if (loading)
           return (
             <>
-              {canAddSubdomain && (
-                <AddSubdomain domain={domain} refetch={refetch} />
-              )}
+              <AddSubdomainContainer
+                domain={domain}
+                refetch={refetch}
+                canAddSubdomain={canAddSubdomain}
+              />
               <Loader withWrap large />
             </>
           )
@@ -48,18 +50,22 @@ function SubDomainsFromWeb3({ domain, isOwner, canAddSubdomain }) {
         ) {
           return (
             <>
-              {canAddSubdomain && (
-                <AddSubdomain domain={domain} refetch={refetch} />
-              )}
+              <AddSubdomainContainer
+                domain={domain}
+                refetch={refetch}
+                canAddSubdomain={canAddSubdomain}
+              />
               <SubDomainH2>No subdomains have been added.</SubDomainH2>
             </>
           )
         }
         return (
           <>
-            {canAddSubdomain && (
-              <AddSubdomain domain={domain} refetch={refetch} />
-            )}
+            <AddSubdomainContainer
+              domain={domain}
+              refetch={refetch}
+              canAddSubdomain={canAddSubdomain}
+            />
             {data &&
               data.getSubDomains &&
               data.getSubDomains.subDomains &&
@@ -78,6 +84,12 @@ function SubDomainsFromWeb3({ domain, isOwner, canAddSubdomain }) {
   )
 }
 
+function AddSubdomainContainer({ domain, refetch, canAddSubdomain }) {
+  return canAddSubdomain ? (
+    <AddSubdomain domain={domain} refetch={refetch} />
+  ) : null
+}
+
 function SubDomains({
   domain,
   isOwner,
@@ -87,6 +99,7 @@ function SubDomains({
 }) {
   const canAddSubdomain =
     isOwner && !loadingIsParentMigrated && isParentMigratedToNewRegistry
+  console.log(isOwner, !loadingIsParentMigrated, isParentMigratedToNewRegistry)
   return (
     <SubDomainsContainer {...rest}>
       {parseInt(domain.owner, 16) !== 0 ? (
@@ -103,14 +116,17 @@ function SubDomains({
                 error
               )
 
-              return <SubDomainsFromWeb3 domain={domain} isOwner={isOwner} />
+              return (
+                <SubDomainsFromWeb3
+                  domain={domain}
+                  isOwner={isOwner}
+                  canAddSubdomain={canAddSubdomain}
+                />
+              )
             }
             if (loading)
               return (
                 <>
-                  {canAddSubdomain && (
-                    <AddSubdomain domain={domain} refetch={refetch} />
-                  )}
                   <Loader withWrap large />
                 </>
               )
@@ -122,22 +138,32 @@ function SubDomains({
             ) {
               return (
                 <>
-                  {canAddSubdomain && (
-                    <AddSubdomain domain={domain} refetch={refetch} />
-                  )}
+                  <AddSubdomainContainer
+                    domain={domain}
+                    refetch={refetch}
+                    canAddSubdomain={canAddSubdomain}
+                  />
                   <SubDomainH2>No subdomains have been added.</SubDomainH2>
                 </>
               )
             }
 
             if (data.domain === null) {
-              return <SubDomainsFromWeb3 domain={domain} isOwner={isOwner} />
+              return (
+                <SubDomainsFromWeb3
+                  domain={domain}
+                  isOwner={isOwner}
+                  canAddSubdomain={canAddSubdomain}
+                />
+              )
             }
             return (
               <>
-                {canAddSubdomain && (
-                  <AddSubdomain domain={domain} refetch={refetch} />
-                )}
+                <AddSubdomainContainer
+                  domain={domain}
+                  refetch={refetch}
+                  canAddSubdomain={canAddSubdomain}
+                />
                 {data &&
                   data.domain &&
                   data.domain.subdomains &&
