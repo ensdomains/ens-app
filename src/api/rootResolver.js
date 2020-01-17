@@ -56,12 +56,14 @@ const resolvers = {
       }
     },
     isWalletConnect: web3 => {
-      console.log('web3', web3);
       return web3._web3Provider && !!web3._web3Provider.isWalletConnect
     },
     isWalletConnectConnected: web3 => {
-      console.log('web3', web3);
-      return web3._web3Provider && !!web3._web3Provider.isWalletConnect && web3._web3Provider.wc.connected
+      return (
+        web3._web3Provider &&
+        !!web3._web3Provider.isWalletConnect &&
+        web3._web3Provider.wc.connected
+      )
     }
   },
   Query: {

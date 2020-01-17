@@ -18,7 +18,6 @@ export const GET_WC_STATE = gql`
 const WCstateQuery = ({ noLoader, children }) => (
   <Query query={GET_WC_STATE}>
     {({ data, loading, error, refetch }) => {
-      console.log('data', data);
       if (loading) return noLoader ? '' : <Loader />
       const {
         web3: { isWalletConnect, isWalletConnectConnected }
