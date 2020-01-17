@@ -183,6 +183,7 @@ function SubDomains({
                     return (
                       <ChildDomainItem
                         name={name}
+                        isMigrated={d.isMigrated}
                         owner={d.owner.id}
                         parent={domain.name}
                         labelhash={d.labelHash}

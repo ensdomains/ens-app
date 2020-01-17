@@ -99,7 +99,11 @@ function DomainList({ domains, address }) {
   return (
     <DomainsContainer>
       {filterOutReverse(data.account.domains).map(domain => (
-        <DomainItem name={decryptName(domain.name)} owner={address} />
+        <DomainItem
+          name={decryptName(domain.name)}
+          owner={address}
+          isMigrated={domain.isMigrated}
+        />
       ))}
     </DomainsContainer>
   )

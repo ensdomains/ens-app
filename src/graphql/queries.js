@@ -102,6 +102,7 @@ export const GET_SUBDOMAINS_FROM_SUBGRAPH = gql`
         id
         labelName
         labelhash
+        isMigrated
         name
         owner {
           id
@@ -155,6 +156,7 @@ export const GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH = gql`
       domains {
         labelName
         name
+        isMigrated
         parent {
           name
         }
