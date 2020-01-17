@@ -26,7 +26,7 @@ export default function ChildDomainItem({
   parent
 }) {
   return (
-    <DomainLink key={name} to={`/name/${name}`}>
+    <DomainLink key={name} to={`/name/sub1.testing.eth`}>
       <SingleNameBlockies imageSize={24} address={owner} />
       {labelName !== null
         ? `${name}`

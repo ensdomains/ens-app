@@ -58,7 +58,7 @@ export default function RegistryMigration({
     }
   })
 
-  const loading = loadingIsParentMigrated && loadingIsContractController
+  const loading = loadingIsParentMigrated || loadingIsContractController
 
   const canMigrate =
     !loading &&

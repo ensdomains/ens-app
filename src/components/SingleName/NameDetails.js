@@ -527,8 +527,7 @@ function NameDetails({
   })
 
   const isMigratedToNewRegistry = !loadingIsMigrated && isMigrated
-  const isParentMigratedToNewRegistry =
-    !loadingIsParentMigrated && isParentMigrated
+  const isParentMigratedToNewRegistry = isParentMigrated
 
   const isDeedOwner = domain.deedOwner === account
   const isRegistrant = domain.registrant === account
@@ -626,6 +625,8 @@ function NameDetails({
               loading={loading}
               setLoading={setLoading}
               isOwnerOfParent={isOwnerOfParent}
+              isParentMigratedToNewRegistry={isParentMigratedToNewRegistry}
+              loadingIsParentMigrated={loadingIsParentMigrated}
               isOwner={isOwner}
               refetch={refetch}
               domain={domain}
