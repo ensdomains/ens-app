@@ -21,6 +21,7 @@ async function setupWeb3(customProvider) {
 async function init() {
   const ENV = process.argv[2]
   const dnssec = process.argv[3] == 'dnssec'
+  const migrate = process.argv[3] != 'premigration'
   switch (ENV) {
     case 'GANACHE_GUI':
       var provider = new Web3.providers.HttpProvider('http://localhost:7545')
@@ -38,7 +39,7 @@ async function init() {
 
   const accounts = await getAccounts(web3)
 
-  const addresses = await deployTestEns({ web3, accounts, dnssec })
+  const addresses = await deployTestEns({ web3, accounts, dnssec, migrate })
   const { ensAddress, oldResolverAddress } = addresses
   const envLocalFile = './.env.local'
   fs.writeFileSync('./cypress.env.json', JSON.stringify(addresses))

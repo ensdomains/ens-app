@@ -62,6 +62,7 @@
     "test:coverage": "npm test -- --coverage",
     "eject": "react-scripts eject",
     "preTest": "node -r esm src/testing-utils/preTest.js",
+    "preTest:premigration": "node -r esm src/testing-utils/preTest.js default premigration",
     "preTest:dnssec": "node -r esm src/testing-utils/preTest.js default dnssec",
     "subgraph": "node scripts/subgraph.js",
     "advance": "node src/testing-utils/advance.js",
