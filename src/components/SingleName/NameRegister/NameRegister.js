@@ -13,6 +13,7 @@ import Explainer from './Explainer'
 import CTA from './CTA'
 import Progress from './Progress'
 import NotAvailable from './NotAvailable'
+import NotAvailableDuringMigration from './NotAvailableDuringMigration'
 import Pricer from '../Pricer'
 
 const NameRegisterContainer = styled('div')`
@@ -25,7 +26,8 @@ const NameRegister = ({
   refetch,
   refetchIsMigrated,
   readOnly,
-  registrationOpen
+  registrationOpen,
+  duringMigration
 }) => {
   const [step, dispatch] = useReducer(
     registerReducer,
@@ -57,6 +59,7 @@ const NameRegister = ({
   const twentyEightDaysInYears = oneMonthInSeconds / yearInSeconds
   const isAboveMinDuration = parsedYears > twentyEightDaysInYears
   const waitPercentComplete = (secondsPassed / waitTime) * 100
+  if (duringMigration) return <NotAvailableDuringMigration domain={domain} />
 
   if (!registrationOpen) return <NotAvailable domain={domain} />
 

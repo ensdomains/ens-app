@@ -231,7 +231,8 @@ export default function ResolverAndRecords({
   isOwner,
   refetch,
   account,
-  isMigratedToNewRegistry
+  isMigratedToNewRegistry,
+  duringMigration
 }) {
   const hasResolver = hasAResolver(domain.resolver)
   let isOldPublicResolver = false
@@ -253,8 +254,9 @@ export default function ResolverAndRecords({
   }
 
   const needsToBeMigrated =
-    !loading && (isOldPublicResolver || isDeprecatedResolver)
-
+    !duringMigration &&
+    !loading &&
+    (isOldPublicResolver || isDeprecatedResolver)
   return (
     <>
       <ResolverWrapper needsToBeMigrated={needsToBeMigrated}>

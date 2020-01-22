@@ -13,7 +13,7 @@ const WarningBox = styled('div')`
   justify-content: space-between;
   align-items: center;
   font-size: 18px;
-  font-weight: 100;
+  // font-weight: 100;
   color: #2b2b2b;
   padding: 20px 35px;
   background: hsla(37, 91%, 55%, 0.1);
@@ -39,6 +39,7 @@ export default function RegistryMigration({
   domain,
   account,
   refetchIsMigrated,
+  duringMigration,
   isParentMigratedToNewRegistry,
   loadingIsParentMigrated
 }) {
@@ -59,8 +60,8 @@ export default function RegistryMigration({
   })
 
   const loading = loadingIsParentMigrated || loadingIsContractController
-
   const canMigrate =
+    !duringMigration &&
     !loading &&
     isParentMigratedToNewRegistry &&
     account === domain.parentOwner &&
@@ -69,7 +70,9 @@ export default function RegistryMigration({
   return (
     <WarningBox>
       <WarningContent>
-        {isContractController
+        {duringMigration
+          ? `We are currently undergoing critical migration work. Please com back again once the migration ends.`
+          : isContractController
           ? `This name is controlled by a contract and can't be migrated automatically. Please redeploy your contract to use the new registry before setting the new controller`
           : isParentMigratedToNewRegistry
           ? `This name needs to be migrated to the new Registry. Only the parent of

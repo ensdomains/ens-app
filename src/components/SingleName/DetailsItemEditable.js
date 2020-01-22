@@ -161,7 +161,8 @@ function getInputType(
     years,
     setYears,
     duration,
-    expirationDate
+    expirationDate,
+    duringMigration
   }
 ) {
   if (keyName === 'Expiration Date') {
@@ -511,7 +512,11 @@ function ViewOnly({
 }
 
 function DetailsEditable(props) {
-  return props.canEdit ? <Editable {...props} /> : <ViewOnly {...props} />
+  return props.duringMigration !== true && props.canEdit ? (
+    <Editable {...props} />
+  ) : (
+    <ViewOnly {...props} />
+  )
 }
 
 DetailsEditable.propTypes = {
@@ -525,7 +530,8 @@ DetailsEditable.propTypes = {
   canEdit: PropTypes.bool,
   domain: PropTypes.object.isRequired,
   variableName: PropTypes.string, //can change the variable name for mutation
-  refetch: PropTypes.func.isRequired
+  refetch: PropTypes.func.isRequired,
+  duringMigration: PropTypes.bool
 }
 
 export default DetailsEditable

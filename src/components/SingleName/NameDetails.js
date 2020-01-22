@@ -185,11 +185,14 @@ function DetailsContainer({
   loadingIsMigrated,
   refetchIsMigrated,
   isParentMigratedToNewRegistry,
-  loadingIsParentMigrated
+  loadingIsParentMigrated,
+  duringMigration
 }) {
   return (
     <Details data-testid="name-details">
-      {isOwner && <SetupName initialState={showExplainer} />}
+      {isOwner && !duringMigration && (
+        <SetupName initialState={showExplainer} />
+      )}
       {releaseDeed && <ReleaseDeed domain={domain} refetch={refetch} />}
       {parseInt(domain.owner, 16) !== 0 &&
         !loadingIsMigrated &&
@@ -197,6 +200,7 @@ function DetailsContainer({
           <RegistryMigration
             account={account}
             domain={domain}
+            duringMigration={duringMigration}
             refetchIsMigrated={refetchIsMigrated}
             isParentMigratedToNewRegistry={isParentMigratedToNewRegistry}
             loadingIsParentMigrated={loadingIsParentMigrated}
@@ -224,6 +228,7 @@ function DetailsContainer({
               mutation={SET_REGISTRANT}
               refetch={refetch}
               confirm={true}
+              duringMigration={duringMigration}
             />
             <DetailsItemEditable
               domain={domain}
@@ -238,6 +243,7 @@ function DetailsContainer({
               mutation={isRegistrant ? RECLAIM : SET_OWNER}
               refetch={refetch}
               confirm={true}
+              duringMigration={duringMigration}
             />
           </>
         ) : domain.parent === 'eth' && !domain.isNewRegistrar ? (
@@ -267,6 +273,7 @@ function DetailsContainer({
               mutation={isRegistrant ? RECLAIM : SET_OWNER}
               refetch={refetch}
               confirm={true}
+              duringMigration={duringMigration}
             />
           </>
         ) : domain.isDNSRegistrar ? (
@@ -342,6 +349,7 @@ function DetailsContainer({
             mutation={isOwnerOfParent ? SET_SUBNODE_OWNER : SET_OWNER}
             refetch={refetch}
             confirm={true}
+            duringMigration={duringMigration}
           />
         )}
         {/* To be replaced with a logic a function to detect dnsregistrar */}
@@ -465,6 +473,7 @@ function DetailsContainer({
               mutation={RENEW}
               refetch={refetch}
               confirm={true}
+              duringMigration={duringMigration}
             />
           ) : domain.expiryTime ? (
             <DetailsItem uneditable>
@@ -488,7 +497,9 @@ function DetailsContainer({
         isOwner={isOwner}
         refetch={refetch}
         account={account}
+        duringMigration={duringMigration}
         isMigratedToNewRegistry={isMigratedToNewRegistry}
+        duringMigration={duringMigration}
       />
       {canClaim(domain) ? (
         <NameClaimTestDomain domain={domain} refetch={refetch} />
@@ -506,6 +517,7 @@ function NameDetails({
   tab,
   pathname
 }) {
+  const duringMigration = true
   const [loading, setLoading] = useState(undefined)
   const {
     data: { isMigrated },
@@ -579,6 +591,7 @@ function NameDetails({
         domain={domain}
         dnssecmode={dnssecmode}
         account={account}
+        duringMigration={duringMigration}
       />
     )
   } else if (domain.parent !== 'eth' && !isAnAbsolutePath) {
@@ -604,6 +617,7 @@ function NameDetails({
         domain={domain}
         dnssecmode={dnssecmode}
         account={account}
+        duringMigration={duringMigration}
       />
     )
   }
@@ -632,6 +646,7 @@ function NameDetails({
               domain={domain}
               dnssecmode={dnssecmode}
               account={account}
+              duringMigration={duringMigration}
             />
           )
         }}
@@ -663,6 +678,7 @@ function NameDetails({
             refetch={refetch}
             refetchIsMigrated={refetchIsMigrated}
             readOnly={account === EMPTY_ADDRESS}
+            duringMigration={duringMigration}
           />
         )}
       />
