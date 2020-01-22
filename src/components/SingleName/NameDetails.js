@@ -221,20 +221,22 @@ function DetailsContainer({
               domain={domain}
               keyName="Registrant"
               value={domain.registrant}
-              canEdit={isRegistrant}
+              canEdit={isRegistrant && isMigratedToNewRegistry}
               type="address"
               editButton="Transfer"
               mutationButton="Transfer"
               mutation={SET_REGISTRANT}
               refetch={refetch}
               confirm={true}
-              duringMigration={duringMigration}
             />
             <DetailsItemEditable
               domain={domain}
               keyName="Controller"
               value={domain.owner}
-              canEdit={isRegistrant || (isOwner && isMigratedToNewRegistry)}
+              canEdit={
+                (isRegistrant && isMigratedToNewRegistry) ||
+                (isOwner && isMigratedToNewRegistry)
+              }
               deedOwner={domain.deedOwner}
               isDeedOwner={isDeedOwner}
               type="address"
@@ -243,7 +245,6 @@ function DetailsContainer({
               mutation={isRegistrant ? RECLAIM : SET_OWNER}
               refetch={refetch}
               confirm={true}
-              duringMigration={duringMigration}
             />
           </>
         ) : domain.parent === 'eth' && !domain.isNewRegistrar ? (
@@ -264,7 +265,10 @@ function DetailsContainer({
               domain={domain}
               keyName="Controller"
               value={domain.owner}
-              canEdit={isRegistrant || (isOwner && isMigratedToNewRegistry)}
+              canEdit={
+                (isRegistrant && isMigratedToNewRegistry) ||
+                (isOwner && isMigratedToNewRegistry)
+              }
               deedOwner={domain.deedOwner}
               isDeedOwner={isDeedOwner}
               type="address"
@@ -273,7 +277,6 @@ function DetailsContainer({
               mutation={isRegistrant ? RECLAIM : SET_OWNER}
               refetch={refetch}
               confirm={true}
-              duringMigration={duringMigration}
             />
           </>
         ) : domain.isDNSRegistrar ? (
@@ -349,7 +352,6 @@ function DetailsContainer({
             mutation={isOwnerOfParent ? SET_SUBNODE_OWNER : SET_OWNER}
             refetch={refetch}
             confirm={true}
-            duringMigration={duringMigration}
           />
         )}
         {/* To be replaced with a logic a function to detect dnsregistrar */}
@@ -466,14 +468,13 @@ function DetailsContainer({
                   ''
                 )
               }
-              canEdit={parseInt(account, 16) !== 0}
+              canEdit={parseInt(account, 16) !== 0 && isMigratedToNewRegistry}
               type="date"
               editButton="Renew"
               mutationButton="Renew"
               mutation={RENEW}
               refetch={refetch}
               confirm={true}
-              duringMigration={duringMigration}
             />
           ) : domain.expiryTime ? (
             <DetailsItem uneditable>

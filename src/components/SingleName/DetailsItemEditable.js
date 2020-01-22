@@ -512,11 +512,7 @@ function ViewOnly({
 }
 
 function DetailsEditable(props) {
-  return props.duringMigration !== true && props.canEdit ? (
-    <Editable {...props} />
-  ) : (
-    <ViewOnly {...props} />
-  )
+  return props.canEdit ? <Editable {...props} /> : <ViewOnly {...props} />
 }
 
 DetailsEditable.propTypes = {
