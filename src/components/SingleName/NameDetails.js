@@ -497,7 +497,6 @@ function DetailsContainer({
         isOwner={isOwner}
         refetch={refetch}
         account={account}
-        duringMigration={duringMigration}
         isMigratedToNewRegistry={isMigratedToNewRegistry}
         duringMigration={duringMigration}
       />
@@ -517,7 +516,7 @@ function NameDetails({
   tab,
   pathname
 }) {
-  const duringMigration = true
+  const duringMigration = process.env.REACT_APP_MIGRATION_COMPLETE != 'True'
   const [loading, setLoading] = useState(undefined)
   const {
     data: { isMigrated },
