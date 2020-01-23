@@ -21,7 +21,9 @@ async function setupWeb3(customProvider) {
 async function init() {
   const ENV = process.argv[2]
   const dnssec = process.argv[3] == 'dnssec'
-  const migrate = process.argv[3] != 'premigration'
+  let migrate = process.argv[3] != 'premigration'
+  if (process.argv[3] == 'dnssec') migrate = false
+
   switch (ENV) {
     case 'GANACHE_GUI':
       var provider = new Web3.providers.HttpProvider('http://localhost:7545')
