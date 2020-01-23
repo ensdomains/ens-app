@@ -71,7 +71,7 @@ export default function RegistryMigration({
     <WarningBox>
       <WarningContent>
         {duringMigration
-          ? `We are currently undergoing critical migration work. Please com back again once the migration ends.`
+          ? `You cannot edit records while the ENS migration is underway. Please check back on February 5th.`
           : isContractController
           ? `This name is controlled by a contract and can't be migrated automatically. Please redeploy your contract to use the new registry before setting the new controller`
           : isParentMigratedToNewRegistry
