@@ -193,7 +193,9 @@ function DetailsContainer({
       {isOwner && !duringMigration && (
         <SetupName initialState={showExplainer} />
       )}
-      {releaseDeed && <ReleaseDeed domain={domain} refetch={refetch} />}
+      {isMigratedToNewRegistry && releaseDeed && (
+        <ReleaseDeed domain={domain} refetch={refetch} />
+      )}
       {parseInt(domain.owner, 16) !== 0 &&
         !loadingIsMigrated &&
         !isMigratedToNewRegistry && (
