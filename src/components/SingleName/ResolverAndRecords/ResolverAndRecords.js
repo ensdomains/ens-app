@@ -256,6 +256,7 @@ export default function ResolverAndRecords({
   const needsToBeMigrated =
     !duringMigration &&
     !loading &&
+    isMigratedToNewRegistry &&
     (isOldPublicResolver || isDeprecatedResolver)
   return (
     <>
