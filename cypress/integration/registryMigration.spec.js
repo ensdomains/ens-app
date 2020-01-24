@@ -2,6 +2,7 @@ const ROOT = Cypress.env('ROOT')
 const NAME_ROOT = Cypress.env('NAME_ROOT')
 
 const DISABLED_COLOUR = 'rgb(223, 223, 223)'
+const ENABLED_COLOUR = 'rgb(83, 132, 254)'
 
 describe('Migrate a subdomain to new registry', () => {
   it('can visit an unmigrated name and migrate it', () => {
@@ -10,8 +11,12 @@ describe('Migrate a subdomain to new registry', () => {
       cy.getByText('Migrate').click({ force: true })
       cy.queryByText('migrate', { timeout: 50 }).should('not.exist')
     })
-
-    // TODO add tests to check records
+    cy.wait(1000)
+    cy.queryByTestId('edit-controller').should(
+      'have.css',
+      'background-color',
+      ENABLED_COLOUR
+    )
   })
 
   it('can visit an unmigrated name and cannot migrate because parent is unmigrated', () => {
