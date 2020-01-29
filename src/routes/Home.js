@@ -301,8 +301,8 @@ export default props => (
     </Hero>
     <Announcement>
       <h3>
-        <img src={warning} />&nbsp; ENS Registry Migration: Bug Fix,
-        New Features&nbsp;
+        <img src={warning} alt="warning" />
+        &nbsp; ENS Registry Migration: Bug Fix, New Features&nbsp;
         <a href="https://medium.com/p/64379193a5a/edit">(Find out more)</a>
       </h3>
     </Announcement>

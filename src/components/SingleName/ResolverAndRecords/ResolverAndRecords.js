@@ -106,7 +106,8 @@ function Records({
   isOldPublicResolver,
   isDeprecatedResolver,
   hasMigratedRecords,
-  needsToBeMigrated
+  needsToBeMigrated,
+  duringMigration
 }) {
   const [recordAdded, setRecordAdded] = useState(0)
 
@@ -131,7 +132,7 @@ function Records({
     hasResolver,
     hasRecords
   )
-  const canEditRecords = !isDeprecatedResolver && isOwner
+  const canEditRecords = !!duringMigration && !!isDeprecatedResolver && isOwner
 
   if (!shouldShowRecords) {
     return null
@@ -297,6 +298,7 @@ export default function ResolverAndRecords({
           isOldPublicResolver={isOldPublicResolver}
           isDeprecatedResolver={isDeprecatedResolver}
           areRecordsMigrated={areRecordsMigrated}
+          duringMigration={duringMigration}
         />
       )}
     </>
