@@ -91,6 +91,7 @@ class IpfsLogin extends Component {
   }
 
   login(username, password) {
+    const client = getConfig('Temporal')
     var data = JSON.stringify({
       username: username.toString(),
       password: password.toString()
@@ -105,8 +106,8 @@ class IpfsLogin extends Component {
         if (req.readyState === 4) {
           let result = JSON.parse(req.responseText)
           if (result.token) {
-            localStorage.setItem('id_expire', result.expire)
-            localStorage.setItem('id_token', result.token)
+            window.localStorage.setItem('idexpire', result.expire)
+            window.localStorage.setItem('idtoken', result.token)
             this.setState({ errorMsg: '' })
             this.props.startAuthorizing()
           } else {
@@ -117,7 +118,7 @@ class IpfsLogin extends Component {
       }.bind(this)
     )
 
-    req.open('POST', 'https://dev.api.temporal.cloud/v2/auth/login')
+    req.open('POST', client.loginDev)
     req.setRequestHeader('Cache-Control', 'no-cache')
     req.setRequestHeader('Content-Type', 'text/plain')
     req.send(data)
