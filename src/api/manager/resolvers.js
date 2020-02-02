@@ -321,7 +321,12 @@ const resolvers = {
       }
 
       let DEPRECATED_RESOLVERS = []
-      let OLD_RESOLVERS = []
+      let OLD_RESOLVERS = [
+        '0x226159d592E2b063810a10Ebf6dcbADA94Ed68b8', // Mainnet
+        '0x12299799a50340FB860D276805E78550cBaD3De3', // Ropsten
+        '0x06E6B4E68b0B9B2617b35Eec811535050999282F', // Rinkeby
+        '0xfF77b96d6bafCec0D684bB528b22e0Ab09C70663' // Goerli
+      ]
 
       if (RESOLVERS[networkId]) {
         DEPRECATED_RESOLVERS = [...RESOLVERS[networkId].DEPRECATED]

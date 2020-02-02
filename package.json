@@ -52,6 +52,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:postmigration": "REACT_APP_MIGRATION_COMPLETE=True yarn start",
     "start:ipfs": "REACT_APP_IPFS=True PUBLIC_URL='.' yarn start",
     "start:test": "REACT_APP_MIGRATION_COMPLETE=True REACT_APP_STAGE=local yarn start",
     "start:test:premigration": "REACT_APP_STAGE=local yarn start",
