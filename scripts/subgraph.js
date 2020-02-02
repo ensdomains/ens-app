@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 yaml = require('js-yaml')
 fs = require('fs')
-var fileName = '../ens-subgraph-ghsa-m9g2-g2hw-pq94/subgraph.yaml'
+var fileName = '../ens-subgraph/subgraph.yaml'
 var doc = yaml.safeLoad(fs.readFileSync(fileName))
 var addresses = JSON.parse(fs.readFileSync('./cypress.env.json', 'utf8'))
 let name, address
