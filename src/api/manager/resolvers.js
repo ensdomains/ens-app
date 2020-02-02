@@ -22,13 +22,30 @@ import {
   registerTestdomain,
   createSubdomain,
   expiryTimes,
-  isDecrypted
+  isDecrypted,
+  isMigrated,
+  getContent,
+  getEthAddressWithResolver,
+  getAddrWithResolver,
+  getContentWithResolver,
+  getTextWithResolver,
+  getWeb3,
+
+  /* lower level calls possibly can be refactored out */
+  getSigner,
+  encodeContenthash,
+  getResolverContract,
+  getNamehash
 } from '@ensdomains/ui'
+import { formatsByName } from '@ensdomains/address-encoder'
+import isEqual from 'lodash/isEqual'
 import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
 import domains from '../../constants/domains.json'
-import { sendHelper } from '../resolverUtils'
+import { sendHelper, sendHelperArray } from '../resolverUtils'
 import { emptyAddress } from '../../utils/utils'
+import TEXT_RECORD_KEYS from 'constants/textRecords'
+import COIN_LIST_KEYS from 'constants/coinList'
 import {
   GET_FAVOURITES,
   GET_SUBDOMAIN_FAVOURITES,
@@ -39,7 +56,6 @@ let savedFavourites =
   JSON.parse(window.localStorage.getItem('ensFavourites')) || []
 let savedSubDomainFavourites =
   JSON.parse(window.localStorage.getItem('ensSubDomainFavourites')) || []
-
 const defaults = {
   names: [],
   favourites: savedFavourites,
@@ -287,34 +303,80 @@ const resolvers = {
         console.log('Error in Single Name', e)
       }
     },
-    getSubDomains: async (_, { name }, { cache }) => {
-      const data = cache.readQuery({ query: GET_ALL_NODES })
-      const rawSubDomains = await getSubdomains(name)
-      const subDomains = rawSubDomains.map(s => ({
-        ...s,
-        __typename: 'SubDomain'
-      }))
+    getResolverMigrationInfo: async (_, { name, resolver }, { cache }) => {
+      /* TODO add hardcoded resolver addresses */
 
-      const names = data.names.map(node => {
-        return node.name === name
-          ? {
-              ...node,
-              subDomains
-            }
-          : node
-      })
+      const networkId = await getNetworkId()
 
-      const newData = {
-        ...data,
-        names
+      const RESOLVERS = {
+        1: {
+          DEPRECATED: [
+            '0x5ffc014343cd971b7eb70732021e26c35b744cc4',
+            '0x6dbc5978711cb22d7ba611bc18cec308ea12ea95',
+            '0xd3ddccdd3b25a8a7423b5bee360a42146eb4baf3',
+            '0x226159d592e2b063810a10ebf6dcbada94ed68b8'
+          ],
+          OLD: ['0x3']
+        }
       }
 
-      cache.writeData({
-        data: newData
-      })
+      let DEPRECATED_RESOLVERS = []
+      let OLD_RESOLVERS = [
+        '0x226159d592E2b063810a10Ebf6dcbADA94Ed68b8', // Mainnet
+        '0x12299799a50340FB860D276805E78550cBaD3De3', // Ropsten
+        '0x06E6B4E68b0B9B2617b35Eec811535050999282F', // Rinkeby
+        '0xfF77b96d6bafCec0D684bB528b22e0Ab09C70663' // Goerli
+      ]
+
+      if (RESOLVERS[networkId]) {
+        DEPRECATED_RESOLVERS = [...RESOLVERS[networkId].DEPRECATED]
+        OLD_RESOLVERS = [...RESOLVERS[networkId].OLD]
+      }
+
+      if (
+        process &&
+        process.env.REACT_APP_STAGE === 'local' &&
+        process.env.REACT_APP_DEPRECATED_RESOLVERS
+      ) {
+        DEPRECATED_RESOLVERS.push(process.env.REACT_APP_DEPRECATED_RESOLVERS)
+      }
+      /* Deprecated resolvers are using the old registry and must be migrated */
+
+      function calculateIsDeprecatedResolver(address) {
+        return DEPRECATED_RESOLVERS.includes(address)
+      }
+
+      /* Old Public resolvers are using the new registry and can be continued to be used */
+
+      function calculateIsOldPublicResolver(address) {
+        return OLD_RESOLVERS.includes(address)
+      }
+
+      let isDeprecatedResolver = calculateIsDeprecatedResolver(resolver)
+      let isOldPublicResolver = calculateIsOldPublicResolver(resolver)
+
+      const resolverMigrationInfo = {
+        name,
+        isDeprecatedResolver,
+        isOldPublicResolver,
+        __typename: 'ResolverMigration'
+      }
+      return resolverMigrationInfo
+    },
+    isMigrated: async (_, { name }, { cache }) => {
+      let result = await isMigrated(name)
+      return result
+    },
+    isContractController: async (_, { address }, { cache }) => {
+      let provider = await getWeb3()
+      const bytecode = await provider.getCode(address)
+      return bytecode !== '0x'
+    },
+    getSubDomains: async (_, { name }, { cache }) => {
+      const rawSubDomains = await getSubdomains(name)
 
       return {
-        subDomains,
+        subDomains: rawSubDomains,
         __typename: 'SubDomains'
       }
     },
@@ -440,6 +502,167 @@ const resolvers = {
     setText: async (_, { name, key, recordValue }, { cache }) => {
       try {
         const tx = await setText(name, key, recordValue)
+        return sendHelper(tx)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    migrateResolver: async (_, { name }, { cache }) => {
+      function buildKeyValueObjects(keys, values) {
+        return values.map((record, i) => ({
+          key: keys[i],
+          value: record
+        }))
+      }
+
+      async function getAllTextRecords(name) {
+        const promises = TEXT_RECORD_KEYS.map(key => getText(name, key))
+        const records = await Promise.all(promises)
+        return buildKeyValueObjects(TEXT_RECORD_KEYS, records)
+      }
+
+      async function getAllTextRecordsWithResolver(name, resolver) {
+        const promises = TEXT_RECORD_KEYS.map(key =>
+          getTextWithResolver(name, key, resolver)
+        )
+        const records = await Promise.all(promises)
+        return buildKeyValueObjects(TEXT_RECORD_KEYS, records)
+      }
+
+      async function getAllAddresses(name) {
+        const promises = COIN_LIST_KEYS.map(key => getAddr(name, key))
+        const records = await Promise.all(promises)
+        return buildKeyValueObjects(COIN_LIST_KEYS, records)
+      }
+
+      async function getAllAddressesWithResolver(name, resolver) {
+        const promises = COIN_LIST_KEYS.map(key =>
+          getAddrWithResolver(name, key, resolver)
+        )
+        const records = await Promise.all(promises)
+        return buildKeyValueObjects(COIN_LIST_KEYS, records)
+      }
+
+      async function getAllRecords(name) {
+        const promises = [
+          getAddress(name),
+          getContent(name),
+          getAllTextRecords(name),
+          getAllAddresses(name)
+        ]
+        return Promise.all(promises).catch(console.log)
+      }
+
+      async function getAllRecordsNew(name, publicResolver) {
+        const promises = [
+          getEthAddressWithResolver(name, publicResolver),
+          getContentWithResolver(name, publicResolver),
+          getAllTextRecordsWithResolver(name, publicResolver),
+          getAllAddressesWithResolver(name, publicResolver)
+        ]
+        return Promise.all(promises).catch(console.log)
+      }
+
+      function areRecordsEqual(oldRecords, newRecords) {
+        return isEqual(oldRecords, newRecords)
+      }
+
+      function setupTransactions(name, records, resolverInstance) {
+        try {
+          const resolver = resolverInstance.interface.functions
+          const namehash = getNamehash(name)
+          const transactionArray = records.map((record, i) => {
+            switch (i) {
+              case 0:
+                if (parseInt(record, 16) === 0) return undefined
+                let encoded = resolver['setAddr(bytes32,address)'].encode([
+                  namehash,
+                  record
+                ])
+                return encoded
+              case 1:
+                console.log(record)
+                if (
+                  !record.value ||
+                  parseInt(record.value, 16) === 0 ||
+                  parseInt(record.text, 16) === 0
+                )
+                  return undefined
+                const encodedContenthash = encodeContenthash(record.value)
+                return resolver.setContenthash.encode([
+                  namehash,
+                  encodedContenthash
+                ])
+              case 2:
+                return record.map(textRecord => {
+                  if (textRecord.value.length === 0) return undefined
+                  return resolver.setText.encode([
+                    namehash,
+                    textRecord.key,
+                    textRecord.value
+                  ])
+                })
+              case 3:
+                return record.map(coinRecord => {
+                  if (parseInt(coinRecord.value, 16) === 0) return undefined
+                  return resolver['setAddr(bytes32,uint256,bytes)'].encode([
+                    namehash,
+                    formatsByName[coinRecord.key].coinType,
+                    coinRecord.value
+                  ])
+                })
+              default:
+                throw Error('More records than expected')
+            }
+          })
+
+          // flatten textrecords and addresses and remove undefined
+          return transactionArray.flat().filter(bytes => bytes)
+        } catch (e) {
+          console.log('error creating transaction array', e)
+        }
+      }
+
+      // get public resolver
+      const publicResolver = await getAddress('resolver.eth')
+      // get old and new records in parallel
+      //console.log(getAllRecords(name))
+      const [records, newResolverRecords] = await Promise.all([
+        getAllRecords(name),
+        getAllRecordsNew(name, publicResolver)
+      ])
+
+      // compare new and old records
+      if (!areRecordsEqual(records, newResolverRecords)) {
+        //get the transaction by using contract.method.encode from ethers
+        const resolverInstanceWithoutSigner = await getResolverContract(
+          publicResolver
+        )
+        const signer = await getSigner()
+        const resolverInstance = resolverInstanceWithoutSigner.connect(signer)
+        const transactionArray = setupTransactions(
+          name,
+          records,
+          resolverInstance
+        )
+        console.log('transactionArray', transactionArray)
+        console.log(resolverInstance)
+        //add them all together into one transaction
+        const tx1 = await resolverInstance.multicall(transactionArray)
+        //once the record has been migrated, migrate teh resolver using setResolver to the new public resolver
+        const tx2 = await setResolver(name, publicResolver)
+        //await migrate records into new resolver
+        return sendHelperArray([tx1, tx2])
+      } else {
+        const tx = await setResolver(name, publicResolver)
+        const value = await sendHelper(tx)
+        console.log(value)
+        return [value]
+      }
+    },
+    migrateRegistry: async (_, { name, address }, { cache }) => {
+      try {
+        const tx = await setSubnodeOwner(name, address)
         return sendHelper(tx)
       } catch (e) {
         console.log(e)

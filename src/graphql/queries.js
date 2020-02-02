@@ -75,6 +75,16 @@ export const GET_SINGLE_NAME = gql`
   ${NodeFields}
 `
 
+export const GET_RESOLVER_MIGRATION_INFO = gql`
+  query getResolverMigrationInfo($name: String, $resolver: String) {
+    getResolverMigrationInfo(name: $name, resolver: $resolver) @client {
+      name
+      isDeprecatedResolver
+      isOldPublicResolver
+    }
+  }
+`
+
 export const GET_SUBDOMAINS = gql`
   query getSubDomains($name: String!) @client {
     getSubDomains(name: $name) @client {
@@ -92,6 +102,7 @@ export const GET_SUBDOMAINS_FROM_SUBGRAPH = gql`
         id
         labelName
         labelhash
+        isMigrated
         name
         owner {
           id
@@ -145,6 +156,7 @@ export const GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH = gql`
       domains {
         labelName
         name
+        isMigrated
         parent {
           name
         }
@@ -164,5 +176,25 @@ export const GET_RENT_PRICE = gql`
 export const GET_MINIMUM_COMMITMENT_AGE = gql`
   query getMinimumCommitmentAge {
     getMinimumCommitmentAge @client
+  }
+`
+
+/* Registry Migration */
+
+export const CAN_WRITE = gql`
+  query canWrite($name: String, $account: String) {
+    canWrite(name: $name, account: $account) @client
+  }
+`
+
+export const IS_MIGRATED = gql`
+  query isMigrated($name: String) {
+    isMigrated(name: $name) @client
+  }
+`
+
+export const IS_CONTRACT_CONTROLLER = gql`
+  query isContractController($address: String) {
+    isContractController(address: $address) @client
   }
 `

@@ -8,7 +8,6 @@ import { Title } from '../Typography/Basic'
 import TopBar from '../Basic/TopBar'
 import DefaultFavourite from '../AddFavourite/Favourite'
 import NameDetails from './NameDetails'
-import NameRegister from './NameRegister'
 import DNSNameRegister from './DNSNameRegister'
 import ShortName from './ShortName'
 import Tabs from './Tabs'
@@ -53,9 +52,10 @@ function Name({ details: domain, name, pathname, type, refetch }) {
   const smallBP = useMediaMin('small')
   const percentDone = 0
   const account = useAccount()
-  const hasAnOwner = domain.owner !== EMPTY_ADDRESS
   const isOwner = isOwnerOfDomain(domain, account)
   const isOwnerOfParent = isOwnerOfParentDomain(domain, account)
+  const hasAnOwner = parseInt(domain.owner, 16) !== 0
+  const preferredTab = hasAnOwner ? 'details' : 'register'
 
   const isDeedOwner = domain.deedOwner === account
   const isRegistrant = domain.registrant === account
@@ -64,6 +64,7 @@ function Name({ details: domain, name, pathname, type, refetch }) {
     domain.parent,
     isDeedOwner
   )
+
   let ownerType
   if (isDeedOwner || isRegistrant) {
     ownerType = 'Registrant'
@@ -91,20 +92,25 @@ function Name({ details: domain, name, pathname, type, refetch }) {
         <RightBar>
           {!!ownerType && <Owner>{ownerType}</Owner>}
           <Favourite domain={domain} />
-          {smallBP && hasAnOwner && (
-            <Tabs pathname={pathname} domain={domain} />
+          {smallBP && (
+            <Tabs
+              pathname={pathname}
+              tab={preferredTab}
+              domain={domain}
+              parent={domain.parent}
+            />
           )}
         </RightBar>
       </TopBar>
-      {!smallBP && hasAnOwner && <Tabs pathname={pathname} domain={domain} />}
-      {registrationOpen ? (
-        <NameRegister
-          domain={domain}
+      {!smallBP && (
+        <Tabs
           pathname={pathname}
-          refetch={refetch}
-          readOnly={account === EMPTY_ADDRESS}
+          tab={preferredTab}
+          domain={domain}
+          parent={domain.parent}
         />
-      ) : isDNSRegistrationOpen(domain) ? (
+      )}
+      {isDNSRegistrationOpen(domain) ? (
         <DNSNameRegister
           domain={domain}
           pathname={pathname}
@@ -116,6 +122,7 @@ function Name({ details: domain, name, pathname, type, refetch }) {
         <ShortName name={name} />
       ) : (
         <NameDetails
+          tab={preferredTab}
           domain={domain}
           pathname={pathname}
           name={name}
@@ -123,6 +130,7 @@ function Name({ details: domain, name, pathname, type, refetch }) {
           isOwnerOfParent={isOwnerOfParent}
           refetch={refetch}
           account={account}
+          registrationOpen={registrationOpen}
         />
       )}
     </NameContainer>
