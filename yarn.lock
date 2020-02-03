@@ -1324,10 +1324,10 @@
     truffle "^5.0.5"
     web3-utils "^1.0.0-beta.48"
 
-"@ensdomains/mock@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.0.0.tgz#aac4add37da1bb7d25d47fa77745e796d342d9c7"
-  integrity sha512-Zn3tbMEDQP/ZL+GT0GFI7mniw7Mp25NkYUZm9o3QdNfvTT8Oo3ASBsUtGBwyuYhjUo+lLNs1CCa46sEXPKfqyA==
+"@ensdomains/mock@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.0.1.tgz#88e3a1b5967381ebe6d4f48e161095bdbfe095ee"
+  integrity sha512-vbF0ZizdBE0e0vnIp/soEe3hOnTFIHhVwiljfpX0e7vUChhTw6gclHXlS7xGjZKqHD/TBh+5kCLa2eZd5BtL5g==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
@@ -1338,7 +1338,7 @@
     "@ensdomains/ens-022" "npm:@ensdomains/ens@0.2.2"
     "@ensdomains/ethregistrar" "^2.0.0"
     "@ensdomains/resolver" "0.2.0"
-    "@ensdomains/subdomain-registrar" "^0.2.1"
+    "@ensdomains/subdomain-registrar" "^0.2.3"
     chalk "^3.0.0"
     cross-fetch "^3.0.2"
     eth-ens-namehash "^2.0.8"
@@ -1376,6 +1376,21 @@
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/@ensdomains/subdomain-registrar/-/subdomain-registrar-0.2.1.tgz#1928631c33963e86ad6895d5cbcd01ad4141326a"
   integrity sha512-BYHne37b8vlmYftrZUrqx29UmlJ19BTp6ms8QvtPFYLff2G3J9hugVhh5MxFVZ75SR4nz4zRtPhkSgAN7sjrGA==
+  dependencies:
+    "@ensdomains/ens" "^0.4.0"
+    "@ensdomains/ethregistrar" "^2.0.0"
+    eth-ens-namehash "^2.0.0"
+    html-loader "^0.5.1"
+    idna-uts46 "1.1.0"
+    js-sha3 "0.6.1"
+    punycode "2.1.0"
+    truffle-default-builder "^2.0.0"
+    underscore "^1.8.3"
+
+"@ensdomains/subdomain-registrar@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@ensdomains/subdomain-registrar/-/subdomain-registrar-0.2.3.tgz#e938cae8f3fdd664f2be10a4f443441cae629343"
+  integrity sha512-iGc6NfwlvJTsk4C2BPc/wwqoK6DyAgC0ZkdztB0afZEOHkbEQa6qix+N2Dsit4NXM/qF0DA7LGAWVNM0erF27w==
   dependencies:
     "@ensdomains/ens" "^0.4.0"
     "@ensdomains/ethregistrar" "^2.0.0"
