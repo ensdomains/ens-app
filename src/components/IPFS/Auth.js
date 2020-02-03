@@ -19,14 +19,14 @@ function isTokenExpired(expire) {
 }
 
 export function getToken() {
-  return localStorage.getItem('idtoken')
+  return localStorage.getItem('ipfstoken')
 }
 
 function getExpire() {
-  return localStorage.getItem('idexpire')
+  return localStorage.getItem('ipfsexpire')
 }
 
 export function logout() {
-  localStorage.removeItem('idtoken')
-  localStorage.removeItem('idexpire')
+  localStorage.removeItem('ipfstoken')
+  localStorage.removeItem('ipfsexpire')
 }

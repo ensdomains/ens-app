@@ -106,8 +106,8 @@ class IpfsLogin extends Component {
         if (req.readyState === 4) {
           let result = JSON.parse(req.responseText)
           if (result.token) {
-            window.localStorage.setItem('idexpire', result.expire)
-            window.localStorage.setItem('idtoken', result.token)
+            window.localStorage.setItem('ipfsexpire', result.expire)
+            window.localStorage.setItem('ipfstoken', result.token)
             this.setState({ errorMsg: '' })
             this.props.startAuthorizing()
           } else {
