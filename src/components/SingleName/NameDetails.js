@@ -519,7 +519,8 @@ function NameDetails({
   tab,
   pathname
 }) {
-  const duringMigration = process.env.REACT_APP_MIGRATION_COMPLETE !== 'True'
+  // const duringMigration = process.env.REACT_APP_MIGRATION_COMPLETE !== 'True'
+  const duringMigration = true
   const [loading, setLoading] = useState(undefined)
   const {
     data: { isMigrated },
@@ -565,6 +566,7 @@ function NameDetails({
         refetch={refetch}
         refetchIsMigrated={refetchIsMigrated}
         readOnly={account === EMPTY_ADDRESS}
+        duringMigration={duringMigration}
       />
     )
   } else if (
