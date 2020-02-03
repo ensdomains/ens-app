@@ -132,7 +132,7 @@ function Records({
     hasResolver,
     hasRecords
   )
-  const canEditRecords = !!duringMigration && !!isDeprecatedResolver && isOwner
+  const canEditRecords = !duringMigration && !isDeprecatedResolver && isOwner
 
   if (!shouldShowRecords) {
     return null
