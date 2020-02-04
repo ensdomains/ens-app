@@ -324,6 +324,7 @@ const resolvers = {
       let OLD_RESOLVERS = [
         '0x226159d592E2b063810a10Ebf6dcbADA94Ed68b8', // Mainnet
         '0x12299799a50340FB860D276805E78550cBaD3De3', // Ropsten
+        '0x9C4c3B509e47a298544d0fD0591B47550845e903', // Ropsten
         '0x06E6B4E68b0B9B2617b35Eec811535050999282F', // Rinkeby
         '0xfF77b96d6bafCec0D684bB528b22e0Ab09C70663' // Goerli
       ]
@@ -352,13 +353,19 @@ const resolvers = {
         return OLD_RESOLVERS.includes(address)
       }
 
+      async function calculateIsPublicResolverReady() {
+        const publicResolver = await getAddress('resolver.eth')
+        return !OLD_RESOLVERS.includes(publicResolver)
+      }
+
       let isDeprecatedResolver = calculateIsDeprecatedResolver(resolver)
       let isOldPublicResolver = calculateIsOldPublicResolver(resolver)
-
+      let isPublicResolverReady = await calculateIsPublicResolverReady()
       const resolverMigrationInfo = {
         name,
         isDeprecatedResolver,
         isOldPublicResolver,
+        isPublicResolverReady,
         __typename: 'ResolverMigration'
       }
       return resolverMigrationInfo
@@ -649,7 +656,7 @@ const resolvers = {
         console.log(resolverInstance)
         //add them all together into one transaction
         const tx1 = await resolverInstance.multicall(transactionArray)
-        //once the record has been migrated, migrate teh resolver using setResolver to the new public resolver
+        //once the record has been migrated, migrate the resolver using setResolver to the new public resolver
         const tx2 = await setResolver(name, publicResolver)
         //await migrate records into new resolver
         return sendHelperArray([tx1, tx2])
