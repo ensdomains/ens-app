@@ -202,6 +202,7 @@ function DetailsContainer({
           <RegistryMigration
             account={account}
             domain={domain}
+            dnssecmode={dnssecmode}
             duringMigration={duringMigration}
             refetchIsMigrated={refetchIsMigrated}
             isParentMigratedToNewRegistry={isParentMigratedToNewRegistry}
@@ -546,14 +547,18 @@ function NameDetails({
 
   const isDeedOwner = domain.deedOwner === account
   const isRegistrant = domain.registrant === account
-  const dnssecmode = dnssecmodes[domain.state]
-
+  let dnssecmode, canSubmit
+  if ([5, 6].includes(domain.state) && !isMigrated) {
+    dnssecmode = dnssecmodes[7]
+    canSubmit = domain.isDNSRegistrar && dnssecmode.state === 'SUBMIT_PROOF'
+  } else {
+    dnssecmode = dnssecmodes[domain.state]
+    canSubmit =
+      domain.isDNSRegistrar &&
+      dnssecmode.state === 'SUBMIT_PROOF' && // This is for not allowing the case user does not have record rather than having empty address record.
+      domain.owner.toLowerCase() !== domain.dnsOwner.toLowerCase()
+  }
   const showExplainer = !parseInt(domain.resolver)
-
-  const canSubmit =
-    domain.isDNSRegistrar &&
-    dnssecmode.state === 'SUBMIT_PROOF' && // This is for not allowing the case user does not have record rather than having empty address record.
-    domain.owner.toLowerCase() !== domain.dnsOwner.toLowerCase()
   const outOfSync = dnssecmode && dnssecmode.outOfSync
   const releaseDeed = domain.deedOwner && parseInt(domain.deedOwner, 16) !== 0
   const isAnAbsolutePath = pathname.split('/').length > 3

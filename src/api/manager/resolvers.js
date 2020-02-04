@@ -323,6 +323,7 @@ const resolvers = {
       let DEPRECATED_RESOLVERS = []
       let OLD_RESOLVERS = [
         '0x226159d592E2b063810a10Ebf6dcbADA94Ed68b8', // Mainnet
+        '0xD3ddcCDD3b25A8a7423B5bEe360a42146eb4Baf3', // Mainnet
         '0x12299799a50340FB860D276805E78550cBaD3De3', // Ropsten
         '0x9C4c3B509e47a298544d0fD0591B47550845e903', // Ropsten
         '0x06E6B4E68b0B9B2617b35Eec811535050999282F', // Rinkeby
@@ -344,18 +345,22 @@ const resolvers = {
       /* Deprecated resolvers are using the old registry and must be migrated */
 
       function calculateIsDeprecatedResolver(address) {
-        return DEPRECATED_RESOLVERS.includes(address)
+        return DEPRECATED_RESOLVERS.map(a => a.toLowerCase()).includes(
+          address.toLowerCase()
+        )
       }
 
       /* Old Public resolvers are using the new registry and can be continued to be used */
 
       function calculateIsOldPublicResolver(address) {
-        return OLD_RESOLVERS.includes(address)
+        return OLD_RESOLVERS.map(a => a.toLowerCase()).includes(
+          address.toLowerCase()
+        )
       }
 
       async function calculateIsPublicResolverReady() {
         const publicResolver = await getAddress('resolver.eth')
-        return !OLD_RESOLVERS.includes(publicResolver)
+        return !OLD_RESOLVERS.map(a => a.toLowerCase()).includes(publicResolver)
       }
 
       let isDeprecatedResolver = calculateIsDeprecatedResolver(resolver)
