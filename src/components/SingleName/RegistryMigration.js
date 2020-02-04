@@ -38,6 +38,7 @@ const Migrate = styled(ExternalButtonLink)`
 export default function RegistryMigration({
   domain,
   account,
+  dnssecmode,
   refetchIsMigrated,
   isParentMigratedToNewRegistry,
   loadingIsParentMigrated
@@ -65,18 +66,25 @@ export default function RegistryMigration({
     account === domain.parentOwner &&
     !isContractController
 
+  const isContractControllerMessage = `This name is controlled by a contract and can't be migrated automatically. Please redeploy your contract to use the new registry before setting the new controller`
+  const defaultMessage = `This name needs to be migrated to the new Registry. Only the parent of
+  this name (${domain.parent}) can do this.`
+  const migrateParentFirstMessage = `You must first migrate the parent domain ${
+    domain.parent
+  } before you can migrate this subdomain`
+  const dnssecMigrateMessage =
+    'This name needs to be migrated to the new Registry. Please setup the correct DNS Owner and click "Sync" button below'
   return (
     <WarningBox>
       <WarningContent>
         {isContractController
-          ? `This name is controlled by a contract and can't be migrated automatically. Please redeploy your contract to use the new registry before setting the new controller`
-          : isParentMigratedToNewRegistry
-          ? `This name needs to be migrated to the new Registry. Only the parent of
-        this name (${domain.parent}) can do this.`
-          : `You must first migrate the parent domain ${
-              domain.parent
-            } before you can migrate this subdomain`}
-        {domain.parent !== 'eth' && (
+          ? isContractControllerMessage
+          : !isParentMigratedToNewRegistry
+          ? migrateParentFirstMessage
+          : dnssecmode
+          ? dnssecMigrateMessage
+          : defaultMessage}
+        {domain.parent !== 'eth' && !dnssecmode && (
           <SubWarning>
             *If you trade ENS names, do not accept this name!
           </SubWarning>
