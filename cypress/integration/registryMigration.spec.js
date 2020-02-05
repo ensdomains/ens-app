@@ -27,6 +27,8 @@ describe('Migrate a subdomain to new registry', () => {
     }).should('exist')
 
     cy.queryByText('Migrate').should('have.css', 'color', DISABLED_COLOUR)
+
+    cy.queryByText('Migrate').should('have.css', 'color', DISABLED_COLOUR)
   })
 
   it('can visit an unmigrated name and cannot set the controller', () => {
@@ -36,10 +38,57 @@ describe('Migrate a subdomain to new registry', () => {
       exact: false
     }).should('exist')
 
+    cy.queryByText('Migrate').should('have.css', 'color', DISABLED_COLOUR)
+
     cy.queryByTestId('edit-controller').should(
       'have.css',
       'background-color',
       DISABLED_COLOUR
     )
+  })
+  it('cannot migrate own domain because I do not own parent domain', () => {
+    cy.visit(`${ROOT}/name/sub1.otherowner.eth`)
+    cy.queryByTestId('owner-type', { exact: false }).should(
+      'have.text',
+      'Controller'
+    )
+    cy.queryByText('This name needs to be migrated to the new Registry.', {
+      timeout: 5000,
+      exact: false
+    }).should('exist')
+
+    cy.queryByText('Migrate').should('have.css', 'color', DISABLED_COLOUR)
+
+    cy.queryByTestId('edit-controller').should(
+      'have.css',
+      'background-color',
+      DISABLED_COLOUR
+    )
+  })
+  it.only('cannot migrate other domain because I do not own parent domain', () => {
+    cy.visit(`${ROOT}/name/sub2.otherowner.eth`)
+    cy.queryByTestId('owner-type', { exact: false }).should('not.exist')
+    cy.queryByText('This name needs to be migrated to the new Registry.', {
+      timeout: 5000,
+      exact: false
+    }).should('exist')
+
+    cy.queryByText('Migrate').should('have.css', 'color', DISABLED_COLOUR)
+
+    cy.queryByTestId('edit-controller').should(
+      'have.css',
+      'background-color',
+      DISABLED_COLOUR
+    )
+  })
+  it('can migrate other domain because I own parent domain', () => {
+    cy.visit(`${ROOT}/name/sub4.testing.eth`)
+    cy.queryByTestId('owner-type', { exact: false }).should('not.exist')
+    cy.queryByText('This name needs to be migrated to the new Registry.', {
+      timeout: 5000,
+      exact: false
+    }).should('exist')
+
+    cy.queryByText('Migrate').should('have.css', 'color', ENABLED_COLOUR)
   })
 })
