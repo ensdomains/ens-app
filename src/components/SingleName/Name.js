@@ -90,7 +90,7 @@ function Name({ details: domain, name, pathname, type, refetch }) {
               domain.parent}
         </Title>
         <RightBar>
-          {!!ownerType && <Owner>{ownerType}</Owner>}
+          {!!ownerType && <Owner data-testid="owner-type">{ownerType}</Owner>}
           <Favourite domain={domain} />
           {smallBP && (
             <Tabs

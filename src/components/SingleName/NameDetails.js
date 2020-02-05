@@ -520,8 +520,7 @@ function NameDetails({
   tab,
   pathname
 }) {
-  // const duringMigration = process.env.REACT_APP_MIGRATION_COMPLETE !== 'True'
-  const duringMigration = true
+  const duringMigration = process.env.REACT_APP_MIGRATION_COMPLETE !== 'True'
   const [loading, setLoading] = useState(undefined)
   const {
     data: { isMigrated },

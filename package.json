@@ -57,7 +57,7 @@
     "start:test": "REACT_APP_MIGRATION_COMPLETE=True REACT_APP_STAGE=local yarn start",
     "start:test:premigration": "REACT_APP_STAGE=local yarn start",
     "start:test:ipfs": "REACT_APP_STAGE=local yarn start:ipfs",
-    "build": "CI=false react-scripts --max_old_space_size=4096 build",
+    "build": "REACT_APP_MIGRATION_COMPLETE=False CI=false react-scripts --max_old_space_size=4096 build",
     "build:ipfs": "REACT_APP_IPFS=True PUBLIC_URL='.' yarn build",
     "postbuild": "cp build/index.html build/200.html",
     "test": "react-scripts test --env=jsdom",
@@ -92,7 +92,7 @@
     }
   },
   "devDependencies": {
-    "@ensdomains/mock": "^2.0.1",
+    "@ensdomains/mock": "^2.0.3",
     "apollo-client-mock": "0.0.8",
     "babel-plugin-macros": "^2.4.2",
     "cypress": "^3.5.0",
