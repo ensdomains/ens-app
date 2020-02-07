@@ -16,7 +16,7 @@ export const DetailsItem = styled('div')`
       ? mq.small`
     flex-direction: row;
   `
-      : mq.small`flex-direction: column;`}
+      : mq.small`flex-direction: row;`}
 `
 
 export const DetailsKey = styled('div')`
@@ -51,4 +51,23 @@ export const DetailsValue = styled('div')`
       padding-right: 150px;
     `}
   ${p => p.editableSmall && `padding-right: 50px;`}
+  ${p =>
+    p.editing &&
+    p.editable &&
+    mq.small`
+      padding-right: 0;
+    `}
+`
+/* Container element for key/value */
+export const DetailsContent = styled('div')`
+  display: flex;
+  justify-content: flex-start;
+  position: relative;
+  flex-direction: column;
+  width: 100%;
+  ${({ editing }) => editing && 'margin-bottom: 30px'};
+  transition: 0.3s;
+  ${mq.small`
+    flex-direction: row;
+  `}
 `
