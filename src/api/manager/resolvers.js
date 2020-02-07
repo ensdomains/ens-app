@@ -4,6 +4,7 @@ import {
   getDNSEntry,
   isDNSRegistrar,
   setSubnodeOwner,
+  setSubnodeRecord,
   getDomainDetails,
   getSubdomains,
   getName,
@@ -11,6 +12,7 @@ import {
   getAddress,
   getAddr,
   getText,
+  getResolver,
   claimAndSetReverseRecordName,
   setOwner,
   setResolver,
@@ -674,7 +676,8 @@ const resolvers = {
     },
     migrateRegistry: async (_, { name, address }, { cache }) => {
       try {
-        const tx = await setSubnodeOwner(name, address)
+        const resolver = await getResolver(name)
+        const tx = await setSubnodeRecord(name, address, resolver)
         return sendHelper(tx)
       } catch (e) {
         console.log(e)
