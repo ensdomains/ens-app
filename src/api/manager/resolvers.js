@@ -342,7 +342,10 @@ const resolvers = {
         process.env.REACT_APP_STAGE === 'local' &&
         process.env.REACT_APP_DEPRECATED_RESOLVERS
       ) {
-        DEPRECATED_RESOLVERS.push(process.env.REACT_APP_DEPRECATED_RESOLVERS)
+        const localResolvers = process.env.REACT_APP_DEPRECATED_RESOLVERS.split(
+          ','
+        )
+        DEPRECATED_RESOLVERS = [...DEPRECATED_RESOLVERS, ...localResolvers]
       }
       /* Deprecated resolvers are using the old registry and must be migrated */
 
@@ -619,10 +622,17 @@ const resolvers = {
               case 3:
                 return record.map(coinRecord => {
                   if (parseInt(coinRecord.value, 16) === 0) return undefined
+                  const { decoder, coinType } = formatsByName[coinRecord.key]
+                  let addressAsBytes
+                  if (!coinRecord.value || coinRecord.value === '') {
+                    addressAsBytes = Buffer.from('')
+                  } else {
+                    addressAsBytes = decoder(coinRecord.value)
+                  }
                   return resolver['setAddr(bytes32,uint256,bytes)'].encode([
                     namehash,
-                    formatsByName[coinRecord.key].coinType,
-                    coinRecord.value
+                    coinType,
+                    addressAsBytes
                   ])
                 })
               default:

@@ -1324,10 +1324,10 @@
     truffle "^5.0.5"
     web3-utils "^1.0.0-beta.48"
 
-"@ensdomains/mock@^2.0.3":
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.0.3.tgz#1f0be54f3c737c255e3e4b584e072cfc4d6eef6c"
-  integrity sha512-K4+cySyTxlWZvsznZpw65JeO1lrdFM/M/uEdj3A54obJ4guRpZ7ZYtTYIHfC/U1IFvFddGh8NEn3hTnEG0bhMQ==
+"@ensdomains/mock@2.0.5":
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.0.5.tgz#cca0ba5030146d6d9d0c66779857c6f25800ad79"
+  integrity sha512-jSQwUzmzPiRMCv7Ye1Sb4gUPbXjzqTMPdGVO82HBVb7jgn/uGKJdS6TTgvNki3ZbwilD5a8shrluT+12hTfxOw==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
@@ -1361,6 +1361,11 @@
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@ensdomains/resolver/-/resolver-0.2.0.tgz#762255d9f9de087bdcbba8516b347cf89650d7f8"
   integrity sha512-RqwaRgY3WVk6TPoAH7MzGCbyU4iYYrbwLvqnhaNX8lFWXRl/E+hXoNHzz4UQ39Ulrsk5JJL4OxoCbpDdMG/D8g==
+
+"@ensdomains/resolver@0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@ensdomains/resolver/-/resolver-0.2.1.tgz#ccf182c0bca7cb37187022c5fbbf47bcccb970a2"
+  integrity sha512-lcUBdsB6h5n+OCiZOfpfatxhhCqLe57Uhi5X1nSY15lCowcXjCGFO5iF2idqMCvp6VB/rOGqvEhI8AujJrHJMA==
 
 "@ensdomains/resolver@^0.1.13":
   version "0.1.13"
@@ -1402,10 +1407,10 @@
     truffle-default-builder "^2.0.0"
     underscore "^1.8.3"
 
-"@ensdomains/ui@2.0.3":
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-2.0.3.tgz#e8badc0ccc7fd6554638dd5690592c2b6b9cc0a1"
-  integrity sha512-OrsqpN5x1nuKwPNPpYwkhJ10xvHXpP4m7oDBEGXX7ytnL/T9IPWQGjWNO6f/piA1+PaQkSq9t/kg/Tw16cxezg==
+"@ensdomains/ui@2.0.7":
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-2.0.7.tgz#e6404c57cacc20bbfe1f4990d5a2bb7b4b311356"
+  integrity sha512-/3V/PK8cgTccLmBG+5fB3mLEMhTfQ8+7b8PdaK8mYdK6yKRVmCldMwrO9BnC8k9DPvavRVU7YjzPMqwsfiy1mQ==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
@@ -1414,7 +1419,7 @@
     "@ensdomains/ens" "^0.4.0"
     "@ensdomains/ens-022" "npm:@ensdomains/ens@0.2.2"
     "@ensdomains/ethregistrar" "^2.0.0"
-    "@ensdomains/resolver" "0.2.0"
+    "@ensdomains/resolver" "0.2.1"
     "@ensdomains/subdomain-registrar" "^0.2.1"
     "@ethvault/iframe-provider" "0.1.9"
     base58check "^2.0.0"

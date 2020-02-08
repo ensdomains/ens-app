@@ -13,7 +13,7 @@
     "@ensdomains/ethregistrar": "^2.0.0",
     "@ensdomains/react-ens-address": "0.0.17",
     "@ensdomains/resolver": "^0.2.0",
-    "@ensdomains/ui": "2.0.3",
+    "@ensdomains/ui": "2.0.7",
     "apollo-cache-inmemory": "^1.2.9",
     "apollo-client": "^2.4.5",
     "apollo-link": "^1.2.2",
@@ -57,7 +57,7 @@
     "start:test": "REACT_APP_MIGRATION_COMPLETE=True REACT_APP_STAGE=local yarn start",
     "start:test:premigration": "REACT_APP_STAGE=local yarn start",
     "start:test:ipfs": "REACT_APP_STAGE=local yarn start:ipfs",
-    "build": "REACT_APP_MIGRATION_COMPLETE=False CI=false react-scripts --max_old_space_size=4096 build",
+    "build": "REACT_APP_MIGRATION_COMPLETE=True CI=false react-scripts --max_old_space_size=4096 build",
     "build:ipfs": "REACT_APP_IPFS=True PUBLIC_URL='.' yarn build",
     "postbuild": "cp build/index.html build/200.html",
     "test": "react-scripts test --env=jsdom",
@@ -92,7 +92,7 @@
     }
   },
   "devDependencies": {
-    "@ensdomains/mock": "^2.0.3",
+    "@ensdomains/mock": "2.0.5",
     "apollo-client-mock": "0.0.8",
     "babel-plugin-macros": "^2.4.2",
     "cypress": "^3.5.0",
