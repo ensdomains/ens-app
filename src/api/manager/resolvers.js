@@ -322,7 +322,9 @@ const resolvers = {
         }
       }
 
-      let DEPRECATED_RESOLVERS = []
+      let DEPRECATED_RESOLVERS = [
+        '0xDaaF96c344f63131acadD0Ea35170E7892d3dfBA' // across all network
+      ]
       let OLD_RESOLVERS = [
         '0x226159d592E2b063810a10Ebf6dcbADA94Ed68b8', // Mainnet
         '0xD3ddcCDD3b25A8a7423B5bEe360a42146eb4Baf3', // Mainnet
