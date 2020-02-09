@@ -37,7 +37,9 @@ import {
   getSigner,
   encodeContenthash,
   getResolverContract,
-  getNamehash
+  getOldResolverContract,
+  getNamehash,
+  getProvider
 } from '@ensdomains/ui'
 import { formatsByName } from '@ensdomains/address-encoder'
 import isEqual from 'lodash/isEqual'
@@ -312,26 +314,34 @@ const resolvers = {
 
       const RESOLVERS = {
         1: {
-          DEPRECATED: [
+          DEPRECATED: [],
+          OLD: [
             '0x5ffc014343cd971b7eb70732021e26c35b744cc4',
             '0x6dbc5978711cb22d7ba611bc18cec308ea12ea95',
             '0xd3ddccdd3b25a8a7423b5bee360a42146eb4baf3',
             '0x226159d592e2b063810a10ebf6dcbada94ed68b8'
+          ]
+        },
+        3: {
+          OLD: [
+            '0x12299799a50340FB860D276805E78550cBaD3De3', // Ropsten
+            '0x9C4c3B509e47a298544d0fD0591B47550845e903' // Ropsten
           ],
-          OLD: ['0x3']
+          DEPRECATED: []
+        },
+        4: {
+          OLD: ['0x06E6B4E68b0B9B2617b35Eec811535050999282F'],
+          DEPRECATED: []
+        },
+        5: {
+          OLD: ['0xfF77b96d6bafCec0D684bB528b22e0Ab09C70663'],
+          DEPRECATED: []
         }
       }
 
-      let DEPRECATED_RESOLVERS = [
-        '0xDaaF96c344f63131acadD0Ea35170E7892d3dfBA' // across all network
-      ]
+      let DEPRECATED_RESOLVERS = []
       let OLD_RESOLVERS = [
-        '0x226159d592E2b063810a10Ebf6dcbADA94Ed68b8', // Mainnet
-        '0xD3ddcCDD3b25A8a7423B5bEe360a42146eb4Baf3', // Mainnet
-        '0x12299799a50340FB860D276805E78550cBaD3De3', // Ropsten
-        '0x9C4c3B509e47a298544d0fD0591B47550845e903', // Ropsten
-        '0x06E6B4E68b0B9B2617b35Eec811535050999282F', // Rinkeby
-        '0xfF77b96d6bafCec0D684bB528b22e0Ab09C70663' // Goerli
+        '0xDaaF96c344f63131acadD0Ea35170E7892d3dfBA' // all networks
       ]
 
       if (RESOLVERS[networkId]) {
@@ -349,7 +359,7 @@ const resolvers = {
         )
         DEPRECATED_RESOLVERS = [...DEPRECATED_RESOLVERS, ...localResolvers]
       }
-      /* Deprecated resolvers are using the old registry and must be migrated */
+      /* Deprecated resolvers are using the new registry and can be continued to be used*/
 
       function calculateIsDeprecatedResolver(address) {
         return DEPRECATED_RESOLVERS.map(a => a.toLowerCase()).includes(
@@ -357,7 +367,7 @@ const resolvers = {
         )
       }
 
-      /* Old Public resolvers are using the new registry and can be continued to be used */
+      /* Old Public resolvers are using the old registry and must be migrated  */
 
       function calculateIsOldPublicResolver(address) {
         return OLD_RESOLVERS.map(a => a.toLowerCase()).includes(
@@ -527,6 +537,15 @@ const resolvers = {
       }
     },
     migrateResolver: async (_, { name }, { cache }) => {
+      function calculateIsOldContentResolver(resolver) {
+        const oldContentResolvers = [
+          '0x5ffc014343cd971b7eb70732021e26c35b744cc4',
+          '0x6dbc5978711cb22d7ba611bc18cec308ea12ea95',
+          '0xbf80bc10D6EBfeE11bEA9a157D762110A0B73d95'
+        ]
+        return oldContentResolvers.includes(resolver)
+      }
+
       function buildKeyValueObjects(keys, values) {
         return values.map((record, i) => ({
           key: keys[i],
@@ -562,10 +581,22 @@ const resolvers = {
         return buildKeyValueObjects(COIN_LIST_KEYS, records)
       }
 
-      async function getAllRecords(name) {
+      async function getOldContent(name) {
+        const resolver = await getResolver(name)
+        const namehash = getNamehash(name)
+        const resolverInstanceWithoutSigner = await getOldResolverContract(
+          resolver
+        )
+        const content = await resolverInstanceWithoutSigner.content(namehash)
+        return {
+          value: 'bzz://' + content
+        }
+      }
+
+      async function getAllRecords(name, isOldContentResolver) {
         const promises = [
           getAddress(name),
-          getContent(name),
+          isOldContentResolver ? getOldContent(name) : getContent(name),
           getAllTextRecords(name),
           getAllAddresses(name)
         ]
@@ -586,7 +617,7 @@ const resolvers = {
         return isEqual(oldRecords, newRecords)
       }
 
-      function setupTransactions(name, records, resolverInstance) {
+      function setupTransactions({ name, records, resolverInstance }) {
         try {
           const resolver = resolverInstance.interface.functions
           const namehash = getNamehash(name)
@@ -600,7 +631,6 @@ const resolvers = {
                 ])
                 return encoded
               case 1:
-                console.log(record)
                 if (
                   !record.value ||
                   parseInt(record.value, 16) === 0 ||
@@ -651,10 +681,13 @@ const resolvers = {
 
       // get public resolver
       const publicResolver = await getAddress('resolver.eth')
+      const resolver = await getResolver(name)
+      const isOldContentResolver = calculateIsOldContentResolver(resolver)
+
       // get old and new records in parallel
       //console.log(getAllRecords(name))
       const [records, newResolverRecords] = await Promise.all([
-        getAllRecords(name),
+        getAllRecords(name, isOldContentResolver),
         getAllRecordsNew(name, publicResolver)
       ])
 
@@ -666,13 +699,11 @@ const resolvers = {
         )
         const signer = await getSigner()
         const resolverInstance = resolverInstanceWithoutSigner.connect(signer)
-        const transactionArray = setupTransactions(
+        const transactionArray = setupTransactions({
           name,
           records,
           resolverInstance
-        )
-        console.log('transactionArray', transactionArray)
-        console.log(resolverInstance)
+        })
         //add them all together into one transaction
         const tx1 = await resolverInstance.multicall(transactionArray)
         //once the record has been migrated, migrate the resolver using setResolver to the new public resolver
