@@ -224,7 +224,7 @@ function DetailsContainer({
               domain={domain}
               keyName="Registrant"
               value={domain.registrant}
-              canEdit={isRegistrant && isMigratedToNewRegistry}
+              canEdit={isRegistrant}
               type="address"
               editButton="Transfer"
               mutationButton="Transfer"
@@ -236,10 +236,7 @@ function DetailsContainer({
               domain={domain}
               keyName="Controller"
               value={domain.owner}
-              canEdit={
-                (isRegistrant && isMigratedToNewRegistry) ||
-                (isOwner && isMigratedToNewRegistry)
-              }
+              canEdit={isRegistrant || (isOwner && isMigratedToNewRegistry)}
               deedOwner={domain.deedOwner}
               isDeedOwner={isDeedOwner}
               type="address"
@@ -268,10 +265,7 @@ function DetailsContainer({
               domain={domain}
               keyName="Controller"
               value={domain.owner}
-              canEdit={
-                (isRegistrant && isMigratedToNewRegistry) ||
-                (isOwner && isMigratedToNewRegistry)
-              }
+              canEdit={isRegistrant || (isOwner && isMigratedToNewRegistry)}
               deedOwner={domain.deedOwner}
               isDeedOwner={isDeedOwner}
               type="address"
