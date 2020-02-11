@@ -350,29 +350,6 @@ describe('Name detail view', () => {
     })
   })
 
-  // it('can set old content', () => {
-  //   const content =
-  //     '0xd1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162'
-
-  //   cy.visit(`${NAME_ROOT}/oldresolver.eth`)
-
-  //   cy.getByTestId('name-details').within(container => {
-  //     cy.getByTestId('edit-content', { exact: false }).click({ force: true })
-  //     cy.getByPlaceholderText('Enter a content', {
-  //       exact: false
-  //     }).type(content, { force: true })
-  //     waitUntilInputResolves('Save').then(() => {
-  //       cy.getByText('Save').click({ force: true })
-
-  //       //form closed
-  //       waitUntilTestIdDoesNotExist('action')
-  //       waitUntilTestIdDoesNotExist('cancel')
-  //       //Value updated
-  //       cy.queryByText(content, { exact: false }).should('exist')
-  //     })
-  //   })
-  // })
-
   it('can delete records', () => {
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
     cy.getByTestId('name-details').within(container => {
