@@ -6,7 +6,7 @@ const DISABLED_COLOUR = 'rgb(223, 223, 223)'
 describe('Migrate resolver and records', () => {
   it('can visit a name with an old resolver and migrate it', () => {
     cy.visit(`${ROOT}/name/abittooawesome2.eth`)
-    cy.wait(1000)
+    cy.wait(3000)
     cy.getByText('Migrate').click({ force: true })
     cy.queryByText('migrate', { timeout: 50 }).should('not.exist')
     cy.wait(1000)
