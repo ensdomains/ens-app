@@ -546,7 +546,13 @@ const resolvers = {
         const localResolvers =
           process.env.REACT_APP_DEPRECATED_RESOLVERS &&
           process.env.REACT_APP_DEPRECATED_RESOLVERS.split(',')
-        const oldResolvers = [...oldContentResolvers, ...localResolvers]
+
+        const oldResolvers = [...oldContentResolvers, ...localResolvers].map(
+          a => {
+            return a.toLowerCase()
+          }
+        )
+
         return oldResolvers.includes(resolver.toLowerCase())
       }
 
