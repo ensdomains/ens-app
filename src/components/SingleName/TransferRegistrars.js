@@ -170,9 +170,7 @@ function TransferRegistrars({
 
   const TooLate = (
     <>
-      <MigrationInstruction>
-        Migration period ended {formatDate(transferEndDate, true)}
-      </MigrationInstruction>
+      <MigrationInstruction>Migration period ended</MigrationInstruction>
       <MigrationExplanation>
         You no longer own this name and it has been made available for
         registration in the new ENS Permanent Registrar. You can release the

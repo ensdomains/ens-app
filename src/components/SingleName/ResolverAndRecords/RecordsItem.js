@@ -1,31 +1,27 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
 import DefaultAddressInput from '@ensdomains/react-ens-address'
 
-import { validateRecord } from '../../utils/records'
-import { emptyAddress } from '../../utils/utils'
+import { validateRecord } from 'utils/records'
+import { emptyAddress } from 'utils/utils'
 import mq from 'mediaQuery'
 
-import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
+import { DetailsItem, DetailsKey, DetailsValue } from '../DetailsItem'
 import AddReverseRecord from './AddReverseRecord'
-import AddressLink from '../Links/AddressLink'
-import ContentHashLink from '../Links/ContentHashLink'
-import Upload from '../IPFS/Upload'
-import IpfsLogin from '../IPFS/Login'
-import StyledUpload from '../Forms/Upload'
-import Pencil from '../Forms/Pencil'
-import Bin from '../Forms/Bin'
-import { SaveCancel, SaveCancelSwitch } from './SaveCancel'
-import DefaultPendingTx from '../PendingTx'
-import {
-  SET_CONTENT,
-  SET_CONTENTHASH,
-  SET_ADDRESS
-} from '../../graphql/mutations'
-import DetailsItemInput from './DetailsItemInput'
-import { useEditable } from '../hooks'
+import Upload from '../../IPFS/Upload'
+import IpfsLogin from '../../IPFS/Login'
+import StyledUpload from '../../Forms/Upload'
+import AddressLink from '../../Links/AddressLink'
+import ContentHashLink from '../../Links/ContentHashLink'
+import Pencil from '../../Forms/Pencil'
+import Bin from '../../Forms/Bin'
+import { SaveCancel, SaveCancelSwitch } from '../SaveCancel'
+import DefaultPendingTx from '../../PendingTx'
+import { SET_CONTENT, SET_CONTENTHASH, SET_ADDRESS } from 'graphql/mutations'
+import DetailsItemInput from '../DetailsItemInput'
+import { useEditable } from '../../hooks'
 import { getOldContentWarning } from './warnings'
 
 const AddressInput = styled(DefaultAddressInput)`
@@ -42,6 +38,7 @@ export const RecordsItem = styled(DetailsItem)`
   background: ${({ editing }) => (editing ? '#F0F6FA' : 'white')};
   ${mq.medium`
     display: flex;
+    flex-direction: column;
   `}
 `
 
@@ -158,7 +155,7 @@ const Uploadable = ({ startUploading, keyName, value }) => {
   }
 }
 
-const Editable = ({
+const RecordItemEditable = ({
   domain,
   keyName,
   value,
@@ -205,7 +202,6 @@ const Editable = ({
         mutation={mutation}
         onCompleted={data => {
           startPending(Object.values(data)[0])
-          refetch()
         }}
       >
         {mutation => (
@@ -389,41 +385,42 @@ const Editable = ({
   )
 }
 
-class RecordItem extends Component {
-  _renderViewOnly() {
-    const { keyName, value, type, domain, account } = this.props
-    const { name, contentType } = domain
-    return keyName !== 'Address' && contentType === 'error' ? (
-      ''
-    ) : (
-      <RecordsItem>
-        <RecordsContent>
-          <RecordsKey>{keyName}</RecordsKey>
-          <RecordsValue>
-            {type === 'address' ? (
-              <AddressLink address={value}>{value}</AddressLink>
-            ) : (
-              <ContentHashLink value={value} contentType={contentType} />
-            )}
-          </RecordsValue>
-          <Action>
-            <Pencil
-              disabled={true}
-              data-testid={`edit-${keyName.toLowerCase()}`}
-            />
-          </Action>
-        </RecordsContent>
-        {keyName === 'Address' &&
-          value.toLowerCase() === account.toLowerCase() && (
-            <AddReverseRecord account={account} name={name} />
+function RecordItemViewOnly({ keyName, value, type, domain, account }) {
+  const { name, contentType } = domain
+  return keyName !== 'Address' && contentType === 'error' ? (
+    ''
+  ) : (
+    <RecordsItem>
+      <RecordsContent>
+        <RecordsKey>{keyName}</RecordsKey>
+        <RecordsValue>
+          {type === 'address' ? (
+            <AddressLink address={value}>{value}</AddressLink>
+          ) : (
+            <ContentHashLink value={value} contentType={contentType} />
           )}
-      </RecordsItem>
-    )
-  }
-  render() {
-    const { isOwner } = this.props
-    return isOwner ? <Editable {...this.props} /> : this._renderViewOnly()
-  }
+        </RecordsValue>
+        <Action>
+          <Pencil
+            disabled={true}
+            data-testid={`edit-${keyName.toLowerCase()}`}
+          />
+        </Action>
+      </RecordsContent>
+      {keyName === 'Address' &&
+        value.toLowerCase() === account.toLowerCase() && (
+          <AddReverseRecord account={account} name={name} />
+        )}
+    </RecordsItem>
+  )
+}
+
+function RecordItem(props) {
+  const { canEdit } = props
+
+  if (canEdit) return <RecordItemEditable {...props} />
+
+  return <RecordItemViewOnly {...props} />
 }
 
 RecordItem.propTypes = {
