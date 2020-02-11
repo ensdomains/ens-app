@@ -541,9 +541,19 @@ const resolvers = {
         const oldContentResolvers = [
           '0x5ffc014343cd971b7eb70732021e26c35b744cc4',
           '0x6dbc5978711cb22d7ba611bc18cec308ea12ea95',
-          '0xbf80bc10D6EBfeE11bEA9a157D762110A0B73d95'
+          '0xbf80bc10d6ebfee11bea9a157d762110a0b73d95'
         ]
-        return oldContentResolvers.includes(resolver)
+        const localResolvers =
+          process.env.REACT_APP_DEPRECATED_RESOLVERS &&
+          process.env.REACT_APP_DEPRECATED_RESOLVERS.split(',')
+
+        const oldResolvers = [...oldContentResolvers, ...localResolvers].map(
+          a => {
+            return a.toLowerCase()
+          }
+        )
+
+        return oldResolvers.includes(resolver.toLowerCase())
       }
 
       function buildKeyValueObjects(keys, values) {
@@ -690,7 +700,7 @@ const resolvers = {
         getAllRecords(name, isOldContentResolver),
         getAllRecordsNew(name, publicResolver)
       ])
-
+      console.log('***', JSON.stringify({ records, newResolverRecords }))
       // compare new and old records
       if (!areRecordsEqual(records, newResolverRecords)) {
         //get the transaction by using contract.method.encode from ethers
