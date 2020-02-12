@@ -26,16 +26,13 @@ import {
   expiryTimes,
   isDecrypted,
   isMigrated,
-  getContent,
   getEthAddressWithResolver,
   getAddrWithResolver,
-  getContentWithResolver,
   getTextWithResolver,
   getWeb3,
 
   /* lower level calls possibly can be refactored out */
   getSigner,
-  encodeContenthash,
   getResolverContract,
   getOldResolverContract,
   getNamehash
@@ -602,10 +599,26 @@ const resolvers = {
         }
       }
 
+      async function getContenthash(name) {
+        const resolver = await getResolver(name)
+        return getContenthashWithResolver(name, resolver)
+      }
+
+      async function getContenthashWithResolver(name, resolver) {
+        const namehash = getNamehash(name)
+        const resolverInstanceWithoutSigner = await getResolverContract(
+          resolver
+        )
+        const contentHash = await resolverInstanceWithoutSigner.contenthash(
+          namehash
+        )
+        return contentHash
+      }
+
       async function getAllRecords(name, isOldContentResolver) {
         const promises = [
           getAddress(name),
-          isOldContentResolver ? getOldContent(name) : getContent(name),
+          isOldContentResolver ? getOldContent(name) : getContenthash(name),
           getAllTextRecords(name),
           getAllAddresses(name)
         ]
@@ -615,7 +628,7 @@ const resolvers = {
       async function getAllRecordsNew(name, publicResolver) {
         const promises = [
           getEthAddressWithResolver(name, publicResolver),
-          getContentWithResolver(name, publicResolver),
+          getContenthashWithResolver(name, publicResolver),
           getAllTextRecordsWithResolver(name, publicResolver),
           getAllAddressesWithResolver(name, publicResolver)
         ]
@@ -640,13 +653,8 @@ const resolvers = {
                 ])
                 return encoded
               case 1:
-                if (
-                  !record.value ||
-                  parseInt(record.value, 16) === 0 ||
-                  parseInt(record.text, 16) === 0
-                )
-                  return undefined
-                const encodedContenthash = encodeContenthash(record.value)
+                if (!record || parseInt(record, 16) === 0) return undefined
+                const encodedContenthash = record
                 return resolver.setContenthash.encode([
                   namehash,
                   encodedContenthash
