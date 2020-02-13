@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import { useMutation } from 'react-apollo'
 import { useEditable } from 'components/hooks'
@@ -7,6 +7,7 @@ import { DetailsItem, DetailsKey, DetailsValue } from '../DetailsItem'
 import PendingTx from '../../PendingTx'
 import Button from '../../Forms/Button'
 import mq from 'mediaQuery'
+import ErrorModal from 'components/ErrorModal'
 
 const MigrateItem = styled(DetailsItem)`
   position: relative;
@@ -39,6 +40,7 @@ const SVG = styled('svg')`
 `
 
 export default function MigrateResolver({ value, name, refetch, isOwner }) {
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(true)
   const { state: state1, actions: actions1 } = useEditable()
   const { state: state2, actions: actions2 } = useEditable()
 
@@ -48,20 +50,30 @@ export default function MigrateResolver({ value, name, refetch, isOwner }) {
   const { startPending: startPending1, setConfirmed: setConfirmed1 } = actions1
 
   const { startPending: startPending2, setConfirmed: setConfirmed2 } = actions2
-  const [migrateResolver] = useMutation(MIGRATE_RESOLVER, {
-    variables: { name },
-    onCompleted: data => {
-      if (Object.values(data)[0].length > 1) {
-        startPending1(Object.values(data)[0][0])
-        startPending2(Object.values(data)[0][1])
-      } else {
-        startPending1(Object.values(data)[0][0])
-        startPending2('notatx')
+  const [migrateResolver, { error: mutationError }] = useMutation(
+    MIGRATE_RESOLVER,
+    {
+      variables: { name },
+      onCompleted: data => {
+        if (Object.values(data)[0].length > 1) {
+          startPending1(Object.values(data)[0][0])
+          startPending2(Object.values(data)[0][1])
+        } else {
+          startPending1(Object.values(data)[0][0])
+          startPending2('notatx')
+        }
       }
     }
-  })
+  )
+
   return (
     <MigrateItem>
+      {mutationError && isErrorModalOpen && (
+        <ErrorModal
+          error={mutationError}
+          close={() => setIsErrorModalOpen(false)}
+        />
+      )}
       <MigrateKey>
         <SVG width="16" height="16" xmlns="http://www.w3.org/2000/svg">
           <path

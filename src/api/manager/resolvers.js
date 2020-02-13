@@ -622,7 +622,7 @@ const resolvers = {
           getAllTextRecords(name),
           getAllAddresses(name)
         ]
-        return Promise.all(promises).catch(console.log)
+        return Promise.all(promises)
       }
 
       async function getAllRecordsNew(name, publicResolver) {
@@ -632,7 +632,7 @@ const resolvers = {
           getAllTextRecordsWithResolver(name, publicResolver),
           getAllAddressesWithResolver(name, publicResolver)
         ]
-        return Promise.all(promises).catch(console.log)
+        return Promise.all(promises)
       }
 
       function areRecordsEqual(oldRecords, newRecords) {
@@ -697,41 +697,46 @@ const resolvers = {
       }
 
       // get public resolver
-      const publicResolver = await getAddress('resolver.eth')
-      const resolver = await getResolver(name)
-      const isOldContentResolver = calculateIsOldContentResolver(resolver)
+      try {
+        const publicResolver = await getAddress('resolver.eth')
+        const resolver = await getResolver(name)
+        const isOldContentResolver = calculateIsOldContentResolver(resolver)
 
-      // get old and new records in parallel
-      //console.log(getAllRecords(name))
-      const [records, newResolverRecords] = await Promise.all([
-        getAllRecords(name, isOldContentResolver),
-        getAllRecordsNew(name, publicResolver)
-      ])
-      console.log('***', JSON.stringify({ records, newResolverRecords }))
-      // compare new and old records
-      if (!areRecordsEqual(records, newResolverRecords)) {
-        //get the transaction by using contract.method.encode from ethers
-        const resolverInstanceWithoutSigner = await getResolverContract(
-          publicResolver
-        )
-        const signer = await getSigner()
-        const resolverInstance = resolverInstanceWithoutSigner.connect(signer)
-        const transactionArray = setupTransactions({
-          name,
-          records,
-          resolverInstance
-        })
-        //add them all together into one transaction
-        const tx1 = await resolverInstance.multicall(transactionArray)
-        //once the record has been migrated, migrate the resolver using setResolver to the new public resolver
-        const tx2 = await setResolver(name, publicResolver)
-        //await migrate records into new resolver
-        return sendHelperArray([tx1, tx2])
-      } else {
-        const tx = await setResolver(name, publicResolver)
-        const value = await sendHelper(tx)
-        console.log(value)
-        return [value]
+        // get old and new records in parallel
+        //console.log(getAllRecords(name))
+        const [records, newResolverRecords] = await Promise.all([
+          getAllRecords(name, isOldContentResolver),
+          getAllRecordsNew(name, publicResolver)
+        ])
+        console.log('***', JSON.stringify({ records, newResolverRecords }))
+        // compare new and old records
+        if (!areRecordsEqual(records, newResolverRecords)) {
+          //get the transaction by using contract.method.encode from ethers
+          const resolverInstanceWithoutSigner = await getResolverContract(
+            publicResolver
+          )
+          const signer = await getSigner()
+          const resolverInstance = resolverInstanceWithoutSigner.connect(signer)
+          const transactionArray = setupTransactions({
+            name,
+            records,
+            resolverInstance
+          })
+          //add them all together into one transaction
+          const tx1 = await resolverInstance.multicall(transactionArray)
+          //once the record has been migrated, migrate the resolver using setResolver to the new public resolver
+          const tx2 = await setResolver(name, publicResolver)
+          //await migrate records into new resolver
+          return sendHelperArray([tx1, tx2])
+        } else {
+          const tx = await setResolver(name, publicResolver)
+          const value = await sendHelper(tx)
+          console.log(value)
+          return [value]
+        }
+      } catch (e) {
+        console.log('Error migrating resolver', e)
+        throw e
       }
     },
     migrateRegistry: async (_, { name, address }, { cache }) => {
