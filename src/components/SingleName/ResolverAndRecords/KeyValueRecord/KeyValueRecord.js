@@ -10,12 +10,12 @@ import {
   RecordsSubKey,
   RecordsValue
 } from '../RecordsItem'
-import DetailsItemInput from '../DetailsItemInput'
-import { useEditable } from '../../hooks'
+import DetailsItemInput from '../../DetailsItemInput'
+import { useEditable } from '../../../hooks'
 import PendingTx from 'components/PendingTx'
-import Pencil from '../../Forms/Pencil'
-import Bin from '../../Forms/Bin'
-import SaveCancel from '../SaveCancel'
+import Pencil from '../../../Forms/Pencil'
+import Bin from '../../../Forms/Bin'
+import SaveCancel from '../../SaveCancel'
 
 const KeyValueItem = styled(RecordsItem)`
   display: flex;
@@ -200,7 +200,6 @@ const Editable = ({
               isInvalid={isInvalid}
               contentType={domain.contentType}
               updateValue={updateValue}
-              placeholder={textKey}
               placeholder={getPlaceholder ? getPlaceholder(textKey) : ''}
             />
           </EditRecord>
@@ -235,7 +234,7 @@ function Record(props) {
     name,
     setHasRecord,
     hasRecord,
-    isOwner,
+    canEdit,
     recordAdded,
     query,
     mutation
@@ -264,17 +263,17 @@ function Record(props) {
         }
       })
     }
-  }, [recordAdded])
+  }, [recordAdded, refetch, textKey])
   useEffect(() => {
     if (dataValue && !hasRecord) {
       setHasRecord(true)
     }
-  }, [dataValue, hasRecord])
+  }, [dataValue, hasRecord, setHasRecord])
 
   if (error || loading || !dataValue || parseInt(dataValue, 16) === 0) {
     return null
   }
-  return isOwner ? (
+  return canEdit ? (
     <Editable
       {...props}
       value={dataValue}
@@ -299,7 +298,7 @@ function ViewOnly({ textKey, value }) {
 
 function Records({
   domain,
-  isOwner,
+  canEdit,
   recordAdded,
   query,
   mutation,
@@ -323,7 +322,7 @@ function Records({
             name={domain.name}
             setHasRecord={setHasRecord}
             hasRecord={hasRecord}
-            isOwner={isOwner}
+            canEdit={canEdit}
             recordAdded={recordAdded}
             query={query}
             mutation={mutation}
@@ -336,7 +335,7 @@ function Records({
 
 export default function KeyValueRecord({
   domain,
-  isOwner,
+  canEdit,
   refetch,
   recordAdded,
   query,
@@ -353,7 +352,7 @@ export default function KeyValueRecord({
       getPlaceholder={getPlaceholder}
       name={domain.name}
       domain={domain}
-      isOwner={isOwner}
+      canEdit={canEdit}
       refetch={refetch}
       recordAdded={recordAdded}
       query={query}

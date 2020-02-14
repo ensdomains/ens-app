@@ -45,3 +45,9 @@ export async function sendHelper(txObj) {
     addTransaction({ txHash, txState })
   })
 }
+
+export async function sendHelperArray(arrayOfTxObj) {
+  const promises = arrayOfTxObj.map(txObj => sendHelper(txObj))
+  const values = await Promise.all(promises)
+  return values
+}

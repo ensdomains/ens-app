@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import styled from '@emotion/styled'
 import { Spring } from 'react-spring'
+import warning from '../assets/yellowwarning.svg'
 
 import mq from 'mediaQuery'
 
@@ -24,6 +25,22 @@ const Favourites = styled('div')`
   a {
     font-weight: 300;
     color: white;
+  }
+`
+const Announcement = styled('div')`
+  display: flex;
+  justify-content: center;
+  background: #5284ff;
+  border-bottom: #5284ff solid 3px;
+  h3 {
+    color: #f5a623;
+    font-weight: 400;
+    text-align: center;
+    padding: 0 20px;
+  }
+  a {
+    color: #f5a623;
+    text-decoration: underline;
   }
 `
 
@@ -282,6 +299,13 @@ export default props => (
         </Spring>
       </SearchContainer>
     </Hero>
+    <Announcement>
+      <h3>
+        <img src={warning} alt="warning" />
+        &nbsp; ENS Registry Migration: Bug Fix, New Features&nbsp;
+        <a href="https://medium.com/p/64379193a5a/edit">(Find out more)</a>
+      </h3>
+    </Announcement>
     <Explanation>
       <WhatItIs>
         <Inner>

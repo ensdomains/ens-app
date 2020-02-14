@@ -69,7 +69,9 @@ function hasNoDomains(data) {
 }
 
 function filterOutReverse(domains) {
-  return domains.filter(domain => domain.parent.name !== 'addr.reverse')
+  return domains.filter(
+    domain => domain.parent && domain.parent.name !== 'addr.reverse'
+  )
 }
 
 function DomainList({ domains, address }) {
@@ -97,7 +99,11 @@ function DomainList({ domains, address }) {
   return (
     <DomainsContainer>
       {filterOutReverse(data.account.domains).map(domain => (
-        <DomainItem name={decryptName(domain.name)} owner={address} />
+        <DomainItem
+          name={decryptName(domain.name)}
+          owner={address}
+          isMigrated={domain.isMigrated}
+        />
       ))}
     </DomainsContainer>
   )

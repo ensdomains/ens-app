@@ -13,7 +13,12 @@ import { addressUtils } from 'utils/utils'
 import Tooltip from '../Tooltip/Tooltip'
 import { SingleNameBlockies } from './SingleNameBlockies'
 import DefaultAddressLink from '../Links/AddressLink'
-import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
+import {
+  DetailsItem,
+  DetailsKey,
+  DetailsValue,
+  DetailsContent
+} from './DetailsItem'
 import SaveCancel from './SaveCancel'
 import DefaultInput from '../Forms/Input'
 import Button from '../Forms/Button'
@@ -50,23 +55,12 @@ const EditButton = styled(Button)`
 const DetailsEditableContainer = styled(DetailsItem)`
   flex-direction: column;
 
-  background: ${({ editing }) => (editing ? '#F0F6FA' : 'white')};
+  background: ${({ editing }) => (editing ? '#F0F6FA' : 'transparent')};
   padding: ${({ editing }) => (editing ? '20px' : '0')};
   ${({ editing }) => (editing ? `margin-bottom: 20px;` : '')}
   transition: 0.3s;
-`
 
-const DetailsContent = styled('div')`
-  display: flex;
-  justify-content: flex-start;
-  position: relative;
-  flex-direction: column;
-  width: 100%;
-  ${({ editing }) => editing && 'margin-bottom: 30px'};
-  transition: 0.3s;
-  ${mq.small`
-    flex-direction: row;
-  `}
+  ${({ editing }) => editing && mq.small` flex-direction: column;`};
 `
 
 const EditRecord = styled('div')`
@@ -167,7 +161,8 @@ function getInputType(
     years,
     setYears,
     duration,
-    expirationDate
+    expirationDate,
+    duringMigration
   }
 ) {
   if (keyName === 'Expiration Date') {
@@ -287,7 +282,6 @@ const Editable = ({
       mutation={mutation}
       onCompleted={data => {
         startPending(Object.values(data)[0])
-        refetch()
       }}
     >
       {mutation => (
@@ -295,6 +289,7 @@ const Editable = ({
           <DetailsContent editing={editing}>
             <DetailsKey>{keyName}</DetailsKey>
             <DetailsValue
+              editing={editing}
               editable
               data-testid={`details-value-${keyName.toLowerCase()}`}
             >
@@ -531,7 +526,8 @@ DetailsEditable.propTypes = {
   canEdit: PropTypes.bool,
   domain: PropTypes.object.isRequired,
   variableName: PropTypes.string, //can change the variable name for mutation
-  refetch: PropTypes.func.isRequired
+  refetch: PropTypes.func.isRequired,
+  duringMigration: PropTypes.bool
 }
 
 export default DetailsEditable
