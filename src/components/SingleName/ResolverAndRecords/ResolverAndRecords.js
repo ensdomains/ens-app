@@ -22,6 +22,7 @@ import RecordsItem from './RecordsItem'
 import TextRecord from './TextRecord'
 import Address from './Address'
 import ResolverMigration from './ResolverMigration'
+import ArtRecords from './ArtRecords'
 
 const RecordsWrapper = styled('div')`
   border-radius: 6px;
@@ -304,6 +305,8 @@ export default function ResolverAndRecords({
           duringMigration={duringMigration}
         />
       )}
+
+      {hasResolver && <ArtRecords domain={domain} query={GET_TEXT} />}
     </>
   )
 }
