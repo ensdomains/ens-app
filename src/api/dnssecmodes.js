@@ -41,5 +41,13 @@ export default [
     explainer:
       "The Controller and DNS Owner are out of sync. Click 'sync' to make the DNS Owner the Controller. Click 'refresh' if you make changes to the domain in the DNS Registrar.",
     outOfSync: true
+  },
+  // 7,
+  {
+    state: 'SUBMIT_PROOF',
+    title: 'Registry is out of date',
+    explainer:
+      "Click 'sync' to make the DNS Owner the Controller. Click 'refresh' if you make changes to the domain in the DNS Registrar.",
+    outOfSync: true
   }
 ]

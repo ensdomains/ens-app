@@ -21,6 +21,9 @@ async function setupWeb3(customProvider) {
 async function init() {
   const ENV = process.argv[2]
   const dnssec = process.argv[3] == 'dnssec'
+  let migrate = process.argv[3] != 'premigration'
+  if (process.argv[3] == 'dnssec') migrate = false
+
   switch (ENV) {
     case 'GANACHE_GUI':
       var provider = new Web3.providers.HttpProvider('http://localhost:7545')
@@ -38,14 +41,37 @@ async function init() {
 
   const accounts = await getAccounts(web3)
 
-  const addresses = await deployTestEns({ web3, accounts, dnssec })
-  const { ensAddress } = addresses
-
+  const addresses = await deployTestEns({ web3, accounts, dnssec, migrate })
+  console.log(addresses)
+  const {
+    ensAddress,
+    oldResolverAddresses,
+    oldContentResolverAddresses
+  } = addresses
+  const envLocalFile = './.env.local'
   fs.writeFileSync('./cypress.env.json', JSON.stringify(addresses))
-  fs.writeFile('./.env.local', `REACT_APP_ENS_ADDRESS=${ensAddress}`, err => {
-    if (err) throw err
-    console.log(`Successfully wrote ENS address ${ensAddress} to .env.local`)
-  })
+  fs.writeFileSync(envLocalFile, `REACT_APP_ENS_ADDRESS=${ensAddress}`)
+  fs.appendFileSync(envLocalFile, '\n')
+  console.log(`Successfully wrote ENS address ${ensAddress} to .env.local`)
+  fs.appendFileSync(
+    envLocalFile,
+    `REACT_APP_DEPRECATED_RESOLVERS=${oldResolverAddresses.join(',')}`
+  )
+  fs.appendFileSync(envLocalFile, '\n')
+  fs.appendFileSync(
+    envLocalFile,
+    `REACT_APP_OLD_CONTENT_RESOLVERS=${oldContentResolverAddresses.join(',')}`
+  )
+  console.log(
+    `Successfully wrote Old resolver address ${oldResolverAddresses.join(
+      ','
+    )} to .env.local`
+  )
+  console.log(
+    `Successfully wrote Old content resolver address ${oldContentResolverAddresses.join(
+      ','
+    )} to .env.local`
+  )
 }
 
 init()

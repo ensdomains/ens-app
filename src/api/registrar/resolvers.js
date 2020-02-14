@@ -8,7 +8,6 @@ import {
   getMinimumCommitmentAge,
   register,
   renew,
-  transferRegistrars,
   releaseDeed,
   transferOwner,
   reclaim,
@@ -105,10 +104,6 @@ const resolvers = {
     },
     async setRegistrant(_, { name, address }) {
       const tx = await transferOwner(name, address)
-      return sendHelper(tx)
-    },
-    async transferRegistrars(_, { label }) {
-      const tx = await transferRegistrars(label)
       return sendHelper(tx)
     },
     async releaseDeed(_, { label }) {
