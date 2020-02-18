@@ -38,8 +38,7 @@ import {
   encodeContenthash,
   getResolverContract,
   getOldResolverContract,
-  getNamehash,
-  getProvider
+  getNamehash
 } from '@ensdomains/ui'
 import { formatsByName } from '@ensdomains/address-encoder'
 import isEqual from 'lodash/isEqual'
@@ -544,8 +543,8 @@ const resolvers = {
           '0xbf80bc10d6ebfee11bea9a157d762110a0b73d95'
         ]
         const localResolvers =
-          process.env.REACT_APP_DEPRECATED_RESOLVERS &&
-          process.env.REACT_APP_DEPRECATED_RESOLVERS.split(',')
+          process.env.REACT_APP_OLD_CONTENT_RESOLVERS &&
+          process.env.REACT_APP_OLD_CONTENT_RESOLVERS.split(',')
 
         const oldResolvers = [...oldContentResolvers, ...localResolvers].map(
           a => {
