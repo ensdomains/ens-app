@@ -1415,10 +1415,10 @@
     truffle-default-builder "^2.0.0"
     underscore "^1.8.3"
 
-"@ensdomains/ui@2.0.11":
-  version "2.0.11"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-2.0.11.tgz#9c1b2e3a564e00be99f44cdff12d595dfa34d4c9"
-  integrity sha512-96o5uVU+R+2/LkOkNlrs07YVFsoTivXNJaf3S5O7i/GvESntnFibRsqG4BtGj8XwMWwafjES7UcMI1Aw9gWzYw==
+"@ensdomains/ui@2.0.12":
+  version "2.0.12"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-2.0.12.tgz#3b63ef5642596aafc0b00eae3200dceacd4d476c"
+  integrity sha512-u6keOxldv/gU0w2/NHSTDWfeiBH7lMNBKTCCZq32bdLOgj11yvvXfvoaiPY85nxw+YJUYjUL7Nmpk+ZGdBiP+Q==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
