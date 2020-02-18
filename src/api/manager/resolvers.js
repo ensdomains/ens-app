@@ -35,7 +35,8 @@ import {
   getSigner,
   getResolverContract,
   getOldResolverContract,
-  getNamehash
+  getNamehash,
+  encodeContenthash
 } from '@ensdomains/ui'
 import { formatsByName } from '@ensdomains/address-encoder'
 import isEqual from 'lodash/isEqual'
@@ -594,9 +595,7 @@ const resolvers = {
           resolver
         )
         const content = await resolverInstanceWithoutSigner.content(namehash)
-        return {
-          value: 'bzz://' + content
-        }
+        return encodeContenthash('bzz://' + content)
       }
 
       async function getContenthash(name) {
