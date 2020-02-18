@@ -302,8 +302,11 @@ export default props => (
     <Announcement>
       <h3>
         <img src={warning} alt="warning" />
-        &nbsp; ENS Registry Migration: Bug Fix, New Features&nbsp;
-        <a href="https://medium.com/p/64379193a5a/edit">(Find out more)</a>
+        &nbsp; ENS Registry Migration Is Over… Now What? A Few Things to
+        Know&nbsp;
+        <a href="https://medium.com/the-ethereum-name-service/ens-registry-migration-is-over-now-what-a-few-things-to-know-fb05f921872a">
+          (Find out more)
+        </a>
       </h3>
     </Announcement>
     <Explanation>
