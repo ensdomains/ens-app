@@ -127,7 +127,7 @@ export default function Address({ address }) {
           target="_blank"
           href={`${etherScanAddr}/address/${address}`}
         >
-          View on EtherScan
+          View on Etherscan
         </ExternalButtonLink>
       )}
       <DomainList address={address} />
