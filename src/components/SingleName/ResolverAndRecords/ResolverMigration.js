@@ -75,6 +75,7 @@ export default function MigrateResolver({ value, name, refetch, isOwner }) {
       {isErrorModalOpen && (
         <ErrorModal
           error={mutationError}
+          title="Error Migrating Resolver"
           close={() => setIsErrorModalOpen(false)}
         />
       )}
