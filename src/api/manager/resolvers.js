@@ -609,7 +609,7 @@ const resolvers = {
         const resolverInstanceWithoutSigner = await getResolverContract(
           resolver
         )
-        const contentHash = await resolverInstanceWithoutSigner.contenthash(
+        const contentHash = await resolverInstanceWithoutSigner.contentHash(
           namehash
         )
         return contentHash

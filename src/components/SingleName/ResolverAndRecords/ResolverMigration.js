@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 import { useMutation } from 'react-apollo'
 import { useEditable } from 'components/hooks'
@@ -40,7 +40,7 @@ const SVG = styled('svg')`
 `
 
 export default function MigrateResolver({ value, name, refetch, isOwner }) {
-  const [isErrorModalOpen, setIsErrorModalOpen] = useState(true)
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false)
   const { state: state1, actions: actions1 } = useEditable()
   const { state: state2, actions: actions2 } = useEditable()
 
@@ -66,9 +66,13 @@ export default function MigrateResolver({ value, name, refetch, isOwner }) {
     }
   )
 
+  useEffect(() => {
+    if (mutationError) setIsErrorModalOpen(true)
+  }, mutationError)
+
   return (
     <MigrateItem>
-      {mutationError && isErrorModalOpen && (
+      {isErrorModalOpen && (
         <ErrorModal
           error={mutationError}
           close={() => setIsErrorModalOpen(false)}
