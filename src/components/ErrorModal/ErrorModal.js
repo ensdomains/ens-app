@@ -53,7 +53,6 @@ const ButtonContainer = styled('div')`
   display: flex;
   justify-content: flex-end;
 `
-
 export default function ErrorModal({ title, error, close }) {
   const modalRoot = document.getElementById('modal-root')
   return ReactDOM.createPortal(
