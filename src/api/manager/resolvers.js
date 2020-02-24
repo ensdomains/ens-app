@@ -540,9 +540,9 @@ const resolvers = {
           '0x6dbc5978711cb22d7ba611bc18cec308ea12ea95',
           '0xbf80bc10d6ebfee11bea9a157d762110a0b73d95'
         ]
-        const localResolvers =
-          process.env.REACT_APP_OLD_CONTENT_RESOLVERS &&
-          process.env.REACT_APP_OLD_CONTENT_RESOLVERS.split(',')
+        const localResolvers = process.env.REACT_APP_OLD_CONTENT_RESOLVERS
+          ? process.env.REACT_APP_OLD_CONTENT_RESOLVERS.split(',')
+          : []
 
         const oldResolvers = [...oldContentResolvers, ...localResolvers].map(
           a => {
@@ -707,7 +707,7 @@ const resolvers = {
           getAllRecords(name, isOldContentResolver),
           getAllRecordsNew(name, publicResolver)
         ])
-        console.log('***', JSON.stringify({ records, newResolverRecords }))
+
         // compare new and old records
         if (!areRecordsEqual(records, newResolverRecords)) {
           //get the transaction by using contract.method.encode from ethers
