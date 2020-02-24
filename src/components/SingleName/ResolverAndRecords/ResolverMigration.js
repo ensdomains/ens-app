@@ -68,7 +68,7 @@ export default function MigrateResolver({ value, name, refetch, isOwner }) {
 
   useEffect(() => {
     if (mutationError) setIsErrorModalOpen(true)
-  }, mutationError)
+  }, [mutationError])
 
   return (
     <MigrateItem>
