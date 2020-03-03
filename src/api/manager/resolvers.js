@@ -46,7 +46,8 @@ import {
   getSigner,
   getResolverContract,
   getOldResolverContract,
-  encodeContenthash
+  encodeContenthash,
+  getProvider
 } from '@ensdomains/ui'
 import { formatsByName } from '@ensdomains/address-encoder'
 import isEqual from 'lodash/isEqual'
@@ -607,6 +608,7 @@ const resolvers = {
     },
     migrateResolver: async (_, { name }, { cache }) => {
       const ens = getENS()
+      const provider = await getProvider()
       function calculateIsOldContentResolver(resolver) {
         const oldContentResolvers = [
           '0x5ffc014343cd971b7eb70732021e26c35b744cc4',
@@ -678,9 +680,10 @@ const resolvers = {
 
       async function getContenthashWithResolver(name, resolver) {
         const namehash = getNamehash(name)
-        const resolverInstanceWithoutSigner = await getResolverContract(
-          resolver
-        )
+        const resolverInstanceWithoutSigner = await getResolverContract({
+          address: resolver,
+          provider
+        })
         const contentHash = await resolverInstanceWithoutSigner.contenthash(
           namehash
         )
@@ -784,9 +787,10 @@ const resolvers = {
         // compare new and old records
         if (!areRecordsEqual(records, newResolverRecords)) {
           //get the transaction by using contract.method.encode from ethers
-          const resolverInstanceWithoutSigner = await getResolverContract(
-            publicResolver
-          )
+          const resolverInstanceWithoutSigner = await getResolverContract({
+            address: publicResolver,
+            provider
+          })
           const signer = await getSigner()
           const resolverInstance = resolverInstanceWithoutSigner.connect(signer)
           const transactionArray = setupTransactions({
