@@ -203,10 +203,10 @@ async function getDNSEntryDetails(name) {
 }
 
 async function getTestEntry(name) {
-  const { expiryTimes } = getRegistrar()
+  const registrar = getRegistrar()
   const nameArray = name.split('.')
   if (nameArray.length < 3 && nameArray[1] === 'test') {
-    const expiryTime = await expiryTimes(nameArray[0])
+    const expiryTime = await registrar.expiryTimes(nameArray[0])
     if (expiryTime) return { expiryTime }
   }
   return {}
@@ -666,9 +666,10 @@ const resolvers = {
       async function getOldContent(name) {
         const resolver = await ens.getResolver(name)
         const namehash = getNamehash(name)
-        const resolverInstanceWithoutSigner = await getOldResolverContract(
-          resolver
-        )
+        const resolverInstanceWithoutSigner = await getOldResolverContract({
+          address: resolver,
+          provider
+        })
         const content = await resolverInstanceWithoutSigner.content(namehash)
         return encodeContenthash('bzz://' + content)
       }
