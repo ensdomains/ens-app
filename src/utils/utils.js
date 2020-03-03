@@ -2,7 +2,7 @@ import {
   getNetworkId,
   validateName as _validateName,
   parseSearchTerm as _parseSearchTerm,
-  ensStartBlock as _ensStartBlock,
+  getEnsStartBlock as _ensStartBlock,
   isLabelValid as _isLabelValid,
   isEncodedLabelhash,
   emptyAddress as _emptyAddress
