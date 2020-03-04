@@ -6,24 +6,19 @@ const DISABLED_COLOUR = 'rgb(223, 223, 223)'
 describe('Migrate resolver and records', () => {
   it('can visit a name with an old resolver and migrate it', () => {
     cy.visit(`${ROOT}/name/abittooawesome2.eth`)
-    cy.wait(3000)
-    cy.getByText('Migrate').click({ force: true })
+    cy.getByText('Migrate', { timeout: 5000 }).click({ force: true })
     cy.queryByText('migrate', { timeout: 50 }).should('not.exist')
-    cy.wait(1000)
-    cy.queryByTestId('edit-resolver').should(
-      'have.css',
-      'background-color',
-      ENABLED_COLOUR
-    )
+    cy.queryByTestId('edit-resolver', {
+      timeout: 5000,
+      exact: false
+    }).should('have.css', 'background-color', ENABLED_COLOUR)
   })
 
   it('can visit a name with an old content resolver and migrate it as swarm contenthash', () => {
     cy.visit(`${ROOT}/name/oldresolver.eth`)
-    cy.wait(3000) // this one took a while to render Migrate
-    cy.getByText('Migrate').click({ force: true })
+    cy.getByText('Migrate', { timeout: 5000 }).click({ force: true })
     cy.queryByText('migrate', { timeout: 50 }).should('not.exist')
-    cy.wait(1000)
-    cy.queryByTestId('edit-resolver').should(
+    cy.queryByTestId('edit-resolver', { timeout: 5000 }).should(
       'have.css',
       'background-color',
       ENABLED_COLOUR
@@ -35,8 +30,8 @@ describe('Migrate resolver and records', () => {
 
   it('cannot migrate resolver if the parent domain is not migrateed', () => {
     cy.visit(`${ROOT}/name/a1.sub2.testing.eth`)
-    cy.wait(1000)
     cy.queryByText('You must first migrate the parent domain ', {
+      timeout: 5000,
       exact: false
     }).should('exist')
     cy.queryByTestId('edit-resolver').should(
@@ -48,9 +43,9 @@ describe('Migrate resolver and records', () => {
 
   it('cannot migrate resolver if the domain is not migrateed', () => {
     cy.visit(`${ROOT}/name/sub2.testing.eth`)
-    cy.wait(1000)
     cy.queryByText('This name needs to be migrated to the new Registry.', {
-      exact: false
+      exact: false,
+      timeout: 5000
     }).should('exist')
     cy.queryByTestId('edit-resolver').should(
       'have.css',
