@@ -107,7 +107,7 @@ export default function MigrateResolver({ value, name, refetch, isOwner }) {
         ) : (
           <MigrateButton
             onClick={isOwner ? migrateResolver : () => {}}
-            type={isOwner ? 'hollow-primary' : 'hollow-primary-disabled'}
+            type={isOwner ? 'primary' : 'disabled'}
           >
             Migrate
           </MigrateButton>
