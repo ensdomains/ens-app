@@ -317,7 +317,6 @@ const resolvers = {
           registrant: null,
           auctionEnds: null // remove when auction is over
         }
-        console.log(ens)
         const dataSources = [
           getRegistrarEntry(name),
           ens.getDomainDetails(name),

@@ -1551,10 +1551,10 @@
     truffle-default-builder "^2.0.0"
     underscore "^1.8.3"
 
-"@ensdomains/ui@3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.1.tgz#da7fc8da9bc13d2e0173ea49aea6e40640c673d7"
-  integrity sha512-yjcVPa00dK+you0eHzvs5NcwaijYb9nrFA5oFdtlxiJ88S8HKM8dldpnNcTK5gyrwiDOgx2cHP3rpm2geB5bKg==
+"@ensdomains/ui@3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.2.tgz#2ad06c83064c7bf5ec9b61f0b04cfe6afba0bcb5"
+  integrity sha512-BLbgfHSI+/v458xdui/MgxgXKxuZIaJ+8zTGCPGcD4NVOpmfuNI3z92Ti16leFi5qaGI9iUQs+0MKw/1EVbsYA==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
