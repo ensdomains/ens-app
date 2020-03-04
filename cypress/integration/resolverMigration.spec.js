@@ -8,23 +8,12 @@ describe('Migrate resolver and records', () => {
     cy.visit(`${ROOT}/name/abittooawesome2.eth`)
     cy.getByText('Migrate', { timeout: 5000 }).click({ force: true })
     cy.queryByText('migrate', { timeout: 50 }).should('not.exist')
-    cy.wait(2000)
-    cy.queryByTestId('edit-resolver', {
-      timeout: 5000,
-      exact: false
-    }).should('have.css', 'background-color', ENABLED_COLOUR)
   })
 
   it('can visit a name with an old content resolver and migrate it as swarm contenthash', () => {
     cy.visit(`${ROOT}/name/oldresolver.eth`)
     cy.getByText('Migrate', { timeout: 5000 }).click({ force: true })
     cy.queryByText('migrate', { timeout: 50 }).should('not.exist')
-    cy.wait(2000)
-    cy.queryByTestId('edit-resolver', { timeout: 5000 }).should(
-      'have.css',
-      'background-color',
-      ENABLED_COLOUR
-    )
     cy.queryByText('bzz://', {
       exact: false
     }).should('exist')
