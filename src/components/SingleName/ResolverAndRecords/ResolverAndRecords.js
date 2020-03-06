@@ -22,6 +22,7 @@ import RecordsItem from './RecordsItem'
 import TextRecord from './TextRecord'
 import Address from './Address'
 import ResolverMigration from './ResolverMigration'
+import ArtRecords from './ArtRecords'
 
 const RecordsWrapper = styled('div')`
   border-radius: 6px;
@@ -205,15 +206,28 @@ function Records({
   )
 }
 
+const MigrationWarningContainer = styled('div')`
+  margin-bottom: 20px;
+`
+
 function MigrationWarning() {
   return (
-    <div>
+    <MigrationWarningContainer>
       You’re using an outdated version of the public resolver, Click to migrate
       your resolver and records. You will need to confirm two transactions in
       order to migrate both your records and resolver.
-    </div>
+    </MigrationWarningContainer>
   )
 }
+
+const ManualMigrationMessage = styled('div')`
+  margin-bottom: 20px;
+`
+
+const ManualMigration = styled('div')`
+  border-top: 1px dashed #d3d3d3;
+  padding-top: 20px;
+`
 
 const ResolverWrapper = styled('div')`
   ${p =>
@@ -266,12 +280,14 @@ export default function ResolverAndRecords({
     <>
       <ResolverWrapper needsToBeMigrated={needsToBeMigrated}>
         {needsToBeMigrated ? (
-          <ResolverMigration
-            value={domain.resolver}
-            name={domain.name}
-            refetch={refetch}
-            isOwner={isOwner}
-          />
+          <>
+            <ResolverMigration
+              value={domain.resolver}
+              name={domain.name}
+              refetch={refetch}
+              isOwner={isOwner}
+            />
+          </>
         ) : (
           <DetailsItemEditable
             keyName="Resolver"
@@ -287,7 +303,33 @@ export default function ResolverAndRecords({
             needsToBeMigrated={needsToBeMigrated}
           />
         )}
-        {needsToBeMigrated && <MigrationWarning />}
+        {needsToBeMigrated && (
+          <>
+            <MigrationWarning />
+            <ManualMigration>
+              <ManualMigrationMessage>
+                To reset your resolver manually, click set and enter the address
+                of your custom resolver.
+              </ManualMigrationMessage>
+              <DetailsItemEditable
+                showLabel={false}
+                keyName="Resolver"
+                type="address"
+                value={domain.resolver}
+                canEdit={isOwner && isMigratedToNewRegistry}
+                domain={domain}
+                editButton="Set"
+                editButtonType="hollow-primary"
+                mutationButton="Save"
+                backgroundStyle="warning"
+                mutation={SET_RESOLVER}
+                refetch={refetch}
+                account={account}
+                needsToBeMigrated={needsToBeMigrated}
+              />
+            </ManualMigration>
+          </>
+        )}
       </ResolverWrapper>
 
       {hasResolver && (
@@ -304,6 +346,8 @@ export default function ResolverAndRecords({
           duringMigration={duringMigration}
         />
       )}
+
+      {hasResolver && <ArtRecords domain={domain} query={GET_TEXT} />}
     </>
   )
 }

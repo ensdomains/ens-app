@@ -32,7 +32,6 @@ export default function ChildDomainItem({
       ? `${name}`
       : `[unknown${labelhash.slice(2, 10)}].${parent}`
   if (isMigrated === false) label = label + ' (not migrated)'
-  console.log({ isMigrated })
   return (
     <DomainLink
       warning={isMigrated === false ? true : false}

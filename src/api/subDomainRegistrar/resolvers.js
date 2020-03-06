@@ -1,6 +1,6 @@
 import { queryAll } from '../subDomainRegistrar'
 import { fromWei } from 'ethjs-unit'
-import { getOwner } from '@ensdomains/ui'
+import getENS from 'api/ens'
 
 const defaults = {
   subDomainState: []
@@ -24,7 +24,8 @@ const resolvers = {
             let owner = null
 
             if (!node.available) {
-              owner = await getOwner(`${node.label}.${node.domain}.eth`)
+              const ens = getENS()
+              owner = await ens.getOwner(`${node.label}.${node.domain}.eth`)
             }
             const newNode = {
               ...node,
