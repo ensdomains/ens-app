@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState, useCallback } from 'react'
 import styled from '@emotion/styled'
 import { ReactComponent as UploadIcon } from '../Icons/Upload.svg'
 
@@ -25,60 +25,51 @@ const IconText = styled('span')`
   opacity: 0.3;
 `
 
-class Dropzone extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { hightlight: false }
-    this.fileInputRef = React.createRef()
+const Dropzone = props => {
+  const [highlight, setHighlight] = useState(false)
+  const fileInputRef = React.createRef()
 
-    this.openFileDialog = this.openFileDialog.bind(this)
-    this.onFilesAdded = this.onFilesAdded.bind(this)
-    this.onDragOver = this.onDragOver.bind(this)
-    this.onDragLeave = this.onDragLeave.bind(this)
-    this.onDrop = this.onDrop.bind(this)
-  }
+  const openFileDialog = useCallback(() => {
+    if (props.disabled) return
+    fileInputRef.current.click()
+  })
 
-  openFileDialog() {
-    if (this.props.disabled) return
-    this.fileInputRef.current.click()
-  }
-
-  onFilesAdded(evt) {
-    if (this.props.disabled) return
+  const onFilesAdded = useCallback(evt => {
+    if (props.disabled) return
     const files = evt.target.files
-    if (this.props.onFilesAdded) {
+    if (props.onFilesAdded) {
       if (files.length > 1) {
-        const array = this.directoryListToArray(files)
-        this.props.onFilesAdded(array)
+        const array = directoryListToArray(files)
+        props.onFilesAdded(array)
       } else {
-        const array = this.fileListToArray(files)
-        this.props.onFilesAdded(array)
+        const array = fileListToArray(files)
+        props.onFilesAdded(array)
       }
     }
-  }
+  })
 
-  onDragOver(event) {
+  const onDragOver = useCallback(event => {
     event.preventDefault()
-    if (this.props.disabed) return
-    this.setState({ hightlight: true })
-  }
+    if (props.disabed) return
+    setHighlight(true)
+  })
 
-  onDragLeave(event) {
-    this.setState({ hightlight: false })
-  }
+  const onDragLeave = useCallback(event => {
+    setHighlight(false)
+  })
 
-  onDrop(event) {
+  const onDrop = useCallback(event => {
     event.preventDefault()
-    if (this.props.disabed) return
+    if (props.disabed) return
     const files = event.dataTransfer.files
-    if (this.props.onFilesAdded) {
-      const array = this.fileListToArray(files)
-      this.props.onFilesAdded(array)
+    if (props.onFilesAdded) {
+      const array = fileListToArray(files)
+      props.onFilesAdded(array)
     }
-    this.setState({ hightlight: false })
-  }
+    setHighlight(false)
+  })
 
-  fileListToArray(list) {
+  const fileListToArray = list => {
     const array = []
     for (var i = 0; i < list.length; i++) {
       array.push(list.item(i))
@@ -86,7 +77,7 @@ class Dropzone extends Component {
     return array
   }
 
-  directoryListToArray(list) {
+  const directoryListToArray = list => {
     const array = []
     for (var i = 0; i < list.length; i++) {
       const item = {
@@ -98,28 +89,26 @@ class Dropzone extends Component {
     return array
   }
 
-  render() {
-    return (
-      <DropzoneArea
-        onDragOver={this.onDragOver}
-        onDragLeave={this.onDragLeave}
-        onDrop={this.onDrop}
-        onClick={this.openFileDialog}
-        style={{ cursor: this.props.disabled ? 'default' : 'pointer' }}
-      >
-        <input
-          type="file"
-          webkitdirectory="webkitdirectory"
-          multiple="multiple"
-          ref={this.fileInputRef}
-          style={{ display: `none` }}
-          onChange={this.onFilesAdded}
-        />
-        <Icon />
-        <IconText>Click Or Drag To Upload</IconText>
-      </DropzoneArea>
-    )
-  }
+  return (
+    <DropzoneArea
+      onDragOver={onDragOver}
+      onDragLeave={onDragLeave}
+      onDrop={onDrop}
+      onClick={openFileDialog}
+      style={{ cursor: props.disabled ? 'default' : 'pointer' }}
+    >
+      <input
+        type="file"
+        webkitdirectory="webkitdirectory"
+        multiple="multiple"
+        ref={fileInputRef}
+        style={{ display: `none` }}
+        onChange={onFilesAdded}
+      />
+      <Icon />
+      <IconText>Click To Upload Directories or Drag A File</IconText>
+    </DropzoneArea>
+  )
 }
 
 export default Dropzone

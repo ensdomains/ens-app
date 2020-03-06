@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState, useCallback } from 'react'
 import styled from '@emotion/styled'
 import { getConfig } from './Config'
 
@@ -75,23 +75,14 @@ const Button = styled('input')`
   }
 `
 
-class IpfsLogin extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      errorMsg: '',
-      username: '',
-      password: '',
-      provider: ''
-    }
+const IpfsLogin = props => {
+  const [errorMsg, setErrorMsg] = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [provider, setProvider] = useState('')
 
-    this.login = this.login.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-  }
-
-  login(username, password) {
-    const client = getConfig('Temporal')
+  const login = useCallback((username, password) => {
+    const client = getConfig('TEMPORAL')
     var data = JSON.stringify({
       username: username.toString(),
       password: password.toString()
@@ -100,69 +91,63 @@ class IpfsLogin extends Component {
     var req = new XMLHttpRequest()
     req.withCredentials = false
 
-    req.addEventListener(
-      'readystatechange',
-      function() {
-        if (req.readyState === 4) {
-          let result = JSON.parse(req.responseText)
-          if (result.token) {
-            window.localStorage.setItem('ipfsexpire', result.expire)
-            window.localStorage.setItem('ipfstoken', result.token)
-            this.setState({ errorMsg: '' })
-            this.props.startAuthorizing()
-          } else {
-            console.log('Login Error')
-            this.setState({ errorMsg: result.message })
-          }
+    req.addEventListener('readystatechange', () => {
+      if (req.readyState === 4) {
+        let result = JSON.parse(req.responseText)
+        if (result.token) {
+          window.localStorage.setItem('ipfsexpire', result.expire)
+          window.localStorage.setItem('ipfstoken', result.token)
+          setErrorMsg('')
+          props.startAuthorizing()
+        } else {
+          setErrorMsg(result.message)
         }
-      }.bind(this)
-    )
+      }
+    })
 
     req.open('POST', client.loginDev)
     req.setRequestHeader('Cache-Control', 'no-cache')
     req.setRequestHeader('Content-Type', 'text/plain')
     req.send(data)
-  }
+  })
 
-  handleChange(e) {
-    const { name, value } = e.target
-    this.setState({ [name]: value })
-  }
+  const handleChange = useCallback(evt => {
+    const { name, value } = evt.target
+    name == `username` ? setUsername(value) : setPassword(value)
+  })
 
-  handleSubmit(e) {
-    e.preventDefault()
-    this.login(this.state.username, this.state.password)
-  }
+  const handleSubmit = useCallback(evt => {
+    evt.preventDefault()
+    login(username, password)
+  })
 
-  render() {
-    return (
-      <Login>
-        <Header>Log in</Header>
-        <LoginForm onSubmit={this.handleSubmit}>
-          <ErrorMsg>{this.state.errorMsg}</ErrorMsg>
-          <InputWrapper>
-            <TextInput
-              type="username"
-              name="username"
-              placeholder="Username"
-              onChange={this.handleChange}
-            />
-          </InputWrapper>
-          <InputWrapper>
-            <TextInput
-              type="password"
-              name="password"
-              placeholder="Password"
-              onChange={this.handleChange}
-            />
-          </InputWrapper>
-          <InputWrapper>
-            <Button type="submit" value="Submit" />
-          </InputWrapper>
-        </LoginForm>
-      </Login>
-    )
-  }
+  return (
+    <Login>
+      <Header>Log in</Header>
+      <LoginForm onSubmit={handleSubmit}>
+        <ErrorMsg>{errorMsg}</ErrorMsg>
+        <InputWrapper>
+          <TextInput
+            type="username"
+            name="username"
+            placeholder="Username"
+            onChange={handleChange}
+          />
+        </InputWrapper>
+        <InputWrapper>
+          <TextInput
+            type="password"
+            name="password"
+            placeholder="Password"
+            onChange={handleChange}
+          />
+        </InputWrapper>
+        <InputWrapper>
+          <Button type="submit" value="Submit" />
+        </InputWrapper>
+      </LoginForm>
+    </Login>
+  )
 }
 
 export default IpfsLogin

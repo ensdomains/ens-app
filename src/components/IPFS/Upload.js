@@ -1,7 +1,6 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import Dropzone from './Dropzone'
 import styled from '@emotion/styled'
-import Loading from './Loading'
 import ipfsClient from 'ipfs-http-client'
 import { loggedIn, getToken } from './Auth'
 import { getConfig } from './Config'
@@ -26,46 +25,22 @@ const Files = styled('div')`
   justify-items: flex-start;
 `
 
-const Checkmark = styled('img')`
-  opacity: 0.5;
-  margin-left: 32px;
-`
+const Upload = props => {
+  const [files, setFiles] = useState([])
+  const [uploading, setUploading] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [loading, setLoading] = useState({})
+  const [uploadError, setUploadError] = useState(false)
+  const [newHash, setNewHash] = useState(null)
 
-const LoadingWrapper = styled('div')`
-  display: flex;
-  flex: 1;
-  flex-direction: row;
-  align-items: center;
-`
-
-class Upload extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      files: [],
-      uploading: false,
-      loading: {},
-      successfullUploaded: false,
-      uploadError: false,
-      newHash: null
-    }
-
-    this.onFilesAdded = this.onFilesAdded.bind(this)
-    this.sendRequest = this.sendRequest.bind(this)
-    this.renderProgress = this.renderProgress.bind(this)
+  const onFilesAdded = newfiles => {
+    setFiles(files.concat(newfiles))
+    setUploading(true)
+    sendRequest(newfiles)
   }
 
-  onFilesAdded(files) {
-    this.setState(prevState => ({
-      files: prevState.files.concat(files)
-    }))
-    this.setState({ uploading: true })
-    this.sendRequest(files)
-  }
-
-  sendRequest(files) {
-    const client = getConfig('Temporal')
-    console.log(client)
+  const sendRequest = newfiles => {
+    const client = getConfig('TEMPORAL')
     const ipfs = ipfsClient({
       host: client.dev,
       port: client.port,
@@ -75,110 +50,79 @@ class Upload extends Component {
         Authorization: loggedIn() ? 'Bearer ' + getToken() : ''
       }
     })
-    const file = [...files][0]
+    const file = [...newfiles][0]
     let ipfsId
-    const copy = { ...this.state.loading }
-    this.setState({ loading: copy })
+    const copy = { ...loading }
+    setLoading(copy)
 
-    if (files.length > 1) {
+    if (newfiles.length > 1) {
       var x
       for (x in files) {
-        copy[files[x].path] = { state: 'pending', percentage: 0 }
-        this.setState({ loading: copy })
+        copy[newfiles[x].path] = { state: 'pending', percentage: 0 }
+        setLoading(copy)
       }
       ipfs
-        .add(files, { progress: prog => console.log(`received: ${prog}`) })
+        .add(files, {})
         .then(response => {
-          console.log(response)
           const root = response[response.length - 1]
-          console.log(root.hash)
-          if (this.props.updateValue) {
-            this.props.updateValue('ipfs://' + root.hash)
+          if (props.updateValue) {
+            props.updateValue('ipfs://' + root.hash)
           }
-          this.setState({
-            uploading: false,
-            successfullUploaded: true,
-            newHash: `ipfs://` + root.hash
-          })
+          setUploading(false)
+          setSuccess(true)
+          setNewHash(`ipfs://` + root.hash)
         })
         .catch(err => {
           copy[file.path] = { state: 'error', percentage: 0 }
-          this.setState({ loading: copy })
-          console.log('error')
-          console.error(err)
-          this.setState({ uploading: false, uploadError: true })
+          setLoading(copy)
+          setUploading(false)
+          setUploadError(true)
         })
     } else {
-      console.log('starting')
       copy[file.name] = { state: 'pending', percentage: 0 }
-      this.setState({ loading: copy })
+      setLoading(copy)
       ipfs
         .add(file, {})
         .then(response => {
-          console.log(response)
           ipfsId = response[0].hash
-          console.log(ipfsId)
-          if (this.props.updateValue) {
-            this.props.updateValue('ipfs://' + ipfsId)
+          if (props.updateValue) {
+            props.updateValue('ipfs://' + ipfsId)
           }
-          this.setState({
-            uploading: false,
-            successfullUploaded: true,
-            newHash: `ipfs://` + ipfsId
-          })
+          setUploading(false)
+          setSuccess(true)
+          setNewHash(`ipfs://` + ipfsId)
         })
         .catch(err => {
           copy[file.name] = { state: 'error', percentage: 0 }
-          this.setState({ loading: copy })
-          console.log('error')
-          console.error(err)
-          this.setState({ uploading: false, uploadError: true })
+          setLoading(copy)
+          setUploading(false)
+          setUploadError(true)
         })
     }
   }
 
-  renderProgress(file) {
-    const loading = this.state.loading[file.name]
-    if (this.state.uploading || this.state.successfullUploaded) {
-      return (
-        <LoadingWrapper>
-          <Loading loaded={loading ? loading.percentage : 0} />
-          <Checkmark
-            alt="done"
-            src="baseline-check_circle_outline-24px.svg"
-            style={{
-              opacity: loading && loading.state === 'done' ? 0.5 : 0
-            }}
-          />
-        </LoadingWrapper>
-      )
-    }
-  }
-
-  render() {
-    return (
-      <Container>
-        {this.state.uploading ? (
-          <Loader withWrap large />
-        ) : this.state.successfullUploaded ? (
-          <>
-            <Files>
-              {this.state.files.length > 1 ? (
-                <FileName>Directory Successfully Uploaded!</FileName>
-              ) : (
-                <FileName>File Successfully Uploaded!</FileName>
-              )}
-            </Files>
-          </>
-        ) : (
-          <Dropzone
-            onFilesAdded={this.onFilesAdded}
-            disabled={this.state.uploading || this.state.successfullUploaded}
-          />
-        )}
-      </Container>
-    )
-  }
+  return (
+    <Container>
+      {uploading ? (
+        <Loader withWrap large />
+      ) : success ? (
+        <>
+          <Files>
+            {files.length > 1 ? (
+              <FileName>Directory Successfully Uploaded!</FileName>
+            ) : (
+              <FileName>File Successfully Uploaded!</FileName>
+            )}
+          </Files>
+        </>
+      ) : (
+        <Dropzone
+          onFilesAdded={onFilesAdded()}
+          disabled={uploading || success}
+        />
+      )}
+    </Container>
+  )
 }
 
 export default Upload
