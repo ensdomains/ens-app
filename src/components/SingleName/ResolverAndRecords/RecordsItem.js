@@ -184,6 +184,7 @@ const RecordItemEditable = ({
     startPending,
     setConfirmed,
     startUploading,
+    stopUploading,
     startAuthorizing,
     stopAuthorizing
   } = actions
@@ -278,99 +279,87 @@ const RecordItemEditable = ({
             </RecordsContent>
             {editing ? (
               <>
-                {uploading ? (
-                  <>
-                    {authorized ? (
-                      <>
-                        <EditRecord>
-                          <Upload updateValue={updateValue} />
-                          {newValue !== '' ? (
-                            <NewRecordsContainer>
-                              <RecordsKey>New IPFS Hash:</RecordsKey>
-                              <ContentHashLink
-                                value={newValue}
-                                contentType={domain.contentType}
-                              />
-                            </NewRecordsContainer>
-                          ) : (
-                            <></>
-                          )}
-                        </EditRecord>
-                        <SaveCancelSwitch
-                          warningMessage={getOldContentWarning(
-                            type,
-                            domain.contentType
-                          )}
-                          mutation={e => {
-                            e.preventDefault()
-                            const variables = {
-                              name: domain.name,
-                              [variableName
-                                ? variableName
-                                : 'recordValue']: newValue
-                            }
-                            mutation({
-                              variables
-                            })
-                          }}
-                          isValid={isValid}
-                          stopEditing={stopEditing}
-                          stopAuthorizing={stopAuthorizing}
-                        />
-                      </>
-                    ) : (
-                      <>
-                        <IpfsLogin startAuthorizing={startAuthorizing} />
-                      </>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    <EditRecord>
-                      {type === 'address' ? (
-                        <AddressInput
-                          provider={window.ethereum || window.web3}
-                          onResolve={({ address }) => {
-                            if (address) {
-                              updateValue(address)
-                            } else {
-                              updateValue('')
-                            }
-                          }}
-                        />
-                      ) : (
-                        <DetailsItemInput
-                          newValue={newValue}
-                          dataType={type}
-                          contentType={domain.contentType}
-                          updateValue={updateValue}
-                          isValid={isValid}
-                          isInvalid={isInvalid}
-                        />
-                      )}
-                    </EditRecord>
-                    <SaveCancel
-                      warningMessage={getOldContentWarning(
-                        type,
-                        domain.contentType
-                      )}
-                      mutation={e => {
-                        e.preventDefault()
-                        const variables = {
-                          name: domain.name,
-                          [variableName
-                            ? variableName
-                            : 'recordValue']: newValue
+                <EditRecord>
+                  {type === 'address' ? (
+                    <AddressInput
+                      provider={window.ethereum || window.web3}
+                      onResolve={({ address }) => {
+                        if (address) {
+                          updateValue(address)
+                        } else {
+                          updateValue('')
                         }
-                        mutation({
-                          variables
-                        })
                       }}
-                      isValid={isValid}
-                      stopEditing={stopEditing}
                     />
-                  </>
-                )}
+                  ) : (
+                    <DetailsItemInput
+                      newValue={newValue}
+                      dataType={type}
+                      contentType={domain.contentType}
+                      updateValue={updateValue}
+                      isValid={isValid}
+                      isInvalid={isInvalid}
+                    />
+                  )}
+                </EditRecord>
+                <SaveCancel
+                  warningMessage={getOldContentWarning(
+                    type,
+                    domain.contentType
+                  )}
+                  mutation={e => {
+                    e.preventDefault()
+                    const variables = {
+                      name: domain.name,
+                      [variableName ? variableName : 'recordValue']: newValue
+                    }
+                    mutation({
+                      variables
+                    })
+                  }}
+                  isValid={isValid}
+                  stopEditing={stopEditing}
+                />
+              </>
+            ) : uploading && authorized ? (
+              <>
+                <EditRecord>
+                  <Upload updateValue={updateValue} />
+                  {newValue !== '' ? (
+                    <NewRecordsContainer>
+                      <RecordsKey>New IPFS Hash:</RecordsKey>
+                      <ContentHashLink
+                        value={newValue}
+                        contentType={domain.contentType}
+                      />
+                    </NewRecordsContainer>
+                  ) : (
+                    <></>
+                  )}
+                </EditRecord>
+                <SaveCancelSwitch
+                  warningMessage={getOldContentWarning(
+                    type,
+                    domain.contentType
+                  )}
+                  mutation={e => {
+                    e.preventDefault()
+                    const variables = {
+                      name: domain.name,
+                      [variableName ? variableName : 'recordValue']: newValue
+                    }
+                    mutation({
+                      variables
+                    })
+                  }}
+                  isValid={isValid}
+                  stopUploading={stopUploading}
+                  stopAuthorizing={stopAuthorizing}
+                />
+              </>
+            ) : uploading && !authorized ? (
+              <>
+                <IpfsLogin startAuthorizing={startAuthorizing} />
               </>
             ) : (
               ''

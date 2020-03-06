@@ -1,4 +1,4 @@
-const Temporal = {
+const TEMPORAL = {
   host: 'api.ipfs.temporal.cloud', // the IPFS api endpoint used when the etherium profile is set to mainnet
   dev: 'dev.api.ipfs.temporal.cloud', // the IPFS api endpoint used when not on mainnet
   port: '443', // the port the endpoint is served from
@@ -11,9 +11,9 @@ const Temporal = {
 
 export function getConfig(service) {
   switch (service) {
-    case (service = 'Temporal'):
-      return Temporal
+    case (service = 'TEMPORAL'):
+      return TEMPORAL
     default:
-      return Temporal
+      return TEMPORAL
   }
 }
