@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import { getConfig } from './Config'
 
@@ -79,9 +79,8 @@ const IpfsLogin = props => {
   const [errorMsg, setErrorMsg] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [provider, setProvider] = useState('')
 
-  const login = useCallback((username, password) => {
+  const login = (username, password) => {
     const client = getConfig('TEMPORAL')
     var data = JSON.stringify({
       username: username.toString(),
@@ -109,17 +108,17 @@ const IpfsLogin = props => {
     req.setRequestHeader('Cache-Control', 'no-cache')
     req.setRequestHeader('Content-Type', 'text/plain')
     req.send(data)
-  })
+  }
 
-  const handleChange = useCallback(evt => {
+  const handleChange = evt => {
     const { name, value } = evt.target
-    name == `username` ? setUsername(value) : setPassword(value)
-  })
+    name === `username` ? setUsername(value) : setPassword(value)
+  }
 
-  const handleSubmit = useCallback(evt => {
+  const handleSubmit = evt => {
     evt.preventDefault()
     login(username, password)
-  })
+  }
 
   return (
     <Login>

@@ -20,6 +20,12 @@ const FileName = styled('span')`
   font-size: 26px;
 `
 
+const ErrorMsg = styled('span')`
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: red;
+`
+
 const Files = styled('div')`
   align-items: flex-start;
   justify-items: flex-start;
@@ -27,17 +33,9 @@ const Files = styled('div')`
 
 const Upload = props => {
   const [files, setFiles] = useState([])
-  const [uploading, setUploading] = useState(false)
+  const [upload, setUpload] = useState(false)
   const [success, setSuccess] = useState(false)
-  const [loading, setLoading] = useState({})
   const [uploadError, setUploadError] = useState(false)
-  const [newHash, setNewHash] = useState(null)
-
-  const onFilesAdded = newfiles => {
-    setFiles(files.concat(newfiles))
-    setUploading(true)
-    sendRequest(newfiles)
-  }
 
   const sendRequest = newfiles => {
     const client = getConfig('TEMPORAL')
@@ -50,37 +48,26 @@ const Upload = props => {
         Authorization: loggedIn() ? 'Bearer ' + getToken() : ''
       }
     })
-    const file = [...newfiles][0]
-    let ipfsId
-    const copy = { ...loading }
-    setLoading(copy)
-
+    setFiles(newfiles)
+    setUpload(true)
     if (newfiles.length > 1) {
-      var x
-      for (x in files) {
-        copy[newfiles[x].path] = { state: 'pending', percentage: 0 }
-        setLoading(copy)
-      }
       ipfs
-        .add(files, {})
+        .add(newfiles, {})
         .then(response => {
           const root = response[response.length - 1]
           if (props.updateValue) {
             props.updateValue('ipfs://' + root.hash)
           }
-          setUploading(false)
+          setUpload(false)
           setSuccess(true)
-          setNewHash(`ipfs://` + root.hash)
         })
         .catch(err => {
-          copy[file.path] = { state: 'error', percentage: 0 }
-          setLoading(copy)
-          setUploading(false)
+          setUpload(false)
           setUploadError(true)
         })
-    } else {
-      copy[file.name] = { state: 'pending', percentage: 0 }
-      setLoading(copy)
+    } else if (newfiles.length === 1) {
+      const file = [...newfiles][0]
+      let ipfsId
       ipfs
         .add(file, {})
         .then(response => {
@@ -88,14 +75,11 @@ const Upload = props => {
           if (props.updateValue) {
             props.updateValue('ipfs://' + ipfsId)
           }
-          setUploading(false)
+          setUpload(false)
           setSuccess(true)
-          setNewHash(`ipfs://` + ipfsId)
         })
         .catch(err => {
-          copy[file.name] = { state: 'error', percentage: 0 }
-          setLoading(copy)
-          setUploading(false)
+          setUpload(false)
           setUploadError(true)
         })
     }
@@ -103,7 +87,7 @@ const Upload = props => {
 
   return (
     <Container>
-      {uploading ? (
+      {upload ? (
         <Loader withWrap large />
       ) : success ? (
         <>
@@ -116,10 +100,12 @@ const Upload = props => {
           </Files>
         </>
       ) : (
-        <Dropzone
-          onFilesAdded={onFilesAdded()}
-          disabled={uploading || success}
-        />
+        <>
+          <ErrorMsg>
+            {uploadError ? 'There was a problem uploading your file' : ''}
+          </ErrorMsg>
+          <Dropzone sendRequest={sendRequest} disabled={upload || success} />
+        </>
       )}
     </Container>
   )

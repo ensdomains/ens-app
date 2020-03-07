@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import { ReactComponent as UploadIcon } from '../Icons/Upload.svg'
 
@@ -7,7 +7,7 @@ const DropzoneArea = styled('div')`
   width: 200px;
   background-color: #fff;
   border: 2px dashed rgb(187, 186, 186);
-  border-radius: 50%;
+  border-radius: 2%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -29,45 +29,50 @@ const Dropzone = props => {
   const [highlight, setHighlight] = useState(false)
   const fileInputRef = React.createRef()
 
-  const openFileDialog = useCallback(() => {
+  const openFileDialog = () => {
     if (props.disabled) return
     fileInputRef.current.click()
-  })
+  }
 
-  const onFilesAdded = useCallback(evt => {
+  const onFilesAdded = e => {
     if (props.disabled) return
-    const files = evt.target.files
-    if (props.onFilesAdded) {
+    const files = e.target.files
+    if (props.sendRequest) {
       if (files.length > 1) {
         const array = directoryListToArray(files)
-        props.onFilesAdded(array)
+        props.sendRequest(array)
       } else {
         const array = fileListToArray(files)
-        props.onFilesAdded(array)
+        props.sendRequest(array)
       }
     }
-  })
+  }
 
-  const onDragOver = useCallback(event => {
-    event.preventDefault()
+  const onDragOver = e => {
+    e.preventDefault()
     if (props.disabed) return
     setHighlight(true)
-  })
+  }
 
-  const onDragLeave = useCallback(event => {
+  const onDragLeave = e => {
     setHighlight(false)
-  })
+  }
 
-  const onDrop = useCallback(event => {
-    event.preventDefault()
+  const onDrop = e => {
+    e.preventDefault()
     if (props.disabed) return
-    const files = event.dataTransfer.files
-    if (props.onFilesAdded) {
-      const array = fileListToArray(files)
-      props.onFilesAdded(array)
+    const files = e.dataTransfer.files
+    if (props.sendRequest) {
+      if (files.length > 1) {
+        const array = directoryListToArray(files)
+        props.sendRequest(array)
+      } else {
+        const array = fileListToArray(files)
+        props.sendRequest(array)
+      }
     }
     setHighlight(false)
-  })
+  }
 
   const fileListToArray = list => {
     const array = []
@@ -106,7 +111,7 @@ const Dropzone = props => {
         onChange={onFilesAdded}
       />
       <Icon />
-      <IconText>Click To Upload Directories or Drag A File</IconText>
+      <IconText>Click or Drag</IconText>
     </DropzoneArea>
   )
 }

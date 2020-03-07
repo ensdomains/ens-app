@@ -228,7 +228,7 @@ const RecordItemEditable = ({
                     refetch()
                   }}
                 />
-              ) : editing ? (
+              ) : editing || uploading ? (
                 <Action>
                   <Mutation
                     mutation={chooseMutation(keyName, domain.contentType)}
