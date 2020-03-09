@@ -1,20 +1,7 @@
 import crypto from 'crypto'
 import { isShortName } from '../../utils/utils'
 
-import {
-  getEntry,
-  getRentPrice,
-  commit,
-  getMinimumCommitmentAge,
-  register,
-  renew,
-  transferRegistrars,
-  releaseDeed,
-  transferOwner,
-  reclaim,
-  submitProof,
-  getOwner
-} from '@ensdomains/ui'
+import getENS, { getRegistrar } from 'api/ens'
 
 import modeNames from '../modes'
 import { sendHelper } from '../resolverUtils'
@@ -29,11 +16,14 @@ function randomSecret() {
 const resolvers = {
   Query: {
     async getRentPrice(_, { name, duration }, { cache }) {
-      return await getRentPrice(name, duration)
+      const registrar = getRegistrar()
+      return registrar.getRentPrice(name, duration)
     },
     async getMinimumCommitmentAge() {
       try {
-        const minCommitmentAge = await getMinimumCommitmentAge()
+        const registrar = getRegistrar()
+        console.log(registrar)
+        const minCommitmentAge = await registrar.getMinimumCommitmentAge()
         return parseInt(minCommitmentAge)
       } catch (e) {
         console.log(e)
@@ -42,27 +32,33 @@ const resolvers = {
   },
   Mutation: {
     async commit(_, { label }, { cache }) {
+      const registrar = getRegistrar()
       //Generate secret
       const secret = randomSecret()
       secrets[label] = secret
-      const tx = await commit(label, secret)
+      const tx = await registrar.commit(label, secret)
       return sendHelper(tx)
     },
     async register(_, { label, duration }) {
+      const registrar = getRegistrar()
       const secret = secrets[label]
-      const tx = await register(label, duration, secret)
+      const tx = await registrar.register(label, duration, secret)
 
       return sendHelper(tx)
     },
     async reclaim(_, { name, address }) {
-      const tx = await reclaim(name, address)
+      const registrar = getRegistrar()
+      const tx = await registrar.reclaim(name, address)
       return sendHelper(tx)
     },
     async renew(_, { label, duration }) {
-      const tx = await renew(label, duration)
+      const registrar = getRegistrar()
+      const tx = await registrar.renew(label, duration)
       return sendHelper(tx)
     },
     async getDomainAvailability(_, { name }, { cache }) {
+      const registrar = getRegistrar()
+      const ens = getENS()
       try {
         const {
           state,
@@ -70,7 +66,7 @@ const resolvers = {
           revealDate,
           value,
           highestBid
-        } = await getEntry(name)
+        } = await registrar.getEntry(name)
         let owner = null
         if (isShortName(name)) {
           cache.writeData({
@@ -80,7 +76,7 @@ const resolvers = {
         }
 
         if (modeNames[state] === 'Owned') {
-          owner = await getOwner(`${name}.eth`)
+          owner = await ens.getOwner(`${name}.eth`)
         }
 
         const data = {
@@ -104,19 +100,18 @@ const resolvers = {
       }
     },
     async setRegistrant(_, { name, address }) {
-      const tx = await transferOwner(name, address)
-      return sendHelper(tx)
-    },
-    async transferRegistrars(_, { label }) {
-      const tx = await transferRegistrars(label)
+      const registrar = getRegistrar()
+      const tx = await registrar.transferOwner(name, address)
       return sendHelper(tx)
     },
     async releaseDeed(_, { label }) {
-      const tx = await releaseDeed(label)
+      const registrar = getRegistrar()
+      const tx = await registrar.releaseDeed(label)
       return sendHelper(tx)
     },
     async submitProof(_, { name, parentOwner }) {
-      const tx = await submitProof(name, parentOwner)
+      const registrar = getRegistrar()
+      const tx = await registrar.submitProof(name, parentOwner)
       return sendHelper(tx)
     }
   }

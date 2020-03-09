@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
@@ -25,29 +25,62 @@ const Pending = ({ className, children = 'Tx pending' }) => (
   </PendingContainer>
 )
 
-class PendingTx extends React.Component {
-  render() {
-    const { txHash, onConfirmed } = this.props
-    return (
-      <Query query={GET_TRANSACTION_HISTORY}>
-        {({ data: { transactionHistory } }) => {
-          const lastTransaction = _.last(transactionHistory)
-          if (
-            lastTransaction &&
-            lastTransaction.txHash === txHash &&
-            lastTransaction.txState === 'Confirmed'
-          ) {
-            onConfirmed()
-          }
-          return <Pending {...this.props} />
-        }}
-      </Query>
-    )
+function MultiplePendingTx(props) {
+  const { txHashes, onConfirmed } = props
+  const [txHashesStatus, setTxHashesStatus] = useState(txHashes)
+  return (
+    <Query query={GET_TRANSACTION_HISTORY}>
+      {({ data: { transactionHistory } }) => {
+        txHashesStatus.forEach(txHash => {
+          transactionHistory.forEach(tx => {
+            if (tx && tx.txHash === txHash && tx.txState === 'Confirmed') {
+              const index = txHashesStatus.findIndex(tx => tx === txHash)
+              const newTxHashesStatus = [...txHashesStatus]
+              newTxHashesStatus[index] = 1
+              setTxHashesStatus(newTxHashesStatus)
+
+              if (
+                newTxHashesStatus.reduce((acc, curr) => acc + curr) ===
+                newTxHashesStatus.length
+              ) {
+                onConfirmed()
+              }
+            }
+          })
+        })
+
+        return <Pending {...props} />
+      }}
+    </Query>
+  )
+}
+
+function PendingTx(props) {
+  const { txHash, txHashes, onConfirmed } = props
+
+  if (txHashes) {
+    return <MultiplePendingTx txHashes={txHashes} onConfirmed={onConfirmed} />
   }
+  return (
+    <Query query={GET_TRANSACTION_HISTORY}>
+      {({ data: { transactionHistory } }) => {
+        const lastTransaction = _.last(transactionHistory)
+        if (
+          lastTransaction &&
+          lastTransaction.txHash === txHash &&
+          lastTransaction.txState === 'Confirmed'
+        ) {
+          onConfirmed()
+        }
+        return <Pending {...props} />
+      }}
+    </Query>
+  )
 }
 
 PendingTx.propTypes = {
   txHash: PropTypes.string,
+  txHashes: PropTypes.array,
   onConfirmed: PropTypes.func
 }
 

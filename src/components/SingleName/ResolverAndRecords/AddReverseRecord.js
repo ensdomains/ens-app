@@ -2,17 +2,17 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
 
-import { SET_NAME } from '../../graphql/mutations'
+import { SET_NAME } from 'graphql/mutations'
 import mq from 'mediaQuery'
-import { useEditable } from '../hooks'
+import { useEditable } from '../../hooks'
 
-import ReverseRecordQuery from '../ReverseRecordQuery'
-import SaveCancel from './SaveCancel'
-import PendingTx from '../PendingTx'
+import ReverseRecordQuery from '../../ReverseRecordQuery'
+import SaveCancel from '../SaveCancel'
+import PendingTx from '../../PendingTx'
 
-import { ReactComponent as DefaultCheck } from '../Icons/Check.svg'
-import { ReactComponent as DefaultBlueWarning } from '../Icons/BlueWarning.svg'
-import RotatingSmallCaret from '../Icons/RotatingSmallCaret'
+import { ReactComponent as DefaultCheck } from '../../Icons/Check.svg'
+import { ReactComponent as DefaultBlueWarning } from '../../Icons/BlueWarning.svg'
+import RotatingSmallCaret from '../../Icons/RotatingSmallCaret'
 
 const AddReverseRecordContainer = styled('div')`
   background: #f0f6fa;
@@ -168,7 +168,6 @@ function AddReverseRecord({ account, name }) {
                     }}
                     onCompleted={data => {
                       startPending(Object.values(data)[0])
-                      refetch()
                     }}
                   >
                     {mutation => (

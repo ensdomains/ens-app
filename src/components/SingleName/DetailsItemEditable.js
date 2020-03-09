@@ -13,7 +13,12 @@ import { addressUtils } from 'utils/utils'
 import Tooltip from '../Tooltip/Tooltip'
 import { SingleNameBlockies } from './SingleNameBlockies'
 import DefaultAddressLink from '../Links/AddressLink'
-import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
+import {
+  DetailsItem,
+  DetailsKey,
+  DetailsValue,
+  DetailsContent
+} from './DetailsItem'
 import SaveCancel from './SaveCancel'
 import DefaultInput from '../Forms/Input'
 import Button from '../Forms/Button'
@@ -50,23 +55,19 @@ const EditButton = styled(Button)`
 const DetailsEditableContainer = styled(DetailsItem)`
   flex-direction: column;
 
-  background: ${({ editing }) => (editing ? '#F0F6FA' : 'white')};
+  background: ${({ editing, backgroundStyle }) => {
+    switch (backgroundStyle) {
+      case 'warning':
+        return editing ? 'transparent' : 'transparent'
+      default:
+        return editing ? '#F0F6FA' : 'transparent'
+    }
+  }};
   padding: ${({ editing }) => (editing ? '20px' : '0')};
   ${({ editing }) => (editing ? `margin-bottom: 20px;` : '')}
   transition: 0.3s;
-`
 
-const DetailsContent = styled('div')`
-  display: flex;
-  justify-content: flex-start;
-  position: relative;
-  flex-direction: column;
-  width: 100%;
-  ${({ editing }) => editing && 'margin-bottom: 30px'};
-  transition: 0.3s;
-  ${mq.small`
-    flex-direction: row;
-  `}
+  ${({ editing }) => editing && mq.small` flex-direction: column;`};
 `
 
 const EditRecord = styled('div')`
@@ -167,7 +168,8 @@ function getInputType(
     years,
     setYears,
     duration,
-    expirationDate
+    expirationDate,
+    duringMigration
   }
 ) {
   if (keyName === 'Expiration Date') {
@@ -242,6 +244,9 @@ function getVariables(keyName, { domain, variableName, newValue, duration }) {
 }
 
 const Editable = ({
+  showLabel = true,
+  editButtonType = 'primary',
+  backgroundStyle = 'blue',
   keyName,
   value,
   type,
@@ -287,51 +292,58 @@ const Editable = ({
       mutation={mutation}
       onCompleted={data => {
         startPending(Object.values(data)[0])
-        refetch()
       }}
     >
       {mutation => (
-        <DetailsEditableContainer editing={editing}>
+        <DetailsEditableContainer
+          editing={editing}
+          backgroundStyle={backgroundStyle}
+        >
           <DetailsContent editing={editing}>
-            <DetailsKey>{keyName}</DetailsKey>
-            <DetailsValue
-              editable
-              data-testid={`details-value-${keyName.toLowerCase()}`}
-            >
-              {type === 'address' ? (
-                <AddressLink address={value}>
-                  <SingleNameBlockies address={value} imageSize={24} />
-                  {keyName === 'Resolver' &&
-                  domain.contentType === 'oldcontent' ? (
-                    <Tooltip
-                      text='<p>This resolver is outdated and does not support the new content hash.<br/>Click the "Set" button to update  to the latest public resolver.</p>'
-                      position="top"
-                      border={true}
-                    >
-                      {({ tooltipElement, showTooltip, hideTooltip }) => (
-                        <>
-                          <Info
-                            onMouseOver={() => {
-                              showTooltip()
-                            }}
-                            onMouseLeave={() => {
-                              hideTooltip()
-                            }}
-                          />
-                          {tooltipElement}
-                        </>
-                      )}
-                    </Tooltip>
-                  ) : null}
-                  <Address>{value}</Address>
-                </AddressLink>
-              ) : type === 'date' ? (
-                formatDate(value)
-              ) : (
-                value
-              )}
-              {notes}
-            </DetailsValue>
+            {showLabel && (
+              <>
+                <DetailsKey>{keyName}</DetailsKey>
+                <DetailsValue
+                  editing={editing}
+                  editable
+                  data-testid={`details-value-${keyName.toLowerCase()}`}
+                >
+                  {type === 'address' ? (
+                    <AddressLink address={value}>
+                      <SingleNameBlockies address={value} imageSize={24} />
+                      {keyName === 'Resolver' &&
+                      domain.contentType === 'oldcontent' ? (
+                        <Tooltip
+                          text='<p>This resolver is outdated and does not support the new content hash.<br/>Click the "Set" button to update  to the latest public resolver.</p>'
+                          position="top"
+                          border={true}
+                        >
+                          {({ tooltipElement, showTooltip, hideTooltip }) => (
+                            <>
+                              <Info
+                                onMouseOver={() => {
+                                  showTooltip()
+                                }}
+                                onMouseLeave={() => {
+                                  hideTooltip()
+                                }}
+                              />
+                              {tooltipElement}
+                            </>
+                          )}
+                        </Tooltip>
+                      ) : null}
+                      <Address>{value}</Address>
+                    </AddressLink>
+                  ) : type === 'date' ? (
+                    formatDate(value)
+                  ) : (
+                    value
+                  )}
+                  {notes}
+                </DetailsValue>
+              </>
+            )}
             {editing ? null : pending && !confirmed ? (
               <PendingTx
                 txHash={txHash}
@@ -344,6 +356,7 @@ const Editable = ({
               <Action>
                 {editButton ? (
                   <EditButton
+                    type={editButtonType}
                     onClick={startEditing}
                     data-testid={`edit-${keyName.toLowerCase()}`}
                   >
@@ -521,6 +534,7 @@ function DetailsEditable(props) {
 }
 
 DetailsEditable.propTypes = {
+  showLabel: PropTypes.string, // defaults to true, shows label
   keyName: PropTypes.string.isRequired, // key of the record
   value: PropTypes.string.isRequired, // value of the record (normally hex address)
   type: PropTypes.string, // type of value. Defaults to address
@@ -528,10 +542,12 @@ DetailsEditable.propTypes = {
   mutation: PropTypes.object.isRequired, //graphql mutation string for making tx
   mutationButton: PropTypes.string, // Mutation button text
   editButton: PropTypes.string, //Edit button text
+  buttonType: PropTypes.string, // style of the edit button
   canEdit: PropTypes.bool,
   domain: PropTypes.object.isRequired,
   variableName: PropTypes.string, //can change the variable name for mutation
-  refetch: PropTypes.func.isRequired
+  refetch: PropTypes.func.isRequired,
+  duringMigration: PropTypes.bool
 }
 
 export default DetailsEditable

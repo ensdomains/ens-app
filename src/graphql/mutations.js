@@ -78,6 +78,14 @@ export const SET_SUBNODE_OWNER = gql`
   }
 `
 
+export const CREATE_SUBDOMAIN = gql`
+  mutation createSubdomain($name: String) {
+    createSubdomain(name: $name) @client
+  }
+`
+
+/* Resolver Mutations */
+
 export const SET_NAME = gql`
   mutation setName($name: String) {
     setName(name: $name) @client
@@ -113,9 +121,9 @@ export const SET_ADDR = gql`
   }
 `
 
-export const CREATE_SUBDOMAIN = gql`
-  mutation createSubdomain($name: String) {
-    createSubdomain(name: $name) @client
+export const MIGRATE_RESOLVER = gql`
+  mutation migrateResolver($name: String) {
+    migrateResolver(name: $name) @client
   }
 `
 
@@ -151,14 +159,8 @@ export const RENEW = gql`
   }
 `
 
-export const TRANSFER_REGISTRARS = gql`
-  mutation transferRegistrars($label: String) {
-    transferRegistrars(label: $label) @client
-  }
-`
-
 export const RELEASE_DEED = gql`
-  mutation releaseDeed($hash: String) {
+  mutation releaseDeed($label: String) {
     releaseDeed(label: $label) @client
   }
 `
@@ -166,5 +168,13 @@ export const RELEASE_DEED = gql`
 export const SUBMIT_PROOF = gql`
   mutation submitProof($name: String, $parentOwner: String) {
     submitProof(name: $name, parentOwner: $parentOwner) @client
+  }
+`
+
+/* Registry Migration */
+
+export const MIGRATE_REGISTRY = gql`
+  mutation migrateRegistry($name: String, $address: String) {
+    migrateRegistry(name: $name, address: $address) @client
   }
 `
