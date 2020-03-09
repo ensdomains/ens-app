@@ -1292,19 +1292,6 @@
     ripple-address-codec "^4.0.0"
     safe-buffer "^5.2.0"
 
-"@ensdomains/address-encoder@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@ensdomains/address-encoder/-/address-encoder-0.1.2.tgz#2c75a36d7fa7b067e0ed755cae24833154ad0e62"
-  integrity sha512-aW6UV6rTJR4NNVlz7PlRS7/YeD0ZSQy/xZsbWlx8/Zt7hDzBRiigCl5ud0tCYt88C7bCl+luoKhScMtq2LPFVw==
-  dependencies:
-    "@types/cashaddrjs" "^0.3.0"
-    bech32 "^1.1.3"
-    bs58check "^2.1.2"
-    cashaddrjs "^0.3.8"
-    ripple-address-codec "^4.0.0"
-    rskjs-util "^1.0.3"
-    safe-buffer "^5.2.0"
-
 "@ensdomains/address-encoder@^0.1.3":
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/@ensdomains/address-encoder/-/address-encoder-0.1.3.tgz#d54f186af3dd2a4dd91cc980d17840b91e09d260"
@@ -1575,15 +1562,15 @@
     truffle-default-builder "^2.0.0"
     underscore "^1.8.3"
 
-"@ensdomains/ui@3.0.4":
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.4.tgz#950378e616cefd67c01fc4e8771fd228143dbea1"
-  integrity sha512-Atb+1mjbn6szvpMT/xvqwDQsbSVCOCGFTKpw9FT7qAVxd8CVPkxPvmhlR2piM/rR+gQzGQhNvmG4u4mKoru0vA==
+"@ensdomains/ui@3.0.5":
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.5.tgz#0d44962cd0996b0e655d84e8a17aba7d22244f9e"
+  integrity sha512-O9C9P3s/uQYrAWWj8lPPRHvRFJqH9MdQovMXSXf/Hba8XbXRLNdOAy7pUOChXc4j2C8VFr30iNC4h8k16QFD2Q==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
     "@babel/runtime" "^7.4.4"
-    "@ensdomains/address-encoder" "^0.1.2"
+    "@ensdomains/address-encoder" "^0.1.3"
     "@ensdomains/dnsregistrar" "^0.3.9"
     "@ensdomains/ens" "^0.4.3"
     "@ensdomains/ens-022" "npm:@ensdomains/ens@0.2.2"
