@@ -154,6 +154,17 @@ export const GET_ERRORS = gql`
 export const GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH = gql`
   query getDomains($id: ID!) {
     account(id: $id) {
+      registrations {
+        expiryDate
+        domain {
+          labelName
+          name
+          isMigrated
+          parent {
+            name
+          }
+        }
+      }
       domains {
         labelName
         name

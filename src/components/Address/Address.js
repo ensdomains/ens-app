@@ -98,11 +98,12 @@ function DomainList({ domains, address }) {
 
   return (
     <DomainsContainer>
-      {filterOutReverse(data.account.domains).map(domain => (
+      {data.account.registrations.map(registration => (
         <DomainItem
-          name={decryptName(domain.name)}
+          name={decryptName(registration.domain.name)}
           owner={address}
-          isMigrated={domain.isMigrated}
+          domain={registration.domain}
+          expiryDate={registration.expiryDate}
         />
       ))}
     </DomainsContainer>

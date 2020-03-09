@@ -2,6 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { Link } from 'react-router-dom'
 import { SingleNameBlockies } from '../SingleName/SingleNameBlockies'
+import { formatDate } from 'utils/dates'
 
 const DomainLink = styled(Link)`
   display: flex;
@@ -21,16 +22,18 @@ const DomainLink = styled(Link)`
 
 export default function ChildDomainItem({
   name,
-  isMigrated,
+  domain,
   labelhash,
   owner,
   labelName,
-  parent
+  parent,
+  expiryDate
 }) {
   let label =
     labelName !== null
       ? `${name}`
       : `[unknown${labelhash.slice(2, 10)}].${parent}`
+  const { isMigrated } = domain
   if (isMigrated === false) label = label + ' (not migrated)'
   return (
     <DomainLink
@@ -40,6 +43,7 @@ export default function ChildDomainItem({
     >
       <SingleNameBlockies imageSize={24} address={owner} />
       {label}
+      {expiryDate && formatDate(parseInt(expiryDate * 1000))}
     </DomainLink>
   )
 }
