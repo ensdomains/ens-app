@@ -380,7 +380,7 @@ describe('Name detail view', () => {
     // labelhash for "original"
     const labelhash =
       '0x8cfce3846b2a51b94d2cc5646dc3b6249f78c82e2441b3d32e2a1e6feb93ee49'
-    cy.visit(`${NAME_ROOT}/testing.eth`)
+    cy.visit(`${NAME_ROOT}/subdomaindummy.eth`)
       .getByText('subdomains', { exact: false })
       .click({ force: true })
       .getByText(`${labelhash}.subdomaindummy.eth`, { timeout: 10000 })
