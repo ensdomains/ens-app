@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from '@emotion/styled'
 import NetworkInformation from '../NetworkInformation/NetworkInformation'
+import useNetworkInfo from '../NetworkInformation/useNetworkInfo'
 import Heart from '../Icons/Heart'
 import SpeechBubble from '../Icons/SpeechBubble'
 
@@ -73,43 +74,49 @@ const NavLink = styled(Link)`
   }
 `
 
-class SideNav extends Component {
-  render() {
-    const { path } = this.props.match
-    const { isMenuOpen, toggleMenu } = this.props
-    return (
-      <SideNavContainer isMenuOpen={isMenuOpen}>
-        <NetworkInformation />
-        <ul>
+function SideNav({ match, isMenuOpen, toggleMenu }) {
+  const { path } = match
+  const { accounts, network, loading, error } = useNetworkInfo()
+  return (
+    <SideNavContainer isMenuOpen={isMenuOpen}>
+      <NetworkInformation />
+      <ul>
+        {accounts && accounts.length > 0 ? (
           <li>
             <NavLink
               onClick={toggleMenu}
-              active={path === '/favourites'}
-              to="/favourites"
+              active={path === '/address/' + accounts[0]}
+              to={'/address/' + accounts[0]}
             >
-              <Heart active={path === '/favourites'} />
-              <span>Favourites</span>
+              <Heart active={path === '/address/' + accounts[0]} />
+              <span>My domains</span>
             </NavLink>
           </li>
-          {/* <li>
-            <NavLink active={path === '/my-bids'} to="/my-bids">
-              <DogTag active={path === '/my-bids'} />
-              <span>My Bids</span>
-            </NavLink>
-          </li> */}
-          <li>
-            <NavLink
-              onClick={toggleMenu}
-              active={path === '/about'}
-              to="/about"
-            >
-              <SpeechBubble active={path === '/about'} />
-              <span>About</span>
-            </NavLink>
-          </li>
-        </ul>
-      </SideNavContainer>
-    )
-  }
+        ) : null}
+        <li>
+          <NavLink
+            onClick={toggleMenu}
+            active={path === '/favourites'}
+            to="/favourites"
+          >
+            <Heart active={path === '/favourites'} />
+            <span>Favourites</span>
+          </NavLink>
+        </li>
+        {/* <li>
+          <NavLink active={path === '/my-bids'} to="/my-bids">
+            <DogTag active={path === '/my-bids'} />
+            <span>My Bids</span>
+          </NavLink>
+        </li> */}
+        <li>
+          <NavLink onClick={toggleMenu} active={path === '/about'} to="/about">
+            <SpeechBubble active={path === '/about'} />
+            <span>About</span>
+          </NavLink>
+        </li>
+      </ul>
+    </SideNavContainer>
+  )
 }
 export default withRouter(SideNav)
