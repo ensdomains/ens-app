@@ -51,7 +51,7 @@ jobs:
       script:
         - pwd
         - ls
-        - 'yarn cypress:ci'
+        - cd ens-app && yarn cypress:ci && ../
     - stage: deploy
       name: 'Deploy to live'
       script: yarn deploy
