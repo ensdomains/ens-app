@@ -360,6 +360,24 @@ const RecordItemEditable = ({
             ) : uploading && !authorized ? (
               <>
                 <IpfsLogin startAuthorizing={startAuthorizing} />
+                <SaveCancel
+                  warningMessage={getOldContentWarning(
+                    type,
+                    domain.contentType
+                  )}
+                  mutation={e => {
+                    e.preventDefault()
+                    const variables = {
+                      name: domain.name,
+                      [variableName ? variableName : 'recordValue']: newValue
+                    }
+                    mutation({
+                      variables
+                    })
+                  }}
+                  isValid={isValid}
+                  stopEditing={stopUploading}
+                />
               </>
             ) : (
               ''
