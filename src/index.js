@@ -33,6 +33,7 @@ window.addEventListener('load', async () => {
     client = await setupClient(networkId)
   } catch (e) {
     console.log(e)
+    client = await setupClient()
     await client.mutate({
       mutation: SET_ERROR,
       variables: { message: e.message }
