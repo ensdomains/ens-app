@@ -15,7 +15,8 @@ describe('Migrate resolver and records', () => {
     cy.getByText('Migrate', { timeout: 5000 }).click({ force: true })
     cy.queryByText('migrate', { timeout: 1000 }).should('not.exist')
     cy.queryByText('bzz://', {
-      exact: false
+      exact: false,
+      timeout: 3000
     }).should('exist')
   })
 
