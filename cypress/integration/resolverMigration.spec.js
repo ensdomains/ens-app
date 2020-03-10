@@ -14,10 +14,6 @@ describe('Migrate resolver and records', () => {
     cy.visit(`${ROOT}/name/oldresolver.eth`)
     cy.getByText('Migrate', { timeout: 5000 }).click({ force: true })
     cy.queryByText('migrate', { timeout: 1000 }).should('not.exist')
-    cy.queryByText('bzz://', {
-      exact: false,
-      timeout: 3000
-    }).should('exist')
   })
 
   it('cannot migrate resolver if the parent domain is not migrateed', () => {
