@@ -76,7 +76,7 @@
     "cypress:run-local:ipfs": "yarn run cypress run --config-file cypress_ipfs.json",
     "cypress:run": "yarn preTest && start-server-and-test start:test http://localhost:3000 cypress:record",
     "cypress:run:ipfs": "yarn preTest && start-server-and-test start:test:ipfs http://localhost:3000 cypress:record:ipfs",
-    "cypress:ci": "yarn run cypress run",
+    "cypress:ci": "start-server-and-test start:test http://localhost:3000 cypress:record",
     "cypress:ci:ipfs": "/bin/sh -c 'if [ \"$TRAVIS_PULL_REQUEST\" = \"true\" ]; then yarn cypress:run:ipfs; else yarn cypress:run:ipfs; fi'",
     "deploy:dev": "npm run build && npm run postbuild && surge build ensappdev.surge.sh",
     "deploy": "npm run build && npm run postbuild && surge build app.ens.domains"
