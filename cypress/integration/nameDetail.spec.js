@@ -377,15 +377,21 @@ describe('Name detail view', () => {
   })
 
   it('can navigate to a subdomain', () => {
-    cy.visit(`${NAME_ROOT}/subdomaindummy.eth`)
+    // labelhash for "original"
+    const labelhash =
+      '0x8cfce3846b2a51b94d2cc5646dc3b6249f78c82e2441b3d32e2a1e6feb93ee49'
+    cy.visit(`${NAME_ROOT}/testing.eth`)
       .getByText('subdomains', { exact: false })
       .click({ force: true })
-      .getByText('original.subdomaindummy.eth', { timeout: 10000 })
+      .getByText(`${labelhash}.subdomaindummy.eth`, { timeout: 10000 })
       .click({ force: true })
   })
 
   it('can add a subdomain', () => {
     const LABEL = 'okay'
+    // labelhash for "okay"
+    const labelhash =
+      '0xf66494dcc1f75a779961a5e1e042022f740297f85ecacf57ab91f3e099338a38'
     cy.visit(`${NAME_ROOT}/subdomaindummy.eth`)
       .getByText('subdomains', { exact: false })
       .click({ force: true })
@@ -398,10 +404,10 @@ describe('Name detail view', () => {
       })
       cy.getByText('save', { exact: false }).click({ force: true })
 
-      cy.getByText(`${LABEL}.subdomaindummy.eth`, { timeout: 10000 })
+      cy.getByText(`${labelhash}.subdomaindummy.eth`, { timeout: 10000 })
         .click({ force: true })
         .url()
-        .should('include', `/name/${LABEL}.subdomaindummy.eth`)
+        .should('include', `/name/${labelhash}.subdomaindummy.eth`)
     })
   })
 })
