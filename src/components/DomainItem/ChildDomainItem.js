@@ -43,7 +43,7 @@ export default function ChildDomainItem({
     >
       <SingleNameBlockies imageSize={24} address={owner} />
       {label}
-      {expiryDate && formatDate(parseInt(expiryDate * 1000))}
+      {expiryDate ? formatDate(parseInt(expiryDate * 1000)) : null}
     </DomainLink>
   )
 }
