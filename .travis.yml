@@ -1,5 +1,9 @@
 sudo: required
 
+services:
+  - docker
+  - postgresql
+
 language: node_js
 
 node_js:
@@ -24,9 +28,30 @@ jobs:
         - yarn global add ganache-cli@6.1.8
         - yarn global add wait-on
       before_script:
-        - ganache-cli >ganache.log 2>&1 &
+        - sudo service postgresql stop
+        - sudo apt-get install libsecret-1-dev
+        - ganache-cli -h 0.0.0.0 >ganache.log 2>&1 &
         - sleep 5
-      script: 'yarn cypress:ci'
+        - cd ../ && git clone https://github.com/ensdomains/ens-subgraph.git
+        - cd ens-subgraph && yarn && cd ../
+        - git clone https://github.com/graphprotocol/graph-node
+        - pwd
+        - ls graph-node/docker
+        - cd graph-node/docker && ./setup.sh
+        - rm -rf data
+        - docker-compose up 2>&1 > ~/docker-compose.log &
+        - DOCKER_PATH=`pwd`
+        - ls ~/docker-compose.log
+        - sleep 120
+        - cd ../../
+        - cd ens-app && yarn preTest && yarn subgraph && cd ../
+        - pwd
+        - ls -ltr ~
+        - cd ens-subgraph && (yarn setup || cat ~/docker-compose.log ) && cd ../
+      script:
+        - pwd
+        - ls
+        - 'yarn cypress:ci'
     - stage: deploy
       name: 'Deploy to live'
       script: yarn deploy
