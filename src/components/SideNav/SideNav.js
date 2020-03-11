@@ -3,6 +3,7 @@ import styled from '@emotion/styled'
 import NetworkInformation from '../NetworkInformation/NetworkInformation'
 import useNetworkInfo from '../NetworkInformation/useNetworkInfo'
 import Heart from '../Icons/Heart'
+import File from '../Icons/File'
 import SpeechBubble from '../Icons/SpeechBubble'
 
 import mq from 'mediaQuery'
@@ -75,7 +76,7 @@ const NavLink = styled(Link)`
 `
 
 function SideNav({ match, isMenuOpen, toggleMenu }) {
-  const { path } = match
+  const { url } = match
   const { accounts, network, loading, error } = useNetworkInfo()
   return (
     <SideNavContainer isMenuOpen={isMenuOpen}>
@@ -85,10 +86,10 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
           <li>
             <NavLink
               onClick={toggleMenu}
-              active={path === '/address/' + accounts[0]}
+              active={url === '/address/' + accounts[0]}
               to={'/address/' + accounts[0]}
             >
-              <Heart active={path === '/address/' + accounts[0]} />
+              <File active={url === '/address/' + accounts[0]} />
               <span>My domains</span>
             </NavLink>
           </li>
@@ -96,10 +97,10 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
         <li>
           <NavLink
             onClick={toggleMenu}
-            active={path === '/favourites'}
+            active={url === '/favourites'}
             to="/favourites"
           >
-            <Heart active={path === '/favourites'} />
+            <Heart active={url === '/favourites'} />
             <span>Favourites</span>
           </NavLink>
         </li>
@@ -110,8 +111,8 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
           </NavLink>
         </li> */}
         <li>
-          <NavLink onClick={toggleMenu} active={path === '/about'} to="/about">
-            <SpeechBubble active={path === '/about'} />
+          <NavLink onClick={toggleMenu} active={url === '/about'} to="/about">
+            <SpeechBubble active={url === '/about'} />
             <span>About</span>
           </NavLink>
         </li>
