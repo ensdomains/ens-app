@@ -101,8 +101,8 @@ const IpfsLogin = props => {
     req.addEventListener('readystatechange', () => {
       if (req.readyState === 4) {
         let result = JSON.parse(req.responseText)
-        if (result.token) {
-          setErrorMsg('Confirm Your Email')
+        if (result.code === 200) {
+          setErrorMsg('')
           setPassword('')
           setUsername('')
           setEmail('')
