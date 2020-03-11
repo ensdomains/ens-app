@@ -405,7 +405,11 @@ describe('Name detail view', () => {
       cy.getByText('save', { exact: false }).click({ force: true })
     })
     cy.visit(`${NAME_ROOT}/${LABEL}.subdomaindummy.eth/details`)
-    cy.queryByText('Controller', { exact: false }).should('exist')
-    cy.queryByText('Not owned', { exact: false }).should('not.exist')
+    cy.queryByText('Controller', { exact: false, timeout: 5000 }).should(
+      'exist'
+    )
+    cy.queryByText('Not owned', { exact: false, timeout: 5000 }).should(
+      'not.exist'
+    )
   })
 })
