@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from '@emotion/styled'
 import NetworkInformation from '../NetworkInformation/NetworkInformation'
 import useNetworkInfo from '../NetworkInformation/useNetworkInfo'
@@ -77,7 +77,7 @@ const NavLink = styled(Link)`
 
 function SideNav({ match, isMenuOpen, toggleMenu }) {
   const { url } = match
-  const { accounts, network, loading, error } = useNetworkInfo()
+  const { accounts } = useNetworkInfo()
   return (
     <SideNavContainer isMenuOpen={isMenuOpen}>
       <NetworkInformation />

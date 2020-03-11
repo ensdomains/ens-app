@@ -102,9 +102,11 @@ function DomainList({ domains, address }) {
   }
 
   const mergedDomains = [
-    ...data.account.registrations,
+    ...data.account.registrations?.sort((a, b) => a.expiryDate - b.expiryDate),
     ...filterOutReverse(data.account.domains).map(domain => ({ domain }))
   ]
+
+  console.log(mergedDomains)
 
   return (
     <DomainsContainer>
@@ -114,6 +116,9 @@ function DomainList({ domains, address }) {
           owner={address}
           domain={d.domain}
           expiryDate={d?.expiryDate}
+          labelName={d.domain.labelName}
+          labelhash={d.domain.labelhash}
+          parent={d.domain.parent.name}
         />
       ))}
     </DomainsContainer>

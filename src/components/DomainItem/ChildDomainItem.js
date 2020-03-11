@@ -5,8 +5,10 @@ import { SingleNameBlockies } from '../SingleName/SingleNameBlockies'
 import { formatDate } from 'utils/dates'
 
 const DomainLink = styled(Link)`
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 30px auto 300px;
+  grid-template-rows: 50px;
+  grid-gap: 10px;
   width: 100%;
   padding: 30px 0;
   background-color: ${props => (props.warning ? 'hsla(37,91%,55%,0.1)' : '')};
@@ -18,6 +20,27 @@ const DomainLink = styled(Link)`
   &:last-child {
     border: none;
   }
+
+  span {
+    align-self: center;
+  }
+
+  h3 {
+    align-self: center;
+    margin: 0;
+    font-weight: 100;
+    font-size: 28px;
+  }
+
+  p {
+    margin: 0;
+    align-self: center;
+  }
+`
+
+const ExpiryDate = styled('p')`
+  font-size: 18px;
+  color: #adbbcd;
 `
 
 export default function ChildDomainItem({
@@ -42,8 +65,12 @@ export default function ChildDomainItem({
       to={`/name/${name}`}
     >
       <SingleNameBlockies imageSize={24} address={owner} />
-      {label}
-      {expiryDate ? formatDate(parseInt(expiryDate * 1000)) : null}
+      <h3>{label}</h3>
+      {expiryDate ? (
+        <ExpiryDate>
+          Expires {formatDate(parseInt(expiryDate * 1000))}
+        </ExpiryDate>
+      ) : null}
     </DomainLink>
   )
 }

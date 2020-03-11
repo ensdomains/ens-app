@@ -158,6 +158,7 @@ export const GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH = gql`
         expiryDate
         domain {
           labelName
+          labelhash
           name
           isMigrated
           parent {
@@ -167,6 +168,7 @@ export const GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH = gql`
       }
       domains {
         labelName
+        labelhash
         name
         isMigrated
         parent {
