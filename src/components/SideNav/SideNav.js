@@ -90,7 +90,7 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
               to={'/address/' + accounts[0]}
             >
               <File active={url === '/address/' + accounts[0]} />
-              <span>My domains</span>
+              <span>My Names</span>
             </NavLink>
           </li>
         ) : null}

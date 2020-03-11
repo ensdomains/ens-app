@@ -18,7 +18,7 @@ import Alice from '../components/HomePage/Alice'
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
 import { ReactComponent as DefaultPermanentRegistrarIcon } from '../components/Icons/PermanentRegistrar.svg'
 
-const Favourites = styled('div')`
+const Nav = styled('div')`
   position: absolute;
   right: 40px;
   top: 20px;
@@ -27,6 +27,11 @@ const Favourites = styled('div')`
     color: white;
   }
 `
+
+const NavLink = styled(Link)`
+  margin-left: 20px;
+`
+
 const Announcement = styled('div')`
   display: flex;
   justify-content: center;
@@ -251,7 +256,8 @@ const PermanentRegistrarTitle = styled('h2')`
   `}
 `
 
-export default props => {
+export default ({ match }) => {
+  const { url } = match
   const { accounts, network, loading } = useNetworkInfo()
   return (
     <>
@@ -261,9 +267,18 @@ export default props => {
         ) : (
           <NoAccounts textColour={'white'} />
         )}
-        <Favourites>
-          <Link to="/favourites">Favourites</Link>
-        </Favourites>
+        <Nav>
+          {accounts?.length > 0 && (
+            <NavLink
+              active={url === '/address/' + accounts[0]}
+              to={'/address/' + accounts[0]}
+            >
+              My Names
+            </NavLink>
+          )}
+          <NavLink to="/favourites">Favourites</NavLink>
+          <NavLink to="/about">About</NavLink>
+        </Nav>
 
         <SearchContainer>
           <Spring

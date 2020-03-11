@@ -106,8 +106,6 @@ function DomainList({ domains, address }) {
     ...filterOutReverse(data.account.domains).map(domain => ({ domain }))
   ]
 
-  console.log(mergedDomains)
-
   return (
     <DomainsContainer>
       {mergedDomains.map(d => (
