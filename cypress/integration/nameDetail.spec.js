@@ -389,9 +389,6 @@ describe('Name detail view', () => {
 
   it('can add a subdomain', () => {
     const LABEL = 'okay'
-    // labelhash for "okay"
-    const labelhash =
-      '0xf66494dcc1f75a779961a5e1e042022f740297f85ecacf57ab91f3e099338a38'
     cy.visit(`${NAME_ROOT}/subdomaindummy.eth`)
       .getByText('subdomains', { exact: false })
       .click({ force: true })
@@ -403,13 +400,11 @@ describe('Name detail view', () => {
         force: true
       })
       cy.getByText('save', { exact: false }).click({ force: true })
+
+      cy.getByText(`${LABEL}.subdomaindummy.eth`, { timeout: 10000 })
+        .click({ force: true })
+        .url()
+        .should('include', `/name/${LABEL}.subdomaindummy.eth`)
     })
-    cy.visit(`${NAME_ROOT}/${LABEL}.subdomaindummy.eth/details`)
-    cy.queryByText('Controller', { exact: false, timeout: 5000 }).should(
-      'exist'
-    )
-    cy.queryByText('Not owned', { exact: false, timeout: 5000 }).should(
-      'not.exist'
-    )
   })
 })
