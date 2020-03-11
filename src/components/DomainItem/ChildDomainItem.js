@@ -2,7 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { Link } from 'react-router-dom'
 import { SingleNameBlockies } from '../SingleName/SingleNameBlockies'
-import { formatDate } from 'utils/dates'
+import { formatDate, calculateIsExpiredSoon } from 'utils/dates'
 
 const DomainLink = styled(Link)`
   display: grid;
@@ -40,7 +40,7 @@ const DomainLink = styled(Link)`
 
 const ExpiryDate = styled('p')`
   font-size: 18px;
-  color: #adbbcd;
+  color: ${({ isExpiredSoon }) => (isExpiredSoon ? 'red' : '#adbbcd')};
 `
 
 export default function ChildDomainItem({
@@ -58,6 +58,7 @@ export default function ChildDomainItem({
       : `[unknown${labelhash.slice(2, 10)}].${parent}`
   const { isMigrated } = domain
   if (isMigrated === false) label = label + ' (not migrated)'
+  const isExpiredSoon = calculateIsExpiredSoon(expiryDate)
   return (
     <DomainLink
       warning={isMigrated === false ? true : false}
@@ -67,7 +68,7 @@ export default function ChildDomainItem({
       <SingleNameBlockies imageSize={24} address={owner} />
       <h3>{label}</h3>
       {expiryDate ? (
-        <ExpiryDate>
+        <ExpiryDate isExpiredSoon={isExpiredSoon}>
           Expires {formatDate(parseInt(expiryDate * 1000))}
         </ExpiryDate>
       ) : null}
