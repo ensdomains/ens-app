@@ -50,13 +50,13 @@ export default function ChildDomainItem({
   owner,
   labelName,
   parent,
-  expiryDate
+  expiryDate,
+  isMigrated
 }) {
   let label =
     labelName !== null
       ? `${name}`
       : `[unknown${labelhash.slice(2, 10)}].${parent}`
-  const { isMigrated } = domain
   if (isMigrated === false) label = label + ' (not migrated)'
   const isExpiredSoon = calculateIsExpiredSoon(expiryDate)
   return (
