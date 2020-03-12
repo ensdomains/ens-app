@@ -74,10 +74,15 @@ function filterOutReverse(domains) {
   )
 }
 
+function normaliseAddress(address) {
+  return address.toLowerCase()
+}
+
 function DomainList({ domains, address }) {
+  const normalisedAddress = normaliseAddress(address)
   const { loading, data, error } = useQuery(
     GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH,
-    { variables: { id: address } }
+    { variables: { id: normalisedAddress } }
   )
 
   if (error) {
@@ -96,13 +101,22 @@ function DomainList({ domains, address }) {
     )
   }
 
+  const mergedDomains = [
+    ...data.account.registrations?.sort((a, b) => a.expiryDate - b.expiryDate),
+    ...filterOutReverse(data.account.domains).map(domain => ({ domain }))
+  ]
+
   return (
     <DomainsContainer>
-      {filterOutReverse(data.account.domains).map(domain => (
+      {mergedDomains.map(d => (
         <DomainItem
-          name={decryptName(domain.name)}
+          name={decryptName(d.domain.name)}
           owner={address}
-          isMigrated={domain.isMigrated}
+          domain={d.domain}
+          expiryDate={d?.expiryDate}
+          labelName={d.domain.labelName}
+          labelhash={d.domain.labelhash}
+          parent={d.domain.parent.name}
         />
       ))}
     </DomainsContainer>

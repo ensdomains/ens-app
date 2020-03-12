@@ -9,7 +9,7 @@ import mq from 'mediaQuery'
 import SearchDefault from '../components/SearchName/Search'
 import NoAccountsDefault from '../components/NoAccounts/NoAccountsModal'
 import bg from '../assets/heroBG.jpg'
-import NetworkInfoQuery from '../components/NetworkInformation/NetworkInfoQuery'
+import useNetworkInfo from '../components/NetworkInformation/useNetworkInfo'
 import { ExternalButtonLink, ButtonLink } from '../components/Forms/Button'
 import TextBubbleDefault from '../components/Icons/TextBubble'
 import QuestionMarkDefault from '../components/Icons/QuestionMark'
@@ -18,7 +18,7 @@ import Alice from '../components/HomePage/Alice'
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
 import { ReactComponent as DefaultPermanentRegistrarIcon } from '../components/Icons/PermanentRegistrar.svg'
 
-const Favourites = styled('div')`
+const Nav = styled('div')`
   position: absolute;
   right: 40px;
   top: 20px;
@@ -27,6 +27,11 @@ const Favourites = styled('div')`
     color: white;
   }
 `
+
+const NavLink = styled(Link)`
+  margin-left: 20px;
+`
+
 const Announcement = styled('div')`
   display: flex;
   justify-content: center;
@@ -251,113 +256,122 @@ const PermanentRegistrarTitle = styled('h2')`
   `}
 `
 
-export default props => (
-  <Fragment>
-    <Hero>
-      <NetworkInfoQuery noLoader={true}>
-        {({ accounts, network }) =>
-          accounts.length > 0 && network ? (
-            <NetworkStatus>{network} network</NetworkStatus>
-          ) : (
-            <NoAccounts textColour={'white'} />
-          )
-        }
-      </NetworkInfoQuery>
-      <Favourites>
-        <Link to="/favourites">Favourites</Link>
-      </Favourites>
-
-      <SearchContainer>
-        <Spring
-          from={{
-            opacity: 0,
-            scale: 0
-          }}
-          to={{ opacity: 1, scale: 1 }}
-          config={{ duration: 400 }}
-        >
-          {({ opacity, scale, height }) => (
-            <Fragment>
-              <LogoLarge
-                style={{
-                  opacity,
-                  transform: `scale(${scale})`
-                }}
-                src={ENSLogo}
-              />
-              <PermanentRegistrarLogo
-                style={{
-                  opacity,
-                  transform: `scale(${scale})`
-                }}
-              >
-                Permanent Registrar
-              </PermanentRegistrarLogo>
-              <Search />
-            </Fragment>
+export default ({ match }) => {
+  const { url } = match
+  const { accounts, network, loading } = useNetworkInfo()
+  return (
+    <>
+      <Hero>
+        {loading ? null : accounts.length > 0 && network ? (
+          <NetworkStatus>{network} network</NetworkStatus>
+        ) : (
+          <NoAccounts textColour={'white'} />
+        )}
+        <Nav>
+          {accounts?.length > 0 && (
+            <NavLink
+              active={url === '/address/' + accounts[0]}
+              to={'/address/' + accounts[0]}
+            >
+              My Names
+            </NavLink>
           )}
-        </Spring>
-      </SearchContainer>
-    </Hero>
-    <Announcement>
-      <h3>
-        <img src={warning} alt="warning" />
-        &nbsp; ENS Registry Migration Is Over… Now What? A Few Things to
-        Know&nbsp;
-        <a href="https://medium.com/the-ethereum-name-service/ens-registry-migration-is-over-now-what-a-few-things-to-know-fb05f921872a">
-          (Find out more)
-        </a>
-      </h3>
-    </Announcement>
-    <Explanation>
-      <WhatItIs>
-        <Inner>
-          <H2>
-            <TextBubble color="#2B2B2B" />
-            What it is
-          </H2>
-          <p>
-            The Ethereum Name Service is a distributed, open and extensible
-            naming system based on the Ethereum blockchain. ENS eliminates the
-            need to copy or type long addresses.
-          </p>
-          <ButtonLink type="primary" to="/about">
-            Learn more
-          </ButtonLink>
-        </Inner>
-      </WhatItIs>
-      <NameAnimation>
-        <Alice />
-      </NameAnimation>
-      <HowToUse />
-      <HowItWorks>
-        <Inner>
-          <H2>
-            <QuestionMark color="#2B2B2B" />
-            How to use ENS
-          </H2>
-          <p>
-            The ENS App is a Graphical User Interface for non-technical users.
-            It allows you to search any name, manage their addresses or
-            resources it points to and create subdomains for each name.
-          </p>
-          <ButtonLink type="primary" to="/about">
-            Learn more
-          </ButtonLink>
-        </Inner>
-      </HowItWorks>
-    </Explanation>
-    <PermanentRegistrar>
-      <PermanentRegistrarIcon />
-      <PermanentRegistrarTitle>
-        Learn about the Permanent Registrar and the migration process.
-      </PermanentRegistrarTitle>
-      <ExternalButtonLink
-        type="hollow-white"
-        href="https://docs.ens.domains/permanent-registrar-faq"
-      >
-        Learn more
-      </ExternalButtonLink>
-    </PermanentRegistrar>
-  </Fragment>
-)
+          <NavLink to="/favourites">Favourites</NavLink>
+          <NavLink to="/about">About</NavLink>
+        </Nav>
+
+        <SearchContainer>
+          <Spring
+            from={{
+              opacity: 0,
+              scale: 0
+            }}
+            to={{ opacity: 1, scale: 1 }}
+            config={{ duration: 400 }}
+          >
+            {({ opacity, scale, height }) => (
+              <Fragment>
+                <LogoLarge
+                  style={{
+                    opacity,
+                    transform: `scale(${scale})`
+                  }}
+                  src={ENSLogo}
+                />
+                <PermanentRegistrarLogo
+                  style={{
+                    opacity,
+                    transform: `scale(${scale})`
+                  }}
+                >
+                  Permanent Registrar
+                </PermanentRegistrarLogo>
+                <Search />
+              </Fragment>
+            )}
+          </Spring>
+        </SearchContainer>
+      </Hero>
+      <Announcement>
+        <h3>
+          <img src={warning} alt="warning" />
+          &nbsp; ENS Registry Migration Is Over… Now What? A Few Things to
+          Know&nbsp;
+          <a href="https://medium.com/the-ethereum-name-service/ens-registry-migration-is-over-now-what-a-few-things-to-know-fb05f921872a">
+            (Find out more)
+          </a>
+        </h3>
+      </Announcement>
+      <Explanation>
+        <WhatItIs>
+          <Inner>
+            <H2>
+              <TextBubble color="#2B2B2B" />
+              What it is
+            </H2>
+            <p>
+              The Ethereum Name Service is a distributed, open and extensible
+              naming system based on the Ethereum blockchain. ENS eliminates the
+              need to copy or type long addresses.
+            </p>
+            <ButtonLink type="primary" to="/about">
+              Learn more
+            </ButtonLink>
+          </Inner>
+        </WhatItIs>
+        <NameAnimation>
+          <Alice />
+        </NameAnimation>
+        <HowToUse />
+        <HowItWorks>
+          <Inner>
+            <H2>
+              <QuestionMark color="#2B2B2B" />
+              How to use ENS
+            </H2>
+            <p>
+              The ENS App is a Graphical User Interface for non-technical users.
+              It allows you to search any name, manage their addresses or
+              resources it points to and create subdomains for each name.
+            </p>
+            <ButtonLink type="primary" to="/about">
+              Learn more
+            </ButtonLink>
+          </Inner>
+        </HowItWorks>
+      </Explanation>
+      <PermanentRegistrar>
+        <PermanentRegistrarIcon />
+        <PermanentRegistrarTitle>
+          Learn about the Permanent Registrar and the migration process.
+        </PermanentRegistrarTitle>
+        <ExternalButtonLink
+          type="hollow-white"
+          href="https://docs.ens.domains/permanent-registrar-faq"
+        >
+          Learn more
+        </ExternalButtonLink>
+      </PermanentRegistrar>
+    </>
+  )
+}
