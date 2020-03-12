@@ -26,4 +26,17 @@ export function humanizeDate(timeLeft) {
   }
 }
 
+export function calculateIsExpiredSoon(expiryDate) {
+  if (!expiryDate) return expiryDate
+
+  const ADVANCE_WARNING_DAYS = 100
+
+  const currentTime = new Date().getTime()
+  const expiryTime = new Date(expiryDate * 1000).getTime()
+  const differenceInTime = expiryTime - currentTime
+  const differenceInDays = differenceInTime / (1000 * 3600 * 24)
+
+  return differenceInDays < ADVANCE_WARNING_DAYS
+}
+
 export const yearInSeconds = 31556952
