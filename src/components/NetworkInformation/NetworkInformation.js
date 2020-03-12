@@ -1,12 +1,13 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from '@emotion/styled'
 
 import mq from 'mediaQuery'
 
-import NetworkInfoQuery from './NetworkInfoQuery'
 import UnstyledBlockies from '../Blockies'
 import ReverseRecord from '../ReverseRecord'
 import NoAccountsModal from '../NoAccounts/NoAccountsModal'
+import Loader from 'components/Loader'
+import useNetworkInfo from './useNetworkInfo'
 
 const NetworkInformationContainer = styled('div')`
   position: relative;
@@ -82,27 +83,51 @@ const AccountContainer = styled('div')`
   `}
 `
 
-class NetworkInformation extends Component {
-  render() {
+const Waiting = styled('div')`
+  color: #ccc;
+  display: flex;
+  font-size: 11px;
+  text-transform: uppercase;
+  font-weight: 700;
+`
+
+const WaitingText = styled('span')`
+  margin-right: 5px;
+`
+
+function NetworkInformation() {
+  const { accounts, network, loading, error } = useNetworkInfo()
+
+  if (loading) {
     return (
-      <NetworkInfoQuery>
-        {({ accounts, network }) => (
-          <NetworkInformationContainer hasAccount={accounts.length > 0}>
-            {accounts.length > 0 ? (
-              <AccountContainer>
-                <Blockies address={accounts[0]} imageSize={47} />
-                <Account data-testid="account" className="account">
-                  <ReverseRecord address={accounts[0]} />
-                </Account>
-                <NetworkStatus>{network} Network</NetworkStatus>
-              </AccountContainer>
-            ) : (
-              <NoAccountsModal colour={'#F5A623'} />
-            )}
-          </NetworkInformationContainer>
-        )}
-      </NetworkInfoQuery>
+      <Waiting>
+        <WaitingText>Waiting for accounts</WaitingText> <Loader />
+      </Waiting>
     )
   }
+
+  if (error) {
+    return (
+      <Waiting>
+        <WaitingText>Error getting accounts</WaitingText>
+      </Waiting>
+    )
+  }
+
+  return (
+    <NetworkInformationContainer hasAccount={accounts.length > 0}>
+      {accounts.length > 0 ? (
+        <AccountContainer>
+          <Blockies address={accounts[0]} imageSize={47} />
+          <Account data-testid="account" className="account">
+            <ReverseRecord address={accounts[0]} />
+          </Account>
+          <NetworkStatus>{network} Network</NetworkStatus>
+        </AccountContainer>
+      ) : (
+        <NoAccountsModal colour={'#F5A623'} />
+      )}
+    </NetworkInformationContainer>
+  )
 }
 export default NetworkInformation
