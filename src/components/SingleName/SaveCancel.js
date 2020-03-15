@@ -66,34 +66,39 @@ const ActionButton = ({
   )
 }
 
-const SaveCancel = ({
-  mutation,
-  mutationButton,
-  stopEditing,
-  disabled,
-  className,
-  value,
-  newValue,
-  confirm,
-  warningMessage,
-  isValid = true
-}) => (
-  <SaveCancelContainer className={className}>
-    {warningMessage ? <Warning>{warningMessage}</Warning> : null}
-    <Cancel data-testid="cancel" type="hollow" onClick={stopEditing}>
-      Cancel
-    </Cancel>
-    <ActionButton
-      disabled={disabled}
-      mutation={mutation}
-      mutationButton={mutationButton}
-      value={value}
-      newValue={newValue}
-      confirm={confirm}
-      isValid={isValid}
-      data-testid="action"
-    />
-  </SaveCancelContainer>
+const SaveCancel = React.forwardRef(
+  (
+    {
+      mutation,
+      mutationButton,
+      stopEditing,
+      disabled,
+      className,
+      value,
+      newValue,
+      confirm,
+      warningMessage,
+      isValid = true
+    },
+    ref
+  ) => (
+    <SaveCancelContainer className={className} ref={ref}>
+      {warningMessage ? <Warning>{warningMessage}</Warning> : null}
+      <Cancel data-testid="cancel" type="hollow" onClick={stopEditing}>
+        Cancel
+      </Cancel>
+      <ActionButton
+        disabled={disabled}
+        mutation={mutation}
+        mutationButton={mutationButton}
+        value={value}
+        newValue={newValue}
+        confirm={confirm}
+        isValid={isValid}
+        data-testid="action"
+      />
+    </SaveCancelContainer>
+  )
 )
 
 export default SaveCancel

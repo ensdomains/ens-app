@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from '@emotion/styled'
-import { Spring } from 'react-spring'
+import { motion } from 'framer-motion'
 import warning from '../assets/yellowwarning.svg'
 
 import mq from 'mediaQuery'
@@ -207,7 +207,7 @@ const QuestionMark = styled(QuestionMarkDefault)`
   margin-right: 10px;
 `
 
-const LogoLarge = styled('img')`
+const LogoLarge = styled(motion.img)`
   width: 50%;
   margin: 0 auto 0;
   ${mq.medium`
@@ -215,7 +215,7 @@ const LogoLarge = styled('img')`
   `}
 `
 
-const PermanentRegistrarLogo = styled('h1')`
+const PermanentRegistrarLogo = styled(motion.h1)`
   font-family: Overpass;
   font-weight: 800;
   font-size: 18px;
@@ -258,6 +258,18 @@ const PermanentRegistrarTitle = styled('h2')`
 
 export default ({ match }) => {
   const { url } = match
+
+  const animation = {
+    initial: {
+      scale: 0,
+      opacity: 0
+    },
+    animate: {
+      opacity: 1,
+      scale: 1
+    }
+  }
+
   const { accounts, network, loading } = useNetworkInfo()
   return (
     <>
@@ -281,35 +293,20 @@ export default ({ match }) => {
         </Nav>
 
         <SearchContainer>
-          <Spring
-            from={{
-              opacity: 0,
-              scale: 0
-            }}
-            to={{ opacity: 1, scale: 1 }}
-            config={{ duration: 400 }}
-          >
-            {({ opacity, scale, height }) => (
-              <Fragment>
-                <LogoLarge
-                  style={{
-                    opacity,
-                    transform: `scale(${scale})`
-                  }}
-                  src={ENSLogo}
-                />
-                <PermanentRegistrarLogo
-                  style={{
-                    opacity,
-                    transform: `scale(${scale})`
-                  }}
-                >
-                  Permanent Registrar
-                </PermanentRegistrarLogo>
-                <Search />
-              </Fragment>
-            )}
-          </Spring>
+          <>
+            <LogoLarge
+              initial={animation.initial}
+              animate={animation.animate}
+              src={ENSLogo}
+            />
+            <PermanentRegistrarLogo
+              initial={animation.initial}
+              animate={animation.animate}
+            >
+              Permanent Registrar
+            </PermanentRegistrarLogo>
+            <Search />
+          </>
         </SearchContainer>
       </Hero>
       <Announcement>

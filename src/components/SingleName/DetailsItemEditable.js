@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import { Mutation, Query } from 'react-apollo'
 import PropTypes from 'prop-types'
-import { Transition } from 'react-spring'
+import { motion, AnimatePresence } from 'framer-motion'
 
 import { GET_PUBLIC_RESOLVER } from '../../graphql/queries'
 import mq from 'mediaQuery'
@@ -19,7 +19,7 @@ import {
   DetailsValue,
   DetailsContent
 } from './DetailsItem'
-import SaveCancel from './SaveCancel'
+import DefaultSaveCancel from './SaveCancel'
 import DefaultInput from '../Forms/Input'
 import Button from '../Forms/Button'
 import Pencil from '../Forms/Pencil'
@@ -70,7 +70,7 @@ const DetailsEditableContainer = styled(DetailsItem)`
   ${({ editing }) => editing && mq.small` flex-direction: column;`};
 `
 
-const EditRecord = styled('div')`
+const EditRecord = styled(motion.div)`
   width: 100%;
 `
 
@@ -78,13 +78,13 @@ const Input = styled(DefaultInput)`
   margin-bottom: 20px;
 `
 
-const Action = styled('div')`
+const Action = styled(motion.div)`
   margin-top: 20px;
   ${mq.small`
     margin-top: 0;
     position: absolute;
     right: 10px;
-    top: 50%;
+    top: 0;
     transform: translate(0, -65%);
   `}
 `
@@ -111,6 +111,8 @@ const Buttons = styled('div')`
   justify-content: flex-end;
   align-items: center;
 `
+
+const SaveCancel = motion.custom(DefaultSaveCancel)
 
 function getMessages({ keyName, parent, deedOwner, isDeedOwner }) {
   let [newValue, newType] = getDefaultMessage(keyName)
@@ -353,7 +355,20 @@ const Editable = ({
                 }}
               />
             ) : (
-              <Action>
+              <Action
+                initial={{
+                  opacity: 0,
+                  x: 0
+                }}
+                animate={{
+                  opacity: 1,
+                  x: 0
+                }}
+                exit={{
+                  opacity: 0,
+                  x: 0
+                }}
+              >
                 {editButton ? (
                   <EditButton
                     type={editButtonType}
@@ -371,81 +386,102 @@ const Editable = ({
               </Action>
             )}
           </DetailsContent>
-          <Transition
-            items={editing}
-            from={{ opacity: 0, height: 0 }}
-            enter={{ opacity: 1, height: 'auto' }}
-            leave={{ opacity: 0, height: 0 }}
-          >
-            {editing =>
-              editing &&
-              (props => (
-                <div style={props}>
-                  <EditRecord>
-                    {getInputType(keyName, type, {
-                      newValue,
-                      updateValue,
-                      presetValue,
-                      isValid,
-                      isInvalid,
-                      years,
-                      name: domain.name,
-                      setYears,
-                      ethUsdPrice,
-                      ethUsdPriceLoading,
-                      duration,
-                      expirationDate
-                    })}
-                  </EditRecord>
-                  <Buttons>
-                    {keyName === 'Resolver' && (
-                      <Query query={GET_PUBLIC_RESOLVER}>
-                        {({ data, loading }) => {
-                          if (loading) return null
-                          return (
-                            <DefaultResolverButton
-                              onClick={e => {
-                                e.preventDefault()
-                                setPresetValue(data.publicResolver.address)
-                              }}
-                            >
-                              Use Public Resolver
-                            </DefaultResolverButton>
-                          )
-                        }}
-                      </Query>
-                    )}
-
-                    <SaveCancel
-                      stopEditing={stopEditing}
-                      mutation={() => {
-                        const variables = getVariables(keyName, {
-                          domain,
-                          variableName,
-                          newValue,
-                          duration
-                        })
-                        mutation({ variables })
+          <AnimatePresence>
+            {editing && (
+              <motion.div
+                initial={{
+                  height: 0,
+                  width: 0,
+                  opacity: 0
+                }}
+                animate={{
+                  height: 'auto',
+                  width: '100%',
+                  opacity: 1
+                }}
+                exit={{
+                  height: 0,
+                  width: 0,
+                  opacity: 0
+                }}
+                transition={{ ease: 'easeOut', duration: 0.3 }}
+              >
+                <EditRecord
+                  initial={{
+                    scale: 0,
+                    opacity: 0
+                  }}
+                  animate={{
+                    scale: 1,
+                    opacity: 1
+                  }}
+                  exit={{
+                    scale: 0,
+                    opacity: 0
+                  }}
+                  transition={{ ease: 'easeOut', duration: 0.3 }}
+                >
+                  {getInputType(keyName, type, {
+                    newValue,
+                    updateValue,
+                    presetValue,
+                    isValid,
+                    isInvalid,
+                    years,
+                    name: domain.name,
+                    setYears,
+                    ethUsdPrice,
+                    ethUsdPriceLoading,
+                    duration,
+                    expirationDate
+                  })}
+                </EditRecord>
+                <Buttons>
+                  {keyName === 'Resolver' && (
+                    <Query query={GET_PUBLIC_RESOLVER}>
+                      {({ data, loading }) => {
+                        if (loading) return null
+                        return (
+                          <DefaultResolverButton
+                            onClick={e => {
+                              e.preventDefault()
+                              setPresetValue(data.publicResolver.address)
+                            }}
+                          >
+                            Use Public Resolver
+                          </DefaultResolverButton>
+                        )
                       }}
-                      value={
-                        keyName === 'Expiration Date'
-                          ? formatDate(value)
-                          : value
-                      }
-                      newValue={
-                        keyName === 'Expiration Date'
-                          ? formatDate(expirationDate)
-                          : newValue
-                      }
-                      mutationButton={mutationButton}
-                      confirm={confirm}
-                      isValid={isValid}
-                    />
-                  </Buttons>
-                </div>
-              ))
-            }
-          </Transition>
+                    </Query>
+                  )}
+
+                  <SaveCancel
+                    stopEditing={stopEditing}
+                    mutation={() => {
+                      const variables = getVariables(keyName, {
+                        domain,
+                        variableName,
+                        newValue,
+                        duration
+                      })
+                      mutation({ variables })
+                    }}
+                    value={
+                      keyName === 'Expiration Date' ? formatDate(value) : value
+                    }
+                    newValue={
+                      keyName === 'Expiration Date'
+                        ? formatDate(expirationDate)
+                        : newValue
+                    }
+                    mutationButton={mutationButton}
+                    confirm={confirm}
+                    isValid={isValid}
+                  />
+                </Buttons>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </DetailsEditableContainer>
       )}
     </Mutation>
