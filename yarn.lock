@@ -1717,10 +1717,10 @@
     truffle "^5.0.5"
     web3-utils "^1.0.0-beta.48"
 
-"@ensdomains/mock@2.0.7":
-  version "2.0.7"
-  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.0.7.tgz#657b14635473bbb2c312d8edf781a327b7190aa8"
-  integrity sha512-f8GiV/iQTBgax/6kHsErhbTzs/TD9uFEDmVDHrqEjB1yP0zlaMzhH+SIlO2mz7zHoEMzoey+R+qYBXE+IEDYNg==
+"@ensdomains/mock@2.0.8":
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.0.8.tgz#3ae54fd6badf59d95ad97c192e1a220f0d87ffee"
+  integrity sha512-zJ7B6o9XAM94b5Ti2QlBs3Ary4+mik0JM9AQjkU+wxwxg9K+3xoAmNkFJGx1fhDPfS3U6j2el5njk4091CgT4g==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"

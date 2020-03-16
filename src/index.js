@@ -24,23 +24,19 @@ window.addEventListener('load', async () => {
         customProvider: 'http://localhost:8545',
         ensAddress: process.env.REACT_APP_ENS_ADDRESS
       })
-      let labelsJSON = window.localStorage['labels']
-      let labels
-      if (labelsJSON) {
-        labels = JSON.parse(labelsJSON)
-      } else {
-        labels = {}
+      let labels = window.localStorage['labels'] ? JSON.parse(labelsJSON) : {}
+      // a test label for testing new subdomain
+      const testLabels = {
+        f66494dcc1f75a779961a5e1e042022f740297f85ecacf57ab91f3e099338a38: 'okay'
       }
-      // labels[
-      //   '03bd642dd09510c5661d684107f8c8616af5a619c17a899a90b36056efa59411'
-      // ] = 'subdomaindummy'
-      // labels[
-      //   '8cfce3846b2a51b94d2cc5646dc3b6249f78c82e2441b3d32e2a1e6feb93ee49'
-      // ] = 'original'
-      // labels[
-      //   'f66494dcc1f75a779961a5e1e042022f740297f85ecacf57ab91f3e099338a38'
-      // ] = 'okay'
-      // window.localStorage.setItem('labels', JSON.stringify(labels))
+      window.localStorage.setItem(
+        'labels',
+        JSON.stringify({
+          ...labels,
+          ...JSON.parse(process.env.REACT_APP_LABELS),
+          ...testLabels
+        })
+      )
     } else {
       await setup({
         reloadOnAccountsChange: false
