@@ -385,7 +385,7 @@ describe('Name detail view', () => {
   })
 
   it('can add a subdomain', () => {
-    const LABEL = 'okay'
+    const LABEL = 'sub1' // using the same subdomain label which is used at sub1.testing.eth
     cy.visit(`${NAME_ROOT}/subdomaindummy.eth`)
       .getByText('subdomains', { exact: false })
       .click({ force: true })
@@ -397,11 +397,14 @@ describe('Name detail view', () => {
         force: true
       })
       cy.getByText('save', { exact: false }).click({ force: true })
-
-      cy.getByText(`${LABEL}.subdomaindummy.eth`, { timeout: 10000 })
-        .click({ force: true })
-        .url()
-        .should('include', `/name/${LABEL}.subdomaindummy.eth`)
     })
+    cy.wait(1000)
+    cy.visit(`${NAME_ROOT}/subdomaindummy.eth/subdomains`)
+      .getByText('subdomains', { exact: false })
+      .click({ force: true })
+
+    cy.queryByText(`${LABEL}.subdomaindummy.eth`, { timeout: 10000 }).should(
+      'exist'
+    )
   })
 })
