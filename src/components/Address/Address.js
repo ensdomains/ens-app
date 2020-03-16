@@ -59,6 +59,44 @@ const DomainsContainer = styled('div')`
   padding-right: 40px;
 `
 
+const FilterContainer = styled('ul')`
+  list-style: none;
+  display: flex;
+`
+
+const FilterButton = styled('li')`
+  color: #adbbcd;
+  font-size: 18px;
+  padding: 5px 10px;
+  border-bottom: 1px #d2d2d2 solid;
+
+  &:hover,
+  &.active {
+    cursor: pointer;
+    color: #2c46a6;
+    border-bottom: 1px #2c46a6 solid;
+  }
+`
+
+const SortContainer = styled('ul')`
+  list-style: none;
+  display: flex;
+`
+
+const SortButton = styled('li')`
+  color: #adbbcd;
+  font-size: 18px;
+  padding: 5px 10px;
+  border-bottom: 1px #d2d2d2 solid;
+
+  &:hover,
+  &.active {
+    cursor: pointer;
+    color: #2c46a6;
+    border-bottom: 1px #2c46a6 solid;
+  }
+`
+
 function hasNoDomains(data) {
   return (
     (data.account &&
@@ -78,7 +116,7 @@ function normaliseAddress(address) {
   return address.toLowerCase()
 }
 
-function DomainList({ domains, address }) {
+function DomainList({ address, activeSort, activeFilter }) {
   const normalisedAddress = normaliseAddress(address)
   const { loading, data, error } = useQuery(
     GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH,
@@ -101,14 +139,49 @@ function DomainList({ domains, address }) {
     )
   }
 
-  const mergedDomains = [
-    ...data.account.registrations?.sort((a, b) => a.expiryDate - b.expiryDate),
-    ...filterOutReverse(data.account.domains).map(domain => ({ domain }))
-  ]
+  function getSortFunc(activeSort) {
+    switch (activeSort) {
+      case 'alphabetical':
+        return (a, b) => {
+          if (
+            a.domain.name &&
+            a.domain.name[0] === '[' &&
+            b.domain.name &&
+            b.domain.name[0] === '['
+          )
+            return a.domain.name > b.domain.name ? 1 : -1
+          if (a.domain.name && a.domain.name[0] === '[') return 1
+          if (b.domain.name && b.domain.name[0] === '[') return -1
+          return a.domain.name > b.domain.name ? 1 : -1
+        }
+      case 'alphabeticalDesc':
+        return (a, b) => {
+          //if (a.domain.name && a.domain.name[0] === '[') return 1
+          return a.domain.name < b.domain.name ? 1 : -1
+        }
+      case 'expiryDate':
+        return (a, b) => a.expiryDate - b.expiryDate
+
+      case 'expiryDateDesc':
+        return (a, b) => b.expiryDate - a.expiryDate
+    }
+  }
+
+  let domains = []
+
+  if (activeFilter === 'registrant') {
+    domains = [...data.account.registrations?.sort(getSortFunc(activeSort))]
+  } else if (activeFilter === 'controller') {
+    domains = [
+      ...filterOutReverse(data.account.domains)
+        .map(domain => ({ domain }))
+        .sort(getSortFunc(activeSort))
+    ]
+  }
 
   return (
     <DomainsContainer>
-      {mergedDomains.map(d => (
+      {domains.map(d => (
         <DomainItem
           name={decryptName(d.domain.name)}
           owner={address}
@@ -125,6 +198,8 @@ function DomainList({ domains, address }) {
 
 export default function Address({ address }) {
   let [etherScanAddr, setEtherScanAddr] = useState(null)
+  let [activeSort, setActiveSort] = useState('alphabetical')
+  let [activeFilter, setActiveFilter] = useState('registrant')
 
   useEffect(() => {
     getEtherScanAddr().then(setEtherScanAddr)
@@ -134,17 +209,76 @@ export default function Address({ address }) {
     <AddressContainer>
       <TopBar>
         <Title>{address}</Title>
+        {etherScanAddr && (
+          <ExternalButtonLink
+            type="primary"
+            target="_blank"
+            href={`${etherScanAddr}/address/${address}`}
+          >
+            View on EtherScan
+          </ExternalButtonLink>
+        )}
       </TopBar>
-      {etherScanAddr && (
-        <ExternalButtonLink
-          type="primary"
-          target="_blank"
-          href={`${etherScanAddr}/address/${address}`}
+      <FilterContainer>
+        <FilterButton
+          className={activeFilter === 'registrant' ? 'active' : ''}
+          onClick={() => setActiveFilter('registrant')}
         >
-          View on EtherScan
-        </ExternalButtonLink>
-      )}
-      <DomainList address={address} />
+          Registrant
+        </FilterButton>
+        <FilterButton
+          className={activeFilter === 'controller' ? 'active' : ''}
+          onClick={() => setActiveFilter('controller')}
+        >
+          Controller
+        </FilterButton>
+      </FilterContainer>
+      <SortContainer>
+        <SortButton
+          className={
+            activeSort === 'alphabetical' || activeSort === 'alphabeticalDesc'
+              ? 'active'
+              : ''
+          }
+          onClick={() => {
+            switch (activeSort) {
+              case 'alphabetical':
+                return setActiveSort('alphabeticalDesc')
+              case 'alphabeticalDesc':
+                return setActiveSort('alphabetical')
+              default:
+                return setActiveSort('alphabetical')
+            }
+          }}
+        >
+          Alphabetical
+        </SortButton>
+        <SortButton
+          className={
+            activeSort === 'expiryDate' || activeSort === 'expiryDateDesc'
+              ? 'active'
+              : ''
+          }
+          onClick={() => {
+            switch (activeSort) {
+              case 'expiryDate':
+                return setActiveSort('expiryDateDesc')
+              case 'expiryDateDesc':
+                return setActiveSort('expiryDate')
+              default:
+                return setActiveSort('expiryDate')
+            }
+          }}
+        >
+          Expiry Date
+        </SortButton>
+      </SortContainer>
+
+      <DomainList
+        address={address}
+        activeSort={activeSort}
+        activeFilter={activeFilter}
+      />
     </AddressContainer>
   )
 }
