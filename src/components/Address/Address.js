@@ -116,6 +116,42 @@ function normaliseAddress(address) {
   return address.toLowerCase()
 }
 
+function getSortFunc(activeSort) {
+  switch (activeSort) {
+    case 'alphabetical':
+      return (a, b) => {
+        if (
+          a.domain.name &&
+          a.domain.name[0] === '[' &&
+          b.domain.name &&
+          b.domain.name[0] === '['
+        )
+          return a.domain.name > b.domain.name ? 1 : -1
+        if (a.domain.name && a.domain.name[0] === '[') return 1
+        if (b.domain.name && b.domain.name[0] === '[') return -1
+        return a.domain.name > b.domain.name ? 1 : -1
+      }
+    case 'alphabeticalDesc':
+      return (a, b) => {
+        if (
+          a.domain.name &&
+          a.domain.name[0] === '[' &&
+          b.domain.name &&
+          b.domain.name[0] === '['
+        )
+          return a.domain.name > b.domain.name ? 1 : -1
+        if (a.domain.name && a.domain.name[0] === '[') return 1
+        if (b.domain.name && b.domain.name[0] === '[') return -1
+        return a.domain.name < b.domain.name ? 1 : -1
+      }
+    case 'expiryDate':
+      return (a, b) => a.expiryDate - b.expiryDate
+
+    case 'expiryDateDesc':
+      return (a, b) => b.expiryDate - a.expiryDate
+  }
+}
+
 function DomainList({ address, activeSort, activeFilter }) {
   const normalisedAddress = normaliseAddress(address)
   const { loading, data, error } = useQuery(
@@ -137,34 +173,6 @@ function DomainList({ address, activeSort, activeFilter }) {
         <h2>This address does not own any domains</h2>
       </NoDomainsContainer>
     )
-  }
-
-  function getSortFunc(activeSort) {
-    switch (activeSort) {
-      case 'alphabetical':
-        return (a, b) => {
-          if (
-            a.domain.name &&
-            a.domain.name[0] === '[' &&
-            b.domain.name &&
-            b.domain.name[0] === '['
-          )
-            return a.domain.name > b.domain.name ? 1 : -1
-          if (a.domain.name && a.domain.name[0] === '[') return 1
-          if (b.domain.name && b.domain.name[0] === '[') return -1
-          return a.domain.name > b.domain.name ? 1 : -1
-        }
-      case 'alphabeticalDesc':
-        return (a, b) => {
-          //if (a.domain.name && a.domain.name[0] === '[') return 1
-          return a.domain.name < b.domain.name ? 1 : -1
-        }
-      case 'expiryDate':
-        return (a, b) => a.expiryDate - b.expiryDate
-
-      case 'expiryDateDesc':
-        return (a, b) => b.expiryDate - a.expiryDate
-    }
   }
 
   let domains = []
@@ -228,7 +236,10 @@ export default function Address({ address }) {
         </FilterButton>
         <FilterButton
           className={activeFilter === 'controller' ? 'active' : ''}
-          onClick={() => setActiveFilter('controller')}
+          onClick={() => {
+            setActiveFilter('controller')
+            setActiveSort('alphabetical')
+          }}
         >
           Controller
         </FilterButton>
@@ -253,25 +264,27 @@ export default function Address({ address }) {
         >
           Alphabetical
         </SortButton>
-        <SortButton
-          className={
-            activeSort === 'expiryDate' || activeSort === 'expiryDateDesc'
-              ? 'active'
-              : ''
-          }
-          onClick={() => {
-            switch (activeSort) {
-              case 'expiryDate':
-                return setActiveSort('expiryDateDesc')
-              case 'expiryDateDesc':
-                return setActiveSort('expiryDate')
-              default:
-                return setActiveSort('expiryDate')
+        {activeFilter === 'registrant' && (
+          <SortButton
+            className={
+              activeSort === 'expiryDate' || activeSort === 'expiryDateDesc'
+                ? 'active'
+                : ''
             }
-          }}
-        >
-          Expiry Date
-        </SortButton>
+            onClick={() => {
+              switch (activeSort) {
+                case 'expiryDate':
+                  return setActiveSort('expiryDateDesc')
+                case 'expiryDateDesc':
+                  return setActiveSort('expiryDate')
+                default:
+                  return setActiveSort('expiryDate')
+              }
+            }}
+          >
+            Expiry Date
+          </SortButton>
+        )}
       </SortContainer>
 
       <DomainList
