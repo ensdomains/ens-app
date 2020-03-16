@@ -398,7 +398,7 @@ describe('Name detail view', () => {
       })
       cy.getByText('save', { exact: false }).click({ force: true })
     })
-
+    cy.wait(1000)
     cy.visit(`${NAME_ROOT}/subdomaindummy.eth/subdomains`)
       .getByText('subdomains', { exact: false })
       .click({ force: true })
