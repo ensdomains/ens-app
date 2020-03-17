@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { forward } from 'react'
 import styled from '@emotion/styled'
-import { Query } from 'react-apollo'
+import { useQuery } from 'react-apollo'
 
-import { GET_RENT_PRICE } from 'graphql/queries'
+import { GET_RENT_PRICE, GET_RENT_PRICE_ALL } from 'graphql/queries'
 
 import Years from './NameRegister/Years'
 import Price from './NameRegister/Price'
@@ -32,36 +32,67 @@ const Chain = styled(ChainDefault)`
   `}
 `
 
-export default function Pricer({
+function PricerInner({
   years,
   setYears,
   duration,
   ethUsdPriceLoading,
   ethUsdPrice,
-  name,
-  className
+  className,
+  price,
+  reference
 }) {
   return (
-    <Query
-      query={GET_RENT_PRICE}
-      variables={{
-        name,
-        duration
-      }}
-    >
-      {({ data, loading }) => {
-        return (
-          <PricingContainer className={className}>
-            <Years years={years} setYears={setYears} />
-            <Chain />
-            <Price
-              price={loading ? 0 : data.getRentPrice}
-              ethUsdPriceLoading={ethUsdPriceLoading}
-              ethUsdPrice={ethUsdPrice}
-            />
-          </PricingContainer>
-        )
-      }}
-    </Query>
+    <PricingContainer className={className} ref={reference}>
+      <Years years={years} setYears={setYears} />
+      <Chain />
+      <Price
+        price={price}
+        ethUsdPriceLoading={ethUsdPriceLoading}
+        ethUsdPrice={ethUsdPrice}
+      />
+    </PricingContainer>
+  )
+}
+
+export const PricerAll = React.forwardRef((props, reference) => {
+  const { names, duration } = props
+  // const { data, loading } = useQuery(GET_RENT_PRICE_ALL, {
+  //   variables: {
+  //     names,
+  //     duration
+  //   }
+  // })
+
+  const { data, loading } = useQuery(GET_RENT_PRICE, {
+    variables: {
+      name: names[0],
+      duration
+    }
+  })
+  return (
+    <PricerInner
+      reference={reference}
+      price={loading ? 0 : data.getRentPrice}
+      loading={loading}
+      {...props}
+    />
+  )
+})
+
+export default function Pricer(props) {
+  const { name, duration } = props
+  const { data, loading } = useQuery(GET_RENT_PRICE, {
+    variables: {
+      name,
+      duration
+    }
+  })
+  return (
+    <PricerInner
+      price={loading ? 0 : data.getRentPrice}
+      loading={loading}
+      {...props}
+    />
   )
 }

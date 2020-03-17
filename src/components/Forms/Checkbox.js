@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import Tick from './Tick'
 
 const CheckboxContainer = styled('div')`
+  align-self: center;
   input {
     display: none;
   }
@@ -26,27 +27,21 @@ const CheckboxContainer = styled('div')`
   }
 `
 
-class Checkbox extends Component {
-  state = {
-    hover: false
-  }
-
-  render() {
-    const { onClick, checked, name, children } = this.props
-    return (
-      <CheckboxContainer onClick={onClick}>
-        <label
-          htmlFor={name}
-          onMouseOver={() => this.setState({ hover: true })}
-          onMouseOut={() => this.setState({ hover: false })}
-        >
-          <Tick active={checked ? true : false} hover={this.state.hover} />
-          <span>{children}</span>
-        </label>
-        <input type="checkbox" name={name} checked={checked} readOnly />
-      </CheckboxContainer>
-    )
-  }
+function Checkbox({ className, onClick, checked, name, children }) {
+  const [hover, setHover] = useState(false)
+  return (
+    <CheckboxContainer className={className} onClick={onClick}>
+      <label
+        htmlFor={name}
+        onMouseOver={() => setHover(true)}
+        onMouseOut={() => setHover(false)}
+      >
+        <Tick active={checked ? true : false} hover={hover} />
+        <span>{children}</span>
+      </label>
+      <input type="checkbox" name={name} checked={checked} readOnly />
+    </CheckboxContainer>
+  )
 }
 
 export default Checkbox

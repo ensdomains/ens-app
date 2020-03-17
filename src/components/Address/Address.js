@@ -28,6 +28,7 @@ export default function Address({ address }) {
   let [activeSort, setActiveSort] = useState('alphabetical')
   let [activeFilter, setActiveFilter] = useState('registrant')
   let [checkedBoxes, setCheckedBoxes] = useState({})
+  let [years, setYears] = useState(1)
 
   useEffect(() => {
     getEtherScanAddr().then(setEtherScanAddr)
@@ -58,7 +59,7 @@ export default function Address({ address }) {
           setActiveSort={setActiveSort}
           activeFilter={activeFilter}
         />
-        <RenewAll />
+        <RenewAll years={years} setYears={setYears} />
       </Controls>
 
       <DomainList
