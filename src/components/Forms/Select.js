@@ -42,12 +42,12 @@ const styles = {
   singleValue: (styles, { data }) => ({ ...styles })
 }
 
-const handleInputChange = (inputValue, actionMeta) => {
-  console.group('Input Changed')
-  console.log(inputValue)
-  console.log(`action: ${actionMeta.action}`)
-  console.groupEnd()
-}
+// const handleInputChange = (inputValue, actionMeta) => {
+//   console.group('Input Changed')
+//   console.log(inputValue)
+//   console.log(`action: ${actionMeta.action}`)
+//   console.groupEnd()
+// }
 
 class SelectComponent extends Component {
   render() {
@@ -56,9 +56,10 @@ class SelectComponent extends Component {
     return (
       <SelectContainer className={className}>
         <CreatableSelect
+          isHidden={false}
           value={selectedOption}
           onChange={handleChange}
-          onInputChange={handleInputChange}
+          // onInputChange={handleInputChange}
           {...this.props}
           styles={styles}
           theme={theme => ({

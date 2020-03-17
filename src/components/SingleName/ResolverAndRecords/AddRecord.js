@@ -188,6 +188,10 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
   })
 
   const isInvalid = newValue !== '' && !isValid
+  console.log({
+    newValue,
+    selectedKey
+  })
   return (
     <>
       <RecordsTitle>
