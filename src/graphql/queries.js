@@ -94,6 +94,19 @@ export const GET_SUBDOMAINS = gql`
   }
 `
 
+export const GET_RESOLVER_FROM_SUBGRAPH = gql`
+  query getSubdomains($id: ID!) {
+    domain(id: $id) {
+      id
+      name
+      resolver {
+        coinTypes
+        texts
+      }
+    }
+  }
+`
+
 export const GET_SUBDOMAINS_FROM_SUBGRAPH = gql`
   query getSubdomains($id: ID!) {
     domain(id: $id) {

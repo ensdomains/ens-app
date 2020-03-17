@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import styled from '@emotion/styled'
 import Select from 'react-select'
+import Creatable from 'react-select/creatable'
+import CreatableSelect from 'react-select/creatable'
 
 const SelectContainer = styled('div')`
   width: 250px;
@@ -40,15 +42,23 @@ const styles = {
   singleValue: (styles, { data }) => ({ ...styles })
 }
 
+const handleInputChange = (inputValue, actionMeta) => {
+  console.group('Input Changed')
+  console.log(inputValue)
+  console.log(`action: ${actionMeta.action}`)
+  console.groupEnd()
+}
+
 class SelectComponent extends Component {
   render() {
     const { selectedOption, handleChange, className } = this.props
 
     return (
       <SelectContainer className={className}>
-        <Select
+        <CreatableSelect
           value={selectedOption}
           onChange={handleChange}
+          onInputChange={handleInputChange}
           {...this.props}
           styles={styles}
           theme={theme => ({
