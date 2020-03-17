@@ -8,7 +8,9 @@ import { decryptName } from '../../api/labels'
 import AddressContainer from '../Basic/MainContainer'
 import DefaultTopBar from '../Basic/TopBar'
 import { Title } from '../Typography/Basic'
-import { ExternalButtonLink as DefaultExternalButtonLink } from '../Forms/Button'
+import DefaultButton, {
+  ExternalButtonLink as DefaultExternalButtonLink
+} from '../Forms/Button'
 import { getEtherScanAddr } from '../../utils/utils'
 import Loader from '../Loader'
 
@@ -59,6 +61,10 @@ const DomainsContainer = styled('div')`
   padding-right: 40px;
 `
 
+const Controls = styled('div')`
+  display: grid;
+`
+
 const FilterContainer = styled('ul')`
   list-style: none;
   display: flex;
@@ -96,6 +102,14 @@ const SortButton = styled('li')`
     border-bottom: 1px #2c46a6 solid;
   }
 `
+
+const RenewContainer = styled('div')``
+
+const RenewSelected = styled(DefaultButton)`
+  margin-right: 20px;
+`
+
+const RenewAll = styled(DefaultButton)``
 
 function hasNoDomains(data) {
   return (
@@ -152,7 +166,13 @@ function getSortFunc(activeSort) {
   }
 }
 
-function DomainList({ address, activeSort, activeFilter }) {
+function DomainList({
+  address,
+  activeSort,
+  activeFilter,
+  checkedBoxes,
+  setCheckedBoxes
+}) {
   const normalisedAddress = normaliseAddress(address)
   const { loading, data, error } = useQuery(
     GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH,
@@ -189,17 +209,26 @@ function DomainList({ address, activeSort, activeFilter }) {
 
   return (
     <DomainsContainer>
-      {domains.map(d => (
-        <DomainItem
-          name={decryptName(d.domain.name)}
-          owner={address}
-          domain={d.domain}
-          expiryDate={d?.expiryDate}
-          labelName={d.domain.labelName}
-          labelhash={d.domain.labelhash}
-          parent={d.domain.parent.name}
-        />
-      ))}
+      {domains.map(d => {
+        const name = decryptName(d.domain.name)
+        return (
+          <>
+            <DomainItem
+              name={name}
+              owner={address}
+              domain={d.domain}
+              expiryDate={d?.expiryDate}
+              labelName={d.domain.labelName}
+              labelhash={d.domain.labelhash}
+              parent={d.domain.parent.name}
+              checkedBoxes={activeFilter === 'registrant' ? checkedBoxes : null}
+              setCheckedBoxes={
+                activeFilter === 'registrant' ? setCheckedBoxes : null
+              }
+            />
+          </>
+        )
+      })}
     </DomainsContainer>
   )
 }
@@ -208,6 +237,7 @@ export default function Address({ address }) {
   let [etherScanAddr, setEtherScanAddr] = useState(null)
   let [activeSort, setActiveSort] = useState('alphabetical')
   let [activeFilter, setActiveFilter] = useState('registrant')
+  let [checkedBoxes, setCheckedBoxes] = useState({})
 
   useEffect(() => {
     getEtherScanAddr().then(setEtherScanAddr)
@@ -227,70 +257,78 @@ export default function Address({ address }) {
           </ExternalButtonLink>
         )}
       </TopBar>
-      <FilterContainer>
-        <FilterButton
-          className={activeFilter === 'registrant' ? 'active' : ''}
-          onClick={() => setActiveFilter('registrant')}
-        >
-          Registrant
-        </FilterButton>
-        <FilterButton
-          className={activeFilter === 'controller' ? 'active' : ''}
-          onClick={() => {
-            setActiveFilter('controller')
-            setActiveSort('alphabetical')
-          }}
-        >
-          Controller
-        </FilterButton>
-      </FilterContainer>
-      <SortContainer>
-        <SortButton
-          className={
-            activeSort === 'alphabetical' || activeSort === 'alphabeticalDesc'
-              ? 'active'
-              : ''
-          }
-          onClick={() => {
-            switch (activeSort) {
-              case 'alphabetical':
-                return setActiveSort('alphabeticalDesc')
-              case 'alphabeticalDesc':
-                return setActiveSort('alphabetical')
-              default:
-                return setActiveSort('alphabetical')
-            }
-          }}
-        >
-          Alphabetical
-        </SortButton>
-        {activeFilter === 'registrant' && (
+      <Controls>
+        <FilterContainer>
+          <FilterButton
+            className={activeFilter === 'registrant' ? 'active' : ''}
+            onClick={() => setActiveFilter('registrant')}
+          >
+            Registrant
+          </FilterButton>
+          <FilterButton
+            className={activeFilter === 'controller' ? 'active' : ''}
+            onClick={() => {
+              setActiveFilter('controller')
+              setActiveSort('alphabetical')
+            }}
+          >
+            Controller
+          </FilterButton>
+        </FilterContainer>
+        <SortContainer>
           <SortButton
             className={
-              activeSort === 'expiryDate' || activeSort === 'expiryDateDesc'
+              activeSort === 'alphabetical' || activeSort === 'alphabeticalDesc'
                 ? 'active'
                 : ''
             }
             onClick={() => {
               switch (activeSort) {
-                case 'expiryDate':
-                  return setActiveSort('expiryDateDesc')
-                case 'expiryDateDesc':
-                  return setActiveSort('expiryDate')
+                case 'alphabetical':
+                  return setActiveSort('alphabeticalDesc')
+                case 'alphabeticalDesc':
+                  return setActiveSort('alphabetical')
                 default:
-                  return setActiveSort('expiryDate')
+                  return setActiveSort('alphabetical')
               }
             }}
           >
-            Expiry Date
+            Alphabetical
           </SortButton>
-        )}
-      </SortContainer>
+          {activeFilter === 'registrant' && (
+            <SortButton
+              className={
+                activeSort === 'expiryDate' || activeSort === 'expiryDateDesc'
+                  ? 'active'
+                  : ''
+              }
+              onClick={() => {
+                switch (activeSort) {
+                  case 'expiryDate':
+                    return setActiveSort('expiryDateDesc')
+                  case 'expiryDateDesc':
+                    return setActiveSort('expiryDate')
+                  default:
+                    return setActiveSort('expiryDate')
+                }
+              }}
+            >
+              Expiry Date
+            </SortButton>
+          )}
+        </SortContainer>
+        <RenewContainer>
+          <RenewSelected type="hollow-primary">Renew Selected</RenewSelected>
+          <RenewAll>Renew all</RenewAll>
+        </RenewContainer>
+      </Controls>
 
       <DomainList
         address={address}
         activeSort={activeSort}
         activeFilter={activeFilter}
+        checkedBoxes={checkedBoxes}
+        setCheckedBoxes={setCheckedBoxes}
       />
     </AddressContainer>
   )

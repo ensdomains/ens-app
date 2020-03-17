@@ -3,10 +3,11 @@ import styled from '@emotion/styled'
 import { Link } from 'react-router-dom'
 import { SingleNameBlockies } from '../SingleName/SingleNameBlockies'
 import { formatDate, calculateIsExpiredSoon } from 'utils/dates'
+import Checkbox from '../Forms/Checkbox'
 
 const DomainLink = styled(Link)`
   display: grid;
-  grid-template-columns: 30px auto 300px;
+  grid-template-columns: 30px 1fr minmax(150px, 300px) 50px;
   grid-template-rows: 50px;
   grid-gap: 10px;
   width: 100%;
@@ -51,7 +52,9 @@ export default function ChildDomainItem({
   labelName,
   parent,
   expiryDate,
-  isMigrated
+  isMigrated,
+  checkedBoxes,
+  setCheckedBoxes
 }) {
   let label =
     labelName !== null
@@ -67,11 +70,22 @@ export default function ChildDomainItem({
     >
       <SingleNameBlockies imageSize={24} address={owner} />
       <h3>{label}</h3>
-      {expiryDate ? (
+      {expiryDate && (
         <ExpiryDate isExpiredSoon={isExpiredSoon}>
           Expires {formatDate(parseInt(expiryDate * 1000))}
         </ExpiryDate>
-      ) : null}
+      )}
+      {checkedBoxes && (
+        <Checkbox
+          checked={checkedBoxes[name]}
+          onClick={e => {
+            e.preventDefault()
+            setCheckedBoxes(prevState => {
+              return { ...prevState, [name]: !prevState[name] }
+            })
+          }}
+        />
+      )}
     </DomainLink>
   )
 }

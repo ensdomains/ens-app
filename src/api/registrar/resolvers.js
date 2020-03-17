@@ -19,6 +19,10 @@ const resolvers = {
       const registrar = getRegistrar()
       return registrar.getRentPrice(name, duration)
     },
+    async getRentPriceAll(_, { labels, duration }, { cache }) {
+      const registrar = getRegistrar()
+      return registrar.getRentPriceAll(labels, duration)
+    },
     async getMinimumCommitmentAge() {
       try {
         const registrar = getRegistrar()
@@ -112,6 +116,11 @@ const resolvers = {
     async submitProof(_, { name, parentOwner }) {
       const registrar = getRegistrar()
       const tx = await registrar.submitProof(name, parentOwner)
+      return sendHelper(tx)
+    },
+    async renewDomains(_, { labels, duration }) {
+      const registrar = getRegistrar()
+      const tx = await registrar.renewAll(labels, duration)
       return sendHelper(tx)
     }
   }

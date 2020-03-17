@@ -187,6 +187,12 @@ export const GET_RENT_PRICE = gql`
   }
 `
 
+export const GET_RENT_PRICE_ALL = gql`
+  query getRentPriceAll($labels: String, $duration: Number) {
+    getRentPriceAll(labels: $labels, duration: $duration) @client
+  }
+`
+
 export const GET_MINIMUM_COMMITMENT_AGE = gql`
   query getMinimumCommitmentAge {
     getMinimumCommitmentAge @client

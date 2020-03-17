@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import styled from '@emotion/styled'
 import Tick from './Tick'
-import { render } from '../../../node_modules/react-testing-library'
 
 const CheckboxContainer = styled('div')`
   input {

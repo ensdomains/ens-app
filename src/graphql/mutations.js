@@ -171,6 +171,12 @@ export const SUBMIT_PROOF = gql`
   }
 `
 
+export const RENEW_ALL = gql`
+  mutation renewAll($labels: [String], $duration: Int) {
+    renewAll(labels: $labels, duration: $duration) @client
+  }
+`
+
 /* Registry Migration */
 
 export const MIGRATE_REGISTRY = gql`
