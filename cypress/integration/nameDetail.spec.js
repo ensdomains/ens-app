@@ -266,24 +266,18 @@ describe('Name detail view', () => {
         .getByText('Key', { exact: false })
         .click({ force: true })
         .get('input#react-select-3-input')
-        .type('FOOOOOOOO')
-        .click({ force: true })
+        .type('FOOOOOOOO{enter}')
         .getByText('CREATE "FOOOOOOOO"', { exact: false })
-        .should('be.visible')
-        .click({ force: true }) // This won't set key on CI as FOOOOOO is not visible
 
-      cy.wait(5000)
       cy.get('input:last').type(text, { force: true })
-      // .getByText('Save').click({ force: true })
       waitUntilInputResolves('Save').then(() => {
         cy.getByText('Save').click({ force: true })
       })
     })
-    cy.wait(2000)
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
     cy.queryByText(text, {
       exact: false,
-      timeout: 3000
+      timeout: 10000
     }).should('exist')
   })
 
