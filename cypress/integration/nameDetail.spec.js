@@ -273,13 +273,11 @@ describe('Name detail view', () => {
       waitUntilInputResolves('Save').then(() => {
         cy.getByText('Save').click({ force: true })
       })
+      cy.queryByText(text, {
+        exact: false,
+        timeout: 10000
+      }).should('exist')
     })
-    cy.wait(5000)
-    cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
-    cy.queryByText(text, {
-      exact: false,
-      timeout: 10000
-    }).should('exist')
   })
 
   it('can change the address', () => {
