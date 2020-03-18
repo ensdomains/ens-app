@@ -112,6 +112,7 @@ function TextRecordInput({
         selectedRecord={selectedKey}
         handleChange={setSelectedKey}
         placeholder="Key"
+        addNewKey={true}
         options={TEXT_RECORD_KEYS.map(key => ({
           label: key,
           value: key
