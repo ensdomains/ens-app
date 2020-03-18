@@ -225,7 +225,7 @@ describe('Name detail view', () => {
     })
   })
 
-  it('can add Text', () => {
+  it('can add default Text', () => {
     const text = 'Hello'
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
@@ -249,6 +249,34 @@ describe('Name detail view', () => {
           timeout: 10000
         }).should('exist')
       })
+    })
+  })
+
+  it.only('can add custom Text', () => {
+    const text = 'Bar'
+    cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
+
+    cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
+      cy.getByText('+')
+        .click({ force: true })
+        .getByText('select a record', { exact: false })
+        .click({ force: true })
+        .getByText('Text')
+        .click({ force: true })
+        .getByText('Key', { exact: false })
+        .click({ force: true })
+        .get('input#react-select-3-input')
+        .type('FOOOOOOOO{enter}')
+        .getByText('CREATE "FOOOOOOOO"', { exact: false })
+
+      cy.get('input:last').type(text, { force: true })
+      waitUntilInputResolves('Save').then(() => {
+        cy.getByText('Save').click({ force: true })
+      })
+      cy.queryByText(text, {
+        exact: false,
+        timeout: 10000
+      }).should('exist')
     })
   })
 

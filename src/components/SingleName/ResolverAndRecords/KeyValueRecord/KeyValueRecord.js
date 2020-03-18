@@ -253,7 +253,8 @@ function Record(props) {
       let timesTried = 0
       refetch().then(({ data }) => {
         //retry until record is there or tried more than timesToTry
-        if (Object.values(data)[0] === null) {
+        let response = Object.values(data)[0]
+        if (response === null || parseInt(response) === 0) {
           if (timesTried < timesToTry) {
             setTimeout(() => {
               refetch()
@@ -307,6 +308,8 @@ function Records({
   getPlaceholder,
   title
 }) {
+  if (!keys.includes(recordAdded)) keys.push(recordAdded)
+
   const [hasRecord, setHasRecord] = useState(false)
   return (
     <KeyValueContainer hasRecord={hasRecord}>
