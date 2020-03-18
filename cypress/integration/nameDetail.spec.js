@@ -274,6 +274,7 @@ describe('Name detail view', () => {
         cy.getByText('Save').click({ force: true })
       })
     })
+    cy.wait(5000)
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
     cy.queryByText(text, {
       exact: false,
