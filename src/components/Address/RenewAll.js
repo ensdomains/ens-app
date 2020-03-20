@@ -15,7 +15,16 @@ const RenewSelected = styled(DefaultButton)`
 
 const RenewAll = styled(DefaultButton)``
 
-const RenewPricer = styled(motion.div)``
+const RenewPricer = styled(motion.div)`
+  background: #f0f6fa;
+  padding: 20px;
+  margin: 20px;
+  display: grid;
+`
+
+const RenewButton = styled(DefaultButton)``
+
+const RenewCancel = styled(DefaultButton)``
 
 const PricerAll = motion.custom(PriceAllDefault)
 
@@ -53,6 +62,8 @@ export default function Renew() {
               ethUsdPriceLoading={loading}
               ethUsdPrice={ethUsdPrice || 0}
             />
+            <RenewButton>Renew names</RenewButton>
+            <RenewCancel type="hollow-primary">Cancel</RenewCancel>
           </RenewPricer>
         </AnimatePresence>
       )}

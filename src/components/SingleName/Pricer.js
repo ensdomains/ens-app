@@ -1,4 +1,4 @@
-import React, { forward } from 'react'
+import React from 'react'
 import styled from '@emotion/styled'
 import { useQuery } from 'react-apollo'
 

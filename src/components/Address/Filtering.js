@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import { Tab, Tabs } from '../Tabs'
 
 const FilterContainer = styled('ul')`
   list-style: none;
@@ -26,22 +27,22 @@ export default function Filtering({
   setActiveSort
 }) {
   return (
-    <FilterContainer>
-      <FilterButton
-        className={activeFilter === 'registrant' ? 'active' : ''}
+    <Tabs>
+      <Tab
+        active={activeFilter === 'registrant'}
         onClick={() => setActiveFilter('registrant')}
       >
         Registrant
-      </FilterButton>
-      <FilterButton
-        className={activeFilter === 'controller' ? 'active' : ''}
+      </Tab>
+      <Tab
+        active={activeFilter === 'controller'}
         onClick={() => {
           setActiveFilter('controller')
           setActiveSort('alphabetical')
         }}
       >
         Controller
-      </FilterButton>
-    </FilterContainer>
+      </Tab>
+    </Tabs>
   )
 }
