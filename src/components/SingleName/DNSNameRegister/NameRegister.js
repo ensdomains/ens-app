@@ -12,6 +12,7 @@ import You from '../../Icons/You'
 
 const EtherScanLink = styled(DefaultEtherScanLink)`
   display: flex;
+  overflow: hidden;
   svg {
     flex-grow: 1;
   }

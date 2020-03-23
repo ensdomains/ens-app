@@ -45,7 +45,7 @@ const ContentHashLink = ({ value, contentType }) => {
     externalLink = `https://swarm-gateways.net/bzz://${decoded}`
     url = `bzz://${decoded}`
   } else if (protocolType === 'onion' || protocolType === 'onion3') {
-    externalLink = `https://${decoded}.onion`
+    externalLink = `http://${decoded}.onion`
     url = `onion://${decoded}`
   } else {
     console.warn(`Unsupported protocol ${protocolType}`)

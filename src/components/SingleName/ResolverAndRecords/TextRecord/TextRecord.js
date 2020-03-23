@@ -1,7 +1,7 @@
 import React from 'react'
 import TEXT_RECORD_KEYS from 'constants/textRecords'
 import KeyValueRecord from '../KeyValueRecord'
-import { Query, useQuery } from 'react-apollo'
+import { useQuery } from 'react-apollo'
 import { getNamehash } from '@ensdomains/ui'
 import { GET_RESOLVER_FROM_SUBGRAPH } from 'graphql/queries'
 
