@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 import { useMutation, useQuery, Mutation } from 'react-apollo'
+import TextRecordLink from '../../../Links/TextRecordLink'
 import mq from 'mediaQuery'
 
 import {
@@ -65,10 +66,6 @@ const RecordsListItem = styled('div')`
   ${mq.medium`
     flex-direction: row;
   `}
-`
-
-const Value = styled(RecordsValue)`
-  padding-right: 0;
 `
 
 const KeyValuesContent = styled(RecordsContent)`
@@ -148,7 +145,7 @@ const Editable = ({
     <KeyValueItem editing={editing} hasRecord={true} noBorder>
       <KeyValuesContent editing={editing}>
         <RecordsSubKey>{textKey}</RecordsSubKey>
-        <Value editableSmall>{value}</Value>
+        <TextRecordLink textKey={textKey} value={value} />
 
         {pending && !confirmed && txHash ? (
           <PendingTx
