@@ -73,7 +73,7 @@ const KeyValuesContent = styled(RecordsContent)`
   width: 100%;
   grid-template-columns: 1fr;
   padding-right: 30px;
-
+  overflow: hidden;
   ${mq.small`
     grid-template-columns: 150px 1fr;
   `}
