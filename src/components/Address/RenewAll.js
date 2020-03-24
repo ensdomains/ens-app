@@ -4,10 +4,17 @@ import styled from '@emotion/styled'
 import DefaultButton from '../Forms/Button'
 import { PricerAll as PriceAllDefault } from '../SingleName/Pricer'
 import { yearInSeconds } from 'utils/dates'
+import mq from 'mediaQuery'
 
 import { useEthPrice } from '../hooks'
 
-const RenewContainer = styled('div')``
+const RenewContainer = styled('div')`
+  grid-column-start: auto;
+
+  ${mq.small`
+    grid-column-start: span 2;
+  `}
+`
 
 const RenewSelected = styled(DefaultButton)`
   margin-right: 20px;
@@ -19,6 +26,7 @@ const RenewPricer = styled(motion.div)`
   background: #f0f6fa;
   padding: 20px;
   margin: 20px;
+  margin-left: 0;
   display: grid;
 `
 
