@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 
+import mq from 'mediaQuery'
+
 import AddressContainer from '../Basic/MainContainer'
 import DefaultTopBar from '../Basic/TopBar'
 import { Title } from '../Typography/Basic'
@@ -20,7 +22,25 @@ const ExternalButtonLink = styled(DefaultExternalButtonLink)`
 `
 
 const Controls = styled('div')`
+  padding-left: 30px;
   display: grid;
+  align-content: center;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  grid-template-areas:
+    'filters'
+    'sorting'
+    'renew';
+  grid-gap: 20px 10px;
+
+  ${mq.small`
+    margin: 20px 30px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+    'filters renew'
+    'sorting .'
+    ;
+  `}
 `
 
 export default function Address({ address }) {

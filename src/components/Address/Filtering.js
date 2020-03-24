@@ -24,10 +24,11 @@ const FilterButton = styled('li')`
 export default function Filtering({
   activeFilter,
   setActiveFilter,
-  setActiveSort
+  setActiveSort,
+  className
 }) {
   return (
-    <Tabs>
+    <Tabs className={className}>
       <Tab
         active={activeFilter === 'registrant'}
         onClick={() => setActiveFilter('registrant')}

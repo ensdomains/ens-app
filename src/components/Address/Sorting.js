@@ -4,12 +4,14 @@ import styled from '@emotion/styled'
 const SortContainer = styled('ul')`
   list-style: none;
   display: flex;
+  margin: 0;
+  padding: 0;
 `
 
 const SortButton = styled('li')`
   color: #adbbcd;
   font-size: 18px;
-  padding: 5px 10px;
+  padding: 0 10px 5px;
   border-bottom: 1px #d2d2d2 solid;
 
   &:hover,
@@ -20,9 +22,14 @@ const SortButton = styled('li')`
   }
 `
 
-export default function Sorting({ activeSort, setActiveSort, activeFilter }) {
+export default function Sorting({
+  activeSort,
+  setActiveSort,
+  activeFilter,
+  className
+}) {
   return (
-    <SortContainer>
+    <SortContainer className={className}>
       <SortButton
         className={
           activeSort === 'alphabetical' || activeSort === 'alphabeticalDesc'

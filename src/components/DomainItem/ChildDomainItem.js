@@ -4,11 +4,12 @@ import { Link } from 'react-router-dom'
 import { SingleNameBlockies } from '../SingleName/SingleNameBlockies'
 import { formatDate, calculateIsExpiredSoon } from 'utils/dates'
 import Checkbox from '../Forms/Checkbox'
+import mq, { useMediaMin } from 'mediaQuery'
 
 const DomainLink = styled(Link)`
   display: grid;
-  grid-template-columns: 30px 1fr minmax(150px, 300px) 50px;
-  grid-template-rows: 50px;
+  grid-template-columns: 1fr 50px;
+  grid-template-rows: 50px 50px;
   grid-gap: 10px;
   width: 100%;
   padding: 30px 0;
@@ -17,6 +18,11 @@ const DomainLink = styled(Link)`
   font-size: 22px;
   font-weight: 100;
   border-bottom: 1px dashed #d3d3d3;
+
+  ${mq.small`
+    grid-template-columns: 30px 1fr minmax(150px, 300px) 50px;
+    grid-template-rows: 50px
+  `}
 
   &:last-child {
     border: none;
@@ -34,8 +40,13 @@ const DomainLink = styled(Link)`
   }
 
   p {
+    grid-row-start: 2;
     margin: 0;
     align-self: center;
+
+    ${mq.small`
+      grid-row-start: auto;
+    `}
   }
 `
 
@@ -56,6 +67,7 @@ export default function ChildDomainItem({
   checkedBoxes,
   setCheckedBoxes
 }) {
+  const smallBP = useMediaMin('small')
   let label =
     labelName !== null
       ? `${name}`
@@ -68,7 +80,7 @@ export default function ChildDomainItem({
       key={name}
       to={`/name/${name}`}
     >
-      <SingleNameBlockies imageSize={24} address={owner} />
+      {smallBP && <SingleNameBlockies imageSize={24} address={owner} />}
       <h3>{label}</h3>
       {expiryDate && (
         <ExpiryDate isExpiredSoon={isExpiredSoon}>

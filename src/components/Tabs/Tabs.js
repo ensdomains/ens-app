@@ -7,7 +7,7 @@ export const Tab = styled('div')`
   font-size: 14px;
   background: ${({ active }) => (active ? '#5384FE' : 'transparent')};
   color: ${({ active }) => (active ? 'white' : '#D2D2D2')};
-  transform: scale(${({ active }) => (active ? '1.08' : '1')});
+  transform: scale(${({ active }) => (active ? '1.02' : '1')});
   transition: background 0.1s ease-out, transform 0.3s ease-out;
   padding: 10px 30px;
   border-radius: 90px;
@@ -24,10 +24,4 @@ export const Tabs = styled('div')`
   width: 240px;
   border: 1px solid #dfdfdf;
   border-radius: 90px;
-  margin-left: 43px;
-  margin-top: 20px;
-  ${mq.small`
-    margin: 0;
-    margin-left: 20px;
-  `}
 `
