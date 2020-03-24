@@ -26,6 +26,7 @@ const ActionButton = ({
   mutationButton,
   value,
   newValue,
+  extraDataComponent,
   confirm,
   isValid
 }) => {
@@ -49,6 +50,7 @@ const ActionButton = ({
             mutationButton: mutationButton,
             value: value,
             newValue: newValue,
+            extraDataComponent,
             cancel: () => {
               toggleModal({ name: 'confirm' })
             }
@@ -78,6 +80,7 @@ const SaveCancel = React.forwardRef(
       newValue,
       confirm,
       warningMessage,
+      extraDataComponent,
       isValid = true
     },
     ref
@@ -95,6 +98,7 @@ const SaveCancel = React.forwardRef(
         newValue={newValue}
         confirm={confirm}
         isValid={isValid}
+        extraDataComponent={extraDataComponent}
         data-testid="action"
       />
     </SaveCancelContainer>

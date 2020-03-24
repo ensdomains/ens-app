@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
+import { useMutation } from 'react-apollo'
 import { motion, AnimatePresence } from 'framer-motion'
 import styled from '@emotion/styled'
 import DefaultButton from '../Forms/Button'
+import SaveCancel from '../SingleName/SaveCancel'
 import { PricerAll as PriceAllDefault } from '../SingleName/Pricer'
-import { yearInSeconds } from 'utils/dates'
+import { yearInSeconds, formatDate } from 'utils/dates'
 import mq from 'mediaQuery'
 
 import { useEthPrice } from '../hooks'
@@ -27,16 +29,29 @@ const RenewPricer = styled(motion.div)`
   padding: 20px;
   margin: 20px;
   margin-left: 0;
-  display: grid;
+  display: flex;
+  flex-direction: column;
 `
 
-const RenewButton = styled(DefaultButton)``
+const Buttons = styled('div')`
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+`
 
-const RenewCancel = styled(DefaultButton)``
+const RenewButton = styled(DefaultButton)`
+  margin-bottom: 20px;
+`
 
-const PricerAll = motion.custom(PriceAllDefault)
+const RenewCancel = styled(DefaultButton)`
+  margin-left: 20px;
+`
 
-export default function Renew() {
+const StyledPricer = styled(PriceAllDefault)``
+
+const PricerAll = motion.custom(StyledPricer)
+
+export default function Renew({ selectedNames }) {
   const [showPricer, setShowPricer] = useState(false)
   const [years, setYears] = useState(1)
   const { price: ethUsdPrice, loading } = useEthPrice()
@@ -70,8 +85,28 @@ export default function Renew() {
               ethUsdPriceLoading={loading}
               ethUsdPrice={ethUsdPrice || 0}
             />
-            <RenewButton>Renew names</RenewButton>
-            <RenewCancel type="hollow-primary">Cancel</RenewCancel>
+            <Buttons>
+              <SaveCancel
+                stopEditing={() => setShowPricer(show => !show)}
+                mutation={() => {
+                  // const variables = getVariables(keyName, {
+                  //   domain,
+                  //   variableName,
+                  //   newValue,
+                  //   duration
+                  // })
+                  // mutation({ variables })
+                }}
+                value={formatDate(new Date())}
+                newValue={formatDate(new Date())}
+                mutationButton={'Renew All'}
+                confirm={true}
+                isValid={true}
+                extraDataComponent={
+                  <div>{selectedNames.map(name => name + ', \n')}</div>
+                }
+              />
+            </Buttons>
           </RenewPricer>
         </AnimatePresence>
       )}

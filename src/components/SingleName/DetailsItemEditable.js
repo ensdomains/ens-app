@@ -475,8 +475,8 @@ const Editable = ({
                         : newValue
                     }
                     mutationButton={mutationButton}
-                    confirm={confirm}
-                    isValid={isValid}
+                    confirm={true}
+                    isValid={true}
                   />
                 </Buttons>
               </motion.div>

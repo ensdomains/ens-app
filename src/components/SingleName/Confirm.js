@@ -98,6 +98,7 @@ const Confirm = ({
   disabled,
   className,
   value,
+  extraDataComponent,
   newValue,
   explanation
 }) => (
@@ -106,6 +107,7 @@ const Confirm = ({
     <SubTitle>This action will modify the state of the blockchain.</SubTitle>
     <Content>
       {explanation ? <p>{explanation}</p> : ''}
+      {extraDataComponent ? <pre>{extraDataComponent}</pre> : ''}
       {value || newValue ? (
         <Values>
           <Value old={true}>

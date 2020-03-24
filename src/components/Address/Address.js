@@ -79,7 +79,13 @@ export default function Address({ address }) {
           setActiveSort={setActiveSort}
           activeFilter={activeFilter}
         />
-        <RenewAll years={years} setYears={setYears} />
+        <RenewAll
+          years={years}
+          setYears={setYears}
+          selectedNames={Object.entries(checkedBoxes)
+            .filter(([key, value]) => value)
+            .map(([key]) => key)}
+        />
       </Controls>
 
       <DomainList
