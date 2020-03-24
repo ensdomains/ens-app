@@ -51,23 +51,43 @@ const StyledPricer = styled(PriceAllDefault)``
 
 const PricerAll = motion.custom(StyledPricer)
 
-export default function Renew({ selectedNames }) {
-  const [showPricer, setShowPricer] = useState(false)
+export default function Renew({ selectedNames, allNames }) {
+  const [showPricer, setShowPricer] = useState({ type: undefined, show: false })
   const [years, setYears] = useState(1)
   const { price: ethUsdPrice, loading } = useEthPrice()
   const duration = years * yearInSeconds
+  let namesToRenew = []
+
+  if (showPricer.type === 'selected') {
+    namesToRenew = selectedNames
+  } else if (showPricer.type === 'all') {
+    namesToRenew = allNames
+  }
+
   return (
     <RenewContainer>
       <RenewSelected
-        onClick={() => setShowPricer(show => !show)}
+        onClick={() =>
+          setShowPricer(({ show }) => ({
+            show: !show,
+            type: 'selected'
+          }))
+        }
         type="hollow-primary"
       >
         Renew Selected
       </RenewSelected>
-      <RenewAll onClick={() => setShowPricer(show => !show)}>
+      <RenewAll
+        onClick={() =>
+          setShowPricer(({ show }) => ({
+            show: !show,
+            type: 'all'
+          }))
+        }
+      >
         Renew all
       </RenewAll>
-      {showPricer && (
+      {showPricer.show && (
         <AnimatePresence>
           <RenewPricer
             initial={{ opacity: 0, height: 0 }}
@@ -87,7 +107,7 @@ export default function Renew({ selectedNames }) {
             />
             <Buttons>
               <SaveCancel
-                stopEditing={() => setShowPricer(show => !show)}
+                stopEditing={() => setShowPricer(show => ({ show: false }))}
                 mutation={() => {
                   // const variables = getVariables(keyName, {
                   //   domain,
@@ -103,7 +123,7 @@ export default function Renew({ selectedNames }) {
                 confirm={true}
                 isValid={true}
                 extraDataComponent={
-                  <div>{selectedNames.map(name => name + ', \n')}</div>
+                  <div>{namesToRenew.map(name => name + ', \n')}</div>
                 }
               />
             </Buttons>

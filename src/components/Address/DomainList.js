@@ -1,10 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { useQuery } from 'react-apollo'
 
-import { GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH } from '../../graphql/queries'
-
-import Loader from '../Loader'
 import DomainItem from '../DomainItem/ChildDomainItem'
 import { decryptName } from '../../api/labels'
 
@@ -47,103 +43,20 @@ const DomainsContainer = styled('div')`
   padding-right: 40px;
 `
 
-function hasNoDomains(data) {
-  return (
-    (data.account &&
-      data.account.domains &&
-      data.account.domains.length === 0) ||
-    data.account === null
-  )
-}
-
-function filterOutReverse(domains) {
-  return domains.filter(
-    domain => domain.parent && domain.parent.name !== 'addr.reverse'
-  )
-}
-
-function normaliseAddress(address) {
-  return address.toLowerCase()
-}
-
-function getSortFunc(activeSort) {
-  function alphabetical(a, b) {
-    if (
-      a.domain.name &&
-      a.domain.name[0] === '[' &&
-      b.domain.name &&
-      b.domain.name[0] === '['
-    )
-      return a.domain.name > b.domain.name ? 1 : -1
-    if (a.domain.name && a.domain.name[0] === '[') return 1
-    if (b.domain.name && b.domain.name[0] === '[') return -1
-    return a.domain.name > b.domain.name ? 1 : -1
-  }
-  switch (activeSort) {
-    case 'alphabetical':
-      return alphabetical
-    case 'alphabeticalDesc':
-      return (a, b) => {
-        if (
-          a.domain.name &&
-          a.domain.name[0] === '[' &&
-          b.domain.name &&
-          b.domain.name[0] === '['
-        )
-          return a.domain.name > b.domain.name ? 1 : -1
-        if (a.domain.name && a.domain.name[0] === '[') return 1
-        if (b.domain.name && b.domain.name[0] === '[') return -1
-        return a.domain.name < b.domain.name ? 1 : -1
-      }
-    case 'expiryDate':
-      return (a, b) => a.expiryDate - b.expiryDate
-
-    case 'expiryDateDesc':
-      return (a, b) => b.expiryDate - a.expiryDate
-    default:
-      return alphabetical
-  }
-}
-
 export default function DomainList({
   address,
   activeSort,
   activeFilter,
   checkedBoxes,
-  setCheckedBoxes
+  setCheckedBoxes,
+  domains
 }) {
-  const normalisedAddress = normaliseAddress(address)
-  const { loading, data, error } = useQuery(
-    GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH,
-    { variables: { id: normalisedAddress } }
-  )
-
-  if (error) {
-    return 'Error getting domains'
-  }
-
-  if (loading) {
-    return <Loader withWrap large />
-  }
-
-  if (hasNoDomains(data)) {
+  if (!domains || domains.length === 0) {
     return (
       <NoDomainsContainer>
         <h2>This address does not own any domains</h2>
       </NoDomainsContainer>
     )
-  }
-
-  let domains = []
-
-  if (activeFilter === 'registrant') {
-    domains = [...data.account.registrations?.sort(getSortFunc(activeSort))]
-  } else if (activeFilter === 'controller') {
-    domains = [
-      ...filterOutReverse(data.account.domains)
-        .map(domain => ({ domain }))
-        .sort(getSortFunc(activeSort))
-    ]
   }
 
   return (
