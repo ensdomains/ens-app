@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from '@emotion/styled'
 import { motion } from 'framer-motion'
-import warning from '../assets/yellowwarning.svg'
+import warning from '../assets/whiteWarning.svg'
 
 import mq from 'mediaQuery'
 
@@ -35,16 +35,40 @@ const NavLink = styled(Link)`
 const Announcement = styled('div')`
   display: flex;
   justify-content: center;
+  flex-direction: column;
   background: #5284ff;
   border-bottom: #5284ff solid 3px;
   h3 {
-    color: #f5a623;
+    color: white;
+    font-weight: 400;
+    text-align: center;
+    padding: 0 20px;
+    margin-bottom: 10px;
+  }
+  p {
+    text-align: center;
+    color: white;
+    margin-top: 0;
+  }
+  a {
+    color: white;
+    text-decoration: underline;
+  }
+`
+
+const PreviousUpdates = styled('div')`
+  display: flex;
+  justify-content: center;
+  background: #5284ff;
+  border-bottom: #5284ff solid 3px;
+  h3 {
+    color: white;
     font-weight: 400;
     text-align: center;
     padding: 0 20px;
   }
   a {
-    color: #f5a623;
+    color: white;
     text-decoration: underline;
   }
 `
@@ -312,12 +336,17 @@ export default ({ match }) => {
       <Announcement>
         <h3>
           <img src={warning} alt="warning" />
-          &nbsp; ENS Registry Migration Is Over… Now What? A Few Things to
-          Know&nbsp;
-          <a href="https://medium.com/the-ethereum-name-service/ens-registry-migration-is-over-now-what-a-few-things-to-know-fb05f921872a">
-            (Find out more)
-          </a>
+          &nbsp; Names bought in May are expiring soon.
         </h3>
+        <p>
+          You can renew multiple domains in one transaction by going to your
+          {accounts?.length > 0 ? (
+            <Link to={'/address/' + accounts[0]}> address page</Link>
+          ) : (
+            'address page'
+          )}{' '}
+          or clicking 'My names' whilst logged in
+        </p>
       </Announcement>
       <Explanation>
         <WhatItIs>
@@ -357,6 +386,16 @@ export default ({ match }) => {
           </Inner>
         </HowItWorks>
       </Explanation>
+      <PreviousUpdates>
+        <h3>
+          <img src={warning} alt="warning" />
+          &nbsp; ENS Registry Migration Is Over… Now What? A Few Things to
+          Know&nbsp;
+          <a href="https://medium.com/the-ethereum-name-service/ens-registry-migration-is-over-now-what-a-few-things-to-know-fb05f921872a">
+            (Find out more)
+          </a>
+        </h3>
+      </PreviousUpdates>
       <PermanentRegistrar>
         <PermanentRegistrarIcon />
         <PermanentRegistrarTitle>
