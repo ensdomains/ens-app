@@ -38,6 +38,9 @@ const TextRecordLink = ({ textKey, value }) => {
   if (url && !url.match(/http[s]?:\/\//)) {
     url = 'https://' + url
   }
+  if (textKey == 'email') {
+    url = `mailto:${value}`
+  }
   return url ? (
     <LinkContainer target="_blank" href={url}>
       {value}
