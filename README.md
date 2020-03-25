@@ -23,14 +23,6 @@ yarn start:ipfs
 
 The main difference of the ipfs-build is that it uses HashRouter instead of BrowserRouter and makes sure all links are relative.
 
-### Docker
-
-```shell
-$> docker run -p 80:80 -d rtradetech/ens-app:latest
-```
-
-Open your browser to localhost:80 and open metamask
-
 ## Unit Testing
 
 All tests are run with Jest for both the front-end application and testing blockchain functionality. For blockchain based tests it uses `ganache-cli` by default. If you want to see the transactions in the Ganache GUI, you can change the environment in the test file from `GANACHE_CLI` to `GANACHE`. Then you can open Ganache on your computer and test manually after the test runner deploys the contracts.
