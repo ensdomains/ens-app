@@ -18,10 +18,57 @@ import Alice from '../components/HomePage/Alice'
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
 import { ReactComponent as DefaultPermanentRegistrarIcon } from '../components/Icons/PermanentRegistrar.svg'
 
-const Nav = styled('div')`
+const HeroTop = styled('div')`
+  display: grid;
+  padding: 20px;
   position: absolute;
-  right: 40px;
-  top: 20px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  grid-template-columns: 1fr;
+  ${mq.small`
+     grid-template-columns: 1fr 1fr;
+  `}
+`
+
+const NoAccounts = styled(NoAccountsDefault)`
+  ${mq.small`
+    left: 40px;
+  `}
+`
+
+const NetworkStatus = styled('div')`
+  color: white;
+  font-weight: 200;
+  text-transform: capitalize;
+  display: none;
+  ${mq.small`
+    display: block;
+  `}
+  ${mq.medium`
+    left: 40px;
+  `}
+
+  &:before {
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    transform: translate(-5px, -50%);
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #fff;
+  }
+`
+
+const Nav = styled('div')`
+  display: flex;
+  justify-content: center;
+  ${mq.small`
+    justify-content: flex-end;
+  `}
   a {
     font-weight: 300;
     color: white;
@@ -30,6 +77,9 @@ const Nav = styled('div')`
 
 const NavLink = styled(Link)`
   margin-left: 20px;
+  &:first-child {
+    margin-left: 0;
+  }
 `
 
 const Announcement = styled('div')`
@@ -37,6 +87,7 @@ const Announcement = styled('div')`
   justify-content: center;
   flex-direction: column;
   background: #5284ff;
+  padding: 0 10px;
   border-bottom: #5284ff solid 3px;
   h3 {
     color: white;
@@ -91,15 +142,6 @@ const Hero = styled('section')`
   `}
 `
 
-const NoAccounts = styled(NoAccountsDefault)`
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  ${mq.small`
-    left: 40px;
-  `}
-`
-
 const SearchContainer = styled('div')`
   margin: 0 auto 0;
   display: flex;
@@ -140,31 +182,6 @@ const Search = styled(SearchDefault)`
 
   button {
     border-radius: 0 6px 6px 0;
-  }
-`
-
-const NetworkStatus = styled('div')`
-  position: absolute;
-  top: 20px;
-  left: 30px;
-  color: white;
-  font-weight: 200;
-  text-transform: capitalize;
-  ${mq.medium`
-    left: 40px;
-  `}
-
-  &:before {
-    position: absolute;
-    right: 100%;
-    top: 50%;
-    transform: translate(-5px, -50%);
-    content: '';
-    display: block;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #fff;
   }
 `
 
@@ -298,23 +315,25 @@ export default ({ match }) => {
   return (
     <>
       <Hero>
-        {loading ? null : accounts.length > 0 && network ? (
-          <NetworkStatus>{network} network</NetworkStatus>
-        ) : (
-          <NoAccounts textColour={'white'} />
-        )}
-        <Nav>
-          {accounts?.length > 0 && (
-            <NavLink
-              active={url === '/address/' + accounts[0]}
-              to={'/address/' + accounts[0]}
-            >
-              My Names
-            </NavLink>
+        <HeroTop>
+          {loading ? null : accounts.length > 0 && network ? (
+            <NetworkStatus>{network} network</NetworkStatus>
+          ) : (
+            <NoAccounts textColour={'white'} />
           )}
-          <NavLink to="/favourites">Favourites</NavLink>
-          <NavLink to="/about">About</NavLink>
-        </Nav>
+          <Nav>
+            {accounts?.length > 0 && (
+              <NavLink
+                active={url === '/address/' + accounts[0]}
+                to={'/address/' + accounts[0]}
+              >
+                My Names
+              </NavLink>
+            )}
+            <NavLink to="/favourites">Favourites</NavLink>
+            <NavLink to="/about">About</NavLink>
+          </Nav>
+        </HeroTop>
 
         <SearchContainer>
           <>
