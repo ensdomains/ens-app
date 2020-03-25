@@ -6,14 +6,14 @@ const DISABLED_COLOUR = 'rgb(223, 223, 223)'
 describe('Migrate resolver and records', () => {
   it('can visit a name with an old resolver and migrate it', () => {
     cy.visit(`${ROOT}/name/abittooawesome2.eth`)
-    cy.getByText('Migrate', { timeout: 5000 }).click({ force: true })
-    cy.queryByText('migrate', { timeout: 1000 }).should('not.exist')
+    cy.getByText('Migrate', { timeout: 10000 }).click({ force: true })
+    cy.queryByText('migrate', { timeout: 5000 }).should('not.exist')
   })
 
   it('can visit a name with an old content resolver and migrate it as swarm contenthash', () => {
     cy.visit(`${ROOT}/name/oldresolver.eth`)
-    cy.getByText('Migrate', { timeout: 5000 }).click({ force: true })
-    cy.queryByText('migrate', { timeout: 1000 }).should('not.exist')
+    cy.getByText('Migrate', { timeout: 10000 }).click({ force: true })
+    cy.queryByText('migrate', { timeout: 5000 }).should('not.exist')
   })
 
   it('cannot migrate resolver if the parent domain is not migrateed', () => {

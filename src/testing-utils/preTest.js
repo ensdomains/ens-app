@@ -46,11 +46,14 @@ async function init() {
   const {
     ensAddress,
     oldResolverAddresses,
-    oldContentResolverAddresses
+    oldContentResolverAddresses,
+    labels
   } = addresses
   const envLocalFile = './.env.local'
   fs.writeFileSync('./cypress.env.json', JSON.stringify(addresses))
   fs.writeFileSync(envLocalFile, `REACT_APP_ENS_ADDRESS=${ensAddress}`)
+  fs.appendFileSync(envLocalFile, '\n')
+  fs.appendFileSync(envLocalFile, `REACT_APP_LABELS=${JSON.stringify(labels)}`)
   fs.appendFileSync(envLocalFile, '\n')
   console.log(`Successfully wrote ENS address ${ensAddress} to .env.local`)
   fs.appendFileSync(
