@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 
-import { useMediaMin } from 'mediaQuery'
+import mq, { useMediaMin } from 'mediaQuery'
 import { EMPTY_ADDRESS } from '../../utils/records'
 import warning from '../../assets/yellowwarning.svg'
 
@@ -32,13 +32,16 @@ const RenewalReminder = styled('div')`
     font-weight: 300;
     font-size: 18px;
   }
-  border-radius: 5px;
   color: #2b2b2b;
   font-weight: 300;
   font-size: 18px;
   background: white;
   padding: 20px;
   margin-bottom: 20px;
+
+  ${mq.small`
+    border-radius: 5px; 
+  `}
 `
 
 const Favourite = styled(DefaultFavourite)``
