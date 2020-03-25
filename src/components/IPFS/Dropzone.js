@@ -28,10 +28,16 @@ const UploadButton = styled('Button')`
 
 const Dropzone = props => {
   const fileInputRef = React.createRef()
+  const folderInputRef = React.createRef()
 
   const openFileDialog = () => {
     if (props.disabled) return
     fileInputRef.current.click()
+  }
+
+  const openFolderDialog = () => {
+    if (props.disabled) return
+    folderInputRef.current.click()
   }
 
   const onFilesAdded = e => {
@@ -71,7 +77,7 @@ const Dropzone = props => {
   return (
     <>
       <FileUpload
-        onClick={openFileDialog}
+        onClick={openFolderDialog}
         style={{ cursor: props.disabled ? 'default' : 'pointer' }}
       >
         <UploadButton>Folder Upload</UploadButton>
@@ -79,7 +85,7 @@ const Dropzone = props => {
           type="file"
           webkitdirectory="webkitdirectory"
           multiple="multiple"
-          ref={fileInputRef}
+          ref={folderInputRef}
           style={{ display: `none` }}
           onChange={onFilesAdded}
         />
