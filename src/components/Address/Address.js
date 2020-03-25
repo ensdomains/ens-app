@@ -11,11 +11,15 @@ import DefaultTopBar from '../Basic/TopBar'
 import { Title } from '../Typography/Basic'
 import { ExternalButtonLink as DefaultExternalButtonLink } from '../Forms/Button'
 import { getEtherScanAddr } from '../../utils/utils'
+import { calculateIsExpiredSoon } from '../../utils/dates'
 import DomainList from './DomainList'
 import RenewAll from './RenewAll'
 import Sorting from './Sorting'
 import Filtering from './Filtering'
 import Loader from '../Loader'
+import Banner from '../Banner'
+
+import warning from '../../assets/yellowwarning.svg'
 
 const TopBar = styled(DefaultTopBar)`
   margin-bottom: 40px;
@@ -138,49 +142,67 @@ export default function Address({ address }) {
     .map(([key]) => key)
 
   const allNames = domains.map(d => d.domain.name)
+  const hasNamesExpiringSoon = !!domains.find(domain =>
+    calculateIsExpiredSoon(domain.expiryDate)
+  )
 
   return (
-    <AddressContainer>
-      <TopBar>
-        <Title>{address}</Title>
-        {etherScanAddr && (
-          <ExternalButtonLink
-            type="primary"
-            target="_blank"
-            href={`${etherScanAddr}/address/${address}`}
-          >
-            View on EtherScan
-          </ExternalButtonLink>
-        )}
-      </TopBar>
-      <Controls>
-        <Filtering
-          activeFilter={activeFilter}
-          setActiveFilter={setActiveFilter}
-          setActiveSort={setActiveSort}
-        />
-        <Sorting
-          activeSort={activeSort}
-          setActiveSort={setActiveSort}
-          activeFilter={activeFilter}
-        />
-        <RenewAll
-          years={years}
-          setYears={setYears}
-          activeFilter={activeFilter}
-          selectedNames={selectedNames}
-          allNames={allNames}
-        />
-      </Controls>
+    <>
+      {hasNamesExpiringSoon && (
+        <Banner>
+          <h3>
+            <img src={warning} />
+            &nbsp; Names in May are expiring soon
+            <p>
+              One of more names are expiring soon, renew them all in one
+              transaction!
+            </p>
+          </h3>
+        </Banner>
+      )}
 
-      <DomainList
-        address={address}
-        domains={domains}
-        activeSort={activeSort}
-        activeFilter={activeFilter}
-        checkedBoxes={checkedBoxes}
-        setCheckedBoxes={setCheckedBoxes}
-      />
-    </AddressContainer>
+      <AddressContainer>
+        <TopBar>
+          <Title>{address}</Title>
+          {etherScanAddr && (
+            <ExternalButtonLink
+              type="primary"
+              target="_blank"
+              href={`${etherScanAddr}/address/${address}`}
+            >
+              View on EtherScan
+            </ExternalButtonLink>
+          )}
+        </TopBar>
+        <Controls>
+          <Filtering
+            activeFilter={activeFilter}
+            setActiveFilter={setActiveFilter}
+            setActiveSort={setActiveSort}
+          />
+          <Sorting
+            activeSort={activeSort}
+            setActiveSort={setActiveSort}
+            activeFilter={activeFilter}
+          />
+          <RenewAll
+            years={years}
+            setYears={setYears}
+            activeFilter={activeFilter}
+            selectedNames={selectedNames}
+            allNames={allNames}
+          />
+        </Controls>
+
+        <DomainList
+          address={address}
+          domains={domains}
+          activeSort={activeSort}
+          activeFilter={activeFilter}
+          checkedBoxes={checkedBoxes}
+          setCheckedBoxes={setCheckedBoxes}
+        />
+      </AddressContainer>
+    </>
   )
 }

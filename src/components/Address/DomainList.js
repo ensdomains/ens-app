@@ -66,6 +66,7 @@ export default function DomainList({
         return (
           <>
             <DomainItem
+              key={name}
               name={name}
               owner={address}
               domain={d.domain}

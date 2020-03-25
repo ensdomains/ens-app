@@ -14,6 +14,7 @@ import ShortName from './ShortName'
 import Tabs from './Tabs'
 import { useAccount } from '../QueryAccount'
 import NameContainer from '../Basic/MainContainer'
+import Banner from '../Banner'
 
 const Owner = styled('div')`
   color: #ccd4da;
@@ -23,25 +24,6 @@ const Owner = styled('div')`
 const RightBar = styled('div')`
   display: flex;
   align-items: center;
-`
-
-const RenewalReminder = styled('div')`
-  h3 {
-    margin: 0;
-    color: #f5a623;
-    font-weight: 300;
-    font-size: 18px;
-  }
-  color: #2b2b2b;
-  font-weight: 300;
-  font-size: 18px;
-  background: white;
-  padding: 20px;
-  margin-bottom: 20px;
-
-  ${mq.small`
-    border-radius: 5px; 
-  `}
 `
 
 const Favourite = styled(DefaultFavourite)``
@@ -99,14 +81,14 @@ function Name({ details: domain, name, pathname, type, refetch }) {
   }
   return (
     <>
-      <RenewalReminder>
+      <Banner>
         <h3>
           <img src={warning} />
           &nbsp; Names in May are expiring soon
         </h3>
         Click the renew button to avoid expiration. To renew all of your names
         in bulk, navigate to My Names
-      </RenewalReminder>
+      </Banner>
       <NameContainer state={containerState}>
         <TopBar percentDone={percentDone}>
           <Title>
