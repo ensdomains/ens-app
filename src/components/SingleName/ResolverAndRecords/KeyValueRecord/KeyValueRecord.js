@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 import { useMutation, useQuery, Mutation } from 'react-apollo'
+import TextRecordLink from '../../../Links/TextRecordLink'
 import mq from 'mediaQuery'
 
 import {
@@ -67,16 +68,12 @@ const RecordsListItem = styled('div')`
   `}
 `
 
-const Value = styled(RecordsValue)`
-  padding-right: 0;
-`
-
 const KeyValuesContent = styled(RecordsContent)`
   display: grid;
   width: 100%;
   grid-template-columns: 1fr;
   padding-right: 30px;
-
+  overflow: hidden;
   ${mq.small`
     grid-template-columns: 150px 1fr;
   `}
@@ -148,7 +145,7 @@ const Editable = ({
     <KeyValueItem editing={editing} hasRecord={true} noBorder>
       <KeyValuesContent editing={editing}>
         <RecordsSubKey>{textKey}</RecordsSubKey>
-        <Value editableSmall>{value}</Value>
+        <TextRecordLink textKey={textKey} value={value} />
 
         {pending && !confirmed && txHash ? (
           <PendingTx
@@ -253,7 +250,8 @@ function Record(props) {
       let timesTried = 0
       refetch().then(({ data }) => {
         //retry until record is there or tried more than timesToTry
-        if (Object.values(data)[0] === null) {
+        let response = Object.values(data)[0]
+        if (response === null || parseInt(response) === 0) {
           if (timesTried < timesToTry) {
             setTimeout(() => {
               refetch()
@@ -307,6 +305,8 @@ function Records({
   getPlaceholder,
   title
 }) {
+  if (!keys.includes(recordAdded)) keys.push(recordAdded)
+
   const [hasRecord, setHasRecord] = useState(false)
   return (
     <KeyValueContainer hasRecord={hasRecord}>
