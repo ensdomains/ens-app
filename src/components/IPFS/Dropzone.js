@@ -74,9 +74,11 @@ const Dropzone = props => {
         onClick={openFileDialog}
         style={{ cursor: props.disabled ? 'default' : 'pointer' }}
       >
-        <UploadButton>File Upload</UploadButton>
+        <UploadButton>Folder Upload</UploadButton>
         <input
           type="file"
+          webkitdirectory="webkitdirectory"
+          multiple="multiple"
           ref={fileInputRef}
           style={{ display: `none` }}
           onChange={onFilesAdded}
@@ -86,11 +88,9 @@ const Dropzone = props => {
         onClick={openFileDialog}
         style={{ cursor: props.disabled ? 'default' : 'pointer' }}
       >
-        <UploadButton>Folder Upload</UploadButton>
+        <UploadButton>File Upload</UploadButton>
         <input
           type="file"
-          webkitdirectory="webkitdirectory"
-          multiple="multiple"
           ref={fileInputRef}
           style={{ display: `none` }}
           onChange={onFilesAdded}

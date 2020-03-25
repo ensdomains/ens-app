@@ -15,7 +15,7 @@ const Login = styled('div')`
 `
 
 const Header = styled('h2')`
-  margin-top: 0;
+  margin-top: 5px;
   margin-bottom: 0;
   background: #5483fe;
   padding: 20px;

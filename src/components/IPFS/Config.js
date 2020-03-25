@@ -17,7 +17,7 @@ const TEMPORAL = {
 
 export function getConfig(service) {
   switch (service) {
-    case service === 'TEMPORAL':
+    case 'TEMPORAL':
       return TEMPORAL
   }
 }
