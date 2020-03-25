@@ -3,7 +3,7 @@ import Dropzone from './Dropzone'
 import styled from '@emotion/styled'
 import ipfsClient from 'ipfs-http-client'
 import { loggedIn, getToken } from './Auth'
-import { getConfig } from './Config'
+import { getConfig, getDev } from './Config'
 import Loader from '../Loader'
 
 const Container = styled('div')`
@@ -40,7 +40,7 @@ const Upload = props => {
   const sendRequest = newfiles => {
     const client = getConfig('TEMPORAL')
     const ipfs = ipfsClient({
-      host: client.dev,
+      host: getDev() ? client.dev : client.host,
       port: client.port,
       'api-path': client.apiPath,
       protocol: client.protocol,

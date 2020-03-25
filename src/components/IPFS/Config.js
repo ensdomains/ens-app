@@ -17,9 +17,15 @@ const TEMPORAL = {
 
 export function getConfig(service) {
   switch (service) {
-    case (service = 'TEMPORAL'):
+    case service === 'TEMPORAL':
       return TEMPORAL
-    default:
-      return TEMPORAL
+  }
+}
+
+export function getDev() {
+  if (window.location.href.includes('https://app.ens.domains')) {
+    return false
+  } else {
+    return true
   }
 }

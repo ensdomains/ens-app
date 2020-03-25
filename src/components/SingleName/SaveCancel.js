@@ -2,10 +2,22 @@ import React, { useContext } from 'react'
 import styled from '@emotion/styled'
 import Button from '../Forms/Button'
 import GlobalState from '../../globalState'
+import mq from 'mediaQuery'
 
 const SaveCancelContainer = styled('div')`
   display: flex;
   justify-content: flex-end;
+  flex-direction: column;
+  felx-wrap: wrap;
+  width: 40%;
+  ${mq.large`
+    flex-direction: row;
+    width: 100%;
+  `}
+  ${mq.xLarge`
+    flex-direction: row;
+    width: 100%;
+  `}
 `
 
 const Save = styled(Button)``
@@ -15,7 +27,15 @@ const Cancel = styled(Button)`
 `
 
 const Switch = styled(Button)`
-  margin-right: 20px;
+  margin-bottom: 5px;
+  ${mq.large`
+    margin-right: 20px;
+    margin-bottom: 0px; 
+  `}
+  ${mq.xLarge`
+    margin-right: 20px;
+    margin-bottom: 0px; 
+  `}
 `
 
 const Warning = styled('div')`
@@ -118,9 +138,9 @@ export const SaveCancelSwitch = ({
     <Switch data-testid="switch" type="hollow" onClick={stopAuthorizing}>
       Logout
     </Switch>
-    <Cancel data-testid="cancel" type="hollow" onClick={stopUploading}>
+    <Switch data-testid="cancel" type="hollow" onClick={stopUploading}>
       Cancel
-    </Cancel>
+    </Switch>
     <ActionButton
       disabled={disabled}
       mutation={mutation}

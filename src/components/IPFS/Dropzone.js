@@ -1,32 +1,32 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from '@emotion/styled'
-import { ReactComponent as UploadIcon } from '../Icons/Upload.svg'
 
-const DropzoneArea = styled('div')`
-  height: 200px;
-  width: 200px;
-  background-color: #fff;
-  border: 2px dashed rgb(187, 186, 186);
-  border-radius: 2%;
+const FileUpload = styled('div')`
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   font-size: 16px;
+  margin-bottom 10px;
 `
 
-const Icon = styled(UploadIcon)`
-  opacity: 0.3;
-  height: 64px;
-  width: 64px;
-`
-
-const IconText = styled('span')`
-  opacity: 0.3;
+const UploadButton = styled('Button')`
+  color: rgb(187, 186, 186);
+  border: solid;
+  background-color: white;
+  padding: 8px 20px;
+  font-size: 20px;
+  font-weight: bold;
+  :hover {
+    background: #2c46a6;
+    color: white;
+  }
+  :focus {
+    border-color: #2c46a6;
+  }
 `
 
 const Dropzone = props => {
-  const [highlight, setHighlight] = useState(false)
   const fileInputRef = React.createRef()
 
   const openFileDialog = () => {
@@ -46,32 +46,6 @@ const Dropzone = props => {
         props.sendRequest(array)
       }
     }
-  }
-
-  const onDragOver = e => {
-    e.preventDefault()
-    if (props.disabed) return
-    setHighlight(true)
-  }
-
-  const onDragLeave = e => {
-    setHighlight(false)
-  }
-
-  const onDrop = e => {
-    e.preventDefault()
-    if (props.disabed) return
-    const files = e.dataTransfer.files
-    if (props.sendRequest) {
-      if (files.length > 1) {
-        const array = directoryListToArray(files)
-        props.sendRequest(array)
-      } else {
-        const array = fileListToArray(files)
-        props.sendRequest(array)
-      }
-    }
-    setHighlight(false)
   }
 
   const fileListToArray = list => {
@@ -95,24 +69,34 @@ const Dropzone = props => {
   }
 
   return (
-    <DropzoneArea
-      onDragOver={onDragOver}
-      onDragLeave={onDragLeave}
-      onDrop={onDrop}
-      onClick={openFileDialog}
-      style={{ cursor: props.disabled ? 'default' : 'pointer' }}
-    >
-      <input
-        type="file"
-        webkitdirectory="webkitdirectory"
-        multiple="multiple"
-        ref={fileInputRef}
-        style={{ display: `none` }}
-        onChange={onFilesAdded}
-      />
-      <Icon />
-      <IconText>Click or Drag</IconText>
-    </DropzoneArea>
+    <>
+      <FileUpload
+        onClick={openFileDialog}
+        style={{ cursor: props.disabled ? 'default' : 'pointer' }}
+      >
+        <UploadButton>File Upload</UploadButton>
+        <input
+          type="file"
+          ref={fileInputRef}
+          style={{ display: `none` }}
+          onChange={onFilesAdded}
+        />
+      </FileUpload>
+      <FileUpload
+        onClick={openFileDialog}
+        style={{ cursor: props.disabled ? 'default' : 'pointer' }}
+      >
+        <UploadButton>Folder Upload</UploadButton>
+        <input
+          type="file"
+          webkitdirectory="webkitdirectory"
+          multiple="multiple"
+          ref={fileInputRef}
+          style={{ display: `none` }}
+          onChange={onFilesAdded}
+        />
+      </FileUpload>
+    </>
   )
 }
 

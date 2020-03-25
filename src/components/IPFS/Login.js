@@ -1,11 +1,17 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
-import { getConfig } from './Config'
+import { getConfig, getDev } from './Config'
+import mq from 'mediaQuery'
 
 const Login = styled('div')`
-  width: 400px;
   margin: 16px auto;
   font-size: 16px;
+  ${mq.large`
+    width: 400px;
+  `}
+  ${mq.xLarge`
+    width: 400px;
+  `}
 `
 
 const Header = styled('h2')`
@@ -18,11 +24,14 @@ const Header = styled('h2')`
   text-align: center;
   text-transform: uppercase;
   color: #fff;
+  ${mq.small`
+    padding: 4px;
+  `}
 `
 
 const Logo = styled('img')`
-  height: 42px;
-  width: 360px;
+  height: 95%;
+  width: 95%;
 `
 
 const ErrorMsg = styled('h3')`
@@ -113,7 +122,7 @@ const IpfsLogin = props => {
       }
     })
 
-    req.open('POST', client.signupDev)
+    req.open('POST', getDev() ? client.signupDev : client.signup)
     req.setRequestHeader('Cache-Control', 'no-cache')
     req.send(data)
   }
@@ -141,7 +150,7 @@ const IpfsLogin = props => {
       }
     })
 
-    req.open('POST', client.loginDev)
+    req.open('POST', getDev() ? client.loginDev : client.login)
     req.setRequestHeader('Cache-Control', 'no-cache')
     req.setRequestHeader('Content-Type', 'text/plain')
     req.send(data)
