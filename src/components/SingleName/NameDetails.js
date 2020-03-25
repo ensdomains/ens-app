@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useQuery } from 'react-apollo'
 import styled from '@emotion/styled'
 import { Link, Route } from 'react-router-dom'
+import mq from 'mediaQuery'
 
 import {
   SET_OWNER,
@@ -53,12 +54,17 @@ const Button = styled(DefaultButton)`
 `
 
 const ButtonContainer = styled('div')`
-  margin-top: 0;
-  position: absolute;
-  right: ${props => (props.outOfSync ? '195px' : '180px')};
-  -webkit-transform: translate(0, -65%);
-  -ms-transform: translate(0, -65%);
-  transform: translate(0, -65%);
+  margin-top: 20px;
+  height: 50px;
+  ${mq.small`
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    right: 128px;
+    -webkit-transform: translate(0, -65%);
+    -ms-transform: translate(0, -65%);
+    transform: translate(0, -65%);
+  `}
 `
 
 const ExpirationDetailsValue = styled(DetailsValue)`
@@ -75,7 +81,11 @@ const Explainer = styled('div')`
   color: #adbbcd;
   display: flex;
   padding: 1em 0;
-  margin-left: 180px;
+  margin-left: 0px;
+  ${mq.small`
+    margin-left: 180px;
+  `}
+
   margin-bottom: 45px;
   padding-left 24px;
 `
@@ -100,7 +110,7 @@ const EtherScanLinkContainer = styled('span')`
 `
 
 const LinkToLearnMore = styled('a')`
-  margin-right: ${props => (props.outOfSync ? '' : '2em')};
+  margin-right: ${props => (props.outOfSync ? '' : '')};
   font-size: 14px;
   letter-spacing: 0.58px;
   text-align: center;

@@ -43,10 +43,13 @@ export const RecordsItem = styled(DetailsItem)`
 `
 
 export const RecordsContent = styled('div')`
-  display: flex;
+  display: grid;
   justify-content: flex-start;
   align-items: center;
   position: relative;
+  ${mq.medium`
+    display: flex;
+  `}
   ${({ editing }) => editing && 'margin-bottom: 30px'};
 `
 
@@ -77,6 +80,10 @@ export const RecordsSubKey = styled('div')`
 
 export const RecordsValue = styled(DetailsValue)`
   font-size: 14px;
+  margin-top: 1em;
+  ${mq.small`
+      margin-top: 0;
+  `}
 `
 
 const NewRecordsContainer = styled('div')`

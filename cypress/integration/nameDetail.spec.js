@@ -225,7 +225,7 @@ describe('Name detail view', () => {
     })
   })
 
-  it('can add Text', () => {
+  it('can add default Text', () => {
     const text = 'Hello'
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
@@ -249,6 +249,34 @@ describe('Name detail view', () => {
           timeout: 10000
         }).should('exist')
       })
+    })
+  })
+
+  it.only('can add custom Text', () => {
+    const text = 'Bar'
+    cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
+
+    cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
+      cy.getByText('+')
+        .click({ force: true })
+        .getByText('select a record', { exact: false })
+        .click({ force: true })
+        .getByText('Text')
+        .click({ force: true })
+        .getByText('Key', { exact: false })
+        .click({ force: true })
+        .get('input#react-select-3-input')
+        .type('FOOOOOOOO{enter}')
+        .getByText('CREATE "FOOOOOOOO"', { exact: false })
+
+      cy.get('input:last').type(text, { force: true })
+      waitUntilInputResolves('Save').then(() => {
+        cy.getByText('Save').click({ force: true })
+      })
+      cy.queryByText(text, {
+        exact: false,
+        timeout: 10000
+      }).should('exist')
     })
   })
 
@@ -385,7 +413,7 @@ describe('Name detail view', () => {
   })
 
   it('can add a subdomain', () => {
-    const LABEL = 'okay'
+    const LABEL = 'sub1' // using the same subdomain label which is used at sub1.testing.eth
     cy.visit(`${NAME_ROOT}/subdomaindummy.eth`)
       .getByText('subdomains', { exact: false })
       .click({ force: true })
@@ -397,11 +425,14 @@ describe('Name detail view', () => {
         force: true
       })
       cy.getByText('save', { exact: false }).click({ force: true })
-
-      cy.getByText(`${LABEL}.subdomaindummy.eth`, { timeout: 10000 })
-        .click({ force: true })
-        .url()
-        .should('include', `/name/${LABEL}.subdomaindummy.eth`)
     })
+    cy.wait(1000)
+    cy.visit(`${NAME_ROOT}/subdomaindummy.eth/subdomains`)
+      .getByText('subdomains', { exact: false })
+      .click({ force: true })
+
+    cy.queryByText(`${LABEL}.subdomaindummy.eth`, { timeout: 10000 }).should(
+      'exist'
+    )
   })
 })

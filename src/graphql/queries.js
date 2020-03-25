@@ -94,6 +94,19 @@ export const GET_SUBDOMAINS = gql`
   }
 `
 
+export const GET_RESOLVER_FROM_SUBGRAPH = gql`
+  query getSubdomains($id: ID!) {
+    domain(id: $id) {
+      id
+      name
+      resolver {
+        coinTypes
+        texts
+      }
+    }
+  }
+`
+
 export const GET_SUBDOMAINS_FROM_SUBGRAPH = gql`
   query getSubdomains($id: ID!) {
     domain(id: $id) {
@@ -154,8 +167,21 @@ export const GET_ERRORS = gql`
 export const GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH = gql`
   query getDomains($id: ID!) {
     account(id: $id) {
+      registrations {
+        expiryDate
+        domain {
+          labelName
+          labelhash
+          name
+          isMigrated
+          parent {
+            name
+          }
+        }
+      }
       domains {
         labelName
+        labelhash
         name
         isMigrated
         parent {
