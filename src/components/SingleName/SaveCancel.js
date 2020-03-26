@@ -4,29 +4,21 @@ import Button from '../Forms/Button'
 import GlobalState from '../../globalState'
 import mq from 'mediaQuery'
 
-const SaveCancelSwitchContainer = styled('div')`
+const SaveCancelContainer = styled('div')`
   display: flex;
   justify-content: flex-end;
   flex-direction: column;
   felx-wrap: wrap;
   overflow: hidden;
-  align-items: flex-end;
+  align-items: flex-start;
   ${mq.small`
     flex-direction: row;
   `}
-`
-const SaveCancelContainer = styled('div')`
-  display: flex;
-  justify-content: flex-end;
 `
 
 const Save = styled(Button)``
 
 const Cancel = styled(Button)`
-  margin-right: 20px;
-`
-
-const Switch = styled(Button)`
   margin-bottom: 5px;
   ${mq.small`
     margin-right: 20px;
@@ -129,14 +121,14 @@ export const SaveCancelSwitch = ({
   warningMessage,
   isValid = true
 }) => (
-  <SaveCancelSwitchContainer className={className}>
+  <SaveCancelContainer className={className}>
     {warningMessage ? <Warning>{warningMessage}</Warning> : null}
-    <Switch data-testid="switch" type="hollow" onClick={stopAuthorizing}>
+    <Cancel data-testid="switch" type="hollow" onClick={stopAuthorizing}>
       Logout
-    </Switch>
-    <Switch data-testid="cancel" type="hollow" onClick={stopUploading}>
+    </Cancel>
+    <Cancel data-testid="cancel" type="hollow" onClick={stopUploading}>
       Cancel
-    </Switch>
+    </Cancel>
     <ActionButton
       disabled={disabled}
       mutation={mutation}
@@ -147,7 +139,7 @@ export const SaveCancelSwitch = ({
       isValid={isValid}
       data-testid="action"
     />
-  </SaveCancelSwitchContainer>
+  </SaveCancelContainer>
 )
 
 export default SaveCancel
