@@ -3,18 +3,21 @@ import styled from '@emotion/styled'
 import mq from 'mediaQuery'
 
 const Banner = styled('div')`
-  h3 {
-    margin: 0;
-    color: #f5a623;
-    font-weight: 300;
-    font-size: 18px;
-  }
+  position: relative;
   color: #2b2b2b;
   font-weight: 300;
   font-size: 18px;
   background: white;
   padding: 20px;
   margin-bottom: 20px;
+
+  h3 {
+    margin: 0;
+    color: #f5a623;
+    font-weight: 300;
+    font-size: 18px;
+  }
+
   p {
     color: #2b2b2b;
     font-weight: 300;

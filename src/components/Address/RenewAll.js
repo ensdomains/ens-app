@@ -51,6 +51,18 @@ const StyledPricer = styled(PriceAllDefault)``
 
 const PricerAll = motion.custom(StyledPricer)
 
+const ConfirmationList = styled('div')``
+
+function isValid(type, selectedNames) {
+  if (type === 'selected') {
+    return selectedNames.length > 0
+  } else if (type === 'all') {
+    return true
+  }
+
+  return true
+}
+
 export default function Renew({ selectedNames, allNames }) {
   const [showPricer, setShowPricer] = useState({ type: undefined, show: false })
   const [years, setYears] = useState(1)
@@ -69,8 +81,8 @@ export default function Renew({ selectedNames, allNames }) {
       <RenewSelected
         onClick={() =>
           setShowPricer(({ show }) => ({
-            show: !show,
-            type: 'selected'
+            show: show.type === 'selected' ? false : true,
+            type: show.type === 'selected' ? undefined : 'selected'
           }))
         }
         type="hollow-primary"
@@ -80,8 +92,8 @@ export default function Renew({ selectedNames, allNames }) {
       <RenewAll
         onClick={() =>
           setShowPricer(({ show }) => ({
-            show: !show,
-            type: 'all'
+            show: show.type === 'all' ? false : true,
+            type: show.type === 'all' ? undefined : 'all'
           }))
         }
       >
@@ -117,13 +129,21 @@ export default function Renew({ selectedNames, allNames }) {
                   // })
                   // mutation({ variables })
                 }}
-                value={formatDate(new Date())}
-                newValue={formatDate(new Date())}
-                mutationButton={'Renew All'}
+                mutationButton={
+                  showPricer.type === 'all' ? 'Renew All' : 'Renew Selected'
+                }
                 confirm={true}
-                isValid={true}
+                isValid={isValid(showPricer.type, selectedNames)}
                 extraDataComponent={
-                  <div>{namesToRenew.map(name => name + ', \n')}</div>
+                  <ConfirmationList>
+                    The following names:{'\n'}
+                    <ul>
+                      {namesToRenew.map(name => (
+                        <li>{name}</li>
+                      ))}
+                    </ul>
+                    will be renewed for {years} {years > 1 ? 'years' : 'year'}
+                  </ConfirmationList>
                 }
               />
             </Buttons>

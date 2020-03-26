@@ -20,6 +20,7 @@ import Loader from '../Loader'
 import Banner from '../Banner'
 
 import warning from '../../assets/yellowwarning.svg'
+import close from '../../assets/close.svg'
 
 const TopBar = styled(DefaultTopBar)`
   margin-bottom: 40px;
@@ -27,6 +28,15 @@ const TopBar = styled(DefaultTopBar)`
 
 const ExternalButtonLink = styled(DefaultExternalButtonLink)`
   margin-left: 40px;
+`
+
+const Close = styled('img')`
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  &:hover {
+    cursor: pointer;
+  }
 `
 
 const Controls = styled('div')`
@@ -100,13 +110,14 @@ function getSortFunc(activeSort) {
   }
 }
 
-export default function Address({ address }) {
+export default function Address({ address, showOriginBanner }) {
   const normalisedAddress = normaliseAddress(address)
   const { loading, data, error } = useQuery(
     GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH,
     { variables: { id: normalisedAddress } }
   )
 
+  let [showOriginBannerFlag, setShowOriginBannerFlag] = useState(true)
   let [etherScanAddr, setEtherScanAddr] = useState(null)
   let [activeSort, setActiveSort] = useState('alphabetical')
   let [activeFilter, setActiveFilter] = useState('registrant')
@@ -148,6 +159,13 @@ export default function Address({ address }) {
 
   return (
     <>
+      {showOriginBanner && showOriginBannerFlag && (
+        <Banner>
+          <Close onClick={() => setShowOriginBannerFlag(false)} src={close} />
+          You are here because of a transaction we sent you. This transaction
+          was to remind you to renew your ENS names below.
+        </Banner>
+      )}
       {hasNamesExpiringSoon && (
         <Banner>
           <h3>

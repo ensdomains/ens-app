@@ -107,7 +107,7 @@ const Confirm = ({
     <SubTitle>This action will modify the state of the blockchain.</SubTitle>
     <Content>
       {explanation ? <p>{explanation}</p> : ''}
-      {extraDataComponent ? <pre>{extraDataComponent}</pre> : ''}
+      {extraDataComponent ? <>{extraDataComponent}</> : ''}
       {value || newValue ? (
         <Values>
           <Value old={true}>
