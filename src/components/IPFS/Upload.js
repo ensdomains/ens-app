@@ -5,6 +5,7 @@ import ipfsClient from 'ipfs-http-client'
 import { loggedIn, getToken } from './Auth'
 import { getConfig, getDev } from './Config'
 import Loader from '../Loader'
+import mq from 'mediaQuery'
 
 const Container = styled('div')`
   display: flex;
@@ -16,14 +17,22 @@ const Container = styled('div')`
 `
 
 const FileName = styled('span')`
-  margin-bottom: 12px;
-  font-size: 26px;
+  margin-bottom: 0px;
+  font-size: 16px;
+  ${mq.small`
+    font-size: 24px;
+    margin-bottom: 12px;
+  `}
 `
 
 const ErrorMsg = styled('span')`
-  margin-bottom: 8px;
+  margin-bottom: 0px;
   font-size: 16px;
   color: red;
+  ${mq.small`
+    font-size: 18px;
+    margin-bottom: 8px;
+  `}
 `
 
 const Files = styled('div')`
@@ -93,7 +102,7 @@ const Upload = props => {
         <>
           <Files>
             {files.length > 1 ? (
-              <FileName>Directory Successfully Uploaded!</FileName>
+              <FileName>Folder Successfully Uploaded!</FileName>
             ) : (
               <FileName>File Successfully Uploaded!</FileName>
             )}

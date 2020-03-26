@@ -4,20 +4,20 @@ import Button from '../Forms/Button'
 import GlobalState from '../../globalState'
 import mq from 'mediaQuery'
 
-const SaveCancelContainer = styled('div')`
+const SaveCancelSwitchContainer = styled('div')`
   display: flex;
   justify-content: flex-end;
   flex-direction: column;
   felx-wrap: wrap;
-  width: 40%;
-  ${mq.large`
+  overflow: hidden;
+  align-items: flex-end;
+  ${mq.small`
     flex-direction: row;
-    width: 100%;
   `}
-  ${mq.xLarge`
-    flex-direction: row;
-    width: 100%;
-  `}
+`
+const SaveCancelContainer = styled('div')`
+  display: flex;
+  justify-content: flex-end;
 `
 
 const Save = styled(Button)``
@@ -28,11 +28,7 @@ const Cancel = styled(Button)`
 
 const Switch = styled(Button)`
   margin-bottom: 5px;
-  ${mq.large`
-    margin-right: 20px;
-    margin-bottom: 0px; 
-  `}
-  ${mq.xLarge`
+  ${mq.small`
     margin-right: 20px;
     margin-bottom: 0px; 
   `}
@@ -133,7 +129,7 @@ export const SaveCancelSwitch = ({
   warningMessage,
   isValid = true
 }) => (
-  <SaveCancelContainer className={className}>
+  <SaveCancelSwitchContainer className={className}>
     {warningMessage ? <Warning>{warningMessage}</Warning> : null}
     <Switch data-testid="switch" type="hollow" onClick={stopAuthorizing}>
       Logout
@@ -151,7 +147,7 @@ export const SaveCancelSwitch = ({
       isValid={isValid}
       data-testid="action"
     />
-  </SaveCancelContainer>
+  </SaveCancelSwitchContainer>
 )
 
 export default SaveCancel

@@ -88,12 +88,19 @@ export const RecordsValue = styled(DetailsValue)`
 
 const NewRecordsContainer = styled('div')`
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
   position: relative;
   padding-top: 20px;
   padding-bottom: 20px;
   font-size: 21px;
+  overflow: hidden;
+  ${mq.medium`
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  `}
 `
 
 const EditRecord = styled('div')`
