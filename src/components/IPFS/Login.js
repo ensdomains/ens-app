@@ -42,6 +42,10 @@ const ErrorMsg = styled('h3')`
   text-align: center;
   text-transform: uppercase;
   color: red;
+  font-size: 16px;
+  ${mq.small`
+    font-size: 22px;
+  `}
 `
 
 const InputWrapper = styled('p')`
