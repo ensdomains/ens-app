@@ -136,7 +136,7 @@ export const SaveCancelSwitch = ({
     {warningMessage ? <Warning>{warningMessage}</Warning> : null}
     {newValue !== '' && (
       <Switch data-testid="reset" type="hollow" onClick={startUploading}>
-        Upload More
+        New Upload
       </Switch>
     )}
     <Switch data-testid="switch" type="hollow" onClick={stopAuthorizing}>
