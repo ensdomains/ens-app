@@ -30,6 +30,7 @@ const Header = styled('h2')`
 `
 
 const Logo = styled('img')`
+  padding-top: 10px;
   height: 95%;
   width: 95%;
 `

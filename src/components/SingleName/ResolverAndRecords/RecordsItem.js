@@ -338,8 +338,8 @@ const RecordItemEditable = ({
             ) : uploading && authorized ? (
               <>
                 <EditRecord>
-                  <Upload updateValue={updateValue} />
-                  {newValue !== '' ? (
+                  <Upload updateValue={updateValue} newValue={newValue} />
+                  {newValue !== '' && (
                     <NewRecordsContainer>
                       <RecordsKey>New IPFS Hash:</RecordsKey>
                       <ContentHashLink
@@ -347,8 +347,6 @@ const RecordItemEditable = ({
                         contentType={domain.contentType}
                       />
                     </NewRecordsContainer>
-                  ) : (
-                    <></>
                   )}
                 </EditRecord>
                 <SaveCancelSwitch
@@ -367,6 +365,8 @@ const RecordItemEditable = ({
                     })
                   }}
                   isValid={isValid}
+                  newValue={newValue}
+                  startUploading={startUploading}
                   stopUploading={stopUploading}
                   stopAuthorizing={stopAuthorizing}
                 />

@@ -14,11 +14,15 @@ const Container = styled('div')`
   align-items: center;
   text-align: left;
   overflow: hidden;
+  ${mq.small`
+    text-align: center;
+  `}
 `
 
 const FileName = styled('span')`
   margin-bottom: 0px;
   font-size: 16px;
+
   ${mq.small`
     font-size: 24px;
     margin-bottom: 12px;
@@ -98,18 +102,18 @@ const Upload = props => {
     <Container>
       {upload ? (
         <Loader withWrap large />
-      ) : success ? (
+      ) : props.newValue !== '' ? (
         <>
           <Files>
             {files.length > 1 ? (
               <FileName>
-                Folder Successfully Uploaded! <br />
-                Click save to link your new hash.
+                Folder successfully uploaded to IPFS! <br />
+                Click 'Save' to link the hash to your Content Record. <br />
               </FileName>
             ) : (
               <FileName>
-                File Successfully Uploaded! <br />
-                Click save to link your new hash.
+                File successfully uploaded to IPFS! <br />
+                Click 'Save' to link the hash to your Content Record. <br />
               </FileName>
             )}
           </Files>
@@ -119,7 +123,7 @@ const Upload = props => {
           <ErrorMsg>
             {uploadError ? 'There was a problem uploading your file' : ''}
           </ErrorMsg>
-          <Dropzone sendRequest={sendRequest} disabled={upload || success} />
+          <Dropzone sendRequest={sendRequest} disabled={upload} />
         </>
       )}
     </Container>

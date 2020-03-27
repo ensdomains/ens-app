@@ -121,6 +121,7 @@ export const SaveCancel = ({
 export const SaveCancelSwitch = ({
   mutation,
   mutationButton,
+  startUploading,
   stopUploading,
   stopAuthorizing,
   disabled,
@@ -133,6 +134,11 @@ export const SaveCancelSwitch = ({
 }) => (
   <SaveCancelSwitchContainer className={className}>
     {warningMessage ? <Warning>{warningMessage}</Warning> : null}
+    {newValue !== '' && (
+      <Switch data-testid="reset" type="hollow" onClick={startUploading}>
+        Upload More
+      </Switch>
+    )}
     <Switch data-testid="switch" type="hollow" onClick={stopAuthorizing}>
       Logout
     </Switch>
