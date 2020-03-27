@@ -10,7 +10,7 @@ const FileUpload = styled('div')`
   margin-bottom 10px;
 `
 
-const UploadButton = styled('Button')`
+const UploadButton = styled('button')`
   color: rgb(187, 186, 186);
   border: solid;
   background-color: white;

@@ -9,7 +9,6 @@ const SaveCancelSwitchContainer = styled('div')`
   justify-content: flex-end;
   flex-direction: column;
   felx-wrap: wrap;
-  overflow: hidden;
   align-items: flex-start;
   ${mq.small`
     flex-direction: row;

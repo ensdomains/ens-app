@@ -102,9 +102,15 @@ const Upload = props => {
         <>
           <Files>
             {files.length > 1 ? (
-              <FileName>Folder Successfully Uploaded!</FileName>
+              <FileName>
+                Folder Successfully Uploaded! <br />
+                Click save to link your new hash.
+              </FileName>
             ) : (
-              <FileName>File Successfully Uploaded!</FileName>
+              <FileName>
+                File Successfully Uploaded! <br />
+                Click save to link your new hash.
+              </FileName>
             )}
           </Files>
         </>

@@ -82,6 +82,7 @@ export function useEditable(
           ...state,
           pending: true,
           editing: false,
+          uploading: false,
           txHash: action.txHash
         }
       case types.SET_CONFIRMED:
@@ -91,14 +92,16 @@ export function useEditable(
           ...state,
           uploading: true,
           confirmed: false,
-          pending: false
+          pending: false,
+          newValue: ''
         }
       case types.STOP_UPLOADING:
         return {
           ...state,
           uploading: false,
           confirmed: false,
-          pending: false
+          pending: false,
+          newValue: ''
         }
       case types.START_AUTHORIZING:
         return {
