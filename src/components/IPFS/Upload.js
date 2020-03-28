@@ -16,6 +16,7 @@ const Container = styled('div')`
   overflow: hidden;
   ${mq.small`
     text-align: center;
+    margin-top: 10px;
   `}
 `
 
@@ -24,7 +25,7 @@ const FileName = styled('span')`
   font-size: 16px;
 
   ${mq.small`
-    font-size: 24px;
+    font-size: 20px;
     margin-bottom: 12px;
   `}
 `
@@ -34,7 +35,7 @@ const ErrorMsg = styled('span')`
   font-size: 16px;
   color: red;
   ${mq.small`
-    font-size: 18px;
+    font-size: 20px;
     margin-bottom: 8px;
   `}
 `
@@ -108,12 +109,12 @@ const Upload = props => {
             {files.length > 1 ? (
               <FileName>
                 Folder successfully uploaded to IPFS! <br />
-                Click 'Save' to link the hash to your Content Record. <br />
+                Click 'Save' to put the hash in your Content Record. <br />
               </FileName>
             ) : (
               <FileName>
                 File successfully uploaded to IPFS! <br />
-                Click 'Save' to link the hash to your Content Record. <br />
+                Click 'Save' to put the hash in your Content Record. <br />
               </FileName>
             )}
           </Files>
