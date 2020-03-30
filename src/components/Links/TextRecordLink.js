@@ -21,8 +21,21 @@ const LinkContainer = styled('a')`
   }
 `
 
+const AvatarImage = styled('img')`
+  width: 180px;
+  margin: 1em 0;
+`
+
+const prependUrl = url => {
+  if (url && !url.match(/http[s]?:\/\//)) {
+    return 'https://' + url
+  } else {
+    return url
+  }
+}
+
 const TextRecordLink = ({ textKey, value }) => {
-  let url
+  let url, avatar
   switch (textKey) {
     case 'url':
       url = `${value}`
@@ -35,14 +48,22 @@ const TextRecordLink = ({ textKey, value }) => {
       break
     default:
   }
-  if (url && !url.match(/http[s]?:\/\//)) {
-    url = 'https://' + url
+  url = prependUrl(url)
+
+  if (textKey == 'email') {
+    url = `mailto:${value}`
   }
+  if (textKey == 'avatar') {
+    avatar = prependUrl(value)
+  }
+
   return url ? (
     <LinkContainer target="_blank" href={url}>
       {value}
       <ExternalLinkIcon />
     </LinkContainer>
+  ) : avatar ? (
+    <AvatarImage src={value} alt="avatar" />
   ) : (
     value
   )
