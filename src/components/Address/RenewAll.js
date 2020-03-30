@@ -2,10 +2,13 @@ import React, { useState } from 'react'
 import { useMutation } from 'react-apollo'
 import { motion, AnimatePresence } from 'framer-motion'
 import styled from '@emotion/styled'
+
+import { RENEW_DOMAINS } from '../../graphql/mutations'
+
 import DefaultButton from '../Forms/Button'
 import SaveCancel from '../SingleName/SaveCancel'
 import { PricerAll as PriceAllDefault } from '../SingleName/Pricer'
-import { yearInSeconds, formatDate } from 'utils/dates'
+import { yearInSeconds } from 'utils/dates'
 import mq from 'mediaQuery'
 
 import { useEthPrice } from '../hooks'
@@ -39,14 +42,6 @@ const Buttons = styled('div')`
   align-items: flex-start;
 `
 
-const RenewButton = styled(DefaultButton)`
-  margin-bottom: 20px;
-`
-
-const RenewCancel = styled(DefaultButton)`
-  margin-left: 20px;
-`
-
 const StyledPricer = styled(PriceAllDefault)``
 
 const PricerAll = motion.custom(StyledPricer)
@@ -64,6 +59,7 @@ function isValid(type, selectedNames) {
 }
 
 export default function Renew({ selectedNames, allNames }) {
+  const [mutation] = useMutation(RENEW_DOMAINS)
   const [showPricer, setShowPricer] = useState({ type: undefined, show: false })
   const [years, setYears] = useState(1)
   const { price: ethUsdPrice, loading } = useEthPrice()
@@ -121,6 +117,14 @@ export default function Renew({ selectedNames, allNames }) {
               <SaveCancel
                 stopEditing={() => setShowPricer(show => ({ show: false }))}
                 mutation={() => {
+                  const labels = namesToRenew.map(name => name.split('.')[0])
+                  let variables = {
+                    labels,
+                    duration
+                  }
+
+                  console.log(variables)
+                  mutation({ variables })
                   // const variables = getVariables(keyName, {
                   //   domain,
                   //   variableName,

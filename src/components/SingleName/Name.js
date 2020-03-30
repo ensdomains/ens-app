@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 
-import mq, { useMediaMin } from 'mediaQuery'
+import { useMediaMin } from 'mediaQuery'
 import { EMPTY_ADDRESS } from '../../utils/records'
 import warning from '../../assets/yellowwarning.svg'
 
@@ -83,7 +83,7 @@ function Name({ details: domain, name, pathname, type, refetch }) {
     <>
       <Banner>
         <h3>
-          <img src={warning} />
+          <img alt="exclamation mark" src={warning} />
           &nbsp; Names in May are expiring soon
         </h3>
         Click the renew button to avoid expiration. To renew all of your names

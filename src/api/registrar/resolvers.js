@@ -119,9 +119,10 @@ const resolvers = {
       return sendHelper(tx)
     },
     async renewDomains(_, { labels, duration }) {
-      const registrar = getRegistrar()
-      const tx = await registrar.renewAll(labels, duration)
-      return sendHelper(tx)
+      console.log(labels, duration)
+      // const registrar = getRegistrar()
+      // const tx = await registrar.renewAll(labels, duration)
+      // return sendHelper(tx)
     }
   }
 }

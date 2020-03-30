@@ -1,7 +1,4 @@
-import React from 'react'
 import styled from '@emotion/styled'
-
-import mq from 'mediaQuery'
 
 export const Tab = styled('div')`
   font-size: 14px;

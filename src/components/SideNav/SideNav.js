@@ -72,6 +72,9 @@ const NavLink = styled(Link)`
     path {
       fill: #5284ff;
     }
+    g {
+      fill: #5284ff;
+    }
   }
 `
 

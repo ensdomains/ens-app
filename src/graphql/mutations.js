@@ -171,9 +171,9 @@ export const SUBMIT_PROOF = gql`
   }
 `
 
-export const RENEW_ALL = gql`
-  mutation renewAll($labels: [String], $duration: Int) {
-    renewAll(labels: $labels, duration: $duration) @client
+export const RENEW_DOMAINS = gql`
+  mutation renewDomains($labels: [String], $duration: Int) {
+    renewDomains(labels: $labels, duration: $duration) @client
   }
 `
 

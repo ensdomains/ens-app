@@ -169,7 +169,7 @@ export default function Address({ address, showOriginBanner }) {
       {hasNamesExpiringSoon && (
         <Banner>
           <h3>
-            <img src={warning} />
+            <img alt="exclamation mark" src={warning} />
             &nbsp; Names in May are expiring soon
             <p>
               One of more names are expiring soon, renew them all in one

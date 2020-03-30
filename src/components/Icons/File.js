@@ -5,8 +5,14 @@ import Icon from './IconBase'
 const SVG = styled(Icon)``
 
 const File = ({ active, className }) => (
-  <SVG width="21" height="19" xmlns="http://www.w3.org/2000/svg">
-    <g fill="#C7D3E3" fill-rule="evenodd">
+  <SVG
+    width="21"
+    height="19"
+    xmlns="http://www.w3.org/2000/svg"
+    active={active}
+    className={className}
+  >
+    <g fill-rule="evenodd">
       <rect width="18" height="5" rx="2.5" />
       <rect y="14" width="14" height="5" rx="2.5" />
       <rect y="7" width="21" height="5" rx="2.5" />
