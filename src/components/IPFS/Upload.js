@@ -118,6 +118,7 @@ const Upload = props => {
         </>
       ) : (
         <>
+          <FileName>UPLOAD FILES TO IPFS</FileName>
           <ErrorMsg>
             {uploadError ? 'There was a problem uploading your file' : ''}
           </ErrorMsg>

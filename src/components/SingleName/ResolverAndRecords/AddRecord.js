@@ -111,13 +111,14 @@ export const RecordsKey = styled(DetailsKey)`
   `}
 `
 const UploadBtn = styled(Button)`
+  flex-direction: row;
+  margin-bottom: 5px;
   width: 100%;
-  max-height: 43px;
   ${mq.small`
-    width: 180px;
-    margin-left: 20px;
-    max-height: 42px;
-  `}
+  margin-left: 20px;  
+  margin-bottom: 20px;
+  max-width: 150px;
+`}
 `
 
 function chooseMutation(recordType, contentType) {
