@@ -1560,6 +1560,14 @@
     stellar-base "^2.1.2"
     tronweb "^2.8.0"
 
+"@ensdomains/address-encoder@^0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@ensdomains/address-encoder/-/address-encoder-0.1.6.tgz#e8cc1ebb6c271c8594af56aabf3ed757876972a7"
+  integrity sha512-knArty5SPgo7MX2VK5bgJwbCsqIvO3ocH9Dlpueu1SKE5IEvaE6mITMcwiiO7b8jY97tqCAZxylJjP/0Mlq9vQ==
+  dependencies:
+    bech32 "^1.1.3"
+    crypto-addr-codec "^0.1.7"
+
 "@ensdomains/buffer@0.0.10":
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/@ensdomains/buffer/-/buffer-0.0.10.tgz#3b9f8b6a34c6160ae8a8cb8f0f033aa35c1a9970"
@@ -1813,15 +1821,15 @@
     truffle-default-builder "^2.0.0"
     underscore "^1.8.3"
 
-"@ensdomains/ui@3.0.7":
-  version "3.0.7"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.7.tgz#eb0f8ab17aa56161a676dd4a052029ee1ee07f96"
-  integrity sha512-mzxCSvO1nYY2zJslwfqCg5TFoTwup1H2KXZn94OU1RUBQvRdGf/b5A2Iy10wVnw9MyRnAKxJRNhSTuE8NdZHMQ==
+"@ensdomains/ui@3.0.8":
+  version "3.0.8"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.8.tgz#04b35041a070452da359704e8d218f05e680ae85"
+  integrity sha512-jkBLAYE1Eda8XmIIFdL5nT4BNnD/ZE0i5a5n43VjoH26vVWHsCgPolwB8fwatDh8OXPOyKritXa6nd0pj0Ak9Q==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
     "@babel/runtime" "^7.4.4"
-    "@ensdomains/address-encoder" "^0.1.3"
+    "@ensdomains/address-encoder" "^0.1.6"
     "@ensdomains/dnsregistrar" "^0.3.9"
     "@ensdomains/ens" "^0.4.3"
     "@ensdomains/ens-022" "npm:@ensdomains/ens@0.2.2"
@@ -4215,6 +4223,13 @@ base-x@^3.0.7:
   dependencies:
     safe-buffer "^5.0.1"
 
+base-x@^3.0.8:
+  version "3.0.8"
+  resolved "https://registry.yarnpkg.com/base-x/-/base-x-3.0.8.tgz#1e1106c2537f0162e8b52474a557ebb09000018d"
+  integrity sha512-Rl/1AWP4J/zRrk54hhlxH4drNxPJXYUaKffODVI53/dAsV4t9fBxyxYKAVPU1XBHxYwOWP9h9H0hM2MVw4YfJA==
+  dependencies:
+    safe-buffer "^5.0.1"
+
 base32.js@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/base32.js/-/base32.js-0.1.0.tgz#b582dec693c2f11e893cf064ee6ac5b6131a2202"
@@ -4335,6 +4350,11 @@ bl@^1.0.0:
   dependencies:
     readable-stream "^2.3.5"
     safe-buffer "^5.1.1"
+
+blakejs@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/blakejs/-/blakejs-1.1.0.tgz#69df92ef953aa88ca51a32df6ab1c54a155fc7a5"
+  integrity sha1-ad+S75U6qIylGjLfarHFShVfx6U=
 
 block-stream@*:
   version "0.0.9"
@@ -4729,6 +4749,14 @@ buffer-xor@^1.0.2, buffer-xor@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/buffer-xor/-/buffer-xor-1.0.3.tgz#26e61ed1422fb70dd42e6e36729ed51d855fe8d9"
   integrity sha1-JuYe0UIvtw3ULm42cp7VHYVf6Nk=
+
+buffer@5.5.0:
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/buffer/-/buffer-5.5.0.tgz#9c3caa3d623c33dd1c7ef584b89b88bf9c9bc1ce"
+  integrity sha512-9FTEDjLjwoAkEwyMGDjYJQN2gfRgOKBKRfiglhvibGbpeeU/pQn1bJxQqm32OD/AIeEuHxU9roxXxg34Byp/Ww==
+  dependencies:
+    base64-js "^1.0.2"
+    ieee754 "^1.1.4"
 
 buffer@^4.1.0:
   version "4.9.2"
@@ -5815,6 +5843,19 @@ cryptiles@2.x.x:
   integrity sha1-O9/s3GCBR8HGcgL6KR59ylnqo7g=
   dependencies:
     boom "2.x.x"
+
+crypto-addr-codec@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/crypto-addr-codec/-/crypto-addr-codec-0.1.7.tgz#e16cea892730178fe25a38f6d15b680cab3124ae"
+  integrity sha512-X4hzfBzNhy4mAc3UpiXEC/L0jo5E8wAa9unsnA8nNXYzXjCcGk83hfC5avJWCSGT8V91xMnAS9AKMHmjw5+XCg==
+  dependencies:
+    base-x "^3.0.8"
+    big-integer "1.6.36"
+    blakejs "^1.1.0"
+    bs58 "^4.0.1"
+    ripemd160-min "0.0.6"
+    safe-buffer "^5.2.0"
+    sha3 "^2.1.1"
 
 crypto-browserify@3.12.0, crypto-browserify@^3.0.0, crypto-browserify@^3.11.0:
   version "3.12.0"
@@ -14980,6 +15021,11 @@ rimraf@~2.4.3:
   dependencies:
     glob "^6.0.1"
 
+ripemd160-min@0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/ripemd160-min/-/ripemd160-min-0.0.6.tgz#a904b77658114474d02503e819dcc55853b67e62"
+  integrity sha512-+GcJgQivhs6S9qvLogusiTcS9kQUfgR75whKuy5jIhuiOfQuJ8fjqxV6EGD5duH1Y/FawFUMtMhyeq3Fbnib8A==
+
 ripemd160@^2.0.0, ripemd160@^2.0.1:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/ripemd160/-/ripemd160-2.0.2.tgz#a1c1a6f624751577ba5d07914cbc92850585890c"
@@ -15386,6 +15432,13 @@ sha3@^1.2.2:
   integrity sha512-sOWDZi8cDBRkLfWOw18wvJyNblXDHzwMGnRWut8zNNeIeLnmMRO17bjpLc7OzMuj1ASUgx2IyohzUCAl+Kx5vA==
   dependencies:
     nan "2.13.2"
+
+sha3@^2.1.1:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/sha3/-/sha3-2.1.2.tgz#76f404e401d17ca1d23d8458a3790d57f0671bac"
+  integrity sha512-agYUtkzMsdFTQkM3ECyt6YW0552fyEb0tYZkl7olurS1Vg2Ms5+2SdF4VFPC1jnwtiXMb8b0fSyuAGZh+q2mAw==
+  dependencies:
+    buffer "5.5.0"
 
 shallow-clone@^0.1.2:
   version "0.1.2"
