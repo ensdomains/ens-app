@@ -304,7 +304,13 @@ function Records({
   getPlaceholder,
   title
 }) {
-  if (!keys.includes(recordAdded)) keys.push(recordAdded)
+  if (
+    recordAdded !== 0 &&
+    !keys.includes(recordAdded) &&
+    title === 'Text Record'
+  ) {
+    keys.push(recordAdded)
+  }
 
   const [hasRecord, setHasRecord] = useState(false)
   return (
