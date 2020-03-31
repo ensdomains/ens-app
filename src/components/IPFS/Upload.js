@@ -48,7 +48,6 @@ const Files = styled('div')`
 const Upload = props => {
   const [files, setFiles] = useState([])
   const [upload, setUpload] = useState(false)
-  const [success, setSuccess] = useState(false)
   const [uploadError, setUploadError] = useState(false)
 
   const sendRequest = newfiles => {
@@ -73,7 +72,6 @@ const Upload = props => {
             props.updateValue('ipfs://' + root.hash)
           }
           setUpload(false)
-          setSuccess(true)
         })
         .catch(err => {
           setUpload(false)
@@ -90,7 +88,6 @@ const Upload = props => {
             props.updateValue('ipfs://' + ipfsId)
           }
           setUpload(false)
-          setSuccess(true)
         })
         .catch(err => {
           setUpload(false)

@@ -45,7 +45,7 @@ const ErrorMsg = styled('h3')`
   color: red;
   font-size: 16px;
   ${mq.small`
-    font-size: 22px;
+    font-size: 18px;
   `}
 `
 

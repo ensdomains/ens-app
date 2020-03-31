@@ -75,7 +75,8 @@ export function useEditable(
           ...state,
           editing: false,
           confirmed: false,
-          pending: false
+          pending: false,
+          uploading: false
         }
       case types.START_PENDING:
         return {
