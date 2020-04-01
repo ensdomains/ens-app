@@ -26,7 +26,7 @@ const UploadButton = styled('button')`
   }
 `
 
-const Dropzone = props => {
+const Dropzone = (props) => {
   const fileInputRef = React.createRef()
   const folderInputRef = React.createRef()
 
@@ -40,7 +40,7 @@ const Dropzone = props => {
     folderInputRef.current.click()
   }
 
-  const onFilesAdded = e => {
+  const onFilesAdded = (e) => {
     if (props.disabled) return
     const files = e.target.files
     if (props.sendRequest) {
@@ -54,20 +54,20 @@ const Dropzone = props => {
     }
   }
 
-  const fileListToArray = list => {
+  const fileListToArray = (list) => {
     const array = []
-    for (var i = 0; i < list.length; i++) {
+    for (let i = 0; i < list.length; i++) {
       array.push(list.item(i))
     }
     return array
   }
 
-  const directoryListToArray = list => {
+  const directoryListToArray = (list) => {
     const array = []
-    for (var i = 0; i < list.length; i++) {
+    for (let i = 0; i < list.length; i++) {
       const item = {
         path: `${list.item(i).webkitRelativePath}`,
-        content: list.item(i)
+        content: list.item(i),
       }
       array.push(item)
     }

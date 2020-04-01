@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import Dropzone from './Dropzone'
 import styled from '@emotion/styled'
 import ipfsClient from 'ipfs-http-client'
-import { loggedIn, getToken } from './Auth'
-import { getConfig, getDev } from './Config'
+import { loggedIn, getToken } from './auth'
+import { getConfig, getDev } from './config'
 import Loader from '../Loader'
 import mq from 'mediaQuery'
 
@@ -45,12 +45,12 @@ const Files = styled('div')`
   justify-items: flex-start;
 `
 
-const Upload = props => {
+const Upload = (props) => {
   const [files, setFiles] = useState([])
   const [upload, setUpload] = useState(false)
   const [uploadError, setUploadError] = useState(false)
 
-  const sendRequest = newfiles => {
+  const sendRequest = (newfiles) => {
     const client = getConfig('TEMPORAL')
     const ipfs = ipfsClient({
       host: getDev() ? client.dev : client.host,
@@ -58,22 +58,22 @@ const Upload = props => {
       'api-path': client.apiPath,
       protocol: client.protocol,
       headers: {
-        Authorization: loggedIn() ? 'Bearer ' + getToken() : ''
-      }
+        Authorization: loggedIn() ? 'Bearer ' + getToken() : '',
+      },
     })
     setFiles(newfiles)
     setUpload(true)
     if (newfiles.length > 1) {
       ipfs
         .add(newfiles, {})
-        .then(response => {
+        .then((response) => {
           const root = response[response.length - 1]
           if (props.updateValue) {
             props.updateValue('ipfs://' + root.hash)
           }
           setUpload(false)
         })
-        .catch(err => {
+        .catch(() => {
           setUpload(false)
           setUploadError(true)
         })
@@ -82,14 +82,14 @@ const Upload = props => {
       let ipfsId
       ipfs
         .add(file, {})
-        .then(response => {
+        .then((response) => {
           ipfsId = response[0].hash
           if (props.updateValue) {
             props.updateValue('ipfs://' + ipfsId)
           }
           setUpload(false)
         })
-        .catch(err => {
+        .catch(() => {
           setUpload(false)
           setUploadError(true)
         })

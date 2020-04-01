@@ -1,15 +1,12 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
-import { getConfig, getDev } from './Config'
+import { getConfig, getDev } from './config'
 import mq from 'mediaQuery'
 
 const Login = styled('div')`
   margin: 16px auto;
   font-size: 16px;
   ${mq.large`
-    width: 400px;
-  `}
-  ${mq.xLarge`
     width: 400px;
   `}
 `
@@ -96,20 +93,20 @@ const Button = styled('input')`
   }
 `
 
-const IpfsLogin = props => {
+const IpfsLogin = (props) => {
   const [signupForm, setSignupForm] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [email, setEmail] = useState('')
-  const [client, setClient] = useState(getConfig('TEMPORAL'))
+  const [client] = useState(getConfig('TEMPORAL'))
 
   const signup = (email, username, password) => {
-    var data = new FormData()
+    const data = new FormData()
     data.append('username', username)
     data.append('password', password)
     data.append('email_address', email)
-    var req = new XMLHttpRequest()
+    const req = new XMLHttpRequest()
     req.withCredentials = false
 
     req.addEventListener('readystatechange', () => {
@@ -133,12 +130,12 @@ const IpfsLogin = props => {
   }
 
   const login = (username, password) => {
-    var data = JSON.stringify({
+    const data = JSON.stringify({
       username: username.toString(),
-      password: password.toString()
+      password: password.toString(),
     })
 
-    var req = new XMLHttpRequest()
+    const req = new XMLHttpRequest()
     req.withCredentials = false
 
     req.addEventListener('readystatechange', () => {
@@ -161,7 +158,7 @@ const IpfsLogin = props => {
     req.send(data)
   }
 
-  const handleChange = evt => {
+  const handleChange = (evt) => {
     const { name, value } = evt.target
     name === `username`
       ? setUsername(value)
@@ -170,7 +167,7 @@ const IpfsLogin = props => {
       : setPassword(value)
   }
 
-  const handleSubmit = evt => {
+  const handleSubmit = (evt) => {
     evt.preventDefault()
     signupForm ? signup(email, username, password) : login(username, password)
   }
