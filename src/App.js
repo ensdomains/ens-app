@@ -78,6 +78,7 @@ const App = () => (
                     path="/address/:address/:domainType"
                     component={Address}
                   />
+                  <Route path="/address/:address" component={Address} />
                   <Route path="/renew" component={Renew} />
                 </Switch>
               </Router>
