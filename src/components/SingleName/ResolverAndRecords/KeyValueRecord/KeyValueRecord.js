@@ -8,8 +8,7 @@ import {
   RecordsContent,
   RecordsItem,
   RecordsKey,
-  RecordsSubKey,
-  RecordsValue
+  RecordsSubKey
 } from '../RecordsItem'
 import DetailsItemInput from '../../DetailsItemInput'
 import { useEditable } from '../../../hooks'
@@ -289,7 +288,7 @@ function ViewOnly({ textKey, value }) {
   return (
     <RecordsListItem>
       <RecordsSubKey>{textKey}</RecordsSubKey>
-      <RecordsValue>{value}</RecordsValue>
+      <TextRecordLink textKey={textKey} value={value} />
     </RecordsListItem>
   )
 }
@@ -305,7 +304,13 @@ function Records({
   getPlaceholder,
   title
 }) {
-  if (!keys.includes(recordAdded)) keys.push(recordAdded)
+  if (
+    recordAdded !== 0 &&
+    !keys.includes(recordAdded) &&
+    title === 'Text Record'
+  ) {
+    keys.push(recordAdded)
+  }
 
   const [hasRecord, setHasRecord] = useState(false)
   return (
