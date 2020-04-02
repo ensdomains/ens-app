@@ -32,6 +32,7 @@
     "graphql-tag": "2.9.1",
     "graphql-tools": "^2.23.1",
     "gsap": "^2.0.1",
+    "ipfs-http-client": "^40.1.0",
     "js-sha3": "^0.8.0",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
