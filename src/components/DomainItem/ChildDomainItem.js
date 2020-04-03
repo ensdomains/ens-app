@@ -89,6 +89,7 @@ export default function ChildDomainItem({
       )}
       {checkedBoxes && labelName !== null && (
         <Checkbox
+          testid={`checkbox-${name}`}
           checked={checkedBoxes[name]}
           onClick={e => {
             e.preventDefault()

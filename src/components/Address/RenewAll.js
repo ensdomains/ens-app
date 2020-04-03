@@ -48,53 +48,23 @@ const PricerAll = motion.custom(StyledPricer)
 
 const ConfirmationList = styled('div')``
 
-function isValid(type, selectedNames) {
-  if (type === 'selected') {
-    return selectedNames.length > 0
-  } else if (type === 'all') {
-    return true
-  }
-
-  return true
+function isValid(selectedNames) {
+  return selectedNames.length > 0
 }
 
 export default function Renew({ selectedNames, allNames }) {
   const [mutation] = useMutation(RENEW_DOMAINS)
-  const [showPricer, setShowPricer] = useState({ type: undefined, show: false })
+  const [showPricer, setShowPricer] = useState(false)
   const [years, setYears] = useState(1)
   const { price: ethUsdPrice, loading } = useEthPrice()
   const duration = years * yearInSeconds
-  let namesToRenew = []
-
-  if (showPricer.type === 'selected') {
-    namesToRenew = selectedNames
-  } else if (showPricer.type === 'all') {
-    namesToRenew = allNames
-  }
+  const labelsToRenew = selectedNames.map(name => name.split('.')[0])
 
   return (
     <RenewContainer>
-      <RenewSelected
-        onClick={() =>
-          setShowPricer(({ show }) => ({
-            show: show.type === 'selected' ? false : true,
-            type: show.type === 'selected' ? undefined : 'selected'
-          }))
-        }
-        type="hollow-primary"
-      >
+      <RenewSelected onClick={() => setShowPricer(true)} type="hollow-primary">
         Renew Selected
       </RenewSelected>
-      <RenewAll
-        onClick={() =>
-          setShowPricer(({ show }) => ({
-            show: show.type === 'all' ? false : true,
-            type: show.type === 'all' ? undefined : 'all'
-          }))
-        }
-      >
-        Renew all
-      </RenewAll>
       {showPricer.show && (
         <AnimatePresence>
           <RenewPricer
@@ -106,7 +76,7 @@ export default function Renew({ selectedNames, allNames }) {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              names={['jefflau.eth']}
+              labels={labelsToRenew}
               years={years}
               setYears={setYears}
               duration={duration}
@@ -115,34 +85,24 @@ export default function Renew({ selectedNames, allNames }) {
             />
             <Buttons>
               <SaveCancel
-                stopEditing={() => setShowPricer(show => ({ show: false }))}
+                stopEditing={() => setShowPricer(false)}
                 mutation={() => {
-                  const labels = namesToRenew.map(name => name.split('.')[0])
                   let variables = {
-                    labels,
+                    labels: labelsToRenew,
                     duration
                   }
 
                   console.log(variables)
                   mutation({ variables })
-                  // const variables = getVariables(keyName, {
-                  //   domain,
-                  //   variableName,
-                  //   newValue,
-                  //   duration
-                  // })
-                  // mutation({ variables })
                 }}
-                mutationButton={
-                  showPricer.type === 'all' ? 'Renew All' : 'Renew Selected'
-                }
+                mutationButton={'Renew'}
                 confirm={true}
-                isValid={isValid(showPricer.type, selectedNames)}
+                isValid={isValid(selectedNames)}
                 extraDataComponent={
                   <ConfirmationList>
                     The following names:{'\n'}
                     <ul>
-                      {namesToRenew.map(name => (
+                      {selectedNames.map(name => (
                         <li>{name}</li>
                       ))}
                     </ul>

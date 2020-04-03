@@ -27,10 +27,14 @@ const CheckboxContainer = styled('div')`
   }
 `
 
-function Checkbox({ className, onClick, checked, name, children }) {
+function Checkbox({ className, onClick, checked, name, children, testid }) {
   const [hover, setHover] = useState(false)
   return (
-    <CheckboxContainer className={className} onClick={onClick}>
+    <CheckboxContainer
+      data-testid={testid}
+      className={className}
+      onClick={onClick}
+    >
       <label
         htmlFor={name}
         onMouseOver={() => setHover(true)}

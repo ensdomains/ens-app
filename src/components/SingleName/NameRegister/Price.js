@@ -43,7 +43,7 @@ const Price = ({ price, ethUsdPrice, ethUsdPriceLoading }) => {
   return (
     <PriceContainer>
       <Value>
-        {ethVal.toFixed(3)} ETH
+        {ethVal.toFixed(10)} ETH
         {!ethUsdPriceLoading && (
           <USD>${ethVal.mul(ethUsdPrice).toFixed(2)} USD</USD>
         )}

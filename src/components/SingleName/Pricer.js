@@ -2,7 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { useQuery } from 'react-apollo'
 
-import { GET_RENT_PRICE, GET_RENT_PRICE_ALL } from 'graphql/queries'
+import { GET_RENT_PRICE, GET_RENT_PRICES } from 'graphql/queries'
 
 import Years from './NameRegister/Years'
 import Price from './NameRegister/Price'
@@ -42,12 +42,13 @@ function PricerInner({
   price,
   reference
 }) {
+  console.log(price ? price?.toNumber() : price)
   return (
     <PricingContainer className={className} ref={reference}>
       <Years years={years} setYears={setYears} />
       <Chain />
       <Price
-        price={price}
+        price={price ? price.toHexString() : price}
         ethUsdPriceLoading={ethUsdPriceLoading}
         ethUsdPrice={ethUsdPrice}
       />
@@ -56,24 +57,24 @@ function PricerInner({
 }
 
 export const PricerAll = React.forwardRef((props, reference) => {
-  const { names, duration } = props
-  // const { data, loading } = useQuery(GET_RENT_PRICE_ALL, {
-  //   variables: {
-  //     names,
-  //     duration
-  //   }
-  // })
-
-  const { data, loading } = useQuery(GET_RENT_PRICE, {
+  const { labels, duration } = props
+  const { data, loading } = useQuery(GET_RENT_PRICES, {
     variables: {
-      name: names[0],
+      labels,
       duration
     }
   })
+
+  // const { data, loading } = useQuery(GET_RENT_PRICE, {
+  //   variables: {
+  //     name: names[0],
+  //     duration
+  //   }
+  // })
   return (
     <PricerInner
       reference={reference}
-      price={loading ? 0 : data.getRentPrice}
+      price={loading ? 0 : data.getRentPrices}
       loading={loading}
       {...props}
     />
