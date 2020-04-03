@@ -30,16 +30,6 @@ const FileName = styled('span')`
   `}
 `
 
-const LinkText = styled('span')`
-  margin-bottom: 0px;
-  font-size: 16px;
-
-  ${mq.small`
-    font-size: 18px;
-    margin-bottom: 12px;
-  `}
-`
-
 const ErrorMsg = styled('span')`
   margin-bottom: 0px;
   font-size: 16px;
