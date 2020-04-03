@@ -183,7 +183,7 @@ const IpfsLogin = (props) => {
   return (
     <Login>
       <Header>
-        <a href="https://temporal.cloud">
+        <a href={client.link}>
           <Logo src={client.logo} />
         </a>
       </Header>
