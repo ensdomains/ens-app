@@ -30,6 +30,16 @@ const FileName = styled('span')`
   `}
 `
 
+const LinkText = styled('span')`
+  margin-bottom: 0px;
+  font-size: 16px;
+
+  ${mq.small`
+    font-size: 18px;
+    margin-bottom: 12px;
+  `}
+`
+
 const ErrorMsg = styled('span')`
   margin-bottom: 0px;
   font-size: 16px;
@@ -49,9 +59,9 @@ const Upload = props => {
   const [files, setFiles] = useState([])
   const [upload, setUpload] = useState(false)
   const [uploadError, setUploadError] = useState(false)
+  const [client] = useState(getConfig('TEMPORAL'))
 
   const sendRequest = useCallback(newfiles => {
-    const client = getConfig('TEMPORAL')
     const ipfs = ipfsClient({
       host: getDev() ? client.dev : client.host,
       port: client.port,
@@ -123,6 +133,9 @@ const Upload = props => {
             {uploadError ? 'There was a problem uploading your file' : ''}
           </ErrorMsg>
           <Dropzone sendRequest={sendRequest} disabled={upload} />
+          <FileName>
+            Manage your pins <a href={client.link}>here</a>.
+          </FileName>
         </>
       )}
     </Container>
