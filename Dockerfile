@@ -9,5 +9,5 @@ RUN cd ens-app && \
     git checkout docker && \
     yarn && \
     yarn preTest GANACHE_DOCKER
-EXPOSE 3000/tcp
-CMD  ["yarn" "start:local"]
+EXPOSE 3000
+CMD  ["yarn", "start:local"]
