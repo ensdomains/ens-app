@@ -23,7 +23,7 @@ async function init() {
   const dnssec = process.argv[3] == 'dnssec'
   let migrate = process.argv[3] != 'premigration'
   if (process.argv[3] == 'dnssec') migrate = false
-
+  console.log({ ENV })
   switch (ENV) {
     case 'GANACHE_GUI':
       var provider = new Web3.providers.HttpProvider('http://localhost:7545')
@@ -31,6 +31,12 @@ async function init() {
       break
     case 'GANACHE_CLI':
       var provider = new Web3.providers.HttpProvider('http://localhost:8545')
+      var { web3 } = await setupWeb3(provider)
+      break
+    case 'GANACHE_DOCKER':
+      var provider = new Web3.providers.HttpProvider(
+        'http://host.docker.internal:8545'
+      )
       var { web3 } = await setupWeb3(provider)
       break
     default:
