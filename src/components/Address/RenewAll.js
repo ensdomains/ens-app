@@ -4,21 +4,18 @@ import { motion, AnimatePresence } from 'framer-motion'
 import styled from '@emotion/styled'
 
 import { RENEW_DOMAINS } from '../../graphql/mutations'
+import { yearInSeconds } from 'utils/dates'
+import { useEthPrice } from '../hooks'
+import mq from 'mediaQuery'
 
 import DefaultButton from '../Forms/Button'
 import SaveCancel from '../SingleName/SaveCancel'
 import { PricerAll as PriceAllDefault } from '../SingleName/Pricer'
-import { yearInSeconds } from 'utils/dates'
-import mq from 'mediaQuery'
-
-import { useEthPrice } from '../hooks'
+import Checkbox from '../Forms/Checkbox'
 
 const RenewContainer = styled('div')`
-  grid-column-start: auto;
-
-  ${mq.small`
-    grid-column-start: span 2;
-  `}
+  display: flex;
+  justify-content: space-between;
 `
 
 const RenewSelected = styled(DefaultButton)`
@@ -42,6 +39,8 @@ const Buttons = styled('div')`
   align-items: flex-start;
 `
 
+const SelectAll = styled('div')``
+
 const StyledPricer = styled(PriceAllDefault)``
 
 const PricerAll = motion.custom(StyledPricer)
@@ -52,20 +51,46 @@ function isValid(selectedNames) {
   return selectedNames.length > 0
 }
 
-export default function Renew({ selectedNames, allNames }) {
+export default function Renew({
+  selectedNames,
+  allNames,
+  selectAllNames,
+  removeAllNames
+}) {
   const [mutation] = useMutation(RENEW_DOMAINS)
+  const [selectAll, setSelectAll] = useState(false)
   const [showPricer, setShowPricer] = useState(false)
   const [years, setYears] = useState(1)
   const { price: ethUsdPrice, loading } = useEthPrice()
   const duration = years * yearInSeconds
-  const labelsToRenew = selectedNames.map(name => name.split('.')[0])
+  let labelsToRenew
 
+  if (selectAll) {
+    labelsToRenew = allNames
+  } else {
+    labelsToRenew = selectedNames.map(name => name.split('.')[0])
+  }
   return (
     <RenewContainer>
       <RenewSelected onClick={() => setShowPricer(true)} type="hollow-primary">
         Renew Selected
       </RenewSelected>
-      {showPricer.show && (
+      <SelectAll>
+        <Checkbox
+          checked={selectAll}
+          onClick={() => {
+            if (!selectAll) {
+              console.log('here')
+              selectAllNames()
+            } else {
+              console.log('there')
+              removeAllNames()
+            }
+            setSelectAll(selectAll => !selectAll)
+          }}
+        />
+      </SelectAll>
+      {showPricer && (
         <AnimatePresence>
           <RenewPricer
             initial={{ opacity: 0, height: 0 }}
@@ -92,7 +117,6 @@ export default function Renew({ selectedNames, allNames }) {
                     duration
                   }
 
-                  console.log(variables)
                   mutation({ variables })
                 }}
                 mutationButton={'Renew'}
