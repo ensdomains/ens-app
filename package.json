@@ -64,6 +64,7 @@
     "docker:build": "docker build -t ensdomains/ens-app:latest .",
     "docker:push": "docker image push ensdomains/ens-app:latest",
     "docker:start": "docker run -p 3000:3000 -d ensdomains/ens-app:latest",
+    "docker:remove": "rm  ~/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw",
     "postbuild": "cp build/index.html build/200.html",
     "test": "react-scripts test --env=jsdom",
     "test:coverage": "npm test -- --coverage",

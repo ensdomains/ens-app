@@ -10,8 +10,10 @@ export async function getAccounts(web3) {
 
 async function setupWeb3(customProvider) {
   web3 = new Web3(customProvider)
-  const networkId = await web3.eth.net.getId()
-
+  const networkId = web3.version.network
+    ? web3.version.network
+    : await web3.eth.net.getId()
+  console.log({ networkId })
   return {
     web3,
     networkId

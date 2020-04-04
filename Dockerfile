@@ -1,13 +1,15 @@
   
 FROM node:10.18.0-buster AS build-env
-RUN apt-get install -y git 
 ADD . /work
 WORKDIR /work
 
-RUN git clone https://github.com/ensdomains/ens-app.git
-RUN cd ens-app && \
-    git checkout docker && \
-    yarn && \
-    yarn preTest GANACHE_DOCKER
+
+COPY package.json /work/
+
+RUN yarn
+
+COPY . /work/
+
 EXPOSE 3000
-CMD  ["yarn", "start:local"]
+
+CMD  ["yarn", "preTest", "GANACHE_DOCKER", "&&", "yarn", "start:test]
