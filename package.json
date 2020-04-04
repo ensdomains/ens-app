@@ -49,6 +49,7 @@
     "react-spring": "^6.1.7",
     "react-tooltip": "^3.9.2",
     "react-transition-group-plus": "^0.5.3",
+    "web3": "^1.2.6",
     "whatwg-fetch": "^3.0.0"
   },
   "scripts": {
@@ -63,7 +64,7 @@
     "docker:deploy": "yarn docker:build && yarn docker:push",
     "docker:build": "docker build -t ensdomains/ens-app:latest .",
     "docker:push": "docker image push ensdomains/ens-app:latest",
-    "docker:start": "docker run -p 3000:3000 -d ensdomains/ens-app:latest",
+    "docker:start": "docker run -p 3000:3000 --net=docker_default -d ensdomains/ens-app:latest",
     "docker:remove": "rm  ~/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw",
     "postbuild": "cp build/index.html build/200.html",
     "test": "react-scripts test --env=jsdom",
