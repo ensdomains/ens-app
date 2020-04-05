@@ -6,23 +6,21 @@ import styled from '@emotion/styled'
 import { RENEW_DOMAINS } from '../../graphql/mutations'
 import { yearInSeconds } from 'utils/dates'
 import { useEthPrice } from '../hooks'
-import mq from 'mediaQuery'
 
 import DefaultButton from '../Forms/Button'
 import SaveCancel from '../SingleName/SaveCancel'
 import { PricerAll as PriceAllDefault } from '../SingleName/Pricer'
-import Checkbox from '../Forms/Checkbox'
 
 const RenewContainer = styled('div')`
+  grid-area: renew;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
 `
 
 const RenewSelected = styled(DefaultButton)`
   margin-right: 20px;
+  align-self: flex-start;
 `
-
-const RenewAll = styled(DefaultButton)``
 
 const RenewPricer = styled(motion.div)`
   background: #f0f6fa;
@@ -38,8 +36,6 @@ const Buttons = styled('div')`
   justify-content: flex-end;
   align-items: flex-start;
 `
-
-const SelectAll = styled('div')``
 
 const StyledPricer = styled(PriceAllDefault)``
 
@@ -58,38 +54,23 @@ export default function Renew({
   removeAllNames
 }) {
   const [mutation] = useMutation(RENEW_DOMAINS)
-  const [selectAll, setSelectAll] = useState(false)
+
   const [showPricer, setShowPricer] = useState(false)
   const [years, setYears] = useState(1)
   const { price: ethUsdPrice, loading } = useEthPrice()
   const duration = years * yearInSeconds
-  let labelsToRenew
-
-  if (selectAll) {
-    labelsToRenew = allNames
-  } else {
-    labelsToRenew = selectedNames.map(name => name.split('.')[0])
-  }
+  let labelsToRenew = selectedNames.map(name => name.split('.')[0])
+  console.log(labelsToRenew)
   return (
     <RenewContainer>
-      <RenewSelected onClick={() => setShowPricer(true)} type="hollow-primary">
+      <RenewSelected
+        onClick={() => {
+          if (labelsToRenew.length > 0) setShowPricer(true)
+        }}
+        type={labelsToRenew.length > 0 ? 'primary' : 'disabled'}
+      >
         Renew Selected
       </RenewSelected>
-      <SelectAll>
-        <Checkbox
-          checked={selectAll}
-          onClick={() => {
-            if (!selectAll) {
-              console.log('here')
-              selectAllNames()
-            } else {
-              console.log('there')
-              removeAllNames()
-            }
-            setSelectAll(selectAll => !selectAll)
-          }}
-        />
-      </SelectAll>
       {showPricer && (
         <AnimatePresence>
           <RenewPricer

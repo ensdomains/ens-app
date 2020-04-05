@@ -18,6 +18,7 @@ import Sorting from './Sorting'
 import Filtering from './Filtering'
 import Loader from '../Loader'
 import Banner from '../Banner'
+import Checkbox from '../Forms/Checkbox'
 
 import warning from '../../assets/yellowwarning.svg'
 import close from '../../assets/close.svg'
@@ -48,16 +49,29 @@ const Controls = styled('div')`
   grid-template-areas:
     'filters'
     'sorting'
-    'renew';
+    'renew'
+    'selectall';
   grid-gap: 20px 10px;
 
   ${mq.small`
     margin: 20px 30px;
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
-    'filters renew'
-    'sorting .'
+    'filters sorting'
+    'renew renew'
+    '. selectall'
     ;
+  `}
+`
+
+const SelectAll = styled('div')`
+  grid-area: selectall;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 40px;
+
+  ${mq.small`
+    padding-right: 10px;
   `}
 `
 
@@ -127,6 +141,7 @@ export default function Address({
   let [activeSort, setActiveSort] = useState('alphabetical')
   let [checkedBoxes, setCheckedBoxes] = useState({})
   let [years, setYears] = useState(1)
+  const [selectAll, setSelectAll] = useState(false)
 
   useEffect(() => {
     getEtherScanAddr().then(setEtherScanAddr)
@@ -225,12 +240,24 @@ export default function Address({
             activeFilter={domainType}
             selectedNames={selectedNames}
             allNames={allNames}
-            selectAllNames={selectAllNames}
-            removeAllNames={() => setCheckedBoxes({})}
           />
+          <SelectAll>
+            <Checkbox
+              checked={selectAll}
+              onClick={() => {
+                if (!selectAll) {
+                  selectAllNames()
+                } else {
+                  setCheckedBoxes({})
+                }
+                setSelectAll(selectAll => !selectAll)
+              }}
+            />
+          </SelectAll>
         </Controls>
 
         <DomainList
+          setSelectAll={setSelectAll}
           address={address}
           domains={domains}
           activeSort={activeSort}
