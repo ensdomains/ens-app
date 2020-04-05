@@ -86,8 +86,7 @@ class TestRegistrar extends Component {
           }}
         </Query>
         <Query query={GET_PENDING_TRANSACTIONS}>
-          {({ data, loading }) => {
-            const { pendingTransactions } = data
+          {({ data: { pendingTransactions } = {}, loading }) => {
             if (loading) return <div>Loading pending txs</div>
             console.log(data)
             return (
@@ -105,8 +104,7 @@ class TestRegistrar extends Component {
           }}
         </Query>
         <Query query={GET_TRANSACTION_HISTORY}>
-          {({ data, loading }) => {
-            const { transactionHistory } = data
+          {({ data: { transactionHistory } = {}, loading }) => {
             if (loading) return <div>Loading pending txs</div>
             console.log(data)
             return (

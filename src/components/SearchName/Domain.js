@@ -16,8 +16,7 @@ export const DomainInfo = ({ domainState, isFavourite, loading }) => {
 const DomainInfoContainer = ({ name }) => {
   return (
     <Query query={GET_SINGLE_NAME} variables={{ name }}>
-      {({ data, loading, error }) => {
-        const { singleName } = data
+      {({ data: { singleName } = {}, loading, error }) => {
         return (
           <Query query={GET_FAVOURITES}>
             {({ data: { favourites } }) => (

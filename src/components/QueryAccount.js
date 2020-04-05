@@ -15,14 +15,14 @@ class GetAccount extends Component {
     return (
       <Query query={GET_ACCOUNTS}>
         {({ data, loading, error }) => {
-          const {
-            web3: { accounts }
-          } = data
           if (loading || !accounts[0]) {
             return this.props.children({
               account: '0x0000000000000000000000000000000000000000'
             })
           }
+          const {
+            web3: { accounts }
+          } = data
           return this.props.children({ account: accounts[0] })
         }}
       </Query>
@@ -32,12 +32,12 @@ class GetAccount extends Component {
 
 export function useAccount() {
   const { loading, error, data } = useQuery(GET_ACCOUNTS)
-  const {
-    web3: { accounts }
-  } = data
   if (error || loading || !accounts[0]) {
     return '0x0000000000000000000000000000000000000000'
   }
+  const {
+    web3: { accounts }
+  } = data
   return accounts[0]
 }
 

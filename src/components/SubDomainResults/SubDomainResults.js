@@ -201,8 +201,7 @@ class SubDomainResults extends Component {
       <Query query={GET_SUBDOMAIN_FAVOURITES}>
         {({ data: { subDomainFavourites }, loading: loading2 }) => (
           <Query query={GET_SUBDOMAIN_STATE}>
-            {({ data, loading }) => {
-              const { subDomainState } = data
+            {({ data: { subDomainState } = {}, loading }) => {
               if (loading || loading2) return <div>Loading...</div>
               return (
                 <SubDomainsContainer
