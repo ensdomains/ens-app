@@ -34,7 +34,7 @@ ganache-cli
 Start docker
 
 ```
-yarn docker:start
+docker-compose up
 ```
 
 Open your browser to localhost:80 and open metamask
