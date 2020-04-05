@@ -47,7 +47,7 @@ export default function RegistryMigration({
   const { txHash, pending, confirmed } = state
   const { startPending, setConfirmed } = actions
   const {
-    data: { isContractController },
+    data: { isContractController } = {},
     loading: loadingIsContractController
   } = useQuery(IS_CONTRACT_CONTROLLER, {
     variables: { address: domain.owner }
