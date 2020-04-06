@@ -26,4 +26,15 @@ describe('/address', () => {
       ENABLED_COLOUR
     )
   })
+
+  it('can select a name', () => {
+    cy.visit(ROOT)
+    cy.getByText('My Names').click({ force: true })
+    cy.getByTestId('checkbox-aftermigration.eth').click()
+    cy.get('[data-test-id="checkbox-aftermigration.eth"] div').should(
+      'have.css',
+      'border-top-color',
+      ENABLED_COLOUR
+    )
+  })
 })

@@ -9,7 +9,7 @@ import mq from 'mediaQuery'
 import AddressContainer from '../Basic/MainContainer'
 import DefaultTopBar from '../Basic/TopBar'
 import { Title } from '../Typography/Basic'
-import { ExternalButtonLink as DefaultExternalButtonLink } from '../Forms/Button'
+import EtherScanLink from '../Links/EtherScanLink'
 import { getEtherScanAddr } from '../../utils/utils'
 import { calculateIsExpiredSoon } from '../../utils/dates'
 import DomainList from './DomainList'
@@ -25,10 +25,6 @@ import close from '../../assets/close.svg'
 
 const TopBar = styled(DefaultTopBar)`
   margin-bottom: 40px;
-`
-
-const ExternalButtonLink = styled(DefaultExternalButtonLink)`
-  margin-left: 40px;
 `
 
 const Close = styled('img')`
@@ -214,13 +210,12 @@ export default function Address({
         <TopBar>
           <Title>{address}</Title>
           {etherScanAddr && (
-            <ExternalButtonLink
-              type="primary"
+            <EtherScanLink
               target="_blank"
               href={`${etherScanAddr}/address/${address}`}
             >
               View on EtherScan
-            </ExternalButtonLink>
+            </EtherScanLink>
           )}
         </TopBar>
         <Controls>
