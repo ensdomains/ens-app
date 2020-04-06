@@ -2,11 +2,13 @@ import React, { useState } from 'react'
 import { useMutation } from 'react-apollo'
 import { motion, AnimatePresence } from 'framer-motion'
 import styled from '@emotion/styled'
+import { get } from 'lodash'
 
 import { RENEW_DOMAINS } from '../../graphql/mutations'
 import { yearInSeconds } from 'utils/dates'
-import { useEthPrice } from '../hooks'
+import { useEthPrice, useEditable } from '../hooks'
 
+import PendingTx from '../PendingTx'
 import DefaultButton from '../Forms/Button'
 import SaveCancel from '../SingleName/SaveCancel'
 import { PricerAll as PriceAllDefault } from '../SingleName/Pricer'
@@ -47,31 +49,99 @@ function isValid(selectedNames) {
   return selectedNames.length > 0
 }
 
+function refetchTilUpdated(
+  refetch,
+  interval,
+  keyToCompare,
+  labelName,
+  prevData
+) {
+  let tries = 10
+
+  function recurseRefetch() {
+    if (tries > 0) {
+      return setTimeout(() => {
+        tries--
+        refetch().then(({ data }) => {
+          const updated =
+            get(data, 'account.registrations').find(item => {
+              return item.domain.labelName === labelName
+            })[keyToCompare] !==
+            get(prevData, 'account.registrations').find(item => {
+              return item.domain.labelName === labelName
+            })[keyToCompare]
+
+          if (updated) return
+          return recurseRefetch()
+        })
+      }, interval)
+    }
+    return
+  }
+
+  recurseRefetch()
+}
+
 export default function Renew({
   selectedNames,
   allNames,
   selectAllNames,
-  removeAllNames
+  removeAllNames,
+  refetch,
+  data
 }) {
-  const [mutation] = useMutation(RENEW_DOMAINS)
+  const { state, actions } = useEditable()
 
-  const [showPricer, setShowPricer] = useState(false)
+  const { editing, newValue, txHash, pending, confirmed } = state
+
+  const {
+    startEditing,
+    stopEditing,
+    updateValue,
+    startPending,
+    setConfirmed
+  } = actions
+  const [mutation] = useMutation(RENEW_DOMAINS, {
+    onCompleted: res => {
+      startPending(Object.values(res)[0])
+    }
+  })
+
   const [years, setYears] = useState(1)
   const { price: ethUsdPrice, loading } = useEthPrice()
   const duration = years * yearInSeconds
   let labelsToRenew = selectedNames.map(name => name.split('.')[0])
-  console.log(labelsToRenew)
+
   return (
     <RenewContainer>
-      <RenewSelected
-        onClick={() => {
-          if (labelsToRenew.length > 0) setShowPricer(true)
-        }}
-        type={labelsToRenew.length > 0 ? 'primary' : 'disabled'}
-      >
-        Renew Selected
-      </RenewSelected>
-      {showPricer && (
+      {!editing ? (
+        pending && !confirmed ? (
+          <PendingTx
+            txHash={txHash}
+            onConfirmed={() => {
+              setConfirmed()
+              refetchTilUpdated(
+                refetch,
+                10,
+                'expiryDate',
+                labelsToRenew[0],
+                data
+              )
+            }}
+          />
+        ) : (
+          <RenewSelected
+            onClick={() => {
+              if (labelsToRenew.length > 0) startEditing()
+            }}
+            type={labelsToRenew.length > 0 ? 'primary' : 'disabled'}
+          >
+            Renew Selected
+          </RenewSelected>
+        )
+      ) : null}
+
+      {editing && (
         <AnimatePresence>
           <RenewPricer
             initial={{ opacity: 0, height: 0 }}
@@ -91,7 +161,7 @@ export default function Renew({
             />
             <Buttons>
               <SaveCancel
-                stopEditing={() => setShowPricer(false)}
+                stopEditing={stopEditing}
                 mutation={() => {
                   let variables = {
                     labels: labelsToRenew,

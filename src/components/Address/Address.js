@@ -127,7 +127,7 @@ export default function Address({
   domainType = 'registrant'
 }) {
   const normalisedAddress = normaliseAddress(address)
-  const { loading, data, error } = useQuery(
+  const { loading, data, error, refetch } = useQuery(
     GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH,
     { variables: { id: normalisedAddress } }
   )
@@ -235,6 +235,8 @@ export default function Address({
             activeFilter={domainType}
             selectedNames={selectedNames}
             allNames={allNames}
+            data={data}
+            refetch={refetch}
           />
           <SelectAll>
             <Checkbox
