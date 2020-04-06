@@ -122,7 +122,7 @@ export default function Renew({
               setConfirmed()
               refetchTilUpdated(
                 refetch,
-                10,
+                100,
                 'expiryDate',
                 labelsToRenew[0],
                 data
