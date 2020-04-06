@@ -87,8 +87,9 @@ export default function ChildDomainItem({
           Expires {formatDate(parseInt(expiryDate * 1000))}
         </ExpiryDate>
       )}
-      {checkedBoxes && (
+      {checkedBoxes && labelName !== null && (
         <Checkbox
+          testid={`checkbox-${name}`}
           checked={checkedBoxes[name]}
           onClick={e => {
             e.preventDefault()

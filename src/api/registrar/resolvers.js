@@ -19,9 +19,9 @@ const resolvers = {
       const registrar = getRegistrar()
       return registrar.getRentPrice(name, duration)
     },
-    async getRentPriceAll(_, { labels, duration }, { cache }) {
-      //const registrar = getRegistrar()
-      return 100 //registrar.getRentPriceAll(labels, duration)
+    async getRentPrices(_, { labels, duration }, { cache }) {
+      const registrar = getRegistrar()
+      return registrar.getRentPrices(labels, duration)
     },
     async getMinimumCommitmentAge() {
       try {

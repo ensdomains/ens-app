@@ -2,6 +2,12 @@ import React from 'react'
 import { useHistory } from 'react-router'
 import { Tab, Tabs } from '../Tabs'
 
+function getBaseUrl(url) {
+  const urlArray = url.split('/')
+  if (urlArray.length === 3) return url
+  return urlArray.slice(0, -1).join('/')
+}
+
 export default function Filtering({
   activeFilter,
   setActiveFilter,
@@ -10,10 +16,7 @@ export default function Filtering({
   url
 }) {
   const history = useHistory()
-  const baseUrl = url
-    .split('/')
-    .slice(0, -1)
-    .join('/')
+  const baseUrl = getBaseUrl(url)
   return (
     <Tabs className={className}>
       <Tab

@@ -7,11 +7,11 @@ const stripTrailingSlash = str => {
 
 const AddressContainer = ({ match, location }) => {
   const address = match.params.address.toLowerCase()
-  const domainType = match.params.domainType.toLowerCase()
+  const domainType = match.params.domainType?.toLowerCase()
   const queryParams = new URLSearchParams(location.search)
   return (
     <Address
-      url={stripTrailingSlash(match.url)}
+      url={stripTrailingSlash(location.pathname)}
       address={address}
       domainType={domainType}
       showOriginBanner={queryParams.get('origin') === 'renew'}

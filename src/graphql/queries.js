@@ -200,9 +200,9 @@ export const GET_RENT_PRICE = gql`
   }
 `
 
-export const GET_RENT_PRICE_ALL = gql`
-  query getRentPriceAll($labels: String, $duration: Number) {
-    getRentPriceAll(labels: $labels, duration: $duration) @client
+export const GET_RENT_PRICES = gql`
+  query getRentPrices($labels: String, $duration: Number) {
+    getRentPrices(labels: $labels, duration: $duration) @client
   }
 `
 

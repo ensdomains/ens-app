@@ -19,7 +19,7 @@ import Address from './routes/AddressPage'
 import Renew from './routes/Renew'
 import Modal from './components/Modal/Modal'
 import Confirm from './components/SingleName/Confirm'
-import { NetworkError } from './components/Error/Errors'
+import { NetworkError, Error404 } from './components/Error/Errors'
 import { CONFIRM } from './modals'
 
 import DefaultLayout from './components/Layout/DefaultLayout'
@@ -78,7 +78,9 @@ const App = () => (
                     path="/address/:address/:domainType"
                     component={Address}
                   />
+                  <Route path="/address/:address" component={Address} />
                   <Route path="/renew" component={Renew} />
+                  <Route path="*" component={Error404} />
                 </Switch>
               </Router>
               <Modal name={CONFIRM} component={Confirm} />

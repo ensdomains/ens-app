@@ -156,7 +156,19 @@ export default function Address({
     .filter(([key, value]) => value)
     .map(([key]) => key)
 
-  const allNames = domains.map(d => d.domain.name)
+  const allNames = domains
+    .filter(d => d.domain.labelName)
+    .map(d => d.domain.name)
+
+  const selectAllNames = () => {
+    const obj = allNames.reduce((acc, name) => {
+      acc[name] = true
+      return acc
+    }, {})
+
+    setCheckedBoxes(obj)
+  }
+
   const hasNamesExpiringSoon = !!domains.find(domain =>
     calculateIsExpiredSoon(domain.expiryDate)
   )
@@ -213,6 +225,8 @@ export default function Address({
             activeFilter={domainType}
             selectedNames={selectedNames}
             allNames={allNames}
+            selectAllNames={selectAllNames}
+            removeAllNames={() => setCheckedBoxes({})}
           />
         </Controls>
 
