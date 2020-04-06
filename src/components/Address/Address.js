@@ -110,7 +110,12 @@ function getSortFunc(activeSort) {
   }
 }
 
-export default function Address({ address, showOriginBanner }) {
+export default function Address({
+  url,
+  address,
+  showOriginBanner,
+  domainType = 'registrant'
+}) {
   const normalisedAddress = normaliseAddress(address)
   const { loading, data, error } = useQuery(
     GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH,
@@ -120,7 +125,6 @@ export default function Address({ address, showOriginBanner }) {
   let [showOriginBannerFlag, setShowOriginBannerFlag] = useState(true)
   let [etherScanAddr, setEtherScanAddr] = useState(null)
   let [activeSort, setActiveSort] = useState('alphabetical')
-  let [activeFilter, setActiveFilter] = useState('registrant')
   let [checkedBoxes, setCheckedBoxes] = useState({})
   let [years, setYears] = useState(1)
 
@@ -138,9 +142,9 @@ export default function Address({ address, showOriginBanner }) {
 
   let domains = []
 
-  if (activeFilter === 'registrant') {
+  if (domainType === 'registrant') {
     domains = [...data.account.registrations?.sort(getSortFunc(activeSort))]
-  } else if (activeFilter === 'controller') {
+  } else if (domainType === 'controller') {
     domains = [
       ...filterOutReverse(data.account.domains)
         .map(domain => ({ domain }))
@@ -194,19 +198,19 @@ export default function Address({ address, showOriginBanner }) {
         </TopBar>
         <Controls>
           <Filtering
-            activeFilter={activeFilter}
-            setActiveFilter={setActiveFilter}
+            activeFilter={domainType}
             setActiveSort={setActiveSort}
+            url={url}
           />
           <Sorting
             activeSort={activeSort}
             setActiveSort={setActiveSort}
-            activeFilter={activeFilter}
+            activeFilter={domainType}
           />
           <RenewAll
             years={years}
             setYears={setYears}
-            activeFilter={activeFilter}
+            activeFilter={domainType}
             selectedNames={selectedNames}
             allNames={allNames}
           />
@@ -216,7 +220,7 @@ export default function Address({ address, showOriginBanner }) {
           address={address}
           domains={domains}
           activeSort={activeSort}
-          activeFilter={activeFilter}
+          activeFilter={domainType}
           checkedBoxes={checkedBoxes}
           setCheckedBoxes={setCheckedBoxes}
         />
