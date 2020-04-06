@@ -49,9 +49,9 @@ const Upload = props => {
   const [files, setFiles] = useState([])
   const [upload, setUpload] = useState(false)
   const [uploadError, setUploadError] = useState(false)
+  const [client] = useState(getConfig('TEMPORAL'))
 
   const sendRequest = useCallback(newfiles => {
-    const client = getConfig('TEMPORAL')
     const ipfs = ipfsClient({
       host: getDev() ? client.dev : client.host,
       port: client.port,
@@ -123,6 +123,9 @@ const Upload = props => {
             {uploadError ? 'There was a problem uploading your file' : ''}
           </ErrorMsg>
           <Dropzone sendRequest={sendRequest} disabled={upload} />
+          <FileName>
+            Manage your pins <a href={client.link}>here</a>.
+          </FileName>
         </>
       )}
     </Container>
