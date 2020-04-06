@@ -31,7 +31,7 @@ describe('/address', () => {
     cy.visit(ROOT)
     cy.getByText('My Names').click({ force: true })
     cy.getByTestId('checkbox-aftermigration.eth').click()
-    cy.get('[data-test-id="checkbox-aftermigration.eth"] div').should(
+    cy.get('[data-testid="checkbox-aftermigration.eth"] div').should(
       'have.css',
       'border-top-color',
       ENABLED_COLOUR
