@@ -8,7 +8,7 @@ import mq, { useMediaMin } from 'mediaQuery'
 
 const DomainLink = styled(Link)`
   display: grid;
-  grid-template-columns: 1fr 50px;
+  grid-template-columns: 1fr 23px;
   grid-template-rows: 50px 50px;
   grid-gap: 10px;
   width: 100%;
@@ -20,7 +20,7 @@ const DomainLink = styled(Link)`
   border-bottom: 1px dashed #d3d3d3;
 
   ${mq.small`
-    grid-template-columns: 30px 1fr minmax(150px, 300px) 50px;
+    grid-template-columns: 30px 1fr minmax(150px, 300px) 23px;
     grid-template-rows: 50px
   `}
 
@@ -65,7 +65,8 @@ export default function ChildDomainItem({
   expiryDate,
   isMigrated,
   checkedBoxes,
-  setCheckedBoxes
+  setCheckedBoxes,
+  setSelectAll
 }) {
   const smallBP = useMediaMin('small')
   let label =
@@ -76,6 +77,7 @@ export default function ChildDomainItem({
   const isExpiredSoon = calculateIsExpiredSoon(expiryDate)
   return (
     <DomainLink
+      data-testid={`${name}`}
       warning={isMigrated === false ? true : false}
       key={name}
       to={`/name/${name}`}
@@ -96,6 +98,9 @@ export default function ChildDomainItem({
             setCheckedBoxes(prevState => {
               return { ...prevState, [name]: !prevState[name] }
             })
+            if (checkedBoxes[name]) {
+              setSelectAll(false)
+            }
           }}
         />
       )}

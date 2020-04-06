@@ -2,27 +2,27 @@ import React, { useState } from 'react'
 import { useMutation } from 'react-apollo'
 import { motion, AnimatePresence } from 'framer-motion'
 import styled from '@emotion/styled'
+import { get } from 'lodash'
 
 import { RENEW_DOMAINS } from '../../graphql/mutations'
 import { yearInSeconds } from 'utils/dates'
-import { useEthPrice } from '../hooks'
-import mq from 'mediaQuery'
+import { useEthPrice, useEditable } from '../hooks'
 
+import PendingTx from '../PendingTx'
 import DefaultButton from '../Forms/Button'
 import SaveCancel from '../SingleName/SaveCancel'
 import { PricerAll as PriceAllDefault } from '../SingleName/Pricer'
-import Checkbox from '../Forms/Checkbox'
 
 const RenewContainer = styled('div')`
+  grid-area: renew;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
 `
 
 const RenewSelected = styled(DefaultButton)`
   margin-right: 20px;
+  align-self: flex-start;
 `
-
-const RenewAll = styled(DefaultButton)``
 
 const RenewPricer = styled(motion.div)`
   background: #f0f6fa;
@@ -39,8 +39,6 @@ const Buttons = styled('div')`
   align-items: flex-start;
 `
 
-const SelectAll = styled('div')``
-
 const StyledPricer = styled(PriceAllDefault)``
 
 const PricerAll = motion.custom(StyledPricer)
@@ -51,46 +49,102 @@ function isValid(selectedNames) {
   return selectedNames.length > 0
 }
 
+function refetchTilUpdated(
+  refetch,
+  interval,
+  keyToCompare,
+  labelName,
+  prevData
+) {
+  let maxTries = 10
+  let tries = maxTries
+  let incrementedInterval = interval
+
+  function recurseRefetch() {
+    if (tries > 0) {
+      return setTimeout(() => {
+        tries--
+        incrementedInterval = interval * (maxTries - tries + 1)
+        refetch().then(({ data }) => {
+          const updated =
+            get(data, 'account.registrations').find(item => {
+              return item.domain.labelName === labelName
+            })[keyToCompare] !==
+            get(prevData, 'account.registrations').find(item => {
+              return item.domain.labelName === labelName
+            })[keyToCompare]
+
+          if (updated) return
+          return recurseRefetch()
+        })
+      }, incrementedInterval)
+    }
+    return
+  }
+
+  recurseRefetch()
+}
+
 export default function Renew({
   selectedNames,
   allNames,
   selectAllNames,
-  removeAllNames
+  removeAllNames,
+  refetch,
+  data
 }) {
-  const [mutation] = useMutation(RENEW_DOMAINS)
-  const [selectAll, setSelectAll] = useState(false)
-  const [showPricer, setShowPricer] = useState(false)
+  const { state, actions } = useEditable()
+
+  const { editing, newValue, txHash, pending, confirmed } = state
+
+  const {
+    startEditing,
+    stopEditing,
+    updateValue,
+    startPending,
+    setConfirmed
+  } = actions
+  const [mutation] = useMutation(RENEW_DOMAINS, {
+    onCompleted: res => {
+      startPending(Object.values(res)[0])
+    }
+  })
+
   const [years, setYears] = useState(1)
   const { price: ethUsdPrice, loading } = useEthPrice()
   const duration = years * yearInSeconds
-  let labelsToRenew
+  let labelsToRenew = selectedNames.map(name => name.split('.')[0])
 
-  if (selectAll) {
-    labelsToRenew = allNames
-  } else {
-    labelsToRenew = selectedNames.map(name => name.split('.')[0])
-  }
   return (
     <RenewContainer>
-      <RenewSelected onClick={() => setShowPricer(true)} type="hollow-primary">
-        Renew Selected
-      </RenewSelected>
-      <SelectAll>
-        <Checkbox
-          checked={selectAll}
-          onClick={() => {
-            if (!selectAll) {
-              console.log('here')
-              selectAllNames()
-            } else {
-              console.log('there')
-              removeAllNames()
-            }
-            setSelectAll(selectAll => !selectAll)
-          }}
-        />
-      </SelectAll>
-      {showPricer && (
+      {!editing ? (
+        pending && !confirmed ? (
+          <PendingTx
+            txHash={txHash}
+            onConfirmed={() => {
+              setConfirmed()
+              refetchTilUpdated(
+                refetch,
+                300,
+                'expiryDate',
+                labelsToRenew[0],
+                data
+              )
+            }}
+          />
+        ) : (
+          <RenewSelected
+            onClick={() => {
+              if (labelsToRenew.length > 0) startEditing()
+            }}
+            type={labelsToRenew.length > 0 ? 'primary' : 'disabled'}
+          >
+            Renew Selected
+          </RenewSelected>
+        )
+      ) : null}
+
+      {editing && (
         <AnimatePresence>
           <RenewPricer
             initial={{ opacity: 0, height: 0 }}
@@ -110,7 +164,7 @@ export default function Renew({
             />
             <Buttons>
               <SaveCancel
-                stopEditing={() => setShowPricer(false)}
+                stopEditing={stopEditing}
                 mutation={() => {
                   let variables = {
                     labels: labelsToRenew,

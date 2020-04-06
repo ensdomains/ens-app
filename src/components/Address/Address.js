@@ -9,7 +9,7 @@ import mq from 'mediaQuery'
 import AddressContainer from '../Basic/MainContainer'
 import DefaultTopBar from '../Basic/TopBar'
 import { Title } from '../Typography/Basic'
-import { ExternalButtonLink as DefaultExternalButtonLink } from '../Forms/Button'
+import EtherScanLink from '../Links/EtherScanLink'
 import { getEtherScanAddr } from '../../utils/utils'
 import { calculateIsExpiredSoon } from '../../utils/dates'
 import DomainList from './DomainList'
@@ -18,16 +18,13 @@ import Sorting from './Sorting'
 import Filtering from './Filtering'
 import Loader from '../Loader'
 import Banner from '../Banner'
+import Checkbox from '../Forms/Checkbox'
 
 import warning from '../../assets/yellowwarning.svg'
 import close from '../../assets/close.svg'
 
 const TopBar = styled(DefaultTopBar)`
   margin-bottom: 40px;
-`
-
-const ExternalButtonLink = styled(DefaultExternalButtonLink)`
-  margin-left: 40px;
 `
 
 const Close = styled('img')`
@@ -48,16 +45,29 @@ const Controls = styled('div')`
   grid-template-areas:
     'filters'
     'sorting'
-    'renew';
+    'renew'
+    'selectall';
   grid-gap: 20px 10px;
 
   ${mq.small`
     margin: 20px 30px;
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
-    'filters renew'
-    'sorting .'
+    'filters sorting'
+    'renew renew'
+    '. selectall'
     ;
+  `}
+`
+
+const SelectAll = styled('div')`
+  grid-area: selectall;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 40px;
+
+  ${mq.small`
+    padding-right: 10px;
   `}
 `
 
@@ -117,7 +127,7 @@ export default function Address({
   domainType = 'registrant'
 }) {
   const normalisedAddress = normaliseAddress(address)
-  const { loading, data, error } = useQuery(
+  const { loading, data, error, refetch } = useQuery(
     GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH,
     { variables: { id: normalisedAddress } }
   )
@@ -127,6 +137,7 @@ export default function Address({
   let [activeSort, setActiveSort] = useState('alphabetical')
   let [checkedBoxes, setCheckedBoxes] = useState({})
   let [years, setYears] = useState(1)
+  const [selectAll, setSelectAll] = useState(false)
 
   useEffect(() => {
     getEtherScanAddr().then(setEtherScanAddr)
@@ -199,13 +210,12 @@ export default function Address({
         <TopBar>
           <Title>{address}</Title>
           {etherScanAddr && (
-            <ExternalButtonLink
-              type="primary"
+            <EtherScanLink
               target="_blank"
               href={`${etherScanAddr}/address/${address}`}
             >
               View on EtherScan
-            </ExternalButtonLink>
+            </EtherScanLink>
           )}
         </TopBar>
         <Controls>
@@ -225,12 +235,26 @@ export default function Address({
             activeFilter={domainType}
             selectedNames={selectedNames}
             allNames={allNames}
-            selectAllNames={selectAllNames}
-            removeAllNames={() => setCheckedBoxes({})}
+            data={data}
+            refetch={refetch}
           />
+          <SelectAll>
+            <Checkbox
+              checked={selectAll}
+              onClick={() => {
+                if (!selectAll) {
+                  selectAllNames()
+                } else {
+                  setCheckedBoxes({})
+                }
+                setSelectAll(selectAll => !selectAll)
+              }}
+            />
+          </SelectAll>
         </Controls>
 
         <DomainList
+          setSelectAll={setSelectAll}
           address={address}
           domains={domains}
           activeSort={activeSort}

@@ -21,10 +21,6 @@ const CheckboxContainer = styled('div')`
       cursor: pointer;
     }
   }
-
-  span {
-    margin-left: 8px;
-  }
 `
 
 function Checkbox({ className, onClick, checked, name, children, testid }) {
