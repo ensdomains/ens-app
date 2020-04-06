@@ -47,19 +47,20 @@ describe('/address', () => {
   it('cannot renew if no names selected', () => {
     cy.visit(ROOT)
     cy.getByText('My Names').click({ force: true })
-    cy.getByText('Renew', { exact: false }).click()
+    cy.getByText('Renew', { exact: false, timeout: 10000 }).click()
     cy.queryByText('Renew', { exact: false }).should(
       'have.css',
-      'background',
-      DISABLED_COLOUR
+      'background-color',
+      'rgb(223, 223, 223)'
     )
   })
 
   it('can select a name and renew', () => {
+    const name = `postmigration.eth`
     cy.visit(ROOT)
     cy.getByText('My Names').click({ force: true })
-    cy.getByTestId('checkbox-aftermigration.eth', { timeout: 10000 }).click()
-    cy.get('[data-testid="checkbox-aftermigration.eth"] div', {
+    cy.getByTestId(`checkbox-${name}`, { timeout: 10000 }).click()
+    cy.get(`[data-testid="checkbox-${name}"] div`, {
       timeout: 10000
     }).should('have.css', 'border-top-color', ENABLED_COLOUR)
     cy.getByText('Renew', { exact: false }).click()
@@ -67,6 +68,14 @@ describe('/address', () => {
     cy.getByText('Renew', { exact: true }).click()
     cy.getByText('Confirm', { exact: true }).click()
     const currentYear = new Date().getFullYear()
-    cy.queryByText(`${currentYear + 1}`, { exact: false }).should('exist')
+
+    cy.get(`[data-testid="{name}"]`, {
+      timeout: 10000
+    }).within(() => {
+      cy.queryByText(`${currentYear + 1}`, {
+        exact: false,
+        timeout: 20000
+      }).should('exist')
+    })
   })
 })

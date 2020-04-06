@@ -56,12 +56,15 @@ function refetchTilUpdated(
   labelName,
   prevData
 ) {
-  let tries = 10
+  let maxTries = 10
+  let tries = maxTries
+  let incrementedInterval = interval
 
   function recurseRefetch() {
     if (tries > 0) {
       return setTimeout(() => {
         tries--
+        incrementedInterval = interval * (maxTries - tries + 1)
         refetch().then(({ data }) => {
           const updated =
             get(data, 'account.registrations').find(item => {
@@ -74,7 +77,7 @@ function refetchTilUpdated(
           if (updated) return
           return recurseRefetch()
         })
-      }, interval)
+      }, incrementedInterval)
     }
     return
   }
@@ -122,7 +125,7 @@ export default function Renew({
               setConfirmed()
               refetchTilUpdated(
                 refetch,
-                100,
+                300,
                 'expiryDate',
                 labelsToRenew[0],
                 data

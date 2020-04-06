@@ -77,6 +77,7 @@ export default function ChildDomainItem({
   const isExpiredSoon = calculateIsExpiredSoon(expiryDate)
   return (
     <DomainLink
+      data-testid={`${name}`}
       warning={isMigrated === false ? true : false}
       key={name}
       to={`/name/${name}`}
