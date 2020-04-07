@@ -229,29 +229,34 @@ export default function Address({
             setActiveSort={setActiveSort}
             activeFilter={domainType}
           />
-          <RenewAll
-            years={years}
-            setYears={setYears}
-            activeFilter={domainType}
-            selectedNames={selectedNames}
-            allNames={allNames}
-            data={data}
-            refetch={refetch}
-          />
-          <SelectAll>
-            <Checkbox
-              testid="checkbox-renewall"
-              checked={selectAll}
-              onClick={() => {
-                if (!selectAll) {
-                  selectAllNames()
-                } else {
-                  setCheckedBoxes({})
-                }
-                setSelectAll(selectAll => !selectAll)
-              }}
-            />
-          </SelectAll>
+
+          {domainType === 'registrant' && (
+            <>
+              <RenewAll
+                years={years}
+                setYears={setYears}
+                activeFilter={domainType}
+                selectedNames={selectedNames}
+                allNames={allNames}
+                data={data}
+                refetch={refetch}
+              />
+              <SelectAll>
+                <Checkbox
+                  testid="checkbox-renewall"
+                  checked={selectAll}
+                  onClick={() => {
+                    if (!selectAll) {
+                      selectAllNames()
+                    } else {
+                      setCheckedBoxes({})
+                    }
+                    setSelectAll(selectAll => !selectAll)
+                  }}
+                />
+              </SelectAll>
+            </>
+          )}
         </Controls>
 
         <DomainList
