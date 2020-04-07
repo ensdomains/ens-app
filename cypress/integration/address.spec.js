@@ -55,7 +55,36 @@ describe('/address', () => {
     )
   })
 
-  it('can select a name and renew', () => {
+  it('can click select all and renew all', () => {
+    const names = [`postmigration.eth`, `aftermigration.eth`]
+    cy.visit(ROOT)
+    cy.getByText('My Names').click({ force: true })
+    cy.getByTestId(`checkbox-renewall`, { timeout: 10000 }).click()
+    names.forEach(name => {
+      cy.get(`[data-testid="checkbox-${name}"] div`, {
+        timeout: 10000
+      }).should('have.css', 'border-top-color', ENABLED_COLOUR)
+    })
+
+    cy.getByText('Renew', { exact: false }).click()
+    cy.queryByText('Rental', { exact: false }).should('exist')
+    cy.getByText('Renew', { exact: true }).click()
+    cy.getByText('Confirm', { exact: true }).click()
+    const currentYear = new Date().getFullYear()
+
+    names.forEach(name => {
+      cy.get(`[data-testid="${name}"]`, {
+        timeout: 10000
+      }).within(() => {
+        cy.queryByText(`${currentYear + 1}`, {
+          exact: false,
+          timeout: 20000
+        }).should('exist')
+      })
+    })
+  })
+
+  it('can select a single name and renew', () => {
     const name = `postmigration.eth`
     cy.visit(ROOT)
     cy.getByText('My Names').click({ force: true })
@@ -69,10 +98,10 @@ describe('/address', () => {
     cy.getByText('Confirm', { exact: true }).click()
     const currentYear = new Date().getFullYear()
 
-    cy.get(`[data-testid="{name}"]`, {
+    cy.get(`[data-testid="${name}"]`, {
       timeout: 10000
     }).within(() => {
-      cy.queryByText(`${currentYear + 1}`, {
+      cy.queryByText(`${currentYear + 2}`, {
         exact: false,
         timeout: 20000
       }).should('exist')

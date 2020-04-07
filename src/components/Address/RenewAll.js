@@ -54,7 +54,8 @@ function refetchTilUpdated(
   interval,
   keyToCompare,
   labelName,
-  prevData
+  prevData,
+  getterString
 ) {
   let maxTries = 10
   let tries = maxTries
@@ -67,10 +68,10 @@ function refetchTilUpdated(
         incrementedInterval = interval * (maxTries - tries + 1)
         refetch().then(({ data }) => {
           const updated =
-            get(data, 'account.registrations').find(item => {
+            get(data, getterString).find(item => {
               return item.domain.labelName === labelName
             })[keyToCompare] !==
-            get(prevData, 'account.registrations').find(item => {
+            get(prevData, getterString).find(item => {
               return item.domain.labelName === labelName
             })[keyToCompare]
 
@@ -95,15 +96,10 @@ export default function Renew({
 }) {
   const { state, actions } = useEditable()
 
-  const { editing, newValue, txHash, pending, confirmed } = state
+  const { editing, txHash, pending, confirmed } = state
 
-  const {
-    startEditing,
-    stopEditing,
-    updateValue,
-    startPending,
-    setConfirmed
-  } = actions
+  const { startEditing, stopEditing, startPending, setConfirmed } = actions
+
   const [mutation] = useMutation(RENEW_DOMAINS, {
     onCompleted: res => {
       startPending(Object.values(res)[0])
@@ -128,7 +124,8 @@ export default function Renew({
                 300,
                 'expiryDate',
                 labelsToRenew[0],
-                data
+                data,
+                'account.registrations'
               )
             }}
           />
