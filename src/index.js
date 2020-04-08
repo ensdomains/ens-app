@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom'
 import { ApolloProvider } from 'react-apollo'
 import 'core-js/es/object'
@@ -10,6 +10,7 @@ import { GlobalStateProvider } from 'globalState'
 import 'globalStyles'
 import { setupClient } from 'apolloClient'
 import { getNetworkId } from '@ensdomains/ui'
+import './i18n'
 
 window.addEventListener('load', async () => {
   let client
@@ -50,11 +51,13 @@ window.addEventListener('load', async () => {
     })
   }
   ReactDOM.render(
-    <ApolloProvider client={client}>
-      <GlobalStateProvider>
-        <App />
-      </GlobalStateProvider>
-    </ApolloProvider>,
+    <Suspense fallback={null}>
+      <ApolloProvider client={client}>
+        <GlobalStateProvider>
+          <App />
+        </GlobalStateProvider>
+      </ApolloProvider>
+    </Suspense>,
     document.getElementById('root')
   )
 })

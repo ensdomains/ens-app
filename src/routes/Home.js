@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from '@emotion/styled'
 import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import warning from '../assets/whiteWarning.svg'
 
 import mq from 'mediaQuery'
@@ -299,6 +300,7 @@ const PermanentRegistrarTitle = styled('h2')`
 
 export default ({ match }) => {
   const { url } = match
+  const { t, i18n } = useTranslation()
 
   const animation = {
     initial: {
@@ -317,7 +319,9 @@ export default ({ match }) => {
       <Hero>
         <HeroTop>
           {loading ? null : accounts.length > 0 && network ? (
-            <NetworkStatus>{network} network</NetworkStatus>
+            <NetworkStatus>
+              {network} {t('c.network')}
+            </NetworkStatus>
           ) : (
             <NoAccounts textColour={'white'} />
           )}
@@ -327,14 +331,14 @@ export default ({ match }) => {
                 active={url === '/address/' + accounts[0]}
                 to={'/address/' + accounts[0]}
               >
-                My Names
+                {t('c.mynames')}
               </NavLink>
             )}
-            <NavLink to="/favourites">Favourites</NavLink>
-            <NavLink to="/about">About</NavLink>
+            <NavLink to="/favourites">{t('c.favourites')}</NavLink>
+            <NavLink to="/about">{t('c.about')}</NavLink>
+            <div onClick={() => i18n.changeLanguage('cn')}>Change language</div>
           </Nav>
         </HeroTop>
-
         <SearchContainer>
           <>
             <LogoLarge

@@ -1,0 +1,12 @@
+{
+  "c": {
+    "network": "network",
+    "favourites": "Favourites",
+    "about": "About",
+    "mynames": "My Names"
+  },
+  "home": {},
+  "singleName": {},
+  "address": {},
+  "about": {}
+}
