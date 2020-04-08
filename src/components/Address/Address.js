@@ -2,14 +2,17 @@ import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 import { useQuery } from 'react-apollo'
 
-import { GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH } from '../../graphql/queries'
+import {
+  GET_DOMAINS_SUBGRAPH,
+  GET_REGISTRATIONS_SUBGRAPH
+} from '../../graphql/queries'
 
 import mq from 'mediaQuery'
 
 import AddressContainer from '../Basic/MainContainer'
 import DefaultTopBar from '../Basic/TopBar'
-import { Title } from '../Typography/Basic'
-import EtherScanLink from '../Links/EtherScanLink'
+import { Title as DefaultTitle } from '../Typography/Basic'
+import DefaultEtherScanLink from '../Links/EtherScanLink'
 import { getEtherScanAddr } from '../../utils/utils'
 import { calculateIsExpiredSoon } from '../../utils/dates'
 import DomainList from './DomainList'
@@ -25,6 +28,16 @@ import close from '../../assets/close.svg'
 
 const TopBar = styled(DefaultTopBar)`
   margin-bottom: 40px;
+`
+
+const Title = styled(DefaultTitle)`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
+
+const EtherScanLink = styled(DefaultEtherScanLink)`
+  min-width: 165px;
 `
 
 const Close = styled('img')`
@@ -127,10 +140,6 @@ export default function Address({
   domainType = 'registrant'
 }) {
   const normalisedAddress = normaliseAddress(address)
-  const { loading, data, error, refetch } = useQuery(
-    GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH,
-    { variables: { id: normalisedAddress } }
-  )
 
   let [showOriginBannerFlag, setShowOriginBannerFlag] = useState(true)
   let [etherScanAddr, setEtherScanAddr] = useState(null)
@@ -139,12 +148,22 @@ export default function Address({
   let [years, setYears] = useState(1)
   const [selectAll, setSelectAll] = useState(false)
 
+  const { loading, data, error, refetch } = useQuery(
+    domainType === 'registrant'
+      ? GET_REGISTRATIONS_SUBGRAPH
+      : GET_DOMAINS_SUBGRAPH,
+    { variables: { id: normalisedAddress } }
+  )
+
+  console.log(data)
+
   useEffect(() => {
     getEtherScanAddr().then(setEtherScanAddr)
   }, [])
 
   if (error) {
-    return 'Error getting domains'
+    console.log(error)
+    return <>Error getting domains. {JSON.stringify(error)}</>
   }
 
   if (loading) {
