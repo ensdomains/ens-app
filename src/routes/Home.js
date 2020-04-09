@@ -350,7 +350,7 @@ export default ({ match }) => {
               initial={animation.initial}
               animate={animation.animate}
             >
-              Permanent Registrar
+              {t('c.permanentregistrar')}
             </PermanentRegistrarLogo>
             <Search />
           </>
@@ -359,16 +359,19 @@ export default ({ match }) => {
       <Announcement>
         <h3>
           <img src={warning} alt="warning" />
-          &nbsp; Names bought in May are expiring soon.
+          &nbsp; {t('home.announcements.renew.title')}
         </h3>
         <p>
-          You can renew multiple domains in one transaction by going to your
+          {t('home.announcements.renew.body.0')}
           {accounts?.length > 0 ? (
-            <Link to={'/address/' + accounts[0]}> address page</Link>
+            <Link to={'/address/' + accounts[0]}>
+              {' '}
+              {t('home.announcements.renew.body.1')}
+            </Link>
           ) : (
             'address page'
           )}{' '}
-          or clicking 'My names' whilst logged in
+          {t('home.announcements.renew.body.2')}
         </p>
       </Announcement>
       <Explanation>
@@ -376,15 +379,11 @@ export default ({ match }) => {
           <Inner>
             <H2>
               <TextBubble color="#2B2B2B" />
-              What it is
+              {t('home.whatisens.title')}
             </H2>
-            <p>
-              The Ethereum Name Service is a distributed, open and extensible
-              naming system based on the Ethereum blockchain. ENS eliminates the
-              need to copy or type long addresses.
-            </p>
+            <p>{t('home.whatisens.body')}</p>
             <ButtonLink type="primary" to="/about">
-              Learn more
+              {t('c.learnmore')}
             </ButtonLink>
           </Inner>
         </WhatItIs>
@@ -396,15 +395,11 @@ export default ({ match }) => {
           <Inner>
             <H2>
               <QuestionMark color="#2B2B2B" />
-              How to use ENS
+              {t('home.howtouse.title')}
             </H2>
-            <p>
-              The ENS App is a Graphical User Interface for non-technical users.
-              It allows you to search any name, manage their addresses or
-              resources it points to and create subdomains for each name.
-            </p>
+            <p>{t('home.howtouse.body')}</p>
             <ButtonLink type="primary" to="/about">
-              Learn more
+              {t('c.learnmore')}
             </ButtonLink>
           </Inner>
         </HowItWorks>
@@ -412,23 +407,22 @@ export default ({ match }) => {
       <PreviousUpdates>
         <h3>
           <img src={warning} alt="warning" />
-          &nbsp; ENS Registry Migration Is Over… Now What? A Few Things to
-          Know&nbsp;
+          &nbsp; {t('home.announcements.migrationOver')}&nbsp;
           <a href="https://medium.com/the-ethereum-name-service/ens-registry-migration-is-over-now-what-a-few-things-to-know-fb05f921872a">
-            (Find out more)
+            ({t('c.learnmore')})
           </a>
         </h3>
       </PreviousUpdates>
       <PermanentRegistrar>
         <PermanentRegistrarIcon />
         <PermanentRegistrarTitle>
-          Learn about the Permanent Registrar and the migration process.
+          {t('home.permanentRegistrar.title')}
         </PermanentRegistrarTitle>
         <ExternalButtonLink
           type="hollow-white"
           href="https://docs.ens.domains/permanent-registrar-faq"
         >
-          Learn more
+          {t('c.learnmore')}
         </ExternalButtonLink>
       </PermanentRegistrar>
     </>

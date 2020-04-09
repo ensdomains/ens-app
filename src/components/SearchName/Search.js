@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
+import { useTranslation } from 'react-i18next'
+
 import { parseSearchTerm } from '../../utils/utils'
 import '../../api/subDomainRegistrar'
 import { withRouter } from 'react-router'
@@ -69,6 +71,7 @@ const SearchForm = styled('form')`
 `
 
 function Search({ history, className, style }) {
+  const { t } = useTranslation()
   const [type, setType] = useState(null)
   //const [filterOpen, setFilterOpen] = useState(false)
   let input
@@ -105,7 +108,7 @@ function Search({ history, className, style }) {
       }}
     >
       <input
-        placeholder="Search names or addresses"
+        placeholder={t('search.placeholder')}
         ref={el => (input = el)}
         onChange={handleParse}
       />
@@ -116,7 +119,7 @@ function Search({ history, className, style }) {
           }
         /> */}
       {/* <Filters show={filterOpen} /> */}
-      <button type="submit">Search</button>
+      <button type="submit">{t('search.button')}</button>
     </SearchForm>
   )
 }

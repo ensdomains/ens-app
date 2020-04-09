@@ -3,10 +3,53 @@
     "network": "network",
     "favourites": "Favourites",
     "about": "About",
-    "mynames": "My Names"
+    "mynames": "My Names",
+    "learnmore": "Learn More",
+    "permanentregistrar": "Permanent Registrar"
   },
-  "home": {},
+  "home": {
+    "whatisens": {
+      "title": "What it is",
+      "body": "The Ethereum Name Service is a distributed, open and extensible naming system based on the Ethereum blockchain. ENS eliminates the need to copy or type long addresses."
+    },
+    "howtouse": {
+      "title": "How to use ENS",
+      "body": "The ENS App is a Graphical User Interface for non-technical users. It allows you to search any name, manage their addresses or resources it points to and create subdomains for each name."
+    },
+    "graphics": {
+      "search": {
+        "title": "Search for names"
+      },
+      "favourites": {
+        "title": "Save favourite names"
+      },
+      "register": {
+        "title": "Register names"
+      },
+      "manage": {
+        "title": "Manage names"
+      }
+    },
+    "announcements": {
+      "renew": {
+        "title": "Names bought in May are expiring soon.",
+        "body": [
+          "You can renew multiple domains in one transaction by going to your",
+          "address page",
+          "or clicking 'My names' whilst logged in"
+        ]
+      },
+      "migrationOver": "ENS Registry Migration Is Over… Now What? A Few Things to Know"
+    },
+    "permanentRegistrar": {
+      "title": "Learn about the Permanent Registrar and the migration process."
+    }
+  },
   "singleName": {},
   "address": {},
-  "about": {}
+  "about": {},
+  "search": {
+    "button": "Search",
+    "placeholder": "Search names or addresses"
+  }
 }
