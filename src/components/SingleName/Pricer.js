@@ -42,7 +42,6 @@ function PricerInner({
   price,
   reference
 }) {
-  console.log(price ? price?.toNumber() : price)
   return (
     <PricingContainer className={className} ref={reference}>
       <Years years={years} setYears={setYears} />
