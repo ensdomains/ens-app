@@ -5,7 +5,23 @@
     "about": "About",
     "mynames": "My Names",
     "learnmore": "Learn More",
-    "permanentregistrar": "Permanent Registrar"
+    "search": "Search",
+    "permanentregistrar": "Permanent Registrar",
+    "Registrant": "Registrant",
+    "Controller": "Controller",
+    "Expiration Date": "Expiration Date",
+    "parent": "parent",
+    "Resolver": "Resolver",
+    "contenthash": "Content",
+    "otheraddresses": "Other Addresses",
+    "textrecord": "Text Record",
+    "renew": "Renew",
+    "transfer": "Transfer",
+    "set": "Set",
+    "address": "Address",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit"
   },
   "home": {
     "whatisens": {
@@ -45,7 +61,28 @@
       "title": "Learn about the Permanent Registrar and the migration process."
     }
   },
-  "singleName": {},
+  "singleName": {
+    "tabs": {
+      "register": "Register",
+      "details": "Details",
+      "subdomains": "Subdomains"
+    },
+    "learnmore": {
+      "title": "Learn how to manage your name.",
+      "step1": {
+        "title": "1. Set Resolver",
+        "text": "The Resolver is a Smart Contract responsible for the process of translating names into addresses. In the Resolver area click ‘Set’. Then click the ‘use public resolver’ link, and ‘save’ to launch the transaction."
+      },
+      "step2": {
+        "title": "2. Set Address",
+        "text": "Once you have set the Resolver, you can then add records by clicking the ‘+’ in the ‘records’ field. Adding your ethereum address will allow you to point your wallet to your name in the next step."
+      },
+      "step3": {
+        "title": "3. Set Reverse Record",
+        "text": "Once you set your address, you will see a message saying the reverse pointer is not set. Click the arrow in the field to expand, then click the button ‘save’. This will translate your address into your new name."
+      }
+    }
+  },
   "address": {},
   "about": {},
   "search": {

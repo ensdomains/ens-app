@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useQuery } from 'react-apollo'
+import { useTranslation } from 'react-i18next'
 import styled from '@emotion/styled'
 import { Link, Route } from 'react-router-dom'
 import mq from 'mediaQuery'
@@ -198,6 +199,7 @@ function DetailsContainer({
   loadingIsParentMigrated,
   duringMigration
 }) {
+  const { t } = useTranslation()
   return (
     <Details data-testid="name-details">
       {isOwner && !duringMigration && (
@@ -221,7 +223,7 @@ function DetailsContainer({
         )}
       {domain.parent && (
         <DetailsItem uneditable>
-          <DetailsKey>Parent</DetailsKey>
+          <DetailsKey>{t('c.parent')}</DetailsKey>
           <DetailsValue>
             <Link to={`/name/${domain.parent}`}>{domain.parent}</Link>
           </DetailsValue>
@@ -260,7 +262,7 @@ function DetailsContainer({
         ) : domain.parent === 'eth' && !domain.isNewRegistrar ? (
           <>
             <DetailsItem uneditable>
-              <DetailsKey>Registrant</DetailsKey>
+              <DetailsKey>{t('c.registrant')}</DetailsKey>
               <DetailsValue>
                 <AddressLink address={domain.deedOwner}>
                   <SingleNameBlockies
@@ -288,7 +290,9 @@ function DetailsContainer({
           </>
         ) : domain.isDNSRegistrar ? (
           <DetailsItem uneditable>
-            <DetailsKey>Controller {isOwner ? <You /> : ''}</DetailsKey>
+            <DetailsKey>
+              {t('c.controller')} {isOwner ? <You /> : ''}
+            </DetailsKey>
             <DetailsValue>
               <AddressLink address={domain.owner}>
                 {outOfSync ? (
@@ -485,7 +489,7 @@ function DetailsContainer({
             />
           ) : domain.expiryTime ? (
             <DetailsItem uneditable>
-              <DetailsKey>Expiration Date</DetailsKey>
+              <DetailsKey>{t("c['Expiration Date']")}</DetailsKey>
               <ExpirationDetailsValue
                 isExpired={domain.expiryTime < new Date()}
               >

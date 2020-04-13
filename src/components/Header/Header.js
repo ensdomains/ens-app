@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
+import { useTranslation } from 'react-i18next'
 
 import mq, { useMediaMin, useMediaMax } from 'mediaQuery'
 
@@ -68,6 +69,7 @@ const Logo = styled(DefaultLogo)`
 `
 
 function HeaderContainer() {
+  const { i18n } = useTranslation()
   const [isMenuOpen, setMenuOpen] = useState(false)
   const mediumBP = useMediaMin('medium')
   const mediumBPMax = useMediaMax('medium')
@@ -82,6 +84,7 @@ function HeaderContainer() {
         ) : (
           <Hamburger isMenuOpen={isMenuOpen} openMenu={toggleMenu} />
         )}
+        <div onClick={() => i18n.changeLanguage('cn')}>Change language</div>
       </Header>
       {mediumBPMax && (
         <>

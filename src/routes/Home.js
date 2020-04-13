@@ -300,7 +300,7 @@ const PermanentRegistrarTitle = styled('h2')`
 
 export default ({ match }) => {
   const { url } = match
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
 
   const animation = {
     initial: {
@@ -336,7 +336,6 @@ export default ({ match }) => {
             )}
             <NavLink to="/favourites">{t('c.favourites')}</NavLink>
             <NavLink to="/about">{t('c.about')}</NavLink>
-            <div onClick={() => i18n.changeLanguage('cn')}>Change language</div>
           </Nav>
         </HeroTop>
         <SearchContainer>

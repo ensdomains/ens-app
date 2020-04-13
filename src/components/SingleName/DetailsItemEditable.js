@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
+import { useTranslation } from 'react-i18next'
 import { Mutation, Query } from 'react-apollo'
 import PropTypes from 'prop-types'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -261,6 +262,7 @@ const Editable = ({
   refetch,
   confirm
 }) => {
+  const { t } = useTranslation()
   const { state, actions } = useEditable()
   const [presetValue, setPresetValue] = useState('')
 
@@ -304,7 +306,7 @@ const Editable = ({
           <DetailsContent editing={editing}>
             {showLabel && (
               <>
-                <DetailsKey>{keyName}</DetailsKey>
+                <DetailsKey>{t(`c.${keyName}`)}</DetailsKey>
                 <DetailsValue
                   editing={editing}
                   editable
@@ -497,6 +499,7 @@ function ViewOnly({
   isDeedOwner,
   domain
 }) {
+  const { t } = useTranslation()
   //get default messages for 0x values
   if (parseInt(value, 16) === 0) {
     let [newValue, newType] = getMessages({
@@ -512,7 +515,7 @@ function ViewOnly({
   return (
     <DetailsEditableContainer>
       <DetailsContent>
-        <DetailsKey>{keyName}</DetailsKey>
+        <DetailsKey>{t(`c.${keyName}`)}</DetailsKey>
         <DetailsValue data-testid={`details-value-${keyName.toLowerCase()}`}>
           {type === 'address' ? (
             <AddressLink address={value}>

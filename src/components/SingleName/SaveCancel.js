@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from '@emotion/styled'
 import Button from '../Forms/Button'
 import GlobalState from '../../globalState'
@@ -84,25 +85,28 @@ const SaveCancel = React.forwardRef(
       isValid = true
     },
     ref
-  ) => (
-    <SaveCancelContainer className={className} ref={ref}>
-      {warningMessage ? <Warning>{warningMessage}</Warning> : null}
-      <Cancel data-testid="cancel" type="hollow" onClick={stopEditing}>
-        Cancel
-      </Cancel>
-      <ActionButton
-        disabled={disabled}
-        mutation={mutation}
-        mutationButton={mutationButton}
-        value={value}
-        newValue={newValue}
-        confirm={confirm}
-        isValid={isValid}
-        extraDataComponent={extraDataComponent}
-        data-testid="action"
-      />
-    </SaveCancelContainer>
-  )
+  ) => {
+    const { t } = useTranslation()
+    return (
+      <SaveCancelContainer className={className} ref={ref}>
+        {warningMessage ? <Warning>{warningMessage}</Warning> : null}
+        <Cancel data-testid="cancel" type="hollow" onClick={stopEditing}>
+          {t(`c.cancel`)}
+        </Cancel>
+        <ActionButton
+          disabled={disabled}
+          mutation={mutation}
+          mutationButton={mutationButton}
+          value={value}
+          newValue={newValue}
+          confirm={confirm}
+          isValid={isValid}
+          extraDataComponent={extraDataComponent}
+          data-testid="action"
+        />
+      </SaveCancelContainer>
+    )
+  }
 )
 
 export default SaveCancel

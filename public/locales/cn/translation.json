@@ -6,7 +6,21 @@
     "mynames": "我的域名",
     "learnmore": "了解更多",
     "search": "查询",
-    "permanentregistrar": "永久注册器"
+    "permanentregistrar": "永久注册器",
+    "Registrant": "注册人",
+    "Controller": "管理员",
+    "Expiration Date": "到期时间",
+    "parent": "父域名",
+    "Resolver": "解析器",
+    "contenthash": "内容哈希",
+    "otheraddresses": "其他地址",
+    "textrecord": "文本记录",
+    "renew": "更新",
+    "transfer": "转让",
+    "set": "设置",
+    "address": "以太坊地址",
+    "save": "保存",
+    "cancel": "取消"
   },
   "home": {
     "whatisens": {

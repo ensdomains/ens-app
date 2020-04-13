@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import { useQuery } from 'react-apollo'
+import { useTranslation } from 'react-i18next'
 
 import {
   SET_RESOLVER,
@@ -250,6 +251,7 @@ export default function ResolverAndRecords({
   isMigratedToNewRegistry,
   duringMigration
 }) {
+  const { t } = useTranslation()
   const hasResolver = hasAResolver(domain.resolver)
   let isOldPublicResolver = false
   let isDeprecatedResolver = false
@@ -295,8 +297,8 @@ export default function ResolverAndRecords({
             value={domain.resolver}
             canEdit={isOwner && isMigratedToNewRegistry}
             domain={domain}
-            editButton="Set"
-            mutationButton="Save"
+            editButton={t(`c.set`)}
+            mutationButton={t(`c.save`)}
             mutation={SET_RESOLVER}
             refetch={refetch}
             account={account}
@@ -318,9 +320,9 @@ export default function ResolverAndRecords({
                 value={domain.resolver}
                 canEdit={isOwner && isMigratedToNewRegistry}
                 domain={domain}
-                editButton="Set"
+                editButton={t('c.set')}
                 editButtonType="hollow-primary"
-                mutationButton="Save"
+                mutationButton={t('c.save')}
                 backgroundStyle="warning"
                 mutation={SET_RESOLVER}
                 refetch={refetch}
