@@ -111,6 +111,7 @@ function Records({
   needsToBeMigrated,
   duringMigration
 }) {
+  const { t } = useTranslation()
   const [recordAdded, setRecordAdded] = useState(0)
 
   const emptyRecords = RECORDS.filter(record => {
@@ -191,7 +192,7 @@ function Records({
             recordAdded={recordAdded}
             mutation={SET_ADDR}
             query={GET_ADDR}
-            title="Other Addresses"
+            title={t('c.otheraddresses')}
           />
           <TextRecord
             canEdit={canEditRecords}
@@ -199,7 +200,7 @@ function Records({
             recordAdded={recordAdded}
             mutation={SET_TEXT}
             query={GET_TEXT}
-            title="Text Record"
+            title={t('c.textrecord')}
           />
         </>
       )}

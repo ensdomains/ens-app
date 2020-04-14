@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import { Mutation } from 'react-apollo'
+import { useTranslation } from 'react-i18next'
 import DefaultAddressInput from '@ensdomains/react-ens-address'
 
 import { validateRecord } from 'utils/records'
@@ -138,6 +139,7 @@ const RecordItemEditable = ({
   variableName,
   account
 }) => {
+  const { t } = useTranslation()
   const { state, actions } = useEditable()
 
   const { editing, newValue, txHash, pending, confirmed } = state
@@ -167,7 +169,7 @@ const RecordItemEditable = ({
         {mutation => (
           <RecordsItem editing={editing} hasRecord={true}>
             <RecordsContent editing={editing}>
-              <RecordsKey>{keyName}</RecordsKey>
+              <RecordsKey>{t(`c.${keyName}`)}</RecordsKey>
               <RecordsValue editableSmall>
                 {type === 'address' ? (
                   <AddressLink address={value}>{value}</AddressLink>

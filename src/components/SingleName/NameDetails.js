@@ -238,8 +238,8 @@ function DetailsContainer({
               value={domain.registrant}
               canEdit={isRegistrant}
               type="address"
-              editButton="Transfer"
-              mutationButton="Transfer"
+              editButton={t('c.transfer')}
+              mutationButton={t('c.transfer')}
               mutation={SET_REGISTRANT}
               refetch={refetch}
               confirm={true}
@@ -252,8 +252,8 @@ function DetailsContainer({
               deedOwner={domain.deedOwner}
               isDeedOwner={isDeedOwner}
               type="address"
-              editButton={isRegistrant ? 'Set' : 'Transfer'}
-              mutationButton={isRegistrant ? 'Set' : 'Transfer'}
+              editButton={isRegistrant ? t('c.set') : t('c.transfer')}
+              mutationButton={isRegistrant ? t('c.set') : t('c.transfer')}
               mutation={isRegistrant ? RECLAIM : SET_OWNER}
               refetch={refetch}
               confirm={true}
@@ -281,8 +281,8 @@ function DetailsContainer({
               deedOwner={domain.deedOwner}
               isDeedOwner={isDeedOwner}
               type="address"
-              editButton={isRegistrant ? 'Set' : 'Transfer'}
-              mutationButton={isRegistrant ? 'Set' : 'Transfer'}
+              editButton={isRegistrant ? t('c.set') : t('c.transfer')}
+              mutationButton={isRegistrant ? t('c.set') : t('c.transfer')}
               mutation={isRegistrant ? RECLAIM : SET_OWNER}
               refetch={refetch}
               confirm={true}
@@ -481,8 +481,8 @@ function DetailsContainer({
               }
               canEdit={parseInt(account, 16) !== 0 && isMigratedToNewRegistry}
               type="date"
-              editButton="Renew"
-              mutationButton="Renew"
+              editButton={t('c.renew')}
+              mutationButton={t('c.renew')}
               mutation={RENEW}
               refetch={refetch}
               confirm={true}
