@@ -89,39 +89,23 @@ const HowToUse = ({ text = false, className }) => {
       <Icons className="icons">
         <Icon
           src={search}
-          title={t('home.graphics.search.title')}
-          text={
-            text
-              ? 'Find domains and subdomains that you can register or learn more about.'
-              : ''
-          }
+          title={t('howtouse.search.title')}
+          text={text ? t('howtouse.search.text') : ''}
         />
         <Icon
           src={favourite}
-          title={t('home.graphics.favourite.title')}
-          text={
-            text
-              ? 'Keep track of domains and subdomains that you own or that you want to follow.'
-              : ''
-          }
+          title={t('howtouse.favourite.title')}
+          text={text ? t('howtouse.favourite.text') : ''}
         />
         <Icon
           src={register}
-          title={t('home.graphics.register.title')}
-          text={
-            text
-              ? 'Register .eth names for $5/year. Renew or cancel your name registration at any time.'
-              : ''
-          }
+          title={t('howtouse.register.title')}
+          text={text ? t('howtouse.register.text') : ''}
         />
         <Icon
           src={manage}
-          title={t('home.graphics.manage.title')}
-          text={
-            text
-              ? 'Point domains to your ethereum addresses, transfer ownership to other people and more.'
-              : ''
-          }
+          title={t('howtouse.manage.title')}
+          text={text ? t('howtouse.manage.text') : ''}
         />
       </Icons>
     </HowToUseContainer>
