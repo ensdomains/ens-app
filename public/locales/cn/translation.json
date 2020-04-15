@@ -82,7 +82,25 @@
       }
     }
   },
-  "address": {},
+  "address": {
+    "etherscanButton": "View on EtherScan",
+    "filter": {
+      "registrant": "注册人",
+      "controller": "管理员"
+    },
+    "sort": {
+      "alphabetical": "按字母顺序",
+      "expiry": "到期时间"
+    },
+    "renew": {
+      "button": "Renew Selected"
+    },
+    "namesExpiringSoonBanner": {
+      "title": "Names in May are expiring soon",
+      "text": "One of more names are expiring soon, renew them all in one transaction!"
+    },
+    "transactionBanner": "You are here because of a transaction we sent you or a referrer from another site. You have names below that need to be renewed soon!"
+  },
   "about": {
     "elevatorpitch": "以太坊名称服务（Ethereum Name Service）是一个基于以太坊区块链的分布式、开放和可扩展的命名系统。 ENS 域名让人们没有必要再复制或输入冗长的区块链地址。",
     "subtitles": [

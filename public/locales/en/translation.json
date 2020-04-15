@@ -69,7 +69,25 @@
       }
     }
   },
-  "address": {},
+  "address": {
+    "etherscanButton": "View on EtherScan",
+    "filter": {
+      "registrant": "Registrant",
+      "controller": "Controller"
+    },
+    "sort": {
+      "alphabetical": "Alphabetical",
+      "expiry": "Expiry Date"
+    },
+    "renew": {
+      "button": "Renew Selected"
+    },
+    "namesExpiringSoonBanner": {
+      "title": "Names in May are expiring soon",
+      "text": "One of more names are expiring soon, renew them all in one transaction!"
+    },
+    "transactionBanner": "You are here because of a transaction we sent you or a referrer from another site. You have names below that need to be renewed soon!"
+  },
   "about": {
     "elevatorpitch": "The Ethereum Name Service is a distributed, open and extensible naming system based on the Ethereum blockchain. ENS eliminates the need to copy or type long addresses.",
     "subtitles": [

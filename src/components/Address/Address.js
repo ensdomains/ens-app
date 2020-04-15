@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 import { useQuery } from 'react-apollo'
+import { useTranslation } from 'react-i18next'
 
 import {
   GET_DOMAINS_SUBGRAPH,
@@ -141,6 +142,7 @@ export default function Address({
 }) {
   const normalisedAddress = normaliseAddress(address)
 
+  let { t } = useTranslation()
   let [showOriginBannerFlag, setShowOriginBannerFlag] = useState(true)
   let [etherScanAddr, setEtherScanAddr] = useState(null)
   let [activeSort, setActiveSort] = useState('alphabetical')
@@ -210,19 +212,15 @@ export default function Address({
       {showOriginBanner && showOriginBannerFlag && (
         <Banner>
           <Close onClick={() => setShowOriginBannerFlag(false)} src={close} />
-          You are here because of a transaction we sent you. This transaction
-          was to remind you to renew your ENS names below.
+          {t('address.transactionBanner')}
         </Banner>
       )}
       {hasNamesExpiringSoon && (
         <Banner>
           <h3>
             <img alt="exclamation mark" src={warning} />
-            &nbsp; Names in May are expiring soon
-            <p>
-              One of more names are expiring soon, renew them all in one
-              transaction!
-            </p>
+            &nbsp; {t('address.namesExpiringSoonBanner.title')}
+            <p>{t('address.namesExpiringSoonBanner.text')}</p>
           </h3>
         </Banner>
       )}
@@ -235,7 +233,7 @@ export default function Address({
               target="_blank"
               href={`${etherScanAddr}/address/${address}`}
             >
-              View on EtherScan
+              {t('address.etherscanButton')}
             </EtherScanLink>
           )}
         </TopBar>

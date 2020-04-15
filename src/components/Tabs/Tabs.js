@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from '@emotion/styled'
 
 export const Tab = styled('div')`
@@ -15,10 +16,17 @@ export const Tab = styled('div')`
   }
 `
 
-export const Tabs = styled('div')`
-  display: flex;
+export const TabsContainer = styled('div')`
+  display: inline-flex;
   justify-content: flex-start;
-  width: 240px;
   border: 1px solid #dfdfdf;
   border-radius: 90px;
 `
+
+export const Tabs = props => {
+  return (
+    <div>
+      <TabsContainer>{props.children}</TabsContainer>
+    </div>
+  )
+}

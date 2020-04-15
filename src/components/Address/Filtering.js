@@ -1,5 +1,7 @@
 import React from 'react'
 import { useHistory } from 'react-router'
+import { useTranslation } from 'react-i18next'
+
 import { Tab, Tabs } from '../Tabs'
 
 function getBaseUrl(url) {
@@ -15,6 +17,7 @@ export default function Filtering({
   className,
   url
 }) {
+  let { t } = useTranslation()
   const history = useHistory()
   const baseUrl = getBaseUrl(url)
   return (
@@ -23,7 +26,7 @@ export default function Filtering({
         active={activeFilter === 'registrant'}
         onClick={() => history.push(`${baseUrl}/registrant`)}
       >
-        Registrant
+        {t('address.filter.registrant')}
       </Tab>
       <Tab
         active={activeFilter === 'controller'}
@@ -32,7 +35,7 @@ export default function Filtering({
           setActiveSort('alphabetical')
         }}
       >
-        Controller
+        {t('address.filter.controller')}
       </Tab>
     </Tabs>
   )

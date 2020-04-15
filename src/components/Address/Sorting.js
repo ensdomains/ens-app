@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import { useTranslation } from 'react-i18next'
 
 const SortContainer = styled('ul')`
   list-style: none;
@@ -28,6 +29,7 @@ export default function Sorting({
   activeFilter,
   className
 }) {
+  let { t } = useTranslation()
   return (
     <SortContainer className={className}>
       <SortButton
@@ -47,7 +49,7 @@ export default function Sorting({
           }
         }}
       >
-        Alphabetical
+        {t('address.sort.alphabetical')}
       </SortButton>
       {activeFilter === 'registrant' && (
         <SortButton
@@ -67,7 +69,7 @@ export default function Sorting({
             }
           }}
         >
-          Expiry Date
+          {t('address.sort.expiry')}
         </SortButton>
       )}
     </SortContainer>
