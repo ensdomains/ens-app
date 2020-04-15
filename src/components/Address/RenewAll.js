@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useMutation } from 'react-apollo'
 import { motion, AnimatePresence } from 'framer-motion'
 import styled from '@emotion/styled'
+import { useTranslation } from 'react-i18next'
 import { get } from 'lodash'
 
 import { RENEW_DOMAINS } from '../../graphql/mutations'
@@ -94,6 +95,7 @@ export default function Renew({
   refetch,
   data
 }) {
+  let { t } = useTranslation()
   const { state, actions } = useEditable()
 
   const { editing, txHash, pending, confirmed } = state
@@ -136,7 +138,7 @@ export default function Renew({
             }}
             type={labelsToRenew.length > 0 ? 'primary' : 'disabled'}
           >
-            Renew Selected
+            {t('address.renew.button')}
           </RenewSelected>
         )
       ) : null}
@@ -175,13 +177,16 @@ export default function Renew({
                 isValid={isValid(selectedNames)}
                 extraDataComponent={
                   <ConfirmationList>
-                    The following names:{'\n'}
+                    {t('address.renew.confirm.0')}
+                    {'\n'}
                     <ul>
                       {selectedNames.map(name => (
                         <li>{name}</li>
                       ))}
                     </ul>
-                    will be renewed for {years} {years > 1 ? 'years' : 'year'}
+                    {t('address.renew.confirm.1')} {years}{' '}
+                    {t('address.renew.year')}
+                    {years > 1 ? 's' : ''}
                   </ConfirmationList>
                 }
               />

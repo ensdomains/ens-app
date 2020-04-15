@@ -10,6 +10,7 @@
     "Registrant": "注册人",
     "Controller": "管理员",
     "Expiration Date": "到期时间",
+    "expires": "到期",
     "parent": "父域名",
     "Resolver": "解析器",
     "Address": "以太坊地址",
@@ -93,7 +94,9 @@
       "expiry": "到期时间"
     },
     "renew": {
-      "button": "Renew Selected"
+      "button": "更新已勾选项目",
+      "confirm": ["The following names:", "will be renewed for "],
+      "year": "year"
     },
     "namesExpiringSoonBanner": {
       "title": "Names in May are expiring soon",
@@ -153,5 +156,8 @@
   "search": {
     "button": "查询",
     "placeholder": "输入域名或地址"
+  },
+  "childDomainItem": {
+    "notmigrated": "暂未迁移"
   }
 }

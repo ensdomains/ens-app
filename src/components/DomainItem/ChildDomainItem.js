@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+
 import { SingleNameBlockies } from '../SingleName/SingleNameBlockies'
 import { formatDate, calculateIsExpiredSoon } from 'utils/dates'
 import Checkbox from '../Forms/Checkbox'
@@ -68,12 +70,14 @@ export default function ChildDomainItem({
   setCheckedBoxes,
   setSelectAll
 }) {
+  let { t } = useTranslation()
   const smallBP = useMediaMin('small')
   let label =
     labelName !== null
       ? `${name}`
       : `[unknown${labelhash.slice(2, 10)}].${parent}`
-  if (isMigrated === false) label = label + ' (not migrated)'
+  if (isMigrated === false)
+    label = label + ` (${t('childDomainItem.notmigrated')})`
   const isExpiredSoon = calculateIsExpiredSoon(expiryDate)
   return (
     <DomainLink
@@ -86,7 +90,7 @@ export default function ChildDomainItem({
       <h3>{label}</h3>
       {expiryDate && (
         <ExpiryDate isExpiredSoon={isExpiredSoon}>
-          Expires {formatDate(parseInt(expiryDate * 1000))}
+          {t('c.expires')} {formatDate(parseInt(expiryDate * 1000))}
         </ExpiryDate>
       )}
       {checkedBoxes && labelName !== null && (

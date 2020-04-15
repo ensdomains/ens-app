@@ -10,6 +10,7 @@
     "Registrant": "Registrant",
     "Controller": "Controller",
     "Expiration Date": "Expiration Date",
+    "expires": "Expires",
     "parent": "parent",
     "Resolver": "Resolver",
     "Address": "Address",
@@ -80,7 +81,9 @@
       "expiry": "Expiry Date"
     },
     "renew": {
-      "button": "Renew Selected"
+      "button": "Renew Selected",
+      "confirm": ["The following names:", "will be renewed for "],
+      "year": "year"
     },
     "namesExpiringSoonBanner": {
       "title": "Names in May are expiring soon",
@@ -145,5 +148,8 @@
   "search": {
     "button": "Search",
     "placeholder": "Search names or addresses"
+  },
+  "childDomainItem": {
+    "notmigrated": "not migrated"
   }
 }
