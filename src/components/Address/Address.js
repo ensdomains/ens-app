@@ -155,8 +155,6 @@ export default function Address({
     { variables: { id: normalisedAddress } }
   )
 
-  console.log(data)
-
   useEffect(() => {
     getEtherScanAddr().then(setEtherScanAddr)
   }, [])
@@ -173,13 +171,17 @@ export default function Address({
   let domains = []
 
   if (domainType === 'registrant') {
-    domains = [...data.account.registrations?.sort(getSortFunc(activeSort))]
+    if (data.account) {
+      domains = [...data.account.registrations?.sort(getSortFunc(activeSort))]
+    }
   } else if (domainType === 'controller') {
-    domains = [
-      ...filterOutReverse(data.account.domains)
-        .map(domain => ({ domain }))
-        .sort(getSortFunc(activeSort))
-    ]
+    if (data.account) {
+      domains = [
+        ...filterOutReverse(data.account.domains)
+          .map(domain => ({ domain }))
+          .sort(getSortFunc(activeSort))
+      ]
+    }
   }
 
   const selectedNames = Object.entries(checkedBoxes)
