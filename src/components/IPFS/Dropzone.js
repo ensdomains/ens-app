@@ -64,7 +64,7 @@ const Dropzone = (props) => {
     for (let i = 0; i < list.length; i++) {
       const item = {
         path: `${list.item(i).webkitRelativePath}`,
-        content: list.item(i)
+        content: list.item(i),
       }
       array.push(item)
     }
