@@ -181,7 +181,7 @@ function AddressRecordInput({
   selectedKey,
   setSelectedKey,
   isValid,
-  isInvalid
+  isInvalid,
 }) {
   return (
     <>
