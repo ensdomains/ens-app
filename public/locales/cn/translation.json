@@ -96,7 +96,8 @@
     "renew": {
       "button": "更新已勾选项目",
       "confirm": ["The following names:", "will be renewed for "],
-      "year": "year"
+      "year": "{{count}} 年",
+      "year_plural": "{{count}} 年"
     },
     "namesExpiringSoonBanner": {
       "title": "Names in May are expiring soon",

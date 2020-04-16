@@ -184,9 +184,8 @@ export default function Renew({
                         <li>{name}</li>
                       ))}
                     </ul>
-                    {t('address.renew.confirm.1')} {years}{' '}
-                    {t('address.renew.year')}
-                    {years > 1 ? 's' : ''}
+                    {t('address.renew.confirm.1')}
+                    {t('address.renew.year', { count: years })}
                   </ConfirmationList>
                 }
               />

@@ -83,7 +83,8 @@
     "renew": {
       "button": "Renew Selected",
       "confirm": ["The following names:", "will be renewed for "],
-      "year": "year"
+      "year": "{{count}} year",
+      "year_plural": "{{count}} years"
     },
     "namesExpiringSoonBanner": {
       "title": "Names in May are expiring soon",
@@ -151,5 +152,7 @@
   },
   "childDomainItem": {
     "notmigrated": "not migrated"
-  }
+  },
+  "pricer": {},
+  "register": {}
 }
