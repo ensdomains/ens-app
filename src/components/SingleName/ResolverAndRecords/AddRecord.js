@@ -10,7 +10,7 @@ import {
   SET_CONTENTHASH,
   SET_ADDRESS,
   SET_ADDR,
-  SET_TEXT,
+  SET_TEXT
 } from '../../../graphql/mutations'
 import { getOldContentWarning } from './warnings'
 import TEXT_RECORD_KEYS from 'constants/textRecords'
@@ -114,6 +114,7 @@ const UploadBtn = styled(Button)`
   flex-direction: row;
   margin-bottom: 5px;
   width: 100%;
+  background: #5284ff;
   ${mq.small`
     margin-left: 20px;
     margin-bottom: 20px;
@@ -147,7 +148,7 @@ function TextRecordInput({
   selectedKey,
   setSelectedKey,
   isValid,
-  isInvalid,
+  isInvalid
 }) {
   return (
     <>
@@ -156,9 +157,9 @@ function TextRecordInput({
         handleChange={setSelectedKey}
         placeholder="Key"
         addNewKey={true}
-        options={TEXT_RECORD_KEYS.map((key) => ({
+        options={TEXT_RECORD_KEYS.map(key => ({
           label: key,
-          value: key,
+          value: key
         }))}
       />
       <DetailsItemInput
@@ -180,7 +181,7 @@ function AddressRecordInput({
   selectedKey,
   setSelectedKey,
   isValid,
-  isInvalid,
+  isInvalid
 }) {
   return (
     <>
@@ -188,9 +189,9 @@ function AddressRecordInput({
         selectedRecord={selectedKey}
         handleChange={setSelectedKey}
         placeholder="Coin"
-        options={COIN_LIST.map((key) => ({
+        options={COIN_LIST.map(key => ({
           label: key,
-          value: key,
+          value: key
         }))}
       />
       <DetailsItemInput
@@ -210,11 +211,11 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
   const [selectedKey, setSelectedKey] = useState(null)
   const { state, actions } = useEditable()
 
-  const handleChange = (selectedRecord) => {
+  const handleChange = selectedRecord => {
     selectRecord(selectedRecord)
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault()
   }
 
@@ -225,7 +226,7 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
     newValue,
     txHash,
     pending,
-    confirmed,
+    confirmed
   } = state
 
   const {
@@ -237,14 +238,14 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
     stopAuthorizing,
     updateValue,
     startPending,
-    setConfirmed,
+    setConfirmed
   } = actions
 
   const isValid = validateRecord({
     type: selectedRecord && selectedRecord.value ? selectedRecord.value : null,
     value: newValue,
     contentType: domain.contentType,
-    selectedKey: selectedKey && selectedKey.value,
+    selectedKey: selectedKey && selectedKey.value
   })
 
   const isInvalid = newValue !== '' && !isValid
@@ -373,13 +374,13 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
               variables={{
                 name: domain.name,
                 recordValue: newValue,
-                key: selectedKey && selectedKey.value,
+                key: selectedKey && selectedKey.value
               }}
-              onCompleted={(data) => {
+              onCompleted={data => {
                 startPending(Object.values(data)[0])
               }}
             >
-              {(mutate) => (
+              {mutate => (
                 <>
                   {uploading &&
                   authorized &&
@@ -389,7 +390,7 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
                         selectedRecord.value,
                         domain.contentType
                       )}
-                      mutation={(e) => {
+                      mutation={e => {
                         e.preventDefault()
                         mutate().then(() => {
                           refetch()
@@ -412,7 +413,7 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
                         stopEditing()
                         selectRecord(null)
                       }}
-                      mutation={(e) => {
+                      mutation={e => {
                         e.preventDefault()
                         mutate().then(() => {
                           refetch()

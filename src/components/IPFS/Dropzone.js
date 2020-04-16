@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import Button from '../Forms/Button'
+import mq from 'mediaQuery'
 
 const FileUpload = styled('div')`
   display: flex;
@@ -10,23 +12,18 @@ const FileUpload = styled('div')`
   margin-bottom 10px;
 `
 
-const UploadButton = styled('button')`
-  color: rgb(187, 186, 186);
-  border: solid;
-  background-color: white;
-  padding: 8px 20px;
-  font-size: 20px;
-  font-weight: bold;
-  :hover {
-    background: #2c46a6;
-    color: white;
-  }
-  :focus {
-    border-color: #2c46a6;
-  }
+const UploadButton = styled(Button)`
+  flex-direction: row;
+  margin-bottom: 5px;
+  width: 100%;
+  background: #5284ff;
+  ${mq.small`
+    margin-left: 20px;
+    max-width: 175px;
+  `}
 `
 
-const Dropzone = (props) => {
+const Dropzone = props => {
   const fileInputRef = React.createRef()
   const folderInputRef = React.createRef()
 
@@ -40,7 +37,7 @@ const Dropzone = (props) => {
     folderInputRef.current.click()
   }
 
-  const onFilesAdded = (e) => {
+  const onFilesAdded = e => {
     if (props.disabled) return
     const files = e.target.files
     if (props.sendRequest) {
@@ -54,7 +51,7 @@ const Dropzone = (props) => {
     }
   }
 
-  const fileListToArray = (list) => {
+  const fileListToArray = list => {
     const array = []
     for (let i = 0; i < list.length; i++) {
       array.push(list.item(i))
@@ -62,12 +59,12 @@ const Dropzone = (props) => {
     return array
   }
 
-  const directoryListToArray = (list) => {
+  const directoryListToArray = list => {
     const array = []
     for (let i = 0; i < list.length; i++) {
       const item = {
         path: `${list.item(i).webkitRelativePath}`,
-        content: list.item(i),
+        content: list.item(i)
       }
       array.push(item)
     }
