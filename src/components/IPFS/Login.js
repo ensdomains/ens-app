@@ -93,7 +93,7 @@ const Button = styled('input')`
   }
 `
 
-const IpfsLogin = (props) => {
+const IpfsLogin = props => {
   const [signupForm, setSignupForm] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
   const [username, setUsername] = useState('')
@@ -113,7 +113,7 @@ const IpfsLogin = (props) => {
       if (req.readyState === 4) {
         let result = JSON.parse(req.responseText)
         if (result.code === 200) {
-          setErrorMsg('')
+          setErrorMsg('Check your email to verify your account.')
           setPassword('')
           setUsername('')
           setEmail('')
@@ -132,7 +132,7 @@ const IpfsLogin = (props) => {
   const login = (username, password) => {
     const data = JSON.stringify({
       username: username.toString(),
-      password: password.toString(),
+      password: password.toString()
     })
 
     const req = new XMLHttpRequest()
@@ -158,7 +158,7 @@ const IpfsLogin = (props) => {
     req.send(data)
   }
 
-  const handleChange = (evt) => {
+  const handleChange = evt => {
     const { name, value } = evt.target
     name === `username`
       ? setUsername(value)
@@ -167,7 +167,7 @@ const IpfsLogin = (props) => {
       : setPassword(value)
   }
 
-  const handleSubmit = (evt) => {
+  const handleSubmit = evt => {
     evt.preventDefault()
     signupForm ? signup(email, username, password) : login(username, password)
   }
