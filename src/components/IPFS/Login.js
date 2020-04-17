@@ -113,7 +113,7 @@ const IpfsLogin = (props) => {
       if (req.readyState === 4) {
         let result = JSON.parse(req.responseText)
         if (result.code === 200) {
-          setErrorMsg('')
+          setErrorMsg('Verify your email before you can upload.')
           setPassword('')
           setUsername('')
           setEmail('')
