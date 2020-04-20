@@ -21,7 +21,9 @@
     "transfer": "转让",
     "set": "设置",
     "save": "保存",
-    "cancel": "取消"
+    "cancel": "取消",
+    "year": "年",
+    "year_plural": "年"
   },
   "home": {
     "whatisens": {
@@ -84,7 +86,7 @@
     }
   },
   "address": {
-    "etherscanButton": "View on EtherScan",
+    "etherscanButton": "在 EtherScan 上查看",
     "filter": {
       "registrant": "注册人",
       "controller": "管理员"
@@ -96,6 +98,7 @@
     "renew": {
       "button": "更新已勾选项目",
       "confirm": ["The following names:", "will be renewed for "],
+      "confirmButton": "更新",
       "year": "{{count}} 年",
       "year_plural": "{{count}} 年"
     },
@@ -160,5 +163,45 @@
   },
   "childDomainItem": {
     "notmigrated": "暂未迁移"
+  },
+  "pricer": {
+    "rentalPeriodLabel": "租期",
+    "totalPriceLabel": "支付总额"
+  },
+  "pendingTx": {
+    "text": "等待交易被打包"
+  },
+  "register": {
+    "titles": [
+      "注册一个域名需要三个步骤",
+      "请不要关闭浏览器，您很快就可以完成域名注册",
+      "您已经完成域名注册，现在可以管理域名了！"
+    ],
+    "favourite": "* 您可以收藏喜欢的域名，以便于浏览器关闭以后重新查看这个域名。",
+    "notify": "通知我",
+    "step1": {
+      "label": "第 1 步",
+      "title": "请求注册",
+      "text": "需要在钱包中确认一笔交易，这是完成域名注册所需的两笔交易中的第一笔。"
+    },
+    "step2": {
+      "label": "第 2 步",
+      "title": "等一分钟",
+      "text": "需要等待一段时间，以确保其他人没有尝试注册相同的名字，同时也是在保护你的注册请求。"
+    },
+    "step3": {
+      "label": "第 3 步",
+      "title": "完成注册",
+      "text": "点击“注册”按钮，并在钱包中再次确认一笔交易，只有在这次交易确认后，才能确定是不是成功注册了这个域名。"
+    },
+    "buttons": {
+      "request": "请求注册",
+      "register": "注册",
+      "manage": "管理域名",
+      "warning": "点击“注册”进入第三步"
+    },
+    "notifications": {
+      "ready": "is ready to be registered"
+    }
   }
 }

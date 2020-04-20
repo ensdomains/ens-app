@@ -22,7 +22,9 @@
     "set": "Set",
     "save": "Save",
     "cancel": "Cancel",
-    "edit": "Edit"
+    "edit": "Edit",
+    "year": "year",
+    "year_plural": "years"
   },
   "home": {
     "whatisens": {
@@ -82,6 +84,7 @@
     },
     "renew": {
       "button": "Renew Selected",
+      "confirmButton": "Renew",
       "confirm": ["The following names:", "will be renewed for "],
       "year": "{{count}} year",
       "year_plural": "{{count}} years"
@@ -153,6 +156,44 @@
   "childDomainItem": {
     "notmigrated": "not migrated"
   },
-  "pricer": {},
-  "register": {}
+  "pricer": {
+    "rentalPeriodLabel": "Rental Period",
+    "totalPriceLabel": "Total price to pay"
+  },
+  "pendingTx": {
+    "text": "Tx Pending"
+  },
+  "register": {
+    "titles": [
+      "Registering a name requires you to complete 3 steps",
+      "Don’t close your browser! You’ll be able to manage your name soon.",
+      "You’ve completed all the steps, manage your name now!"
+    ],
+    "favourite": "* Favorite the name for easy access in case you close out of your browser.",
+    "notify": "Notify me",
+    "step1": {
+      "label": "Step 1",
+      "title": "Request to register",
+      "text": "Your wallet will open and you will be asked to confirm the first of two transactions required for registration"
+    },
+    "step2": {
+      "label": "Step 2",
+      "title": "Wait for a 1 minute",
+      "text": "The waiting period is required to ensure another person hasn’t tried to register the same name and protect you after your request."
+    },
+    "step3": {
+      "label": "Step 3",
+      "title": "Complete Registration",
+      "text": "Click ‘register’ and your wallet will re-open. Only after the 2nd transaction is confirmed you'll know if you got the domain"
+    },
+    "buttons": {
+      "request": "Request to register",
+      "register": "Register",
+      "manage": "Manage",
+      "warning": "Click register to move to the 3rd step"
+    },
+    "notifications": {
+      "ready": "is ready to be registered"
+    }
+  }
 }

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import { useHistory } from 'react-router-dom'
 import { Mutation } from 'react-apollo'
+import { useTranslation } from 'react-i18next'
 
 import { COMMIT, REGISTER } from '../../../graphql/mutations'
 
@@ -44,7 +45,8 @@ function getCTA({
   refetch,
   refetchIsMigrated,
   readOnly,
-  history
+  history,
+  t
 }) {
   const CTAs = {
     PRICE_DECISION: (
@@ -59,7 +61,7 @@ function getCTA({
         {mutate =>
           isAboveMinDuration && !readOnly ? (
             <Button data-testid="request-register-button" onClick={mutate}>
-              Request to register
+              {t('register.buttons.request')}
             </Button>
           ) : readOnly ? (
             <Tooltip
@@ -80,15 +82,14 @@ function getCTA({
                       hideTooltip()
                     }}
                   >
-                    Request to register
-                    {tooltipElement}
+                    {t('register.buttons.request')}
                   </Button>
                 )
               }}
             </Tooltip>
           ) : (
             <Button data-testid="request-register-button" type="disabled">
-              Request to register
+              {t('register.buttons.request')}
             </Button>
           )
         }
@@ -105,7 +106,7 @@ function getCTA({
     ),
     COMMIT_CONFIRMED: (
       <Button data-testid="disabled-register-button" type="disabled">
-        Register
+        {t('register.buttons.register')}
       </Button>
     ),
     AWAITING_REGISTER: (
@@ -121,10 +122,10 @@ function getCTA({
           <>
             <Prompt>
               <OrangeExclamation />
-              Click register to move to the 3rd step
+              {t('register.buttons.warning')}
             </Prompt>
             <Button data-testid="register-button" onClick={mutate}>
-              Register
+              {t('register.buttons.register')}
             </Button>
           </>
         )}
@@ -147,7 +148,7 @@ function getCTA({
         }}
       >
         <Pencil />
-        Manage name
+        {t('register.buttons.manage')}
       </Button>
     )
   }
@@ -165,6 +166,7 @@ const CTA = ({
   refetchIsMigrated,
   readOnly
 }) => {
+  const { t } = useTranslation()
   const history = useHistory()
   const [txHash, setTxHash] = useState(undefined)
   return (
@@ -181,7 +183,8 @@ const CTA = ({
         refetch,
         refetchIsMigrated,
         readOnly,
-        history
+        history,
+        t
       })}
     </CTAContainer>
   )

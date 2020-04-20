@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import { useTranslation } from 'react-i18next'
 import mq from 'mediaQuery'
 import EthVal from 'ethval'
 
@@ -39,16 +40,17 @@ const USD = styled('span')`
 `
 
 const Price = ({ price, ethUsdPrice, ethUsdPriceLoading }) => {
+  const { t } = useTranslation()
   const ethVal = new EthVal(`${price}`).toEth()
   return (
     <PriceContainer>
       <Value>
-        {ethVal.toFixed(10)} ETH
+        {ethVal.toFixed(3)} ETH
         {!ethUsdPriceLoading && (
           <USD>${ethVal.mul(ethUsdPrice).toFixed(2)} USD</USD>
         )}
       </Value>
-      <Description>Total price to pay</Description>
+      <Description>{t('pricer.totalPriceLabel')}</Description>
     </PriceContainer>
   )
 }

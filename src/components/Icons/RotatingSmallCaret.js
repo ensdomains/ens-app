@@ -30,7 +30,6 @@ export default function RotatingSmallCaret({
   if (start === 'right') {
     return <RotatingSmallCaretSide rotated={rotated} highlight={highlight} />
   } else if (start === 'top') {
-    console.log('here')
     return <RotatingSmallCaretTop rotated={rotated} highlight={highlight} />
   }
 }

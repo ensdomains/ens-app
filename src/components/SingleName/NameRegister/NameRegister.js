@@ -1,5 +1,6 @@
 import React, { useState, useReducer } from 'react'
 import styled from '@emotion/styled'
+import { useTranslation } from 'react-i18next'
 import { Query } from 'react-apollo'
 
 import { GET_MINIMUM_COMMITMENT_AGE } from 'graphql/queries'
@@ -29,6 +30,7 @@ const NameRegister = ({
   registrationOpen,
   duringMigration
 }) => {
+  const { t } = useTranslation()
   const [step, dispatch] = useReducer(
     registerReducer,
     registerMachine.initialState
@@ -47,7 +49,7 @@ const NameRegister = ({
       } else {
         setTimerRunning(false)
         incrementStep()
-        sendNotification(`${domain.name} is ready to be registered`)
+        sendNotification(`${domain.name} ${t('register.notifications.ready')}`)
       }
     },
     timerRunning ? 1000 : null

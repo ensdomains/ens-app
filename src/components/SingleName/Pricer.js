@@ -42,7 +42,6 @@ function PricerInner({
   price,
   reference
 }) {
-  console.log(price ? price?.toNumber() : price)
   return (
     <PricingContainer className={className} ref={reference}>
       <Years years={years} setYears={setYears} />
@@ -65,12 +64,6 @@ export const PricerAll = React.forwardRef((props, reference) => {
     }
   })
 
-  // const { data, loading } = useQuery(GET_RENT_PRICE, {
-  //   variables: {
-  //     name: names[0],
-  //     duration
-  //   }
-  // })
   return (
     <PricerInner
       reference={reference}

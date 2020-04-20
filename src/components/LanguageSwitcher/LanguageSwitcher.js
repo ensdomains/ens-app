@@ -54,7 +54,7 @@ const Dropdown = styled(motion.div)`
   li {
     color: #adbbcd;
     padding: 20px 30px;
-    border-bottom: 1px solid #2b2b2b;
+    border-bottom: 1px solid #dfdfdf;
     list-style: none;
     display: flex;
     justify-content: space-between;

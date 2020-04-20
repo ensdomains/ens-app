@@ -172,7 +172,7 @@ export default function Renew({
 
                   mutation({ variables })
                 }}
-                mutationButton={'Renew'}
+                mutationButton={t('address.renew.confirmButton')}
                 confirm={true}
                 isValid={isValid(selectedNames)}
                 extraDataComponent={
