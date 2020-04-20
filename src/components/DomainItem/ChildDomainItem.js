@@ -90,7 +90,7 @@ export default function ChildDomainItem({
           Expires {formatDate(parseInt(expiryDate * 1000))}
         </ExpiryDate>
       )}
-      {checkedBoxes && labelName !== null && (
+      {checkedBoxes && isDecrypted && (
         <Checkbox
           testid={`checkbox-${name}`}
           checked={checkedBoxes[name]}
