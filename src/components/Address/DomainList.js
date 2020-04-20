@@ -2,7 +2,6 @@ import React from 'react'
 import styled from '@emotion/styled'
 
 import DomainItem from '../DomainItem/ChildDomainItem'
-import { decryptName } from '../../api/labels'
 
 const NoDomainsContainer = styled('div')`
   display: flex;
@@ -63,12 +62,11 @@ export default function DomainList({
   return (
     <DomainsContainer>
       {domains.map(d => {
-        const name = decryptName(d.domain.name)
         return (
           <>
             <DomainItem
-              key={name}
-              name={name}
+              key={d.domain.name}
+              name={d.domain.name}
               owner={address}
               domain={d.domain}
               expiryDate={d?.expiryDate}

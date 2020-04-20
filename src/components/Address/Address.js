@@ -7,6 +7,7 @@ import {
   GET_DOMAINS_SUBGRAPH,
   GET_REGISTRATIONS_SUBGRAPH
 } from '../../graphql/queries'
+import { decryptName, checkIsDecrypted } from '../../api/labels'
 
 import mq from 'mediaQuery'
 
@@ -95,6 +96,20 @@ function normaliseAddress(address) {
   return address.toLowerCase()
 }
 
+function decryptNames(domains) {
+  return domains.map(d => {
+    const name = decryptName(d.domain.name)
+    return {
+      ...d,
+      domain: {
+        ...d.domain,
+        name: name,
+        labelName: checkIsDecrypted(name[0])
+      }
+    }
+  })
+}
+
 function getSortFunc(activeSort) {
   function alphabetical(a, b) {
     if (
@@ -170,21 +185,19 @@ export default function Address({
     return <Loader withWrap large />
   }
 
-  let domains = []
+  let normalisedDomains = []
 
-  if (domainType === 'registrant') {
-    if (data.account) {
-      domains = [...data.account.registrations?.sort(getSortFunc(activeSort))]
-    }
-  } else if (domainType === 'controller') {
-    if (data.account) {
-      domains = [
-        ...filterOutReverse(data.account.domains)
-          .map(domain => ({ domain }))
-          .sort(getSortFunc(activeSort))
-      ]
-    }
+  if (domainType === 'registrant' && data.account) {
+    normalisedDomains = [...data.account.registrations]
+  } else if (domainType === 'controller' && data.account) {
+    normalisedDomains = [
+      ...filterOutReverse(data.account.domains).map(domain => ({ domain }))
+    ]
   }
+
+  let decryptedDomains = decryptNames(normalisedDomains)
+  let sortedDomains = decryptedDomains.sort(getSortFunc(activeSort))
+  let domains = sortedDomains
 
   const selectedNames = Object.entries(checkedBoxes)
     .filter(([key, value]) => value)
