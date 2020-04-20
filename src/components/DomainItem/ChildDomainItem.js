@@ -5,6 +5,7 @@ import { SingleNameBlockies } from '../SingleName/SingleNameBlockies'
 import { formatDate, calculateIsExpiredSoon } from 'utils/dates'
 import Checkbox from '../Forms/Checkbox'
 import mq, { useMediaMin } from 'mediaQuery'
+import { checkIsDecrypted } from '../../api/labels'
 
 const DomainLink = styled(Link)`
   display: grid;
@@ -69,10 +70,10 @@ export default function ChildDomainItem({
   setSelectAll
 }) {
   const smallBP = useMediaMin('small')
-  let label =
-    labelName !== null
-      ? `${name}`
-      : `[unknown${labelhash.slice(2, 10)}].${parent}`
+  const isDecrypted = checkIsDecrypted(name)
+  let label = isDecrypted
+    ? `${name}`
+    : `[unknown${labelhash.slice(2, 10)}].${parent}`
   if (isMigrated === false) label = label + ' (not migrated)'
   const isExpiredSoon = calculateIsExpiredSoon(expiryDate)
   return (
