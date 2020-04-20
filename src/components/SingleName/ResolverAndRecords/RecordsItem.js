@@ -11,11 +11,14 @@ import mq from 'mediaQuery'
 
 import { DetailsItem, DetailsKey, DetailsValue } from '../DetailsItem'
 import AddReverseRecord from './AddReverseRecord'
+import Upload from '../../IPFS/Upload'
+import IpfsLogin from '../../IPFS/Login'
+import StyledUpload from '../../Forms/Upload'
 import AddressLink from '../../Links/AddressLink'
 import ContentHashLink from '../../Links/ContentHashLink'
 import Pencil from '../../Forms/Pencil'
 import Bin from '../../Forms/Bin'
-import SaveCancel from '../SaveCancel'
+import { SaveCancel, SaveCancelSwitch } from '../SaveCancel'
 import DefaultPendingTx from '../../PendingTx'
 import { SET_CONTENT, SET_CONTENTHASH, SET_ADDRESS } from 'graphql/mutations'
 import DetailsItemInput from '../DetailsItemInput'
@@ -84,6 +87,23 @@ export const RecordsValue = styled(DetailsValue)`
   `}
 `
 
+const NewRecordsContainer = styled('div')`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  position: relative;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-size: 21px;
+  overflow: hidden;
+  ${mq.medium`
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  `}
+`
+
 const EditRecord = styled('div')`
   width: 100%;
 `
@@ -93,6 +113,14 @@ const Action = styled('div')`
   right: 10px;
   top: 0;
 `
+
+const SecondaryAction = styled('div')`
+  position: absolute;
+  right: 44px;
+  top: 0;
+`
+
+const ActionContainer = styled('div')``
 
 const PendingTx = styled(DefaultPendingTx)`
   position: absolute;
@@ -129,6 +157,19 @@ const Actionable = ({ startEditing, keyName, value }) => {
   }
 }
 
+const Uploadable = ({ startUploading, keyName, value }) => {
+  if (value && !value.error) {
+    return (
+      <SecondaryAction>
+        <StyledUpload
+          onClick={startUploading}
+          data-testid={`edit-${keyName.toLowerCase()}`}
+        />
+      </SecondaryAction>
+    )
+  }
+}
+
 const RecordItemEditable = ({
   domain,
   keyName,
@@ -142,15 +183,28 @@ const RecordItemEditable = ({
   const { t } = useTranslation()
   const { state, actions } = useEditable()
 
-  const { editing, newValue, txHash, pending, confirmed } = state
+  const {
+    editing,
+    authorized,
+    uploading,
+    newValue,
+    txHash,
+    pending,
+    confirmed
+  } = state
 
   const {
     startEditing,
     stopEditing,
     updateValue,
     startPending,
-    setConfirmed
+    setConfirmed,
+    startUploading,
+    stopUploading,
+    startAuthorizing,
+    stopAuthorizing
   } = actions
+
   const isValid = validateRecord({
     type,
     value: newValue,
@@ -158,6 +212,7 @@ const RecordItemEditable = ({
   })
 
   const isInvalid = newValue !== '' && !isValid
+
   return (
     <>
       <Mutation
@@ -189,7 +244,7 @@ const RecordItemEditable = ({
                     refetch()
                   }}
                 />
-              ) : editing ? (
+              ) : editing || uploading ? (
                 <Action>
                   <Mutation
                     mutation={chooseMutation(keyName, domain.contentType)}
@@ -213,11 +268,29 @@ const RecordItemEditable = ({
                   </Mutation>
                 </Action>
               ) : (
-                <Actionable
-                  startEditing={startEditing}
-                  keyName={keyName}
-                  value={value}
-                />
+                <ActionContainer>
+                  {type === 'address' ? (
+                    <Actionable
+                      startEditing={startEditing}
+                      keyName={keyName}
+                      value={value}
+                    />
+                  ) : (
+                    <>
+                      <Actionable
+                        startEditing={startEditing}
+                        keyName={keyName}
+                        value={value}
+                      />
+
+                      <Uploadable
+                        startUploading={startUploading}
+                        keyName={keyName}
+                        value={value}
+                      />
+                    </>
+                  )}
+                </ActionContainer>
               )}
             </RecordsContent>
             {editing ? (
@@ -262,6 +335,64 @@ const RecordItemEditable = ({
                   }}
                   isValid={isValid}
                   stopEditing={stopEditing}
+                />
+              </>
+            ) : uploading && authorized ? (
+              <>
+                <EditRecord>
+                  <Upload updateValue={updateValue} newValue={newValue} />
+                  {newValue !== '' && (
+                    <NewRecordsContainer>
+                      <RecordsKey>New IPFS Hash:</RecordsKey>
+                      <ContentHashLink
+                        value={newValue}
+                        contentType={domain.contentType}
+                      />
+                    </NewRecordsContainer>
+                  )}
+                </EditRecord>
+                <SaveCancelSwitch
+                  warningMessage={getOldContentWarning(
+                    type,
+                    domain.contentType
+                  )}
+                  mutation={e => {
+                    e.preventDefault()
+                    const variables = {
+                      name: domain.name,
+                      [variableName ? variableName : 'recordValue']: newValue
+                    }
+                    mutation({
+                      variables
+                    })
+                  }}
+                  isValid={isValid}
+                  newValue={newValue}
+                  startUploading={startUploading}
+                  stopUploading={stopUploading}
+                  stopAuthorizing={stopAuthorizing}
+                />
+              </>
+            ) : uploading && !authorized ? (
+              <>
+                <IpfsLogin startAuthorizing={startAuthorizing} />
+                <SaveCancel
+                  warningMessage={getOldContentWarning(
+                    type,
+                    domain.contentType
+                  )}
+                  mutation={e => {
+                    e.preventDefault()
+                    const variables = {
+                      name: domain.name,
+                      [variableName ? variableName : 'recordValue']: newValue
+                    }
+                    mutation({
+                      variables
+                    })
+                  }}
+                  isValid={isValid}
+                  stopEditing={stopUploading}
                 />
               </>
             ) : (

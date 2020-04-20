@@ -3,16 +3,38 @@ import { useTranslation } from 'react-i18next'
 import styled from '@emotion/styled'
 import Button from '../Forms/Button'
 import GlobalState from '../../globalState'
+import mq from 'mediaQuery'
 
-const SaveCancelContainer = styled('div')`
+const SaveCancelSwitchContainer = styled('div')`
   display: flex;
   justify-content: flex-end;
+  flex-direction: column;
+  felx-wrap: wrap;
+  align-items: flex-start;
+  ${mq.small`
+    flex-direction: row;
+  `}
+`
+const SaveCancelContainer = styled('div')`
+  display: flex;
+  justify-content: center;
+  ${mq.small`
+    justify-content: flex-end;
+  `}
 `
 
 const Save = styled(Button)``
 
 const Cancel = styled(Button)`
   margin-right: 20px;
+`
+
+const Switch = styled(Button)`
+  margin-bottom: 5px;
+  ${mq.small`
+    margin-right: 20px;
+    margin-bottom: 0px; 
+  `}
 `
 
 const Warning = styled('div')`
@@ -69,7 +91,45 @@ const ActionButton = ({
   )
 }
 
-const SaveCancel = React.forwardRef(
+// const SaveCancel = React.forwardRef(
+//   (
+//     {
+//       mutation,
+//       mutationButton,
+//       stopEditing,
+//       disabled,
+//       className,
+//       value,
+//       newValue,
+//       confirm,
+//       warningMessage,
+//       extraDataComponent,
+//       isValid = true
+//     },
+//     ref
+//   ) => {
+//     const { t } = useTranslation()
+//     return (
+//       <SaveCancelContainer className={className} ref={ref}>
+//         {warningMessage ? <Warning>{warningMessage}</Warning> : null}
+//         <Cancel data-testid="cancel" type="hollow" onClick={stopEditing}>
+//           {t(`c.cancel`)}
+//         </Cancel>
+//         <ActionButton
+//           disabled={disabled}
+//           mutation={mutation}
+//           mutationButton={mutationButton}
+//           value={value}
+//           newValue={newValue}
+//           confirm={confirm}
+//           isValid={isValid}
+//           extraDataComponent={extraDataComponent}
+//           data-testid="action"
+//         />
+//       </SaveCancelContainer>
+//     )
+//   }
+export const SaveCancel = React.forwardRef(
   (
     {
       mutation,
@@ -88,7 +148,7 @@ const SaveCancel = React.forwardRef(
   ) => {
     const { t } = useTranslation()
     return (
-      <SaveCancelContainer className={className} ref={ref}>
+      <SaveCancelContainer className={className}>
         {warningMessage ? <Warning>{warningMessage}</Warning> : null}
         <Cancel data-testid="cancel" type="hollow" onClick={stopEditing}>
           {t(`c.cancel`)}
@@ -101,12 +161,51 @@ const SaveCancel = React.forwardRef(
           newValue={newValue}
           confirm={confirm}
           isValid={isValid}
-          extraDataComponent={extraDataComponent}
           data-testid="action"
         />
       </SaveCancelContainer>
     )
   }
+)
+
+export const SaveCancelSwitch = ({
+  mutation,
+  mutationButton,
+  startUploading,
+  stopUploading,
+  stopAuthorizing,
+  disabled,
+  className,
+  value,
+  newValue,
+  confirm,
+  warningMessage,
+  isValid = true
+}) => (
+  <SaveCancelSwitchContainer className={className}>
+    {warningMessage ? <Warning>{warningMessage}</Warning> : null}
+    {newValue !== '' && (
+      <Switch data-testid="reset" type="hollow" onClick={startUploading}>
+        New Upload
+      </Switch>
+    )}
+    <Switch data-testid="switch" type="hollow" onClick={stopAuthorizing}>
+      Logout
+    </Switch>
+    <Switch data-testid="cancel" type="hollow" onClick={stopUploading}>
+      Cancel
+    </Switch>
+    <ActionButton
+      disabled={disabled}
+      mutation={mutation}
+      mutationButton={mutationButton}
+      value={value}
+      newValue={newValue}
+      confirm={confirm}
+      isValid={isValid}
+      data-testid="action"
+    />
+  </SaveCancelSwitchContainer>
 )
 
 export default SaveCancel

@@ -1,5 +1,6 @@
 import { useEffect, useReducer, useRef, useState } from 'react'
 import getEtherPrice from 'api/price'
+import { loggedIn, logout } from './IPFS/auth'
 
 export function useDocumentTitle(title) {
   useEffect(() => {
@@ -19,7 +20,9 @@ export function useEditable(
     newValue: '',
     pending: false,
     confirmed: false,
-    txHash: undefined
+    txHash: undefined,
+    uploading: false,
+    authorized: loggedIn()
   }
 ) {
   const types = {
@@ -27,7 +30,11 @@ export function useEditable(
     START_EDITING: 'START_EDITING',
     STOP_EDITING: 'STOP_EDITING',
     START_PENDING: 'START_PENDING',
-    SET_CONFIRMED: 'SET_CONFIRMED'
+    SET_CONFIRMED: 'SET_CONFIRMED',
+    START_UPLOADING: 'START_UPLOADING',
+    STOP_UPLOADING: 'STOP_UPLOADING',
+    START_AUTHORIZING: 'START_AUTHORIZING',
+    STOP_AUTHORIZING: 'STOP_AUTHORIZING'
   }
 
   const [state, dispatch] = useReducer(reducer, initialState)
@@ -37,13 +44,21 @@ export function useEditable(
   const updateValue = value => dispatch({ type: types.UPDATE_VALUE, value })
   const startPending = txHash => dispatch({ type: types.START_PENDING, txHash })
   const setConfirmed = () => dispatch({ type: types.SET_CONFIRMED })
+  const startUploading = () => dispatch({ type: types.START_UPLOADING })
+  const stopUploading = () => dispatch({ type: types.STOP_UPLOADING })
+  const startAuthorizing = () => dispatch({ type: types.START_AUTHORIZING })
+  const stopAuthorizing = () => dispatch({ type: types.STOP_AUTHORIZING })
 
   const actions = {
     startEditing,
     stopEditing,
     updateValue,
     startPending,
-    setConfirmed
+    setConfirmed,
+    startUploading,
+    stopUploading,
+    startAuthorizing,
+    stopAuthorizing
   }
 
   function reducer(state, action) {
@@ -56,16 +71,50 @@ export function useEditable(
       case types.START_EDITING:
         return { ...state, editing: true, confirmed: false, pending: false }
       case types.STOP_EDITING:
-        return { ...state, editing: false, confirmed: false, pending: false }
+        return {
+          ...state,
+          editing: false,
+          confirmed: false,
+          pending: false,
+          uploading: false
+        }
       case types.START_PENDING:
         return {
           ...state,
           pending: true,
           editing: false,
+          uploading: false,
           txHash: action.txHash
         }
       case types.SET_CONFIRMED:
         return { ...state, pending: false, confirmed: true }
+      case types.START_UPLOADING:
+        return {
+          ...state,
+          uploading: true,
+          confirmed: false,
+          pending: false,
+          newValue: ''
+        }
+      case types.STOP_UPLOADING:
+        return {
+          ...state,
+          uploading: false,
+          confirmed: false,
+          pending: false,
+          newValue: ''
+        }
+      case types.START_AUTHORIZING:
+        return {
+          ...state,
+          authorized: true
+        }
+      case types.STOP_AUTHORIZING:
+        logout()
+        return {
+          ...state,
+          authorized: false
+        }
       default:
         return state
     }
