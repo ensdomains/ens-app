@@ -10,14 +10,19 @@ import {
   SET_CONTENTHASH,
   SET_ADDRESS,
   SET_ADDR,
-  SET_TEXT
+  SET_TEXT,
 } from '../../../graphql/mutations'
 import { getOldContentWarning } from './warnings'
 import TEXT_RECORD_KEYS from 'constants/textRecords'
 import COIN_LIST from 'constants/coinList'
 
+import Upload from '../../IPFS/Upload'
+import IpfsLogin from '../../IPFS/Login'
+import Button from '../../Forms/Button'
+import ContentHashLink from '../../Links/ContentHashLink'
+import { DetailsKey } from '../DetailsItem'
 import DetailsItemInput from '../DetailsItemInput'
-import SaveCancel from '../SaveCancel'
+import { SaveCancel, SaveCancelSwitch } from '../SaveCancel'
 import DefaultSelect from '../../Forms/Select'
 import PendingTx from '../../PendingTx'
 import DefaultAddressInput from '@ensdomains/react-ens-address'
@@ -78,6 +83,45 @@ const Row = styled('div')`
   `}
 `
 
+const NewRecordsContainer = styled('div')`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  position: relative;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-size: 21px;
+  overflow: hidden;
+  ${mq.medium`
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  `}
+`
+
+export const RecordsKey = styled(DetailsKey)`
+  font-size: 12px;
+  margin-bottom: 0;
+  max-width: 100%;
+  margin-right: 10px;
+  ${mq.medium`
+    width: 200px;
+    margin-right: 0px;
+  `}
+`
+const UploadBtn = styled(Button)`
+  flex-direction: row;
+  margin-bottom: 5px;
+  width: 100%;
+  background: #5284ff;
+  ${mq.small`
+    margin-left: 20px;
+    margin-bottom: 20px;
+    max-width: 150px;
+  `}
+`
+
 function chooseMutation(recordType, contentType) {
   switch (recordType.value) {
     case 'content':
@@ -104,7 +148,7 @@ function TextRecordInput({
   selectedKey,
   setSelectedKey,
   isValid,
-  isInvalid
+  isInvalid,
 }) {
   return (
     <>
@@ -113,9 +157,9 @@ function TextRecordInput({
         handleChange={setSelectedKey}
         placeholder="Key"
         addNewKey={true}
-        options={TEXT_RECORD_KEYS.map(key => ({
+        options={TEXT_RECORD_KEYS.map((key) => ({
           label: key,
-          value: key
+          value: key,
         }))}
       />
       <DetailsItemInput
@@ -137,7 +181,7 @@ function AddressRecordInput({
   selectedKey,
   setSelectedKey,
   isValid,
-  isInvalid
+  isInvalid,
 }) {
   return (
     <>
@@ -145,9 +189,9 @@ function AddressRecordInput({
         selectedRecord={selectedKey}
         handleChange={setSelectedKey}
         placeholder="Coin"
-        options={COIN_LIST.map(key => ({
+        options={COIN_LIST.map((key) => ({
           label: key,
-          value: key
+          value: key,
         }))}
       />
       <DetailsItemInput
@@ -167,25 +211,41 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
   const [selectedKey, setSelectedKey] = useState(null)
   const { state, actions } = useEditable()
 
-  const handleChange = selectedRecord => {
+  const handleChange = (selectedRecord) => {
     selectRecord(selectedRecord)
   }
 
-  const { editing, newValue, txHash, pending, confirmed } = state
+  const handleSubmit = (e) => {
+    e.preventDefault()
+  }
+
+  const {
+    editing,
+    uploading,
+    authorized,
+    newValue,
+    txHash,
+    pending,
+    confirmed,
+  } = state
 
   const {
     startEditing,
     stopEditing,
+    startUploading,
+    stopUploading,
+    startAuthorizing,
+    stopAuthorizing,
     updateValue,
     startPending,
-    setConfirmed
+    setConfirmed,
   } = actions
 
   const isValid = validateRecord({
     type: selectedRecord && selectedRecord.value ? selectedRecord.value : null,
     value: newValue,
     contentType: domain.contentType,
-    selectedKey: selectedKey && selectedKey.value
+    selectedKey: selectedKey && selectedKey.value,
   })
 
   const isInvalid = newValue !== '' && !isValid
@@ -215,7 +275,7 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
         ) : null}
       </RecordsTitle>
       {editing && (
-        <AddRecordForm>
+        <AddRecordForm onSubmit={handleSubmit}>
           <Row>
             <Select
               selectedRecord={selectedRecord}
@@ -233,6 +293,34 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
                 isValid={isValid}
                 isInvalid={isInvalid}
               />
+            ) : selectedRecord &&
+              uploading &&
+              authorized &&
+              selectedRecord.value === 'content' ? (
+              <Upload updateValue={updateValue} newValue={newValue} />
+            ) : selectedRecord &&
+              uploading &&
+              !authorized &&
+              selectedRecord.value === 'content' ? (
+              <IpfsLogin startAuthorizing={startAuthorizing} />
+            ) : selectedRecord && selectedRecord.value === 'content' ? (
+              <>
+                <DetailsItemInput
+                  newValue={newValue}
+                  dataType={selectedRecord ? selectedRecord.value : null}
+                  contentType={domain.contentType}
+                  updateValue={updateValue}
+                  isValid={isValid}
+                  isInvalid={isInvalid}
+                />
+                <UploadBtn
+                  data-testid="upload"
+                  type="hollow"
+                  onClick={startUploading}
+                >
+                  New Upload
+                </UploadBtn>
+              </>
             ) : selectedRecord && selectedRecord.value === 'address' ? (
               <AddressInput
                 provider={window.ethereum || window.web3}
@@ -265,36 +353,75 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
               />
             )}
           </Row>
-          {selectedRecord ? (
+          {selectedRecord &&
+            uploading &&
+            authorized &&
+            selectedRecord.value === 'content' &&
+            newValue !== '' && (
+              <NewRecordsContainer>
+                <RecordsKey>New IPFS Hash:</RecordsKey>
+                <ContentHashLink
+                  value={newValue}
+                  contentType={domain.contentType}
+                />
+              </NewRecordsContainer>
+            )}
+          {uploading && !authorized && selectedRecord.value === 'content' ? (
+            <SaveCancel stopEditing={stopUploading} disabled />
+          ) : selectedRecord ? (
             <Mutation
               mutation={chooseMutation(selectedRecord, domain.contentType)}
               variables={{
                 name: domain.name,
                 recordValue: newValue,
-                key: selectedKey && selectedKey.value
+                key: selectedKey && selectedKey.value,
               }}
-              onCompleted={data => {
+              onCompleted={(data) => {
                 startPending(Object.values(data)[0])
               }}
             >
-              {mutate => (
-                <SaveCancel
-                  warningMessage={getOldContentWarning(
-                    selectedRecord.value,
-                    domain.contentType
+              {(mutate) => (
+                <>
+                  {uploading &&
+                  authorized &&
+                  selectedRecord.value === 'content' ? (
+                    <SaveCancelSwitch
+                      warningMessage={getOldContentWarning(
+                        selectedRecord.value,
+                        domain.contentType
+                      )}
+                      mutation={(e) => {
+                        e.preventDefault()
+                        mutate().then(() => {
+                          refetch()
+                        })
+                      }}
+                      isValid={isValid}
+                      newValue={newValue}
+                      startUploading={startUploading}
+                      stopUploading={stopUploading}
+                      stopAuthorizing={stopAuthorizing}
+                    />
+                  ) : (
+                    <SaveCancel
+                      warningMessage={getOldContentWarning(
+                        selectedRecord.value,
+                        domain.contentType
+                      )}
+                      isValid={isValid}
+                      stopEditing={() => {
+                        stopEditing()
+                        selectRecord(null)
+                      }}
+                      mutation={(e) => {
+                        e.preventDefault()
+                        mutate().then(() => {
+                          refetch()
+                        })
+                      }}
+                    />
                   )}
-                  isValid={isValid}
-                  stopEditing={() => {
-                    stopEditing()
-                    selectRecord(null)
-                  }}
-                  mutation={e => {
-                    e.preventDefault()
-                    mutate().then(() => {
-                      refetch()
-                    })
-                  }}
-                />
+                </>
               )}
             </Mutation>
           ) : (
