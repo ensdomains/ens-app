@@ -269,6 +269,8 @@ export default function Address({
                 setYears={setYears}
                 activeFilter={domainType}
                 selectedNames={selectedNames}
+                setCheckedBoxes={setCheckedBoxes}
+                setSelectAll={setSelectAll}
                 allNames={allNames}
                 data={data}
                 refetch={refetch}

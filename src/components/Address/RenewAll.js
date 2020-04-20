@@ -92,6 +92,8 @@ export default function Renew({
   allNames,
   selectAllNames,
   removeAllNames,
+  setCheckedBoxes,
+  setSelectAll,
   refetch,
   data
 }) {
@@ -129,6 +131,8 @@ export default function Renew({
                 data,
                 'account.registrations'
               )
+              setCheckedBoxes({})
+              setSelectAll(false)
             }}
           />
         ) : (
