@@ -1762,6 +1762,25 @@
     truffle-flattener "^1.4.2"
     web3-utils "^1.0.0-beta.48"
 
+"@ensdomains/ethregistrar@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ethregistrar/-/ethregistrar-2.0.2.tgz#764cd2ea6026e313d912b9aac6e4db3c1479e26e"
+  integrity sha512-f3siHvDyw8XQuQdHgOWS66bzDhz4dMvtSEINkbTK+WLhFiNTivlQMAcvW4WNfWoOpzlgTjMs8Q1xCmkEBhbL4A==
+  dependencies:
+    "@ensdomains/buffer" "0.0.10"
+    "@ensdomains/dnsregistrar" "^0.3.5"
+    "@ensdomains/dnssec-oracle" "^0.1.2"
+    "@ensdomains/ens" "^0.4.0"
+    "@ensdomains/resolver" "^0.1.13"
+    "@ensdomains/subdomain-registrar" "^0.2.0"
+    bluebird "^3.5.3"
+    eth-ens-namehash "^2.0.8"
+    openzeppelin-solidity "2.1.3"
+    solium "^1.2.3"
+    truffle "^5.1.17"
+    truffle-flattener "^1.4.2"
+    web3-utils "^1.0.0-beta.48"
+
 "@ensdomains/mock@2.0.12":
   version "2.0.12"
   resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.0.12.tgz#9d633714c92561361c69a7704e5ebee2bef93e8e"
@@ -1849,10 +1868,10 @@
     bluebird "^3.5.2"
     dns-packet "^5.0.4"
 
-"@ensdomains/ui@3.0.9":
-  version "3.0.9"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.9.tgz#40470e8cb304f6c2e2c05a3e4f37abfaae33ecd7"
-  integrity sha512-0VmWM8KRFZDCgwa78E5LVr2VrfpueLUdxsVBc+mdvRv14H27VclN0Sy0u6PW065OCuRbS9Dqcdc3AK+87qtNPA==
+"@ensdomains/ui@3.0.10":
+  version "3.0.10"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.10.tgz#cef631669cd0872952ed17391af742e2fb8f093c"
+  integrity sha512-RWyt9gM9OvfWubVO2Qke+q56Gbtm6JSnJi4JkvRfzDQP+oVrvEN5+b+iQmNbSoc7UC4wNxotmtUFellEcNU65w==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
@@ -1861,7 +1880,7 @@
     "@ensdomains/dnsregistrar" "^0.3.9"
     "@ensdomains/ens" "^0.4.3"
     "@ensdomains/ens-022" "npm:@ensdomains/ens@0.2.2"
-    "@ensdomains/ethregistrar" "^2.0.1"
+    "@ensdomains/ethregistrar" "^2.0.2"
     "@ensdomains/resolver" "0.2.4"
     "@ensdomains/subdomain-registrar" "^0.2.1"
     "@ethvault/iframe-provider" "0.1.9"
@@ -16933,6 +16952,15 @@ truffle@^5.0.5:
   version "5.0.33"
   resolved "https://registry.yarnpkg.com/truffle/-/truffle-5.0.33.tgz#7a56552fca630d8255faaf5133f17ef9a127abd0"
   integrity sha512-Fc8fFZ/Pk6s/CZSvbe4RTd3gGMBTZQ2C6BYhN/xViwgKH/4NwuZmOC0EtO/eu/k7O3r8z3svz0jLMdH16DpRnw==
+  dependencies:
+    app-module-path "^2.2.0"
+    mocha "5.2.0"
+    original-require "1.0.1"
+
+truffle@^5.1.17:
+  version "5.1.22"
+  resolved "https://registry.yarnpkg.com/truffle/-/truffle-5.1.22.tgz#564e3e245b9b5ceb53ad1075e00ec68682bd3509"
+  integrity sha512-E1Kz7b2y1ApxytKmEDL04Xdmz+zEjTqWNTbp0DLFh928yzxL47xzDmuZyinx4pPNrt9vnnhoHMHqeh36IFkK1Q==
   dependencies:
     app-module-path "^2.2.0"
     mocha "5.2.0"
