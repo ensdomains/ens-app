@@ -33,7 +33,7 @@ describe('Reverse record', () => {
       'Reverse record: Set to a different name:abittooawesome.eth',
       { exact: false }
     ).should('exist')
-    cy.getByTestId('small-caret').click({ force: true })
+    cy.getByTestId('open-reverse').click({ force: true })
 
     cy.queryByText('resolver.eth', { exact: false }).should('exist')
   })

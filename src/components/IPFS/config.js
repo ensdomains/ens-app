@@ -20,6 +20,8 @@ export function getConfig(service) {
   switch (service) {
     case 'TEMPORAL':
       return TEMPORAL
+    default:
+      return TEMPORAL
   }
 }
 

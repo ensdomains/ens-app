@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import { useTranslation } from 'react-i18next'
-import moment from 'moment'
 
 import mq from 'mediaQuery'
 import Step from './Step'

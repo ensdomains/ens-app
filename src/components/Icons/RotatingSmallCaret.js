@@ -25,11 +25,24 @@ const RotatingSmallCaretTop = styled(DefaultSmallCaret)`
 export default function RotatingSmallCaret({
   start = 'right',
   rotated,
-  highlight = 'false'
+  highlight = 'false',
+  testid
 }) {
   if (start === 'right') {
-    return <RotatingSmallCaretSide rotated={rotated} highlight={highlight} />
+    return (
+      <RotatingSmallCaretSide
+        rotated={rotated}
+        highlight={highlight}
+        data-testid={testid}
+      />
+    )
   } else if (start === 'top') {
-    return <RotatingSmallCaretTop rotated={rotated} highlight={highlight} />
+    return (
+      <RotatingSmallCaretTop
+        rotated={rotated}
+        highlight={highlight}
+        data-testid={testid}
+      />
+    )
   }
 }
