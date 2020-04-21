@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
-import Tick from './Tick'
+import Tick, { DoubleBorderTick } from './Tick'
 
 const CheckboxContainer = styled('div')`
   align-self: center;
@@ -23,7 +23,15 @@ const CheckboxContainer = styled('div')`
   }
 `
 
-function Checkbox({ className, onClick, checked, name, children, testid }) {
+function Checkbox({
+  className,
+  onClick,
+  checked,
+  name,
+  children,
+  testid,
+  type = 'normal'
+}) {
   const [hover, setHover] = useState(false)
   return (
     <CheckboxContainer
@@ -36,7 +44,11 @@ function Checkbox({ className, onClick, checked, name, children, testid }) {
         onMouseOver={() => setHover(true)}
         onMouseOut={() => setHover(false)}
       >
-        <Tick active={checked ? true : false} hover={hover} />
+        {type === 'double' ? (
+          <DoubleBorderTick active={checked ? true : false} hover={hover} />
+        ) : (
+          <Tick active={checked ? true : false} hover={hover} />
+        )}
         <span>{children}</span>
       </label>
       <input type="checkbox" name={name} checked={checked} readOnly />

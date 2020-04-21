@@ -280,6 +280,7 @@ export default function Address({
               <SelectAll>
                 <Checkbox
                   testid="checkbox-renewall"
+                  type="double"
                   checked={selectAll}
                   onClick={() => {
                     if (!selectAll) {
