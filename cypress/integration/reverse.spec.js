@@ -27,6 +27,8 @@ describe('Reverse record', () => {
       .contains('Search')
       .click()
 
+    cy.scrollTo(0, 500)
+
     cy.queryByText(
       'Reverse record: Set to a different name:abittooawesome.eth',
       { exact: false }
