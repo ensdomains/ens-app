@@ -104,7 +104,7 @@ function decryptNames(domains) {
       domain: {
         ...d.domain,
         name: name,
-        labelName: checkIsDecrypted(name[0])
+        labelName: checkIsDecrypted(name[0]) ? name.split('.')[0] : null
       }
     }
   })
@@ -198,6 +198,8 @@ export default function Address({
   let decryptedDomains = decryptNames(normalisedDomains)
   let sortedDomains = decryptedDomains.sort(getSortFunc(activeSort))
   let domains = sortedDomains
+
+  console.log(domains)
 
   const selectedNames = Object.entries(checkedBoxes)
     .filter(([key, value]) => value)

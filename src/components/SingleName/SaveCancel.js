@@ -91,44 +91,6 @@ const ActionButton = ({
   )
 }
 
-// const SaveCancel = React.forwardRef(
-//   (
-//     {
-//       mutation,
-//       mutationButton,
-//       stopEditing,
-//       disabled,
-//       className,
-//       value,
-//       newValue,
-//       confirm,
-//       warningMessage,
-//       extraDataComponent,
-//       isValid = true
-//     },
-//     ref
-//   ) => {
-//     const { t } = useTranslation()
-//     return (
-//       <SaveCancelContainer className={className} ref={ref}>
-//         {warningMessage ? <Warning>{warningMessage}</Warning> : null}
-//         <Cancel data-testid="cancel" type="hollow" onClick={stopEditing}>
-//           {t(`c.cancel`)}
-//         </Cancel>
-//         <ActionButton
-//           disabled={disabled}
-//           mutation={mutation}
-//           mutationButton={mutationButton}
-//           value={value}
-//           newValue={newValue}
-//           confirm={confirm}
-//           isValid={isValid}
-//           extraDataComponent={extraDataComponent}
-//           data-testid="action"
-//         />
-//       </SaveCancelContainer>
-//     )
-//   }
 export const SaveCancel = React.forwardRef(
   (
     {
@@ -161,6 +123,7 @@ export const SaveCancel = React.forwardRef(
           newValue={newValue}
           confirm={confirm}
           isValid={isValid}
+          extraDataComponent={extraDataComponent}
           data-testid="action"
         />
       </SaveCancelContainer>

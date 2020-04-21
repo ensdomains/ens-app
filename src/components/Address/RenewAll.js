@@ -8,6 +8,7 @@ import { get } from 'lodash'
 import { RENEW_DOMAINS } from '../../graphql/mutations'
 import { yearInSeconds } from 'utils/dates'
 import { useEthPrice, useEditable } from '../hooks'
+import { decryptName } from '../../api/labels'
 
 import PendingTx from '../PendingTx'
 import DefaultButton from '../Forms/Button'
@@ -44,7 +45,10 @@ const StyledPricer = styled(PriceAllDefault)``
 
 const PricerAll = motion.custom(StyledPricer)
 
-const ConfirmationList = styled('div')``
+const ConfirmationList = styled('div')`
+  max-height: 500px;
+  overflow-y: scroll;
+`
 
 function isValid(selectedNames) {
   return selectedNames.length > 0
@@ -54,7 +58,7 @@ function refetchTilUpdated(
   refetch,
   interval,
   keyToCompare,
-  labelName,
+  name,
   prevData,
   getterString
 ) {
@@ -70,10 +74,10 @@ function refetchTilUpdated(
         refetch().then(({ data }) => {
           const updated =
             get(data, getterString).find(item => {
-              return item.domain.labelName === labelName
+              return decryptName(item.domain.name) === name
             })[keyToCompare] !==
             get(prevData, getterString).find(item => {
-              return item.domain.labelName === labelName
+              return decryptName(item.domain.name) === name
             })[keyToCompare]
 
           if (updated) return
@@ -110,6 +114,8 @@ export default function Renew({
     }
   })
 
+  console.log(selectedNames)
+
   const [years, setYears] = useState(1)
   const { price: ethUsdPrice, loading } = useEthPrice()
   const duration = years * yearInSeconds
@@ -127,7 +133,7 @@ export default function Renew({
                 refetch,
                 300,
                 'expiryDate',
-                labelsToRenew[0],
+                selectedNames[0],
                 data,
                 'account.registrations'
               )
