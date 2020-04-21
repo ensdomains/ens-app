@@ -70,6 +70,10 @@
         "title": "3. Set Reverse Record",
         "text": "Once you set your address, you will see a message saying the reverse pointer is not set. Click the arrow in the field to expand, then click the button ‘save’. This will translate your address into your new name."
       }
+    },
+    "subdomains": {
+      "add": "Add Subdomain",
+      "nosubdomains": "No Subdomains have been added"
     }
   },
   "address": {
