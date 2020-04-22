@@ -114,8 +114,6 @@ export default function Renew({
     }
   })
 
-  console.log(selectedNames)
-
   const [years, setYears] = useState(1)
   const { price: ethUsdPrice, loading } = useEthPrice()
   const duration = years * yearInSeconds
