@@ -18,6 +18,8 @@
     "otheraddresses": "Other Addresses",
     "textrecord": "Text Record",
     "renew": "Renew",
+    "refresh": "Refresh",
+    "register": "Register",
     "transfer": "Transfer",
     "set": "Set",
     "save": "Save",
@@ -213,5 +215,31 @@
     "notifications": {
       "ready": "is ready to be registered"
     }
+  },
+  "dns": {
+    "dnsowner": "DNS Owner",
+    "breadcrumbs": ["ENABLE DNSSEC", "ADD TEXT", "SUBMIT PROOF", "MANAGE NAME"],
+    "steps": {
+      "enable": {
+        "title": "Visit your domain registrar to enable DNSSEC. Once enabled, click refresh to see if you can move to the next step.",
+        "text": "Click 'learn more' to read about the process."
+      },
+      "addtext": {
+        "title": "Set up a text record in your domain registrar then click refresh. The text record should contain your Ethereum address in the form:",
+        "text": "Click 'learn more' to read about the process."
+      },
+      "proof": {
+        "title1": "You are the owner of this address. Add your domain to the ENS Registry now.",
+        "text1": "The address that appears in the DNS txt record is your same address.",
+        "title2": "You don't appear to be the DNS Owner of this domain, but anyone can add this domain to the ENS Registry.",
+        "text2": "If you know you own this domain, change it's TXT record to contain your Ethereum Address and refresh this page to perform the DNSSEC verification again."
+      },
+      "manage": {
+        "title": "Congratulations! You have successfully added this DNS domain to the ENS Registry.",
+        "text1": "Since you are the owner, you can manage your name now. ",
+        "text2": "Since you are not the owner, you can only view the name in the manager."
+      }
+    },
+    "viewinmanager": "View in Manager"
   }
 }

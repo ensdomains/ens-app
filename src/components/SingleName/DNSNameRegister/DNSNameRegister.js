@@ -1,4 +1,5 @@
 import React, { useReducer } from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from '@emotion/styled'
 import { registerMachine, registerReducer } from './registerReducer'
 
@@ -118,72 +119,59 @@ const Number = ({ number, currentNumber, text }) => {
   )
 }
 
-const getContent = (step, account, dnsOwner) => {
+const getContent = (step, account, dnsOwner, t) => {
   let content = {
     ENABLE_DNSSEC: {
-      title:
-        'Visit your domain registrar to enable DNSSEC. Once enabled, click refresh to see if you can move to the next step.',
-      text: "Click 'learn more' to read about the process.",
+      title: t('dns.steps.enable.title'),
+      text: t('dns.steps.enable.title'),
       number: 1
     },
     ADD_TEXT: {
       title: (
         <>
-          Set up a text record in your domain registrar, then click refresh. The
-          text record should contain your Ethereum address in the form:{' '}
+          {t('dns.steps.addtext.title')}
           <Address>a={account}</Address>
         </>
       ),
-      text: "Click 'learn more' to read about the process.",
+      text: t('dns.steps.addtext.text'),
       number: 2
     },
     SUBMIT_PROOF: [
       {
-        title:
-          'You are the owner of this address. Add your domain to the ENS Registry now.',
-        text:
-          'The address that appears in the DNS txt record is your same address.',
+        title: t('dns.steps.proof.title1'),
+        text: t('dns.steps.proof.text1'),
         number: 3,
         owner: true
       },
       {
-        title:
-          "You don't appear to be the DNS Owner of this domain, but anyone can add this domain to the ENS Registry. ",
-        text:
-          "If you know you own this domain, change it's TXT record to contain your Ethereum Address and refresh this page to perform the DNSSEC verification again.",
+        title: t('dns.steps.proof.title2'),
+        text: t('dns.steps.proof.text2'),
         number: 3
       }
     ],
     SUBMIT_SENT: [
       {
-        title:
-          'You are the owner of this address. Add your domain to the ENS Registry now.',
-        text:
-          'The address that appears in the DNS txt record is your same address.',
+        title: t('dns.steps.proof.title1'),
+        text: t('dns.steps.proof.text1'),
         number: 3,
         owner: true
       },
       {
-        title:
-          "You don't appear to be the DNS Owner of this domain, but anyone can add this domain to the ENS Registry. ",
-        text:
-          "If you know you own this domain, change it's TXT record to contain your Ethereum Address and refresh this page to perform the DNSSEC verification again.",
+        title: t('dns.steps.proof.title2'),
+        text: t('dns.steps.proof.text2'),
         number: 3
       }
     ],
     SUBMIT_CONFIRMED: [
       {
-        title:
-          'Congratulations! You have successfully added this DNS domain to the ENS Registry.',
-        text: 'Since you are the owner, you can manage your name now. ',
+        title: t('dns.steps.manage.title'),
+        text: t('dns.steps.manage.text1'),
         number: 4,
         owner: true
       },
       {
-        title:
-          'Congratulations! You have successfully added this DNS domain to the ENS Registry.',
-        text:
-          'Since you are not the owner, you can only view the name in the manager.',
+        title: t('dns.steps.manage.title'),
+        text: t('dns.steps.manage.text2'),
         number: 4
       }
     ]
@@ -196,13 +184,14 @@ const getContent = (step, account, dnsOwner) => {
 }
 
 const NameRegister = ({ account, domain, refetch, readOnly }) => {
+  const { t } = useTranslation()
   const dnssecmode = dnssecmodes[domain.state]
   let [step, dispatch] = useReducer(
     registerReducer,
     dnssecmode.state || registerMachine.initialState
   )
   const incrementStep = () => dispatch('NEXT')
-  const content = getContent(step, account, domain.dnsOwner)
+  const content = getContent(step, account, domain.dnsOwner, t)
   const showDNSOwner =
     domain.dnsOwner &&
     [2, 3, 4].includes(content.number) &&
@@ -214,24 +203,28 @@ const NameRegister = ({ account, domain, refetch, readOnly }) => {
           <Number
             number={1}
             currentNumber={content.number}
-            text="ENABLE DNSSEC"
+            text={t('dns.breadcrumbs.0')}
           />{' '}
         </li>
         <li>
-          <Number number={2} currentNumber={content.number} text="ADD TEXT" />
+          <Number
+            number={2}
+            currentNumber={content.number}
+            text={t('dns.breadcrumbs.1')}
+          />
         </li>
         <li>
           <Number
             number={3}
             currentNumber={content.number}
-            text="SUBMIT PROOF"
+            text={t('dns.breadcrumbs.2')}
           />
         </li>
         <li>
           <Number
             number={4}
             currentNumber={content.number}
-            text="MANAGE NAME"
+            text={t('dns.breadcrumbs.3')}
           />
         </li>
       </BreadcrumbsCaontainer>
@@ -244,7 +237,9 @@ const NameRegister = ({ account, domain, refetch, readOnly }) => {
       />
       {showDNSOwner ? (
         <DNSOwnerContainer>
-          <span>DNS Owner {content.owner ? <You /> : null}</span>
+          <span>
+            {t('dns.dnsowner')} {content.owner ? <You /> : null}
+          </span>
           <EtherScanLink address={domain.dnsOwner}>
             <SingleNameBlockies address={domain.dnsOwner} imageSize={24} />
             {domain.dnsOwner}

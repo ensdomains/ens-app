@@ -1,3 +1,3 @@
-import NameRegister from './NameRegister'
+import DNSNameRegister from './DNSNameRegister'
 
-export default NameRegister
+export default DNSNameRegister
