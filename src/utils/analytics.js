@@ -45,8 +45,3 @@ export const triggerReferral = async ({
     )
   }
 }
-
-export default {
-  setup,
-  pageview
-}
