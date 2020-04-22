@@ -84,6 +84,20 @@
         "text": "一旦你设置了地址，你会看到一条表示反向记录没有设置的消息。 点击该区域的箭头展开，然后点击“保存”按钮， 该设置能把你的地址转换成你的新域名。"
       }
     },
+    "tooltips": {
+      "detailsItem": {
+        "Resolver": "如果要设置域名的解析器，请先确定您登录的是该域名的管理员账户。",
+        "Controller": "如果要转让域名的管理员，请先确定你登录的是该域名的管理员或注册人账户。",
+        "Registrant": "如果要转让域名的注册人，请先确定你登录的是该域名当前的注册人账户。",
+        "default": "You can only make changes if you are the controller and are logged into your wallet"
+      }
+    },
+    "messages": {
+      "pending": "Pending",
+      "notfinalised": "(You have not finalised)",
+      "noresolver": "No Resolver set",
+      "noowner": "Not owned"
+    },
     "subdomains": {
       "add": "添加子域名",
       "nosubdomains": "暂未分配子域名"

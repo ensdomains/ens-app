@@ -71,6 +71,20 @@
         "text": "Once you set your address, you will see a message saying the reverse pointer is not set. Click the arrow in the field to expand, then click the button ‘save’. This will translate your address into your new name."
       }
     },
+    "tooltips": {
+      "detailsItem": {
+        "Resolver": "You can only set the resolver on this name if you are the controller and are logged into your wallet",
+        "Controller": "You can only transfer the controller if you are the controller or registrant and are logged into your wallet",
+        "Registrant": "You can only transfer the registrant if you are the registrant and are logged into your wallet",
+        "default": "You can only make changes if you are the controller and are logged into your wallet"
+      }
+    },
+    "messages": {
+      "pending": "Pending",
+      "notfinalised": "(You have not finalised)",
+      "noresolver": "No Resolver set",
+      "noowner": "Not owned"
+    },
     "subdomains": {
       "add": "Add Subdomain",
       "nosubdomains": "No Subdomains have been added"

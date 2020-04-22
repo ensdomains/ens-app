@@ -115,42 +115,42 @@ const Buttons = styled('div')`
 
 const SaveCancel = motion.custom(DefaultSaveCancel)
 
-function getMessages({ keyName, parent, deedOwner, isDeedOwner }) {
-  let [newValue, newType] = getDefaultMessage(keyName)
+function getMessages({ keyName, parent, deedOwner, isDeedOwner, t }) {
+  let [newValue, newType] = getDefaultMessage(keyName, t)
   if (
     keyName === 'Owner' &&
     parent === 'eth' &&
     parseInt(deedOwner, 16) !== 0
   ) {
-    newValue = 'Pending'
+    newValue = t('singleName.messages.noresolver')
     if (isDeedOwner) {
-      newValue += '(You have not finalised)'
+      newValue += t('singleName.messages.notfinalise')
     }
   }
 
   return [newValue, newType]
 }
 
-function getDefaultMessage(keyName) {
+function getDefaultMessage(keyName, t) {
   switch (keyName) {
     case 'Resolver':
-      return ['No Resolver set', 'message']
+      return [t('singleName.messages.noresolver'), 'message']
     case 'Controller':
     case 'Registrant':
-      return ['Not owned', 'message']
+      return [t('singleName.messages.noowner'), 'message']
     default:
       return ['No 0x message set', 'message']
   }
 }
 
-function getToolTipMessage(keyName) {
+function getToolTipMessage(keyName, t) {
   switch (keyName) {
     case 'Resolver':
-      return 'You can only set the resolver on this name if you are the controller and are logged into your wallet'
+      return t(`singleName.tooltips.detailsItem.${keyName}`)
     case 'Controller':
-      return 'You can only transfer the controller if you are the controller or registrant and are logged into your wallet'
+      return t(`singleName.tooltips.detailsItem.${keyName}`)
     case 'Registrant':
-      return 'You can only transfer the registrant if you are the registrant and are logged into your wallet'
+      return t(`singleName.tooltips.detailsItem.${keyName}`)
     default:
       return 'You can only make changes if you are the controller and are logged into your wallet'
   }
@@ -506,7 +506,8 @@ function ViewOnly({
       keyName,
       parent: domain.parent,
       deedOwner,
-      isDeedOwner
+      isDeedOwner,
+      t
     })
 
     value = newValue
@@ -532,7 +533,7 @@ function ViewOnly({
         <Action>
           {editButton ? (
             <Tooltip
-              text={getToolTipMessage(keyName)}
+              text={getToolTipMessage(keyName, t)}
               position="top"
               border={true}
               warning={true}
