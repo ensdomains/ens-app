@@ -110,7 +110,7 @@ export const SaveCancel = React.forwardRef(
   ) => {
     const { t } = useTranslation()
     return (
-      <SaveCancelContainer className={className}>
+      <SaveCancelContainer className={className} ref={ref}>
         {warningMessage ? <Warning>{warningMessage}</Warning> : null}
         <Cancel data-testid="cancel" type="hollow" onClick={stopEditing}>
           {t(`c.cancel`)}

@@ -23,7 +23,7 @@ import { NetworkError, Error404 } from './components/Error/Errors'
 import { CONFIRM } from './modals'
 
 import DefaultLayout from './components/Layout/DefaultLayout'
-import Analytics from './utils/analytics'
+import { pageview, setup } from './utils/analytics'
 
 // If we are targeting an IPFS build we need to use HashRouter
 const Router =
@@ -36,7 +36,7 @@ const Route = ({
   layout: Layout = DefaultLayout,
   ...rest
 }) => {
-  Analytics.pageview()
+  pageview()
   return (
     <DefaultRoute
       {...rest}
@@ -53,7 +53,7 @@ const App = () => (
   <>
     <Query query={GET_ERRORS}>
       {({ data }) => {
-        Analytics.setup()
+        setup()
         if (data.error && data.error.message) {
           return <NetworkError message={data.error.message} />
         } else {
