@@ -26,7 +26,8 @@
     "cancel": "取消",
     "year": "年",
     "year_plural": "年",
-    "migrate": "迁移"
+    "migrate": "迁移",
+    "claim": "申请"
   },
   "home": {
     "whatisens": {
@@ -104,6 +105,9 @@
     "subdomains": {
       "add": "添加子域名",
       "nosubdomains": "暂未分配子域名"
+    },
+    "test": {
+      "note": "注意：谁都可以注册尚未使用的 <1>.test</1> 域名，域名会在申请 28 天后到期。"
     }
   },
   "address": {

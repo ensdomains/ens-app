@@ -27,7 +27,8 @@
     "edit": "Edit",
     "year": "year",
     "year_plural": "years",
-    "migrate": "Migrate"
+    "migrate": "Migrate",
+    "claim": "Claim"
   },
   "home": {
     "whatisens": {
@@ -91,6 +92,9 @@
     "subdomains": {
       "add": "Add Subdomain",
       "nosubdomains": "No Subdomains have been added"
+    },
+    "test": {
+      "note": "Note: .test domain allows anyone to claim an unused name for test purposes, which expires after 28 days"
     }
   },
   "address": {
