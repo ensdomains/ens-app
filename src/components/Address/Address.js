@@ -199,8 +199,6 @@ export default function Address({
   let sortedDomains = decryptedDomains.sort(getSortFunc(activeSort))
   let domains = sortedDomains
 
-  console.log(domains)
-
   const selectedNames = Object.entries(checkedBoxes)
     .filter(([key, value]) => value)
     .map(([key]) => key)

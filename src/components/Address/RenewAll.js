@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
-import { useMutation } from 'react-apollo'
+import { useMutation, useQuery } from 'react-apollo'
 import { motion, AnimatePresence } from 'framer-motion'
 import styled from '@emotion/styled'
 import { useTranslation } from 'react-i18next'
 import { get } from 'lodash'
 
 import { RENEW_DOMAINS } from '../../graphql/mutations'
+import { GET_RENT_PRICES } from 'graphql/queries'
 import { yearInSeconds } from 'utils/dates'
 import { useEthPrice, useEditable } from '../hooks'
 import { decryptName } from '../../api/labels'
+import { trackReferral } from '../../utils/analytics'
 
 import PendingTx from '../PendingTx'
 import DefaultButton from '../Forms/Button'
@@ -108,16 +110,38 @@ export default function Renew({
 
   const { startEditing, stopEditing, startPending, setConfirmed } = actions
 
-  const [mutation] = useMutation(RENEW_DOMAINS, {
-    onCompleted: res => {
-      startPending(Object.values(res)[0])
-    }
-  })
+  const referrer = 'Kickback'
 
   const [years, setYears] = useState(1)
-  const { price: ethUsdPrice, loading } = useEthPrice()
+  const { price: ethUsdPrice, loading: ethUsdPriceLoading } = useEthPrice()
   const duration = years * yearInSeconds
   let labelsToRenew = selectedNames.map(name => name.split('.')[0])
+
+  const { data: { getRentPrices } = {}, loading: loadingRentPrices } = useQuery(
+    GET_RENT_PRICES,
+    {
+      variables: {
+        labels: labelsToRenew,
+        duration
+      }
+    }
+  )
+
+  const [mutation] = useMutation(RENEW_DOMAINS, {
+    onCompleted: res => {
+      const txHash = Object.values(res)[0]
+      startPending(txHash)
+      if (referrer) {
+        trackReferral({
+          labels: labelsToRenew, // labels array
+          transactionId: txHash, //hash
+          type: 'renew', // renew/register
+          price: getRentPrices, // in wei
+          referrer
+        })
+      }
+    }
+  })
 
   return (
     <RenewContainer>
@@ -164,9 +188,11 @@ export default function Renew({
               exit={{ opacity: 0, height: 0 }}
               labels={labelsToRenew}
               years={years}
+              loading={loadingRentPrices}
+              price={getRentPrices}
               setYears={setYears}
               duration={duration}
-              ethUsdPriceLoading={loading}
+              ethUsdPriceLoading={ethUsdPriceLoading}
               ethUsdPrice={ethUsdPrice || 0}
             />
             <Buttons>

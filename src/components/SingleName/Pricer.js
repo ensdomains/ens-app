@@ -2,7 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { useQuery } from 'react-apollo'
 
-import { GET_RENT_PRICE, GET_RENT_PRICES } from 'graphql/queries'
+import { GET_RENT_PRICE } from 'graphql/queries'
 
 import Years from './NameRegister/Years'
 import Price from './NameRegister/Price'
@@ -56,21 +56,12 @@ function PricerInner({
 }
 
 export const PricerAll = React.forwardRef((props, reference) => {
-  const { labels, duration } = props
-  const { data, loading } = useQuery(GET_RENT_PRICES, {
-    variables: {
-      labels,
-      duration
-    }
-  })
+  const { loading, price } = props
+
+  console.log(price)
 
   return (
-    <PricerInner
-      reference={reference}
-      price={loading ? 0 : data.getRentPrices}
-      loading={loading}
-      {...props}
-    />
+    <PricerInner reference={reference} price={loading ? 0 : price} {...props} />
   )
 })
 
