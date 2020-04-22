@@ -26,7 +26,8 @@
     "cancel": "Cancel",
     "edit": "Edit",
     "year": "year",
-    "year_plural": "years"
+    "year_plural": "years",
+    "migrate": "Migrate"
   },
   "home": {
     "whatisens": {
@@ -241,5 +242,14 @@
       }
     },
     "viewinmanager": "View in Manager"
+  },
+  "registrymigration": {
+    "donotaccept": "*If you trade ENS names, do not accept this name!",
+    "messages": {
+      "controller": "This name is controlled by a contract and can't be migrated automatically. Please redeploy your contract to use the new registry before setting the new controller",
+      "default": "This name needs to be migrated to the new Registry. Only the parent of this name ({{parent}}) can do this.",
+      "parentmigrate": "You must first migrate the parent domain {{ parent}} before you can migrate this subdomain",
+      "dnssec": "This name needs to be migrated to the new Registry. Please setup the correct DNS Owner and click 'Sync' button below"
+    }
   }
 }

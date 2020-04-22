@@ -25,7 +25,8 @@
     "save": "保存",
     "cancel": "取消",
     "year": "年",
-    "year_plural": "年"
+    "year_plural": "年",
+    "migrate": "迁移"
   },
   "home": {
     "whatisens": {
@@ -249,5 +250,14 @@
       }
     },
     "viewinmanager": "View in Manager"
+  },
+  "registrymigration": {
+    "donotaccept": "* 如果您在交易 ENS 域名，现在不要交易这个域名！",
+    "messages": {
+      "controller": "This name is controlled by a contract and can't be migrated automatically. Please redeploy your contract to use the new registry before setting the new controller",
+      "default": "该名称需要迁移到新的注册表，只有它的父域名（{{parent}}）可以执行这一操作。",
+      "parentmigrate": "You must first migrate the parent domain {{ parent}} before you can migrate this subdomain",
+      "dnssec": "This name needs to be migrated to the new Registry. Please setup the correct DNS Owner and click 'Sync' button below"
+    }
   }
 }

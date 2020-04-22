@@ -358,8 +358,8 @@ function DetailsContainer({
             isDeedOwner={isDeedOwner}
             outOfSync={outOfSync}
             type="address"
-            editButton={isOwnerOfParent ? 'Set' : 'Transfer'}
-            mutationButton={isOwnerOfParent ? 'Set' : 'Transfer'}
+            editButton={isOwnerOfParent ? t('c.set') : t('c.transfer')}
+            mutationButton={isOwnerOfParent ? t('c.set') : t('c.transfer')}
             mutation={isOwnerOfParent ? SET_SUBNODE_OWNER : SET_OWNER}
             refetch={refetch}
             confirm={true}
