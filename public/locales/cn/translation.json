@@ -95,8 +95,8 @@
     "messages": {
       "pending": "Pending",
       "notfinalised": "(You have not finalised)",
-      "noresolver": "No Resolver set",
-      "noowner": "Not owned"
+      "noresolver": "暂未设置解析器",
+      "noowner": "暂无注册人"
     },
     "subdomains": {
       "add": "添加子域名",
