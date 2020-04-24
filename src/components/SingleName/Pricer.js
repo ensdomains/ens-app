@@ -39,6 +39,7 @@ function PricerInner({
   ethUsdPriceLoading,
   ethUsdPrice,
   className,
+  loading,
   price,
   reference
 }) {
@@ -47,7 +48,8 @@ function PricerInner({
       <Years years={years} setYears={setYears} />
       <Chain />
       <Price
-        price={price ? price.toHexString() : price}
+        price={price}
+        loading={loading}
         ethUsdPriceLoading={ethUsdPriceLoading}
         ethUsdPrice={ethUsdPrice}
       />
@@ -56,13 +58,7 @@ function PricerInner({
 }
 
 export const PricerAll = React.forwardRef((props, reference) => {
-  const { loading, price } = props
-
-  console.log(price)
-
-  return (
-    <PricerInner reference={reference} price={loading ? 0 : price} {...props} />
-  )
+  return <PricerInner reference={reference} {...props} />
 })
 
 export default function Pricer(props) {
