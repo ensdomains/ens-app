@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import styled from '@emotion/styled'
 import { useTranslation } from 'react-i18next'
-import { Mutation, Query } from 'react-apollo'
+import { Mutation, Query, useQuery } from 'react-apollo'
 import PropTypes from 'prop-types'
 import { motion, AnimatePresence } from 'framer-motion'
 
-import { GET_PUBLIC_RESOLVER } from '../../graphql/queries'
+import { GET_PUBLIC_RESOLVER, GET_RENT_PRICE } from '../../graphql/queries'
 import mq from 'mediaQuery'
 import { useEditable, useEthPrice } from '../hooks'
 import { yearInSeconds, formatDate } from 'utils/dates'
+import { trackReferral } from 'utils/analytics'
 import { addressUtils } from 'utils/utils'
 
 import Tooltip from '../Tooltip/Tooltip'
@@ -172,7 +174,9 @@ function getInputType(
     setYears,
     duration,
     expirationDate,
-    duringMigration
+    duringMigration,
+    rentPriceLoading,
+    rentPrice
   }
 ) {
   if (keyName === 'Expiration Date') {
@@ -188,6 +192,8 @@ function getInputType(
         ethUsdPriceLoading={ethUsdPriceLoading}
         ethUsdPrice={ethUsdPrice}
         expirationDate={expirationDate}
+        loading={rentPriceLoading}
+        price={rentPrice}
       />
     )
   }
@@ -280,6 +286,10 @@ const Editable = ({
   let duration
   let expirationDate
   const [years, setYears] = useState(1)
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const referrer = queryParams.get('utm_source')
+
   const { price: ethUsdPrice, loading: ethUsdPriceLoading } = useEthPrice(
     keyName === 'Expiration Date'
   )
@@ -288,6 +298,17 @@ const Editable = ({
     expirationDate = new Date(new Date(value).getTime() + duration * 1000)
   }
 
+  const { data: { getRentPrice } = {}, loading: rentPriceLoading } = useQuery(
+    GET_RENT_PRICE,
+    {
+      variables: {
+        duration,
+        label: domain.label
+      },
+      skip: keyName !== 'Expiration Date'
+    }
+  )
+
   const isValid = getValidation(keyName, newValue)
   const isInvalid = !isValid && newValue.length > 0
 
@@ -295,7 +316,17 @@ const Editable = ({
     <Mutation
       mutation={mutation}
       onCompleted={data => {
-        startPending(Object.values(data)[0])
+        const txHash = Object.values(data)[0]
+        startPending(txHash)
+        if (keyName === 'Expiration Date') {
+          trackReferral({
+            labels: [domain.label], // labels array
+            transactionId: txHash, //hash
+            type: 'renew', // renew/register
+            price: getRentPrice._hex, // in wei
+            referrer
+          })
+        }
       }}
     >
       {mutation => (
@@ -435,7 +466,9 @@ const Editable = ({
                     ethUsdPrice,
                     ethUsdPriceLoading,
                     duration,
-                    expirationDate
+                    expirationDate,
+                    rentPriceLoading,
+                    rentPrice: getRentPrice
                   })}
                 </EditRecord>
                 <Buttons>
@@ -580,6 +613,7 @@ DetailsEditable.propTypes = {
   type: PropTypes.string, // type of value. Defaults to address
   notes: PropTypes.string,
   mutation: PropTypes.object.isRequired, //graphql mutation string for making tx
+  onCompleted: PropTypes.func, // function to be called on the onCompleted
   mutationButton: PropTypes.string, // Mutation button text
   editButton: PropTypes.string, //Edit button text
   buttonType: PropTypes.string, // style of the edit button

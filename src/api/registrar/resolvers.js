@@ -15,9 +15,9 @@ function randomSecret() {
 
 const resolvers = {
   Query: {
-    async getRentPrice(_, { name, duration }, { cache }) {
+    async getRentPrice(_, { label, duration }, { cache }) {
       const registrar = getRegistrar()
-      return registrar.getRentPrice(name, duration)
+      return registrar.getRentPrice(label, duration)
     },
     async getRentPrices(_, { labels, duration }, { cache }) {
       const registrar = getRegistrar()

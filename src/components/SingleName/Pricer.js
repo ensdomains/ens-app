@@ -61,19 +61,8 @@ export const PricerAll = React.forwardRef((props, reference) => {
   return <PricerInner reference={reference} {...props} />
 })
 
-export default function Pricer(props) {
-  const { name, duration } = props
-  const { data, loading } = useQuery(GET_RENT_PRICE, {
-    variables: {
-      name,
-      duration
-    }
-  })
-  return (
-    <PricerInner
-      price={loading ? 0 : data.getRentPrice}
-      loading={loading}
-      {...props}
-    />
-  )
-}
+const Pricer = React.forwardRef((props, reference) => {
+  return <PricerInner reference={reference} {...props} />
+})
+
+export default Pricer

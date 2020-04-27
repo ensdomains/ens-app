@@ -108,12 +108,11 @@ export default function Renew({
   const { state, actions } = useEditable()
   let location = useLocation()
   const queryParams = new URLSearchParams(location.search)
+  const referrer = queryParams.get('utm_source')
 
   const { editing, txHash, pending, confirmed } = state
 
   const { startEditing, stopEditing, startPending, setConfirmed } = actions
-
-  const referrer = queryParams.get('utm_source')
 
   const [years, setYears] = useState(1)
   const { price: ethUsdPrice, loading: ethUsdPriceLoading } = useEthPrice()
