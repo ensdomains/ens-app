@@ -63,7 +63,10 @@ const TextRecordLink = ({ textKey, value }) => {
       <ExternalLinkIcon />
     </LinkContainer>
   ) : avatar ? (
-    <AvatarImage src={value} alt="avatar" />
+    <div>
+      <AvatarImage src={value} alt="avatar" />
+      <div>{value}</div>
+    </div>
   ) : (
     value
   )
