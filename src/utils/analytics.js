@@ -1,10 +1,18 @@
 import ReactGA from 'react-ga'
 import { getNetworkId } from '@ensdomains/ui'
 import EthVal from 'ethval'
-const TrackingID = 'UA-138903307-1'
+
+const TrackingID = {
+  live: 'UA-138903307-1',
+  dev: 'UA-138903307-2'
+}
 
 function isProduction() {
   return window.location.host === 'app.ens.domains'
+}
+
+function isDev() {
+  return window.location.host === 'ensappdev.surge.sh'
 }
 
 async function isMainnet() {
@@ -14,10 +22,10 @@ async function isMainnet() {
 
 export const setup = () => {
   if (isProduction()) {
-    ReactGA.initialize(TrackingID)
+    ReactGA.initialize(TrackingID.live)
     ReactGA.plugin.require('ecommerce')
-  } else {
-    ReactGA.initialize(TrackingID, { testMode: true })
+  } else if (isDev()) {
+    ReactGA.initialize(TrackingID.dev)
     ReactGA.plugin.require('ecommerce')
   }
 }
