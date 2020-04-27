@@ -262,7 +262,7 @@ function Record(props) {
     }
   }, [recordAdded, refetch, textKey])
   useEffect(() => {
-    if (dataValue && !hasRecord) {
+    if (dataValue && parseInt(dataValue, 16) !== 0 && !hasRecord) {
       setHasRecord(true)
     }
   }, [dataValue, hasRecord, setHasRecord])
