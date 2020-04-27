@@ -26,7 +26,8 @@ export const setup = () => {
     ReactGA.plugin.require('ecommerce')
   } else if (isDev()) {
     ReactGA.initialize(TrackingID.dev)
-    ReactGA.plugin.require('ecommerce')
+    ReactGA.plugin.require('ecommerce', { debug: true })
+    console.log('Analytics setup for dev with ', TrackingID.dev)
   }
 }
 
@@ -47,8 +48,15 @@ export const trackReferral = async ({
   const mainnet = await isMainnet()
   const priceInEth = new EthVal(`${price}`).toEth()
 
-  if (isProduction() && mainnet) {
-    ReactGA.event({ labels, transactionId, type, referrer })
+  function track() {
+    ReactGA.event({
+      category: 'referral',
+      action: `${type} domain`,
+      labels,
+      transactionId,
+      type,
+      referrer
+    })
     labels.forEach(label => {
       ReactGA.plugin.execute('ecommerce', 'addItem', {
         id: transactionId,
@@ -64,13 +72,24 @@ export const trackReferral = async ({
     })
     ReactGA.plugin.execute('ecommerce', 'send')
     ReactGA.plugin.execute('ecommerce', 'clear')
+  }
+
+  if (isProduction() && mainnet) {
+    console.log('calling tracking from live')
+    track()
+    console.log('Completed tracking from live')
+  } else if (isDev()) {
+    console.log('calling tracking from dev')
+    track()
+    console.log('Completed tracking from dev')
   } else {
     console.log(
-      'Referral triggered on testnet/local',
+      'Referral triggered on local development',
       JSON.stringify({
         labels,
         transactionId,
         type,
+        price,
         referrer
       })
     )

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useParams, useLocation } from 'react-router-dom'
 import { useMutation, useQuery } from 'react-apollo'
 import { motion, AnimatePresence } from 'framer-motion'
 import styled from '@emotion/styled'
@@ -105,12 +106,14 @@ export default function Renew({
 }) {
   let { t } = useTranslation()
   const { state, actions } = useEditable()
+  let location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
 
   const { editing, txHash, pending, confirmed } = state
 
   const { startEditing, stopEditing, startPending, setConfirmed } = actions
 
-  const referrer = 'Kickback'
+  const referrer = queryParams.get('utm_source')
 
   const [years, setYears] = useState(1)
   const { price: ethUsdPrice, loading: ethUsdPriceLoading } = useEthPrice()
@@ -136,7 +139,7 @@ export default function Renew({
           labels: labelsToRenew, // labels array
           transactionId: txHash, //hash
           type: 'renew', // renew/register
-          price: getRentPrices, // in wei
+          price: getRentPrices._hex, // in wei
           referrer
         })
       }
