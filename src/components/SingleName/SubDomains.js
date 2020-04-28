@@ -28,6 +28,13 @@ function SubDomainsFromWeb3({ domain, canAddSubdomain }) {
   return (
     <Query query={GET_SUBDOMAINS} variables={{ name: domain.name }}>
       {({ loading, error, data, refetch }) => {
+        const subdomains =
+          data &&
+          data.getSubDomains &&
+          data.getSubDomains.subDomains &&
+          data.getSubDomains.subDomains.filter(subdomain => {
+            return parseInt(subdomain.owner, 16) !== 0
+          })
         if (error) {
           console.log('error getting subdomains', error)
         }
@@ -42,12 +49,7 @@ function SubDomainsFromWeb3({ domain, canAddSubdomain }) {
               <Loader withWrap large />
             </>
           )
-        if (
-          data &&
-          data.getSubDomains &&
-          data.getSubDomains.subDomains &&
-          data.getSubDomains.subDomains.length === 0
-        ) {
+        if (subdomains.length === 0) {
           return (
             <>
               <AddSubdomainContainer
@@ -66,17 +68,14 @@ function SubDomainsFromWeb3({ domain, canAddSubdomain }) {
               refetch={refetch}
               canAddSubdomain={canAddSubdomain}
             />
-            {data &&
-              data.getSubDomains &&
-              data.getSubDomains.subDomains &&
-              data.getSubDomains.subDomains.map(d => (
-                <ChildDomainItem
-                  name={d.name}
-                  owner={d.owner}
-                  parent={d.parent}
-                  labelhash={d.labelHash}
-                />
-              ))}
+            {subdomains.map(d => (
+              <ChildDomainItem
+                name={d.name}
+                owner={d.owner}
+                parent={d.parent}
+                labelhash={d.labelHash}
+              />
+            ))}
           </>
         )
       }}
@@ -116,6 +115,14 @@ function SubDomains({
           }}
         >
           {({ loading, error, data, refetch }) => {
+            const subdomains =
+              data &&
+              data.domain &&
+              data.domain.subdomains &&
+              data.domain.subdomains.filter(subdomain => {
+                return parseInt(subdomain.owner.id, 16) !== 0
+              })
+
             if (error || !data.domain) {
               console.error(
                 'Unable to get subdomains from subgraph, falling back to web3 ',
@@ -136,12 +143,7 @@ function SubDomains({
                   <Loader withWrap large />
                 </>
               )
-            if (
-              data &&
-              data.domain &&
-              data.domain.subdomains &&
-              data.domain.subdomains.length === 0
-            ) {
+            if (subdomains.length === 0) {
               return (
                 <>
                   <AddSubdomainContainer
@@ -170,26 +172,23 @@ function SubDomains({
                   refetch={refetch}
                   canAddSubdomain={canAddSubdomain}
                 />
-                {data &&
-                  data.domain &&
-                  data.domain.subdomains &&
-                  data.domain.subdomains.map(d => {
-                    let name
-                    if (d.labelName !== null) {
-                      name = `${d.labelName}.${domain.name}`
-                    } else {
-                      name = `${decryptName(d.labelhash)}.${domain.name}`
-                    }
-                    return (
-                      <ChildDomainItem
-                        name={name}
-                        isMigrated={d.isMigrated}
-                        owner={d.owner.id}
-                        parent={domain.name}
-                        labelhash={d.labelHash}
-                      />
-                    )
-                  })}
+                {subdomains.map(d => {
+                  let name
+                  if (d.labelName !== null) {
+                    name = `${d.labelName}.${domain.name}`
+                  } else {
+                    name = `${decryptName(d.labelhash)}.${domain.name}`
+                  }
+                  return (
+                    <ChildDomainItem
+                      name={name}
+                      isMigrated={d.isMigrated}
+                      owner={d.owner.id}
+                      parent={domain.name}
+                      labelhash={d.labelHash}
+                    />
+                  )
+                })}
               </>
             )
           }}
