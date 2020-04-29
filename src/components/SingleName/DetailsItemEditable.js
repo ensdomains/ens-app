@@ -57,6 +57,7 @@ const EditButton = styled(Button)`
 
 const DetailsEditableContainer = styled(DetailsItem)`
   flex-direction: column;
+  min-height: 30px;
 
   background: ${({ editing, backgroundStyle }) => {
     switch (backgroundStyle) {
@@ -87,7 +88,7 @@ const Action = styled(motion.div)`
     margin-top: 0;
     position: absolute;
     right: 10px;
-    top: 0;
+    top: -10px;
     transform: translate(0, -65%);
   `}
 `
