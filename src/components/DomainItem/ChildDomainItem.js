@@ -3,7 +3,7 @@ import styled from '@emotion/styled'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
-import { SingleNameBlockies } from '../SingleName/SingleNameBlockies'
+import { SingleNameBlockies } from '../Blockies'
 import { formatDate, calculateIsExpiredSoon } from 'utils/dates'
 import Checkbox from '../Forms/Checkbox'
 import mq, { useMediaMin } from 'mediaQuery'

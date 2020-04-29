@@ -14,7 +14,7 @@ import { trackReferral } from 'utils/analytics'
 import { addressUtils } from 'utils/utils'
 
 import Tooltip from '../Tooltip/Tooltip'
-import { SingleNameBlockies } from './SingleNameBlockies'
+import { SingleNameBlockies } from '../Blockies'
 import DefaultAddressLink from '../Links/AddressLink'
 import {
   DetailsItem,

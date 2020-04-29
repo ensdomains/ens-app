@@ -24,11 +24,13 @@ import Filtering from './Filtering'
 import Loader from '../Loader'
 import Banner from '../Banner'
 import Checkbox from '../Forms/Checkbox'
+import { SingleNameBlockies } from '../Blockies'
 
 import warning from '../../assets/yellowwarning.svg'
 import close from '../../assets/close.svg'
 
 const TopBar = styled(DefaultTopBar)`
+  justify-content: flex-start;
   margin-bottom: 40px;
 `
 
@@ -40,6 +42,7 @@ const Title = styled(DefaultTitle)`
 
 const EtherScanLink = styled(DefaultEtherScanLink)`
   min-width: 165px;
+  margin-left: auto;
 `
 
 const Close = styled('img')`
@@ -240,6 +243,7 @@ export default function Address({
 
       <AddressContainer>
         <TopBar>
+          <SingleNameBlockies address={address} />
           <Title>{address}</Title>
           {etherScanAddr && (
             <EtherScanLink
