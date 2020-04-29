@@ -5,8 +5,7 @@ import { useTranslation } from 'react-i18next'
 
 import {
   GET_DOMAINS_SUBGRAPH,
-  GET_REGISTRATIONS_SUBGRAPH,
-  GET_REVERSE_RECORD
+  GET_REGISTRATIONS_SUBGRAPH
 } from '../../graphql/queries'
 import { decryptName, checkIsDecrypted } from '../../api/labels'
 
@@ -29,16 +28,6 @@ import { SingleNameBlockies } from '../Blockies'
 
 import warning from '../../assets/yellowwarning.svg'
 import close from '../../assets/close.svg'
-import { Link } from 'react-router-dom'
-const DomainLink = styled('a')``
-const Avatar = styled('img')`
-  width: 42px;
-  height: 42px;
-  margin-right: 10px;
-  border-radius: 50%;
-  box-shadow: 2px 2px 9px 0 #e1e1e1;
-  flex-shrink: 0;
-`
 
 const TopBar = styled(DefaultTopBar)`
   justify-content: flex-start;
@@ -186,20 +175,12 @@ export default function Address({
     { variables: { id: normalisedAddress } }
   )
 
-  const {
-    data: { getReverseRecord } = {},
-    loading: reverseRecordLoading
-  } = useQuery(GET_REVERSE_RECORD, {
-    variables: {
-      address
-    }
-  })
-
   useEffect(() => {
     getEtherScanAddr().then(setEtherScanAddr)
   }, [])
 
   if (error) {
+    console.log(error)
     return <>Error getting domains. {JSON.stringify(error)}</>
   }
 
@@ -262,24 +243,8 @@ export default function Address({
 
       <AddressContainer>
         <TopBar>
-          {getReverseRecord && getReverseRecord.avatar ? (
-            <Avatar src={getReverseRecord.avatar} />
-          ) : (
-            <SingleNameBlockies address={address} />
-          )}
-
+          <SingleNameBlockies address={address} />
           <Title>{address}</Title>
-          {getReverseRecord ? (
-            <Link
-              data-testid={`${getReverseRecord.name}`}
-              key={`${getReverseRecord.name}`}
-              to={`/name/${getReverseRecord.name}`}
-            >
-              ({getReverseRecord.name})
-            </Link>
-          ) : (
-            ''
-          )}
           {etherScanAddr && (
             <EtherScanLink
               target="_blank"
