@@ -49,7 +49,8 @@ export default function DomainList({
   checkedBoxes,
   setCheckedBoxes,
   setSelectAll,
-  domains
+  domains,
+  showBlockies
 }) {
   if (!domains || domains.length === 0) {
     return (
@@ -78,6 +79,7 @@ export default function DomainList({
                 activeFilter === 'registrant' ? setCheckedBoxes : null
               }
               setSelectAll={setSelectAll}
+              showBlockies={showBlockies}
             />
           </>
         )

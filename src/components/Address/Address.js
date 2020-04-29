@@ -302,6 +302,7 @@ export default function Address({
           activeFilter={domainType}
           checkedBoxes={checkedBoxes}
           setCheckedBoxes={setCheckedBoxes}
+          showBlockies={false}
         />
       </AddressContainer>
     </>

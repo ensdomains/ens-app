@@ -22,10 +22,12 @@ const DomainLink = styled(Link)`
   font-weight: 100;
   border-bottom: 1px dashed #d3d3d3;
 
-  ${mq.small`
-    grid-template-columns: 30px 1fr minmax(150px, 300px) 23px;
-    grid-template-rows: 50px
-  `}
+  ${p =>
+    !p.showBlockies &&
+    mq.small`
+        grid-template-columns: 1fr minmax(150px, 300px) 23px;
+        grid-template-rows: 50px
+      `}
 
   &:last-child {
     border: none;
@@ -69,7 +71,8 @@ export default function ChildDomainItem({
   isMigrated,
   checkedBoxes,
   setCheckedBoxes,
-  setSelectAll
+  setSelectAll,
+  showBlockies = true
 }) {
   let { t } = useTranslation()
   const smallBP = useMediaMin('small')
@@ -82,12 +85,15 @@ export default function ChildDomainItem({
   const isExpiredSoon = calculateIsExpiredSoon(expiryDate)
   return (
     <DomainLink
+      showBlockie={showBlockies}
       data-testid={`${name}`}
       warning={isMigrated === false ? true : false}
       key={name}
       to={`/name/${name}`}
     >
-      {smallBP && <SingleNameBlockies imageSize={24} address={owner} />}
+      {showBlockies && smallBP && (
+        <SingleNameBlockies imageSize={24} address={owner} />
+      )}
       <h3>{label}</h3>
       {expiryDate && (
         <ExpiryDate isExpiredSoon={isExpiredSoon}>

@@ -1,8 +1,5 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { useQuery } from 'react-apollo'
-
-import { GET_RENT_PRICE } from 'graphql/queries'
 
 import Years from './NameRegister/Years'
 import Price from './NameRegister/Price'

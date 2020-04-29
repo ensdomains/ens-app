@@ -4,7 +4,9 @@ import { useHistory } from 'react-router-dom'
 import { Mutation } from 'react-apollo'
 import { useTranslation } from 'react-i18next'
 
+import { trackReferral } from '../../../utils/analytics'
 import { COMMIT, REGISTER } from '../../../graphql/mutations'
+import { useReferrer } from '../../hooks'
 
 import Tooltip from 'components/Tooltip/Tooltip'
 import PendingTx from '../../PendingTx'
@@ -45,7 +47,9 @@ function getCTA({
   refetch,
   refetchIsMigrated,
   readOnly,
+  price,
   history,
+  referrer,
   t
 }) {
   const CTAs = {
@@ -54,7 +58,8 @@ function getCTA({
         mutation={COMMIT}
         variables={{ label }}
         onCompleted={data => {
-          setTxHash(Object.values(data)[0])
+          const txHash = Object.values(data)[0]
+          setTxHash(txHash)
           incrementStep()
         }}
       >
@@ -114,7 +119,15 @@ function getCTA({
         mutation={REGISTER}
         variables={{ label, duration }}
         onCompleted={data => {
-          setTxHash(Object.values(data)[0])
+          const txHash = Object.values(data)[0]
+          setTxHash(txHash)
+          trackReferral({
+            transactionId: txHash,
+            labels: [label],
+            type: 'register', // renew/register
+            price: price._hex, // in wei
+            referrer //
+          })
           incrementStep()
         }}
       >
@@ -164,10 +177,12 @@ const CTA = ({
   isAboveMinDuration,
   refetch,
   refetchIsMigrated,
-  readOnly
+  readOnly,
+  price
 }) => {
   const { t } = useTranslation()
   const history = useHistory()
+  const referrer = useReferrer()
   const [txHash, setTxHash] = useState(undefined)
   return (
     <CTAContainer>
@@ -183,7 +198,9 @@ const CTA = ({
         refetch,
         refetchIsMigrated,
         readOnly,
+        price,
         history,
+        referrer,
         t
       })}
     </CTAContainer>

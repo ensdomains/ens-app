@@ -1,4 +1,5 @@
 import { useEffect, useReducer, useRef, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import getEtherPrice from 'api/price'
 import { loggedIn, logout } from './IPFS/auth'
 
@@ -165,4 +166,10 @@ export function useEthPrice(enabled = true) {
     loading,
     price
   }
+}
+
+export function useReferrer() {
+  let location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  return queryParams.get('utm_source')
 }
