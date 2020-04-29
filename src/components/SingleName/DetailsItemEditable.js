@@ -3,13 +3,15 @@ import styled from '@emotion/styled'
 import { Mutation, Query } from 'react-apollo'
 import PropTypes from 'prop-types'
 import { Transition } from 'react-spring'
-
+import { SET_RESOLVER, SET_SUBNODE_OWNER, SET_OWNER } from 'graphql/mutations'
 import { GET_PUBLIC_RESOLVER } from '../../graphql/queries'
 import mq from 'mediaQuery'
 import { useEditable, useEthPrice } from '../hooks'
 import { yearInSeconds, formatDate } from 'utils/dates'
 import { addressUtils } from 'utils/utils'
-
+import Bin from '../Forms/Bin'
+import { emptyAddress } from 'utils/utils'
+import { useAccount } from '../QueryAccount'
 import Tooltip from '../Tooltip/Tooltip'
 import { SingleNameBlockies } from './SingleNameBlockies'
 import DefaultAddressLink from '../Links/AddressLink'
@@ -153,6 +155,28 @@ function getToolTipMessage(keyName) {
   }
 }
 
+function isOwnerOfParentDomain(domain, account) {
+  if (domain.parentOwner !== emptyAddress) {
+    return domain.parentOwner.toLowerCase() === account.toLowerCase()
+  }
+  return false
+}
+
+function chooseMutation(recordType, isOwnerOfParent) {
+  switch (recordType) {
+    case 'Controller':
+      if (isOwnerOfParent) {
+        return SET_SUBNODE_OWNER
+      } else {
+        return SET_OWNER
+      }
+    case 'Resolver':
+      return SET_RESOLVER
+    default:
+      throw new Error('Not a recognised record type')
+  }
+}
+
 function getInputType(
   keyName,
   type,
@@ -286,7 +310,9 @@ const Editable = ({
 
   const isValid = getValidation(keyName, newValue)
   const isInvalid = !isValid && newValue.length > 0
-
+  const account = useAccount()
+  const isOwnerOfParent = isOwnerOfParentDomain(domain, account)
+  const canDelete = ['Controller', 'Resolver'].includes(keyName)
   return (
     <Mutation
       mutation={mutation}
@@ -369,6 +395,32 @@ const Editable = ({
                   />
                 )}
               </Action>
+            )}
+            {editing && canDelete ? (
+              <Action>
+                <Mutation
+                  mutation={chooseMutation(keyName, isOwnerOfParent)}
+                  variables={{
+                    name: domain.name,
+                    address: emptyAddress
+                  }}
+                  onCompleted={data => {
+                    startPending(Object.values(data)[0])
+                  }}
+                >
+                  {mutate => (
+                    <Bin
+                      data-testid={`delete-${type.toLowerCase()}`}
+                      onClick={e => {
+                        e.preventDefault()
+                        mutate()
+                      }}
+                    />
+                  )}
+                </Mutation>
+              </Action>
+            ) : (
+              ''
             )}
           </DetailsContent>
           <Transition
