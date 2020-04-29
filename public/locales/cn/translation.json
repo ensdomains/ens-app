@@ -73,6 +73,11 @@
       "details": "详情",
       "subdomains": "子域名"
     },
+    "expiry": {
+      "expired": "已经到期",
+      "expiring": "即将到期",
+      "gracePeriodEnds": "宽限期截至 "
+    },
     "learnmore": {
       "title": "学习如何管理你的域名",
       "step1": {

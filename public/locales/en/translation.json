@@ -60,6 +60,11 @@
       "details": "Details",
       "subdomains": "Subdomains"
     },
+    "expiry": {
+      "expired": "Expired",
+      "expiring": "Expiring Soon",
+      "gracePeriodEnds": "Grace period ends"
+    },
     "learnmore": {
       "title": "Learn how to manage your name.",
       "step1": {

@@ -142,13 +142,13 @@ const DomainOwnerAddress = styled(`span`)`
 
 const GracePeriodWarningContainer = styled('div')`
   font-family: 'Overpass';
-  background: #fef7e9;
+  background: ${p => (p.isExpired ? '#ff926f' : '#fef7e9')};
   padding: 10px 20px;
   margin: 5px 0px;
 `
 
 const GracePeriodText = styled('span')`
-  color: #cacaca;
+  color: ${p => (p.isExpired ? 'white' : '#cacaca')};
   margin-left: 0.5em;
 `
 
@@ -157,16 +157,23 @@ const GracePeriodDate = styled('span')`
 `
 
 const Expiration = styled('span')`
-  color: #f5a623;
+  color: ${p => (p.isExpired ? 'white' : '#f5a623')};
   font-weight: bold;
 `
 
-const GracePeriodWarning = ({ date }) => {
+const GracePeriodWarning = ({ date, expiryTime }) => {
+  let { t } = useTranslation()
+  let isExpired = new Date() > new Date(expiryTime)
   return (
-    <GracePeriodWarningContainer>
-      <Expiration>Expiring soon.</Expiration>
-      <GracePeriodText>
-        Grace period ends <GracePeriodDate>{formatDate(date)}</GracePeriodDate>
+    <GracePeriodWarningContainer isExpired={isExpired}>
+      <Expiration isExpired={isExpired}>
+        {isExpired
+          ? t('singleName.expiry.expired')
+          : t('singleName.expiry.expiringSoon')}
+      </Expiration>
+      <GracePeriodText isExpired={isExpired}>
+        {t('singleName.expiry.gracePeriodEnds')}{' '}
+        <GracePeriodDate>{formatDate(date)}</GracePeriodDate>
       </GracePeriodText>
     </GracePeriodWarningContainer>
   )
@@ -474,7 +481,10 @@ function DetailsContainer({
               value={domain.expiryTime}
               notes={
                 domain.gracePeriodEndDate ? (
-                  <GracePeriodWarning date={domain.gracePeriodEndDate} />
+                  <GracePeriodWarning
+                    expiryTime={domain.expiryTime}
+                    date={domain.gracePeriodEndDate}
+                  />
                 ) : (
                   ''
                 )
