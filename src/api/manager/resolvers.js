@@ -477,10 +477,12 @@ const resolvers = {
         const { name } = await ens.getName(address)
         if (name !== null) {
           const addr = await ens.getAddress(name)
+          const avatar = await ens.getText(name, 'avatar')
           return {
             ...obj,
             name,
             addr,
+            avatar,
             match: false
           }
         } else {

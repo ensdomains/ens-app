@@ -18,6 +18,17 @@ export const GET_PUBLIC_RESOLVER = gql`
   }
 `
 
+export const GET_REVERSE_RECORD = gql`
+  query getReverseRecord($address: String) @client {
+    getReverseRecord(address: $address) @client {
+      name
+      address
+      avatar
+      match
+    }
+  }
+`
+
 export const GET_ALL_NODES = gql`
   query names {
     names @client {
