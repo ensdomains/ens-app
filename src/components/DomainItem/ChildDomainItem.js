@@ -1,13 +1,18 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import { Link } from 'react-router-dom'
-import { SingleNameBlockies } from '../SingleName/SingleNameBlockies'
+import { useTranslation } from 'react-i18next'
+
+import { SingleNameBlockies } from '../Blockies'
 import { formatDate, calculateIsExpiredSoon } from 'utils/dates'
+import Checkbox from '../Forms/Checkbox'
+import mq, { useMediaMin } from 'mediaQuery'
+import { checkIsDecrypted } from '../../api/labels'
 
 const DomainLink = styled(Link)`
   display: grid;
-  grid-template-columns: 30px auto 300px;
-  grid-template-rows: 50px;
+  grid-template-columns: 1fr 23px;
+  grid-template-rows: 50px 50px;
   grid-gap: 10px;
   width: 100%;
   padding: 30px 0;
@@ -16,6 +21,13 @@ const DomainLink = styled(Link)`
   font-size: 22px;
   font-weight: 100;
   border-bottom: 1px dashed #d3d3d3;
+
+  ${p =>
+    !p.showBlockies &&
+    mq.small`
+        grid-template-columns: 1fr minmax(150px, 300px) 23px;
+        grid-template-rows: 50px
+      `}
 
   &:last-child {
     border: none;
@@ -33,8 +45,13 @@ const DomainLink = styled(Link)`
   }
 
   p {
+    grid-row-start: 2;
     margin: 0;
     align-self: center;
+
+    ${mq.small`
+      grid-row-start: auto;
+    `}
   }
 `
 
@@ -51,27 +68,53 @@ export default function ChildDomainItem({
   labelName,
   parent,
   expiryDate,
-  isMigrated
+  isMigrated,
+  checkedBoxes,
+  setCheckedBoxes,
+  setSelectAll,
+  showBlockies = true
 }) {
-  let label =
-    labelName !== null
-      ? `${name}`
-      : `[unknown${labelhash.slice(2, 10)}].${parent}`
-  if (isMigrated === false) label = label + ' (not migrated)'
+  let { t } = useTranslation()
+  const smallBP = useMediaMin('small')
+  const isDecrypted = checkIsDecrypted(name)
+  let label = isDecrypted
+    ? `${name}`
+    : `[unknown${labelhash.slice(2, 10)}].${parent}`
+  if (isMigrated === false)
+    label = label + ` (${t('childDomainItem.notmigrated')})`
   const isExpiredSoon = calculateIsExpiredSoon(expiryDate)
   return (
     <DomainLink
+      showBlockie={showBlockies}
+      data-testid={`${name}`}
       warning={isMigrated === false ? true : false}
       key={name}
       to={`/name/${name}`}
     >
-      <SingleNameBlockies imageSize={24} address={owner} />
+      {showBlockies && smallBP && (
+        <SingleNameBlockies imageSize={24} address={owner} />
+      )}
       <h3>{label}</h3>
-      {expiryDate ? (
+      {expiryDate && (
         <ExpiryDate isExpiredSoon={isExpiredSoon}>
-          Expires {formatDate(parseInt(expiryDate * 1000))}
+          {t('c.expires')} {formatDate(parseInt(expiryDate * 1000))}
         </ExpiryDate>
-      ) : null}
+      )}
+      {checkedBoxes && isDecrypted && (
+        <Checkbox
+          testid={`checkbox-${name}`}
+          checked={checkedBoxes[name]}
+          onClick={e => {
+            e.preventDefault()
+            setCheckedBoxes(prevState => {
+              return { ...prevState, [name]: !prevState[name] }
+            })
+            if (checkedBoxes[name]) {
+              setSelectAll(false)
+            }
+          }}
+        />
+      )}
     </DomainLink>
   )
 }

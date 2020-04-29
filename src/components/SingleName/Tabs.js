@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from '@emotion/styled'
 import { Link } from 'react-router-dom'
 
@@ -53,6 +54,7 @@ function getDetailsActive(domain, pathname, tab) {
   }
 }
 const Tabs = ({ domain, pathname, parent, tab }) => {
+  const { t } = useTranslation()
   const { name, state } = domain
   return (
     (state !== 'Auction' || state !== 'Reveal') && (
@@ -66,7 +68,7 @@ const Tabs = ({ domain, pathname, parent, tab }) => {
             }
             to={`/name/${name}/register`}
           >
-            Register
+            {t('singleName.tabs.register')}
           </TabLink>
         )}
 
@@ -74,13 +76,13 @@ const Tabs = ({ domain, pathname, parent, tab }) => {
           active={getDetailsActive(domain, pathname, tab)}
           to={`/name/${name}/details`}
         >
-          Details
+          {t('singleName.tabs.details')}
         </TabLink>
         <TabLink
           active={pathname === `/name/${name}/subdomains`}
           to={`/name/${name}/subdomains`}
         >
-          Subdomains
+          {t('singleName.tabs.subdomains')}
         </TabLink>
       </TabContainer>
     )

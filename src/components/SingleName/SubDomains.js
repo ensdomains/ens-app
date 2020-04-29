@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import { useTranslation } from 'react-i18next'
 import { Query } from 'react-apollo'
 import {
   GET_SUBDOMAINS_FROM_SUBGRAPH,
@@ -98,6 +99,7 @@ function SubDomains({
   loadingIsMigrated,
   ...rest
 }) {
+  const { t } = useTranslation()
   const canAddSubdomain =
     isOwner &&
     !loadingIsParentMigrated &&
@@ -151,7 +153,9 @@ function SubDomains({
                     refetch={refetch}
                     canAddSubdomain={canAddSubdomain}
                   />
-                  <SubDomainH2>No subdomains have been added.</SubDomainH2>
+                  <SubDomainH2>
+                    {t('singleName.subdomains.nosubdomains')}
+                  </SubDomainH2>
                 </>
               )
             }
@@ -194,7 +198,7 @@ function SubDomains({
           }}
         </Query>
       ) : (
-        <SubDomainH2>No subdomains have been added.</SubDomainH2>
+        <SubDomainH2>{t('singleName.subdomains.nosubdomains')}</SubDomainH2>
       )}
     </SubDomainsContainer>
   )

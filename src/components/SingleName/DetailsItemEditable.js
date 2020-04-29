@@ -1,19 +1,24 @@
 import React, { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import styled from '@emotion/styled'
-import { Mutation, Query } from 'react-apollo'
+import { useTranslation } from 'react-i18next'
+import { Mutation, Query, useQuery } from 'react-apollo'
 import PropTypes from 'prop-types'
-import { Transition } from 'react-spring'
+import { motion, AnimatePresence } from 'framer-motion'
+
+import { GET_PUBLIC_RESOLVER, GET_RENT_PRICE } from '../../graphql/queries'
 import { SET_RESOLVER, SET_SUBNODE_OWNER, SET_OWNER } from 'graphql/mutations'
-import { GET_PUBLIC_RESOLVER } from '../../graphql/queries'
+
 import mq from 'mediaQuery'
 import { useEditable, useEthPrice } from '../hooks'
 import { yearInSeconds, formatDate } from 'utils/dates'
+import { trackReferral } from 'utils/analytics'
 import { addressUtils } from 'utils/utils'
 import Bin from '../Forms/Bin'
 import { emptyAddress } from 'utils/utils'
 import { useAccount } from '../QueryAccount'
 import Tooltip from '../Tooltip/Tooltip'
-import { SingleNameBlockies } from './SingleNameBlockies'
+import { SingleNameBlockies } from '../Blockies'
 import DefaultAddressLink from '../Links/AddressLink'
 import {
   DetailsItem,
@@ -21,7 +26,7 @@ import {
   DetailsValue,
   DetailsContent
 } from './DetailsItem'
-import SaveCancel from './SaveCancel'
+import DefaultSaveCancel from './SaveCancel'
 import DefaultInput from '../Forms/Input'
 import Button from '../Forms/Button'
 import Pencil from '../Forms/Pencil'
@@ -56,6 +61,7 @@ const EditButton = styled(Button)`
 
 const DetailsEditableContainer = styled(DetailsItem)`
   flex-direction: column;
+  min-height: 30px;
 
   background: ${({ editing, backgroundStyle }) => {
     switch (backgroundStyle) {
@@ -72,7 +78,7 @@ const DetailsEditableContainer = styled(DetailsItem)`
   ${({ editing }) => editing && mq.small` flex-direction: column;`};
 `
 
-const EditRecord = styled('div')`
+const EditRecord = styled(motion.div)`
   width: 100%;
 `
 
@@ -80,13 +86,13 @@ const Input = styled(DefaultInput)`
   margin-bottom: 20px;
 `
 
-const Action = styled('div')`
+const Action = styled(motion.div)`
   margin-top: 20px;
   ${mq.small`
     margin-top: 0;
     position: absolute;
     right: 10px;
-    top: 50%;
+    top: -10px;
     transform: translate(0, -65%);
   `}
 `
@@ -114,42 +120,44 @@ const Buttons = styled('div')`
   align-items: center;
 `
 
-function getMessages({ keyName, parent, deedOwner, isDeedOwner }) {
-  let [newValue, newType] = getDefaultMessage(keyName)
+const SaveCancel = motion.custom(DefaultSaveCancel)
+
+function getMessages({ keyName, parent, deedOwner, isDeedOwner, t }) {
+  let [newValue, newType] = getDefaultMessage(keyName, t)
   if (
     keyName === 'Owner' &&
     parent === 'eth' &&
     parseInt(deedOwner, 16) !== 0
   ) {
-    newValue = 'Pending'
+    newValue = t('singleName.messages.noresolver')
     if (isDeedOwner) {
-      newValue += '(You have not finalised)'
+      newValue += t('singleName.messages.notfinalise')
     }
   }
 
   return [newValue, newType]
 }
 
-function getDefaultMessage(keyName) {
+function getDefaultMessage(keyName, t) {
   switch (keyName) {
     case 'Resolver':
-      return ['No Resolver set', 'message']
+      return [t('singleName.messages.noresolver'), 'message']
     case 'Controller':
     case 'Registrant':
-      return ['Not owned', 'message']
+      return [t('singleName.messages.noowner'), 'message']
     default:
       return ['No 0x message set', 'message']
   }
 }
 
-function getToolTipMessage(keyName) {
+function getToolTipMessage(keyName, t) {
   switch (keyName) {
     case 'Resolver':
-      return 'You can only set the resolver on this name if you are the controller and are logged into your wallet'
+      return t(`singleName.tooltips.detailsItem.${keyName}`)
     case 'Controller':
-      return 'You can only transfer the controller if you are the controller or registrant and are logged into your wallet'
+      return t(`singleName.tooltips.detailsItem.${keyName}`)
     case 'Registrant':
-      return 'You can only transfer the registrant if you are the registrant and are logged into your wallet'
+      return t(`singleName.tooltips.detailsItem.${keyName}`)
     default:
       return 'You can only make changes if you are the controller and are logged into your wallet'
   }
@@ -193,7 +201,9 @@ function getInputType(
     setYears,
     duration,
     expirationDate,
-    duringMigration
+    duringMigration,
+    rentPriceLoading,
+    rentPrice
   }
 ) {
   if (keyName === 'Expiration Date') {
@@ -209,6 +219,8 @@ function getInputType(
         ethUsdPriceLoading={ethUsdPriceLoading}
         ethUsdPrice={ethUsdPrice}
         expirationDate={expirationDate}
+        loading={rentPriceLoading}
+        price={rentPrice}
       />
     )
   }
@@ -283,6 +295,7 @@ const Editable = ({
   refetch,
   confirm
 }) => {
+  const { t } = useTranslation()
   const { state, actions } = useEditable()
   const [presetValue, setPresetValue] = useState('')
 
@@ -300,6 +313,10 @@ const Editable = ({
   let duration
   let expirationDate
   const [years, setYears] = useState(1)
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const referrer = queryParams.get('utm_source')
+
   const { price: ethUsdPrice, loading: ethUsdPriceLoading } = useEthPrice(
     keyName === 'Expiration Date'
   )
@@ -307,6 +324,17 @@ const Editable = ({
     duration = parseFloat(years) * yearInSeconds
     expirationDate = new Date(new Date(value).getTime() + duration * 1000)
   }
+
+  const { data: { getRentPrice } = {}, loading: rentPriceLoading } = useQuery(
+    GET_RENT_PRICE,
+    {
+      variables: {
+        duration,
+        label: domain.label
+      },
+      skip: keyName !== 'Expiration Date'
+    }
+  )
 
   const isValid = getValidation(keyName, newValue)
   const isInvalid = !isValid && newValue.length > 0
@@ -317,7 +345,17 @@ const Editable = ({
     <Mutation
       mutation={mutation}
       onCompleted={data => {
-        startPending(Object.values(data)[0])
+        const txHash = Object.values(data)[0]
+        startPending(txHash)
+        if (keyName === 'Expiration Date') {
+          trackReferral({
+            labels: [domain.label], // labels array
+            transactionId: txHash, //hash
+            type: 'renew', // renew/register
+            price: getRentPrice._hex, // in wei
+            referrer
+          })
+        }
       }}
     >
       {mutation => (
@@ -328,7 +366,7 @@ const Editable = ({
           <DetailsContent editing={editing}>
             {showLabel && (
               <>
-                <DetailsKey>{keyName}</DetailsKey>
+                <DetailsKey>{t(`c.${keyName}`)}</DetailsKey>
                 <DetailsValue
                   editing={editing}
                   editable
@@ -379,7 +417,20 @@ const Editable = ({
                 }}
               />
             ) : (
-              <Action>
+              <Action
+                initial={{
+                  opacity: 0,
+                  x: 0
+                }}
+                animate={{
+                  opacity: 1,
+                  x: 0
+                }}
+                exit={{
+                  opacity: 0,
+                  x: 0
+                }}
+              >
                 {editButton ? (
                   <EditButton
                     type={editButtonType}
@@ -423,81 +474,104 @@ const Editable = ({
               ''
             )}
           </DetailsContent>
-          <Transition
-            items={editing}
-            from={{ opacity: 0, height: 0 }}
-            enter={{ opacity: 1, height: 'auto' }}
-            leave={{ opacity: 0, height: 0 }}
-          >
-            {editing =>
-              editing &&
-              (props => (
-                <div style={props}>
-                  <EditRecord>
-                    {getInputType(keyName, type, {
-                      newValue,
-                      updateValue,
-                      presetValue,
-                      isValid,
-                      isInvalid,
-                      years,
-                      name: domain.name,
-                      setYears,
-                      ethUsdPrice,
-                      ethUsdPriceLoading,
-                      duration,
-                      expirationDate
-                    })}
-                  </EditRecord>
-                  <Buttons>
-                    {keyName === 'Resolver' && (
-                      <Query query={GET_PUBLIC_RESOLVER}>
-                        {({ data, loading }) => {
-                          if (loading) return null
-                          return (
-                            <DefaultResolverButton
-                              onClick={e => {
-                                e.preventDefault()
-                                setPresetValue(data.publicResolver.address)
-                              }}
-                            >
-                              Use Public Resolver
-                            </DefaultResolverButton>
-                          )
-                        }}
-                      </Query>
-                    )}
-
-                    <SaveCancel
-                      stopEditing={stopEditing}
-                      mutation={() => {
-                        const variables = getVariables(keyName, {
-                          domain,
-                          variableName,
-                          newValue,
-                          duration
-                        })
-                        mutation({ variables })
+          <AnimatePresence>
+            {editing && (
+              <motion.div
+                initial={{
+                  height: 0,
+                  width: 0,
+                  opacity: 0
+                }}
+                animate={{
+                  height: 'auto',
+                  width: '100%',
+                  opacity: 1
+                }}
+                exit={{
+                  height: 0,
+                  width: 0,
+                  opacity: 0
+                }}
+                transition={{ ease: 'easeOut', duration: 0.3 }}
+              >
+                <EditRecord
+                  initial={{
+                    scale: 0,
+                    opacity: 0
+                  }}
+                  animate={{
+                    scale: 1,
+                    opacity: 1
+                  }}
+                  exit={{
+                    scale: 0,
+                    opacity: 0
+                  }}
+                  transition={{ ease: 'easeOut', duration: 0.3 }}
+                >
+                  {getInputType(keyName, type, {
+                    newValue,
+                    updateValue,
+                    presetValue,
+                    isValid,
+                    isInvalid,
+                    years,
+                    name: domain.name,
+                    setYears,
+                    ethUsdPrice,
+                    ethUsdPriceLoading,
+                    duration,
+                    expirationDate,
+                    rentPriceLoading,
+                    rentPrice: getRentPrice
+                  })}
+                </EditRecord>
+                <Buttons>
+                  {keyName === 'Resolver' && (
+                    <Query query={GET_PUBLIC_RESOLVER}>
+                      {({ data, loading }) => {
+                        if (loading) return null
+                        return (
+                          <DefaultResolverButton
+                            onClick={e => {
+                              e.preventDefault()
+                              setPresetValue(data.publicResolver.address)
+                            }}
+                          >
+                            Use Public Resolver
+                          </DefaultResolverButton>
+                        )
                       }}
-                      value={
-                        keyName === 'Expiration Date'
-                          ? formatDate(value)
-                          : value
-                      }
-                      newValue={
-                        keyName === 'Expiration Date'
-                          ? formatDate(expirationDate)
-                          : newValue
-                      }
-                      mutationButton={mutationButton}
-                      confirm={confirm}
-                      isValid={isValid}
-                    />
-                  </Buttons>
-                </div>
-              ))
-            }
-          </Transition>
+                    </Query>
+                  )}
+
+                  <SaveCancel
+                    stopEditing={stopEditing}
+                    mutation={() => {
+                      const variables = getVariables(keyName, {
+                        domain,
+                        variableName,
+                        newValue,
+                        duration
+                      })
+                      mutation({ variables })
+                    }}
+                    value={
+                      keyName === 'Expiration Date' ? formatDate(value) : value
+                    }
+                    newValue={
+                      keyName === 'Expiration Date'
+                        ? formatDate(expirationDate)
+                        : newValue
+                    }
+                    mutationButton={mutationButton}
+                    confirm={true}
+                    isValid={true}
+                  />
+                </Buttons>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </DetailsEditableContainer>
       )}
     </Mutation>
@@ -513,13 +587,15 @@ function ViewOnly({
   isDeedOwner,
   domain
 }) {
+  const { t } = useTranslation()
   //get default messages for 0x values
   if (parseInt(value, 16) === 0) {
     let [newValue, newType] = getMessages({
       keyName,
       parent: domain.parent,
       deedOwner,
-      isDeedOwner
+      isDeedOwner,
+      t
     })
 
     value = newValue
@@ -528,7 +604,7 @@ function ViewOnly({
   return (
     <DetailsEditableContainer>
       <DetailsContent>
-        <DetailsKey>{keyName}</DetailsKey>
+        <DetailsKey>{t(`c.${keyName}`)}</DetailsKey>
         <DetailsValue data-testid={`details-value-${keyName.toLowerCase()}`}>
           {type === 'address' ? (
             <AddressLink address={value}>
@@ -545,7 +621,7 @@ function ViewOnly({
         <Action>
           {editButton ? (
             <Tooltip
-              text={getToolTipMessage(keyName)}
+              text={getToolTipMessage(keyName, t)}
               position="top"
               border={true}
               warning={true}
@@ -592,6 +668,7 @@ DetailsEditable.propTypes = {
   type: PropTypes.string, // type of value. Defaults to address
   notes: PropTypes.string,
   mutation: PropTypes.object.isRequired, //graphql mutation string for making tx
+  onCompleted: PropTypes.func, // function to be called on the onCompleted
   mutationButton: PropTypes.string, // Mutation button text
   editButton: PropTypes.string, //Edit button text
   buttonType: PropTypes.string, // style of the edit button

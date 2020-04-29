@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import { useTranslation } from 'react-i18next'
+
 import NetworkInformation from '../NetworkInformation/NetworkInformation'
 import useNetworkInfo from '../NetworkInformation/useNetworkInfo'
 import Heart from '../Icons/Heart'
@@ -72,11 +74,15 @@ const NavLink = styled(Link)`
     path {
       fill: #5284ff;
     }
+    g {
+      fill: #5284ff;
+    }
   }
 `
 
 function SideNav({ match, isMenuOpen, toggleMenu }) {
   const { url } = match
+  const { t } = useTranslation()
   const { accounts } = useNetworkInfo()
   return (
     <SideNavContainer isMenuOpen={isMenuOpen}>
@@ -90,7 +96,7 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
               to={'/address/' + accounts[0]}
             >
               <File active={url === '/address/' + accounts[0]} />
-              <span>My Names</span>
+              <span>{t('c.mynames')}</span>
             </NavLink>
           </li>
         ) : null}
@@ -101,7 +107,7 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
             to="/favourites"
           >
             <Heart active={url === '/favourites'} />
-            <span>Favourites</span>
+            <span>{t('c.favourites')}</span>
           </NavLink>
         </li>
         {/* <li>
@@ -113,7 +119,7 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
         <li>
           <NavLink onClick={toggleMenu} active={url === '/about'} to="/about">
             <SpeechBubble active={url === '/about'} />
-            <span>About</span>
+            <span>{t('c.about')}</span>
           </NavLink>
         </li>
       </ul>
