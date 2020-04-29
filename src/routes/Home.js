@@ -1,8 +1,9 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from '@emotion/styled'
-import { Spring } from 'react-spring'
-import warning from '../assets/yellowwarning.svg'
+import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
+import warning from '../assets/whiteWarning.svg'
 
 import mq from 'mediaQuery'
 
@@ -18,10 +19,57 @@ import Alice from '../components/HomePage/Alice'
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
 import { ReactComponent as DefaultPermanentRegistrarIcon } from '../components/Icons/PermanentRegistrar.svg'
 
-const Nav = styled('div')`
+const HeroTop = styled('div')`
+  display: grid;
+  padding: 20px;
   position: absolute;
-  right: 40px;
-  top: 20px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  grid-template-columns: 1fr;
+  ${mq.small`
+     grid-template-columns: 1fr 1fr;
+  `}
+`
+
+const NoAccounts = styled(NoAccountsDefault)`
+  ${mq.small`
+    left: 40px;
+  `}
+`
+
+const NetworkStatus = styled('div')`
+  color: white;
+  font-weight: 200;
+  text-transform: capitalize;
+  display: none;
+  ${mq.small`
+    display: block;
+  `}
+  ${mq.medium`
+    left: 40px;
+  `}
+
+  &:before {
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    transform: translate(-5px, -50%);
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #fff;
+  }
+`
+
+const Nav = styled('div')`
+  display: flex;
+  justify-content: center;
+  ${mq.small`
+    justify-content: flex-end;
+  `}
   a {
     font-weight: 300;
     color: white;
@@ -30,21 +78,49 @@ const Nav = styled('div')`
 
 const NavLink = styled(Link)`
   margin-left: 20px;
+  &:first-child {
+    margin-left: 0;
+  }
 `
 
 const Announcement = styled('div')`
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  background: #5284ff;
+  padding: 0 10px;
+  border-bottom: #5284ff solid 3px;
+  h3 {
+    color: white;
+    font-weight: 400;
+    text-align: center;
+    padding: 0 20px;
+    margin-bottom: 10px;
+  }
+  p {
+    text-align: center;
+    color: white;
+    margin-top: 0;
+  }
+  a {
+    color: white;
+    text-decoration: underline;
+  }
+`
+
+const PreviousUpdates = styled('div')`
+  display: flex;
+  justify-content: center;
   background: #5284ff;
   border-bottom: #5284ff solid 3px;
   h3 {
-    color: #f5a623;
+    color: white;
     font-weight: 400;
     text-align: center;
     padding: 0 20px;
   }
   a {
-    color: #f5a623;
+    color: white;
     text-decoration: underline;
   }
 `
@@ -64,15 +140,6 @@ const Hero = styled('section')`
   ${mq.medium`
     padding: 0 20px 0;
     height: 600px;
-  `}
-`
-
-const NoAccounts = styled(NoAccountsDefault)`
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  ${mq.small`
-    left: 40px;
   `}
 `
 
@@ -107,7 +174,7 @@ const Search = styled(SearchDefault)`
 
   input {
     width: 100%;
-    border-radius: 6px;
+    border-radius: 0px;
     ${mq.medium`
       border-radius: 6px 0 0 6px;
       font-size: 28px;
@@ -116,31 +183,6 @@ const Search = styled(SearchDefault)`
 
   button {
     border-radius: 0 6px 6px 0;
-  }
-`
-
-const NetworkStatus = styled('div')`
-  position: absolute;
-  top: 20px;
-  left: 30px;
-  color: white;
-  font-weight: 200;
-  text-transform: capitalize;
-  ${mq.medium`
-    left: 40px;
-  `}
-
-  &:before {
-    position: absolute;
-    right: 100%;
-    top: 50%;
-    transform: translate(-5px, -50%);
-    content: '';
-    display: block;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #fff;
   }
 `
 
@@ -207,7 +249,7 @@ const QuestionMark = styled(QuestionMarkDefault)`
   margin-right: 10px;
 `
 
-const LogoLarge = styled('img')`
+const LogoLarge = styled(motion.img)`
   width: 50%;
   margin: 0 auto 0;
   ${mq.medium`
@@ -215,7 +257,7 @@ const LogoLarge = styled('img')`
   `}
 `
 
-const PermanentRegistrarLogo = styled('h1')`
+const PermanentRegistrarLogo = styled(motion.h1)`
   font-family: Overpass;
   font-weight: 800;
   font-size: 18px;
@@ -258,84 +300,89 @@ const PermanentRegistrarTitle = styled('h2')`
 
 export default ({ match }) => {
   const { url } = match
+  const { t } = useTranslation()
+
+  const animation = {
+    initial: {
+      scale: 0,
+      opacity: 0
+    },
+    animate: {
+      opacity: 1,
+      scale: 1
+    }
+  }
+
   const { accounts, network, loading } = useNetworkInfo()
   return (
     <>
       <Hero>
-        {loading ? null : accounts.length > 0 && network ? (
-          <NetworkStatus>{network} network</NetworkStatus>
-        ) : (
-          <NoAccounts textColour={'white'} />
-        )}
-        <Nav>
-          {accounts?.length > 0 && (
-            <NavLink
-              active={url === '/address/' + accounts[0]}
-              to={'/address/' + accounts[0]}
-            >
-              My Names
-            </NavLink>
+        <HeroTop>
+          {loading ? null : accounts.length > 0 && network ? (
+            <NetworkStatus>
+              {network} {t('c.network')}
+            </NetworkStatus>
+          ) : (
+            <NoAccounts textColour={'white'} />
           )}
-          <NavLink to="/favourites">Favourites</NavLink>
-          <NavLink to="/about">About</NavLink>
-        </Nav>
-
-        <SearchContainer>
-          <Spring
-            from={{
-              opacity: 0,
-              scale: 0
-            }}
-            to={{ opacity: 1, scale: 1 }}
-            config={{ duration: 400 }}
-          >
-            {({ opacity, scale, height }) => (
-              <Fragment>
-                <LogoLarge
-                  style={{
-                    opacity,
-                    transform: `scale(${scale})`
-                  }}
-                  src={ENSLogo}
-                />
-                <PermanentRegistrarLogo
-                  style={{
-                    opacity,
-                    transform: `scale(${scale})`
-                  }}
-                >
-                  Permanent Registrar
-                </PermanentRegistrarLogo>
-                <Search />
-              </Fragment>
+          <Nav>
+            {accounts?.length > 0 && (
+              <NavLink
+                active={url === '/address/' + accounts[0]}
+                to={'/address/' + accounts[0]}
+              >
+                {t('c.mynames')}
+              </NavLink>
             )}
-          </Spring>
+            <NavLink to="/favourites">{t('c.favourites')}</NavLink>
+            <NavLink to="/about">{t('c.about')}</NavLink>
+          </Nav>
+        </HeroTop>
+        <SearchContainer>
+          <>
+            <LogoLarge
+              initial={animation.initial}
+              animate={animation.animate}
+              src={ENSLogo}
+            />
+            <PermanentRegistrarLogo
+              initial={animation.initial}
+              animate={animation.animate}
+            >
+              {t('c.permanentregistrar')}
+            </PermanentRegistrarLogo>
+            <Search />
+          </>
         </SearchContainer>
       </Hero>
       <Announcement>
         <h3>
           <img src={warning} alt="warning" />
-          &nbsp; ENS Registry Migration Is Over… Now What? A Few Things to
-          Know&nbsp;
-          <a href="https://medium.com/the-ethereum-name-service/ens-registry-migration-is-over-now-what-a-few-things-to-know-fb05f921872a">
-            (Find out more)
-          </a>
+          &nbsp; {t('home.announcements.renew.title')}
         </h3>
+        <p>
+          {t('home.announcements.renew.body.0')}
+          {accounts?.length > 0 ? (
+            <Link to={'/address/' + accounts[0]}>
+              {' '}
+              {t('home.announcements.renew.body.1')}
+            </Link>
+          ) : (
+            'address page'
+          )}{' '}
+          {t('home.announcements.renew.body.2')}
+        </p>
       </Announcement>
       <Explanation>
         <WhatItIs>
           <Inner>
             <H2>
               <TextBubble color="#2B2B2B" />
-              What it is
+              {t('home.whatisens.title')}
             </H2>
-            <p>
-              The Ethereum Name Service is a distributed, open and extensible
-              naming system based on the Ethereum blockchain. ENS eliminates the
-              need to copy or type long addresses.
-            </p>
+            <p>{t('home.whatisens.body')}</p>
             <ButtonLink type="primary" to="/about">
-              Learn more
+              {t('c.learnmore')}
             </ButtonLink>
           </Inner>
         </WhatItIs>
@@ -347,29 +394,34 @@ export default ({ match }) => {
           <Inner>
             <H2>
               <QuestionMark color="#2B2B2B" />
-              How to use ENS
+              {t('home.howtouse.title')}
             </H2>
-            <p>
-              The ENS App is a Graphical User Interface for non-technical users.
-              It allows you to search any name, manage their addresses or
-              resources it points to and create subdomains for each name.
-            </p>
+            <p>{t('home.howtouse.body')}</p>
             <ButtonLink type="primary" to="/about">
-              Learn more
+              {t('c.learnmore')}
             </ButtonLink>
           </Inner>
         </HowItWorks>
       </Explanation>
+      <PreviousUpdates>
+        <h3>
+          <img src={warning} alt="warning" />
+          &nbsp; {t('home.announcements.migrationOver')}&nbsp;
+          <a href="https://medium.com/the-ethereum-name-service/ens-registry-migration-is-over-now-what-a-few-things-to-know-fb05f921872a">
+            ({t('c.learnmore')})
+          </a>
+        </h3>
+      </PreviousUpdates>
       <PermanentRegistrar>
         <PermanentRegistrarIcon />
         <PermanentRegistrarTitle>
-          Learn about the Permanent Registrar and the migration process.
+          {t('home.permanentRegistrar.title')}
         </PermanentRegistrarTitle>
         <ExternalButtonLink
           type="hollow-white"
           href="https://docs.ens.domains/permanent-registrar-faq"
         >
-          Learn more
+          {t('c.learnmore')}
         </ExternalButtonLink>
       </PermanentRegistrar>
     </>

@@ -44,6 +44,10 @@ export function checkLabel(hash) {
   }
 }
 
+export function checkIsDecrypted(string) {
+  return !string.includes('[')
+}
+
 export function decryptName(name) {
   return name
     .split('.')

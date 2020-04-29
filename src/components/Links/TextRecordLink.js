@@ -50,10 +50,10 @@ const TextRecordLink = ({ textKey, value }) => {
   }
   url = prependUrl(url)
 
-  if (textKey == 'email') {
+  if (textKey === 'email') {
     url = `mailto:${value}`
   }
-  if (textKey == 'avatar') {
+  if (textKey === 'avatar') {
     avatar = prependUrl(value)
   }
 

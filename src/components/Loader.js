@@ -62,6 +62,10 @@ const LoaderWrapper = styled('div')`
   padding: 50px 0;
 `
 
+const InlineLoaderContainer = styled('span')`
+  display: inline-flex;
+`
+
 const Loader = props => {
   const { withWrap } = props
   if (withWrap) {
@@ -81,6 +85,18 @@ const Loader = props => {
         <div />
       </div>
     </LoaderContainer>
+  )
+}
+
+export const InlineLoader = props => {
+  return (
+    <InlineLoaderContainer>
+      <LoaderContainer className="lds-css" {...props}>
+        <div className="lds-dual-ring">
+          <div />
+        </div>
+      </LoaderContainer>
+    </InlineLoaderContainer>
   )
 }
 

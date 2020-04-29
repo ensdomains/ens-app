@@ -144,10 +144,7 @@ function AddReverseRecord({ account, name }) {
                     }}
                   />
                 ) : (
-                  <RotatingSmallCaret
-                    rotated={editing}
-                    data-testid="small-caret"
-                  />
+                  <RotatingSmallCaret rotated={editing} testid="open-reverse" />
                 )}
               </Message>
               {editing && (

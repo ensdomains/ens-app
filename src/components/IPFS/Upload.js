@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
 import Dropzone from './Dropzone'
 import styled from '@emotion/styled'
 import ipfsClient from 'ipfs-http-client'
@@ -51,7 +51,7 @@ const Upload = props => {
   const [uploadError, setUploadError] = useState(false)
   const [client] = useState(getConfig('TEMPORAL'))
 
-  const sendRequest = useCallback(newfiles => {
+  const sendRequest = newfiles => {
     const ipfs = ipfsClient({
       host: getDev() ? client.dev : client.host,
       port: client.port,
@@ -94,7 +94,7 @@ const Upload = props => {
           setUploadError(true)
         })
     }
-  })
+  }
 
   return (
     <Container>

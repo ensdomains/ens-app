@@ -1,7 +1,9 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import { useTranslation } from 'react-i18next'
 import mq from 'mediaQuery'
 import EthVal from 'ethval'
+import { InlineLoader } from 'components/Loader'
 
 const PriceContainer = styled('div')`
   width: 100%;
@@ -38,17 +40,24 @@ const USD = styled('span')`
   `}
 `
 
-const Price = ({ price, ethUsdPrice, ethUsdPriceLoading }) => {
-  const ethVal = new EthVal(`${price}`).toEth()
+const Price = ({ loading, price, ethUsdPrice, ethUsdPriceLoading }) => {
+  const { t } = useTranslation()
+  let ethPrice = <InlineLoader />
+  let ethVal
+  if (!loading) {
+    ethVal = new EthVal(`${price}`).toEth()
+    ethPrice = ethVal.toFixed(3)
+  }
+
   return (
     <PriceContainer>
       <Value>
-        {ethVal.toFixed(3)} ETH
-        {!ethUsdPriceLoading && (
+        {ethPrice} ETH
+        {!ethUsdPriceLoading && !loading && (
           <USD>${ethVal.mul(ethUsdPrice).toFixed(2)} USD</USD>
         )}
       </Value>
-      <Description>Total price to pay</Description>
+      <Description>{t('pricer.totalPriceLabel')}</Description>
     </PriceContainer>
   )
 }

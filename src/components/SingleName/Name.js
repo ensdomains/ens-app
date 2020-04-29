@@ -3,6 +3,7 @@ import styled from '@emotion/styled'
 
 import { useMediaMin } from 'mediaQuery'
 import { EMPTY_ADDRESS } from '../../utils/records'
+import warning from '../../assets/yellowwarning.svg'
 
 import { Title } from '../Typography/Basic'
 import TopBar from '../Basic/TopBar'
@@ -13,6 +14,7 @@ import ShortName from './ShortName'
 import Tabs from './Tabs'
 import { useAccount } from '../QueryAccount'
 import NameContainer from '../Basic/MainContainer'
+import Banner from '../Banner'
 
 const Owner = styled('div')`
   color: #ccd4da;
@@ -78,62 +80,72 @@ function Name({ details: domain, name, pathname, type, refetch }) {
     containerState = isOwner ? 'Yours' : domain.state
   }
   return (
-    <NameContainer state={containerState}>
-      <TopBar percentDone={percentDone}>
-        <Title>
-          {domain.decrypted
-            ? name
-            : '[unknown' +
-              domain.name.split('.')[0].slice(1, 11) +
-              ']' +
-              '.' +
-              domain.parent}
-        </Title>
-        <RightBar>
-          {!!ownerType && <Owner data-testid="owner-type">{ownerType}</Owner>}
-          <Favourite domain={domain} />
-          {smallBP && (
-            <Tabs
-              pathname={pathname}
-              tab={preferredTab}
-              domain={domain}
-              parent={domain.parent}
-            />
-          )}
-        </RightBar>
-      </TopBar>
-      {!smallBP && (
-        <Tabs
-          pathname={pathname}
-          tab={preferredTab}
-          domain={domain}
-          parent={domain.parent}
-        />
-      )}
-      {isDNSRegistrationOpen(domain) ? (
-        <DNSNameRegister
-          domain={domain}
-          pathname={pathname}
-          refetch={refetch}
-          account={account}
-          readOnly={account === EMPTY_ADDRESS}
-        />
-      ) : type === 'short' && domain.owner === EMPTY_ADDRESS ? ( // check it's short and hasn't been claimed already
-        <ShortName name={name} />
-      ) : (
-        <NameDetails
-          tab={preferredTab}
-          domain={domain}
-          pathname={pathname}
-          name={name}
-          isOwner={isOwner}
-          isOwnerOfParent={isOwnerOfParent}
-          refetch={refetch}
-          account={account}
-          registrationOpen={registrationOpen}
-        />
-      )}
-    </NameContainer>
+    <>
+      <Banner>
+        <h3>
+          <img alt="exclamation mark" src={warning} />
+          &nbsp; Names in May are expiring soon
+        </h3>
+        Click the renew button to avoid expiration. To renew all of your names
+        in bulk, navigate to My Names
+      </Banner>
+      <NameContainer state={containerState}>
+        <TopBar percentDone={percentDone}>
+          <Title>
+            {domain.decrypted
+              ? name
+              : '[unknown' +
+                domain.name.split('.')[0].slice(1, 11) +
+                ']' +
+                '.' +
+                domain.parent}
+          </Title>
+          <RightBar>
+            {!!ownerType && <Owner data-testid="owner-type">{ownerType}</Owner>}
+            <Favourite domain={domain} />
+            {smallBP && (
+              <Tabs
+                pathname={pathname}
+                tab={preferredTab}
+                domain={domain}
+                parent={domain.parent}
+              />
+            )}
+          </RightBar>
+        </TopBar>
+        {!smallBP && (
+          <Tabs
+            pathname={pathname}
+            tab={preferredTab}
+            domain={domain}
+            parent={domain.parent}
+          />
+        )}
+        {isDNSRegistrationOpen(domain) ? (
+          <DNSNameRegister
+            domain={domain}
+            pathname={pathname}
+            refetch={refetch}
+            account={account}
+            readOnly={account === EMPTY_ADDRESS}
+          />
+        ) : type === 'short' && domain.owner === EMPTY_ADDRESS ? ( // check it's short and hasn't been claimed already
+          <ShortName name={name} />
+        ) : (
+          <NameDetails
+            tab={preferredTab}
+            domain={domain}
+            pathname={pathname}
+            name={name}
+            isOwner={isOwner}
+            isOwnerOfParent={isOwnerOfParent}
+            refetch={refetch}
+            account={account}
+            registrationOpen={registrationOpen}
+          />
+        )}
+      </NameContainer>
+    </>
   )
 }
 
