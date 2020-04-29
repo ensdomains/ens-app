@@ -1502,6 +1502,14 @@
     bech32 "^1.1.3"
     crypto-addr-codec "^0.1.7"
 
+"@ensdomains/address-encoder@^0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@ensdomains/address-encoder/-/address-encoder-0.1.7.tgz#4fd60468c741bea15fbd30394db410d2adc15997"
+  integrity sha512-p43NCgeyF3Q5ZEhEa24SN/UYUTKZIvFHwQ3xT8xqv4/iBbf7+efOP8Pl6kHbu6HI6pdWhTMvHOUR4UEDu4MN1g==
+  dependencies:
+    bech32 "^1.1.3"
+    crypto-addr-codec "^0.1.7"
+
 "@ensdomains/buffer@0.0.10":
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/@ensdomains/buffer/-/buffer-0.0.10.tgz#3b9f8b6a34c6160ae8a8cb8f0f033aa35c1a9970"
@@ -1789,19 +1797,19 @@
     bluebird "^3.5.2"
     dns-packet "^5.0.4"
 
-"@ensdomains/ui@3.0.11":
-  version "3.0.11"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.11.tgz#6d03440682e80ea19c5a4789fe7582d109d26e0d"
-  integrity sha512-uDn+2CqlB/klE5M/0IRmyU6o8J9O+GVPTT9AmtFuH+uyjEW+tv2JdpMCCxyWCgszhiyrGJpqWbEz+B6GwRqbWw==
+"@ensdomains/ui@3.0.13":
+  version "3.0.13"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.13.tgz#527409ca9e916d66e330c9ed5321ce7ad4cf5115"
+  integrity sha512-xaknB/S1dz/58GnqbBkSqItg0Z1b/phWxtdvgbWTLPZnRqEOmnTB8cyjk2K0HO/1kstqmh/HF9Pgh4L8PJaBGA==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
     "@babel/runtime" "^7.4.4"
-    "@ensdomains/address-encoder" "^0.1.6"
+    "@ensdomains/address-encoder" "^0.1.7"
     "@ensdomains/dnsregistrar" "^0.3.9"
     "@ensdomains/ens" "^0.4.3"
     "@ensdomains/ens-022" "npm:@ensdomains/ens@0.2.2"
-    "@ensdomains/ethregistrar" "^2.0.2"
+    "@ensdomains/ethregistrar" "^2.0.0"
     "@ensdomains/resolver" "0.2.4"
     "@ensdomains/subdomain-registrar" "^0.2.1"
     "@ethvault/iframe-provider" "0.1.9"

@@ -7,12 +7,16 @@ import PropTypes from 'prop-types'
 import { motion, AnimatePresence } from 'framer-motion'
 
 import { GET_PUBLIC_RESOLVER, GET_RENT_PRICE } from '../../graphql/queries'
+import { SET_RESOLVER, SET_SUBNODE_OWNER, SET_OWNER } from 'graphql/mutations'
+
 import mq from 'mediaQuery'
 import { useEditable, useEthPrice } from '../hooks'
 import { yearInSeconds, formatDate } from 'utils/dates'
 import { trackReferral } from 'utils/analytics'
 import { addressUtils } from 'utils/utils'
-
+import Bin from '../Forms/Bin'
+import { emptyAddress } from 'utils/utils'
+import { useAccount } from '../QueryAccount'
 import Tooltip from '../Tooltip/Tooltip'
 import { SingleNameBlockies } from '../Blockies'
 import DefaultAddressLink from '../Links/AddressLink'
@@ -156,6 +160,28 @@ function getToolTipMessage(keyName, t) {
       return t(`singleName.tooltips.detailsItem.${keyName}`)
     default:
       return 'You can only make changes if you are the controller and are logged into your wallet'
+  }
+}
+
+function isOwnerOfParentDomain(domain, account) {
+  if (domain.parentOwner !== emptyAddress) {
+    return domain.parentOwner.toLowerCase() === account.toLowerCase()
+  }
+  return false
+}
+
+function chooseMutation(recordType, isOwnerOfParent) {
+  switch (recordType) {
+    case 'Controller':
+      if (isOwnerOfParent) {
+        return SET_SUBNODE_OWNER
+      } else {
+        return SET_OWNER
+      }
+    case 'Resolver':
+      return SET_RESOLVER
+    default:
+      throw new Error('Not a recognised record type')
   }
 }
 
@@ -312,7 +338,9 @@ const Editable = ({
 
   const isValid = getValidation(keyName, newValue)
   const isInvalid = !isValid && newValue.length > 0
-
+  const account = useAccount()
+  const isOwnerOfParent = isOwnerOfParentDomain(domain, account)
+  const canDelete = ['Controller', 'Resolver'].includes(keyName)
   return (
     <Mutation
       mutation={mutation}
@@ -418,6 +446,32 @@ const Editable = ({
                   />
                 )}
               </Action>
+            )}
+            {editing && canDelete ? (
+              <Action>
+                <Mutation
+                  mutation={chooseMutation(keyName, isOwnerOfParent)}
+                  variables={{
+                    name: domain.name,
+                    address: emptyAddress
+                  }}
+                  onCompleted={data => {
+                    startPending(Object.values(data)[0])
+                  }}
+                >
+                  {mutate => (
+                    <Bin
+                      data-testid={`delete-${type.toLowerCase()}`}
+                      onClick={e => {
+                        e.preventDefault()
+                        mutate()
+                      }}
+                    />
+                  )}
+                </Mutation>
+              </Action>
+            ) : (
+              ''
             )}
           </DetailsContent>
           <AnimatePresence>
