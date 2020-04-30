@@ -102,7 +102,7 @@ export default function ChildDomainItem({
       )}
       {!isDecrypted && (
         <Tooltip
-          text="<p>This name is only partially decoded. If you know the name, you can search for it in the search bar to renew it</p>"
+          text="<p>This name is only partially decoded. If you know the name, you can search for it in the search bar to decrypt it and renew</p>"
           position="top"
           border={true}
           offset={{ left: 0, top: 10 }}
