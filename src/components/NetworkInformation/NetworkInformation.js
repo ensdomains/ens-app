@@ -5,10 +5,11 @@ import { useTranslation } from 'react-i18next'
 import mq from 'mediaQuery'
 
 import UnstyledBlockies from '../Blockies'
-import ReverseRecord from '../ReverseRecord'
 import NoAccountsModal from '../NoAccounts/NoAccountsModal'
 import Loader from 'components/Loader'
 import useNetworkInfo from './useNetworkInfo'
+import { useQuery } from 'react-apollo'
+import { GET_REVERSE_RECORD } from '../../graphql/queries'
 
 const NetworkInformationContainer = styled('div')`
   position: relative;
@@ -24,6 +25,18 @@ const NetworkInformationContainer = styled('div')`
 `
 
 const Blockies = styled(UnstyledBlockies)`
+  border-radius: 50%;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  ${mq.medium`
+    box-shadow: 3px 5px 24px 0 #d5e2ec;
+  `}
+`
+
+const Avatar = styled('img')`
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   position: absolute;
   left: 10px;
@@ -99,6 +112,17 @@ const WaitingText = styled('span')`
 function NetworkInformation() {
   const { t } = useTranslation()
   const { accounts, network, loading, error } = useNetworkInfo()
+  const address = accounts && accounts[0]
+  const {
+    data: { getReverseRecord } = {},
+    loading: reverseRecordLoading
+  } = useQuery(GET_REVERSE_RECORD, {
+    variables: {
+      address
+    }
+  })
+  const displayName =
+    getReverseRecord && getReverseRecord.name ? getReverseRecord.name : address
 
   if (loading) {
     return (
@@ -120,9 +144,13 @@ function NetworkInformation() {
     <NetworkInformationContainer hasAccount={accounts.length > 0}>
       {accounts.length > 0 ? (
         <AccountContainer>
-          <Blockies address={accounts[0]} imageSize={47} />
+          {!reverseRecordLoading && getReverseRecord.avatar ? (
+            <Avatar src={getReverseRecord.avatar} />
+          ) : (
+            <Blockies address={accounts[0]} imageSize={47} />
+          )}
           <Account data-testid="account" className="account">
-            <ReverseRecord address={accounts[0]} />
+            <span>{displayName}</span>
           </Account>
           <NetworkStatus>
             {network} {t('c.network')}
