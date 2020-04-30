@@ -7,7 +7,7 @@
     "learnmore": "Learn More",
     "search": "Search",
     "permanentregistrar": "Permanent Registrar",
-    "Registrant": "Registrant",
+    "registrant": "Registrant",
     "Controller": "Controller",
     "Expiration Date": "Expiration Date",
     "expires": "Expires",
@@ -84,7 +84,7 @@
       "detailsItem": {
         "Resolver": "You can only set the resolver on this name if you are the controller and are logged into your wallet",
         "Controller": "You can only transfer the controller if you are the controller or registrant and are logged into your wallet",
-        "Registrant": "You can only transfer the registrant if you are the registrant and are logged into your wallet",
+        "registrant": "You can only transfer the registrant if you are the registrant and are logged into your wallet",
         "default": "You can only make changes if you are the controller and are logged into your wallet"
       }
     },

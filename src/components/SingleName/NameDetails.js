@@ -184,6 +184,15 @@ function canClaim(domain) {
   return parseInt(domain.owner) === 0 || domain.expiryTime < new Date()
 }
 
+function RegistrantDetailsItemEditable(props) {
+  const { data, loading } = useQuery(GET_REGISTRANT_FROM_SUBGRAPH, {
+    variables: { id: domain.labelhash }
+  })
+  if (loading) return <InlineLoader />
+
+  return <DetailsItemEditable {...props} value={data.registration.registrant} />
+}
+
 function DetailsContainer({
   isMigratedToNewRegistry,
   isDeedOwner,
@@ -239,9 +248,9 @@ function DetailsContainer({
       <OwnerFields outOfSync={outOfSync}>
         {domain.parent === 'eth' && domain.isNewRegistrar ? (
           <>
-            <DetailsItemEditable
+            <RegistrantDetailsItemEditable
               domain={domain}
-              keyName="Registrant"
+              keyName="registrant"
               value={domain.registrant}
               canEdit={isRegistrant}
               type="address"
