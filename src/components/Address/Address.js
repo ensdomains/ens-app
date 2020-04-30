@@ -55,7 +55,7 @@ const Close = styled('img')`
 `
 
 const Controls = styled('div')`
-  padding-left: 30px;
+  padding-left: 8px;
   display: grid;
   align-content: center;
   grid-template-columns: 1fr;
