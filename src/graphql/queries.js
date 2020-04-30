@@ -114,7 +114,9 @@ export const GET_REGISTRANT_FROM_SUBGRAPH = gql`
       domain {
         name
       }
-      registrant
+      registrant {
+        id
+      }
     }
   }
 `
