@@ -1,43 +1,3 @@
-// import {
-//   getOwner,
-//   getEntry,
-//   getDNSEntry,
-//   isDNSRegistrar,
-//   setSubnodeOwner,
-//   setSubnodeRecord,
-//   getDomainDetails,
-//   getSubdomains,
-//   getName,
-//   getNetworkId,
-//   getAddress,
-//   getAddr,
-//   getText,
-//   getResolver,
-//   claimAndSetReverseRecordName,
-//   setOwner,
-//   setResolver,
-//   setAddress,
-//   setAddr,
-//   setContent,
-//   setContenthash,
-//   setText,
-//   registerTestdomain,
-//   createSubdomain,
-//   expiryTimes,
-//   isDecrypted,
-//   isMigrated,
-//   getEthAddressWithResolver,
-//   getAddrWithResolver,
-//   getTextWithResolver,
-//   getWeb3,
-
-//   /* lower level calls possibly can be refactored out */
-//   getSigner,
-//   getResolverContract,
-//   getOldResolverContract,
-//   getNamehash,
-//   encodeContenthash
-// } from '@ensdomains/ui'
 import {
   isDecrypted,
   getWeb3,
@@ -64,46 +24,6 @@ import {
   GET_ALL_NODES
 } from '../../graphql/queries'
 import getENS, { getRegistrar } from 'api/ens'
-
-// const {
-//   getOwner,
-//   getEntry,
-//   getDNSEntry,
-//   isDNSRegistrar,
-//   setSubnodeOwner,
-//   setSubnodeRecord,
-//   getDomainDetails,
-//   getSubdomains,
-//   getName,
-//   getNetworkId,
-//   getAddress,
-//   getAddr,
-//   getText,
-//   getResolver,
-//   claimAndSetReverseRecordName,
-//   setOwner,
-//   setResolver,
-//   setAddress,
-//   setAddr,
-//   setContent,
-//   setContenthash,
-//   setText,
-//   registerTestdomain,
-//   createSubdomain,
-//   expiryTimes,
-//   isMigrated,
-//   getEthAddressWithResolver,
-//   getAddrWithResolver,
-//   getTextWithResolver,
-//   getWeb3,
-
-//   /* lower level calls possibly can be refactored out */
-//   getSigner,
-//   getResolverContract,
-//   getOldResolverContract,
-//   getNamehash,
-//   encodeContenthash
-// } = ens
 
 let savedFavourites =
   JSON.parse(window.localStorage.getItem('ensFavourites')) || []
