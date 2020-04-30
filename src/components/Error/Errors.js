@@ -39,3 +39,13 @@ export const NetworkError = ({ message }) => (
     </Message>
   </ErrorContainer>
 )
+
+export const Error404 = () => (
+  <ErrorContainer>
+    <Message>
+      <Warning src={warningImage} />
+      <H2>404</H2>
+      We couldn't find what you were looking for!
+    </Message>
+  </ErrorContainer>
+)

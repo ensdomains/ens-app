@@ -110,6 +110,12 @@ function Component(){
 }
 ```
 
+## Internationlisation
+
+We use the `i18next` and `react-i18next` package for internationlisation.
+
+Currently we use `/public/locales/[language]/translation.json` for translation. Each property should be a page or reusable component. The only exception to this is `c` which is a namespace we are using for `common` language throughout the app that will have to be reused over and over.
+
 ## End to end Testing
 
 The main package for the E2E tests is `ensdomains/mock`, which exposes a script that will prepopulate ganache with ENS so you have everything setup to run Cypress on.

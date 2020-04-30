@@ -16,14 +16,14 @@ import SingleName from './routes/SingleName'
 import Favourites from './routes/Favourites'
 import About from './routes/About'
 import Address from './routes/AddressPage'
-import { TestPage } from './routes/Test'
+import Renew from './routes/Renew'
 import Modal from './components/Modal/Modal'
 import Confirm from './components/SingleName/Confirm'
-import { NetworkError } from './components/Error/Errors'
+import { NetworkError, Error404 } from './components/Error/Errors'
 import { CONFIRM } from './modals'
 
 import DefaultLayout from './components/Layout/DefaultLayout'
-import Analytics from './utils/analytics'
+import { pageview, setup } from './utils/analytics'
 
 // If we are targeting an IPFS build we need to use HashRouter
 const Router =
@@ -36,7 +36,7 @@ const Route = ({
   layout: Layout = DefaultLayout,
   ...rest
 }) => {
-  Analytics.pageview()
+  pageview()
   return (
     <DefaultRoute
       {...rest}
@@ -53,7 +53,7 @@ const App = () => (
   <>
     <Query query={GET_ERRORS}>
       {({ data }) => {
-        Analytics.setup()
+        setup()
         if (data.error && data.error.message) {
           return <NetworkError message={data.error.message} />
         } else {
@@ -67,7 +67,6 @@ const App = () => (
                     component={Home}
                     layout={HomePageLayout}
                   />
-                  <Route path="/test" component={TestPage} />
                   <Route path="/test-registrar" component={TestRegistrar} />
                   <Route path="/favourites" component={Favourites} />
                   <Route path="/my-bids" component={SearchResults} />
@@ -75,7 +74,13 @@ const App = () => (
                   <Route path="/how-it-works" component={SearchResults} />
                   <Route path="/search/:searchTerm" component={SearchResults} />
                   <Route path="/name/:name" component={SingleName} />
+                  <Route
+                    path="/address/:address/:domainType"
+                    component={Address}
+                  />
                   <Route path="/address/:address" component={Address} />
+                  <Route path="/renew" component={Renew} />
+                  <Route path="*" component={Error404} />
                 </Switch>
               </Router>
               <Modal name={CONFIRM} component={Confirm} />

@@ -164,10 +164,15 @@ export const GET_ERRORS = gql`
 
 /* Subgraph only queries */
 
-export const GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH = gql`
-  query getDomains($id: ID!) {
+export const GET_REGISTRATIONS_SUBGRAPH = gql`
+  query getRegistrations(
+    $id: ID!
+    $first: Int
+    $skip: Int
+    $orderBy: Registration_orderBy
+  ) {
     account(id: $id) {
-      registrations {
+      registrations(first: $first, skip: $skip, orderBy: $orderBy) {
         expiryDate
         domain {
           labelName
@@ -179,7 +184,19 @@ export const GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH = gql`
           }
         }
       }
-      domains {
+    }
+  }
+`
+
+export const GET_DOMAINS_SUBGRAPH = gql`
+  query getDomains(
+    $id: ID!
+    $first: Int
+    $skip: Int
+    $orderBy: Domain_orderBy
+  ) {
+    account(id: $id) {
+      domains(first: $first, skip: $skip, orderBy: $orderBy) {
         labelName
         labelhash
         name
@@ -195,8 +212,14 @@ export const GET_DOMAINS_OWNED_BY_ADDRESS_FROM_SUBGRAPH = gql`
 /* Permanent Registrar */
 
 export const GET_RENT_PRICE = gql`
-  query getRentPrice($name: String, $duration: Number) {
-    getRentPrice(name: $name, duration: $duration) @client
+  query getRentPrice($label: String, $duration: Number) {
+    getRentPrice(label: $label, duration: $duration) @client
+  }
+`
+
+export const GET_RENT_PRICES = gql`
+  query getRentPrices($labels: String, $duration: Number) {
+    getRentPrices(labels: $labels, duration: $duration) @client
   }
 `
 

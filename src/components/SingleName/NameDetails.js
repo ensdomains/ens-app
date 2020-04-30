@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useQuery } from 'react-apollo'
+import { useTranslation } from 'react-i18next'
 import styled from '@emotion/styled'
 import { Link, Route } from 'react-router-dom'
 import mq from 'mediaQuery'
@@ -25,7 +26,7 @@ import SubDomains from './SubDomains'
 import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
 import DetailsItemEditable from './DetailsItemEditable'
 import SetupName from '../SetupName/SetupName'
-import { SingleNameBlockies } from './SingleNameBlockies'
+import { SingleNameBlockies } from '../Blockies'
 import { ReactComponent as ExternalLinkIcon } from '../Icons/externalLink.svg'
 import DefaultLoader from '../Loader'
 import You from '../Icons/You'
@@ -141,13 +142,13 @@ const DomainOwnerAddress = styled(`span`)`
 
 const GracePeriodWarningContainer = styled('div')`
   font-family: 'Overpass';
-  background: #fef7e9;
+  background: ${p => (p.isExpired ? '#ff926f' : '#fef7e9')};
   padding: 10px 20px;
   margin: 5px 0px;
 `
 
 const GracePeriodText = styled('span')`
-  color: #cacaca;
+  color: ${p => (p.isExpired ? 'white' : '#cacaca')};
   margin-left: 0.5em;
 `
 
@@ -156,16 +157,23 @@ const GracePeriodDate = styled('span')`
 `
 
 const Expiration = styled('span')`
-  color: #f5a623;
+  color: ${p => (p.isExpired ? 'white' : '#f5a623')};
   font-weight: bold;
 `
 
-const GracePeriodWarning = ({ date }) => {
+const GracePeriodWarning = ({ date, expiryTime }) => {
+  let { t } = useTranslation()
+  let isExpired = new Date() > new Date(expiryTime)
   return (
-    <GracePeriodWarningContainer>
-      <Expiration>Expiring soon.</Expiration>
-      <GracePeriodText>
-        Grace period ends <GracePeriodDate>{formatDate(date)}</GracePeriodDate>
+    <GracePeriodWarningContainer isExpired={isExpired}>
+      <Expiration isExpired={isExpired}>
+        {isExpired
+          ? t('singleName.expiry.expired')
+          : t('singleName.expiry.expiringSoon')}
+      </Expiration>
+      <GracePeriodText isExpired={isExpired}>
+        {t('singleName.expiry.gracePeriodEnds')}{' '}
+        <GracePeriodDate>{formatDate(date)}</GracePeriodDate>
       </GracePeriodText>
     </GracePeriodWarningContainer>
   )
@@ -198,6 +206,7 @@ function DetailsContainer({
   loadingIsParentMigrated,
   duringMigration
 }) {
+  const { t } = useTranslation()
   return (
     <Details data-testid="name-details">
       {isOwner && !duringMigration && (
@@ -221,7 +230,7 @@ function DetailsContainer({
         )}
       {domain.parent && (
         <DetailsItem uneditable>
-          <DetailsKey>Parent</DetailsKey>
+          <DetailsKey>{t('c.parent')}</DetailsKey>
           <DetailsValue>
             <Link to={`/name/${domain.parent}`}>{domain.parent}</Link>
           </DetailsValue>
@@ -236,8 +245,8 @@ function DetailsContainer({
               value={domain.registrant}
               canEdit={isRegistrant}
               type="address"
-              editButton="Transfer"
-              mutationButton="Transfer"
+              editButton={t('c.transfer')}
+              mutationButton={t('c.transfer')}
               mutation={SET_REGISTRANT}
               refetch={refetch}
               confirm={true}
@@ -250,8 +259,8 @@ function DetailsContainer({
               deedOwner={domain.deedOwner}
               isDeedOwner={isDeedOwner}
               type="address"
-              editButton={isRegistrant ? 'Set' : 'Transfer'}
-              mutationButton={isRegistrant ? 'Set' : 'Transfer'}
+              editButton={isRegistrant ? t('c.set') : t('c.transfer')}
+              mutationButton={isRegistrant ? t('c.set') : t('c.transfer')}
               mutation={isRegistrant ? RECLAIM : SET_OWNER}
               refetch={refetch}
               confirm={true}
@@ -260,7 +269,7 @@ function DetailsContainer({
         ) : domain.parent === 'eth' && !domain.isNewRegistrar ? (
           <>
             <DetailsItem uneditable>
-              <DetailsKey>Registrant</DetailsKey>
+              <DetailsKey>{t('c.Registrant')}</DetailsKey>
               <DetailsValue>
                 <AddressLink address={domain.deedOwner}>
                   <SingleNameBlockies
@@ -279,8 +288,8 @@ function DetailsContainer({
               deedOwner={domain.deedOwner}
               isDeedOwner={isDeedOwner}
               type="address"
-              editButton={isRegistrant ? 'Set' : 'Transfer'}
-              mutationButton={isRegistrant ? 'Set' : 'Transfer'}
+              editButton={isRegistrant ? t('c.set') : t('c.transfer')}
+              mutationButton={isRegistrant ? t('c.set') : t('c.transfer')}
               mutation={isRegistrant ? RECLAIM : SET_OWNER}
               refetch={refetch}
               confirm={true}
@@ -288,7 +297,9 @@ function DetailsContainer({
           </>
         ) : domain.isDNSRegistrar ? (
           <DetailsItem uneditable>
-            <DetailsKey>Controller {isOwner ? <You /> : ''}</DetailsKey>
+            <DetailsKey>
+              {t('c.controller')} {isOwner ? <You /> : ''}
+            </DetailsKey>
             <DetailsValue>
               <AddressLink address={domain.owner}>
                 {outOfSync ? (
@@ -354,8 +365,8 @@ function DetailsContainer({
             isDeedOwner={isDeedOwner}
             outOfSync={outOfSync}
             type="address"
-            editButton={isOwnerOfParent ? 'Set' : 'Transfer'}
-            mutationButton={isOwnerOfParent ? 'Set' : 'Transfer'}
+            editButton={isOwnerOfParent ? t('c.set') : t('c.transfer')}
+            mutationButton={isOwnerOfParent ? t('c.set') : t('c.transfer')}
             mutation={isOwnerOfParent ? SET_SUBNODE_OWNER : SET_OWNER}
             refetch={refetch}
             confirm={true}
@@ -470,22 +481,25 @@ function DetailsContainer({
               value={domain.expiryTime}
               notes={
                 domain.gracePeriodEndDate ? (
-                  <GracePeriodWarning date={domain.gracePeriodEndDate} />
+                  <GracePeriodWarning
+                    expiryTime={domain.expiryTime}
+                    date={domain.gracePeriodEndDate}
+                  />
                 ) : (
                   ''
                 )
               }
               canEdit={parseInt(account, 16) !== 0 && isMigratedToNewRegistry}
               type="date"
-              editButton="Renew"
-              mutationButton="Renew"
+              editButton={t('c.renew')}
+              mutationButton={t('c.renew')}
               mutation={RENEW}
               refetch={refetch}
               confirm={true}
             />
           ) : domain.expiryTime ? (
             <DetailsItem uneditable>
-              <DetailsKey>Expiration Date</DetailsKey>
+              <DetailsKey>{t("c['Expiration Date']")}</DetailsKey>
               <ExpirationDetailsValue
                 isExpired={domain.expiryTime < new Date()}
               >

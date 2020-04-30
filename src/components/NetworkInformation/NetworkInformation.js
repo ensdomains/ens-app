@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import { useTranslation } from 'react-i18next'
 
 import mq from 'mediaQuery'
 
@@ -96,6 +97,7 @@ const WaitingText = styled('span')`
 `
 
 function NetworkInformation() {
+  const { t } = useTranslation()
   const { accounts, network, loading, error } = useNetworkInfo()
 
   if (loading) {
@@ -122,7 +124,9 @@ function NetworkInformation() {
           <Account data-testid="account" className="account">
             <ReverseRecord address={accounts[0]} />
           </Account>
-          <NetworkStatus>{network} Network</NetworkStatus>
+          <NetworkStatus>
+            {network} {t('c.network')}
+          </NetworkStatus>
         </AccountContainer>
       ) : (
         <NoAccountsModal colour={'#F5A623'} />

@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import { useTranslation } from 'react-i18next'
 import { Mutation } from 'react-apollo'
 
 import { isLabelValid } from '../../utils/utils'
@@ -37,6 +38,7 @@ const Input = styled(DefaultInput)`
 
 function AddSubdomain({ domain, refetch }) {
   const { state, actions } = useEditable()
+  const { t } = useTranslation()
   const { editing, newValue, txHash, pending, confirmed } = state
 
   const {
@@ -63,7 +65,9 @@ function AddSubdomain({ domain, refetch }) {
               }}
             />
           ) : (
-            <Button onClick={startEditing}>+ Add Subdomain</Button>
+            <Button onClick={startEditing}>
+              + {t('singleName.subdomains.add')}
+            </Button>
           )
         ) : null}
         {editing && (

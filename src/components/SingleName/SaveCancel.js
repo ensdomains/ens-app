@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from '@emotion/styled'
 import Button from '../Forms/Button'
 import GlobalState from '../../globalState'
@@ -48,6 +49,7 @@ const ActionButton = ({
   mutationButton,
   value,
   newValue,
+  extraDataComponent,
   confirm,
   isValid
 }) => {
@@ -71,6 +73,7 @@ const ActionButton = ({
             mutationButton: mutationButton,
             value: value,
             newValue: newValue,
+            extraDataComponent,
             cancel: () => {
               toggleModal({ name: 'confirm' })
             }
@@ -88,34 +91,44 @@ const ActionButton = ({
   )
 }
 
-export const SaveCancel = ({
-  mutation,
-  mutationButton,
-  stopEditing,
-  disabled,
-  className,
-  value,
-  newValue,
-  confirm,
-  warningMessage,
-  isValid = true
-}) => (
-  <SaveCancelContainer className={className}>
-    {warningMessage ? <Warning>{warningMessage}</Warning> : null}
-    <Cancel data-testid="cancel" type="hollow" onClick={stopEditing}>
-      Cancel
-    </Cancel>
-    <ActionButton
-      disabled={disabled}
-      mutation={mutation}
-      mutationButton={mutationButton}
-      value={value}
-      newValue={newValue}
-      confirm={confirm}
-      isValid={isValid}
-      data-testid="action"
-    />
-  </SaveCancelContainer>
+export const SaveCancel = React.forwardRef(
+  (
+    {
+      mutation,
+      mutationButton,
+      stopEditing,
+      disabled,
+      className,
+      value,
+      newValue,
+      confirm,
+      warningMessage,
+      extraDataComponent,
+      isValid = true
+    },
+    ref
+  ) => {
+    const { t } = useTranslation()
+    return (
+      <SaveCancelContainer className={className} ref={ref}>
+        {warningMessage ? <Warning>{warningMessage}</Warning> : null}
+        <Cancel data-testid="cancel" type="hollow" onClick={stopEditing}>
+          {t(`c.cancel`)}
+        </Cancel>
+        <ActionButton
+          disabled={disabled}
+          mutation={mutation}
+          mutationButton={mutationButton}
+          value={value}
+          newValue={newValue}
+          confirm={confirm}
+          isValid={isValid}
+          extraDataComponent={extraDataComponent}
+          data-testid="action"
+        />
+      </SaveCancelContainer>
+    )
+  }
 )
 
 export const SaveCancelSwitch = ({

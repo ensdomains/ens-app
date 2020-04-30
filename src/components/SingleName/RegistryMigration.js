@@ -1,5 +1,7 @@
 import React from 'react'
 import { useMutation, useQuery } from 'react-apollo'
+import { useTranslation, Trans } from 'react-i18next'
+
 import { MIGRATE_REGISTRY } from 'graphql/mutations'
 import { IS_CONTRACT_CONTROLLER } from 'graphql/queries'
 import styled from '@emotion/styled'
@@ -43,6 +45,7 @@ export default function RegistryMigration({
   isParentMigratedToNewRegistry,
   loadingIsParentMigrated
 }) {
+  const { t } = useTranslation()
   const { state, actions } = useEditable()
   const { txHash, pending, confirmed } = state
   const { startPending, setConfirmed } = actions
@@ -66,14 +69,20 @@ export default function RegistryMigration({
     account === domain.parentOwner &&
     !isContractController
 
-  const isContractControllerMessage = `This name is controlled by a contract and can't be migrated automatically. Please redeploy your contract to use the new registry before setting the new controller`
-  const defaultMessage = `This name needs to be migrated to the new Registry. Only the parent of
-  this name (${domain.parent}) can do this.`
-  const migrateParentFirstMessage = `You must first migrate the parent domain ${
-    domain.parent
-  } before you can migrate this subdomain`
-  const dnssecMigrateMessage =
-    'This name needs to be migrated to the new Registry. Please setup the correct DNS Owner and click "Sync" button below'
+  const isContractControllerMessage = t('registrymigration.messages.controller')
+  const defaultMessage = (
+    <Trans
+      i18nKey="registrymigration.messages.default"
+      values={{ parent: domain.parent }}
+    />
+  )
+  const migrateParentFirstMessage = (
+    <Trans
+      i18nKey="registrymigration.messages.parentmigrate"
+      values={{ parent: domain.parent }}
+    />
+  )
+  const dnssecMigrateMessage = t('registrymigration.messages.dnssec')
   return (
     <WarningBox>
       <WarningContent>
@@ -85,9 +94,7 @@ export default function RegistryMigration({
           ? dnssecMigrateMessage
           : defaultMessage}
         {domain.parent !== 'eth' && !dnssecmode && (
-          <SubWarning>
-            *If you trade ENS names, do not accept this name!
-          </SubWarning>
+          <SubWarning>{t('registrymigration.donotaccept')}</SubWarning>
         )}
       </WarningContent>
       {pending && !confirmed && txHash ? (
@@ -104,7 +111,7 @@ export default function RegistryMigration({
           type={canMigrate ? 'hollow-primary' : 'hollow-primary-disabled'}
           href="#"
         >
-          Migrate
+          {t('c.migrate')}
         </Migrate>
       )}
     </WarningBox>

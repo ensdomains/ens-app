@@ -1,8 +1,9 @@
 import React, { useState, useReducer } from 'react'
 import styled from '@emotion/styled'
-import { Query } from 'react-apollo'
+import { useTranslation } from 'react-i18next'
+import { Query, useQuery } from 'react-apollo'
 
-import { GET_MINIMUM_COMMITMENT_AGE } from 'graphql/queries'
+import { GET_MINIMUM_COMMITMENT_AGE, GET_RENT_PRICE } from 'graphql/queries'
 import { useInterval, useEthPrice } from 'components/hooks'
 import { registerMachine, registerReducer } from './registerReducer'
 import { sendNotification } from './notification'
@@ -29,6 +30,7 @@ const NameRegister = ({
   registrationOpen,
   duringMigration
 }) => {
+  const { t } = useTranslation()
   const [step, dispatch] = useReducer(
     registerReducer,
     registerMachine.initialState
@@ -47,7 +49,7 @@ const NameRegister = ({
       } else {
         setTimerRunning(false)
         incrementStep()
-        sendNotification(`${domain.name} is ready to be registered`)
+        sendNotification(`${domain.name} ${t('register.notifications.ready')}`)
       }
     },
     timerRunning ? 1000 : null
@@ -55,6 +57,17 @@ const NameRegister = ({
 
   const parsedYears = parseFloat(years)
   const duration = yearInSeconds * parsedYears
+
+  const { data: { getRentPrice } = {}, loading: rentPriceLoading } = useQuery(
+    GET_RENT_PRICE,
+    {
+      variables: {
+        duration,
+        label: domain.label
+      }
+    }
+  )
+
   const oneMonthInSeconds = 2419200
   const twentyEightDaysInYears = oneMonthInSeconds / yearInSeconds
   const isAboveMinDuration = parsedYears > twentyEightDaysInYears
@@ -73,6 +86,8 @@ const NameRegister = ({
           setYears={setYears}
           ethUsdPriceLoading={ethUsdPriceLoading}
           ethUsdPrice={ethUsdPrice}
+          loading={rentPriceLoading}
+          price={getRentPrice}
         />
       )}
 
@@ -95,6 +110,7 @@ const NameRegister = ({
         refetchIsMigrated={refetchIsMigrated}
         isAboveMinDuration={isAboveMinDuration}
         readOnly={readOnly}
+        price={getRentPrice}
       />
     </NameRegisterContainer>
   )

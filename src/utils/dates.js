@@ -29,7 +29,7 @@ export function humanizeDate(timeLeft) {
 export function calculateIsExpiredSoon(expiryDate) {
   if (!expiryDate) return expiryDate
 
-  const ADVANCE_WARNING_DAYS = 100
+  const ADVANCE_WARNING_DAYS = 30
 
   const currentTime = new Date().getTime()
   const expiryTime = new Date(expiryDate * 1000).getTime()
