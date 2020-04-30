@@ -7,6 +7,8 @@ import { SingleNameBlockies } from '../Blockies'
 import { formatDate, calculateIsExpiredSoon } from 'utils/dates'
 import Checkbox from '../Forms/Checkbox'
 import mq, { useMediaMin } from 'mediaQuery'
+import Tooltip from '../Tooltip/Tooltip'
+import QuestionMark from '../Icons/QuestionMark'
 import { checkIsDecrypted, truncateUndecryptedName } from '../../api/labels'
 
 const DomainLink = styled(Link)`
@@ -98,7 +100,31 @@ export default function ChildDomainItem({
           {t('c.expires')} {formatDate(parseInt(expiryDate * 1000))}
         </ExpiryDate>
       )}
-      {isDecrypted ? 'DECRYPTED' : 'NOT DECRYPTED'}
+      {!isDecrypted && (
+        <Tooltip
+          text="<p>This name is only partially decoded. If you know the name, you can search for it in the search bar to renew it</p>"
+          position="top"
+          border={true}
+          offset={{ left: 0, top: 10 }}
+        >
+          {({ tooltipElement, showTooltip, hideTooltip }) => {
+            return (
+              <div style={{ position: 'relative' }}>
+                <QuestionMark
+                  onMouseOver={() => {
+                    showTooltip()
+                  }}
+                  onMouseLeave={() => {
+                    hideTooltip()
+                  }}
+                />
+                &nbsp;
+                {tooltipElement}
+              </div>
+            )
+          }}
+        </Tooltip>
+      )}
       {checkedBoxes && isDecrypted && (
         <Checkbox
           testid={`checkbox-${name}`}
