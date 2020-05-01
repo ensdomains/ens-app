@@ -246,10 +246,7 @@ export default function Address({
           <SingleNameBlockies address={address} />
           <Title>{address}</Title>
           {etherScanAddr && (
-            <EtherScanLink
-              target="_blank"
-              href={`${etherScanAddr}/address/${address}`}
-            >
+            <EtherScanLink address={address}>
               {t('address.etherscanButton')}
             </EtherScanLink>
           )}
