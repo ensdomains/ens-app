@@ -7,7 +7,9 @@ import { SingleNameBlockies } from '../Blockies'
 import { formatDate, calculateIsExpiredSoon } from 'utils/dates'
 import Checkbox from '../Forms/Checkbox'
 import mq, { useMediaMin } from 'mediaQuery'
-import { checkIsDecrypted } from '../../api/labels'
+import Tooltip from '../Tooltip/Tooltip'
+import QuestionMark from '../Icons/QuestionMark'
+import { checkIsDecrypted, truncateUndecryptedName } from '../../api/labels'
 
 const DomainLink = styled(Link)`
   display: grid;
@@ -77,9 +79,7 @@ export default function ChildDomainItem({
   let { t } = useTranslation()
   const smallBP = useMediaMin('small')
   const isDecrypted = checkIsDecrypted(name)
-  let label = isDecrypted
-    ? `${name}`
-    : `[unknown${labelhash.slice(2, 10)}].${parent}`
+  let label = isDecrypted ? `${name}` : truncateUndecryptedName(name)
   if (isMigrated === false)
     label = label + ` (${t('childDomainItem.notmigrated')})`
   const isExpiredSoon = calculateIsExpiredSoon(expiryDate)
@@ -99,6 +99,31 @@ export default function ChildDomainItem({
         <ExpiryDate isExpiredSoon={isExpiredSoon}>
           {t('c.expires')} {formatDate(parseInt(expiryDate * 1000))}
         </ExpiryDate>
+      )}
+      {!isDecrypted && (
+        <Tooltip
+          text="<p>This name is only partially decoded. If you know the name, you can search for it in the search bar to decrypt it and renew</p>"
+          position="top"
+          border={true}
+          offset={{ left: 0, top: 10 }}
+        >
+          {({ tooltipElement, showTooltip, hideTooltip }) => {
+            return (
+              <div style={{ position: 'relative' }}>
+                <QuestionMark
+                  onMouseOver={() => {
+                    showTooltip()
+                  }}
+                  onMouseLeave={() => {
+                    hideTooltip()
+                  }}
+                />
+                &nbsp;
+                {tooltipElement}
+              </div>
+            )
+          }}
+        </Tooltip>
       )}
       {checkedBoxes && isDecrypted && (
         <Checkbox

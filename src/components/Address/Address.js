@@ -55,7 +55,7 @@ const Close = styled('img')`
 `
 
 const Controls = styled('div')`
-  padding-left: 30px;
+  padding-left: 8px;
   display: grid;
   align-content: center;
   grid-template-columns: 1fr;
@@ -246,10 +246,7 @@ export default function Address({
           <SingleNameBlockies address={address} />
           <Title>{address}</Title>
           {etherScanAddr && (
-            <EtherScanLink
-              target="_blank"
-              href={`${etherScanAddr}/address/${address}`}
-            >
+            <EtherScanLink address={address}>
               {t('address.etherscanButton')}
             </EtherScanLink>
           )}

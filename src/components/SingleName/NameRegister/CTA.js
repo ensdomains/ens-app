@@ -11,6 +11,7 @@ import { useReferrer } from '../../hooks'
 import Tooltip from 'components/Tooltip/Tooltip'
 import PendingTx from '../../PendingTx'
 import Button from '../../Forms/Button'
+import AddToCalendar from '../../Calendar'
 import { ReactComponent as DefaultPencil } from '../../Icons/SmallPencil.svg'
 import { ReactComponent as DefaultOrangeExclamation } from '../../Icons/OrangeExclamation.svg'
 
@@ -153,16 +154,19 @@ function getCTA({
       />
     ),
     REVEAL_CONFIRMED: (
-      <Button
-        data-testid="manage-name-button"
-        onClick={async () => {
-          await Promise.all([refetch(), refetchIsMigrated()])
-          history.push(`/name/${label}.eth`)
-        }}
-      >
-        <Pencil />
-        {t('register.buttons.manage')}
-      </Button>
+      <>
+        {/* <AddToCalendar /> */}
+        <Button
+          data-testid="manage-name-button"
+          onClick={async () => {
+            await Promise.all([refetch(), refetchIsMigrated()])
+            history.push(`/name/${label}.eth`)
+          }}
+        >
+          <Pencil />
+          {t('register.buttons.manage')}
+        </Button>
+      </>
     )
   }
   return CTAs[step]

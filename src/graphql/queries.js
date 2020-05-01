@@ -18,6 +18,17 @@ export const GET_PUBLIC_RESOLVER = gql`
   }
 `
 
+export const GET_REVERSE_RECORD = gql`
+  query getReverseRecord($address: String) @client {
+    getReverseRecord(address: $address) @client {
+      name
+      address
+      avatar
+      match
+    }
+  }
+`
+
 export const GET_ALL_NODES = gql`
   query names {
     names @client {
@@ -95,13 +106,27 @@ export const GET_SUBDOMAINS = gql`
 `
 
 export const GET_RESOLVER_FROM_SUBGRAPH = gql`
-  query getSubdomains($id: ID!) {
+  query getResolverFromSubgraph($id: ID!) {
     domain(id: $id) {
       id
       name
       resolver {
         coinTypes
         texts
+      }
+    }
+  }
+`
+
+export const GET_REGISTRANT_FROM_SUBGRAPH = gql`
+  query getRegistrantFromSubgraph($id: ID!) {
+    registration(id: $id) {
+      id
+      domain {
+        name
+      }
+      registrant {
+        id
       }
     }
   }

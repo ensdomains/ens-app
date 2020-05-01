@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import useNetworkInfo from '../NetworkInformation/useNetworkInfo'
 import { ReactComponent as ExternalLinkIcon } from '../Icons/externalLink.svg'
 
 const EtherScanLinkContainer = styled('a')`
@@ -21,15 +22,20 @@ const EtherScanLinkContainer = styled('a')`
   }
 `
 
-const EtherScanLink = ({ children, address, className }) => (
-  <EtherScanLinkContainer
-    target="_blank"
-    href={`http://etherscan.io/address/${address}`}
-    className={className}
-  >
-    {children}
-    <ExternalLinkIcon />
-  </EtherScanLinkContainer>
-)
+const EtherScanLink = ({ children, address, className }) => {
+  const { network } = useNetworkInfo()
+  const subdomain = network === 'main' ? '' : `${network}.`
+  return (
+    <EtherScanLinkContainer
+      target="_blank"
+      rel="noopener"
+      href={`https://${subdomain}etherscan.io/address/${address}`}
+      className={className}
+    >
+      {children}
+      <ExternalLinkIcon />
+    </EtherScanLinkContainer>
+  )
+}
 
 export default EtherScanLink
