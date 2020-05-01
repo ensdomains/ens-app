@@ -106,13 +106,27 @@ export const GET_SUBDOMAINS = gql`
 `
 
 export const GET_RESOLVER_FROM_SUBGRAPH = gql`
-  query getSubdomains($id: ID!) {
+  query getResolverFromSubgraph($id: ID!) {
     domain(id: $id) {
       id
       name
       resolver {
         coinTypes
         texts
+      }
+    }
+  }
+`
+
+export const GET_REGISTRANT_FROM_SUBGRAPH = gql`
+  query getRegistrantFromSubgraph($id: ID!) {
+    registration(id: $id) {
+      id
+      domain {
+        name
+      }
+      registrant {
+        id
       }
     }
   }

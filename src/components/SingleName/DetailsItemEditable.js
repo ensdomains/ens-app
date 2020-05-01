@@ -87,13 +87,12 @@ const Input = styled(DefaultInput)`
 `
 
 const Action = styled(motion.div)`
+  margin-left: 0;
   margin-top: 20px;
   ${mq.small`
-    margin-top: 0;
-    position: absolute;
-    right: 10px;
-    top: -10px;
-    transform: translate(0, -65%);
+     margin-left: auto;
+  align-self: center;
+  margin-top: -10px;
   `}
 `
 
