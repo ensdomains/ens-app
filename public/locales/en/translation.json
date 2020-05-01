@@ -7,7 +7,7 @@
     "learnmore": "Learn More",
     "search": "Search",
     "permanentregistrar": "Permanent Registrar",
-    "Registrant": "Registrant",
+    "registrant": "Registrant",
     "Controller": "Controller",
     "Expiration Date": "Expiration Date",
     "expires": "Expires",
@@ -84,7 +84,7 @@
       "detailsItem": {
         "Resolver": "You can only set the resolver on this name if you are the controller and are logged into your wallet",
         "Controller": "You can only transfer the controller if you are the controller or registrant and are logged into your wallet",
-        "Registrant": "You can only transfer the registrant if you are the registrant and are logged into your wallet",
+        "registrant": "You can only transfer the registrant if you are the registrant and are logged into your wallet",
         "default": "You can only make changes if you are the controller and are logged into your wallet"
       }
     },
@@ -121,7 +121,7 @@
     },
     "namesExpiringSoonBanner": {
       "title": "Names in May are expiring soon",
-      "text": "One of more names are expiring soon, renew them all in one transaction!"
+      "text": "One or more names are expiring soon, renew them all in one transaction!"
     },
     "transactionBanner": "You are here because of a transaction we sent you or a referrer from another site. You have names below that need to be renewed soon!"
   },

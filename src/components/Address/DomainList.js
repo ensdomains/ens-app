@@ -64,24 +64,22 @@ export default function DomainList({
     <DomainsContainer>
       {domains.map(d => {
         return (
-          <>
-            <DomainItem
-              key={d.domain.name}
-              name={d.domain.name}
-              owner={address}
-              domain={d.domain}
-              expiryDate={d?.expiryDate}
-              labelName={d.domain.labelName}
-              labelhash={d.domain.labelhash}
-              parent={d.domain.parent.name}
-              checkedBoxes={activeFilter === 'registrant' ? checkedBoxes : null}
-              setCheckedBoxes={
-                activeFilter === 'registrant' ? setCheckedBoxes : null
-              }
-              setSelectAll={setSelectAll}
-              showBlockies={showBlockies}
-            />
-          </>
+          <DomainItem
+            key={d.domain.name}
+            name={d.domain.name}
+            owner={address}
+            domain={d.domain}
+            expiryDate={d?.expiryDate}
+            labelName={d.domain.labelName}
+            labelhash={d.domain.labelhash}
+            parent={d.domain.parent.name}
+            checkedBoxes={activeFilter === 'registrant' ? checkedBoxes : null}
+            setCheckedBoxes={
+              activeFilter === 'registrant' ? setCheckedBoxes : null
+            }
+            setSelectAll={setSelectAll}
+            showBlockies={showBlockies}
+          />
         )
       })}
     </DomainsContainer>

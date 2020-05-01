@@ -55,6 +55,15 @@ export function decryptName(name) {
     .join('.')
 }
 
+export function truncateUndecryptedName(name) {
+  let nameArray = name.split('.')
+  let truncatedArray = nameArray.map(label => {
+    if (checkIsDecrypted(label)) return label
+    return `${label.slice(0, 5)}...${label.slice(60)}`
+  })
+  return truncatedArray.join('.')
+}
+
 export function checkLocalStorageSize() {
   var allStrings = ''
   for (var key in window.localStorage) {

@@ -16,7 +16,7 @@ describe('PermanentRegistrar', () => {
 
     cy.getByTestId('details-value-registrant', { exact: false }).should(
       'have.text',
-      Cypress.env('ownerAddress')
+      Cypress.env('ownerAddress').toLowerCase()
     )
     cy.getByTestId('details-value-controller', { exact: false }).should(
       'have.text',
@@ -29,7 +29,7 @@ describe('PermanentRegistrar', () => {
     cy.getByTestId('details-value-registrant', {
       exact: false,
       timeout: 10000
-    }).should('have.text', Cypress.env('ownerAddress'))
+    }).should('have.text', Cypress.env('ownerAddress').toLowerCase())
     cy.getByTestId('details-value-controller', { exact: false }).should(
       'have.text',
       Cypress.env('ownerAddress')
