@@ -159,3 +159,14 @@ export const emptyAddress = _emptyAddress
 export function isShortName(term) {
   return [...term].length < 3
 }
+
+export function shortenHexName(name) {
+  if (!name) return ''
+  let parts = name.split('.')
+  parts = parts.map(part =>
+    part.match(/\[(.*?)\]/g) //check if part is unknown hex
+      ? part.replace(new RegExp('^(.{0,4}).*(.{4})$', 'im'), '$1...$2')
+      : part
+  )
+  return parts.join('.')
+}

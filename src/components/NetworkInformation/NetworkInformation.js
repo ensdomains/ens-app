@@ -10,6 +10,7 @@ import Loader from 'components/Loader'
 import useNetworkInfo from './useNetworkInfo'
 import { useQuery } from 'react-apollo'
 import { GET_REVERSE_RECORD } from '../../graphql/queries'
+import { shortenHexName } from '../../utils/utils'
 
 const NetworkInformationContainer = styled('div')`
   position: relative;
@@ -121,8 +122,9 @@ function NetworkInformation() {
       address
     }
   })
-  const displayName =
-    getReverseRecord && getReverseRecord.name ? getReverseRecord.name : address
+  const displayName = shortenHexName(
+    getReverseRecord?.name ? getReverseRecord.name : address
+  )
 
   if (loading) {
     return (
