@@ -190,10 +190,13 @@ function canClaim(domain) {
 
 function RegistrantDetailsItemEditable(props) {
   const labelHash = labelhash(props.domain.label)
-  const { data, loading } = useQuery(GET_REGISTRANT_FROM_SUBGRAPH, {
+  const { data, loading, error } = useQuery(GET_REGISTRANT_FROM_SUBGRAPH, {
     variables: { id: labelHash }
   })
   if (loading) return <InlineLoader />
+  if (!data || !data.registration || error) {
+    return <DetailsItemEditable {...props} />
+  }
   return (
     <DetailsItemEditable {...props} value={data.registration.registrant.id} />
   )
