@@ -33,7 +33,7 @@ export const setup = () => {
 
 export const pageview = () => {
   const page = window.location.pathname + window.location.search
-  if (isProduction()) {
+  if (isProduction() || isDev()) {
     ReactGA.pageview(page)
   }
 }
@@ -57,6 +57,12 @@ export const trackReferral = async ({
       type,
       referrer
     })
+    ReactGA.plugin.execute('ecommerce', 'addTransaction', {
+      id: transactionId, // Transaction ID. Required.
+      affiliation: referrer, // Affiliation or store name.
+      revenue: priceInEth.toFixed(6) // Grand Total.
+    })
+
     labels.forEach(label => {
       ReactGA.plugin.execute('ecommerce', 'addItem', {
         id: transactionId,
@@ -64,11 +70,6 @@ export const trackReferral = async ({
         sku: label,
         category: type
       })
-    })
-    ReactGA.plugin.execute('ecommerce', 'addTransaction', {
-      id: transactionId, // Transaction ID. Required.
-      affiliation: referrer, // Affiliation or store name.
-      revenue: priceInEth.toFixed(6) // Grand Total.
     })
     ReactGA.plugin.execute('ecommerce', 'send')
     ReactGA.plugin.execute('ecommerce', 'clear')
