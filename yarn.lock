@@ -1719,10 +1719,10 @@
     table "^5.4.6"
     web3 "^1.2.6"
 
-"@ensdomains/react-ens-address@0.0.22":
-  version "0.0.22"
-  resolved "https://registry.yarnpkg.com/@ensdomains/react-ens-address/-/react-ens-address-0.0.22.tgz#b06713474899a095125f56e8a477541bbb9d7247"
-  integrity sha512-IXbX+DTlTQyaWUpapGvPNdmf8YCGxUoCro7b7Lv4VpUW+uCU+7Vyjkwz7A4YwKIoveya+Bls7s/Q3FimIvTgZw==
+"@ensdomains/react-ens-address@0.0.23":
+  version "0.0.23"
+  resolved "https://registry.yarnpkg.com/@ensdomains/react-ens-address/-/react-ens-address-0.0.23.tgz#4ad26bddf783a53aecd6194e5fd68e8d3fd6630d"
+  integrity sha512-Awc4hS5dCwMa7b1nCdgHwuKsYdCo5FBGPF7562ATenWSUliuX0Cp6c6zj/iaDTNBG/2TKTdpu3IBghMpSqQa5w==
   dependencies:
     "@emotion/core" "^10.0.14"
     "@emotion/styled" "^10.0.14"
