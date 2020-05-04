@@ -242,8 +242,8 @@ const resolvers = {
           ens.getDomainDetails(name),
           getParent(name),
           getDNSEntryDetails(name),
-          getTestEntry(name),
-          getSubDomainSaleEntry(name)
+          getTestEntry(name)
+          //getSubDomainSaleEntry(name)
         ]
 
         const [
@@ -251,8 +251,8 @@ const resolvers = {
           domainDetails,
           [parent, parentOwner],
           dnsEntry,
-          testEntry,
-          subDomainSaleEntry
+          testEntry
+          //subDomainSaleEntry
         ] = await Promise.all(dataSources)
 
         const { names } = cache.readQuery({ query: GET_ALL_NODES })
@@ -263,7 +263,7 @@ const resolvers = {
           ...domainDetails,
           ...dnsEntry,
           ...testEntry,
-          ...subDomainSaleEntry,
+          //...subDomainSaleEntry,
           parent,
           parentOwner,
           __typename: 'Node'
@@ -274,6 +274,8 @@ const resolvers = {
         const data = {
           names: [...names, detailedNode]
         }
+
+        console.log(detailedNode)
 
         cache.writeData({ data })
 
