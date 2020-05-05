@@ -17,6 +17,7 @@ import { addressUtils } from 'utils/utils'
 import Bin from '../Forms/Bin'
 import { emptyAddress } from 'utils/utils'
 import { useAccount } from '../QueryAccount'
+
 import Tooltip from '../Tooltip/Tooltip'
 import { SingleNameBlockies } from '../Blockies'
 import DefaultAddressLink from '../Links/AddressLink'

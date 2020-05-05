@@ -159,6 +159,11 @@ async function getRegistrant(name) {
     query: GET_REGISTRANT_FROM_SUBGRAPH,
     variables: { id: labelhash(name.split('.')[0]) }
   })
+  if (error) {
+    console.log('Error getting registrant from subgraph', error)
+    return undefined
+  }
+
   return utils.getAddress(data.registration.registrant.id)
 }
 
