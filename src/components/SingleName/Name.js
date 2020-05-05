@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import { Link } from 'react-router-dom'
+import { useTranslation, Trans } from 'react-i18next'
 
 import { useMediaMin } from 'mediaQuery'
 import { EMPTY_ADDRESS } from '../../utils/records'
@@ -51,6 +53,7 @@ function isOwnerOfParentDomain(domain, account) {
 }
 
 function Name({ details: domain, name, pathname, type, refetch }) {
+  const { t } = useTranslation()
   const smallBP = useMediaMin('small')
   const percentDone = 0
   const account = useAccount()
@@ -84,10 +87,13 @@ function Name({ details: domain, name, pathname, type, refetch }) {
       <Banner>
         <h3>
           <img alt="exclamation mark" src={warning} />
-          &nbsp; Names in May are expiring soon
+          &nbsp;{t('singleName.banners.namesExpiring.title')}
         </h3>
-        Click the renew button to avoid expiration. To renew all of your names
-        in bulk, navigate to My Names
+        <Trans i18nKey="singleName.banners.namesExpiring.text">
+          Click the renew button to avoid expiration. To renew all of your names
+          in bulk, navigate to <Link to={`/address/${account}`}>My Names</Link>{' '}
+          and selecting multiple names before clicking 'Renew'
+        </Trans>
       </Banner>
       <NameContainer state={containerState}>
         <TopBar percentDone={percentDone}>

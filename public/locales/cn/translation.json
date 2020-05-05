@@ -68,6 +68,12 @@
     }
   },
   "singleName": {
+    "banners": {
+      "namesExpiring": {
+        "title": "Names in May are expiring soon",
+        "text": "Click the renew button to avoid expiration. To renew all of your names in bulk, navigate to <1>My Names</1> and selecting multiple names before clicking 'Renew'"
+      }
+    },
     "tabs": {
       "register": "注册",
       "details": "详情",
@@ -135,7 +141,7 @@
     },
     "namesExpiringSoonBanner": {
       "title": "Names in May are expiring soon",
-      "text": "One of more names are expiring soon, renew them all in one transaction!"
+      "text": "One or more names are expiring soon, renew them all in one transaction by selecting multiple names and click 'Renew'"
     },
     "transactionBanner": "You are here because of a transaction we sent you or a referrer from another site. You have names below that need to be renewed soon!"
   },
