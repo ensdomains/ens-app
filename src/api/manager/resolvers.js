@@ -284,7 +284,11 @@ const resolvers = {
           ...domainDetails,
           ...dnsEntry,
           ...testEntry,
-          registrant: registrant ? registrant : registrarEntry.registrant,
+          registrant: registrant
+            ? registrant
+            : registrarEntry.registrant
+            ? registrarEntry.registrant
+            : null,
           parent,
           parentOwner,
           __typename: 'Node'
