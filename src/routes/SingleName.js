@@ -33,20 +33,17 @@ function SingleName({
     } catch {
       document.title = 'Error finding name'
     } finally {
-      if (normalisedName) {
-        _type = parseSearchTerm(normalisedName)
-      } else {
-        _type = parseSearchTerm(searchTerm)
-      }
-      if (_type === 'supported' || _type === 'tld') {
-        setValid(true)
-      } else {
-        if (_type === !'short') {
-          _type = 'unsupported'
+      parseSearchTerm(normalisedName || searchTerm).then(() => {
+        if (_type === 'supported' || _type === 'tld') {
+          setValid(true)
+        } else {
+          if (_type === !'short') {
+            _type = 'unsupported'
+          }
+          setValid(true)
         }
-        setValid(true)
-      }
-      setType(_type)
+        setType(_type)
+      })
     }
   }, [searchTerm])
   if (valid) {

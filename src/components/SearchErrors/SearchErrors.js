@@ -23,7 +23,7 @@ const errorData = {
         .split('.')
         .splice(-1, 1)} is not currently a support tld.`,
     long: searchTerm =>
-      `We currently only support .eth, .xyz and .art domains. Support for future domains are planned in the future`
+      `We do not support every single domain. Support for future domains are planned in the future`
   },
   tooShort: {
     short: searchTerm => (
