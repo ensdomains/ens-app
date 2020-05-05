@@ -1,9 +1,6 @@
 import { getWeb3, getAccounts, getNetworkId, isReadOnly } from '@ensdomains/ui'
 import getENS from 'api/ens'
 import merge from 'lodash/merge'
-import fifsResolvers, {
-  defaults as fifsDefaults
-} from './fifsRegistrar/resolvers'
 import managerResolvers, {
   defaults as managerDefaults
 } from './manager/resolvers'
@@ -98,7 +95,6 @@ const resolvers = {
 
 const defaults = merge(
   rootDefaults,
-  fifsDefaults,
   managerDefaults,
   auctionRegistrarDefaults,
   subDomainRegistrarDefaults
@@ -106,7 +102,6 @@ const defaults = merge(
 
 export default merge(
   resolvers,
-  fifsResolvers,
   managerResolvers,
   auctionRegistrarResolvers,
   subDomainRegistrarResolvers
