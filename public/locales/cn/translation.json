@@ -68,6 +68,12 @@
     }
   },
   "singleName": {
+    "banners": {
+      "namesExpiring": {
+        "title": "Names in May are expiring soon",
+        "text": "Click the renew button to avoid expiration. To renew all of your names in bulk, navigate to <1>My Names</1> and selecting multiple names before clicking 'Renew'"
+      }
+    },
     "tabs": {
       "register": "注册",
       "details": "详情",
@@ -98,6 +104,7 @@
         "Resolver": "如果要设置域名的解析器，请先确定您登录的是该域名的管理员账户。",
         "Controller": "如果要转让域名的管理员，请先确定你登录的是该域名的管理员或注册人账户。",
         "registrant": "如果要转让域名的注册人，请先确定你登录的是该域名当前的注册人账户。",
+        "registrantExpired": "You cannot transfer this domain whilst it is expired. Please renew first.",
         "default": "You can only make changes if you are the controller and are logged into your wallet"
       }
     },
@@ -134,7 +141,7 @@
     },
     "namesExpiringSoonBanner": {
       "title": "Names in May are expiring soon",
-      "text": "One of more names are expiring soon, renew them all in one transaction!"
+      "text": "One or more names are expiring soon, renew them all in one transaction by selecting multiple names and click 'Renew'"
     },
     "transactionBanner": "You are here because of a transaction we sent you or a referrer from another site. You have names below that need to be renewed soon!"
   },

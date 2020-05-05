@@ -9,7 +9,6 @@ import File from '../Icons/File'
 import SpeechBubble from '../Icons/SpeechBubble'
 
 import mq from 'mediaQuery'
-// import DogTag from '../Icons/DogTag'
 import { Link, withRouter } from 'react-router-dom'
 
 const SideNavContainer = styled('nav')`
@@ -110,12 +109,6 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
             <span>{t('c.favourites')}</span>
           </NavLink>
         </li>
-        {/* <li>
-          <NavLink active={path === '/my-bids'} to="/my-bids">
-            <DogTag active={path === '/my-bids'} />
-            <span>My Bids</span>
-          </NavLink>
-        </li> */}
         <li>
           <NavLink onClick={toggleMenu} active={url === '/about'} to="/about">
             <SpeechBubble active={url === '/about'} />

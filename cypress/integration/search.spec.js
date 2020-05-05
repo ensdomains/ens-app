@@ -24,7 +24,7 @@ describe('Search', () => {
 
     cy.getByTestId('details-value-registrant', { exact: false }).should(
       'have.text',
-      Cypress.env('ownerAddress').toLowerCase()
+      Cypress.env('ownerAddress')
     )
     cy.getByTestId('details-value-controller', { exact: false }).should(
       'have.text',

@@ -15,7 +15,7 @@ describe('Reverse record', () => {
     cy.queryByText('Reverse record: Set to abittooawesome.eth', {
       exact: false
     }).should('exist')
-    cy.getByTestId('account', { exact: false }).should(
+    cy.getByTestId('account', { exact: false, timeout: 10000 }).should(
       'have.text',
       'abittooawesome.eth'
     )
