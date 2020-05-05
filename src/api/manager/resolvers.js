@@ -159,7 +159,7 @@ async function getRegistrant(name) {
     query: GET_REGISTRANT_FROM_SUBGRAPH,
     variables: { id: labelhash(name.split('.')[0]) }
   })
-  if (data === null) {
+  if (!data || !data.registration) {
     return null
   }
   if (error) {
