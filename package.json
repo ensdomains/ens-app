@@ -13,7 +13,7 @@
     "@ensdomains/ethregistrar": "^2.0.1",
     "@ensdomains/react-ens-address": "0.0.24",
     "@ensdomains/resolver": "^0.2.4",
-    "@ensdomains/ui": "3.0.14",
+    "@ensdomains/ui": "3.0.15",
     "apollo-cache-inmemory": "^1.2.9",
     "apollo-client": "^2.4.5",
     "apollo-link": "^1.2.2",
@@ -87,7 +87,8 @@
   "prettier": {
     "semi": false,
     "editor.formatOnSave": true,
-    "singleQuote": true
+    "singleQuote": true,
+    "trailingComma": "none"
   },
   "husky": {
     "hooks": {

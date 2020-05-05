@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import styled from '@emotion/styled'
 import { Link, Route } from 'react-router-dom'
 import mq from 'mediaQuery'
-import { labelhash } from '@ensdomains/ui'
 
 import {
   SET_OWNER,
@@ -13,10 +12,7 @@ import {
   RECLAIM,
   RENEW
 } from '../../graphql/mutations'
-import {
-  IS_MIGRATED,
-  GET_REGISTRANT_FROM_SUBGRAPH
-} from '../../graphql/queries'
+import { IS_MIGRATED } from '../../graphql/queries'
 
 import { formatDate } from '../../utils/dates'
 import { EMPTY_ADDRESS } from '../../utils/records'
@@ -32,7 +28,7 @@ import DetailsItemEditable from './DetailsItemEditable'
 import SetupName from '../SetupName/SetupName'
 import { SingleNameBlockies } from '../Blockies'
 import { ReactComponent as ExternalLinkIcon } from '../Icons/externalLink.svg'
-import DefaultLoader, { InlineLoader } from '../Loader'
+import DefaultLoader from '../Loader'
 import You from '../Icons/You'
 import dnssecmodes from '../../api/dnssecmodes'
 import { ReactComponent as DefaultOrangeExclamation } from '../Icons/OrangeExclamation.svg'
@@ -188,20 +184,6 @@ function canClaim(domain) {
   return parseInt(domain.owner) === 0 || domain.expiryTime < new Date()
 }
 
-function RegistrantDetailsItemEditable(props) {
-  const labelHash = labelhash(props.domain.label)
-  const { data, loading, error } = useQuery(GET_REGISTRANT_FROM_SUBGRAPH, {
-    variables: { id: labelHash }
-  })
-  if (loading) return <InlineLoader />
-  if (!data || !data.registration || error) {
-    return <DetailsItemEditable {...props} />
-  }
-  return (
-    <DetailsItemEditable {...props} value={data.registration.registrant.id} />
-  )
-}
-
 function DetailsContainer({
   isMigratedToNewRegistry,
   isDeedOwner,
@@ -225,6 +207,7 @@ function DetailsContainer({
   duringMigration
 }) {
   const { t } = useTranslation()
+  const isExpired = domain.expiryTime < new Date()
   return (
     <Details data-testid="name-details">
       {isOwner && !duringMigration && (
@@ -257,11 +240,12 @@ function DetailsContainer({
       <OwnerFields outOfSync={outOfSync}>
         {domain.parent === 'eth' && domain.isNewRegistrar ? (
           <>
-            <RegistrantDetailsItemEditable
+            <DetailsItemEditable
               domain={domain}
               keyName="registrant"
               value={domain.registrant}
-              canEdit={isRegistrant}
+              canEdit={isRegistrant && !isExpired}
+              isExpiredRegistrant={isRegistrant && isExpired}
               type="address"
               editButton={t('c.transfer')}
               mutationButton={t('c.transfer')}
@@ -518,9 +502,7 @@ function DetailsContainer({
           ) : domain.expiryTime ? (
             <DetailsItem uneditable>
               <DetailsKey>{t("c['Expiration Date']")}</DetailsKey>
-              <ExpirationDetailsValue
-                isExpired={domain.expiryTime < new Date()}
-              >
+              <ExpirationDetailsValue isExpired={isExpired}>
                 {formatDate(domain.expiryTime)}
               </ExpirationDetailsValue>
             </DetailsItem>

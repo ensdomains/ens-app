@@ -98,6 +98,7 @@
         "Resolver": "如果要设置域名的解析器，请先确定您登录的是该域名的管理员账户。",
         "Controller": "如果要转让域名的管理员，请先确定你登录的是该域名的管理员或注册人账户。",
         "registrant": "如果要转让域名的注册人，请先确定你登录的是该域名当前的注册人账户。",
+        "registrantExpired": "You cannot transfer this domain whilst it is expired. Please renew first.",
         "default": "You can only make changes if you are the controller and are logged into your wallet"
       }
     },
