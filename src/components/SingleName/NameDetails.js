@@ -491,7 +491,7 @@ function DetailsContainer({
                   ''
                 )
               }
-              canEdit={parseInt(account, 16) !== 0 && isMigratedToNewRegistry}
+              canEdit={parseInt(account, 16) !== 0}
               type="date"
               editButton={t('c.renew')}
               mutationButton={t('c.renew')}
