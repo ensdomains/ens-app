@@ -109,7 +109,7 @@ async function getDNSEntryDetails(name) {
     return {}
   }
 
-  let isDNSRegistrarSupported = await registrar.isDNSRegistrar(tld)
+  let isDNSRegistrarSupported = await registrar.isDNSRegistrar(tldowner)
   if (isDNSRegistrarSupported && tldowner !== emptyAddress) {
     const dnsEntry = await registrar.getDNSEntry(name, tldowner, owner)
     const node = {
