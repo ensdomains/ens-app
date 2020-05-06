@@ -155,19 +155,24 @@ async function getSubDomainSaleEntry(name) {
 
 async function getRegistrant(name) {
   const client = getClient()
-  const { data, error } = await client.query({
-    query: GET_REGISTRANT_FROM_SUBGRAPH,
-    variables: { id: labelhash(name.split('.')[0]) }
-  })
-  if (!data || !data.registration) {
-    return null
-  }
-  if (error) {
-    console.log('Error getting registrant from subgraph', error)
-    return null
-  }
+  try {
+    const { data, error } = await client.query({
+      query: GET_REGISTRANT_FROM_SUBGRAPH,
+      variables: { id: labelhash(name.split('.')[0]) }
+    })
+    if (!data || !data.registration) {
+      return null
+    }
+    if (error) {
+      console.log('Error getting registrant from subgraph', error)
+      return null
+    }
 
-  return utils.getAddress(data.registration.registrant.id)
+    return utils.getAddress(data.registration.registrant.id)
+  } catch (e) {
+    console.log('GraphQL error from getRegistrant', e)
+    return null
+  }
 }
 
 function adjustForShortNames(node) {
