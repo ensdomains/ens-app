@@ -113,7 +113,7 @@ async function getDNSEntryDetails(name) {
     return {}
   }
 
-  let isDNSRegistrarSupported = await registrar.isDNSRegistrar(tld)
+  let isDNSRegistrarSupported = await registrar.isDNSRegistrar(tldowner)
   if (isDNSRegistrarSupported && tldowner !== emptyAddress) {
     const dnsEntry = await registrar.getDNSEntry(name, tldowner, owner)
     const node = {
@@ -424,6 +424,7 @@ const resolvers = {
         address,
         __typename: 'ReverseRecord'
       }
+      if (!address) return obj
 
       try {
         const { name } = await ens.getName(address)
