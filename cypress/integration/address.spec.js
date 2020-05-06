@@ -14,11 +14,13 @@ describe('/address', () => {
       .contains('Search')
       .click()
 
-    cy.queryByText('My Names', { exact: false }).should(
-      'have.css',
-      'color',
-      DISABLED_COLOUR
-    )
+    cy.getByTestId('sitenav').within(container => {
+      cy.queryByText('My Names', { container, exact: false }).should(
+        'have.css',
+        'color',
+        DISABLED_COLOUR
+      )
+    })
 
     cy.getByText('My Names').click({ force: true })
     cy.queryByText('View On Etherscan', {
@@ -26,11 +28,13 @@ describe('/address', () => {
       timeout: 10000
     }).should('exist')
     cy.queryByText('postmigration.eth', { exact: false }).should('exist')
-    cy.queryByText('My Names', { exact: false }).should(
-      'have.css',
-      'color',
-      ENABLED_COLOUR
-    )
+    cy.getByTestId('sitenav').within(container => {
+      cy.queryByText('My Names', { container, exact: false }).should(
+        'have.css',
+        'color',
+        ENABLED_COLOUR
+      )
+    })
   })
 
   it('can select a name', () => {
