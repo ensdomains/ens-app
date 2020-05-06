@@ -69,8 +69,9 @@ const NetworkStatus = styled('div')`
 
 const Account = styled('div')`
   color: #adbbcd;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 200;
+  font-family: Overpass Mono;
   width: 140px;
   white-space: nowrap;
   overflow: hidden;
@@ -84,7 +85,7 @@ const AccountContainer = styled('div')`
     transform: translate(-25px, 5px);
     width: 200px;
     &:hover {
-      width: 475px;
+      width: 490px;
       background: white;
       box-shadow: -4px 18px 70px 0 rgba(108, 143, 167, 0.32);
       border-radius: 6px;

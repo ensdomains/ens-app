@@ -7,7 +7,9 @@ import {
   getResolverContract,
   getOldResolverContract,
   encodeContenthash,
-  getProvider
+  getProvider,
+  labelhash,
+  utils
 } from '@ensdomains/ui'
 import { formatsByName } from '@ensdomains/address-encoder'
 import isEqual from 'lodash/isEqual'
@@ -21,8 +23,10 @@ import COIN_LIST_KEYS from 'constants/coinList'
 import {
   GET_FAVOURITES,
   GET_SUBDOMAIN_FAVOURITES,
-  GET_ALL_NODES
+  GET_ALL_NODES,
+  GET_REGISTRANT_FROM_SUBGRAPH
 } from '../../graphql/queries'
+import getClient from '../../apolloClient'
 import getENS, { getRegistrar } from 'api/ens'
 
 let savedFavourites =
@@ -149,6 +153,28 @@ async function getSubDomainSaleEntry(name) {
   }
 }
 
+async function getRegistrant(name) {
+  const client = getClient()
+  try {
+    const { data, error } = await client.query({
+      query: GET_REGISTRANT_FROM_SUBGRAPH,
+      variables: { id: labelhash(name.split('.')[0]) }
+    })
+    if (!data || !data.registration) {
+      return null
+    }
+    if (error) {
+      console.log('Error getting registrant from subgraph', error)
+      return null
+    }
+
+    return utils.getAddress(data.registration.registrant.id)
+  } catch (e) {
+    console.log('GraphQL error from getRegistrant', e)
+    return null
+  }
+}
+
 function adjustForShortNames(node) {
   const nameArray = node.name.split('.')
   const { label, parent } = node
@@ -242,8 +268,8 @@ const resolvers = {
           ens.getDomainDetails(name),
           getParent(name),
           getDNSEntryDetails(name),
-          getTestEntry(name)
-          //getSubDomainSaleEntry(name)
+          getTestEntry(name),
+          getRegistrant(name)
         ]
 
         const [
@@ -251,8 +277,8 @@ const resolvers = {
           domainDetails,
           [parent, parentOwner],
           dnsEntry,
-          testEntry
-          //subDomainSaleEntry
+          testEntry,
+          registrant
         ] = await Promise.all(dataSources)
 
         const { names } = cache.readQuery({ query: GET_ALL_NODES })
@@ -263,7 +289,11 @@ const resolvers = {
           ...domainDetails,
           ...dnsEntry,
           ...testEntry,
-          //...subDomainSaleEntry,
+          registrant: registrant
+            ? registrant
+            : registrarEntry.registrant
+            ? registrarEntry.registrant
+            : null,
           parent,
           parentOwner,
           __typename: 'Node'

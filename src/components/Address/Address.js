@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 import { useQuery } from 'react-apollo'
-import { useTranslation } from 'react-i18next'
+import { useTranslation, Trans } from 'react-i18next'
 
 import {
   GET_DOMAINS_SUBGRAPH,
@@ -236,7 +236,12 @@ export default function Address({
           <h3>
             <img alt="exclamation mark" src={warning} />
             &nbsp; {t('address.namesExpiringSoonBanner.title')}
-            <p>{t('address.namesExpiringSoonBanner.text')}</p>
+            <p>
+              <Trans i18nKey="address.namesExpiringSoonBanner.text">
+                One or more names are expiring soon, renew them all in one
+                transaction by selecting multiple names and click "Renew"
+              </Trans>
+            </p>
           </h3>
         </Banner>
       )}

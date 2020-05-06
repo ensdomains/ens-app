@@ -17,6 +17,7 @@ import { addressUtils } from 'utils/utils'
 import Bin from '../Forms/Bin'
 import { emptyAddress } from 'utils/utils'
 import { useAccount } from '../QueryAccount'
+
 import Tooltip from '../Tooltip/Tooltip'
 import { SingleNameBlockies } from '../Blockies'
 import DefaultAddressLink from '../Links/AddressLink'
@@ -142,20 +143,23 @@ function getDefaultMessage(keyName, t) {
     case 'Resolver':
       return [t('singleName.messages.noresolver'), 'message']
     case 'Controller':
-    case 'Registrant':
+    case 'registrant':
       return [t('singleName.messages.noowner'), 'message']
     default:
       return ['No 0x message set', 'message']
   }
 }
 
-function getToolTipMessage(keyName, t) {
+function getToolTipMessage({ keyName, t, isExpiredRegistrant }) {
   switch (keyName) {
     case 'Resolver':
       return t(`singleName.tooltips.detailsItem.${keyName}`)
     case 'Controller':
       return t(`singleName.tooltips.detailsItem.${keyName}`)
-    case 'Registrant':
+    case 'registrant':
+      if (isExpiredRegistrant) {
+        return t(`singleName.tooltips.detailsItem.${keyName}Expired`)
+      }
       return t(`singleName.tooltips.detailsItem.${keyName}`)
     default:
       return 'You can only make changes if you are the controller and are logged into your wallet'
@@ -279,6 +283,7 @@ function getVariables(keyName, { domain, variableName, newValue, duration }) {
 }
 
 const Editable = ({
+  isExpired,
   showLabel = true,
   editButtonType = 'primary',
   backgroundStyle = 'blue',
@@ -584,7 +589,8 @@ function ViewOnly({
   type,
   deedOwner,
   isDeedOwner,
-  domain
+  domain,
+  isExpiredRegistrant
 }) {
   const { t } = useTranslation()
   //get default messages for 0x values
@@ -620,7 +626,7 @@ function ViewOnly({
         <Action>
           {editButton ? (
             <Tooltip
-              text={getToolTipMessage(keyName, t)}
+              text={getToolTipMessage({ keyName, t, isExpiredRegistrant })}
               position="top"
               border={true}
               warning={true}
