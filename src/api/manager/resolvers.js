@@ -424,6 +424,7 @@ const resolvers = {
         address,
         __typename: 'ReverseRecord'
       }
+      if (!address) return obj
 
       try {
         const { name } = await ens.getName(address)
