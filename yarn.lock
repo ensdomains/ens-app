@@ -1830,9 +1830,10 @@
     js-sha3 "^0.8.0"
     lodash "^4.17.11"
 
-"@ensdomains/ui@ensdomains/ui#is-dns-registrar":
-  version "3.0.15"
-  resolved "https://codeload.github.com/ensdomains/ui/tar.gz/7b9bbb7e3c9a7c70460ea969dbb7e5f29e7acf70"
+"@ensdomains/ui@^3.0.16":
+  version "3.0.16"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.16.tgz#daf170dc7e75da8f865694e027c74af9b072efca"
+  integrity sha512-H8hdV0GNmHLXIc1DCkjIXKZFoPF+JV9xtb8BRSYjjgDUGKmMtKLzvT0JxfIiiWskjHEzfHjnALNbQtYWrA+i6g==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
