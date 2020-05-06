@@ -86,7 +86,7 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
   return (
     <SideNavContainer isMenuOpen={isMenuOpen}>
       <NetworkInformation />
-      <ul>
+      <ul data-testid="sitenav">
         {accounts && accounts.length > 0 ? (
           <li>
             <NavLink
