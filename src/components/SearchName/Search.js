@@ -73,13 +73,12 @@ const SearchForm = styled('form')`
 
 function Search({ history, className, style }) {
   const { t } = useTranslation()
-  const [type, setType] = useState(null)
+  const [inputValue, setInputValue] = useState(null)
   //const [filterOpen, setFilterOpen] = useState(false)
   let input
 
   const handleParse = e => {
-    const type = parseSearchTerm(e.target.value)
-    setType(type)
+    setInputValue(e.target.value)
   }
 
   return (
@@ -87,8 +86,9 @@ function Search({ history, className, style }) {
       className={className}
       style={style}
       action="#"
-      onSubmit={e => {
+      onSubmit={async e => {
         e.preventDefault()
+        const type = await parseSearchTerm(inputValue)
         const searchTerm = input.value.toLowerCase()
         if (searchTerm.length < 1) {
           return

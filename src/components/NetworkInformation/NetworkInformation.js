@@ -145,7 +145,9 @@ function NetworkInformation() {
     <NetworkInformationContainer hasAccount={accounts.length > 0}>
       {accounts.length > 0 ? (
         <AccountContainer>
-          {!reverseRecordLoading && getReverseRecord.avatar ? (
+          {!reverseRecordLoading &&
+          getReverseRecord &&
+          getReverseRecord.avatar ? (
             <Avatar src={getReverseRecord.avatar} />
           ) : (
             <Blockies address={accounts[0]} imageSize={47} />

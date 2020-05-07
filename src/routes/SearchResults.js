@@ -24,14 +24,13 @@ class Results extends React.Component {
     errorType: '',
     parsed: null
   }
-  checkValidity = () => {
+  checkValidity = async () => {
     const { searchTerm /* getSubDomainAvailability */ } = this.props
     let parsed
     this.setState({
       errors: []
     })
-    const type = parseSearchTerm(searchTerm)
-
+    const type = await parseSearchTerm(searchTerm)
     if (!['unsupported', 'invalid'].includes(type)) {
       parsed = validateName(searchTerm)
       this.setState({
@@ -52,13 +51,13 @@ class Results extends React.Component {
       //getSubDomainAvailability({ variables: { name: searchTerm } })
     }
   }
-  componentDidMount() {
-    this.checkValidity()
+  async componentDidMount() {
+    await this.checkValidity()
   }
 
-  componentDidUpdate(prevProps) {
+  async componentDidUpdate(prevProps) {
     if (prevProps.searchTerm !== this.props.searchTerm) {
-      this.checkValidity()
+      await this.checkValidity()
     }
   }
   render() {

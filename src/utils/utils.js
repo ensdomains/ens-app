@@ -7,6 +7,7 @@ import {
   isEncodedLabelhash,
   emptyAddress as _emptyAddress
 } from '@ensdomains/ui'
+import getENS from '../api/ens'
 import * as jsSHA3 from 'js-sha3'
 import { saveName } from '../api/labels'
 
@@ -96,8 +97,17 @@ export function isLabelValid(name) {
   return _isLabelValid(name)
 }
 
-export const parseSearchTerm = term => {
-  return _parseSearchTerm(term)
+export const parseSearchTerm = async term => {
+  const ens = getENS()
+  const domains = term.split('.')
+  const tld = domains[domains.length - 1]
+  try {
+    _validateName(tld)
+  } catch (e) {
+    return 'invalid'
+  }
+  const address = await ens.getOwner(tld)
+  return _parseSearchTerm(term, parseInt(address, 16) !== 0)
 }
 
 export function humaniseName(name) {
