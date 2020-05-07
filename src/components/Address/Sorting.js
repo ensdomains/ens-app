@@ -30,9 +30,10 @@ export default function Sorting({
   className
 }) {
   let { t } = useTranslation()
+
   return (
     <SortContainer className={className}>
-      <SortButton
+      {/* <SortButton
         className={
           activeSort === 'alphabetical' || activeSort === 'alphabeticalDesc'
             ? 'active'
@@ -50,23 +51,29 @@ export default function Sorting({
         }}
       >
         {t('address.sort.alphabetical')}
-      </SortButton>
+      </SortButton> */}
       {activeFilter === 'registrant' && (
         <SortButton
-          className={
-            activeSort === 'expiryDate' || activeSort === 'expiryDateDesc'
-              ? 'active'
-              : ''
-          }
+          className={activeSort.type === 'expiryDate' ? 'active' : ''}
           onClick={() => {
-            switch (activeSort) {
-              case 'expiryDate':
-                return setActiveSort('expiryDateDesc')
-              case 'expiryDateDesc':
-                return setActiveSort('expiryDate')
-              default:
-                return setActiveSort('expiryDate')
+            if (activeSort.type) {
+              if (activeSort.direction === 'asc') {
+                setActiveSort({
+                  type: 'expiryDate',
+                  direction: 'desc'
+                })
+              } else if (activeSort.direction === 'desc') {
+                setActiveSort({
+                  type: 'expiryDate',
+                  direction: 'asc'
+                })
+              }
+              return
             }
+            setActiveSort({
+              type: 'expiryDate',
+              direction: 'asc'
+            })
           }}
         >
           {t('address.sort.expiry')}

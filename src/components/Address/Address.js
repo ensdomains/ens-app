@@ -113,42 +113,27 @@ function decryptNames(domains) {
   })
 }
 
-function getSortFunc(activeSort) {
-  function alphabetical(a, b) {
-    if (
-      a.domain.name &&
-      a.domain.name[0] === '[' &&
-      b.domain.name &&
-      b.domain.name[0] === '['
-    )
-      return a.domain.name > b.domain.name ? 1 : -1
-    if (a.domain.name && a.domain.name[0] === '[') return 1
-    if (b.domain.name && b.domain.name[0] === '[') return -1
-    return a.domain.name > b.domain.name ? 1 : -1
-  }
-  switch (activeSort) {
-    case 'alphabetical':
-      return alphabetical
-    case 'alphabeticalDesc':
-      return (a, b) => {
-        if (
-          a.domain.name &&
-          a.domain.name[0] === '[' &&
-          b.domain.name &&
-          b.domain.name[0] === '['
-        )
-          return a.domain.name > b.domain.name ? 1 : -1
-        if (a.domain.name && a.domain.name[0] === '[') return 1
-        if (b.domain.name && b.domain.name[0] === '[') return -1
-        return a.domain.name < b.domain.name ? 1 : -1
-      }
-    case 'expiryDate':
-      return (a, b) => a.expiryDate - b.expiryDate
+function useDomains({ domainType, address, sort }) {
+  const registrationsQuery = useQuery(GET_REGISTRATIONS_SUBGRAPH, {
+    variables: {
+      id: address,
+      orderBy: sort.type,
+      orderDirection: sort.direction
+    },
+    skip: domainType !== 'registrant'
+  })
 
-    case 'expiryDateDesc':
-      return (a, b) => b.expiryDate - a.expiryDate
-    default:
-      return alphabetical
+  const controllersQuery = useQuery(GET_DOMAINS_SUBGRAPH, {
+    variables: { id: address },
+    skip: domainType !== 'controller'
+  })
+
+  if (domainType === 'registrant') {
+    return registrationsQuery
+  } else if (domainType === 'controller') {
+    return controllersQuery
+  } else {
+    throw 'Unrecognised domainType'
   }
 }
 
@@ -163,17 +148,20 @@ export default function Address({
   let { t } = useTranslation()
   let [showOriginBannerFlag, setShowOriginBannerFlag] = useState(true)
   let [etherScanAddr, setEtherScanAddr] = useState(null)
-  let [activeSort, setActiveSort] = useState('alphabetical')
+  let [activeSort, setActiveSort] = useState({
+    type: 'expiryDate',
+    direction: 'asc'
+  })
   let [checkedBoxes, setCheckedBoxes] = useState({})
   let [years, setYears] = useState(1)
   const [selectAll, setSelectAll] = useState(false)
 
-  const { loading, data, error, refetch } = useQuery(
-    domainType === 'registrant'
-      ? GET_REGISTRATIONS_SUBGRAPH
-      : GET_DOMAINS_SUBGRAPH,
-    { variables: { id: normalisedAddress } }
-  )
+  const { loading, data, error, refetch } = useDomains({
+    domainType,
+    address: normalisedAddress,
+    sort: activeSort
+  })
+  console.log(activeSort)
 
   useEffect(() => {
     getEtherScanAddr().then(setEtherScanAddr)
@@ -199,8 +187,8 @@ export default function Address({
   }
 
   let decryptedDomains = decryptNames(normalisedDomains)
-  let sortedDomains = decryptedDomains.sort(getSortFunc(activeSort))
-  let domains = sortedDomains
+  // let sortedDomains = decryptedDomains.sort(getSortFunc(activeSort))
+  let domains = decryptedDomains
 
   const selectedNames = Object.entries(checkedBoxes)
     .filter(([key, value]) => value)
