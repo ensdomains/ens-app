@@ -32,7 +32,7 @@ describe('Reverse record', () => {
 
     cy.queryByText(
       'Reverse record: Set to a different name:abittooawesome.eth',
-      { exact: false }
+      { exact: false, timeout: 10000 }
     ).should('exist')
     cy.getByTestId('open-reverse').click({ force: true })
 
