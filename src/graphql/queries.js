@@ -195,9 +195,15 @@ export const GET_REGISTRATIONS_SUBGRAPH = gql`
     $first: Int
     $skip: Int
     $orderBy: Registration_orderBy
+    $orderDirection: OrderDirection
   ) {
     account(id: $id) {
-      registrations(first: $first, skip: $skip, orderBy: $orderBy) {
+      registrations(
+        first: $first
+        skip: $skip
+        orderBy: $orderBy
+        orderDirection: $orderDirection
+      ) {
         expiryDate
         domain {
           labelName
