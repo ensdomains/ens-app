@@ -152,6 +152,26 @@ function getSortFunc(activeSort) {
   }
 }
 
+function useDomains({ domainType, address }) {
+  const registrationsQuery = useQuery(GET_REGISTRATIONS_SUBGRAPH, {
+    variables: { id: address },
+    skip: domainType !== 'registrant'
+  })
+
+  const controllersQuery = useQuery(GET_DOMAINS_SUBGRAPH, {
+    variables: { id: address },
+    skip: domainType !== 'controller'
+  })
+
+  if (domainType === 'registrant') {
+    return registrationsQuery
+  } else if (domainType === 'controller') {
+    return controllersQuery
+  } else {
+    throw 'Unrecognised domainType'
+  }
+}
+
 export default function Address({
   url,
   address,
@@ -168,12 +188,10 @@ export default function Address({
   let [years, setYears] = useState(1)
   const [selectAll, setSelectAll] = useState(false)
 
-  const { loading, data, error, refetch } = useQuery(
-    domainType === 'registrant'
-      ? GET_REGISTRATIONS_SUBGRAPH
-      : GET_DOMAINS_SUBGRAPH,
-    { variables: { id: normalisedAddress } }
-  )
+  const { loading, data, error, refetch } = useDomains({
+    domainType,
+    address: normalisedAddress
+  })
 
   useEffect(() => {
     getEtherScanAddr().then(setEtherScanAddr)
