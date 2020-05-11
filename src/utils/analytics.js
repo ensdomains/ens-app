@@ -12,7 +12,7 @@ function isProduction() {
 }
 
 function isDev() {
-  return window.location.host === 'ensappdev.surge.sh'
+  return true
 }
 
 async function isMainnet() {
@@ -46,7 +46,7 @@ export const trackReferral = async ({
   referrer //
 }) => {
   const mainnet = await isMainnet()
-  const priceInEth = new EthVal(`${price}`).toEth()
+  const priceInMilliEth = new EthVal(`${price}`).toEth().mul(1000)
 
   function track() {
     ReactGA.event({
@@ -60,7 +60,7 @@ export const trackReferral = async ({
     ReactGA.plugin.execute('ecommerce', 'addTransaction', {
       id: transactionId, // Transaction ID. Required.
       affiliation: referrer, // Affiliation or store name.
-      revenue: priceInEth.toFixed(6) // Grand Total.
+      revenue: priceInMilliEth.toFixed(6) // Grand Total.
     })
 
     labels.forEach(label => {

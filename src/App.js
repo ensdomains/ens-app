@@ -17,6 +17,7 @@ import Favourites from './routes/Favourites'
 import About from './routes/About'
 import Address from './routes/AddressPage'
 import Renew from './routes/Renew'
+import TestAnalytics from './routes/TestAnalytics'
 import Modal from './components/Modal/Modal'
 import Confirm from './components/SingleName/Confirm'
 import { NetworkError, Error404 } from './components/Error/Errors'
@@ -80,6 +81,7 @@ const App = () => (
                   />
                   <Route path="/address/:address" component={Address} />
                   <Route path="/renew" component={Renew} />
+                  <Route path="/test-analytics" component={TestAnalytics} />
                   <Route path="*" component={Error404} />
                 </Switch>
               </Router>
