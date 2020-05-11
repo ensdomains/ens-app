@@ -9,7 +9,7 @@ import { get } from 'lodash'
 import { RENEW_DOMAINS } from '../../graphql/mutations'
 import { GET_RENT_PRICES } from 'graphql/queries'
 import { yearInSeconds } from 'utils/dates'
-import { useEthPrice, useEditable } from '../hooks'
+import { useEthPrice, useEditable, useReferrer } from '../hooks'
 import { decryptName } from '../../api/labels'
 import { trackReferral } from '../../utils/analytics'
 
