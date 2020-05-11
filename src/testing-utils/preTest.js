@@ -21,8 +21,6 @@ async function setupWeb3(customProvider) {
 async function init() {
   const ENV = process.argv[2]
   const dnssec = process.argv[3] == 'dnssec'
-  let migrate = process.argv[3] != 'premigration'
-  if (process.argv[3] == 'dnssec') migrate = false
 
   switch (ENV) {
     case 'GANACHE_GUI':

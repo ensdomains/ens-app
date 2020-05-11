@@ -203,16 +203,13 @@ function DetailsContainer({
   loadingIsMigrated,
   refetchIsMigrated,
   isParentMigratedToNewRegistry,
-  loadingIsParentMigrated,
-  duringMigration
+  loadingIsParentMigrated
 }) {
   const { t } = useTranslation()
   const isExpired = domain.expiryTime < new Date()
   return (
     <Details data-testid="name-details">
-      {isOwner && !duringMigration && (
-        <SetupName initialState={showExplainer} />
-      )}
+      {isOwner && <SetupName initialState={showExplainer} />}
       {isMigratedToNewRegistry && releaseDeed && (
         <ReleaseDeed domain={domain} refetch={refetch} />
       )}
@@ -223,7 +220,6 @@ function DetailsContainer({
             account={account}
             domain={domain}
             dnssecmode={dnssecmode}
-            duringMigration={duringMigration}
             refetchIsMigrated={refetchIsMigrated}
             isParentMigratedToNewRegistry={isParentMigratedToNewRegistry}
             loadingIsParentMigrated={loadingIsParentMigrated}
@@ -520,7 +516,6 @@ function DetailsContainer({
         refetch={refetch}
         account={account}
         isMigratedToNewRegistry={isMigratedToNewRegistry}
-        duringMigration={duringMigration}
       />
       {canClaim(domain) ? (
         <NameClaimTestDomain domain={domain} refetch={refetch} />
@@ -538,7 +533,6 @@ function NameDetails({
   tab,
   pathname
 }) {
-  const duringMigration = process.env.REACT_APP_MIGRATION_COMPLETE !== 'True'
   const [loading, setLoading] = useState(undefined)
   const {
     data: { isMigrated },
@@ -588,7 +582,6 @@ function NameDetails({
         refetch={refetch}
         refetchIsMigrated={refetchIsMigrated}
         readOnly={account === EMPTY_ADDRESS}
-        duringMigration={duringMigration}
       />
     )
   } else if (
@@ -617,7 +610,6 @@ function NameDetails({
         domain={domain}
         dnssecmode={dnssecmode}
         account={account}
-        duringMigration={duringMigration}
       />
     )
   } else if (domain.parent !== 'eth' && !isAnAbsolutePath) {
@@ -643,7 +635,6 @@ function NameDetails({
         domain={domain}
         dnssecmode={dnssecmode}
         account={account}
-        duringMigration={duringMigration}
       />
     )
   }
@@ -672,7 +663,6 @@ function NameDetails({
               domain={domain}
               dnssecmode={dnssecmode}
               account={account}
-              duringMigration={duringMigration}
             />
           )
         }}
@@ -704,7 +694,6 @@ function NameDetails({
             refetch={refetch}
             refetchIsMigrated={refetchIsMigrated}
             readOnly={account === EMPTY_ADDRESS}
-            duringMigration={duringMigration}
           />
         )}
       />
