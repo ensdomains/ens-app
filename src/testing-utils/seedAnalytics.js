@@ -23,10 +23,11 @@ export default function seed(seedAmount) {
     }
   })
 
-  listOfDomains.forEach(d =>
+  listOfDomains.forEach((d, i) => {
     trackReferral({
       ...d,
       labels: [d.label]
     })
-  )
+    console.log(i, 'finished tracking for ' + i, d.label)
+  })
 }
