@@ -106,9 +106,7 @@ export default function Renew({
 }) {
   let { t } = useTranslation()
   const { state, actions } = useEditable()
-  let location = useLocation()
-  const queryParams = new URLSearchParams(location.search)
-  const referrer = queryParams.get('utm_source')
+  const referrer = useReferrer()
 
   const { editing, txHash, pending, confirmed } = state
 
@@ -133,15 +131,13 @@ export default function Renew({
     onCompleted: res => {
       const txHash = Object.values(res)[0]
       startPending(txHash)
-      if (referrer) {
-        trackReferral({
-          labels: labelsToRenew, // labels array
-          transactionId: txHash, //hash
-          type: 'renew', // renew/register
-          price: getRentPrices._hex, // in wei
-          referrer
-        })
-      }
+      trackReferral({
+        labels: labelsToRenew, // labels array
+        transactionId: txHash, //hash
+        type: 'renew', // renew/register
+        price: getRentPrices._hex, // in wei
+        referrer
+      })
     }
   })
 
