@@ -2,6 +2,7 @@ import faker from 'faker'
 import _ from 'lodash'
 import { utils } from '@ensdomains/ui'
 import { trackReferral } from '../utils//analytics'
+import EthVal from 'ethval'
 
 function getRandomReferrer() {
   const referrers = ['kickback', 'opensea', 'etherscan']
@@ -18,7 +19,7 @@ export default function seed(seedAmount) {
       label,
       transactionId: utils.keccak256(utils.toUtf8Bytes(label)),
       type: Math.random() > 0.5 ? 'renew' : 'register',
-      price: _.random(10, 100),
+      price: new EthVal(_.random(0.01, 1), 'eth').toWei().toString(),
       referrer: getRandomReferrer()
     }
   })
@@ -29,5 +30,6 @@ export default function seed(seedAmount) {
       labels: [d.label]
     })
     console.log(i, 'finished tracking for ' + i, d.label)
+    console.log(d)
   })
 }
