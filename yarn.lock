@@ -1723,10 +1723,10 @@
     truffle-flattener "^1.4.2"
     web3-utils "^1.0.0-beta.48"
 
-"@ensdomains/mock@2.0.16":
-  version "2.0.16"
-  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.0.16.tgz#19a746ebe970fb2d891b3b78880ca9db88963e79"
-  integrity sha512-AKHhjTzSBfQFFE4LXxyq8rvj32kuZp0IgpDwJmLvkeNLv7H0iP1TIHYx+GRrpEUHSDhIVAhvU+mHveq7MJBtJA==
+"@ensdomains/mock@2.0.17":
+  version "2.0.17"
+  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.0.17.tgz#2847db4e50d4b4cba2ab3bfcc3b3c1727f39dd17"
+  integrity sha512-fP51RU62m45Ad5hxnhMnVxDWf6ZLMx5/MrJqgyC8hdEO45rygTyCDU4gkN4IndApPjytP3mzbJ/zHWlQ7EmayQ==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
@@ -1735,7 +1735,7 @@
     "@ensdomains/dnssec-oracle" "^0.1.2"
     "@ensdomains/ens" "^0.4.4"
     "@ensdomains/ens-022" "npm:@ensdomains/ens@0.2.2"
-    "@ensdomains/ethregistrar" "^2.0.0"
+    "@ensdomains/ethregistrar" "^2.0.2"
     "@ensdomains/resolver" "0.2.4"
     "@ensdomains/subdomain-registrar" "^0.2.3"
     chalk "^3.0.0"
