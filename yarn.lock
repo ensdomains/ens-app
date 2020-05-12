@@ -1723,10 +1723,10 @@
     truffle-flattener "^1.4.2"
     web3-utils "^1.0.0-beta.48"
 
-"@ensdomains/mock@2.0.13":
-  version "2.0.13"
-  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.0.13.tgz#51d6b5380c96da266714103d48b865a8077e8675"
-  integrity sha512-zLqLGSCwf0XyZ8VoNN+ZUPIn2Q+JpypbST7EuD6koiAruQkcNnv/6OMU0wm03+iLh5dN8K06cDY56oM7ZZsQqg==
+"@ensdomains/mock@2.0.18":
+  version "2.0.18"
+  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.0.18.tgz#1d98711d023960742cb4493a9f61a7a013a44e32"
+  integrity sha512-R8HnKvrhzSa7jC8jKA7T+4gx1PTB8thJVpem3ujyG9ZXi/Ji4ORH6N5OjJGjomgyrMMqfYNQ9B6fnFtXS4bdlg==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"

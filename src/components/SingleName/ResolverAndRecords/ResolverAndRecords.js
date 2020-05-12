@@ -108,8 +108,7 @@ function Records({
   isOldPublicResolver,
   isDeprecatedResolver,
   hasMigratedRecords,
-  needsToBeMigrated,
-  duringMigration
+  needsToBeMigrated
 }) {
   const { t } = useTranslation()
   const [recordAdded, setRecordAdded] = useState(0)
@@ -249,8 +248,7 @@ export default function ResolverAndRecords({
   isOwner,
   refetch,
   account,
-  isMigratedToNewRegistry,
-  duringMigration
+  isMigratedToNewRegistry
 }) {
   const { t } = useTranslation()
   const hasResolver = hasAResolver(domain.resolver)
@@ -346,7 +344,6 @@ export default function ResolverAndRecords({
           isOldPublicResolver={isOldPublicResolver}
           isDeprecatedResolver={isDeprecatedResolver}
           areRecordsMigrated={areRecordsMigrated}
-          duringMigration={duringMigration}
         />
       )}
 
