@@ -204,7 +204,6 @@ function getInputType(
     setYears,
     duration,
     expirationDate,
-    duringMigration,
     rentPriceLoading,
     rentPrice
   }
@@ -680,8 +679,7 @@ DetailsEditable.propTypes = {
   canEdit: PropTypes.bool,
   domain: PropTypes.object.isRequired,
   variableName: PropTypes.string, //can change the variable name for mutation
-  refetch: PropTypes.func.isRequired,
-  duringMigration: PropTypes.bool
+  refetch: PropTypes.func.isRequired
 }
 
 export default DetailsEditable
