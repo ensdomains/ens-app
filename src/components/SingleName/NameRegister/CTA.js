@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
+import moment from 'moment'
+import { css } from 'emotion'
 import { useHistory } from 'react-router-dom'
 import { Mutation } from 'react-apollo'
 import { useTranslation } from 'react-i18next'
@@ -155,7 +157,16 @@ function getCTA({
     ),
     REVEAL_CONFIRMED: (
       <>
-        {/* <AddToCalendar /> */}
+        <AddToCalendar
+          css={css`
+            margin-right: 20px;
+          `}
+          name={`${label}.eth`}
+          startDatetime={moment()
+            .utc()
+            .add(duration, 'seconds')
+            .subtract(30, 'days')}
+        />
         <Button
           data-testid="manage-name-button"
           onClick={async () => {

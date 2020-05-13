@@ -44,7 +44,7 @@ const Price = ({ loading, price, ethUsdPrice, ethUsdPriceLoading }) => {
   const { t } = useTranslation()
   let ethPrice = <InlineLoader />
   let ethVal
-  if (!loading) {
+  if (!loading && price) {
     ethVal = new EthVal(`${price}`).toEth()
     ethPrice = ethVal.toFixed(3)
   }

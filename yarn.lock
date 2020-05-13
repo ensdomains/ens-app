@@ -5412,6 +5412,11 @@ core-js@^2.4.0, core-js@^2.5.0, core-js@^2.6.5:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.9.tgz#6b4b214620c834152e179323727fc19741b084f2"
 
+core-js@^2.5.7:
+  version "2.6.11"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.11.tgz#38831469f9922bded8ee21c9dc46985e0399308c"
+  integrity sha512-5wjnpaT/3dV+XB4borEsnAYQchn00XSgTAWKDkEqv+K8KevjbzmofK6hfJ9TZIlpj2N0xQpazy7PiRQiWHqzWg==
+
 core-js@^3.1.4:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.2.1.tgz#cd41f38534da6cc59f7db050fe67307de9868b09"
@@ -11084,7 +11089,7 @@ module-deps@^4.0.8:
     through2 "^2.0.0"
     xtend "^4.0.0"
 
-moment@2.24.0, moment@^2.18.1, moment@^2.22.2:
+moment@2.24.0, moment@^2.22.2:
   version "2.24.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
 
@@ -13308,11 +13313,13 @@ rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-add-to-calendar@^0.1.5:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/react-add-to-calendar/-/react-add-to-calendar-0.1.5.tgz#ab077fe98ca0f178a5a3b70a3590d4b630c0f275"
-  optionalDependencies:
-    moment "^2.18.1"
+react-add-to-calendar-hoc@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/react-add-to-calendar-hoc/-/react-add-to-calendar-hoc-1.0.9.tgz#50aa4b67e6d09546aee659d1b1468d5335713426"
+  integrity sha512-O9XF5TIcmqvMqnLZDd/4ydQhlc+wnso8822FpREtYsmI9uGTF+268Cj5bzMbNcBxJGa6RBIVp8Irvz9KyyBY4A==
+  dependencies:
+    core-js "^2.5.7"
+    prop-types "^15.6.2"
 
 react-apollo@^3.0.0:
   version "3.0.1"
