@@ -11,6 +11,7 @@ const CalendarButton = props => (
     type="hollow-primary"
     {...props}
     className={css`
+      border: none !important;
       display: flex;
       align-items: center;
     `}

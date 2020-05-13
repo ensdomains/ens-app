@@ -40,7 +40,7 @@ const USD = styled('span')`
   `}
 `
 
-const Price = ({ loading, price, ethUsdPrice, ethUsdPriceLoading }) => {
+const Price = ({ loading, price = 0, ethUsdPrice, ethUsdPriceLoading }) => {
   const { t } = useTranslation()
   let ethPrice = <InlineLoader />
   let ethVal
