@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import { css } from 'emotion'
+import moment from 'moment'
 import styled from '@emotion/styled'
 import { useTranslation } from 'react-i18next'
 import { Mutation, Query, useQuery } from 'react-apollo'
@@ -18,6 +20,7 @@ import Bin from '../Forms/Bin'
 import { emptyAddress } from 'utils/utils'
 import { useAccount } from '../QueryAccount'
 
+import AddToCalendar from '../Calendar'
 import Tooltip from '../Tooltip/Tooltip'
 import { SingleNameBlockies } from '../Blockies'
 import DefaultAddressLink from '../Links/AddressLink'
@@ -404,7 +407,18 @@ const Editable = ({
                       <Address>{value}</Address>
                     </AddressLink>
                   ) : type === 'date' ? (
-                    formatDate(value)
+                    <>
+                      {formatDate(value)}
+                      <AddToCalendar
+                        css={css`
+                          margin-right: 20px;
+                        `}
+                        name={domain.name}
+                        startDatetime={moment(value)
+                          .utc()
+                          .subtract(30, 'days')}
+                      />
+                    </>
                   ) : (
                     value
                   )}

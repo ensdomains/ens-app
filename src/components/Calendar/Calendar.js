@@ -19,7 +19,7 @@ const Button = styled(DefaultButton)`
 
 const CalendarButton = props => (
   <Button type="hollow-primary" {...props}>
-    <img src={calendar} />
+    <img src={calendar} alt="calendar icon" />
     &nbsp;
     {props.children}
   </Button>
