@@ -16,7 +16,6 @@ export async function setup({
   })
   ens = ensInstance
   registrar = registrarInstance
-  console.log(ensAddress)
   ensRegistryAddress = ensAddress
 
   return { ens, registrar }

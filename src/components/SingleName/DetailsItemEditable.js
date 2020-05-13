@@ -15,9 +15,8 @@ import mq from 'mediaQuery'
 import { useEditable, useEthPrice } from '../hooks'
 import { yearInSeconds, formatDate } from 'utils/dates'
 import { trackReferral } from 'utils/analytics'
-import { addressUtils } from 'utils/utils'
+import { addressUtils, emptyAddress } from 'utils/utils'
 import Bin from '../Forms/Bin'
-import { emptyAddress } from 'utils/utils'
 import { useAccount } from '../QueryAccount'
 import { getEnsAddress } from '../../api/ens'
 
@@ -235,20 +234,21 @@ function getInputType(
   if (type === 'address') {
     let option = {
       presetValue: presetValue || '',
-      provider: window.ethereum || window.web3,
+      provider: window.ethereum || window.web3 || 'http://localhost:8545',
       onResolve: ({ address }) => {
         if (address) {
           updateValue(address)
         } else {
           updateValue('')
         }
-      }
+      },
+      ensAddress: getEnsAddress()
     }
     if (keyName === 'Resolver') {
       option.placeholder =
         'Use the Public Resolver or enter the address of your custom resolver contract'
     }
-    return <AddressInput {...option} ensAddress={getEnsAddress()} />
+    return <AddressInput {...option} />
   }
 
   return (
@@ -268,7 +268,7 @@ function getValidation(keyName, newValue) {
     case 'Expiration Date':
       return true
     default:
-      return addressUtils.isAddress(newValue)
+      return addressUtils.isAddress(newValue) && newValue !== emptyAddress
   }
 }
 
@@ -585,7 +585,7 @@ const Editable = ({
                     }
                     mutationButton={mutationButton}
                     confirm={true}
-                    isValid={true}
+                    isValid={isValid}
                   />
                 </Buttons>
               </motion.div>

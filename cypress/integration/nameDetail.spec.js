@@ -23,12 +23,13 @@ describe('Name detail view', () => {
       .click({ force: true })
 
     cy.getByTestId('name-details').within(container => {
-      cy.getByPlaceholderText('address', { container, exact: false }).type(
-        'nope',
-        {
-          force: true
-        }
-      )
+      cy.getByPlaceholderText('address', {
+        container,
+        exact: false,
+        timeout: 10000
+      }).type('nope', {
+        force: true
+      })
     })
 
     cy.queryByText('Transfer').should(
