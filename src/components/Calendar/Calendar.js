@@ -1,21 +1,24 @@
 import React from 'react'
 import AddToCalendarHOC from 'react-add-to-calendar-hoc'
 import Dropdown from './Dropdown'
-import Button from '../Forms/Button'
+import DefaultButton from '../Forms/Button'
 import moment from 'moment'
+import styled from '@emotion/styled'
 import { css } from 'emotion'
 import calendar from '../../assets/calendar.svg'
 
+const Button = styled(DefaultButton)`
+  border: none;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    border: none;
+  }
+`
+
 const CalendarButton = props => (
-  <Button
-    type="hollow-primary"
-    {...props}
-    className={css`
-      border: none !important;
-      display: flex;
-      align-items: center;
-    `}
-  >
+  <Button type="hollow-primary" {...props}>
     <img src={calendar} />
     &nbsp;
     {props.children}
