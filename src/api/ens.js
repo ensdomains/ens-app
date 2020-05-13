@@ -1,7 +1,8 @@
 import { setupENS } from '@ensdomains/ui'
 
 let ens = {},
-  registrar = {}
+  registrar = {},
+  ensRegistryAddress = undefined
 
 export async function setup({
   reloadOnAccountsChange,
@@ -15,15 +16,19 @@ export async function setup({
   })
   ens = ensInstance
   registrar = registrarInstance
+  console.log(ensAddress)
+  ensRegistryAddress = ensAddress
 
   return { ens, registrar }
 }
 
-function getRegistrar() {
+export function getRegistrar() {
   return registrar
 }
 
-export { getRegistrar }
+export function getEnsAddress() {
+  return ensRegistryAddress
+}
 
 export default function getENS() {
   return ens

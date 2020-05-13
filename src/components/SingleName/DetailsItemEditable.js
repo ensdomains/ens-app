@@ -19,6 +19,7 @@ import { addressUtils } from 'utils/utils'
 import Bin from '../Forms/Bin'
 import { emptyAddress } from 'utils/utils'
 import { useAccount } from '../QueryAccount'
+import { getEnsAddress } from '../../api/ens'
 
 import AddToCalendar from '../Calendar'
 import Tooltip from '../Tooltip/Tooltip'
@@ -247,7 +248,7 @@ function getInputType(
       option.placeholder =
         'Use the Public Resolver or enter the address of your custom resolver contract'
     }
-    return <AddressInput {...option} />
+    return <AddressInput {...option} ensAddress={getEnsAddress()} />
   }
 
   return (
