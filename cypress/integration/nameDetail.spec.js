@@ -252,7 +252,7 @@ describe('Name detail view', () => {
     })
   })
 
-  it.only('can add custom Text', () => {
+  it('can add custom Text', () => {
     const text = 'Bar'
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 

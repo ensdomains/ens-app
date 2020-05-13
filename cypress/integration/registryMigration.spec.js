@@ -65,7 +65,8 @@ describe('Migrate a subdomain to new registry', () => {
       DISABLED_COLOUR
     )
   })
-  it.only('cannot migrate other domain because I do not own parent domain', () => {
+
+  it('cannot migrate other domain because I do not own parent domain', () => {
     cy.visit(`${ROOT}/name/sub2.otherowner.eth`)
     cy.queryByTestId('owner-type', { exact: false }).should('not.exist')
     cy.queryByText('This name needs to be migrated to the new Registry.', {
