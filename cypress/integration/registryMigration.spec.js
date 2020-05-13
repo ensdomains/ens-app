@@ -9,7 +9,7 @@ describe('Migrate a subdomain to new registry', () => {
     cy.visit(`${ROOT}/name/sub1.testing.eth`)
     cy.waitUntilHollowInputResolves('Migrate').then(() => {
       cy.getByText('Migrate').click({ force: true })
-      cy.queryByText('migrate', { timeout: 50 }).should('not.exist')
+      cy.queryByText('migrate', { timeout: 1000 }).should('not.exist')
     })
     cy.wait(1000)
     cy.queryByTestId('edit-controller').should(
@@ -70,7 +70,7 @@ describe('Migrate a subdomain to new registry', () => {
     cy.visit(`${ROOT}/name/sub2.otherowner.eth`)
     cy.queryByTestId('owner-type', { exact: false }).should('not.exist')
     cy.queryByText('This name needs to be migrated to the new Registry.', {
-      timeout: 5000,
+      timeout: 10000,
       exact: false
     }).should('exist')
 
@@ -86,10 +86,15 @@ describe('Migrate a subdomain to new registry', () => {
     cy.visit(`${ROOT}/name/sub4.testing.eth`)
     cy.queryByTestId('owner-type', { exact: false }).should('not.exist')
     cy.queryByText('This name needs to be migrated to the new Registry.', {
-      timeout: 5000,
+      timeout: 10000,
       exact: false
     }).should('exist')
-
-    cy.queryByText('Migrate').should('have.css', 'color', ENABLED_COLOUR)
+    cy.waitUntilHollowInputResolves('Migrate').then(() => {
+      cy.queryByText('Migrate', { timeout: 10000 }).should(
+        'have.css',
+        'color',
+        ENABLED_COLOUR
+      )
+    })
   })
 })
