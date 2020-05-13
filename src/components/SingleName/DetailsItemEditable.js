@@ -27,7 +27,7 @@ import DefaultAddressLink from '../Links/AddressLink'
 import {
   DetailsItem,
   DetailsKey,
-  DetailsValue,
+  DetailsValue as DefaultDetailsValue,
   DetailsContent
 } from './DetailsItem'
 import DefaultSaveCancel from './SaveCancel'
@@ -80,6 +80,18 @@ const DetailsEditableContainer = styled(DetailsItem)`
   transition: 0.3s;
 
   ${({ editing }) => editing && mq.small` flex-direction: column;`};
+`
+
+const DetailsValue = styled(DefaultDetailsValue)`
+  ${p =>
+    p.expiryDate &&
+    `
+    overflow: inherit;
+    display: flex;
+    align-items: center;
+    margin-top: -5px;
+  
+  `}
 `
 
 const EditRecord = styled(motion.div)`
@@ -379,6 +391,7 @@ const Editable = ({
                   editing={editing}
                   editable
                   data-testid={`details-value-${keyName.toLowerCase()}`}
+                  expiryDate={type === 'date'}
                 >
                   {type === 'address' ? (
                     <AddressLink address={value}>
