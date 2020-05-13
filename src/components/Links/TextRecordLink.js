@@ -3,7 +3,7 @@ import styled from '@emotion/styled'
 import { ReactComponent as ExternalLinkIcon } from '../Icons/externalLink.svg'
 
 const LinkContainer = styled('a')`
-  display: inline-block;
+  display: block;
   align-items: center;
   text-overflow: ellipsis;
   white-space: nowrap;
