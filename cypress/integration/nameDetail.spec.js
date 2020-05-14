@@ -186,7 +186,7 @@ describe('Name detail view', () => {
       }).type('0x0000000000000000000000000000000000000003', { force: true })
 
       waitUntilInputResolves('Save').then(() => {
-        cy.wait(150)
+        cy.wait(1000)
         cy.getByText('Save').click({ force: true })
 
         //Value updated
@@ -321,7 +321,7 @@ describe('Name detail view', () => {
       }).type(ADDRESS, { force: true })
 
       waitUntilInputResolves('Save').then(() => {
-        cy.wait(10)
+        cy.wait(1000)
         cy.getByText('Save').click({ force: true })
 
         //form closed
@@ -336,7 +336,7 @@ describe('Name detail view', () => {
     })
   })
 
-  it.only('can change the content hash', () => {
+  it('can change the content hash', () => {
     const content =
       'bzz://d1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162'
 

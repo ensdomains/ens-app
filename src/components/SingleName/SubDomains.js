@@ -50,7 +50,7 @@ function SubDomainsFromWeb3({ domain, canAddSubdomain }) {
               <Loader withWrap large />
             </>
           )
-        if (subdomains.length === 0) {
+        if (subdomains && subdomains.length === 0) {
           return (
             <>
               <AddSubdomainContainer
@@ -145,7 +145,7 @@ function SubDomains({
                   <Loader withWrap large />
                 </>
               )
-            if (subdomains.length === 0) {
+            if (subdomains && subdomains.length === 0) {
               return (
                 <>
                   <AddSubdomainContainer
