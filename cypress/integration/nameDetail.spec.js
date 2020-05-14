@@ -336,13 +336,13 @@ describe('Name detail view', () => {
     })
   })
 
-  it('can change the content hash', () => {
+  it.only('can change the content hash', () => {
     const content =
       'bzz://d1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162'
 
     cy.visit(`${NAME_ROOT}/abittooawesome.eth`)
 
-    cy.getByTestId('name-details').within(container => {
+    cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
       cy.getByTestId('edit-content', { exact: false, timeout: 10000 }).click({
         force: true
       })
