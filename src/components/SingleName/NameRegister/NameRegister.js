@@ -108,6 +108,7 @@ const NameRegister = ({
         isAboveMinDuration={isAboveMinDuration}
         readOnly={readOnly}
         price={getRentPrice}
+        ethUsdPrice={!ethUsdPriceLoading && ethUsdPrice}
       />
     </NameRegisterContainer>
   )

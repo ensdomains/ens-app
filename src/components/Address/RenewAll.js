@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import styled from '@emotion/styled'
 import { useTranslation } from 'react-i18next'
 import { get } from 'lodash'
+import EthVal from 'ethval'
 
 import { RENEW_DOMAINS } from '../../graphql/mutations'
 import { GET_RENT_PRICES } from 'graphql/queries'
@@ -134,7 +135,10 @@ export default function Renew({
         labels: labelsToRenew, // labels array
         transactionId: txHash, //hash
         type: 'renew', // renew/register
-        price: getRentPrices._hex, // in wei
+        price: new EthVal(`${getRentPrices._hex}`)
+          .toEth()
+          .mul(ethUsdPrice)
+          .toFixed(2), // in wei
         referrer
       })
     }
@@ -201,7 +205,9 @@ export default function Renew({
                     duration
                   }
 
-                  mutation({ variables })
+                  mutation({
+                    variables
+                  })
                 }}
                 mutationButton={t('address.renew.confirmButton')}
                 confirm={true}

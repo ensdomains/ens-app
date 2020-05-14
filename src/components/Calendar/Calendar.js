@@ -11,6 +11,7 @@ const Button = styled(DefaultButton)`
   border: none;
   display: flex;
   align-items: center;
+  padding: 0;
 
   &:hover {
     border: none;
@@ -40,7 +41,11 @@ function CalendarInvite({ startDatetime, type = '', name, noMargin }) {
   const styles = css`
     position: relative;
     margin-right: 10px;
-    ${noMargin ? 'margin: 0;' : ''}
+    ${noMargin
+      ? `
+      margin: 0;
+    `
+      : ''}
   `
 
   const AddToCalendar = AddToCalendarHOC(CalendarButton, Dropdown)

@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { Mutation, Query, useQuery } from 'react-apollo'
 import PropTypes from 'prop-types'
 import { motion, AnimatePresence } from 'framer-motion'
+import EthVal from 'ethval'
 
 import { GET_PUBLIC_RESOLVER, GET_RENT_PRICE } from '../../graphql/queries'
 import { SET_RESOLVER, SET_SUBNODE_OWNER, SET_OWNER } from 'graphql/mutations'
@@ -86,12 +87,16 @@ const DetailsValue = styled(DefaultDetailsValue)`
   ${p =>
     p.expiryDate &&
     `
-    overflow: inherit;
-    display: flex;
-    align-items: center;
-    margin-top: -5px;
+      overflow: inherit;
+      display: flex;
+      align-items: center;
+      margin-top: -5px;
   
   `}
+`
+
+const Date = styled('span')`
+  margin-right: 10px;
 `
 
 const EditRecord = styled(motion.div)`
@@ -371,7 +376,10 @@ const Editable = ({
             labels: [domain.label], // labels array
             transactionId: txHash, //hash
             type: 'renew', // renew/register
-            price: getRentPrice._hex, // in wei
+            price: new EthVal(`${getRentPrice._hex}`)
+              .toEth()
+              .mul(ethUsdPrice)
+              .toFixed(2), // in wei, // in wei
             referrer
           })
         }
@@ -421,7 +429,7 @@ const Editable = ({
                     </AddressLink>
                   ) : type === 'date' ? (
                     <>
-                      {formatDate(value)}
+                      <Date>{formatDate(value)}</Date>
                       <AddToCalendar
                         css={css`
                           margin-right: 20px;
@@ -585,7 +593,9 @@ const Editable = ({
                         newValue,
                         duration
                       })
-                      mutation({ variables })
+                      mutation({
+                        variables
+                      })
                     }}
                     value={
                       keyName === 'Expiration Date' ? formatDate(value) : value
