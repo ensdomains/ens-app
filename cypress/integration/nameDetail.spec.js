@@ -201,7 +201,7 @@ describe('Name detail view', () => {
     const content = 'ipfs://QmTeW79w7QQ6Npa3b1d5tANreCDxF2iDaAPsDvW6KtLmfB'
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
-    cy.getByTestId('name-details').within(container => {
+    cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
       cy.getByText('+')
         .click({ force: true })
         .getByText('select a record', { exact: false, timeout: 10000 })
@@ -467,7 +467,7 @@ describe('Name detail view', () => {
     cy.visit(`${NAME_ROOT}/subdomaindummy.eth`)
       .getByText('subdomains', { exact: false, timeout: 10000 })
       .click({ force: true })
-      .getByText('original.subdomaindummy.eth', { timeout: 10000 })
+      .getByText('original.subdomaindummy.eth', { timeout: 15000 })
       .click({ force: true })
   })
 
