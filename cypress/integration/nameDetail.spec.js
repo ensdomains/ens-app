@@ -16,6 +16,9 @@ function waitUntilTextDoesNotExist(text) {
 }
 
 describe('Name detail view', () => {
+  beforeEach(() => {
+    cy.viewport('macbook-15')
+  })
   it('cannot transfer ownership to a non-ethereum address', () => {
     cy.visit(`${NAME_ROOT}/awesome.eth`)
     cy.getByText('Transfer')
@@ -143,7 +146,7 @@ describe('Name detail view', () => {
       cy.getByPlaceholderText('Enter Ethereum name or address', {
         timeout: 10000,
         exact: false
-      }).type('blah', { force: true })
+      }).type('blah', { force: true, timeout: 10000 })
 
       cy.getByPlaceholderText('Enter Ethereum name or address').should(elem => {
         expect(elem.val()).to.equal('blah')
@@ -183,11 +186,11 @@ describe('Name detail view', () => {
       }).type('0x0000000000000000000000000000000000000003', { force: true })
 
       waitUntilInputResolves('Save').then(() => {
+        cy.wait(150)
         cy.getByText('Save').click({ force: true })
 
         //Value updated
-        cy.queryByText('0x0000000000000000000000000000000000000003', {
-          exact: false,
+        cy.getByText('0x0000000000000000000000000000000000000003', {
           timeout: 10000
         }).should('exist')
       })
