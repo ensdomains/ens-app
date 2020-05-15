@@ -158,6 +158,7 @@ async function getRegistrant(name) {
   try {
     const { data, error } = await client.query({
       query: GET_REGISTRANT_FROM_SUBGRAPH,
+      fetchPolicy: 'network-only',
       variables: { id: labelhash(name.split('.')[0]) }
     })
     if (!data || !data.registration) {
@@ -304,8 +305,6 @@ const resolvers = {
         const data = {
           names: [...names, detailedNode]
         }
-
-        console.log(detailedNode)
 
         cache.writeData({ data })
 

@@ -13,7 +13,7 @@ import { checkIsDecrypted, truncateUndecryptedName } from '../../api/labels'
 
 const DomainLink = styled(Link)`
   display: grid;
-  grid-template-columns: 1fr 23px;
+  grid-template-columns: 50px 1fr 23px;
   grid-template-rows: 50px 50px;
   grid-gap: 10px;
   width: 100%;
@@ -85,7 +85,7 @@ export default function ChildDomainItem({
   const isExpiredSoon = calculateIsExpiredSoon(expiryDate)
   return (
     <DomainLink
-      showBlockie={showBlockies}
+      showBlockies={showBlockies}
       data-testid={`${name}`}
       warning={isMigrated === false ? true : false}
       key={name}

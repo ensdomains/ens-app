@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
+import moment from 'moment'
+import { css } from 'emotion'
 import { useHistory } from 'react-router-dom'
 import { Mutation } from 'react-apollo'
 import { useTranslation } from 'react-i18next'
+import EthVal from 'ethval'
 
 import { trackReferral } from '../../../utils/analytics'
 import { COMMIT, REGISTER } from '../../../graphql/mutations'
@@ -51,7 +54,8 @@ function getCTA({
   price,
   history,
   referrer,
-  t
+  t,
+  ethUsdPrice
 }) {
   const CTAs = {
     PRICE_DECISION: (
@@ -126,7 +130,10 @@ function getCTA({
             transactionId: txHash,
             labels: [label],
             type: 'register', // renew/register
-            price: price._hex, // in wei
+            price: new EthVal(`${price._hex}`)
+              .toEth()
+              .mul(ethUsdPrice)
+              .toFixed(2), // in wei, // in wei
             referrer //
           })
           incrementStep()
@@ -155,7 +162,16 @@ function getCTA({
     ),
     REVEAL_CONFIRMED: (
       <>
-        {/* <AddToCalendar /> */}
+        <AddToCalendar
+          css={css`
+            margin-right: 20px;
+          `}
+          name={`${label}.eth`}
+          startDatetime={moment()
+            .utc()
+            .add(duration, 'seconds')
+            .subtract(30, 'days')}
+        />
         <Button
           data-testid="manage-name-button"
           onClick={async () => {
@@ -182,7 +198,8 @@ const CTA = ({
   refetch,
   refetchIsMigrated,
   readOnly,
-  price
+  price,
+  ethUsdPrice
 }) => {
   const { t } = useTranslation()
   const history = useHistory()
@@ -205,7 +222,8 @@ const CTA = ({
         price,
         history,
         referrer,
-        t
+        t,
+        ethUsdPrice
       })}
     </CTAContainer>
   )

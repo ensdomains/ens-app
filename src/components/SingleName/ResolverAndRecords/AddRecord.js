@@ -15,6 +15,7 @@ import {
 import { getOldContentWarning } from './warnings'
 import TEXT_RECORD_KEYS from 'constants/textRecords'
 import COIN_LIST from 'constants/coinList'
+import { getEnsAddress } from '../../../api/ens'
 
 import Upload from '../../IPFS/Upload'
 import IpfsLogin from '../../IPFS/Login'
@@ -323,7 +324,9 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
               </>
             ) : selectedRecord && selectedRecord.value === 'address' ? (
               <AddressInput
-                provider={window.ethereum || window.web3}
+                provider={
+                  window.ethereum || window.web3 || 'http://localhost:8545'
+                }
                 onResolve={({ address }) => {
                   if (address) {
                     updateValue(address)
@@ -331,6 +334,7 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
                     updateValue('')
                   }
                 }}
+                ensAddress={getEnsAddress()}
               />
             ) : selectedRecord && selectedRecord.value === 'text' ? (
               <TextRecordInput
