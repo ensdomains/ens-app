@@ -41,23 +41,25 @@ export const trackReferral = async ({
   labels, // labels array
   transactionId, //hash
   type, // renew/register
-  price, // in wei
-  referrer //
+  price,
+  referrer // in wei
 }) => {
   const mainnet = await isMainnet()
 
   function track() {
+    const campaignSource = ReactGA.ga('get', 'campaignSource')
+    console.log('Referral from source: ', campaignSource)
     ReactGA.event({
       category: 'referral',
       action: `${type} domain`,
       labels,
       transactionId,
       type,
-      referrer
+      referrer: campaignSource
     })
     ReactGA.plugin.execute('ecommerce', 'addTransaction', {
       id: transactionId, // Transaction ID. Required.
-      affiliation: referrer, // Affiliation or store name.
+      affiliation: campaignSource, // Affiliation or store name.
       revenue: price // Grand Total.
     })
 

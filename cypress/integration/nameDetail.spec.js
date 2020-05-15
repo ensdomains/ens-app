@@ -57,9 +57,8 @@ describe('Name detail view', () => {
       })
     })
     waitUntilInputResolves('Transfer').then(() => {
-      cy.wait(100)
+      cy.wait(1000)
       cy.getByText('Transfer').click({ force: true })
-      cy.wait(100)
       cy.getByText('Confirm').click({ force: true })
 
       cy.getByText('0x0000000000000000000000000000000000000001', {
