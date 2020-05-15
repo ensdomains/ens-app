@@ -473,7 +473,7 @@ describe('Name detail view', () => {
 
   it('can add a subdomain', () => {
     const LABEL = 'sub1' // using the same subdomain label which is used at sub1.testing.eth
-    cy.visit(`${NAME_ROOT}/subdomaindummy.eth`)
+    cy.visit(`${NAME_ROOT}/subdomaindummy.eth`, { timeout: 10000 })
       .getByText('subdomains', { exact: false, timeout: 10000 })
       .click({ force: true })
 
