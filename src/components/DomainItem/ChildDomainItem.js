@@ -85,7 +85,7 @@ export default function ChildDomainItem({
   const isExpiredSoon = calculateIsExpiredSoon(expiryDate)
   return (
     <DomainLink
-      showBlockie={showBlockies}
+      showBlockies={showBlockies}
       data-testid={`${name}`}
       warning={isMigrated === false ? true : false}
       key={name}

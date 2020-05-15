@@ -185,6 +185,7 @@ function SubDomains({
                   }
                   return (
                     <ChildDomainItem
+                      showBlockies={true}
                       name={name}
                       isMigrated={d.isMigrated}
                       owner={d.owner.id}
