@@ -305,8 +305,6 @@ const resolvers = {
           names: [...names, detailedNode]
         }
 
-        console.log(detailedNode)
-
         cache.writeData({ data })
 
         return detailedNode

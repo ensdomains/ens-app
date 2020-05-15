@@ -3,15 +3,14 @@ import { useMutation, useQuery } from 'react-apollo'
 import { motion, AnimatePresence } from 'framer-motion'
 import styled from '@emotion/styled'
 import { useTranslation } from 'react-i18next'
-import { get } from 'lodash'
 import EthVal from 'ethval'
 
 import { RENEW_DOMAINS } from '../../graphql/mutations'
 import { GET_RENT_PRICES } from 'graphql/queries'
 import { yearInSeconds } from 'utils/dates'
 import { useEthPrice, useEditable, useReferrer } from '../hooks'
-import { decryptName } from '../../api/labels'
 import { trackReferral } from '../../utils/analytics'
+import { refetchTilUpdated } from '../../utils/graphql'
 
 import PendingTx from '../PendingTx'
 import DefaultButton from '../Forms/Button'
@@ -55,43 +54,6 @@ const ConfirmationList = styled('div')`
 
 function isValid(selectedNames) {
   return selectedNames.length > 0
-}
-
-function refetchTilUpdated(
-  refetch,
-  interval,
-  keyToCompare,
-  name,
-  prevData,
-  getterString
-) {
-  let maxTries = 10
-  let tries = maxTries
-  let incrementedInterval = interval
-
-  function recurseRefetch() {
-    if (tries > 0) {
-      return setTimeout(() => {
-        tries--
-        incrementedInterval = interval * (maxTries - tries + 1)
-        refetch().then(({ data }) => {
-          const updated =
-            get(data, getterString).find(item => {
-              return decryptName(item.domain.name) === name
-            })[keyToCompare] !==
-            get(prevData, getterString).find(item => {
-              return decryptName(item.domain.name) === name
-            })[keyToCompare]
-
-          if (updated) return
-          return recurseRefetch()
-        })
-      }, incrementedInterval)
-    }
-    return
-  }
-
-  recurseRefetch()
 }
 
 export default function Renew({

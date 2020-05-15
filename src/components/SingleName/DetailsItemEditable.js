@@ -17,6 +17,7 @@ import { useEditable, useEthPrice } from '../hooks'
 import { yearInSeconds, formatDate } from 'utils/dates'
 import { trackReferral } from 'utils/analytics'
 import { addressUtils, emptyAddress } from 'utils/utils'
+import { refetchTilUpdatedSingle } from 'utils/graphql'
 import Bin from '../Forms/Bin'
 import { useAccount } from '../QueryAccount'
 import { getEnsAddress } from '../../api/ens'
@@ -451,7 +452,19 @@ const Editable = ({
               <PendingTx
                 txHash={txHash}
                 onConfirmed={() => {
-                  refetch()
+                  if (keyName === 'registrant') {
+                    refetchTilUpdatedSingle({
+                      refetch,
+                      interval: 300,
+                      keyToCompare: 'registrant',
+                      prevData: {
+                        singleName: domain
+                      },
+                      getterString: 'singleName'
+                    })
+                  } else {
+                    refetch()
+                  }
                   setConfirmed()
                 }}
               />
