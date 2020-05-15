@@ -95,7 +95,7 @@ const DetailsValue = styled(DefaultDetailsValue)`
   `}
 `
 
-const Date = styled('span')`
+const ExpiryDate = styled('span')`
   margin-right: 10px;
 `
 
@@ -429,7 +429,7 @@ const Editable = ({
                     </AddressLink>
                   ) : type === 'date' ? (
                     <>
-                      <Date>{formatDate(value)}</Date>
+                      <ExpiryDate>{formatDate(value)}</ExpiryDate>
                       <AddToCalendar
                         css={css`
                           margin-right: 20px;

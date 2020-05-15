@@ -1,6 +1,5 @@
 import ReactGA from 'react-ga'
 import { getNetworkId } from '@ensdomains/ui'
-import EthVal from 'ethval'
 
 const TrackingID = {
   live: 'UA-138903307-1',
@@ -46,7 +45,6 @@ export const trackReferral = async ({
   referrer //
 }) => {
   const mainnet = await isMainnet()
-  const priceInMilliEth = new EthVal(`${price}`).toEth().mul(1000)
 
   function track() {
     ReactGA.event({
@@ -60,7 +58,7 @@ export const trackReferral = async ({
     ReactGA.plugin.execute('ecommerce', 'addTransaction', {
       id: transactionId, // Transaction ID. Required.
       affiliation: referrer, // Affiliation or store name.
-      revenue: priceInMilliEth.toFixed(6) // Grand Total.
+      revenue: price // Grand Total.
     })
 
     labels.forEach(label => {
