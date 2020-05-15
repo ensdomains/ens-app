@@ -48,7 +48,7 @@ export const DetailsValue = styled('div')`
   ${p =>
     p.editable &&
     mq.small`
-      padding-right: 150px;
+      /* padding-right: 150px; */
     `}
   ${p => p.editableSmall && `padding-right: 50px;`}
   ${p =>

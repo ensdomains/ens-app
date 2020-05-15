@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import { css } from 'emotion'
+import moment from 'moment'
 import styled from '@emotion/styled'
 import { useTranslation } from 'react-i18next'
 import { Mutation, Query, useQuery } from 'react-apollo'
 import PropTypes from 'prop-types'
 import { motion, AnimatePresence } from 'framer-motion'
+import EthVal from 'ethval'
 
 import { GET_PUBLIC_RESOLVER, GET_RENT_PRICE } from '../../graphql/queries'
 import { SET_RESOLVER, SET_SUBNODE_OWNER, SET_OWNER } from 'graphql/mutations'
@@ -13,18 +16,20 @@ import mq from 'mediaQuery'
 import { useEditable, useEthPrice } from '../hooks'
 import { yearInSeconds, formatDate } from 'utils/dates'
 import { trackReferral } from 'utils/analytics'
-import { addressUtils } from 'utils/utils'
+import { addressUtils, emptyAddress } from 'utils/utils'
+import { refetchTilUpdatedSingle } from 'utils/graphql'
 import Bin from '../Forms/Bin'
-import { emptyAddress } from 'utils/utils'
 import { useAccount } from '../QueryAccount'
+import { getEnsAddress } from '../../api/ens'
 
+import AddToCalendar from '../Calendar'
 import Tooltip from '../Tooltip/Tooltip'
 import { SingleNameBlockies } from '../Blockies'
 import DefaultAddressLink from '../Links/AddressLink'
 import {
   DetailsItem,
   DetailsKey,
-  DetailsValue,
+  DetailsValue as DefaultDetailsValue,
   DetailsContent
 } from './DetailsItem'
 import DefaultSaveCancel from './SaveCancel'
@@ -77,6 +82,22 @@ const DetailsEditableContainer = styled(DetailsItem)`
   transition: 0.3s;
 
   ${({ editing }) => editing && mq.small` flex-direction: column;`};
+`
+
+const DetailsValue = styled(DefaultDetailsValue)`
+  ${p =>
+    p.expiryDate &&
+    `
+      overflow: inherit;
+      display: flex;
+      align-items: center;
+      margin-top: -5px;
+  
+  `}
+`
+
+const ExpiryDate = styled('span')`
+  margin-right: 10px;
 `
 
 const EditRecord = styled(motion.div)`
@@ -230,14 +251,15 @@ function getInputType(
   if (type === 'address') {
     let option = {
       presetValue: presetValue || '',
-      provider: window.ethereum || window.web3,
+      provider: window.ethereum || window.web3 || 'http://localhost:8545',
       onResolve: ({ address }) => {
         if (address) {
           updateValue(address)
         } else {
           updateValue('')
         }
-      }
+      },
+      ensAddress: getEnsAddress()
     }
     if (keyName === 'Resolver') {
       option.placeholder =
@@ -263,7 +285,7 @@ function getValidation(keyName, newValue) {
     case 'Expiration Date':
       return true
     default:
-      return addressUtils.isAddress(newValue)
+      return addressUtils.isAddress(newValue) && newValue !== emptyAddress
   }
 }
 
@@ -355,7 +377,10 @@ const Editable = ({
             labels: [domain.label], // labels array
             transactionId: txHash, //hash
             type: 'renew', // renew/register
-            price: getRentPrice._hex, // in wei
+            price: new EthVal(`${getRentPrice._hex}`)
+              .toEth()
+              .mul(ethUsdPrice)
+              .toFixed(2), // in wei, // in wei
             referrer
           })
         }
@@ -374,6 +399,7 @@ const Editable = ({
                   editing={editing}
                   editable
                   data-testid={`details-value-${keyName.toLowerCase()}`}
+                  expiryDate={type === 'date'}
                 >
                   {type === 'address' ? (
                     <AddressLink address={value}>
@@ -403,7 +429,18 @@ const Editable = ({
                       <Address>{value}</Address>
                     </AddressLink>
                   ) : type === 'date' ? (
-                    formatDate(value)
+                    <>
+                      <ExpiryDate>{formatDate(value)}</ExpiryDate>
+                      <AddToCalendar
+                        css={css`
+                          margin-right: 20px;
+                        `}
+                        name={domain.name}
+                        startDatetime={moment(value)
+                          .utc()
+                          .subtract(30, 'days')}
+                      />
+                    </>
                   ) : (
                     value
                   )}
@@ -415,7 +452,19 @@ const Editable = ({
               <PendingTx
                 txHash={txHash}
                 onConfirmed={() => {
-                  refetch()
+                  if (keyName === 'registrant') {
+                    refetchTilUpdatedSingle({
+                      refetch,
+                      interval: 300,
+                      keyToCompare: 'registrant',
+                      prevData: {
+                        singleName: domain
+                      },
+                      getterString: 'singleName'
+                    })
+                  } else {
+                    refetch()
+                  }
                   setConfirmed()
                 }}
               />
@@ -557,7 +606,9 @@ const Editable = ({
                         newValue,
                         duration
                       })
-                      mutation({ variables })
+                      mutation({
+                        variables
+                      })
                     }}
                     value={
                       keyName === 'Expiration Date' ? formatDate(value) : value
@@ -569,7 +620,7 @@ const Editable = ({
                     }
                     mutationButton={mutationButton}
                     confirm={true}
-                    isValid={true}
+                    isValid={isValid}
                   />
                 </Buttons>
               </motion.div>

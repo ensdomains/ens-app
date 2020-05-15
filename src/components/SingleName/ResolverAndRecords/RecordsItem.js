@@ -5,9 +5,13 @@ import { Mutation } from 'react-apollo'
 import { useTranslation } from 'react-i18next'
 import DefaultAddressInput from '@ensdomains/react-ens-address'
 
+import { SET_CONTENT, SET_CONTENTHASH, SET_ADDRESS } from 'graphql/mutations'
+
 import { validateRecord } from 'utils/records'
 import { emptyAddress } from 'utils/utils'
 import mq from 'mediaQuery'
+import { getOldContentWarning } from './warnings'
+import { getEnsAddress } from '../../../api/ens'
 
 import { DetailsItem, DetailsKey, DetailsValue } from '../DetailsItem'
 import AddReverseRecord from './AddReverseRecord'
@@ -20,10 +24,8 @@ import Pencil from '../../Forms/Pencil'
 import Bin from '../../Forms/Bin'
 import { SaveCancel, SaveCancelSwitch } from '../SaveCancel'
 import DefaultPendingTx from '../../PendingTx'
-import { SET_CONTENT, SET_CONTENTHASH, SET_ADDRESS } from 'graphql/mutations'
 import DetailsItemInput from '../DetailsItemInput'
 import { useEditable } from '../../hooks'
-import { getOldContentWarning } from './warnings'
 
 const AddressInput = styled(DefaultAddressInput)`
   margin-bottom: 10px;
@@ -298,7 +300,11 @@ const RecordItemEditable = ({
                 <EditRecord>
                   {type === 'address' ? (
                     <AddressInput
-                      provider={window.ethereum || window.web3}
+                      provider={
+                        window.ethereum ||
+                        window.web3 ||
+                        'http://localhost:8545'
+                      }
                       onResolve={({ address }) => {
                         if (address) {
                           updateValue(address)
@@ -306,6 +312,7 @@ const RecordItemEditable = ({
                           updateValue('')
                         }
                       }}
+                      ensAddress={getEnsAddress()}
                     />
                   ) : (
                     <DetailsItemInput
