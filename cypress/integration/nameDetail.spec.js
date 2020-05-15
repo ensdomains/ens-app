@@ -57,14 +57,14 @@ describe('Name detail view', () => {
       })
     })
     waitUntilInputResolves('Transfer').then(() => {
+      cy.wait(100)
       cy.getByText('Transfer').click({ force: true })
+      cy.wait(100)
       cy.getByText('Confirm').click({ force: true })
 
       cy.getByText('0x0000000000000000000000000000000000000001', {
         timeout: 11000
-      }).should('exist', {
-        timeout: 10000
-      })
+      }).should('exist')
     })
   })
 
@@ -313,7 +313,7 @@ describe('Name detail view', () => {
     cy.visit(`${NAME_ROOT}/abittooawesome.eth`)
     const ADDRESS = '0x0000000000000000000000000000000000000007'
 
-    cy.getByTestId('name-details').within(container => {
+    cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
       cy.getByTestId('edit-address', { exact: false }).click({ force: true })
       cy.getByPlaceholderText('Enter Ethereum name or address', {
         timeout: 10000,
@@ -330,7 +330,7 @@ describe('Name detail view', () => {
 
         cy.queryByText(ADDRESS, {
           exact: false,
-          timeout: 1000
+          timeout: 10000
         }).should('exist')
       })
     })
@@ -395,7 +395,7 @@ describe('Name detail view', () => {
 
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
-    cy.getByTestId('name-details').within(container => {
+    cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
       cy.getByTestId('edit-ltc', { exact: false, timeout: 10000 }).click({
         force: true
       })
