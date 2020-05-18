@@ -248,6 +248,7 @@ function DetailsContainer({
               mutation={SET_REGISTRANT}
               refetch={refetch}
               confirm={true}
+              copyToClipboard={true}
             />
             <DetailsItemEditable
               domain={domain}
@@ -262,6 +263,7 @@ function DetailsContainer({
               mutation={isRegistrant ? RECLAIM : SET_OWNER}
               refetch={refetch}
               confirm={true}
+              copyToClipboard={true}
             />
           </>
         ) : domain.parent === 'eth' && !domain.isNewRegistrar ? (
