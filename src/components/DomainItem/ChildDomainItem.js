@@ -88,7 +88,6 @@ export default function ChildDomainItem({
   const gracePeriodEndDate = new Date(
     (parseInt(expiryDate) + GRACE_PERIOD) * 1000
   )
-  console.log('*** CD', labelName, expiryDate, isExpired)
   return (
     <DomainLink
       showBlockies={showBlockies}
