@@ -65,6 +65,15 @@ const EditButton = styled(Button)`
   width: 130px;
 `
 
+const WarningMessage = styled('span')`
+  color: #f6412d;
+  margin-right: auto;
+  margin-bottom: 1em;
+  ${mq.small`
+    margin-bottom: 0em;
+  `}
+`
+
 const DetailsEditableContainer = styled(DetailsItem)`
   flex-direction: column;
   min-height: 30px;
@@ -139,6 +148,7 @@ const Buttons = styled('div')`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  flex-wrap: wrap;
 `
 
 const SaveCancel = motion.custom(DefaultSaveCancel)
@@ -365,6 +375,7 @@ const Editable = ({
   const isInvalid = !isValid && newValue.length > 0
   const account = useAccount()
   const isOwnerOfParent = isOwnerOfParentDomain(domain, account)
+  const isRegistrant = domain.registrant === account
   const canDelete = ['Controller', 'Resolver'].includes(keyName)
   return (
     <Mutation
@@ -571,7 +582,6 @@ const Editable = ({
                     name: domain.name,
                     setYears,
                     ethUsdPrice,
-                    ethUsdPriceLoading,
                     duration,
                     expirationDate,
                     rentPriceLoading,
@@ -579,6 +589,13 @@ const Editable = ({
                   })}
                 </EditRecord>
                 <Buttons>
+                  {keyName === 'Expiration Date' && !isRegistrant ? (
+                    <WarningMessage>
+                      *{t('singleName.expiry.cannotown')}
+                    </WarningMessage>
+                  ) : (
+                    ''
+                  )}
                   {keyName === 'Resolver' && (
                     <Query query={GET_PUBLIC_RESOLVER}>
                       {({ data, loading }) => {
