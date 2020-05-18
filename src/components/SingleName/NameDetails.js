@@ -473,28 +473,28 @@ function DetailsContainer({
         )}
         {!domain.available ? (
           domain.isNewRegistrar || domain.gracePeriodEndDate ? (
-            <DetailsItemEditable
-              domain={domain}
-              keyName="Expiration Date"
-              value={domain.expiryTime}
-              notes={
-                domain.gracePeriodEndDate ? (
-                  <GracePeriodWarning
-                    expiryTime={domain.expiryTime}
-                    date={domain.gracePeriodEndDate}
-                  />
-                ) : (
-                  ''
-                )
-              }
-              canEdit={parseInt(account, 16) !== 0}
-              type="date"
-              editButton={t('c.renew')}
-              mutationButton={t('c.renew')}
-              mutation={RENEW}
-              refetch={refetch}
-              confirm={true}
-            />
+            <>
+              <DetailsItemEditable
+                domain={domain}
+                keyName="Expiration Date"
+                value={domain.expiryTime}
+                canEdit={parseInt(account, 16) !== 0}
+                type="date"
+                editButton={t('c.renew')}
+                mutationButton={t('c.renew')}
+                mutation={RENEW}
+                refetch={refetch}
+                confirm={true}
+              />
+              {domain.gracePeriodEndDate ? (
+                <GracePeriodWarning
+                  expiryTime={domain.expiryTime}
+                  date={domain.gracePeriodEndDate}
+                />
+              ) : (
+                ''
+              )}
+            </>
           ) : domain.expiryTime ? (
             <DetailsItem uneditable>
               <DetailsKey>{t("c['Expiration Date']")}</DetailsKey>

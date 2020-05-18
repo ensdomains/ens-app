@@ -90,9 +90,16 @@ const DetailsValue = styled(DefaultDetailsValue)`
     `
       overflow: inherit;
       display: flex;
-      align-items: center;
+       align-items: flex-start;
       margin-top: -5px;
-  
+      flex-direction: column;
+  `}
+
+  ${p =>
+    p.expiryDate &&
+    mq.medium`
+      align-items: center;
+      flex-direction: row;
   `}
 `
 
