@@ -8,7 +8,8 @@ export const DetailsItem = styled('div')`
   margin-bottom: 20px;
 
   ${mq.small`
-    margin-bottom: 10px;
+    align-items: center;
+    margin-bottom: 20px;
   `}
 
   ${p =>
@@ -25,10 +26,13 @@ export const DetailsKey = styled('div')`
   letter-spacing: 0px;
   font-weight: 600;
   text-transform: uppercase;
-  margin-bottom: 20px;
   flex-shrink: 0;
+  display: flex;
+  margin-bottom: 20px;
 
   ${mq.small`
+    align-items: center;
+    margin-bottom: 0;
     font-size: 16px;
     max-width: 220px;
     min-width: 180px;
@@ -41,9 +45,11 @@ export const DetailsValue = styled('div')`
   font-family: Overpass Mono;
   white-space: nowrap;
   overflow: hidden;
+  display: flex;
   text-overflow: ellipsis;
   ${mq.small`
     font-size: 18px;
+    align-items: center;
   `}
   ${p =>
     p.editable &&
@@ -69,5 +75,6 @@ export const DetailsContent = styled('div')`
   transition: 0.3s;
   ${mq.small`
     flex-direction: row;
+    align-items: center;
   `}
 `

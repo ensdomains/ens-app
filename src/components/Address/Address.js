@@ -133,7 +133,7 @@ function useDomains({ domainType, address, sort }) {
   } else if (domainType === 'controller') {
     return controllersQuery
   } else {
-    throw 'Unrecognised domainType'
+    throw new Error('Unrecognised domainType')
   }
 }
 

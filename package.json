@@ -42,6 +42,7 @@
     "react": "^16.12.0",
     "react-add-to-calendar-hoc": "^1.0.9",
     "react-apollo": "^3.0.0",
+    "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^16.12.0",
     "react-ga": "^2.5.7",
     "react-i18next": "^11.3.4",

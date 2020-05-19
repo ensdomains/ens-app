@@ -248,6 +248,7 @@ function DetailsContainer({
               mutation={SET_REGISTRANT}
               refetch={refetch}
               confirm={true}
+              copyToClipboard={true}
             />
             <DetailsItemEditable
               domain={domain}
@@ -262,6 +263,7 @@ function DetailsContainer({
               mutation={isRegistrant ? RECLAIM : SET_OWNER}
               refetch={refetch}
               confirm={true}
+              copyToClipboard={true}
             />
           </>
         ) : domain.parent === 'eth' && !domain.isNewRegistrar ? (
@@ -473,28 +475,28 @@ function DetailsContainer({
         )}
         {!domain.available ? (
           domain.isNewRegistrar || domain.gracePeriodEndDate ? (
-            <DetailsItemEditable
-              domain={domain}
-              keyName="Expiration Date"
-              value={domain.expiryTime}
-              notes={
-                domain.gracePeriodEndDate ? (
-                  <GracePeriodWarning
-                    expiryTime={domain.expiryTime}
-                    date={domain.gracePeriodEndDate}
-                  />
-                ) : (
-                  ''
-                )
-              }
-              canEdit={parseInt(account, 16) !== 0}
-              type="date"
-              editButton={t('c.renew')}
-              mutationButton={t('c.renew')}
-              mutation={RENEW}
-              refetch={refetch}
-              confirm={true}
-            />
+            <>
+              <DetailsItemEditable
+                domain={domain}
+                keyName="Expiration Date"
+                value={domain.expiryTime}
+                canEdit={parseInt(account, 16) !== 0}
+                type="date"
+                editButton={t('c.renew')}
+                mutationButton={t('c.renew')}
+                mutation={RENEW}
+                refetch={refetch}
+                confirm={true}
+              />
+              {domain.gracePeriodEndDate ? (
+                <GracePeriodWarning
+                  expiryTime={domain.expiryTime}
+                  date={domain.gracePeriodEndDate}
+                />
+              ) : (
+                ''
+              )}
+            </>
           ) : domain.expiryTime ? (
             <DetailsItem uneditable>
               <DetailsKey>{t("c['Expiration Date']")}</DetailsKey>
