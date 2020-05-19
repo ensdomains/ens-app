@@ -10,10 +10,11 @@ import mq, { useMediaMin } from 'mediaQuery'
 import Tooltip from '../Tooltip/Tooltip'
 import QuestionMark from '../Icons/QuestionMark'
 import { checkIsDecrypted, truncateUndecryptedName } from '../../api/labels'
+export const GRACE_PERIOD = 86400 * 90
 
 const DomainLink = styled(Link)`
   display: grid;
-  grid-template-columns: 50px 1fr 23px;
+  grid-template-columns: 250px 23px;
   grid-template-rows: 50px 50px;
   grid-gap: 10px;
   width: 100%;
@@ -27,7 +28,7 @@ const DomainLink = styled(Link)`
   ${p =>
     !p.showBlockies &&
     mq.small`
-        grid-template-columns: 1fr minmax(150px, 300px) 23px;
+        grid-template-columns: 1fr minmax(150px, 350px) 23px;
         grid-template-rows: 50px
       `}
 
@@ -83,6 +84,10 @@ export default function ChildDomainItem({
   if (isMigrated === false)
     label = label + ` (${t('childDomainItem.notmigrated')})`
   const isExpiredSoon = calculateIsExpiredSoon(expiryDate)
+  const isExpired = new Date() > new Date(parseInt(expiryDate * 1000))
+  const gracePeriodEndDate = new Date(
+    (parseInt(expiryDate) + GRACE_PERIOD) * 1000
+  )
   return (
     <DomainLink
       showBlockies={showBlockies}
@@ -97,7 +102,11 @@ export default function ChildDomainItem({
       <h3>{label}</h3>
       {expiryDate && (
         <ExpiryDate isExpiredSoon={isExpiredSoon}>
-          {t('c.expires')} {formatDate(parseInt(expiryDate * 1000))}
+          {isExpired
+            ? `${t('singleName.expiry.gracePeriodEnds')} ${formatDate(
+                gracePeriodEndDate
+              )}`
+            : `${t('c.expires')} ${formatDate(parseInt(expiryDate * 1000))}`}
         </ExpiryDate>
       )}
       {!isDecrypted && (

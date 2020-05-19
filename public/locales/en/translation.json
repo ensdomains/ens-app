@@ -69,7 +69,8 @@
     "expiry": {
       "expired": "Expired",
       "expiring": "Expiring Soon",
-      "gracePeriodEnds": "Grace period ends"
+      "gracePeriodEnds": "Grace period ends",
+      "cannotown": "Renewing a name you do not own does not give you ownership of it."
     },
     "learnmore": {
       "title": "Learn how to manage your name.",
