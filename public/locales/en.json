@@ -1,0 +1,272 @@
+{
+  "about": {
+    "card1": "Map simple names like ‘alice.eth’ to Ethereum addresses, content hashes, and metadata.",
+    "card2": "Improve usability of Dapps by returning human readable names instead of long hashes through 'reverse resolution'",
+    "elevatorpitch": "The Ethereum Name Service is a distributed, open and extensible naming system based on the Ethereum blockchain. ENS eliminates the need to copy or type long addresses.",
+    "subdomainText": "Like DNS, ENS operates on a system of dot-separated hierarchial names called domains, with the owner of a domain having full control over the allocation of subdomains.",
+    "subtitles": [
+      "About ENS",
+      "TLDs & SUBDOMAINS",
+      "HOW TO USE ENS",
+      "Under the surface"
+    ],
+    "underTheSurface": {
+      "registrar": "The Registrar is the Smart Contract that allows you to buy orregister a domain. Today it uses an auction process, but in the future you will have an instant buy option.",
+      "registry": "The Registry is a Smart Contract that contains a list of all domains and subdomains, storing for each two pieces of information: the owner of the name and the Resolver.",
+      "resolver": "Resolvers are Smart Contracts responsible for the process of translating names into addresses, or other types of hashes and resources.",
+      "reverse": "The Resolver can optionally perform the opposite functionality of 'Reverse Resolving': translating an address into an associated name",
+      "titles": [
+        "The Registrar",
+        "The Registry",
+        "Resolvers",
+        "Reverse Resolution"
+      ]
+    }
+  },
+  "address": {
+    "etherscanButton": "View on EtherScan",
+    "filter": {
+      "controller": "Controller",
+      "registrant": "Registrant"
+    },
+    "namesExpiringSoonBanner": {
+      "text": "One or more names are expiring soon, renew them all in one transaction by selecting multiple names and click 'Renew'",
+      "title": "Names in May are expiring soon"
+    },
+    "renew": {
+      "button": "Renew Selected",
+      "confirm": ["The following names:", "will be renewed for "],
+      "confirmButton": "Renew",
+      "year": "{{count}} year",
+      "year_plural": "{{count}} years"
+    },
+    "sort": {
+      "alphabetical": "Alphabetical",
+      "expiry": "Expiry Date"
+    },
+    "transactionBanner": "You are here because of a transaction we sent you or a referrer from another site. You have names below that need to be renewed soon!"
+  },
+  "c": {
+    "Address": "Address",
+    "Content": "Content",
+    "Controller": "Controller",
+    "Expiration Date": "Expiration Date",
+    "Resolver": "Resolver",
+    "about": "About",
+    "cancel": "Cancel",
+    "claim": "Claim",
+    "edit": "Edit",
+    "expires": "Expires",
+    "favourites": "Favourites",
+    "learnmore": "Learn More",
+    "migrate": "Migrate",
+    "mynames": "My Names",
+    "network": "network",
+    "otheraddresses": "Other Addresses",
+    "parent": "parent",
+    "permanentregistrar": "Permanent Registrar",
+    "refresh": "Refresh",
+    "register": "Register",
+    "registrant": "Registrant",
+    "renew": "Renew",
+    "save": "Save",
+    "search": "Search",
+    "set": "Set",
+    "textrecord": "Text Record",
+    "transfer": "Transfer",
+    "year": "year",
+    "year_plural": "years"
+  },
+  "childDomainItem": {
+    "notmigrated": "not migrated"
+  },
+  "dns": {
+    "breadcrumbs": ["ENABLE DNSSEC", "ADD TEXT", "SUBMIT PROOF", "MANAGE NAME"],
+    "dnsowner": "DNS Owner",
+    "steps": {
+      "addtext": {
+        "text": "Click 'learn more' to read about the process.",
+        "title": "Set up a text record in your domain registrar then click refresh. The text record should contain your Ethereum address in the form:"
+      },
+      "enable": {
+        "text": "Click 'learn more' to read about the process.",
+        "title": "Visit your domain registrar to enable DNSSEC. Once enabled, click refresh to see if you can move to the next step."
+      },
+      "manage": {
+        "text1": "Since you are the owner, you can manage your name now. ",
+        "text2": "Since you are not the owner, you can only view the name in the manager.",
+        "title": "Congratulations! You have successfully added this DNS domain to the ENS Registry."
+      },
+      "proof": {
+        "text1": "The address that appears in the DNS txt record is your same address.",
+        "text2": "If you know you own this domain, change it's TXT record to contain your Ethereum Address and refresh this page to perform the DNSSEC verification again.",
+        "title1": "You are the owner of this address. Add your domain to the ENS Registry now.",
+        "title2": "You don't appear to be the DNS Owner of this domain, but anyone can add this domain to the ENS Registry."
+      }
+    },
+    "viewinmanager": "View in Manager"
+  },
+  "favourites": {
+    "favouriteTitle": "Favourite Top Level Domains",
+    "nofavouritesDomains": {
+      "text": "To add names to favourites, click the heart icon next to any desired name.",
+      "title": "No names have been saved."
+    },
+    "nofavouritesSubdomains": {
+      "text": "To add names to favourites, click the heart icon next to any desired name.",
+      "title": "No Subdomains have been saved."
+    },
+    "subdomainFavouriteTitle": "Favourite Sub Domains"
+  },
+  "home": {
+    "announcements": {
+      "migrationOver": "ENS Registry Migration Is Over… Now What? A Few Things to Know",
+      "renew": {
+        "body": [
+          "You can renew multiple domains in one transaction by going to your",
+          "address page",
+          "or clicking 'My names' whilst logged in"
+        ],
+        "title": "Names bought in May are expiring soon."
+      }
+    },
+    "howtouse": {
+      "body": "The ENS App is a Graphical User Interface for non-technical users. It allows you to search any name, manage their addresses or resources it points to and create subdomains for each name.",
+      "title": "How to use ENS"
+    },
+    "permanentRegistrar": {
+      "title": "Learn about the Permanent Registrar and the migration process."
+    },
+    "whatisens": {
+      "body": "The Ethereum Name Service is a distributed, open and extensible naming system based on the Ethereum blockchain. ENS eliminates the need to copy or type long addresses.",
+      "title": "What it is"
+    }
+  },
+  "howtouse": {
+    "favourite": {
+      "text": "Keep track of domains and subdomains that you own or that you want to follow.",
+      "title": "Save favourite names"
+    },
+    "manage": {
+      "text": "Point domains to your ethereum addresses, transfer ownership to other people and more.",
+      "title": "Manage names"
+    },
+    "register": {
+      "text": "Register .eth names for $5/year. Renew or cancel your name registration at any time.",
+      "title": "Register names"
+    },
+    "search": {
+      "text": "Find domains and subdomains that you can register or learn more about.",
+      "title": "Search for names"
+    }
+  },
+  "pendingTx": {
+    "text": "Tx Pending"
+  },
+  "pricer": {
+    "rentalPeriodLabel": "Rental Period",
+    "totalPriceLabel": "Total price to pay"
+  },
+  "register": {
+    "buttons": {
+      "manage": "Manage",
+      "register": "Register",
+      "request": "Request to register",
+      "warning": "Click register to move to the 3rd step"
+    },
+    "favourite": "* Favorite the name for easy access in case you close out of your browser.",
+    "notifications": {
+      "ready": "is ready to be registered"
+    },
+    "notify": "Notify me",
+    "step1": {
+      "label": "Step 1",
+      "text": "Your wallet will open and you will be asked to confirm the first of two transactions required for registration",
+      "title": "Request to register"
+    },
+    "step2": {
+      "label": "Step 2",
+      "text": "The waiting period is required to ensure another person hasn’t tried to register the same name and protect you after your request.",
+      "title": "Wait for a 1 minute"
+    },
+    "step3": {
+      "label": "Step 3",
+      "text": "Click ‘register’ and your wallet will re-open. Only after the 2nd transaction is confirmed you'll know if you got the domain",
+      "title": "Complete Registration"
+    },
+    "titles": [
+      "Registering a name requires you to complete 3 steps",
+      "Don’t close your browser! You’ll be able to manage your name soon.",
+      "You’ve completed all the steps, manage your name now!"
+    ]
+  },
+  "registrymigration": {
+    "donotaccept": "*If you trade ENS names, do not accept this name!",
+    "messages": {
+      "controller": "This name is controlled by a contract and can't be migrated automatically. Please redeploy your contract to use the new registry before setting the new controller",
+      "default": "This name needs to be migrated to the new Registry. Only the parent of this name ({{parent}}) can do this.",
+      "dnssec": "This name needs to be migrated to the new Registry. Please setup the correct DNS Owner and click 'Sync' button below",
+      "parentmigrate": "You must first migrate the parent domain {{ parent}} before you can migrate this subdomain"
+    }
+  },
+  "search": {
+    "button": "Search",
+    "placeholder": "Search names or addresses"
+  },
+  "singleName": {
+    "banners": {
+      "namesExpiring": {
+        "text": "Click the renew button to avoid expiration. To renew all of your names in bulk, navigate to <1>My Names</1> and selecting multiple names before clicking 'Renew'",
+        "title": "Names in May are expiring soon"
+      }
+    },
+    "expiry": {
+      "cannotown": "Renewing a name you do not own does not give you ownership of it.",
+      "expired": "Expired",
+      "expiring": "Expiring Soon",
+      "gracePeriodEnds": "Grace period ends"
+    },
+    "learnmore": {
+      "step1": {
+        "text": "The Resolver is a Smart Contract responsible for the process of translating names into addresses. In the Resolver area click ‘Set’. Then click the ‘use public resolver’ link, and ‘save’ to launch the transaction.",
+        "title": "1. Set Resolver"
+      },
+      "step2": {
+        "text": "Once you have set the Resolver, you can then add records by clicking the ‘+’ in the ‘records’ field. Adding your ethereum address will allow you to point your wallet to your name in the next step.",
+        "title": "2. Set Address"
+      },
+      "step3": {
+        "text": "Once you set your address, you will see a message saying the reverse pointer is not set. Click the arrow in the field to expand, then click the button ‘save’. This will translate your address into your new name.",
+        "title": "3. Set Reverse Record"
+      },
+      "title": "Learn how to manage your name."
+    },
+    "messages": {
+      "noowner": "Not owned",
+      "noresolver": "No Resolver set",
+      "notfinalised": "(You have not finalised)",
+      "pending": "Pending"
+    },
+    "subdomains": {
+      "add": "Add Subdomain",
+      "nosubdomains": "No Subdomains have been added"
+    },
+    "tabs": {
+      "details": "Details",
+      "register": "Register",
+      "subdomains": "Subdomains"
+    },
+    "test": {
+      "note": "Note: .test domain allows anyone to claim an unused name for test purposes, which expires after 28 days"
+    },
+    "tooltips": {
+      "detailsItem": {
+        "Controller": "You can only transfer the controller if you are the controller or registrant and are logged into your wallet",
+        "Resolver": "You can only set the resolver on this name if you are the controller and are logged into your wallet",
+        "default": "You can only make changes if you are the controller and are logged into your wallet",
+        "registrant": "You can only transfer the registrant if you are the registrant and are logged into your wallet",
+        "registrantExpired": "You cannot transfer this domain whilst it is expired. Please renew first."
+      }
+    }
+  }
+}
