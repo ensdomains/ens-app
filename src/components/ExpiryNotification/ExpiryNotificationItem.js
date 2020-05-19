@@ -18,7 +18,10 @@ import Button, {
 } from '../Forms/Button'
 import Loader from '../Loader'
 
-import { BuidlhubEnsClient, EmailComponent } from 'buidlhub-ens-notifications'
+import {
+  BuidlhubEnsClient,
+  EmailComponent
+} from '@buidlhub/buidlhub-ens-notifications'
 
 const buidlhub = new BuidlhubEnsClient()
 
