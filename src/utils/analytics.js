@@ -23,7 +23,7 @@ export const setup = () => {
   if (isProduction()) {
     ReactGA.initialize(TrackingID.live)
     ReactGA.plugin.require('ecommerce')
-  } else if (isDev()) {
+  } else {
     ReactGA.initialize(TrackingID.dev)
     ReactGA.plugin.require('ecommerce', { debug: true })
     console.log('Analytics setup for dev with ', TrackingID.dev)
@@ -47,8 +47,8 @@ export const trackReferral = async ({
   const mainnet = await isMainnet()
 
   function track() {
-    const campaignSource = ReactGA.ga('get', 'campaignSource')
-    console.log('Referral from source: ', campaignSource)
+    const ga = ReactGA.ga()
+    const campaignSource = ga('get', 'campaignSource')
     ReactGA.event({
       category: 'referral',
       action: `${type} domain`,
