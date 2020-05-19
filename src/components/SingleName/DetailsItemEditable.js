@@ -40,6 +40,7 @@ import DefaultInfo from '../Icons/Info'
 import DefaultPendingTx from '../PendingTx'
 import DefaultPricer from './Pricer'
 import DefaultAddressInput from '@ensdomains/react-ens-address'
+import CopyToClipboard from '../CopyToClipboard/'
 
 const AddressInput = styled(DefaultAddressInput)`
   margin-bottom: 10px;
@@ -99,9 +100,16 @@ const DetailsValue = styled(DefaultDetailsValue)`
     `
       overflow: inherit;
       display: flex;
+       align-items: flex-start;
+      flex-direction: column;
+  `}
+
+  ${p =>
+    p.expiryDate &&
+    mq.medium`
+      margin-top: -16px;
       align-items: center;
-      margin-top: -5px;
-  
+      flex-direction: row;
   `}
 `
 
@@ -321,14 +329,14 @@ const Editable = ({
   keyName,
   value,
   type,
-  notes,
   mutation,
   mutationButton,
   editButton,
   domain,
   variableName,
   refetch,
-  confirm
+  confirm,
+  copyToClipboard
 }) => {
   const { t } = useTranslation()
   const { state, actions } = useEditable()
@@ -455,7 +463,7 @@ const Editable = ({
                   ) : (
                     value
                   )}
-                  {notes}
+                  {copyToClipboard && <CopyToClipboard value={value} />}
                 </DetailsValue>
               </>
             )}
@@ -657,7 +665,8 @@ function ViewOnly({
   deedOwner,
   isDeedOwner,
   domain,
-  isExpiredRegistrant
+  isExpiredRegistrant,
+  copyToClipboard
 }) {
   const { t } = useTranslation()
   //get default messages for 0x values
@@ -688,6 +697,7 @@ function ViewOnly({
           ) : (
             value
           )}
+          {copyToClipboard && <CopyToClipboard value={value} />}
         </DetailsValue>
 
         <Action>
@@ -738,8 +748,7 @@ DetailsEditable.propTypes = {
   keyName: PropTypes.string.isRequired, // key of the record
   value: PropTypes.string.isRequired, // value of the record (normally hex address)
   type: PropTypes.string, // type of value. Defaults to address
-  notes: PropTypes.string,
-  mutation: PropTypes.object.isRequired, //graphql mutation string for making tx
+  mutation: PropTypes.object.isRequired, //graphql mutation string for masking tx
   onCompleted: PropTypes.func, // function to be called on the onCompleted
   mutationButton: PropTypes.string, // Mutation button text
   editButton: PropTypes.string, //Edit button text
@@ -747,7 +756,8 @@ DetailsEditable.propTypes = {
   canEdit: PropTypes.bool,
   domain: PropTypes.object.isRequired,
   variableName: PropTypes.string, //can change the variable name for mutation
-  refetch: PropTypes.func.isRequired
+  refetch: PropTypes.func.isRequired,
+  copyToClipboard: PropTypes.bool
 }
 
 export default DetailsEditable

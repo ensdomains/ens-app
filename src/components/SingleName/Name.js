@@ -17,6 +17,7 @@ import Tabs from './Tabs'
 import { useAccount } from '../QueryAccount'
 import NameContainer from '../Basic/MainContainer'
 import Banner from '../Banner'
+import Copy from '../CopyToClipboard/'
 
 const Owner = styled('div')`
   color: #ccd4da;
@@ -105,6 +106,17 @@ function Name({ details: domain, name, pathname, type, refetch }) {
                 ']' +
                 '.' +
                 domain.parent}
+            <Copy
+              value={
+                domain.decrypted
+                  ? name
+                  : '[unknown' +
+                    domain.name.split('.')[0].slice(1, 11) +
+                    ']' +
+                    '.' +
+                    domain.parent
+              }
+            />
           </Title>
           <RightBar>
             {!!ownerType && <Owner data-testid="owner-type">{ownerType}</Owner>}
