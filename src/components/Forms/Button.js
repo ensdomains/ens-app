@@ -168,3 +168,5 @@ export const ExternalButtonLink = props => {
 }
 
 export default Button
+
+export { getButtonDefaultStyles, getButtonStyles }
