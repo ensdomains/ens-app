@@ -2,12 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import { useTranslation } from 'react-i18next'
-import mq from 'mediaQuery'
+//import mq from 'mediaQuery'
 
 import {
   DetailsItem,
   DetailsKey,
-  DetailsValue,
   DetailsContent
 } from '../SingleName/DetailsItem'
 
@@ -18,12 +17,7 @@ import Button, {
 } from '../Forms/Button'
 import Loader from '../Loader'
 
-import {
-  BuidlhubEnsClient,
-  EmailComponent
-} from '@buidlhub/buidlhub-ens-notifications'
-
-const buidlhub = new BuidlhubEnsClient()
+import { EmailComponent } from '@buidlhub/buidlhub-ens-notifications'
 
 const EmailNotifyButton = styled(Button)``
 
@@ -64,7 +58,6 @@ const ExpiryNotificationItemEditable = ({ address }) => {
             emailInputStyle="width: 100%;"
             onCancel={stopEditing}
             cancelStyle={cancelStyle}
-            buidlhub={buidlhub}
             language={i18n.lng}
             loading={loading}
             publicAddress={address}
