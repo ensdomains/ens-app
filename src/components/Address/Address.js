@@ -25,6 +25,7 @@ import Loader from '../Loader'
 import Banner from '../Banner'
 import Checkbox from '../Forms/Checkbox'
 import { SingleNameBlockies } from '../Blockies'
+import ExpiryNotificationItem from '../ExpiryNotification/ExpiryNotificationItem'
 
 import warning from '../../assets/yellowwarning.svg'
 import close from '../../assets/close.svg'
@@ -255,6 +256,8 @@ export default function Address({
             setActiveSort={setActiveSort}
             activeFilter={domainType}
           />
+
+          <ExpiryNotificationItem address={address} canEdit={true} />
 
           {domainType === 'registrant' && (
             <>
