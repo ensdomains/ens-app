@@ -37,6 +37,9 @@ export const RecordsItem = styled(DetailsItem)`
   display: block;
   padding: 20px;
   flex-direction: column;
+   ${mq.small`
+    align-items: flex-start;
+  `}
 
   background: ${({ editing }) => (editing ? '#F0F6FA' : 'white')};
   ${mq.medium`
@@ -111,9 +114,7 @@ const EditRecord = styled('div')`
 `
 
 const Action = styled('div')`
-  position: absolute;
-  right: 10px;
-  top: 0;
+  margin-left: auto;
 `
 
 const SecondaryAction = styled('div')`
