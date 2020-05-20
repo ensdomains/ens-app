@@ -42,6 +42,7 @@ const KeyValueContainer = styled('div')`
 
   ${mq.medium`
     flex-direction: row;
+    align-items: flex-start;
   `}
 `
 

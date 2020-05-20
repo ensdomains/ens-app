@@ -15,7 +15,12 @@
       "registry": "注册表是一个智能合约，其中存储着所有域名和子域名的列表，并为每个域名记录着两个重要信息：域名的所有者和解析器。",
       "resolver": "解析器是一个智能合约，负责将域名转换为地址或其他类型的哈希和元数据。",
       "reverse": "反向解析器是一个智能合约，可以实现 “反向解析” ：将地址转换为关联的域名。",
-      "titles": ["注册器", "注册表", "解析器", "反向解析器"]
+      "titles": [
+        "注册器",
+        "注册表",
+        "解析器",
+        "反向解析器"
+      ]
     }
   },
   "address": {
@@ -30,7 +35,10 @@
     },
     "renew": {
       "button": "更新已勾选项目",
-      "confirm": ["The following names:", "will be renewed for "],
+      "confirm": [
+        "The following names:",
+        "will be renewed for "
+      ],
       "confirmButton": "更新"
     },
     "sort": {
@@ -72,7 +80,12 @@
     "notmigrated": "暂未迁移"
   },
   "dns": {
-    "breadcrumbs": ["启用 DNSSEC", "提交验证", "提交验证", "管理域名"],
+    "breadcrumbs": [
+      "启用 DNSSEC",
+      "提交验证",
+      "提交验证",
+      "管理域名"
+    ],
     "dnsowner": "DNS Owner",
     "steps": {
       "addtext": {

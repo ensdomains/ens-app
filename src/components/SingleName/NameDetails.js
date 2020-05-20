@@ -296,6 +296,7 @@ function DetailsContainer({
               mutation={isRegistrant ? RECLAIM : SET_OWNER}
               refetch={refetch}
               confirm={true}
+              copyToClipboard={true}
             />
           </>
         ) : domain.isDNSRegistrar ? (
@@ -373,6 +374,7 @@ function DetailsContainer({
             mutation={isOwnerOfParent ? SET_SUBNODE_OWNER : SET_OWNER}
             refetch={refetch}
             confirm={true}
+            copyToClipboard={true}
           />
         )}
         {/* To be replaced with a logic a function to detect dnsregistrar */}
