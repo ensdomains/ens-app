@@ -71,7 +71,6 @@ const KeyValuesContent = styled(RecordsContent)`
   display: grid;
   width: 100%;
   grid-template-columns: 1fr;
-  padding-right: 30px;
   overflow: hidden;
   ${mq.small`
     grid-template-columns: 150px 1fr;
@@ -79,9 +78,12 @@ const KeyValuesContent = styled(RecordsContent)`
 `
 
 const Action = styled('div')`
-  position: absolute;
-  right: 10px;
-  top: 0;
+  margin-top: 10px;
+  margin-left: 0;
+  ${mq.small`
+    margin-top: 0;
+    margin-left: auto;
+  `}
 `
 
 const Actionable = ({ startEditing, keyName, value }) => {

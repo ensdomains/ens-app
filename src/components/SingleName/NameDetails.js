@@ -39,8 +39,11 @@ import RegistryMigration from './RegistryMigration'
 import ReleaseDeed from './ReleaseDeed'
 
 const Details = styled('section')`
-  padding: 40px;
+  padding: 20px;
   transition: 0.4s;
+  ${mq.small`
+    padding: 40px;
+  `}
 `
 
 const Loader = styled(DefaultLoader)`

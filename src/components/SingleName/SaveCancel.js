@@ -18,6 +18,7 @@ const SaveCancelSwitchContainer = styled('div')`
 const SaveCancelContainer = styled('div')`
   display: flex;
   justify-content: center;
+  align-self: flex-end;
   ${mq.small`
     justify-content: flex-end;
   `}

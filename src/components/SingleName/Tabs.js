@@ -11,7 +11,10 @@ const TabLink = styled(Link)`
   color: ${({ active }) => (active ? 'white' : '#D2D2D2')};
   transform: scale(${({ active }) => (active ? '1.08' : '1')});
   transition: background 0.1s ease-out, transform 0.3s ease-out;
-  padding: 10px 30px;
+  padding: 10px 20px;
+  ${mq.small`
+    padding: 10px 30px;
+  `}
   &:hover,
   &:visited {
     color: ${({ active }) => (active ? 'white' : '#D2D2D2')};
@@ -26,14 +29,15 @@ const TabLink = styled(Link)`
 `
 
 const TabContainer = styled('div')`
-  display: flex;
+  display: inline-flex;
   justify-content: flex-start;
   border: 2px solid #dfdfdf;
   border-radius: 4px;
-  margin-left: 43px;
+  margin-left: 20px;
   margin-top: 20px;
 
   ${mq.small`
+    margin-right: 0;
     margin: 0;
     margin-left: 20px;
   `}

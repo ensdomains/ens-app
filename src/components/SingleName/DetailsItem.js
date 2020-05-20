@@ -52,17 +52,15 @@ export const DetailsValue = styled('div')`
     align-items: center;
   `}
   ${p =>
-    p.editable &&
-    mq.small`
-      /* padding-right: 150px; */
-    `}
-  ${p => p.editableSmall && `padding-right: 50px;`}
-  ${p =>
     p.editing &&
     p.editable &&
     mq.small`
-      padding-right: 0;
+      padding-right: 5px;
     `}
+
+  a {
+    overflow: hidden;
+  }
 `
 /* Container element for key/value */
 export const DetailsContent = styled('div')`
