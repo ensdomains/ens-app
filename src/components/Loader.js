@@ -47,8 +47,8 @@ const LoaderContainer = styled('div')`
     animation: lds-dual-ring 1.5s linear infinite;
   }
   .lds-dual-ring {
-    width: 20px !important;
-    height: 20px !important;
+    width: ${({ large }) => (large ? '60px' : '20px')};
+    height: ${({ large }) => (large ? '60px' : '20px')};
     -webkit-transform: translate(-100px, -100px) scale(1)
       translate(100px, 100px);
     transform: translate(-100px, -100px) scale(1) translate(100px, 100px);

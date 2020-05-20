@@ -50,6 +50,7 @@ export const RecordsItem = styled(DetailsItem)`
 
 export const RecordsContent = styled('div')`
   display: grid;
+  width: 100%;
   justify-content: flex-start;
   align-items: center;
   position: relative;
@@ -113,17 +114,22 @@ const EditRecord = styled('div')`
   width: 100%;
 `
 
-const Action = styled('div')`
-  margin-left: auto;
-`
+const Action = styled('div')``
 
 const SecondaryAction = styled('div')`
-  position: absolute;
-  right: 44px;
-  top: 0;
+  margin-right: 10px;
 `
 
-const ActionContainer = styled('div')``
+const ActionContainer = styled('div')`
+  display: flex;
+  margin-left: 0;
+  margin-top: 10px;
+  align-self: flex-end;
+  ${mq.small`
+    margin-top: 0;
+    margin-left: auto;
+  `};
+`
 
 const PendingTx = styled(DefaultPendingTx)`
   position: absolute;
@@ -280,14 +286,13 @@ const RecordItemEditable = ({
                     />
                   ) : (
                     <>
-                      <Actionable
-                        startEditing={startEditing}
+                      <Uploadable
+                        startUploading={startUploading}
                         keyName={keyName}
                         value={value}
                       />
-
-                      <Uploadable
-                        startUploading={startUploading}
+                      <Actionable
+                        startEditing={startEditing}
                         keyName={keyName}
                         value={value}
                       />
