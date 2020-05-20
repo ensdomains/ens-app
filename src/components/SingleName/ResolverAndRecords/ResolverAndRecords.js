@@ -302,6 +302,7 @@ export default function ResolverAndRecords({
             refetch={refetch}
             account={account}
             needsToBeMigrated={needsToBeMigrated}
+            copyToClipboard={true}
           />
         )}
         {needsToBeMigrated && (

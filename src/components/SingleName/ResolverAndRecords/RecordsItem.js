@@ -25,6 +25,7 @@ import Bin from '../../Forms/Bin'
 import { SaveCancel, SaveCancelSwitch } from '../SaveCancel'
 import DefaultPendingTx from '../../PendingTx'
 import DetailsItemInput from '../DetailsItemInput'
+import CopyToClipBoard from '../../CopyToClipboard/'
 import { useEditable } from '../../hooks'
 
 const AddressInput = styled(DefaultAddressInput)`
@@ -114,7 +115,12 @@ const EditRecord = styled('div')`
   width: 100%;
 `
 
-const Action = styled('div')``
+const Action = styled('div')`
+  margin-left: 0;
+  ${mq.small`
+    margin-left: auto;
+  `};
+`
 
 const SecondaryAction = styled('div')`
   margin-right: 10px;
@@ -172,7 +178,7 @@ const Uploadable = ({ startUploading, keyName, value }) => {
       <SecondaryAction>
         <StyledUpload
           onClick={startUploading}
-          data-testid={`edit-${keyName.toLowerCase()}`}
+          data-testid={`edit-${keyName.toLowerCase()}-temporal`}
         />
       </SecondaryAction>
     )
@@ -243,6 +249,7 @@ const RecordItemEditable = ({
                     contentType={domain.contentType}
                   />
                 )}
+                <CopyToClipBoard value={value} />
               </RecordsValue>
 
               {pending && !confirmed && txHash ? (
@@ -435,6 +442,7 @@ function RecordItemViewOnly({ keyName, value, type, domain, account }) {
           ) : (
             <ContentHashLink value={value} contentType={contentType} />
           )}
+          <CopyToClipBoard value={value} />
         </RecordsValue>
         <Action>
           <Pencil
@@ -453,7 +461,6 @@ function RecordItemViewOnly({ keyName, value, type, domain, account }) {
 
 function RecordItem(props) {
   const { canEdit } = props
-
   if (canEdit) return <RecordItemEditable {...props} />
 
   return <RecordItemViewOnly {...props} />
