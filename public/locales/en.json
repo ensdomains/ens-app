@@ -35,7 +35,10 @@
     },
     "renew": {
       "button": "Renew Selected",
-      "confirm": ["The following names:", "will be renewed for "],
+      "confirm": [
+        "The following names:",
+        "will be renewed for "
+      ],
       "confirmButton": "Renew",
       "year": "{{count}} year",
       "year_plural": "{{count}} years"
@@ -81,7 +84,12 @@
     "notmigrated": "not migrated"
   },
   "dns": {
-    "breadcrumbs": ["ENABLE DNSSEC", "ADD TEXT", "SUBMIT PROOF", "MANAGE NAME"],
+    "breadcrumbs": [
+      "ENABLE DNSSEC",
+      "ADD TEXT",
+      "SUBMIT PROOF",
+      "MANAGE NAME"
+    ],
     "dnsowner": "DNS Owner",
     "steps": {
       "addtext": {
@@ -107,7 +115,7 @@
     "viewinmanager": "View in Manager"
   },
   "favourites": {
-    "favouriteTitle": "Favourite Top Level Domains",
+    "favouriteTitle": "Favourite Domains",
     "nofavouritesDomains": {
       "text": "To add names to favourites, click the heart icon next to any desired name.",
       "title": "No names have been saved."
@@ -116,7 +124,7 @@
       "text": "To add names to favourites, click the heart icon next to any desired name.",
       "title": "No Subdomains have been saved."
     },
-    "subdomainFavouriteTitle": "Favourite Sub Domains"
+    "subdomainFavouriteTitle": "Favourite Subdomains"
   },
   "home": {
     "announcements": {
