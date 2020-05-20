@@ -178,7 +178,7 @@ const Uploadable = ({ startUploading, keyName, value }) => {
       <SecondaryAction>
         <StyledUpload
           onClick={startUploading}
-          data-testid={`edit-${keyName.toLowerCase()}`}
+          data-testid={`edit-${keyName.toLowerCase()}-temporal`}
         />
       </SecondaryAction>
     )
