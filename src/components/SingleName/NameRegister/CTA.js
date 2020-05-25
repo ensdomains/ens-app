@@ -133,8 +133,7 @@ function getCTA({
             price: new EthVal(`${price._hex}`)
               .toEth()
               .mul(ethUsdPrice)
-              .toFixed(2), // in wei, // in wei
-            referrer //
+              .toFixed(2) // in wei, // in wei
           })
           incrementStep()
         }}
@@ -203,7 +202,6 @@ const CTA = ({
 }) => {
   const { t } = useTranslation()
   const history = useHistory()
-  const referrer = useReferrer()
   const [txHash, setTxHash] = useState(undefined)
   return (
     <CTAContainer>
