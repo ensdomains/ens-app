@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { css } from 'emotion'
 import styled from '@emotion/styled'
 import { useQuery } from 'react-apollo'
 import { useTranslation, Trans } from 'react-i18next'
@@ -25,7 +26,7 @@ import Loader from '../Loader'
 import Banner from '../Banner'
 import Checkbox from '../Forms/Checkbox'
 import { SingleNameBlockies } from '../Blockies'
-import ExpiryNotificationItem from '../ExpiryNotification/ExpiryNotificationItem'
+import ExpiryNotifyDropdown from '../ExpiryNotificationModal/ExpiryNotifyDropdown'
 
 import warning from '../../assets/yellowwarning.svg'
 import close from '../../assets/close.svg'
@@ -251,16 +252,18 @@ export default function Address({
             setActiveSort={setActiveSort}
             url={url}
           />
-          <Sorting
-            activeSort={activeSort}
-            setActiveSort={setActiveSort}
-            activeFilter={domainType}
-          />
 
-          <ExpiryNotificationItem address={address} canEdit={true} />
+          <div
+            className={css`
+            display: flex;
+            flex-direction row; 
+            align-items: center; 
+            justify-content: flex-end;
+          `}
+          >
+            <ExpiryNotifyDropdown address={address} />
 
-          {domainType === 'registrant' && (
-            <>
+            {domainType === 'registrant' && (
               <RenewAll
                 years={years}
                 setYears={setYears}
@@ -272,6 +275,17 @@ export default function Address({
                 data={data}
                 refetch={refetch}
               />
+            )}
+          </div>
+
+          <Sorting
+            activeSort={activeSort}
+            setActiveSort={setActiveSort}
+            activeFilter={domainType}
+          />
+
+          {domainType === 'registrant' && (
+            <>
               <SelectAll>
                 <Checkbox
                   testid="checkbox-renewall"

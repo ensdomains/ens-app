@@ -455,6 +455,7 @@ const Editable = ({
                           margin-right: 20px;
                         `}
                         name={domain.name}
+                        owner={domain.owner}
                         startDatetime={moment(value)
                           .utc()
                           .subtract(30, 'days')}

@@ -50,6 +50,7 @@
     "Address": "Address",
     "Content": "Content",
     "Controller": "Controller",
+    "email": "Email",
     "Expiration Date": "Expiration Date",
     "Resolver": "Resolver",
     "about": "About",
@@ -119,7 +120,7 @@
     "subdomainFavouriteTitle": "Favourite Sub Domains"
   },
   "expiry": {
-    "notify": "Renewal Reminder"
+    "reminder": "Set Renewal Reminder"
   },
   "home": {
     "announcements": {
