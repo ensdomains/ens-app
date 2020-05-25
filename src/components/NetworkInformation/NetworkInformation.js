@@ -36,8 +36,6 @@ const Blockies = styled(UnstyledBlockies)`
 
 const Avatar = styled('img')`
   width: 48px;
-  height: 48px;
-  border-radius: 50%;
   position: absolute;
   left: 10px;
   top: 10px;
