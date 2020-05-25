@@ -9,7 +9,6 @@ import EthVal from 'ethval'
 
 import { trackReferral } from '../../../utils/analytics'
 import { COMMIT, REGISTER } from '../../../graphql/mutations'
-import { useReferrer } from '../../hooks'
 
 import Tooltip from 'components/Tooltip/Tooltip'
 import PendingTx from '../../PendingTx'
@@ -53,7 +52,6 @@ function getCTA({
   readOnly,
   price,
   history,
-  referrer,
   t,
   ethUsdPrice
 }) {
@@ -219,7 +217,6 @@ const CTA = ({
         readOnly,
         price,
         history,
-        referrer,
         t,
         ethUsdPrice
       })}

@@ -58,9 +58,8 @@ export const trackReferral = async ({
   price // in wei
 }) => {
   const mainnet = await isMainnet()
-
+  const referrer = getUtm()
   function track() {
-    const referrer = getUtm()
     ReactGA.event({
       category: 'referral',
       action: `${type} domain`,
