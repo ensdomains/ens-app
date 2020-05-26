@@ -13,9 +13,11 @@ import GlobalState from '../../globalState'
 import Loader from '../Loader'
 import Modal from '../Modal/Modal'
 import mq from 'mediaQuery'
-import QuestionMark from '../Icons/QuestionMark'
+import { ReactComponent as Email } from '../Icons/Email.svg'
 import TruncatedAddress from './TruncatedAddress'
 
+const BUILDHUB_LINK =
+  'https://buidlhub.com/?utm_source=ens&utm_medium=link&utm_campaign=reminder'
 const EXPIRY_NOTIFICATION_MODAL_NAME = 'buidlhub-expiry-notification'
 const INPUT_NAME = 'buidlhub-email-input'
 
@@ -52,8 +54,11 @@ const LabelComponent = ({ address, name }) => {
           font-weight: 200;
         `}
       >
-        BUIDLHub checks if address <TruncatedAddress address={address} /> has
-        expiring names within 30 days and sends you a reminder email every week.
+        <a href={BUILDHUB_LINK} target="_blank" rel="noopener noreferrer">
+          BUIDLHub
+        </a>{' '}
+        checks if address <TruncatedAddress address={address} /> has expiring
+        names within 30 days and sends you a reminder email every week.
         <label
           htmlFor={name}
           className={css`
@@ -65,7 +70,7 @@ const LabelComponent = ({ address, name }) => {
         </label>
       </div>
       <ModalIconContainer>
-        <QuestionMark />
+        <Email />
       </ModalIconContainer>
     </>
   )
