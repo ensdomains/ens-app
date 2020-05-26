@@ -342,9 +342,11 @@ describe('Name detail view', () => {
     cy.visit(`${NAME_ROOT}/abittooawesome.eth`)
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
-      cy.getByTestId('edit-content', { exact: false, timeout: 10000 }).click({
-        force: true
-      })
+      cy.getByTestId('edit-content', { exact: false, timeout: 10000 })
+        .scrollIntoView()
+        .click({
+          force: true
+        })
       cy.getByPlaceholderText('Enter a content hash', {
         timeout: 10000,
         exact: false

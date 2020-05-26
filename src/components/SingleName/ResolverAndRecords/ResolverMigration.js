@@ -8,6 +8,7 @@ import PendingTx from '../../PendingTx'
 import Button from '../../Forms/Button'
 import mq from 'mediaQuery'
 import ErrorModal from 'components/ErrorModal'
+import CopyToClipBoard from '../../CopyToClipboard/'
 
 const MigrateItem = styled(DetailsItem)`
   position: relative;
@@ -26,12 +27,9 @@ const MigrateButton = styled(Button)`
 `
 
 const MigrateAction = styled('div')`
+  margin-left: 0;
   ${mq.small`
-    margin-top: 0;
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translate(0, -65%);
+    margin-left: auto
   `}
 `
 
@@ -89,7 +87,10 @@ export default function MigrateResolver({ value, name, refetch, isOwner }) {
         </SVG>
         Resolver
       </MigrateKey>
-      <MigrateValue editable>{value}</MigrateValue>
+      <MigrateValue editable>
+        {value}
+        <CopyToClipBoard iconColour="#f5a623" />
+      </MigrateValue>
       <MigrateAction>
         {pending1 &&
         pending2 &&

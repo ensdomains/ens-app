@@ -39,8 +39,11 @@ import RegistryMigration from './RegistryMigration'
 import ReleaseDeed from './ReleaseDeed'
 
 const Details = styled('section')`
-  padding: 40px;
+  padding: 20px;
   transition: 0.4s;
+  ${mq.small`
+    padding: 40px;
+  `}
 `
 
 const Loader = styled(DefaultLoader)`
@@ -293,6 +296,7 @@ function DetailsContainer({
               mutation={isRegistrant ? RECLAIM : SET_OWNER}
               refetch={refetch}
               confirm={true}
+              copyToClipboard={true}
             />
           </>
         ) : domain.isDNSRegistrar ? (
@@ -370,6 +374,7 @@ function DetailsContainer({
             mutation={isOwnerOfParent ? SET_SUBNODE_OWNER : SET_OWNER}
             refetch={refetch}
             confirm={true}
+            copyToClipboard={true}
           />
         )}
         {/* To be replaced with a logic a function to detect dnsregistrar */}

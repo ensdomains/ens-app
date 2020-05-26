@@ -358,7 +358,6 @@ const Editable = ({
   const [years, setYears] = useState(1)
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
-  const referrer = queryParams.get('utm_source')
 
   const { price: ethUsdPrice, loading: ethUsdPriceLoading } = useEthPrice(
     keyName === 'Expiration Date'
@@ -399,8 +398,7 @@ const Editable = ({
             price: new EthVal(`${getRentPrice._hex}`)
               .toEth()
               .mul(ethUsdPrice)
-              .toFixed(2), // in wei, // in wei
-            referrer
+              .toFixed(2) // in wei, // in wei
           })
         }
       }}

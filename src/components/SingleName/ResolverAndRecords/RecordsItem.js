@@ -25,6 +25,7 @@ import Bin from '../../Forms/Bin'
 import { SaveCancel, SaveCancelSwitch } from '../SaveCancel'
 import DefaultPendingTx from '../../PendingTx'
 import DetailsItemInput from '../DetailsItemInput'
+import CopyToClipBoard from '../../CopyToClipboard/'
 import { useEditable } from '../../hooks'
 
 const AddressInput = styled(DefaultAddressInput)`
@@ -37,6 +38,9 @@ export const RecordsItem = styled(DetailsItem)`
   display: block;
   padding: 20px;
   flex-direction: column;
+   ${mq.small`
+    align-items: flex-start;
+  `}
 
   background: ${({ editing }) => (editing ? '#F0F6FA' : 'white')};
   ${mq.medium`
@@ -47,6 +51,7 @@ export const RecordsItem = styled(DetailsItem)`
 
 export const RecordsContent = styled('div')`
   display: grid;
+  width: 100%;
   justify-content: flex-start;
   align-items: center;
   position: relative;
@@ -111,18 +116,26 @@ const EditRecord = styled('div')`
 `
 
 const Action = styled('div')`
-  position: absolute;
-  right: 10px;
-  top: 0;
+  margin-left: 0;
+  ${mq.small`
+    margin-left: auto;
+  `};
 `
 
 const SecondaryAction = styled('div')`
-  position: absolute;
-  right: 44px;
-  top: 0;
+  margin-right: 10px;
 `
 
-const ActionContainer = styled('div')``
+const ActionContainer = styled('div')`
+  display: flex;
+  margin-left: 0;
+  margin-top: 10px;
+  align-self: flex-end;
+  ${mq.small`
+    margin-top: 0;
+    margin-left: auto;
+  `};
+`
 
 const PendingTx = styled(DefaultPendingTx)`
   position: absolute;
@@ -165,7 +178,7 @@ const Uploadable = ({ startUploading, keyName, value }) => {
       <SecondaryAction>
         <StyledUpload
           onClick={startUploading}
-          data-testid={`edit-${keyName.toLowerCase()}`}
+          data-testid={`edit-upload-temporal`}
         />
       </SecondaryAction>
     )
@@ -236,6 +249,7 @@ const RecordItemEditable = ({
                     contentType={domain.contentType}
                   />
                 )}
+                <CopyToClipBoard value={value} />
               </RecordsValue>
 
               {pending && !confirmed && txHash ? (
@@ -279,14 +293,13 @@ const RecordItemEditable = ({
                     />
                   ) : (
                     <>
-                      <Actionable
-                        startEditing={startEditing}
+                      <Uploadable
+                        startUploading={startUploading}
                         keyName={keyName}
                         value={value}
                       />
-
-                      <Uploadable
-                        startUploading={startUploading}
+                      <Actionable
+                        startEditing={startEditing}
                         keyName={keyName}
                         value={value}
                       />
@@ -429,6 +442,7 @@ function RecordItemViewOnly({ keyName, value, type, domain, account }) {
           ) : (
             <ContentHashLink value={value} contentType={contentType} />
           )}
+          <CopyToClipBoard value={value} />
         </RecordsValue>
         <Action>
           <Pencil
@@ -447,7 +461,6 @@ function RecordItemViewOnly({ keyName, value, type, domain, account }) {
 
 function RecordItem(props) {
   const { canEdit } = props
-
   if (canEdit) return <RecordItemEditable {...props} />
 
   return <RecordItemViewOnly {...props} />
