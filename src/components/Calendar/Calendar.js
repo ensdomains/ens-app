@@ -28,7 +28,13 @@ const CalendarButton = props => (
   </Button>
 )
 
-function CalendarInvite({ startDatetime, type = '', name, owner, noMargin }) {
+function CalendarInvite({
+  startDatetime,
+  type = '',
+  name,
+  registrant,
+  noMargin
+}) {
   const { t } = useTranslation()
   const endDatetime = startDatetime.clone().add(2, 'hours')
   const duration = moment.duration(endDatetime.diff(startDatetime)).asHours()
@@ -56,7 +62,7 @@ function CalendarInvite({ startDatetime, type = '', name, owner, noMargin }) {
   // library, the Dropdown component was extend to support rendering
   // additional elements from appendChildren & prependChildren props.
   const expiryNotificationLink = (
-    <EmailNotifyLink key="email" domainName={name} address={owner}>
+    <EmailNotifyLink key="email" domainName={name} address={registrant}>
       {t('c.email')}
     </EmailNotifyLink>
   )
