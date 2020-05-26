@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-// import { motion, AnimatePresence } from 'framer-motion'
 import styled from '@emotion/styled'
 import { CalendarButton } from '../Calendar/Calendar'
 import Dropdown from '../Calendar/Dropdown'

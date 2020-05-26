@@ -45,8 +45,6 @@ const FormComponent = styled('form')`
 `
 
 const LabelComponent = ({ address, name }) => {
-  // const { t } = useTranslation()
-
   return (
     <>
       <div

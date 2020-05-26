@@ -53,13 +53,13 @@
     "Address": "Address",
     "Content": "Content",
     "Controller": "Controller",
-    "email": "Email",
     "Expiration Date": "Expiration Date",
     "Resolver": "Resolver",
     "about": "About",
     "cancel": "Cancel",
     "claim": "Claim",
     "edit": "Edit",
+    "email": "Email",
     "expires": "Expires",
     "favourites": "Favourites",
     "learnmore": "Learn More",
@@ -115,6 +115,9 @@
     },
     "viewinmanager": "View in Manager"
   },
+  "expiry": {
+    "reminder": "Remind me"
+  },
   "favourites": {
     "favouriteTitle": "Favourite Domains",
     "nofavouritesDomains": {
@@ -126,9 +129,6 @@
       "title": "No Subdomains have been saved."
     },
     "subdomainFavouriteTitle": "Favourite Subdomains"
-  },
-  "expiry": {
-    "reminder": "Set Renewal Reminder"
   },
   "home": {
     "announcements": {
