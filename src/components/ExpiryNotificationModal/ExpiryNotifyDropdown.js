@@ -15,18 +15,18 @@ export default function ExpiryNotifyDropdown({ address }) {
   const [showDropdown, setShowDropdown] = useState(false)
   const { t } = useTranslation()
 
+  const handleClick = e => {
+    setShowDropdown(show => !show)
+  }
+
   return (
     <ExpiryNotifyDropdownContainer>
-      <CalendarButton onClick={() => setShowDropdown(show => !show)}>
+      <CalendarButton onClick={handleClick}>
         {t('expiry.reminder')}
       </CalendarButton>
       {showDropdown && (
         <Dropdown>
-          <EmailNotifyLink
-            onClick={() => setShowDropdown(!showDropdown)}
-            key="email"
-            address={address}
-          >
+          <EmailNotifyLink onClick={handleClick} key="email" address={address}>
             {t('c.email')}
           </EmailNotifyLink>
         </Dropdown>
