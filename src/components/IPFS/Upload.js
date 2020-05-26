@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Dropzone from './Dropzone'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import ipfsClient from 'ipfs-http-client'
 import { loggedIn, getToken } from './auth'
 import { getConfig, getDev } from './config'

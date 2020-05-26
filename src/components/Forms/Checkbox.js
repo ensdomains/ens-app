@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import Tick, { DoubleBorderTick } from './Tick'
 
 const CheckboxContainer = styled('div')`

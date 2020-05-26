@@ -1455,20 +1455,20 @@
   resolved "https://registry.yarnpkg.com/@emotion/sheet/-/sheet-0.9.4.tgz#894374bea39ec30f489bbfc3438192b9774d32e5"
   integrity sha512-zM9PFmgVSqBw4zL101Q0HrBVTGmpAxFZH/pYx/cjJT5advXguvcgjHFTCaIO3enL/xr89vK2bh0Mfyj9aa0ANA==
 
-"@emotion/styled-base@^10.0.15":
+"@emotion/styled/macro-base@^10.0.15":
   version "10.0.15"
-  resolved "https://registry.yarnpkg.com/@emotion/styled-base/-/styled-base-10.0.15.tgz#481dbfa5496259c8c64923fa24dfc9f456d83218"
+  resolved "https://registry.yarnpkg.com/@emotion/styled/macro-base/-/styled-base-10.0.15.tgz#481dbfa5496259c8c64923fa24dfc9f456d83218"
   dependencies:
     "@babel/runtime" "^7.4.3"
     "@emotion/is-prop-valid" "0.8.2"
     "@emotion/serialize" "^0.11.9"
     "@emotion/utils" "0.11.2"
 
-"@emotion/styled@^10.0.14", "@emotion/styled@^10.0.9":
+"@emotion/styled/macro@^10.0.14", "@emotion/styled/macro@^10.0.9":
   version "10.0.15"
-  resolved "https://registry.yarnpkg.com/@emotion/styled/-/styled-10.0.15.tgz#bc99b968bdbf491db7bc474bb90c8fcdbe0f2f87"
+  resolved "https://registry.yarnpkg.com/@emotion/styled/macro/-/styled-10.0.15.tgz#bc99b968bdbf491db7bc474bb90c8fcdbe0f2f87"
   dependencies:
-    "@emotion/styled-base" "^10.0.15"
+    "@emotion/styled/macro-base" "^10.0.15"
     babel-plugin-emotion "^10.0.15"
 
 "@emotion/stylis@0.8.4":
@@ -1751,7 +1751,7 @@
   integrity sha512-Zjk03yTr9pRm/EwPr0g4OKg8RZqUnin1cudE8UzWfU1TY+b1jGP/fI3PWWNPJYokv9OZ+6GNy39qfn0LYMfABw==
   dependencies:
     "@emotion/core" "^10.0.14"
-    "@emotion/styled" "^10.0.14"
+    "@emotion/styled/macro" "^10.0.14"
     "@ensdomains/ui" "^3.0.14"
     ethers "^4.0.32"
     lodash "^4.17.13"
@@ -3583,7 +3583,7 @@ babel-plugin-macros@2.8.0:
     cosmiconfig "^6.0.0"
     resolve "^1.12.0"
 
-babel-plugin-macros@^2.0.0, babel-plugin-macros@^2.4.2:
+babel-plugin-macros@^2.0.0:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/babel-plugin-macros/-/babel-plugin-macros-2.6.1.tgz#41f7ead616fc36f6a93180e89697f69f51671181"
   dependencies:

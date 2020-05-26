@@ -6,7 +6,7 @@
   "dependencies": {
     "@0xproject/utils": "^0.7.3",
     "@emotion/core": "^10.0.9",
-    "@emotion/styled": "^10.0.9",
+    "@emotion/styled/macro": "^10.0.9",
     "@ensdomains/address-encoder": "^0.1.6",
     "@ensdomains/ens": "^0.4.4",
     "@ensdomains/ens-022": "npm:@ensdomains/ens@0.2.2",
@@ -98,7 +98,6 @@
   "devDependencies": {
     "@ensdomains/mock": "2.0.18",
     "apollo-client-mock": "0.0.8",
-    "babel-plugin-macros": "^2.4.2",
     "cypress": "4.5.0",
     "cypress-pipe": "^1.5.0",
     "cypress-testing-library": "^2.3.4",

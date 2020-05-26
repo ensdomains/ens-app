@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { useLocation } from 'react-router-dom'
 import { css } from 'emotion'
 import moment from 'moment'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
 import { Mutation, Query, useQuery } from 'react-apollo'
 import PropTypes from 'prop-types'
@@ -356,8 +355,6 @@ const Editable = ({
   let duration
   let expirationDate
   const [years, setYears] = useState(1)
-  const location = useLocation()
-  const queryParams = new URLSearchParams(location.search)
 
   const { price: ethUsdPrice, loading: ethUsdPriceLoading } = useEthPrice(
     keyName === 'Expiration Date'
@@ -588,6 +585,7 @@ const Editable = ({
                     name: domain.name,
                     setYears,
                     ethUsdPrice,
+                    ethUsdPriceLoading,
                     duration,
                     expirationDate,
                     rentPriceLoading,
