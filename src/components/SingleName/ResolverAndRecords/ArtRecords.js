@@ -1,6 +1,6 @@
 import React from 'react'
 import { Query } from 'react-apollo'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 
 import Loader from '../../Loader'
 

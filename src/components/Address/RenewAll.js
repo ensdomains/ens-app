@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useMutation, useQuery } from 'react-apollo'
 import { motion, AnimatePresence } from 'framer-motion'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
 import EthVal from 'ethval'
 

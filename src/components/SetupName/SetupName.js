@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
 import mq from '../../mediaQuery'
 import { ReactComponent as BookPen } from '../Icons/BookPen.svg'

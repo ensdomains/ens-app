@@ -4,7 +4,7 @@ import { useTranslation, Trans } from 'react-i18next'
 
 import { MIGRATE_REGISTRY } from 'graphql/mutations'
 import { IS_CONTRACT_CONTROLLER } from 'graphql/queries'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import PendingTx from '../PendingTx'
 import { ExternalButtonLink } from '../Forms/Button'
 

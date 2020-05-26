@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import moment from 'moment'
 import { css } from 'emotion'
 import { useHistory } from 'react-router-dom'
