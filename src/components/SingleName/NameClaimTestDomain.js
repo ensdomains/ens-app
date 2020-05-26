@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation, Trans } from 'react-i18next'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { REGISTER_TESTDOMAIN } from '../../graphql/mutations'
 import { Mutation } from 'react-apollo'
 import Button from '../Forms/Button'

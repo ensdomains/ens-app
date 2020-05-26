@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 
 import favourite from '../HomePage/images/favourite.svg'
 import manage from '../HomePage/images/manage.svg'

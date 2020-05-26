@@ -1,4 +1,4 @@
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import mq from 'mediaQuery'
 
 export const H2 = styled('h2')`
