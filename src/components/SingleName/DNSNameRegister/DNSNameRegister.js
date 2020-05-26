@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react'
 import { useTranslation } from 'react-i18next'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { registerMachine, registerReducer } from './registerReducer'
 
 import Explainer from './Explainer'

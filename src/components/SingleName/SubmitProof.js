@@ -1,6 +1,6 @@
 import React from 'react'
 import { Mutation } from 'react-apollo'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { useEditable } from '../hooks'
 import { SUBMIT_PROOF } from '../../graphql/mutations'
 

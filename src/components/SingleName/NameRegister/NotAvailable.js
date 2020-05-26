@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 
 const NotAvailableContainer = styled('div')`
   padding: 30px 40px;

@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { getPlaceholder } from '../../utils/records'
 import DefaultInput from '../Forms/Input'
 

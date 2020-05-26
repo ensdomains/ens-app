@@ -2,7 +2,7 @@ import React, { Fragment, Component } from 'react'
 import { findDOMNode } from 'react-dom'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import ReactTransitionGroup from 'react-transition-group-plus'
 import { TweenMax, TimelineMax, Linear, Sine } from 'gsap/umd/TweenMax'
 

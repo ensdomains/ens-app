@@ -1,5 +1,5 @@
 import React, { useState, useReducer } from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
 import { Query, useQuery } from 'react-apollo'
 

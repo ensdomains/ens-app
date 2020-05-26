@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import Button from '../Forms/Button'
 import warning from '../../assets/warning.svg'
 import write from '../../assets/Write.svg'

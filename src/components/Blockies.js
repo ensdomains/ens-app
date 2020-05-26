@@ -1,7 +1,7 @@
 import React from 'react'
 import createIcon from '../utils/blockies'
 import PropTypes from 'prop-types'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 
 const BlockiesContainer = styled('span')``
 
