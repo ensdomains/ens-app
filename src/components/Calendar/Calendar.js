@@ -51,6 +51,10 @@ function CalendarInvite({ startDatetime, type = '', name, owner, noMargin }) {
       : ''}
   `
 
+  // AddToCalendarHOC does not allow passing in additional arbitary links
+  // to render in the dropdown list. Instead of refactoring the external
+  // library, the Dropdown component was extend to support rendering
+  // additional elements from appendChildren & prependChildren props.
   const expiryNotificationLink = (
     <EmailNotifyLink key="email" domainName={name} address={owner}>
       {t('c.email')}
