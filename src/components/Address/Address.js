@@ -26,7 +26,7 @@ import Loader from '../Loader'
 import Banner from '../Banner'
 import Checkbox from '../Forms/Checkbox'
 import { SingleNameBlockies } from '../Blockies'
-import ExpiryNotifyDropdown from '../ExpiryNotificationModal/ExpiryNotifyDropdown'
+import ExpiryNotifyDropdown from '../ExpiryNotification/ExpiryNotifyDropdown'
 
 import warning from '../../assets/yellowwarning.svg'
 import close from '../../assets/close.svg'

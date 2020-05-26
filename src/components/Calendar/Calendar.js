@@ -7,7 +7,7 @@ import styled from '@emotion/styled'
 import { useTranslation } from 'react-i18next'
 import { css } from 'emotion'
 import calendar from '../../assets/calendar.svg'
-import EmailNotifyLink from '../ExpiryNotificationModal/EmailNotifyLink'
+import EmailNotifyLink from '../ExpiryNotification/EmailNotifyLink'
 
 const Button = styled(DefaultButton)`
   border: none;
