@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import GlobalState from '../../globalState'
 import mq from 'mediaQuery'
 

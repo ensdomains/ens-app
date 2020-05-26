@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { Link } from 'react-router-dom'
 
 import mq from 'mediaQuery'

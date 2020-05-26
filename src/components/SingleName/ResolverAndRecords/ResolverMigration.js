@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { useMutation } from 'react-apollo'
 import { useEditable } from 'components/hooks'
 import { MIGRATE_RESOLVER } from 'graphql/mutations'

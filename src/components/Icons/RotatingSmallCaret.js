@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { ReactComponent as DefaultSmallCaret } from './SmallCaret.svg'
 
 const RotatingSmallCaretSide = styled(DefaultSmallCaret)`

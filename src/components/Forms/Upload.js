@@ -1,4 +1,4 @@
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { ReactComponent as Upload } from '../Icons/Upload.svg'
 
 const StyledUpload = styled(Upload)`
