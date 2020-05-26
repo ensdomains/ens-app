@@ -1289,8 +1289,10 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@buidlhub/buidlhub-ens-notifications@file:/home/mike/projects/buidlhub-ens-notifications/":
-  version "1.0.0"
+"@buidlhub/buidlhub-ens-notifications@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@buidlhub/buidlhub-ens-notifications/-/buidlhub-ens-notifications-1.0.1.tgz#e02cf68a682646baa9745b7c7afdbcfc5ee4ffd5"
+  integrity sha512-H3sVQwrEE945WnTI+SiAvwTfvLl2fGvrMkbeOnf6DRuEm/n9n7QFinknKY61/uS00UVdRD8xpNMfgIr7iQ5/MQ==
 
 "@cnakazawa/watch@^1.0.3":
   version "1.0.3"
