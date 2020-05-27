@@ -43,7 +43,7 @@ const ActionsContainerComponent = styled('div')`
 
 const EmailInputComponent = styled('input')`
   margin: 1em 0;
-  padding: 2px 10px;
+  padding: 5px 10px;
   width: auto;
 `
 
