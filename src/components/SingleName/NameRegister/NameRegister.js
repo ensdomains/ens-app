@@ -22,9 +22,15 @@ import NotAvailable from './NotAvailable'
 import Pricer from '../Pricer'
 import EthVal from 'ethval'
 import { formatDate } from 'utils/dates'
+import DefaultInput from '../../Forms/Input'
 
 const NameRegisterContainer = styled('div')`
   padding: 20px 40px;
+`
+
+const Input = styled(DefaultInput)`
+  display: inline-block;
+  width: 8em;
 `
 
 const PremiumWarning = styled('div')`
@@ -32,6 +38,10 @@ const PremiumWarning = styled('div')`
   color: white;
   padding: 1em;
   margin-bottom: 1em;
+`
+
+const WaitUntil = styled('span')`
+  color: red;
 `
 
 const NameRegister = ({
@@ -53,6 +63,7 @@ const NameRegister = ({
   const [secondsPassed, setSecondsPassed] = useState(0)
   const [timerRunning, setTimerRunning] = useState(false)
   const { loading: ethUsdPriceLoading, price: ethUsdPrice } = useEthPrice()
+  const [premium, setPremium] = useState(0)
 
   useInterval(
     () => {
@@ -98,7 +109,7 @@ const NameRegister = ({
   } = useQuery(GET_TIME_UNTIL_PREMIUM, {
     variables: {
       expires: expiryTime,
-      amount: 0
+      amount: premium
     }
   })
   const releasedDate = moment(expiryTime * 1000).add(90, 'days')
@@ -116,6 +127,17 @@ const NameRegister = ({
   const waitPercentComplete = (secondsPassed / waitTime) * 100
 
   if (!registrationOpen) return <NotAvailable domain={domain} />
+  console.log({ premiumInEth, premium })
+  const handleChange = evt => {
+    const { name, value } = evt.target
+    window.EthVal = EthVal
+    if (!isNaN(value) && parseFloat(premiumInEth) >= parseFloat(premium)) {
+      console.log({ value })
+      const valueInWei = new window.EthVal(value, 'eth').toWei().toString(16)
+      console.log('*** setPremium', { premiumInEth, premium, valueInWei })
+      setPremium(valueInWei)
+    }
+  }
 
   return (
     <NameRegisterContainer>
@@ -141,10 +163,12 @@ const NameRegister = ({
             premium which becomes lower with time.
           </p>
           <ul>
-            <li>The current premium is ETH {premiumInEth}.</li>
+            <li>The current premium is {premiumInEth} ETH.</li>
             <li>
-              To have no premium, please wait till {formatDate(zeroPremiumDate)}
-              .
+              To have{' '}
+              <Input wide={false} placeholder={0} onChange={handleChange} /> ETH
+              premium, please wait till{' '}
+              <WaitUntil>{formatDate(zeroPremiumDate)}</WaitUntil>.
             </li>
           </ul>
         </PremiumWarning>
