@@ -254,6 +254,18 @@ export const GET_RENT_PRICES = gql`
   }
 `
 
+export const GET_PREMIUM = gql`
+  query getPremium($name: String, $expires: Number, $duration: Number) {
+    getPremium(name: $name, expires: $expires, duration: $duration) @client
+  }
+`
+
+export const GET_TIME_UNTIL_PREMIUM = gql`
+  query getTimeUntilPremium($expires: Number, $amount: Number) {
+    getTimeUntilPremium(expires: $expires, amount: $amount) @client
+  }
+`
+
 export const GET_MINIMUM_COMMITMENT_AGE = gql`
   query getMinimumCommitmentAge {
     getMinimumCommitmentAge @client

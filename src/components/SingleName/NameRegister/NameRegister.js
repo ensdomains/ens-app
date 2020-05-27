@@ -2,8 +2,13 @@ import React, { useState, useReducer } from 'react'
 import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
 import { Query, useQuery } from 'react-apollo'
-
-import { GET_MINIMUM_COMMITMENT_AGE, GET_RENT_PRICE } from 'graphql/queries'
+import moment from 'moment'
+import {
+  GET_MINIMUM_COMMITMENT_AGE,
+  GET_RENT_PRICE,
+  GET_PREMIUM,
+  GET_TIME_UNTIL_PREMIUM
+} from 'graphql/queries'
 import { useInterval, useEthPrice } from 'components/hooks'
 import { registerMachine, registerReducer } from './registerReducer'
 import { sendNotification } from './notification'
@@ -15,9 +20,18 @@ import CTA from './CTA'
 import Progress from './Progress'
 import NotAvailable from './NotAvailable'
 import Pricer from '../Pricer'
+import EthVal from 'ethval'
+import { formatDate } from 'utils/dates'
 
 const NameRegisterContainer = styled('div')`
   padding: 20px 40px;
+`
+
+const PremiumWarning = styled('div')`
+  background-color: #f5a623;
+  color: white;
+  padding: 1em;
+  margin-bottom: 1em;
 `
 
 const NameRegister = ({
@@ -66,6 +80,36 @@ const NameRegister = ({
     }
   )
 
+  const expiryTime = domain.expiryTime && domain.expiryTime.getTime() / 1000
+  const { data: { getPremium } = {}, loading: getPremiumLoading } = useQuery(
+    GET_PREMIUM,
+    {
+      variables: {
+        name: domain.label,
+        expires: expiryTime,
+        duration
+      }
+    }
+  )
+
+  const {
+    data: { getTimeUntilPremium } = {},
+    loading: getTimeUntilPremiumLoading
+  } = useQuery(GET_TIME_UNTIL_PREMIUM, {
+    variables: {
+      expires: expiryTime,
+      amount: 0
+    }
+  })
+  const releasedDate = moment(expiryTime * 1000).add(90, 'days')
+  let zeroPremiumDate, premiumInEth
+  if (getTimeUntilPremium) {
+    zeroPremiumDate = new Date(getTimeUntilPremium.toNumber() * 1000)
+  }
+  if (getPremium) {
+    premiumInEth = new EthVal(getPremium.toString()).toEth().toString()
+  }
+
   const oneMonthInSeconds = 2419200
   const twentyEightDaysInYears = oneMonthInSeconds / yearInSeconds
   const isAboveMinDuration = parsedYears > twentyEightDaysInYears
@@ -87,7 +131,26 @@ const NameRegister = ({
           price={getRentPrice}
         />
       )}
-
+      {releasedDate && getTimeUntilPremium && getPremium ? (
+        <PremiumWarning>
+          <h2>This name is currently sold at premium</h2>
+          <p>
+            This is because this name was just released on{' '}
+            {formatDate(releasedDate)}. To prevent people rashing into buying
+            names with high gas price. We sell newly released names with higher
+            premium which becomes lower with time.
+          </p>
+          <ul>
+            <li>The current premium is ETH {premiumInEth}.</li>
+            <li>
+              To have no premium, please wait till {formatDate(zeroPremiumDate)}
+              .
+            </li>
+          </ul>
+        </PremiumWarning>
+      ) : (
+        ''
+      )}
       <Explainer
         step={step}
         waitTime={waitTime}
