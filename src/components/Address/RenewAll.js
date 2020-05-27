@@ -31,10 +31,12 @@ const ActionsContainer = styled('div')`
   ${mq.small`
     align-items: center; 
     flex-direction: row;
-    justify-content: flex-end;
     > * { 
       margin: 0 0 0 20px;
     }
+  `}
+  ${mq.large`
+    justify-content: flex-end;
   `}
 `
 

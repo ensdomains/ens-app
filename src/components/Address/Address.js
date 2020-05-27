@@ -62,13 +62,13 @@ const Controls = styled('div')`
   grid-template-rows: auto;
   grid-template-areas:
     'filters'
-    'sorting'
     'actions'
     'renew'
+    'sorting'
     'selectall';
   grid-gap: 20px 10px;
 
-  ${mq.small`
+  ${mq.large`
     margin: 20px 30px;
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
