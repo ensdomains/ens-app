@@ -1,5 +1,4 @@
 import styled from '@emotion/styled'
-import { css } from 'emotion'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { EmailComponent } from '@buidlhub/buidlhub-ens-notifications'
@@ -15,6 +14,21 @@ import Modal from '../Modal/Modal'
 import mq from 'mediaQuery'
 import { ReactComponent as Email } from '../Icons/Email.svg'
 import TruncatedAddress from './TruncatedAddress'
+
+/**
+ * This file encapsulates the majority of the BUIDLHub
+ * email notification feature introduced to ens-app.
+ *
+ * The following collection of styled components are
+ * designed to be passed into the EmailComponent provided
+ * by the @buidlhub/buidlhub-ens-notifications package.
+ *
+ * The approach of constructing a series of styled components
+ * that are passed into the EmailComponent HOC was taken to
+ * provided flexibility in adjusting the style / behavior
+ * of this feature as needed.
+ *
+ */
 
 const BUILDHUB_LINK =
   'https://buidlhub.com/?utm_source=ens&utm_medium=link&utm_campaign=reminder'
