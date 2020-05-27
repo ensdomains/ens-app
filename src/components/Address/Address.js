@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { css } from 'emotion'
 import styled from '@emotion/styled'
 import { useQuery } from 'react-apollo'
 import { useTranslation, Trans } from 'react-i18next'
@@ -26,7 +25,6 @@ import Loader from '../Loader'
 import Banner from '../Banner'
 import Checkbox from '../Forms/Checkbox'
 import { SingleNameBlockies } from '../Blockies'
-import ExpiryNotifyDropdown from '../ExpiryNotification/ExpiryNotifyDropdown'
 
 import warning from '../../assets/yellowwarning.svg'
 import close from '../../assets/close.svg'
@@ -65,6 +63,7 @@ const Controls = styled('div')`
   grid-template-areas:
     'filters'
     'sorting'
+    'actions'
     'renew'
     'selectall';
   grid-gap: 20px 10px;
@@ -73,9 +72,9 @@ const Controls = styled('div')`
     margin: 20px 30px;
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
-    'filters sorting'
+    'filters actions'
     'renew renew'
-    '. selectall'
+    'sorting selectall'
     ;
   `}
 `
@@ -253,31 +252,20 @@ export default function Address({
             url={url}
           />
 
-          <div
-            className={css`
-            display: flex;
-            flex-direction row; 
-            align-items: center; 
-            justify-content: flex-end;
-          `}
-          >
-            <ExpiryNotifyDropdown address={address} />
-
-            {domainType === 'registrant' && (
-              <RenewAll
-                years={years}
-                setYears={setYears}
-                activeFilter={domainType}
-                selectedNames={selectedNames}
-                setCheckedBoxes={setCheckedBoxes}
-                setSelectAll={setSelectAll}
-                allNames={allNames}
-                data={data}
-                refetch={refetch}
-              />
-            )}
-          </div>
-
+          {domainType === 'registrant' && (
+            <RenewAll
+              years={years}
+              setYears={setYears}
+              activeFilter={domainType}
+              selectedNames={selectedNames}
+              setCheckedBoxes={setCheckedBoxes}
+              setSelectAll={setSelectAll}
+              allNames={allNames}
+              address={address}
+              data={data}
+              refetch={refetch}
+            />
+          )}
           <Sorting
             activeSort={activeSort}
             setActiveSort={setActiveSort}
