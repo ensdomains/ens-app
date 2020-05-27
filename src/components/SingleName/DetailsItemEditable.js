@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { css } from 'emotion'
 import moment from 'moment'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
 import { Mutation, Query, useQuery } from 'react-apollo'
 import PropTypes from 'prop-types'
@@ -358,7 +358,6 @@ const Editable = ({
   const [years, setYears] = useState(1)
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
-  const referrer = queryParams.get('utm_source')
 
   const { price: ethUsdPrice, loading: ethUsdPriceLoading } = useEthPrice(
     keyName === 'Expiration Date'
@@ -399,8 +398,7 @@ const Editable = ({
             price: new EthVal(`${getRentPrice._hex}`)
               .toEth()
               .mul(ethUsdPrice)
-              .toFixed(2), // in wei, // in wei
-            referrer
+              .toFixed(2) // in wei, // in wei
           })
         }
       }}

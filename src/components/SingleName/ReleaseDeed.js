@@ -1,7 +1,7 @@
 import React from 'react'
 import { useMutation } from 'react-apollo'
 import { RELEASE_DEED } from 'graphql/mutations'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import PendingTx from '../PendingTx'
 import { ExternalButtonLink } from '../Forms/Button'
 

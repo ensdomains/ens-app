@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { useMutation, useQuery, Mutation } from 'react-apollo'
 import TextRecordLink from '../../../Links/TextRecordLink'
 import mq from 'mediaQuery'

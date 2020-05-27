@@ -3,7 +3,7 @@ import AddToCalendarHOC from 'react-add-to-calendar-hoc'
 import Dropdown from './Dropdown'
 import DefaultButton from '../Forms/Button'
 import moment from 'moment'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { css } from 'emotion'
 import calendar from '../../assets/calendar.svg'
 

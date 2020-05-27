@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
 import { Mutation } from 'react-apollo'
 import { SUBMIT_PROOF } from '../../../graphql/mutations'

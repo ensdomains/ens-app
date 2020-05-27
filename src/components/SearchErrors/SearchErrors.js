@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { H2 } from '../Typography/Basic'
 import WarningDefault from '../Icons/Warning'
 import { ReactComponent as DefaultSmallCaret } from '../Icons/SmallCaret.svg'
