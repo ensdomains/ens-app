@@ -22,6 +22,17 @@ const EXPIRY_NOTIFICATION_MODAL_NAME = 'buidlhub-expiry-notification'
 const INPUT_NAME = 'buidlhub-email-input'
 
 // Custom components to match styling & use media queries
+const ActionsContainerComponent = styled('div')`
+  display: flex;
+  justify-content: flex-start;
+`
+
+const EmailInputComponent = styled('input')`
+  margin: 1em 0;
+  padding: 2px 10px;
+  width: auto;
+`
+
 const LoadingComponent = styled(Loader)`
   display: inline-block;
   margin: 0 10px;
@@ -30,42 +41,49 @@ const LoadingComponent = styled(Loader)`
 const ModalIconContainer = styled('div')`
   display: none;
   justify-self: end;
+  margin-top: -10px;
   ${mq.xLarge`
     display: block;
   `}
 `
 
+const MessageContainer = props => (
+  <>
+    <div className={props.className}>{props.children}</div>
+
+    <ModalIconContainer>
+      <Email />
+    </ModalIconContainer>
+  </>
+)
+
 const FormComponent = styled('form')`
   display: grid;
   grid-gap: 10px;
   grid-template-columns: 1fr;
+  font-weight: 200;
   ${mq.xLarge`
     grid-template-columns: 2fr 1fr;
   `}
 `
 
+const FormLabel = styled('label')`
+  display: block;
+  margin-top: 20px;
+`
+
 const LabelComponent = ({ address, name }) => {
   return (
     <>
-      <div
-        className={css`
-          font-weight: 200;
-        `}
-      >
+      <div>
         <a href={BUILDHUB_LINK} target="_blank" rel="noopener noreferrer">
           BUIDLHub
         </a>{' '}
         checks if address <TruncatedAddress address={address} /> has expiring
         names within 30 days and sends you a reminder email every week.
-        <label
-          htmlFor={name}
-          className={css`
-            display: block;
-            margin-top: 20px;
-          `}
-        >
+        <FormLabel htmlFor={name}>
           Enter email to receive email notifications.
-        </label>
+        </FormLabel>
       </div>
       <ModalIconContainer>
         <Email />
@@ -77,7 +95,6 @@ const LabelComponent = ({ address, name }) => {
 const buttonStyles = `
   margin: 5px;
   position: relative;
-  float: right;
 `
 
 const CancelComponent = styled(Button)`
@@ -109,8 +126,7 @@ const ExpiryNotificationModal = () => {
   const translation = {
     cancel: t(`c.cancel`),
     submit: t(`c.save`),
-    close: 'Close',
-    placeholder: 'Enter Email address',
+    placeholder: t(`expiryNotification.placeholder`),
     registerSuccess:
       'Please check your inbox to verify your email address. You will be redirected to BUIDLHub to manage your email notifications.'
   }
@@ -118,11 +134,13 @@ const ExpiryNotificationModal = () => {
   return (
     <Modal name={EXPIRY_NOTIFICATION_MODAL_NAME}>
       <EmailComponent
+        ActionsContainerComponent={ActionsContainerComponent}
         cancelComponent={CancelComponent}
-        // domainName={domainName}
+        emailInputComponent={EmailInputComponent}
         formComponent={FormComponent}
         labelComponent={LabelComponent}
         loadingComponent={LoadingComponent}
+        messageContainerComponent={MessageContainer}
         name={INPUT_NAME}
         onCancel={() => toggleModal({ name: EXPIRY_NOTIFICATION_MODAL_NAME })}
         publicAddress={address}
