@@ -72,7 +72,7 @@ function CalendarInvite({
     <AddToCalendar
       event={event}
       className={styles}
-      buttonText={t('expiry.reminder')}
+      buttonText={t('expiryNotification.reminder')}
       items={['Google', 'iCal']}
       dropdownProps={{
         prependChildren: [expiryNotificationLink]

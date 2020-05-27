@@ -115,7 +115,8 @@
     },
     "viewinmanager": "View in Manager"
   },
-  "expiry": {
+  "expiryNotification": {
+    "placeholder": "Enter Email address",
     "reminder": "Remind me"
   },
   "favourites": {
