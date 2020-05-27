@@ -5,7 +5,7 @@
   "homepage": "https://app.ens.domains",
   "dependencies": {
     "@0xproject/utils": "^0.7.3",
-    "@buidlhub/buidlhub-ens-notifications": "^1.0.1",
+    "@buidlhub/buidlhub-ens-notifications": "^1.0.3",
     "@emotion/core": "^10.0.9",
     "@emotion/styled": "^10.0.9",
     "@ensdomains/address-encoder": "^0.1.6",
