@@ -62,6 +62,7 @@ const Key = styled(RecordsKey)`
 const RecordsListItem = styled('div')`
   display: flex;
   flex-direction: column;
+  margin-bottom: 20px;
 
   ${mq.medium`
     flex-direction: row;
@@ -72,6 +73,7 @@ const KeyValuesContent = styled(RecordsContent)`
   display: grid;
   width: 100%;
   grid-template-columns: 1fr;
+  align-items: flex-start;
   overflow: hidden;
   ${mq.small`
     grid-template-columns: 150px 1fr;
