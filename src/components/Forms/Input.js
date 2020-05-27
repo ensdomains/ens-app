@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import tick from '../../assets/greenTick.svg'
 import warning from '../../assets/warning.svg'
 import yellowwarning from '../../assets/yellowwarning.svg'
@@ -53,7 +53,7 @@ const InputContainer = styled('div')`
     if (p.invalid || p.warning) {
       return `
         &:before {
-          background: url(${ p.warning ? yellowwarning : warning});
+          background: url(${p.warning ? yellowwarning : warning});
           content: '';
           height: 17px;
           width: 19px;

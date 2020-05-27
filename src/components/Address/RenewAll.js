@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import { useMutation, useQuery } from 'react-apollo'
 import { motion, AnimatePresence } from 'framer-motion'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
 import EthVal from 'ethval'
 
 import { RENEW_DOMAINS } from '../../graphql/mutations'
 import { GET_RENT_PRICES } from 'graphql/queries'
 import { yearInSeconds } from 'utils/dates'
-import { useEthPrice, useEditable, useReferrer } from '../hooks'
+import { useEthPrice, useEditable } from '../hooks'
 import { trackReferral } from '../../utils/analytics'
 import { refetchTilUpdated } from '../../utils/graphql'
 
@@ -68,8 +68,6 @@ export default function Renew({
 }) {
   let { t } = useTranslation()
   const { state, actions } = useEditable()
-  const referrer = useReferrer()
-
   const { editing, txHash, pending, confirmed } = state
 
   const { startEditing, stopEditing, startPending, setConfirmed } = actions
@@ -100,8 +98,7 @@ export default function Renew({
         price: new EthVal(`${getRentPrices._hex}`)
           .toEth()
           .mul(ethUsdPrice)
-          .toFixed(2), // in wei
-        referrer
+          .toFixed(2) // in wei
       })
     }
   })
