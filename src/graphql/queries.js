@@ -219,6 +219,20 @@ export const GET_REGISTRATIONS_SUBGRAPH = gql`
   }
 `
 
+export const GET_REGISTRATIONS_BY_IDS_SUBGRAPH = gql`
+  query getRegistrations($ids: [ID]) {
+    registrations(first: 1000, where: { domain_in: $ids }) {
+      expiryDate
+      domain {
+        name
+        owner {
+          id
+        }
+      }
+    }
+  }
+`
+
 export const GET_DOMAINS_SUBGRAPH = gql`
   query getDomains(
     $id: ID!

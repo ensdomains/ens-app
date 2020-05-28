@@ -4,13 +4,12 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
 import { SingleNameBlockies } from '../Blockies'
-import { formatDate, calculateIsExpiredSoon } from 'utils/dates'
+import { formatDate, calculateIsExpiredSoon, GRACE_PERIOD } from 'utils/dates'
 import Checkbox from '../Forms/Checkbox'
 import mq, { useMediaMin } from 'mediaQuery'
 import Tooltip from '../Tooltip/Tooltip'
 import QuestionMark from '../Icons/QuestionMark'
 import { checkIsDecrypted, truncateUndecryptedName } from '../../api/labels'
-export const GRACE_PERIOD = 86400 * 90
 
 const DomainLink = styled(Link)`
   display: grid;
@@ -77,6 +76,7 @@ export default function ChildDomainItem({
   setSelectAll,
   showBlockies = true
 }) {
+  console.log({ expiryDate })
   let { t } = useTranslation()
   const smallBP = useMediaMin('small')
   const isDecrypted = checkIsDecrypted(name)
