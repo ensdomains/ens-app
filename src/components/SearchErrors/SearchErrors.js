@@ -18,10 +18,13 @@ const errorData = {
       `You have either added a domain without a TLD such as .eth or you have added unsupported characters`
   },
   unsupported: {
-    short: searchTerm =>
-      `Domain tld unsupported. ${searchTerm
+    short: searchTerm => {
+      const tld = searchTerm
         .split('.')
-        .splice(-1, 1)} is not currently a support tld.`,
+        .splice(-1, 1)[0]
+        .toUpperCase()
+      return `${tld} is not currently a supported TLD.`
+    },
     long: searchTerm =>
       `We do not support every single domain. Support for future domains are planned in the future`
   },
