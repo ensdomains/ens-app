@@ -93,7 +93,6 @@ function Favourites() {
       variables: { ids }
     }
   )
-  console.log('*** ', { registrations, favourites })
   if (favourites.length === 0 || !registrations) {
     return <NoDomains type="domain" />
   }
@@ -105,9 +104,6 @@ function Favourites() {
       expiryDate: r.expiryDate
     }
   })
-
-  console.log('***2', { favourites, registrations, ids })
-  // console.log('***1', {data}, getNamehash(data.favourites[0].name))
 
   return (
     <FavouritesContainer data-testid="favourites-container">

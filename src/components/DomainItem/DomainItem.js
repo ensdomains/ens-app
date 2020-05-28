@@ -50,15 +50,18 @@ const DomainContainer = styled(Link)`
       : 'white'};
   border-radius: 6px;
   height: 65px;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  height: auto;
+  grid-template-columns: 1fr;
+  grid-gap: 10px;
   align-items: center;
   font-size: 22px;
   margin-bottom: 4px;
   transition: 0.2s all;
 
   ${mq.medium`
-    height: 90px
+    grid-template-columns: 1fr minmax(150px,350px) 50px;
+    grid-template-rows: 39px;
   `}
 
   &:hover {
@@ -173,8 +176,11 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
           isOwner = domain.owner.toLowerCase() === account.toLowerCase()
         }
         const percentDone = 0
+        // TODO: Refactor into seperate component
         let expiryDate, isExpiredSoon, isExpired, gracePeriodEndDate
-        if (domain.expiryDate) {
+        if (domain.expiryDate || domain.expiryTime) {
+          expiryDate =
+            domain.expiryDate || parseInt(domain.expiryTime.getTime() / 1000)
           isExpiredSoon = calculateIsExpiredSoon(expiryDate)
           isExpired = new Date() > new Date(parseInt(expiryDate * 1000))
           gracePeriodEndDate = new Date(
@@ -190,18 +196,21 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
             percentDone={percentDone}
           >
             <DomainName state={isOwner ? 'Yours' : domain.state}>
-              111{humaniseName(domain.name)}
+              {humaniseName(domain.name)}
             </DomainName>
-            <ExpiryDate isExpiredSoon={isExpiredSoon}>
-              {isExpired
-                ? `${t('singleName.expiry.gracePeriodEnds')} ${formatDate(
-                    gracePeriodEndDate
-                  )}`
-                : `${t('c.expires')} ${formatDate(
-                    parseInt(expiryDate * 1000)
-                  )}`}
-            </ExpiryDate>
-
+            {expiryDate ? (
+              <ExpiryDate isExpiredSoon={isExpiredSoon}>
+                {isExpired
+                  ? `${t('singleName.expiry.gracePeriodEnds')} ${formatDate(
+                      gracePeriodEndDate
+                    )}`
+                  : `${t('c.expires')} ${formatDate(
+                      parseInt(expiryDate * 1000)
+                    )}`}
+              </ExpiryDate>
+            ) : (
+              <span>&nbsp;</span>
+            )}
             <RightContainer>
               <Label domain={domain} isOwner={isOwner} />
               {isSubDomain && domain.state === 'Open' ? (

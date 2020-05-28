@@ -76,18 +76,17 @@ export default function ChildDomainItem({
   setSelectAll,
   showBlockies = true
 }) {
-  console.log({ expiryDate })
   let { t } = useTranslation()
   const smallBP = useMediaMin('small')
   const isDecrypted = checkIsDecrypted(name)
   let label = isDecrypted ? `${name}` : truncateUndecryptedName(name)
+  // TODO: Refactor into seperate component
+  let isExpiredSoon, isExpired, gracePeriodEndDate
   if (isMigrated === false)
     label = label + ` (${t('childDomainItem.notmigrated')})`
-  const isExpiredSoon = calculateIsExpiredSoon(expiryDate)
-  const isExpired = new Date() > new Date(parseInt(expiryDate * 1000))
-  const gracePeriodEndDate = new Date(
-    (parseInt(expiryDate) + GRACE_PERIOD) * 1000
-  )
+  isExpiredSoon = calculateIsExpiredSoon(expiryDate)
+  isExpired = new Date() > new Date(parseInt(expiryDate * 1000))
+  gracePeriodEndDate = new Date((parseInt(expiryDate) + GRACE_PERIOD) * 1000)
   return (
     <DomainLink
       showBlockies={showBlockies}
