@@ -85,7 +85,7 @@ const SelectAll = styled('div')`
   justify-content: flex-end;
   padding-right: 40px;
 
-  ${mq.small`
+  ${mq.large`
     padding-right: 10px;
   `}
 `
