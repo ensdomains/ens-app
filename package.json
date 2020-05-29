@@ -52,8 +52,7 @@
     "react-scripts": "3.4.0",
     "react-select": "^3.0.8",
     "react-tooltip": "^3.9.2",
-    "react-transition-group-plus": "^0.5.3",
-    "whatwg-fetch": "^3.0.0"
+    "react-transition-group-plus": "^0.5.3"
   },
   "scripts": {
     "start": "react-scripts start",
