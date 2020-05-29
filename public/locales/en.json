@@ -59,6 +59,7 @@
     "cancel": "Cancel",
     "claim": "Claim",
     "edit": "Edit",
+    "email": "Email",
     "expires": "Expires",
     "favourites": "Favourites",
     "learnmore": "Learn More",
@@ -113,6 +114,10 @@
       }
     },
     "viewinmanager": "View in Manager"
+  },
+  "expiryNotification": {
+    "placeholder": "Enter Email address",
+    "reminder": "Remind me"
   },
   "favourites": {
     "favouriteTitle": "Favourite Domains",
