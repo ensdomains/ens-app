@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useQuery } from 'react-apollo'
 import { useTranslation } from 'react-i18next'
-import styled from '@emotion/styled/macro'
+import styled from '@emotion/styled'
 import { Link, Route } from 'react-router-dom'
 import mq from 'mediaQuery'
 
