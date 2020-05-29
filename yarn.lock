@@ -1809,10 +1809,10 @@
     bluebird "^3.5.2"
     dns-packet "^5.0.4"
 
-"@ensdomains/ui@^3.0.14":
-  version "3.0.14"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.14.tgz#9d2cc30c121f24c27e93cd45f2899e2fe27d6841"
-  integrity sha512-tgS01LRNkgvTqJz2J527ophux4i1ZxDdl65FGHeBMuFo/x2y9OIwvFVvMFCm64q4aOjiRgp/FPP/qXLtDvfrMg==
+"@ensdomains/ui@3.0.20":
+  version "3.0.20"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.20.tgz#dfa07421bbf785ddc34e3a8e0f58c26c03d11127"
+  integrity sha512-EXVoWFf1ShdP7W6khU1X5F1GA3kpLjtTRrg2bReJ2K7qI8BcaJYguaKSz1mVzatMk0tWalKItpV1VvAhSCCJfQ==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
@@ -1835,10 +1835,10 @@
     js-sha3 "^0.8.0"
     lodash "^4.17.11"
 
-"@ensdomains/ui@^3.0.16":
-  version "3.0.16"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.16.tgz#daf170dc7e75da8f865694e027c74af9b072efca"
-  integrity sha512-H8hdV0GNmHLXIc1DCkjIXKZFoPF+JV9xtb8BRSYjjgDUGKmMtKLzvT0JxfIiiWskjHEzfHjnALNbQtYWrA+i6g==
+"@ensdomains/ui@^3.0.14":
+  version "3.0.14"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.14.tgz#9d2cc30c121f24c27e93cd45f2899e2fe27d6841"
+  integrity sha512-tgS01LRNkgvTqJz2J527ophux4i1ZxDdl65FGHeBMuFo/x2y9OIwvFVvMFCm64q4aOjiRgp/FPP/qXLtDvfrMg==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
