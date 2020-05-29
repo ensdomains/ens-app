@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
 import EthVal from 'ethval'
+import mq from 'mediaQuery'
 
 import { RENEW_DOMAINS } from '../../graphql/mutations'
 import { GET_RENT_PRICES } from 'graphql/queries'
@@ -16,6 +17,28 @@ import PendingTx from '../PendingTx'
 import DefaultButton from '../Forms/Button'
 import SaveCancel from '../SingleName/SaveCancel'
 import { PricerAll as PriceAllDefault } from '../SingleName/Pricer'
+import ExpiryNotifyDropdown from '../ExpiryNotification/ExpiryNotifyDropdown'
+
+const ActionsContainer = styled('div')`
+  align-items: start;
+  display: flex;
+  flex-direction: column;
+  grid-area: actions;
+  justify-content: flex-start;
+  > * {
+    margin: 10px 0 10px 0;
+  }
+  ${mq.small`
+    align-items: center; 
+    flex-direction: row;
+    > * { 
+      margin: 0 0 0 20px;
+    }
+  `}
+  ${mq.large`
+    justify-content: flex-end;
+  `}
+`
 
 const RenewContainer = styled('div')`
   grid-area: renew;
@@ -58,6 +81,7 @@ function isValid(selectedNames) {
 
 export default function Renew({
   selectedNames,
+  address,
   allNames,
   selectAllNames,
   removeAllNames,
@@ -104,91 +128,99 @@ export default function Renew({
   })
 
   return (
-    <RenewContainer>
-      {!editing ? (
-        pending && !confirmed ? (
-          <PendingTx
-            txHash={txHash}
-            onConfirmed={() => {
-              setConfirmed()
-              refetchTilUpdated(
-                refetch,
-                300,
-                'expiryDate',
-                selectedNames[0],
-                data,
-                'account.registrations'
-              )
-              setCheckedBoxes({})
-              setSelectAll(false)
-            }}
-          />
-        ) : (
-          <RenewSelected
-            onClick={() => {
-              if (labelsToRenew.length > 0) startEditing()
-            }}
-            type={labelsToRenew.length > 0 ? 'primary' : 'disabled'}
-          >
-            {t('address.renew.button')}
-          </RenewSelected>
-        )
-      ) : null}
+    <>
+      <ActionsContainer>
+        {!editing ? (
+          pending && !confirmed ? (
+            <PendingTx
+              txHash={txHash}
+              onConfirmed={() => {
+                setConfirmed()
+                refetchTilUpdated(
+                  refetch,
+                  300,
+                  'expiryDate',
+                  selectedNames[0],
+                  data,
+                  'account.registrations'
+                )
+                setCheckedBoxes({})
+                setSelectAll(false)
+              }}
+            />
+          ) : (
+            <>
+              <ExpiryNotifyDropdown address={address} />
 
-      {editing && (
-        <AnimatePresence>
-          <RenewPricer
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-          >
-            <PricerAll
+              <RenewSelected
+                onClick={() => {
+                  if (labelsToRenew.length > 0) startEditing()
+                }}
+                type={labelsToRenew.length > 0 ? 'primary' : 'disabled'}
+              >
+                {t('address.renew.button')}
+              </RenewSelected>
+            </>
+          )
+        ) : null}
+      </ActionsContainer>
+
+      <RenewContainer>
+        {editing && (
+          <AnimatePresence>
+            <RenewPricer
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              labels={labelsToRenew}
-              years={years}
-              loading={loadingRentPrices}
-              price={getRentPrices}
-              setYears={setYears}
-              duration={duration}
-              ethUsdPriceLoading={ethUsdPriceLoading}
-              ethUsdPrice={ethUsdPrice || 0}
-            />
-            <Buttons>
-              <SaveCancel
-                stopEditing={stopEditing}
-                mutation={() => {
-                  let variables = {
-                    labels: labelsToRenew,
-                    duration
-                  }
-
-                  mutation({
-                    variables
-                  })
-                }}
-                mutationButton={t('address.renew.confirmButton')}
-                confirm={true}
-                isValid={isValid(selectedNames)}
-                extraDataComponent={
-                  <ConfirmationList>
-                    {t('address.renew.confirm.0')}
-                    {'\n'}
-                    <ul>
-                      {selectedNames.map(name => (
-                        <li>{name}</li>
-                      ))}
-                    </ul>
-                    {t('address.renew.confirm.1')}
-                    {t('address.renew.year', { count: years })}
-                  </ConfirmationList>
-                }
+            >
+              <PricerAll
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                labels={labelsToRenew}
+                years={years}
+                loading={loadingRentPrices}
+                price={getRentPrices}
+                setYears={setYears}
+                duration={duration}
+                ethUsdPriceLoading={ethUsdPriceLoading}
+                ethUsdPrice={ethUsdPrice || 0}
               />
-            </Buttons>
-          </RenewPricer>
-        </AnimatePresence>
-      )}
-    </RenewContainer>
+              <Buttons>
+                <SaveCancel
+                  stopEditing={stopEditing}
+                  mutation={() => {
+                    let variables = {
+                      labels: labelsToRenew,
+                      duration
+                    }
+
+                    mutation({
+                      variables
+                    })
+                  }}
+                  mutationButton={t('address.renew.confirmButton')}
+                  confirm={true}
+                  isValid={isValid(selectedNames)}
+                  extraDataComponent={
+                    <ConfirmationList>
+                      {t('address.renew.confirm.0')}
+                      {'\n'}
+                      <ul>
+                        {selectedNames.map(name => (
+                          <li>{name}</li>
+                        ))}
+                      </ul>
+                      {t('address.renew.confirm.1')}
+                      {t('address.renew.year', { count: years })}
+                    </ConfirmationList>
+                  }
+                />
+              </Buttons>
+            </RenewPricer>
+          </AnimatePresence>
+        )}
+      </RenewContainer>
+    </>
   )
 }
