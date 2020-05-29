@@ -3,9 +3,11 @@ import AddToCalendarHOC from 'react-add-to-calendar-hoc'
 import Dropdown from './Dropdown'
 import DefaultButton from '../Forms/Button'
 import moment from 'moment'
+import { useTranslation } from 'react-i18next'
 import styled from '@emotion/styled/macro'
 import { css } from 'emotion'
 import calendar from '../../assets/calendar.svg'
+import EmailNotifyLink from '../ExpiryNotification/EmailNotifyLink'
 
 const Button = styled(DefaultButton)`
   border: none;
@@ -26,7 +28,14 @@ const CalendarButton = props => (
   </Button>
 )
 
-function CalendarInvite({ startDatetime, type = '', name, noMargin }) {
+function CalendarInvite({
+  startDatetime,
+  type = '',
+  name,
+  registrant,
+  noMargin
+}) {
+  const { t } = useTranslation()
   const endDatetime = startDatetime.clone().add(2, 'hours')
   const duration = moment.duration(endDatetime.diff(startDatetime)).asHours()
   const event = {
@@ -48,15 +57,30 @@ function CalendarInvite({ startDatetime, type = '', name, noMargin }) {
       : ''}
   `
 
+  // AddToCalendarHOC does not allow passing in additional arbitary links
+  // to render in the dropdown list. Instead of refactoring the external
+  // library, the Dropdown component was extend to support rendering
+  // additional elements from appendChildren & prependChildren props.
+  const expiryNotificationLink = (
+    <EmailNotifyLink key="email" domainName={name} address={registrant}>
+      {t('c.email')}
+    </EmailNotifyLink>
+  )
+
   const AddToCalendar = AddToCalendarHOC(CalendarButton, Dropdown)
   return (
     <AddToCalendar
       event={event}
       className={styles}
-      buttonText="Set renewal reminder"
+      buttonText={t('expiryNotification.reminder')}
       items={['Google', 'iCal']}
+      dropdownProps={{
+        prependChildren: [expiryNotificationLink]
+      }}
     />
   )
 }
 
 export default CalendarInvite
+
+export { CalendarButton }
