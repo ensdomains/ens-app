@@ -12,11 +12,19 @@ const ChainLinkABI = [
   }
 ]
 
-const contracts = {
-  1: '0xF79D6aFBb6dA890132F9D7c355e3015f15F3406F',
-  3: '0x8468b2bDCE073A157E560AA4D9CcF6dB1DB98507',
-  4: '0x0bF4e7bf3e1f6D6Dc29AA516A33134985cC3A5aA',
-  42: '0xD21912D8762078598283B14cbA40Cb4bFCb87581'
+function getContract(network) {
+  const contracts = {
+    1: '0xF79D6aFBb6dA890132F9D7c355e3015f15F3406F',
+    3: '0x8468b2bDCE073A157E560AA4D9CcF6dB1DB98507',
+    4: '0x0bF4e7bf3e1f6D6Dc29AA516A33134985cC3A5aA',
+    42: '0xD21912D8762078598283B14cbA40Cb4bFCb87581'
+  }
+  if (contracts[network]) {
+    return contracts[network]
+  }
+
+  //return mainnet if on private net
+  return '0xF79D6aFBb6dA890132F9D7c355e3015f15F3406F'
 }
 
 export default async function getEtherPrice() {
@@ -26,7 +34,7 @@ export default async function getEtherPrice() {
     const provider = new ethers.providers.JsonRpcProvider(networkProvider)
 
     const ethUsdContract = new ethers.Contract(
-      contracts[network],
+      getContract(network),
       ChainLinkABI,
       provider
     )
