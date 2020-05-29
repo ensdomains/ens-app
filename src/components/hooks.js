@@ -155,7 +155,7 @@ export function useEthPrice(enabled = true) {
     if (enabled) {
       getEtherPrice()
         .then(res => {
-          setPrice(res.result.ethusd)
+          setPrice(res)
           setLoading(false)
         })
         .catch(() => '') // ignore error
