@@ -28,6 +28,7 @@ describe('/address', () => {
       timeout: 10000
     }).should('exist')
     cy.queryByText('postmigration.eth', { exact: false }).should('exist')
+    cy.queryByText('Expires', { exact: false }).should('exist')
     cy.getByTestId('sitenav').within(container => {
       cy.queryByText('My Names', { container, exact: false }).should(
         'have.css',

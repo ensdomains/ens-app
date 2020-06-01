@@ -180,6 +180,7 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
             state={isOwner ? 'Yours' : domain.state}
             className={className}
             percentDone={percentDone}
+            data-testid="domain-container"
           >
             <DomainName state={isOwner ? 'Yours' : domain.state}>
               {humaniseName(domain.name)}
