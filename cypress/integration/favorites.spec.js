@@ -16,6 +16,9 @@ describe('Favorites', () => {
     )
 
     cy.visit(`${NAME_ROOT}/resolver.eth`, { timeout: 20000 })
+    cy.queryByText('Registrant', { timeout: 10000, exact: false }).should(
+      'exist'
+    )
     cy.getByTestId('add-favorite', { timeout: 10000 }).click({ force: true })
 
     cy.visit(`${ROOT}/favourites`)
