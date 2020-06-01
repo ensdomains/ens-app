@@ -87,23 +87,37 @@ function Favourites() {
   }, [])
   const { data: { favourites } = [] } = useQuery(GET_FAVOURITES)
   const ids = favourites.map(f => getNamehash(f.name))
+  console.log('*** Favourites1', { ids })
   const { data: { registrations } = [] } = useQuery(
     GET_REGISTRATIONS_BY_IDS_SUBGRAPH,
     {
       variables: { ids }
     }
   )
-  if (favourites.length === 0 || !registrations) {
+
+  console.log('*** Favourites2', { registrations })
+  if (favourites.length === 0 && !registrations) {
     return <NoDomains type="domain" />
   }
-
-  const favouritesList = registrations.map(r => {
-    return {
-      name: r.domain.name,
-      owner: r.domain.owner.id,
-      expiryDate: r.expiryDate
+  let favouritesList = []
+  if (favourites.length > 0) {
+    if (registrations && registrations.length > 0) {
+      favouritesList = registrations.map(r => {
+        return {
+          name: r.domain.name,
+          owner: r.domain.owner.id,
+          expiryDate: r.expiryDate
+        }
+      })
+    } else {
+      console.log('*** Favourites3')
+      favouritesList = favourites.map(f => {
+        return {
+          name: f.name
+        }
+      })
     }
-  })
+  }
 
   return (
     <FavouritesContainer data-testid="favourites-container">

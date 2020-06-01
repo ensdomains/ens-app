@@ -169,6 +169,14 @@ export const GET_FAVOURITES = gql`
   }
 `
 
+// export const GET_EXPIRATION_DATES = gql`
+//   query getExpirationDates($ids: [ID]) {
+//     getExpirationDates(ids: $ids) @client {
+//       name
+//     }
+//   }
+// `
+
 export const GET_SUBDOMAIN_FAVOURITES = gql`
   query getSubDomainFavourites {
     subDomainFavourites @client {
