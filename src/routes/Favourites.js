@@ -87,7 +87,6 @@ function Favourites() {
   }, [])
   const { data: { favourites } = [] } = useQuery(GET_FAVOURITES)
   const ids = favourites.map(f => getNamehash(f.name))
-  console.log('*** Favourites1', { ids })
   const { data: { registrations } = [] } = useQuery(
     GET_REGISTRATIONS_BY_IDS_SUBGRAPH,
     {
@@ -95,7 +94,6 @@ function Favourites() {
     }
   )
 
-  console.log('*** Favourites2', { registrations })
   if (favourites.length === 0 && !registrations) {
     return <NoDomains type="domain" />
   }
@@ -110,7 +108,7 @@ function Favourites() {
         }
       })
     } else {
-      console.log('*** Favourites3')
+      // Fallback when subgraph is not returning result
       favouritesList = favourites.map(f => {
         return {
           name: f.name
