@@ -1,14 +1,13 @@
 import React from 'react'
 import styled from '@emotion/styled/macro'
 import { Link } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
 import mq from 'mediaQuery'
 
 import AddFavourite from '../AddFavourite/AddFavourite'
 import QueryAccount from '../QueryAccount'
+import ExpiryDate from './ExpiryDate'
 import Loader from '../Loader'
 import { humaniseName } from '../../utils/utils'
-import { formatDate, calculateIsExpiredSoon, GRACE_PERIOD } from 'utils/dates'
 
 const DomainContainer = styled(Link)`
   &:before {
@@ -125,11 +124,6 @@ const LabelContainer = styled('div')`
 
 const LabelText = styled('div')``
 
-const ExpiryDate = styled('p')`
-  font-size: 18px;
-  color: ${({ isExpiredSoon }) => (isExpiredSoon ? 'red' : '#adbbcd')};
-`
-
 const Label = ({ domain, isOwner }) => {
   let text
   switch (domain.state) {
@@ -158,7 +152,6 @@ const Label = ({ domain, isOwner }) => {
 }
 
 const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
-  let { t } = useTranslation()
   if (loading) {
     return (
       <DomainContainer state={'Owned'} className={className} to="">
@@ -176,16 +169,9 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
           isOwner = domain.owner.toLowerCase() === account.toLowerCase()
         }
         const percentDone = 0
-        // TODO: Refactor into seperate component
-        let expiryDate, isExpiredSoon, isExpired, gracePeriodEndDate
-        if (domain.expiryDate || domain.expiryTime) {
-          expiryDate =
-            domain.expiryDate || parseInt(domain.expiryTime.getTime() / 1000)
-          isExpiredSoon = calculateIsExpiredSoon(expiryDate)
-          isExpired = new Date() > new Date(parseInt(expiryDate * 1000))
-          gracePeriodEndDate = new Date(
-            (parseInt(expiryDate) + GRACE_PERIOD) * 1000
-          )
+        let expiryDate = domain.expiryDate
+        if (domain.expiryTime) {
+          expiryDate = parseInt(domain.expiryTime.getTime() / 1000)
         }
 
         return (
@@ -198,19 +184,7 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
             <DomainName state={isOwner ? 'Yours' : domain.state}>
               {humaniseName(domain.name)}
             </DomainName>
-            {expiryDate ? (
-              <ExpiryDate isExpiredSoon={isExpiredSoon}>
-                {isExpired
-                  ? `${t('singleName.expiry.gracePeriodEnds')} ${formatDate(
-                      gracePeriodEndDate
-                    )}`
-                  : `${t('c.expires')} ${formatDate(
-                      parseInt(expiryDate * 1000)
-                    )}`}
-              </ExpiryDate>
-            ) : (
-              <span>&nbsp;</span>
-            )}
+            <ExpiryDate expiryDate={expiryDate} />
             <RightContainer>
               <Label domain={domain} isOwner={isOwner} />
               {isSubDomain && domain.state === 'Open' ? (
