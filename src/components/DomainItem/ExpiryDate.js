@@ -11,7 +11,6 @@ const ExpiryDateContainer = styled('p')`
 const ExpiryDate = ({ expiryDate, domain }) => {
   let isExpiredSoon, isExpired, gracePeriodEndDate
   let { t } = useTranslation()
-  console.log('*** ExpiryDate', { expiryDate, domain })
   if (expiryDate) {
     isExpiredSoon = calculateIsExpiredSoon(expiryDate)
     isExpired = new Date() > new Date(parseInt(expiryDate * 1000))
