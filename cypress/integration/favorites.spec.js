@@ -19,14 +19,15 @@ describe('Favorites', () => {
     cy.getByTestId('add-favorite', { timeout: 10000 }).click({ force: true })
 
     cy.visit(`${ROOT}/favourites`)
-    cy.queryByText('No names have been saved.', { exact: false }).should(
-      'not.exist'
-    )
+
     cy.getByTestId('favourites-container').within(container => {
       cy.queryByText('resolver.eth', { exact: false }).should('exist')
       cy.queryByText('Expires', { exact: false }).should('exist')
     })
 
+    cy.queryByText('No names have been saved.', { exact: false }).should(
+      'not.exist'
+    )
     cy.visit(`${NAME_ROOT}/resolver.eth`)
     cy.getByTestId('add-favorite', { timeout: 10000 }).click({ force: true })
 
