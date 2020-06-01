@@ -2,6 +2,19 @@ const ROOT = Cypress.env('ROOT')
 const NAME_ROOT = Cypress.env('NAME_ROOT')
 
 describe('Search', () => {
+  it('can list a domain', () => {
+    cy.visit(ROOT)
+    cy.getByPlaceholderText('Search', { exact: false }).type('resolver')
+    cy.get('button')
+      .contains('Search')
+      .click()
+
+    cy.getByTestId('domain-container').within(container => {
+      cy.queryByText('resolver.eth', { exact: false }).should('exist')
+      cy.queryByText('Expires', { exact: false }).should('exist')
+    })
+  })
+
   //Visit a domain, check the owner, resolver, address, content exists
   it('can search for a domain', () => {
     cy.visit(ROOT)
