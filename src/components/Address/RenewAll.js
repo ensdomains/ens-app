@@ -150,7 +150,11 @@ export default function Renew({
             />
           ) : (
             <>
-              <ExpiryNotifyDropdown address={address} />
+              {allNames && allNames.length ? (
+                <ExpiryNotifyDropdown address={address} />
+              ) : (
+                <div />
+              )}
 
               <RenewSelected
                 onClick={() => {
