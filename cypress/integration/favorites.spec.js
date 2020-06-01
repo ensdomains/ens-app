@@ -15,7 +15,7 @@ describe('Favorites', () => {
       'exist'
     )
 
-    cy.visit(`${NAME_ROOT}/resolver.eth`)
+    cy.visit(`${NAME_ROOT}/resolver.eth`, { timeout: 20000 })
     cy.getByTestId('add-favorite', { timeout: 10000 }).click({ force: true })
 
     cy.visit(`${ROOT}/favourites`)
@@ -28,7 +28,7 @@ describe('Favorites', () => {
     cy.queryByText('No names have been saved.', { exact: false }).should(
       'not.exist'
     )
-    cy.visit(`${NAME_ROOT}/resolver.eth`)
+    cy.visit(`${NAME_ROOT}/resolver.eth`, { timeout: 20000 })
     cy.getByTestId('add-favorite', { timeout: 10000 }).click({ force: true })
 
     cy.visit(`${ROOT}/favourites`)
