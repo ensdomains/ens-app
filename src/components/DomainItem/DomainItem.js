@@ -84,7 +84,7 @@ const RightContainer = styled('div')`
 
 const DomainName = styled('h2')`
   font-size: 18px;
-  font-weight: 200;
+  font-weight: 100;
 
   ${mq.medium`
     font-size: 28px;
