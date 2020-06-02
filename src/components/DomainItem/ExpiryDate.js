@@ -5,6 +5,7 @@ import { formatDate, calculateIsExpiredSoon, GRACE_PERIOD } from 'utils/dates'
 
 const ExpiryDateContainer = styled('p')`
   font-size: 18px;
+  font-weight: 100;
   color: ${({ isExpiredSoon }) => (isExpiredSoon ? 'red' : '#adbbcd')};
 `
 
