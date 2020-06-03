@@ -311,6 +311,7 @@ const resolvers = {
         return detailedNode
       } catch (e) {
         console.log('Error in Single Name', e)
+        throw e
       }
     },
     getResolverMigrationInfo: async (_, { name, resolver }, { cache }) => {
