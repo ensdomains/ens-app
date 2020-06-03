@@ -20,6 +20,24 @@ const PagerContainer = styled('div')`
   `}
 `
 
+function useTotalPages({ resultsPerPage, query, address }) {
+  const { loading, data } = useQuery(query, {
+    variables: {
+      id: address,
+      first: 1000,
+      skip: 0
+    }
+  })
+  if (data && !loading) {
+    const totalNumber = Object.values(data.account)[0].length
+    return {
+      totalPages: Math.ceil(totalNumber / resultsPerPage)
+    }
+  }
+
+  return { totalPages: undefined, loading }
+}
+
 function Page({ page, pageLink, currentPage }) {
   return (
     <PageNumber
@@ -36,9 +54,15 @@ export default function Pager({
   currentPage,
   resultsPerPage,
   query,
+  address,
   pageLink
 }) {
-  const totalPages = 2
+  const { loading, totalPages } = useTotalPages({
+    resultsPerPage,
+    address,
+    query
+  })
+  //const totalPages = 2
   if (totalPages < 2) {
     return null
   }

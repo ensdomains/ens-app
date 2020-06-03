@@ -318,9 +318,15 @@ export default function Address({
           showBlockies={false}
         />
         <Pager
+          address={address}
           currentPage={page}
           resultsPerPage={RESULTS_PER_PAGE}
           pageLink={`/address/${address}/${domainType}`}
+          query={
+            domainType === 'registrant'
+              ? GET_REGISTRATIONS_SUBGRAPH
+              : GET_DOMAINS_SUBGRAPH
+          }
         />
       </AddressContainer>
     </>
