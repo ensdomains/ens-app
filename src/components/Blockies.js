@@ -13,6 +13,7 @@ const Blockies = ({
   spotcolor,
   className
 }) => {
+  if (!address) return <>No address found</>
   var imgURL = createIcon({
     seed: address.toLowerCase(),
     size: 8,

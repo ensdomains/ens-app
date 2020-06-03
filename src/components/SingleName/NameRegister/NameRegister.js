@@ -118,7 +118,7 @@ const NameRegister = ({
     zeroPremiumDate = new Date(getTimeUntilPremium.toNumber() * 1000)
   }
   if (getPremium) {
-    premiumInEth = new EthVal(getPremium.toString()).toEth().toString()
+    premiumInEth = new EthVal(getPremium.toString()).toEth().toFixed(2)
   }
 
   const oneMonthInSeconds = 2419200
