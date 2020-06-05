@@ -12,7 +12,7 @@ const LANGUAGES = [
   },
   {
     value: 'cn',
-    label: 'Chinese (簡體中文)'
+    label: 'Chinese (简体中文)'
   }
 ]
 
