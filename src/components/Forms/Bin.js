@@ -1,4 +1,4 @@
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { ReactComponent as Bin } from '../Icons/Bin.svg'
 
 const StyledBin = styled(Bin)`

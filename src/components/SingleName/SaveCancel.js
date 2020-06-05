@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import Button from '../Forms/Button'
 import GlobalState from '../../globalState'
 import mq from 'mediaQuery'

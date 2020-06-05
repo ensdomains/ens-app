@@ -21,6 +21,7 @@ import Modal from './components/Modal/Modal'
 import Confirm from './components/SingleName/Confirm'
 import { NetworkError, Error404 } from './components/Error/Errors'
 import { CONFIRM } from './modals'
+import ExpiryNotificationModal from './components/ExpiryNotification/ExpiryNotificationModal'
 
 import DefaultLayout from './components/Layout/DefaultLayout'
 import { pageview, setup } from './utils/analytics'
@@ -84,6 +85,7 @@ const App = () => (
                 </Switch>
               </Router>
               <Modal name={CONFIRM} component={Confirm} />
+              <ExpiryNotificationModal />
             </>
           )
         }

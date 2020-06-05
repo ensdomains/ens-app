@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 const HOVER_TIMEOUT = 1000
 
 const CopyContainer = styled('span')`
-  margin-left: 5px;
+  margin: 0 5px;
   position: relative;
   &:hover {
     cursor: pointer;

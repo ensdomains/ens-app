@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 
 const activeColourSwitch = props => (props.active ? '#5284FF' : '#B0BECF')
 

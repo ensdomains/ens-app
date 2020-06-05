@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { Mutation } from 'react-apollo'
 
 import { SET_NAME } from 'graphql/mutations'

@@ -62,18 +62,19 @@ const Controls = styled('div')`
   grid-template-rows: auto;
   grid-template-areas:
     'filters'
-    'sorting'
+    'actions'
     'renew'
+    'sorting'
     'selectall';
   grid-gap: 20px 10px;
 
-  ${mq.small`
+  ${mq.large`
     margin: 20px 30px;
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
-    'filters sorting'
+    'filters actions'
     'renew renew'
-    '. selectall'
+    'sorting selectall'
     ;
   `}
 `
@@ -84,7 +85,7 @@ const SelectAll = styled('div')`
   justify-content: flex-end;
   padding-right: 40px;
 
-  ${mq.small`
+  ${mq.large`
     padding-right: 10px;
   `}
 `
@@ -250,6 +251,21 @@ export default function Address({
             setActiveSort={setActiveSort}
             url={url}
           />
+
+          {domainType === 'registrant' && (
+            <RenewAll
+              years={years}
+              setYears={setYears}
+              activeFilter={domainType}
+              selectedNames={selectedNames}
+              setCheckedBoxes={setCheckedBoxes}
+              setSelectAll={setSelectAll}
+              allNames={allNames}
+              address={address}
+              data={data}
+              refetch={refetch}
+            />
+          )}
           <Sorting
             activeSort={activeSort}
             setActiveSort={setActiveSort}
@@ -258,17 +274,6 @@ export default function Address({
 
           {domainType === 'registrant' && (
             <>
-              <RenewAll
-                years={years}
-                setYears={setYears}
-                activeFilter={domainType}
-                selectedNames={selectedNames}
-                setCheckedBoxes={setCheckedBoxes}
-                setSelectAll={setSelectAll}
-                allNames={allNames}
-                data={data}
-                refetch={refetch}
-              />
               <SelectAll>
                 <Checkbox
                   testid="checkbox-renewall"
