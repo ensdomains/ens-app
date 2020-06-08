@@ -31,7 +31,7 @@
     },
     "namesExpiringSoonBanner": {
       "text": "有些域名马上就要到期了，你可以在一次交易中同时为它们续费，方法是选中需要续费的域名并点击 “续费” 按钮！",
-      "title": "5 月份的域名很快就会到期"
+      "title": "Many names purchased in the past will be out of grace period in Aug"
     },
     "renew": {
       "button": "给已勾选项目续费",
@@ -226,7 +226,7 @@
     "banners": {
       "namesExpiring": {
         "text": "通过点击 “续费” 按钮执行操作可以避免域名过期。如果需要同时给多个域名续费，请前往 <1>我的域名</1> 页面并选择多个域名，然后再点击 “续费” 按钮",
-        "title": "5 月份的域名很快就要到期"
+        "title": "Many names purchased in the past will be out of grace period in Aug"
       }
     },
     "expiry": {
