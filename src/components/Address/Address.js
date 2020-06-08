@@ -31,7 +31,7 @@ import Pager from './Pager'
 import warning from '../../assets/yellowwarning.svg'
 import close from '../../assets/close.svg'
 
-const RESULTS_PER_PAGE = 10
+const RESULTS_PER_PAGE = 30
 
 const TopBar = styled(DefaultTopBar)`
   justify-content: flex-start;
