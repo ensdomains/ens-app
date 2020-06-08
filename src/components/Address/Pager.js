@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import getClient from '../../apolloClient'
 import styled from '@emotion/styled/macro'
-import { useLocation, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import mq from 'mediaQuery'
 
 const PageNumber = styled(Link)`
@@ -26,41 +26,41 @@ function useTotalPages({ resultsPerPage, query, address, variables }) {
   const [totalResults, setTotalResults] = useState(0)
   const client = getClient()
 
-  async function getResults(skipAmount, limit) {
-    let skip = skipAmount
-    async function queryFunc(totalResults) {
-      const { data } = await client.query({
-        query,
-        variables: {
-          ...variables,
-          skip,
-          first: limit
+  useEffect(() => {
+    async function getResults(skipAmount, limit) {
+      let skip = skipAmount
+      async function queryFunc(totalResults) {
+        const { data } = await client.query({
+          query,
+          variables: {
+            ...variables,
+            skip,
+            first: limit
+          }
+        })
+
+        const label1 = Object.keys(data)[0]
+        const label2 = Object.keys(data[label1])[0]
+        skip = skip + limit
+        const resultsLength = data[label1][label2].length
+        const cumulativeResults = totalResults + resultsLength
+
+        if (resultsLength === limit) {
+          return queryFunc(cumulativeResults)
         }
-      })
 
-      const label1 = Object.keys(data)[0]
-      const label2 = Object.keys(data[label1])[0]
-      skip = skip + limit
-      const resultsLength = data[label1][label2].length
-      const cumulativeResults = totalResults + resultsLength
-
-      if (resultsLength === limit) {
-        return queryFunc(cumulativeResults)
+        return cumulativeResults
       }
 
-      return cumulativeResults
+      const total = await queryFunc(0)
+
+      return total
     }
-
-    const total = await queryFunc(0)
-
-    return total
-  }
-  useEffect(() => {
     getResults(0, limit).then(res => {
       setTotalResults(res)
       setLoading(false)
     })
-  }, [])
+  }, [client, query, variables])
 
   return {
     totalPages: Math.ceil(totalResults / resultsPerPage),
@@ -87,7 +87,7 @@ export default function Pager({
   address,
   pageLink
 }) {
-  const { loading, totalPages } = useTotalPages({
+  const { totalPages } = useTotalPages({
     resultsPerPage,
     variables: {
       id: address
