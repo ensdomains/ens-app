@@ -13,6 +13,10 @@ const LANGUAGES = [
   {
     value: 'cn',
     label: 'Chinese (簡體中文)'
+  },
+  {
+    value: 'ja',
+    label: 'Japanese (日本語)'
   }
 ]
 
