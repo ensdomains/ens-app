@@ -41,8 +41,8 @@ describe('/address', () => {
   it('can select a name', () => {
     cy.visit(ROOT)
     cy.getByText('My Names').click({ force: true })
-    cy.getByTestId('checkbox-aftermigration.eth', { timeout: 10000 }).click()
-    cy.get('[data-testid="checkbox-aftermigration.eth"] div').should(
+    cy.getByTestId('checkbox-newname.eth', { timeout: 10000 }).click()
+    cy.get('[data-testid="checkbox-newname.eth"] div').should(
       'have.css',
       'border-top-color',
       ENABLED_COLOUR
