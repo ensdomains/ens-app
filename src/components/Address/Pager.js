@@ -1,5 +1,5 @@
-import React from 'react'
-import { useQuery } from 'react-apollo'
+import React, { useEffect, useState } from 'react'
+import getClient from '../../apolloClient'
 import styled from '@emotion/styled/macro'
 import { useLocation, Link } from 'react-router-dom'
 import mq from 'mediaQuery'
@@ -20,22 +20,52 @@ const PagerContainer = styled('div')`
   `}
 `
 
-function useTotalPages({ resultsPerPage, query, address }) {
-  const { loading, data } = useQuery(query, {
-    variables: {
-      id: address,
-      first: 1000,
-      skip: 0
-    }
-  })
-  if (data && !loading) {
-    const totalNumber = Object.values(data.account)[0].length
-    return {
-      totalPages: Math.ceil(totalNumber / resultsPerPage)
-    }
-  }
+function useTotalPages({ resultsPerPage, query, address, variables }) {
+  const limit = 5
+  const [loading, setLoading] = useState(true)
+  const [totalResults, setTotalResults] = useState(0)
+  const client = getClient()
 
-  return { totalPages: undefined, loading }
+  async function getResults(skipAmount, limit) {
+    let skip = skipAmount
+    async function queryFunc(totalResults) {
+      const { data } = await client.query({
+        query,
+        variables: {
+          ...variables,
+          skip,
+          first: limit
+        }
+      })
+
+      const label1 = Object.keys(data)[0]
+      const label2 = Object.keys(data[label1])[0]
+      skip = skip + limit
+      const resultsLength = data[label1][label2].length
+      const cumulativeResults = totalResults + resultsLength
+
+      if (resultsLength === limit) {
+        return queryFunc(cumulativeResults)
+      }
+
+      return cumulativeResults
+    }
+
+    const total = await queryFunc(0)
+
+    return total
+  }
+  useEffect(() => {
+    getResults(0, limit).then(res => {
+      setTotalResults(res)
+      setLoading(false)
+    })
+  }, [])
+
+  return {
+    totalPages: Math.ceil(totalResults / resultsPerPage),
+    loading
+  }
 }
 
 function Page({ page, pageLink, currentPage }) {
@@ -59,10 +89,11 @@ export default function Pager({
 }) {
   const { loading, totalPages } = useTotalPages({
     resultsPerPage,
-    address,
+    variables: {
+      id: address
+    },
     query
   })
-  //const totalPages = 2
   if (totalPages < 2) {
     return null
   }
