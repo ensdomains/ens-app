@@ -24,7 +24,7 @@
     }
   },
   "address": {
-    "etherscanButton": "在 EtherScan 上查看",
+    "etherscanButton": "在 Etherscan 上查看",
     "filter": {
       "controller": "管理员",
       "registrant": "注册人"

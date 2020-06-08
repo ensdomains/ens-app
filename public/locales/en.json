@@ -24,7 +24,7 @@
     }
   },
   "address": {
-    "etherscanButton": "View on EtherScan",
+    "etherscanButton": "View on Etherscan",
     "filter": {
       "controller": "Controller",
       "registrant": "Registrant"

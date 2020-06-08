@@ -24,7 +24,7 @@
     }
   },
   "address": {
-    "etherscanButton": "EtherScanで確認",
+    "etherscanButton": "Etherscanで確認",
     "filter": {
       "controller": "コントローラー",
       "registrant": "登録者"
