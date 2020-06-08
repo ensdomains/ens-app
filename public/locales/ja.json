@@ -41,6 +41,7 @@
       ],
       "confirmButton": "更新",
       "year": "{{count}} 年"
+      "year_plural": "{{count}} 年間"
     },
     "sort": {
       "alphabetical": "アルファベット順",
@@ -77,7 +78,8 @@
     "set": "設定",
     "textrecord": "テキストレコード",
     "transfer": "譲渡",
-    "year": "年"
+    "year": "年",
+    "year_plural": "年間"
   },
   "childDomainItem": {
     "notmigrated": "移行されていません"
