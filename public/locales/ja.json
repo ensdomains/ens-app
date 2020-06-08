@@ -40,7 +40,7 @@
         "次の期間にて更新されます。"
       ],
       "confirmButton": "更新",
-      "year": "{{count}} 年"
+      "year": "{{count}} 年",
       "year_plural": "{{count}} 年間"
     },
     "sort": {
