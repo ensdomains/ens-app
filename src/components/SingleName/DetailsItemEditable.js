@@ -13,7 +13,7 @@ import { SET_RESOLVER, SET_SUBNODE_OWNER, SET_OWNER } from 'graphql/mutations'
 
 import mq from 'mediaQuery'
 import { useEditable, useEthPrice } from '../hooks'
-import { yearInSeconds, formatDate } from 'utils/dates'
+import { calculateDuration, formatDate } from 'utils/dates'
 import { trackReferral } from 'utils/analytics'
 import { addressUtils, emptyAddress } from 'utils/utils'
 import { refetchTilUpdatedSingle } from 'utils/graphql'
@@ -360,7 +360,7 @@ const Editable = ({
     keyName === 'Expiration Date'
   )
   if (keyName === 'Expiration Date') {
-    duration = parseFloat(years) * yearInSeconds
+    duration = calculateDuration(years)
     expirationDate = new Date(new Date(value).getTime() + duration * 1000)
   }
 
