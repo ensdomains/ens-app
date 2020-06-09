@@ -27,7 +27,7 @@ describe('/address', () => {
       exact: false,
       timeout: 10000
     }).should('exist')
-    cy.queryByText('postmigration.eth', { exact: false }).should('exist')
+    cy.queryByText('newname.eth', { exact: false }).should('exist')
     cy.queryByText('Expires', { exact: false }).should('exist')
     cy.getByTestId('sitenav').within(container => {
       cy.queryByText('My Names', { container, exact: false }).should(
@@ -41,8 +41,8 @@ describe('/address', () => {
   it('can select a name', () => {
     cy.visit(ROOT)
     cy.getByText('My Names').click({ force: true })
-    cy.getByTestId('checkbox-aftermigration.eth', { timeout: 10000 }).click()
-    cy.get('[data-testid="checkbox-aftermigration.eth"] div').should(
+    cy.getByTestId('checkbox-newname.eth', { timeout: 10000 }).click()
+    cy.get('[data-testid="checkbox-newname.eth"] div').should(
       'have.css',
       'border-top-color',
       ENABLED_COLOUR
@@ -61,7 +61,7 @@ describe('/address', () => {
   })
 
   it('can click select all and renew all', () => {
-    const names = [`postmigration.eth`, `aftermigration.eth`]
+    const names = [`resolver.eth`, `newname.eth`]
     cy.visit(ROOT)
     cy.getByText('My Names').click({ force: true })
     cy.getByTestId(`checkbox-renewall`, { timeout: 10000 }).click()
@@ -90,7 +90,7 @@ describe('/address', () => {
   })
 
   it('can select a single name and renew', () => {
-    const name = `postmigration.eth`
+    const name = `newname.eth`
     cy.visit(ROOT)
     cy.getByText('My Names').click({ force: true })
     cy.getByTestId(`checkbox-${name}`, { timeout: 10000 }).click()

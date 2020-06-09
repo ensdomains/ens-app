@@ -42,3 +42,7 @@ export function calculateIsExpiredSoon(expiryDate) {
 }
 
 export const yearInSeconds = 31556952
+
+export function calculateDuration(years) {
+  return parseInt(parseFloat(years) * yearInSeconds)
+}
