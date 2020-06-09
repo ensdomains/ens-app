@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from '@emotion/styled/macro'
 
 const NotAvailableContainer = styled('div')`
@@ -14,9 +15,11 @@ const Message = styled('div')`
 `
 
 export default function NotAvailable({ domain }) {
+  const { t } = useTranslation()
+
   return (
     <NotAvailableContainer>
-      <Message>This name is already registered</Message>
+      <Message>{t('singleName.messages.alreadyregistered')}</Message>
     </NotAvailableContainer>
   )
 }
