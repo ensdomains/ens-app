@@ -14,7 +14,7 @@
     "@ensdomains/ethregistrar": "^2.0.1",
     "@ensdomains/react-ens-address": "^0.0.25",
     "@ensdomains/resolver": "^0.2.4",
-    "@ensdomains/ui": "3.0.20",
+    "@ensdomains/ui": "3.0.21",
     "apollo-cache-inmemory": "^1.2.9",
     "apollo-client": "^2.4.5",
     "apollo-link": "^1.2.2",
@@ -96,7 +96,7 @@
     }
   },
   "devDependencies": {
-    "@ensdomains/mock": "2.0.18",
+    "@ensdomains/mock": "2.0.19",
     "apollo-client-mock": "0.0.8",
     "babel-plugin-macros": "^2.4.2",
     "cypress": "4.5.0",
