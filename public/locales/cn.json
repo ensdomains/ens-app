@@ -57,7 +57,7 @@
     "cancel": "取消",
     "claim": "申请",
     "edit": "编辑",
-    "email": "Email",
+    "email": "电子邮箱",
     "expires": "到期",
     "favourites": "收藏",
     "learnmore": "了解更多",
@@ -112,8 +112,8 @@
     "viewinmanager": "在管理器中查看"
   },
   "expiryNotification": {
-    "placeholder": "Enter Email address",
-    "reminder": "Remind me"
+    "placeholder": "输入电子邮箱地址",
+    "reminder": "提醒我"
   },
   "favourites": {
     "favouriteTitle": "域名收藏夹",
