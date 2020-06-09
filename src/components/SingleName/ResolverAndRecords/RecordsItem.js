@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { Mutation } from 'react-apollo'
 import { useTranslation } from 'react-i18next'
 import DefaultAddressInput from '@ensdomains/react-ens-address'
@@ -178,7 +178,7 @@ const Uploadable = ({ startUploading, keyName, value }) => {
       <SecondaryAction>
         <StyledUpload
           onClick={startUploading}
-          data-testid={`edit-${keyName.toLowerCase()}-temporal`}
+          data-testid={`edit-upload-temporal`}
         />
       </SecondaryAction>
     )

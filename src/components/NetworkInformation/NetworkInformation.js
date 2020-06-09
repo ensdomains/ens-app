@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
 
 import mq from 'mediaQuery'
@@ -36,8 +36,6 @@ const Blockies = styled(UnstyledBlockies)`
 
 const Avatar = styled('img')`
   width: 48px;
-  height: 48px;
-  border-radius: 50%;
   position: absolute;
   left: 10px;
   top: 10px;

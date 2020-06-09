@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 import { useQuery } from 'react-apollo'
+import { useLocation } from 'react-router-dom'
 import { useTranslation, Trans } from 'react-i18next'
 
 import {
@@ -25,9 +26,12 @@ import Loader from '../Loader'
 import Banner from '../Banner'
 import Checkbox from '../Forms/Checkbox'
 import { SingleNameBlockies } from '../Blockies'
+import Pager from './Pager'
 
 import warning from '../../assets/yellowwarning.svg'
 import close from '../../assets/close.svg'
+
+const RESULTS_PER_PAGE = 30
 
 const TopBar = styled(DefaultTopBar)`
   justify-content: flex-start;
@@ -62,18 +66,19 @@ const Controls = styled('div')`
   grid-template-rows: auto;
   grid-template-areas:
     'filters'
-    'sorting'
+    'actions'
     'renew'
+    'sorting'
     'selectall';
   grid-gap: 20px 10px;
 
-  ${mq.small`
+  ${mq.large`
     margin: 20px 30px;
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
-    'filters sorting'
+    'filters actions'
     'renew renew'
-    '. selectall'
+    'sorting selectall'
     ;
   `}
 `
@@ -84,7 +89,7 @@ const SelectAll = styled('div')`
   justify-content: flex-end;
   padding-right: 40px;
 
-  ${mq.small`
+  ${mq.large`
     padding-right: 10px;
   `}
 `
@@ -113,10 +118,13 @@ function decryptNames(domains) {
   })
 }
 
-function useDomains({ domainType, address, sort }) {
+function useDomains({ domainType, address, sort, page }) {
+  const skip = (page - 1) * RESULTS_PER_PAGE
   const registrationsQuery = useQuery(GET_REGISTRATIONS_SUBGRAPH, {
     variables: {
       id: address,
+      first: RESULTS_PER_PAGE,
+      skip,
       orderBy: sort.type,
       orderDirection: sort.direction
     },
@@ -124,7 +132,11 @@ function useDomains({ domainType, address, sort }) {
   })
 
   const controllersQuery = useQuery(GET_DOMAINS_SUBGRAPH, {
-    variables: { id: address },
+    variables: {
+      id: address,
+      first: RESULTS_PER_PAGE,
+      skip
+    },
     skip: domainType !== 'controller'
   })
 
@@ -144,6 +156,9 @@ export default function Address({
   domainType = 'registrant'
 }) {
   const normalisedAddress = normaliseAddress(address)
+  const { search } = useLocation()
+  const pageQuery = new URLSearchParams(search).get('page')
+  const page = pageQuery ? parseInt(pageQuery) : 1
 
   let { t } = useTranslation()
   let [showOriginBannerFlag, setShowOriginBannerFlag] = useState(true)
@@ -159,9 +174,9 @@ export default function Address({
   const { loading, data, error, refetch } = useDomains({
     domainType,
     address: normalisedAddress,
-    sort: activeSort
+    sort: activeSort,
+    page
   })
-  console.log(activeSort)
 
   useEffect(() => {
     getEtherScanAddr().then(setEtherScanAddr)
@@ -250,6 +265,21 @@ export default function Address({
             setActiveSort={setActiveSort}
             url={url}
           />
+
+          {domainType === 'registrant' && (
+            <RenewAll
+              years={years}
+              setYears={setYears}
+              activeFilter={domainType}
+              selectedNames={selectedNames}
+              setCheckedBoxes={setCheckedBoxes}
+              setSelectAll={setSelectAll}
+              allNames={allNames}
+              address={address}
+              data={data}
+              refetch={refetch}
+            />
+          )}
           <Sorting
             activeSort={activeSort}
             setActiveSort={setActiveSort}
@@ -258,17 +288,6 @@ export default function Address({
 
           {domainType === 'registrant' && (
             <>
-              <RenewAll
-                years={years}
-                setYears={setYears}
-                activeFilter={domainType}
-                selectedNames={selectedNames}
-                setCheckedBoxes={setCheckedBoxes}
-                setSelectAll={setSelectAll}
-                allNames={allNames}
-                data={data}
-                refetch={refetch}
-              />
               <SelectAll>
                 <Checkbox
                   testid="checkbox-renewall"
@@ -297,6 +316,17 @@ export default function Address({
           checkedBoxes={checkedBoxes}
           setCheckedBoxes={setCheckedBoxes}
           showBlockies={false}
+        />
+        <Pager
+          address={address}
+          currentPage={page}
+          resultsPerPage={RESULTS_PER_PAGE}
+          pageLink={`/address/${address}/${domainType}`}
+          query={
+            domainType === 'registrant'
+              ? GET_REGISTRATIONS_SUBGRAPH
+              : GET_DOMAINS_SUBGRAPH
+          }
         />
       </AddressContainer>
     </>

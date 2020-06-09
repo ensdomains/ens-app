@@ -1,5 +1,5 @@
 import React, { useState, useReducer } from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
 import { Query, useQuery } from 'react-apollo'
 
@@ -7,7 +7,7 @@ import { GET_MINIMUM_COMMITMENT_AGE, GET_RENT_PRICE } from 'graphql/queries'
 import { useInterval, useEthPrice } from 'components/hooks'
 import { registerMachine, registerReducer } from './registerReducer'
 import { sendNotification } from './notification'
-import { yearInSeconds } from 'utils/dates'
+import { calculateDuration, yearInSeconds } from 'utils/dates'
 
 import Loader from 'components/Loader'
 import Explainer from './Explainer'
@@ -54,8 +54,7 @@ const NameRegister = ({
   )
 
   const parsedYears = parseFloat(years)
-  const duration = yearInSeconds * parsedYears
-
+  const duration = calculateDuration(years)
   const { data: { getRentPrice } = {}, loading: rentPriceLoading } = useQuery(
     GET_RENT_PRICE,
     {

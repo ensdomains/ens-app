@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
 import mq from 'mediaQuery'
 import EthVal from 'ethval'
@@ -40,7 +40,7 @@ const USD = styled('span')`
   `}
 `
 
-const Price = ({ loading, price = 0, ethUsdPrice, ethUsdPriceLoading }) => {
+const Price = ({ loading, price, ethUsdPrice, ethUsdPriceLoading }) => {
   const { t } = useTranslation()
   let ethPrice = <InlineLoader />
   let ethVal
@@ -53,7 +53,7 @@ const Price = ({ loading, price = 0, ethUsdPrice, ethUsdPriceLoading }) => {
     <PriceContainer>
       <Value>
         {ethPrice} ETH
-        {!ethUsdPriceLoading && !loading && (
+        {!ethUsdPriceLoading && !loading && price && (
           <USD>${ethVal.mul(ethUsdPrice).toFixed(2)} USD</USD>
         )}
       </Value>

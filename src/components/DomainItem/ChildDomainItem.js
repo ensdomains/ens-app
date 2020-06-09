@@ -1,16 +1,15 @@
 import React from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
 import { SingleNameBlockies } from '../Blockies'
-import { formatDate, calculateIsExpiredSoon } from 'utils/dates'
 import Checkbox from '../Forms/Checkbox'
 import mq, { useMediaMin } from 'mediaQuery'
 import Tooltip from '../Tooltip/Tooltip'
 import QuestionMark from '../Icons/QuestionMark'
 import { checkIsDecrypted, truncateUndecryptedName } from '../../api/labels'
-export const GRACE_PERIOD = 86400 * 90
+import ExpiryDate from './ExpiryDate'
 
 const DomainLink = styled(Link)`
   display: grid;
@@ -58,18 +57,9 @@ const DomainLink = styled(Link)`
   }
 `
 
-const ExpiryDate = styled('p')`
-  font-size: 18px;
-  color: ${({ isExpiredSoon }) => (isExpiredSoon ? 'red' : '#adbbcd')};
-`
-
 export default function ChildDomainItem({
   name,
-  domain,
-  labelhash,
   owner,
-  labelName,
-  parent,
   expiryDate,
   isMigrated,
   checkedBoxes,
@@ -83,11 +73,6 @@ export default function ChildDomainItem({
   let label = isDecrypted ? `${name}` : truncateUndecryptedName(name)
   if (isMigrated === false)
     label = label + ` (${t('childDomainItem.notmigrated')})`
-  const isExpiredSoon = calculateIsExpiredSoon(expiryDate)
-  const isExpired = new Date() > new Date(parseInt(expiryDate * 1000))
-  const gracePeriodEndDate = new Date(
-    (parseInt(expiryDate) + GRACE_PERIOD) * 1000
-  )
   return (
     <DomainLink
       showBlockies={showBlockies}
@@ -100,15 +85,7 @@ export default function ChildDomainItem({
         <SingleNameBlockies imageSize={24} address={owner} />
       )}
       <h3>{label}</h3>
-      {expiryDate && (
-        <ExpiryDate isExpiredSoon={isExpiredSoon}>
-          {isExpired
-            ? `${t('singleName.expiry.gracePeriodEnds')} ${formatDate(
-                gracePeriodEndDate
-              )}`
-            : `${t('c.expires')} ${formatDate(parseInt(expiryDate * 1000))}`}
-        </ExpiryDate>
-      )}
+      <ExpiryDate expiryDate={expiryDate} />
       {!isDecrypted && (
         <Tooltip
           text="<p>This name is only partially decoded. If you know the name, you can search for it in the search bar to decrypt it and renew</p>"

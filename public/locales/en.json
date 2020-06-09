@@ -24,14 +24,14 @@
     }
   },
   "address": {
-    "etherscanButton": "View on EtherScan",
+    "etherscanButton": "View on Etherscan",
     "filter": {
       "controller": "Controller",
       "registrant": "Registrant"
     },
     "namesExpiringSoonBanner": {
       "text": "One or more names are expiring soon, renew them all in one transaction by selecting multiple names and click 'Renew'",
-      "title": "Names in May are expiring soon"
+      "title": "Many names purchased in the past will be out of grace period in Aug"
     },
     "renew": {
       "button": "Renew Selected",
@@ -59,6 +59,7 @@
     "cancel": "Cancel",
     "claim": "Claim",
     "edit": "Edit",
+    "email": "Email",
     "expires": "Expires",
     "favourites": "Favourites",
     "learnmore": "Learn More",
@@ -114,6 +115,10 @@
     },
     "viewinmanager": "View in Manager"
   },
+  "expiryNotification": {
+    "placeholder": "Enter Email address",
+    "reminder": "Remind me"
+  },
   "favourites": {
     "favouriteTitle": "Favourite Domains",
     "nofavouritesDomains": {
@@ -135,7 +140,7 @@
           "address page",
           "or clicking 'My names' whilst logged in"
         ],
-        "title": "Names bought in May are expiring soon."
+        "title": "Many names purchased in the past will be out of grace period in Aug."
       }
     },
     "howtouse": {
@@ -225,7 +230,7 @@
     "banners": {
       "namesExpiring": {
         "text": "Click the renew button to avoid expiration. To renew all of your names in bulk, navigate to <1>My Names</1> and selecting multiple names before clicking 'Renew'",
-        "title": "Names in May are expiring soon"
+        "title": "Many names purchased in the past will be out of grace period in Aug"
       }
     },
     "expiry": {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import moment from 'moment'
 import { css } from 'emotion'
 import { useHistory } from 'react-router-dom'
@@ -9,7 +9,6 @@ import EthVal from 'ethval'
 
 import { trackReferral } from '../../../utils/analytics'
 import { COMMIT, REGISTER } from '../../../graphql/mutations'
-import { useReferrer } from '../../hooks'
 
 import Tooltip from 'components/Tooltip/Tooltip'
 import PendingTx from '../../PendingTx'
@@ -53,7 +52,6 @@ function getCTA({
   readOnly,
   price,
   history,
-  referrer,
   t,
   ethUsdPrice
 }) {
@@ -133,8 +131,7 @@ function getCTA({
             price: new EthVal(`${price._hex}`)
               .toEth()
               .mul(ethUsdPrice)
-              .toFixed(2), // in wei, // in wei
-            referrer //
+              .toFixed(2) // in wei, // in wei
           })
           incrementStep()
         }}
@@ -203,7 +200,6 @@ const CTA = ({
 }) => {
   const { t } = useTranslation()
   const history = useHistory()
-  const referrer = useReferrer()
   const [txHash, setTxHash] = useState(undefined)
   return (
     <CTAContainer>
@@ -221,7 +217,6 @@ const CTA = ({
         readOnly,
         price,
         history,
-        referrer,
         t,
         ethUsdPrice
       })}

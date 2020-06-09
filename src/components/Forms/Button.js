@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { Link } from 'react-router-dom'
 
 function getButtonStyles({ type }) {
@@ -168,3 +168,5 @@ export const ExternalButtonLink = props => {
 }
 
 export default Button
+
+export { getButtonDefaultStyles, getButtonStyles }

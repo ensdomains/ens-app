@@ -169,6 +169,14 @@ export const GET_FAVOURITES = gql`
   }
 `
 
+// export const GET_EXPIRATION_DATES = gql`
+//   query getExpirationDates($ids: [ID]) {
+//     getExpirationDates(ids: $ids) @client {
+//       name
+//     }
+//   }
+// `
+
 export const GET_SUBDOMAIN_FAVOURITES = gql`
   query getSubDomainFavourites {
     subDomainFavourites @client {
@@ -213,6 +221,20 @@ export const GET_REGISTRATIONS_SUBGRAPH = gql`
           parent {
             name
           }
+        }
+      }
+    }
+  }
+`
+
+export const GET_REGISTRATIONS_BY_IDS_SUBGRAPH = gql`
+  query getRegistrations($ids: [ID]) {
+    registrations(first: 1000, where: { domain_in: $ids }) {
+      expiryDate
+      domain {
+        name
+        owner {
+          id
         }
       }
     }

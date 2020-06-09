@@ -1,6 +1,6 @@
 import React from 'react'
 import { Mutation } from 'react-apollo'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 
 import { useEditable } from '../hooks'
 import mq from 'mediaQuery'
@@ -99,10 +99,11 @@ const LearnMore = () => (
   </LearnMoreLink>
 )
 
-const ReleaseInstead = ({ label, refetch }) => (
+const ReleaseInstead = ({ label, isOwner, refetch }) => (
   <MigrationExplanation>
     <ReleaseDeed
       label={label}
+      isOwner={isOwner}
       refetch={refetch}
       actionText="Release"
       actionType="link"
@@ -164,7 +165,7 @@ function TransferRegistrars({
         </strong>{' '}
         if you want to keep your domain. <LearnMore />
       </MigrationExplanation>
-      <ReleaseInstead label={label} refetch={refetch} />
+      <ReleaseInstead label={label} isOwner={isOwner} refetch={refetch} />
     </>
   )
 
@@ -198,6 +199,7 @@ function TransferRegistrars({
   const ReleaseAction = (
     <ReleaseDeed
       label={label}
+      isOwner={isOwner}
       refetch={refetch}
       actionText="Release"
       actionType="button"

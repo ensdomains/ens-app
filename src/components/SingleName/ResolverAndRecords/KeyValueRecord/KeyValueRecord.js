@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { useMutation, useQuery, Mutation } from 'react-apollo'
-import TextRecordLink from '../../../Links/TextRecordLink'
+import RecordLink from '../../../Links/RecordLink'
 import mq from 'mediaQuery'
 
 import {
@@ -40,7 +40,7 @@ const KeyValueContainer = styled('div')`
   flex-direction: column;
   padding: 20px;
 
-  ${mq.medium`
+  ${mq.xLarge`
     flex-direction: row;
     align-items: flex-start;
   `}
@@ -50,18 +50,22 @@ const KeyValuesList = styled('div')`
   display: flex;
   flex-direction: column;
   width: 100%;
-  ${mq.medium`
+  ${mq.xLarge`
     width: calc(100% - 200px);
   `};
 `
 
 const Key = styled(RecordsKey)`
   margin-bottom: 20px;
+  ${mq.small`
+    margin-bottom: 20px;
+  `}
 `
 
 const RecordsListItem = styled('div')`
   display: flex;
   flex-direction: column;
+  margin-bottom: 20px;
 
   ${mq.medium`
     flex-direction: row;
@@ -72,6 +76,7 @@ const KeyValuesContent = styled(RecordsContent)`
   display: grid;
   width: 100%;
   grid-template-columns: 1fr;
+  align-items: flex-start;
   overflow: hidden;
   ${mq.small`
     grid-template-columns: 150px 1fr;
@@ -147,7 +152,7 @@ const Editable = ({
     <KeyValueItem editing={editing} hasRecord={true} noBorder>
       <KeyValuesContent editing={editing}>
         <RecordsSubKey>{textKey}</RecordsSubKey>
-        <TextRecordLink textKey={textKey} value={value} />
+        <RecordLink textKey={textKey} value={value} />
 
         {pending && !confirmed && txHash ? (
           <PendingTx
@@ -291,7 +296,7 @@ function ViewOnly({ textKey, value }) {
   return (
     <RecordsListItem>
       <RecordsSubKey>{textKey}</RecordsSubKey>
-      <TextRecordLink textKey={textKey} value={value} />
+      <RecordLink textKey={textKey} value={value} />
     </RecordsListItem>
   )
 }

@@ -19,6 +19,18 @@ async function isMainnet() {
   return id === 1
 }
 
+export function setUtm() {
+  const urlParams = new URLSearchParams(window.location.search)
+  const utmSource = urlParams.get('utm_source')
+  if (utmSource) {
+    window.sessionStorage.setItem('utmSource', utmSource)
+  }
+}
+
+export function getUtm() {
+  return window.sessionStorage.getItem('utmSource')
+}
+
 export const setup = () => {
   if (isProduction()) {
     ReactGA.initialize(TrackingID.live)
@@ -28,6 +40,8 @@ export const setup = () => {
     ReactGA.plugin.require('ecommerce', { debug: true })
     console.log('Analytics setup for dev with ', TrackingID.dev)
   }
+
+  setUtm()
 }
 
 export const pageview = () => {
@@ -41,25 +55,22 @@ export const trackReferral = async ({
   labels, // labels array
   transactionId, //hash
   type, // renew/register
-  price,
-  referrer // in wei
+  price // in wei
 }) => {
   const mainnet = await isMainnet()
-
+  const referrer = getUtm()
   function track() {
-    const ga = ReactGA.ga()
-    const campaignSource = ga('get', 'campaignSource')
     ReactGA.event({
       category: 'referral',
       action: `${type} domain`,
       labels,
       transactionId,
       type,
-      referrer: campaignSource
+      referrer
     })
     ReactGA.plugin.execute('ecommerce', 'addTransaction', {
       id: transactionId, // Transaction ID. Required.
-      affiliation: campaignSource, // Affiliation or store name.
+      affiliation: referrer, // Affiliation or store name.
       revenue: price // Grand Total.
     })
 

@@ -1,4 +1,4 @@
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { ReactComponent as Pencil } from '../Icons/Pencil.svg'
 
 const StyledPencil = styled(Pencil)`

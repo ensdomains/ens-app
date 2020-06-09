@@ -24,28 +24,28 @@
     }
   },
   "address": {
-    "etherscanButton": "在 EtherScan 上查看",
+    "etherscanButton": "在 Etherscan 上查看",
     "filter": {
       "controller": "管理员",
       "registrant": "注册人"
     },
     "namesExpiringSoonBanner": {
-      "text": "One or more names are expiring soon, renew them all in one transaction by selecting multiple names and click 'Renew'",
-      "title": "Names in May are expiring soon"
+      "text": "有些域名马上就要到期了，你可以在一次交易中同时为它们续费，方法是选中需要续费的域名并点击 “续费” 按钮！",
+      "title": "Many names purchased in the past will be out of grace period in Aug"
     },
     "renew": {
-      "button": "更新已勾选项目",
+      "button": "给已勾选项目续费",
       "confirm": [
-        "The following names:",
-        "will be renewed for "
+        "以下域名：",
+        "将同时续费 "
       ],
-      "confirmButton": "更新"
+      "confirmButton": "续费"
     },
     "sort": {
       "alphabetical": "按字母顺序",
       "expiry": "到期时间"
     },
-    "transactionBanner": "You are here because of a transaction we sent you or a referrer from another site. You have names below that need to be renewed soon!"
+    "transactionBanner": "你能看到这个页面是因为我们向您发送了一笔交易，或是其他网站调用了这笔交易。你需要续费的域名如下。"
   },
   "c": {
     "Address": "以太坊地址",
@@ -56,7 +56,8 @@
     "about": "关于",
     "cancel": "取消",
     "claim": "申请",
-    "edit": "Edit",
+    "edit": "编辑",
+    "email": "电子邮箱",
     "expires": "到期",
     "favourites": "收藏",
     "learnmore": "了解更多",
@@ -67,9 +68,9 @@
     "parent": "父域名",
     "permanentregistrar": "永久注册器",
     "refresh": "刷新",
-    "register": "註冊",
+    "register": "注册",
     "registrant": "注册人",
-    "renew": "更新",
+    "renew": "续费",
     "save": "保存",
     "search": "查询",
     "set": "设置",
@@ -86,29 +87,33 @@
       "提交验证",
       "管理域名"
     ],
-    "dnsowner": "DNS Owner",
+    "dnsowner": "DNS 所有者",
     "steps": {
       "addtext": {
         "text": "点击“了解更多”来认识这个过程。",
-        "title": "Set up a text record in your domain registrar then click refresh. The text record should contain your Ethereum address in the form:"
+        "title": "在您的域名注册商那里设置一个 TXT 记录，然后单击 刷新 按钮。这个 TXT 记录应该包含你的以太坊地址，格式如下："
       },
       "enable": {
         "text": "点击“了解更多”来认识这个过程。",
         "title": "在您的 DNS 域名注册商那里启用 DNSSEC。启用后，点击“刷新”来查看是否可以进入下一步。"
       },
       "manage": {
-        "text1": "Since you are the owner, you can manage your name now. ",
-        "text2": "Since you are not the owner, you can only view the name in the manager.",
-        "title": "Congratulations! You have successfully added this DNS domain to the ENS Registry."
+        "text1": "作为域名的所有者，您现在可以管理域名了。",
+        "text2": "由于您不是该域名的所有者，所以只能在管理器中查看域名。",
+        "title": "恭喜你！你已经成功将该 DNS 域名添加到 ENS 注册表中了。"
       },
       "proof": {
-        "text1": "The address that appears in the DNS txt record is your same address.",
-        "text2": "If you know you own this domain, change it's TXT record to contain your Ethereum Address and refresh this page to perform the DNSSEC verification again.",
-        "title1": "You are the owner of this address. Add your domain to the ENS Registry now.",
-        "title2": "You don't appear to be the DNS Owner of this domain, but anyone can add this domain to the ENS Registry."
+        "text1": "这里显示的 DNS 文本中的以太坊地址应该和你的地址一致。",
+        "text2": "如果您持有该域名，请更改它的 TXT 记录以包含您的以太坊地址，并刷新此页面以再次执行 DNSSEC 验证。",
+        "title1": "您是这个地址的主人，现在可以将域名加入 ENS 注册表了。",
+        "title2": "您似乎不是该 DNS 域名的所有者，但任何人都可以将该域名添加到 ENS 注册表。"
       }
     },
-    "viewinmanager": "View in Manager"
+    "viewinmanager": "在管理器中查看"
+  },
+  "expiryNotification": {
+    "placeholder": "输入电子邮箱地址",
+    "reminder": "提醒我"
   },
   "favourites": {
     "favouriteTitle": "域名收藏夹",
@@ -127,11 +132,11 @@
       "migrationOver": "ENS 迁移已经完成，现在我们需要了解的几件事儿",
       "renew": {
         "body": [
-          "You can renew multiple domains in one transaction by going to your",
-          "address page",
-          "or clicking 'My names' whilst logged in"
+          "在连接账户后点击 “我的域名” 或进入 ",
+          "账户地址页面",
+          "，您就可以在一次交易中同时给多个域名进行续费。"
         ],
-        "title": "Names bought in May are expiring soon."
+        "title": "Many names purchased in the past will be out of grace period in Aug"
       }
     },
     "howtouse": {
@@ -180,7 +185,7 @@
     },
     "favourite": "* 您可以收藏喜欢的域名，以便于浏览器关闭以后重新查看这个域名。",
     "notifications": {
-      "ready": "is ready to be registered"
+      "ready": "已经可以正式注册了"
     },
     "notify": "通知我",
     "step1": {
@@ -207,10 +212,10 @@
   "registrymigration": {
     "donotaccept": "* 如果您在交易 ENS 域名，现在不要交易这个域名！",
     "messages": {
-      "controller": "This name is controlled by a contract and can't be migrated automatically. Please redeploy your contract to use the new registry before setting the new controller",
+      "controller": "该域名由智能合约控制，不能自动迁移。在设置新控制器之前，请重新部署您的合约以使用新的注册表。",
       "default": "该名称需要迁移到新的注册表，只有它的父域名（{{parent}}）可以执行这一操作。",
-      "dnssec": "This name needs to be migrated to the new Registry. Please setup the correct DNS Owner and click 'Sync' button below",
-      "parentmigrate": "You must first migrate the parent domain {{ parent}} before you can migrate this subdomain"
+      "dnssec": "这个域名需要迁移到新注册表中，请正确设置 DNS 所有者的以太坊地址并点击下面的 “同步” 按钮。",
+      "parentmigrate": "在迁移这个子域名之前，你必须先确认它的父域名 {{ parent}} 已经迁移。"
     }
   },
   "search": {
@@ -220,12 +225,12 @@
   "singleName": {
     "banners": {
       "namesExpiring": {
-        "text": "Click the renew button to avoid expiration. To renew all of your names in bulk, navigate to <1>My Names</1> and selecting multiple names before clicking 'Renew'",
-        "title": "Names in May are expiring soon"
+        "text": "通过点击 “续费” 按钮执行操作可以避免域名过期。如果需要同时给多个域名续费，请前往 <1>我的域名</1> 页面并选择多个域名，然后再点击 “续费” 按钮",
+        "title": "Many names purchased in the past will be out of grace period in Aug"
       }
     },
     "expiry": {
-      "cannotown": "Renewing a name you do not own does not give you ownership of it.",
+      "cannotown": "为其他人的域名续费并不会获得该域名的所有权。",
       "expired": "已经到期",
       "expiring": "即将到期",
       "gracePeriodEnds": "宽限期截至 "
@@ -248,8 +253,8 @@
     "messages": {
       "noowner": "暂无注册人",
       "noresolver": "暂未设置解析器",
-      "notfinalised": "(You have not finalised)",
-      "pending": "Pending"
+      "notfinalised": "（未完成）",
+      "pending": "打包中"
     },
     "subdomains": {
       "add": "添加子域名",
@@ -267,9 +272,9 @@
       "detailsItem": {
         "Controller": "如果要转让域名的管理员，请先确定你登录的是该域名的管理员或注册人账户。",
         "Resolver": "如果要设置域名的解析器，请先确定您登录的是该域名的管理员账户。",
-        "default": "You can only make changes if you are the controller and are logged into your wallet",
+        "default": "只有当钱包中使用的账户是域名的管理员账户时，你才能更改该域名的相关信息。",
         "registrant": "如果要转让域名的注册人，请先确定你登录的是该域名当前的注册人账户。",
-        "registrantExpired": "You cannot transfer this domain whilst it is expired. Please renew first."
+        "registrantExpired": "该域名已经过期，无法转让，请先为其续费再进行操作。"
       }
     }
   }

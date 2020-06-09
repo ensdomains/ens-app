@@ -1,4 +1,4 @@
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import mq from 'mediaQuery'
 
 export const DetailsItem = styled('div')`
@@ -45,7 +45,7 @@ export const DetailsValue = styled('div')`
   font-family: Overpass Mono;
   white-space: nowrap;
   overflow: hidden;
-  display: flex;
+  display: inline-flex;
   text-overflow: ellipsis;
   ${mq.small`
     font-size: 18px;
@@ -59,6 +59,7 @@ export const DetailsValue = styled('div')`
     `}
 
   a {
+    display: block;
     overflow: hidden;
   }
 `
