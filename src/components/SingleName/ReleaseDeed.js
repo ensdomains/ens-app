@@ -4,6 +4,7 @@ import { RELEASE_DEED } from 'graphql/mutations'
 import styled from '@emotion/styled/macro'
 import PendingTx from '../PendingTx'
 import { ExternalButtonLink } from '../Forms/Button'
+import Button from '../Forms/Button'
 
 import { useEditable } from '../hooks'
 
@@ -43,7 +44,7 @@ const Return = styled(ExternalButtonLink)`
   flex: 2 1 auto;
 `
 
-export default function MigrationWarning({ domain, refetch }) {
+export default function MigrationWarning({ domain, isOwner, refetch }) {
   const { state, actions } = useEditable()
   const { txHash, pending, confirmed } = state
   const { startPending, setConfirmed } = actions
@@ -60,10 +61,20 @@ export default function MigrationWarning({ domain, refetch }) {
   ) : (
     <WarningBox>
       <WarningContent>
-        Your name was automatically migrated to the new Registrar. To get your
-        deposited eth back, click the ‘return’ button.
+        {isOwner ? (
+          <>
+            Your name was automatically migrated to the new Registrar. To get
+            your deposited eth back, click the ‘return’ button.
+          </>
+        ) : (
+          <>
+            This name was automatically migrated to the new Registrar. To get
+            the deposited eth back, please connect via the registrant account
+            and click the ‘return’ button.
+          </>
+        )}
         <SubWarning>
-          *To understand why your name was migrated
+          *To understand why this name was migrated
           <LinkToLearnMore
             href="https://medium.com/the-ethereum-name-service"
             target="_blank"
@@ -80,10 +91,19 @@ export default function MigrationWarning({ domain, refetch }) {
             setConfirmed()
           }}
         />
-      ) : (
-        <Return onClick={releaseDeed} type={'hollow-primary'} href="#">
+      ) : isOwner ? (
+        <Return
+          data-testid="enabled-return-button"
+          onClick={releaseDeed}
+          type={'hollow-primary'}
+          href="#"
+        >
           Return
         </Return>
+      ) : (
+        <Button data-testid="disabled-return-button" type="disabled">
+          Return
+        </Button>
       )}
     </WarningBox>
   )
