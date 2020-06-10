@@ -177,7 +177,7 @@
     "text": "保留中のTx"
   },
   "pricer": {
-    "rentalPeriodLabel": "貸出期間",
+    "registrationPeriodLabel": "登録期間",
     "totalPriceLabel": "お支払合計額"
   },
   "register": {
