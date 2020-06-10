@@ -177,7 +177,7 @@
     "text": "Tx Pending"
   },
   "pricer": {
-    "rentalPeriodLabel": "Registration Period",
+    "registrationPeriodLabel": "Registration Period",
     "totalPriceLabel": "Total price to pay"
   },
   "register": {

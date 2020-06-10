@@ -173,7 +173,7 @@
     "text": "等待交易被打包"
   },
   "pricer": {
-    "rentalPeriodLabel": "租期",
+    "registrationPeriodLabel": "注册期",
     "totalPriceLabel": "支付总额"
   },
   "register": {
