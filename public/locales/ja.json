@@ -255,6 +255,7 @@
       "title": "名前の管理についてもっと知る"
     },
     "messages": {
+      "alreadyregistered": "このドメインはすでに登録されています",
       "noowner": "所有されていません",
       "noresolver": "リゾルバが設定されていません",
       "notfinalised": "(まだ確定していません)",

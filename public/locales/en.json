@@ -255,6 +255,7 @@
       "title": "Learn how to manage your name."
     },
     "messages": {
+      "alreadyregistered": "This name is already registered",
       "noowner": "Not owned",
       "noresolver": "No Resolver set",
       "notfinalised": "(You have not finalised)",
