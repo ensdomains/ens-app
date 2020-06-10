@@ -12,7 +12,11 @@ const LANGUAGES = [
   },
   {
     value: 'cn',
-    label: 'Chinese (簡體中文)'
+    label: 'Chinese (简体中文)'
+  },
+  {
+    value: 'ja',
+    label: 'Japanese (日本語)'
   }
 ]
 
@@ -86,13 +90,24 @@ const Ball = styled('div')`
   `}
 `
 
+function saveLanguageToLocalStorage(value) {
+  window.localStorage.setItem('language', value)
+}
+
+function getLanguageFromLocalStorage() {
+  return window.localStorage.getItem('language')
+}
+
 export default function LanguageSwitcher() {
-  const [languageSelected, setLanguageSelected] = useState(getLang('en'))
+  const [languageSelected, setLanguageSelected] = useState(
+    getLang(getLanguageFromLocalStorage()) ?? getLang('en')
+  )
   const [showDropdown, setShowDropdown] = useState(false)
   const { i18n } = useTranslation()
 
   function changeLanguage(language) {
     setLanguageSelected(language)
+    saveLanguageToLocalStorage(language.value)
     i18n.changeLanguage(language.value)
     setShowDropdown(false)
   }

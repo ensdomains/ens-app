@@ -5,6 +5,7 @@
   "homepage": "https://app.ens.domains",
   "dependencies": {
     "@0xproject/utils": "^0.7.3",
+    "@buidlhub/buidlhub-ens-notifications": "^1.0.3",
     "@emotion/core": "^10.0.9",
     "@emotion/styled": "^10.0.9",
     "@ensdomains/address-encoder": "^0.1.6",
@@ -13,7 +14,7 @@
     "@ensdomains/ethregistrar": "^2.0.1",
     "@ensdomains/react-ens-address": "^0.0.25",
     "@ensdomains/resolver": "^0.2.4",
-    "@ensdomains/ui": "^3.0.16",
+    "@ensdomains/ui": "3.0.21",
     "apollo-cache-inmemory": "^1.2.9",
     "apollo-client": "^2.4.5",
     "apollo-link": "^1.2.2",
@@ -51,8 +52,7 @@
     "react-scripts": "3.4.0",
     "react-select": "^3.0.8",
     "react-tooltip": "^3.9.2",
-    "react-transition-group-plus": "^0.5.3",
-    "whatwg-fetch": "^3.0.0"
+    "react-transition-group-plus": "^0.5.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -96,7 +96,7 @@
     }
   },
   "devDependencies": {
-    "@ensdomains/mock": "2.0.18",
+    "@ensdomains/mock": "2.0.19",
     "apollo-client-mock": "0.0.8",
     "babel-plugin-macros": "^2.4.2",
     "cypress": "4.5.0",

@@ -31,6 +31,10 @@ const resolvers = {
       const registrar = getRegistrar()
       return registrar.getTimeUntilPremium(expires, amount)
     },
+    async getUSDRate(_, {}, { cache }) {
+      const registrar = getRegistrar()
+      return registrar.getUSDRate()
+    },
 
     async getMinimumCommitmentAge() {
       try {

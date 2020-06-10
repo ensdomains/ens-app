@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useQuery } from 'react-apollo'
 import { useTranslation } from 'react-i18next'
-import styled from '@emotion/styled/macro'
+import styled from '@emotion/styled'
 import { Link, Route } from 'react-router-dom'
 import mq from 'mediaQuery'
 
@@ -214,7 +214,7 @@ function DetailsContainer({
     <Details data-testid="name-details">
       {isOwner && <SetupName initialState={showExplainer} />}
       {isMigratedToNewRegistry && releaseDeed && (
-        <ReleaseDeed domain={domain} refetch={refetch} />
+        <ReleaseDeed domain={domain} refetch={refetch} isOwner={isOwner} />
       )}
       {parseInt(domain.owner, 16) !== 0 &&
         !loadingIsMigrated &&

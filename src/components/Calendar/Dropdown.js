@@ -16,6 +16,12 @@ const dropdownStyles = css`
   flex-direction: column;
 `
 
-export default function Dropdown({ children }) {
-  return <div className={dropdownStyles}>{children}</div>
+export default function Dropdown(props) {
+  const prependChildren = props.prependChildren || []
+  const children = props.children || []
+  const appendChildren = props.appendChildren || []
+
+  const allChildren = prependChildren.concat(children).concat(appendChildren)
+
+  return <div className={dropdownStyles}>{allChildren}</div>
 }

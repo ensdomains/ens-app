@@ -12,7 +12,7 @@ import {
 import { useInterval, useEthPrice } from 'components/hooks'
 import { registerMachine, registerReducer } from './registerReducer'
 import { sendNotification } from './notification'
-import { yearInSeconds } from 'utils/dates'
+import { calculateDuration, yearInSeconds } from 'utils/dates'
 
 import Loader from 'components/Loader'
 import Explainer from './Explainer'
@@ -79,8 +79,7 @@ const NameRegister = ({
   )
 
   const parsedYears = parseFloat(years)
-  const duration = yearInSeconds * parsedYears
-
+  const duration = calculateDuration(years)
   const { data: { getRentPrice } = {}, loading: rentPriceLoading } = useQuery(
     GET_RENT_PRICE,
     {

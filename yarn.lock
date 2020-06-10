@@ -1289,6 +1289,11 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+"@buidlhub/buidlhub-ens-notifications@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@buidlhub/buidlhub-ens-notifications/-/buidlhub-ens-notifications-1.0.3.tgz#708cecde68d8dcad048b2885d6113615837b3a79"
+  integrity sha512-JrHcgKGOvbgFyinATTYDTD5ZH1k7r+rWympuNGlp9yLi4prScVz0hzAvJHB7bxUjDbyrdbD5vAJhgjSxi8V31w==
+
 "@cnakazawa/watch@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.3.tgz#099139eaec7ebf07a27c1786a3ff64f39464d2ef"
@@ -1723,10 +1728,10 @@
     truffle-flattener "^1.4.2"
     web3-utils "^1.0.0-beta.48"
 
-"@ensdomains/mock@2.0.18":
-  version "2.0.18"
-  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.0.18.tgz#1d98711d023960742cb4493a9f61a7a013a44e32"
-  integrity sha512-R8HnKvrhzSa7jC8jKA7T+4gx1PTB8thJVpem3ujyG9ZXi/Ji4ORH6N5OjJGjomgyrMMqfYNQ9B6fnFtXS4bdlg==
+"@ensdomains/mock@2.0.19":
+  version "2.0.19"
+  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.0.19.tgz#09f5cae06136267211d9fb478f09e4e1e8a2e65b"
+  integrity sha512-gG7xfVjeYAmK28tc2QFYrGkSPx2XZwBwqV1eOB+uOkKNNULuyqwnEatoLACgtbDP4iosn/pU+GGv6tWtAG7IEw==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
@@ -1804,10 +1809,10 @@
     bluebird "^3.5.2"
     dns-packet "^5.0.4"
 
-"@ensdomains/ui@^3.0.14":
-  version "3.0.14"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.14.tgz#9d2cc30c121f24c27e93cd45f2899e2fe27d6841"
-  integrity sha512-tgS01LRNkgvTqJz2J527ophux4i1ZxDdl65FGHeBMuFo/x2y9OIwvFVvMFCm64q4aOjiRgp/FPP/qXLtDvfrMg==
+"@ensdomains/ui@3.0.21":
+  version "3.0.21"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.21.tgz#d99817908178ce27d2ec6e171cacef85f8590427"
+  integrity sha512-a77/eb4HEnW2Ugm6sGZUPkpDTQ0mp99+Ygt1WcPIV+Enod27jDVVdUcPN2QacYbTDMdIjd+Z5lTeUQx+FweC9g==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
@@ -1830,10 +1835,10 @@
     js-sha3 "^0.8.0"
     lodash "^4.17.11"
 
-"@ensdomains/ui@^3.0.16":
-  version "3.0.16"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.16.tgz#daf170dc7e75da8f865694e027c74af9b072efca"
-  integrity sha512-H8hdV0GNmHLXIc1DCkjIXKZFoPF+JV9xtb8BRSYjjgDUGKmMtKLzvT0JxfIiiWskjHEzfHjnALNbQtYWrA+i6g==
+"@ensdomains/ui@^3.0.14":
+  version "3.0.14"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.14.tgz#9d2cc30c121f24c27e93cd45f2899e2fe27d6841"
+  integrity sha512-tgS01LRNkgvTqJz2J527ophux4i1ZxDdl65FGHeBMuFo/x2y9OIwvFVvMFCm64q4aOjiRgp/FPP/qXLtDvfrMg==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
@@ -16906,8 +16911,9 @@ websocket-driver@>=0.5.1:
     websocket-extensions ">=0.1.1"
 
 websocket-extensions@>=0.1.1:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/websocket-extensions/-/websocket-extensions-0.1.3.tgz#5d2ff22977003ec687a4b87073dfbbac146ccf29"
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/websocket-extensions/-/websocket-extensions-0.1.4.tgz#7f8473bc839dfd87608adb95d7eb075211578a42"
+  integrity sha512-OqedPIGOfsDlo31UNwYbCFMSaO9m9G/0faIHj5/dZFDMFqPTcx6UwqyOy3COEaEOg/9VsGIpdqn62W5KhoKSpg==
 
 "websocket@git://github.com/frozeman/WebSocket-Node.git#browserifyCompatible":
   version "1.0.26"

@@ -45,7 +45,7 @@ export const DetailsValue = styled('div')`
   font-family: Overpass Mono;
   white-space: nowrap;
   overflow: hidden;
-  display: flex;
+  display: inline-flex;
   text-overflow: ellipsis;
   ${mq.small`
     font-size: 18px;
@@ -59,6 +59,7 @@ export const DetailsValue = styled('div')`
     `}
 
   a {
+    display: block;
     overflow: hidden;
   }
 `

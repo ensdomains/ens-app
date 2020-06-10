@@ -95,7 +95,7 @@ const Years = ({ years, setYears }) => {
         </Amount>
         <Icon onClick={incrementYears}>+</Icon>
       </Stepper>
-      <Description>{t('pricer.rentalPeriodLabel')}</Description>
+      <Description>{t('pricer.registrationPeriodLabel')}</Description>
     </YearsContainer>
   )
 }

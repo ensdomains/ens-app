@@ -11,7 +11,7 @@
       "Under the surface"
     ],
     "underTheSurface": {
-      "registrar": "The Registrar is the Smart Contract that allows you to buy orregister a domain. Today it uses an auction process, but in the future you will have an instant buy option.",
+      "registrar": "The Registrar is the Smart Contract that allows you to buy or register a domain. Today it uses an auction process, but in the future you will have an instant buy option.",
       "registry": "The Registry is a Smart Contract that contains a list of all domains and subdomains, storing for each two pieces of information: the owner of the name and the Resolver.",
       "resolver": "Resolvers are Smart Contracts responsible for the process of translating names into addresses, or other types of hashes and resources.",
       "reverse": "The Resolver can optionally perform the opposite functionality of 'Reverse Resolving': translating an address into an associated name",
@@ -24,14 +24,14 @@
     }
   },
   "address": {
-    "etherscanButton": "View on EtherScan",
+    "etherscanButton": "View on Etherscan",
     "filter": {
       "controller": "Controller",
       "registrant": "Registrant"
     },
     "namesExpiringSoonBanner": {
       "text": "One or more names are expiring soon, renew them all in one transaction by selecting multiple names and click 'Renew'",
-      "title": "Names in May are expiring soon"
+      "title": "Many names purchased in the past will be out of grace period in Aug"
     },
     "renew": {
       "button": "Renew Selected",
@@ -47,7 +47,7 @@
       "alphabetical": "Alphabetical",
       "expiry": "Expiry Date"
     },
-    "transactionBanner": "You are here because of a transaction we sent you or a referrer from another site. You have names below that need to be renewed soon!"
+    "transactionBanner": "You are here because of a transaction we sent you or a referral from another site. You have names below that need to be renewed soon!"
   },
   "c": {
     "Address": "Address",
@@ -59,6 +59,7 @@
     "cancel": "Cancel",
     "claim": "Claim",
     "edit": "Edit",
+    "email": "Email",
     "expires": "Expires",
     "favourites": "Favourites",
     "learnmore": "Learn More",
@@ -114,6 +115,10 @@
     },
     "viewinmanager": "View in Manager"
   },
+  "expiryNotification": {
+    "placeholder": "Enter Email address",
+    "reminder": "Remind me"
+  },
   "favourites": {
     "favouriteTitle": "Favourite Domains",
     "nofavouritesDomains": {
@@ -135,7 +140,7 @@
           "address page",
           "or clicking 'My names' whilst logged in"
         ],
-        "title": "Names bought in May are expiring soon."
+        "title": "Many names purchased in the past will be out of grace period in Aug."
       }
     },
     "howtouse": {
@@ -146,7 +151,7 @@
       "title": "Learn about the Permanent Registrar and the migration process."
     },
     "whatisens": {
-      "body": "The Ethereum Name Service is a distributed, open and extensible naming system based on the Ethereum blockchain. ENS eliminates the need to copy or type long addresses.",
+      "body": "The Ethereum Name Service is a distributed, open, and extensible naming system based on the Ethereum blockchain. ENS eliminates the need to copy or type long addresses.",
       "title": "What it is"
     }
   },
@@ -172,7 +177,7 @@
     "text": "Tx Pending"
   },
   "pricer": {
-    "rentalPeriodLabel": "Rental Period",
+    "registrationPeriodLabel": "Registration Period",
     "totalPriceLabel": "Total price to pay"
   },
   "register": {
@@ -189,17 +194,17 @@
     "notify": "Notify me",
     "step1": {
       "label": "Step 1",
-      "text": "Your wallet will open and you will be asked to confirm the first of two transactions required for registration",
+      "text": "Your wallet will open and you will be asked to confirm the first of two transactions required for registration.",
       "title": "Request to register"
     },
     "step2": {
       "label": "Step 2",
       "text": "The waiting period is required to ensure another person hasn’t tried to register the same name and protect you after your request.",
-      "title": "Wait for a 1 minute"
+      "title": "Wait for 1 minute"
     },
     "step3": {
       "label": "Step 3",
-      "text": "Click ‘register’ and your wallet will re-open. Only after the 2nd transaction is confirmed you'll know if you got the domain",
+      "text": "Click ‘register’ and your wallet will re-open. Only after the 2nd transaction is confirmed you'll know if you got the name.",
       "title": "Complete Registration"
     },
     "titles": [
@@ -225,7 +230,7 @@
     "banners": {
       "namesExpiring": {
         "text": "Click the renew button to avoid expiration. To renew all of your names in bulk, navigate to <1>My Names</1> and selecting multiple names before clicking 'Renew'",
-        "title": "Names in May are expiring soon"
+        "title": "Many names purchased in the past will be out of grace period in Aug"
       }
     },
     "expiry": {
@@ -250,6 +255,7 @@
       "title": "Learn how to manage your name."
     },
     "messages": {
+      "alreadyregistered": "This name is already registered",
       "noowner": "Not owned",
       "noresolver": "No Resolver set",
       "notfinalised": "(You have not finalised)",

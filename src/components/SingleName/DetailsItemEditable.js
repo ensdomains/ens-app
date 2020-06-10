@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useLocation } from 'react-router-dom'
 import { css } from 'emotion'
 import moment from 'moment'
 import styled from '@emotion/styled/macro'
@@ -14,7 +13,7 @@ import { SET_RESOLVER, SET_SUBNODE_OWNER, SET_OWNER } from 'graphql/mutations'
 
 import mq from 'mediaQuery'
 import { useEditable, useEthPrice } from '../hooks'
-import { yearInSeconds, formatDate } from 'utils/dates'
+import { calculateDuration, formatDate } from 'utils/dates'
 import { trackReferral } from 'utils/analytics'
 import { addressUtils, emptyAddress } from 'utils/utils'
 import { refetchTilUpdatedSingle } from 'utils/graphql'
@@ -356,14 +355,12 @@ const Editable = ({
   let duration
   let expirationDate
   const [years, setYears] = useState(1)
-  const location = useLocation()
-  const queryParams = new URLSearchParams(location.search)
 
   const { price: ethUsdPrice, loading: ethUsdPriceLoading } = useEthPrice(
     keyName === 'Expiration Date'
   )
   if (keyName === 'Expiration Date') {
-    duration = parseFloat(years) * yearInSeconds
+    duration = calculateDuration(years)
     expirationDate = new Date(new Date(value).getTime() + duration * 1000)
   }
 
@@ -453,6 +450,8 @@ const Editable = ({
                           margin-right: 20px;
                         `}
                         name={domain.name}
+                        owner={domain.owner}
+                        registrant={domain.registrant}
                         startDatetime={moment(value)
                           .utc()
                           .subtract(30, 'days')}
@@ -588,6 +587,7 @@ const Editable = ({
                     name: domain.name,
                     setYears,
                     ethUsdPrice,
+                    ethUsdPriceLoading,
                     duration,
                     expirationDate,
                     rentPriceLoading,
