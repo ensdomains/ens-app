@@ -10,6 +10,41 @@ import SpeechBubble from '../Icons/SpeechBubble'
 
 import mq from 'mediaQuery'
 import { Link, withRouter } from 'react-router-dom'
+import { setupENS } from '@ensdomains/ui'
+import LoginWithEthereum from '@enslogin/login-with-ethereum'
+
+const config = {
+  provider: {
+    network: 'ropsten'
+  }
+}
+const handleConnect = async web3 => {
+  web3.autoRefreshOnNetworkChange = false
+  console.log('*** handleConnect1', web3)
+  setupENS({
+    customProvider: web3,
+    reloadOnAccountsChange: true
+  })
+
+  // This is not firing
+  web3.on('accountsChanged', accounts =>
+    console.log('*** accountsChanged', { accounts })
+  )
+  // This is not firing
+  web3.on('networkChanged', network =>
+    console.log('*** networkChanged', { network })
+  )
+  console.log('*** handleConnect2', web3)
+}
+
+const handleDisconnect = async () => {
+  console.log('*** handleDisconnect1')
+  let res = await setupENS({
+    reloadOnAccountsChange: true,
+    enforceReadOnly: true
+  })
+  console.log('*** handleDisconnect2', { res })
+}
 
 const SideNavContainer = styled('nav')`
   display: ${p => (p.isMenuOpen ? 'block' : 'none')};
@@ -87,6 +122,16 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
     <SideNavContainer isMenuOpen={isMenuOpen}>
       <NetworkInformation />
       <ul data-testid="sitenav">
+        <li>
+          <LoginWithEthereum
+            config={config}
+            connect={handleConnect}
+            disconnect={handleDisconnect}
+            startVisible={true}
+            noInjected={true}
+            // networks     = { [{'name':'goerli'}, {'name':'ropsten'}, {'name':'rinkeby'}] }
+          />
+        </li>
         {accounts && accounts.length > 0 ? (
           <li>
             <NavLink
