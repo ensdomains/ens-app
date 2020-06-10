@@ -17,6 +17,10 @@ const LANGUAGES = [
   {
     value: 'ja',
     label: 'Japanese (日本語)'
+  },
+  {
+    value: 'de',
+    label: 'German (Deutsch)'
   }
 ]
 
