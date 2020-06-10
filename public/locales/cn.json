@@ -173,7 +173,7 @@
     "text": "等待交易被打包"
   },
   "pricer": {
-    "registrationPeriodLabel": "注册期",
+    "registrationPeriodLabel": "Registration Period",
     "totalPriceLabel": "支付总额"
   },
   "register": {
