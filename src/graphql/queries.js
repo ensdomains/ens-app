@@ -288,6 +288,12 @@ export const GET_TIME_UNTIL_PREMIUM = gql`
   }
 `
 
+export const GET_USD_RATE = gql`
+  query getUSDRate {
+    getUSDRate @client
+  }
+`
+
 export const GET_MINIMUM_COMMITMENT_AGE = gql`
   query getMinimumCommitmentAge {
     getMinimumCommitmentAge @client
