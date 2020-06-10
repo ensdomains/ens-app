@@ -136,7 +136,7 @@
           "账户地址页面",
           "，您就可以在一次交易中同时给多个域名进行续费。"
         ],
-        "title": "Many names purchased in the past will be out of grace period in Aug"
+        "title": "许多在过去注册或购买的域名将在 8 月份超出宽限期"
       }
     },
     "howtouse": {
@@ -173,7 +173,7 @@
     "text": "等待交易被打包"
   },
   "pricer": {
-    "rentalPeriodLabel": "租期",
+    "registrationPeriodLabel": "注册期",
     "totalPriceLabel": "支付总额"
   },
   "register": {
@@ -251,6 +251,7 @@
       "title": "学习如何管理你的域名"
     },
     "messages": {
+      "alreadyregistered": "这个名字已经注册了",
       "noowner": "暂无注册人",
       "noresolver": "暂未设置解析器",
       "notfinalised": "（未完成）",
