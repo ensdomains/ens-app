@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled/macro'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import mq from 'mediaQuery'
 
 import AddFavourite from '../AddFavourite/AddFavourite'
@@ -125,23 +126,24 @@ const LabelContainer = styled('div')`
 const LabelText = styled('div')``
 
 const Label = ({ domain, isOwner }) => {
+  const { t } = useTranslation()
   let text
   switch (domain.state) {
     case 'Open':
-      text = 'Available'
+      text = t('singleName.domain.state.available')
       break
     case 'Auction':
-      text = 'In Auction'
+      text = t('singleName.domain.state.auction')
       break
     case 'Owned':
-      text = 'Unavailable'
+      text = t('singleName.domain.state.owned')
       break
     default:
-      text = 'Unknown State'
+      text = t('singleName.domain.state.default')
   }
 
   if (isOwner) {
-    text = 'Owner'
+    text = t('singleName.domain.state.owned')
   }
 
   return (

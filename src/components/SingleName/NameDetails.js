@@ -272,7 +272,7 @@ function DetailsContainer({
         ) : domain.parent === 'eth' && !domain.isNewRegistrar ? (
           <>
             <DetailsItem uneditable>
-              <DetailsKey>{t('c.Registrant')}</DetailsKey>
+              <DetailsKey>{t('c.registrant')}</DetailsKey>
               <DetailsValue>
                 <AddressLink address={domain.deedOwner}>
                   <SingleNameBlockies
@@ -472,7 +472,7 @@ function DetailsContainer({
 
         {domain.registrationDate ? (
           <DetailsItem uneditable>
-            <DetailsKey>Registration Date</DetailsKey>
+            <DetailsKey>{t('c.registrationdate')}</DetailsKey>
             <DetailsValue>{formatDate(domain.registrationDate)}</DetailsValue>
           </DetailsItem>
         ) : (

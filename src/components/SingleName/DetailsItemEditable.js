@@ -613,7 +613,7 @@ const Editable = ({
                               setPresetValue(data.publicResolver.address)
                             }}
                           >
-                            Use Public Resolver
+                            {t('singleName.resolver.publicResolver')}
                           </DefaultResolverButton>
                         )
                       }}

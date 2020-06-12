@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled from '@emotion/styled/macro'
 import { Mutation } from 'react-apollo'
 import mq from 'mediaQuery'
+import { useTranslation } from 'react-i18next'
 
 import { validateRecord } from '../../../utils/records'
 import { useEditable } from '../../hooks'
@@ -249,11 +250,12 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
     selectedKey: selectedKey && selectedKey.value
   })
 
+  const { t } = useTranslation()
   const isInvalid = newValue !== '' && !isValid
   return (
     <>
       <RecordsTitle>
-        Records
+        {t('singleName.record.title')}
         {emptyRecords.length > 0 ? (
           !editing ? (
             pending && !confirmed ? (
