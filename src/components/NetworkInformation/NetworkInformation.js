@@ -81,7 +81,7 @@ const AccountContainer = styled('div')`
   position: relative;
   ${mq.medium`
     transform: translate(-25px, 5px);
-    width: 200px;
+    width: 225px;
     &:hover {
       width: 490px;
       background: white;

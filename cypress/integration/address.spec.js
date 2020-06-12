@@ -72,7 +72,7 @@ describe('/address', () => {
     })
 
     cy.getByText('Renew', { exact: false }).click()
-    cy.queryByText('Rental', { exact: false }).should('exist')
+    cy.queryByText('Registration Period', { exact: false }).should('exist')
     cy.getByText('Renew', { exact: true }).click()
     cy.getByText('Confirm', { exact: true }).click()
     const currentYear = new Date().getFullYear()
@@ -98,7 +98,7 @@ describe('/address', () => {
       timeout: 10000
     }).should('have.css', 'border-top-color', ENABLED_COLOUR)
     cy.getByText('Renew', { exact: false }).click()
-    cy.queryByText('Rental', { exact: false }).should('exist')
+    cy.queryByText('Registration Period', { exact: false }).should('exist')
     cy.getByText('Renew', { exact: true }).click()
     cy.getByText('Confirm', { exact: true }).click()
     const currentYear = new Date().getFullYear()
