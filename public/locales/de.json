@@ -180,7 +180,7 @@
   "pricer": {
     "rentalPeriodLabel": "Mietdauer",
     "totalPriceLabel": "Gesamtpreis",
-    "yearUint": "Jahr"
+    "yearUnit": "Jahr"
   },
   "register": {
     "buttons": {
