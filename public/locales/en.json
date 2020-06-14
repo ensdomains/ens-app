@@ -180,7 +180,7 @@
   "pricer": {
     "registrationPeriodLabel": "Registration Period",
     "totalPriceLabel": "Total price to pay",
-    "yearUint": "year"
+    "yearUnit": "year"
   },
   "register": {
     "buttons": {
