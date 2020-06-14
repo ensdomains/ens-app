@@ -93,7 +93,7 @@ const Years = ({ years, setYears }) => {
               }
             }}
           />{' '}
-          {t('pricer.yearUint')}
+          {t('pricer.yearUnit')}
           {currentLanguage === 'en' && years > 1 && 's'}
         </Amount>
         <Icon onClick={incrementYears}>+</Icon>
