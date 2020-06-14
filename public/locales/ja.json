@@ -180,7 +180,7 @@
   "pricer": {
     "registrationPeriodLabel": "登録期間",
     "totalPriceLabel": "お支払合計額",
-    "yearUint": "年"
+    "yearUnit": "年"
   },
   "register": {
     "buttons": {
