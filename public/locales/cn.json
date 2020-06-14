@@ -176,7 +176,7 @@
   "pricer": {
     "registrationPeriodLabel": "注册期",
     "totalPriceLabel": "支付总额",
-    "yearUint": "年份"
+    "yearUnit": "年份"
   },
   "register": {
     "buttons": {
