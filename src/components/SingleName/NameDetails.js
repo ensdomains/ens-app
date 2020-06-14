@@ -472,7 +472,7 @@ function DetailsContainer({
 
         {domain.registrationDate ? (
           <DetailsItem uneditable>
-            <DetailsKey>{t('c.registrationdate')}</DetailsKey>
+            <DetailsKey>{t('c.registrationDate')}</DetailsKey>
             <DetailsValue>{formatDate(domain.registrationDate)}</DetailsValue>
           </DetailsItem>
         ) : (
