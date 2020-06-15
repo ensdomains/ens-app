@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import getEtherPrice from 'api/price'
+import { getRegistrar } from 'api/ens'
 import { loggedIn, logout } from './IPFS/auth'
 
 export function useDocumentTitle(title) {
@@ -153,7 +153,9 @@ export function useEthPrice(enabled = true) {
 
   useEffect(() => {
     if (enabled) {
-      getEtherPrice()
+      const registrar = getRegistrar()
+      registrar
+        .getEthPrice()
         .then(res => {
           setPrice(res)
           setLoading(false)

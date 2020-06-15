@@ -31,10 +31,6 @@ const resolvers = {
       const registrar = getRegistrar()
       return registrar.getTimeUntilPremium(expires, amount)
     },
-    async getUSDRate() {
-      const registrar = getRegistrar()
-      return registrar.getUSDRate()
-    },
 
     async getMinimumCommitmentAge() {
       try {

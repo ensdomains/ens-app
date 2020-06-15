@@ -7,8 +7,7 @@ import {
   GET_MINIMUM_COMMITMENT_AGE,
   GET_RENT_PRICE,
   GET_PREMIUM,
-  GET_TIME_UNTIL_PREMIUM,
-  GET_USD_RATE
+  GET_TIME_UNTIL_PREMIUM
 } from 'graphql/queries'
 import { useInterval, useEthPrice } from 'components/hooks'
 import { registerMachine, registerReducer } from './registerReducer'
@@ -102,13 +101,6 @@ const NameRegister = ({
       }
     }
   )
-  const { data: { getUSDRate } = {}, loading: getUSDRateLoading } = useQuery(
-    GET_USD_RATE
-  )
-  // TODO: find out why I cannot use EthVal
-  let usdRate = getUSDRate / Math.pow(10, 18)
-  window.EthVal = EthVal
-  console.log('*** getUSDRate', { usdRate })
   const {
     data: { getTimeUntilPremium } = {},
     loading: getTimeUntilPremiumLoading
