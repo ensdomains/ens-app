@@ -86,7 +86,7 @@ class Results extends React.Component {
       return (
         <>
           <H2>
-            <Trans i18nKey="singleName.search.title">Top Level Domains</Trans>
+            <Trans i18nKey="singleName.search.title">Names</Trans>
           </H2>
           <DomainInfo searchTerm={this.state.parsed} />
           {/* <SubDomainResults searchTerm={searchTerm} /> */}
