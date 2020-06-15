@@ -441,13 +441,14 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
 
 function AddRecord(props) {
   const { canEdit } = props
+  const { t } = useTranslation()
   return canEdit ? (
     <AddRecordContainer>
       <Editable {...props} />
     </AddRecordContainer>
   ) : (
     <AddRecordContainer>
-      <RecordsTitle>Records</RecordsTitle>
+      <RecordsTitle>{t('singleName.record.title')}</RecordsTitle>
     </AddRecordContainer>
   )
 }
