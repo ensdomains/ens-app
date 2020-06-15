@@ -301,7 +301,7 @@
       "message": "手動でリゾルバをリセットするには、「設定」をクリックしてカスタムリゾルバのアドレスを入力します" 
     },
     "search": {
-      "title": "Top Level Domains"
+      "title": "Names"
     },
     "subdomains": {
       "add": "サブドメインを追加",
