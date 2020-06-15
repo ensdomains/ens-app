@@ -35,6 +35,7 @@ function PricerInner({
   duration,
   ethUsdPriceLoading,
   ethUsdPrice,
+  ethUsdPremiumPrice,
   className,
   loading,
   price,
@@ -49,6 +50,7 @@ function PricerInner({
         loading={loading}
         ethUsdPriceLoading={ethUsdPriceLoading}
         ethUsdPrice={ethUsdPrice}
+        ethUsdPremiumPrice={ethUsdPremiumPrice}
       />
     </PricingContainer>
   )

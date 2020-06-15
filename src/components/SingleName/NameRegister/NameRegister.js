@@ -111,12 +111,13 @@ const NameRegister = ({
     }
   })
   const releasedDate = moment(expiryTime * 1000).add(90, 'days')
-  let zeroPremiumDate, premiumInEth
+  let zeroPremiumDate, premiumInEth, ethUsdPremiumPrice
   if (getTimeUntilPremium) {
     zeroPremiumDate = new Date(getTimeUntilPremium.toNumber() * 1000)
   }
   if (getPremium) {
     premiumInEth = new EthVal(getPremium.toString()).toEth().toFixed(2)
+    ethUsdPremiumPrice = premiumInEth * ethUsdPrice
   }
 
   const oneMonthInSeconds = 2419200
@@ -125,13 +126,11 @@ const NameRegister = ({
   const waitPercentComplete = (secondsPassed / waitTime) * 100
 
   if (!registrationOpen) return <NotAvailable domain={domain} />
-  console.log({ premiumInEth, premium })
   const handleChange = evt => {
     const { name, value } = evt.target
     if (!isNaN(value) && parseFloat(premiumInEth) >= parseFloat(premium)) {
       console.log({ value })
-      const valueInWei = new window.EthVal(value, 'eth').toWei().toString(16)
-      console.log('*** setPremium', { premiumInEth, premium, valueInWei })
+      const valueInWei = new EthVal(value, 'eth').toWei().toString(16)
       setPremium(valueInWei)
     }
   }
@@ -145,6 +144,7 @@ const NameRegister = ({
           years={years}
           setYears={setYears}
           ethUsdPriceLoading={ethUsdPriceLoading}
+          ethUsdPremiumPrice={ethUsdPremiumPrice}
           ethUsdPrice={ethUsdPrice}
           loading={rentPriceLoading}
           price={getRentPrice}

@@ -40,13 +40,22 @@ const USD = styled('span')`
   `}
 `
 
-const Price = ({ loading, price, ethUsdPrice, ethUsdPriceLoading }) => {
+const Price = ({
+  loading,
+  price,
+  ethUsdPrice,
+  ethUsdPremiumPrice,
+  ethUsdPriceLoading
+}) => {
   const { t } = useTranslation()
   let ethPrice = <InlineLoader />
-  let ethVal
+  let ethVal, basePrice
   if (!loading && price) {
     ethVal = new EthVal(`${price}`).toEth()
     ethPrice = ethVal.toFixed(3)
+    if (ethUsdPrice && ethUsdPremiumPrice) {
+      basePrice = ethVal.mul(ethUsdPrice) - ethUsdPremiumPrice
+    }
   }
 
   return (
@@ -54,10 +63,20 @@ const Price = ({ loading, price, ethUsdPrice, ethUsdPriceLoading }) => {
       <Value>
         {ethPrice} ETH
         {!ethUsdPriceLoading && !loading && price && (
-          <USD>${ethVal.mul(ethUsdPrice).toFixed(2)} USD</USD>
+          <USD>
+            {ethUsdPremiumPrice
+              ? `$${basePrice.toFixed(0)}(+$${ethUsdPremiumPrice.toFixed(2)}) =`
+              : '2'}
+            ${ethVal.mul(ethUsdPrice).toFixed(2)}
+            USD
+          </USD>
         )}
       </Value>
-      <Description>{t('pricer.totalPriceLabel')}</Description>
+      <Description>
+        {ethUsdPremiumPrice
+          ? 'Price per amount of time selected'
+          : t('pricer.totalPriceLabel')}
+      </Description>
     </PriceContainer>
   )
 }
