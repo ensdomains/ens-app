@@ -302,7 +302,7 @@ function DetailsContainer({
         ) : domain.isDNSRegistrar ? (
           <DetailsItem uneditable>
             <DetailsKey>
-              {t('c.controller')} {isOwner ? <You /> : ''}
+              {t('c.Controller')} {isOwner ? <You /> : ''}
             </DetailsKey>
             <DetailsValue>
               <AddressLink address={domain.owner}>
