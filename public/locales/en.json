@@ -53,6 +53,7 @@
     "Address": "Address",
     "Content": "Content",
     "Controller": "Controller",
+    "DnsOwner": "DNS OWNER",
     "Expiration Date": "Expiration Date",
     "Resolver": "Resolver",
     "about": "About",
@@ -77,6 +78,7 @@
     "save": "Save",
     "search": "Search",
     "set": "Set",
+    "sync": "Sync",
     "textrecord": "Text Record",
     "transfer": "Transfer",
     "year": "year",
@@ -247,6 +249,13 @@
         "confirm": "Confirm"
       }
     },
+    "dns": {
+      "messages": {
+        "error": "Solve the error in your Domain registrar. Refresh to reflect updates.",
+        "outOfSync": "The Controller and DNS Owner are out of sync. Click 'sync' to make the DNS Owner the Controller. Click 'refresh' if you make changes to the domain in the DNS Registrar.",
+        "readyToRegister": "*Click 'refresh' if you make changes to the domain in the DNS Registrar."
+      }
+    },
     "domain": {
       "state": {
         "available": "Available",
@@ -318,6 +327,7 @@
     "tooltips": {
       "detailsItem": {
         "Controller": "You can only transfer the controller if you are the controller or registrant and are logged into your wallet",
+        "ControllerAndDnsAlreadySync": "The controller and DNS owner are already in sync",
         "Resolver": "You can only set the resolver on this name if you are the controller and are logged into your wallet",
         "default": "You can only make changes if you are the controller and are logged into your wallet",
         "registrant": "You can only transfer the registrant if you are the registrant and are logged into your wallet",

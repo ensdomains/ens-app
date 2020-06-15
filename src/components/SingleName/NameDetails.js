@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useQuery } from 'react-apollo'
-import { useTranslation } from 'react-i18next'
+import { useTranslation, Trans } from 'react-i18next'
 import styled from '@emotion/styled'
 import { Link, Route } from 'react-router-dom'
 import mq from 'mediaQuery'
@@ -328,11 +328,13 @@ function DetailsContainer({
                   name={domain.name}
                   parentOwner={domain.parentOwner}
                   refetch={refetch}
-                  actionText={'Sync'}
+                  actionText={t('c.sync')}
                 />
               ) : (
                 <Tooltip
-                  text="The controller and DNS owner are already in sync"
+                  text={t(
+                    'singleName.tooltips.detailsItem.ControllerAndDnsAlreadySync'
+                  )}
                   position="left"
                   border={true}
                   warning={true}
@@ -349,7 +351,7 @@ function DetailsContainer({
                         }}
                         type="disabled"
                       >
-                        Sync
+                        {t('c.sync')}
                         {tooltipElement}
                       </Button>
                     )
@@ -381,7 +383,7 @@ function DetailsContainer({
         {domain.isDNSRegistrar ? (
           <>
             <DetailsItem uneditable>
-              <DetailsKey>DNS OWNER</DetailsKey>
+              <DetailsKey>{t('c.DnsOwner')}</DetailsKey>
               <DetailsValue>
                 {dnssecmode.displayError ? (
                   <DNSOwnerError>{dnssecmode.title}</DNSOwnerError>
@@ -413,7 +415,7 @@ function DetailsContainer({
                         })
                     }}
                   >
-                    Refresh{' '}
+                    {t('c.refresh')}{' '}
                   </Button>
                 )}
               </ButtonContainer>
@@ -421,13 +423,12 @@ function DetailsContainer({
             {dnssecmode.displayError ? (
               <ErrorExplainer>
                 <OrangeExclamation />
-                Solve the error in your Domain registrar. Refresh to reflect
-                updates.
+                {t('singleName.dns.messages.error')}
                 <LinkToLearnMore
                   href="https://docs.ens.domains/dns-registrar-guide"
                   target="_blank"
                 >
-                  Learn More{' '}
+                  {t('c.learnmore')}{' '}
                   <EtherScanLinkContainer>
                     <ExternalLinkIcon />
                   </EtherScanLinkContainer>
@@ -438,13 +439,15 @@ function DetailsContainer({
                 <HR />
                 <OutOfSyncExplainer>
                   <OrangeExclamation />
-                  {dnssecmode.explainer}
+                  <Trans i18nKey={'singleName.dns.messages.outOfSync'}>
+                    {dnssecmode.explainer}
+                  </Trans>
                   <LinkToLearnMore
                     href="https://docs.ens.domains/dns-registrar-guide"
                     target="_blank"
                     outOfSync={outOfSync}
                   >
-                    Learn More{' '}
+                    {t('c.learnmore')}{' '}
                     <EtherScanLinkContainer>
                       <ExternalLinkIcon />
                     </EtherScanLinkContainer>
@@ -453,12 +456,14 @@ function DetailsContainer({
               </OutOfSyncExplainerContainer>
             ) : (
               <Explainer>
-                {dnssecmode.explainer}
+                <Trans i18nKey={'singleName.dns.messages.readyToRegister'}>
+                  {dnssecmode.explainer}
+                </Trans>
                 <LinkToLearnMore
                   href="https://docs.ens.domains/dns-registrar-guide"
                   target="_blank"
                 >
-                  Learn More{' '}
+                  {t('c.learnmore')}{' '}
                   <EtherScanLinkContainer>
                     <ExternalLinkIcon />
                   </EtherScanLinkContainer>

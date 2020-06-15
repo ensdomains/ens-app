@@ -51,6 +51,7 @@
     "Address": "以太坊地址",
     "Content": "内容哈希",
     "Controller": "管理员",
+    "DnsOwner": "DNS OWNER",
     "Expiration Date": "到期时间",
     "Resolver": "解析器",
     "about": "关于",
@@ -75,6 +76,7 @@
     "save": "保存",
     "search": "查询",
     "set": "设置",
+    "sync": "Sync",
     "textrecord": "文本记录",
     "transfer": "转让"
   },
@@ -243,6 +245,13 @@
         "confirm": "Confirm"
       }
     },
+    "dns": {
+      "messages": {
+        "error": "Solve the error in your Domain registrar. Refresh to reflect updates.",
+        "outOfSync": "The Controller and DNS Owner are out of sync. Click 'sync' to make the DNS Owner the Controller. Click 'refresh' if you make changes to the domain in the DNS Registrar.",
+        "readyToRegister": "*Click 'refresh' if you make changes to the domain in the DNS Registrar."
+      }
+    },
     "domain": {
       "state": {
         "available": "Available",
@@ -314,6 +323,7 @@
     "tooltips": {
       "detailsItem": {
         "Controller": "如果要转让域名的管理员，请先确定你登录的是该域名的管理员或注册人账户。",
+        "ControllerAndDnsAlreadySync": "The controller and DNS owner are already in sync",
         "Resolver": "如果要设置域名的解析器，请先确定您登录的是该域名的管理员账户。",
         "default": "只有当钱包中使用的账户是域名的管理员账户时，你才能更改该域名的相关信息。",
         "registrant": "如果要转让域名的注册人，请先确定你登录的是该域名当前的注册人账户。",

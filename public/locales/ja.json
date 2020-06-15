@@ -53,6 +53,7 @@
     "Address": "アドレス",
     "Content": "コンテンツ",
     "Controller": "コントローラー",
+    "DnsOwner": "DNSオーナー",
     "Expiration Date": "有効期限",
     "Resolver": "リゾルバ",
     "about": "ENSとは",
@@ -77,6 +78,7 @@
     "save": "保存",
     "search": "検索",
     "set": "設定",
+    "sync": "同期",
     "textrecord": "テキストレコード",
     "transfer": "譲渡",
     "year": "年",
@@ -247,6 +249,13 @@
         "confirm": "確認"
       }
     },
+    "dns": {
+      "messages": {
+        "error": "Solve the error in your Domain registrar. Refresh to reflect updates.",
+        "outOfSync": "The Controller and DNS Owner are out of sync. Click 'sync' to make the DNS Owner the Controller. Click 'refresh' if you make changes to the domain in the DNS Registrar.",
+        "readyToRegister": "*DNSレジストラでドメインに変更を加えた場合は、「更新」をクリックしてください。"
+      }
+    },
     "domain": {
       "state": {
         "available": "利用可能",
@@ -318,6 +327,7 @@
     "tooltips": {
       "detailsItem": {
         "Controller": "あなたがコントローラーまたは登録者であり、ウォレットにログインしている場合に限り、コントローラーを譲渡することができます。",
+        "ControllerAndDnsAlreadySync": "コントローラーとDNSオーナーはすでに同期しています。",
         "Resolver": "あなたがコントローラーであり、ウォレットにログインしている場合に限り、この名前にリゾルバを設定できます。",
         "default": "あなたがコントローラーであり、ウォレットにログインしている場合に限り、この名前に変更を行えます。",
         "registrant": "あなたが登録者であり、ウォレットにログインしている場合に限り、登録者権限を譲渡することができます。",
