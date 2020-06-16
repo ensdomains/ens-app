@@ -101,7 +101,7 @@ function Premium({
       <Chain />
       <DateContainer>
         <Value invalid={invalid}>
-          {invalid ? 'Any number over 2k is invalid' : `$${zeroPremiumDate}`}
+          {invalid ? 'Any number over 2k is invalid' : `${zeroPremiumDate}`}
         </Value>
         <Description>Date of peremium price in local time zone</Description>
       </DateContainer>
