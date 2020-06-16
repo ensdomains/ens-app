@@ -21,7 +21,7 @@ import Bin from '../Forms/Bin'
 import { useAccount } from '../QueryAccount'
 import { getEnsAddress } from '../../api/ens'
 
-import AddToCalendar from '../Calendar'
+import AddToCalendar from '../Calendar/RenewalCalendar'
 import Tooltip from '../Tooltip/Tooltip'
 import { SingleNameBlockies } from '../Blockies'
 import DefaultAddressLink from '../Links/AddressLink'
@@ -374,7 +374,7 @@ const Editable = ({
       skip: keyName !== 'Expiration Date'
     }
   )
-
+  window.moment = moment
   const isValid = getValidation(keyName, newValue)
   const isInvalid = !isValid && newValue.length > 0
   const account = useAccount()

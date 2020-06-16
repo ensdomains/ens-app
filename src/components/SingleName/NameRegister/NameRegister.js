@@ -21,7 +21,6 @@ import Progress from './Progress'
 import NotAvailable from './NotAvailable'
 import Pricer from '../Pricer'
 import EthVal from 'ethval'
-import { formatDate } from 'utils/dates'
 import LineGraph from './LineGraph'
 import Premium from './Premium'
 const DAY = 60 * 60 * 24
@@ -200,8 +199,9 @@ const NameRegister = ({
           />
           <Premium
             handlePremium={handlePremium}
+            name={domain.name}
             invalid={invalid}
-            timeUntilPremium={formatDate(timeUntilPremium)}
+            timeUntilPremium={timeUntilPremium}
           />
         </PremiumWarning>
       ) : (

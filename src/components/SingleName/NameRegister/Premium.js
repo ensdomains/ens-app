@@ -1,14 +1,15 @@
 import React from 'react'
 import styled from '@emotion/styled/macro'
-
+import { css } from 'emotion'
 import { useTranslation } from 'react-i18next'
+import { formatDate } from 'utils/dates'
 
 import mq from 'mediaQuery'
 
 import { ReactComponent as ChainDefault } from '../../Icons/chain.svg'
 
 import DefaultInput from '../../Forms/Input'
-import { CalendarButton } from '../../Calendar/Calendar'
+import AddToCalendar from '../../Calendar/ReleaseCalendar'
 
 const PremiumContainer = styled('div')`
   display: grid;
@@ -79,11 +80,11 @@ const Input = styled(DefaultInput)`
 `
 
 function Premium({
+  name,
   invalid,
   className,
   reference,
   handlePremium,
-  handleReminder,
   timeUntilPremium
 }) {
   const { t } = useTranslation()
@@ -101,12 +102,20 @@ function Premium({
       <Chain />
       <DateContainer>
         <Value invalid={invalid}>
-          {invalid ? 'Any number over 2k is invalid' : `${timeUntilPremium}`}
+          {invalid
+            ? 'Any number over 2k is invalid'
+            : `${formatDate(timeUntilPremium)}`}
         </Value>
         <Description>Date of peremium price in local time zone</Description>
       </DateContainer>
       <CalendarContainer>
-        <CalendarButton onClick={handleReminder}>Remind Me</CalendarButton>
+        <AddToCalendar
+          css={css`
+            margin-right: 20px;
+          `}
+          name={name}
+          startDatetime={timeUntilPremium.utc().subtract(1, 'hour')}
+        />
       </CalendarContainer>
     </PremiumContainer>
   )
