@@ -23,25 +23,18 @@ import Pricer from '../Pricer'
 import EthVal from 'ethval'
 import { formatDate } from 'utils/dates'
 import DefaultInput from '../../Forms/Input'
+import LineGraph from './LineGraph'
+import Premium from './Premium'
 
 const NameRegisterContainer = styled('div')`
   padding: 20px 40px;
 `
 
-const Input = styled(DefaultInput)`
-  display: inline-block;
-  width: 8em;
-`
-
 const PremiumWarning = styled('div')`
-  background-color: #f5a623;
-  color: white;
+  background-color: #fef6e9;
+  color: #d8d8d8;
   padding: 1em;
   margin-bottom: 1em;
-`
-
-const WaitUntil = styled('span')`
-  color: red;
 `
 
 const NameRegister = ({
@@ -126,7 +119,7 @@ const NameRegister = ({
   const waitPercentComplete = (secondsPassed / waitTime) * 100
 
   if (!registrationOpen) return <NotAvailable domain={domain} />
-  const handleChange = evt => {
+  const handlePremium = evt => {
     const { name, value } = evt.target
     if (!isNaN(value) && parseFloat(premiumInEth) >= parseFloat(premium)) {
       console.log({ value })
@@ -152,22 +145,25 @@ const NameRegister = ({
       )}
       {releasedDate && getTimeUntilPremium && getPremium ? (
         <PremiumWarning>
-          <h2>This name is currently sold at premium</h2>
+          <h2>This name has a temporary premium.</h2>
           <p>
-            This is because this name was just released on{' '}
-            {formatDate(releasedDate)}. To prevent people rashing into buying
-            names with high gas price. We sell newly released names with higher
-            premium which becomes lower with time.
+            To prevent a rush to register names with high aas prices, newly
+            released names have a temporary premium that starts at $2,000 and
+            reduces over 28 days until the premium is gone. Enter the amount
+            you're willing to pay as a premium to learn which date to revisit
+            the app to register the name. This is because this name was just
+            released on{' '}
           </p>
-          <ul>
-            <li>The current premium is {premiumInEth} ETH.</li>
-            <li>
-              To have{' '}
-              <Input wide={false} placeholder={0} onChange={handleChange} /> ETH
-              premium, please wait till{' '}
-              <WaitUntil>{formatDate(zeroPremiumDate)}</WaitUntil>.
-            </li>
-          </ul>
+          <LineGraph
+            currentDays={10}
+            premiumInEth={premiumInEth}
+            ethUsdPremiumPrice={ethUsdPremiumPrice}
+            startingPriceInEth={2000 / ethUsdPrice}
+          />
+          <Premium
+            handlePremium={handlePremium}
+            zeroPremiumDate={formatDate(zeroPremiumDate)}
+          />
         </PremiumWarning>
       ) : (
         ''
