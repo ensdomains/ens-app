@@ -57,7 +57,7 @@ const Value = styled('div')`
   font-family: Overpass;
   font-weight: 100;
   font-size: 22px;
-  color: #2b2b2b;
+  color: ${p => (p.invalid ? 'red' : '#2b2b2b')};
   border-bottom: 1px solid #dbdbdb;
   ${mq.small`
     font-size: 28px;
@@ -79,6 +79,7 @@ const Input = styled(DefaultInput)`
 `
 
 function Premium({
+  invalid,
   className,
   reference,
   handlePremium,
@@ -89,12 +90,19 @@ function Premium({
   return (
     <PremiumContainer className={className} ref={reference}>
       <AmountContainer>
-        <Input wide={false} placeholder={'$0'} onChange={handlePremium} />
+        <Input
+          invalid={invalid}
+          wide={false}
+          placeholder={'$0'}
+          onChange={handlePremium}
+        />
         <Description>Premium</Description>
       </AmountContainer>
       <Chain />
       <DateContainer>
-        <Value>${zeroPremiumDate}</Value>
+        <Value invalid={invalid}>
+          {invalid ? 'Any number over 2k is invalid' : `$${zeroPremiumDate}`}
+        </Value>
         <Description>Date of peremium price in local time zone</Description>
       </DateContainer>
       <CalendarContainer>

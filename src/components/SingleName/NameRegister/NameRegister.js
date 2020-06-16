@@ -22,7 +22,6 @@ import NotAvailable from './NotAvailable'
 import Pricer from '../Pricer'
 import EthVal from 'ethval'
 import { formatDate } from 'utils/dates'
-import DefaultInput from '../../Forms/Input'
 import LineGraph from './LineGraph'
 import Premium from './Premium'
 
@@ -57,6 +56,7 @@ const NameRegister = ({
   const [timerRunning, setTimerRunning] = useState(false)
   const { loading: ethUsdPriceLoading, price: ethUsdPrice } = useEthPrice()
   const [premium, setPremium] = useState(0)
+  const [invalid, setInvalid] = useState(false)
 
   useInterval(
     () => {
@@ -104,12 +104,13 @@ const NameRegister = ({
     }
   })
   const releasedDate = moment(expiryTime * 1000).add(90, 'days')
-  let zeroPremiumDate, premiumInEth, ethUsdPremiumPrice
+  let zeroPremiumDate, premiumInEth, ethUsdPremiumPrice, premiumInEthVal
   if (getTimeUntilPremium) {
     zeroPremiumDate = new Date(getTimeUntilPremium.toNumber() * 1000)
   }
   if (getPremium) {
     premiumInEth = new EthVal(getPremium.toString()).toEth().toFixed(2)
+    premiumInEthVal = new EthVal(getPremium.toString()).toEth()
     ethUsdPremiumPrice = premiumInEth * ethUsdPrice
   }
 
@@ -117,14 +118,20 @@ const NameRegister = ({
   const twentyEightDaysInYears = oneMonthInSeconds / yearInSeconds
   const isAboveMinDuration = parsedYears > twentyEightDaysInYears
   const waitPercentComplete = (secondsPassed / waitTime) * 100
-
   if (!registrationOpen) return <NotAvailable domain={domain} />
   const handlePremium = evt => {
-    const { name, value } = evt.target
-    if (!isNaN(value) && parseFloat(premiumInEth) >= parseFloat(premium)) {
-      console.log({ value })
-      const valueInWei = new EthVal(value, 'eth').toWei().toString(16)
-      setPremium(valueInWei)
+    const { value } = evt.target
+    const parsedValue = value.replace('$', '')
+    const valueInEthVal = new EthVal(
+      (parseFloat(parsedValue) || 0) / ethUsdPrice,
+      'eth'
+    )
+
+    if (!isNaN(parsedValue) && premiumInEthVal.gt(valueInEthVal)) {
+      setPremium(valueInEthVal.toWei().toString(16))
+      setInvalid(false)
+    } else {
+      setInvalid(true)
     }
   }
 
@@ -162,6 +169,7 @@ const NameRegister = ({
           />
           <Premium
             handlePremium={handlePremium}
+            invalid={invalid}
             zeroPremiumDate={formatDate(zeroPremiumDate)}
           />
         </PremiumWarning>
