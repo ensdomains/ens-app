@@ -9,7 +9,7 @@ import {
   GET_PREMIUM,
   GET_TIME_UNTIL_PREMIUM
 } from 'graphql/queries'
-import { useInterval, useEthPrice } from 'components/hooks'
+import { useInterval, useEthPrice, useBlock } from 'components/hooks'
 import { registerMachine, registerReducer } from './registerReducer'
 import { sendNotification } from './notification'
 import { calculateDuration, yearInSeconds } from 'utils/dates'
@@ -24,6 +24,7 @@ import EthVal from 'ethval'
 import { formatDate } from 'utils/dates'
 import LineGraph from './LineGraph'
 import Premium from './Premium'
+const DAY = 60 * 60 * 24
 
 const NameRegisterContainer = styled('div')`
   padding: 20px 40px;
@@ -55,6 +56,7 @@ const NameRegister = ({
   const [secondsPassed, setSecondsPassed] = useState(0)
   const [timerRunning, setTimerRunning] = useState(false)
   const { loading: ethUsdPriceLoading, price: ethUsdPrice } = useEthPrice()
+  const { loading: blockLoading, block } = useBlock()
   const [premium, setPremium] = useState(0)
   const [invalid, setInvalid] = useState(false)
 
@@ -103,17 +105,43 @@ const NameRegister = ({
       amount: premium
     }
   })
+  const {
+    data: { getTimeUntilPremium: getTimeUntilZeroPremium } = {},
+    loading: getTimeUntilZeroPremiumLoading
+  } = useQuery(GET_TIME_UNTIL_PREMIUM, {
+    variables: {
+      expires: expiryTime,
+      amount: 0
+    }
+  })
+
   const releasedDate = moment(expiryTime * 1000).add(90, 'days')
-  let zeroPremiumDate, premiumInEth, ethUsdPremiumPrice, premiumInEthVal
+  let timeUntilPremium,
+    premiumInEth,
+    ethUsdPremiumPrice,
+    premiumInEthVal,
+    daysPast,
+    totalDays,
+    daysRemaining,
+    now,
+    timeUntilZeroPremium
   if (getTimeUntilPremium) {
-    zeroPremiumDate = new Date(getTimeUntilPremium.toNumber() * 1000)
+    timeUntilPremium = moment(getTimeUntilPremium.toNumber() * 1000)
   }
   if (getPremium) {
     premiumInEth = new EthVal(getPremium.toString()).toEth().toFixed(2)
     premiumInEthVal = new EthVal(getPremium.toString()).toEth()
     ethUsdPremiumPrice = premiumInEth * ethUsdPrice
   }
-
+  if (getTimeUntilZeroPremium) {
+    timeUntilZeroPremium = moment(getTimeUntilZeroPremium.toNumber() * 1000)
+  }
+  if (block && timeUntilZeroPremium) {
+    now = moment(block.timestamp * 1000)
+    daysPast = parseInt(now.diff(releasedDate) / DAY / 1000)
+    totalDays = parseInt(timeUntilZeroPremium.diff(releasedDate) / DAY / 1000)
+    daysRemaining = totalDays - daysPast
+  }
   const oneMonthInSeconds = 2419200
   const twentyEightDaysInYears = oneMonthInSeconds / yearInSeconds
   const isAboveMinDuration = parsedYears > twentyEightDaysInYears
@@ -166,11 +194,14 @@ const NameRegister = ({
             premiumInEth={premiumInEth}
             ethUsdPremiumPrice={ethUsdPremiumPrice}
             startingPriceInEth={2000 / ethUsdPrice}
+            daysPast={daysPast}
+            totalDays={totalDays}
+            daysRemaining={daysRemaining}
           />
           <Premium
             handlePremium={handlePremium}
             invalid={invalid}
-            zeroPremiumDate={formatDate(zeroPremiumDate)}
+            timeUntilPremium={formatDate(timeUntilPremium)}
           />
         </PremiumWarning>
       ) : (

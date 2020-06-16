@@ -24,12 +24,35 @@ const Title = styled('span')`
   font-size: large;
 `
 export default function LineGraph({
-  currentDays,
+  daysPast,
+  daysRemaining,
+  totalDays,
   premiumInEth,
   ethUsdPremiumPrice,
   startingPriceInEth
 }) {
   const chartRef = React.createRef()
+  let i
+  const labels = []
+  const data = []
+  const pointRadius = []
+  for (i = totalDays; i > 0; i--) {
+    labels.push(i)
+    if (i == 1) {
+      data.push(0)
+    } else if (i >= daysPast) {
+      data.push(i)
+    } else {
+      data.push(null)
+    }
+    if (i == totalDays || i == daysPast) {
+      pointRadius.push(3)
+    } else if (i > daysPast || i == 1) {
+      pointRadius.push(0)
+    } else {
+      pointRadius.push(null)
+    }
+  }
 
   useEffect(() => {
     const ctx = chartRef.current.getContext('2d')
@@ -39,136 +62,22 @@ export default function LineGraph({
     new Chart(ctx, {
       type: 'line',
       data: {
-        labels: [
-          28,
-          27,
-          26,
-          25,
-          24,
-          23,
-          22,
-          21,
-          20,
-          19,
-          18,
-          17,
-          16,
-          15,
-          14,
-          13,
-          12,
-          11,
-          10,
-          9,
-          8,
-          7,
-          6,
-          5,
-          4,
-          3,
-          2,
-          1
-        ],
+        labels,
         //Bring in data
         datasets: [
           {
             label: 'Day',
             borderWidth: 3,
-            data: [
-              28,
-              27,
-              26,
-              25,
-              24,
-              23,
-              22,
-              21,
-              20,
-              19,
-              18,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              0
-            ],
+            data,
             borderColor: '#2C46A6',
             backgroundColor: '#2C46A6',
-            pointRadius: [
-              3,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              3,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              0
-            ],
+            pointRadius,
             fill: false
           },
           {
             label: 'Day',
             borderWidth: 2,
-            data: [
-              28,
-              27,
-              26,
-              25,
-              24,
-              23,
-              22,
-              21,
-              20,
-              19,
-              18,
-              17,
-              16,
-              15,
-              14,
-              13,
-              12,
-              11,
-              10,
-              9,
-              8,
-              7,
-              6,
-              5,
-              4,
-              3,
-              2,
-              1
-            ],
+            data: labels,
             borderColor: '#D8D8D8',
             fill: false,
             pointStyle: 'line'
@@ -222,9 +131,11 @@ export default function LineGraph({
     <LineGraphContainer>
       <Legend>
         <Title>
-          Buy now for {premiumInEth} ETH(${ethUsdPremiumPrice})
+          Buy now for {premiumInEth} ETH(${ethUsdPremiumPrice.toFixed(2)})
         </Title>
-        <span>{currentDays} (out of 28) days remaining</span>
+        <span>
+          {daysRemaining} (out of {totalDays}) days remaining
+        </span>
       </Legend>
       <Canvas id="myChart" ref={chartRef} />
       <Legend>
