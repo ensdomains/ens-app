@@ -66,7 +66,7 @@ const Price = ({
           <USD>
             {ethUsdPremiumPrice
               ? `$${basePrice.toFixed(0)}(+$${ethUsdPremiumPrice.toFixed(2)}) =`
-              : '2'}
+              : ''}
             ${ethVal.mul(ethUsdPrice).toFixed(2)}
             USD
           </USD>

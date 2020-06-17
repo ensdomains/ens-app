@@ -123,12 +123,13 @@ const NameRegister = ({
     totalDays,
     daysRemaining,
     now,
-    timeUntilZeroPremium
+    timeUntilZeroPremium,
+    showPremiumWarning
   if (getTimeUntilPremium) {
     timeUntilPremium = moment(getTimeUntilPremium.toNumber() * 1000)
   }
   if (getPremium) {
-    premiumInEth = new EthVal(getPremium.toString()).toEth().toFixed(2)
+    premiumInEth = new EthVal(getPremium.toString()).toEth()
     premiumInEthVal = new EthVal(getPremium.toString()).toEth()
     ethUsdPremiumPrice = premiumInEth * ethUsdPrice
   }
@@ -140,11 +141,13 @@ const NameRegister = ({
     daysPast = parseInt(now.diff(releasedDate) / DAY / 1000)
     totalDays = parseInt(timeUntilZeroPremium.diff(releasedDate) / DAY / 1000)
     daysRemaining = totalDays - daysPast
+    showPremiumWarning = now.isBetween(releasedDate, timeUntilZeroPremium)
   }
   const oneMonthInSeconds = 2419200
   const twentyEightDaysInYears = oneMonthInSeconds / yearInSeconds
   const isAboveMinDuration = parsedYears > twentyEightDaysInYears
   const waitPercentComplete = (secondsPassed / waitTime) * 100
+  const startingPremiumInDai = 2000
   if (!registrationOpen) return <NotAvailable domain={domain} />
   const handlePremium = evt => {
     const { value } = evt.target
@@ -153,15 +156,17 @@ const NameRegister = ({
       (parseFloat(parsedValue) || 0) / ethUsdPrice,
       'eth'
     )
-
-    if (!isNaN(parsedValue) && premiumInEthVal.gt(valueInEthVal)) {
+    console.log('*** handlePremium', {
+      valueInEthVal: valueInEthVal.toString(),
+      premiumInEthVal: premiumInEthVal.toString()
+    })
+    if (!isNaN(parsedValue) && parseInt(parsedValue) <= startingPremiumInDai) {
       setPremium(valueInEthVal.toWei().toString(16))
       setInvalid(false)
     } else {
       setInvalid(true)
     }
   }
-  console.log({ ethUsdPrice, startingPriceInEth: 2000 / ethUsdPrice })
   return (
     <NameRegisterContainer>
       {step === 'PRICE_DECISION' && (
@@ -177,7 +182,7 @@ const NameRegister = ({
           price={getRentPrice}
         />
       )}
-      {releasedDate && getTimeUntilPremium && getPremium ? (
+      {showPremiumWarning ? (
         <PremiumWarning>
           <h2>This name has a temporary premium.</h2>
           <p>
@@ -192,7 +197,7 @@ const NameRegister = ({
             currentDays={10}
             premiumInEth={premiumInEth}
             ethUsdPremiumPrice={ethUsdPremiumPrice}
-            startingPriceInEth={2000 / ethUsdPrice}
+            startingPriceInEth={startingPremiumInDai / ethUsdPrice}
             daysPast={daysPast}
             totalDays={totalDays}
             daysRemaining={daysRemaining}

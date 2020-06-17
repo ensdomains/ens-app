@@ -32,7 +32,6 @@ export default function LineGraph({
   ethUsdPremiumPrice,
   startingPriceInEth
 }) {
-  console.log('***', { startingPriceInEth })
   const chartRef = React.createRef()
   let i
   const labels = []
@@ -58,9 +57,6 @@ export default function LineGraph({
 
   useEffect(() => {
     const ctx = chartRef.current.getContext('2d')
-    console.log({ ctx })
-
-    // ctx.style.backgroundColor = '#E9EEF6';
     new Chart(ctx, {
       type: 'line',
       data: {
@@ -133,7 +129,8 @@ export default function LineGraph({
     <LineGraphContainer>
       <Legend>
         <Title>
-          Buy now for {premiumInEth} ETH(${ethUsdPremiumPrice.toFixed(2)})
+          Buy now for {premiumInEth.toFixed(2)} ETH($
+          {ethUsdPremiumPrice.toFixed(2)})
         </Title>
         <span>
           {daysRemaining} (out of {totalDays}) days remaining
