@@ -39,9 +39,7 @@ export default function LineGraph({
   const pointRadius = []
   for (i = totalDays; i > 0; i--) {
     labels.push(i)
-    if (i == 1) {
-      data.push(0)
-    } else if (i >= daysRemaining) {
+    if (i >= daysRemaining) {
       data.push(i)
     } else {
       data.push(null)

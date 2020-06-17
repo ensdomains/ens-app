@@ -153,14 +153,14 @@ const NameRegister = ({
     const { value } = evt.target
     const parsedValue = value.replace('$', '')
     const valueInEthVal = new EthVal(
-      (parseFloat(parsedValue) || 0) / ethUsdPrice,
+      parseFloat(parsedValue) / ethUsdPrice,
       'eth'
     )
-    console.log('*** handlePremium', {
-      valueInEthVal: valueInEthVal.toString(),
-      premiumInEthVal: premiumInEthVal.toString()
-    })
-    if (!isNaN(parsedValue) && parseInt(parsedValue) <= startingPremiumInDai) {
+
+    if (
+      !isNaN(parsedValue) &&
+      parseInt(parsedValue || 0) <= startingPremiumInDai
+    ) {
       setPremium(valueInEthVal.toWei().toString(16))
       setInvalid(false)
     } else {
