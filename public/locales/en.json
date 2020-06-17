@@ -52,23 +52,6 @@
   "blockies": {
     "noAddressFound": "No address found"
   },
-  "reminder": {
-    "renewal":{
-      "title": "Renew your ENS domain {{name}}",
-      "description": "Your ENS name is expiring soon, please renew it"
-    },
-    "release":{
-      "title": "Register {{name}}",
-      "description": "Register {{name}} at https://app.ens.domains/name/{{name}}/register"
-    },
-    "everywhere": "everywhere"
-  },
-  "linegraph":{
-    "title":"Buy now for {{premiumInEth}}",
-    "daysRemaining":"{{daysRemaining}} (out of {{totalDays}}) days remaining",
-    "startingPrice":"Starting price",
-    "endPrice":"End price"
-  },
   "c": {
     "Address": "Address",
     "Content": "Content",
@@ -193,24 +176,21 @@
       "title": "Search for names"
     }
   },
+  "linegraph": {
+    "daysRemaining": "{{daysRemaining}} (out of {{totalDays}}) days remaining",
+    "endPrice": "End price",
+    "startingPrice": "Starting price",
+    "title": "Buy now for {{premiumInEth}}"
+  },
   "pendingTx": {
     "text": "Tx Pending"
   },
   "pricer": {
+    "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "Registration Period",
-    "totalPriceLabel": "Total price to pay",
-    "pricePerAmount": "Price per amount of time selected"
+    "totalPriceLabel": "Total price to pay"
   },
   "register": {
-    "premiumWarning":{
-      "title":"This name has a temporary premium.",
-      "description":"To prevent a rush to register names with high aas prices, newly released names have a temporary premium that starts at $2,000 and reduces over 28 days until the premium is gone. Enter the amount you're willing to pay as a premium to learn which date to revisit the app to register the name."
-    },
-    "premium":{
-      "title": "Premium",
-      "invalid": "Any number over 2k is invalid",
-      "dateDescription": "Date of peremium price in local time zone"
-    },
     "buttons": {
       "manage": "Manage",
       "register": "Register",
@@ -222,6 +202,15 @@
       "ready": "is ready to be registered"
     },
     "notify": "Notify me",
+    "premium": {
+      "dateDescription": "Date of peremium price in local time zone",
+      "invalid": "Any number over 2k is invalid",
+      "title": "Premium"
+    },
+    "premiumWarning": {
+      "description": "To prevent a rush to register names with high aas prices, newly released names have a temporary premium that starts at $2,000 and reduces over 28 days until the premium is gone. Enter the amount you're willing to pay as a premium to learn which date to revisit the app to register the name.",
+      "title": "This name has a temporary premium."
+    },
     "step1": {
       "label": "Step 1",
       "text": "Your wallet will open and you will be asked to confirm the first of two transactions required for registration.",
@@ -250,6 +239,17 @@
       "default": "This name needs to be migrated to the new Registry. Only the parent of this name ({{parent}}) can do this.",
       "dnssec": "This name needs to be migrated to the new Registry. Please setup the correct DNS Owner and click 'Sync' button below",
       "parentmigrate": "You must first migrate the parent domain {{ parent}} before you can migrate this subdomain"
+    }
+  },
+  "reminder": {
+    "everywhere": "everywhere",
+    "release": {
+      "description": "Register {{name}} at https://app.ens.domains/name/{{name}}/register",
+      "title": "Register {{name}}"
+    },
+    "renewal": {
+      "description": "Your ENS name is expiring soon, please renew it",
+      "title": "Renew your ENS domain {{name}}"
     }
   },
   "search": {

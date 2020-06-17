@@ -47,6 +47,9 @@
     },
     "transactionBanner": "你能看到这个页面是因为我们向您发送了一笔交易，或是其他网站调用了这笔交易。你需要续费的域名如下。"
   },
+  "blockies": {
+    "noAddressFound": "No address found"
+  },
   "c": {
     "Address": "以太坊地址",
     "Content": "内容哈希",
@@ -169,10 +172,17 @@
       "title": "查询域名"
     }
   },
+  "linegraph": {
+    "daysRemaining": "{{daysRemaining}} (out of {{totalDays}}) days remaining",
+    "endPrice": "End price",
+    "startingPrice": "Starting price",
+    "title": "Buy now for {{premiumInEth}}"
+  },
   "pendingTx": {
     "text": "等待交易被打包"
   },
   "pricer": {
+    "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "注册期",
     "totalPriceLabel": "支付总额"
   },
@@ -188,6 +198,15 @@
       "ready": "已经可以正式注册了"
     },
     "notify": "通知我",
+    "premium": {
+      "dateDescription": "Date of peremium price in local time zone",
+      "invalid": "Any number over 2k is invalid",
+      "title": "Premium"
+    },
+    "premiumWarning": {
+      "description": "To prevent a rush to register names with high aas prices, newly released names have a temporary premium that starts at $2,000 and reduces over 28 days until the premium is gone. Enter the amount you're willing to pay as a premium to learn which date to revisit the app to register the name.",
+      "title": "This name has a temporary premium."
+    },
     "step1": {
       "label": "第 1 步",
       "text": "需要在钱包中确认一笔交易，这是完成域名注册所需的两笔交易中的第一笔。",
@@ -216,6 +235,17 @@
       "default": "该名称需要迁移到新的注册表，只有它的父域名（{{parent}}）可以执行这一操作。",
       "dnssec": "这个域名需要迁移到新注册表中，请正确设置 DNS 所有者的以太坊地址并点击下面的 “同步” 按钮。",
       "parentmigrate": "在迁移这个子域名之前，你必须先确认它的父域名 {{ parent}} 已经迁移。"
+    }
+  },
+  "reminder": {
+    "everywhere": "everywhere",
+    "release": {
+      "description": "Register {{name}} at https://app.ens.domains/name/{{name}}/register",
+      "title": "Register {{name}}"
+    },
+    "renewal": {
+      "description": "Your ENS name is expiring soon, please renew it",
+      "title": "Renew your ENS domain {{name}}"
     }
   },
   "search": {
