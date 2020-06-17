@@ -115,6 +115,7 @@ function Premium({
           `}
           name={name}
           startDatetime={timeUntilPremium.utc().subtract(1, 'hour')}
+          invalid={invalid}
         />
       </CalendarContainer>
     </PremiumContainer>

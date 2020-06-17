@@ -7,6 +7,15 @@ import { css } from 'emotion'
 import { useTranslation } from 'react-i18next'
 import calendar from '../../assets/calendar.svg'
 
+const AddToCalendarContainer = styled('div')`
+  ${p =>
+    p.invalid &&
+    `
+    opacity: 0.3;
+    pointer-events: none ;  
+  `};
+`
+
 const Button = styled(DefaultButton)`
   border: none;
   display: flex;
@@ -26,7 +35,7 @@ const CalendarButton = props => (
   </Button>
 )
 
-function CalendarInvite({ noMargin, dropDownLinks = [], event }) {
+function CalendarInvite({ noMargin, dropDownLinks = [], event, invalid }) {
   const { t } = useTranslation()
 
   const styles = css`
@@ -41,15 +50,17 @@ function CalendarInvite({ noMargin, dropDownLinks = [], event }) {
 
   const AddToCalendar = AddToCalendarHOC(CalendarButton, Dropdown)
   return (
-    <AddToCalendar
-      event={event}
-      className={styles}
-      buttonText={t('expiryNotification.reminder')}
-      items={['Google', 'iCal']}
-      dropdownProps={{
-        prependChildren: dropDownLinks
-      }}
-    />
+    <AddToCalendarContainer invalid={invalid}>
+      <AddToCalendar
+        event={event}
+        className={styles}
+        buttonText={t('expiryNotification.reminder')}
+        items={['Google', 'iCal']}
+        dropdownProps={{
+          prependChildren: dropDownLinks
+        }}
+      />
+    </AddToCalendarContainer>
   )
 }
 
