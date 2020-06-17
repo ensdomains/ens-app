@@ -4,6 +4,7 @@ import React, { useEffect } from 'react'
 
 const LineGraphContainer = styled('div')`
   background-color: white;
+  color: #d8d8d8;
   padding: 1em;
 `
 
@@ -31,6 +32,7 @@ export default function LineGraph({
   ethUsdPremiumPrice,
   startingPriceInEth
 }) {
+  console.log('***', { startingPriceInEth })
   const chartRef = React.createRef()
   let i
   const labels = []

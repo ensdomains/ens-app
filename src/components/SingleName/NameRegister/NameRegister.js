@@ -31,7 +31,7 @@ const NameRegisterContainer = styled('div')`
 
 const PremiumWarning = styled('div')`
   background-color: #fef6e9;
-  color: #d8d8d8;
+  color: black;
   padding: 1em;
   margin-bottom: 1em;
 `
@@ -161,7 +161,7 @@ const NameRegister = ({
       setInvalid(true)
     }
   }
-
+  console.log({ ethUsdPrice, startingPriceInEth: 2000 / ethUsdPrice })
   return (
     <NameRegisterContainer>
       {step === 'PRICE_DECISION' && (
