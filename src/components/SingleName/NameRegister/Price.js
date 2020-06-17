@@ -74,7 +74,7 @@ const Price = ({
       </Value>
       <Description>
         {ethUsdPremiumPrice
-          ? 'Price per amount of time selected'
+          ? t('pricer.pricePerAmount')
           : t('pricer.totalPriceLabel')}
       </Description>
     </PriceContainer>

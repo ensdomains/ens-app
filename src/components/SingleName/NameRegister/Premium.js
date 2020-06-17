@@ -97,16 +97,16 @@ function Premium({
           placeholder={'$0'}
           onChange={handlePremium}
         />
-        <Description>Premium</Description>
+        <Description>{t('register.premium.title')}</Description>
       </AmountContainer>
       <Chain />
       <DateContainer>
         <Value invalid={invalid}>
           {invalid
-            ? 'Any number over 2k is invalid'
+            ? t('register.premium.invalid')
             : `${formatDate(timeUntilPremium)}`}
         </Value>
-        <Description>Date of peremium price in local time zone</Description>
+        <Description>{t('register.premium.dateDescription')}</Description>
       </DateContainer>
       <CalendarContainer>
         <AddToCalendar

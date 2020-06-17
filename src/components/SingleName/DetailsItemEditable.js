@@ -374,7 +374,6 @@ const Editable = ({
       skip: keyName !== 'Expiration Date'
     }
   )
-  window.moment = moment
   const isValid = getValidation(keyName, newValue)
   const isInvalid = !isValid && newValue.length > 0
   const account = useAccount()

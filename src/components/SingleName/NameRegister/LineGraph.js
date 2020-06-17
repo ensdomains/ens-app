@@ -1,6 +1,7 @@
 import Chart from 'chart.js'
 import styled from '@emotion/styled/macro'
 import React, { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const LineGraphContainer = styled('div')`
   background-color: white;
@@ -37,6 +38,7 @@ export default function LineGraph({
   const labels = []
   const data = []
   const pointRadius = []
+  const { t } = useTranslation()
   for (i = totalDays; i > 0; i--) {
     labels.push(i)
     if (i >= daysRemaining) {
@@ -127,17 +129,20 @@ export default function LineGraph({
     <LineGraphContainer>
       <Legend>
         <Title>
-          Buy now for {premiumInEth.toFixed(2)} ETH($
+          {t('linegraph.title', { premiumInEth: premiumInEth.toFixed(2) })}{' '}
+          ETH($
           {ethUsdPremiumPrice.toFixed(2)})
         </Title>
         <span>
-          {daysRemaining} (out of {totalDays}) days remaining
+          {t('linegraph.daysRemaining', { daysRemaining, totalDays })}
         </span>
       </Legend>
       <Canvas id="myChart" ref={chartRef} />
       <Legend>
-        <span>Starting price: {startingPriceInEth} ETH</span>
-        <span>End price: 0 ETH</span>
+        <span>
+          {t('linegraph.startingPrice')}: {startingPriceInEth} ETH
+        </span>
+        <span>{t('linegraph.endPrice')}: 0 ETH</span>
       </Legend>
     </LineGraphContainer>
   )

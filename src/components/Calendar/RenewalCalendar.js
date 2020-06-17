@@ -1,8 +1,6 @@
 import React from 'react'
 import Calendar, { CalendarButton } from './Calendar'
 import EmailNotifyLink from '../ExpiryNotification/EmailNotifyLink'
-import AddToCalendarHOC from 'react-add-to-calendar-hoc'
-import Dropdown from './Dropdown'
 import moment from 'moment'
 import { useTranslation } from 'react-i18next'
 
@@ -17,9 +15,9 @@ function RenewalCalendarInvite({
   const endDatetime = startDatetime.clone().add(2, 'hours')
   const duration = moment.duration(endDatetime.diff(startDatetime)).asHours()
   const event = {
-    title: `Renew your ENS domain ${name}`,
-    description: 'Your ENS name is expiring soon, please renew it',
-    location: 'Everywhere',
+    title: t('reminder.renewal.title', { name }),
+    description: t('reminder.renewal.description'),
+    location: t('reminder.everywhere'),
     startDatetime: startDatetime.format('YYYYMMDDTHHmmss'),
     endDatetime: endDatetime.format('YYYYMMDDTHHmmss'),
     duration

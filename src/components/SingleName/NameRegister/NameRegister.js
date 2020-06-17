@@ -184,15 +184,8 @@ const NameRegister = ({
       )}
       {showPremiumWarning ? (
         <PremiumWarning>
-          <h2>This name has a temporary premium.</h2>
-          <p>
-            To prevent a rush to register names with high aas prices, newly
-            released names have a temporary premium that starts at $2,000 and
-            reduces over 28 days until the premium is gone. Enter the amount
-            you're willing to pay as a premium to learn which date to revisit
-            the app to register the name. This is because this name was just
-            released on{' '}
-          </p>
+          <h2>{t('register.premiumWarning.title')}</h2>
+          <p>{t('register.premiumWarning.description')} </p>
           <LineGraph
             currentDays={10}
             premiumInEth={premiumInEth}

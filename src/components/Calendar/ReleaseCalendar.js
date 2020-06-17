@@ -8,9 +8,9 @@ function RenewalCalendarInvite({ startDatetime, name, noMargin }) {
   const endDatetime = startDatetime.clone().add(2, 'hours')
   const duration = moment.duration(endDatetime.diff(startDatetime)).asHours()
   const event = {
-    title: `Register ${name}`,
-    description: `Register ${name} at https://app.ens.domains/name/${name}/register`,
-    location: 'Everywhere',
+    title: t('reminder.release.title', { name }),
+    description: t('reminder.release.description', { name }),
+    location: t('reminder.everywhere'),
     startDatetime: startDatetime.format('YYYYMMDDTHHmmss'),
     endDatetime: endDatetime.format('YYYYMMDDTHHmmss'),
     duration
