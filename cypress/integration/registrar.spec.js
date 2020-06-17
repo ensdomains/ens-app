@@ -23,7 +23,15 @@ describe('PermanentRegistrar', () => {
       Cypress.env('ownerAddress')
     )
   })
-
+  it('shows premium', () => {
+    cy.visit(`${ROOT}/name/rel.eth`)
+    cy.queryByText('This name has a temporary premium', {
+      exact: false
+    }).should('exist')
+    cy.queryByText('Price per amount of time selected', {
+      exact: false
+    }).should('exist')
+  })
   it('cannot register a name that is already owned', () => {
     cy.visit(`${ROOT}/name/resolver.eth`)
     cy.getByTestId('details-value-registrant', {
