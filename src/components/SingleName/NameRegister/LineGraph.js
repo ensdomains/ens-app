@@ -42,14 +42,14 @@ export default function LineGraph({
     labels.push(i)
     if (i == 1) {
       data.push(0)
-    } else if (i >= daysPast) {
+    } else if (i >= daysRemaining) {
       data.push(i)
     } else {
       data.push(null)
     }
-    if (i == totalDays || i == daysPast) {
+    if (i == totalDays || i == daysRemaining) {
       pointRadius.push(3)
-    } else if (i > daysPast || i == 1) {
+    } else if (i > daysRemaining || i == 1) {
       pointRadius.push(0)
     } else {
       pointRadius.push(null)
