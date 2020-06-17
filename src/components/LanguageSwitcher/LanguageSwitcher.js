@@ -12,11 +12,15 @@ const LANGUAGES = [
   },
   {
     value: 'cn',
-    label: 'Chinese (简体中文)'
+    label: '简体中文 (CN)'
   },
   {
     value: 'ja',
-    label: 'Japanese (日本語)'
+    label: '日本語 (JA)'
+  },
+  {
+    value: 'de',
+    label: 'Deutsch (DE)'
   }
 ]
 

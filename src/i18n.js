@@ -14,7 +14,7 @@ i18n
     debug: true,
     lng: defaultLanguage ? defaultLanguage : 'en',
     fallbackLng: 'en',
-    whitelist: ['en', 'cn', 'ja'],
+    whitelist: ['en', 'cn', 'ja', 'de'],
     interpolation: {
       escapeValue: false // not needed for react as it escapes by default
     },
