@@ -190,8 +190,6 @@ const NameRegister = ({
             currentDays={10}
             premiumInEth={premiumInEth}
             ethUsdPremiumPrice={ethUsdPremiumPrice}
-            startingPriceInEth={startingPremiumInDai / ethUsdPrice}
-            daysPast={daysPast}
             totalDays={totalDays}
             daysRemaining={daysRemaining}
           />

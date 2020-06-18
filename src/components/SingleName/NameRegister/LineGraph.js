@@ -26,12 +26,10 @@ const Title = styled('span')`
   font-size: large;
 `
 export default function LineGraph({
-  daysPast,
   daysRemaining,
   totalDays,
   premiumInEth,
-  ethUsdPremiumPrice,
-  startingPriceInEth
+  ethUsdPremiumPrice
 }) {
   const chartRef = React.createRef()
   let i
@@ -139,10 +137,8 @@ export default function LineGraph({
       </Legend>
       <Canvas id="myChart" ref={chartRef} />
       <Legend>
-        <span>
-          {t('linegraph.startingPrice')}: {startingPriceInEth} ETH
-        </span>
-        <span>{t('linegraph.endPrice')}: 0 ETH</span>
+        <span>{t('linegraph.startingPrice')}: $2000</span>
+        <span>{t('linegraph.endPrice')}: $0</span>
       </Legend>
     </LineGraphContainer>
   )
