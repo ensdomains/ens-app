@@ -206,7 +206,7 @@
       "title": "Premium"
     },
     "premiumWarning": {
-      "description": "To prevent a rush to register names with high aas prices, newly released names have a temporary premium that starts at $2,000 and reduces over 28 days until the premium is gone. Enter the amount you're willing to pay as a premium to learn which date to revisit the app to register the name.",
+      "description": "To ensure everyone has a fair opportunity to register a newly expired name, these names have a premium that starts at $2,000 and reduces over 28 days until the premium is gone. Enter the amount you're willing to pay as a premium to learn which date to revisit the app to register the name.",
       "title": "This name has a temporary premium."
     },
     "step1": {

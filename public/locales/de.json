@@ -49,6 +49,9 @@
     },
     "transactionBanner": "Sie sind hier, wegen einer Transaktion die wir Ihnen gesendet haben oder wegen der Weiterleitung von einer anderen Webseite. Sie haben unten Namen, die bald verlängert werden müssen!"
   },
+  "blockies": {
+    "noAddressFound": "No address found"
+  },
   "c": {
     "Address": "Adresse",
     "Content": "Inhalt",
@@ -173,11 +176,18 @@
       "title": "Nach Namen suchen"
     }
   },
+  "linegraph": {
+    "daysRemaining": "{{daysRemaining}} (out of {{totalDays}}) days remaining",
+    "endPrice": "End price",
+    "startingPrice": "Starting price",
+    "title": "Buy now for {{premiumInEth}}"
+  },
   "pendingTx": {
     "text": "Tx ausstehend"
   },
   "pricer": {
-    "rentalPeriodLabel": "Mietdauer",
+    "pricePerAmount": "Price per amount of time selected",
+    "registrationPeriodLabel": "Registration Period",
     "totalPriceLabel": "Gesamtpreis"
   },
   "register": {
@@ -192,6 +202,15 @@
       "ready": "is bereit registriert zu werden"
     },
     "notify": "Benachrichtige mich",
+    "premium": {
+      "dateDescription": "Date of peremium price in local time zone",
+      "invalid": "Any number over 2k is invalid",
+      "title": "Premium"
+    },
+    "premiumWarning": {
+      "description": "To ensure everyone has a fair opportunity to register a newly expired name, these names have a premium that starts at $2,000 and reduces over 28 days until the premium is gone. Enter the amount you're willing to pay as a premium to learn which date to revisit the app to register the name.",
+      "title": "This name has a temporary premium."
+    },
     "step1": {
       "label": "Schritt 1",
       "text": "Ihr Wallet wird sich öffnen und Sie werden gebeten, die erste von zwei für die Registrierung erforderlichen Transaktionen zu bestätigen.",
@@ -220,6 +239,17 @@
       "default": "Dieser Name muss in das neue Register migriert werden. Nur die Elterndomain dieses Namens ({{parent}}) kann dies tun.",
       "dnssec": "Dieser Name muss in das neue Register migriert werden. Bitte richten Sie den richtigen DNS-Besitzer ein und klicken Sie unten auf die Schaltfläche 'Sync'",
       "parentmigrate": "Sie müssen zuerst die Elterndomain {{parent}} migrieren, bevor Sie diese Subdomain migrieren können"
+    }
+  },
+  "reminder": {
+    "everywhere": "everywhere",
+    "release": {
+      "description": "Register {{name}} at https://app.ens.domains/name/{{name}}/register",
+      "title": "Register {{name}}"
+    },
+    "renewal": {
+      "description": "Your ENS name is expiring soon, please renew it",
+      "title": "Renew your ENS domain {{name}}"
     }
   },
   "search": {
@@ -255,6 +285,7 @@
       "title": "Erfahren Sie, wie Sie Ihren Namen verwalten können."
     },
     "messages": {
+      "alreadyregistered": "This name is already registered",
       "noowner": "Nicht im Besitz",
       "noresolver": "Kein Resolver gesetzt",
       "notfinalised": "(Sie haben es nicht abgeschlossen)",
