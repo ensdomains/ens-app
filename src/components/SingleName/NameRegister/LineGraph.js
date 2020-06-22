@@ -29,40 +29,46 @@ export default function LineGraph({
   daysRemaining,
   totalDays,
   premiumInEth,
-  ethUsdPremiumPrice
+  ethUsdPremiumPrice,
+  startingPremiumInDai,
+  handleTooltip
 }) {
   const chartRef = React.createRef()
   let i
   const labels = []
+  const dates = []
   const data = []
   const pointRadius = []
   const { t } = useTranslation()
-  for (i = totalDays; i > 0; i--) {
-    labels.push(i)
-    if (i >= daysRemaining) {
-      data.push(i)
-    } else {
-      data.push(null)
-    }
-    if (i == totalDays || i == daysRemaining) {
-      pointRadius.push(3)
-    } else if (i > daysRemaining || i == 1) {
-      pointRadius.push(0)
-    } else {
-      pointRadius.push(null)
-    }
-  }
+  const dailyRate = startingPremiumInDai / totalDays
 
   useEffect(() => {
+    for (i = totalDays; i > 0; i--) {
+      let todayRate = (i * dailyRate).toFixed(2)
+      dates.push(`Day ${i}`)
+      labels.push(todayRate)
+      if (i >= daysRemaining) {
+        data.push(todayRate)
+      } else {
+        data.push(null)
+      }
+      if (i == totalDays || i == daysRemaining) {
+        pointRadius.push(3)
+      } else if (i > daysRemaining || i == 1) {
+        pointRadius.push(0)
+      } else {
+        pointRadius.push(null)
+      }
+    }
     const ctx = chartRef.current.getContext('2d')
     new Chart(ctx, {
       type: 'line',
       data: {
-        labels,
+        labels: dates,
         //Bring in data
         datasets: [
           {
-            label: 'Day',
+            label: 'Passed',
             borderWidth: 3,
             data,
             borderColor: '#2C46A6',
@@ -71,7 +77,7 @@ export default function LineGraph({
             fill: false
           },
           {
-            label: 'Day',
+            label: 'Estimate',
             borderWidth: 2,
             data: labels,
             borderColor: '#D8D8D8',
@@ -83,6 +89,26 @@ export default function LineGraph({
       options: {
         animation: {
           duration: 0
+        },
+        tooltips: {
+          enabled: true,
+          mode: 'nearest',
+          intersect: false,
+          titleAlign: 'center',
+          multiKeyBackground: '#2C46A6',
+          callbacks: {
+            label: function(tooltipItem, data) {
+              var label = data.datasets[tooltipItem.datasetIndex].label || ''
+              handleTooltip(tooltipItem.yLabel)
+              if (label) {
+                label += ': $'
+              }
+              label += Math.round(tooltipItem.yLabel * 100) / 100
+              if (tooltipItem.datasetIndex === 1) {
+                return label
+              }
+            }
+          }
         },
         responsive: true,
         aspectRatio: 5,
@@ -113,21 +139,20 @@ export default function LineGraph({
         },
         layout: {
           padding: {
-            top: 0,
-            left: -5,
-            right: 0,
-            bottom: 0
+            top: 5
           }
         }
       }
     })
-  })
+  }, [])
 
   return (
     <LineGraphContainer>
       <Legend>
         <Title>
-          {t('linegraph.title', { premiumInEth: premiumInEth.toFixed(2) })}{' '}
+          {t('linegraph.title', {
+            premiumInEth: premiumInEth && premiumInEth.toFixed(2)
+          })}{' '}
           ETH($
           {ethUsdPremiumPrice.toFixed(2)})
         </Title>
@@ -137,7 +162,9 @@ export default function LineGraph({
       </Legend>
       <Canvas id="myChart" ref={chartRef} />
       <Legend>
-        <span>{t('linegraph.startingPrice')}: $2000</span>
+        <span>
+          {t('linegraph.startingPrice')}: ${startingPremiumInDai}{' '}
+        </span>
         <span>{t('linegraph.endPrice')}: $0</span>
       </Legend>
     </LineGraphContainer>

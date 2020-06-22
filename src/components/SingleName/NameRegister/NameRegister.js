@@ -53,6 +53,7 @@ const NameRegister = ({
   const decrementStep = () => dispatch('PREVIOUS')
   const [years, setYears] = useState(1)
   const [secondsPassed, setSecondsPassed] = useState(0)
+  const [estimateValue, setEstimateValue] = useState('$0')
   const [timerRunning, setTimerRunning] = useState(false)
   const { loading: ethUsdPriceLoading, price: ethUsdPrice } = useEthPrice()
   const { loading: blockLoading, block } = useBlock()
@@ -136,7 +137,7 @@ const NameRegister = ({
   if (getTimeUntilZeroPremium) {
     timeUntilZeroPremium = moment(getTimeUntilZeroPremium.toNumber() * 1000)
   }
-  if (block && timeUntilZeroPremium) {
+  if (block && premiumInEth && timeUntilZeroPremium) {
     now = moment(block.timestamp * 1000)
     daysPast = parseInt(now.diff(releasedDate) / DAY / 1000)
     totalDays = parseInt(timeUntilZeroPremium.diff(releasedDate) / DAY / 1000)
@@ -149,6 +150,11 @@ const NameRegister = ({
   const waitPercentComplete = (secondsPassed / waitTime) * 100
   const startingPremiumInDai = 2000
   if (!registrationOpen) return <NotAvailable domain={domain} />
+
+  const handleTooltip = parsedValue => {
+    setEstimateValue('$' + parsedValue)
+  }
+
   const handlePremium = evt => {
     const { value } = evt.target
     const parsedValue = value.replace('$', '')
@@ -162,6 +168,7 @@ const NameRegister = ({
       parseInt(parsedValue || 0) <= startingPremiumInDai
     ) {
       setPremium(valueInEthVal.toWei().toString(16))
+      setEstimateValue('$' + parsedValue)
       setInvalid(false)
     } else {
       setInvalid(true)
@@ -189,12 +196,15 @@ const NameRegister = ({
           <LineGraph
             currentDays={10}
             premiumInEth={premiumInEth}
+            startingPremiumInDai={startingPremiumInDai}
             ethUsdPremiumPrice={ethUsdPremiumPrice}
             totalDays={totalDays}
             daysRemaining={daysRemaining}
+            handleTooltip={handleTooltip}
           />
           <Premium
             handlePremium={handlePremium}
+            estimateValue={estimateValue}
             name={domain.name}
             invalid={invalid}
             timeUntilPremium={timeUntilPremium}

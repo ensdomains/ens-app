@@ -85,6 +85,7 @@ function Premium({
   className,
   reference,
   handlePremium,
+  estimateValue,
   timeUntilPremium
 }) {
   const { t } = useTranslation()
@@ -95,6 +96,7 @@ function Premium({
           invalid={invalid}
           wide={false}
           placeholder={'$0'}
+          value={estimateValue}
           onChange={handlePremium}
         />
         <Description>{t('register.premium.title')}</Description>
