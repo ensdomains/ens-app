@@ -115,6 +115,10 @@ const NameRegister = ({
     }
   })
 
+  if (getTimeUntilZeroPremiumLoading || ethUsdPriceLoading) {
+    return <></>
+  }
+
   const releasedDate = moment(expiryTime * 1000).add(90, 'days')
   let timeUntilPremium,
     premiumInEth,
@@ -153,6 +157,8 @@ const NameRegister = ({
 
   const handleTooltip = parsedValue => {
     setEstimateValue('$' + parsedValue)
+    const valueInEthVal = new EthVal(parsedValue / ethUsdPrice, 'eth')
+    setPremium(valueInEthVal.toWei().toString(16))
   }
 
   const handlePremium = evt => {
@@ -198,6 +204,7 @@ const NameRegister = ({
             premiumInEth={premiumInEth}
             startingPremiumInDai={startingPremiumInDai}
             ethUsdPremiumPrice={ethUsdPremiumPrice}
+            ethUsdPrice={ethUsdPrice}
             totalDays={totalDays}
             daysRemaining={daysRemaining}
             handleTooltip={handleTooltip}
