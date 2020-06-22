@@ -98,11 +98,8 @@ export default function LineGraph({
           multiKeyBackground: '#2C46A6',
           callbacks: {
             label: function(tooltipItem, data) {
-              var label = data.datasets[tooltipItem.datasetIndex].label || ''
               handleTooltip(tooltipItem.yLabel)
-              if (label) {
-                label += ': $'
-              }
+              let label = 'Premium: $'
               label += Math.round(tooltipItem.yLabel * 100) / 100
               if (tooltipItem.datasetIndex === 1) {
                 return label
