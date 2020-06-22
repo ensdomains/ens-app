@@ -43,7 +43,7 @@ export default function LineGraph({
   const dailyRate = startingPremiumInDai / totalDays
 
   useEffect(() => {
-    for (i = totalDays; i > 0; i--) {
+    for (i = totalDays; i >= 0; i--) {
       let todayRate = (i * dailyRate).toFixed(2)
       dates.push(`Day ${i}`)
       labels.push(todayRate)
@@ -52,7 +52,7 @@ export default function LineGraph({
       } else {
         data.push(null)
       }
-      if (i == totalDays || i == daysRemaining) {
+      if (i == totalDays || i == daysRemaining || i == 0) {
         pointRadius.push(3)
       } else if (i > daysRemaining || i == 1) {
         pointRadius.push(0)
@@ -81,8 +81,9 @@ export default function LineGraph({
             borderWidth: 2,
             data: labels,
             borderColor: '#D8D8D8',
+            pointBackgroundColor: '#D8D8D8',
             fill: false,
-            pointStyle: 'line'
+            pointRadius
           }
         ]
       },
@@ -126,7 +127,7 @@ export default function LineGraph({
           ],
           yAxes: [
             {
-              ticks: { display: false },
+              ticks: { display: false, max: 2100 },
               gridLines: {
                 display: false,
                 drawBorder: false
@@ -136,7 +137,7 @@ export default function LineGraph({
         },
         layout: {
           padding: {
-            top: 5
+            right: 10
           }
         }
       }
