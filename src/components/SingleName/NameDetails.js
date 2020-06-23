@@ -199,6 +199,7 @@ function DetailsContainer({
   setLoading,
   isOwnerOfParent,
   isOwner,
+  domainOwner,
   refetch,
   domain,
   dnssecmode,
@@ -256,7 +257,7 @@ function DetailsContainer({
             <DetailsItemEditable
               domain={domain}
               keyName="Controller"
-              value={domain.owner}
+              value={domainOwner}
               canEdit={isRegistrant || (isOwner && isMigratedToNewRegistry)}
               deedOwner={domain.deedOwner}
               isDeedOwner={isDeedOwner}
@@ -534,6 +535,7 @@ function NameDetails({
   domain,
   isOwner,
   isOwnerOfParent,
+  domainOwner,
   refetch,
   account,
   registrationOpen,
@@ -613,6 +615,7 @@ function NameDetails({
         setLoading={setLoading}
         isOwnerOfParent={isOwnerOfParent}
         isOwner={isOwner}
+        domainOwner={domainOwner}
         refetch={refetch}
         domain={domain}
         dnssecmode={dnssecmode}
@@ -638,6 +641,7 @@ function NameDetails({
         setLoading={setLoading}
         isOwnerOfParent={isOwnerOfParent}
         isOwner={isOwner}
+        domainOwner={domainOwner}
         refetch={refetch}
         domain={domain}
         dnssecmode={dnssecmode}
@@ -666,6 +670,7 @@ function NameDetails({
               isParentMigratedToNewRegistry={isParentMigratedToNewRegistry}
               loadingIsParentMigrated={loadingIsParentMigrated}
               isOwner={isOwner}
+              domainOwner={domainOwner}
               refetch={refetch}
               domain={domain}
               dnssecmode={dnssecmode}

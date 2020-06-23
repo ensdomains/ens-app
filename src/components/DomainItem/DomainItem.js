@@ -164,8 +164,11 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
     <QueryAccount>
       {({ account }) => {
         let isOwner = false
-
-        if (domain.owner && parseInt(domain.owner, 16) !== 0) {
+        if (
+          !domain.available &&
+          domain.owner &&
+          parseInt(domain.owner, 16) !== 0
+        ) {
           isOwner = domain.owner.toLowerCase() === account.toLowerCase()
         }
         const percentDone = 0
