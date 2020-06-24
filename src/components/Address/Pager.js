@@ -84,14 +84,12 @@ export default function Pager({
   currentPage,
   resultsPerPage,
   query,
-  address,
+  variables,
   pageLink
 }) {
   const { totalPages } = useTotalPages({
     resultsPerPage,
-    variables: {
-      id: address
-    },
+    variables,
     query
   })
   if (totalPages < 2) {

@@ -3,6 +3,7 @@ import styled from '@emotion/styled'
 import { useQuery } from 'react-apollo'
 import { useLocation } from 'react-router-dom'
 import { useTranslation, Trans } from 'react-i18next'
+import moment from 'moment'
 
 import {
   GET_DOMAINS_SUBGRAPH,
@@ -118,15 +119,17 @@ function decryptNames(domains) {
   })
 }
 
-function useDomains({ domainType, address, sort, page }) {
+function useDomains({ domainType, address, sort, page, expiryDate }) {
   const skip = (page - 1) * RESULTS_PER_PAGE
+  console.log('useDomains', { domainType, page, skip, RESULTS_PER_PAGE })
   const registrationsQuery = useQuery(GET_REGISTRATIONS_SUBGRAPH, {
     variables: {
       id: address,
       first: RESULTS_PER_PAGE,
       skip,
       orderBy: sort.type,
-      orderDirection: sort.direction
+      orderDirection: sort.direction,
+      expiryDate
     },
     skip: domainType !== 'registrant'
   })
@@ -170,12 +173,15 @@ export default function Address({
   let [checkedBoxes, setCheckedBoxes] = useState({})
   let [years, setYears] = useState(1)
   const [selectAll, setSelectAll] = useState(false)
-
+  const expiryDate = moment()
+    .subtract(90, 'days')
+    .unix()
   const { loading, data, error, refetch } = useDomains({
     domainType,
     address: normalisedAddress,
     sort: activeSort,
-    page
+    page,
+    expiryDate
   })
 
   useEffect(() => {
@@ -318,7 +324,7 @@ export default function Address({
           showBlockies={false}
         />
         <Pager
-          address={address}
+          variables={{ id: address, expiryDate }}
           currentPage={page}
           resultsPerPage={RESULTS_PER_PAGE}
           pageLink={`/address/${address}/${domainType}`}
