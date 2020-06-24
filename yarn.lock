@@ -1708,10 +1708,10 @@
     truffle "^5.0.5"
     web3-utils "^1.0.0-beta.48"
 
-"@ensdomains/ethregistrar@^2.0.3":
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ethregistrar/-/ethregistrar-2.0.3.tgz#8e9293b3be24e85dff565c70659fc626a215d315"
-  integrity sha512-qX2CSfCkgz82NZdw8Y89+/KqBBsZsZHG+TD+XcepRxSIS6eGeYwEcX+IApmNpzzgLoCUtP6u2hc4NP1xkkuxOg==
+"@ensdomains/ethregistrar@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ethregistrar/-/ethregistrar-2.0.4.tgz#0dcf0679e37c2786a50caef96a9802cb7e7b93d4"
+  integrity sha512-Gjh5s57XlypU2A97UbSaUIYeAxKD7OpumWnJ1ZE73uohXTDq8pJoqStnmhVpBlvzNWp/aegW9ndpUr/tboM88A==
   dependencies:
     "@ensdomains/buffer" "0.0.10"
     "@ensdomains/dnsregistrar" "^0.3.5"
@@ -1728,10 +1728,10 @@
     truffle-flattener "^1.4.2"
     web3-utils "^1.0.0-beta.48"
 
-"@ensdomains/mock@npm:ensdomains-mock@2.0.21":
-  version "2.0.21"
-  resolved "https://registry.yarnpkg.com/ensdomains-mock/-/ensdomains-mock-2.0.21.tgz#ec27286523f67d5c7e1aed4b0c393af02672230c"
-  integrity sha512-S8T4z/hHWozeTQ3tf27dJXDmCPmv2r73QBcLD/+cZofB008yaC7HeQtQliW+i8SRCMK5xlNQMQq8Zo/nqVAb0A==
+"@ensdomains/mock@npm:ensdomains-mock@2.0.22":
+  version "2.0.22"
+  resolved "https://registry.yarnpkg.com/ensdomains-mock/-/ensdomains-mock-2.0.22.tgz#2390ce56ebb0f43ba19c8045ab215732d6840275"
+  integrity sha512-1haAp+8RZUSTu1hepAIHX7wDRHdrTcTWOaVgY6ZeFoOcpC5hdjjDeLfwYX7sAKrJl0bRgMm54cvVVDOStpRkfw==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
@@ -1740,7 +1740,7 @@
     "@ensdomains/dnssec-oracle" "^0.1.2"
     "@ensdomains/ens" "^0.4.4"
     "@ensdomains/ens-022" "npm:@ensdomains/ens@0.2.2"
-    "@ensdomains/ethregistrar" "^2.0.3"
+    "@ensdomains/ethregistrar" "^2.0.4"
     "@ensdomains/ethregistrar-202" "npm:@ensdomains/ethregistrar@2.0.2"
     "@ensdomains/resolver" "0.2.4"
     "@ensdomains/subdomain-registrar" "^0.2.3"
@@ -1837,10 +1837,10 @@
     js-sha3 "^0.8.0"
     lodash "^4.17.11"
 
-"@ensdomains/ui@npm:makoto-ensdomains-ui@3.0.21":
-  version "3.0.21"
-  resolved "https://registry.yarnpkg.com/makoto-ensdomains-ui/-/makoto-ensdomains-ui-3.0.21.tgz#de087813af7c6dce98fc9e305126af93e33e86ec"
-  integrity sha512-RVser7A5EKM15vkIRzoaJfUulq2bXEyORmE7Cbn37BnwBjjzkvk9/NPKYj6z9nOEye0NG9K7kqZ1eaz9rAXhnQ==
+"@ensdomains/ui@npm:makoto-ensdomains-ui@3.0.22":
+  version "3.0.22"
+  resolved "https://registry.yarnpkg.com/makoto-ensdomains-ui/-/makoto-ensdomains-ui-3.0.22.tgz#ee96ccb2a4b1a94760b1a4f0c246a3e7f7319e68"
+  integrity sha512-XksPoFX9wQZr97ZYEly7B/xhtC2YvPwX7XnGwiSvnMNFLij2kcdUw4SQU20DaCWaoMR9D7c07Xn6OJDDlymPpQ==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
@@ -1849,7 +1849,7 @@
     "@ensdomains/dnsregistrar" "^0.3.9"
     "@ensdomains/ens" "^0.4.3"
     "@ensdomains/ens-022" "npm:@ensdomains/ens@0.2.2"
-    "@ensdomains/ethregistrar" "^2.0.3"
+    "@ensdomains/ethregistrar" "^2.0.4"
     "@ensdomains/resolver" "0.2.4"
     "@ensdomains/subdomain-registrar" "^0.2.1"
     "@ethvault/iframe-provider" "0.1.9"

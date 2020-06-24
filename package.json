@@ -11,10 +11,10 @@
     "@ensdomains/address-encoder": "^0.1.6",
     "@ensdomains/ens": "^0.4.4",
     "@ensdomains/ens-022": "npm:@ensdomains/ens@0.2.2",
-    "@ensdomains/ethregistrar": "^2.0.3",
+    "@ensdomains/ethregistrar": "^2.0.4",
     "@ensdomains/react-ens-address": "^0.0.25",
     "@ensdomains/resolver": "^0.2.4",
-    "@ensdomains/ui": "npm:makoto-ensdomains-ui@3.0.21",
+    "@ensdomains/ui": "npm:makoto-ensdomains-ui@3.0.22",
     "apollo-cache-inmemory": "^1.2.9",
     "apollo-client": "^2.4.5",
     "apollo-link": "^1.2.2",
@@ -97,7 +97,7 @@
     }
   },
   "devDependencies": {
-    "@ensdomains/mock": "npm:ensdomains-mock@2.0.21",
+    "@ensdomains/mock": "npm:ensdomains-mock@2.0.22",
     "apollo-client-mock": "0.0.8",
     "babel-plugin-macros": "^2.4.2",
     "cypress": "4.5.0",
