@@ -199,7 +199,6 @@ function DetailsContainer({
   setLoading,
   isOwnerOfParent,
   isOwner,
-  domainOwner,
   refetch,
   domain,
   dnssecmode,
@@ -211,6 +210,10 @@ function DetailsContainer({
 }) {
   const { t } = useTranslation()
   const isExpired = domain.expiryTime < new Date()
+  const domainOwner =
+    domain.available || domain.owner === '0x0' ? null : domain.owner
+  const registrant =
+    domain.available || domain.registrant === '0x0' ? null : domain.registrant
   return (
     <Details data-testid="name-details">
       {isOwner && <SetupName initialState={showExplainer} />}
@@ -243,7 +246,7 @@ function DetailsContainer({
             <DetailsItemEditable
               domain={domain}
               keyName="registrant"
-              value={domain.registrant}
+              value={registrant}
               canEdit={isRegistrant && !isExpired}
               isExpiredRegistrant={isRegistrant && isExpired}
               type="address"
@@ -273,7 +276,7 @@ function DetailsContainer({
         ) : domain.parent === 'eth' && !domain.isNewRegistrar ? (
           <>
             <DetailsItem uneditable>
-              <DetailsKey>{t('c.Registrant')}</DetailsKey>
+              <DetailsKey>{t('c.registrant')}</DetailsKey>
               <DetailsValue>
                 <AddressLink address={domain.deedOwner}>
                   <SingleNameBlockies
@@ -535,7 +538,6 @@ function NameDetails({
   domain,
   isOwner,
   isOwnerOfParent,
-  domainOwner,
   refetch,
   account,
   registrationOpen,
@@ -615,7 +617,6 @@ function NameDetails({
         setLoading={setLoading}
         isOwnerOfParent={isOwnerOfParent}
         isOwner={isOwner}
-        domainOwner={domainOwner}
         refetch={refetch}
         domain={domain}
         dnssecmode={dnssecmode}
@@ -641,7 +642,6 @@ function NameDetails({
         setLoading={setLoading}
         isOwnerOfParent={isOwnerOfParent}
         isOwner={isOwner}
-        domainOwner={domainOwner}
         refetch={refetch}
         domain={domain}
         dnssecmode={dnssecmode}
@@ -670,7 +670,6 @@ function NameDetails({
               isParentMigratedToNewRegistry={isParentMigratedToNewRegistry}
               loadingIsParentMigrated={loadingIsParentMigrated}
               isOwner={isOwner}
-              domainOwner={domainOwner}
               refetch={refetch}
               domain={domain}
               dnssecmode={dnssecmode}
