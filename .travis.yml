@@ -30,7 +30,7 @@ jobs:
       before_script:
         - sudo service postgresql stop
         - sudo apt-get install libsecret-1-dev
-        - ganache-cli -h 0.0.0.0 >ganache.log 2>&1 &
+        - ganache-cli -h 0.0.0.0 --gasLimit 10000000 -gas 1000000000  >ganache.log 2>&1 &
         - sleep 5
         - cd ../ && git clone https://github.com/ensdomains/ens-subgraph.git
         - cd ens-subgraph && yarn && cd ../
