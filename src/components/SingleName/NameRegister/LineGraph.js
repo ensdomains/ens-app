@@ -3,6 +3,7 @@ import styled from '@emotion/styled/macro'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { formatDate } from 'utils/dates'
+import debounce from 'lodash/debounce'
 const DAY = 60 * 60 * 24
 const HOUR = 60 * 60
 
@@ -37,6 +38,7 @@ export default function LineGraph({
   startingPremiumInDai,
   handleTooltip
 }) {
+  const debouncedHandleTooltip = debounce(handleTooltip, 500)
   const daysPast = parseInt(now.diff(releasedDate) / DAY / 1000)
   const totalDays = parseInt(
     timeUntilZeroPremium.diff(releasedDate) / DAY / 1000
@@ -122,7 +124,7 @@ export default function LineGraph({
           multiKeyBackground: '#2C46A6',
           callbacks: {
             label: function(tooltipItem, data) {
-              handleTooltip(tooltipItem.yLabel)
+              debouncedHandleTooltip(tooltipItem.yLabel)
               let label = `Premium: $${tooltipItem.yLabel.toFixed(2)}`
               if (tooltipItem.datasetIndex === 1) {
                 return label
