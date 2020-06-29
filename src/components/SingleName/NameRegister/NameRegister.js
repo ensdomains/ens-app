@@ -121,11 +121,8 @@ const NameRegister = ({
   const releasedDate = moment(expiryTime * 1000).add(90, 'days')
   let timeUntilPremium,
     premiumInEth,
-    ethUsdPremiumPrice,
     premiumInEthVal,
-    daysPast,
-    totalDays,
-    daysRemaining,
+    ethUsdPremiumPrice,
     now,
     timeUntilZeroPremium,
     showPremiumWarning
@@ -196,15 +193,13 @@ const NameRegister = ({
           <h2>{t('register.premiumWarning.title')}</h2>
           <p>{t('register.premiumWarning.description')} </p>
           <LineGraph
-            currentDays={10}
-            premiumInEth={premiumInEth}
-            startingPremiumInDai={startingPremiumInDai}
-            ethUsdPremiumPrice={ethUsdPremiumPrice}
-            ethUsdPrice={ethUsdPrice}
-            releasedDate={releasedDate}
-            timeUntilPremium={timeUntilPremium}
             now={now}
+            releasedDate={releasedDate}
             timeUntilZeroPremium={timeUntilZeroPremium}
+            premiumInEth={premiumInEth}
+            ethUsdPremiumPrice={ethUsdPremiumPrice}
+            startingPremiumInDai={startingPremiumInDai}
+            ethUsdPrice={ethUsdPrice}
             handleTooltip={handleTooltip}
           />
           <Premium
