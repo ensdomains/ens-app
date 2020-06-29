@@ -23,7 +23,6 @@ import Pricer from '../Pricer'
 import EthVal from 'ethval'
 import LineGraph from './LineGraph'
 import Premium from './Premium'
-const DAY = 60 * 60 * 24
 
 const NameRegisterContainer = styled('div')`
   padding: 20px 40px;
@@ -143,9 +142,6 @@ const NameRegister = ({
   }
   if (block && premiumInEth && timeUntilZeroPremium) {
     now = moment(block.timestamp * 1000)
-    daysPast = parseInt(now.diff(releasedDate) / DAY / 1000)
-    totalDays = parseInt(timeUntilZeroPremium.diff(releasedDate) / DAY / 1000)
-    daysRemaining = totalDays - daysPast
     showPremiumWarning = now.isBetween(releasedDate, timeUntilZeroPremium)
   }
   const oneMonthInSeconds = 2419200
@@ -205,8 +201,10 @@ const NameRegister = ({
             startingPremiumInDai={startingPremiumInDai}
             ethUsdPremiumPrice={ethUsdPremiumPrice}
             ethUsdPrice={ethUsdPrice}
-            totalDays={totalDays}
-            daysRemaining={daysRemaining}
+            releasedDate={releasedDate}
+            timeUntilPremium={timeUntilPremium}
+            now={now}
+            timeUntilZeroPremium={timeUntilZeroPremium}
             handleTooltip={handleTooltip}
           />
           <Premium
