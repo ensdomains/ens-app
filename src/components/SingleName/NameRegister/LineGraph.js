@@ -38,7 +38,7 @@ export default function LineGraph({
   startingPremiumInDai,
   handleTooltip
 }) {
-  const debouncedHandleTooltip = debounce(handleTooltip, 500)
+  const debouncedHandleTooltip = debounce(handleTooltip, 100)
   const daysPast = parseInt(now.diff(releasedDate) / DAY / 1000)
   const totalDays = parseInt(
     timeUntilZeroPremium.diff(releasedDate) / DAY / 1000

@@ -149,8 +149,9 @@ const NameRegister = ({
   if (!registrationOpen) return <NotAvailable domain={domain} />
 
   const handleTooltip = parsedValue => {
-    setEstimateValue('$' + parsedValue)
-    const valueInEthVal = new EthVal(parsedValue / ethUsdPrice, 'eth')
+    let delimitedParsedValue = parsedValue.toFixed(2)
+    setEstimateValue('$' + delimitedParsedValue)
+    const valueInEthVal = new EthVal(delimitedParsedValue / ethUsdPrice, 'eth')
     setPremium(valueInEthVal.toWei().toString(16))
   }
 
