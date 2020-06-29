@@ -382,6 +382,7 @@ function DetailsContainer({
           />
         )}
         {/* To be replaced with a logic a function to detect dnsregistrar */}
+
         {domain.isDNSRegistrar ? (
           <>
             <DetailsItem uneditable>
