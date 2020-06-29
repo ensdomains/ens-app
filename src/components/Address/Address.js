@@ -173,7 +173,9 @@ export default function Address({
   let [checkedBoxes, setCheckedBoxes] = useState({})
   let [years, setYears] = useState(1)
   const [selectAll, setSelectAll] = useState(false)
+  // Adjust to the start of the hour so that expirtyDate stay the same while the user is navigating the page, preventing querying unnecessarily
   const expiryDate = moment()
+    .startOf('hour')
     .subtract(90, 'days')
     .unix()
   const { loading, data, error, refetch } = useDomains({
