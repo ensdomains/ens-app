@@ -31,6 +31,7 @@ import Pager from './Pager'
 
 import warning from '../../assets/yellowwarning.svg'
 import close from '../../assets/close.svg'
+import { block, useBlock } from '../hooks'
 
 const RESULTS_PER_PAGE = 30
 
@@ -162,6 +163,7 @@ export default function Address({
   const { search } = useLocation()
   const pageQuery = new URLSearchParams(search).get('page')
   const page = pageQuery ? parseInt(pageQuery) : 1
+  const { loading: blockLoading, block } = useBlock()
 
   let { t } = useTranslation()
   let [showOriginBannerFlag, setShowOriginBannerFlag] = useState(true)
@@ -173,11 +175,13 @@ export default function Address({
   let [checkedBoxes, setCheckedBoxes] = useState({})
   let [years, setYears] = useState(1)
   const [selectAll, setSelectAll] = useState(false)
-  // Adjust to the start of the hour so that expirtyDate stay the same while the user is navigating the page, preventing querying unnecessarily
-  const expiryDate = moment()
-    .startOf('hour')
-    .subtract(90, 'days')
-    .unix()
+  let expiryDate
+  if (block) {
+    expiryDate = moment(block.timestamp * 1000)
+      .subtract(90, 'days')
+      .unix()
+  }
+
   const { loading, data, error, refetch } = useDomains({
     domainType,
     address: normalisedAddress,
