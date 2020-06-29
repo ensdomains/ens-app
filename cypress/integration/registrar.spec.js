@@ -32,6 +32,17 @@ describe('PermanentRegistrar', () => {
       exact: false
     }).should('exist')
   })
+  it('does not show released owner info', () => {
+    cy.visit(`${ROOT}/name/rel.eth/details`)
+    cy.getByTestId('details-value-registrant', {
+      exact: false,
+      timeout: 10000
+    }).should('have.text', 'No address found')
+    cy.getByTestId('details-value-controller', {
+      exact: false,
+      timeout: 10000
+    }).should('have.text', 'No address found')
+  })
   it('cannot register a name that is already owned', () => {
     cy.visit(`${ROOT}/name/resolver.eth`)
     cy.getByTestId('details-value-registrant', {
