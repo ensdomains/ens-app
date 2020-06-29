@@ -61,7 +61,7 @@ function Name({ details: domain, name, pathname, type, refetch }) {
   const isOwner = isOwnerOfDomain(domain, account)
   const isOwnerOfParent = isOwnerOfParentDomain(domain, account)
   const isDeedOwner = domain.deedOwner === account
-  const isRegistrant = domain.registrant === account
+  const isRegistrant = !domain.available && domain.registrant === account
   const registrationOpen = isRegistrationOpen(
     domain.available,
     domain.parent,

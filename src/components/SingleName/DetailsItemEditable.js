@@ -378,7 +378,7 @@ const Editable = ({
   const isInvalid = !isValid && newValue.length > 0
   const account = useAccount()
   const isOwnerOfParent = isOwnerOfParentDomain(domain, account)
-  const isRegistrant = domain.registrant === account
+  const isRegistrant = !domain.available && domain.registrant === account
   const canDelete = ['Controller', 'Resolver'].includes(keyName)
   return (
     <Mutation
