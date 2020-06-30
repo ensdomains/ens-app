@@ -66,7 +66,10 @@ export default function LineGraph({
       let label = `${formatDate(i.unix() * 1000)}`
       dates.push(label)
       labels.push(premium)
-      if (now.diff(i) >= 0) {
+      if (
+        now.diff(i) >= 0 ||
+        now.format('YYYY-MM-DD:HH:00') === i.format('YYYY-MM-DD:HH:00')
+      ) {
         data.push(premium)
       } else {
         data.push(null)
@@ -140,6 +143,9 @@ export default function LineGraph({
         scales: {
           xAxes: [
             {
+              afterFit: scale => {
+                scale.height = 0
+              },
               ticks: {
                 maxTicksLimit: totalDays,
                 callback: function() {
@@ -147,7 +153,7 @@ export default function LineGraph({
                 }
               },
               gridLines: {
-                zeroLineColor: 'white',
+                zeroLineColor: '#e9eef6',
                 zeroLineWidth: 3,
                 color: 'white',
                 lineWidth: 3,
@@ -167,9 +173,7 @@ export default function LineGraph({
           ]
         },
         layout: {
-          padding: {
-            right: 10
-          }
+          padding: {}
         }
       }
     })
