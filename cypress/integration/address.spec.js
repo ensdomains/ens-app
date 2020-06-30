@@ -71,22 +71,27 @@ describe('/address', () => {
       }).should('have.css', 'border-top-color', ENABLED_COLOUR)
     })
 
-    cy.getByText('Renew', { exact: false }).click()
-    cy.queryByText('Registration Period', { exact: false }).should('exist')
-    cy.getByText('Renew', { exact: true }).click()
-    cy.getByText('Confirm', { exact: true }).click()
-    const currentYear = new Date().getFullYear()
+    cy.getByText('Expires ', { exact: false })
+      .invoke('text')
+      .then(text => {
+        // Current year is more likely a few years ahead of actual Date, so have to fetch from the page.
+        const currentYear = parseInt(text.match(/(\d){4}/)[0])
+        cy.getByText('Renew', { exact: false }).click()
+        cy.queryByText('Registration Period', { exact: false }).should('exist')
+        cy.getByText('Renew', { exact: true }).click()
+        cy.getByText('Confirm', { exact: true }).click()
 
-    names.forEach(name => {
-      cy.get(`[data-testid="${name}"]`, {
-        timeout: 10000
-      }).within(() => {
-        cy.queryByText(`${currentYear + 1}`, {
-          exact: false,
-          timeout: 20000
-        }).should('exist')
+        names.forEach(name => {
+          cy.get(`[data-testid="${name}"]`, {
+            timeout: 10000
+          }).within(() => {
+            cy.queryByText(`${currentYear + 1}`, {
+              exact: false,
+              timeout: 20000
+            }).should('exist')
+          })
+        })
       })
-    })
   })
 
   it('can select a single name and renew', () => {
