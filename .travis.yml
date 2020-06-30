@@ -37,7 +37,7 @@ jobs:
         - git clone https://github.com/graphprotocol/graph-node
         - pwd
         - ls graph-node/docker
-        - cd graph-node/docker && ./setup.sh
+        - cd graph-node/docker && travis_wait 20 ./setup.sh
         - rm -rf data
         - docker-compose up 2>&1 > ~/docker-compose.log &
         - DOCKER_PATH=`pwd`
