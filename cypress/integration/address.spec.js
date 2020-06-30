@@ -84,17 +84,20 @@ describe('/address', () => {
         cy.wait(5000)
         cy.getByText('Confirm', { exact: true }).click()
         cy.wait(5000)
+        cy.getByText('My Names').click({ force: true })
+        cy.wait(5000)
         // Disable temporarily
-        // names.forEach(name => {
-        //   cy.get(`[data-testid="${name}"]`, {
-        //     timeout: 10000
-        //   }).within(() => {
-        //     cy.queryByText(`${currentYear + 1}`, {
-        //       exact: false,
-        //       timeout: 20000
-        //     }).should('exist')
-        //   })
-        // })
+        cy.queryByText('Registration Period', { exact: false }).should('exist')
+        names.forEach(name => {
+          cy.get(`[data-testid="${name}"]`, {
+            timeout: 10000
+          }).within(() => {
+            cy.queryByText(`${currentYear + 1}`, {
+              exact: false,
+              timeout: 20000
+            }).should('exist')
+          })
+        })
         cy.queryByText('Registration Period', { exact: false }).should('exist')
       })
   })
