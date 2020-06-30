@@ -60,7 +60,7 @@ describe('/address', () => {
     )
   })
 
-  it('can click select all and renew all', () => {
+  it.only('can click select all and renew all', () => {
     const names = [`resolver.eth`, `newname.eth`]
     cy.visit(ROOT)
     cy.getByText('My Names').click({ force: true })
@@ -77,20 +77,24 @@ describe('/address', () => {
         // Current year is more likely a few years ahead of actual Date, so have to fetch from the page.
         const currentYear = parseInt(text.match(/(\d){4}/)[0])
         cy.getByText('Renew', { exact: false }).click()
+        cy.wait(5000)
         cy.queryByText('Registration Period', { exact: false }).should('exist')
+        cy.wait(5000)
         cy.getByText('Renew', { exact: true }).click()
+        cy.wait(5000)
         cy.getByText('Confirm', { exact: true }).click()
+        cy.wait(5000)
         // Disable temporarily
-        // names.forEach(name => {
-        //   cy.get(`[data-testid="${name}"]`, {
-        //     timeout: 10000
-        //   }).within(() => {
-        //     cy.queryByText(`${currentYear + 1}`, {
-        //       exact: false,
-        //       timeout: 20000
-        //     }).should('exist')
-        //   })
-        // })
+        names.forEach(name => {
+          cy.get(`[data-testid="${name}"]`, {
+            timeout: 10000
+          }).within(() => {
+            cy.queryByText(`${currentYear + 1}`, {
+              exact: false,
+              timeout: 20000
+            }).should('exist')
+          })
+        })
       })
   })
 
