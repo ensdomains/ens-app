@@ -109,7 +109,8 @@ export default function LineGraph({
             borderWidth: 2,
             data: labels,
             borderColor: '#D8D8D8',
-            pointBackgroundColor: '#D8D8D8',
+            pointBackgroundColor: '#2C46A6',
+            pointBorderColor: '#2C46A6',
             fill: false,
             pointRadius
           }
