@@ -54,6 +54,7 @@ const NameRegister = ({
   const [secondsPassed, setSecondsPassed] = useState(0)
   const [estimateValue, setEstimateValue] = useState('$0')
   const [timerRunning, setTimerRunning] = useState(false)
+  const [targetDate, setTargetDate] = useState(false)
   const { loading: ethUsdPriceLoading, price: ethUsdPrice } = useEthPrice()
   const { loading: blockLoading, block } = useBlock()
   const [premium, setPremium] = useState(0)
@@ -136,6 +137,9 @@ const NameRegister = ({
   }
   if (getTimeUntilZeroPremium) {
     timeUntilZeroPremium = moment(getTimeUntilZeroPremium.toNumber() * 1000)
+    if (!targetDate) {
+      setTargetDate(timeUntilZeroPremium.format('YYYY-MM-DD:HH:00'))
+    }
   }
   if (block && premiumInEth && timeUntilZeroPremium) {
     now = moment(block.timestamp * 1000)
@@ -148,15 +152,16 @@ const NameRegister = ({
   const startingPremiumInDai = 2000
   if (!registrationOpen) return <NotAvailable domain={domain} />
 
-  const handleTooltip = parsedValue => {
-    let delimitedParsedValue = parsedValue.toFixed(2)
+  const handleTooltip = tooltipItem => {
+    let delimitedParsedValue = tooltipItem.yLabel.toFixed(2)
     setEstimateValue('$' + delimitedParsedValue)
     const valueInEthVal = new EthVal(delimitedParsedValue / ethUsdPrice, 'eth')
     setPremium(valueInEthVal.toWei().toString(16))
+    setTargetDate(tooltipItem.xLabel)
   }
 
-  const handlePremium = evt => {
-    const { value } = evt.target
+  const handlePremium = target => {
+    const { value } = target
     const parsedValue = value.replace('$', '')
     const valueInEthVal = new EthVal(
       parseFloat(parsedValue) / ethUsdPrice,
@@ -169,6 +174,11 @@ const NameRegister = ({
     ) {
       setPremium(valueInEthVal.toWei().toString(16))
       setEstimateValue('$' + parsedValue)
+      setTargetDate(timeUntilPremium.format('YYYY-MM-DD:HH:00'))
+      console.log('***handlePremium', {
+        parsedValue,
+        targetDate: timeUntilPremium.format('YYYY-MM-DD:HH:00')
+      })
       setInvalid(false)
     } else {
       setInvalid(true)
@@ -202,6 +212,7 @@ const NameRegister = ({
             startingPremiumInDai={startingPremiumInDai}
             ethUsdPrice={ethUsdPrice}
             handleTooltip={handleTooltip}
+            targetDate={targetDate}
           />
           <Premium
             handlePremium={handlePremium}

@@ -31,6 +31,7 @@ const Title = styled('span')`
 `
 export default function LineGraph({
   now,
+  targetDate,
   releasedDate,
   timeUntilZeroPremium,
   premiumInEth,
@@ -38,6 +39,7 @@ export default function LineGraph({
   startingPremiumInDai,
   handleTooltip
 }) {
+  console.log('***ENTER LineGraph')
   const debouncedHandleTooltip = debounce(handleTooltip, 100)
   const daysPast = parseInt(now.diff(releasedDate) / DAY / 1000)
   const totalDays = parseInt(
@@ -53,6 +55,7 @@ export default function LineGraph({
   const dates = []
   const data = []
   const pointRadius = []
+  const supportLine = []
   const { t } = useTranslation()
   useEffect(() => {
     for (
@@ -63,27 +66,33 @@ export default function LineGraph({
       let diff = timeUntilZeroPremium.diff(i) / HOUR / 1000
       let rate = diff / totalHr
       let premium = startingPremiumInDai * rate
-      let label = `${formatDate(i.unix() * 1000)}`
+      let label = i.format('YYYY-MM-DD:HH:00')
       dates.push(label)
       labels.push(premium)
-      if (
-        now.diff(i) >= 0 ||
-        now.format('YYYY-MM-DD:HH:00') === i.format('YYYY-MM-DD:HH:00')
-      ) {
+      if (now.diff(i) >= 0 || now.format('YYYY-MM-DD:HH:00') === label) {
         data.push(premium)
       } else {
         data.push(null)
       }
       if (
-        now.format('YYYY-MM-DD:HH:00') === i.format('YYYY-MM-DD:HH:00') ||
-        releasedDate.format('YYYY-MM-DD:HH:00') ===
-          i.format('YYYY-MM-DD:HH:00') ||
-        timeUntilZeroPremium.format('YYYY-MM-DD:HH:00') ===
-          i.format('YYYY-MM-DD:HH:00')
+        now.format('YYYY-MM-DD:HH:00') === label ||
+        releasedDate.format('YYYY-MM-DD:HH:00') === label ||
+        timeUntilZeroPremium.format('YYYY-MM-DD:HH:00') === label ||
+        targetDate === label
       ) {
+        console.log('*** 3', {
+          label,
+          premium,
+          timeUntilZeroPremium: timeUntilZeroPremium.format('YYYY-MM-DD:HH:00')
+        })
         pointRadius.push(3)
       } else {
         pointRadius.push(null)
+      }
+      if (targetDate === label) {
+        supportLine.push(2000)
+      } else {
+        supportLine.push(null)
       }
     }
     const ctx = chartRef.current.getContext('2d')
@@ -116,6 +125,7 @@ export default function LineGraph({
         ]
       },
       options: {
+        events: ['click'],
         animation: {
           duration: 0
         },
@@ -127,7 +137,7 @@ export default function LineGraph({
           multiKeyBackground: '#2C46A6',
           callbacks: {
             label: function(tooltipItem, data) {
-              debouncedHandleTooltip(tooltipItem.yLabel)
+              handleTooltip(tooltipItem)
               let label = `Premium: $${tooltipItem.yLabel.toFixed(2)}`
               if (tooltipItem.datasetIndex === 1) {
                 return label
@@ -144,12 +154,12 @@ export default function LineGraph({
           xAxes: [
             {
               afterFit: scale => {
-                scale.height = 0
+                scale.height = 100
               },
               ticks: {
                 maxTicksLimit: totalDays,
-                callback: function() {
-                  return ''
+                callback: function(a, b, c) {
+                  return a
                 }
               },
               gridLines: {
@@ -177,7 +187,7 @@ export default function LineGraph({
         }
       }
     })
-  }, [])
+  }, [targetDate, premiumInEth])
 
   return (
     <LineGraphContainer>
