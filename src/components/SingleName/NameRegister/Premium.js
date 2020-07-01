@@ -85,10 +85,11 @@ function Premium({
   className,
   reference,
   handlePremium,
-  estimateValue,
-  timeUntilPremium
+  targetPremium,
+  targetDate
 }) {
-  const [value, setValue] = useState(estimateValue)
+  const [value, setValue] = useState(targetPremium)
+  console.log('*** Premium', { targetPremium, value })
   const { t } = useTranslation()
   const debouncedHandlePremium = debounce(handlePremium, 1000)
   return (
@@ -98,11 +99,12 @@ function Premium({
           invalid={invalid}
           wide={false}
           placeholder={'$0'}
-          value={value}
+          value={targetPremium}
           onChange={evt => {
-            console.log('*** evt', estimateValue, evt.target.value)
-            setValue(evt.target.value)
-            debouncedHandlePremium(evt.target)
+            console.log('*** evt', targetPremium, evt.target.value)
+            // setValue(evt.target.value)
+            // debouncedHandlePremium(evt.target)
+            handlePremium(evt.target)
           }}
         />
         <Description>{t('register.premium.title')}</Description>
@@ -112,7 +114,7 @@ function Premium({
         <Value invalid={invalid}>
           {invalid
             ? t('register.premium.invalid')
-            : `${formatDate(timeUntilPremium)}`}
+            : `${formatDate(targetDate)}`}
         </Value>
         <Description>{t('register.premium.dateDescription')}</Description>
       </DateContainer>
@@ -122,7 +124,7 @@ function Premium({
             margin-right: 20px;
           `}
           name={name}
-          startDatetime={timeUntilPremium.utc().subtract(1, 'hour')}
+          startDatetime={targetDate.utc().subtract(1, 'hour')}
           invalid={invalid}
         />
       </CalendarContainer>

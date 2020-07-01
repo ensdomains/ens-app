@@ -52,9 +52,9 @@ const NameRegister = ({
   const decrementStep = () => dispatch('PREVIOUS')
   const [years, setYears] = useState(1)
   const [secondsPassed, setSecondsPassed] = useState(0)
-  const [estimateValue, setEstimateValue] = useState('$0')
   const [timerRunning, setTimerRunning] = useState(false)
   const [targetDate, setTargetDate] = useState(false)
+  const [targetPremium, setTargetPremium] = useState(false)
   const { loading: ethUsdPriceLoading, price: ethUsdPrice } = useEthPrice()
   const { loading: blockLoading, block } = useBlock()
   const [premium, setPremium] = useState(0)
@@ -85,100 +85,70 @@ const NameRegister = ({
     }
   )
 
-  const expiryTime = domain.expiryTime && domain.expiryTime.getTime() / 1000
-  const { data: { getPremium } = {}, loading: getPremiumLoading } = useQuery(
-    GET_PREMIUM,
-    {
-      variables: {
-        name: domain.label,
-        expires: expiryTime,
-        duration
-      }
-    }
-  )
-  const {
-    data: { getTimeUntilPremium } = {},
-    loading: getTimeUntilPremiumLoading
-  } = useQuery(GET_TIME_UNTIL_PREMIUM, {
-    variables: {
-      expires: expiryTime,
-      amount: premium
-    }
-  })
-  const {
-    data: { getTimeUntilPremium: getTimeUntilZeroPremium } = {},
-    loading: getTimeUntilZeroPremiumLoading
-  } = useQuery(GET_TIME_UNTIL_PREMIUM, {
-    variables: {
-      expires: expiryTime,
-      amount: 0
-    }
-  })
-
-  if (getTimeUntilZeroPremiumLoading || ethUsdPriceLoading) {
-    return <></>
-  }
-
-  const releasedDate = moment(expiryTime * 1000).add(90, 'days')
-  let timeUntilPremium,
-    premiumInEth,
-    premiumInEthVal,
-    ethUsdPremiumPrice,
-    now,
-    timeUntilZeroPremium,
-    showPremiumWarning
-  if (getTimeUntilPremium) {
-    timeUntilPremium = moment(getTimeUntilPremium.toNumber() * 1000)
-  }
-  if (getPremium) {
-    premiumInEth = new EthVal(getPremium.toString()).toEth()
-    premiumInEthVal = new EthVal(getPremium.toString()).toEth()
-    ethUsdPremiumPrice = premiumInEth * ethUsdPrice
-  }
-  if (getTimeUntilZeroPremium) {
-    timeUntilZeroPremium = moment(getTimeUntilZeroPremium.toNumber() * 1000)
-    if (!targetDate) {
-      setTargetDate(timeUntilZeroPremium.format('YYYY-MM-DD:HH:00'))
-    }
-  }
-  if (block && premiumInEth && timeUntilZeroPremium) {
-    now = moment(block.timestamp * 1000)
-    showPremiumWarning = now.isBetween(releasedDate, timeUntilZeroPremium)
-  }
   const oneMonthInSeconds = 2419200
   const twentyEightDaysInYears = oneMonthInSeconds / yearInSeconds
   const isAboveMinDuration = parsedYears > twentyEightDaysInYears
   const waitPercentComplete = (secondsPassed / waitTime) * 100
-  const startingPremiumInDai = 2000
+  // window.expiryTime = domain.expiryTime
+  window.moment = moment
+
+  const expiryDate = moment(domain.expiryTime)
+  const releasedDate = expiryDate.clone().add(90, 'days')
+  const zeroPremiumDate = releasedDate.clone().add(28, 'days')
+  const startingPremiumInUsd = 2000
+  const diff = zeroPremiumDate.diff(releasedDate)
+  const rate = 2000 / diff
+
+  let now, showPremiumWarning, currentPremium, currentPremiumInEth
+
   if (!registrationOpen) return <NotAvailable domain={domain} />
+  if (ethUsdPriceLoading) return <></>
+
+  const getTargetAmountByDate = date => {
+    return zeroPremiumDate.diff(date) * rate
+  }
+
+  // console.log('*** Rate', {diff, rate, nowRate:getTargetAmountByDate(now)})
+  const getTargetDateByAmount = amount => {
+    return zeroPremiumDate.clone().subtract(amount / rate / 1000, 'second')
+  }
+
+  if (!targetDate) {
+    setTargetDate(zeroPremiumDate)
+    setTargetPremium(getTargetAmountByDate(zeroPremiumDate))
+  }
+
+  if (block) {
+    now = moment(block.timestamp * 1000)
+    showPremiumWarning = now.isBetween(releasedDate, zeroPremiumDate)
+    currentPremium = getTargetAmountByDate(now)
+    currentPremiumInEth = currentPremium / ethUsdPrice
+  }
 
   const handleTooltip = tooltipItem => {
-    let delimitedParsedValue = tooltipItem.yLabel.toFixed(2)
-    setEstimateValue('$' + delimitedParsedValue)
-    const valueInEthVal = new EthVal(delimitedParsedValue / ethUsdPrice, 'eth')
-    setPremium(valueInEthVal.toWei().toString(16))
-    setTargetDate(tooltipItem.xLabel)
+    let delimitedParsedValue = tooltipItem.yLabel
+    if (targetPremium !== delimitedParsedValue) {
+      console.log('*** handleTooltip', { delimitedParsedValue })
+      setTargetDate(getTargetDateByAmount(delimitedParsedValue))
+      setTargetPremium(delimitedParsedValue)
+    }
   }
 
   const handlePremium = target => {
     const { value } = target
     const parsedValue = value.replace('$', '')
-    const valueInEthVal = new EthVal(
-      parseFloat(parsedValue) / ethUsdPrice,
-      'eth'
-    )
-
     if (
       !isNaN(parsedValue) &&
-      parseInt(parsedValue || 0) <= startingPremiumInDai
+      parseInt(parsedValue || 0) <= startingPremiumInUsd
     ) {
-      setPremium(valueInEthVal.toWei().toString(16))
-      setEstimateValue('$' + parsedValue)
-      setTargetDate(timeUntilPremium.format('YYYY-MM-DD:HH:00'))
-      console.log('***handlePremium', {
-        parsedValue,
-        targetDate: timeUntilPremium.format('YYYY-MM-DD:HH:00')
-      })
+      if (targetPremium !== parsedValue) {
+        setTargetDate(getTargetDateByAmount(parsedValue))
+        setTargetPremium(parsedValue)
+        // console.log('***handlePremium', {
+        //   parsedValue,
+        //   targetDate: getTargetDateByAmount(parsedValue)
+        // })
+      }
       setInvalid(false)
     } else {
       setInvalid(true)
@@ -193,7 +163,7 @@ const NameRegister = ({
           years={years}
           setYears={setYears}
           ethUsdPriceLoading={ethUsdPriceLoading}
-          ethUsdPremiumPrice={ethUsdPremiumPrice}
+          ethUsdPremiumPrice={currentPremium}
           ethUsdPrice={ethUsdPrice}
           loading={rentPriceLoading}
           price={getRentPrice}
@@ -204,22 +174,22 @@ const NameRegister = ({
           <h2>{t('register.premiumWarning.title')}</h2>
           <p>{t('register.premiumWarning.description')} </p>
           <LineGraph
-            now={now}
-            releasedDate={releasedDate}
-            timeUntilZeroPremium={timeUntilZeroPremium}
-            premiumInEth={premiumInEth}
-            ethUsdPremiumPrice={ethUsdPremiumPrice}
-            startingPremiumInDai={startingPremiumInDai}
-            ethUsdPrice={ethUsdPrice}
-            handleTooltip={handleTooltip}
+            startDate={releasedDate}
+            currentDate={now}
             targetDate={targetDate}
+            endDate={zeroPremiumDate}
+            startPremium={startingPremiumInUsd}
+            currentPremiumInEth={currentPremiumInEth}
+            currentPremium={currentPremium}
+            targetPremium={targetPremium}
+            handleTooltip={handleTooltip}
           />
           <Premium
             handlePremium={handlePremium}
-            estimateValue={estimateValue}
+            targetPremium={targetPremium}
             name={domain.name}
             invalid={invalid}
-            timeUntilPremium={timeUntilPremium}
+            targetDate={targetDate}
           />
         </PremiumWarning>
       ) : (

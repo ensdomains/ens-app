@@ -30,25 +30,31 @@ const Title = styled('span')`
   font-size: large;
 `
 export default function LineGraph({
-  now,
+  startDate,
+  currentDate,
   targetDate,
-  releasedDate,
-  timeUntilZeroPremium,
-  premiumInEth,
-  ethUsdPremiumPrice,
-  startingPremiumInDai,
+  endDate,
+  startPremium,
+  currentPremiumInEth,
+  currentPremium,
+  targetPremium,
   handleTooltip
 }) {
-  console.log('***ENTER LineGraph')
-  const debouncedHandleTooltip = debounce(handleTooltip, 100)
-  const daysPast = parseInt(now.diff(releasedDate) / DAY / 1000)
-  const totalDays = parseInt(
-    timeUntilZeroPremium.diff(releasedDate) / DAY / 1000
-  )
+  console.log('***ENTER LineGraph', {
+    startDate,
+    currentDate,
+    targetDate,
+    endDate,
+    startPremium,
+    currentPremiumInEth,
+    currentPremium,
+    targetPremium,
+    handleTooltip
+  })
+  const daysPast = parseInt(currentDate.diff(startDate) / DAY / 1000)
+  const totalDays = parseInt(endDate.diff(startDate) / DAY / 1000)
   const daysRemaining = totalDays - daysPast
-  const totalHr = parseInt(
-    timeUntilZeroPremium.diff(releasedDate) / HOUR / 1000
-  )
+  const totalHr = parseInt(endDate.diff(startDate) / HOUR / 1000)
 
   const chartRef = React.createRef()
   const labels = []
@@ -58,33 +64,27 @@ export default function LineGraph({
   const supportLine = []
   const { t } = useTranslation()
   useEffect(() => {
-    for (
-      let i = releasedDate.clone();
-      timeUntilZeroPremium.diff(i) > 0;
-      i = i.add(1, 'hour')
-    ) {
-      let diff = timeUntilZeroPremium.diff(i) / HOUR / 1000
+    for (let i = startDate.clone(); endDate.diff(i) > 0; i = i.add(1, 'hour')) {
+      let diff = targetDate.diff(i) / HOUR / 1000
       let rate = diff / totalHr
-      let premium = startingPremiumInDai * rate
+      let premium = startPremium * rate
       let label = i.format('YYYY-MM-DD:HH:00')
       dates.push(label)
       labels.push(premium)
-      if (now.diff(i) >= 0 || now.format('YYYY-MM-DD:HH:00') === label) {
+      if (
+        currentDate.diff(i) >= 0 ||
+        currentDate.format('YYYY-MM-DD:HH:00') === label
+      ) {
         data.push(premium)
       } else {
         data.push(null)
       }
       if (
-        now.format('YYYY-MM-DD:HH:00') === label ||
-        releasedDate.format('YYYY-MM-DD:HH:00') === label ||
-        timeUntilZeroPremium.format('YYYY-MM-DD:HH:00') === label ||
+        currentDate.format('YYYY-MM-DD:HH:00') === label ||
+        startDate.format('YYYY-MM-DD:HH:00') === label ||
+        targetDate.format('YYYY-MM-DD:HH:00') === label ||
         targetDate === label
       ) {
-        console.log('*** 3', {
-          label,
-          premium,
-          timeUntilZeroPremium: timeUntilZeroPremium.format('YYYY-MM-DD:HH:00')
-        })
         pointRadius.push(3)
       } else {
         pointRadius.push(null)
@@ -154,12 +154,12 @@ export default function LineGraph({
           xAxes: [
             {
               afterFit: scale => {
-                scale.height = 100
+                scale.height = 0
               },
               ticks: {
                 maxTicksLimit: totalDays,
-                callback: function(a, b, c) {
-                  return a
+                callback: function() {
+                  return ''
                 }
               },
               gridLines: {
@@ -187,17 +187,17 @@ export default function LineGraph({
         }
       }
     })
-  }, [targetDate, premiumInEth])
+  }, [])
 
   return (
     <LineGraphContainer>
       <Legend>
         <Title>
           {t('linegraph.title', {
-            premiumInEth: premiumInEth && premiumInEth.toFixed(2)
+            premiumInEth: currentPremiumInEth.toFixed(2)
           })}{' '}
           ETH($
-          {ethUsdPremiumPrice.toFixed(2)})
+          {currentPremium.toFixed(2)})
         </Title>
         <span>
           {t('linegraph.daysRemaining', { daysRemaining, totalDays })}
@@ -206,7 +206,7 @@ export default function LineGraph({
       <Canvas id="myChart" ref={chartRef} />
       <Legend>
         <span>
-          {t('linegraph.startingPrice')}: ${startingPremiumInDai}{' '}
+          {t('linegraph.startingPrice')}: ${startPremium}{' '}
         </span>
         <span>{t('linegraph.endPrice')}: $0</span>
       </Legend>
