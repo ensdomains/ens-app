@@ -1,6 +1,6 @@
 import Chart from 'chart.js'
 import styled from '@emotion/styled/macro'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { formatDate } from 'utils/dates'
 import debounce from 'lodash/debounce'
@@ -63,42 +63,44 @@ export default function LineGraph({
   const pointRadius = []
   const supportLine = []
   const { t } = useTranslation()
-  useEffect(() => {
-    for (let i = startDate.clone(); endDate.diff(i) > 0; i = i.add(1, 'hour')) {
-      let diff = targetDate.diff(i) / HOUR / 1000
-      let rate = diff / totalHr
-      let premium = startPremium * rate
-      let label = i.format('YYYY-MM-DD:HH:00')
-      dates.push(label)
-      labels.push(premium)
-      if (
-        currentDate.diff(i) >= 0 ||
-        currentDate.format('YYYY-MM-DD:HH:00') === label
-      ) {
-        data.push(premium)
-      } else {
-        data.push(null)
-      }
-      if (
-        currentDate.format('YYYY-MM-DD:HH:00') === label ||
-        startDate.format('YYYY-MM-DD:HH:00') === label ||
-        targetDate.format('YYYY-MM-DD:HH:00') === label ||
-        targetDate === label
-      ) {
-        pointRadius.push(3)
-      } else {
-        pointRadius.push(null)
-      }
-      if (targetDate === label) {
-        supportLine.push(2000)
-      } else {
-        supportLine.push(null)
-      }
+  const [chart, setChart] = useState(false)
+
+  for (let i = startDate.clone(); endDate.diff(i) > 0; i = i.add(1, 'hour')) {
+    let diff = targetDate.diff(i) / HOUR / 1000
+    let rate = diff / totalHr
+    let premium = (startPremium * rate).toFixed(2)
+    let label = i.format('YYYY-MM-DD:HH:00')
+    dates.push(label)
+    labels.push(premium)
+    if (
+      currentDate.diff(i) >= 0 ||
+      currentDate.format('YYYY-MM-DD:HH:00') === label
+    ) {
+      data.push(premium)
+    } else {
+      data.push(null)
     }
+    if (
+      currentDate.format('YYYY-MM-DD:HH:00') === label ||
+      startDate.format('YYYY-MM-DD:HH:00') === label ||
+      targetDate.format('YYYY-MM-DD:HH:00') === label ||
+      targetDate === label
+    ) {
+      pointRadius.push(3)
+    } else {
+      pointRadius.push(null)
+    }
+    if (targetDate === label) {
+      supportLine.push(2000)
+    } else {
+      supportLine.push(null)
+    }
+  }
+  useEffect(() => {
     const ctx = chartRef.current.getContext('2d')
     Chart.defaults.global.tooltips.yAlign = 'top'
     Chart.defaults.global.tooltips.xAlign = 'center'
-    new Chart(ctx, {
+    let _chart = new Chart(ctx, {
       type: 'line',
       data: {
         labels: dates,
@@ -187,7 +189,13 @@ export default function LineGraph({
         }
       }
     })
+    setChart(_chart)
   }, [])
+  if (chart) {
+    chart.data.datasets[0].pointRadius = pointRadius
+    chart.data.datasets[1].pointRadius = pointRadius
+    chart.update()
+  }
 
   return (
     <LineGraphContainer>

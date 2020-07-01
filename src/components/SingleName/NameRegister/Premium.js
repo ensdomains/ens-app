@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from '@emotion/styled/macro'
 import { css } from 'emotion'
 import { useTranslation } from 'react-i18next'
 import { formatDate } from 'utils/dates'
-import debounce from 'lodash/debounce'
 import mq from 'mediaQuery'
 
 import { ReactComponent as ChainDefault } from '../../Icons/chain.svg'
@@ -88,10 +87,8 @@ function Premium({
   targetPremium,
   targetDate
 }) {
-  const [value, setValue] = useState(targetPremium)
-  console.log('*** Premium', { targetPremium, value })
   const { t } = useTranslation()
-  const debouncedHandlePremium = debounce(handlePremium, 1000)
+  console.log('***targetPremium', { targetPremium })
   return (
     <PremiumContainer className={className} ref={reference}>
       <AmountContainer>
@@ -101,9 +98,7 @@ function Premium({
           placeholder={'$0'}
           value={targetPremium}
           onChange={evt => {
-            console.log('*** evt', targetPremium, evt.target.value)
-            // setValue(evt.target.value)
-            // debouncedHandlePremium(evt.target)
+            console.log('*** onChange', evt.target.value)
             handlePremium(evt.target)
           }}
         />

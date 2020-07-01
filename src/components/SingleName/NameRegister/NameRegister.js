@@ -128,7 +128,7 @@ const NameRegister = ({
   const handleTooltip = tooltipItem => {
     let delimitedParsedValue = tooltipItem.yLabel
     if (targetPremium !== delimitedParsedValue) {
-      console.log('*** handleTooltip', { delimitedParsedValue })
+      console.log('*** handleTooltip', { tooltipItem, delimitedParsedValue })
       setTargetDate(getTargetDateByAmount(delimitedParsedValue))
       setTargetPremium(delimitedParsedValue)
     }
@@ -142,12 +142,13 @@ const NameRegister = ({
       parseInt(parsedValue || 0) <= startingPremiumInUsd
     ) {
       if (targetPremium !== parsedValue) {
+        console.log('***handlePremium', {
+          parsedValue,
+          targetDate: getTargetDateByAmount(parsedValue)
+        })
+
         setTargetDate(getTargetDateByAmount(parsedValue))
         setTargetPremium(parsedValue)
-        // console.log('***handlePremium', {
-        //   parsedValue,
-        //   targetDate: getTargetDateByAmount(parsedValue)
-        // })
       }
       setInvalid(false)
     } else {
