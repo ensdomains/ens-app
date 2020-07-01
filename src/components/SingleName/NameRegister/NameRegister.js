@@ -89,8 +89,6 @@ const NameRegister = ({
   const twentyEightDaysInYears = oneMonthInSeconds / yearInSeconds
   const isAboveMinDuration = parsedYears > twentyEightDaysInYears
   const waitPercentComplete = (secondsPassed / waitTime) * 100
-  // window.expiryTime = domain.expiryTime
-  window.moment = moment
 
   const expiryDate = moment(domain.expiryTime)
   const releasedDate = expiryDate.clone().add(90, 'days')
@@ -108,7 +106,6 @@ const NameRegister = ({
     return zeroPremiumDate.diff(date) * rate
   }
 
-  // console.log('*** Rate', {diff, rate, nowRate:getTargetAmountByDate(now)})
   const getTargetDateByAmount = amount => {
     return zeroPremiumDate.clone().subtract(amount / rate / 1000, 'second')
   }
@@ -128,9 +125,8 @@ const NameRegister = ({
   const handleTooltip = tooltipItem => {
     let delimitedParsedValue = tooltipItem.yLabel
     if (targetPremium !== delimitedParsedValue) {
-      console.log('*** handleTooltip', { tooltipItem, delimitedParsedValue })
       setTargetDate(getTargetDateByAmount(delimitedParsedValue))
-      setTargetPremium(delimitedParsedValue)
+      setTargetPremium(delimitedParsedValue.toFixed(2))
     }
   }
 
@@ -142,11 +138,6 @@ const NameRegister = ({
       parseInt(parsedValue || 0) <= startingPremiumInUsd
     ) {
       if (targetPremium !== parsedValue) {
-        console.log('***handlePremium', {
-          parsedValue,
-          targetDate: getTargetDateByAmount(parsedValue)
-        })
-
         setTargetDate(getTargetDateByAmount(parsedValue))
         setTargetPremium(parsedValue)
       }

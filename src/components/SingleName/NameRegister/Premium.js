@@ -88,7 +88,6 @@ function Premium({
   targetDate
 }) {
   const { t } = useTranslation()
-  console.log('***targetPremium', { targetPremium })
   return (
     <PremiumContainer className={className} ref={reference}>
       <AmountContainer>
@@ -98,7 +97,6 @@ function Premium({
           placeholder={'$0'}
           value={targetPremium}
           onChange={evt => {
-            console.log('*** onChange', evt.target.value)
             handlePremium(evt.target)
           }}
         />

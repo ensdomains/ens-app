@@ -40,17 +40,6 @@ export default function LineGraph({
   targetPremium,
   handleTooltip
 }) {
-  console.log('***ENTER LineGraph', {
-    startDate,
-    currentDate,
-    targetDate,
-    endDate,
-    startPremium,
-    currentPremiumInEth,
-    currentPremium,
-    targetPremium,
-    handleTooltip
-  })
   const daysPast = parseInt(currentDate.diff(startDate) / DAY / 1000)
   const totalDays = parseInt(endDate.diff(startDate) / DAY / 1000)
   const daysRemaining = totalDays - daysPast
@@ -68,7 +57,7 @@ export default function LineGraph({
   for (let i = startDate.clone(); endDate.diff(i) > 0; i = i.add(1, 'hour')) {
     let diff = targetDate.diff(i) / HOUR / 1000
     let rate = diff / totalHr
-    let premium = (startPremium * rate).toFixed(2)
+    let premium = startPremium * rate
     let label = i.format('YYYY-MM-DD:HH:00')
     dates.push(label)
     labels.push(premium)
