@@ -60,7 +60,7 @@ describe('/address', () => {
     )
   })
 
-  it.only('can click select all and renew all', () => {
+  it('can click select all and renew all', () => {
     const names = [`resolver.eth`, `newname.eth`]
     cy.visit(ROOT)
     cy.getByText('My Names').click({ force: true })
