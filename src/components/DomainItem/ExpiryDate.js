@@ -9,7 +9,7 @@ const ExpiryDateContainer = styled('p')`
   color: ${({ isExpiredSoon }) => (isExpiredSoon ? 'red' : '#adbbcd')};
 `
 
-const ExpiryDate = ({ expiryDate, domain }) => {
+const ExpiryDate = ({ expiryDate, domain, name }) => {
   let isExpiredSoon, isExpired, gracePeriodEndDate
   let { t } = useTranslation()
   if (expiryDate) {
@@ -20,7 +20,10 @@ const ExpiryDate = ({ expiryDate, domain }) => {
     return <span>&nbsp;</span>
   }
   return (
-    <ExpiryDateContainer isExpiredSoon={isExpiredSoon}>
+    <ExpiryDateContainer
+      data-testid={`expiry-date-${name}`}
+      isExpiredSoon={isExpiredSoon}
+    >
       {isExpired
         ? `${t('singleName.expiry.gracePeriodEnds')} ${formatDate(
             gracePeriodEndDate
