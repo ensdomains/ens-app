@@ -11,6 +11,9 @@ const LineGraphContainer = styled('div')`
   background-color: white;
   color: #d8d8d8;
   padding: 1em;
+  #myChart {
+    cursor: pointer;
+  }
 `
 
 const Legend = styled('div')`
