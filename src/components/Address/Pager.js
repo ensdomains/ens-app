@@ -21,7 +21,7 @@ const PagerContainer = styled('div')`
 `
 
 function useTotalPages({ resultsPerPage, query, address, variables }) {
-  const limit = 5
+  const limit = 1000
   const [loading, setLoading] = useState(true)
   const [totalResults, setTotalResults] = useState(0)
   const client = getClient()
