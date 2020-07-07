@@ -59,17 +59,15 @@ const DomainContainer = styled(Link)`
   transition: 0.2s all;
 
   ${mq.medium`
-    grid-template-columns: 1fr minmax(150px,350px) 50px;
+    grid-template-columns: 1fr minmax(150px,350px) 100px 50px;
     grid-template-rows: 39px;
   `}
 
-  &:hover {
-    color: #2b2b2b;
-    z-index: 1;
-    box-shadow: 3px 4px 20px 0 rgba(144, 171, 191, 0.42);
-    .label-container {
-      display: flex;
-    }
+  color: #2b2b2b;
+  z-index: 1;
+  box-shadow: 3px 4px 20px 0 rgba(144, 171, 191, 0.42);
+  .label-container {
+    display: flex;
   }
 
   &:visited {
@@ -189,8 +187,8 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
               {humaniseName(domain.name)}
             </DomainName>
             <ExpiryDate expiryDate={expiryDate} />
+            <Label domain={domain} isOwner={isOwner} />
             <RightContainer>
-              <Label domain={domain} isOwner={isOwner} />
               {isSubDomain && domain.state === 'Open' ? (
                 <Price className="price">
                   {domain.price
