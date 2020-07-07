@@ -263,7 +263,8 @@
       "cannotown": "为其他人的域名续费并不会获得该域名的所有权。",
       "expired": "已经到期",
       "expiring": "即将到期",
-      "gracePeriodEnds": "宽限期截至 "
+      "gracePeriodEnds": "宽限期截至 ",
+      "isUnderPremiumSale": "Available with a temporary premium"
     },
     "learnmore": {
       "step1": {

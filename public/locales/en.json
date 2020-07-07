@@ -267,7 +267,8 @@
       "cannotown": "Renewing a name you do not own does not give you ownership of it.",
       "expired": "Expired",
       "expiring": "Expiring Soon",
-      "gracePeriodEnds": "Grace period ends"
+      "gracePeriodEnds": "Grace period ends",
+      "isUnderPremiumSale": "Available with a temporary premium"
     },
     "learnmore": {
       "step1": {

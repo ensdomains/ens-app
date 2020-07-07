@@ -267,7 +267,8 @@
       "cannotown": "Das Verlängern eines Namens, den Sie nicht besitzen, gibt Ihnen nicht das Besitzrecht an diesem Namen.",
       "expired": "Ausgelaufen",
       "expiring": "Läuft bald aus",
-      "gracePeriodEnds": "Schonfrist endet am"
+      "gracePeriodEnds": "Schonfrist endet am",
+      "isUnderPremiumSale": "Available with a temporary premium"
     },
     "learnmore": {
       "step1": {

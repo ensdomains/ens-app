@@ -265,7 +265,8 @@
       "cannotown": "所有していない名前を更新しても、所有権は得られません。",
       "expired": "有効期限切れ",
       "expiring": "まもなく有効期限切れ",
-      "gracePeriodEnds": "猶予期間終了"
+      "gracePeriodEnds": "猶予期間終了",
+      "isUnderPremiumSale": "Available with a temporary premium"
     },
     "learnmore": {
       "step1": {
