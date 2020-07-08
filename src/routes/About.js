@@ -190,6 +190,9 @@ function About() {
     <AboutContainer>
       <ElevatorPitch>
         <H2>{t('about.elevatorpitch')}</H2>
+        <div>
+          <a href="https://ens.domains">{t('c.learnmore2')}</a>
+        </div>
       </ElevatorPitch>
 
       <SubTitle>{t('about.subtitles.0')}</SubTitle>
