@@ -191,7 +191,7 @@ function About() {
       <ElevatorPitch>
         <H2>{t('about.elevatorpitch')}</H2>
         <div>
-          <a href="https://ens.domains">{t('c.learnmore2')}</a>
+          <a href="https://ens.domains">{t('c.learnmoreenglishonly')}</a>
         </div>
       </ElevatorPitch>
 
