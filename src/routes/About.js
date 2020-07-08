@@ -48,6 +48,8 @@ const ElevatorPitch = styled('div')`
   box-shadow: 0 2px 4px 0 rgba(181, 177, 177, 0.5);
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
   margin-bottom: 70px;
 `
 
@@ -190,8 +192,10 @@ function About() {
     <AboutContainer>
       <ElevatorPitch>
         <H2>{t('about.elevatorpitch')}</H2>
+        <div>
+          <a href="https://ens.domains">{t('c.learnmore')}(English Only)</a>
+        </div>
       </ElevatorPitch>
-
       <SubTitle>{t('about.subtitles.0')}</SubTitle>
       <AboutENSContainer>
         <Card>
