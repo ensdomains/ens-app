@@ -147,9 +147,7 @@ function Records({
       needsToBeMigrated={needsToBeMigrated}
     >
       {!canEditRecords && isOwner ? (
-        <CantEdit>
-          You can’t edit or add records until you migrate to the new resolver.
-        </CantEdit>
+        <CantEdit>{t('singleName.record.cantEdit')}</CantEdit>
       ) : (
         <AddRecord
           emptyRecords={emptyRecords}
@@ -212,11 +210,10 @@ const MigrationWarningContainer = styled('div')`
 `
 
 function MigrationWarning() {
+  const { t } = useTranslation()
   return (
     <MigrationWarningContainer>
-      You’re using an outdated version of the public resolver, Click to migrate
-      your resolver and records. You will need to confirm two transactions in
-      order to migrate both your records and resolver.
+      {t('singleName.resolver.warning')}
     </MigrationWarningContainer>
   )
 }
@@ -310,8 +307,7 @@ export default function ResolverAndRecords({
             <MigrationWarning />
             <ManualMigration>
               <ManualMigrationMessage>
-                To reset your resolver manually, click set and enter the address
-                of your custom resolver.
+                {t('singleName.resolver.message')}
               </ManualMigrationMessage>
               <DetailsItemEditable
                 showLabel={false}

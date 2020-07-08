@@ -55,6 +55,7 @@
     "Address": "アドレス",
     "Content": "コンテンツ",
     "Controller": "コントローラー",
+    "DnsOwner": "DNSオーナー",
     "Expiration Date": "有効期限",
     "Resolver": "リゾルバ",
     "about": "ENSとは",
@@ -74,10 +75,12 @@
     "refresh": "更新",
     "register": "登録",
     "registrant": "登録者",
+    "registrationDate": "登録日",
     "renew": "更新",
     "save": "保存",
     "search": "検索",
     "set": "設定",
+    "sync": "同期",
     "textrecord": "テキストレコード",
     "transfer": "譲渡",
     "year": "年"
@@ -186,7 +189,8 @@
   "pricer": {
     "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "登録期間",
-    "totalPriceLabel": "お支払合計額"
+    "totalPriceLabel": "お支払合計額",
+    "yearUnit": "年"
   },
   "register": {
     "buttons": {
@@ -261,6 +265,34 @@
         "title": "過去に購入された名前の多くが8月に期限切れになります"
       }
     },
+    "confirm": {
+      "title": "本当に変更してよろしいですか？",
+      "subTitle": "このアクションはブロックチェーンに書き込まれている値を上書きします",
+      "value": {
+        "previous": "変更前",
+        "future": "変更後"
+      },
+      "button": {
+        "cancel": "キャンセル",
+        "confirm": "確認"
+      }
+    },
+    "dns": {
+      "messages": {
+        "error": "Solve the error in your Domain registrar. Refresh to reflect updates.",
+        "outOfSync": "The Controller and DNS Owner are out of sync. Click 'sync' to make the DNS Owner the Controller. Click 'refresh' if you make changes to the domain in the DNS Registrar.",
+        "readyToRegister": "*DNSレジストラでドメインに変更を加えた場合は、「更新」をクリックしてください。"
+      }
+    },
+    "domain": {
+      "state": {
+        "available": "利用可能",
+        "auction": "オークション",
+        "default": "不明",
+        "owned": "利用不可",
+        "owner": "所有済み"
+      }
+    },
     "expiry": {
       "cannotown": "所有していない名前を更新しても、所有権は得られません。",
       "expired": "有効期限切れ",
@@ -290,6 +322,25 @@
       "notfinalised": "(まだ確定していません)",
       "pending": "保留中"
     },
+    "record": {
+      "title": "レコード",
+      "cantEdit": "新しいリゾルバに変更するまで編集や移行はできません",
+      "messages": {
+        "explanation": "The Reverse Resolution translates an address into a name. It allows Dapps to show in their interfaces '{{name}}' rather than the long address '{{account}}'. If you would like to set up your reverse for a different account, please switch accounts in your dapp browser",
+        "setTo": "Reverse record: Set to ",
+        "setToDifferent": "Reverse record: Set to a different name:",
+        "notSet": "Reverse record: not set"
+      }
+    },
+    "resolver": {
+      "publicResolver": "パプリックリゾルバを使う",
+      "error": "移行に失敗しました",
+      "warning": "古いバージョンの公開リゾルバを使用している場合は、クリックしてリゾルバとレコードを移行してください。レコードとリゾルバの両方を移行するには、2つのトランザクションを確認する必要があります。",
+      "message": "手動でリゾルバをリセットするには、「設定」をクリックしてカスタムリゾルバのアドレスを入力します" 
+    },
+    "search": {
+      "title": "Names"
+    },
     "subdomains": {
       "add": "サブドメインを追加",
       "nosubdomains": "追加されたサブドメインはありません"
@@ -305,6 +356,7 @@
     "tooltips": {
       "detailsItem": {
         "Controller": "あなたがコントローラーまたは登録者であり、ウォレットにログインしている場合に限り、コントローラーを譲渡することができます。",
+        "ControllerAndDnsAlreadySync": "コントローラーとDNSオーナーはすでに同期しています。",
         "Resolver": "あなたがコントローラーであり、ウォレットにログインしている場合に限り、この名前にリゾルバを設定できます。",
         "default": "あなたがコントローラーであり、ウォレットにログインしている場合に限り、この名前に変更を行えます。",
         "registrant": "あなたが登録者であり、ウォレットにログインしている場合に限り、登録者権限を譲渡することができます。",

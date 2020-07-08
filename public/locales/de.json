@@ -56,6 +56,7 @@
     "Address": "Adresse",
     "Content": "Inhalt",
     "Controller": "Controller",
+    "DnsOwner": "DNS OWNER",
     "Expiration Date": "Auslaufdatum",
     "Resolver": "Resolver",
     "about": "Über",
@@ -75,10 +76,12 @@
     "refresh": "Aktualisieren",
     "register": "Registrieren",
     "registrant": "Registrant",
+    "registrationDate": "Registration Date",
     "renew": "Verlängern",
     "save": "Speichern",
     "search": "Suchen",
     "set": "Setzen",
+    "sync": "Sync",
     "textrecord": "Text-Eintrag",
     "transfer": "Übertragen",
     "year": "Jahr",
@@ -188,7 +191,8 @@
   "pricer": {
     "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "Registration Period",
-    "totalPriceLabel": "Gesamtpreis"
+    "totalPriceLabel": "Gesamtpreis",
+    "yearUnit": "Jahr"
   },
   "register": {
     "buttons": {
@@ -263,6 +267,34 @@
         "title": "Viele in der Vergangenheit gekauften Namen werden im August nicht mehr in der Schonfrist sein"
       }
     },
+    "confirm": {
+      "title": "Are you sure you want to do this?",
+      "subTitle": "This action will modify the state of the blockchain.",
+      "value": {
+        "previous": "PREVIOUS",
+        "future": "FUTURE"
+      },
+      "button": {
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      }
+    },
+    "dns": {
+      "messages": {
+        "error": "Solve the error in your Domain registrar. Refresh to reflect updates.",
+        "outOfSync": "The Controller and DNS Owner are out of sync. Click 'sync' to make the DNS Owner the Controller. Click 'refresh' if you make changes to the domain in the DNS Registrar.",
+        "readyToRegister": "*Click 'refresh' if you make changes to the domain in the DNS Registrar."
+      }
+    },
+    "domain": {
+      "state": {
+        "available": "Available",
+        "auction": "In Auction",
+        "default": "Unknown State",
+        "owned": "Unavailable",
+        "owner": "Owner"
+      }
+    },
     "expiry": {
       "cannotown": "Das Verlängern eines Namens, den Sie nicht besitzen, gibt Ihnen nicht das Besitzrecht an diesem Namen.",
       "expired": "Ausgelaufen",
@@ -292,6 +324,25 @@
       "notfinalised": "(Sie haben es nicht abgeschlossen)",
       "pending": "Ausstehend"
     },
+    "record": {
+      "title": "Records",
+      "cantEdit": "You can’t edit or add records until you migrate to the new resolver.",
+      "messages": {
+        "explanation": "The Reverse Resolution translates an address into a name. It allows Dapps to show in their interfaces '{{name}}' rather than the long address '{{account}}'. If you would like to set up your reverse for a different account, please switch accounts in your dapp browser",
+        "setTo": "Reverse record: Set to ",
+        "setToDifferent": "Reverse record: Set to a different name:",
+        "notSet": "Reverse record: not set"
+      }
+    },
+    "resolver": {
+      "publicResolver": "Use Public Resolver",
+      "error": "Error Migrating Resolver",
+      "warning": "You’re using an outdated version of the public resolver. Click to migrate your resolver and records. You will need to confirm two transactions in order to migrate both your records and resolver.",
+      "message": "To reset your resolver manually, click set and enter the address of your custom resolver."
+    },
+    "search": {
+      "title": "Names"
+    },
     "subdomains": {
       "add": "Subdomain hinzufügen",
       "nosubdomains": "Es wurden keine Subdomains hinzugefügt"
@@ -307,6 +358,7 @@
     "tooltips": {
       "detailsItem": {
         "Controller": "Sie können den Controller nur übertragen, wenn Sie der Controller oder der Registrant sind und in Ihr Wallet eingeloggt sind",
+        "ControllerAndDnsAlreadySync": "The controller and DNS owner are already in sync",
         "Resolver": "Sie können den Resolver dieses Namens nur setzen, wenn Sie der Controller sind und in Ihr Wallet eingeloggt sind",
         "default": "Sie können Änderungen nur vornehmen, wenn Sie der Controller sind und in Ihr Wallet eingeloggt sind",
         "registrant": "Sie können den Registranten nur übertragen, wenn Sie der Registrant sind und in Ihr Wallet eingeloggt sind",

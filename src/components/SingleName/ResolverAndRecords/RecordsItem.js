@@ -430,12 +430,13 @@ const RecordItemEditable = ({
 
 function RecordItemViewOnly({ keyName, value, type, domain, account }) {
   const { name, contentType } = domain
+  const { t } = useTranslation()
   return keyName !== 'Address' && contentType === 'error' ? (
     ''
   ) : (
     <RecordsItem>
       <RecordsContent>
-        <RecordsKey>{keyName}</RecordsKey>
+        <RecordsKey>{t(`c.${keyName}`)}</RecordsKey>
         <RecordsValue>
           {type === 'address' ? (
             <AddressLink address={value}>{value}</AddressLink>

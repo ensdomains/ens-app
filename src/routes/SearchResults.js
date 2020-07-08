@@ -1,6 +1,7 @@
 import React from 'react'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
+import { Trans } from 'react-i18next'
 
 import { H2 } from '../components/Typography/Basic'
 import DomainInfo from '../components/SearchName/DomainInfo'
@@ -84,7 +85,9 @@ class Results extends React.Component {
     if (this.state.parsed) {
       return (
         <>
-          <H2>Top Level Domains</H2>
+          <H2>
+            <Trans i18nKey="singleName.search.title">Names</Trans>
+          </H2>
           <DomainInfo searchTerm={this.state.parsed} />
           {/* <SubDomainResults searchTerm={searchTerm} /> */}
         </>

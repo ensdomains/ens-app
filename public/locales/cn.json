@@ -54,6 +54,7 @@
     "Address": "以太坊地址",
     "Content": "内容哈希",
     "Controller": "管理员",
+    "DnsOwner": "DNS OWNER",
     "Expiration Date": "到期时间",
     "Resolver": "解析器",
     "about": "关于",
@@ -73,10 +74,12 @@
     "refresh": "刷新",
     "register": "注册",
     "registrant": "注册人",
+    "registrationDate": "Registration Date",
     "renew": "续费",
     "save": "保存",
     "search": "查询",
     "set": "设置",
+    "sync": "Sync",
     "textrecord": "文本记录",
     "transfer": "转让"
   },
@@ -184,7 +187,8 @@
   "pricer": {
     "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "注册期",
-    "totalPriceLabel": "支付总额"
+    "totalPriceLabel": "支付总额",
+    "yearUnit": "年份"
   },
   "register": {
     "buttons": {
@@ -259,6 +263,34 @@
         "title": "许多在过去注册或购买的域名将在 8 月份超出宽限期"
       }
     },
+    "confirm": {
+      "title": "Are you sure you want to do this?",
+      "subTitle": "This action will modify the state of the blockchain.",
+      "value": {
+        "previous": "PREVIOUS",
+        "future": "FUTURE"
+      },
+      "button": {
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      }
+    },
+    "dns": {
+      "messages": {
+        "error": "Solve the error in your Domain registrar. Refresh to reflect updates.",
+        "outOfSync": "The Controller and DNS Owner are out of sync. Click 'sync' to make the DNS Owner the Controller. Click 'refresh' if you make changes to the domain in the DNS Registrar.",
+        "readyToRegister": "*Click 'refresh' if you make changes to the domain in the DNS Registrar."
+      }
+    },
+    "domain": {
+      "state": {
+        "available": "Available",
+        "auction": "In Auction",
+        "default": "Unknown State",
+        "owned": "Unavailable",
+        "owner": "Owner"
+      }
+    },
     "expiry": {
       "cannotown": "为其他人的域名续费并不会获得该域名的所有权。",
       "expired": "已经到期",
@@ -292,6 +324,25 @@
       "add": "添加子域名",
       "nosubdomains": "暂未分配子域名"
     },
+    "record": {
+      "title": "Records",
+      "cantEdit": "You can’t edit or add records until you migrate to the new resolver.",
+      "messages": {
+        "explanation": "The Reverse Resolution translates an address into a name. It allows Dapps to show in their interfaces '{{name}}' rather than the long address '{{account}}'. If you would like to set up your reverse for a different account, please switch accounts in your dapp browser",
+        "setTo": "Reverse record: Set to ",
+        "setToDifferent": "Reverse record: Set to a different name:",
+        "notSet": "Reverse record: not set"
+      }
+    },
+    "resolver": {
+      "publicResolver": "Use Public Resolver",
+      "error": "Error Migrating Resolver",
+      "warning": "You’re using an outdated version of the public resolver. Click to migrate your resolver and records. You will need to confirm two transactions in order to migrate both your records and resolver.",
+      "message": "To reset your resolver manually, click set and enter the address of your custom resolver."
+    },
+    "search": {
+      "title": "Names"
+    },
     "tabs": {
       "details": "详情",
       "register": "注册",
@@ -303,6 +354,7 @@
     "tooltips": {
       "detailsItem": {
         "Controller": "如果要转让域名的管理员，请先确定你登录的是该域名的管理员或注册人账户。",
+        "ControllerAndDnsAlreadySync": "The controller and DNS owner are already in sync",
         "Resolver": "如果要设置域名的解析器，请先确定您登录的是该域名的管理员账户。",
         "default": "只有当钱包中使用的账户是域名的管理员账户时，你才能更改该域名的相关信息。",
         "registrant": "如果要转让域名的注册人，请先确定你登录的是该域名当前的注册人账户。",
