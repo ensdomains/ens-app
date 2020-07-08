@@ -11,7 +11,7 @@
       "Unter der Oberfläche"
     ],
     "underTheSurface": {
-      "registrar": "Der Registrar ist der Smart Contract welcher das Kaufen oder Registrieren einer Domain möglich macht. Aktuell geschieht dies im Rahmen einer Auktion, aber in der Zukunft wird es eine Sofortkauf-Möglichkeit geben.",
+      "registrar": "Der Registrar ist der Smart Contract welcher das Kaufen oder Registrieren einer Domain möglich macht.",
       "registry": "Das Register ist ein Smart Contract welcher eine Liste aller Domains und Subdomains enthält. Für jede werden zwei Informationen gespeichert: der Besitzer des Namens und der Resolver.",
       "resolver": "Resolver sind Smart Contracts welche für den Prozess der Übersetzung von Namen zu Adressen, oder anderen Arten von Hashes und Ressourcen, verantwortlich sind.",
       "reverse": "Der Resolver kann optional auch die umgekehrte Funktion der 'Reverse Resolution' übernehmen: Die Übersetzung einer Adresse in den dazugehörigen Namen.",
