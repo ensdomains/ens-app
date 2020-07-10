@@ -28,12 +28,15 @@ const DecodedError = styled('div')`
 `
 
 const ContentHashLink = ({ value, contentType }) => {
+  console.log('**** ContentHashLink1', value, contentType)
   if (contentType === 'oldcontent') {
     return <div>{value}</div>
   }
 
   const encoded = encodeContenthash(value)
+  console.log('**** ContentHashLink2', encoded)
   const { protocolType, decoded, error } = decodeContenthash(encoded)
+  console.log('**** ContentHashLink3', { protocolType, decoded, error })
   let externalLink, url
   if (error) {
     return <DecodedError>{error}</DecodedError>
@@ -53,6 +56,7 @@ const ContentHashLink = ({ value, contentType }) => {
   } else {
     console.warn(`Unsupported protocol ${protocolType}`)
   }
+  console.log('**** ContentHashLink4', { url, externalLink })
   return (
     <ContentHashLinkContainer target="_blank" href={externalLink}>
       {url}
