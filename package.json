@@ -21,7 +21,7 @@
     "apollo-link-http": "1.5.14",
     "apollo-link-state": "^0.4.1",
     "big-integer": "^1.6.44",
-    "content-hash": "^2.4.1",
+    "content-hash": "^2.5.2",
     "core-js": "^3.1.4",
     "cross-fetch": "^2.2.3",
     "emotion": "^10.0.9",

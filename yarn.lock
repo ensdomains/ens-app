@@ -4643,6 +4643,14 @@ buffer@^5.4.2, buffer@^5.4.3:
     base64-js "^1.0.2"
     ieee754 "^1.1.4"
 
+buffer@^5.5.0, buffer@^5.6.0:
+  version "5.6.0"
+  resolved "https://registry.yarnpkg.com/buffer/-/buffer-5.6.0.tgz#a31749dc7d81d84db08abf937b6b8c4033f62786"
+  integrity sha512-/gDYp/UtU0eA1ys8bOs9J6a+E/KWIY+DZ+Q2WESNUA0jFRsJOc0SNUO6xJ5SGA1xueg3NL65W6s+NY5l9cunuw==
+  dependencies:
+    base64-js "^1.0.2"
+    ieee754 "^1.1.4"
+
 builtin-status-codes@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/builtin-status-codes/-/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
@@ -4970,6 +4978,17 @@ cids@^0.6.0:
     multibase "~0.6.0"
     multicodec "~0.5.0"
     multihashes "~0.4.14"
+
+cids@^0.7.1:
+  version "0.7.5"
+  resolved "https://registry.yarnpkg.com/cids/-/cids-0.7.5.tgz#60a08138a99bfb69b6be4ceb63bfef7a396b28b2"
+  integrity sha512-zT7mPeghoWAu+ppn8+BS1tQ5qGmbMfB4AregnQjA/qHY3GC1m1ptI9GkWNlgeu38r7CuRdXB47uY2XgAYt6QVA==
+  dependencies:
+    buffer "^5.5.0"
+    class-is "^1.1.0"
+    multibase "~0.6.0"
+    multicodec "^1.0.0"
+    multihashes "~0.4.15"
 
 cids@~0.7.0, cids@~0.7.1:
   version "0.7.1"
@@ -5344,6 +5363,15 @@ content-hash@^2.4.1:
   dependencies:
     cids "^0.6.0"
     multicodec "^0.5.4"
+    multihashes "^0.4.15"
+
+content-hash@^2.5.2:
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/content-hash/-/content-hash-2.5.2.tgz#bbc2655e7c21f14fd3bfc7b7d4bfe6e454c9e211"
+  integrity sha512-FvIQKy0S1JaWV10sMsA7TRx8bpU+pqPkhbsfvOJAdjRXvYxEckAwQWGwtRjiaJfh+E0DvcWUGqcdjwMGFjsSdw==
+  dependencies:
+    cids "^0.7.1"
+    multicodec "^0.5.5"
     multihashes "^0.4.15"
 
 content-type@~1.0.4:
@@ -11187,6 +11215,21 @@ multicodec@^0.5.4, multicodec@~0.5.0, multicodec@~0.5.1, multicodec@~0.5.5:
   version "0.5.5"
   resolved "https://registry.yarnpkg.com/multicodec/-/multicodec-0.5.5.tgz#55c2535b44eca9ea40a13771420153fe075bb36d"
   dependencies:
+    varint "^5.0.0"
+
+multicodec@^0.5.5:
+  version "0.5.7"
+  resolved "https://registry.yarnpkg.com/multicodec/-/multicodec-0.5.7.tgz#1fb3f9dd866a10a55d226e194abba2dcc1ee9ffd"
+  integrity sha512-PscoRxm3f+88fAtELwUnZxGDkduE2HD9Q6GHUOywQLjOGT/HAdhjLDYNZ1e7VR0s0TP0EwZ16LNUTFpoBGivOA==
+  dependencies:
+    varint "^5.0.0"
+
+multicodec@^1.0.0:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/multicodec/-/multicodec-1.0.3.tgz#1d2c35140f0bff3afad336613ac53e3dda400e0b"
+  integrity sha512-8G4JKbHWSe/39Xx2uiI+/b/S6mGgimzwEN4TOCokFUIfofg1T8eHny88ht9eWImD2dng+EEQRsApXxA5ubhU4g==
+  dependencies:
+    buffer "^5.6.0"
     varint "^5.0.0"
 
 multihashes@^0.4.15, multihashes@~0.4.13, multihashes@~0.4.14, multihashes@~0.4.15:
