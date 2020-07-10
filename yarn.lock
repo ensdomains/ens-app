@@ -1809,10 +1809,10 @@
     bluebird "^3.5.2"
     dns-packet "^5.0.4"
 
-"@ensdomains/ui@3.0.25":
-  version "3.0.25"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.25.tgz#187f45be1dfd2c2f8be7e9686619ccd4f54004ee"
-  integrity sha512-SnKRkL77g7GenmvDL0RcU5IvZHrOy7ekVe/80dsJ294MPF1oIPONxmekhy78Mvc/cyiBG9bXhdUHFjaZHuaVOg==
+"@ensdomains/ui@3.0.26":
+  version "3.0.26"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.26.tgz#0e1c6bed429cf1f02fb429d4f728e60293312788"
+  integrity sha512-QdU20wL31rB1rmRalF8mjwYole1yxbx37bUvqLQDIZdIYDIRYRC+gWTxpRIC3aEu/H29H7WBN6bBDihS6L8YNw==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
