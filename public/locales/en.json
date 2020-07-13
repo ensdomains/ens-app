@@ -329,7 +329,7 @@
       "warning": "You’re using an outdated version of the public resolver. Click to migrate your resolver and records. You will need to confirm two transactions in order to migrate both your records and resolver."
     },
     "search": {
-      "title": "Names"
+      "title": "Top Level Domains"
     },
     "subdomains": {
       "add": "Add Subdomain",
