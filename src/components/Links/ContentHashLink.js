@@ -41,6 +41,9 @@ const ContentHashLink = ({ value, contentType }) => {
   if (protocolType === 'ipfs') {
     externalLink = `https://gateway.ipfs.io/ipfs/${decoded}`
     url = `ipfs://${decoded}`
+  } else if (protocolType === 'ipns') {
+    externalLink = `https://gateway.ipfs.io/ipns/${decoded}`
+    url = `ipns://${decoded}`
   } else if (protocolType === 'bzz') {
     externalLink = `https://swarm-gateways.net/bzz://${decoded}`
     url = `bzz://${decoded}`
