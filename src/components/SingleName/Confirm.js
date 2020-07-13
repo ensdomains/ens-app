@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled/macro'
+import { useTranslation } from 'react-i18next'
 import Button from '../Forms/Button'
 import warning from '../../assets/warning.svg'
 import write from '../../assets/Write.svg'
@@ -101,46 +102,51 @@ const Confirm = ({
   extraDataComponent,
   newValue,
   explanation
-}) => (
-  <ConfirmContainer className={className}>
-    <Title>Are you sure you want to do this?</Title>
-    <SubTitle>This action will modify the state of the blockchain.</SubTitle>
-    <Content>
-      {explanation ? <p>{explanation}</p> : ''}
-      {extraDataComponent ? <>{extraDataComponent}</> : ''}
-      {value || newValue ? (
-        <Values>
-          <Value old={true}>
-            <span>PREVIOUS</span>
-            <span>{value}</span>
-          </Value>
-          <Value>
-            <span>FUTURE</span>
-            <span>{newValue}</span>
-          </Value>
-        </Values>
-      ) : (
-        ''
-      )}
-      <Buttons>
-        <Cancel type="hollow" onClick={cancel}>
-          Cancel
-        </Cancel>
-        {disabled ? (
-          <Action type="disabled">Confirm</Action>
+}) => {
+  const { t } = useTranslation()
+  return (
+    <ConfirmContainer className={className}>
+      <Title>{t('singleName.confirm.title')}</Title>
+      <SubTitle>{t('singleName.confirm.subTitle')}</SubTitle>
+      <Content>
+        {explanation ? <p>{explanation}</p> : ''}
+        {extraDataComponent ? <>{extraDataComponent}</> : ''}
+        {value || newValue ? (
+          <Values>
+            <Value old={true}>
+              <span>{t('singleName.confirm.value.previous')}</span>
+              <span>{value}</span>
+            </Value>
+            <Value>
+              <span>{t('singleName.confirm.value.future')}</span>
+              <span>{newValue}</span>
+            </Value>
+          </Values>
         ) : (
-          <Action
-            onClick={() => {
-              mutation()
-              cancel()
-            }}
-          >
-            Confirm
-          </Action>
+          ''
         )}
-      </Buttons>
-    </Content>
-  </ConfirmContainer>
-)
+        <Buttons>
+          <Cancel type="hollow" onClick={cancel}>
+            {t('singleName.confirm.button.cancel')}
+          </Cancel>
+          {disabled ? (
+            <Action type="disabled">
+              {t('singleName.confirm.button.confirm')}
+            </Action>
+          ) : (
+            <Action
+              onClick={() => {
+                mutation()
+                cancel()
+              }}
+            >
+              {t('singleName.confirm.button.confirm')}
+            </Action>
+          )}
+        </Buttons>
+      </Content>
+    </ConfirmContainer>
+  )
+}
 
 export default Confirm

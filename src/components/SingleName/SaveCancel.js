@@ -54,12 +54,13 @@ const ActionButton = ({
   confirm,
   isValid
 }) => {
+  const { t } = useTranslation()
   const { toggleModal } = useContext(GlobalState)
   // Ignore isValid == undefined
   if (disabled || isValid === false) {
     return (
       <Save data-testid="action" type="disabled">
-        {mutationButton ? mutationButton : 'Save'}
+        {mutationButton ? mutationButton : t('c.save')}
       </Save>
     )
   }
