@@ -255,15 +255,15 @@
       }
     },
     "confirm": {
-      "title": "本当に変更してよろしいですか？",
-      "subTitle": "このアクションはブロックチェーンに書き込まれている値を上書きします",
-      "value": {
-        "previous": "変更前",
-        "future": "変更後"
-      },
       "button": {
         "cancel": "キャンセル",
         "confirm": "確認"
+      },
+      "subTitle": "このアクションはブロックチェーンに書き込まれている値を上書きします",
+      "title": "本当に変更してよろしいですか？",
+      "value": {
+        "future": "変更後",
+        "previous": "変更前"
       }
     },
     "dns": {
@@ -275,8 +275,8 @@
     },
     "domain": {
       "state": {
-        "available": "利用可能",
         "auction": "オークション",
+        "available": "利用可能",
         "default": "不明",
         "owned": "利用不可",
         "owner": "所有済み"
@@ -311,20 +311,20 @@
       "pending": "保留中"
     },
     "record": {
-      "title": "レコード",
       "cantEdit": "新しいリゾルバに変更するまで編集や移行はできません",
       "messages": {
         "explanation": "The Reverse Resolution translates an address into a name. It allows Dapps to show in their interfaces '{{name}}' rather than the long address '{{account}}'. If you would like to set up your reverse for a different account, please switch accounts in your dapp browser",
+        "notSet": "Reverse record: not set",
         "setTo": "Reverse record: Set to ",
-        "setToDifferent": "Reverse record: Set to a different name:",
-        "notSet": "Reverse record: not set"
-      }
+        "setToDifferent": "Reverse record: Set to a different name:"
+      },
+      "title": "レコード"
     },
     "resolver": {
-      "publicResolver": "パプリックリゾルバを使う",
       "error": "移行に失敗しました",
-      "warning": "古いバージョンの公開リゾルバを使用している場合は、クリックしてリゾルバとレコードを移行してください。レコードとリゾルバの両方を移行するには、2つのトランザクションを確認する必要があります。",
-      "message": "手動でリゾルバをリセットするには、「設定」をクリックしてカスタムリゾルバのアドレスを入力します" 
+      "message": "手動でリゾルバをリセットするには、「設定」をクリックしてカスタムリゾルバのアドレスを入力します",
+      "publicResolver": "パプリックリゾルバを使う",
+      "warning": "古いバージョンの公開リゾルバを使用している場合は、クリックしてリゾルバとレコードを移行してください。レコードとリゾルバの両方を移行するには、2つのトランザクションを確認する必要があります。"
     },
     "search": {
       "title": "Names"

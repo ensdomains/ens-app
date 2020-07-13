@@ -257,15 +257,15 @@
       }
     },
     "confirm": {
-      "title": "Are you sure you want to do this?",
-      "subTitle": "This action will modify the state of the blockchain.",
-      "value": {
-        "previous": "PREVIOUS",
-        "future": "FUTURE"
-      },
       "button": {
         "cancel": "Cancel",
         "confirm": "Confirm"
+      },
+      "subTitle": "This action will modify the state of the blockchain.",
+      "title": "Are you sure you want to do this?",
+      "value": {
+        "future": "FUTURE",
+        "previous": "PREVIOUS"
       }
     },
     "dns": {
@@ -277,8 +277,8 @@
     },
     "domain": {
       "state": {
-        "available": "Available",
         "auction": "In Auction",
+        "available": "Available",
         "default": "Unknown State",
         "owned": "Unavailable",
         "owner": "Owner"
@@ -313,20 +313,20 @@
       "pending": "Ausstehend"
     },
     "record": {
-      "title": "Records",
       "cantEdit": "You can’t edit or add records until you migrate to the new resolver.",
       "messages": {
         "explanation": "The Reverse Resolution translates an address into a name. It allows Dapps to show in their interfaces '{{name}}' rather than the long address '{{account}}'. If you would like to set up your reverse for a different account, please switch accounts in your dapp browser",
+        "notSet": "Reverse record: not set",
         "setTo": "Reverse record: Set to ",
-        "setToDifferent": "Reverse record: Set to a different name:",
-        "notSet": "Reverse record: not set"
-      }
+        "setToDifferent": "Reverse record: Set to a different name:"
+      },
+      "title": "Records"
     },
     "resolver": {
-      "publicResolver": "Use Public Resolver",
       "error": "Error Migrating Resolver",
-      "warning": "You’re using an outdated version of the public resolver. Click to migrate your resolver and records. You will need to confirm two transactions in order to migrate both your records and resolver.",
-      "message": "To reset your resolver manually, click set and enter the address of your custom resolver."
+      "message": "To reset your resolver manually, click set and enter the address of your custom resolver.",
+      "publicResolver": "Use Public Resolver",
+      "warning": "You’re using an outdated version of the public resolver. Click to migrate your resolver and records. You will need to confirm two transactions in order to migrate both your records and resolver."
     },
     "search": {
       "title": "Names"
