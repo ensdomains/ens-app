@@ -69,7 +69,7 @@
     "network": "Netzwerk",
     "otheraddresses": "Andere Adressen",
     "parent": "Elterndomain",
-    "permanentregistrar": "Dauerhafter Registrar",
+    "permanentregistrar": "Permanenter Registrar",
     "refresh": "Aktualisieren",
     "register": "Registrieren",
     "registrant": "Registrant",
@@ -139,23 +139,23 @@
       "migrationOver": "Die Migrierung des ENS Registers ist vorbei...Was jetzt? Einige Dinge, die Sie wissen sollten",
       "renew": {
         "body": [
-          "Sie können mehrere Domains in einer Transaktion verlängern, indem Sie zu Ihrer",
+          "Sie können mehrere Domains in einer Transaktion verlängern, indem Sie zu Ihrer ",
           "Adress Seite",
-          "gehen oder auf 'Meine Namen' klicken, während Sie eingeloggt sind"
+          "gehen oder auf 'Meine Namen' klicken, während Sie eingeloggt sind."
         ],
         "title": "Viele in der Vergangenheit gekauften Namen werden im August nicht mehr in der Schonfrist sein"
       }
     },
     "howtouse": {
-      "body": "Die ENS App ist eine grafische Oberfläche für nicht-technische Nutzer. Es ermöglicht Ihnen, jeden Namen zu suchen, ihre Adressen oder Ressourcen, auf die sie verweist, zu verwalten und Subdomains für jeden Namen zu erstellen.",
+      "body": "Die ENS App ist eine grafische Oberfläche für nicht-technische Nutzer. Es ermöglicht Ihnen, Namen zu suchen, ihre Adressen oder Ressourcen, auf die verwiesen wird, zu verwalten und Subdomains für Namen zu erstellen.",
       "title": "Wie man ENS benutzt"
     },
     "permanentRegistrar": {
-      "title": "Erfahren Sie mehr über das Dauerhafte Register und den Migrierungs-Prozess."
+      "title": "Erfahren Sie mehr über den Permanenten Registrar und den Migrierungs-Prozess."
     },
     "whatisens": {
-      "body": "Der Ethereum Name Service ist ein verteiltes, offenes und erweiterbares System zur Namensauflösung, basierend auf der Ethereum Blockchain. Mit ENS muss man keine langen Adressen mehr kopieren oder eintippen..",
-      "title": "Was es ist"
+      "body": "Der Ethereum Name Service ist ein verteiltes, offenes und erweiterbares System zur Namensauflösung, basierend auf der Ethereum Blockchain. Mit ENS muss man keine langen Adressen mehr kopieren oder eintippen.",
+      "title": "Was ist ENS"
     }
   },
   "howtouse": {
@@ -172,7 +172,7 @@
       "title": "Namen registrieren"
     },
     "search": {
-      "text": "Finden Sie Domains und Subdomains, die Sie registrieren oder über die Sie mehr erfahren können.",
+      "text": "Finden Sie Domains und Subdomains, die Sie registrieren können oder über die Sie mehr erfahren wollen.",
       "title": "Nach Namen suchen"
     }
   },
@@ -269,7 +269,7 @@
       "cannotown": "Das Verlängern eines Namens, den Sie nicht besitzen, gibt Ihnen nicht das Besitzrecht an diesem Namen.",
       "expired": "Ausgelaufen",
       "expiring": "Läuft bald aus",
-      "gracePeriodEnds": "Schonfrist endet"
+      "gracePeriodEnds": "Schonfrist endet am"
     },
     "learnmore": {
       "step1": {

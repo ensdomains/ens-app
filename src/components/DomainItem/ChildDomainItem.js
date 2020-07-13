@@ -40,6 +40,7 @@ const DomainLink = styled(Link)`
   }
 
   h3 {
+    display: inherit;
     align-self: center;
     margin: 0;
     font-weight: 100;
