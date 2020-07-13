@@ -383,7 +383,7 @@ function DetailsContainer({
         {domain.isDNSRegistrar ? (
           <>
             <DetailsItem uneditable>
-              <DetailsKey>{t('c.DnsOwner')}</DetailsKey>
+              <DetailsKey>{t('dns.dnsowner')}</DetailsKey>
               <DetailsValue>
                 {dnssecmode.displayError ? (
                   <DNSOwnerError>{dnssecmode.title}</DNSOwnerError>

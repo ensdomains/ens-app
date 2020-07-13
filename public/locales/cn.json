@@ -11,7 +11,7 @@
       "内部机制"
     ],
     "underTheSurface": {
-      "registrar": "注册器是一个智能合约，支持注册和转移域名。当前运行的注册器是永久注册器，采用了即时注册的机制，而不再需要像从前那样拍卖注册。",
+      "registrar": "注册器是一个智能合约，支持注册和转移域名。",
       "registry": "注册表是一个智能合约，其中存储着所有域名和子域名的列表，并为每个域名记录着两个重要信息：域名的所有者和解析器。",
       "resolver": "解析器是一个智能合约，负责将域名转换为地址或其他类型的哈希和元数据。",
       "reverse": "反向解析器是一个智能合约，可以实现 “反向解析” ：将地址转换为关联的域名。",
@@ -51,7 +51,6 @@
     "Address": "以太坊地址",
     "Content": "内容哈希",
     "Controller": "管理员",
-    "DnsOwner": "DNS OWNER",
     "Expiration Date": "到期时间",
     "Resolver": "解析器",
     "about": "关于",
@@ -62,6 +61,7 @@
     "expires": "到期",
     "favourites": "收藏",
     "learnmore": "了解更多",
+    "learnmoreenglishonly": "了解更多 (English Only)",
     "migrate": "迁移",
     "mynames": "我的域名",
     "network": "网络",
@@ -72,12 +72,14 @@
     "registrant": "注册人",
     "registrationDate": "Registration Date",
     "renew": "续费",
+    "return": "Return",
     "save": "保存",
     "search": "查询",
     "set": "设置",
     "sync": "Sync",
     "textrecord": "文本记录",
-    "transfer": "转让"
+    "transfer": "转让",
+    "warning": "Warning"
   },
   "childDomainItem": {
     "notmigrated": "暂未迁移"
@@ -218,9 +220,30 @@
       "parentmigrate": "在迁移这个子域名之前，你必须先确认它的父域名 {{ parent}} 已经迁移。"
     }
   },
+  "releaseDeed": {
+    "connectRegistrar": "This name was automatically migrated to the new Registrar. To get the deposited eth back, please connect via the registrant account and click the 'return' button.",
+    "depositReturned": "Your deposit is now returned.",
+    "returnDeposit": "Your name was automatically migrated to the new Registrar. To get your deposited eth back, click the 'return' button.",
+    "whyMigrated": "*To understand why this name was migrated"
+  },
   "search": {
     "button": "查询",
     "placeholder": "输入域名或地址"
+  },
+  "searchErrors": {
+    "domainMalformed": {
+      "long": "You have either added a domain without a TLD such as .eth or you have added unsupported characters",
+      "short": "Domain malformed. {{searchTerm}} is not a valid domain."
+    },
+    "tooShort": {
+      "long": "Names less than 6 characters have been reserved for when the permanent registrar has been released.",
+      "short1": "Name is too short.",
+      "short2": "Names must be at least 7 characters long"
+    },
+    "unsupported": {
+      "long": "We do not support every single domain. Support for future domains are planned in the future",
+      "short": "{{tld}} is not currently a supported TLD."
+    }
   },
   "singleName": {
     "banners": {
