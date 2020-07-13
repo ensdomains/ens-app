@@ -71,14 +71,16 @@
     "refresh": "更新",
     "register": "登録",
     "registrant": "登録者",
+    "registrationDate": "登録日",
     "renew": "更新",
     "return": "Return",
     "save": "保存",
     "search": "検索",
     "set": "設定",
-    "sync": "Sync",
+    "sync": "同期",
     "textrecord": "テキストレコード",
     "transfer": "譲渡",
+    "warning": "Warning",
     "year": "年"
   },
   "childDomainItem": {
@@ -175,7 +177,8 @@
   },
   "pricer": {
     "registrationPeriodLabel": "登録期間",
-    "totalPriceLabel": "お支払合計額"
+    "totalPriceLabel": "お支払合計額",
+    "yearUnit": "年"
   },
   "register": {
     "buttons": {
@@ -229,11 +232,54 @@
     "button": "検索",
     "placeholder": "名前またはアドレスで検索"
   },
+  "searchErrors": {
+    "domainMalformed": {
+      "long": "You have either added a domain without a TLD such as .eth or you have added unsupported characters",
+      "short": "Domain malformed. {{searchTerm}} is not a valid domain."
+    },
+    "tooShort": {
+      "long": "Names less than 6 characters have been reserved for when the permanent registrar has been released.",
+      "short1": "Name is too short.",
+      "short2": "Names must be at least 7 characters long"
+    },
+    "unsupported": {
+      "long": "We do not support every single domain. Support for future domains are planned in the future",
+      "short": "{{tld}} is not currently a supported TLD."
+    }
+  },
   "singleName": {
     "banners": {
       "namesExpiring": {
         "text": "更新ボタンをクリックして期限切れを回避してください。すべての名前を一括で更新するには、<1>マイENS</1>に移動し、複数の名前を選択してから'更新'をクリックしてください。",
         "title": "過去に購入された名前の多くが8月に期限切れになります"
+      }
+    },
+    "confirm": {
+      "button": {
+        "cancel": "キャンセル",
+        "confirm": "確認"
+      },
+      "subTitle": "このアクションはブロックチェーンに書き込まれている値を上書きします",
+      "title": "本当に変更してよろしいですか？",
+      "value": {
+        "future": "変更後",
+        "previous": "変更前"
+      }
+    },
+    "dns": {
+      "messages": {
+        "error": "Solve the error in your Domain registrar. Refresh to reflect updates.",
+        "outOfSync": "The Controller and DNS Owner are out of sync. Click 'sync' to make the DNS Owner the Controller. Click 'refresh' if you make changes to the domain in the DNS Registrar.",
+        "readyToRegister": "*DNSレジストラでドメインに変更を加えた場合は、「更新」をクリックしてください。"
+      }
+    },
+    "domain": {
+      "state": {
+        "auction": "オークション",
+        "available": "利用可能",
+        "default": "不明",
+        "owned": "利用不可",
+        "owner": "所有済み"
       }
     },
     "expiry": {
@@ -264,6 +310,25 @@
       "notfinalised": "(まだ確定していません)",
       "pending": "保留中"
     },
+    "record": {
+      "cantEdit": "新しいリゾルバに変更するまで編集や移行はできません",
+      "messages": {
+        "explanation": "The Reverse Resolution translates an address into a name. It allows Dapps to show in their interfaces '{{name}}' rather than the long address '{{account}}'. If you would like to set up your reverse for a different account, please switch accounts in your dapp browser",
+        "notSet": "Reverse record: not set",
+        "setTo": "Reverse record: Set to ",
+        "setToDifferent": "Reverse record: Set to a different name:"
+      },
+      "title": "レコード"
+    },
+    "resolver": {
+      "error": "移行に失敗しました",
+      "message": "手動でリゾルバをリセットするには、「設定」をクリックしてカスタムリゾルバのアドレスを入力します",
+      "publicResolver": "パプリックリゾルバを使う",
+      "warning": "古いバージョンの公開リゾルバを使用している場合は、クリックしてリゾルバとレコードを移行してください。レコードとリゾルバの両方を移行するには、2つのトランザクションを確認する必要があります。"
+    },
+    "search": {
+      "title": "Top Level Domains"
+    },
     "subdomains": {
       "add": "サブドメインを追加",
       "nosubdomains": "追加されたサブドメインはありません"
@@ -279,6 +344,7 @@
     "tooltips": {
       "detailsItem": {
         "Controller": "あなたがコントローラーまたは登録者であり、ウォレットにログインしている場合に限り、コントローラーを譲渡することができます。",
+        "ControllerAndDnsAlreadySync": "コントローラーとDNSオーナーはすでに同期しています。",
         "Resolver": "あなたがコントローラーであり、ウォレットにログインしている場合に限り、この名前にリゾルバを設定できます。",
         "default": "あなたがコントローラーであり、ウォレットにログインしている場合に限り、この名前に変更を行えます。",
         "registrant": "あなたが登録者であり、ウォレットにログインしている場合に限り、登録者権限を譲渡することができます。",

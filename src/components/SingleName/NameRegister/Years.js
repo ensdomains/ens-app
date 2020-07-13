@@ -74,6 +74,8 @@ const Years = ({ years, setYears }) => {
   const { t } = useTranslation()
   const incrementYears = () => setYears(years + 1)
   const decrementYears = () => (years > 1 ? setYears(years - 1) : null)
+
+  const currentLanguage = window.localStorage.getItem('language')
   return (
     <YearsContainer>
       <Stepper>
@@ -91,7 +93,8 @@ const Years = ({ years, setYears }) => {
               }
             }}
           />{' '}
-          year{years > 1 && 's'}
+          {t('pricer.yearUnit')}
+          {currentLanguage === 'en' && years > 1 && 's'}
         </Amount>
         <Icon onClick={incrementYears}>+</Icon>
       </Stepper>

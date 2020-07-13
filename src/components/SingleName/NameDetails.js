@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useQuery } from 'react-apollo'
-import { useTranslation } from 'react-i18next'
+import { useTranslation, Trans } from 'react-i18next'
 import styled from '@emotion/styled'
 import { Link, Route } from 'react-router-dom'
 import mq from 'mediaQuery'
@@ -272,7 +272,7 @@ function DetailsContainer({
         ) : domain.parent === 'eth' && !domain.isNewRegistrar ? (
           <>
             <DetailsItem uneditable>
-              <DetailsKey>{t('c.Registrant')}</DetailsKey>
+              <DetailsKey>{t('c.registrant')}</DetailsKey>
               <DetailsValue>
                 <AddressLink address={domain.deedOwner}>
                   <SingleNameBlockies
@@ -332,7 +332,9 @@ function DetailsContainer({
                 />
               ) : (
                 <Tooltip
-                  text="The controller and DNS owner are already in sync"
+                  text={t(
+                    'singleName.tooltips.detailsItem.ControllerAndDnsAlreadySync'
+                  )}
                   position="left"
                   border={true}
                   warning={true}
@@ -421,8 +423,7 @@ function DetailsContainer({
             {dnssecmode.displayError ? (
               <ErrorExplainer>
                 <OrangeExclamation />
-                Solve the error in your Domain registrar. Refresh to reflect
-                updates.
+                {t('singleName.dns.messages.error')}
                 <LinkToLearnMore
                   href="https://docs.ens.domains/dns-registrar-guide"
                   target="_blank"
@@ -438,7 +439,9 @@ function DetailsContainer({
                 <HR />
                 <OutOfSyncExplainer>
                   <OrangeExclamation />
-                  {dnssecmode.explainer}
+                  <Trans i18nKey={'singleName.dns.messages.outOfSync'}>
+                    {dnssecmode.explainer}
+                  </Trans>
                   <LinkToLearnMore
                     href="https://docs.ens.domains/dns-registrar-guide"
                     target="_blank"
@@ -453,7 +456,9 @@ function DetailsContainer({
               </OutOfSyncExplainerContainer>
             ) : (
               <Explainer>
-                {dnssecmode.explainer}
+                <Trans i18nKey={'singleName.dns.messages.readyToRegister'}>
+                  {dnssecmode.explainer}
+                </Trans>
                 <LinkToLearnMore
                   href="https://docs.ens.domains/dns-registrar-guide"
                   target="_blank"
@@ -472,7 +477,7 @@ function DetailsContainer({
 
         {domain.registrationDate ? (
           <DetailsItem uneditable>
-            <DetailsKey>Registration Date</DetailsKey>
+            <DetailsKey>{t('c.registrationDate')}</DetailsKey>
             <DetailsValue>{formatDate(domain.registrationDate)}</DetailsValue>
           </DetailsItem>
         ) : (
