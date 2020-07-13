@@ -11,13 +11,12 @@ import SearchDefault from '../components/SearchName/Search'
 import NoAccountsDefault from '../components/NoAccounts/NoAccountsModal'
 import bg from '../assets/heroBG.jpg'
 import useNetworkInfo from '../components/NetworkInformation/useNetworkInfo'
-import { ExternalButtonLink, ButtonLink } from '../components/Forms/Button'
+import { ButtonLink } from '../components/Forms/Button'
 import TextBubbleDefault from '../components/Icons/TextBubble'
 import QuestionMarkDefault from '../components/Icons/QuestionMark'
 import HowToUseDefault from '../components/HowToUse/HowToUse'
 import Alice from '../components/HomePage/Alice'
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
-import { ReactComponent as DefaultPermanentRegistrarIcon } from '../components/Icons/PermanentRegistrar.svg'
 
 const HeroTop = styled('div')`
   display: grid;
@@ -101,23 +100,6 @@ const Announcement = styled('div')`
     text-align: center;
     color: white;
     margin-top: 0;
-  }
-  a {
-    color: white;
-    text-decoration: underline;
-  }
-`
-
-const PreviousUpdates = styled('div')`
-  display: flex;
-  justify-content: center;
-  background: #5284ff;
-  border-bottom: #5284ff solid 3px;
-  h3 {
-    color: white;
-    font-weight: 400;
-    text-align: center;
-    padding: 0 20px;
   }
   a {
     color: white;
@@ -271,33 +253,6 @@ const PermanentRegistrarLogo = styled(motion.h1)`
   text-align: center;
 `
 
-const PermanentRegistrar = styled('div')`
-  background-image: linear-gradient(24deg, #52e5ff 0%, #513eff 100%);
-  padding: 80px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
-
-const PermanentRegistrarIcon = styled(DefaultPermanentRegistrarIcon)`
-  margin-left: 15px;
-`
-
-const PermanentRegistrarTitle = styled('h2')`
-  font-family: Overpass;
-  font-weight: 500;
-  font-size: 22px;
-  color: #ffffff;
-  text-align: center;
-  line-height: 38px;
-  max-width: 500px;
-  padding: 0 20px;
-
-  ${mq.medium`
-    font-size: 30px;
-  `}
-`
-
 export default ({ match }) => {
   const { url } = match
   const { t } = useTranslation()
@@ -348,9 +303,7 @@ export default ({ match }) => {
             <PermanentRegistrarLogo
               initial={animation.initial}
               animate={animation.animate}
-            >
-              {t('c.permanentregistrar')}
-            </PermanentRegistrarLogo>
+            />
             <Search />
           </>
         </SearchContainer>
@@ -403,27 +356,6 @@ export default ({ match }) => {
           </Inner>
         </HowItWorks>
       </Explanation>
-      <PreviousUpdates>
-        <h3>
-          <img src={warning} alt="warning" />
-          &nbsp; {t('home.announcements.migrationOver')}&nbsp;
-          <a href="https://medium.com/the-ethereum-name-service/ens-registry-migration-is-over-now-what-a-few-things-to-know-fb05f921872a">
-            ({t('c.learnmore')})
-          </a>
-        </h3>
-      </PreviousUpdates>
-      <PermanentRegistrar>
-        <PermanentRegistrarIcon />
-        <PermanentRegistrarTitle>
-          {t('home.permanentRegistrar.title')}
-        </PermanentRegistrarTitle>
-        <ExternalButtonLink
-          type="hollow-white"
-          href="https://docs.ens.domains/permanent-registrar-faq"
-        >
-          {t('c.learnmore')}
-        </ExternalButtonLink>
-      </PermanentRegistrar>
     </>
   )
 }
