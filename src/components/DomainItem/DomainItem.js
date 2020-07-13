@@ -175,7 +175,6 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
         if (domain.expiryTime) {
           expiryDate = parseInt(domain.expiryTime.getTime() / 1000)
         }
-
         return (
           <DomainContainer
             to={`/name/${domain.name}`}
