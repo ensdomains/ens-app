@@ -11,7 +11,7 @@
       "Under the surface"
     ],
     "underTheSurface": {
-      "registrar": "The Registrar is the Smart Contract that allows you to buy or register a domain. Today it uses an auction process, but in the future you will have an instant buy option.",
+      "registrar": "The Registrar is the Smart Contract that allows you to buy or register a domain.",
       "registry": "The Registry is a Smart Contract that contains a list of all domains and subdomains, storing for each two pieces of information: the owner of the name and the Resolver.",
       "resolver": "Resolvers are Smart Contracts responsible for the process of translating names into addresses, or other types of hashes and resources.",
       "reverse": "The Resolver can optionally perform the opposite functionality of 'Reverse Resolving': translating an address into an associated name",
@@ -63,6 +63,7 @@
     "expires": "Expires",
     "favourites": "Favourites",
     "learnmore": "Learn More",
+    "learnmoreenglishonly": "Learn More",
     "migrate": "Migrate",
     "mynames": "My Names",
     "network": "network",
@@ -72,9 +73,11 @@
     "register": "Register",
     "registrant": "Registrant",
     "renew": "Renew",
+    "return": "Return",
     "save": "Save",
     "search": "Search",
     "set": "Set",
+    "sync": "Sync",
     "textrecord": "Text Record",
     "transfer": "Transfer",
     "year": "year",
@@ -217,6 +220,12 @@
       "dnssec": "This name needs to be migrated to the new Registry. Please setup the correct DNS Owner and click 'Sync' button below",
       "parentmigrate": "You must first migrate the parent domain {{ parent}} before you can migrate this subdomain"
     }
+  },
+  "releaseDeed": {
+    "connectRegistrar": "This name was automatically migrated to the new Registrar. To get the deposited eth back, please connect via the registrant account and click the 'return' button.",
+    "depositReturned": "Your deposit is now returned.",
+    "returnDeposit": "Your name was automatically migrated to the new Registrar. To get your deposited eth back, click the 'return' button.",
+    "whyMigrated": "*To understand why this name was migrated"
   },
   "search": {
     "button": "Search",
