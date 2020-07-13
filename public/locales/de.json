@@ -81,6 +81,7 @@
     "sync": "Sync",
     "textrecord": "Text-Eintrag",
     "transfer": "Übertragen",
+    "warning": "Warning",
     "year": "Jahr",
     "year_plural": "Jahre"
   },
@@ -234,6 +235,21 @@
   "search": {
     "button": "Suchen",
     "placeholder": "Namen oder Adressen suchen"
+  },
+  "searchErrors": {
+    "domainMalformed": {
+      "long": "You have either added a domain without a TLD such as .eth or you have added unsupported characters",
+      "short": "Domain malformed. {{searchTerm}} is not a valid domain."
+    },
+    "tooShort": {
+      "long": "Names less than 6 characters have been reserved for when the permanent registrar has been released.",
+      "short1": "Name is too short.",
+      "short2": "Names must be at least 7 characters long"
+    },
+    "unsupported": {
+      "long": "We do not support every single domain. Support for future domains are planned in the future",
+      "short": "{{tld}} is not currently a supported TLD."
+    }
   },
   "singleName": {
     "banners": {
