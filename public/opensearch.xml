@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+  <AdultContent>false</AdultContent>
+  <Description>Search ENS names</Description>
+  <Image width="16" height="16">data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACZFBMVEUAAACYk/ialvkKCmicnPyenv6Bf9uQlfavsP+ho/+dnf2UmfaYof2Wm/qQlfekrv+Un/iJmfDm6v+Wo/5ve+STn/uXpf/2jnaLnfhyiOeSpf1nifmJofik4/8AEYhDb+SKqvx/sPw8dtU7fON3sflXnvZxuP93r/Bws/dlsv9qu/5nvPxnvP2DuvVpu/lnu9JgwflewfphwP7//+JhwPcj4v9RyPxRyP2jmtFhv/fQjSZTyPlSyfpjv+lUy/BTy/GQjfKemfyblfqZk/iemfuZlviYmfqenf2fnf2dmPublfmfnP2fnf2am/qZnfycn/6eoP+cnv2bnPyeoP6doP6anvyGjeiXoPyaov6aof6UmfmZoP2bov+aov6Yof2PnPWImP2XpP+UofySnfqWo/6WpP+Uo/yLo/qNo/lefPuNov2Qo/ySpv6Rpv6No/iKp/yNqf1WffVPd/ZqivmMqP2Nqf+Nqf+Lp/uGq/2HrP9/pvtBcOuLqvyIrP6HrP+Gq/2Brv2BsP+BsP6Bsfw2d991pfiCsP+Br/57sPt6s/55s/5zrvJbofg9h+c9hOJ8s/57sfx4r/Zztv5yt/9wt/1utv4/kul1sfh2s/psufxpvP5ovP5nvPtnvPxovP5cs/tXaLGBqehjv/1fwf5dwv9dwv1dwfddwv5fwf5kv/1bw/xVxv1TyP1TyPpTyPtTyP1Vxv1axPxWx/hQyvlOzPZQzPJPzPJOzPdPy/lVyPhbyPBOzfJRze9Qze9NzfJXyfGbov+Vo/+Xpf92kP6Sp/96s/9yuP9XpvhovP9mu/9dwv////+QOdscAAAAwHRSTlMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUJGNEgEDXKxHAqRgRIrq/FZLNm7NgEu06YJZPnkYQN84zMLqu5PBzuLfDLhuw8koWW8GXb+6jQ25W8jE8D3SjXt0h8gXudLI92MAxCzcJw0BqftRGmgPA095b0UJtiTAQFR2v56BJPePCus4z1H7Lc0DHGdExKnfxEBPjw8SgN2Pq2KAAAAAWJLR0TLhLMGcAAAAAd0SU1FB+MEEAgUL3LxiWcAAAEDSURBVBjTY2AAAkYHRydnF1cmBghgZnFz9/D08vbxZWUD8dk5/PwDAjm5goJDQsO4gQI84REHIqN4+fijY2Lj4gUYBIUSDiYmCYswiCanHEpNE2NIz8g8nCUuwcAgKZWdcyQ3jyG/oLCoWBpkmIxsSWlZOUNFZVW1nDzYOoWa2rp6hobGpmZFMF9JuaW1rZ2ho/NoV7cKSEC1p7evfwLDxEnHJk9RU2dg0NCcenza9BkMWjNnnZg9R5uBQWfuvJPzF+gy6C1ctHjJUn0Dw2XLT61YaWTMwGBiumr1mrVm5uvWb9hoYQkyzMp60+YtW7dt37HTxhbqX7tdu/fs3bffHsQGAKq7UBivXPG2AAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE5LTA0LTE2VDA4OjIwOjQ3KzAyOjAwAMYgGQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOS0wNC0xNlQwODoyMDo0NyswMjowMHGbmKUAAABXelRYdFJhdyBwcm9maWxlIHR5cGUgaXB0YwAAeJzj8gwIcVYoKMpPy8xJ5VIAAyMLLmMLEyMTS5MUAxMgRIA0w2QDI7NUIMvY1MjEzMQcxAfLgEigSi4A6hcRdPJCNZUAAAAASUVORK5CYII=</Image>
+  <InputEncoding>UTF-8</InputEncoding>
+  <OutputEncoding>UTF-8</OutputEncoding>
+  <SearchForm>https://app.ens.domains/search</SearchForm>
+  <ShortName>ENS</ShortName>
+  <Url type="text/html" rel="results" method="GET" template="https://app.ens.domains/search/{searchTerms}"/>
+  <Url type="application/opensearchdescription+xml" rel="self" method="GET" template="https://app.ens.domains/opensearch.xml"/>
+  <moz:SearchForm>https://app.ens.domains/search</moz:SearchForm>
+</OpenSearchDescription>
