@@ -72,9 +72,11 @@
     "register": "注册",
     "registrant": "注册人",
     "renew": "续费",
+    "return": "Return",
     "save": "保存",
     "search": "查询",
     "set": "设置",
+    "sync": "Sync",
     "textrecord": "文本记录",
     "transfer": "转让"
   },

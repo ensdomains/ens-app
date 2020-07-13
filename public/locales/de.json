@@ -74,9 +74,11 @@
     "register": "Registrieren",
     "registrant": "Registrant",
     "renew": "Verlängern",
+    "return": "Return",
     "save": "Speichern",
     "search": "Suchen",
     "set": "Setzen",
+    "sync": "Sync",
     "textrecord": "Text-Eintrag",
     "transfer": "Übertragen",
     "year": "Jahr",
@@ -178,7 +180,7 @@
     "text": "Tx ausstehend"
   },
   "pricer": {
-    "rentalPeriodLabel": "Mietdauer",
+    "registrationPeriodLabel": "Registration Period",
     "totalPriceLabel": "Gesamtpreis"
   },
   "register": {
@@ -256,6 +258,7 @@
       "title": "Erfahren Sie, wie Sie Ihren Namen verwalten können."
     },
     "messages": {
+      "alreadyregistered": "This name is already registered",
       "noowner": "Nicht im Besitz",
       "noresolver": "Kein Resolver gesetzt",
       "notfinalised": "(Sie haben es nicht abgeschlossen)",

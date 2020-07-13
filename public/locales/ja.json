@@ -40,8 +40,7 @@
         "次の期間にて更新されます。"
       ],
       "confirmButton": "更新",
-      "year": "{{count}} 年",
-      "year_plural": "{{count}} 年間"
+      "year": "{{count}} 年"
     },
     "sort": {
       "alphabetical": "アルファベット順",
@@ -74,13 +73,14 @@
     "register": "登録",
     "registrant": "登録者",
     "renew": "更新",
+    "return": "Return",
     "save": "保存",
     "search": "検索",
     "set": "設定",
+    "sync": "Sync",
     "textrecord": "テキストレコード",
     "transfer": "譲渡",
-    "year": "年",
-    "year_plural": "年間"
+    "year": "年"
   },
   "childDomainItem": {
     "notmigrated": "移行されていません"

@@ -302,7 +302,7 @@ function DetailsContainer({
         ) : domain.isDNSRegistrar ? (
           <DetailsItem uneditable>
             <DetailsKey>
-              {t('c.controller')} {isOwner ? <You /> : ''}
+              {t('c.Controller')} {isOwner ? <You /> : ''}
             </DetailsKey>
             <DetailsValue>
               <AddressLink address={domain.owner}>
@@ -328,7 +328,7 @@ function DetailsContainer({
                   name={domain.name}
                   parentOwner={domain.parentOwner}
                   refetch={refetch}
-                  actionText={'Sync'}
+                  actionText={t('c.sync')}
                 />
               ) : (
                 <Tooltip
@@ -349,7 +349,7 @@ function DetailsContainer({
                         }}
                         type="disabled"
                       >
-                        Sync
+                        {t('c.sync')}
                         {tooltipElement}
                       </Button>
                     )
@@ -381,7 +381,7 @@ function DetailsContainer({
         {domain.isDNSRegistrar ? (
           <>
             <DetailsItem uneditable>
-              <DetailsKey>DNS OWNER</DetailsKey>
+              <DetailsKey>{t('dns.dnsowner')}</DetailsKey>
               <DetailsValue>
                 {dnssecmode.displayError ? (
                   <DNSOwnerError>{dnssecmode.title}</DNSOwnerError>
@@ -413,7 +413,7 @@ function DetailsContainer({
                         })
                     }}
                   >
-                    Refresh{' '}
+                    {t('c.refresh')}{' '}
                   </Button>
                 )}
               </ButtonContainer>
@@ -427,7 +427,7 @@ function DetailsContainer({
                   href="https://docs.ens.domains/dns-registrar-guide"
                   target="_blank"
                 >
-                  Learn More{' '}
+                  {t('c.learnmore')}{' '}
                   <EtherScanLinkContainer>
                     <ExternalLinkIcon />
                   </EtherScanLinkContainer>
@@ -444,7 +444,7 @@ function DetailsContainer({
                     target="_blank"
                     outOfSync={outOfSync}
                   >
-                    Learn More{' '}
+                    {t('c.learnmore')}{' '}
                     <EtherScanLinkContainer>
                       <ExternalLinkIcon />
                     </EtherScanLinkContainer>
@@ -458,7 +458,7 @@ function DetailsContainer({
                   href="https://docs.ens.domains/dns-registrar-guide"
                   target="_blank"
                 >
-                  Learn More{' '}
+                  {t('c.learnmore')}{' '}
                   <EtherScanLinkContainer>
                     <ExternalLinkIcon />
                   </EtherScanLinkContainer>

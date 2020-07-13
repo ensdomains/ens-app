@@ -5,7 +5,7 @@ import styled from '@emotion/styled/macro'
 import PendingTx from '../PendingTx'
 import { ExternalButtonLink } from '../Forms/Button'
 import Button from '../Forms/Button'
-
+import { useTranslation } from 'react-i18next'
 import { useEditable } from '../hooks'
 
 const LinkToLearnMore = styled('a')`
@@ -45,6 +45,7 @@ const Return = styled(ExternalButtonLink)`
 `
 
 export default function MigrationWarning({ domain, isOwner, refetch }) {
+  const { t } = useTranslation()
   const { state, actions } = useEditable()
   const { txHash, pending, confirmed } = state
   const { startPending, setConfirmed } = actions
@@ -80,7 +81,7 @@ export default function MigrationWarning({ domain, isOwner, refetch }) {
             target="_blank"
           >
             {' '}
-            Learn More
+            {t('c.learnmore')}
           </LinkToLearnMore>
         </SubWarning>
       </WarningContent>
@@ -98,11 +99,11 @@ export default function MigrationWarning({ domain, isOwner, refetch }) {
           type={'hollow-primary'}
           href="#"
         >
-          Return
+          {t('c.return')}
         </Return>
       ) : (
         <Button data-testid="disabled-return-button" type="disabled">
-          Return
+          {t('c.return')}
         </Button>
       )}
     </WarningBox>
