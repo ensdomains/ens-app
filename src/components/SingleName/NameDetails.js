@@ -332,7 +332,7 @@ function DetailsContainer({
                 />
               ) : (
                 <Tooltip
-                  text="The controller and DNS owner are already in sync"
+                  text={t('dns.alreadyinsync')}
                   position="left"
                   border={true}
                   warning={true}
@@ -421,8 +421,7 @@ function DetailsContainer({
             {dnssecmode.displayError ? (
               <ErrorExplainer>
                 <OrangeExclamation />
-                Solve the error in your Domain registrar. Refresh to reflect
-                updates.
+                {t('dns.registrarerror')}
                 <LinkToLearnMore
                   href="https://docs.ens.domains/dns-registrar-guide"
                   target="_blank"
@@ -472,7 +471,7 @@ function DetailsContainer({
 
         {domain.registrationDate ? (
           <DetailsItem uneditable>
-            <DetailsKey>Registration Date</DetailsKey>
+            <DetailsKey>{t('c.registrationDate')}</DetailsKey>
             <DetailsValue>{formatDate(domain.registrationDate)}</DetailsValue>
           </DetailsItem>
         ) : (

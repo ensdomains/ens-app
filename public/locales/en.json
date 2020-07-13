@@ -54,6 +54,7 @@
     "Content": "Content",
     "Controller": "Controller",
     "Expiration Date": "Expiration Date",
+    "registrationDate": "Registration Date",
     "Resolver": "Resolver",
     "about": "About",
     "cancel": "Cancel",
@@ -95,6 +96,8 @@
       "SUBMIT PROOF",
       "MANAGE NAME"
     ],
+    "alreadyinsync":"The controller and DNS owner are already in sync",
+    "registrarerror":"Solve the error in your Domain registrar. Refresh to reflect updates.",
     "dnsowner": "DNS Owner",
     "steps": {
       "addtext": {
