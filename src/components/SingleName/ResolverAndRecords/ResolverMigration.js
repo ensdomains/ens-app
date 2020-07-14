@@ -87,7 +87,7 @@ export default function MigrateResolver({ value, name, refetch, isOwner }) {
             fill-rule="evenodd"
           />
         </SVG>
-        Resolver
+        {t('c.Resolver')}
       </MigrateKey>
       <MigrateValue editable>
         {value}
