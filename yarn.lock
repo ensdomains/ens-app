@@ -1811,10 +1811,10 @@
     bluebird "^3.5.2"
     dns-packet "^5.0.4"
 
-"@ensdomains/ui@3.0.27":
-  version "3.0.27"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.27.tgz#64f65af1a123c5a778e4f31066f2ca6be0c0bf12"
-  integrity sha512-/cGE1L7gGPN3uwCsoNh8U84sbEXavHhA9zEwjx9JOj21kxtjGU/HklkH5Dq1GIu0Z7cnQa53L7E2y0U5cYecQQ==
+"@ensdomains/ui@3.0.29":
+  version "3.0.29"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.29.tgz#463a633845cd7a281c2b00616c54c059f30a2941"
+  integrity sha512-6NvZUBG7B4L6TjIcyDdms+RXSwbwaDobs6gJzlsiNdLmBzWvWooswFuW0IsjLR1cApNXa6iS5go4x2m6bYhSug==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
@@ -1823,7 +1823,7 @@
     "@ensdomains/dnsregistrar" "^0.3.9"
     "@ensdomains/ens" "^0.4.3"
     "@ensdomains/ens-022" "npm:@ensdomains/ens@0.2.2"
-    "@ensdomains/ethregistrar" "^2.0.2"
+    "@ensdomains/ethregistrar" "^2.0.4"
     "@ensdomains/resolver" "0.2.4"
     "@ensdomains/subdomain-registrar" "^0.2.1"
     "@ethvault/iframe-provider" "0.1.9"
@@ -5373,7 +5373,7 @@ content-disposition@0.5.3:
   dependencies:
     safe-buffer "5.1.2"
 
-content-hash@^2.5.2:
+content-hash@^2.4.1, content-hash@^2.5.2:
   version "2.5.2"
   resolved "https://registry.yarnpkg.com/content-hash/-/content-hash-2.5.2.tgz#bbc2655e7c21f14fd3bfc7b7d4bfe6e454c9e211"
   integrity sha512-FvIQKy0S1JaWV10sMsA7TRx8bpU+pqPkhbsfvOJAdjRXvYxEckAwQWGwtRjiaJfh+E0DvcWUGqcdjwMGFjsSdw==
