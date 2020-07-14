@@ -120,7 +120,7 @@ const NameRegister = ({
     showPremiumWarning = now.isBetween(releasedDate, zeroPremiumDate)
     currentPremium = getTargetAmountByDate(now)
     currentPremiumInEth = currentPremium / ethUsdPrice
-    underPremium = now.isBetween(now, zeroPremiumDate)
+    underPremium = now.isBetween(releasedDate, zeroPremiumDate)
   }
   const handleTooltip = tooltipItem => {
     let delimitedParsedValue = tooltipItem.yLabel
