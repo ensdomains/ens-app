@@ -67,7 +67,7 @@ const Price = ({
     <PriceContainer>
       <Value>
         {ethPrice} ETH
-        {!ethUsdPriceLoading && !loading && price && (
+        {ethVal && ethUsdPrice && (
           <USD>
             {withPremium}${ethVal.mul(ethUsdPrice).toFixed(2)}
             USD
