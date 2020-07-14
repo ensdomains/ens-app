@@ -264,7 +264,7 @@
   },
   "searchErrors": {
     "domainMalformed": {
-      "long": "You have either added a domain without a TLD such as .eth or you have added unsupported characters",
+      "long": "You have either added a domain without a TLD such as .eth or you have added unsupported characters.",
       "short": "Domain malformed. {{searchTerm}} is not a valid domain."
     },
     "tooShort": {
@@ -358,7 +358,7 @@
       "warning": "古いバージョンの公開リゾルバを使用している場合は、クリックしてリゾルバとレコードを移行してください。レコードとリゾルバの両方を移行するには、2つのトランザクションを確認する必要があります。"
     },
     "search": {
-      "title": "Top Level Domains"
+      "title": "Names"
     },
     "subdomains": {
       "add": "サブドメインを追加",
