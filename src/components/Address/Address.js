@@ -122,7 +122,6 @@ function decryptNames(domains) {
 
 function useDomains({ domainType, address, sort, page, expiryDate }) {
   const skip = (page - 1) * RESULTS_PER_PAGE
-  console.log('useDomains', { domainType, page, skip, RESULTS_PER_PAGE })
   const registrationsQuery = useQuery(GET_REGISTRATIONS_SUBGRAPH, {
     variables: {
       id: address,
