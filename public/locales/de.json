@@ -266,7 +266,7 @@
   },
   "searchErrors": {
     "domainMalformed": {
-      "long": "You have either added a domain without a TLD such as .eth or you have added unsupported characters",
+      "long": "You have either added a domain without a TLD such as .eth or you have added unsupported characters.",
       "short": "Domain malformed. {{searchTerm}} is not a valid domain."
     },
     "tooShort": {
@@ -360,7 +360,7 @@
       "warning": "You’re using an outdated version of the public resolver. Click to migrate your resolver and records. You will need to confirm two transactions in order to migrate both your records and resolver."
     },
     "search": {
-      "title": "Top Level Domains"
+      "title": "Names"
     },
     "subdomains": {
       "add": "Subdomain hinzufügen",
