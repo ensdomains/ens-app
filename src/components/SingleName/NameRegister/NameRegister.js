@@ -97,7 +97,7 @@ const NameRegister = ({
   const diff = zeroPremiumDate.diff(releasedDate)
   const rate = 2000 / diff
 
-  let now, showPremiumWarning, currentPremium, currentPremiumInEth
+  let now, showPremiumWarning, currentPremium, currentPremiumInEth, underPremium
 
   if (!registrationOpen) return <NotAvailable domain={domain} />
   if (ethUsdPriceLoading) return <></>
@@ -120,8 +120,8 @@ const NameRegister = ({
     showPremiumWarning = now.isBetween(releasedDate, zeroPremiumDate)
     currentPremium = getTargetAmountByDate(now)
     currentPremiumInEth = currentPremium / ethUsdPrice
+    underPremium = now.isBetween(now, zeroPremiumDate)
   }
-
   const handleTooltip = tooltipItem => {
     let delimitedParsedValue = tooltipItem.yLabel
     if (targetPremium !== delimitedParsedValue) {
@@ -159,6 +159,7 @@ const NameRegister = ({
           ethUsdPrice={ethUsdPrice}
           loading={rentPriceLoading}
           price={getRentPrice}
+          underPremium={underPremium}
         />
       )}
       {showPremiumWarning ? (
