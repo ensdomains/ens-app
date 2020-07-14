@@ -95,7 +95,7 @@ const LearnMore = () => (
     href="https://docs.ens.domains/permanent-registrar-faq"
     target="_blank"
   >
-    Learn More
+    {t('c.learnmore')}
   </LearnMoreLink>
 )
 

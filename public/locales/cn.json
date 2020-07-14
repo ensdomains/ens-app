@@ -73,12 +73,16 @@
     "refresh": "刷新",
     "register": "注册",
     "registrant": "注册人",
+    "registrationDate": "Registration Date",
     "renew": "续费",
+    "return": "Return",
     "save": "保存",
     "search": "查询",
     "set": "设置",
+    "sync": "Sync",
     "textrecord": "文本记录",
-    "transfer": "转让"
+    "transfer": "转让",
+    "warning": "Warning"
   },
   "childDomainItem": {
     "notmigrated": "暂未迁移"
@@ -181,7 +185,8 @@
   "pricer": {
     "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "注册期",
-    "totalPriceLabel": "支付总额"
+    "totalPriceLabel": "支付总额",
+    "yearUnit": "年份"
   },
   "register": {
     "buttons": {
@@ -245,15 +250,64 @@
       "title": "Renew your ENS domain {{name}}"
     }
   },
+  "releaseDeed": {
+    "connectRegistrar": "This name was automatically migrated to the new Registrar. To get the deposited eth back, please connect via the registrant account and click the 'return' button.",
+    "depositReturned": "Your deposit is now returned.",
+    "returnDeposit": "Your name was automatically migrated to the new Registrar. To get your deposited eth back, click the 'return' button.",
+    "whyMigrated": "*To understand why this name was migrated"
+  },
   "search": {
     "button": "查询",
     "placeholder": "输入域名或地址"
+  },
+  "searchErrors": {
+    "domainMalformed": {
+      "long": "You have either added a domain without a TLD such as .eth or you have added unsupported characters",
+      "short": "Domain malformed. {{searchTerm}} is not a valid domain."
+    },
+    "tooShort": {
+      "long": "Names less than 6 characters have been reserved for when the permanent registrar has been released.",
+      "short1": "Name is too short.",
+      "short2": "Names must be at least 7 characters long"
+    },
+    "unsupported": {
+      "long": "We do not support every single domain. Support for future domains are planned in the future",
+      "short": "{{tld}} is not currently a supported TLD."
+    }
   },
   "singleName": {
     "banners": {
       "namesExpiring": {
         "text": "通过点击 “续费” 按钮执行操作可以避免域名过期。如果需要同时给多个域名续费，请前往 <1>我的域名</1> 页面并选择多个域名，然后再点击 “续费” 按钮",
         "title": "许多在过去注册或购买的域名将在 8 月份超出宽限期"
+      }
+    },
+    "confirm": {
+      "button": {
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      },
+      "subTitle": "This action will modify the state of the blockchain.",
+      "title": "Are you sure you want to do this?",
+      "value": {
+        "future": "FUTURE",
+        "previous": "PREVIOUS"
+      }
+    },
+    "dns": {
+      "messages": {
+        "error": "Solve the error in your Domain registrar. Refresh to reflect updates.",
+        "outOfSync": "The Controller and DNS Owner are out of sync. Click 'sync' to make the DNS Owner the Controller. Click 'refresh' if you make changes to the domain in the DNS Registrar.",
+        "readyToRegister": "*Click 'refresh' if you make changes to the domain in the DNS Registrar."
+      }
+    },
+    "domain": {
+      "state": {
+        "auction": "In Auction",
+        "available": "Available",
+        "default": "Unknown State",
+        "owned": "Unavailable",
+        "owner": "Owner"
       }
     },
     "expiry": {
@@ -285,6 +339,25 @@
       "notfinalised": "（未完成）",
       "pending": "打包中"
     },
+    "record": {
+      "cantEdit": "You can’t edit or add records until you migrate to the new resolver.",
+      "messages": {
+        "explanation": "The Reverse Resolution translates an address into a name. It allows Dapps to show in their interfaces '{{name}}' rather than the long address '{{account}}'. If you would like to set up your reverse for a different account, please switch accounts in your dapp browser",
+        "notSet": "Reverse record: not set",
+        "setTo": "Reverse record: Set to ",
+        "setToDifferent": "Reverse record: Set to a different name:"
+      },
+      "title": "Records"
+    },
+    "resolver": {
+      "error": "Error Migrating Resolver",
+      "message": "To reset your resolver manually, click set and enter the address of your custom resolver.",
+      "publicResolver": "Use Public Resolver",
+      "warning": "You’re using an outdated version of the public resolver. Click to migrate your resolver and records. You will need to confirm two transactions in order to migrate both your records and resolver."
+    },
+    "search": {
+      "title": "Top Level Domains"
+    },
     "subdomains": {
       "add": "添加子域名",
       "nosubdomains": "暂未分配子域名"
@@ -300,6 +373,7 @@
     "tooltips": {
       "detailsItem": {
         "Controller": "如果要转让域名的管理员，请先确定你登录的是该域名的管理员或注册人账户。",
+        "ControllerAndDnsAlreadySync": "The controller and DNS owner are already in sync",
         "Resolver": "如果要设置域名的解析器，请先确定您登录的是该域名的管理员账户。",
         "default": "只有当钱包中使用的账户是域名的管理员账户时，你才能更改该域名的相关信息。",
         "registrant": "如果要转让域名的注册人，请先确定你登录的是该域名当前的注册人账户。",

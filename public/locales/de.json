@@ -75,12 +75,16 @@
     "refresh": "Aktualisieren",
     "register": "Registrieren",
     "registrant": "Registrant",
+    "registrationDate": "Registration Date",
     "renew": "Verlängern",
+    "return": "Return",
     "save": "Speichern",
     "search": "Suchen",
     "set": "Setzen",
+    "sync": "Sync",
     "textrecord": "Text-Eintrag",
     "transfer": "Übertragen",
+    "warning": "Warning",
     "year": "Jahr",
     "year_plural": "Jahre"
   },
@@ -185,7 +189,8 @@
   "pricer": {
     "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "Registration Period",
-    "totalPriceLabel": "Gesamtpreis"
+    "totalPriceLabel": "Gesamtpreis",
+    "yearUnit": "Jahr"
   },
   "register": {
     "buttons": {
@@ -249,15 +254,64 @@
       "title": "Renew your ENS domain {{name}}"
     }
   },
+  "releaseDeed": {
+    "connectRegistrar": "This name was automatically migrated to the new Registrar. To get the deposited eth back, please connect via the registrant account and click the 'return' button.",
+    "depositReturned": "Your deposit is now returned.",
+    "returnDeposit": "Your name was automatically migrated to the new Registrar. To get your deposited eth back, click the 'return' button.",
+    "whyMigrated": "*To understand why this name was migrated"
+  },
   "search": {
     "button": "Suchen",
     "placeholder": "Namen oder Adressen suchen"
+  },
+  "searchErrors": {
+    "domainMalformed": {
+      "long": "You have either added a domain without a TLD such as .eth or you have added unsupported characters",
+      "short": "Domain malformed. {{searchTerm}} is not a valid domain."
+    },
+    "tooShort": {
+      "long": "Names less than 6 characters have been reserved for when the permanent registrar has been released.",
+      "short1": "Name is too short.",
+      "short2": "Names must be at least 7 characters long"
+    },
+    "unsupported": {
+      "long": "We do not support every single domain. Support for future domains are planned in the future",
+      "short": "{{tld}} is not currently a supported TLD."
+    }
   },
   "singleName": {
     "banners": {
       "namesExpiring": {
         "text": "Klicken Sie auf den Verlängern-Button, um das Ablaufen zu vermeiden. Um alle Ihre Namen gesammelt zu verlängern, navigieren Sie zu <1>Meine Namen</1> und wählen Sie mehrere Namen aus, bevor Sie auf 'Verlängern' klicken.",
         "title": "Viele in der Vergangenheit gekauften Namen werden im August nicht mehr in der Schonfrist sein"
+      }
+    },
+    "confirm": {
+      "button": {
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      },
+      "subTitle": "This action will modify the state of the blockchain.",
+      "title": "Are you sure you want to do this?",
+      "value": {
+        "future": "FUTURE",
+        "previous": "PREVIOUS"
+      }
+    },
+    "dns": {
+      "messages": {
+        "error": "Solve the error in your Domain registrar. Refresh to reflect updates.",
+        "outOfSync": "The Controller and DNS Owner are out of sync. Click 'sync' to make the DNS Owner the Controller. Click 'refresh' if you make changes to the domain in the DNS Registrar.",
+        "readyToRegister": "*Click 'refresh' if you make changes to the domain in the DNS Registrar."
+      }
+    },
+    "domain": {
+      "state": {
+        "auction": "In Auction",
+        "available": "Available",
+        "default": "Unknown State",
+        "owned": "Unavailable",
+        "owner": "Owner"
       }
     },
     "expiry": {
@@ -289,6 +343,25 @@
       "notfinalised": "(Sie haben es nicht abgeschlossen)",
       "pending": "Ausstehend"
     },
+    "record": {
+      "cantEdit": "You can’t edit or add records until you migrate to the new resolver.",
+      "messages": {
+        "explanation": "The Reverse Resolution translates an address into a name. It allows Dapps to show in their interfaces '{{name}}' rather than the long address '{{account}}'. If you would like to set up your reverse for a different account, please switch accounts in your dapp browser",
+        "notSet": "Reverse record: not set",
+        "setTo": "Reverse record: Set to ",
+        "setToDifferent": "Reverse record: Set to a different name:"
+      },
+      "title": "Records"
+    },
+    "resolver": {
+      "error": "Error Migrating Resolver",
+      "message": "To reset your resolver manually, click set and enter the address of your custom resolver.",
+      "publicResolver": "Use Public Resolver",
+      "warning": "You’re using an outdated version of the public resolver. Click to migrate your resolver and records. You will need to confirm two transactions in order to migrate both your records and resolver."
+    },
+    "search": {
+      "title": "Top Level Domains"
+    },
     "subdomains": {
       "add": "Subdomain hinzufügen",
       "nosubdomains": "Es wurden keine Subdomains hinzugefügt"
@@ -304,6 +377,7 @@
     "tooltips": {
       "detailsItem": {
         "Controller": "Sie können den Controller nur übertragen, wenn Sie der Controller oder der Registrant sind und in Ihr Wallet eingeloggt sind",
+        "ControllerAndDnsAlreadySync": "The controller and DNS owner are already in sync",
         "Resolver": "Sie können den Resolver dieses Namens nur setzen, wenn Sie der Controller sind und in Ihr Wallet eingeloggt sind",
         "default": "Sie können Änderungen nur vornehmen, wenn Sie der Controller sind und in Ihr Wallet eingeloggt sind",
         "registrant": "Sie können den Registranten nur übertragen, wenn Sie der Registrant sind und in Ihr Wallet eingeloggt sind",

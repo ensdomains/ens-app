@@ -117,7 +117,13 @@ function Name({ details: domain, name, pathname, type, refetch }) {
             />
           </Title>
           <RightBar>
-            {!!ownerType && <Owner data-testid="owner-type">{ownerType}</Owner>}
+            {!!ownerType && (
+              <Owner data-testid="owner-type">
+                {ownerType === 'Registrant'
+                  ? t('c.registrant')
+                  : t('c.Controller')}
+              </Owner>
+            )}
             <Favourite domain={domain} />
             {smallBP && (
               <Tabs

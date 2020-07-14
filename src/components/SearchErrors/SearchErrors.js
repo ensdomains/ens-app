@@ -3,42 +3,13 @@ import styled from '@emotion/styled/macro'
 import { H2 } from '../Typography/Basic'
 import WarningDefault from '../Icons/Warning'
 import { ReactComponent as DefaultSmallCaret } from '../Icons/SmallCaret.svg'
+import { withTranslation } from 'react-i18next'
 
 const SmallCaret = styled(DefaultSmallCaret)`
   path {
     fill: #2b2b2b;
   }
 `
-
-const errorData = {
-  domainMalformed: {
-    short: searchTerm =>
-      `Domain malformed. ${searchTerm} is not a valid domain.`,
-    long: searchTerm =>
-      `You have either added a domain without a TLD such as .eth or you have added unsupported characters`
-  },
-  unsupported: {
-    short: searchTerm => {
-      const tld = searchTerm
-        .split('.')
-        .splice(-1, 1)[0]
-        .toUpperCase()
-      return `${tld} is not currently a supported TLD.`
-    },
-    long: searchTerm =>
-      `We do not support every single domain. Support for future domains are planned in the future`
-  },
-  tooShort: {
-    short: searchTerm => (
-      <Fragment>
-        <strong>Name is too short</strong>. Names must be at least 7 characters
-        long.
-      </Fragment>
-    ),
-    long: searchTerm =>
-      `Names less than 6 characters have been reserved for when the permanent registrar has been released.`
-  }
-}
 
 class SingleError extends Component {
   state = {
@@ -50,7 +21,37 @@ class SingleError extends Component {
   }
 
   render() {
-    const { error, searchTerm } = this.props
+    const { error, searchTerm, t } = this.props
+
+    const errorData = {
+      domainMalformed: {
+        short: searchTerm =>
+          t('searchErrors.domainMalformed.short', { searchTerm }),
+        long: searchTerm => t('searchErrors.domainMalformed.long')
+      },
+      unsupported: {
+        short: searchTerm => {
+          const tld = searchTerm
+            .split('.')
+            .splice(-1, 1)[0]
+            .toUpperCase()
+          return t('unsupported.short', { tld })
+        },
+        long: searchTerm => t('searchErrors.unsupported.long')
+      },
+      tooShort: {
+        short: searchTerm => (
+          <Fragment>
+            <strong>{t('searchErrors.tooShort.short1')}</strong>
+            {t('searchErrors.tooShort.short2')}
+          </Fragment>
+        ),
+        long: searchTerm => {
+          t('searchErrors.tooShort.long')
+        }
+      }
+    }
+
     return (
       <SingleErrorContainer>
         <ShortError onClick={this.toggleError} show={this.state.show}>
@@ -69,15 +70,15 @@ class SingleError extends Component {
 
 class SearchErrors extends Component {
   render() {
-    const { errors, searchTerm } = this.props
+    const { errors, searchTerm, t } = this.props
     return (
       <SearchErrorsContainer>
         <ErrorH2>
-          Warning
+          {t('c.warning')}
           <Warning />
         </ErrorH2>
         {errors.map((e, i) => (
-          <SingleError key={i} error={e} searchTerm={searchTerm} />
+          <SingleError t={t} key={i} error={e} searchTerm={searchTerm} />
         ))}
       </SearchErrorsContainer>
     )
@@ -125,4 +126,6 @@ const Warning = styled(WarningDefault)`
   margin-left: 5px;
 `
 
-export default SearchErrors
+const SearchErrorsWithTranslation = withTranslation()(SearchErrors)
+
+export default SearchErrorsWithTranslation
