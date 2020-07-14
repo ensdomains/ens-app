@@ -86,7 +86,7 @@ export default function ChildDomainItem({
         <SingleNameBlockies imageSize={24} address={owner} />
       )}
       <h3>{label}</h3>
-      <ExpiryDate expiryDate={expiryDate} />
+      <ExpiryDate name={name} expiryDate={expiryDate} />
       {!isDecrypted && (
         <Tooltip
           text="<p>This name is only partially decoded. If you know the name, you can search for it in the search bar to decrypt it and renew</p>"

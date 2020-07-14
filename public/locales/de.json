@@ -49,6 +49,9 @@
     },
     "transactionBanner": "Sie sind hier, wegen einer Transaktion die wir Ihnen gesendet haben oder wegen der Weiterleitung von einer anderen Webseite. Sie haben unten Namen, die bald verlängert werden müssen!"
   },
+  "blockies": {
+    "noAddressFound": "No address found"
+  },
   "c": {
     "Address": "Adresse",
     "Content": "Inhalt",
@@ -174,10 +177,17 @@
       "title": "Nach Namen suchen"
     }
   },
+  "linegraph": {
+    "daysRemaining": "{{daysRemaining}} (out of {{totalDays}}) days remaining",
+    "endPrice": "End price",
+    "startingPrice": "Starting price",
+    "title": "Buy now for {{premiumInEth}}"
+  },
   "pendingTx": {
     "text": "Tx ausstehend"
   },
   "pricer": {
+    "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "Registration Period",
     "totalPriceLabel": "Gesamtpreis",
     "yearUnit": "Jahr"
@@ -194,6 +204,15 @@
       "ready": "is bereit registriert zu werden"
     },
     "notify": "Benachrichtige mich",
+    "premium": {
+      "dateDescription": "Date of peremium price in local time zone",
+      "invalid": "Any number over 2k is invalid",
+      "title": "Premium"
+    },
+    "premiumWarning": {
+      "description": "To ensure everyone has a fair opportunity to register a newly expired name, these names have a premium that starts at $2,000 and reduces over 28 days until the premium is gone. Enter the amount you're willing to pay as a premium to learn which date to revisit the app to register the name.",
+      "title": "This name has a temporary premium."
+    },
     "step1": {
       "label": "Schritt 1",
       "text": "Ihr Wallet wird sich öffnen und Sie werden gebeten, die erste von zwei für die Registrierung erforderlichen Transaktionen zu bestätigen.",
@@ -229,6 +248,17 @@
     "depositReturned": "Your deposit is now returned.",
     "returnDeposit": "Your name was automatically migrated to the new Registrar. To get your deposited eth back, click the 'return' button.",
     "whyMigrated": "*To understand why this name was migrated"
+  },
+  "reminder": {
+    "everywhere": "everywhere",
+    "release": {
+      "description": "Register {{name}} at https://app.ens.domains/name/{{name}}/register",
+      "title": "Register {{name}}"
+    },
+    "renewal": {
+      "description": "Your ENS name is expiring soon, please renew it",
+      "title": "Renew your ENS domain {{name}}"
+    }
   },
   "search": {
     "button": "Suchen",
@@ -288,7 +318,8 @@
       "cannotown": "Das Verlängern eines Namens, den Sie nicht besitzen, gibt Ihnen nicht das Besitzrecht an diesem Namen.",
       "expired": "Ausgelaufen",
       "expiring": "Läuft bald aus",
-      "gracePeriodEnds": "Schonfrist endet am"
+      "gracePeriodEnds": "Schonfrist endet am",
+      "isUnderPremiumSale": "Available with a temporary premium"
     },
     "learnmore": {
       "step1": {

@@ -2,6 +2,17 @@ const ROOT = Cypress.env('ROOT')
 const NAME_ROOT = Cypress.env('NAME_ROOT')
 
 describe('Release Deed from Migrated Legacy registrar', () => {
+  it('does not see release button if already released', () => {
+    cy.visit(`${ROOT}/name/auctioned2.eth`)
+    cy.queryByText(
+      'Your name was automatically migrated to the new Registrar',
+      {
+        timeout: 1000,
+        exact: false
+      }
+    ).should('not.exist')
+  })
+
   it('can visit a name and migrate it', () => {
     cy.visit(`${ROOT}/name/auctioned3.eth`)
     cy.queryByText(

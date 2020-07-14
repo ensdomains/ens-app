@@ -13,7 +13,7 @@ import { COMMIT, REGISTER } from '../../../graphql/mutations'
 import Tooltip from 'components/Tooltip/Tooltip'
 import PendingTx from '../../PendingTx'
 import Button from '../../Forms/Button'
-import AddToCalendar from '../../Calendar'
+import AddToCalendar from '../../Calendar/RenewalCalendar'
 import { ReactComponent as DefaultPencil } from '../../Icons/SmallPencil.svg'
 import { ReactComponent as DefaultOrangeExclamation } from '../../Icons/OrangeExclamation.svg'
 

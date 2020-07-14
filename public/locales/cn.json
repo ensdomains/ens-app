@@ -47,6 +47,9 @@
     },
     "transactionBanner": "你能看到这个页面是因为我们向您发送了一笔交易，或是其他网站调用了这笔交易。你需要续费的域名如下。"
   },
+  "blockies": {
+    "noAddressFound": "No address found"
+  },
   "c": {
     "Address": "以太坊地址",
     "Content": "内容哈希",
@@ -170,10 +173,17 @@
       "title": "查询域名"
     }
   },
+  "linegraph": {
+    "daysRemaining": "{{daysRemaining}} (out of {{totalDays}}) days remaining",
+    "endPrice": "End price",
+    "startingPrice": "Starting price",
+    "title": "Buy now for {{premiumInEth}}"
+  },
   "pendingTx": {
     "text": "等待交易被打包"
   },
   "pricer": {
+    "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "注册期",
     "totalPriceLabel": "支付总额",
     "yearUnit": "年份"
@@ -190,6 +200,15 @@
       "ready": "已经可以正式注册了"
     },
     "notify": "通知我",
+    "premium": {
+      "dateDescription": "Date of peremium price in local time zone",
+      "invalid": "Any number over 2k is invalid",
+      "title": "Premium"
+    },
+    "premiumWarning": {
+      "description": "To ensure everyone has a fair opportunity to register a newly expired name, these names have a premium that starts at $2,000 and reduces over 28 days until the premium is gone. Enter the amount you're willing to pay as a premium to learn which date to revisit the app to register the name.",
+      "title": "This name has a temporary premium."
+    },
     "step1": {
       "label": "第 1 步",
       "text": "需要在钱包中确认一笔交易，这是完成域名注册所需的两笔交易中的第一笔。",
@@ -225,6 +244,17 @@
     "depositReturned": "Your deposit is now returned.",
     "returnDeposit": "Your name was automatically migrated to the new Registrar. To get your deposited eth back, click the 'return' button.",
     "whyMigrated": "*To understand why this name was migrated"
+  },
+  "reminder": {
+    "everywhere": "everywhere",
+    "release": {
+      "description": "Register {{name}} at https://app.ens.domains/name/{{name}}/register",
+      "title": "Register {{name}}"
+    },
+    "renewal": {
+      "description": "Your ENS name is expiring soon, please renew it",
+      "title": "Renew your ENS domain {{name}}"
+    }
   },
   "search": {
     "button": "查询",
@@ -284,7 +314,8 @@
       "cannotown": "为其他人的域名续费并不会获得该域名的所有权。",
       "expired": "已经到期",
       "expiring": "即将到期",
-      "gracePeriodEnds": "宽限期截至 "
+      "gracePeriodEnds": "宽限期截至 ",
+      "isUnderPremiumSale": "Available with a temporary premium"
     },
     "learnmore": {
       "step1": {

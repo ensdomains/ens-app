@@ -49,6 +49,9 @@
     },
     "transactionBanner": "You are here because of a transaction we sent you or a referral from another site. You have names below that need to be renewed soon!"
   },
+  "blockies": {
+    "noAddressFound": "No address found"
+  },
   "c": {
     "Address": "Address",
     "Content": "Content",
@@ -174,10 +177,17 @@
       "title": "Search for names"
     }
   },
+  "linegraph": {
+    "daysRemaining": "{{daysRemaining}} (out of {{totalDays}}) days remaining",
+    "endPrice": "End price",
+    "startingPrice": "Starting price",
+    "title": "Buy now for {{premiumInEth}}"
+  },
   "pendingTx": {
     "text": "Tx Pending"
   },
   "pricer": {
+    "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "Registration Period",
     "totalPriceLabel": "Total price to pay",
     "yearUnit": "year"
@@ -194,6 +204,15 @@
       "ready": "is ready to be registered"
     },
     "notify": "Notify me",
+    "premium": {
+      "dateDescription": "Date of peremium price in local time zone",
+      "invalid": "Any number over 2k is invalid",
+      "title": "Premium"
+    },
+    "premiumWarning": {
+      "description": "To ensure everyone has a fair opportunity to register a newly expired name, these names have a premium that starts at $2,000 and reduces over 28 days until the premium is gone. Enter the amount you're willing to pay as a premium to learn which date to revisit the app to register the name.",
+      "title": "This name has a temporary premium."
+    },
     "step1": {
       "label": "Step 1",
       "text": "Your wallet will open and you will be asked to confirm the first of two transactions required for registration.",
@@ -229,6 +248,17 @@
     "depositReturned": "Your deposit is now returned.",
     "returnDeposit": "Your name was automatically migrated to the new Registrar. To get your deposited eth back, click the 'return' button.",
     "whyMigrated": "*To understand why this name was migrated"
+  },
+  "reminder": {
+    "everywhere": "everywhere",
+    "release": {
+      "description": "Register {{name}} at https://app.ens.domains/name/{{name}}/register",
+      "title": "Register {{name}}"
+    },
+    "renewal": {
+      "description": "Your ENS name is expiring soon, please renew it",
+      "title": "Renew your ENS domain {{name}}"
+    }
   },
   "search": {
     "button": "Search",
@@ -288,7 +318,8 @@
       "cannotown": "Renewing a name you do not own does not give you ownership of it.",
       "expired": "Expired",
       "expiring": "Expiring Soon",
-      "gracePeriodEnds": "Grace period ends"
+      "gracePeriodEnds": "Grace period ends",
+      "isUnderPremiumSale": "Available with a temporary premium"
     },
     "learnmore": {
       "step1": {

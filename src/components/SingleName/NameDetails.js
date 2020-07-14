@@ -210,6 +210,10 @@ function DetailsContainer({
 }) {
   const { t } = useTranslation()
   const isExpired = domain.expiryTime < new Date()
+  const domainOwner =
+    domain.available || domain.owner === '0x0' ? null : domain.owner
+  const registrant =
+    domain.available || domain.registrant === '0x0' ? null : domain.registrant
   return (
     <Details data-testid="name-details">
       {isOwner && <SetupName initialState={showExplainer} />}
@@ -242,7 +246,7 @@ function DetailsContainer({
             <DetailsItemEditable
               domain={domain}
               keyName="registrant"
-              value={domain.registrant}
+              value={registrant}
               canEdit={isRegistrant && !isExpired}
               isExpiredRegistrant={isRegistrant && isExpired}
               type="address"
@@ -256,7 +260,7 @@ function DetailsContainer({
             <DetailsItemEditable
               domain={domain}
               keyName="Controller"
-              value={domain.owner}
+              value={domainOwner}
               canEdit={isRegistrant || (isOwner && isMigratedToNewRegistry)}
               deedOwner={domain.deedOwner}
               isDeedOwner={isDeedOwner}
@@ -569,7 +573,7 @@ function NameDetails({
   const isParentMigratedToNewRegistry = isParentMigrated
 
   const isDeedOwner = domain.deedOwner === account
-  const isRegistrant = domain.registrant === account
+  const isRegistrant = !domain.available && domain.registrant === account
   let dnssecmode, canSubmit
   if ([5, 6].includes(domain.state) && !isMigrated) {
     dnssecmode = dnssecmodes[7]
