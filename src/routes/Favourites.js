@@ -13,6 +13,7 @@ import {
 } from '../graphql/queries'
 
 import mq from 'mediaQuery'
+import moment from 'moment'
 
 import { H2 as DefaultH2 } from '../components/Typography/Basic'
 import LargeHeart from '../components/Icons/LargeHeart'
@@ -76,7 +77,14 @@ const NoDomains = ({ type }) => {
   )
 }
 
-function getDomainState(owner) {
+function getAvailable(expiryDate) {
+  let e = moment(parseInt(expiryDate * 1000))
+  let e2 = moment().subtract(90, 'days')
+  return e2.diff(e) > 0
+}
+
+function getDomainState(owner, available) {
+  if (!owner || available) return 'Open'
   return parseInt(owner, 16) === 0 ? 'Open' : 'Owned'
 }
 
@@ -99,12 +107,24 @@ function Favourites() {
   }
   let favouritesList = []
   if (favourites.length > 0) {
-    if (registrations && registrations.length > 0) {
+    if (registrations && registrations.length == favourites.length) {
       favouritesList = registrations.map(r => {
         return {
           name: r.domain.name,
           owner: r.domain.owner.id,
+          available: getAvailable(r && r.expiryDate),
           expiryDate: r.expiryDate
+        }
+      })
+    } else if (registrations && registrations.length > 0) {
+      // Fallback when subgraph is not returning result
+      favouritesList = favourites.map(f => {
+        let r = registrations.filter(a => a.domain.name === f.name)[0]
+        return {
+          name: f.name,
+          owner: r && r.domain.owner.id,
+          available: getAvailable(r && r.expiryDate),
+          expiryDate: r && r.expiryDate
         }
       })
     } else {
@@ -125,7 +145,7 @@ function Favourites() {
           <DomainItem
             domain={{
               ...domain,
-              state: getDomainState(domain.owner),
+              state: getDomainState(domain.owner, domain.available),
               owner: domain.owner
             }}
             isFavourite={true}
@@ -162,7 +182,7 @@ function Favourites() {
                         loading={loading}
                         domain={{
                           ...domain,
-                          state: getDomainState(data.getOwner),
+                          state: getDomainState(data.getOwner, false),
                           owner: data.getOwner
                         }}
                         isSubDomain={true}

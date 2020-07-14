@@ -204,6 +204,7 @@ export const GET_REGISTRATIONS_SUBGRAPH = gql`
     $skip: Int
     $orderBy: Registration_orderBy
     $orderDirection: OrderDirection
+    $expiryDate: Int
   ) {
     account(id: $id) {
       registrations(
@@ -211,6 +212,7 @@ export const GET_REGISTRATIONS_SUBGRAPH = gql`
         skip: $skip
         orderBy: $orderBy
         orderDirection: $orderDirection
+        where: { expiryDate_gt: $expiryDate }
       ) {
         expiryDate
         domain {
@@ -273,6 +275,18 @@ export const GET_RENT_PRICE = gql`
 export const GET_RENT_PRICES = gql`
   query getRentPrices($labels: String, $duration: Number) {
     getRentPrices(labels: $labels, duration: $duration) @client
+  }
+`
+
+export const GET_PREMIUM = gql`
+  query getPremium($name: String, $expires: Number, $duration: Number) {
+    getPremium(name: $name, expires: $expires, duration: $duration) @client
+  }
+`
+
+export const GET_TIME_UNTIL_PREMIUM = gql`
+  query getTimeUntilPremium($expires: Number, $amount: Number) {
+    getTimeUntilPremium(expires: $expires, amount: $amount) @client
   }
 `
 

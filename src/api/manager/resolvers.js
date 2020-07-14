@@ -216,8 +216,9 @@ function setState(node) {
   if (node.isDNSRegistrar) {
     return node
   }
-
-  if (parseInt(node.owner, 16) !== 0) {
+  if (node.available) {
+    state = 'Open'
+  } else if (parseInt(node.owner, 16) !== 0) {
     state = 'Owned'
   }
   return {

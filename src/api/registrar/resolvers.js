@@ -23,10 +23,15 @@ const resolvers = {
       const registrar = getRegistrar()
       return registrar.getRentPrices(labels, duration)
     },
-    // async getExpirationDates(_, { ids }, { cache }) {
-    //   const registrar = getRegistrar()
+    async getPremium(_, { name, expires, duration }, { cache }) {
+      const registrar = getRegistrar()
+      return registrar.getPremium(name, expires, duration)
+    },
+    async getTimeUntilPremium(_, { expires, amount }, { cache }) {
+      const registrar = getRegistrar()
+      return registrar.getTimeUntilPremium(expires, amount)
+    },
 
-    // },
     async getMinimumCommitmentAge() {
       try {
         const registrar = getRegistrar()

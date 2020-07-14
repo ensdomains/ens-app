@@ -1,7 +1,9 @@
 import { useEffect, useReducer, useRef, useState } from 'react'
-import { useLocation } from 'react-router-dom'
 import getEtherPrice from 'api/price'
+import { useLocation } from 'react-router-dom'
+import { getRegistrar } from 'api/ens'
 import { loggedIn, logout } from './IPFS/auth'
+import { getBlock } from '@ensdomains/ui'
 
 export function useDocumentTitle(title) {
   useEffect(() => {
@@ -153,6 +155,9 @@ export function useEthPrice(enabled = true) {
 
   useEffect(() => {
     if (enabled) {
+      // const registrar = getRegistrar()
+      // registrar
+      //   .getEthPrice()
       getEtherPrice()
         .then(res => {
           setPrice(res)
@@ -172,4 +177,23 @@ export function useReferrer() {
   let location = useLocation()
   const queryParams = new URLSearchParams(location.search)
   return queryParams.get('utm_source')
+}
+
+export function useBlock() {
+  const [loading, setLoading] = useState(true)
+  const [block, setBlock] = useState(undefined)
+
+  useEffect(() => {
+    getBlock()
+      .then(res => {
+        setBlock(res)
+        setLoading(false)
+      })
+      .catch(() => '') // ignore error
+  }, true)
+
+  return {
+    loading,
+    block
+  }
 }

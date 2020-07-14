@@ -1,6 +1,7 @@
 import moment from 'moment'
 
 export const GRACE_PERIOD = 86400 * 90
+export const PREMIUM_PERIOD = 86400 * 28
 
 export function formatDate(unixTimeStamp, noTime) {
   let date = moment(unixTimeStamp).format('YYYY.MM.DD')

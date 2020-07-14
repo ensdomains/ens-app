@@ -2,6 +2,7 @@ import React from 'react'
 import createIcon from '../utils/blockies'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled/macro'
+import { useTranslation } from 'react-i18next'
 
 const BlockiesContainer = styled('span')``
 
@@ -13,6 +14,9 @@ const Blockies = ({
   spotcolor,
   className
 }) => {
+  let { t } = useTranslation()
+
+  if (!address) return <>{t('blockies.noAddressFound')}</>
   var imgURL = createIcon({
     seed: address.toLowerCase(),
     size: 8,

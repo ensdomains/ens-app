@@ -48,6 +48,9 @@
     },
     "transactionBanner": "あなたは私たちが送ったトランザクション、または他のサイトからの招待によりこちらへ案内されました。以下の名前をお持ちの方は、すぐに更新する必要があります！"
   },
+  "blockies": {
+    "noAddressFound": "No address found"
+  },
   "c": {
     "Address": "アドレス",
     "Content": "コンテンツ",
@@ -172,10 +175,17 @@
       "title": "名前を検索"
     }
   },
+  "linegraph": {
+    "daysRemaining": "{{daysRemaining}} (out of {{totalDays}}) days remaining",
+    "endPrice": "End price",
+    "startingPrice": "Starting price",
+    "title": "Buy now for {{premiumInEth}}"
+  },
   "pendingTx": {
     "text": "保留中のTx"
   },
   "pricer": {
+    "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "登録期間",
     "totalPriceLabel": "お支払合計額",
     "yearUnit": "年"
@@ -192,6 +202,15 @@
       "ready": "は登録の準備ができています"
     },
     "notify": "通知する",
+    "premium": {
+      "dateDescription": "Date of peremium price in local time zone",
+      "invalid": "Any number over 2k is invalid",
+      "title": "Premium"
+    },
+    "premiumWarning": {
+      "description": "To ensure everyone has a fair opportunity to register a newly expired name, these names have a premium that starts at $2,000 and reduces over 28 days until the premium is gone. Enter the amount you're willing to pay as a premium to learn which date to revisit the app to register the name.",
+      "title": "This name has a temporary premium."
+    },
     "step1": {
       "label": "ステップ１",
       "text": "ウォレットが開き、登録に必要な2つのトランザクションのうち最初のトランザクションの確認を求められます。",
@@ -227,6 +246,17 @@
     "depositReturned": "Your deposit is now returned.",
     "returnDeposit": "Your name was automatically migrated to the new Registrar. To get your deposited eth back, click the 'return' button.",
     "whyMigrated": "*To understand why this name was migrated"
+  },
+  "reminder": {
+    "everywhere": "everywhere",
+    "release": {
+      "description": "Register {{name}} at https://app.ens.domains/name/{{name}}/register",
+      "title": "Register {{name}}"
+    },
+    "renewal": {
+      "description": "Your ENS name is expiring soon, please renew it",
+      "title": "Renew your ENS domain {{name}}"
+    }
   },
   "search": {
     "button": "検索",
@@ -286,7 +316,8 @@
       "cannotown": "所有していない名前を更新しても、所有権は得られません。",
       "expired": "有効期限切れ",
       "expiring": "まもなく有効期限切れ",
-      "gracePeriodEnds": "猶予期間終了"
+      "gracePeriodEnds": "猶予期間終了",
+      "isUnderPremiumSale": "Available with a temporary premium"
     },
     "learnmore": {
       "step1": {

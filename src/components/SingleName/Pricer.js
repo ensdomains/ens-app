@@ -35,10 +35,12 @@ function PricerInner({
   duration,
   ethUsdPriceLoading,
   ethUsdPrice,
+  ethUsdPremiumPrice,
   className,
   loading,
   price,
-  reference
+  reference,
+  underPremium
 }) {
   return (
     <PricingContainer className={className} ref={reference}>
@@ -49,6 +51,8 @@ function PricerInner({
         loading={loading}
         ethUsdPriceLoading={ethUsdPriceLoading}
         ethUsdPrice={ethUsdPrice}
+        ethUsdPremiumPrice={ethUsdPremiumPrice}
+        underPremium={underPremium}
       />
     </PricingContainer>
   )
