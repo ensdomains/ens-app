@@ -243,6 +243,12 @@
       "parentmigrate": "Sie müssen zuerst die Elterndomain {{parent}} migrieren, bevor Sie diese Subdomain migrieren können"
     }
   },
+  "releaseDeed": {
+    "connectRegistrar": "This name was automatically migrated to the new Registrar. To get the deposited eth back, please connect via the registrant account and click the 'return' button.",
+    "depositReturned": "Your deposit is now returned.",
+    "returnDeposit": "Your name was automatically migrated to the new Registrar. To get your deposited eth back, click the 'return' button.",
+    "whyMigrated": "*To understand why this name was migrated"
+  },
   "reminder": {
     "everywhere": "everywhere",
     "release": {
@@ -253,12 +259,6 @@
       "description": "Your ENS name is expiring soon, please renew it",
       "title": "Renew your ENS domain {{name}}"
     }
-  },
-  "releaseDeed": {
-    "connectRegistrar": "This name was automatically migrated to the new Registrar. To get the deposited eth back, please connect via the registrant account and click the 'return' button.",
-    "depositReturned": "Your deposit is now returned.",
-    "returnDeposit": "Your name was automatically migrated to the new Registrar. To get your deposited eth back, click the 'return' button.",
-    "whyMigrated": "*To understand why this name was migrated"
   },
   "search": {
     "button": "Suchen",
