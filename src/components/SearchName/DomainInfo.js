@@ -14,8 +14,12 @@ export const DomainInfo = ({ domainState, isFavourite, loading }) => {
 }
 
 const DomainInfoContainer = ({ searchTerm }) => {
+  let recommendedSearchTerm = searchTerm
+  if (searchTerm.split('.').length === 1) {
+    recommendedSearchTerm = recommendedSearchTerm + '.eth'
+  }
   return (
-    <Query query={GET_SINGLE_NAME} variables={{ name: searchTerm + '.eth' }}>
+    <Query query={GET_SINGLE_NAME} variables={{ name: recommendedSearchTerm }}>
       {({ data, loading, error }) => {
         const { singleName } = data
         if (error) {
