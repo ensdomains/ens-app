@@ -26,13 +26,18 @@ class Results extends React.Component {
     parsed: null
   }
   checkValidity = async () => {
-    const { searchTerm /* getSubDomainAvailability */ } = this.props
-    let parsed
+    const { searchTerm: _searchTerm } = this.props
+    let parsed, searchTerm
     this.setState({
       errors: []
     })
+    if (_searchTerm.split('.').length === 1) {
+      searchTerm = _searchTerm + '.eth'
+    } else {
+      searchTerm = _searchTerm
+    }
     const type = await parseSearchTerm(searchTerm)
-    if (!['unsupported', 'invalid'].includes(type)) {
+    if (!['unsupported', 'invalid', 'short'].includes(type)) {
       parsed = validateName(searchTerm)
       this.setState({
         parsed
@@ -43,6 +48,10 @@ class Results extends React.Component {
     if (type === 'unsupported') {
       this.setState({
         errors: ['unsupported']
+      })
+    } else if (type === 'short') {
+      this.setState({
+        errors: ['tooShort']
       })
     } else if (type === 'invalid') {
       this.setState({

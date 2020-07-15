@@ -63,6 +63,25 @@ describe('Search', () => {
     cy.queryByText('Resolver', { exact: false, timeout: 1 }).should('not.exist')
   })
 
+  it('cannot directly search too short name', () => {
+    cy.visit(`${ROOT}/search/ab`)
+    cy.queryByText('Name is too short', { exact: false }).should('exist')
+  })
+
+  it('cannot register malformated name', () => {
+    cy.visit(`${ROOT}/search/ab eth`)
+    cy.queryByText('Domain malformed. ab eth is not a valid domain', {
+      exact: false
+    }).should('exist')
+  })
+
+  it('cannot register unsupported tld', () => {
+    cy.visit(`${ROOT}/search/ab.cdef`)
+    cy.queryByText('is not currently a supported TLD', { exact: false }).should(
+      'exist'
+    )
+  })
+
   it('can see the list of Names if no TLDS are specified', () => {
     cy.visit(ROOT)
     cy.getByPlaceholderText('Search', { exact: false }).type('notldispsecified')
