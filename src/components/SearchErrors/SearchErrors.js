@@ -35,7 +35,7 @@ class SingleError extends Component {
             .split('.')
             .splice(-1, 1)[0]
             .toUpperCase()
-          return t('unsupported.short', { tld })
+          return t('searchErrors.unsupported.short', { tld })
         },
         long: searchTerm => t('searchErrors.unsupported.long')
       },
