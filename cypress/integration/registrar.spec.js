@@ -64,7 +64,7 @@ describe('PermanentRegistrar', () => {
   it('cannot register too short name', () => {
     cy.visit(`${ROOT}/name/ab.eth`)
     cy.queryByText('request-register-button').should('not.exist')
-    cy.queryByText('1 ~ 2 characters are not allowed to register', {
+    cy.queryByText('Name is too short', {
       exact: false
     }).should('exist')
   })
