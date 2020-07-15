@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled/macro'
 import { Mutation } from 'react-apollo'
+import { useTranslation, Trans } from 'react-i18next'
 
 import { SET_NAME } from 'graphql/mutations'
 import mq from 'mediaQuery'
@@ -106,6 +107,7 @@ const Name = styled('div')`
 `
 
 function AddReverseRecord({ account, name }) {
+  const { t } = useTranslation()
   const { state, actions } = useEditable()
 
   const { editing, txHash, pending, confirmed } = state
@@ -131,17 +133,17 @@ function AddReverseRecord({ account, name }) {
               name.toLowerCase() === getReverseRecord.name ? (
                 <MessageContent>
                   <Check />
-                  Reverse record: Set to {name}
+                  {t('singleName.record.messages.setTo') + name}
                 </MessageContent>
               ) : (
                 <MessageContent>
                   <BlueWarning />
-                  Reverse record: Set to a different name:
+                  {t('singleName.record.messages.setToDifferent')}
                   {getReverseRecord.name}
                 </MessageContent>
               )
             ) : (
-              `Reverse record: not set`
+              t('singleName.record.messages.notSet')
             )}
             {pending && !confirmed && txHash ? (
               <PendingTx
@@ -158,11 +160,13 @@ function AddReverseRecord({ account, name }) {
           {editing && (
             <SetReverseContainer>
               <Explanation>
-                The Reverse Resolution translates an address into a name. It
-                allows Dapps to show in their interfaces “{name}” rather than
-                the long address “{account}
-                ”. If you would like to set up your reverse for a different
-                account, please switch accounts in your dapp browser.
+                <Trans i18nKey="singleName.record.messages.explanation">
+                  The Reverse Resolution translates an address into a name. It
+                  allows Dapps to show in their interfaces '{{ name }}' rather
+                  than the long address '{{ account }}'. If you would like to
+                  set up your reverse for a different account, please switch
+                  accounts in your dapp browser.
+                </Trans>
               </Explanation>
               <Account>{account}</Account>
               <Name>{name}</Name>

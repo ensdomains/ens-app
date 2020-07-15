@@ -11,7 +11,7 @@
       "内部机制"
     ],
     "underTheSurface": {
-      "registrar": "注册器是一个智能合约，支持注册和转移域名。当前运行的注册器是永久注册器，采用了即时注册的机制，而不再需要像从前那样拍卖注册。",
+      "registrar": "注册器是一个智能合约，支持注册和转移域名。",
       "registry": "注册表是一个智能合约，其中存储着所有域名和子域名的列表，并为每个域名记录着两个重要信息：域名的所有者和解析器。",
       "resolver": "解析器是一个智能合约，负责将域名转换为地址或其他类型的哈希和元数据。",
       "reverse": "反向解析器是一个智能合约，可以实现 “反向解析” ：将地址转换为关联的域名。",
@@ -31,7 +31,7 @@
     },
     "namesExpiringSoonBanner": {
       "text": "有些域名马上就要到期了，你可以在一次交易中同时为它们续费，方法是选中需要续费的域名并点击 “续费” 按钮！",
-      "title": "Many names purchased in the past will be out of grace period in Aug"
+      "title": "许多在过去注册或购买的域名将在 8 月份超出宽限期"
     },
     "renew": {
       "button": "给已勾选项目续费",
@@ -47,6 +47,9 @@
     },
     "transactionBanner": "你能看到这个页面是因为我们向您发送了一笔交易，或是其他网站调用了这笔交易。你需要续费的域名如下。"
   },
+  "blockies": {
+    "noAddressFound": "No address found"
+  },
   "c": {
     "Address": "以太坊地址",
     "Content": "内容哈希",
@@ -61,21 +64,25 @@
     "expires": "到期",
     "favourites": "收藏",
     "learnmore": "了解更多",
+    "learnmoreenglishonly": "了解更多 (English Only)",
     "migrate": "迁移",
     "mynames": "我的域名",
     "network": "网络",
     "otheraddresses": "其他地址",
     "parent": "父域名",
-    "permanentregistrar": "永久注册器",
     "refresh": "刷新",
     "register": "注册",
     "registrant": "注册人",
+    "registrationDate": "Registration Date",
     "renew": "续费",
+    "return": "Return",
     "save": "保存",
     "search": "查询",
     "set": "设置",
+    "sync": "Sync",
     "textrecord": "文本记录",
-    "transfer": "转让"
+    "transfer": "转让",
+    "warning": "Warning"
   },
   "childDomainItem": {
     "notmigrated": "暂未迁移"
@@ -143,9 +150,6 @@
       "body": "ENS 管理器是一个面向非技术用户的图形化界面。您可以利用它查询域名，管理域名指向的地址或资源，还可以为域名创建子域名。",
       "title": "如何使用 ENS"
     },
-    "permanentRegistrar": {
-      "title": "认识永久注册器及域名迁移过程"
-    },
     "whatisens": {
       "body": "以太坊名称服务（Ethereum Name Service）是一个基于以太坊区块链的分布式、开放和可扩展的命名系统。ENS 域名让人们不用再复制或输入冗长的区块链地址。通俗地说，ENS 就是区块链中的域名系统。",
       "title": "ENS 是什么"
@@ -169,12 +173,20 @@
       "title": "查询域名"
     }
   },
+  "linegraph": {
+    "daysRemaining": "{{daysRemaining}} (out of {{totalDays}}) days remaining",
+    "endPrice": "End price",
+    "startingPrice": "Starting price",
+    "title": "Buy now for {{premiumInEth}}"
+  },
   "pendingTx": {
     "text": "等待交易被打包"
   },
   "pricer": {
-    "rentalPeriodLabel": "租期",
-    "totalPriceLabel": "支付总额"
+    "pricePerAmount": "Price per amount of time selected",
+    "registrationPeriodLabel": "注册期",
+    "totalPriceLabel": "支付总额",
+    "yearUnit": "年份"
   },
   "register": {
     "buttons": {
@@ -188,6 +200,15 @@
       "ready": "已经可以正式注册了"
     },
     "notify": "通知我",
+    "premium": {
+      "dateDescription": "Date of peremium price in local time zone",
+      "invalid": "Any number over 2k is invalid",
+      "title": "Premium"
+    },
+    "premiumWarning": {
+      "description": "To ensure everyone has a fair opportunity to register a newly expired name, these names have a premium that starts at $2,000 and reduces over 28 days until the premium is gone. Enter the amount you're willing to pay as a premium to learn which date to revisit the app to register the name.",
+      "title": "This name has a temporary premium."
+    },
     "step1": {
       "label": "第 1 步",
       "text": "需要在钱包中确认一笔交易，这是完成域名注册所需的两笔交易中的第一笔。",
@@ -218,22 +239,83 @@
       "parentmigrate": "在迁移这个子域名之前，你必须先确认它的父域名 {{ parent}} 已经迁移。"
     }
   },
+  "releaseDeed": {
+    "connectRegistrar": "This name was automatically migrated to the new Registrar. To get the deposited eth back, please connect via the registrant account and click the 'return' button.",
+    "depositReturned": "Your deposit is now returned.",
+    "returnDeposit": "Your name was automatically migrated to the new Registrar. To get your deposited eth back, click the 'return' button.",
+    "whyMigrated": "*To understand why this name was migrated"
+  },
+  "reminder": {
+    "everywhere": "everywhere",
+    "release": {
+      "description": "Register {{name}} at https://app.ens.domains/name/{{name}}/register",
+      "title": "Register {{name}}"
+    },
+    "renewal": {
+      "description": "Your ENS name is expiring soon, please renew it",
+      "title": "Renew your ENS domain {{name}}"
+    }
+  },
   "search": {
     "button": "查询",
     "placeholder": "输入域名或地址"
+  },
+  "searchErrors": {
+    "domainMalformed": {
+      "long": "You have either added a domain without a TLD such as .eth or you have added unsupported characters.",
+      "short": "Domain malformed. {{searchTerm}} is not a valid domain."
+    },
+    "tooShort": {
+      "long": "Names less than 6 characters have been reserved for when the permanent registrar has been released.",
+      "short1": "Name is too short.",
+      "short2": "Names must be at least 7 characters long"
+    },
+    "unsupported": {
+      "long": "We do not support every single domain. Support for future domains are planned in the future",
+      "short": "{{tld}} is not currently a supported TLD."
+    }
   },
   "singleName": {
     "banners": {
       "namesExpiring": {
         "text": "通过点击 “续费” 按钮执行操作可以避免域名过期。如果需要同时给多个域名续费，请前往 <1>我的域名</1> 页面并选择多个域名，然后再点击 “续费” 按钮",
-        "title": "Many names purchased in the past will be out of grace period in Aug"
+        "title": "许多在过去注册或购买的域名将在 8 月份超出宽限期"
+      }
+    },
+    "confirm": {
+      "button": {
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      },
+      "subTitle": "This action will modify the state of the blockchain.",
+      "title": "Are you sure you want to do this?",
+      "value": {
+        "future": "FUTURE",
+        "previous": "PREVIOUS"
+      }
+    },
+    "dns": {
+      "messages": {
+        "error": "Solve the error in your Domain registrar. Refresh to reflect updates.",
+        "outOfSync": "The Controller and DNS Owner are out of sync. Click 'sync' to make the DNS Owner the Controller. Click 'refresh' if you make changes to the domain in the DNS Registrar.",
+        "readyToRegister": "*Click 'refresh' if you make changes to the domain in the DNS Registrar."
+      }
+    },
+    "domain": {
+      "state": {
+        "auction": "In Auction",
+        "available": "Available",
+        "default": "Unknown State",
+        "owned": "Unavailable",
+        "owner": "Owner"
       }
     },
     "expiry": {
       "cannotown": "为其他人的域名续费并不会获得该域名的所有权。",
       "expired": "已经到期",
       "expiring": "即将到期",
-      "gracePeriodEnds": "宽限期截至 "
+      "gracePeriodEnds": "宽限期截至 ",
+      "isUnderPremiumSale": "Available with a temporary premium"
     },
     "learnmore": {
       "step1": {
@@ -257,6 +339,25 @@
       "notfinalised": "（未完成）",
       "pending": "打包中"
     },
+    "record": {
+      "cantEdit": "You can’t edit or add records until you migrate to the new resolver.",
+      "messages": {
+        "explanation": "The Reverse Resolution translates an address into a name. It allows Dapps to show in their interfaces '{{name}}' rather than the long address '{{account}}'. If you would like to set up your reverse for a different account, please switch accounts in your dapp browser",
+        "notSet": "Reverse record: not set",
+        "setTo": "Reverse record: Set to ",
+        "setToDifferent": "Reverse record: Set to a different name:"
+      },
+      "title": "Records"
+    },
+    "resolver": {
+      "error": "Error Migrating Resolver",
+      "message": "To reset your resolver manually, click set and enter the address of your custom resolver.",
+      "publicResolver": "Use Public Resolver",
+      "warning": "You’re using an outdated version of the public resolver. Click to migrate your resolver and records. You will need to confirm two transactions in order to migrate both your records and resolver."
+    },
+    "search": {
+      "title": "Names"
+    },
     "subdomains": {
       "add": "添加子域名",
       "nosubdomains": "暂未分配子域名"
@@ -272,6 +373,7 @@
     "tooltips": {
       "detailsItem": {
         "Controller": "如果要转让域名的管理员，请先确定你登录的是该域名的管理员或注册人账户。",
+        "ControllerAndDnsAlreadySync": "The controller and DNS owner are already in sync",
         "Resolver": "如果要设置域名的解析器，请先确定您登录的是该域名的管理员账户。",
         "default": "只有当钱包中使用的账户是域名的管理员账户时，你才能更改该域名的相关信息。",
         "registrant": "如果要转让域名的注册人，请先确定你登录的是该域名当前的注册人账户。",

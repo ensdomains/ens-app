@@ -63,14 +63,14 @@ describe('Search', () => {
     cy.queryByText('Resolver', { exact: false, timeout: 1 }).should('not.exist')
   })
 
-  it('can see the list of Top level domains if no TLDS are specified', () => {
+  it('can see the list of Names if no TLDS are specified', () => {
     cy.visit(ROOT)
     cy.getByPlaceholderText('Search', { exact: false }).type('notldispsecified')
     cy.get('button')
       .contains('Search')
       .click()
 
-    cy.queryByText('Top Level Domains', { exact: false }).should('exist')
+    cy.queryByText('Names', { exact: false }).should('exist')
     cy.queryByText('notldispsecified.eth', { exact: false }).should('exist')
   })
 })

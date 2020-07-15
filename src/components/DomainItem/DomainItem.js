@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled/macro'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import mq from 'mediaQuery'
 
 import AddFavourite from '../AddFavourite/AddFavourite'
@@ -59,17 +60,15 @@ const DomainContainer = styled(Link)`
   transition: 0.2s all;
 
   ${mq.medium`
-    grid-template-columns: 1fr minmax(150px,350px) 50px;
+    grid-template-columns: 1fr minmax(150px,350px) 100px 50px;
     grid-template-rows: 39px;
   `}
 
-  &:hover {
-    color: #2b2b2b;
-    z-index: 1;
-    box-shadow: 3px 4px 20px 0 rgba(144, 171, 191, 0.42);
-    .label-container {
-      display: flex;
-    }
+  color: #2b2b2b;
+  z-index: 1;
+  box-shadow: 3px 4px 20px 0 rgba(144, 171, 191, 0.42);
+  .label-container {
+    display: flex;
   }
 
   &:visited {
@@ -125,23 +124,24 @@ const LabelContainer = styled('div')`
 const LabelText = styled('div')``
 
 const Label = ({ domain, isOwner }) => {
+  const { t } = useTranslation()
   let text
   switch (domain.state) {
     case 'Open':
-      text = 'Available'
+      text = t('singleName.domain.state.available')
       break
     case 'Auction':
-      text = 'In Auction'
+      text = t('singleName.domain.state.auction')
       break
     case 'Owned':
-      text = 'Unavailable'
+      text = t('singleName.domain.state.owned')
       break
     default:
-      text = 'Unknown State'
+      text = t('singleName.domain.state.default')
   }
 
   if (isOwner) {
-    text = 'Owner'
+    text = t('singleName.domain.state.owned')
   }
 
   return (
@@ -164,8 +164,11 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
     <QueryAccount>
       {({ account }) => {
         let isOwner = false
-
-        if (domain.owner && parseInt(domain.owner, 16) !== 0) {
+        if (
+          !domain.available &&
+          domain.owner &&
+          parseInt(domain.owner, 16) !== 0
+        ) {
           isOwner = domain.owner.toLowerCase() === account.toLowerCase()
         }
         const percentDone = 0
@@ -173,7 +176,6 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
         if (domain.expiryTime) {
           expiryDate = parseInt(domain.expiryTime.getTime() / 1000)
         }
-
         return (
           <DomainContainer
             to={`/name/${domain.name}`}
@@ -186,8 +188,8 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
               {humaniseName(domain.name)}
             </DomainName>
             <ExpiryDate expiryDate={expiryDate} />
+            <Label domain={domain} isOwner={isOwner} />
             <RightContainer>
-              <Label domain={domain} isOwner={isOwner} />
               {isSubDomain && domain.state === 'Open' ? (
                 <Price className="price">
                   {domain.price

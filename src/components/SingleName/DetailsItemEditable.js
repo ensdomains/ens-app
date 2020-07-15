@@ -21,7 +21,7 @@ import Bin from '../Forms/Bin'
 import { useAccount } from '../QueryAccount'
 import { getEnsAddress } from '../../api/ens'
 
-import AddToCalendar from '../Calendar'
+import AddToCalendar from '../Calendar/RenewalCalendar'
 import Tooltip from '../Tooltip/Tooltip'
 import { SingleNameBlockies } from '../Blockies'
 import DefaultAddressLink from '../Links/AddressLink'
@@ -374,12 +374,11 @@ const Editable = ({
       skip: keyName !== 'Expiration Date'
     }
   )
-
   const isValid = getValidation(keyName, newValue)
   const isInvalid = !isValid && newValue.length > 0
   const account = useAccount()
   const isOwnerOfParent = isOwnerOfParentDomain(domain, account)
-  const isRegistrant = domain.registrant === account
+  const isRegistrant = !domain.available && domain.registrant === account
   const canDelete = ['Controller', 'Resolver'].includes(keyName)
   return (
     <Mutation
@@ -613,7 +612,7 @@ const Editable = ({
                               setPresetValue(data.publicResolver.address)
                             }}
                           >
-                            Use Public Resolver
+                            {t('singleName.resolver.publicResolver')}
                           </DefaultResolverButton>
                         )
                       }}

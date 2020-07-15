@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useQuery } from 'react-apollo'
-import { useTranslation } from 'react-i18next'
+import { useTranslation, Trans } from 'react-i18next'
 import styled from '@emotion/styled'
 import { Link, Route } from 'react-router-dom'
 import mq from 'mediaQuery'
@@ -210,6 +210,10 @@ function DetailsContainer({
 }) {
   const { t } = useTranslation()
   const isExpired = domain.expiryTime < new Date()
+  const domainOwner =
+    domain.available || domain.owner === '0x0' ? null : domain.owner
+  const registrant =
+    domain.available || domain.registrant === '0x0' ? null : domain.registrant
   return (
     <Details data-testid="name-details">
       {isOwner && <SetupName initialState={showExplainer} />}
@@ -242,7 +246,7 @@ function DetailsContainer({
             <DetailsItemEditable
               domain={domain}
               keyName="registrant"
-              value={domain.registrant}
+              value={registrant}
               canEdit={isRegistrant && !isExpired}
               isExpiredRegistrant={isRegistrant && isExpired}
               type="address"
@@ -256,7 +260,7 @@ function DetailsContainer({
             <DetailsItemEditable
               domain={domain}
               keyName="Controller"
-              value={domain.owner}
+              value={domainOwner}
               canEdit={isRegistrant || (isOwner && isMigratedToNewRegistry)}
               deedOwner={domain.deedOwner}
               isDeedOwner={isDeedOwner}
@@ -272,7 +276,7 @@ function DetailsContainer({
         ) : domain.parent === 'eth' && !domain.isNewRegistrar ? (
           <>
             <DetailsItem uneditable>
-              <DetailsKey>{t('c.Registrant')}</DetailsKey>
+              <DetailsKey>{t('c.registrant')}</DetailsKey>
               <DetailsValue>
                 <AddressLink address={domain.deedOwner}>
                   <SingleNameBlockies
@@ -302,7 +306,7 @@ function DetailsContainer({
         ) : domain.isDNSRegistrar ? (
           <DetailsItem uneditable>
             <DetailsKey>
-              {t('c.controller')} {isOwner ? <You /> : ''}
+              {t('c.Controller')} {isOwner ? <You /> : ''}
             </DetailsKey>
             <DetailsValue>
               <AddressLink address={domain.owner}>
@@ -328,11 +332,13 @@ function DetailsContainer({
                   name={domain.name}
                   parentOwner={domain.parentOwner}
                   refetch={refetch}
-                  actionText={'Sync'}
+                  actionText={t('c.sync')}
                 />
               ) : (
                 <Tooltip
-                  text="The controller and DNS owner are already in sync"
+                  text={t(
+                    'singleName.tooltips.detailsItem.ControllerAndDnsAlreadySync'
+                  )}
                   position="left"
                   border={true}
                   warning={true}
@@ -349,7 +355,7 @@ function DetailsContainer({
                         }}
                         type="disabled"
                       >
-                        Sync
+                        {t('c.sync')}
                         {tooltipElement}
                       </Button>
                     )
@@ -381,7 +387,7 @@ function DetailsContainer({
         {domain.isDNSRegistrar ? (
           <>
             <DetailsItem uneditable>
-              <DetailsKey>DNS OWNER</DetailsKey>
+              <DetailsKey>{t('dns.dnsowner')}</DetailsKey>
               <DetailsValue>
                 {dnssecmode.displayError ? (
                   <DNSOwnerError>{dnssecmode.title}</DNSOwnerError>
@@ -413,7 +419,7 @@ function DetailsContainer({
                         })
                     }}
                   >
-                    Refresh{' '}
+                    {t('c.refresh')}{' '}
                   </Button>
                 )}
               </ButtonContainer>
@@ -421,13 +427,12 @@ function DetailsContainer({
             {dnssecmode.displayError ? (
               <ErrorExplainer>
                 <OrangeExclamation />
-                Solve the error in your Domain registrar. Refresh to reflect
-                updates.
+                {t('singleName.dns.messages.error')}
                 <LinkToLearnMore
                   href="https://docs.ens.domains/dns-registrar-guide"
                   target="_blank"
                 >
-                  Learn More{' '}
+                  {t('c.learnmore')}{' '}
                   <EtherScanLinkContainer>
                     <ExternalLinkIcon />
                   </EtherScanLinkContainer>
@@ -438,13 +443,15 @@ function DetailsContainer({
                 <HR />
                 <OutOfSyncExplainer>
                   <OrangeExclamation />
-                  {dnssecmode.explainer}
+                  <Trans i18nKey={'singleName.dns.messages.outOfSync'}>
+                    {dnssecmode.explainer}
+                  </Trans>
                   <LinkToLearnMore
                     href="https://docs.ens.domains/dns-registrar-guide"
                     target="_blank"
                     outOfSync={outOfSync}
                   >
-                    Learn More{' '}
+                    {t('c.learnmore')}{' '}
                     <EtherScanLinkContainer>
                       <ExternalLinkIcon />
                     </EtherScanLinkContainer>
@@ -453,12 +460,14 @@ function DetailsContainer({
               </OutOfSyncExplainerContainer>
             ) : (
               <Explainer>
-                {dnssecmode.explainer}
+                <Trans i18nKey={'singleName.dns.messages.readyToRegister'}>
+                  {dnssecmode.explainer}
+                </Trans>
                 <LinkToLearnMore
                   href="https://docs.ens.domains/dns-registrar-guide"
                   target="_blank"
                 >
-                  Learn More{' '}
+                  {t('c.learnmore')}{' '}
                   <EtherScanLinkContainer>
                     <ExternalLinkIcon />
                   </EtherScanLinkContainer>
@@ -472,7 +481,7 @@ function DetailsContainer({
 
         {domain.registrationDate ? (
           <DetailsItem uneditable>
-            <DetailsKey>Registration Date</DetailsKey>
+            <DetailsKey>{t('c.registrationDate')}</DetailsKey>
             <DetailsValue>{formatDate(domain.registrationDate)}</DetailsValue>
           </DetailsItem>
         ) : (
@@ -564,7 +573,7 @@ function NameDetails({
   const isParentMigratedToNewRegistry = isParentMigrated
 
   const isDeedOwner = domain.deedOwner === account
-  const isRegistrant = domain.registrant === account
+  const isRegistrant = !domain.available && domain.registrant === account
   let dnssecmode, canSubmit
   if ([5, 6].includes(domain.state) && !isMigrated) {
     dnssecmode = dnssecmodes[7]

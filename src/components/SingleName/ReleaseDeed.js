@@ -5,7 +5,7 @@ import styled from '@emotion/styled/macro'
 import PendingTx from '../PendingTx'
 import { ExternalButtonLink } from '../Forms/Button'
 import Button from '../Forms/Button'
-
+import { useTranslation } from 'react-i18next'
 import { useEditable } from '../hooks'
 
 const LinkToLearnMore = styled('a')`
@@ -45,6 +45,7 @@ const Return = styled(ExternalButtonLink)`
 `
 
 export default function MigrationWarning({ domain, isOwner, refetch }) {
+  const { t } = useTranslation()
   const { state, actions } = useEditable()
   const { txHash, pending, confirmed } = state
   const { startPending, setConfirmed } = actions
@@ -56,31 +57,24 @@ export default function MigrationWarning({ domain, isOwner, refetch }) {
   })
   return confirmed ? (
     <WarningBox>
-      <WarningContent>Your deposit is now returned.</WarningContent>
+      <WarningContent>{t('releaseDeed.depositReturned')}</WarningContent>
     </WarningBox>
   ) : (
     <WarningBox>
       <WarningContent>
         {isOwner ? (
-          <>
-            Your name was automatically migrated to the new Registrar. To get
-            your deposited eth back, click the ‘return’ button.
-          </>
+          <>{t('releaseDeed.returnDeposit')}</>
         ) : (
-          <>
-            This name was automatically migrated to the new Registrar. To get
-            the deposited eth back, please connect via the registrant account
-            and click the ‘return’ button.
-          </>
+          <>{t('releaseDeed.connectRegistrar')}</>
         )}
         <SubWarning>
-          *To understand why this name was migrated
+          {t('releaseDeed.whyMigrated')}
           <LinkToLearnMore
             href="https://medium.com/the-ethereum-name-service"
             target="_blank"
           >
             {' '}
-            Learn More
+            {t('c.learnmore')}
           </LinkToLearnMore>
         </SubWarning>
       </WarningContent>
@@ -98,11 +92,11 @@ export default function MigrationWarning({ domain, isOwner, refetch }) {
           type={'hollow-primary'}
           href="#"
         >
-          Return
+          {t('c.return')}
         </Return>
       ) : (
         <Button data-testid="disabled-return-button" type="disabled">
-          Return
+          {t('c.return')}
         </Button>
       )}
     </WarningBox>

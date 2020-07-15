@@ -40,7 +40,7 @@ function isDNSRegistrationOpen(domain) {
 }
 
 function isOwnerOfDomain(domain, account) {
-  if (domain.owner !== EMPTY_ADDRESS) {
+  if (domain.owner !== EMPTY_ADDRESS && !domain.available) {
     return domain.owner.toLowerCase() === account.toLowerCase()
   }
   return false
@@ -60,16 +60,14 @@ function Name({ details: domain, name, pathname, type, refetch }) {
   const account = useAccount()
   const isOwner = isOwnerOfDomain(domain, account)
   const isOwnerOfParent = isOwnerOfParentDomain(domain, account)
-  const hasAnOwner = parseInt(domain.owner, 16) !== 0
-  const preferredTab = hasAnOwner ? 'details' : 'register'
-
   const isDeedOwner = domain.deedOwner === account
-  const isRegistrant = domain.registrant === account
+  const isRegistrant = !domain.available && domain.registrant === account
   const registrationOpen = isRegistrationOpen(
     domain.available,
     domain.parent,
     isDeedOwner
   )
+  const preferredTab = registrationOpen ? 'register' : 'details'
 
   let ownerType
   if (isDeedOwner || isRegistrant) {
@@ -119,7 +117,13 @@ function Name({ details: domain, name, pathname, type, refetch }) {
             />
           </Title>
           <RightBar>
-            {!!ownerType && <Owner data-testid="owner-type">{ownerType}</Owner>}
+            {!!ownerType && (
+              <Owner data-testid="owner-type">
+                {ownerType === 'Registrant'
+                  ? t('c.registrant')
+                  : t('c.Controller')}
+              </Owner>
+            )}
             <Favourite domain={domain} />
             {smallBP && (
               <Tabs

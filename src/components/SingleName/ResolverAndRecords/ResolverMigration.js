@@ -3,6 +3,7 @@ import styled from '@emotion/styled/macro'
 import { useMutation } from 'react-apollo'
 import { useEditable } from 'components/hooks'
 import { MIGRATE_RESOLVER } from 'graphql/mutations'
+import { useTranslation } from 'react-i18next'
 import { DetailsItem, DetailsKey, DetailsValue } from '../DetailsItem'
 import PendingTx from '../../PendingTx'
 import Button from '../../Forms/Button'
@@ -38,6 +39,7 @@ const SVG = styled('svg')`
 `
 
 export default function MigrateResolver({ value, name, refetch, isOwner }) {
+  const { t } = useTranslation()
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false)
   const { state: state1, actions: actions1 } = useEditable()
   const { state: state2, actions: actions2 } = useEditable()
@@ -73,7 +75,7 @@ export default function MigrateResolver({ value, name, refetch, isOwner }) {
       {isErrorModalOpen && (
         <ErrorModal
           error={mutationError}
-          title="Error Migrating Resolver"
+          title={t('singleName.resolver.error')}
           close={() => setIsErrorModalOpen(false)}
         />
       )}
@@ -85,7 +87,7 @@ export default function MigrateResolver({ value, name, refetch, isOwner }) {
             fill-rule="evenodd"
           />
         </SVG>
-        Resolver
+        {t('c.Resolver')}
       </MigrateKey>
       <MigrateValue editable>
         {value}
@@ -110,7 +112,7 @@ export default function MigrateResolver({ value, name, refetch, isOwner }) {
             onClick={isOwner ? migrateResolver : () => {}}
             type={isOwner ? 'primary' : 'disabled'}
           >
-            Migrate
+            {t('c.migrate')}
           </MigrateButton>
         )}
       </MigrateAction>
