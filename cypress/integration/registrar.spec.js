@@ -60,4 +60,28 @@ describe('PermanentRegistrar', () => {
     cy.getByTestId('request-register-button').click({ force: true })
     cy.queryByText('register-button').should('not.exist')
   })
+
+  it('cannot register too short name', () => {
+    cy.visit(`${ROOT}/name/ab.eth`)
+    cy.queryByText('request-register-button').should('not.exist')
+    cy.queryByText('Name is too short', {
+      exact: false
+    }).should('exist')
+  })
+
+  it('cannot register malformated name', () => {
+    cy.visit(`${ROOT}/name/ab eth`)
+    cy.queryByText('request-register-button').should('not.exist')
+    cy.queryByText('Domain malformed. ab eth is not a valid domain', {
+      exact: false
+    }).should('exist')
+  })
+
+  it('cannot register unsupported tld', () => {
+    cy.visit(`${ROOT}/name/ab.cdef`)
+    cy.queryByText('request-register-button').should('not.exist')
+    cy.queryByText('CDEF is not currently a supported TLD', {
+      exact: false
+    }).should('exist')
+  })
 })

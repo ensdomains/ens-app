@@ -117,7 +117,7 @@ function Premium({
             margin-right: 20px;
           `}
           name={name}
-          startDatetime={targetDate.utc().subtract(1, 'hour')}
+          startDatetime={targetDate.utc()}
           invalid={invalid}
         />
       </CalendarContainer>
