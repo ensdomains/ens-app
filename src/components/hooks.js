@@ -186,7 +186,7 @@ export function useBlock() {
         setLoading(false)
       })
       .catch(() => '') // ignore error
-  }, true)
+  }, [])
 
   return {
     loading,

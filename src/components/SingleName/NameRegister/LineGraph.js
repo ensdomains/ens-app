@@ -181,7 +181,7 @@ export default function LineGraph({
       }
     })
     setChart(_chart)
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
   if (chart) {
     chart.data.datasets[0].pointRadius = pointRadius
     chart.data.datasets[1].pointRadius = pointRadius
