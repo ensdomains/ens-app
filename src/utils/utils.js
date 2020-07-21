@@ -121,7 +121,7 @@ export function humaniseName(name) {
 
 export function modulate(value, rangeA, rangeB, limit) {
   let fromHigh, fromLow, result, toHigh, toLow
-  if (limit == null) {
+  if (limit === null) {
     limit = false
   }
   fromLow = rangeA[0]

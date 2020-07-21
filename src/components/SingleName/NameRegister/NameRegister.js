@@ -3,12 +3,7 @@ import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
 import { Query, useQuery } from 'react-apollo'
 import moment from 'moment'
-import {
-  GET_MINIMUM_COMMITMENT_AGE,
-  GET_RENT_PRICE,
-  GET_PREMIUM,
-  GET_TIME_UNTIL_PREMIUM
-} from 'graphql/queries'
+import { GET_MINIMUM_COMMITMENT_AGE, GET_RENT_PRICE } from 'graphql/queries'
 import { useInterval, useEthPrice, useBlock } from 'components/hooks'
 import { registerMachine, registerReducer } from './registerReducer'
 import { sendNotification } from './notification'
@@ -20,7 +15,6 @@ import CTA from './CTA'
 import Progress from './Progress'
 import NotAvailable from './NotAvailable'
 import Pricer from '../Pricer'
-import EthVal from 'ethval'
 import LineGraph from './LineGraph'
 import Premium from './Premium'
 
@@ -56,8 +50,7 @@ const NameRegister = ({
   const [targetDate, setTargetDate] = useState(false)
   const [targetPremium, setTargetPremium] = useState(false)
   const { loading: ethUsdPriceLoading, price: ethUsdPrice } = useEthPrice()
-  const { loading: blockLoading, block } = useBlock()
-  const [premium, setPremium] = useState(0)
+  const { block } = useBlock()
   const [invalid, setInvalid] = useState(false)
 
   useInterval(
