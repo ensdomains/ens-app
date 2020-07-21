@@ -1,7 +1,6 @@
 import { useEffect, useReducer, useRef, useState } from 'react'
 import getEtherPrice from 'api/price'
 import { useLocation } from 'react-router-dom'
-import { getRegistrar } from 'api/ens'
 import { loggedIn, logout } from './IPFS/auth'
 import { getBlock } from '@ensdomains/ui'
 
@@ -155,9 +154,6 @@ export function useEthPrice(enabled = true) {
 
   useEffect(() => {
     if (enabled) {
-      // const registrar = getRegistrar()
-      // registrar
-      //   .getEthPrice()
       getEtherPrice()
         .then(res => {
           setPrice(res)

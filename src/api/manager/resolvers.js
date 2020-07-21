@@ -13,9 +13,7 @@ import {
 } from '@ensdomains/ui'
 import { formatsByName } from '@ensdomains/address-encoder'
 import isEqual from 'lodash/isEqual'
-import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
-import domains from '../../constants/domains.json'
 import { sendHelper, sendHelperArray } from '../resolverUtils'
 import { emptyAddress } from '../../utils/utils'
 import TEXT_RECORD_KEYS from 'constants/textRecords'
@@ -134,23 +132,6 @@ async function getTestEntry(name) {
     if (expiryTime) return { expiryTime }
   }
   return {}
-}
-
-async function getSubDomainSaleEntry(name) {
-  const nameArray = name.split('.')
-  const networkId = await getNetworkId()
-  if (nameArray.length < 3) return {}
-
-  if (networkId === 1) {
-    const domain = domains.find(domain => domain.name === nameArray[1]) || {}
-    const subdomain = await query(nameArray[1], nameArray[0], domain.registrar)
-    const node = {
-      name: `${name}`,
-      ...subdomain,
-      state: subdomain.available ? 'Open' : 'Owned'
-    }
-    return node
-  }
 }
 
 async function getRegistrant(name) {
