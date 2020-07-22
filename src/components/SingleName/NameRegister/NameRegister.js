@@ -21,6 +21,9 @@ import NotAvailable from './NotAvailable'
 import Pricer from '../Pricer'
 import LineGraph from './LineGraph'
 import Premium from './Premium'
+import ProgressStore from './ProgressStore'
+import useNetworkInfo from '../../NetworkInformation/useNetworkInfo'
+import crypto from 'crypto'
 
 const NameRegisterContainer = styled('div')`
   padding: 20px 40px;
@@ -33,6 +36,10 @@ const PremiumWarning = styled('div')`
   margin-bottom: 1em;
 `
 
+function randomSecret() {
+  return '0x' + crypto.randomBytes(32).toString('hex')
+}
+
 const NameRegister = ({
   domain,
   waitTime,
@@ -42,10 +49,46 @@ const NameRegister = ({
   registrationOpen
 }) => {
   const { t } = useTranslation()
+  const [secret, setSecret] = useState(false)
+  const { networkId } = useNetworkInfo()
   const [step, dispatch] = useReducer(
     registerReducer,
     registerMachine.initialState
   )
+
+  const stepIndex = Object.keys(registerMachine.states).indexOf(step)
+  const label = `${networkId}-${domain.label}`
+  let savedStepIndex = 0
+  let savedStep, isBehind
+  savedStep = ProgressStore.get(label)
+  if (!secret) {
+    if (savedStep) {
+      setSecret(savedStep.secret)
+    } else {
+      setSecret(randomSecret())
+    }
+  }
+  savedStepIndex = Object.keys(registerMachine.states).indexOf(
+    savedStep && savedStep.step
+  )
+  isBehind = savedStepIndex - stepIndex > 0
+
+  if (isBehind) {
+    dispatch('NEXT')
+  }
+
+  switch (step) {
+    case 'COMMIT_CONFIRMED':
+      ProgressStore.set(label, { step, secret })
+      break
+    case 'AWAITING_REGISTER':
+      ProgressStore.set(label, { step, secret })
+      break
+    case 'REVEAL_CONFIRMED':
+      ProgressStore.remove()
+      break
+  }
+
   const incrementStep = () => dispatch('NEXT')
   const decrementStep = () => dispatch('PREVIOUS')
   const [years, setYears] = useState(1)
@@ -208,6 +251,7 @@ const NameRegister = ({
         waitTime={waitTime}
         incrementStep={incrementStep}
         decrementStep={decrementStep}
+        secret={secret}
         step={step}
         label={domain.label}
         duration={duration}
