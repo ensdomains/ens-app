@@ -154,9 +154,6 @@ export default function Records({
       }
     }
   )
-
-  console.log({ dataTextRecordKeys, loading, error })
-
   //TEXT_RECORD_KEYS use for fallback
 
   const { loading: textRecordsLoading, data: dataTextRecords } = useQuery(
@@ -172,8 +169,6 @@ export default function Records({
       skip: !dataTextRecordKeys
     }
   )
-
-  console.log({ dataTextRecords })
 
   const emptyRecords = RECORDS.filter(record => {
     if (record.value === 'address') {

@@ -118,7 +118,6 @@ const Editable = ({
   value,
   type
 }) => {
-  console.log('editable', { editing })
   return (
     <KeyValueItem editing={editing} hasRecord={true} noBorder>
       {editing ? (
