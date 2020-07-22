@@ -165,17 +165,17 @@ function Record(props) {
   //           setTimeout(() => {
   //             refetch()
   //             timesTried++
-  //           }, timeToWait * (timesTried + 1))
+  //           }, timeToWai\t * (timesTried + 1))
   //         }
   //       }
   //     })
   //   }
   // }, [recordAdded, refetch, textKey])
-  // useEffect(() => {
-  //   if (dataValue && parseInt(dataValue, 16) !== 0 && !hasRecord) {
-  //     setHasRecord(true)
-  //   }
-  // }, [dataValue, hasRecord, setHasRecord])
+  useEffect(() => {
+    if (dataValue && parseInt(dataValue, 16) !== 0 && !hasRecord) {
+      setHasRecord(true)
+    }
+  }, [dataValue, hasRecord, setHasRecord])
 
   // if (error || loading || !dataValue || parseInt(dataValue, 16) === 0) {
   //   return null
@@ -212,29 +212,35 @@ function Records({
   records,
   validator,
   getPlaceholder,
-  title
+  title,
+  placeholderRecords
 }) {
   const [hasRecord, setHasRecord] = useState(false)
   return (
     <KeyValueContainer hasRecord={hasRecord}>
       {hasRecord && <Key>{title}</Key>}
       <KeyValuesList>
-        {records.map(({ key, value }) => (
-          <Record
-            editing={editing}
-            key={key}
-            dataValue={value}
-            validator={validator}
-            getPlaceholder={getPlaceholder}
-            textKey={key}
-            domain={domain}
-            name={domain.name}
-            setHasRecord={setHasRecord}
-            hasRecord={hasRecord}
-            canEdit={canEdit}
-            mutation={mutation}
-          />
-        ))}
+        {records.map(({ key, value }) => {
+          if (parseInt(value, 16) === 0 && !placeholderRecords.includes(key)) {
+            return null
+          }
+          return (
+            <Record
+              editing={editing}
+              key={key}
+              dataValue={value}
+              validator={validator}
+              getPlaceholder={getPlaceholder}
+              textKey={key}
+              domain={domain}
+              name={domain.name}
+              setHasRecord={setHasRecord}
+              hasRecord={hasRecord}
+              canEdit={canEdit}
+              mutation={mutation}
+            />
+          )
+        })}
       </KeyValuesList>
     </KeyValueContainer>
   )
@@ -251,7 +257,8 @@ export default function KeyValueRecord({
   loading,
   validator,
   getPlaceholder,
-  title
+  title,
+  placeholderRecords
 }) {
   if (loading) return null
   return (
@@ -266,6 +273,7 @@ export default function KeyValueRecord({
       refetch={refetch}
       mutation={mutation}
       title={title}
+      placeholderRecords={placeholderRecords}
     />
   )
 }

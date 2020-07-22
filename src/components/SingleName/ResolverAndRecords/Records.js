@@ -3,6 +3,8 @@ import styled from '@emotion/styled/macro'
 import { useQuery } from 'react-apollo'
 import { useTranslation } from 'react-i18next'
 import COIN_LIST from 'constants/coinList'
+import TEXT_RECORD_KEYS from 'constants/textRecords'
+import { getNamehash } from '@ensdomains/ui'
 
 import {
   SET_RESOLVER,
@@ -17,7 +19,9 @@ import {
   GET_TEXT,
   GET_ADDR,
   GET_ADDRESSES,
-  GET_RESOLVER_MIGRATION_INFO
+  GET_TEXT_RECORDS,
+  GET_RESOLVER_MIGRATION_INFO,
+  GET_RESOLVER_FROM_SUBGRAPH
 } from 'graphql/queries'
 
 import AddRecord from './AddRecord'
@@ -135,11 +139,41 @@ export default function Records({
   const [state, dispatch] = useReducer(reducer, {})
   const [recordAdded, setRecordAdded] = useState(0)
   const [editMode, setEditMode] = useState(false)
-  const { loading: addressesLoading, data } = useQuery(GET_ADDRESSES, {
-    variables: { name: domain.name, keys: COIN_LIST }
-  })
+  const { loading: addressesLoading, data: dataAddresses } = useQuery(
+    GET_ADDRESSES,
+    {
+      variables: { name: domain.name, keys: COIN_LIST }
+    }
+  )
 
-  console.log('coins', data)
+  const { data: dataTextRecordKeys, loading, error } = useQuery(
+    GET_RESOLVER_FROM_SUBGRAPH,
+    {
+      variables: {
+        id: getNamehash(domain.name)
+      }
+    }
+  )
+
+  console.log({ dataTextRecordKeys, loading, error })
+
+  //TEXT_RECORD_KEYS use for fallback
+
+  const { loading: textRecordsLoading, data: dataTextRecords } = useQuery(
+    GET_TEXT_RECORDS,
+    {
+      variables: {
+        name: domain.name,
+        keys:
+          dataTextRecordKeys &&
+          dataTextRecordKeys.domain &&
+          dataTextRecordKeys.domain.resolver.texts
+      },
+      skip: !dataTextRecordKeys
+    }
+  )
+
+  console.log({ dataTextRecords })
 
   const emptyRecords = RECORDS.filter(record => {
     if (record.value === 'address') {
@@ -170,7 +204,10 @@ export default function Records({
   }
 
   return (
-    <div>
+    <RecordsWrapper
+      shouldShowRecords={shouldShowRecords}
+      needsToBeMigrated={needsToBeMigrated}
+    >
       {!canEditRecords && isOwner ? (
         <CantEdit>{t('singleName.record.cantEdit')}</CantEdit>
       ) : (
@@ -186,11 +223,21 @@ export default function Records({
         domain={domain}
         recordAdded={recordAdded}
         mutation={SET_ADDR}
-        query={GET_ADDR}
-        addresses={data.getAddresses}
+        addresses={dataAddresses.getAddresses}
         loading={addressesLoading}
         title={t('c.addresses')}
       />
-    </div>
+
+      <TextRecord
+        canEdit={canEditRecords}
+        domain={domain}
+        recordAdded={recordAdded}
+        mutation={SET_TEXT}
+        textRecords={dataTextRecords && dataTextRecords.getTextRecords}
+        loading={textRecordsLoading}
+        query={GET_TEXT}
+        title={t('c.textrecord')}
+      />
+    </RecordsWrapper>
   )
 }

@@ -475,13 +475,17 @@ const resolvers = {
     },
     getAddresses: async (_, { name, keys }) => {
       const ens = getENS()
-      console.log('!!!getAdddresses')
-      console.log(keys)
       const addresses = keys.map(key =>
         ens.getAddr(name, key).then(addr => ({ key, value: addr }))
       )
-      console.log(addresses)
       return Promise.all(addresses)
+    },
+    getTextRecords: async (_, { name, keys }) => {
+      const ens = getENS()
+      const textRecords = keys.map(key =>
+        ens.getText(name, key).then(addr => ({ key, value: addr }))
+      )
+      return Promise.all(textRecords)
     }
   },
   Mutation: {

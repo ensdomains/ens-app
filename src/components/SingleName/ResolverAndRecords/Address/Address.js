@@ -1,5 +1,4 @@
 import React from 'react'
-import COIN_LIST from 'constants/coinList'
 import KeyValueRecord from '../KeyValueRecord'
 import { validateRecord } from '../../../../utils/records'
 
@@ -11,6 +10,8 @@ const validator = (symbol, value) => {
   })
 }
 
+const PLACEHOLDER_RECORDS = ['ETH', 'BTC', 'DOGE', 'ETC']
+
 const getPlaceholder = symbol => {
   return `Enter a ${symbol} address`
 }
@@ -20,6 +21,7 @@ export default function Address(props) {
     <KeyValueRecord
       {...props}
       records={props.addresses}
+      placeholderRecords={PLACEHOLDER_RECORDS}
       validator={validator}
       getPlaceholder={getPlaceholder}
     />

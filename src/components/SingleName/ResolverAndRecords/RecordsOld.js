@@ -18,9 +18,9 @@ import {
   GET_RESOLVER_MIGRATION_INFO
 } from 'graphql/queries'
 
-import AddRecord from './AddRecord'
+import AddRecord from './AddRecordOld'
 import RecordsItem from './RecordsItem'
-import TextRecord from './TextRecord'
+import TextRecord from './TextRecordOld'
 import Address from './AddressOld'
 
 const RecordsWrapper = styled('div')`
