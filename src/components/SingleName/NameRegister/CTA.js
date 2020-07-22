@@ -46,6 +46,7 @@ function getCTA({
   txHash,
   setTxHash,
   setTimerRunning,
+  setBlockCreatedAt,
   isAboveMinDuration,
   refetch,
   refetchIsMigrated,
@@ -106,8 +107,11 @@ function getCTA({
     COMMIT_SENT: (
       <PendingTx
         txHash={txHash}
-        onConfirmed={() => {
+        onConfirmed={data => {
           incrementStep()
+          if (data.blockCreatedAt) {
+            setBlockCreatedAt(data.blockCreatedAt)
+          }
           setTimerRunning(true)
         }}
       />
@@ -191,6 +195,7 @@ const CTA = ({
   duration,
   label,
   setTimerRunning,
+  setBlockCreatedAt,
   isAboveMinDuration,
   refetch,
   refetchIsMigrated,
@@ -211,6 +216,7 @@ const CTA = ({
         txHash,
         setTxHash,
         setTimerRunning,
+        setBlockCreatedAt,
         isAboveMinDuration,
         refetch,
         refetchIsMigrated,

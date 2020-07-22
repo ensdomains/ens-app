@@ -1,5 +1,6 @@
 import {
   isDecrypted,
+  getBlock,
   getWeb3,
   getNetworkId,
   getNamehash,
@@ -36,6 +37,10 @@ const defaults = {
   favourites: savedFavourites,
   subDomainFavourites: savedSubDomainFavourites,
   transactionHistory: []
+}
+
+async function delay(ms) {
+  return await new Promise(resolve => setTimeout(resolve, ms))
 }
 
 async function getParent(name) {
@@ -453,6 +458,20 @@ const resolvers = {
       }
 
       return address
+    },
+    waitBlockTimestamp: async (_, { waitUntil }) => {
+      if (waitUntil) {
+        let block = await getBlock()
+        let timestamp = block.timestamp * 1000
+        while (timestamp < waitUntil) {
+          block = await getBlock()
+          timestamp = block.timestamp * 1000
+          await delay(1000)
+        }
+        return true
+      } else {
+        return false
+      }
     }
   },
   Mutation: {

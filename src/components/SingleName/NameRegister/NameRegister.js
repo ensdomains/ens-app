@@ -3,7 +3,11 @@ import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
 import { Query, useQuery } from 'react-apollo'
 import moment from 'moment'
-import { GET_MINIMUM_COMMITMENT_AGE, GET_RENT_PRICE } from 'graphql/queries'
+import {
+  GET_MINIMUM_COMMITMENT_AGE,
+  GET_RENT_PRICE,
+  WAIT_BLOCK_TIMESTAMP
+} from 'graphql/queries'
 import { useInterval, useEthPrice, useBlock } from 'components/hooks'
 import { registerMachine, registerReducer } from './registerReducer'
 import { sendNotification } from './notification'
@@ -47,20 +51,33 @@ const NameRegister = ({
   const [years, setYears] = useState(1)
   const [secondsPassed, setSecondsPassed] = useState(0)
   const [timerRunning, setTimerRunning] = useState(false)
+  const [blockCreatedAt, setBlockCreatedAt] = useState(null)
+  const [waitUntil, setWaitUntil] = useState(null)
   const [targetDate, setTargetDate] = useState(false)
   const [targetPremium, setTargetPremium] = useState(false)
   const { loading: ethUsdPriceLoading, price: ethUsdPrice } = useEthPrice()
   const { block } = useBlock()
   const [invalid, setInvalid] = useState(false)
-
+  const {
+    data: { waitBlockTimestamp }
+  } = useQuery(WAIT_BLOCK_TIMESTAMP, {
+    variables: {
+      waitUntil
+    }
+  })
   useInterval(
     () => {
       if (secondsPassed < waitTime) {
         setSecondsPassed(s => s + 1)
       } else {
-        setTimerRunning(false)
-        incrementStep()
-        sendNotification(`${domain.name} ${t('register.notifications.ready')}`)
+        setWaitUntil(blockCreatedAt && blockCreatedAt + waitTime * 1000)
+        if (waitBlockTimestamp) {
+          setTimerRunning(false)
+          incrementStep()
+          sendNotification(
+            `${domain.name} ${t('register.notifications.ready')}`
+          )
+        }
       }
     },
     timerRunning ? 1000 : null
@@ -196,6 +213,7 @@ const NameRegister = ({
         duration={duration}
         secondsPassed={secondsPassed}
         setTimerRunning={setTimerRunning}
+        setBlockCreatedAt={setBlockCreatedAt}
         refetch={refetch}
         refetchIsMigrated={refetchIsMigrated}
         isAboveMinDuration={isAboveMinDuration}
