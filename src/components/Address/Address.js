@@ -31,7 +31,7 @@ import Pager from './Pager'
 
 import warning from '../../assets/yellowwarning.svg'
 import close from '../../assets/close.svg'
-import { block, useBlock } from '../hooks'
+import { useBlock } from '../hooks'
 
 const RESULTS_PER_PAGE = 30
 
@@ -162,7 +162,7 @@ export default function Address({
   const { search } = useLocation()
   const pageQuery = new URLSearchParams(search).get('page')
   const page = pageQuery ? parseInt(pageQuery) : 1
-  const { loading: blockLoading, block } = useBlock()
+  const { block } = useBlock()
 
   let { t } = useTranslation()
   let [showOriginBannerFlag, setShowOriginBannerFlag] = useState(true)

@@ -6,8 +6,7 @@ import moment from 'moment'
 import {
   GET_MINIMUM_COMMITMENT_AGE,
   GET_RENT_PRICE,
-  GET_PREMIUM,
-  GET_TIME_UNTIL_PREMIUM
+  WAIT_BLOCK_TIMESTAMP
 } from 'graphql/queries'
 import { useInterval, useEthPrice, useBlock } from 'components/hooks'
 import { registerMachine, registerReducer } from './registerReducer'
@@ -20,7 +19,6 @@ import CTA from './CTA'
 import Progress from './Progress'
 import NotAvailable from './NotAvailable'
 import Pricer from '../Pricer'
-import EthVal from 'ethval'
 import LineGraph from './LineGraph'
 import Premium from './Premium'
 
@@ -53,21 +51,33 @@ const NameRegister = ({
   const [years, setYears] = useState(1)
   const [secondsPassed, setSecondsPassed] = useState(0)
   const [timerRunning, setTimerRunning] = useState(false)
+  const [blockCreatedAt, setBlockCreatedAt] = useState(null)
+  const [waitUntil, setWaitUntil] = useState(null)
   const [targetDate, setTargetDate] = useState(false)
   const [targetPremium, setTargetPremium] = useState(false)
   const { loading: ethUsdPriceLoading, price: ethUsdPrice } = useEthPrice()
-  const { loading: blockLoading, block } = useBlock()
-  const [premium, setPremium] = useState(0)
+  const { block } = useBlock()
   const [invalid, setInvalid] = useState(false)
-
+  const {
+    data: { waitBlockTimestamp }
+  } = useQuery(WAIT_BLOCK_TIMESTAMP, {
+    variables: {
+      waitUntil
+    }
+  })
   useInterval(
     () => {
       if (secondsPassed < waitTime) {
         setSecondsPassed(s => s + 1)
       } else {
-        setTimerRunning(false)
-        incrementStep()
-        sendNotification(`${domain.name} ${t('register.notifications.ready')}`)
+        setWaitUntil(blockCreatedAt && blockCreatedAt + waitTime * 1000)
+        if (waitBlockTimestamp) {
+          setTimerRunning(false)
+          incrementStep()
+          sendNotification(
+            `${domain.name} ${t('register.notifications.ready')}`
+          )
+        }
       }
     },
     timerRunning ? 1000 : null
@@ -203,6 +213,7 @@ const NameRegister = ({
         duration={duration}
         secondsPassed={secondsPassed}
         setTimerRunning={setTimerRunning}
+        setBlockCreatedAt={setBlockCreatedAt}
         refetch={refetch}
         refetchIsMigrated={refetchIsMigrated}
         isAboveMinDuration={isAboveMinDuration}

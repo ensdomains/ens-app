@@ -70,7 +70,9 @@ function PendingTx(props) {
           lastTransaction.txHash === txHash &&
           lastTransaction.txState === 'Confirmed'
         ) {
-          onConfirmed()
+          onConfirmed({
+            blockCreatedAt: lastTransaction.createdAt
+          })
         }
         return <Pending {...props} />
       }}

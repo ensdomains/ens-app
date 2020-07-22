@@ -2,8 +2,6 @@ import Chart from 'chart.js'
 import styled from '@emotion/styled/macro'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { formatDate } from 'utils/dates'
-import debounce from 'lodash/debounce'
 const DAY = 60 * 60 * 24
 const HOUR = 60 * 60
 
@@ -183,7 +181,7 @@ export default function LineGraph({
       }
     })
     setChart(_chart)
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
   if (chart) {
     chart.data.datasets[0].pointRadius = pointRadius
     chart.data.datasets[1].pointRadius = pointRadius
