@@ -3,6 +3,7 @@ import styled from '@emotion/styled/macro'
 import { useQuery } from 'react-apollo'
 import { useTranslation } from 'react-i18next'
 import RecordsOld from './RecordsOld'
+import Records from './Records'
 
 import { GET_RESOLVER_MIGRATION_INFO, GET_TEXT } from 'graphql/queries'
 import { SET_RESOLVER } from 'graphql/mutations'
@@ -140,8 +141,20 @@ export default function ResolverAndRecords({
         )}
       </ResolverWrapper>
 
-      {hasResolver && (
+      {hasResolver && isDeprecatedResolver ? (
         <RecordsOld
+          domain={domain}
+          refetch={refetch}
+          account={account}
+          isOwner={isOwner}
+          hasResolver={hasResolver}
+          needsToBeMigrated={needsToBeMigrated}
+          isOldPublicResolver={isOldPublicResolver}
+          isDeprecatedResolver={isDeprecatedResolver}
+          areRecordsMigrated={areRecordsMigrated}
+        />
+      ) : (
+        <Records
           domain={domain}
           refetch={refetch}
           account={account}

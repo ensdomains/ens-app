@@ -110,27 +110,121 @@ const EditRecord = styled('div')`
 `
 
 const Editable = ({
-  editing,
   domain,
   textKey,
   validator,
   getPlaceholder,
   value,
-  type
+  type,
+  refetch,
+  mutation
 }) => {
-  console.log('editable', { editing })
+  const { state, actions } = useEditable()
+
+  const { editing, newValue, txHash, pending, confirmed } = state
+
+  const {
+    startEditing,
+    stopEditing,
+    updateValue,
+    startPending,
+    setConfirmed
+  } = actions
+
+  let isValid = true
+  let isInvalid = false
+
+  const [setRecord] = useMutation(mutation, {
+    onCompleted: data => {
+      startPending(Object.values(data)[0])
+    }
+  })
+
+  if (newValue === '') {
+    isValid = false
+  } else if (validator) {
+    isValid = validator(textKey, newValue)
+    isInvalid = !isValid
+  } else {
+    isValid = true
+  }
   return (
     <KeyValueItem editing={editing} hasRecord={true} noBorder>
+      <KeyValuesContent editing={editing}>
+        <RecordsSubKey>{textKey}</RecordsSubKey>
+        <RecordLink textKey={textKey} value={value} />
+
+        {pending && !confirmed && txHash ? (
+          <PendingTx
+            txHash={txHash}
+            onConfirmed={() => {
+              setConfirmed()
+              refetch()
+            }}
+          />
+        ) : editing ? (
+          <Action>
+            <Mutation
+              mutation={mutation}
+              variables={{
+                name: domain.name,
+                key: textKey,
+                recordValue: ''
+              }}
+              onCompleted={data => {
+                startPending(Object.values(data)[0])
+              }}
+            >
+              {mutate => (
+                <Bin
+                  data-testid={`delete-KeyValue-${textKey.toLowerCase()}`}
+                  onClick={e => {
+                    e.preventDefault()
+                    mutate()
+                  }}
+                />
+              )}
+            </Mutation>
+          </Action>
+        ) : (
+          <Actionable
+            startEditing={startEditing}
+            keyName={textKey}
+            value={value}
+          />
+        )}
+      </KeyValuesContent>
       {editing ? (
-        <KeyValuesContent editing={editing}>
-          <RecordsSubKey>{textKey}</RecordsSubKey>
-          <input type="text" value={value} />
-        </KeyValuesContent>
+        <>
+          <EditRecord>
+            <DetailsItemInput
+              newValue={newValue}
+              dataType={type}
+              isValid={isValid}
+              isInvalid={isInvalid}
+              contentType={domain.contentType}
+              updateValue={updateValue}
+              placeholder={getPlaceholder ? getPlaceholder(textKey) : ''}
+            />
+          </EditRecord>
+          <SaveCancel
+            mutation={e => {
+              e.preventDefault()
+              const variables = {
+                name: domain.name,
+                key: textKey,
+                recordValue: newValue
+              }
+              setRecord({
+                variables
+              })
+            }}
+            isValid={isValid}
+            stopEditing={stopEditing}
+          />
+        </>
       ) : (
-        <KeyValuesContent>
-          <RecordsSubKey>{textKey}</RecordsSubKey>
-          <RecordLink textKey={textKey} value={value} />
-        </KeyValuesContent>
+        ''
       )}
     </KeyValueItem>
   )
@@ -139,54 +233,58 @@ const Editable = ({
 function Record(props) {
   const {
     textKey,
-    dataValue,
     validator,
     getPlaceholder,
     name,
     setHasRecord,
     hasRecord,
     canEdit,
-    editing,
+    recordAdded,
     query,
     mutation
   } = props
+  const { data, loading, error, refetch } = useQuery(query, {
+    variables: {
+      name,
+      key: textKey
+    }
+  })
+  const dataValue = Object.values(data)[0]
+  useEffect(() => {
+    if (recordAdded === textKey) {
+      let timeToWait = 200
+      let timesToTry = 5
+      let timesTried = 0
+      refetch().then(({ data }) => {
+        //retry until record is there or tried more than timesToTry
+        let response = Object.values(data)[0]
+        if (response === null || parseInt(response) === 0) {
+          if (timesTried < timesToTry) {
+            setTimeout(() => {
+              refetch()
+              timesTried++
+            }, timeToWait * (timesTried + 1))
+          }
+        }
+      })
+    }
+  }, [recordAdded, refetch, textKey])
+  useEffect(() => {
+    if (dataValue && parseInt(dataValue, 16) !== 0 && !hasRecord) {
+      setHasRecord(true)
+    }
+  }, [dataValue, hasRecord, setHasRecord])
 
-  // const dataValue = Object.values(data)[0]
-  // useEffect(() => {
-  //   if (recordAdded === textKey) {
-  //     let timeToWait = 200
-  //     let timesToTry = 5
-  //     let timesTried = 0
-  //     refetch().then(({ data }) => {
-  //       //retry until record is there or tried more than timesToTry
-  //       let response = Object.values(data)[0]
-  //       if (response === null || parseInt(response) === 0) {
-  //         if (timesTried < timesToTry) {
-  //           setTimeout(() => {
-  //             refetch()
-  //             timesTried++
-  //           }, timeToWait * (timesTried + 1))
-  //         }
-  //       }
-  //     })
-  //   }
-  // }, [recordAdded, refetch, textKey])
-  // useEffect(() => {
-  //   if (dataValue && parseInt(dataValue, 16) !== 0 && !hasRecord) {
-  //     setHasRecord(true)
-  //   }
-  // }, [dataValue, hasRecord, setHasRecord])
-
-  // if (error || loading || !dataValue || parseInt(dataValue, 16) === 0) {
-  //   return null
-  // }
+  if (error || loading || !dataValue || parseInt(dataValue, 16) === 0) {
+    return null
+  }
   return canEdit ? (
     <Editable
       {...props}
       value={dataValue}
       validator={validator}
-      getPlaceholder={getPlaceholder}
-      editing={editing}
+      getPlaceholde={getPlaceholder}
+      refetch={refetch}
       mutation={mutation}
     />
   ) : (
@@ -204,26 +302,32 @@ function ViewOnly({ textKey, value }) {
 }
 
 function Records({
-  editing,
   domain,
   canEdit,
+  recordAdded,
   query,
   mutation,
-  records,
+  keys,
   validator,
   getPlaceholder,
   title
 }) {
+  if (
+    recordAdded !== 0 &&
+    !keys.includes(recordAdded) &&
+    title === 'Text Record'
+  ) {
+    keys.push(recordAdded)
+  }
+
   const [hasRecord, setHasRecord] = useState(false)
   return (
     <KeyValueContainer hasRecord={hasRecord}>
       {hasRecord && <Key>{title}</Key>}
       <KeyValuesList>
-        {records.map(({ key, value }) => (
+        {keys.map(key => (
           <Record
-            editing={editing}
             key={key}
-            dataValue={value}
             validator={validator}
             getPlaceholder={getPlaceholder}
             textKey={key}
@@ -232,6 +336,8 @@ function Records({
             setHasRecord={setHasRecord}
             hasRecord={hasRecord}
             canEdit={canEdit}
+            recordAdded={recordAdded}
+            query={query}
             mutation={mutation}
           />
         ))}
@@ -242,28 +348,27 @@ function Records({
 
 export default function KeyValueRecord({
   domain,
-  editing,
   canEdit,
   refetch,
   recordAdded,
+  query,
   mutation,
-  records,
-  loading,
+  keys,
   validator,
   getPlaceholder,
   title
 }) {
-  if (loading) return null
   return (
     <Records
-      records={records}
+      keys={keys}
       validator={validator}
       getPlaceholder={getPlaceholder}
       name={domain.name}
       domain={domain}
-      editing={editing}
       canEdit={canEdit}
       refetch={refetch}
+      recordAdded={recordAdded}
+      query={query}
       mutation={mutation}
       title={title}
     />

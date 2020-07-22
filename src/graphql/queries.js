@@ -57,6 +57,12 @@ export const GET_ADDR = gql`
   }
 `
 
+export const GET_ADDRESSES = gql`
+  query getAddresses($name: String, $keys: [String]) {
+    getAddresses(name: $name, keys: $keys) @client
+  }
+`
+
 export const GET_SINGLE_NAME = gql`
   query singleName($name: String) {
     singleName(name: $name) @client {

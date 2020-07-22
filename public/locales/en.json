@@ -35,10 +35,7 @@
     },
     "renew": {
       "button": "Renew Selected",
-      "confirm": [
-        "The following names:",
-        "will be renewed for "
-      ],
+      "confirm": ["The following names:", "will be renewed for "],
       "confirmButton": "Renew",
       "year": "{{count}} year",
       "year_plural": "{{count}} years"
@@ -71,6 +68,7 @@
     "mynames": "My Names",
     "network": "network",
     "otheraddresses": "Other Addresses",
+    "addresses": "Addresses",
     "parent": "parent",
     "refresh": "Refresh",
     "register": "Register",
@@ -92,12 +90,7 @@
     "notmigrated": "not migrated"
   },
   "dns": {
-    "breadcrumbs": [
-      "ENABLE DNSSEC",
-      "ADD TEXT",
-      "SUBMIT PROOF",
-      "MANAGE NAME"
-    ],
+    "breadcrumbs": ["ENABLE DNSSEC", "ADD TEXT", "SUBMIT PROOF", "MANAGE NAME"],
     "dnsowner": "DNS Owner",
     "steps": {
       "addtext": {
@@ -345,6 +338,8 @@
     },
     "record": {
       "cantEdit": "You can’t edit or add records until you migrate to the new resolver.",
+      "openEdit": "Add/Edit Records",
+      "closeEdit": "Close Add/Edit Records",
       "messages": {
         "explanation": "The Reverse Resolution translates an address into a name. It allows Dapps to show in their interfaces '{{name}}' rather than the long address '{{account}}'. If you would like to set up your reverse for a different account, please switch accounts in your dapp browser",
         "notSet": "Reverse record: not set",

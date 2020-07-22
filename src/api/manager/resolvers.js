@@ -472,6 +472,16 @@ const resolvers = {
       }
 
       return address
+    },
+    getAddresses: async (_, { name, keys }) => {
+      const ens = getENS()
+      console.log('!!!getAdddresses')
+      console.log(keys)
+      const addresses = keys.map(key =>
+        ens.getAddr(name, key).then(addr => ({ key, value: addr }))
+      )
+      console.log(addresses)
+      return Promise.all(addresses)
     }
   },
   Mutation: {

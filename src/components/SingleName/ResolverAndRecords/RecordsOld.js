@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react'
+import React, { useState } from 'react'
 import styled from '@emotion/styled/macro'
 import { useQuery } from 'react-apollo'
 import { useTranslation } from 'react-i18next'
@@ -21,7 +21,7 @@ import {
 import AddRecord from './AddRecord'
 import RecordsItem from './RecordsItem'
 import TextRecord from './TextRecord'
-import Address from './Address'
+import Address from './AddressOld'
 
 const RecordsWrapper = styled('div')`
   border-radius: 6px;

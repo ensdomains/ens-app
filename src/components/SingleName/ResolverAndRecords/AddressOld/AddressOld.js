@@ -1,6 +1,6 @@
 import React from 'react'
 import COIN_LIST from 'constants/coinList'
-import KeyValueRecord from '../KeyValueRecord'
+import KeyValueRecord from '../KeyValueRecordOld'
 import { validateRecord } from '../../../../utils/records'
 
 const validator = (symbol, value) => {
@@ -19,7 +19,7 @@ export default function Address(props) {
   return (
     <KeyValueRecord
       {...props}
-      records={props.addresses}
+      keys={COIN_LIST}
       validator={validator}
       getPlaceholder={getPlaceholder}
     />
