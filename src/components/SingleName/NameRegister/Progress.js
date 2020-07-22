@@ -108,6 +108,7 @@ function Step({
 }
 
 function Progress({ step, waitPercentComplete }) {
+  console.log('*** Progress', { step, waitPercentComplete })
   if (step === 'PRICE_DECISION') return null
 
   const waitMin = states['COMMIT_CONFIRMED']

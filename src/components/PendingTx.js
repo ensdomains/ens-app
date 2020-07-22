@@ -33,6 +33,7 @@ function MultiplePendingTx(props) {
       {({ data: { transactionHistory } }) => {
         txHashesStatus.forEach(txHash => {
           transactionHistory.forEach(tx => {
+            console.log('***transactionHistory', { tx })
             if (tx && tx.txHash === txHash && tx.txState === 'Confirmed') {
               const index = txHashesStatus.findIndex(tx => tx === txHash)
               const newTxHashesStatus = [...txHashesStatus]

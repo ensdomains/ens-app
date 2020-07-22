@@ -116,6 +116,15 @@ function getCTA({
         }}
       />
     ),
+    BLOCK_CONFIRMED: (
+      <PendingTx
+        txHash={txHash}
+        onConfirmed={() => {
+          incrementStep()
+          setTimerRunning(true)
+        }}
+      />
+    ),
     COMMIT_CONFIRMED: (
       <Button data-testid="disabled-register-button" type="disabled">
         {t('register.buttons.register')}

@@ -1,10 +1,11 @@
 import { GET_TRANSACTION_HISTORY } from '../graphql/queries'
 import getClient from '../apolloClient'
-
-async function addTransaction({ txHash, txState }) {
+import { getBlock, getTransaction } from '@ensdomains/ui'
+async function addTransaction({ txHash, txState, blockNumber }) {
   const client = getClient()
   const newTransaction = {
     txHash,
+    blockNumber,
     txState,
     createdAt: new Date().getTime(),
     updatedAt: new Date().getTime(),
@@ -35,14 +36,43 @@ async function addTransaction({ txHash, txState }) {
 
 export async function sendHelper(txObj) {
   return new Promise(async (resolve, reject) => {
+    console.log('***sendHelper1', {
+      txObj,
+      block: await getBlock(),
+      hash: await getTransaction(txObj.hash)
+    })
     resolve(txObj.hash)
     let txState = 'Pending'
+    console.log('***sendHelper2', {
+      txObj,
+      block: await getBlock(),
+      hash: await getTransaction(txObj.hash)
+    })
     addTransaction({ txHash: txObj.hash, txState })
-
+    console.log('***sendHelper3', {
+      txObj,
+      block: await getBlock(),
+      hash: await getTransaction(txObj.hash)
+    })
     const receipt = await txObj.wait()
-    const txHash = receipt.transactionHash
+    console.log('***sendHelper4', {
+      receipt,
+      block: await getBlock(),
+      hash: await getTransaction(txObj.hash)
+    })
+
+    const { transactionHash: txHash, blockNumber } = receipt.transactionHash
+    console.log('***sendHelper5', {
+      txHash,
+      hash: await getTransaction(txObj.hash)
+    })
     txState = 'Confirmed'
-    addTransaction({ txHash, txState })
+    addTransaction({ txHash, txState, blockNumber })
+    console.log('***sendHelper6', {
+      txHash,
+      txState,
+      hash: await getTransaction(txObj.hash)
+    })
   })
 }
 

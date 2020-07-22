@@ -8,6 +8,28 @@ import { sendHelper } from '../resolverUtils'
 
 const defaults = {}
 const secrets = {}
+// function setSecret(label, secret){
+//   let data
+//   console.log('** setSecret1', {label, secret})
+//   if(window.localStorage['secrets']){
+//     console.log('** setSecret2', {secrets:window.localStorage['secrets']})
+//     data = JSON.parse(window.localStorage['secrets'])
+//     console.log('** setSecret3', {data})
+//   }else{
+//     data = {}
+//   }
+//   window.localStorage.setItem(
+//     'secrets',
+//     JSON.stringify({
+//       ...data,
+//       ...{label, secret},
+//     })
+//   )
+// }
+
+// function getSecret(label){
+//   return window.localStorage['secrets'] ? JSON.parse(window.localStorage['secrets'])[label] : null
+// }
 
 function randomSecret() {
   return '0x' + crypto.randomBytes(32).toString('hex')
@@ -48,12 +70,16 @@ const resolvers = {
       const registrar = getRegistrar()
       //Generate secret
       const secret = randomSecret()
+      // setSecret(label, secret)
       secrets[label] = secret
       const tx = await registrar.commit(label, secret)
+      console.log('***commit', { tx })
+
       return sendHelper(tx)
     },
     async register(_, { label, duration }) {
       const registrar = getRegistrar()
+      // const secret = getSecret(label)
       const secret = secrets[label]
       const tx = await registrar.register(label, duration, secret)
 
