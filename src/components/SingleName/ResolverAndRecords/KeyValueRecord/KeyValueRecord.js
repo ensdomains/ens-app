@@ -120,7 +120,6 @@ const Editable = ({
   setUpdatedRecords,
   recordType
 }) => {
-  console.log({ updatedRecords, recordType })
   return (
     <KeyValueItem editing={editing} hasRecord={true} noBorder>
       {editing ? (

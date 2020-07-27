@@ -244,11 +244,11 @@ export default function Records({
 
       <TextRecord
         canEdit={canEditRecords}
+        editing={editMode}
         domain={domain}
         mutation={SET_TEXT}
         textRecords={dataTextRecords && dataTextRecords.getTextRecords}
         loading={textRecordsLoading}
-        query={GET_TEXT}
         title={t('c.textrecord')}
         updatedRecords={updatedRecords}
         setUpdatedRecords={setUpdatedRecords}
