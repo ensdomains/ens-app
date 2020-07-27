@@ -22,7 +22,7 @@ import NotAvailable from './NotAvailable'
 import Pricer from '../Pricer'
 import LineGraph from './LineGraph'
 import Premium from './Premium'
-import ProgressStore from './ProgressStore'
+import ProgressRecorder from './ProgressRecorder'
 import useNetworkInfo from '../../NetworkInformation/useNetworkInfo'
 
 const NameRegisterContainer = styled('div')`
@@ -85,7 +85,7 @@ const NameRegister = ({
       moment(blockCreatedAt).add(getMaximumCommitmentAge, 'second')
     )
   }
-  ProgressStore({
+  ProgressRecorder({
     domain,
     networkId,
     states: registerMachine.states,

@@ -34,7 +34,7 @@ const Store = {
   }
 }
 
-const ProgressStore = ({
+const ProgressRecorder = ({
   domain,
   networkId,
   states,
@@ -127,4 +127,4 @@ const ProgressStore = ({
   return secret
 }
 
-export default ProgressStore
+export default ProgressRecorder
