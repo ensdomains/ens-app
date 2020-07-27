@@ -1,5 +1,10 @@
-import { getNetworkId } from '@ensdomains/ui'
-const ProgressStore = {
+import crypto from 'crypto'
+
+function randomSecret() {
+  return '0x' + crypto.randomBytes(32).toString('hex')
+}
+
+const Store = {
   get: label => {
     return window.localStorage.getItem('progress')
       ? JSON.parse(window.localStorage.getItem('progress'))[label]
@@ -18,6 +23,85 @@ const ProgressStore = {
   remove: () => {
     window.localStorage.removeItem('progress')
   }
+}
+
+const ProgressStore = ({
+  domain,
+  networkId,
+  states,
+  step,
+  dispatch,
+  secret,
+  setSecret,
+  timerRunning,
+  setTimerRunning,
+  waitUntil,
+  setWaitUntil,
+  secondsPassed,
+  setSecondsPassed
+}) => {
+  const stepIndex = Object.keys(states).indexOf(step)
+
+  const label = `${networkId}-${domain.label}`
+  let savedStepIndex = 0
+  let savedStep, isBehind
+  savedStep = Store.get(label)
+  if (!secret) {
+    if (savedStep && savedStep.secret) {
+      setSecret(savedStep.secret)
+    } else {
+      setSecret(randomSecret())
+    }
+  }
+  if (!waitUntil) {
+    if (savedStep && savedStep.waitUntil) {
+      setWaitUntil(savedStep.waitUntil)
+    }
+  }
+  if (!waitUntil) {
+    if (savedStep && savedStep.waitUntil) {
+      setWaitUntil(savedStep.waitUntil)
+    }
+  }
+  if (!secondsPassed) {
+    if (savedStep && savedStep.secondsPassed) {
+      setSecondsPassed(savedStep.secondsPassed)
+    }
+  }
+
+  savedStepIndex = Object.keys(states).indexOf(savedStep && savedStep.step)
+  isBehind = savedStepIndex - stepIndex > 0
+  if (isBehind) {
+    dispatch('NEXT')
+  }
+
+  // TODO: Expire keys if older than maxCommitmentAge
+  // https://github.com/ensdomains/ethregistrar/blob/master/contracts/ETHRegistrarController.sol#L35
+  switch (step) {
+    case 'PRICE_DECISION':
+      if (!savedStep) {
+        Store.set(label, { step })
+      }
+      break
+    case 'COMMIT_CONFIRMED':
+      Store.set(label, {
+        step,
+        secret,
+        waitUntil,
+        secondsPassed
+      })
+      if (!timerRunning) {
+        setTimerRunning(true)
+      }
+      break
+    case 'AWAITING_REGISTER':
+      Store.set(label, { step, secret })
+      if (timerRunning) {
+        setTimerRunning(false)
+      }
+      break
+  }
+  return secret
 }
 
 export default ProgressStore

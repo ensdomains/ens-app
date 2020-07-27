@@ -23,7 +23,6 @@ import LineGraph from './LineGraph'
 import Premium from './Premium'
 import ProgressStore from './ProgressStore'
 import useNetworkInfo from '../../NetworkInformation/useNetworkInfo'
-import crypto from 'crypto'
 
 const NameRegisterContainer = styled('div')`
   padding: 20px 40px;
@@ -35,10 +34,6 @@ const PremiumWarning = styled('div')`
   padding: 1em;
   margin-bottom: 1em;
 `
-
-function randomSecret() {
-  return '0x' + crypto.randomBytes(32).toString('hex')
-}
 
 const NameRegister = ({
   domain,
@@ -55,39 +50,6 @@ const NameRegister = ({
     registerReducer,
     registerMachine.initialState
   )
-
-  const stepIndex = Object.keys(registerMachine.states).indexOf(step)
-  const label = `${networkId}-${domain.label}`
-  let savedStepIndex = 0
-  let savedStep, isBehind
-  savedStep = ProgressStore.get(label)
-  if (!secret) {
-    if (savedStep) {
-      setSecret(savedStep.secret)
-    } else {
-      setSecret(randomSecret())
-    }
-  }
-  savedStepIndex = Object.keys(registerMachine.states).indexOf(
-    savedStep && savedStep.step
-  )
-  isBehind = savedStepIndex - stepIndex > 0
-
-  if (isBehind) {
-    dispatch('NEXT')
-  }
-
-  switch (step) {
-    case 'COMMIT_CONFIRMED':
-      ProgressStore.set(label, { step, secret })
-      break
-    case 'AWAITING_REGISTER':
-      ProgressStore.set(label, { step, secret })
-      break
-    case 'REVEAL_CONFIRMED':
-      ProgressStore.remove()
-      break
-  }
 
   const incrementStep = () => dispatch('NEXT')
   const decrementStep = () => dispatch('PREVIOUS')
@@ -108,19 +70,36 @@ const NameRegister = ({
       waitUntil
     }
   })
+  ProgressStore({
+    domain,
+    networkId,
+    states: registerMachine.states,
+    dispatch,
+    step,
+    secret,
+    setSecret,
+    timerRunning,
+    setTimerRunning,
+    waitUntil,
+    setWaitUntil,
+    secondsPassed,
+    setSecondsPassed
+  })
   useInterval(
     () => {
+      if (blockCreatedAt && !waitUntil) {
+        setWaitUntil(blockCreatedAt && blockCreatedAt + waitTime * 1000)
+      }
       if (secondsPassed < waitTime) {
         setSecondsPassed(s => s + 1)
       } else {
-        setWaitUntil(blockCreatedAt && blockCreatedAt + waitTime * 1000)
-        if (waitBlockTimestamp) {
-          setTimerRunning(false)
+        if (waitBlockTimestamp && timerRunning) {
           incrementStep()
           sendNotification(
             `${domain.name} ${t('register.notifications.ready')}`
           )
         }
+        setTimerRunning(false)
       }
     },
     timerRunning ? 1000 : null
@@ -256,6 +235,7 @@ const NameRegister = ({
         label={domain.label}
         duration={duration}
         secondsPassed={secondsPassed}
+        timerRunning={timerRunning}
         setTimerRunning={setTimerRunning}
         setBlockCreatedAt={setBlockCreatedAt}
         refetch={refetch}
