@@ -116,14 +116,37 @@ const Editable = ({
   validator,
   getPlaceholder,
   value,
-  type
+  updatedRecords,
+  setUpdatedRecords,
+  recordType
 }) => {
+  console.log({ updatedRecords, recordType })
   return (
     <KeyValueItem editing={editing} hasRecord={true} noBorder>
       {editing ? (
         <KeyValuesContent editing={editing}>
           <RecordsSubKey>{textKey}</RecordsSubKey>
-          <input type="text" value={value} />
+          <input
+            type="text"
+            onChange={event => {
+              const value = event.target.value
+              setUpdatedRecords(state => ({
+                ...state,
+                [recordType]: state[recordType].map(record =>
+                  record.key === textKey
+                    ? {
+                        ...record,
+                        value
+                      }
+                    : record
+                )
+              }))
+            }}
+            value={
+              updatedRecords[recordType].find(record => record.key === textKey)
+                .value
+            }
+          />
         </KeyValuesContent>
       ) : (
         <KeyValuesContent>
@@ -147,7 +170,10 @@ function Record(props) {
     canEdit,
     editing,
     query,
-    mutation
+    mutation,
+    updatedRecords,
+    setUpdatedRecords,
+    recordType
   } = props
 
   // const dataValue = Object.values(data)[0]
@@ -187,6 +213,9 @@ function Record(props) {
       getPlaceholder={getPlaceholder}
       editing={editing}
       mutation={mutation}
+      updatedRecords={updatedRecords}
+      setUpdatedRecords={setUpdatedRecords}
+      recordType={recordType}
     />
   ) : (
     <ViewOnly textKey={textKey} value={dataValue} />
@@ -212,7 +241,10 @@ function Records({
   validator,
   getPlaceholder,
   title,
-  placeholderRecords
+  placeholderRecords,
+  updatedRecords,
+  setUpdatedRecords,
+  recordType
 }) {
   const [hasRecord, setHasRecord] = useState(false)
   return (
@@ -237,6 +269,9 @@ function Records({
               hasRecord={hasRecord}
               canEdit={canEdit}
               mutation={mutation}
+              updatedRecords={updatedRecords}
+              setUpdatedRecords={setUpdatedRecords}
+              recordType={recordType}
             />
           )
         })}
@@ -245,34 +280,7 @@ function Records({
   )
 }
 
-export default function KeyValueRecord({
-  domain,
-  editing,
-  canEdit,
-  refetch,
-  recordAdded,
-  mutation,
-  records,
-  loading,
-  validator,
-  getPlaceholder,
-  title,
-  placeholderRecords
-}) {
-  if (loading) return null
-  return (
-    <Records
-      records={records}
-      validator={validator}
-      getPlaceholder={getPlaceholder}
-      name={domain.name}
-      domain={domain}
-      editing={editing}
-      canEdit={canEdit}
-      refetch={refetch}
-      mutation={mutation}
-      title={title}
-      placeholderRecords={placeholderRecords}
-    />
-  )
+export default function KeyValueRecord(props) {
+  if (props.loading) return null
+  return <Records {...props} />
 }

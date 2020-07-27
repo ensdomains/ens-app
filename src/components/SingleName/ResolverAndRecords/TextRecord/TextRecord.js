@@ -13,6 +13,9 @@ export default function TextRecords(props) {
       {...props}
       records={props.textRecords}
       getPlaceholder={getPlaceholder}
+      updatedRecords={props.updatedRecords}
+      setUpdatedRecords={props.setUpdatedRecords}
+      recordType="textRecords"
     />
   )
 }

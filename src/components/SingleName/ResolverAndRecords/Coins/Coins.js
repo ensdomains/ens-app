@@ -16,7 +16,7 @@ const getPlaceholder = symbol => {
   return `Enter a ${symbol} address`
 }
 
-export default function Address(props) {
+export default function Coins(props) {
   return (
     <KeyValueRecord
       {...props}
@@ -24,6 +24,9 @@ export default function Address(props) {
       placeholderRecords={PLACEHOLDER_RECORDS}
       validator={validator}
       getPlaceholder={getPlaceholder}
+      updatedRecords={props.updatedRecords}
+      setUpdatedRecords={props.setUpdatedRecords}
+      recordType="coins"
     />
   )
 }

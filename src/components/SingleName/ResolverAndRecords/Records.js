@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react'
+import React, { useState, useReducer, useEffect } from 'react'
 import styled from '@emotion/styled/macro'
 import { useQuery } from 'react-apollo'
 import { useTranslation } from 'react-i18next'
@@ -27,7 +27,7 @@ import {
 import AddRecord from './AddRecord'
 import RecordsItem from './RecordsItem'
 import TextRecord from './TextRecord'
-import Address from './Address'
+import Coins from './Coins'
 
 const RecordsWrapper = styled('div')`
   border-radius: 6px;
@@ -137,7 +137,11 @@ export default function Records({
 }) {
   const { t } = useTranslation()
   const [state, dispatch] = useReducer(reducer, {})
-  const [recordAdded, setRecordAdded] = useState(0)
+  const [updatedRecords, setUpdatedRecords] = useState({
+    contentHash: undefined,
+    coins: [],
+    textRecords: []
+  })
   const [editMode, setEditMode] = useState(false)
   const { loading: addressesLoading, data: dataAddresses } = useQuery(
     GET_ADDRESSES,
@@ -169,6 +173,20 @@ export default function Records({
       skip: !dataTextRecordKeys
     }
   )
+
+  const initialRecords = {
+    textRecords: dataTextRecords && dataTextRecords.getTextRecords,
+    coins: dataAddresses && dataAddresses.getAddresses,
+    contentHash: domain.content
+  }
+
+  useEffect(() => {
+    if (textRecordsLoading === false && addressesLoading === false) {
+      setUpdatedRecords(initialRecords)
+    }
+  }, [textRecordsLoading, addressesLoading, dataAddresses, dataTextRecords])
+
+  console.log({ initialRecords, updatedRecords })
 
   const emptyRecords = RECORDS.filter(record => {
     if (record.value === 'address') {
@@ -212,26 +230,28 @@ export default function Records({
             : t('singleName.record.openEdit')}
         </EditModeButton>
       )}
-      <Address
+      <Coins
         canEdit={canEditRecords}
         editing={editMode}
         domain={domain}
-        recordAdded={recordAdded}
         mutation={SET_ADDR}
         addresses={dataAddresses.getAddresses}
         loading={addressesLoading}
         title={t('c.addresses')}
+        updatedRecords={updatedRecords}
+        setUpdatedRecords={setUpdatedRecords}
       />
 
       <TextRecord
         canEdit={canEditRecords}
         domain={domain}
-        recordAdded={recordAdded}
         mutation={SET_TEXT}
         textRecords={dataTextRecords && dataTextRecords.getTextRecords}
         loading={textRecordsLoading}
         query={GET_TEXT}
         title={t('c.textrecord')}
+        updatedRecords={updatedRecords}
+        setUpdatedRecords={setUpdatedRecords}
       />
     </RecordsWrapper>
   )
