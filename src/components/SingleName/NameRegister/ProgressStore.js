@@ -1,4 +1,5 @@
 import crypto from 'crypto'
+import moment from 'moment'
 
 function randomSecret() {
   return '0x' + crypto.randomBytes(32).toString('hex')
@@ -16,12 +17,20 @@ const Store = {
     if ((progress = window.localStorage.getItem('progress'))) {
       data = JSON.parse(progress)
     }
-    data[label] = obj
+    data[label] = {
+      ...data[label],
+      ...obj
+    }
     window.localStorage.setItem('progress', JSON.stringify(data))
   },
-  // Get rid of all names in progress
-  remove: () => {
-    window.localStorage.removeItem('progress')
+  remove: label => {
+    let data = {}
+    let progress
+    if ((progress = window.localStorage.getItem('progress'))) {
+      data = JSON.parse(progress)
+    }
+    delete data[label]
+    window.localStorage.setItem('progress', JSON.stringify(data))
   }
 }
 
@@ -38,7 +47,10 @@ const ProgressStore = ({
   waitUntil,
   setWaitUntil,
   secondsPassed,
-  setSecondsPassed
+  setSecondsPassed,
+  commitmentExpirationDate,
+  setCommitmentExpirationDate,
+  now
 }) => {
   const stepIndex = Object.keys(states).indexOf(step)
 
@@ -68,15 +80,26 @@ const ProgressStore = ({
       setSecondsPassed(savedStep.secondsPassed)
     }
   }
+  if (!commitmentExpirationDate) {
+    if (savedStep && savedStep.commitmentExpirationDate) {
+      setCommitmentExpirationDate(savedStep.commitmentExpirationDate)
+    }
+  }
 
   savedStepIndex = Object.keys(states).indexOf(savedStep && savedStep.step)
   isBehind = savedStepIndex - stepIndex > 0
-  if (isBehind) {
-    dispatch('NEXT')
+
+  if (savedStep && now) {
+    if (
+      savedStep.commitmentExpirationDate &&
+      moment(savedStep.commitmentExpirationDate).isSameOrBefore(now)
+    ) {
+      Store.remove(label)
+    } else if (isBehind) {
+      dispatch('NEXT')
+    }
   }
 
-  // TODO: Expire keys if older than maxCommitmentAge
-  // https://github.com/ensdomains/ethregistrar/blob/master/contracts/ETHRegistrarController.sol#L35
   switch (step) {
     case 'PRICE_DECISION':
       if (!savedStep) {
@@ -88,14 +111,14 @@ const ProgressStore = ({
         step,
         secret,
         waitUntil,
-        secondsPassed
+        secondsPassed,
+        commitmentExpirationDate
       })
       if (!timerRunning) {
         setTimerRunning(true)
       }
       break
     case 'AWAITING_REGISTER':
-      Store.set(label, { step, secret })
       if (timerRunning) {
         setTimerRunning(false)
       }

@@ -5,6 +5,7 @@ import { Query, useQuery } from 'react-apollo'
 import moment from 'moment'
 import {
   GET_MINIMUM_COMMITMENT_AGE,
+  GET_MAXIMUM_COMMITMENT_AGE,
   GET_RENT_PRICE,
   WAIT_BLOCK_TIMESTAMP
 } from 'graphql/queries'
@@ -50,7 +51,7 @@ const NameRegister = ({
     registerReducer,
     registerMachine.initialState
   )
-
+  let now, showPremiumWarning, currentPremium, currentPremiumInEth, underPremium
   const incrementStep = () => dispatch('NEXT')
   const decrementStep = () => dispatch('PREVIOUS')
   const [years, setYears] = useState(1)
@@ -60,6 +61,9 @@ const NameRegister = ({
   const [waitUntil, setWaitUntil] = useState(null)
   const [targetDate, setTargetDate] = useState(false)
   const [targetPremium, setTargetPremium] = useState(false)
+  const [commitmentExpirationDate, setCommitmentExpirationDate] = useState(
+    false
+  )
   const { loading: ethUsdPriceLoading, price: ethUsdPrice } = useEthPrice()
   const { block } = useBlock()
   const [invalid, setInvalid] = useState(false)
@@ -70,6 +74,17 @@ const NameRegister = ({
       waitUntil
     }
   })
+  const {
+    data: { getMaximumCommitmentAge }
+  } = useQuery(GET_MAXIMUM_COMMITMENT_AGE)
+  if (block) {
+    now = moment(block.timestamp * 1000)
+  }
+  if (!commitmentExpirationDate && getMaximumCommitmentAge && blockCreatedAt) {
+    setCommitmentExpirationDate(
+      moment(blockCreatedAt).add(getMaximumCommitmentAge, 'second')
+    )
+  }
   ProgressStore({
     domain,
     networkId,
@@ -83,7 +98,10 @@ const NameRegister = ({
     waitUntil,
     setWaitUntil,
     secondsPassed,
-    setSecondsPassed
+    setSecondsPassed,
+    commitmentExpirationDate,
+    setCommitmentExpirationDate,
+    now
   })
   useInterval(
     () => {
@@ -128,9 +146,6 @@ const NameRegister = ({
   const startingPremiumInUsd = 2000
   const diff = zeroPremiumDate.diff(releasedDate)
   const rate = 2000 / diff
-
-  let now, showPremiumWarning, currentPremium, currentPremiumInEth, underPremium
-
   if (!registrationOpen) return <NotAvailable domain={domain} />
   if (ethUsdPriceLoading) return <></>
 
@@ -148,7 +163,6 @@ const NameRegister = ({
   }
 
   if (block) {
-    now = moment(block.timestamp * 1000)
     showPremiumWarning = now.isBetween(releasedDate, zeroPremiumDate)
     currentPremium = getTargetAmountByDate(now)
     currentPremiumInEth = currentPremium / ethUsdPrice
