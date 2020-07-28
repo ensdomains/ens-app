@@ -5,6 +5,7 @@ export const GET_WEB3 = gql`
   query web3 {
     web3 @client {
       accounts
+      networkId
       network
     }
   }
@@ -17,15 +18,15 @@ const useNetworkInfo = () => {
     return {
       accounts: undefined,
       network: undefined,
+      networkId: undefined,
       loading,
       error
     }
   }
-
   const {
-    web3: { accounts, network }
+    web3: { accounts, network, networkId }
   } = data
-  return { accounts, network, loading, error }
+  return { accounts, network, networkId, loading, error }
 }
 
 export default useNetworkInfo

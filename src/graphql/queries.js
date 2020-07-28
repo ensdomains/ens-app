@@ -302,6 +302,12 @@ export const GET_MINIMUM_COMMITMENT_AGE = gql`
   }
 `
 
+export const GET_MAXIMUM_COMMITMENT_AGE = gql`
+  query getMaximumCommitmentAge {
+    getMaximumCommitmentAge @client
+  }
+`
+
 /* Registry Migration */
 
 export const CAN_WRITE = gql`
