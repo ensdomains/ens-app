@@ -25,7 +25,7 @@ import {
 } from 'graphql/queries'
 
 import AddRecord from './AddRecord'
-import RecordsItem from './RecordsItem'
+import ContentHash from './ContentHash'
 import TextRecord from './TextRecord'
 import Coins from './Coins'
 
@@ -45,7 +45,9 @@ const CantEdit = styled('div')`
   background: hsla(37, 91%, 55%, 0.1);
 `
 
-const EditModeButton = styled('div')``
+const EditModeButton = styled('div')`
+  color: ${p => (p.canEdit ? '#5284FF' : '#ccc')};
+`
 
 const RECORDS = [
   {
@@ -224,12 +226,16 @@ export default function Records({
       {!canEditRecords && isOwner ? (
         <CantEdit>{t('singleName.record.cantEdit')}</CantEdit>
       ) : (
-        <EditModeButton onClick={() => setEditMode(editMode => !editMode)}>
-          {editMode
-            ? t('singleName.record.closeEdit')
-            : t('singleName.record.openEdit')}
-        </EditModeButton>
+        <AddRecord
+          domain={domain}
+          canEdit={canEditRecords}
+          editMode={editMode}
+          setEditMode={setEditMode}
+          initialRecords={initialRecords}
+          updatedRecords={updatedRecords}
+        />
       )}
+
       <Coins
         canEdit={canEditRecords}
         editing={editMode}
@@ -241,7 +247,18 @@ export default function Records({
         updatedRecords={updatedRecords}
         setUpdatedRecords={setUpdatedRecords}
       />
-
+      {!isEmpty(domain.content) && (
+        <ContentHash
+          canEdit={canEditRecords}
+          editng={editMode}
+          domain={domain}
+          keyName="Content"
+          type="content"
+          mutation={contentMutation}
+          value={domain.content}
+          refetch={refetch}
+        />
+      )}
       <TextRecord
         canEdit={canEditRecords}
         editing={editMode}
