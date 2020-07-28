@@ -41,6 +41,7 @@ const OrangeExclamation = styled(DefaultOrangeExclamation)`
 function getCTA({
   step,
   incrementStep,
+  secret,
   duration,
   label,
   txHash,
@@ -60,7 +61,7 @@ function getCTA({
     PRICE_DECISION: (
       <Mutation
         mutation={COMMIT}
-        variables={{ label }}
+        variables={{ label, secret }}
         onCompleted={data => {
           const txHash = Object.values(data)[0]
           setTxHash(txHash)
@@ -124,7 +125,7 @@ function getCTA({
     AWAITING_REGISTER: (
       <Mutation
         mutation={REGISTER}
-        variables={{ label, duration }}
+        variables={{ label, duration, secret }}
         onCompleted={data => {
           const txHash = Object.values(data)[0]
           setTxHash(txHash)
@@ -192,6 +193,7 @@ function getCTA({
 const CTA = ({
   step,
   incrementStep,
+  secret,
   duration,
   label,
   setTimerRunning,
@@ -211,6 +213,7 @@ const CTA = ({
       {getCTA({
         step,
         incrementStep,
+        secret,
         duration,
         label,
         txHash,
