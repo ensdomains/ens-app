@@ -25,6 +25,8 @@ import ExpiryNotificationModal from './components/ExpiryNotification/ExpiryNotif
 
 import DefaultLayout from './components/Layout/DefaultLayout'
 import { pageview, setup } from './utils/analytics'
+import StackdriverErrorReporter from 'stackdriver-errors-js'
+const errorHandler = new StackdriverErrorReporter()
 
 // If we are targeting an IPFS build we need to use HashRouter
 const Router =
@@ -55,6 +57,12 @@ const App = () => (
     <Query query={GET_ERRORS}>
       {({ data }) => {
         setup()
+
+        errorHandler.start({
+          key: 'AIzaSyDW3loXBr_2e-Q2f8ZXdD0UAvMzaodBBNg',
+          projectId: 'idyllic-ethos-235310'
+        })
+
         if (data.error && data.error.message) {
           return <NetworkError message={data.error.message} />
         } else {
