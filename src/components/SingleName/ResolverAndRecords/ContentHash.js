@@ -233,7 +233,6 @@ const ContentHashEditable = ({
           <RecordsKey>{t(`c.${keyName}`)}</RecordsKey>
           <RecordsValue editableSmall>
             <ContentHashLink value={value} contentType={domain.contentType} />
-            }
             <CopyToClipBoard value={value} />
           </RecordsValue>
 
@@ -266,7 +265,6 @@ const ContentHashEditable = ({
                   value={value}
                 />
               </>
-              )}
             </ActionContainer>
           )}
         </RecordsContent>
