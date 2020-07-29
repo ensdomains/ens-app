@@ -10,7 +10,7 @@
     "@emotion/styled": "^10.0.9",
     "@ensdomains/address-encoder": "^0.1.6",
     "@ensdomains/react-ens-address": "^0.0.25",
-    "@ensdomains/ui": "^3.0.31",
+    "@ensdomains/ui": "^3.0.32",
     "apollo-cache-inmemory": "^1.2.9",
     "apollo-client": "^2.4.5",
     "apollo-link": "^1.2.2",
@@ -49,7 +49,8 @@
     "react-scripts": "3.4.0",
     "react-select": "^3.0.8",
     "react-tooltip": "^3.9.2",
-    "react-transition-group-plus": "^0.5.3"
+    "react-transition-group-plus": "^0.5.3",
+    "stackdriver-errors-js": "^0.8.0"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -5,9 +5,9 @@ import { Query, useQuery } from 'react-apollo'
 import moment from 'moment'
 import {
   GET_MINIMUM_COMMITMENT_AGE,
+  GET_MAXIMUM_COMMITMENT_AGE,
   GET_RENT_PRICE,
-  GET_PREMIUM,
-  GET_TIME_UNTIL_PREMIUM
+  WAIT_BLOCK_TIMESTAMP
 } from 'graphql/queries'
 import { useInterval, useEthPrice, useBlock } from 'components/hooks'
 import { registerMachine, registerReducer } from './registerReducer'
@@ -20,9 +20,10 @@ import CTA from './CTA'
 import Progress from './Progress'
 import NotAvailable from './NotAvailable'
 import Pricer from '../Pricer'
-import EthVal from 'ethval'
 import LineGraph from './LineGraph'
 import Premium from './Premium'
+import ProgressRecorder from './ProgressRecorder'
+import useNetworkInfo from '../../NetworkInformation/useNetworkInfo'
 
 const NameRegisterContainer = styled('div')`
   padding: 20px 40px;
@@ -44,30 +45,79 @@ const NameRegister = ({
   registrationOpen
 }) => {
   const { t } = useTranslation()
+  const [secret, setSecret] = useState(false)
+  const { networkId } = useNetworkInfo()
   const [step, dispatch] = useReducer(
     registerReducer,
     registerMachine.initialState
   )
+  let now, showPremiumWarning, currentPremium, currentPremiumInEth, underPremium
   const incrementStep = () => dispatch('NEXT')
   const decrementStep = () => dispatch('PREVIOUS')
   const [years, setYears] = useState(1)
   const [secondsPassed, setSecondsPassed] = useState(0)
   const [timerRunning, setTimerRunning] = useState(false)
+  const [blockCreatedAt, setBlockCreatedAt] = useState(null)
+  const [waitUntil, setWaitUntil] = useState(null)
   const [targetDate, setTargetDate] = useState(false)
   const [targetPremium, setTargetPremium] = useState(false)
+  const [commitmentExpirationDate, setCommitmentExpirationDate] = useState(
+    false
+  )
   const { loading: ethUsdPriceLoading, price: ethUsdPrice } = useEthPrice()
-  const { loading: blockLoading, block } = useBlock()
-  const [premium, setPremium] = useState(0)
+  const { block } = useBlock()
   const [invalid, setInvalid] = useState(false)
-
+  const {
+    data: { waitBlockTimestamp }
+  } = useQuery(WAIT_BLOCK_TIMESTAMP, {
+    variables: {
+      waitUntil
+    }
+  })
+  const {
+    data: { getMaximumCommitmentAge }
+  } = useQuery(GET_MAXIMUM_COMMITMENT_AGE)
+  if (block) {
+    now = moment(block.timestamp * 1000)
+  }
+  if (!commitmentExpirationDate && getMaximumCommitmentAge && blockCreatedAt) {
+    setCommitmentExpirationDate(
+      moment(blockCreatedAt).add(getMaximumCommitmentAge, 'second')
+    )
+  }
+  ProgressRecorder({
+    domain,
+    networkId,
+    states: registerMachine.states,
+    dispatch,
+    step,
+    secret,
+    setSecret,
+    timerRunning,
+    setTimerRunning,
+    waitUntil,
+    setWaitUntil,
+    secondsPassed,
+    setSecondsPassed,
+    commitmentExpirationDate,
+    setCommitmentExpirationDate,
+    now
+  })
   useInterval(
     () => {
+      if (blockCreatedAt && !waitUntil) {
+        setWaitUntil(blockCreatedAt && blockCreatedAt + waitTime * 1000)
+      }
       if (secondsPassed < waitTime) {
         setSecondsPassed(s => s + 1)
       } else {
+        if (waitBlockTimestamp && timerRunning) {
+          incrementStep()
+          sendNotification(
+            `${domain.name} ${t('register.notifications.ready')}`
+          )
+        }
         setTimerRunning(false)
-        incrementStep()
-        sendNotification(`${domain.name} ${t('register.notifications.ready')}`)
       }
     },
     timerRunning ? 1000 : null
@@ -96,9 +146,6 @@ const NameRegister = ({
   const startingPremiumInUsd = 2000
   const diff = zeroPremiumDate.diff(releasedDate)
   const rate = 2000 / diff
-
-  let now, showPremiumWarning, currentPremium, currentPremiumInEth, underPremium
-
   if (!registrationOpen) return <NotAvailable domain={domain} />
   if (ethUsdPriceLoading) return <></>
 
@@ -116,7 +163,6 @@ const NameRegister = ({
   }
 
   if (block) {
-    now = moment(block.timestamp * 1000)
     showPremiumWarning = now.isBetween(releasedDate, zeroPremiumDate)
     currentPremium = getTargetAmountByDate(now)
     currentPremiumInEth = currentPremium / ethUsdPrice
@@ -198,11 +244,14 @@ const NameRegister = ({
         waitTime={waitTime}
         incrementStep={incrementStep}
         decrementStep={decrementStep}
+        secret={secret}
         step={step}
         label={domain.label}
         duration={duration}
         secondsPassed={secondsPassed}
+        timerRunning={timerRunning}
         setTimerRunning={setTimerRunning}
+        setBlockCreatedAt={setBlockCreatedAt}
         refetch={refetch}
         refetchIsMigrated={refetchIsMigrated}
         isAboveMinDuration={isAboveMinDuration}

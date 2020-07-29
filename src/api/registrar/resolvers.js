@@ -1,4 +1,3 @@
-import crypto from 'crypto'
 import { isShortName } from '../../utils/utils'
 
 import getENS, { getRegistrar } from 'api/ens'
@@ -7,11 +6,6 @@ import modeNames from '../modes'
 import { sendHelper } from '../resolverUtils'
 
 const defaults = {}
-const secrets = {}
-
-function randomSecret() {
-  return '0x' + crypto.randomBytes(32).toString('hex')
-}
 
 const resolvers = {
   Query: {
@@ -35,26 +29,30 @@ const resolvers = {
     async getMinimumCommitmentAge() {
       try {
         const registrar = getRegistrar()
-        console.log(registrar)
         const minCommitmentAge = await registrar.getMinimumCommitmentAge()
         return parseInt(minCommitmentAge)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    async getMaximumCommitmentAge() {
+      try {
+        const registrar = getRegistrar()
+        const maximumCommitmentAge = await registrar.getMaximumCommitmentAge()
+        return parseInt(maximumCommitmentAge)
       } catch (e) {
         console.log(e)
       }
     }
   },
   Mutation: {
-    async commit(_, { label }, { cache }) {
+    async commit(_, { label, secret }, { cache }) {
       const registrar = getRegistrar()
-      //Generate secret
-      const secret = randomSecret()
-      secrets[label] = secret
       const tx = await registrar.commit(label, secret)
       return sendHelper(tx)
     },
-    async register(_, { label, duration }) {
+    async register(_, { label, duration, secret }) {
       const registrar = getRegistrar()
-      const secret = secrets[label]
       const tx = await registrar.register(label, duration, secret)
 
       return sendHelper(tx)
