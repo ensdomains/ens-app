@@ -250,13 +250,15 @@ export default function Records({
       {!isEmpty(domain.content) && (
         <ContentHash
           canEdit={canEditRecords}
-          editng={editMode}
+          editing={editMode}
           domain={domain}
           keyName="Content"
           type="content"
           mutation={contentMutation}
           value={domain.content}
           refetch={refetch}
+          updatedRecords={updatedRecords}
+          setUpdatedRecords={setUpdatedRecords}
         />
       )}
       <TextRecord
