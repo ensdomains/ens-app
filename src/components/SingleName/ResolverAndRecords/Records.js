@@ -1,5 +1,7 @@
 import React, { useState, useReducer, useEffect } from 'react'
 import styled from '@emotion/styled/macro'
+import isEqual from 'lodash/isEqual'
+import differenceWith from 'lodash/differenceWith'
 import { useQuery } from 'react-apollo'
 import { useTranslation } from 'react-i18next'
 import COIN_LIST from 'constants/coinList'
@@ -118,7 +120,33 @@ function reducer(state, action) {
   }
 }
 
-function useCoins() {}
+function getChangedRecords(initialRecords, updatedRecords) {
+  if (initialRecords.loading) return {}
+
+  const textRecords = differenceWith(
+    updatedRecords.textRecords,
+    initialRecords.textRecords,
+    isEqual
+  )
+  const coins = differenceWith(
+    updatedRecords.coins,
+    initialRecords.coins,
+    isEqual
+  )
+
+  const contentHash = !isEqual(
+    updatedRecords.contentHash,
+    initialRecords.contentHash
+  )
+    ? updatedRecords.contentHash
+    : undefined
+
+  return {
+    textRecords,
+    coins,
+    ...(contentHash && { contentHash })
+  }
+}
 
 // graphql data in resolver and records to check current records
 // state in resolver and records to record new edit changes
@@ -179,7 +207,8 @@ export default function Records({
   const initialRecords = {
     textRecords: dataTextRecords && dataTextRecords.getTextRecords,
     coins: dataAddresses && dataAddresses.getAddresses,
-    contentHash: domain.content
+    contentHash: domain.content,
+    loading: textRecordsLoading || addressesLoading
   }
 
   useEffect(() => {
@@ -187,8 +216,6 @@ export default function Records({
       setUpdatedRecords(initialRecords)
     }
   }, [textRecordsLoading, addressesLoading, dataAddresses, dataTextRecords])
-
-  console.log({ initialRecords, updatedRecords })
 
   const emptyRecords = RECORDS.filter(record => {
     if (record.value === 'address') {
@@ -217,6 +244,8 @@ export default function Records({
   if (!shouldShowRecords) {
     return null
   }
+
+  console.log(getChangedRecords(initialRecords, updatedRecords))
 
   return (
     <RecordsWrapper
@@ -272,6 +301,12 @@ export default function Records({
         updatedRecords={updatedRecords}
         setUpdatedRecords={setUpdatedRecords}
       />
+      {editMode && (
+        <>
+          <button onClick={() => {}}>Save</button>
+          <button onClick={() => setEditMode(false)}>Cancel</button>
+        </>
+      )}
     </RecordsWrapper>
   )
 }
