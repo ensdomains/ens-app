@@ -18,12 +18,15 @@ export class GlobalStateProvider extends Component {
 
     this.state = {
       filters,
-      currentModal:null,
-      toggleModal:this.toggleModal,
+      currentModal: null,
+      account: null,
+      toggleModal: this.toggleModal,
       actions: {
         toggleUnavailableNames: this.toggleUnavailableNames,
         togglePriceFilter: this.togglePriceFilter,
-        updateSearchDomains: this.updateSearchDomains
+        updateSearchDomains: this.updateSearchDomains,
+        connect: this.connect,
+        disconnect: this.disconnect
       }
     }
   }
@@ -34,12 +37,23 @@ export class GlobalStateProvider extends Component {
     })
   }
 
+  disconnect = () => {
+    this.setState({
+      account: null
+    })
+  }
+
+  connect = account => {
+    this.setState({
+      account
+    })
+  }
+
   toggleModal = modal => {
-    this.setState(
-      state =>
-        state.currentModal && state.currentModal.name === modal.name
-          ? { currentModal: null }
-          : { currentModal: modal }
+    this.setState(state =>
+      state.currentModal && state.currentModal.name === modal.name
+        ? { currentModal: null }
+        : { currentModal: modal }
     )
   }
 

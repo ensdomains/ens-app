@@ -108,9 +108,9 @@ const WaitingText = styled('span')`
   margin-right: 5px;
 `
 
-function NetworkInformation() {
+function NetworkInformation({ accounts, network, loading, error }) {
+  console.log('***NetworkInformation', { accounts, network, loading, error })
   const { t } = useTranslation()
-  const { accounts, network, loading, error } = useNetworkInfo()
   const address = accounts && accounts[0]
   const {
     data: { getReverseRecord } = {},

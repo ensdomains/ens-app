@@ -107,7 +107,7 @@ function Favourites() {
   }
   let favouritesList = []
   if (favourites.length > 0) {
-    if (registrations && registrations.length == favourites.length) {
+    if (registrations && registrations.length === favourites.length) {
       favouritesList = registrations.map(r => {
         return {
           name: r.domain.name,

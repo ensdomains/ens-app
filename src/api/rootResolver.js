@@ -28,6 +28,7 @@ const resolvers = {
     accounts: () => getAccounts(),
     networkId: async () => {
       const networkId = await getNetworkId()
+      console.log('***networkId', networkId)
       return networkId
     },
     network: async () => {
@@ -53,9 +54,13 @@ const resolvers = {
   },
   Query: {
     web3: async () => {
+      console.log('*** Query: web3')
       try {
         return {
-          ...(await getWeb3()),
+          // ...(await getWeb3()),
+          accounts: [],
+          network: new Date(),
+          networkId: 1,
           isReadOnly: isReadOnly(),
           __typename: 'Web3'
         }

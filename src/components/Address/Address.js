@@ -31,7 +31,7 @@ import Pager from './Pager'
 
 import warning from '../../assets/yellowwarning.svg'
 import close from '../../assets/close.svg'
-import { block, useBlock } from '../hooks'
+import { useBlock } from '../hooks'
 
 const RESULTS_PER_PAGE = 30
 
@@ -122,6 +122,7 @@ function decryptNames(domains) {
 
 function useDomains({ domainType, address, sort, page, expiryDate }) {
   const skip = (page - 1) * RESULTS_PER_PAGE
+  console.log('*** useDomains', { expiryDate })
   const registrationsQuery = useQuery(GET_REGISTRATIONS_SUBGRAPH, {
     variables: {
       id: address,
@@ -162,7 +163,7 @@ export default function Address({
   const { search } = useLocation()
   const pageQuery = new URLSearchParams(search).get('page')
   const page = pageQuery ? parseInt(pageQuery) : 1
-  const { loading: blockLoading, block } = useBlock()
+  const { block } = useBlock()
 
   let { t } = useTranslation()
   let [showOriginBannerFlag, setShowOriginBannerFlag] = useState(true)

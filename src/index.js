@@ -14,7 +14,6 @@ import './i18n'
 
 window.addEventListener('load', async () => {
   let client
-
   try {
     if (
       process.env.REACT_APP_STAGE === 'local' &&

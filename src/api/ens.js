@@ -9,6 +9,11 @@ export async function setup({
   customProvider,
   ensAddress
 }) {
+  console.log('*** setup', {
+    reloadOnAccountsChange: true,
+    customProvider,
+    ensAddress
+  })
   const { ens: ensInstance, registrar: registrarInstance } = await setupENS({
     reloadOnAccountsChange,
     customProvider,

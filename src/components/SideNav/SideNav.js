@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
+import GlobalState from '../../globalState'
 
 import NetworkInformation from '../NetworkInformation/NetworkInformation'
 import useNetworkInfo from '../NetworkInformation/useNetworkInfo'
@@ -17,33 +18,6 @@ const config = {
   provider: {
     network: 'ropsten'
   }
-}
-const handleConnect = async web3 => {
-  web3.autoRefreshOnNetworkChange = false
-  console.log('*** handleConnect1', web3)
-  setupENS({
-    customProvider: web3,
-    reloadOnAccountsChange: true
-  })
-
-  // This is not firing
-  web3.on('accountsChanged', accounts =>
-    console.log('*** accountsChanged', { accounts })
-  )
-  // This is not firing
-  web3.on('networkChanged', network =>
-    console.log('*** networkChanged', { network })
-  )
-  console.log('*** handleConnect2', web3)
-}
-
-const handleDisconnect = async () => {
-  console.log('*** handleDisconnect1')
-  let res = await setupENS({
-    reloadOnAccountsChange: true,
-    enforceReadOnly: true
-  })
-  console.log('*** handleDisconnect2', { res })
 }
 
 const SideNavContainer = styled('nav')`
@@ -117,17 +91,58 @@ const NavLink = styled(Link)`
 function SideNav({ match, isMenuOpen, toggleMenu }) {
   const { url } = match
   const { t } = useTranslation()
-  const { accounts } = useNetworkInfo()
+  const { accounts, network, loading, error } = useNetworkInfo()
+
+  const context = useContext(GlobalState)
+  let [networkSwitched, setNetworkSwitched] = useState(null)
+
+  console.log('***GlobalState', { context })
+  console.log('** SideNav', { config, accounts })
+  let [showOriginBannerFlag, setShowOriginBannerFlag] = useState(true)
+  const handleConnect = async web3 => {
+    web3.autoRefreshOnNetworkChange = false
+    console.log('*** handleConnect1', web3)
+    let s = await setupENS({
+      customProvider: web3,
+      reloadOnAccountsChange: true
+    })
+    // // This is not firing
+    // web3.on('accountsChanged', accounts =>
+    //   console.log('*** accountsChanged', { accounts })
+    // )
+    // // This is not firing
+    // web3.on('networkChanged', network =>
+    //   console.log('*** networkChanged', { network })
+    // )
+    console.log('*** handleConnect2', s)
+    setNetworkSwitched(new Date())
+  }
+
+  const handleDisconnect = async () => {
+    console.log('*** handleDisconnect1')
+    let res = await setupENS({
+      reloadOnAccountsChange: true,
+      enforceReadOnly: true
+    })
+    setNetworkSwitched(new Date())
+    console.log('*** handleDisconnect2', { res })
+  }
+
   return (
     <SideNavContainer isMenuOpen={isMenuOpen}>
-      <NetworkInformation />
+      <NetworkInformation
+        accounts={accounts}
+        network={network}
+        loading={loading}
+        error={error}
+      />
       <ul data-testid="sitenav">
         <li>
           <LoginWithEthereum
             config={config}
             connect={handleConnect}
             disconnect={handleDisconnect}
-            startVisible={true}
+            startVisible={false}
             noInjected={true}
             // networks     = { [{'name':'goerli'}, {'name':'ropsten'}, {'name':'rinkeby'}] }
           />

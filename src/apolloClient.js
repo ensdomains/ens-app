@@ -31,7 +31,12 @@ function getGraphQLAPI(network) {
 
   return endpoints['1']
 }
-
+console.log('***withClientState', {
+  resolvers,
+  cache,
+  defaults,
+  typeDefs
+})
 const stateLink = withClientState({
   resolvers,
   cache,
