@@ -6,7 +6,7 @@ export const PREMIUM_PERIOD = 86400 * 28
 export function formatDate(unixTimeStamp, noTime) {
   let date = moment(unixTimeStamp).format('YYYY.MM.DD')
   if (!noTime) {
-    date = date + ' at ' + moment(unixTimeStamp).format('HH:mm Z')
+    date = date + ' at ' + moment(unixTimeStamp).format('HH:mm UTCZ')
   }
   return date
 }
