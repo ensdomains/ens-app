@@ -44,7 +44,12 @@ const Return = styled(ExternalButtonLink)`
   flex: 2 1 auto;
 `
 
-export default function MigrationWarning({ domain, isOwner, refetch }) {
+export default function MigrationWarning({
+  domain,
+  isOwner,
+  isDeedOwner,
+  refetch
+}) {
   const { t } = useTranslation()
   const { state, actions } = useEditable()
   const { txHash, pending, confirmed } = state
@@ -62,7 +67,7 @@ export default function MigrationWarning({ domain, isOwner, refetch }) {
   ) : (
     <WarningBox>
       <WarningContent>
-        {isOwner ? (
+        {isDeedOwner ? (
           <>{t('releaseDeed.returnDeposit')}</>
         ) : (
           <>{t('releaseDeed.connectRegistrar')}</>
@@ -85,7 +90,7 @@ export default function MigrationWarning({ domain, isOwner, refetch }) {
             setConfirmed()
           }}
         />
-      ) : isOwner ? (
+      ) : isDeedOwner ? (
         <Return
           data-testid="enabled-return-button"
           onClick={releaseDeed}

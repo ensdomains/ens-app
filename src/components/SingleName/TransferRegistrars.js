@@ -99,11 +99,12 @@ const LearnMore = () => (
   </LearnMoreLink>
 )
 
-const ReleaseInstead = ({ label, isOwner, refetch }) => (
+const ReleaseInstead = ({ label, isOwner, isDeedOwner, refetch }) => (
   <MigrationExplanation>
     <ReleaseDeed
       label={label}
       isOwner={isOwner}
+      isDeedOwner={isDeedOwner}
       refetch={refetch}
       actionText="Release"
       actionType="link"
@@ -165,7 +166,12 @@ function TransferRegistrars({
         </strong>{' '}
         if you want to keep your domain. <LearnMore />
       </MigrationExplanation>
-      <ReleaseInstead label={label} isOwner={isOwner} refetch={refetch} />
+      <ReleaseInstead
+        label={label}
+        isOwner={isOwner}
+        isDeedOwner={isDeedOwner}
+        refetch={refetch}
+      />
     </>
   )
 
@@ -192,7 +198,11 @@ function TransferRegistrars({
         <strong>{formatDate(transferEndDate, true)}</strong>, you will lose your
         domain, and others will be able to register it. <LearnMore />
       </MigrationExplanation>
-      <ReleaseInstead label={label} refetch={refetch} />
+      <ReleaseInstead
+        label={label}
+        isDeedOwner={isDeedOwner}
+        refetch={refetch}
+      />
     </>
   )
 
@@ -200,6 +210,7 @@ function TransferRegistrars({
     <ReleaseDeed
       label={label}
       isOwner={isOwner}
+      isDeedOwner={isDeedOwner}
       refetch={refetch}
       actionText="Release"
       actionType="button"
