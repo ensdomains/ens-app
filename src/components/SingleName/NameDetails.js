@@ -218,12 +218,7 @@ function DetailsContainer({
     <Details data-testid="name-details">
       {isOwner && <SetupName initialState={showExplainer} />}
       {isMigratedToNewRegistry && releaseDeed && (
-        <ReleaseDeed
-          domain={domain}
-          refetch={refetch}
-          isOwner={isOwner}
-          isDeedOwner={isDeedOwner}
-        />
+        <ReleaseDeed domain={domain} isDeedOwner={isDeedOwner} />
       )}
       {parseInt(domain.owner, 16) !== 0 &&
         !loadingIsMigrated &&
