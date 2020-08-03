@@ -53,12 +53,8 @@ const EditModeButton = styled('div')`
 
 const RECORDS = [
   {
-    label: 'Address',
-    value: 'address'
-  },
-  {
-    label: 'Other addresses',
-    value: 'otherAddresses'
+    label: 'Addresses',
+    value: 'coins'
   },
   {
     label: 'Content',
@@ -245,8 +241,6 @@ export default function Records({
     return null
   }
 
-  console.log(getChangedRecords(initialRecords, updatedRecords))
-
   return (
     <RecordsWrapper
       shouldShowRecords={shouldShowRecords}
@@ -262,6 +256,8 @@ export default function Records({
           setEditMode={setEditMode}
           initialRecords={initialRecords}
           updatedRecords={updatedRecords}
+          setUpdatedRecords={setUpdatedRecords}
+          emptyRecords={emptyRecords}
         />
       )}
 
@@ -270,7 +266,7 @@ export default function Records({
         editing={editMode}
         domain={domain}
         mutation={SET_ADDR}
-        addresses={dataAddresses.getAddresses}
+        addresses={updatedRecords.coins}
         loading={addressesLoading}
         title={t('c.addresses')}
         updatedRecords={updatedRecords}

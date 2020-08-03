@@ -21,7 +21,7 @@ export function validateRecord({ type, value, contentType, selectedKey }) {
       }
     case 'text':
       return true
-    case 'otherAddresses':
+    case 'coins':
       if (value === '') return false
       try {
         formatsByName[selectedKey].decoder(value)

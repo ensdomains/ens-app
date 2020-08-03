@@ -9,7 +9,6 @@ const getPlaceholder = key => {
 export default function TextRecords(props) {
   if (!props.textRecords) return null
 
-  console.log('textRecords', props)
   return (
     <KeyValueRecord
       {...props}

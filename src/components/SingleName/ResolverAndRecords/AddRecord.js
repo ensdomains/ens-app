@@ -3,6 +3,7 @@ import styled from '@emotion/styled/macro'
 import { Mutation } from 'react-apollo'
 import mq from 'mediaQuery'
 import { useTranslation } from 'react-i18next'
+import _ from 'lodash'
 
 import { validateRecord } from '../../../utils/records'
 import { useEditable } from '../../hooks'
@@ -132,9 +133,7 @@ function chooseMutation(recordType, contentType) {
       } else {
         return SET_CONTENTHASH
       }
-    case 'address':
-      return SET_ADDRESS
-    case 'otherAddresses':
+    case 'coins':
       return SET_ADDR
     case 'text':
       return SET_TEXT
@@ -215,7 +214,9 @@ function Editable({
   setRecordAdded,
   canEdit,
   editMode,
-  setEditMode
+  setEditMode,
+  updatedRecords,
+  setUpdatedRecords
 }) {
   const [selectedRecord, selectRecord] = useState(null)
   const [selectedKey, setSelectedKey] = useState(null)
@@ -225,39 +226,29 @@ function Editable({
     selectRecord(selectedRecord)
   }
 
+  console.log({ selectedKey })
+
   const handleSubmit = e => {
     e.preventDefault()
   }
 
-  const {
-    editing,
-    uploading,
-    authorized,
-    newValue,
-    txHash,
-    pending,
-    confirmed
-  } = state
+  const { uploading, authorized, newValue, txHash } = state
 
   const {
     startUploading,
     stopUploading,
     startAuthorizing,
-    stopAuthorizing
-    // updateValue,
+    stopAuthorizing,
+    updateValue
     // startPending,
     // setConfirmed
   } = actions
 
-  function updateValue() {}
-
   function startEditing() {
-    console.log('startEditing')
     setEditMode(true)
   }
 
   function stopEditing() {
-    console.log('stop Editing')
     setEditMode(false)
   }
 
@@ -267,6 +258,49 @@ function Editable({
     contentType: domain.contentType,
     selectedKey: selectedKey && selectedKey.value
   })
+
+  function saveRecord(selectedRecord, selectedKey, newValue) {
+    function createRecordObj({
+      selectedRecord,
+      selectedKey,
+      newValue,
+      records
+    }) {
+      if (selectedRecord === 'content') {
+        return newValue
+      } else {
+        const exists = records[selectedRecord.value].find(
+          record => record.key === selectedKey.value
+        )
+
+        console.log({ selectedKey, records: records[selectedRecord.value] })
+        if (exists) {
+          return records[selectedRecord.value].map(record =>
+            record.key === selectedKey.value
+              ? { ...record, value: newValue }
+              : record
+          )
+        } else {
+          return [
+            ...records[selectedRecord.value],
+            { key: selectedKey.value, value: newValue }
+          ]
+        }
+      }
+    }
+    setUpdatedRecords(records => {
+      const newRecord = createRecordObj({
+        selectedRecord,
+        selectedKey,
+        newValue,
+        records
+      })
+      console.log({ newRecord })
+      return { ...records, [selectedRecord.value]: newRecord }
+    })
+    setSelectedKey(null)
+    selectRecord(null)
+  }
 
   const { t } = useTranslation()
   const isInvalid = newValue !== '' && !isValid
@@ -284,7 +318,7 @@ function Editable({
           </ToggleAddRecord>
         )}
       </RecordsTitle>
-      {editing && (
+      {editMode && (
         <AddRecordForm onSubmit={handleSubmit}>
           <Row>
             <Select
@@ -293,7 +327,7 @@ function Editable({
               placeholder="Select a record"
               options={emptyRecords}
             />
-            {selectedRecord && selectedRecord.value === 'otherAddresses' ? (
+            {selectedRecord && selectedRecord.value === 'coins' ? (
               <AddressRecordInput
                 selectedRecord={selectedRecord}
                 newValue={newValue}
@@ -396,7 +430,13 @@ function Editable({
                   stopAuthorizing={stopAuthorizing}
                 />
               ) : (
-                <button>Save</button>
+                <button
+                  onClick={() =>
+                    saveRecord(selectedRecord, selectedKey, newValue)
+                  }
+                >
+                  Save
+                </button>
               )}
             </>
           ) : (
@@ -409,16 +449,11 @@ function Editable({
 }
 
 function AddRecord(props) {
-  const { canEdit, editMode, setEditMode } = props
+  const { canEdit } = props
   const { t } = useTranslation()
   return canEdit ? (
     <AddRecordContainer>
-      <Editable
-        {...props}
-        editMode={editMode}
-        setEditMode={setEditMode}
-        canEdit={canEdit}
-      />
+      <Editable {...props} />
     </AddRecordContainer>
   ) : (
     <AddRecordContainer>

@@ -16,6 +16,7 @@ import PendingTx from 'components/PendingTx'
 import Pencil from '../../../Forms/Pencil'
 import Bin from '../../../Forms/Bin'
 import SaveCancel from '../../SaveCancel'
+import { emptyAddress } from '../../../../utils/utils'
 
 const KeyValueItem = styled(RecordsItem)`
   display: flex;
@@ -116,10 +117,10 @@ const Editable = ({
   validator,
   getPlaceholder,
   value,
-  updatedRecords,
   setUpdatedRecords,
   recordType
 }) => {
+  console.log(textKey)
   return (
     <KeyValueItem editing={editing} hasRecord={true} noBorder>
       {editing ? (
@@ -141,10 +142,7 @@ const Editable = ({
                 )
               }))
             }}
-            value={
-              updatedRecords[recordType].find(record => record.key === textKey)
-                .value
-            }
+            value={value}
           />
         </KeyValuesContent>
       ) : (
@@ -170,7 +168,6 @@ function Record(props) {
     editing,
     query,
     mutation,
-    updatedRecords,
     setUpdatedRecords,
     recordType
   } = props
@@ -212,7 +209,6 @@ function Record(props) {
       getPlaceholder={getPlaceholder}
       editing={editing}
       mutation={mutation}
-      updatedRecords={updatedRecords}
       setUpdatedRecords={setUpdatedRecords}
       recordType={recordType}
     />
@@ -241,17 +237,18 @@ function Records({
   getPlaceholder,
   title,
   placeholderRecords,
-  updatedRecords,
   setUpdatedRecords,
   recordType
 }) {
+  console.log(records)
   const [hasRecord, setHasRecord] = useState(false)
   return (
     <KeyValueContainer hasRecord={hasRecord}>
       {hasRecord && <Key>{title}</Key>}
       <KeyValuesList>
         {records.map(({ key, value }) => {
-          if (parseInt(value, 16) === 0 && !placeholderRecords.includes(key)) {
+          console.log(key, parseInt(value, 16))
+          if (value === emptyAddress && !placeholderRecords.includes(key)) {
             return null
           }
           return (
@@ -268,7 +265,6 @@ function Records({
               hasRecord={hasRecord}
               canEdit={canEdit}
               mutation={mutation}
-              updatedRecords={updatedRecords}
               setUpdatedRecords={setUpdatedRecords}
               recordType={recordType}
             />
