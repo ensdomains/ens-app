@@ -44,12 +44,7 @@ const Return = styled(ExternalButtonLink)`
   flex: 2 1 auto;
 `
 
-export default function MigrationWarning({
-  domain,
-  isOwner,
-  isDeedOwner,
-  refetch
-}) {
+export default function MigrationWarning({ domain, isDeedOwner }) {
   const { t } = useTranslation()
   const { state, actions } = useEditable()
   const { txHash, pending, confirmed } = state
