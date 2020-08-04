@@ -12,7 +12,7 @@ export const GET_WEB3 = gql`
 `
 
 const useNetworkInfo = () => {
-  const { data, loading, error } = useQuery(GET_WEB3)
+  const { data, loading, error, refetch } = useQuery(GET_WEB3)
 
   if (loading) {
     return {
@@ -20,13 +20,14 @@ const useNetworkInfo = () => {
       network: undefined,
       networkId: undefined,
       loading,
+      refetch,
       error
     }
   }
   const {
     web3: { accounts, network, networkId }
   } = data
-  return { accounts, network, networkId, loading, error }
+  return { accounts, network, networkId, loading, error, refetch }
 }
 
 export default useNetworkInfo

@@ -9,7 +9,11 @@ export async function setup({
   customProvider,
   ensAddress
 }) {
-  const { ens: ensInstance, registrar: registrarInstance } = await setupENS({
+  const {
+    ens: ensInstance,
+    registrar: registrarInstance,
+    provider
+  } = await setupENS({
     reloadOnAccountsChange,
     customProvider,
     ensAddress
@@ -18,7 +22,7 @@ export async function setup({
   registrar = registrarInstance
   ensRegistryAddress = ensAddress
 
-  return { ens, registrar }
+  return { ens, registrar, provider }
 }
 
 export function getRegistrar() {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
 
@@ -10,6 +10,14 @@ import SpeechBubble from '../Icons/SpeechBubble'
 
 import mq from 'mediaQuery'
 import { Link, withRouter } from 'react-router-dom'
+import { setupENS } from '@ensdomains/ui'
+import LoginWithEthereum from '@enslogin/login-with-ethereum'
+
+const config = {
+  provider: {
+    network: 'ropsten'
+  }
+}
 
 const SideNavContainer = styled('nav')`
   display: ${p => (p.isMenuOpen ? 'block' : 'none')};
@@ -82,11 +90,62 @@ const NavLink = styled(Link)`
 function SideNav({ match, isMenuOpen, toggleMenu }) {
   const { url } = match
   const { t } = useTranslation()
-  const { accounts } = useNetworkInfo()
+  const {
+    accounts,
+    network,
+    networkId,
+    loading,
+    error,
+    refetch
+  } = useNetworkInfo()
+  const [connect, setConnect] = useState(false)
+  const buttonText = connect ? 'connect' : 'disconnect'
+
+  const toggleConnect = async () => {
+    let res = await setupENS({
+      reloadOnAccountsChange: true,
+      enforceReadOnly: !connect,
+      enforceReload: connect
+    })
+    refetch()
+    setConnect(!connect)
+  }
+
+  const handleConnect = async web3 => {
+    // web3.autoRefreshOnNetworkChange = false
+    let res = await setupENS({
+      customProvider: web3,
+      reloadOnAccountsChange: true,
+      enforceReload: true
+    })
+    refetch()
+    setConnect(!connect)
+  }
+
+  const handleDisconnect = async () => {
+    let res = await setupENS({
+      reloadOnAccountsChange: true,
+      enforceReadOnly: true
+    })
+    refetch()
+    setConnect(!connect)
+  }
+
   return (
     <SideNavContainer isMenuOpen={isMenuOpen}>
       <NetworkInformation />
       <ul data-testid="sitenav">
+        <li>
+          <button onClick={toggleConnect}>{buttonText}</button>
+        </li>
+        <LoginWithEthereum
+          config={config}
+          connect={handleConnect}
+          disconnect={handleDisconnect}
+          noInjected={true}
+          // networks     = { [{'name':'goerli'}, {'name':'ropsten'}, {'name':'rinkeby'}] }
+        />
+
         {accounts && accounts.length > 0 ? (
           <li>
             <NavLink

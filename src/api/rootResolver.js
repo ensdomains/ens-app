@@ -15,6 +15,7 @@ const rootDefaults = {
   web3: {
     accounts: [],
     networkId: 0,
+    readOnly: false,
     __typename: 'Web3'
   },
   error: null,
@@ -25,7 +26,9 @@ const rootDefaults = {
 
 const resolvers = {
   Web3: {
-    accounts: () => getAccounts(),
+    accounts: () => {
+      return isReadOnly() ? [] : getAccounts()
+    },
     networkId: async () => {
       const networkId = await getNetworkId()
       return networkId
@@ -54,11 +57,12 @@ const resolvers = {
   Query: {
     web3: async () => {
       try {
-        return {
+        let res = {
           ...(await getWeb3()),
           isReadOnly: isReadOnly(),
           __typename: 'Web3'
         }
+        return res
       } catch (e) {
         console.error(e)
         return null
