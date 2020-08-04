@@ -135,9 +135,9 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
     <SideNavContainer isMenuOpen={isMenuOpen}>
       <NetworkInformation />
       <ul data-testid="sitenav">
-        <li>
+        {/* <li>
           <button onClick={toggleConnect}>{buttonText}</button>
-        </li>
+        </li> */}
         <LoginWithEthereum
           config={config}
           connect={handleConnect}
