@@ -91,12 +91,12 @@ const NavLink = styled(Link)`
 function SideNav({ match, isMenuOpen, toggleMenu }) {
   const { url } = match
   const { t } = useTranslation()
-  const { accounts, network, loading, error } = useNetworkInfo()
+  const { accounts, network, loading, error, refetch } = useNetworkInfo()
 
   const context = useContext(GlobalState)
   let [networkSwitched, setNetworkSwitched] = useState(null)
 
-  console.log('***GlobalState', { context })
+  console.log('***GlobalState', { context, networkSwitched })
   console.log('** SideNav', { config, accounts })
   let [showOriginBannerFlag, setShowOriginBannerFlag] = useState(true)
   const handleConnect = async web3 => {
@@ -106,15 +106,17 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
       customProvider: web3,
       reloadOnAccountsChange: true
     })
-    // // This is not firing
-    // web3.on('accountsChanged', accounts =>
-    //   console.log('*** accountsChanged', { accounts })
-    // )
-    // // This is not firing
-    // web3.on('networkChanged', network =>
-    //   console.log('*** networkChanged', { network })
-    // )
+    // This is not firing
+    web3.on('accountsChanged', accounts =>
+      console.log('*** accountsChanged', { accounts })
+    )
+    // This is not firing
+    web3.on('networkChanged', network =>
+      console.log('*** networkChanged', { network })
+    )
     console.log('*** handleConnect2', s)
+    console.log('*** refetch')
+    refetch()
     setNetworkSwitched(new Date())
   }
 
@@ -125,6 +127,7 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
       enforceReadOnly: true
     })
     setNetworkSwitched(new Date())
+    refetch()
     console.log('*** handleDisconnect2', { res })
   }
 

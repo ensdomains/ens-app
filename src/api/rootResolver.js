@@ -25,7 +25,10 @@ const rootDefaults = {
 
 const resolvers = {
   Web3: {
-    accounts: () => getAccounts(),
+    accounts: () => {
+      console.log('***accounts')
+      return getAccounts()
+    },
     networkId: async () => {
       const networkId = await getNetworkId()
       console.log('***networkId', networkId)
