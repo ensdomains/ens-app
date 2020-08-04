@@ -40,16 +40,20 @@ function useTotalPages({ resultsPerPage, query, address, variables }) {
         })
 
         const label1 = Object.keys(data)[0]
-        const label2 = Object.keys(data[label1])[0]
-        skip = skip + limit
-        const resultsLength = data[label1][label2].length
-        const cumulativeResults = totalResults + resultsLength
 
-        if (resultsLength === limit) {
-          return queryFunc(cumulativeResults)
+        if (data[label1]) {
+          const label2 = Object.keys(data[label1])[0]
+          skip = skip + limit
+          const resultsLength = data[label1][label2].length
+          const cumulativeResults = totalResults + resultsLength
+
+          if (resultsLength === limit) {
+            return queryFunc(cumulativeResults)
+          }
+          return cumulativeResults
+        } else {
+          return 0
         }
-
-        return cumulativeResults
       }
 
       const total = await queryFunc(0)
