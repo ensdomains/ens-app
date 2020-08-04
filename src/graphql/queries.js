@@ -210,7 +210,6 @@ export const GET_REGISTRATIONS_SUBGRAPH = gql`
     $skip: Int
     $orderBy: Registration_orderBy
     $orderDirection: OrderDirection
-    $expiryDate: Int
   ) {
     account(id: $id) {
       registrations(
@@ -218,7 +217,6 @@ export const GET_REGISTRATIONS_SUBGRAPH = gql`
         skip: $skip
         orderBy: $orderBy
         orderDirection: $orderDirection
-        where: { expiryDate_gt: $expiryDate }
       ) {
         expiryDate
         domain {

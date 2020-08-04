@@ -128,8 +128,7 @@ function useDomains({ domainType, address, sort, page, expiryDate }) {
       first: RESULTS_PER_PAGE,
       skip,
       orderBy: sort.type,
-      orderDirection: sort.direction,
-      expiryDate
+      orderDirection: sort.direction
     },
     skip: domainType !== 'registrant'
   })
