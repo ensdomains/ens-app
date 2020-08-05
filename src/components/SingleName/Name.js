@@ -1,11 +1,9 @@
 import React from 'react'
 import styled from '@emotion/styled/macro'
-import { Link } from 'react-router-dom'
-import { useTranslation, Trans } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 
 import { useMediaMin } from 'mediaQuery'
 import { EMPTY_ADDRESS } from '../../utils/records'
-import warning from '../../assets/yellowwarning.svg'
 
 import { Title } from '../Typography/Basic'
 import TopBar from '../Basic/TopBar'
@@ -16,7 +14,6 @@ import ShortName from './ShortName'
 import Tabs from './Tabs'
 import { useAccount } from '../QueryAccount'
 import NameContainer from '../Basic/MainContainer'
-import Banner from '../Banner'
 import Copy from '../CopyToClipboard/'
 
 const Owner = styled('div')`
@@ -83,17 +80,6 @@ function Name({ details: domain, name, pathname, type, refetch }) {
   }
   return (
     <>
-      <Banner>
-        <h3>
-          <img alt="exclamation mark" src={warning} />
-          &nbsp;{t('singleName.banners.namesExpiring.title')}
-        </h3>
-        <Trans i18nKey="singleName.banners.namesExpiring.text">
-          Click the renew button to avoid expiration. To renew all of your names
-          in bulk, navigate to <Link to={`/address/${account}`}>My Names</Link>{' '}
-          and selecting multiple names before clicking 'Renew'
-        </Trans>
-      </Banner>
       <NameContainer state={containerState}>
         <TopBar percentDone={percentDone}>
           <Title>

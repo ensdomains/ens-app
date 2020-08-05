@@ -308,24 +308,7 @@ export default ({ match }) => {
           </>
         </SearchContainer>
       </Hero>
-      <Announcement>
-        <h3>
-          <img src={warning} alt="warning" />
-          &nbsp; {t('home.announcements.renew.title')}
-        </h3>
-        <p>
-          {t('home.announcements.renew.body.0')}
-          {accounts?.length > 0 ? (
-            <Link to={'/address/' + accounts[0]}>
-              {' '}
-              {t('home.announcements.renew.body.1')}
-            </Link>
-          ) : (
-            'address page'
-          )}{' '}
-          {t('home.announcements.renew.body.2')}
-        </p>
-      </Announcement>
+      <Announcement />
       <Explanation>
         <WhatItIs>
           <Inner>
