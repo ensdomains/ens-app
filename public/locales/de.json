@@ -30,8 +30,8 @@
       "registrant": "Registrant"
     },
     "namesExpiringSoonBanner": {
-      "text": "Einer oder mehrere Namen laufen bald aus, verlängern Sie alle in einer einzigen Transaktion, indem Sie mehrere Namen auswählen und auf 'Verlängern' klicken.",
-      "title": "Viele in der Vergangenheit gekauften Namen werden im August nicht mehr in der Schonfrist sein"
+      "text": "Verlängern Sie alle in einer einzigen Transaktion, indem Sie mehrere Namen auswählen und auf 'Verlängern' klicken.",
+      "title": "Einer oder mehrere Namen laufen bald aus"
     },
     "renew": {
       "button": "Ausgewählte verlängern",
@@ -140,15 +140,6 @@
   },
   "home": {
     "announcements": {
-      "migrationOver": "Die Migrierung des ENS Registers ist vorbei...Was jetzt? Einige Dinge, die Sie wissen sollten",
-      "renew": {
-        "body": [
-          "Sie können mehrere Domains in einer Transaktion verlängern, indem Sie zu Ihrer ",
-          "Adress Seite",
-          "gehen oder auf 'Meine Namen' klicken, während Sie eingeloggt sind."
-        ],
-        "title": "Viele in der Vergangenheit gekauften Namen werden im August nicht mehr in der Schonfrist sein"
-      }
     },
     "howtouse": {
       "body": "Die ENS App ist eine grafische Oberfläche für nicht-technische Nutzer. Es ermöglicht Ihnen, Namen zu suchen, ihre Adressen oder Ressourcen, auf die verwiesen wird, zu verwalten und Subdomains für Namen zu erstellen.",
@@ -280,12 +271,6 @@
     }
   },
   "singleName": {
-    "banners": {
-      "namesExpiring": {
-        "text": "Klicken Sie auf den Verlängern-Button, um das Ablaufen zu vermeiden. Um alle Ihre Namen gesammelt zu verlängern, navigieren Sie zu <1>Meine Namen</1> und wählen Sie mehrere Namen aus, bevor Sie auf 'Verlängern' klicken.",
-        "title": "Viele in der Vergangenheit gekauften Namen werden im August nicht mehr in der Schonfrist sein"
-      }
-    },
     "confirm": {
       "button": {
         "cancel": "Cancel",
