@@ -36,6 +36,7 @@ const Store = {
 
 const ProgressRecorder = ({
   domain,
+  account,
   networkId,
   states,
   step,
@@ -54,7 +55,7 @@ const ProgressRecorder = ({
 }) => {
   const stepIndex = Object.keys(states).indexOf(step)
 
-  const label = `${networkId}-${domain.label}`
+  const label = `${networkId}-${account}-${domain.label}`
   let savedStepIndex = 0
   let savedStep, isBehind
   savedStep = Store.get(label)

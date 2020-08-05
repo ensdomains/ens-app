@@ -597,6 +597,7 @@ function NameDetails({
         domain={domain}
         refetch={refetch}
         refetchIsMigrated={refetchIsMigrated}
+        account={account}
         readOnly={account === EMPTY_ADDRESS}
       />
     )
@@ -708,6 +709,7 @@ function NameDetails({
             registrationOpen={registrationOpen}
             domain={domain}
             refetch={refetch}
+            account={account}
             refetchIsMigrated={refetchIsMigrated}
             readOnly={account === EMPTY_ADDRESS}
           />

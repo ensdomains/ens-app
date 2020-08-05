@@ -42,6 +42,7 @@ const NameRegister = ({
   refetch,
   refetchIsMigrated,
   readOnly,
+  account,
   registrationOpen
 }) => {
   const { t } = useTranslation()
@@ -101,6 +102,7 @@ const NameRegister = ({
     setSecondsPassed,
     commitmentExpirationDate,
     setCommitmentExpirationDate,
+    account,
     now
   })
   useInterval(
