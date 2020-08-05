@@ -13,11 +13,15 @@ import { Link, withRouter } from 'react-router-dom'
 import { setupENS } from '@ensdomains/ui'
 import LoginWithEthereum from '@enslogin/login-with-ethereum'
 
-const config = {
-  provider: {
-    network: 'ropsten'
-  }
-}
+const Select = styled('select')`
+  width: 150px;
+  background-color: 'white',
+  text-transform: 'uppercase',
+  font-weight: '700',
+  font-size: '12px',
+  color: '#2B2B2B',
+  letterSpacing: '0.5px'
+`
 
 const SideNavContainer = styled('nav')`
   display: ${p => (p.isMenuOpen ? 'block' : 'none')};
@@ -98,17 +102,11 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
     error,
     refetch
   } = useNetworkInfo()
-  const [connect, setConnect] = useState(false)
-  const buttonText = connect ? 'connect' : 'disconnect'
-
-  const toggleConnect = async () => {
-    let res = await setupENS({
-      reloadOnAccountsChange: true,
-      enforceReadOnly: !connect,
-      enforceReload: connect
-    })
-    refetch()
-    setConnect(!connect)
+  const [targetNetwork, setTargetNetwork] = useState(network)
+  const config = {
+    provider: {
+      network: network !== 'mainnet' ? network : 'ropsten'
+    }
   }
 
   const handleConnect = async web3 => {
@@ -119,7 +117,6 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
       enforceReload: true
     })
     refetch()
-    setConnect(!connect)
   }
 
   const handleDisconnect = async () => {
@@ -128,22 +125,22 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
       enforceReadOnly: true
     })
     refetch()
-    setConnect(!connect)
   }
 
   return (
     <SideNavContainer isMenuOpen={isMenuOpen}>
       <NetworkInformation />
       <ul data-testid="sitenav">
-        {/* <li>
-          <button onClick={toggleConnect}>{buttonText}</button>
-        </li> */}
         <LoginWithEthereum
           config={config}
           connect={handleConnect}
           disconnect={handleDisconnect}
           noInjected={true}
-          // networks     = { [{'name':'goerli'}, {'name':'ropsten'}, {'name':'rinkeby'}] }
+          networks={[
+            { name: 'goerli' },
+            { name: 'ropsten' },
+            { name: 'rinkeby' }
+          ]}
         />
 
         {accounts && accounts.length > 0 ? (
