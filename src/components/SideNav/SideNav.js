@@ -137,7 +137,7 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
           disconnect={handleDisconnect}
           noInjected={true}
           networks={[
-            { name: 'goerli' },
+            // { name: 'goerli' }, // There is a issue on name registration because ChainLink has no oracl on Goerli
             { name: 'ropsten' },
             { name: 'rinkeby' }
           ]}
