@@ -110,7 +110,6 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
       network: network !== 'main' ? network : 'ropsten'
     }
   }
-  console.log('***config', { config })
   const handleConnect = async web3 => {
     console.log('****web3', { web3 })
     // web3.autoRefreshOnNetworkChange = false
