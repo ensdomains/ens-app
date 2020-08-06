@@ -92,10 +92,6 @@ const App = ({ initialClient }) => {
         }
         const { chainId: networkId, name } = await getNetwork()
         client = await setupClient(networkId)
-        await client.mutate({
-          mutation: SET_ERROR,
-          variables: { message: 'Network changed' }
-        })
         setCurrentClient(client)
       } catch (e) {
         console.log(e)
