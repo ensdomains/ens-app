@@ -107,10 +107,10 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
   const [targetNetwork, setTargetNetwork] = useState(network)
   const config = {
     provider: {
-      network: network !== 'mainnet' ? network : 'ropsten'
+      network: network !== 'main' ? network : 'ropsten'
     }
   }
-
+  console.log('***config', { config })
   const handleConnect = async web3 => {
     console.log('****web3', { web3 })
     // web3.autoRefreshOnNetworkChange = false
@@ -121,7 +121,7 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
       reloadOnAccountsChange: true,
       enforceReload: true
     })
-    console.log('****web3', { networkName, networkId })
+    console.log('****web3', { networkName, networkId, config })
     switchNetwork(networkName)
     refetch()
   }
