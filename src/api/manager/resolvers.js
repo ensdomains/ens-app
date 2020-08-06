@@ -610,7 +610,6 @@ const resolvers = {
                 return record.map(coinRecord => {
                   const { decoder, coinType } = formatsByName[coinRecord.key]
                   let addressAsBytes
-                  console.log(coinRecord.value)
                   if (!coinRecord.value || coinRecord.value === '') {
                     addressAsBytes = Buffer.from('')
                   } else {
@@ -648,8 +647,6 @@ const resolvers = {
 
       const recordsArray = createRecordsArray(records)
 
-      console.log({ recordsArray })
-
       const provider = await getProvider()
       const resolver = await ens.getResolver(name)
 
@@ -666,10 +663,9 @@ const resolvers = {
         resolverInstance
       })
 
-      console.log({ transactionArray })
       //add them all together into one transaction
       const tx1 = await resolverInstance.multicall(transactionArray)
-      console.log({ name, records })
+      return tx1
     },
     migrateResolver: async (_, { name }, { cache }) => {
       const ens = getENS()
@@ -873,7 +869,6 @@ const resolvers = {
         } else {
           const tx = await ens.setResolver(name, publicResolver)
           const value = await sendHelper(tx)
-          console.log(value)
           return [value]
         }
       } catch (e) {
