@@ -19,7 +19,7 @@ export function validateRecord({ type, value, contentType, selectedKey }) {
       } else {
         return false
       }
-    case 'text':
+    case 'textRecords':
       return true
     case 'coins':
       if (value === '') return false

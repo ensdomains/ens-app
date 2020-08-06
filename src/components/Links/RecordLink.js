@@ -51,7 +51,6 @@ const prependUrl = url => {
 
 const RecordLink = ({ textKey, value }) => {
   let url, avatar
-  console.log(textKey)
   switch (textKey) {
     case 'url':
       url = `${value}`
@@ -65,8 +64,6 @@ const RecordLink = ({ textKey, value }) => {
     default:
   }
   url = prependUrl(url)
-
-  console.log(url)
 
   if (textKey === 'email') {
     url = `mailto:${value}`

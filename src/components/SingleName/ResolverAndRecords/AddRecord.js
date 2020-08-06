@@ -226,8 +226,6 @@ function Editable({
     selectRecord(selectedRecord)
   }
 
-  console.log({ selectedKey })
-
   const handleSubmit = e => {
     e.preventDefault()
   }
@@ -240,8 +238,6 @@ function Editable({
     startAuthorizing,
     stopAuthorizing,
     updateValue
-    // startPending,
-    // setConfirmed
   } = actions
 
   function startEditing() {
@@ -269,11 +265,11 @@ function Editable({
       if (selectedRecord === 'content') {
         return newValue
       } else {
+        console.log(records[selectedRecord.value], selectedRecord, records)
         const exists = records[selectedRecord.value].find(
           record => record.key === selectedKey.value
         )
 
-        console.log({ selectedKey, records: records[selectedRecord.value] })
         if (exists) {
           return records[selectedRecord.value].map(record =>
             record.key === selectedKey.value
@@ -295,7 +291,6 @@ function Editable({
         newValue,
         records
       })
-      console.log({ newRecord })
       return { ...records, [selectedRecord.value]: newRecord }
     })
     setSelectedKey(null)
@@ -379,7 +374,7 @@ function Editable({
                 }}
                 ensAddress={getEnsAddress()}
               />
-            ) : selectedRecord && selectedRecord.value === 'text' ? (
+            ) : selectedRecord && selectedRecord.value === 'textRecords' ? (
               <TextRecordInput
                 selectedRecord={selectedRecord}
                 newValue={newValue}

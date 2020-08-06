@@ -42,7 +42,7 @@ export const RecordsItem = styled(DetailsItem)`
     align-items: flex-start;
   `}
 
-  background: ${({ editing }) => (editing ? '#F0F6FA' : 'white')};
+  background: ${({ editing }) => (editing ? 'white' : 'white')};
   ${mq.medium`
     display: flex;
     flex-direction: column;
@@ -58,7 +58,6 @@ export const RecordsContent = styled('div')`
   ${mq.medium`
     display: flex;
   `}
-  ${({ editing }) => editing && 'margin-bottom: 30px'};
 `
 
 export const RecordsKey = styled(DetailsKey)`

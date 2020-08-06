@@ -10,7 +10,7 @@ import {
   RecordsKey,
   RecordsSubKey
 } from '../RecordsItem'
-import DetailsItemInput from '../../DetailsItemInput'
+import RecordInput from '../../RecordInput'
 import { useEditable } from '../../../hooks'
 import PendingTx from 'components/PendingTx'
 import Pencil from '../../../Forms/Pencil'
@@ -79,6 +79,7 @@ const KeyValuesContent = styled(RecordsContent)`
   grid-template-columns: 1fr;
   align-items: flex-start;
   overflow: hidden;
+  ${p => (p.hasBeenUpdated ? 'border: solid 1px red;' : '')}
   ${mq.small`
     grid-template-columns: 150px 1fr;
   `}
@@ -118,15 +119,21 @@ const Editable = ({
   getPlaceholder,
   value,
   setUpdatedRecords,
-  recordType
+  recordType,
+  changedRecords
 }) => {
-  console.log(textKey)
+  const hasBeenUpdated = changedRecords[recordType].find(
+    record => record.key === textKey
+  )
+    ? true
+    : false
   return (
     <KeyValueItem editing={editing} hasRecord={true} noBorder>
       {editing ? (
         <KeyValuesContent editing={editing}>
           <RecordsSubKey>{textKey}</RecordsSubKey>
-          <input
+          <RecordInput
+            hasBeenUpdated={hasBeenUpdated}
             type="text"
             onChange={event => {
               const value = event.target.value
@@ -169,7 +176,8 @@ function Record(props) {
     query,
     mutation,
     setUpdatedRecords,
-    recordType
+    recordType,
+    changedRecords
   } = props
 
   // const dataValue = Object.values(data)[0]
@@ -210,6 +218,7 @@ function Record(props) {
       editing={editing}
       mutation={mutation}
       setUpdatedRecords={setUpdatedRecords}
+      changedRecords={changedRecords}
       recordType={recordType}
     />
   ) : (
@@ -238,16 +247,15 @@ function Records({
   title,
   placeholderRecords,
   setUpdatedRecords,
+  changedRecords,
   recordType
 }) {
-  console.log(records)
   const [hasRecord, setHasRecord] = useState(false)
   return (
     <KeyValueContainer hasRecord={hasRecord}>
       {hasRecord && <Key>{title}</Key>}
       <KeyValuesList>
         {records.map(({ key, value }) => {
-          console.log(key, parseInt(value, 16))
           if (value === emptyAddress && !placeholderRecords.includes(key)) {
             return null
           }
@@ -266,6 +274,7 @@ function Records({
               canEdit={canEdit}
               mutation={mutation}
               setUpdatedRecords={setUpdatedRecords}
+              changedRecords={changedRecords}
               recordType={recordType}
             />
           )

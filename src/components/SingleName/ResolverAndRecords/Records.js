@@ -1,9 +1,12 @@
 import React, { useState, useReducer, useEffect } from 'react'
+import { useMutation } from 'react-apollo'
 import styled from '@emotion/styled/macro'
 import isEqual from 'lodash/isEqual'
 import differenceWith from 'lodash/differenceWith'
 import { useQuery } from 'react-apollo'
 import { useTranslation } from 'react-i18next'
+
+import { ADD_MULTI_RECORDS } from '../../../graphql/mutations'
 import COIN_LIST from 'constants/coinList'
 import TEXT_RECORD_KEYS from 'constants/textRecords'
 import { getNamehash } from '@ensdomains/ui'
@@ -62,7 +65,7 @@ const RECORDS = [
   },
   {
     label: 'Text',
-    value: 'text'
+    value: 'textRecords'
   }
 ]
 
@@ -117,7 +120,11 @@ function reducer(state, action) {
 }
 
 function getChangedRecords(initialRecords, updatedRecords) {
-  if (initialRecords.loading) return {}
+  if (initialRecords.loading)
+    return {
+      textRecords: [],
+      coins: []
+    }
 
   const textRecords = differenceWith(
     updatedRecords.textRecords,
@@ -162,6 +169,7 @@ export default function Records({
   needsToBeMigrated
 }) {
   const { t } = useTranslation()
+  const [addMultiRecords] = useMutation(ADD_MULTI_RECORDS)
   const [state, dispatch] = useReducer(reducer, {})
   const [updatedRecords, setUpdatedRecords] = useState({
     contentHash: undefined,
@@ -194,6 +202,7 @@ export default function Records({
         keys:
           dataTextRecordKeys &&
           dataTextRecordKeys.domain &&
+          dataTextRecordKeys.domain.resolver &&
           dataTextRecordKeys.domain.resolver.texts
       },
       skip: !dataTextRecordKeys
@@ -229,6 +238,11 @@ export default function Records({
   }
 
   const hasRecords = hasAnyRecord(domain)
+
+  const changedRecords = getChangedRecords(initialRecords, updatedRecords)
+
+  console.log(changedRecords)
+
   const shouldShowRecords = calculateShouldShowRecords(
     isOwner,
     hasResolver,
@@ -271,6 +285,7 @@ export default function Records({
         title={t('c.addresses')}
         updatedRecords={updatedRecords}
         setUpdatedRecords={setUpdatedRecords}
+        changedRecords={changedRecords}
       />
       {!isEmpty(domain.content) && (
         <ContentHash
@@ -284,6 +299,7 @@ export default function Records({
           refetch={refetch}
           updatedRecords={updatedRecords}
           setUpdatedRecords={setUpdatedRecords}
+          changedRecords={changedRecords}
         />
       )}
       <TextRecord
@@ -296,10 +312,19 @@ export default function Records({
         title={t('c.textrecord')}
         updatedRecords={updatedRecords}
         setUpdatedRecords={setUpdatedRecords}
+        changedRecords={changedRecords}
       />
       {editMode && (
         <>
-          <button onClick={() => {}}>Save</button>
+          <button
+            onClick={() => {
+              addMultiRecords({
+                variables: { name: domain.name, records: changedRecords }
+              })
+            }}
+          >
+            Save
+          </button>
           <button onClick={() => setEditMode(false)}>Cancel</button>
         </>
       )}
