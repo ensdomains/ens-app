@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Query, useQuery } from 'react-apollo'
 import gql from 'graphql-tag'
+import { EMPTY_ADDRESS } from '../utils/records'
 
 const GET_ACCOUNTS = gql`
   query getAccounts @client {
@@ -15,14 +16,17 @@ class GetAccount extends Component {
     return (
       <Query query={GET_ACCOUNTS}>
         {({ data, loading, error }) => {
-          const {
-            web3: { accounts }
-          } = data
-          if (loading || !accounts[0]) {
-            return this.props.children({
-              account: '0x0000000000000000000000000000000000000000'
-            })
-          }
+          console.log('*** GET_ACCOUNT', {
+            EMPTY_ADDRESS,
+            data,
+            loading,
+            error
+          })
+          if (loading || !data)
+            return this.props.children({ account: EMPTY_ADDRESS })
+          const { web3: { accounts } = {} } = data
+          if (!accounts[0])
+            return this.props.children({ account: EMPTY_ADDRESS })
           return this.props.children({ account: accounts[0] })
         }}
       </Query>
@@ -32,10 +36,9 @@ class GetAccount extends Component {
 
 export function useAccount() {
   const { loading, error, data } = useQuery(GET_ACCOUNTS)
+  if (error || loading) return EMPTY_ADDRESS
   const { web3: { accounts } = {} } = data
-  if (error || loading || !accounts[0]) {
-    return '0x0000000000000000000000000000000000000000'
-  }
+  if (!accounts[0]) return EMPTY_ADDRESS
   return accounts[0]
 }
 

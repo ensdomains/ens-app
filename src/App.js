@@ -120,7 +120,7 @@ const App = ({ initialClient }) => {
             projectId: 'idyllic-ethos-235310'
           })
 
-          if (data.error && data.error.message) {
+          if (data && data.error && data.error.message) {
             return <NetworkError message={data.error.message} />
           } else {
             return (

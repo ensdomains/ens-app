@@ -112,12 +112,17 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
   }
 
   const handleConnect = async web3 => {
+    console.log('****web3', { web3 })
     // web3.autoRefreshOnNetworkChange = false
-    let res = await setupENS({
+    let {
+      network: { name: networkName }
+    } = await setupENS({
       customProvider: web3,
       reloadOnAccountsChange: true,
       enforceReload: true
     })
+    console.log('****web3', { networkName, networkId })
+    switchNetwork(networkName)
     refetch()
   }
 
