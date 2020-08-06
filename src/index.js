@@ -52,11 +52,9 @@ window.addEventListener('load', async () => {
   }
   ReactDOM.render(
     <Suspense fallback={null}>
-      <ApolloProvider client={client}>
-        <GlobalStateProvider>
-          <App />
-        </GlobalStateProvider>
-      </ApolloProvider>
+      <GlobalStateProvider>
+        <App initialClient={client} />
+      </GlobalStateProvider>
     </Suspense>,
     document.getElementById('root')
   )

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useContext, useEffect, useState } from 'react'
 import {
   HashRouter,
   BrowserRouter,
@@ -24,8 +24,15 @@ import { CONFIRM } from './modals'
 import ExpiryNotificationModal from './components/ExpiryNotification/ExpiryNotificationModal'
 
 import DefaultLayout from './components/Layout/DefaultLayout'
-import { pageview, setup } from './utils/analytics'
+import { pageview, setup as setupAnalytics } from './utils/analytics'
 import StackdriverErrorReporter from 'stackdriver-errors-js'
+import GlobalState from './globalState'
+import { ApolloProvider } from 'react-apollo'
+import { setup as setupENS } from './api/ens'
+import { SET_ERROR } from 'graphql/mutations'
+import { setupClient } from 'apolloClient'
+import { getNetwork } from '@ensdomains/ui'
+
 const errorHandler = new StackdriverErrorReporter()
 
 // If we are targeting an IPFS build we need to use HashRouter
@@ -52,53 +59,107 @@ const Route = ({
   )
 }
 
-const App = () => (
-  <>
-    <Query query={GET_ERRORS}>
-      {({ data }) => {
-        setup()
-
-        errorHandler.start({
-          key: 'AIzaSyDW3loXBr_2e-Q2f8ZXdD0UAvMzaodBBNg',
-          projectId: 'idyllic-ethos-235310'
-        })
-
-        if (data.error && data.error.message) {
-          return <NetworkError message={data.error.message} />
-        } else {
-          return (
-            <>
-              <Router>
-                <Switch>
-                  <Route
-                    exact
-                    path="/"
-                    component={Home}
-                    layout={HomePageLayout}
-                  />
-                  <Route path="/test-registrar" component={TestRegistrar} />
-                  <Route path="/favourites" component={Favourites} />
-                  <Route path="/my-bids" component={SearchResults} />
-                  <Route path="/about" component={About} />
-                  <Route path="/how-it-works" component={SearchResults} />
-                  <Route path="/search/:searchTerm" component={SearchResults} />
-                  <Route path="/name/:name" component={SingleName} />
-                  <Route
-                    path="/address/:address/:domainType"
-                    component={Address}
-                  />
-                  <Route path="/address/:address" component={Address} />
-                  <Route path="/renew" component={Renew} />
-                  <Route path="*" component={Error404} />
-                </Switch>
-              </Router>
-              <Modal name={CONFIRM} component={Confirm} />
-              <ExpiryNotificationModal />
-            </>
+const App = ({ initialClient }) => {
+  const { switchNetwork, currentNetwork } = useContext(GlobalState)
+  let [currentClient, setCurrentClient] = useState(initialClient)
+  let client
+  useEffect(() => {
+    const handleNetworkChange = async () => {
+      try {
+        if (
+          process.env.REACT_APP_STAGE === 'local' &&
+          process.env.REACT_APP_ENS_ADDRESS
+        ) {
+          await setupENS({
+            reloadOnAccountsChange: true,
+            customProvider: 'http://localhost:8545',
+            ensAddress: process.env.REACT_APP_ENS_ADDRESS
+          })
+          let labels = window.localStorage['labels']
+            ? JSON.parse(window.localStorage['labels'])
+            : {}
+          window.localStorage.setItem(
+            'labels',
+            JSON.stringify({
+              ...labels,
+              ...JSON.parse(process.env.REACT_APP_LABELS)
+            })
           )
+        } else {
+          await setupENS({
+            reloadOnAccountsChange: false
+          })
         }
-      }}
-    </Query>
-  </>
-)
+        const { chainId: networkId, name } = await getNetwork()
+        client = await setupClient(networkId)
+        await client.mutate({
+          mutation: SET_ERROR,
+          variables: { message: 'Network changed' }
+        })
+        setCurrentClient(client)
+      } catch (e) {
+        console.log(e)
+        client = await setupClient()
+        await client.mutate({
+          mutation: SET_ERROR,
+          variables: { message: e.message }
+        })
+        setCurrentClient(client)
+      }
+    }
+    handleNetworkChange()
+  }, [currentNetwork])
+  return (
+    <ApolloProvider client={currentClient}>
+      <Query query={GET_ERRORS}>
+        {({ data }) => {
+          setupAnalytics()
+
+          errorHandler.start({
+            key: 'AIzaSyDW3loXBr_2e-Q2f8ZXdD0UAvMzaodBBNg',
+            projectId: 'idyllic-ethos-235310'
+          })
+
+          if (data.error && data.error.message) {
+            return <NetworkError message={data.error.message} />
+          } else {
+            return (
+              <>
+                <Router>
+                  <Switch>
+                    <Route
+                      exact
+                      path="/"
+                      component={Home}
+                      layout={HomePageLayout}
+                    />
+                    <Route path="/test-registrar" component={TestRegistrar} />
+                    <Route path="/favourites" component={Favourites} />
+                    <Route path="/my-bids" component={SearchResults} />
+                    <Route path="/about" component={About} />
+                    <Route path="/how-it-works" component={SearchResults} />
+                    <Route
+                      path="/search/:searchTerm"
+                      component={SearchResults}
+                    />
+                    <Route path="/name/:name" component={SingleName} />
+                    <Route
+                      path="/address/:address/:domainType"
+                      component={Address}
+                    />
+                    <Route path="/address/:address" component={Address} />
+                    <Route path="/renew" component={Renew} />
+                    <Route path="*" component={Error404} />
+                  </Switch>
+                </Router>
+                <Modal name={CONFIRM} component={Confirm} />
+                <ExpiryNotificationModal />
+              </>
+            )
+          }
+        }}
+      </Query>
+    </ApolloProvider>
+  )
+}
 export default App

@@ -32,9 +32,7 @@ class GetAccount extends Component {
 
 export function useAccount() {
   const { loading, error, data } = useQuery(GET_ACCOUNTS)
-  const {
-    web3: { accounts }
-  } = data
+  const { web3: { accounts } = {} } = data
   if (error || loading || !accounts[0]) {
     return '0x0000000000000000000000000000000000000000'
   }

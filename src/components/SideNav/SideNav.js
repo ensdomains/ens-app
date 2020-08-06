@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
 
@@ -12,6 +12,7 @@ import mq from 'mediaQuery'
 import { Link, withRouter } from 'react-router-dom'
 import { setupENS } from '@ensdomains/ui'
 import LoginWithEthereum from '@enslogin/login-with-ethereum'
+import GlobalState from '../../globalState'
 
 const Select = styled('select')`
   width: 150px;
@@ -92,6 +93,7 @@ const NavLink = styled(Link)`
 `
 
 function SideNav({ match, isMenuOpen, toggleMenu }) {
+  const { switchNetwork, currentNetwork } = useContext(GlobalState)
   const { url } = match
   const { t } = useTranslation()
   const {
@@ -124,6 +126,7 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
       reloadOnAccountsChange: true,
       enforceReadOnly: true
     })
+    switchNetwork('mainnet')
     refetch()
   }
 
@@ -142,7 +145,7 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
             { name: 'rinkeby' }
           ]}
         />
-
+        <button onClick={handleDisconnect}> Disconnect</button>
         {accounts && accounts.length > 0 ? (
           <li>
             <NavLink
