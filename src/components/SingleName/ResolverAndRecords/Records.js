@@ -370,16 +370,18 @@ export default function Records({
             extraDataComponent={
               <div>
                 <p>Changing the following records:</p>
-                {changedRecords.coins.length > 0 && 'Updated addresses:'}
+                {changedRecords.coins.length > 0 && <p>Updated addresses:</p>}
                 {changedRecords.coins.map(record => (
                   <li>
                     {record.key} - {record.value}
                   </li>
                 ))}
-                {changedRecords.contentHash &&
-                  `Content Hash: ${changedRecords.contentHash}`}
-                {changedRecords.textRecords.length > 0 &&
-                  'Updated text records:'}
+                {changedRecords.contentHash && (
+                  <p>Content Hash: {changedRecords.contentHash}</p>
+                )}
+                {changedRecords.textRecords.length > 0 && (
+                  <p>Updated text records:</p>
+                )}
                 {changedRecords.textRecords.map(record => (
                   <li>
                     {record.key} - {record.value}
