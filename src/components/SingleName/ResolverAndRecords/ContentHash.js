@@ -24,7 +24,7 @@ import Pencil from '../../Forms/Pencil'
 import Bin from '../../Forms/Bin'
 import { SaveCancel, SaveCancelSwitch } from '../SaveCancel'
 import DefaultPendingTx from '../../PendingTx'
-import DetailsItemInput from '../DetailsItemInput'
+import RecordInput from '../RecordInput'
 import CopyToClipBoard from '../../CopyToClipboard/'
 import { useEditable } from '../../hooks'
 
@@ -38,11 +38,12 @@ export const RecordsItem = styled(DetailsItem)`
   display: block;
   padding: 20px;
   flex-direction: column;
-   ${mq.small`
+  ${mq.small`
     align-items: flex-start;
   `}
 
-  background: ${({ editing }) => (editing ? '#F0F6FA' : 'white')};
+  border-bottom: 1px dashed #d3d3d3;
+
   ${mq.medium`
     display: flex;
     flex-direction: column;
@@ -218,25 +219,27 @@ const ContentHashEditable = ({
     stopAuthorizing
   } = actions
 
-  // const isValid = validateRecord({
-  //   type,
-  //   value: newValue,
-  //   contentType: domain.contentType
-  // })
+  const isValid = validateRecord({
+    type,
+    value,
+    contentType: domain.contentType
+  })
 
-  //const isInvalid = newValue !== '' && !isValid
+  const isInvalid = value !== '' && !isValid
 
   return (
     <>
       <RecordsItem editing={editing} hasRecord={true}>
         <RecordsContent editing={editing}>
           <RecordsKey>{t(`c.${keyName}`)}</RecordsKey>
-          <RecordsValue editableSmall>
-            <ContentHashLink value={value} contentType={domain.contentType} />
-            <CopyToClipBoard value={value} />
-          </RecordsValue>
+          {!editing && (
+            <RecordsValue editableSmall>
+              <ContentHashLink value={value} contentType={domain.contentType} />
+              <CopyToClipBoard value={value} />
+            </RecordsValue>
+          )}
 
-          {editing || uploading ? (
+          {/* {editing || uploading ? (
             <Action>
               <Bin
                 data-testid={`delete-${type.toLowerCase()}`}
@@ -254,11 +257,6 @@ const ContentHashEditable = ({
           ) : (
             <ActionContainer>
               <>
-                <Uploadable
-                  startUploading={startUploading}
-                  keyName={keyName}
-                  value={value}
-                />
                 <Actionable
                   // startEditing={startEditing}
                   keyName={keyName}
@@ -266,12 +264,12 @@ const ContentHashEditable = ({
                 />
               </>
             </ActionContainer>
-          )}
+          )} */}
         </RecordsContent>
         {editing ? (
           <>
             <EditRecord>
-              <input
+              <RecordInput
                 onChange={event => {
                   const value = event.target.value
                   setUpdatedRecords(records => ({
@@ -280,13 +278,17 @@ const ContentHashEditable = ({
                   }))
                 }}
                 value={updatedRecords.contentHash}
-                // dataType={type}
-                // contentType={domain.contentType}
-                // updateValue={updateValue}
-                // isValid={isValid}
-                // isInvalid={isInvalid}
+                dataType={type}
+                contentType={domain.contentType}
+                isValid={isValid}
+                isInvalid={isInvalid}
               />
-              )}
+
+              {/* <Uploadable
+                startUploading={startUploading}
+                keyName={keyName}
+                value={value}
+              /> */}
             </EditRecord>
 
             {/* <SaveCancel

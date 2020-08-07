@@ -4,7 +4,7 @@ import { validateRecord } from '../../../../utils/records'
 
 const validator = (symbol, value) => {
   return validateRecord({
-    type: 'otherAddresses',
+    type: 'coins',
     selectedKey: symbol,
     value
   })
@@ -20,11 +20,10 @@ export default function Coins(props) {
   return (
     <KeyValueRecord
       {...props}
-      records={props.addresses}
+      records={props.updatedRecords.coins}
       placeholderRecords={PLACEHOLDER_RECORDS}
       validator={validator}
       getPlaceholder={getPlaceholder}
-      updatedRecords={props.updatedRecords}
       setUpdatedRecords={props.setUpdatedRecords}
       recordType="coins"
     />

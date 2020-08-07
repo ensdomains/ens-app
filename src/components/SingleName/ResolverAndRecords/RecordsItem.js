@@ -87,6 +87,7 @@ export const RecordsSubKey = styled('div')`
 
 export const RecordsValue = styled(DetailsValue)`
   font-size: 14px;
+  font-family: Overpass Mono;
   margin-top: 1em;
   ${mq.small`
       margin-top: 0;

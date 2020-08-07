@@ -23,8 +23,7 @@ const KeyValueItem = styled(RecordsItem)`
   flex-direction: column;
   border-radius: 5px;
   width: 100%;
-  padding ${p => (p.editing ? '20px' : '0')};
-
+  padding 0;
   ${mq.medium`
     flex-direction: row;
   `}
@@ -66,7 +65,6 @@ const Key = styled(RecordsKey)`
 const RecordsListItem = styled('div')`
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
 
   ${mq.medium`
     flex-direction: row;
@@ -127,6 +125,23 @@ const Editable = ({
   )
     ? true
     : false
+
+  let isValid = true
+  let isInvalid = false
+
+  // const [setRecord] = useMutation(mutation, {
+  //   onCompleted: data => {
+  //     startPending(Object.values(data)[0])
+  //   }
+  // })
+
+  if (validator) {
+    isValid = validator(textKey, value)
+    isInvalid = !isValid
+  } else {
+    isValid = true
+  }
+
   return (
     <KeyValueItem editing={editing} hasRecord={true} noBorder>
       {editing ? (
@@ -135,6 +150,8 @@ const Editable = ({
           <RecordInput
             hasBeenUpdated={hasBeenUpdated}
             type="text"
+            isValid={isValid}
+            isInvalid={isInvalid}
             onChange={event => {
               const value = event.target.value
               setUpdatedRecords(state => ({
@@ -143,7 +160,8 @@ const Editable = ({
                   record.key === textKey
                     ? {
                         ...record,
-                        value
+                        value,
+                        isValid: validator ? validator(textKey, value) : true
                       }
                     : record
                 )

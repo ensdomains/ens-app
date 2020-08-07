@@ -33,12 +33,12 @@ import AddRecord from './AddRecord'
 import ContentHash from './ContentHash'
 import TextRecord from './TextRecord'
 import Coins from './Coins'
+import DefaultSaveCancel from '../SaveCancel'
 
 const RecordsWrapper = styled('div')`
   border-radius: 6px;
   border: 1px solid #ededed;
   box-shadow: inset 0 0 10px 0 rgba(235, 235, 235, 0.5);
-  padding-bottom: ${p => (p.shouldShowRecords ? '10px' : '0')};
   display: ${p => (p.shouldShowRecords ? 'block' : 'none')};
   margin-bottom: 20px;
 `
@@ -52,6 +52,19 @@ const CantEdit = styled('div')`
 
 const EditModeButton = styled('div')`
   color: ${p => (p.canEdit ? '#5284FF' : '#ccc')};
+`
+
+const SaveCancel = styled(DefaultSaveCancel)``
+
+const ConfirmBox = styled('div')`
+  p {
+    font-weight: 300;
+    font-size: 14px;
+  }
+  padding: 20px;
+  background: #f0f6fa;
+  display: flex;
+  justify-content: space-between;
 `
 
 const RECORDS = [
@@ -151,6 +164,27 @@ function getChangedRecords(initialRecords, updatedRecords) {
   }
 }
 
+function checkRecordsHaveChanged(changedRecords) {
+  return (
+    changedRecords.textRecords.length > 0 ||
+    changedRecords.coins.length > 0 ||
+    changedRecords.contenthash
+  )
+}
+
+function checkRecordsAreValid(changedRecords) {
+  const textRecordsValid = !(
+    changedRecords.textRecords.filter(record => record.isValid === false)
+      .length > 0
+  )
+
+  const coinsValid = !(
+    changedRecords.coins.filter(record => record.isValid === false).length > 0
+  )
+
+  return textRecordsValid && coinsValid
+}
+
 // graphql data in resolver and records to check current records
 // state in resolver and records to record new edit changes
 // check old and new to see if any have changed
@@ -192,6 +226,7 @@ export default function Records({
       }
     }
   )
+
   //TEXT_RECORD_KEYS use for fallback
 
   const { loading: textRecordsLoading, data: dataTextRecords } = useQuery(
@@ -241,8 +276,6 @@ export default function Records({
 
   const changedRecords = getChangedRecords(initialRecords, updatedRecords)
 
-  console.log(changedRecords)
-
   const shouldShowRecords = calculateShouldShowRecords(
     isOwner,
     hasResolver,
@@ -254,6 +287,9 @@ export default function Records({
   if (!shouldShowRecords) {
     return null
   }
+
+  const haveRecordsChanged = checkRecordsHaveChanged(changedRecords)
+  const areRecordsValid = checkRecordsAreValid(changedRecords)
 
   return (
     <RecordsWrapper
@@ -315,18 +351,45 @@ export default function Records({
         changedRecords={changedRecords}
       />
       {editMode && (
-        <>
-          <button
-            onClick={() => {
+        <ConfirmBox>
+          <p>
+            Add, delete, or edit one or multiple records. Confirm in one
+            transaction.
+          </p>
+          <SaveCancel
+            mutation={() => {
               addMultiRecords({
                 variables: { name: domain.name, records: changedRecords }
               })
+              setEditMode(false)
             }}
-          >
-            Save
-          </button>
-          <button onClick={() => setEditMode(false)}>Cancel</button>
-        </>
+            mutationButton="Confirm"
+            stopEditing={() => setEditMode(false)}
+            disabled={false}
+            confirm={true}
+            extraDataComponent={
+              <div>
+                <p>Changing the following records:</p>
+                {changedRecords.coins.length > 0 && 'Updated addresses:'}
+                {changedRecords.coins.map(record => (
+                  <li>
+                    {record.key} - {record.value}
+                  </li>
+                ))}
+                {changedRecords.contentHash &&
+                  `Content Hash: ${changedRecords.contentHash}`}
+                {changedRecords.textRecords.length > 0 &&
+                  'Updated text records:'}
+                {changedRecords.textRecords.map(record => (
+                  <li>
+                    {record.key} - {record.value}
+                  </li>
+                ))}
+              </div>
+            }
+            isValid={haveRecordsChanged && areRecordsValid}
+          />
+        </ConfirmBox>
       )}
     </RecordsWrapper>
   )

@@ -35,7 +35,12 @@ const AddressInput = styled(DefaultAddressInput)`
 `
 
 const ToggleAddRecord = styled('span')`
-  font-size: 22px;
+  font-family: Overpass;
+  font-weight: bold;
+  font-size: 14px;
+  color: #5284ff;
+  letter-spacing: 0.58px;
+  text-align: center;
 
   &:hover {
     cursor: pointer;
@@ -123,6 +128,11 @@ const UploadBtn = styled(Button)`
     margin-bottom: 20px;
     max-width: 150px;
   `}
+`
+
+const AddRecordButton = styled('div')`
+  display: flex;
+  justify-content: flex-end;
 `
 
 function chooseMutation(recordType, contentType) {
@@ -265,7 +275,6 @@ function Editable({
       if (selectedRecord === 'content') {
         return newValue
       } else {
-        console.log(records[selectedRecord.value], selectedRecord, records)
         const exists = records[selectedRecord.value].find(
           record => record.key === selectedKey.value
         )
@@ -295,6 +304,7 @@ function Editable({
     })
     setSelectedKey(null)
     selectRecord(null)
+    updateValue('')
   }
 
   const { t } = useTranslation()
@@ -305,7 +315,7 @@ function Editable({
         {t('singleName.record.title')}
         {editMode ? (
           <ToggleAddRecord onClick={stopEditing}>
-            Close Edit Record
+            Close Add/Edit Record
           </ToggleAddRecord>
         ) : (
           <ToggleAddRecord onClick={startEditing}>
@@ -319,7 +329,7 @@ function Editable({
             <Select
               selectedRecord={selectedRecord}
               handleChange={handleChange}
-              placeholder="Select a record"
+              placeholder="Add record"
               options={emptyRecords}
             />
             {selectedRecord && selectedRecord.value === 'coins' ? (
@@ -425,17 +435,27 @@ function Editable({
                   stopAuthorizing={stopAuthorizing}
                 />
               ) : (
-                <button
-                  onClick={() =>
-                    saveRecord(selectedRecord, selectedKey, newValue)
-                  }
-                >
-                  Save
-                </button>
+                <AddRecordButton>
+                  <Button
+                    onClick={() =>
+                      saveRecord(selectedRecord, selectedKey, newValue)
+                    }
+                  >
+                    Save
+                  </Button>
+                </AddRecordButton>
               )}
             </>
           ) : (
-            <SaveCancel stopEditing={stopEditing} disabled />
+            <AddRecordButton>
+              <Button
+                onClick={() =>
+                  saveRecord(selectedRecord, selectedKey, newValue)
+                }
+              >
+                Save
+              </Button>
+            </AddRecordButton>
           )}
         </AddRecordForm>
       )}

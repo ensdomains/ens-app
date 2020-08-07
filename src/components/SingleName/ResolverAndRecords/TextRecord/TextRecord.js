@@ -12,9 +12,8 @@ export default function TextRecords(props) {
   return (
     <KeyValueRecord
       {...props}
-      records={props.textRecords}
+      records={props.updatedRecords.textRecords}
       getPlaceholder={getPlaceholder}
-      updatedRecords={props.updatedRecords}
       setUpdatedRecords={props.setUpdatedRecords}
       recordType="textRecords"
     />

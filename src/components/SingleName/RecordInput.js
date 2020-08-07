@@ -5,6 +5,15 @@ import DefaultInput from '../Forms/Input'
 
 const Input = styled(DefaultInput)`
   width: 100%;
+  ${p =>
+    p.hasBeenUpdated
+      ? `
+    input {
+      border: #5284FF solid 1px;
+    }
+    
+  `
+      : ``}
 `
 
 const RecordInput = ({
@@ -14,12 +23,14 @@ const RecordInput = ({
   isInvalid,
   dataType,
   contentType,
-  placeholder
+  placeholder,
+  hasBeenUpdated
 }) => {
   return (
     <Input
+      hasBeenUpdated={hasBeenUpdated}
       warning={dataType === 'content' && contentType === 'oldcontent'}
-      valid={isValid}
+      valid={isValid && hasBeenUpdated}
       value={value}
       invalid={isInvalid}
       placeholder={placeholder || getPlaceholder(dataType, contentType)}

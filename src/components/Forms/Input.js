@@ -47,7 +47,6 @@ const StyledInput = styled('input')`
 
 const InputContainer = styled('div')`
   position: relative;
-  margin-bottom: 20px;
 
   ${p => {
     if (p.invalid || p.warning) {
