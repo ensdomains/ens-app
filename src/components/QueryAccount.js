@@ -16,12 +16,6 @@ class GetAccount extends Component {
     return (
       <Query query={GET_ACCOUNTS}>
         {({ data, loading, error }) => {
-          console.log('*** GET_ACCOUNT', {
-            EMPTY_ADDRESS,
-            data,
-            loading,
-            error
-          })
           if (loading || !data)
             return this.props.children({ account: EMPTY_ADDRESS })
           const { web3: { accounts } = {} } = data
@@ -36,7 +30,7 @@ class GetAccount extends Component {
 
 export function useAccount() {
   const { loading, error, data } = useQuery(GET_ACCOUNTS)
-  if (error || loading) return EMPTY_ADDRESS
+  if (!data || loading) return EMPTY_ADDRESS
   const { web3: { accounts } = {} } = data
   if (!accounts[0]) return EMPTY_ADDRESS
   return accounts[0]
