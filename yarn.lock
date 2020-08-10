@@ -1887,10 +1887,10 @@
     js-sha3 "^0.8.0"
     lodash "^4.17.11"
 
-"@enslogin/login-with-ethereum@^0.1.9":
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/@enslogin/login-with-ethereum/-/login-with-ethereum-0.1.9.tgz#dbd5cb4b3dfa1c1fc630694943a1b732087414eb"
-  integrity sha512-5ipI+PId5mBtwEX26f2a0YpEade8fObsS6PNf9YSZZgIaw6V1+vTLIJKsmb+NJXPUgLf1UVVYD8oIoReTFL+iQ==
+"@enslogin/login-with-ethereum@^0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@enslogin/login-with-ethereum/-/login-with-ethereum-0.1.7.tgz#aeefb0a6738c0caa75b4114bafb78056bc2c10c6"
+  integrity sha512-XnmrfmQzvzdZqO4aGpjFDUVBocIj3Lsod6Ml7OaiCHNhxQ8gnW9AAlM4tyRQLDHBdJMrsgMv7kD8INUMuQryDA==
   dependencies:
     "@enslogin/sdk" "^0.1.9"
     "@fortawesome/free-solid-svg-icons" "^5.14.0"

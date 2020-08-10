@@ -107,7 +107,7 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
   const [targetNetwork, setTargetNetwork] = useState(network)
   const config = {
     _infura: {
-      key: 'a7c49f85da924e42a7e4bf6ce944bd63'
+      key: 'xxx'
     },
     provider: {
       resolutionNetwork: 'ropsten',
