@@ -261,7 +261,7 @@
     "tooShort": {
       "long": "Names less than 6 characters have been reserved for when the permanent registrar has been released.",
       "short1": "Name is too short.",
-      "short2": "Names must be at least 7 characters long"
+      "short2": "Names must be at least 3 characters long"
     },
     "unsupported": {
       "long": "We do not support every single domain. Support for future domains are planned in the future",
