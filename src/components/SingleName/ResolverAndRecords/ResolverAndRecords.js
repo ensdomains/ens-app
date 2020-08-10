@@ -77,19 +77,8 @@ function hasAResolver(resolver) {
   return parseInt(resolver, 16) !== 0
 }
 
-function hasAnyRecord(domain) {
-  if (!isEmpty(domain.addr)) {
-    return true
-  }
-
-  if (!isEmpty(domain.content)) {
-    return true
-  }
-}
-
-function calculateShouldShowRecords(isOwner, hasResolver, hasRecords) {
-  //do no show records if it only has a resolver if not owner
-  if (!isOwner && hasRecords) {
+function calculateShouldShowRecords(isOwner, hasResolver) {
+  if (!isOwner) {
     return true
   }
   //show records if it only has a resolver if owner so they can add
@@ -128,12 +117,7 @@ function Records({
     contentMutation = SET_CONTENTHASH
   }
 
-  const hasRecords = hasAnyRecord(domain)
-  const shouldShowRecords = calculateShouldShowRecords(
-    isOwner,
-    hasResolver,
-    hasRecords
-  )
+  const shouldShowRecords = calculateShouldShowRecords(isOwner, hasResolver)
   const canEditRecords =
     !isOldPublicResolver && !isDeprecatedResolver && isOwner
 
@@ -158,7 +142,7 @@ function Records({
           setRecordAdded={setRecordAdded}
         />
       )}
-      {hasResolver && hasAnyRecord && (
+      {hasResolver && (
         <>
           {!isEmpty(domain.addr) && (
             <RecordsItem
