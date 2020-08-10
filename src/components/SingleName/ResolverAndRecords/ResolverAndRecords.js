@@ -78,7 +78,6 @@ function hasAResolver(resolver) {
 }
 
 function calculateShouldShowRecords(isOwner, hasResolver) {
-  //do no show records if it only has a resolver if not owner
   if (!isOwner) {
     return true
   }
