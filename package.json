@@ -35,7 +35,7 @@
     "i18next-xhr-backend": "^3.2.2",
     "ipfs-http-client": "^40.1.0",
     "js-sha3": "^0.8.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "moment": "^2.22.2",
     "notification-polyfill": "^1.0.0",
     "react": "^16.12.0",
