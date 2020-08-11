@@ -1,6 +1,5 @@
 import React from 'react'
 import KeyValueRecord from '../KeyValueRecord'
-import { useQuery } from 'react-apollo'
 
 const getPlaceholder = key => {
   return `Enter ${key}`

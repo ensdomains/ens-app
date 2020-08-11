@@ -1,19 +1,10 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled/macro'
-import { Mutation } from 'react-apollo'
 import mq from 'mediaQuery'
 import { useTranslation } from 'react-i18next'
-import _ from 'lodash'
 
 import { validateRecord } from '../../../utils/records'
 import { useEditable } from '../../hooks'
-import {
-  SET_CONTENT,
-  SET_CONTENTHASH,
-  SET_ADDRESS,
-  SET_ADDR,
-  SET_TEXT
-} from '../../../graphql/mutations'
 import { getOldContentWarning } from './warnings'
 import TEXT_RECORD_KEYS from 'constants/textRecords'
 import COIN_LIST from 'constants/coinList'
@@ -27,7 +18,6 @@ import { DetailsKey } from '../DetailsItem'
 import DetailsItemInput from '../DetailsItemInput'
 import { SaveCancel, SaveCancelSwitch } from '../SaveCancel'
 import DefaultSelect from '../../Forms/Select'
-import PendingTx from '../../PendingTx'
 import DefaultAddressInput from '@ensdomains/react-ens-address'
 
 const AddressInput = styled(DefaultAddressInput)`
@@ -135,23 +125,6 @@ const AddRecordButton = styled('div')`
   justify-content: flex-end;
 `
 
-function chooseMutation(recordType, contentType) {
-  switch (recordType.value) {
-    case 'content':
-      if (contentType === 'oldcontent') {
-        return SET_CONTENT
-      } else {
-        return SET_CONTENTHASH
-      }
-    case 'coins':
-      return SET_ADDR
-    case 'text':
-      return SET_TEXT
-    default:
-      throw new Error('Not a recognised record type')
-  }
-}
-
 function TextRecordInput({
   selectedRecord,
   updateValue,
@@ -241,7 +214,7 @@ function Editable({
     e.preventDefault()
   }
 
-  const { uploading, authorized, newValue, txHash } = state
+  const { uploading, authorized, newValue } = state
 
   const {
     startUploading,

@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useMutation } from 'react-apollo'
 import styled from '@emotion/styled/macro'
 import isEqual from 'lodash/isEqual'
@@ -10,24 +10,11 @@ import { getNamehash } from '@ensdomains/ui'
 import { useEditable } from '../../hooks'
 import { ADD_MULTI_RECORDS } from '../../../graphql/mutations'
 import COIN_LIST from 'constants/coinList'
-import TEXT_RECORD_KEYS from 'constants/textRecords'
 import PendingTx from '../../PendingTx'
 
 import {
-  SET_RESOLVER,
-  SET_ADDRESS,
-  SET_CONTENT,
-  SET_CONTENTHASH,
-  SET_TEXT,
-  SET_ADDR
-} from 'graphql/mutations'
-
-import {
-  GET_TEXT,
-  GET_ADDR,
   GET_ADDRESSES,
   GET_TEXT_RECORDS,
-  GET_RESOLVER_MIGRATION_INFO,
   GET_RESOLVER_FROM_SUBGRAPH
 } from 'graphql/queries'
 
@@ -50,10 +37,6 @@ const CantEdit = styled('div')`
   font-size: 14px;
   color: #adbbcd;
   background: hsla(37, 91%, 55%, 0.1);
-`
-
-const EditModeButton = styled('div')`
-  color: ${p => (p.canEdit ? '#5284FF' : '#ccc')};
 `
 
 const SaveCancel = styled(DefaultSaveCancel)``
@@ -121,21 +104,6 @@ function calculateShouldShowRecords(isOwner, hasResolver, hasRecords) {
     return true
   }
   return false
-}
-
-function reducer(state, action) {
-  switch (action.type) {
-    case 'EDIT_RECORD':
-      return {
-        ...state,
-        [action.record.name]: action.record
-      }
-    case 'ADD_RECORD':
-      return {
-        ...state,
-        [action.record.name]: action.record
-      }
-  }
 }
 
 function getChangedRecords(initialRecords, updatedRecords) {
@@ -228,42 +196,35 @@ export default function Records({
     }
   })
 
-  //const [editMode, setEditMode] = useState(false)
-
-  const {
-    loading: addressesLoading,
-    data: dataAddresses,
-    refetch: refetchAddresses
-  } = useQuery(GET_ADDRESSES, {
-    variables: { name: domain.name, keys: COIN_LIST }
-  })
-
-  const { data: dataTextRecordKeys, loading, error } = useQuery(
-    GET_RESOLVER_FROM_SUBGRAPH,
+  const { loading: addressesLoading, data: dataAddresses } = useQuery(
+    GET_ADDRESSES,
     {
-      variables: {
-        id: getNamehash(domain.name)
-      }
+      variables: { name: domain.name, keys: COIN_LIST }
     }
   )
 
+  const { data: dataTextRecordKeys } = useQuery(GET_RESOLVER_FROM_SUBGRAPH, {
+    variables: {
+      id: getNamehash(domain.name)
+    }
+  })
+
   //TEXT_RECORD_KEYS use for fallback
 
-  const {
-    loading: textRecordsLoading,
-    data: dataTextRecords,
-    refetch: refetchTextRecords
-  } = useQuery(GET_TEXT_RECORDS, {
-    variables: {
-      name: domain.name,
-      keys:
-        dataTextRecordKeys &&
-        dataTextRecordKeys.domain &&
-        dataTextRecordKeys.domain.resolver &&
-        dataTextRecordKeys.domain.resolver.texts
-    },
-    skip: !dataTextRecordKeys
-  })
+  const { loading: textRecordsLoading, data: dataTextRecords } = useQuery(
+    GET_TEXT_RECORDS,
+    {
+      variables: {
+        name: domain.name,
+        keys:
+          dataTextRecordKeys &&
+          dataTextRecordKeys.domain &&
+          dataTextRecordKeys.domain.resolver &&
+          dataTextRecordKeys.domain.resolver.texts
+      },
+      skip: !dataTextRecordKeys
+    }
+  )
 
   const initialRecords = {
     textRecords: dataTextRecords && dataTextRecords.getTextRecords,
@@ -276,7 +237,13 @@ export default function Records({
     if (textRecordsLoading === false && addressesLoading === false) {
       setUpdatedRecords(initialRecords)
     }
-  }, [textRecordsLoading, addressesLoading, dataAddresses, dataTextRecords])
+  }, [
+    textRecordsLoading,
+    addressesLoading,
+    dataAddresses,
+    dataTextRecords,
+    initialRecords
+  ])
 
   const emptyRecords = RECORDS.filter(record => {
     if (record.value === 'address') {
@@ -285,13 +252,6 @@ export default function Records({
 
     return isEmpty(domain[record.value]) ? true : false
   })
-
-  let contentMutation
-  if (domain.contentType === 'oldcontent') {
-    contentMutation = SET_CONTENT
-  } else {
-    contentMutation = SET_CONTENTHASH
-  }
 
   const hasRecords = hasAnyRecord(domain)
 
@@ -337,7 +297,6 @@ export default function Records({
         canEdit={canEditRecords}
         editing={editing}
         domain={domain}
-        mutation={SET_ADDR}
         addresses={updatedRecords.coins}
         loading={addressesLoading}
         title={t('c.addresses')}
@@ -352,7 +311,6 @@ export default function Records({
           domain={domain}
           keyName="Content"
           type="content"
-          mutation={contentMutation}
           value={domain.content}
           refetch={refetch}
           updatedRecords={updatedRecords}
@@ -364,7 +322,6 @@ export default function Records({
         canEdit={canEditRecords}
         editing={editing}
         domain={domain}
-        mutation={SET_TEXT}
         textRecords={dataTextRecords && dataTextRecords.getTextRecords}
         loading={textRecordsLoading}
         title={t('c.textrecord')}

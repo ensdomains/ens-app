@@ -1,37 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled/macro'
-import { Mutation } from 'react-apollo'
 import { useTranslation } from 'react-i18next'
-import DefaultAddressInput from '@ensdomains/react-ens-address'
-
-import { SET_CONTENT, SET_CONTENTHASH, SET_ADDRESS } from 'graphql/mutations'
 
 import { validateRecord } from 'utils/records'
 import { emptyAddress } from 'utils/utils'
 import mq from 'mediaQuery'
-import { getOldContentWarning } from './warnings'
-import { getEnsAddress } from '../../../api/ens'
 
 import { DetailsItem, DetailsKey, DetailsValue } from '../DetailsItem'
 import AddReverseRecord from './AddReverseRecord'
 import Upload from '../../IPFS/Upload'
 import IpfsLogin from '../../IPFS/Login'
 import StyledUpload from '../../Forms/Upload'
-import AddressLink from '../../Links/AddressLink'
 import ContentHashLink from '../../Links/ContentHashLink'
 import Pencil from '../../Forms/Pencil'
 import Bin from '../../Forms/Bin'
-import { SaveCancel, SaveCancelSwitch } from '../SaveCancel'
-import DefaultPendingTx from '../../PendingTx'
 import RecordInput from '../RecordInput'
 import CopyToClipBoard from '../../CopyToClipboard/'
 import { useEditable } from '../../hooks'
 import Button from '../../Forms/Button'
-
-const AddressInput = styled(DefaultAddressInput)`
-  margin-bottom: 10px;
-`
 
 export const RecordsItem = styled(DetailsItem)`
   ${p => !p.hasRecord && 'display: none;'}
@@ -128,37 +115,6 @@ const SecondaryAction = styled('div')`
   margin-right: 10px;
 `
 
-const ActionContainer = styled('div')`
-  display: flex;
-  margin-left: 0;
-  margin-top: 10px;
-  align-self: flex-end;
-  ${mq.small`
-    margin-top: 0;
-    margin-left: auto;
-  `};
-`
-
-const PendingTx = styled(DefaultPendingTx)`
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translate(0, -65%);
-`
-
-const Actionable = ({ startEditing, keyName, value }) => {
-  if (value && !value.error) {
-    return (
-      <Action>
-        <Pencil
-          onClick={startEditing}
-          data-testid={`edit-${keyName.toLowerCase()}`}
-        />
-      </Action>
-    )
-  }
-}
-
 const Uploadable = ({ startUploading, keyName, value }) => {
   if (value && !value.error) {
     return (
@@ -186,8 +142,7 @@ const ContentHashEditable = ({
   keyName,
   value,
   type,
-  mutation,
-  refetch,
+
   variableName,
   account,
   editing,
@@ -352,8 +307,7 @@ const ContentHashEditable = ({
           ) : (
             ''
           )}
-
-          {/* {editing || uploading ? (
+          {editing && (
             <Action>
               <Bin
                 data-testid={`delete-${type.toLowerCase()}`}
@@ -368,17 +322,7 @@ const ContentHashEditable = ({
                 }}
               />
             </Action>
-          ) : (
-            <ActionContainer>
-              <>
-                <Actionable
-                  // startEditing={startEditing}
-                  keyName={keyName}
-                  value={value}
-                />
-              </>
-            </ActionContainer>
-          )} */}
+          )}
         </RecordsContent>
 
         {keyName === 'Address' && (
@@ -429,12 +373,9 @@ ContentHash.propTypes = {
   keyName: PropTypes.string.isRequired, // key of the record
   value: PropTypes.string.isRequired, // value of the record (normally hex address)
   type: PropTypes.string, // type of value. Defaults to address
-  mutation: PropTypes.object.isRequired, //graphql mutation string for making tx
-  mutationButton: PropTypes.string, // Mutation button text
   editButton: PropTypes.string, //Edit button text
   domain: PropTypes.object.isRequired,
   variableName: PropTypes.string, //can change the variable name for mutation
-  refetch: PropTypes.func.isRequired,
   account: PropTypes.string
 }
 

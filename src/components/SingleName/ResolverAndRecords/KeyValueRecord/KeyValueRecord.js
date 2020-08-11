@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled/macro'
-import { useMutation, useQuery, Mutation } from 'react-apollo'
 import RecordLink from '../../../Links/RecordLink'
 import mq from 'mediaQuery'
 
@@ -11,11 +10,7 @@ import {
   RecordsSubKey
 } from '../RecordsItem'
 import RecordInput from '../../RecordInput'
-import { useEditable } from '../../../hooks'
-import PendingTx from 'components/PendingTx'
-import Pencil from '../../../Forms/Pencil'
 import Bin from '../../../Forms/Bin'
-import SaveCancel from '../../SaveCancel'
 import { emptyAddress } from '../../../../utils/utils'
 
 const KeyValueItem = styled(RecordsItem)`
@@ -83,32 +78,6 @@ const KeyValuesContent = styled(RecordsContent)`
   `}
 `
 
-const Action = styled('div')`
-  margin-top: 10px;
-  margin-left: 0;
-  ${mq.small`
-    margin-top: 0;
-    margin-left: auto;
-  `}
-`
-
-const Actionable = ({ startEditing, keyName, value }) => {
-  if (value && !value.error) {
-    return (
-      <Action>
-        <Pencil
-          onClick={startEditing}
-          data-testid={`edit-${keyName.toLowerCase()}`}
-        />
-      </Action>
-    )
-  }
-}
-
-const EditRecord = styled('div')`
-  width: 100%;
-`
-
 const Editable = ({
   editing,
   domain,
@@ -128,12 +97,6 @@ const Editable = ({
 
   let isValid = true
   let isInvalid = false
-
-  // const [setRecord] = useMutation(mutation, {
-  //   onCompleted: data => {
-  //     startPending(Object.values(data)[0])
-  //   }
-  // })
 
   if (validator) {
     isValid = validator(textKey, value)
@@ -186,47 +149,21 @@ function Record(props) {
     dataValue,
     validator,
     getPlaceholder,
-    name,
     setHasRecord,
     hasRecord,
     canEdit,
     editing,
-    query,
-    mutation,
     setUpdatedRecords,
     recordType,
     changedRecords
   } = props
 
-  // const dataValue = Object.values(data)[0]
-  // useEffect(() => {
-  //   if (recordAdded === textKey) {
-  //     let timeToWait = 200
-  //     let timesToTry = 5
-  //     let timesTried = 0
-  //     refetch().then(({ data }) => {
-  //       //retry until record is there or tried more than timesToTry
-  //       let response = Object.values(data)[0]
-  //       if (response === null || parseInt(response) === 0) {
-  //         if (timesTried < timesToTry) {
-  //           setTimeout(() => {
-  //             refetch()
-  //             timesTried++
-  //           }, timeToWai\t * (timesTried + 1))
-  //         }
-  //       }
-  //     })
-  //   }
-  // }, [recordAdded, refetch, textKey])
   useEffect(() => {
     if (dataValue && parseInt(dataValue, 16) !== 0 && !hasRecord) {
       setHasRecord(true)
     }
   }, [dataValue, hasRecord, setHasRecord])
 
-  // if (error || loading || !dataValue || parseInt(dataValue, 16) === 0) {
-  //   return null
-  // }
   return canEdit ? (
     <Editable
       {...props}
@@ -234,7 +171,6 @@ function Record(props) {
       validator={validator}
       getPlaceholder={getPlaceholder}
       editing={editing}
-      mutation={mutation}
       setUpdatedRecords={setUpdatedRecords}
       changedRecords={changedRecords}
       recordType={recordType}
@@ -257,8 +193,6 @@ function Records({
   editing,
   domain,
   canEdit,
-  query,
-  mutation,
   records,
   validator,
   getPlaceholder,
@@ -290,7 +224,6 @@ function Records({
               setHasRecord={setHasRecord}
               hasRecord={hasRecord}
               canEdit={canEdit}
-              mutation={mutation}
               setUpdatedRecords={setUpdatedRecords}
               changedRecords={changedRecords}
               recordType={recordType}

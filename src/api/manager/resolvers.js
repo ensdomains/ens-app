@@ -634,6 +634,7 @@ const resolvers = {
       }
 
       function createRecordsArray(records) {
+        /*  eslint-disable no-sparse-arrays */
         const newRecords = [
           ,
           records.contentHash

@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react'
+import React from 'react'
 import styled from '@emotion/styled/macro'
 import { useQuery } from 'react-apollo'
 import { useTranslation } from 'react-i18next'
