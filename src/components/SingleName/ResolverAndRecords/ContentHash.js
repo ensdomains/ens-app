@@ -27,6 +27,7 @@ import DefaultPendingTx from '../../PendingTx'
 import RecordInput from '../RecordInput'
 import CopyToClipBoard from '../../CopyToClipboard/'
 import { useEditable } from '../../hooks'
+import Button from '../../Forms/Button'
 
 const AddressInput = styled(DefaultAddressInput)`
   margin-bottom: 10px;
@@ -68,7 +69,7 @@ export const RecordsKey = styled(DetailsKey)`
   max-width: 100%;
   margin-right: 10px;
   ${mq.medium`
-    width: 200px;
+    width: 180px;
     margin-right: 0px;
   `}
 `
@@ -145,21 +146,6 @@ const PendingTx = styled(DefaultPendingTx)`
   transform: translate(0, -65%);
 `
 
-function chooseMutation(recordType, contentType) {
-  switch (recordType) {
-    case 'Content':
-      if (contentType === 'oldcontent') {
-        return SET_CONTENT
-      } else {
-        return SET_CONTENTHASH
-      }
-    case 'Address':
-      return SET_ADDRESS
-    default:
-      throw new Error('Not a recognised record type')
-  }
-}
-
 const Actionable = ({ startEditing, keyName, value }) => {
   if (value && !value.error) {
     return (
@@ -184,7 +170,16 @@ const Uploadable = ({ startUploading, keyName, value }) => {
       </SecondaryAction>
     )
   }
+  return null
 }
+
+const Switch = styled(Button)`
+  margin-bottom: 5px;
+  ${mq.small`
+    margin-right: 20px;
+    margin-bottom: 0px; 
+  `}
+`
 
 const ContentHashEditable = ({
   domain,
@@ -202,21 +197,14 @@ const ContentHashEditable = ({
   const { t } = useTranslation()
   const { state, actions } = useEditable()
 
-  const {
-    //   editing,
-    authorized,
-    uploading
-    //   newValue,
-    //   txHash,
-    //   pending,
-    //   confirmed
-  } = state
+  const { authorized, uploading, newValue } = state
 
   const {
     startUploading,
     stopUploading,
     startAuthorizing,
-    stopAuthorizing
+    stopAuthorizing,
+    updateValue
   } = actions
 
   const isValid = validateRecord({
@@ -237,6 +225,132 @@ const ContentHashEditable = ({
               <ContentHashLink value={value} contentType={domain.contentType} />
               <CopyToClipBoard value={value} />
             </RecordsValue>
+          )}
+
+          {editing ? (
+            <>
+              <EditRecord>
+                <RecordInput
+                  onChange={event => {
+                    const value = event.target.value
+                    setUpdatedRecords(records => ({
+                      ...records,
+                      contentHash: value
+                    }))
+                  }}
+                  value={updatedRecords.contentHash}
+                  dataType={type}
+                  contentType={domain.contentType}
+                  isValid={isValid}
+                  isInvalid={isInvalid}
+                />
+
+                <Uploadable
+                  startUploading={startUploading}
+                  keyName={keyName}
+                  value={value}
+                />
+                {uploading && !authorized && (
+                  <>
+                    hello
+                    <IpfsLogin startAuthorizing={startAuthorizing} />
+                  </>
+                )}
+
+                {uploading && authorized && (
+                  <>
+                    <Upload
+                      updateValue={value => {
+                        updateValue(value)
+                        setUpdatedRecords(records => {
+                          return {
+                            ...records,
+                            contentHash: value
+                          }
+                        })
+                      }}
+                      newValue={newValue}
+                    />
+                    {value !== '' && (
+                      <NewRecordsContainer>
+                        <RecordsKey>New IPFS Hash:</RecordsKey>
+                        <ContentHashLink
+                          value={value}
+                          contentType={domain.contentType}
+                        />
+                      </NewRecordsContainer>
+                    )}
+                    {value !== '' && (
+                      <Switch
+                        data-testid="reset"
+                        type="hollow"
+                        onClick={startUploading}
+                      >
+                        New Upload
+                      </Switch>
+                    )}
+                    <Switch
+                      data-testid="switch"
+                      type="hollow"
+                      onClick={stopAuthorizing}
+                    >
+                      Logout
+                    </Switch>
+                    <Switch
+                      data-testid="cancel"
+                      type="hollow"
+                      onClick={stopUploading}
+                    >
+                      Cancel
+                    </Switch>
+                    }
+                  </>
+                )}
+              </EditRecord>
+
+              {/* <SaveCancel
+              warningMessage={getOldContentWarning(type, domain.contentType)}
+              mutation={e => {
+                e.preventDefault()
+                const variables = {
+                  name: domain.name,
+                  [variableName ? variableName : 'recordValue']: newValue
+                }
+                mutation({
+                  variables
+                })
+              }}
+              isValid={isValid}
+              stopEditing={stopEditing}
+            /> */}
+            </>
+          ) : uploading && authorized ? (
+            <>
+              <EditRecord>
+                <Upload
+                  updateValue={value => {
+                    setUpdatedRecords(records => {
+                      return {
+                        ...records,
+                        contentHash: value
+                      }
+                    })
+                  }}
+                  newValue={value}
+                />
+                {value !== '' && (
+                  <NewRecordsContainer>
+                    <RecordsKey>New IPFS Hash:</RecordsKey>
+                    <ContentHashLink
+                      value={value}
+                      contentType={domain.contentType}
+                    />
+                  </NewRecordsContainer>
+                )}
+              </EditRecord>
+            </>
+          ) : (
+            ''
           )}
 
           {/* {editing || uploading ? (
@@ -266,102 +380,7 @@ const ContentHashEditable = ({
             </ActionContainer>
           )} */}
         </RecordsContent>
-        {editing ? (
-          <>
-            <EditRecord>
-              <RecordInput
-                onChange={event => {
-                  const value = event.target.value
-                  setUpdatedRecords(records => ({
-                    ...records,
-                    contentHash: value
-                  }))
-                }}
-                value={updatedRecords.contentHash}
-                dataType={type}
-                contentType={domain.contentType}
-                isValid={isValid}
-                isInvalid={isInvalid}
-              />
 
-              {/* <Uploadable
-                startUploading={startUploading}
-                keyName={keyName}
-                value={value}
-              /> */}
-            </EditRecord>
-
-            {/* <SaveCancel
-              warningMessage={getOldContentWarning(type, domain.contentType)}
-              mutation={e => {
-                e.preventDefault()
-                const variables = {
-                  name: domain.name,
-                  [variableName ? variableName : 'recordValue']: newValue
-                }
-                mutation({
-                  variables
-                })
-              }}
-              isValid={isValid}
-              stopEditing={stopEditing}
-            /> */}
-          </>
-        ) : uploading && authorized ? (
-          <>
-            <EditRecord>
-              {/* <Upload updateValue={updateValue} newValue={newValue} />
-              {newValue !== '' && (
-                <NewRecordsContainer>
-                  <RecordsKey>New IPFS Hash:</RecordsKey>
-                  <ContentHashLink
-                    value={newValue}
-                    contentType={domain.contentType}
-                  />
-                </NewRecordsContainer>
-              )} */}
-            </EditRecord>
-            {/* <SaveCancelSwitch
-              warningMessage={getOldContentWarning(type, domain.contentType)}
-              mutation={e => {
-                e.preventDefault()
-                const variables = {
-                  name: domain.name,
-                  [variableName ? variableName : 'recordValue']: newValue
-                }
-                mutation({
-                  variables
-                })
-              }}
-              isValid={isValid}
-              newValue={newValue}
-              startUploading={startUploading}
-              stopUploading={stopUploading}
-              stopAuthorizing={stopAuthorizing}
-            /> */}
-          </>
-        ) : uploading && !authorized ? (
-          <>
-            <IpfsLogin startAuthorizing={startAuthorizing} />
-            {/* <SaveCancel
-              warningMessage={getOldContentWarning(type, domain.contentType)}
-              mutation={e => {
-                e.preventDefault()
-                const variables = {
-                  name: domain.name,
-                  [variableName ? variableName : 'recordValue']: newValue
-                }
-                mutation({
-                  variables
-                })
-              }}
-              isValid={isValid}
-              stopEditing={stopUploading}
-            /> */}
-          </>
-        ) : (
-          ''
-        )}
         {keyName === 'Address' && (
           <AddReverseRecord account={account} name={domain.name} />
         )}

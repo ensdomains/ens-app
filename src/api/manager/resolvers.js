@@ -665,7 +665,7 @@ const resolvers = {
 
       //add them all together into one transaction
       const tx1 = await resolverInstance.multicall(transactionArray)
-      return tx1
+      return sendHelper(tx1)
     },
     migrateResolver: async (_, { name }, { cache }) => {
       const ens = getENS()

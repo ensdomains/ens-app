@@ -223,8 +223,9 @@ function Editable({
   refetch,
   setRecordAdded,
   canEdit,
-  editMode,
-  setEditMode,
+  editing,
+  startEditing,
+  stopEditing,
   updatedRecords,
   setUpdatedRecords
 }) {
@@ -249,14 +250,6 @@ function Editable({
     stopAuthorizing,
     updateValue
   } = actions
-
-  function startEditing() {
-    setEditMode(true)
-  }
-
-  function stopEditing() {
-    setEditMode(false)
-  }
 
   const isValid = validateRecord({
     type: selectedRecord && selectedRecord.value ? selectedRecord.value : null,
@@ -313,7 +306,7 @@ function Editable({
     <>
       <RecordsTitle>
         {t('singleName.record.title')}
-        {editMode ? (
+        {editing ? (
           <ToggleAddRecord onClick={stopEditing}>
             Close Add/Edit Record
           </ToggleAddRecord>
@@ -323,7 +316,7 @@ function Editable({
           </ToggleAddRecord>
         )}
       </RecordsTitle>
-      {editMode && (
+      {editing && (
         <AddRecordForm onSubmit={handleSubmit}>
           <Row>
             <Select
@@ -394,16 +387,7 @@ function Editable({
                 isValid={isValid}
                 isInvalid={isInvalid}
               />
-            ) : (
-              <DetailsItemInput
-                newValue={newValue}
-                dataType={selectedRecord ? selectedRecord.value : null}
-                contentType={domain.contentType}
-                updateValue={updateValue}
-                isValid={isValid}
-                isInvalid={isInvalid}
-              />
-            )}
+            ) : null}
           </Row>
           {selectedRecord &&
             uploading &&
@@ -437,9 +421,13 @@ function Editable({
               ) : (
                 <AddRecordButton>
                   <Button
-                    onClick={() =>
-                      saveRecord(selectedRecord, selectedKey, newValue)
+                    onClick={
+                      isValid
+                        ? () =>
+                            saveRecord(selectedRecord, selectedKey, newValue)
+                        : () => {}
                     }
+                    type={isValid ? 'primary' : 'disabled'}
                   >
                     Save
                   </Button>

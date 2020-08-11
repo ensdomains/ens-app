@@ -5,11 +5,13 @@ import isEqual from 'lodash/isEqual'
 import differenceWith from 'lodash/differenceWith'
 import { useQuery } from 'react-apollo'
 import { useTranslation } from 'react-i18next'
+import { getNamehash } from '@ensdomains/ui'
 
+import { useEditable } from '../../hooks'
 import { ADD_MULTI_RECORDS } from '../../../graphql/mutations'
 import COIN_LIST from 'constants/coinList'
 import TEXT_RECORD_KEYS from 'constants/textRecords'
-import { getNamehash } from '@ensdomains/ui'
+import PendingTx from '../../PendingTx'
 
 import {
   SET_RESOLVER,
@@ -64,7 +66,11 @@ const ConfirmBox = styled('div')`
   padding: 20px;
   background: #f0f6fa;
   display: flex;
-  justify-content: space-between;
+
+  ${p =>
+    p.pending
+      ? 'justify-content: flex-end;'
+      : 'justify-content: space-between;'}
 `
 
 const RECORDS = [
@@ -203,20 +209,34 @@ export default function Records({
   needsToBeMigrated
 }) {
   const { t } = useTranslation()
-  const [addMultiRecords] = useMutation(ADD_MULTI_RECORDS)
-  const [state, dispatch] = useReducer(reducer, {})
   const [updatedRecords, setUpdatedRecords] = useState({
     contentHash: undefined,
     coins: [],
     textRecords: []
   })
-  const [editMode, setEditMode] = useState(false)
-  const { loading: addressesLoading, data: dataAddresses } = useQuery(
-    GET_ADDRESSES,
-    {
-      variables: { name: domain.name, keys: COIN_LIST }
+  const { actions, state } = useEditable()
+  const [editing, setEditing] = useState(false)
+  const startEditing = () => setEditing(true)
+  const stopEditing = () => setEditing(false)
+
+  const { pending, confirmed, txHash } = state
+  const { startPending, setConfirmed } = actions
+
+  const [addMultiRecords] = useMutation(ADD_MULTI_RECORDS, {
+    onCompleted: data => {
+      startPending(Object.values(data)[0])
     }
-  )
+  })
+
+  //const [editMode, setEditMode] = useState(false)
+
+  const {
+    loading: addressesLoading,
+    data: dataAddresses,
+    refetch: refetchAddresses
+  } = useQuery(GET_ADDRESSES, {
+    variables: { name: domain.name, keys: COIN_LIST }
+  })
 
   const { data: dataTextRecordKeys, loading, error } = useQuery(
     GET_RESOLVER_FROM_SUBGRAPH,
@@ -229,20 +249,21 @@ export default function Records({
 
   //TEXT_RECORD_KEYS use for fallback
 
-  const { loading: textRecordsLoading, data: dataTextRecords } = useQuery(
-    GET_TEXT_RECORDS,
-    {
-      variables: {
-        name: domain.name,
-        keys:
-          dataTextRecordKeys &&
-          dataTextRecordKeys.domain &&
-          dataTextRecordKeys.domain.resolver &&
-          dataTextRecordKeys.domain.resolver.texts
-      },
-      skip: !dataTextRecordKeys
-    }
-  )
+  const {
+    loading: textRecordsLoading,
+    data: dataTextRecords,
+    refetch: refetchTextRecords
+  } = useQuery(GET_TEXT_RECORDS, {
+    variables: {
+      name: domain.name,
+      keys:
+        dataTextRecordKeys &&
+        dataTextRecordKeys.domain &&
+        dataTextRecordKeys.domain.resolver &&
+        dataTextRecordKeys.domain.resolver.texts
+    },
+    skip: !dataTextRecordKeys
+  })
 
   const initialRecords = {
     textRecords: dataTextRecords && dataTextRecords.getTextRecords,
@@ -302,8 +323,9 @@ export default function Records({
         <AddRecord
           domain={domain}
           canEdit={canEditRecords}
-          editMode={editMode}
-          setEditMode={setEditMode}
+          editing={editing}
+          startEditing={startEditing}
+          stopEditing={stopEditing}
           initialRecords={initialRecords}
           updatedRecords={updatedRecords}
           setUpdatedRecords={setUpdatedRecords}
@@ -313,7 +335,7 @@ export default function Records({
 
       <Coins
         canEdit={canEditRecords}
-        editing={editMode}
+        editing={editing}
         domain={domain}
         mutation={SET_ADDR}
         addresses={updatedRecords.coins}
@@ -326,7 +348,7 @@ export default function Records({
       {!isEmpty(domain.content) && (
         <ContentHash
           canEdit={canEditRecords}
-          editing={editMode}
+          editing={editing}
           domain={domain}
           keyName="Content"
           type="content"
@@ -340,7 +362,7 @@ export default function Records({
       )}
       <TextRecord
         canEdit={canEditRecords}
-        editing={editMode}
+        editing={editing}
         domain={domain}
         mutation={SET_TEXT}
         textRecords={dataTextRecords && dataTextRecords.getTextRecords}
@@ -350,7 +372,19 @@ export default function Records({
         setUpdatedRecords={setUpdatedRecords}
         changedRecords={changedRecords}
       />
-      {editMode && (
+      {console.log({ pending, confirmed: !confirmed, txHash })}
+      {pending && !confirmed && txHash && (
+        <ConfirmBox pending={pending}>
+          <PendingTx
+            txHash={txHash}
+            onConfirmed={() => {
+              setConfirmed()
+              stopEditing()
+            }}
+          />
+        </ConfirmBox>
+      )}
+      {editing && !txHash && (
         <ConfirmBox>
           <p>
             Add, delete, or edit one or multiple records. Confirm in one
@@ -361,10 +395,10 @@ export default function Records({
               addMultiRecords({
                 variables: { name: domain.name, records: changedRecords }
               })
-              setEditMode(false)
+              //stopEditing(false)
             }}
             mutationButton="Confirm"
-            stopEditing={() => setEditMode(false)}
+            stopEditing={stopEditing}
             disabled={false}
             confirm={true}
             extraDataComponent={
