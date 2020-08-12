@@ -196,7 +196,7 @@
     },
     "notify": "Notify me",
     "premium": {
-      "dateDescription": "Time shown in local time zone",
+      "dateDescription": "Date and time shown in local time zone",
       "invalid": "Any number over 2k is invalid",
       "title": "Premium"
     },
