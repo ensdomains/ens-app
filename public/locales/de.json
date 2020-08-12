@@ -196,7 +196,7 @@
     },
     "notify": "Benachrichtige mich",
     "premium": {
-      "dateDescription": "Date of peremium price in local time zone",
+      "dateDescription": "Time shown in local time zone",
       "invalid": "Any number over 2k is invalid",
       "title": "Premium"
     },
