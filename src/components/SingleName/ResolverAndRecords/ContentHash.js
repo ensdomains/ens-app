@@ -14,7 +14,7 @@ import IpfsLogin from '../../IPFS/Login'
 import StyledUpload from '../../Forms/Upload'
 import ContentHashLink from '../../Links/ContentHashLink'
 import Pencil from '../../Forms/Pencil'
-import Bin from '../../Forms/Bin'
+import DefaultBin from '../../Forms/Bin'
 import RecordInput from '../RecordInput'
 import CopyToClipBoard from '../../CopyToClipboard/'
 import { useEditable } from '../../hooks'
@@ -55,6 +55,7 @@ export const RecordsKey = styled(DetailsKey)`
   margin-bottom: 0;
   max-width: 100%;
   margin-right: 10px;
+  align-self: flex-start;
   ${mq.medium`
     width: 180px;
     margin-right: 0px;
@@ -109,6 +110,13 @@ const Action = styled('div')`
   ${mq.small`
     margin-left: auto;
   `};
+`
+
+const Bin = styled(DefaultBin)`
+  align-self: flex-start;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
 `
 
 const SecondaryAction = styled('div')`
