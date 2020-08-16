@@ -568,6 +568,7 @@ function NameDetails({
       name: domain.parent
     }
   })
+  console.log(domain)
 
   const isMigratedToNewRegistry = !loadingIsMigrated && isMigrated
   const isParentMigratedToNewRegistry = isParentMigrated

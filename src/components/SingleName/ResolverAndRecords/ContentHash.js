@@ -177,6 +177,7 @@ const ContentHashEditable = ({
   })
 
   const isInvalid = value !== '' && !isValid
+  console.log('***value', value === '')
 
   return (
     <>
@@ -185,8 +186,17 @@ const ContentHashEditable = ({
           <RecordsKey>{t(`c.${keyName}`)}</RecordsKey>
           {!editing && (
             <RecordsValue editableSmall>
-              <ContentHashLink value={value} contentType={domain.contentType} />
-              <CopyToClipBoard value={value} />
+              {value !== '' ? (
+                <>
+                  <ContentHashLink
+                    value={value}
+                    contentType={domain.contentType}
+                  />
+                  <CopyToClipBoard value={value} />
+                </>
+              ) : (
+                'Content Hash not set'
+              )}
             </RecordsValue>
           )}
 
@@ -233,7 +243,8 @@ const ContentHashEditable = ({
                       }}
                       newValue={newValue}
                     />
-                    {value !== '' && (
+                    {console.log('contenthash', value)}
+                    {value !== '' ? (
                       <NewRecordsContainer>
                         <RecordsKey>New IPFS Hash:</RecordsKey>
                         <ContentHashLink
@@ -241,6 +252,8 @@ const ContentHashEditable = ({
                           contentType={domain.contentType}
                         />
                       </NewRecordsContainer>
+                    ) : (
+                      <RecordsValue>Content Hash not set</RecordsValue>
                     )}
                     {value !== '' && (
                       <Switch
@@ -267,47 +280,6 @@ const ContentHashEditable = ({
                     </Switch>
                     }
                   </>
-                )}
-              </EditRecord>
-
-              {/* <SaveCancel
-              warningMessage={getOldContentWarning(type, domain.contentType)}
-              mutation={e => {
-                e.preventDefault()
-                const variables = {
-                  name: domain.name,
-                  [variableName ? variableName : 'recordValue']: newValue
-                }
-                mutation({
-                  variables
-                })
-              }}
-              isValid={isValid}
-              stopEditing={stopEditing}
-            /> */}
-            </>
-          ) : uploading && authorized ? (
-            <>
-              <EditRecord>
-                <Upload
-                  updateValue={value => {
-                    setUpdatedRecords(records => {
-                      return {
-                        ...records,
-                        contentHash: value
-                      }
-                    })
-                  }}
-                  newValue={value}
-                />
-                {value !== '' && (
-                  <NewRecordsContainer>
-                    <RecordsKey>New IPFS Hash:</RecordsKey>
-                    <ContentHashLink
-                      value={value}
-                      contentType={domain.contentType}
-                    />
-                  </NewRecordsContainer>
                 )}
               </EditRecord>
             </>

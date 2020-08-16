@@ -11,6 +11,7 @@ import { useEditable } from '../../hooks'
 import { ADD_MULTI_RECORDS } from '../../../graphql/mutations'
 import COIN_LIST from 'constants/coinList'
 import PendingTx from '../../PendingTx'
+import { emptyAddress } from '../../../utils/utils'
 
 import {
   GET_ADDRESSES,
@@ -229,7 +230,7 @@ export default function Records({
   const initialRecords = {
     textRecords: dataTextRecords && dataTextRecords.getTextRecords,
     coins: dataAddresses && dataAddresses.getAddresses,
-    contentHash: domain.content,
+    contentHash: domain.content.startsWith('undefined') ? '' : domain.content,
     loading: textRecordsLoading || addressesLoading
   }
 
@@ -266,6 +267,8 @@ export default function Records({
   const haveRecordsChanged = checkRecordsHaveChanged(changedRecords)
   const areRecordsValid = checkRecordsAreValid(changedRecords)
 
+  console.log('****domain content', domain.content)
+
   return (
     <RecordsWrapper
       shouldShowRecords={shouldShowRecords}
@@ -297,20 +300,18 @@ export default function Records({
         setUpdatedRecords={setUpdatedRecords}
         changedRecords={changedRecords}
       />
-      {!isEmpty(domain.content) && (
-        <ContentHash
-          canEdit={canEditRecords}
-          editing={editing}
-          domain={domain}
-          keyName="Content"
-          type="content"
-          value={domain.content}
-          refetch={refetch}
-          updatedRecords={updatedRecords}
-          setUpdatedRecords={setUpdatedRecords}
-          changedRecords={changedRecords}
-        />
-      )}
+      <ContentHash
+        canEdit={canEditRecords}
+        editing={editing}
+        domain={domain}
+        keyName="Content"
+        type="content"
+        value={domain.content.startsWith('undefined') ? '' : domain.content}
+        refetch={refetch}
+        updatedRecords={updatedRecords}
+        setUpdatedRecords={setUpdatedRecords}
+        changedRecords={changedRecords}
+      />
       <TextRecord
         canEdit={canEditRecords}
         editing={editing}
