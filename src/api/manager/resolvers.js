@@ -610,6 +610,10 @@ const resolvers = {
                 return record.map(coinRecord => {
                   const { decoder, coinType } = formatsByName[coinRecord.key]
                   let addressAsBytes
+                  // use 0x00... for ETH because an empty string throws
+                  if (coinRecord.key === 'ETH' && coinRecord.value === '') {
+                    coinRecord.value = emptyAddress
+                  }
                   if (!coinRecord.value || coinRecord.value === '') {
                     addressAsBytes = Buffer.from('')
                   } else {

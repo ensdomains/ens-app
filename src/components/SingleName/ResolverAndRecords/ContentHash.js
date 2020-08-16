@@ -207,7 +207,6 @@ const ContentHashEditable = ({
                 />
                 {uploading && !authorized && (
                   <>
-                    hello
                     <IpfsLogin startAuthorizing={startAuthorizing} />
                   </>
                 )}

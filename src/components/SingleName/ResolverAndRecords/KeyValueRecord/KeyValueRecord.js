@@ -10,8 +10,14 @@ import {
   RecordsSubKey
 } from '../RecordsItem'
 import RecordInput from '../../RecordInput'
-import Bin from '../../../Forms/Bin'
+import DefaultBin from '../../../Forms/Bin'
 import { emptyAddress } from '../../../../utils/utils'
+
+const Bin = styled(DefaultBin)`
+  align-self: center;
+  margin-left: 10px;
+  margin-right: 10px;
+`
 
 const KeyValueItem = styled(RecordsItem)`
   display: flex;
@@ -99,7 +105,11 @@ const Editable = ({
   let isInvalid = false
 
   if (validator) {
-    isValid = validator(textKey, value)
+    if (value === emptyAddress || value === '') {
+      isValid = true
+    } else {
+      isValid = validator(textKey, value)
+    }
     isInvalid = !isValid
   } else {
     isValid = true
@@ -130,7 +140,24 @@ const Editable = ({
                 )
               }))
             }}
-            value={value}
+            value={value === emptyAddress ? '' : value}
+          />
+
+          <Bin
+            onClick={() =>
+              setUpdatedRecords(state => ({
+                ...state,
+                [recordType]: state[recordType].map(record =>
+                  record.key === textKey
+                    ? {
+                        ...record,
+                        value: '',
+                        isValid: validator ? validator(textKey, value) : true
+                      }
+                    : record
+                )
+              }))
+            }
           />
         </KeyValuesContent>
       ) : (
@@ -208,7 +235,10 @@ function Records({
       {hasRecord && <Key>{title}</Key>}
       <KeyValuesList>
         {records.map(({ key, value }) => {
-          if (value === emptyAddress && !placeholderRecords.includes(key)) {
+          if (
+            (value === emptyAddress || value === '') &&
+            !placeholderRecords.includes(key)
+          ) {
             return null
           }
           return (

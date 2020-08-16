@@ -49,11 +49,7 @@ const ConfirmBox = styled('div')`
   padding: 20px;
   background: #f0f6fa;
   display: flex;
-
-  ${p =>
-    p.pending
-      ? 'justify-content: flex-end;'
-      : 'justify-content: space-between;'}
+  justify-content: space-between;
 `
 
 const RECORDS = [
@@ -177,24 +173,28 @@ export default function Records({
   needsToBeMigrated
 }) {
   const { t } = useTranslation()
+  const [addMultiRecords] = useMutation(ADD_MULTI_RECORDS, {
+    onCompleted: data => {
+      startPending(Object.values(data)[0])
+    }
+  })
   const [updatedRecords, setUpdatedRecords] = useState({
     contentHash: undefined,
     coins: [],
     textRecords: []
   })
   const { actions, state } = useEditable()
-  const [editing, setEditing] = useState(false)
-  const startEditing = () => setEditing(true)
-  const stopEditing = () => setEditing(false)
+  const { pending, confirmed, editing, txHash } = state
 
-  const { pending, confirmed, txHash } = state
-  const { startPending, setConfirmed } = actions
+  const {
+    startPending,
+    setConfirmed,
+    startEditing,
+    stopEditing,
+    resetPending
+  } = actions
 
-  const [addMultiRecords] = useMutation(ADD_MULTI_RECORDS, {
-    onCompleted: data => {
-      startPending(Object.values(data)[0])
-    }
-  })
+  //const [editMode, setEditMode] = useState(false)
 
   const { loading: addressesLoading, data: dataAddresses } = useQuery(
     GET_ADDRESSES,
@@ -237,13 +237,7 @@ export default function Records({
     if (textRecordsLoading === false && addressesLoading === false) {
       setUpdatedRecords(initialRecords)
     }
-  }, [
-    textRecordsLoading,
-    addressesLoading,
-    dataAddresses,
-    dataTextRecords,
-    initialRecords
-  ])
+  }, [textRecordsLoading, addressesLoading, dataAddresses, dataTextRecords])
 
   const emptyRecords = RECORDS.filter(record => {
     if (record.value === 'address') {
@@ -292,7 +286,6 @@ export default function Records({
           emptyRecords={emptyRecords}
         />
       )}
-
       <Coins
         canEdit={canEditRecords}
         editing={editing}
@@ -336,7 +329,7 @@ export default function Records({
             txHash={txHash}
             onConfirmed={() => {
               setConfirmed()
-              stopEditing()
+              resetPending()
             }}
           />
         </ConfirmBox>
@@ -349,6 +342,7 @@ export default function Records({
           </p>
           <SaveCancel
             mutation={() => {
+              console.log(changedRecords)
               addMultiRecords({
                 variables: { name: domain.name, records: changedRecords }
               })
@@ -364,7 +358,8 @@ export default function Records({
                 {changedRecords.coins.length > 0 && <p>Updated addresses:</p>}
                 {changedRecords.coins.map(record => (
                   <li>
-                    {record.key} - {record.value}
+                    {record.key} -{' '}
+                    {record.value === '' ? 'delete record' : record.value}
                   </li>
                 ))}
                 {changedRecords.contentHash && (
