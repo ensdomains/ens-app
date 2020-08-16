@@ -177,7 +177,6 @@ const ContentHashEditable = ({
   })
 
   const isInvalid = value !== '' && !isValid
-  console.log('***value', value === '')
 
   return (
     <>

@@ -224,12 +224,20 @@ function Editable({
     updateValue
   } = actions
 
-  const isValid = validateRecord({
+  const args = {
     type: selectedRecord && selectedRecord.value ? selectedRecord.value : null,
     value: newValue,
     contentType: domain.contentType,
     selectedKey: selectedKey && selectedKey.value
-  })
+  }
+
+  console.log('**records', args)
+  console.log(selectedRecord && selectedRecord.value)
+
+  const isValid =
+    selectedRecord && selectedRecord.value ? validateRecord(args) : false
+
+  console.log(isValid, 'isValid')
 
   function saveRecord(selectedRecord, selectedKey, newValue) {
     function createRecordObj({
@@ -394,12 +402,12 @@ function Editable({
               ) : (
                 <AddRecordButton>
                   <Button
-                    onClick={
-                      isValid
-                        ? () =>
-                            saveRecord(selectedRecord, selectedKey, newValue)
-                        : () => {}
-                    }
+                    onClick={() => {
+                      console.log(isValid, 'inside save button')
+                      if (isValid) {
+                        saveRecord(selectedRecord, selectedKey, newValue)
+                      }
+                    }}
                     type={isValid ? 'primary' : 'disabled'}
                   >
                     Save
@@ -410,9 +418,12 @@ function Editable({
           ) : (
             <AddRecordButton>
               <Button
-                onClick={() =>
-                  saveRecord(selectedRecord, selectedKey, newValue)
-                }
+                type={isValid ? 'primary' : 'disabled'}
+                onClick={() => {
+                  if (isValid) {
+                    saveRecord(selectedRecord, selectedKey, newValue)
+                  }
+                }}
               >
                 Save
               </Button>

@@ -267,8 +267,6 @@ export default function Records({
   const haveRecordsChanged = checkRecordsHaveChanged(changedRecords)
   const areRecordsValid = checkRecordsAreValid(changedRecords)
 
-  console.log('****domain content', domain.content)
-
   return (
     <RecordsWrapper
       shouldShowRecords={shouldShowRecords}
@@ -323,7 +321,6 @@ export default function Records({
         setUpdatedRecords={setUpdatedRecords}
         changedRecords={changedRecords}
       />
-      {console.log({ pending, confirmed: !confirmed, txHash })}
       {pending && !confirmed && txHash && (
         <ConfirmBox pending={pending}>
           <PendingTx
@@ -343,7 +340,6 @@ export default function Records({
           </p>
           <SaveCancel
             mutation={() => {
-              console.log(changedRecords)
               addMultiRecords({
                 variables: { name: domain.name, records: changedRecords }
               })
