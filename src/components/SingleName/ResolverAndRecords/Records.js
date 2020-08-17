@@ -230,7 +230,7 @@ export default function Records({
   const initialRecords = {
     textRecords: dataTextRecords && dataTextRecords.getTextRecords,
     coins: dataAddresses && dataAddresses.getAddresses,
-    contentHash: domain.content.startsWith('undefined') ? '' : domain.content,
+    contentHash: domain.content?.startsWith('undefined') ? '' : domain.content,
     loading: textRecordsLoading || addressesLoading
   }
 
