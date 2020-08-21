@@ -30,8 +30,8 @@
       "registrant": "Registrant"
     },
     "namesExpiringSoonBanner": {
-      "text": "One or more names are expiring soon, renew them all in one transaction by selecting multiple names and click 'Renew'",
-      "title": "Many names purchased in the past will be out of grace period in Aug"
+      "text": "Renew them all in one transaction by selecting multiple names and click 'Renew'",
+      "title": "One or more names are expiring soon"
     },
     "renew": {
       "button": "Renew Selected",
@@ -140,15 +140,6 @@
   },
   "home": {
     "announcements": {
-      "migrationOver": "ENS Registry Migration Is Over… Now What? A Few Things to Know",
-      "renew": {
-        "body": [
-          "You can renew multiple domains in one transaction by going to your",
-          "address page",
-          "or clicking 'My names' whilst logged in"
-        ],
-        "title": "Many names purchased in the past will be out of grace period in Aug."
-      }
     },
     "howtouse": {
       "body": "The ENS App is a Graphical User Interface for non-technical users. It allows you to search any name, manage their addresses or resources it points to and create subdomains for each name.",
@@ -205,7 +196,7 @@
     },
     "notify": "Notify me",
     "premium": {
-      "dateDescription": "Date of peremium price in local time zone",
+      "dateDescription": "Date and time shown in local time zone",
       "invalid": "Any number over 2k is invalid",
       "title": "Premium"
     },
@@ -272,7 +263,7 @@
     "tooShort": {
       "long": "Names less than 6 characters have been reserved for when the permanent registrar has been released.",
       "short1": "Name is too short.",
-      "short2": "Names must be at least 7 characters long"
+      "short2": "Names must be at least 3 characters long"
     },
     "unsupported": {
       "long": "We do not support every single domain. Support for future domains are planned in the future",
@@ -280,12 +271,6 @@
     }
   },
   "singleName": {
-    "banners": {
-      "namesExpiring": {
-        "text": "Click the renew button to avoid expiration. To renew all of your names in bulk, navigate to <1>My Names</1> and selecting multiple names before clicking 'Renew'",
-        "title": "Many names purchased in the past will be out of grace period in Aug"
-      }
-    },
     "confirm": {
       "button": {
         "cancel": "Cancel",

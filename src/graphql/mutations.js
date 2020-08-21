@@ -142,14 +142,14 @@ export const RECLAIM = gql`
 `
 
 export const COMMIT = gql`
-  mutation commit($label: String) {
-    commit(label: $label) @client
+  mutation commit($label: String, $secret: String) {
+    commit(label: $label, secret: $secret) @client
   }
 `
 
 export const REGISTER = gql`
-  mutation register($label: String, $duration: Int) {
-    register(label: $label, duration: $duration) @client
+  mutation register($label: String, $duration: Int, $secret: String) {
+    register(label: $label, duration: $duration, secret: $secret) @client
   }
 `
 

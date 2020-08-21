@@ -161,6 +161,12 @@ export const GET_TRANSACTION_HISTORY = gql`
   }
 `
 
+export const WAIT_BLOCK_TIMESTAMP = gql`
+  query waitBlockTimestamp($waitUntil: Int) {
+    waitBlockTimestamp(waitUntil: $waitUntil) @client
+  }
+`
+
 export const GET_FAVOURITES = gql`
   query getFavourites {
     favourites @client {
@@ -293,6 +299,12 @@ export const GET_TIME_UNTIL_PREMIUM = gql`
 export const GET_MINIMUM_COMMITMENT_AGE = gql`
   query getMinimumCommitmentAge {
     getMinimumCommitmentAge @client
+  }
+`
+
+export const GET_MAXIMUM_COMMITMENT_AGE = gql`
+  query getMaximumCommitmentAge {
+    getMaximumCommitmentAge @client
   }
 `
 

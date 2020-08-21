@@ -1,5 +1,6 @@
 import {
   isDecrypted,
+  getBlock,
   getWeb3,
   getNetworkId,
   getNamehash,
@@ -13,9 +14,7 @@ import {
 } from '@ensdomains/ui'
 import { formatsByName } from '@ensdomains/address-encoder'
 import isEqual from 'lodash/isEqual'
-import { query } from '../subDomainRegistrar'
 import modeNames from '../modes'
-import domains from '../../constants/domains.json'
 import { sendHelper, sendHelperArray } from '../resolverUtils'
 import { emptyAddress } from '../../utils/utils'
 import TEXT_RECORD_KEYS from 'constants/textRecords'
@@ -38,6 +37,10 @@ const defaults = {
   favourites: savedFavourites,
   subDomainFavourites: savedSubDomainFavourites,
   transactionHistory: []
+}
+
+async function delay(ms) {
+  return await new Promise(resolve => setTimeout(resolve, ms))
 }
 
 async function getParent(name) {
@@ -136,23 +139,6 @@ async function getTestEntry(name) {
   return {}
 }
 
-async function getSubDomainSaleEntry(name) {
-  const nameArray = name.split('.')
-  const networkId = await getNetworkId()
-  if (nameArray.length < 3) return {}
-
-  if (networkId === 1) {
-    const domain = domains.find(domain => domain.name === nameArray[1]) || {}
-    const subdomain = await query(nameArray[1], nameArray[0], domain.registrar)
-    const node = {
-      name: `${name}`,
-      ...subdomain,
-      state: subdomain.available ? 'Open' : 'Owned'
-    }
-    return node
-  }
-}
-
 async function getRegistrant(name) {
   const client = getClient()
   try {
@@ -218,7 +204,7 @@ function setState(node) {
   }
   if (node.available) {
     state = 'Open'
-  } else if (parseInt(node.owner, 16) !== 0) {
+  } else {
     state = 'Owned'
   }
   return {
@@ -472,6 +458,20 @@ const resolvers = {
       }
 
       return address
+    },
+    waitBlockTimestamp: async (_, { waitUntil }) => {
+      if (waitUntil) {
+        let block = await getBlock()
+        let timestamp = block.timestamp * 1000
+        while (timestamp < waitUntil) {
+          block = await getBlock()
+          timestamp = block.timestamp * 1000
+          await delay(1000)
+        }
+        return true
+      } else {
+        return false
+      }
     }
   },
   Mutation: {

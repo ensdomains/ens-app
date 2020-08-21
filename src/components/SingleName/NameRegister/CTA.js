@@ -41,11 +41,13 @@ const OrangeExclamation = styled(DefaultOrangeExclamation)`
 function getCTA({
   step,
   incrementStep,
+  secret,
   duration,
   label,
   txHash,
   setTxHash,
   setTimerRunning,
+  setBlockCreatedAt,
   isAboveMinDuration,
   refetch,
   refetchIsMigrated,
@@ -59,7 +61,7 @@ function getCTA({
     PRICE_DECISION: (
       <Mutation
         mutation={COMMIT}
-        variables={{ label }}
+        variables={{ label, secret }}
         onCompleted={data => {
           const txHash = Object.values(data)[0]
           setTxHash(txHash)
@@ -106,8 +108,11 @@ function getCTA({
     COMMIT_SENT: (
       <PendingTx
         txHash={txHash}
-        onConfirmed={() => {
+        onConfirmed={data => {
           incrementStep()
+          if (data.blockCreatedAt) {
+            setBlockCreatedAt(data.blockCreatedAt)
+          }
           setTimerRunning(true)
         }}
       />
@@ -120,7 +125,7 @@ function getCTA({
     AWAITING_REGISTER: (
       <Mutation
         mutation={REGISTER}
-        variables={{ label, duration }}
+        variables={{ label, duration, secret }}
         onCompleted={data => {
           const txHash = Object.values(data)[0]
           setTxHash(txHash)
@@ -188,9 +193,11 @@ function getCTA({
 const CTA = ({
   step,
   incrementStep,
+  secret,
   duration,
   label,
   setTimerRunning,
+  setBlockCreatedAt,
   isAboveMinDuration,
   refetch,
   refetchIsMigrated,
@@ -206,11 +213,13 @@ const CTA = ({
       {getCTA({
         step,
         incrementStep,
+        secret,
         duration,
         label,
         txHash,
         setTxHash,
         setTimerRunning,
+        setBlockCreatedAt,
         isAboveMinDuration,
         refetch,
         refetchIsMigrated,
