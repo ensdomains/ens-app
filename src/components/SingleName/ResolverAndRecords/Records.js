@@ -24,6 +24,7 @@ import ContentHash from './ContentHash'
 import TextRecord from './TextRecord'
 import Coins from './Coins'
 import DefaultSaveCancel from '../SaveCancel'
+import RecordsCheck from './RecordsCheck'
 
 const RecordsWrapper = styled('div')`
   border-radius: 6px;
@@ -350,27 +351,7 @@ export default function Records({
             disabled={false}
             confirm={true}
             extraDataComponent={
-              <div>
-                <p>Changing the following records:</p>
-                {changedRecords.coins.length > 0 && <p>Updated addresses:</p>}
-                {changedRecords.coins.map(record => (
-                  <li>
-                    {record.key} -{' '}
-                    {record.value === '' ? 'delete record' : record.value}
-                  </li>
-                ))}
-                {changedRecords.contentHash && (
-                  <p>Content Hash: {changedRecords.contentHash}</p>
-                )}
-                {changedRecords.textRecords.length > 0 && (
-                  <p>Updated text records:</p>
-                )}
-                {changedRecords.textRecords.map(record => (
-                  <li>
-                    {record.key} - {record.value}
-                  </li>
-                ))}
-              </div>
+              <RecordsCheck changedRecords={changedRecords} />
             }
             isValid={haveRecordsChanged && areRecordsValid}
           />

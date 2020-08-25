@@ -269,3 +269,5 @@ export default function KeyValueRecord(props) {
   if (props.loading) return null
   return <Records {...props} />
 }
+
+export { ViewOnly, KeyValueContainer, KeyValuesList, Key }
