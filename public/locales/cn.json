@@ -231,10 +231,7 @@
     }
   },
   "releaseDeed": {
-    "connectRegistrar": "此域名已自动迁移到新的注册器。要收回为其锁定的以太币，请通过注册账户连接并点击 “收回” 按钮。",
-    "depositReturned": "您锁定的以太币已被收回",
-    "returnDeposit": "此域名已自动迁移到新的注册器。要收回为其锁定的以太币，请点击 “收回” 按钮。",
-    "whyMigrated": "* 了解该域名为何会被迁移"
+    "returnDeposit": "There is still an unclaimed deposit on this name. To get the deposited eth back, Go to"
   },
   "reminder": {
     "everywhere": "everywhere",
