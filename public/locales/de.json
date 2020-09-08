@@ -1,28 +1,4 @@
 {
-  "about": {
-    "card1": "Zuordnung einfacher Namen wie 'alice.eth' zu Ethereum-Adressen, Content Hashes und Metadaten.",
-    "card2": "Verbesserung der Benutzerfreundlichkeit von Dapps durch das Anzeigen von menschenlesbaren Namen statt langer Hashes durch 'reverse resolution'",
-    "elevatorpitch": "Der Ethereum Name Service ist ein verteiltes, offenes und erweiterbares System zur Namensauflösung, basierend auf der Ethereum Blockchain. Mit ENS muss man keine langen Adressen mehr kopieren oder eintippen.",
-    "subdomainText": "Wie DNS arbeitet ENS mit einem System durch Punkte-getrennter, hierarchischen Namen, die Domains genannt werden, wobei der Besitzer einer Domain die volle Kontrolle über die Vergabe von Subdomains hat.",
-    "subtitles": [
-      "Über ENS",
-      "TLDs & SUBDOMAINS",
-      "WIE MAN ENS BENUTZT",
-      "Unter der Oberfläche"
-    ],
-    "underTheSurface": {
-      "registrar": "Der Registrar ist der Smart Contract welcher das Kaufen oder Registrieren einer Domain möglich macht.",
-      "registry": "Das Register ist ein Smart Contract welcher eine Liste aller Domains und Subdomains enthält. Für jede werden zwei Informationen gespeichert: der Besitzer des Namens und der Resolver.",
-      "resolver": "Resolver sind Smart Contracts welche für den Prozess der Übersetzung von Namen zu Adressen, oder anderen Arten von Hashes und Ressourcen, verantwortlich sind.",
-      "reverse": "Der Resolver kann optional auch die umgekehrte Funktion der 'Reverse Resolution' übernehmen: Die Übersetzung einer Adresse in den dazugehörigen Namen.",
-      "titles": [
-        "Der Registrar",
-        "Das Register",
-        "Der Resolver",
-        "Reverse Resolution"
-      ]
-    }
-  },
   "address": {
     "etherscanButton": "Auf Etherscan anschauen",
     "filter": {
@@ -30,8 +6,8 @@
       "registrant": "Registrant"
     },
     "namesExpiringSoonBanner": {
-      "text": "Einer oder mehrere Namen laufen bald aus, verlängern Sie alle in einer einzigen Transaktion, indem Sie mehrere Namen auswählen und auf 'Verlängern' klicken.",
-      "title": "Viele in der Vergangenheit gekauften Namen werden im August nicht mehr in der Schonfrist sein"
+      "text": "Verlängern Sie alle in einer einzigen Transaktion, indem Sie mehrere Namen auswählen und auf 'Verlängern' klicken.",
+      "title": "Einer oder mehrere Namen laufen bald aus"
     },
     "renew": {
       "button": "Ausgewählte verlängern",
@@ -140,15 +116,6 @@
   },
   "home": {
     "announcements": {
-      "migrationOver": "Die Migrierung des ENS Registers ist vorbei...Was jetzt? Einige Dinge, die Sie wissen sollten",
-      "renew": {
-        "body": [
-          "Sie können mehrere Domains in einer Transaktion verlängern, indem Sie zu Ihrer ",
-          "Adress Seite",
-          "gehen oder auf 'Meine Namen' klicken, während Sie eingeloggt sind."
-        ],
-        "title": "Viele in der Vergangenheit gekauften Namen werden im August nicht mehr in der Schonfrist sein"
-      }
     },
     "howtouse": {
       "body": "Die ENS App ist eine grafische Oberfläche für nicht-technische Nutzer. Es ermöglicht Ihnen, Namen zu suchen, ihre Adressen oder Ressourcen, auf die verwiesen wird, zu verwalten und Subdomains für Namen zu erstellen.",
@@ -205,7 +172,7 @@
     },
     "notify": "Benachrichtige mich",
     "premium": {
-      "dateDescription": "Date of peremium price in local time zone",
+      "dateDescription": "Date and time shown in local time zone",
       "invalid": "Any number over 2k is invalid",
       "title": "Premium"
     },
@@ -244,10 +211,7 @@
     }
   },
   "releaseDeed": {
-    "connectRegistrar": "This name was automatically migrated to the new Registrar. To get the deposited eth back, please connect via the registrant account and click the 'return' button.",
-    "depositReturned": "Your deposit is now returned.",
-    "returnDeposit": "Your name was automatically migrated to the new Registrar. To get your deposited eth back, click the 'return' button.",
-    "whyMigrated": "*To understand why this name was migrated"
+    "returnDeposit": "There is still an unclaimed deposit on this name. To get the deposited eth back, Go to"
   },
   "reminder": {
     "everywhere": "everywhere",
@@ -272,7 +236,7 @@
     "tooShort": {
       "long": "Names less than 6 characters have been reserved for when the permanent registrar has been released.",
       "short1": "Name is too short.",
-      "short2": "Names must be at least 7 characters long"
+      "short2": "Names must be at least 3 characters long"
     },
     "unsupported": {
       "long": "We do not support every single domain. Support for future domains are planned in the future",
@@ -280,12 +244,6 @@
     }
   },
   "singleName": {
-    "banners": {
-      "namesExpiring": {
-        "text": "Klicken Sie auf den Verlängern-Button, um das Ablaufen zu vermeiden. Um alle Ihre Namen gesammelt zu verlängern, navigieren Sie zu <1>Meine Namen</1> und wählen Sie mehrere Namen aus, bevor Sie auf 'Verlängern' klicken.",
-        "title": "Viele in der Vergangenheit gekauften Namen werden im August nicht mehr in der Schonfrist sein"
-      }
-    },
     "confirm": {
       "button": {
         "cancel": "Cancel",

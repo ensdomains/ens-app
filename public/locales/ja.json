@@ -1,28 +1,4 @@
 {
-  "about": {
-    "card1": "‘alice.eth’のような簡単な名前をイーサリアムアドレス、コンテンツハッシュ、メタデータにマッピングします。",
-    "card2": "'逆引き解決'により長いハッシュの代わりに、人間が読める名前を返すことでDappsのユーザビリティを改善します。",
-    "elevatorpitch": "イーサリアム・ネーム・サービスは、イーサリアム・ブロックチェーンをベースにした分散型のオープンで拡張性の高いネーミングシステムです。ENSは、長いアドレスをコピーしたりタイプしたりする必要がありません。",
-    "subdomainText": "DNSと同様に、ENSはドメインと呼ばれるドットで分離された階層名のシステム上で動作し、ドメインの所有者はサブドメインの割り当てを完全に制御することができます。",
-    "subtitles": [
-      "ENSについて",
-      "TLD & サブドメイン",
-      "ENSの使い方",
-      "より深く知る"
-    ],
-    "underTheSurface": {
-      "registrar": "レジストラは、ドメインの購入や登録ができるスマート・コントラクトのことです。",
-      "registry": "レジストリは、すべてのドメインとサブドメインのリストを含むスマート・コントラクトで、名前の所有者とリゾルバという2つの情報をそれぞれ保存します。",
-      "resolver": "リゾルバは、名前をアドレス、または他のタイプのハッシュやリソースへ変換するプロセスを担当するスマート・コントラクトです。",
-      "reverse": "リゾルバは、オプションで'逆引き'となる反対の機能、つまりアドレスを関連する名前に変換する機能を実行することができます。",
-      "titles": [
-        "レジストラ",
-        "レジストリ",
-        "リゾルバ",
-        "逆引き"
-      ]
-    }
-  },
   "address": {
     "etherscanButton": "Etherscanで確認",
     "filter": {
@@ -30,8 +6,8 @@
       "registrant": "登録者"
     },
     "namesExpiringSoonBanner": {
-      "text": "1つ以上の名前が間もなく期限切れになります。複数の名前を選択して「更新」をクリックすると、一度のトランザクションですべての名前を更新することができます。",
-      "title": "過去に購入された名前の多くが8月に期限切れになります"
+      "text": "複数の名前を選択して「更新」をクリックすると、一度のトランザクションですべての名前を更新することができます。",
+      "title": "1つ以上の名前が間もなく期限切れになります。"
     },
     "renew": {
       "button": "選択済を更新",
@@ -138,15 +114,6 @@
   },
   "home": {
     "announcements": {
-      "migrationOver": "ENSレジストリの移行は終了しました… さて次は？知っておきたいいくつかのこと",
-      "renew": {
-        "body": [
-          "複数のドメインを自身のアドレスページから1つのトランザクションで更新可能です。",
-          "アドレスページ",
-          "またはログインして'マイENS'をクリックしてください。"
-        ],
-        "title": "過去に購入された名前の多くが8月に期限切れになります。"
-      }
     },
     "howtouse": {
       "body": "ENSアプリは、非技術者向けのグラフィカル・ユーザー・インターフェースです。名前の検索、アドレスやリソースの管理、サブドメインの作成などが可能です。",
@@ -203,7 +170,7 @@
     },
     "notify": "通知する",
     "premium": {
-      "dateDescription": "Date of peremium price in local time zone",
+      "dateDescription": "Date and time shown in local time zone",
       "invalid": "Any number over 2k is invalid",
       "title": "Premium"
     },
@@ -242,10 +209,7 @@
     }
   },
   "releaseDeed": {
-    "connectRegistrar": "This name was automatically migrated to the new Registrar. To get the deposited eth back, please connect via the registrant account and click the 'return' button.",
-    "depositReturned": "Your deposit is now returned.",
-    "returnDeposit": "Your name was automatically migrated to the new Registrar. To get your deposited eth back, click the 'return' button.",
-    "whyMigrated": "*To understand why this name was migrated"
+    "returnDeposit": "このドメインにはまだデポジットが残っています。次のサイトより返却手続きを行ってください"
   },
   "reminder": {
     "everywhere": "everywhere",
@@ -270,7 +234,7 @@
     "tooShort": {
       "long": "Names less than 6 characters have been reserved for when the permanent registrar has been released.",
       "short1": "Name is too short.",
-      "short2": "Names must be at least 7 characters long"
+      "short2": "Names must be at least 3 characters long"
     },
     "unsupported": {
       "long": "We do not support every single domain. Support for future domains are planned in the future",
@@ -278,12 +242,6 @@
     }
   },
   "singleName": {
-    "banners": {
-      "namesExpiring": {
-        "text": "更新ボタンをクリックして期限切れを回避してください。すべての名前を一括で更新するには、<1>マイENS</1>に移動し、複数の名前を選択してから'更新'をクリックしてください。",
-        "title": "過去に購入された名前の多くが8月に期限切れになります"
-      }
-    },
     "confirm": {
       "button": {
         "cancel": "キャンセル",

@@ -4,9 +4,6 @@ const ENABLED_COLOUR = 'rgb(82, 132, 255)'
 const DISABLED_COLOUR = 'rgb(199, 211, 227)'
 
 describe('/address', () => {
-  beforeEach(() => {
-    cy.viewport('macbook-15')
-  })
   it('contains the list of names owened by the user', () => {
     cy.visit(ROOT)
     cy.getByPlaceholderText('Search', { exact: false }).type('resolver.eth')

@@ -204,7 +204,7 @@ function setState(node) {
   }
   if (node.available) {
     state = 'Open'
-  } else if (parseInt(node.owner, 16) !== 0) {
+  } else {
     state = 'Owned'
   }
   return {

@@ -17,6 +17,7 @@ import QuestionMarkDefault from '../components/Icons/QuestionMark'
 import HowToUseDefault from '../components/HowToUse/HowToUse'
 import Alice from '../components/HomePage/Alice'
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
+import { abougPageURL } from '../utils/utils'
 
 const HeroTop = styled('div')`
   display: grid;
@@ -76,6 +77,13 @@ const Nav = styled('div')`
 `
 
 const NavLink = styled(Link)`
+  margin-left: 20px;
+  &:first-child {
+    margin-left: 0;
+  }
+`
+
+const ExternalLink = styled('a')`
   margin-left: 20px;
   &:first-child {
     margin-left: 0;
@@ -290,7 +298,7 @@ export default ({ match }) => {
               </NavLink>
             )}
             <NavLink to="/favourites">{t('c.favourites')}</NavLink>
-            <NavLink to="/about">{t('c.about')}</NavLink>
+            <ExternalLink href={abougPageURL()}>{t('c.about')}</ExternalLink>
           </Nav>
         </HeroTop>
         <SearchContainer>
@@ -308,24 +316,7 @@ export default ({ match }) => {
           </>
         </SearchContainer>
       </Hero>
-      <Announcement>
-        <h3>
-          <img src={warning} alt="warning" />
-          &nbsp; {t('home.announcements.renew.title')}
-        </h3>
-        <p>
-          {t('home.announcements.renew.body.0')}
-          {accounts?.length > 0 ? (
-            <Link to={'/address/' + accounts[0]}>
-              {' '}
-              {t('home.announcements.renew.body.1')}
-            </Link>
-          ) : (
-            'address page'
-          )}{' '}
-          {t('home.announcements.renew.body.2')}
-        </p>
-      </Announcement>
+      <Announcement />
       <Explanation>
         <WhatItIs>
           <Inner>

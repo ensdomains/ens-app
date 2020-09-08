@@ -16,9 +16,6 @@ function waitUntilTextDoesNotExist(text) {
 }
 
 describe('Name detail view', () => {
-  beforeEach(() => {
-    cy.viewport('macbook-15')
-  })
   it('cannot transfer ownership to a non-ethereum address', () => {
     cy.visit(`${NAME_ROOT}/awesome.eth`)
     cy.getByText('Transfer')
