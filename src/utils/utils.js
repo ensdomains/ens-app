@@ -172,6 +172,5 @@ export function isShortName(term) {
 
 export const abougPageURL = () => {
   const lang = window.localStorage.getItem('language') || ''
-
   return `https://ens.domains/${lang === 'en' ? '' : lang}`
 }
