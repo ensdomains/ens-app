@@ -4,9 +4,13 @@ ENS Application
 
 ## Installation
 
-```bash
-yarn install
-yarn start
+### Manual
+
+```shell
+$> git clone https://github.com/ensdomains/ens-app.git
+$> cd ens-app
+$> yarn install
+$> yarn start
 ```
 
 Open your browser at localhost:3000 and open metamask.
@@ -60,9 +64,49 @@ brew uninstall watchman
 brew install watchman
 ```
 
-## Styling
+## Coding Style and Contribution Guide
 
-Styling in this app is done with Emotion, with `styled` components style CSS. We do not use `css` or classNames, unless we are [passing through the styles to a component](https://emotion.sh/docs/styled#styling-any-component)
+### Importing and Exporting
+
+Global modules will be imported first regardless, e.g. React, ReactDOM and any other libraries that are installed via NPM. Imports thereafter will be separated by type with line separating each type. Generally React components will only have one export, unless there are multiple versions of that component, or it's a collection of related styled components. Since there are generally only one export, we will use `export default` to allow more flexibility.
+
+```js
+import React from 'react'
+import ReactDOM from 'react'
+import styled from '@emotion/styled/macro'
+
+import util from '../utils'
+
+import ComponentA from '../components/ComponentA'
+import ComponentB from '../components/ComponentB'
+
+export
+```
+
+### React Style
+
+We use a functional components, using hooks instead of class based components. For basic state we use `useState` and for more complicated state `useReducer`. If they reusable, then you can abstract them to the `hooks` file, which can additionally by split up into a folder once we have enough hooks.
+
+```js
+import React, { useState } from 'react'
+
+export default function Component({ someProp }) {
+  const [state, setState] = useState(null)
+  return <div>...</div>
+}
+```
+
+### CSS/Styling
+
+Styling in this app is done with Emotion, with `styled` components style CSS. We do not use `css` or classNames, unless we are [passing through the styles to a component](https://emotion.sh/docs/styled#styling-any-component). We use the babel plugin macros import as this enables labels and source mapping for our components. We also use parentheses for all styled components to keep consistency when we create components that compose with each other.
+
+```js
+import styled from '@emotion/styled/macro'
+
+const Component = styled('div')`
+  display: flex;
+`
+```
 
 ### Media Queries
 
@@ -82,7 +126,7 @@ const breakpoints = {
 You can use it as follows:
 
 ```js
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import mq from 'mediaQuery'
 
 const SomeComponent = styled('div')`
@@ -105,6 +149,20 @@ function Component(){
   <>
 }
 ```
+
+## Internationalisation
+
+We use the `i18next` and `react-i18next` package for internationlisation.
+
+Currently we use `/public/locales/[language].json` for translation. Each property should be a page or reusable component. The only exception to this is `c` which is a namespace we are using for `common` language throughout the app that will have to be reused over and over.
+
+### Adding a new language
+
+To add a new language, copy the `public/locals/en.json` file, and name it [language].js and then you can begin to translate each label one by one.
+
+The other thing that needs to be changed is `LanguageSwitcher.js`, which has a list of currently supported languages. This will add the language to our dropdown menu.
+
+Once this has been done, please create a pull request for us to review and check it has been done correctl.y
 
 ## End to end Testing
 

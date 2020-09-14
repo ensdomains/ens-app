@@ -1,4 +1,4 @@
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import mq from 'mediaQuery'
 
 export const DetailsItem = styled('div')`
@@ -8,7 +8,8 @@ export const DetailsItem = styled('div')`
   margin-bottom: 20px;
 
   ${mq.small`
-    margin-bottom: 10px;
+    align-items: center;
+    margin-bottom: 20px;
   `}
 
   ${p =>
@@ -16,7 +17,7 @@ export const DetailsItem = styled('div')`
       ? mq.small`
     flex-direction: row;
   `
-      : mq.small`flex-direction: column;`}
+      : mq.small`flex-direction: row;`}
 `
 
 export const DetailsKey = styled('div')`
@@ -25,10 +26,13 @@ export const DetailsKey = styled('div')`
   letter-spacing: 0px;
   font-weight: 600;
   text-transform: uppercase;
-  margin-bottom: 20px;
   flex-shrink: 0;
+  display: flex;
+  margin-bottom: 20px;
 
   ${mq.small`
+    align-items: center;
+    margin-bottom: 0;
     font-size: 16px;
     max-width: 220px;
     min-width: 180px;
@@ -41,14 +45,35 @@ export const DetailsValue = styled('div')`
   font-family: Overpass Mono;
   white-space: nowrap;
   overflow: hidden;
+  display: inline-flex;
   text-overflow: ellipsis;
   ${mq.small`
     font-size: 18px;
+    align-items: center;
   `}
   ${p =>
+    p.editing &&
     p.editable &&
     mq.small`
-      padding-right: 150px;
+      padding-right: 5px;
     `}
-  ${p => p.editableSmall && `padding-right: 50px;`}
+
+  a {
+    display: block;
+    overflow: hidden;
+  }
+`
+/* Container element for key/value */
+export const DetailsContent = styled('div')`
+  display: flex;
+  justify-content: flex-start;
+  position: relative;
+  flex-direction: column;
+  width: 100%;
+  ${({ editing }) => editing && 'margin-bottom: 30px'};
+  transition: 0.3s;
+  ${mq.small`
+    flex-direction: row;
+    align-items: center;
+  `}
 `

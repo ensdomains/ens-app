@@ -1,11 +1,12 @@
 import React from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { Link } from 'react-router-dom'
-
+import { useTranslation } from 'react-i18next'
 import mq from 'mediaQuery'
 
 import AddFavourite from '../AddFavourite/AddFavourite'
 import QueryAccount from '../QueryAccount'
+import ExpiryDate from './ExpiryDate'
 import Loader from '../Loader'
 import { humaniseName } from '../../utils/utils'
 
@@ -49,24 +50,25 @@ const DomainContainer = styled(Link)`
       : 'white'};
   border-radius: 6px;
   height: 65px;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  height: auto;
+  grid-template-columns: 1fr;
+  grid-gap: 10px;
   align-items: center;
   font-size: 22px;
   margin-bottom: 4px;
   transition: 0.2s all;
 
   ${mq.medium`
-    height: 90px
+    grid-template-columns: 1fr minmax(150px,350px) 100px 50px;
+    grid-template-rows: 39px;
   `}
 
-  &:hover {
-    color: #2b2b2b;
-    z-index: 1;
-    box-shadow: 3px 4px 20px 0 rgba(144, 171, 191, 0.42);
-    .label-container {
-      display: flex;
-    }
+  color: #2b2b2b;
+  z-index: 1;
+  box-shadow: 3px 4px 20px 0 rgba(144, 171, 191, 0.42);
+  .label-container {
+    display: flex;
   }
 
   &:visited {
@@ -81,7 +83,7 @@ const RightContainer = styled('div')`
 
 const DomainName = styled('h2')`
   font-size: 18px;
-  font-weight: 200;
+  font-weight: 100;
 
   ${mq.medium`
     font-size: 28px;
@@ -122,23 +124,24 @@ const LabelContainer = styled('div')`
 const LabelText = styled('div')``
 
 const Label = ({ domain, isOwner }) => {
+  const { t } = useTranslation()
   let text
   switch (domain.state) {
     case 'Open':
-      text = 'Available'
+      text = t('singleName.domain.state.available')
       break
     case 'Auction':
-      text = 'In Auction'
+      text = t('singleName.domain.state.auction')
       break
     case 'Owned':
-      text = 'Unavailable'
+      text = t('singleName.domain.state.owned')
       break
     default:
-      text = 'Unknown State'
+      text = t('singleName.domain.state.default')
   }
 
   if (isOwner) {
-    text = 'Owner'
+    text = t('singleName.domain.state.owned')
   }
 
   return (
@@ -161,24 +164,32 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
     <QueryAccount>
       {({ account }) => {
         let isOwner = false
-
-        if (domain.owner && parseInt(domain.owner, 16) !== 0) {
+        if (
+          !domain.available &&
+          domain.owner &&
+          parseInt(domain.owner, 16) !== 0
+        ) {
           isOwner = domain.owner.toLowerCase() === account.toLowerCase()
         }
-
         const percentDone = 0
+        let expiryDate = domain.expiryDate
+        if (domain.expiryTime) {
+          expiryDate = parseInt(domain.expiryTime.getTime() / 1000)
+        }
         return (
           <DomainContainer
             to={`/name/${domain.name}`}
             state={isOwner ? 'Yours' : domain.state}
             className={className}
             percentDone={percentDone}
+            data-testid="domain-container"
           >
             <DomainName state={isOwner ? 'Yours' : domain.state}>
               {humaniseName(domain.name)}
             </DomainName>
+            <ExpiryDate expiryDate={expiryDate} />
+            <Label domain={domain} isOwner={isOwner} />
             <RightContainer>
-              <Label domain={domain} isOwner={isOwner} />
               {isSubDomain && domain.state === 'Open' ? (
                 <Price className="price">
                   {domain.price

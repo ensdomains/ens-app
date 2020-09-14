@@ -1,14 +1,19 @@
-import React, { Component, Fragment } from 'react'
-import styled from '@emotion/styled'
+import React, { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import styled from '@emotion/styled/macro'
 import { Query } from 'react-apollo'
 import DomainItem from '../components/DomainItem/DomainItem'
+import { getNamehash } from '@ensdomains/ui'
+import { useQuery } from 'react-apollo'
 import {
   GET_FAVOURITES,
   GET_SUBDOMAIN_FAVOURITES,
-  GET_OWNER
+  GET_OWNER,
+  GET_REGISTRATIONS_BY_IDS_SUBGRAPH
 } from '../graphql/queries'
 
 import mq from 'mediaQuery'
+import moment from 'moment'
 
 import { H2 as DefaultH2 } from '../components/Typography/Basic'
 import LargeHeart from '../components/Icons/LargeHeart'
@@ -53,128 +58,146 @@ const H2 = styled(DefaultH2)`
   `}
 `
 
-const NoDomains = ({ type }) => (
-  <NoDomainsContainer>
-    <LargeHeart />
-    <h2>
-      No {type === 'domain' ? 'names' : 'sub domain names'} have been saved.
-    </h2>
-    <p>
-      To add names to favourites, click the heart icon next to any desired name.
-    </p>
-  </NoDomainsContainer>
-)
+const NoDomains = ({ type }) => {
+  const { t } = useTranslation()
+  return (
+    <NoDomainsContainer>
+      <LargeHeart />
+      <h2>
+        {type === 'domain'
+          ? t('favourites.nofavouritesDomains.title')
+          : t('favourites.nofavouritesSubdomains.title')}
+      </h2>
+      <p>
+        {type === 'domain'
+          ? t('favourites.nofavouritesDomains.text')
+          : t('favourites.nofavouritesSubdomains.text')}
+      </p>
+    </NoDomainsContainer>
+  )
+}
 
-function getDomainState(owner) {
+function getAvailable(expiryDate) {
+  let e = moment(parseInt(expiryDate * 1000))
+  let e2 = moment().subtract(90, 'days')
+  return e2.diff(e) > 0
+}
+
+function getDomainState(owner, available) {
+  if (!owner || available) return 'Open'
   return parseInt(owner, 16) === 0 ? 'Open' : 'Owned'
 }
 
-class Favourites extends Component {
-  state = {
-    hasFavourites: true,
-    hasSubDomainFavourites: true
-  }
-  componentDidMount() {
+function Favourites() {
+  const { t } = useTranslation()
+  useEffect(() => {
     document.title = 'ENS Favourites'
+  }, [])
+  const { data: { favourites } = [] } = useQuery(GET_FAVOURITES)
+  const ids = favourites.map(f => getNamehash(f.name))
+  const { data: { registrations } = [] } = useQuery(
+    GET_REGISTRATIONS_BY_IDS_SUBGRAPH,
+    {
+      variables: { ids }
+    }
+  )
+
+  if (favourites.length === 0 && !registrations) {
+    return <NoDomains type="domain" />
   }
-  render() {
-    const { hasFavourites, hasSubDomainFavourites } = this.state
-    return (
-      <FavouritesContainer data-testid="favourites-container">
-        <H2>Favourite Top Level Domains</H2>
-        <Query query={GET_FAVOURITES}>
-          {({ data }) => {
-            if (data.favourites.length === 0) {
-              return <NoDomains type="domain" />
-            }
-            return (
-              <>
-                {data.favourites.map(domain => (
-                  <Query
-                    query={GET_OWNER}
-                    variables={{ name: domain.name }}
-                    key={domain.name}
-                  >
-                    {({ loading, error, data }) => {
-                      if (error)
-                        return (
-                          <div>
-                            {(console.log(error), JSON.stringify(error))}
-                          </div>
-                        )
-                      return (
-                        <DomainItem
-                          loading={loading}
-                          domain={{
-                            ...domain,
-                            state: getDomainState(data.getOwner),
-                            owner: data.getOwner
-                          }}
-                          isFavourite={true}
-                        />
-                      )
-                    }}
-                  </Query>
-                ))}
-              </>
-            )
-          }}
-        </Query>
-        <H2>Favourite Sub Domains</H2>
-        <Query query={GET_SUBDOMAIN_FAVOURITES}>
-          {({ data }) => {
-            if (data.subDomainFavourites.length === 0) {
-              return (
-                <NoDomains type="subDomainName">
-                  <LargeHeart />
-                  <h2>No Sub Domain names have been saved.</h2>
-                  <p>
-                    To add names to favourites, click the heart icon next to any
-                    desired name.
-                  </p>
-                </NoDomains>
-              )
-            }
-            return (
-              <Fragment>
-                {data.subDomainFavourites.map(domain => (
-                  <Query
-                    query={GET_OWNER}
-                    variables={{ name: domain.name }}
-                    key={domain.name}
-                  >
-                    {({ loading, error, data }) => {
-                      if (error)
-                        return (
-                          <div>
-                            {(console.log(error), JSON.stringify(error))}
-                          </div>
-                        )
-                      return (
-                        <DomainItem
-                          loading={loading}
-                          domain={{
-                            ...domain,
-                            state: getDomainState(data.getOwner),
-                            owner: data.getOwner
-                          }}
-                          isSubDomain={true}
-                          isFavourite={true}
-                        />
-                      )
-                    }}
-                  </Query>
-                ))}
-              </Fragment>
-            )
-          }}
-        </Query>
-        {!hasFavourites && !hasSubDomainFavourites && (
-          <div>No SubdominsFavourites</div>
-        )}
-      </FavouritesContainer>
-    )
+  let favouritesList = []
+  if (favourites.length > 0) {
+    if (registrations && registrations.length === favourites.length) {
+      favouritesList = registrations.map(r => {
+        return {
+          name: r.domain.name,
+          owner: r.domain.owner.id,
+          available: getAvailable(r && r.expiryDate),
+          expiryDate: r.expiryDate
+        }
+      })
+    } else if (registrations && registrations.length > 0) {
+      // Fallback when subgraph is not returning result
+      favouritesList = favourites.map(f => {
+        let r = registrations.filter(a => a.domain.name === f.name)[0]
+        return {
+          name: f.name,
+          owner: r && r.domain.owner.id,
+          available: getAvailable(r && r.expiryDate),
+          expiryDate: r && r.expiryDate
+        }
+      })
+    } else {
+      // Fallback when subgraph is not returning result
+      favouritesList = favourites.map(f => {
+        return {
+          name: f.name
+        }
+      })
+    }
   }
+
+  return (
+    <FavouritesContainer data-testid="favourites-container">
+      <H2>{t('favourites.favouriteTitle')}</H2>
+      {favouritesList.map(domain => {
+        return (
+          <DomainItem
+            domain={{
+              ...domain,
+              state: getDomainState(domain.owner, domain.available),
+              owner: domain.owner
+            }}
+            isFavourite={true}
+          />
+        )
+      })}
+      <H2>{t('favourites.subdomainFavouriteTitle')}</H2>
+      <Query query={GET_SUBDOMAIN_FAVOURITES}>
+        {({ data }) => {
+          if (data.subDomainFavourites.length === 0) {
+            return (
+              <NoDomains type="subDomainName">
+                <LargeHeart />
+                <h2>{t('favourites.nofavouritesSubdomains.title')}</h2>
+                <p>{t('favourites.nofavouritesSubdomains.text')}</p>
+              </NoDomains>
+            )
+          }
+          return (
+            <>
+              {data.subDomainFavourites.map(domain => (
+                <Query
+                  query={GET_OWNER}
+                  variables={{ name: domain.name }}
+                  key={domain.name}
+                >
+                  {({ loading, error, data }) => {
+                    if (error)
+                      return (
+                        <div>{(console.log(error), JSON.stringify(error))}</div>
+                      )
+                    return (
+                      <DomainItem
+                        loading={loading}
+                        domain={{
+                          ...domain,
+                          state: getDomainState(data.getOwner, false),
+                          owner: data.getOwner
+                        }}
+                        isSubDomain={true}
+                        isFavourite={true}
+                      />
+                    )
+                  }}
+                </Query>
+              ))}
+            </>
+          )
+        }}
+      </Query>
+    </FavouritesContainer>
+  )
 }
 
 const FavouritesContainer = styled('div')`

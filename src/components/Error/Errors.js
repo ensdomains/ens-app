@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 
 import warningImage from '../../assets/warning.svg'
 
@@ -36,6 +36,16 @@ export const NetworkError = ({ message }) => (
       <H2>{message}</H2>
       <br />
       Please change your dapp browser to Mainnet, Ropsten, Rinkeby or Goerli
+    </Message>
+  </ErrorContainer>
+)
+
+export const Error404 = () => (
+  <ErrorContainer>
+    <Message>
+      <Warning src={warningImage} />
+      <H2>404</H2>
+      We couldn't find what you were looking for!
     </Message>
   </ErrorContainer>
 )

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
+import { useTranslation } from 'react-i18next'
 import { Mutation } from 'react-apollo'
 import { SUBMIT_PROOF } from '../../../graphql/mutations'
 
@@ -57,7 +58,7 @@ const Error = styled('span')`
   color: #f5a623;
 `
 
-function getCTA({
+function CallToAction({
   step,
   name,
   parentOwner,
@@ -68,6 +69,7 @@ function getCTA({
   loading,
   setLoading
 }) {
+  const { t } = useTranslation()
   const RefreshButton = number => {
     return loading ? (
       <Button>
@@ -87,7 +89,7 @@ function getCTA({
           })
         }}
       >
-        Refresh
+        {t('c.refresh')}
       </Button>
     )
   }
@@ -110,7 +112,7 @@ function getCTA({
             }}
             type="primary"
           >
-            Register
+            {t('c.register')}
           </Button>
         )}
       </Mutation>
@@ -126,7 +128,7 @@ function getCTA({
     SUBMIT_CONFIRMED: (
       <Button onClick={() => refetch()}>
         <Pencil />
-        View in Manager
+        {t('dns.viewinmanager')}
       </Button>
     )
   }
@@ -134,6 +136,7 @@ function getCTA({
 }
 
 const CTA = ({ name, parentOwner, step, incrementStep, refetch, error }) => {
+  const { t } = useTranslation()
   const [txHash, setTxHash] = useState(undefined)
   const [loading, setLoading] = useState(undefined)
 
@@ -149,22 +152,22 @@ const CTA = ({ name, parentOwner, step, incrementStep, refetch, error }) => {
         href="https://docs.ens.domains/dns-registrar-guide"
         target="_blank"
       >
-        Learn More{' '}
+        {t('c.learnmore')}
         <EtherScanLinkContainer>
           <ExternalLinkIcon />
         </EtherScanLinkContainer>
       </LinkToLearnMore>
-      {getCTA({
-        step,
-        name,
-        parentOwner,
-        incrementStep,
-        txHash,
-        setTxHash,
-        refetch,
-        loading,
-        setLoading
-      })}
+      <CallToAction
+        step={step}
+        name={name}
+        parentOwner={parentOwner}
+        incrementStep={incrementStep}
+        txHash={txHash}
+        setTxHash={setTxHash}
+        refetch={refetch}
+        loading={loading}
+        setLoading={setLoading}
+      />
     </CTAContainer>
   )
 }

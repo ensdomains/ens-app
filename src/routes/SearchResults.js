@@ -1,6 +1,7 @@
 import React from 'react'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
+import { Trans } from 'react-i18next'
 
 import { H2 } from '../components/Typography/Basic'
 import DomainInfo from '../components/SearchName/DomainInfo'
@@ -24,15 +25,19 @@ class Results extends React.Component {
     errorType: '',
     parsed: null
   }
-  checkValidity = () => {
-    const { searchTerm /* getSubDomainAvailability */ } = this.props
-    let parsed
+  checkValidity = async () => {
+    const { searchTerm: _searchTerm } = this.props
+    let parsed, searchTerm
     this.setState({
       errors: []
     })
-    const type = parseSearchTerm(searchTerm)
-
-    if (!['unsupported', 'invalid'].includes(type)) {
+    if (_searchTerm.split('.').length === 1) {
+      searchTerm = _searchTerm + '.eth'
+    } else {
+      searchTerm = _searchTerm
+    }
+    const type = await parseSearchTerm(searchTerm)
+    if (!['unsupported', 'invalid', 'short'].includes(type)) {
       parsed = validateName(searchTerm)
       this.setState({
         parsed
@@ -44,6 +49,10 @@ class Results extends React.Component {
       this.setState({
         errors: ['unsupported']
       })
+    } else if (type === 'short') {
+      this.setState({
+        errors: ['tooShort']
+      })
     } else if (type === 'invalid') {
       this.setState({
         errors: ['domainMalformed']
@@ -52,13 +61,13 @@ class Results extends React.Component {
       //getSubDomainAvailability({ variables: { name: searchTerm } })
     }
   }
-  componentDidMount() {
-    this.checkValidity()
+  async componentDidMount() {
+    await this.checkValidity()
   }
 
-  componentDidUpdate(prevProps) {
+  async componentDidUpdate(prevProps) {
     if (prevProps.searchTerm !== this.props.searchTerm) {
-      this.checkValidity()
+      await this.checkValidity()
     }
   }
   render() {
@@ -85,7 +94,9 @@ class Results extends React.Component {
     if (this.state.parsed) {
       return (
         <>
-          <H2>Top Level Domains</H2>
+          <H2>
+            <Trans i18nKey="singleName.search.title">Names</Trans>
+          </H2>
           <DomainInfo searchTerm={this.state.parsed} />
           {/* <SubDomainResults searchTerm={searchTerm} /> */}
         </>

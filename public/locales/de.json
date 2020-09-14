@@ -1,0 +1,346 @@
+{
+  "address": {
+    "etherscanButton": "Auf Etherscan anschauen",
+    "filter": {
+      "controller": "Controller",
+      "registrant": "Registrant"
+    },
+    "namesExpiringSoonBanner": {
+      "text": "Verlängern Sie alle in einer einzigen Transaktion, indem Sie mehrere Namen auswählen und auf 'Verlängern' klicken.",
+      "title": "Einer oder mehrere Namen laufen bald aus"
+    },
+    "renew": {
+      "button": "Ausgewählte verlängern",
+      "confirm": [
+        "Die folgenden Namen:",
+        "werden für "
+      ],
+      "confirmButton": "Verlängern",
+      "year": "{{count}} Jahr verlängert",
+      "year_plural": "{{count}} Jahre verlängert"
+    },
+    "sort": {
+      "alphabetical": "Alphabetisch",
+      "expiry": "Auslaufdatum"
+    },
+    "transactionBanner": "Sie sind hier, wegen einer Transaktion die wir Ihnen gesendet haben oder wegen der Weiterleitung von einer anderen Webseite. Sie haben unten Namen, die bald verlängert werden müssen!"
+  },
+  "blockies": {
+    "noAddressFound": "No address found"
+  },
+  "c": {
+    "Address": "Adresse",
+    "Content": "Inhalt",
+    "Controller": "Controller",
+    "Expiration Date": "Auslaufdatum",
+    "Resolver": "Resolver",
+    "about": "Über",
+    "cancel": "Abbrechen",
+    "claim": "Nehmen",
+    "edit": "Ändern",
+    "email": "E-Mail",
+    "expires": "Läuft aus am",
+    "favourites": "Favoriten",
+    "learnmore": "Mehr erfahren",
+    "learnmoreenglishonly": "Mehr erfahren (English Only)",
+    "migrate": "Migrieren",
+    "mynames": "Meine Namen",
+    "network": "Netzwerk",
+    "otheraddresses": "Andere Adressen",
+    "parent": "Elterndomain",
+    "refresh": "Aktualisieren",
+    "register": "Registrieren",
+    "registrant": "Registrant",
+    "registrationDate": "Registration Date",
+    "renew": "Verlängern",
+    "return": "Return",
+    "save": "Speichern",
+    "search": "Suchen",
+    "set": "Setzen",
+    "sync": "Sync",
+    "textrecord": "Text-Eintrag",
+    "transfer": "Übertragen",
+    "warning": "Warning",
+    "year": "Jahr",
+    "year_plural": "Jahre"
+  },
+  "childDomainItem": {
+    "notmigrated": "nicht migiriert"
+  },
+  "dns": {
+    "breadcrumbs": [
+      "DNSSEC AKTIVIEREN",
+      "TEXT HINZUFÜGEN",
+      "NACHWEIS EINREICHEN",
+      "NAME VERWALTEN"
+    ],
+    "dnsowner": "DNS Besitzer",
+    "steps": {
+      "addtext": {
+        "text": "Klicken Sie auf 'mehr erfahren', um etwas über den Prozess zu lesen.",
+        "title": "Erstellen Sie einen Text-Eintrag bei Ihrem Domain-Registrar und klicken Sie dann auf Aktualisieren. Der Text-Eintrag sollte Ihre Ethereum-Adresse in folgendem Format enthalten:"
+      },
+      "enable": {
+        "text": "Klicken Sie auf 'mehr erfahren', um etwas über den Prozess zu lesen.",
+        "title": "Gehen Sie zu Ihrem Domain-Registrar, um DNSSEC zu aktivieren. Klicken Sie nach der Aktivierung auf Aktualisieren, um zu sehen, ob Sie zum nächsten Schritt gehen können."
+      },
+      "manage": {
+        "text1": "Da Sie der Besitzer sind, können Sie jetzt Ihren Namen verwalten. ",
+        "text2": "Da Sie nicht der Besitzer sind, können Sie den Namen nur im Manager ansehen.",
+        "title": "Glückwunsch! Sie haben diese DNS-Domain erfolgreich zum ENS-Register hinzugefügt."
+      },
+      "proof": {
+        "text1": "Die Adresse, die im DNS-TXT-Eintrag erscheint, ist die gleiche Adresse.",
+        "text2": "Wenn Sie diese Domain besitzen, ändern Sie den TXT-Eintrag so, dass er Ihre Ethereum-Adresse enthält, und aktualisieren Sie diese Seite, um die DNSSEC-Verifizierung erneut durchzuführen.",
+        "title1": "Sie sind der Besitzer dieser Adresse. Tragen Sie jetzt Ihre Domain in das ENS-Register ein.",
+        "title2": "Sie scheinen nicht der DNS-Besitzer dieser Domain zu sein, aber jeder kann diese Domain zum ENS-Register hinzufügen."
+      }
+    },
+    "viewinmanager": "Im Manager anschauen"
+  },
+  "expiryNotification": {
+    "placeholder": "E-Mail-Adresse eingeben",
+    "reminder": "Erinner mich"
+  },
+  "favourites": {
+    "favouriteTitle": "Favorisierte Domains",
+    "nofavouritesDomains": {
+      "text": "Um Namen zu den Favoriten hinzuzufügen, klicken Sie auf das Herz-Symbol neben dem gewünschten Namen.",
+      "title": "Es wurden keine Namen gespeichert."
+    },
+    "nofavouritesSubdomains": {
+      "text": "Um Namen zu den Favoriten hinzuzufügen, klicken Sie auf das Herz-Symbol neben dem gewünschten Namen.",
+      "title": "Es wurden keine Subdomains gespeichert."
+    },
+    "subdomainFavouriteTitle": "Favorisierte Subdomains"
+  },
+  "home": {
+    "announcements": {
+    },
+    "howtouse": {
+      "body": "Die ENS App ist eine grafische Oberfläche für nicht-technische Nutzer. Es ermöglicht Ihnen, Namen zu suchen, ihre Adressen oder Ressourcen, auf die verwiesen wird, zu verwalten und Subdomains für Namen zu erstellen.",
+      "title": "Wie man ENS benutzt"
+    },
+    "whatisens": {
+      "body": "Der Ethereum Name Service ist ein verteiltes, offenes und erweiterbares System zur Namensauflösung, basierend auf der Ethereum Blockchain. Mit ENS muss man keine langen Adressen mehr kopieren oder eintippen.",
+      "title": "Was ist ENS"
+    }
+  },
+  "howtouse": {
+    "favourite": {
+      "text": "Behalten Sie den Überblick über Domains und Subdomains, die Sie besitzen oder die Sie sich merken möchten.",
+      "title": "Bevorzugte Namen speichern"
+    },
+    "manage": {
+      "text": "Zeigen Sie mit Domains auf Ihre Ethereum-Adressen, übertragen Sie den Besitz an andere Personen und vieles mehr.",
+      "title": "Namen verwalten"
+    },
+    "register": {
+      "text": "Registrieren Sie .eth-Namen für $5/Jahr. Sie können Ihre Namensregistrierung jederzeit verlängern oder beenden.",
+      "title": "Namen registrieren"
+    },
+    "search": {
+      "text": "Finden Sie Domains und Subdomains, die Sie registrieren können oder über die Sie mehr erfahren wollen.",
+      "title": "Nach Namen suchen"
+    }
+  },
+  "linegraph": {
+    "daysRemaining": "{{daysRemaining}} (out of {{totalDays}}) days remaining",
+    "endPrice": "End price",
+    "startingPrice": "Starting price",
+    "title": "Buy now for {{premiumInEth}}"
+  },
+  "pendingTx": {
+    "text": "Tx ausstehend"
+  },
+  "pricer": {
+    "pricePerAmount": "Price per amount of time selected",
+    "registrationPeriodLabel": "Registration Period",
+    "totalPriceLabel": "Gesamtpreis",
+    "yearUnit": "Jahr"
+  },
+  "register": {
+    "buttons": {
+      "manage": "Verwalten",
+      "register": "Registrieren",
+      "request": "Anfrage zur Registrierung",
+      "warning": "Klicken Sie auf Registrieren um zum 3. Schritt zu gehen"
+    },
+    "favourite": "* Favorisieren Sie diesen Namen für einen einfachen Zugriff, falls Sie Ihren Browser schließen.",
+    "notifications": {
+      "ready": "is bereit registriert zu werden"
+    },
+    "notify": "Benachrichtige mich",
+    "premium": {
+      "dateDescription": "Date and time shown in local time zone",
+      "invalid": "Any number over 2k is invalid",
+      "title": "Premium"
+    },
+    "premiumWarning": {
+      "description": "To ensure everyone has a fair opportunity to register a newly expired name, these names have a premium that starts at $2,000 and reduces over 28 days until the premium is gone. Enter the amount you're willing to pay as a premium to learn which date to revisit the app to register the name.",
+      "title": "This name has a temporary premium."
+    },
+    "step1": {
+      "label": "Schritt 1",
+      "text": "Ihr Wallet wird sich öffnen und Sie werden gebeten, die erste von zwei für die Registrierung erforderlichen Transaktionen zu bestätigen.",
+      "title": "Anfrage zur Registrierung"
+    },
+    "step2": {
+      "label": "Schritt 2",
+      "text": "Die Wartezeit ist erforderlich, um sicherzustellen, dass eine andere Person nicht versucht hat, den gleichen Namen zu registrieren, und um Sie nach Ihrem Antrag zu schützen.",
+      "title": "Warten Sie eine Minute"
+    },
+    "step3": {
+      "label": "Schritt 3",
+      "text": "Klicken Sie auf 'Registrieren' und Ihr Wallet wird wieder geöffnet. Erst nachdem die 2. Transaktion bestätigt wurde, wissen Sie, ob Sie die Domain erhalten haben.",
+      "title": "Registrierung abschließen"
+    },
+    "titles": [
+      "Um einen Namen zu registrieren, müssen Sie 3 Schritte ausführen",
+      "Schließen Sie Ihren Browser nicht! Sie werden Ihren Namen bald verwalten können.",
+      "Sie haben alle Schritte abgeschlossen, verwalten Sie jetzt Ihren Namen!"
+    ]
+  },
+  "registrymigration": {
+    "donotaccept": "*Wenn Sie mit ENS-Namen handeln, akzeptieren Sie diesen Namen nicht!",
+    "messages": {
+      "controller": "Dieser Name wird durch einen Smart Contract kontrolliert und kann nicht automatisch migriert werden. Bitte deployen Sie Ihren Smart Contract erneut, um den neuen Registrar zu verwenden, bevor Sie den neuen Controller festlegen",
+      "default": "Dieser Name muss in das neue Register migriert werden. Nur die Elterndomain dieses Namens ({{parent}}) kann dies tun.",
+      "dnssec": "Dieser Name muss in das neue Register migriert werden. Bitte richten Sie den richtigen DNS-Besitzer ein und klicken Sie unten auf die Schaltfläche 'Sync'",
+      "parentmigrate": "Sie müssen zuerst die Elterndomain {{parent}} migrieren, bevor Sie diese Subdomain migrieren können"
+    }
+  },
+  "releaseDeed": {
+    "returnDeposit": "There is still an unclaimed deposit on this name. To get the deposited eth back, Go to"
+  },
+  "reminder": {
+    "everywhere": "everywhere",
+    "release": {
+      "description": "Register {{name}} at https://app.ens.domains/name/{{name}}/register",
+      "title": "Register {{name}}"
+    },
+    "renewal": {
+      "description": "Your ENS name is expiring soon, please renew it",
+      "title": "Renew your ENS domain {{name}}"
+    }
+  },
+  "search": {
+    "button": "Suchen",
+    "placeholder": "Namen oder Adressen suchen"
+  },
+  "searchErrors": {
+    "domainMalformed": {
+      "long": "You have either added a domain without a TLD such as .eth or you have added unsupported characters.",
+      "short": "Domain malformed. {{searchTerm}} is not a valid domain."
+    },
+    "tooShort": {
+      "long": "Names less than 6 characters have been reserved for when the permanent registrar has been released.",
+      "short1": "Name is too short.",
+      "short2": "Names must be at least 3 characters long"
+    },
+    "unsupported": {
+      "long": "We do not support every single domain. Support for future domains are planned in the future",
+      "short": "{{tld}} is not currently a supported TLD."
+    }
+  },
+  "singleName": {
+    "confirm": {
+      "button": {
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      },
+      "subTitle": "This action will modify the state of the blockchain.",
+      "title": "Are you sure you want to do this?",
+      "value": {
+        "future": "FUTURE",
+        "previous": "PREVIOUS"
+      }
+    },
+    "dns": {
+      "messages": {
+        "error": "Solve the error in your Domain registrar. Refresh to reflect updates.",
+        "outOfSync": "The Controller and DNS Owner are out of sync. Click 'sync' to make the DNS Owner the Controller. Click 'refresh' if you make changes to the domain in the DNS Registrar.",
+        "readyToRegister": "*Click 'refresh' if you make changes to the domain in the DNS Registrar."
+      }
+    },
+    "domain": {
+      "state": {
+        "auction": "In Auction",
+        "available": "Available",
+        "default": "Unknown State",
+        "owned": "Unavailable",
+        "owner": "Owner"
+      }
+    },
+    "expiry": {
+      "cannotown": "Das Verlängern eines Namens, den Sie nicht besitzen, gibt Ihnen nicht das Besitzrecht an diesem Namen.",
+      "expired": "Ausgelaufen",
+      "expiring": "Läuft bald aus",
+      "gracePeriodEnds": "Schonfrist endet am",
+      "isUnderPremiumSale": "Available with a temporary premium"
+    },
+    "learnmore": {
+      "step1": {
+        "text": "Der Resolver ist ein Smart Contract, der für den Prozess der Übersetzung von Namen auf Adressen verantwortlich ist. Klicken Sie im Resolver-Bereich auf 'Setzen'. Klicken Sie dann auf den Link 'Öffentlichen Resolver verwenden' und 'Speichern', um die Transaktion einzuleiten.",
+        "title": "1. Resolver setzen"
+      },
+      "step2": {
+        "text": "Wenn Sie den Resolver eingestellt haben, können Sie dann Datensätze hinzufügen, indem Sie auf das '+' im Feld 'Records' klicken. Wenn Sie Ihre Ethereum-Adresse hinzufügen, können Sie im nächsten Schritt mit Ihrem Wallet auf Ihren Namen zeigen.",
+        "title": "2. Adresse setzen"
+      },
+      "step3": {
+        "text": "Sobald Sie Ihre Adresse eingestellt haben, erhalten Sie eine Meldung, dass der 'Reverse Pointer' nicht gesetzt ist. Klicken Sie auf den Pfeil in dem Feld, um es zu erweitern, und klicken Sie dann auf die Schaltfläche 'Speichern'. Dadurch wird Ihre Adresse in Ihren neuen Namen übersetzt.",
+        "title": "3. Reverse Record setzen"
+      },
+      "title": "Erfahren Sie, wie Sie Ihren Namen verwalten können."
+    },
+    "messages": {
+      "alreadyregistered": "This name is already registered",
+      "noowner": "Nicht im Besitz",
+      "noresolver": "Kein Resolver gesetzt",
+      "notfinalised": "(Sie haben es nicht abgeschlossen)",
+      "pending": "Ausstehend"
+    },
+    "record": {
+      "cantEdit": "You can’t edit or add records until you migrate to the new resolver.",
+      "messages": {
+        "explanation": "The Reverse Resolution translates an address into a name. It allows Dapps to show in their interfaces '{{name}}' rather than the long address '{{account}}'. If you would like to set up your reverse for a different account, please switch accounts in your dapp browser",
+        "notSet": "Reverse record: not set",
+        "setTo": "Reverse record: Set to ",
+        "setToDifferent": "Reverse record: Set to a different name:"
+      },
+      "title": "Records"
+    },
+    "resolver": {
+      "error": "Error Migrating Resolver",
+      "message": "To reset your resolver manually, click set and enter the address of your custom resolver.",
+      "publicResolver": "Use Public Resolver",
+      "warning": "You’re using an outdated version of the public resolver. Click to migrate your resolver and records. You will need to confirm two transactions in order to migrate both your records and resolver."
+    },
+    "search": {
+      "title": "Names"
+    },
+    "subdomains": {
+      "add": "Subdomain hinzufügen",
+      "nosubdomains": "Es wurden keine Subdomains hinzugefügt"
+    },
+    "tabs": {
+      "details": "Details",
+      "register": "Registrieren",
+      "subdomains": "Subdomains"
+    },
+    "test": {
+      "note": "Hinweis: .test Domains können, sofern sie noch nicht genutzt werden, von jedem zu Testzwecken genommen werden. Nach 28 Tagen laufen sie aus"
+    },
+    "tooltips": {
+      "detailsItem": {
+        "Controller": "Sie können den Controller nur übertragen, wenn Sie der Controller oder der Registrant sind und in Ihr Wallet eingeloggt sind",
+        "ControllerAndDnsAlreadySync": "The controller and DNS owner are already in sync",
+        "Resolver": "Sie können den Resolver dieses Namens nur setzen, wenn Sie der Controller sind und in Ihr Wallet eingeloggt sind",
+        "default": "Sie können Änderungen nur vornehmen, wenn Sie der Controller sind und in Ihr Wallet eingeloggt sind",
+        "registrant": "Sie können den Registranten nur übertragen, wenn Sie der Registrant sind und in Ihr Wallet eingeloggt sind",
+        "registrantExpired": "Sie können diese Domain nicht übertragen, solange diese ausgelaufen ist. Bitte verlängern Sie sie zuerst."
+      }
+    }
+  }
+}

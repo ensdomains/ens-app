@@ -13,9 +13,10 @@ describe('Reverse record', () => {
       .click()
 
     cy.queryByText('Reverse record: Set to abittooawesome.eth', {
-      exact: false
+      exact: false,
+      timeout: 10000
     }).should('exist')
-    cy.getByTestId('account', { exact: false }).should(
+    cy.getByTestId('account', { exact: false, timeout: 10000 }).should(
       'have.text',
       'abittooawesome.eth'
     )
@@ -27,11 +28,13 @@ describe('Reverse record', () => {
       .contains('Search')
       .click()
 
+    cy.scrollTo(0, 500)
+
     cy.queryByText(
       'Reverse record: Set to a different name:abittooawesome.eth',
-      { exact: false }
+      { exact: false, timeout: 10000 }
     ).should('exist')
-    cy.getByTestId('small-caret').click({ force: true })
+    cy.getByTestId('open-reverse').click({ force: true })
 
     cy.queryByText('resolver.eth', { exact: false }).should('exist')
   })

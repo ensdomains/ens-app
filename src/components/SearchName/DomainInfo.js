@@ -15,7 +15,7 @@ export const DomainInfo = ({ domainState, isFavourite, loading }) => {
 
 const DomainInfoContainer = ({ searchTerm }) => {
   return (
-    <Query query={GET_SINGLE_NAME} variables={{ name: searchTerm + '.eth' }}>
+    <Query query={GET_SINGLE_NAME} variables={{ name: searchTerm }}>
       {({ data, loading, error }) => {
         const { singleName } = data
         if (error) {

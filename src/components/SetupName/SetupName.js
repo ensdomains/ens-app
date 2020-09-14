@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
+import { useTranslation } from 'react-i18next'
 import mq from '../../mediaQuery'
 import { ReactComponent as BookPen } from '../Icons/BookPen.svg'
 import DefaultRotatingSmallCaret from '../Icons/RotatingSmallCaret'
@@ -59,6 +60,7 @@ const Block = styled('section')`
 `
 
 function SetupName({ initialState = false }) {
+  const { t } = useTranslation()
   const [open, setOpen] = useState(initialState)
   const [initial, setInitial] = useState(initialState)
   // Change the open state when resolver is set/unset
@@ -72,35 +74,21 @@ function SetupName({ initialState = false }) {
     <SetupNameContainer>
       <Header onClick={toggleOpen}>
         <BookPen />
-        <H2>Learn how to manage your name.</H2>
+        <H2>{t('singleName.learnmore.title')}</H2>
         <RotatingSmallCaret rotated={open} />
       </Header>
       <Content open={open}>
         <Block>
-          <h3>1. Set Resolver</h3>
-          <p>
-            The Resolver is a Smart Contract responsible for the process of
-            translating names into addresses. In the Resolver area click ‘Set’.
-            Then click the ‘use public resolver’ link, and ‘save’ to launch the
-            transaction.
-          </p>
+          <h3>{t('singleName.learnmore.step1.title')}</h3>
+          <p>{t('singleName.learnmore.step1.text')}</p>
         </Block>
         <Block>
-          <h3>2. Set Address</h3>
-          <p>
-            Once you have set the Resolver, you can then add records by clicking
-            the ‘+’ in the ‘records’ field. Adding your ethereum address will
-            allow you to point your wallet to your name in the next step.
-          </p>
+          <h3>{t('singleName.learnmore.step2.title')}</h3>
+          <p>{t('singleName.learnmore.step2.text')}</p>
         </Block>
         <Block>
-          <h3>3. Set Reverse Record</h3>
-          <p>
-            Once you set your address, you will see a message saying the reverse
-            pointer is not set. Click the arrow in the field to expand, then
-            click the button ‘save’. This will translate your address into your
-            new name.
-          </p>
+          <h3>{t('singleName.learnmore.step3.title')}</h3>
+          <p>{t('singleName.learnmore.step3.text')}</p>
         </Block>
       </Content>{' '}
     </SetupNameContainer>

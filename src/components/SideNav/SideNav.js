@@ -1,11 +1,14 @@
-import React, { Component } from 'react'
-import styled from '@emotion/styled'
+import React from 'react'
+import styled from '@emotion/styled/macro'
+import { useTranslation } from 'react-i18next'
+
 import NetworkInformation from '../NetworkInformation/NetworkInformation'
+import useNetworkInfo from '../NetworkInformation/useNetworkInfo'
 import Heart from '../Icons/Heart'
-import SpeechBubble from '../Icons/SpeechBubble'
+import File from '../Icons/File'
+import { abougPageURL } from '../../utils/utils'
 
 import mq from 'mediaQuery'
-// import DogTag from '../Icons/DogTag'
 import { Link, withRouter } from 'react-router-dom'
 
 const SideNavContainer = styled('nav')`
@@ -70,46 +73,87 @@ const NavLink = styled(Link)`
     path {
       fill: #5284ff;
     }
+    g {
+      fill: #5284ff;
+    }
   }
 `
 
-class SideNav extends Component {
-  render() {
-    const { path } = this.props.match
-    const { isMenuOpen, toggleMenu } = this.props
-    return (
-      <SideNavContainer isMenuOpen={isMenuOpen}>
-        <NetworkInformation />
-        <ul>
-          <li>
-            <NavLink
-              onClick={toggleMenu}
-              active={path === '/favourites'}
-              to="/favourites"
-            >
-              <Heart active={path === '/favourites'} />
-              <span>Favourites</span>
-            </NavLink>
-          </li>
-          {/* <li>
-            <NavLink active={path === '/my-bids'} to="/my-bids">
-              <DogTag active={path === '/my-bids'} />
-              <span>My Bids</span>
-            </NavLink>
-          </li> */}
-          <li>
-            <NavLink
-              onClick={toggleMenu}
-              active={path === '/about'}
-              to="/about"
-            >
-              <SpeechBubble active={path === '/about'} />
-              <span>About</span>
-            </NavLink>
-          </li>
-        </ul>
-      </SideNavContainer>
-    )
+const ThirdPartyLink = styled('a')`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 200;
+  font-size: 22px;
+  color: ${p => (p.active ? '#5284FF' : '#C7D3E3')};
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+  ${mq.medium`
+    justify-content: start;
+    border-bottom: 0;
+  `}
+
+  &:visited {
+    color: #c7d3e3;
   }
+
+  span {
+    transition: 0.2s;
+    margin-left: 15px;
+    color: ${p => (p.active ? '#5284FF' : '#C7D3E3')};
+  }
+
+  &:hover {
+    span {
+      color: #5284ff;
+    }
+    path {
+      fill: #5284ff;
+    }
+    g {
+      fill: #5284ff;
+    }
+  }
+`
+
+function SideNav({ match, isMenuOpen, toggleMenu }) {
+  const { url } = match
+  const { t } = useTranslation()
+  const { accounts } = useNetworkInfo()
+  return (
+    <SideNavContainer isMenuOpen={isMenuOpen}>
+      <NetworkInformation />
+      <ul data-testid="sitenav">
+        {accounts && accounts.length > 0 ? (
+          <li>
+            <NavLink
+              onClick={toggleMenu}
+              active={url === '/address/' + accounts[0]}
+              to={'/address/' + accounts[0]}
+            >
+              <File active={url === '/address/' + accounts[0]} />
+              <span>{t('c.mynames')}</span>
+            </NavLink>
+          </li>
+        ) : null}
+        <li>
+          <NavLink
+            onClick={toggleMenu}
+            active={url === '/favourites'}
+            to="/favourites"
+          >
+            <Heart active={url === '/favourites'} />
+            <span>{t('c.favourites')}</span>
+          </NavLink>
+        </li>
+        <li>
+          <ThirdPartyLink href={abougPageURL()}>
+            <span>{t('c.about')}</span>
+          </ThirdPartyLink>
+        </li>
+      </ul>
+    </SideNavContainer>
+  )
 }
 export default withRouter(SideNav)

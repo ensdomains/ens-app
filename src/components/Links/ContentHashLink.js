@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { ReactComponent as ExternalLinkIcon } from '../Icons/externalLink.svg'
 import { decodeContenthash, encodeContenthash } from '@ensdomains/ui'
 
@@ -41,11 +41,14 @@ const ContentHashLink = ({ value, contentType }) => {
   if (protocolType === 'ipfs') {
     externalLink = `https://${decoded}.ipfs.dweb.link` // using ipfs's secured origin gateway
     url = `ipfs://${decoded}`
+  } else if (protocolType === 'ipns') {
+    externalLink = `https://gateway.ipfs.io/ipns/${decoded}`
+    url = `ipns://${decoded}`
   } else if (protocolType === 'bzz') {
     externalLink = `https://swarm-gateways.net/bzz://${decoded}`
     url = `bzz://${decoded}`
   } else if (protocolType === 'onion' || protocolType === 'onion3') {
-    externalLink = `https://${decoded}.onion`
+    externalLink = `http://${decoded}.onion`
     url = `onion://${decoded}`
   } else {
     console.warn(`Unsupported protocol ${protocolType}`)

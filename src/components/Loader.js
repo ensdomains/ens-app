@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 
 const LoaderContainer = styled('div')`
   ${p =>
@@ -47,8 +47,8 @@ const LoaderContainer = styled('div')`
     animation: lds-dual-ring 1.5s linear infinite;
   }
   .lds-dual-ring {
-    width: 20px !important;
-    height: 20px !important;
+    width: ${({ large }) => (large ? '60px' : '20px')};
+    height: ${({ large }) => (large ? '60px' : '20px')};
     -webkit-transform: translate(-100px, -100px) scale(1)
       translate(100px, 100px);
     transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
@@ -60,6 +60,10 @@ const LoaderWrapper = styled('div')`
   justify-content: center;
   align-items: center;
   padding: 50px 0;
+`
+
+const InlineLoaderContainer = styled('span')`
+  display: inline-flex;
 `
 
 const Loader = props => {
@@ -81,6 +85,18 @@ const Loader = props => {
         <div />
       </div>
     </LoaderContainer>
+  )
+}
+
+export const InlineLoader = props => {
+  return (
+    <InlineLoaderContainer>
+      <LoaderContainer className="lds-css" {...props}>
+        <div className="lds-dual-ring">
+          <div />
+        </div>
+      </LoaderContainer>
+    </InlineLoaderContainer>
   )
 }
 

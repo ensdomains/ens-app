@@ -44,11 +44,24 @@ export function checkLabel(hash) {
   }
 }
 
+export function checkIsDecrypted(string) {
+  return !string.includes('[')
+}
+
 export function decryptName(name) {
   return name
     .split('.')
     .map(label => checkLabel(label) || label)
     .join('.')
+}
+
+export function truncateUndecryptedName(name) {
+  let nameArray = name.split('.')
+  let truncatedArray = nameArray.map(label => {
+    if (checkIsDecrypted(label)) return label
+    return `${label.slice(0, 5)}...${label.slice(60)}`
+  })
+  return truncatedArray.join('.')
 }
 
 export function checkLocalStorageSize() {

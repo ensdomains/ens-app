@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import { Link } from 'react-router-dom'
 
 function getButtonStyles({ type }) {
@@ -97,9 +97,9 @@ function getButtonDefaultStyles(p) {
     font-family: Overpass;
     text-transform: capitalize;
     letter-spacing: 1.5px;
-    //box-shadow: 0 10px 21px 0 #bed0dc;
     transition: 0.2s all;
     border: 2px solid #5384FE;
+    text-align: center;
 
     &:focus {
       outline: 0;
@@ -168,3 +168,5 @@ export const ExternalButtonLink = props => {
 }
 
 export default Button
+
+export { getButtonDefaultStyles, getButtonStyles }

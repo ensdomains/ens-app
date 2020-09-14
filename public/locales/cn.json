@@ -1,0 +1,342 @@
+{
+  "address": {
+    "etherscanButton": "在 Etherscan 上查看",
+    "filter": {
+      "controller": "管理员",
+      "registrant": "注册人"
+    },
+    "namesExpiringSoonBanner": {
+      "text": "你可以在一次交易中同时为它们续费，方法是选中需要续费的域名并点击 “续费” 按钮！",
+      "title": "有些域名马上就要到期了"
+    },
+    "renew": {
+      "button": "给已勾选项目续费",
+      "confirm": [
+        "以下域名：",
+        "将同时续费 "
+      ],
+      "confirmButton": "续费"
+    },
+    "sort": {
+      "alphabetical": "按字母顺序",
+      "expiry": "到期时间"
+    },
+    "transactionBanner": "你能看到这个页面是因为我们向您发送了一笔交易，或是其他网站调用了这笔交易。你需要续费的域名如下。"
+  },
+  "blockies": {
+    "noAddressFound": "未发现地址"
+  },
+  "c": {
+    "Address": "以太坊地址",
+    "Content": "内容哈希",
+    "Controller": "管理员",
+    "Expiration Date": "到期时间",
+    "Resolver": "解析器",
+    "about": "关于",
+    "cancel": "取消",
+    "claim": "申请",
+    "edit": "编辑",
+    "email": "电子邮箱",
+    "expires": "到期",
+    "favourites": "收藏",
+    "learnmore": "了解更多",
+    "learnmoreenglishonly": "了解更多 (仅提供英语内容)",
+    "migrate": "迁移",
+    "mynames": "我的域名",
+    "network": "网络",
+    "otheraddresses": "其他地址",
+    "parent": "父域名",
+    "refresh": "刷新",
+    "register": "注册",
+    "registrant": "注册人",
+    "registrationDate": "注册时间",
+    "renew": "续费",
+    "return": "收回",
+    "save": "保存",
+    "search": "查询",
+    "set": "设置",
+    "sync": "同步",
+    "textrecord": "文本记录",
+    "transfer": "转让",
+    "warning": "警告"
+  },
+  "childDomainItem": {
+    "notmigrated": "暂未迁移"
+  },
+  "dns": {
+    "breadcrumbs": [
+      "启用 DNSSEC",
+      "提交验证",
+      "提交验证",
+      "管理域名"
+    ],
+    "dnsowner": "DNS 所有者",
+    "steps": {
+      "addtext": {
+        "text": "点击“了解更多”来认识这个过程。",
+        "title": "在您的域名注册商那里设置一个 TXT 记录，然后单击 刷新 按钮。这个 TXT 记录应该包含你的以太坊地址，格式如下："
+      },
+      "enable": {
+        "text": "点击“了解更多”来认识这个过程。",
+        "title": "在您的 DNS 域名注册商那里启用 DNSSEC。启用后，点击“刷新”来查看是否可以进入下一步。"
+      },
+      "manage": {
+        "text1": "作为域名的所有者，您现在可以管理域名了。",
+        "text2": "由于您不是该域名的所有者，所以只能在管理器中查看域名。",
+        "title": "恭喜你！你已经成功将该 DNS 域名添加到 ENS 注册表中了。"
+      },
+      "proof": {
+        "text1": "这里显示的 DNS 文本中的以太坊地址应该和你的地址一致。",
+        "text2": "如果您持有该域名，请更改它的 TXT 记录以包含您的以太坊地址，并刷新此页面以再次执行 DNSSEC 验证。",
+        "title1": "您是这个地址的主人，现在可以将域名加入 ENS 注册表了。",
+        "title2": "您似乎不是该 DNS 域名的所有者，但任何人都可以将该域名添加到 ENS 注册表。"
+      }
+    },
+    "viewinmanager": "在管理器中查看"
+  },
+  "expiryNotification": {
+    "placeholder": "输入电子邮箱地址",
+    "reminder": "提醒我"
+  },
+  "favourites": {
+    "favouriteTitle": "域名收藏夹",
+    "nofavouritesDomains": {
+      "text": "点击域名旁边的心形图标，可以将该域名加入到收藏夹。",
+      "title": "暂未收藏域名"
+    },
+    "nofavouritesSubdomains": {
+      "text": "点击域名旁边的心形图标，可以将该域名加入到收藏夹。",
+      "title": "暂未收藏子域名"
+    },
+    "subdomainFavouriteTitle": "子域名收藏夹"
+  },
+  "home": {
+    "announcements": {
+    },
+    "howtouse": {
+      "body": "ENS 管理器是一个面向非技术用户的图形化界面。您可以利用它查询域名，管理域名指向的地址或资源，还可以为域名创建子域名。",
+      "title": "如何使用 ENS"
+    },
+    "whatisens": {
+      "body": "以太坊名称服务（Ethereum Name Service）是一个基于以太坊区块链的分布式、开放和可扩展的命名系统。ENS 域名让人们不用再复制或输入冗长的区块链地址。通俗地说，ENS 就是区块链中的域名系统。",
+      "title": "ENS 是什么"
+    }
+  },
+  "howtouse": {
+    "favourite": {
+      "text": "关注你自己的或是有兴趣的域名和子域名。",
+      "title": "收藏域名"
+    },
+    "manage": {
+      "text": "将域名指向你的以太坊地址，以及转让域名等等",
+      "title": "管理域名"
+    },
+    "register": {
+      "text": "以每年 5 美元的价格注册 .eth 域名，随时更新或弃用你的域名",
+      "title": "注册域名"
+    },
+    "search": {
+      "text": "查询你想要注册或了解的域名和子域名。",
+      "title": "查询域名"
+    }
+  },
+  "linegraph": {
+    "daysRemaining": "还有 {{daysRemaining}} 天 (总共 {{totalDays}} 天)",
+    "endPrice": "最终价格",
+    "startingPrice": "起始价格",
+    "title": "当前购入价格为 {{premiumInEth}}"
+  },
+  "pendingTx": {
+    "text": "等待交易被打包"
+  },
+  "pricer": {
+    "pricePerAmount": "当前选定时长的注册价格",
+    "registrationPeriodLabel": "注册期",
+    "totalPriceLabel": "支付总额",
+    "yearUnit": "年份"
+  },
+  "register": {
+    "buttons": {
+      "manage": "管理域名",
+      "register": "注册",
+      "request": "请求注册",
+      "warning": "点击“注册”进入第三步"
+    },
+    "favourite": "* 您可以收藏喜欢的域名，以便于浏览器关闭以后重新查看这个域名。",
+    "notifications": {
+      "ready": "已经可以正式注册了"
+    },
+    "notify": "通知我",
+    "premium": {
+      "dateDescription": "溢价到达该价格的时间（当地时区）",
+      "invalid": "超过 2000 均为无效价格",
+      "title": "溢价"
+    },
+    "premiumWarning": {
+      "description": "为了确保每个人都有公平的机会去注册一个刚刚过期的域名，这些域名的溢价起始价格为 2000 美元，并在 28 天内逐渐降低，直到溢价消失。输入你愿意支付的溢价费用，就会自动显示你应该在什么时间来注册这个域名。",
+      "title": "该域名存在一个临时性的溢价。"
+    },
+    "step1": {
+      "label": "第 1 步",
+      "text": "需要在钱包中确认一笔交易，这是完成域名注册所需的两笔交易中的第一笔。",
+      "title": "请求注册"
+    },
+    "step2": {
+      "label": "第 2 步",
+      "text": "需要等待一段时间，以确保其他人没有尝试注册相同的名字，同时也是在保护你的注册请求。",
+      "title": "等一分钟"
+    },
+    "step3": {
+      "label": "第 3 步",
+      "text": "点击“注册”按钮，并在钱包中再次确认一笔交易，只有在这次交易确认后，才能确定是不是成功注册了这个域名。",
+      "title": "完成注册"
+    },
+    "titles": [
+      "注册一个域名需要三个步骤",
+      "请不要关闭浏览器，您很快就可以完成域名注册",
+      "您已经完成域名注册，现在可以管理域名了！"
+    ]
+  },
+  "registrymigration": {
+    "donotaccept": "* 如果您在交易 ENS 域名，现在不要交易这个域名！",
+    "messages": {
+      "controller": "该域名由智能合约控制，不能自动迁移。在设置新控制器之前，请重新部署您的合约以使用新的注册表。",
+      "default": "该名称需要迁移到新的注册表，只有它的父域名（{{parent}}）可以执行这一操作。",
+      "dnssec": "这个域名需要迁移到新注册表中，请正确设置 DNS 所有者的以太坊地址并点击下面的 “同步” 按钮。",
+      "parentmigrate": "在迁移这个子域名之前，你必须先确认它的父域名 {{ parent}} 已经迁移。"
+    }
+  },
+  "releaseDeed": {
+    "returnDeposit": "There is still an unclaimed deposit on this name. To get the deposited eth back, Go to"
+  },
+  "reminder": {
+    "everywhere": "everywhere",
+    "release": {
+      "description": "在 https://app.ens.domains/name/{{name}}/register 注册 {{name}}",
+      "title": "注册 {{name}}"
+    },
+    "renewal": {
+      "description": "您的 ENS 域名即将过期，请续费",
+      "title": "为你的 ENS 域名 {{name}} 进行续费"
+    }
+  },
+  "search": {
+    "button": "查询",
+    "placeholder": "输入域名或地址"
+  },
+  "searchErrors": {
+    "domainMalformed": {
+      "long": "您添加了一个不带 TLD（比如 .eth）的域名，或是使用了不支持的字符。",
+      "short": "域名异常。 {{searchTerm}} 不是一个有效的域名。"
+    },
+    "tooShort": {
+      "long": "6 个字符以下的域名将在永久注册器被启用时开放。",
+      "short1": "域名太短。",
+      "short2": "域名至少包含 3 个字符。"
+    },
+    "unsupported": {
+      "long": "我们尚未支持所有的域名，未来将计划支持更多的域名",
+      "short": "暂未支持 {{tld}} 这一 TLD。"
+    }
+  },
+  "singleName": {
+    "confirm": {
+      "button": {
+        "cancel": "取消",
+        "confirm": "确定"
+      },
+      "subTitle": "该操作将更新域名在区块链上的状态。",
+      "title": "您确定要执行该操作？",
+      "value": {
+        "future": "更新后",
+        "previous": "更新前"
+      }
+    },
+    "dns": {
+      "messages": {
+        "error": "解决域名注册器的问题。通过刷新来显示更新。",
+        "outOfSync": "管理员和 DNS 所有者不同步。单击 “同步” 让 DNS 所有者成为管理员。如果您在 DNS 注册商中对域名进行了更改，请单击 “刷新”。",
+        "readyToRegister": "* 如果您在 DNS 注册商中对域名进行了更改，请单击 “刷新”。"
+      }
+    },
+    "domain": {
+      "state": {
+        "auction": "拍卖中",
+        "available": "可注册",
+        "default": "未知状态",
+        "owned": "不可注册",
+        "owner": "所有者"
+      }
+    },
+    "expiry": {
+      "cannotown": "为其他人的域名续费并不会获得该域名的所有权。",
+      "expired": "已经到期",
+      "expiring": "即将到期",
+      "gracePeriodEnds": "宽限期截至 ",
+      "isUnderPremiumSale": "可通过支付溢价进行注册"
+    },
+    "learnmore": {
+      "step1": {
+        "text": "解析器是一种智能合约，负责将域名转换为地址。 在解析器区域点击 “设置”， 然后点击“使用公共解析器”链接， 并点击“保存”来启用设置。",
+        "title": "1. 设置解析器"
+      },
+      "step2": {
+        "text": "设置解析器之后，可以通过点击“解析记录”区域中的“+”添加记录。 添加以太坊地址可以为下一步设置反向记录提供前提。",
+        "title": "2. 设置地址"
+      },
+      "step3": {
+        "text": "一旦你设置了地址，你会看到一条表示反向记录没有设置的消息。 点击该区域的箭头展开，然后点击“保存”按钮， 该设置能把你的地址转换成你的新域名。",
+        "title": "3. 设置反向记录"
+      },
+      "title": "学习如何管理你的域名"
+    },
+    "messages": {
+      "alreadyregistered": "这个名字已经注册了",
+      "noowner": "暂无注册人",
+      "noresolver": "暂未设置解析器",
+      "notfinalised": "（未完成）",
+      "pending": "打包中"
+    },
+    "record": {
+      "cantEdit": "在迁移到新的解析器之前，您不能编辑或添加记录。",
+      "messages": {
+        "explanation": "反向解析将地址转换为域名。它能让 dapp 在其界面上显示 “{{name}}”，而不是 “{{account}}” 这个冗长的地址。如果您想为另一个账户设置反向解析，请先在 dapp 浏览器中切换帐户。",
+        "notSet": "反向记录：未设置",
+        "setTo": "反向记录：解析至 ",
+        "setToDifferent": "反向记录：已解析至另一个域名："
+      },
+      "title": "解析记录"
+    },
+    "resolver": {
+      "error": "解析器迁移异常",
+      "message": "若要手动重置解析器，请单击 “设置” 并输入自定义解析器的地址。",
+      "publicResolver": "使用公共解析器",
+      "warning": "您使用的公共解析器是一个过时的版本。单击 “迁移” 来迁移解析器和解析记录。迁移您的解析器和解析记录时，需要您确认两笔交易。"
+    },
+    "search": {
+      "title": "域名"
+    },
+    "subdomains": {
+      "add": "添加子域名",
+      "nosubdomains": "暂未分配子域名"
+    },
+    "tabs": {
+      "details": "详情",
+      "register": "注册",
+      "subdomains": "子域名"
+    },
+    "test": {
+      "note": "注意：谁都可以注册尚未使用的 <1>.test</1> 域名，域名会在申请 28 天后到期。"
+    },
+    "tooltips": {
+      "detailsItem": {
+        "Controller": "如果要转让域名的管理员，请先确定你登录的是该域名的管理员或注册人账户。",
+        "ControllerAndDnsAlreadySync": "管理员和 DNS 所有者已经完成同步。",
+        "Resolver": "如果要设置域名的解析器，请先确定您登录的是该域名的管理员账户。",
+        "default": "只有当钱包中使用的账户是域名的管理员账户时，你才能更改该域名的相关信息。",
+        "registrant": "如果要转让域名的注册人，请先确定你登录的是该域名当前的注册人账户。",
+        "registrantExpired": "该域名已经过期，无法转让，请先为其续费再进行操作。"
+      }
+    }
+  }
+}

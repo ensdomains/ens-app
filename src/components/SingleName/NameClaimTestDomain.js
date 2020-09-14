@@ -1,5 +1,6 @@
 import React from 'react'
-import styled from '@emotion/styled'
+import { useTranslation, Trans } from 'react-i18next'
+import styled from '@emotion/styled/macro'
 import { REGISTER_TESTDOMAIN } from '../../graphql/mutations'
 import { Mutation } from 'react-apollo'
 import Button from '../Forms/Button'
@@ -33,6 +34,7 @@ const Tld = styled('pre')`
 `
 
 function NameClaimTestDomain({ domain, refetch }) {
+  const { t } = useTranslation()
   const { state, actions } = useEditable()
   const { txHash, pending, confirmed } = state
 
@@ -66,14 +68,16 @@ function NameClaimTestDomain({ domain, refetch }) {
                 })
               }}
             >
-              Claim
+              {t('c.claim')}
             </ClaimButton>
           )}
         </Mutation>
       )}
       <Note>
-        Note: <Tld>.test</Tld> domain allows anyone to claim an unused name for
-        test purposes, which expires after 28 days
+        <Trans i18nKey="singleName.test.note">
+          Note: <Tld>.test</Tld> domain allows anyone to claim an unused name
+          for test purposes, which expires after 28 days
+        </Trans>
       </Note>
     </NameClaimTestDomainContainer>
   )

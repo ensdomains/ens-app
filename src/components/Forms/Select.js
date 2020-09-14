@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import Select from 'react-select'
+import CreatableSelect from 'react-select/creatable'
 
 const SelectContainer = styled('div')`
   width: 250px;
@@ -42,11 +43,12 @@ const styles = {
 
 class SelectComponent extends Component {
   render() {
-    const { selectedOption, handleChange, className } = this.props
-
+    const { selectedOption, handleChange, className, addNewKey } = this.props
+    const SelectorType = addNewKey ? CreatableSelect : Select
     return (
       <SelectContainer className={className}>
-        <Select
+        <SelectorType
+          isHidden={false}
           value={selectedOption}
           onChange={handleChange}
           {...this.props}

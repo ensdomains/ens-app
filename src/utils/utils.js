@@ -2,11 +2,12 @@ import {
   getNetworkId,
   validateName as _validateName,
   parseSearchTerm as _parseSearchTerm,
-  ensStartBlock as _ensStartBlock,
+  getEnsStartBlock as _ensStartBlock,
   isLabelValid as _isLabelValid,
   isEncodedLabelhash,
   emptyAddress as _emptyAddress
 } from '@ensdomains/ui'
+import getENS from '../api/ens'
 import * as jsSHA3 from 'js-sha3'
 import { saveName } from '../api/labels'
 
@@ -96,8 +97,17 @@ export function isLabelValid(name) {
   return _isLabelValid(name)
 }
 
-export const parseSearchTerm = term => {
-  return _parseSearchTerm(term)
+export const parseSearchTerm = async term => {
+  const ens = getENS()
+  const domains = term.split('.')
+  const tld = domains[domains.length - 1]
+  try {
+    _validateName(tld)
+  } catch (e) {
+    return 'invalid'
+  }
+  const address = await ens.getOwner(tld)
+  return _parseSearchTerm(term, parseInt(address, 16) !== 0)
 }
 
 export function humaniseName(name) {
@@ -111,7 +121,7 @@ export function humaniseName(name) {
 
 export function modulate(value, rangeA, rangeB, limit) {
   let fromHigh, fromLow, result, toHigh, toLow
-  if (limit == null) {
+  if (limit === null) {
     limit = false
   }
   fromLow = rangeA[0]
@@ -158,4 +168,10 @@ export const emptyAddress = _emptyAddress
 
 export function isShortName(term) {
   return [...term].length < 3
+}
+
+export const abougPageURL = () => {
+  const lang = window.localStorage.getItem('language') || ''
+
+  return `https://ens.domains/${lang === 'en' ? '' : lang}`
 }

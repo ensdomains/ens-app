@@ -1,6 +1,6 @@
 import React from 'react'
 import { Mutation } from 'react-apollo'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 
 import { useEditable } from '../hooks'
 import mq from 'mediaQuery'
@@ -95,15 +95,15 @@ const LearnMore = () => (
     href="https://docs.ens.domains/permanent-registrar-faq"
     target="_blank"
   >
-    Learn More
+    {t('c.learnmore')}
   </LearnMoreLink>
 )
 
-const ReleaseInstead = ({ label, refetch }) => (
+const ReleaseInstead = ({ label, isDeedOwner }) => (
   <MigrationExplanation>
     <ReleaseDeed
       label={label}
-      refetch={refetch}
+      isDeedOwner={isDeedOwner}
       actionText="Release"
       actionType="link"
       explanation="You will no longer have ownership of this name"
@@ -164,15 +164,13 @@ function TransferRegistrars({
         </strong>{' '}
         if you want to keep your domain. <LearnMore />
       </MigrationExplanation>
-      <ReleaseInstead label={label} refetch={refetch} />
+      <ReleaseInstead label={label} isDeedOwner={isDeedOwner} />
     </>
   )
 
   const TooLate = (
     <>
-      <MigrationInstruction>
-        Migration period ended {formatDate(transferEndDate, true)}
-      </MigrationInstruction>
+      <MigrationInstruction>Migration period ended</MigrationInstruction>
       <MigrationExplanation>
         You no longer own this name and it has been made available for
         registration in the new ENS Permanent Registrar. You can release the
@@ -193,14 +191,14 @@ function TransferRegistrars({
         <strong>{formatDate(transferEndDate, true)}</strong>, you will lose your
         domain, and others will be able to register it. <LearnMore />
       </MigrationExplanation>
-      <ReleaseInstead label={label} refetch={refetch} />
+      <ReleaseInstead label={label} isDeedOwner={isDeedOwner} />
     </>
   )
 
   const ReleaseAction = (
     <ReleaseDeed
       label={label}
-      refetch={refetch}
+      isDeedOwner={isDeedOwner}
       actionText="Release"
       actionType="button"
       explanation="You already lost ownership of this name but will get ETH back"

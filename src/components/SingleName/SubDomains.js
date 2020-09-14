@@ -1,5 +1,6 @@
 import React from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
+import { useTranslation } from 'react-i18next'
 import { Query } from 'react-apollo'
 import {
   GET_SUBDOMAINS_FROM_SUBGRAPH,
@@ -9,7 +10,8 @@ import Loader from '../Loader'
 import { H2 } from '../Typography/Basic'
 import AddSubdomain from './AddSubdomain'
 import ChildDomainItem from '../DomainItem/ChildDomainItem'
-import { getNamehash, encodeLabelhash } from '@ensdomains/ui'
+import { getNamehash } from '@ensdomains/ui'
+import { decryptName } from '../../api/labels'
 
 const SubDomainsContainer = styled('div')`
   padding-bottom: 30px;
@@ -23,46 +25,58 @@ const SubDomainH2 = styled(H2)`
   color: #ccd4da;
 `
 
-function SubDomainsFromWeb3({ domain, isOwner }) {
+function SubDomainsFromWeb3({ domain, canAddSubdomain }) {
   return (
     <Query query={GET_SUBDOMAINS} variables={{ name: domain.name }}>
       {({ loading, error, data, refetch }) => {
+        const subdomains =
+          data &&
+          data.getSubDomains &&
+          data.getSubDomains.subDomains &&
+          data.getSubDomains.subDomains.filter(subdomain => {
+            return parseInt(subdomain.owner, 16) !== 0
+          })
         if (error) {
           console.log('error getting subdomains', error)
         }
         if (loading)
           return (
             <>
-              {isOwner && <AddSubdomain domain={domain} refetch={refetch} />}
+              <AddSubdomainContainer
+                domain={domain}
+                refetch={refetch}
+                canAddSubdomain={canAddSubdomain}
+              />
               <Loader withWrap large />
             </>
           )
-        if (
-          data &&
-          data.getSubDomains &&
-          data.getSubDomains.subDomains &&
-          data.getSubDomains.subDomains.length === 0
-        ) {
+        if (subdomains && subdomains.length === 0) {
           return (
             <>
-              {isOwner && <AddSubdomain domain={domain} refetch={refetch} />}
+              <AddSubdomainContainer
+                domain={domain}
+                refetch={refetch}
+                canAddSubdomain={canAddSubdomain}
+              />
               <SubDomainH2>No subdomains have been added.</SubDomainH2>
             </>
           )
         }
         return (
           <>
-            {isOwner && <AddSubdomain domain={domain} refetch={refetch} />}
-
-            {data &&
-              data.getSubDomains.subDomains.map(d => (
-                <ChildDomainItem
-                  name={d.name}
-                  owner={d.owner}
-                  parent={d.parent}
-                  labelhash={d.labelHash}
-                />
-              ))}
+            <AddSubdomainContainer
+              domain={domain}
+              refetch={refetch}
+              canAddSubdomain={canAddSubdomain}
+            />
+            {subdomains.map(d => (
+              <ChildDomainItem
+                name={d.name}
+                owner={d.owner}
+                parent={d.parent}
+                labelhash={d.labelHash}
+              />
+            ))}
           </>
         )
       }}
@@ -70,7 +84,29 @@ function SubDomainsFromWeb3({ domain, isOwner }) {
   )
 }
 
-function SubDomains({ domain, isOwner, ...rest }) {
+function AddSubdomainContainer({ domain, refetch, canAddSubdomain }) {
+  return canAddSubdomain ? (
+    <AddSubdomain domain={domain} refetch={refetch} />
+  ) : null
+}
+
+function SubDomains({
+  domain,
+  isOwner,
+  loadingIsParentMigrated,
+  isParentMigratedToNewRegistry,
+  isMigratedToNewRegistry,
+  loadingIsMigrated,
+  ...rest
+}) {
+  const { t } = useTranslation()
+  const canAddSubdomain =
+    isOwner &&
+    !loadingIsParentMigrated &&
+    !loadingIsMigrated &&
+    isParentMigratedToNewRegistry &&
+    isMigratedToNewRegistry
+
   return (
     <SubDomainsContainer {...rest}>
       {parseInt(domain.owner, 16) !== 0 ? (
@@ -81,65 +117,89 @@ function SubDomains({ domain, isOwner, ...rest }) {
           }}
         >
           {({ loading, error, data, refetch }) => {
-            if (error) {
-              console.error('Unable to get subdomains, error: ', error)
+            const subdomains =
+              data &&
+              data.domain &&
+              data.domain.subdomains &&
+              data.domain.subdomains.filter(subdomain => {
+                return parseInt(subdomain.owner.id, 16) !== 0
+              })
 
-              return <SubDomainsFromWeb3 domain={domain} isOwner={isOwner} />
+            if (error || !data.domain) {
+              console.error(
+                'Unable to get subdomains from subgraph, falling back to web3 ',
+                error
+              )
+
+              return (
+                <SubDomainsFromWeb3
+                  domain={domain}
+                  isOwner={isOwner}
+                  canAddSubdomain={canAddSubdomain}
+                />
+              )
             }
             if (loading)
               return (
                 <>
-                  {isOwner && (
-                    <AddSubdomain domain={domain} refetch={refetch} />
-                  )}
                   <Loader withWrap large />
                 </>
               )
-            if (
-              data &&
-              data.domain &&
-              data.domain.subdomains &&
-              data.domain.subdomains.length === 0
-            ) {
+            if (subdomains && subdomains.length === 0) {
               return (
                 <>
-                  {isOwner && (
-                    <AddSubdomain domain={domain} refetch={refetch} />
-                  )}
-                  <SubDomainH2>No subdomains have been added.</SubDomainH2>
+                  <AddSubdomainContainer
+                    domain={domain}
+                    refetch={refetch}
+                    canAddSubdomain={canAddSubdomain}
+                  />
+                  <SubDomainH2>
+                    {t('singleName.subdomains.nosubdomains')}
+                  </SubDomainH2>
                 </>
               )
             }
 
             if (data.domain === null) {
-              return <SubDomainsFromWeb3 domain={domain} isOwner={isOwner} />
+              return (
+                <SubDomainsFromWeb3
+                  domain={domain}
+                  isOwner={isOwner}
+                  canAddSubdomain={canAddSubdomain}
+                />
+              )
             }
             return (
               <>
-                {isOwner && <AddSubdomain domain={domain} refetch={refetch} />}
-                {data &&
-                  data.domain.subdomains.map(d => {
-                    let name
-                    if (d.labelName !== null) {
-                      name = `${d.labelName}.${domain.name}`
-                    } else {
-                      name = `${encodeLabelhash(d.labelhash)}.${domain.name}`
-                    }
-                    return (
-                      <ChildDomainItem
-                        name={name}
-                        owner={d.owner.id}
-                        parent={domain.name}
-                        labelhash={d.labelHash}
-                      />
-                    )
-                  })}
+                <AddSubdomainContainer
+                  domain={domain}
+                  refetch={refetch}
+                  canAddSubdomain={canAddSubdomain}
+                />
+                {subdomains.map(d => {
+                  let name
+                  if (d.labelName !== null) {
+                    name = `${d.labelName}.${domain.name}`
+                  } else {
+                    name = `${decryptName(d.labelhash)}.${domain.name}`
+                  }
+                  return (
+                    <ChildDomainItem
+                      showBlockies={true}
+                      name={name}
+                      isMigrated={d.isMigrated}
+                      owner={d.owner.id}
+                      parent={domain.name}
+                      labelhash={d.labelHash}
+                    />
+                  )
+                })}
               </>
             )
           }}
         </Query>
       ) : (
-        <SubDomainH2>No subdomains have been added.</SubDomainH2>
+        <SubDomainH2>{t('singleName.subdomains.nosubdomains')}</SubDomainH2>
       )}
     </SubDomainsContainer>
   )

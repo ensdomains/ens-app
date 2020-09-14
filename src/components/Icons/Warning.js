@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 
 class Warning extends Component {
   render() {

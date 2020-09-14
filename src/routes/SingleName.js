@@ -24,7 +24,6 @@ function SingleName({
 
   useEffect(() => {
     let normalisedName
-    let _type
     try {
       // This is under the assumption that validateName never returns false
       normalisedName = validateName(searchTerm)
@@ -33,20 +32,19 @@ function SingleName({
     } catch {
       document.title = 'Error finding name'
     } finally {
-      if (normalisedName) {
-        _type = parseSearchTerm(normalisedName)
-      } else {
-        _type = parseSearchTerm(searchTerm)
-      }
-      if (_type === 'supported' || _type === 'tld') {
-        setValid(true)
-      } else {
-        if (_type === !'short') {
-          _type = 'unsupported'
+      parseSearchTerm(normalisedName || searchTerm).then(_type => {
+        if (_type === 'supported' || _type === 'tld' || _type === 'search') {
+          setValid(true)
+          setType(_type)
+        } else {
+          if (_type === 'invalid') {
+            setType('domainMalformed')
+          } else {
+            setType(_type)
+          }
+          setValid(false)
         }
-        setValid(true)
-      }
-      setType(_type)
+      })
     }
   }, [searchTerm])
   if (valid) {

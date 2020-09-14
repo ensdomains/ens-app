@@ -1,5 +1,7 @@
 import React from 'react'
-import styled from '@emotion/styled'
+import { useTranslation } from 'react-i18next'
+import styled from '@emotion/styled/macro'
+
 import favourite from '../HomePage/images/favourite.svg'
 import manage from '../HomePage/images/manage.svg'
 import search from '../HomePage/images/search.svg'
@@ -80,47 +82,34 @@ const Icon = ({ src, title, text }) => (
   </IconContainer>
 )
 
-const HowToUse = ({ text = false, className }) => (
-  <HowToUseContainer className={className}>
-    <Icons className="icons">
-      <Icon
-        src={search}
-        title="Search for names"
-        text={
-          text
-            ? 'Find domains and subdomains that you can register or learn more about.'
-            : ''
-        }
-      />
-      <Icon
-        src={favourite}
-        title="Save favourite names"
-        text={
-          text
-            ? 'Keep track of domains and subdomains that you own or that you want to follow.'
-            : ''
-        }
-      />
-      <Icon
-        src={register}
-        title="Register names"
-        text={
-          text
-            ? 'Register .eth names for $5/year. Renew or cancel your name registration at any time.'
-            : ''
-        }
-      />
-      <Icon
-        src={manage}
-        title="Manage names"
-        text={
-          text
-            ? 'Point domains to your ethereum addresses, transfer ownership to other people and more.'
-            : ''
-        }
-      />
-    </Icons>
-  </HowToUseContainer>
-)
+const HowToUse = ({ text = false, className }) => {
+  const { t } = useTranslation()
+  return (
+    <HowToUseContainer className={className}>
+      <Icons className="icons">
+        <Icon
+          src={search}
+          title={t('howtouse.search.title')}
+          text={text ? t('howtouse.search.text') : ''}
+        />
+        <Icon
+          src={favourite}
+          title={t('howtouse.favourite.title')}
+          text={text ? t('howtouse.favourite.text') : ''}
+        />
+        <Icon
+          src={register}
+          title={t('howtouse.register.title')}
+          text={text ? t('howtouse.register.text') : ''}
+        />
+        <Icon
+          src={manage}
+          title={t('howtouse.manage.title')}
+          text={text ? t('howtouse.manage.text') : ''}
+        />
+      </Icons>
+    </HowToUseContainer>
+  )
+}
 
 export default HowToUse

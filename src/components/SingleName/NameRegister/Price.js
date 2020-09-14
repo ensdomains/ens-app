@@ -1,7 +1,9 @@
 import React from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
+import { useTranslation } from 'react-i18next'
 import mq from 'mediaQuery'
 import EthVal from 'ethval'
+import { InlineLoader } from 'components/Loader'
 
 const PriceContainer = styled('div')`
   width: 100%;
@@ -38,17 +40,46 @@ const USD = styled('span')`
   `}
 `
 
-const Price = ({ price, ethUsdPrice, ethUsdPriceLoading }) => {
-  const ethVal = new EthVal(`${price}`).toEth()
+const Price = ({
+  loading,
+  price,
+  ethUsdPrice,
+  ethUsdPremiumPrice,
+  ethUsdPriceLoading,
+  underPremium
+}) => {
+  const { t } = useTranslation()
+  let ethPrice = <InlineLoader />
+  let ethVal, basePrice, withPremium, usdPremium
+  if (!loading && price) {
+    ethVal = new EthVal(`${price}`).toEth()
+    ethPrice = ethVal && ethVal.toFixed(3)
+    if (ethUsdPrice && ethUsdPremiumPrice) {
+      basePrice = ethVal.mul(ethUsdPrice) - ethUsdPremiumPrice
+      withPremium =
+        underPremium && ethUsdPremiumPrice
+          ? `$${basePrice.toFixed(0)}(+$${ethUsdPremiumPrice.toFixed(2)}) =`
+          : null
+      usdPremium = ethVal.mul(ethUsdPrice).toFixed(2)
+    }
+  }
+
   return (
     <PriceContainer>
       <Value>
-        {ethVal.toFixed(3)} ETH
-        {!ethUsdPriceLoading && (
-          <USD>${ethVal.mul(ethUsdPrice).toFixed(2)} USD</USD>
+        {ethPrice} ETH
+        {ethVal && ethUsdPrice && (
+          <USD>
+            {withPremium}${usdPremium}
+            USD
+          </USD>
         )}
       </Value>
-      <Description>Total price to pay</Description>
+      <Description>
+        {ethUsdPremiumPrice
+          ? t('pricer.pricePerAmount')
+          : t('pricer.totalPriceLabel')}
+      </Description>
     </PriceContainer>
   )
 }

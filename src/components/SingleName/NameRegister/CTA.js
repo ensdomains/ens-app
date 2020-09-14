@@ -1,12 +1,19 @@
 import React, { useState } from 'react'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
+import moment from 'moment'
+import { css } from 'emotion'
+import { useHistory } from 'react-router-dom'
 import { Mutation } from 'react-apollo'
+import { useTranslation } from 'react-i18next'
+import EthVal from 'ethval'
 
+import { trackReferral } from '../../../utils/analytics'
 import { COMMIT, REGISTER } from '../../../graphql/mutations'
 
 import Tooltip from 'components/Tooltip/Tooltip'
 import PendingTx from '../../PendingTx'
 import Button from '../../Forms/Button'
+import AddToCalendar from '../../Calendar/RenewalCalendar'
 import { ReactComponent as DefaultPencil } from '../../Icons/SmallPencil.svg'
 import { ReactComponent as DefaultOrangeExclamation } from '../../Icons/OrangeExclamation.svg'
 
@@ -34,29 +41,37 @@ const OrangeExclamation = styled(DefaultOrangeExclamation)`
 function getCTA({
   step,
   incrementStep,
+  secret,
   duration,
   label,
   txHash,
   setTxHash,
   setTimerRunning,
+  setBlockCreatedAt,
   isAboveMinDuration,
   refetch,
-  readOnly
+  refetchIsMigrated,
+  readOnly,
+  price,
+  history,
+  t,
+  ethUsdPrice
 }) {
   const CTAs = {
     PRICE_DECISION: (
       <Mutation
         mutation={COMMIT}
-        variables={{ label }}
+        variables={{ label, secret }}
         onCompleted={data => {
-          setTxHash(Object.values(data)[0])
+          const txHash = Object.values(data)[0]
+          setTxHash(txHash)
           incrementStep()
         }}
       >
         {mutate =>
           isAboveMinDuration && !readOnly ? (
             <Button data-testid="request-register-button" onClick={mutate}>
-              Request to register
+              {t('register.buttons.request')}
             </Button>
           ) : readOnly ? (
             <Tooltip
@@ -77,15 +92,14 @@ function getCTA({
                       hideTooltip()
                     }}
                   >
-                    Request to register
-                    {tooltipElement}
+                    {t('register.buttons.request')}
                   </Button>
                 )
               }}
             </Tooltip>
           ) : (
             <Button data-testid="request-register-button" type="disabled">
-              Request to register
+              {t('register.buttons.request')}
             </Button>
           )
         }
@@ -94,23 +108,36 @@ function getCTA({
     COMMIT_SENT: (
       <PendingTx
         txHash={txHash}
-        onConfirmed={() => {
+        onConfirmed={data => {
           incrementStep()
+          if (data.blockCreatedAt) {
+            setBlockCreatedAt(data.blockCreatedAt)
+          }
           setTimerRunning(true)
         }}
       />
     ),
     COMMIT_CONFIRMED: (
       <Button data-testid="disabled-register-button" type="disabled">
-        Register
+        {t('register.buttons.register')}
       </Button>
     ),
     AWAITING_REGISTER: (
       <Mutation
         mutation={REGISTER}
-        variables={{ label, duration }}
+        variables={{ label, duration, secret }}
         onCompleted={data => {
-          setTxHash(Object.values(data)[0])
+          const txHash = Object.values(data)[0]
+          setTxHash(txHash)
+          trackReferral({
+            transactionId: txHash,
+            labels: [label],
+            type: 'register', // renew/register
+            price: new EthVal(`${price._hex}`)
+              .toEth()
+              .mul(ethUsdPrice)
+              .toFixed(2) // in wei, // in wei
+          })
           incrementStep()
         }}
       >
@@ -118,10 +145,10 @@ function getCTA({
           <>
             <Prompt>
               <OrangeExclamation />
-              Click register to move to the 3rd step
+              {t('register.buttons.warning')}
             </Prompt>
             <Button data-testid="register-button" onClick={mutate}>
-              Register
+              {t('register.buttons.register')}
             </Button>
           </>
         )}
@@ -136,10 +163,28 @@ function getCTA({
       />
     ),
     REVEAL_CONFIRMED: (
-      <Button data-testid="manage-name-button" onClick={() => refetch()}>
-        <Pencil />
-        Manage name
-      </Button>
+      <>
+        <AddToCalendar
+          css={css`
+            margin-right: 20px;
+          `}
+          name={`${label}.eth`}
+          startDatetime={moment()
+            .utc()
+            .add(duration, 'seconds')
+            .subtract(30, 'days')}
+        />
+        <Button
+          data-testid="manage-name-button"
+          onClick={async () => {
+            await Promise.all([refetch(), refetchIsMigrated()])
+            history.push(`/name/${label}.eth`)
+          }}
+        >
+          <Pencil />
+          {t('register.buttons.manage')}
+        </Button>
+      </>
     )
   }
   return CTAs[step]
@@ -148,27 +193,41 @@ function getCTA({
 const CTA = ({
   step,
   incrementStep,
+  secret,
   duration,
   label,
   setTimerRunning,
+  setBlockCreatedAt,
   isAboveMinDuration,
   refetch,
-  readOnly
+  refetchIsMigrated,
+  readOnly,
+  price,
+  ethUsdPrice
 }) => {
+  const { t } = useTranslation()
+  const history = useHistory()
   const [txHash, setTxHash] = useState(undefined)
   return (
     <CTAContainer>
       {getCTA({
         step,
         incrementStep,
+        secret,
         duration,
         label,
         txHash,
         setTxHash,
         setTimerRunning,
+        setBlockCreatedAt,
         isAboveMinDuration,
         refetch,
-        readOnly
+        refetchIsMigrated,
+        readOnly,
+        price,
+        history,
+        t,
+        ethUsdPrice
       })}
     </CTAContainer>
   )

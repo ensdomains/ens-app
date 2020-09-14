@@ -1,8 +1,5 @@
 import React from 'react'
-import styled from '@emotion/styled'
-import { Query } from 'react-apollo'
-
-import { GET_RENT_PRICE } from 'graphql/queries'
+import styled from '@emotion/styled/macro'
 
 import Years from './NameRegister/Years'
 import Price from './NameRegister/Price'
@@ -32,36 +29,41 @@ const Chain = styled(ChainDefault)`
   `}
 `
 
-export default function Pricer({
+function PricerInner({
   years,
   setYears,
   duration,
   ethUsdPriceLoading,
   ethUsdPrice,
-  name,
-  className
+  ethUsdPremiumPrice,
+  className,
+  loading,
+  price,
+  reference,
+  underPremium
 }) {
   return (
-    <Query
-      query={GET_RENT_PRICE}
-      variables={{
-        name,
-        duration
-      }}
-    >
-      {({ data, loading }) => {
-        return (
-          <PricingContainer className={className}>
-            <Years years={years} setYears={setYears} />
-            <Chain />
-            <Price
-              price={loading ? 0 : data.getRentPrice}
-              ethUsdPriceLoading={ethUsdPriceLoading}
-              ethUsdPrice={ethUsdPrice}
-            />
-          </PricingContainer>
-        )
-      }}
-    </Query>
+    <PricingContainer className={className} ref={reference}>
+      <Years years={years} setYears={setYears} />
+      <Chain />
+      <Price
+        price={price}
+        loading={loading}
+        ethUsdPriceLoading={ethUsdPriceLoading}
+        ethUsdPrice={ethUsdPrice}
+        ethUsdPremiumPrice={ethUsdPremiumPrice}
+        underPremium={underPremium}
+      />
+    </PricingContainer>
   )
 }
+
+export const PricerAll = React.forwardRef((props, reference) => {
+  return <PricerInner reference={reference} {...props} />
+})
+
+const Pricer = React.forwardRef((props, reference) => {
+  return <PricerInner reference={reference} {...props} />
+})
+
+export default Pricer

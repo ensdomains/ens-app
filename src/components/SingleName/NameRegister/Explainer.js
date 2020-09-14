@@ -1,6 +1,6 @@
 import React from 'react'
-import styled from '@emotion/styled'
-import moment from 'moment'
+import styled from '@emotion/styled/macro'
+import { useTranslation } from 'react-i18next'
 
 import mq from 'mediaQuery'
 import Step from './Step'
@@ -62,17 +62,14 @@ const NotifyButtonDisabled = styled('div')`
 `
 
 const Explainer = ({ step, waitPercentComplete, waitTime }) => {
+  const { t } = useTranslation()
   const titles = {
-    PRICE_DECISION: 'Registering a name requires you to complete 3 steps',
-    COMMIT_SENT:
-      'Don’t close your browser! You’ll be able to manage your name soon.',
-    COMMIT_CONFIRMED:
-      'Don’t close your browser! You’ll be able to manage your name soon.',
-    AWAITING_REGISTER:
-      'Don’t close your browser! You’ll be able to manage your name soon.',
-    REVEAL_SENT:
-      'Don’t close your browser! You’ll be able to manage your name soon.',
-    REVEAL_CONFIRMED: 'You’ve completed all the steps, manage your name now!'
+    PRICE_DECISION: t('register.titles.0'),
+    COMMIT_SENT: t('register.titles.1'),
+    COMMIT_CONFIRMED: t('register.titles.1'),
+    AWAITING_REGISTER: t('register.titles.1'),
+    REVEAL_SENT: t('register.titles.1'),
+    REVEAL_CONFIRMED: t('register.titles.2')
   }
 
   return (
@@ -80,20 +77,17 @@ const Explainer = ({ step, waitPercentComplete, waitTime }) => {
       <Header>
         <div>
           <h2>{titles[step]}</h2>
-          <p>
-            *Favorite the name for easy access in case you close out of your
-            browser.
-          </p>
+          <p>{t('register.favourite')}</p>
         </div>
         {hasPermission() ? (
           <NotifyButtonDisabled>
             <Tick style={{ marginRight: 5 }} />
-            Notify me
+            {t('register.notify')}
           </NotifyButtonDisabled>
         ) : (
           <NotifyButton type="hollow-primary" onClick={requestPermission}>
             <Bell style={{ marginRight: 5 }} />
-            Notify me
+            {t('register.notify')}
           </NotifyButton>
         )}
       </Header>
@@ -104,8 +98,8 @@ const Explainer = ({ step, waitPercentComplete, waitTime }) => {
           progress={
             step === 'PRICE_DECISION' ? 0 : step === 'COMMIT_SENT' ? 50 : 100
           }
-          title="Request to register"
-          text="Your wallet will open and you will be asked to confirm the first of two transactions required for registration."
+          title={t('register.step1.title')}
+          text={t('register.step1.text')}
         />
         <Step
           number={2}
@@ -116,18 +110,22 @@ const Explainer = ({ step, waitPercentComplete, waitTime }) => {
               ? waitPercentComplete
               : 100
           }
-          title={`Wait for ${moment
+          title={
+            t(
+              'register.step2.title'
+            ) /* `Wait for ${moment
             .duration({ seconds: waitTime })
-            .humanize()}`}
-          text="The waiting period is required to ensure another person hasn’t tried to register the same name and protect you after your request."
+            .humanize()}` //add back localization of moment*/
+          }
+          text={t('register.step2.text')}
         />
         <Step
           number={3}
           progress={
             step === 'REVEAL_CONFIRMED' ? 100 : step === 'REVEAL_SENT' ? 50 : 0
           }
-          title="Complete Registration"
-          text="Click ‘register’ and your wallet will re-open. Only after the 2nd transaction is confirmed you'll know if you got the domain"
+          title={t('register.step3.title')}
+          text={t('register.step3.text')}
         />
       </Steps>
     </>
