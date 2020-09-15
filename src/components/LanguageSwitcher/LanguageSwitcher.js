@@ -28,7 +28,7 @@ const LANGUAGES = [
   },
   {
     value: 'fr',
-    label: 'Fançais (FR)'
+    label: 'Français (FR)'
   },
   {
     value: 'ko',
