@@ -1,0 +1,327 @@
+{
+  "address": {
+    "etherscanButton": "Xem chi tiết trên Etherscan",
+    "filter": {
+      "controller": "Địa chỉ quản lý",
+      "registrant": "Địa chỉ đăng kí"
+    },
+    "namesExpiringSoonBanner": {
+      "text": "Gia hạn tất cả tên miền qua một giao dịch bằng cách chọn nhiều tên miền và nhấn nút 'Gia hạn'",
+      "title": "Nhiều tên miền được mua trong quá khứ sẽ \nkhông còn được ân hạn trong tháng 8."
+    },
+    "renew": {
+      "button": "Gia hạn đã chọn",
+      "confirm": [
+        "Những tên miền sau:",
+        "sẽ được gia hạn cho"
+      ],
+      "confirmButton": "Gia hạn",
+      "year": "{{count}} năm",
+      "year_plural": "{{count}} năm"
+    },
+    "sort": {
+      "alphabetical": "Thứ tự chữ cái",
+      "expiry": "Ngày hết hạn",
+      "transactionBanner": "Bạn thấy trang này vì một giao dịch chúng tôi gửi tới bạn \nhoặc do một giới thiệu từ trang web khác.\nBạn có các tên miền sau cần gia hạn sớm!"
+    }
+  },
+  "c": {
+    "Address": "Địa chỉ",
+    "Content": "Nội dung ",
+    "Controller": "Quản lý",
+    "DnsOwner": "CHỦ SỞ HỮU DNS",
+    "Expiration Date": "Ngày hết hạn",
+    "Resolver": "Resolver",
+    "about": "Giới thiệu",
+    "cancel": "Hủy bỏ",
+    "claim": "Sở hữu",
+    "edit": "Chỉ sửa",
+    "email": "Email",
+    "expires": "Hết hạn",
+    "favourites": "Yêu thích ",
+    "learnmore": "Tìm hiểu thêm",
+    "migrate": "Chuyển đổi",
+    "mynames": "Tên tôi:",
+    "network": "Mạng lưới",
+    "otheraddresses": "Địa chỉ khác ",
+    "parent": "Miền gốc",
+    "permanentregistrar": "Nhà Cung Cấp Thường Trực",
+    "refresh": "Làm mới ",
+    "register": "Đăng kí",
+    "registrant": "Người đăng ký",
+    "registrationDate": "Ngày Đăng ký",
+    "renew": "Gia hạn",
+    "save": "Lưu ",
+    "search": "Tìm kiếm",
+    "set": "Ấn định",
+    "sync": "Đồng Bộ",
+    "textrecord": "Bản ghi ",
+    "transfer": "Chuyển quyền ",
+    "warning": "Cảnh Báo",
+    "year": "năm",
+    "year_plural": "năm"
+  },
+  "childDomainItem": {
+    "notmigrated": "Chưa Được Chuyển Đổi"
+  },
+  "dns": {
+    "breadcrumbs": [
+      "MỞ  DNSSEC",
+      "THÊM TEXT ",
+      "GỬI CHỨNG CỨ",
+      "QUẢN LÝ TÊN"
+    ],
+    "dnsowner": "Chủ của DNS",
+    "steps": {
+      "addtext": {
+        "text": "Nhấp \"tìm hiểu thêm\" để biết chi tiết các bước",
+        "title": "Tạo một bản ghi trong tên miền đã đăng ký củ bạn\nsau đó nhấn làm mới. Bản ghi sẽ đc chứa trong địa chỉ Ethereum dưới dạng:"
+      },
+      "enable": {
+        "text": "Nhấp \"tìm hiểu thêm\" để biết chi tiết các bước",
+        "title": "Hãy mở trang quản lý tên miền của bạn đề bật \nDNSSEC. Sau khi bật, nhấn \"refresh\" để thấy liệu bạn \ncó thể tiến hành bước tiếp theo"
+      },
+      "manage": {
+        "text1": "Bạn có thể quản lý tên miền này ngay bây giờ do bạn đã là chủ sở hữu",
+        "text2": "Bạn chỉ có thể xem tên miền này trong trình quản lý do hiện tại bạn không phải là chủ sở hữu",
+        "title": "Xin chúc mừng! Bạn vừa thêm thành công tên miền DNS này vào Trình đăng ký ENS"
+      },
+      "proof": {
+        "text1": "Địa chỉ xuất hiện trong bản ghi file txt của DNS cũng là địa chỉ của bạn",
+        "text2": "Nếu bạn biết mình sở hữu tên miền này, hãy thay đổi bản ghi TXT để lưu trữ Địa chỉ Ethereum của bạn và tải lại trang để tiến hành xác minh lại DNSSEC ",
+        "title1": "Bạn là chủ sở hữu của địa chỉ này. Hãy thêm tên miền của bạn vào Trình đăng ký ENS ngay",
+        "title2": "Bạn không phải là Người sở hữu DNS của tên miền này, nhưng bất kì ai cũng có thể thêm tên miền này vào trình Đăng ký ENS"
+      }
+    },
+    "viewinmanager": "Xem trong Trình quản lý"
+  },
+  "expiryNotification": {
+    "placeholder": "Nhập địa chỉ email ",
+    "reminder": "Nhắc nhở tôi "
+  },
+  "favourites": {
+    "favouriteTitle": "Ưa thích",
+    "nofavouritesDomains": {
+      "text": "Để thêm tên vào mục ưa thích, nhấn biểu tượng hình trái tim đặt kế bất cứ tên miền nào ",
+      "title": "Chưa có tên nào được lưu"
+    },
+    "nofavouritesSubdomain": {
+      "title": "Không có tên miền con nào được lưu."
+    },
+    "nofavouritesSubdomains": {
+      "text": "Để thêm tên vào mục ưa thích, nhấn biểu tượng hình trái tim đặt kế bất cứ tên miền nào "
+    },
+    "subdomainFavouriteTitle": "Tên miền con ưa thích"
+  },
+  "home": {
+    "announcements": {
+      "migrationOver": "Chuyển Đổi Đăng Ký Tên Miền Đã Kết Thúc...Bước Tiếp Theo? Đây Là Thông Tin Bạn Cần Biết",
+      "renew": {
+        "body": [
+          "Bạn có thể gia hạn nhiều tên miền trong một \nlệnh giao dịch  bằng cách vào ",
+          "trang địa chỉ của bạn",
+          "hoặc nhấn \"Các tên miền của tôi\" khi đăng nhập"
+        ],
+        "title": "Các tên được mua trong tháng 5 sắp sớm hết hạn"
+      }
+    },
+    "howtouse": {
+      "body": "ENS App là một giao diện cho người dùng không rành về kỹ thuật . Cho phép bạn tìm bất cứ tên nào, quản lý địa chỉ, tính năng và tạo tên miền con của mỗi tên.",
+      "title": "Cách dùng  ENS "
+    },
+    "permanentRegistrar": {
+      "title": "Tìm hiểu về Nhà Cung Cấp Thường Trực và quá trình chuyển đổi"
+    },
+    "whatisens": {
+      "body": "Ethereum Name Service là một dịch vụ phân tán, mã nguồn mở, có thể mở rộng hệ thống tên dựa trên nền chuỗi khối Ethereum.\nENS giúp hạn chế việc copy hay đánh các địa chỉ quá dài.",
+      "title": "ENS là gì"
+    }
+  },
+  "howtouse": {
+    "favourite": {
+      "text": "Theo dấu tên miền và tên miền phụ mà bạn sở hữu hoặc theo dõi",
+      "title": "Xem tên miền yêu thích"
+    },
+    "manage": {
+      "text": "Chuyển hướng tên miền đến địa chỉ Ethereum của bạn, chuyển đổi quyền sở hữu sang cho người khác hoặc nhiều hơn",
+      "title": "Quản lý tên miền"
+    },
+    "register": {
+      "text": "Đăng ký tên miền .eth với giá $5/năm. Làm mới hoặc huỷ đăng ký tên miền bất kì lúc nào",
+      "title": "Đăng ký tên miền"
+    },
+    "search": {
+      "text": "Tìm tên miền và tên miền phụ mà bạn có thể đăng ký hoặc tìm hiểu thêm",
+      "title": "Tìm tên miền"
+    }
+  },
+  "learnmore": {
+    "step1": {
+      "text": "Trình phân giải là một Hợp đồng Thông minh chịu trách nhiệm cho quá trình phiên dịch tên miền thành địa chỉ. Trong Trình phân giải hãy nhấp vào 'Ấn định'. Sau đó nhấp vào đường dẫn 'sử dụng phân giải công khai', và 'lưu' để phát sinh giao dịch",
+      "title": "1. Ấn định Trình phân giải"
+    },
+    "step2": {
+      "text": "Một khi bạn đã ấn định Trình phân giải, bạn có thể thêm bản ghi bằng cách nhấp vào dấu '+' trong vùng 'bản ghi'. Thêm địa chỉ Ethereum của bạn vào sẽ cho phép bạn chuyển ướng tới ví bạn trong bước tiếp theo",
+      "title": "Ấn định địa chỉ"
+    },
+    "step3": {
+      "text": "Một khi bạn đã ấn định địa chỉ, bạn sẽ thấy một tin hắn nói rằng bộ chuyển hướng đảo chiều không được ấn định. Nhấp vào mũi tên trong vùng mở rộng, sau đó nhấn nút 'lưu'. Điều này sẽ giúp bạn dịch địa chỉ thành tên miền mới",
+      "title": "Ấn đinh Bản ghi Đảo chiều"
+    },
+    "title": "Học cách quản lý tên miền"
+  },
+  "pendingTx": {
+    "text": "Đang xử lý giao dịch"
+  },
+  "pricer": {
+    "registrationPeriodLabel": "Thời gian đăng ký",
+    "totalPriceLabel": "Tổng giá thanh toán",
+    "yearUnit": "Năm"
+  },
+  "register": {
+    "buttons": {
+      "manage": "Quản lý",
+      "register": "Đăng lý",
+      "request": "Yêu cầu đăng ký",
+      "warning": "Nhấn đăng ký để chuyển đến bước thứ 3"
+    },
+    "favourite": "*Đánh dấu tên miền yêu thích để dễ truy cập phòng trường hợp bạn đóng trình duyệt ",
+    "notifications": {
+      "ready": "có thể đăng ký"
+    },
+    "notify": "Nhắc tôi",
+    "step1": {
+      "label": "Bước 1",
+      "text": "Ví của bạn sẽ mở và bạn sẽ được yêu cầu xác nhận 2 giao dịch bắt buộc để đăng ký",
+      "title": "Yêu cầu đăng ký"
+    },
+    "step2": {
+      "label": "Bước 2",
+      "text": "Thời gian chờ được bắt buộc để đảm bảo rằng người khác không cố đăng ký cùng một tên miền và bảo vệ bạn sau khi bạn yêu cầu",
+      "title": "Đợi 1 phút"
+    },
+    "step3": {
+      "label": "Bước 3",
+      "text": "Nhấn 'đăng ký' và ví của bạn sẽ được mở lại. Chỉ sau khi giao dịch thứ 2 được xác nhận thì bạn mới có thể sở hữu được tên miền",
+      "title": "Hoàn thành đăng ký"
+    },
+    "titles": [
+      "Bạn phải hoàn thành 3 bước để sở hữu tên miền",
+      "Đừng đóng trình duyệt nhé! Bạn sẽ có thể quản lý tên miền ngay thôi.",
+      "Bạn đã hoàn thành tất cả các bước, hãy quản lý tên miền ngay!"
+    ]
+  },
+  "registrymigration": {
+    "donotaccept": "*Đừng chấp nhận tên miền này khi bạn giao dịch ENS!",
+    "messages": {
+      "controller": "Tên miền này thuộc quyền điều khiển của một hợp đồng và không thể tự chuyển đổi. Hãy khởi động lại hợp đồng để dùng quyền đăng ký mới trước khi ấn định quyền điều khiển mới",
+      "default": "Tên miền này cần được chuyển đổi tới Trình đăng ký mới. Chỉ những tên miền gốc của tên miền này ({{parent}}) có thể làm vậy",
+      "dnssec": "Tên miền này cần được chuyển đổi tới Trình đăng ký mới. Xin hãy cài đặt chủ sở hữu DNS chính xác và nhấn nút 'Đồng bộ' phía bên dưới",
+      "parentmigrate": "Trước tiên xin hãy chuyển đổi tên miền gốc phía dưới {{parent}} trước khi bạn có thể chuyển đổi tên miền phụ"
+    }
+  },
+  "search": {
+    "button": "Tìm kiếm",
+    "placeholder": "Tìm kiếm tên miền hoặc địa chỉ",
+    "searchErrors": {
+      "domainMalformed": {
+        "long": "Có thể bạn đã thêm một tền miền không có TLD ví dụ như .eth hoặc bạn đã thêm những ký tự không được hỗ trợ",
+        "short": "Tên miền sai định dạng. {{searchTerms}} không phải là một tên miền hợp lệ"
+      },
+      "unsupported": {
+        "long": "Chúng tôi không hỗ trợ cho bất kì tên miền nào. Hỗ trợ cho những tên miền sau này sẽ được lên kế hoạch trong tương lai",
+        "short": "{{tld}} hiện không phải là một TLD được hỗ trợ"
+      }
+    }
+  },
+  "singleName": {
+    "banners": {
+      "namesExpiring": {
+        "text": "Nhấn vào nút làm mới để tránh việc tên miền hết hạn. Để có thể làm mới hàng loạt tên miền đang sở hữu, tìm <1>My Names</1> và chọn nhiều tên miền trước khi nhấn vào nút 'Renew'",
+        "title": "Nhiều tên miền được mua trong quá khứ sẽ \nkhông còn được ân hạn trong tháng 8."
+      }
+    },
+    "confirm": {
+      "button": {
+        "cancel": "Huỷ",
+        "confirm": "Xác nhận"
+      },
+      "subTitle": "Hành động này sẽ điều chỉnh trạng thái của blockchain",
+      "title": "Bạn có chắc muốn thực hiện điều này?",
+      "value": {
+        "future": "TƯƠNG LAI",
+        "previous": "TRƯỚC ĐÓ"
+      }
+    },
+    "dns": {
+      "messages": {
+        "error": "Giải quyết lỗi trong bộ cung cấp tên miền của bạn. Tải lại trang để áp dụng cập nhật",
+        "outOfSync": "Bộ điều khiển và Chủ sỡ hữu DNS không được đồng bộ. Nhấp vào 'đồng bộ' để Chủ sở hữu DNS trở thành Bộ điều khiển. Nhấp 'tải lại' nếu muốn thay đổi tên miền trong bộ cung cấp DNS",
+        "readyToRegister": "*Nhấp 'tải lại' nếu bạn muốn thay đổi thành tên miền trong bộ cung cấp DNS"
+      }
+    },
+    "domain": {
+      "state": {
+        "auction": "Đang đấu giá",
+        "default": "Tình trạng chưa rõ",
+        "owned": "Không có sẵn",
+        "owner": "Chủ nhân",
+        "title": "Có sẵn"
+      }
+    },
+    "expiry": {
+      "cannotown": "Gia hạn một tên miền mà bạn không sở hữu sẽ không biến nó trở thành của bạn",
+      "expired": "Đã hết hạn",
+      "expiring": "Sắp hến hạn",
+      "gracePeriodEnds": "Ân hạn kết thúc"
+    },
+    "messages": {
+      "alreadyregistered": "Tên miền này đã được đăng ký",
+      "noowner": "Không sở hữu",
+      "noresolver": "Không có Trình phân giải nào được ấn định",
+      "notfinalized": "(Bạn chưa hoàn thành)",
+      "pending": "Đang xử lý"
+    },
+    "record": {
+      "cantEdit": "Bạn không thể chỉnh sửa hoặc thêm bản khi cho đến khi bạn dịch chuyển đến trình phân giải mới",
+      "messages": {
+        "explanation": "Trình Phân giải đảo chiều dịch địa chỉ thành tên miền. Nó cho phép các DApps hiển thị giao diện '{{name}}' chứ không phải những địa chỉ dài dòng '{{account}}'. Nếu bạn muốn cài đặt việc đảo chiều đến một tài khoản khác, hãy chuyển tài khoản trong trình duyệt dapp của mình",
+        "notSet": "Bản ghi đảo chiều: chưa ấn định",
+        "setTo": "Bản ghi đảo chiều: ấn định cho",
+        "setToDifferent": "Bản ghi đảo chiều: Ấn định cho tên miền khác"
+      },
+      "title": "Tập ghi"
+    },
+    "resolver": {
+      "error": "Lỗi Di chuyển Trình phân giải",
+      "message": "Nhấp đặt và thêm vào địa chỉ phân giải tuỳ chỉnh của bạn để tự tay đặt lại trình phân giải tuỳ chỉnh của bạn",
+      "publicResolver": "Dùng Trình phân giải Công khai",
+      "warning": "Bạn đang dùng một trình phân giải công khai phiên bản cũ, Nhấp vào để di chuyển trình phân giải và bản ghi. Bạn sẽ cần phải xác nhận 2 giao dịch để di chuyển cả bản ghi và trình phân giải"
+    },
+    "search": {
+      "title": "Tên miền"
+    },
+    "subdomains": {
+      "add": "Thêm tên miền phụ",
+      "nosubdomains": "Không có tên miền nào được thêm vào"
+    },
+    "tabs": {
+      "details": "Chi tiết",
+      "register": "Đăng ký",
+      "subdomains": "Tên miền phụ"
+    },
+    "test": {
+      "note": "Chú ý: tên miền .test cho phép bất kì ai có thể sở hữu những tên miền chưa được sử dụng vào mục đích kiểm tra"
+    },
+    "tooltips": {
+      "detailsItem": {
+        "Controller": "Bạn chỉ có thể chuyển đổi người điều khiển nếu bạn là người điều khiển hoặc người đăng ký và đăng đăng nhập vào ví của mình",
+        "ControllerAndDnsAlreadySync": "Người điều khiển và người sở hữu DNS đã được đồng bộ",
+        "Resolver": "Bạn chỉ có thể ấn định trình phân giải cho tên miền này nếu bạn là người điều khiển và đã đăng nhập vào ví của mình",
+        "default": "Bạn chỉ có thể thay đổi nếu bạn là người điều khiển và đã đăng nhập vào ví của mình",
+        "registrant": "Bạn chỉ có thể chuyển đổi người đăng ký nếu bạn là người đăng kí và đã đăng nhập vào ví của mình",
+        "registrantExpired": "Bạn không thể giao dịch tên miền này khi nó hết hạn. Hãy gia hạn trước tiên"
+      }
+    }
+  }
+}
