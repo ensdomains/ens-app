@@ -1,0 +1,327 @@
+{
+  "address": {
+    "etherscanButton": "Ver en Etherscan",
+    "filter": {
+      "controller": "Controlador",
+      "registrant": "Registrante"
+    },
+    "namesExpiringSoonBanner": {
+      "text": "Uno o más nombres expirarán pronto, renuévalos en una transacción seleccionando múltiples nombres y da click a 'Renovar'",
+      "title": "Muchos nombres adquiridos antes estarán fuera del periodo de gracia en Agosto."
+    },
+    "renew": {
+      "button": "Renovar seleccionados",
+      "confirm": [
+        "Los siguientes nombres:",
+        "se renovarán durante"
+      ],
+      "confirmButton": "Renovar",
+      "year": "{{count}} año",
+      "year_plural": "{{count}} años"
+    },
+    "sort": {
+      "alphabetical": "Alfabético",
+      "expiry": "Fecha de expiración",
+      "transactionBanner": "Estas aquí por una transacción que te enviamos o una referencia de otro sitio ¡Tienes dominos que requieren ser renovados pronto!"
+    }
+  },
+  "c": {
+    "Address": "Dirección",
+    "Content": "Contenido",
+    "Controller": "Controlador",
+    "DnsOwner": "Propietario del DNS",
+    "Expiration Date": "Fecha de expiración",
+    "Resolver": "Resolvedor",
+    "about": "Acerca",
+    "cancel": "Cancelar",
+    "claim": "Reclamar",
+    "edit": "Editar",
+    "email": "Correo electrónico",
+    "expires": "Expira",
+    "favourites": "Favoritos",
+    "learnmore": "Aprender más",
+    "migrate": "Migrar",
+    "mynames": "Mis Nombres",
+    "network": "red",
+    "otheraddresses": "Otras Direcciones",
+    "parent": "matriz",
+    "permanentregistrar": "Registro permanente",
+    "refresh": "Actualizar",
+    "register": "Registrar",
+    "registrant": "Registrante",
+    "registrationDate": "Fecha de registro",
+    "renew": "Renovar",
+    "save": "Guardar",
+    "search": "Buscar",
+    "set": "Establecer",
+    "sync": "Sincronizar",
+    "textrecord": "Registro de texto",
+    "transfer": "Transferir",
+    "warning": "Advertencia",
+    "year": "año",
+    "year_plural": "años"
+  },
+  "childDomainItem": {
+    "notmigrated": "no se ha migrado"
+  },
+  "dns": {
+    "breadcrumbs": [
+      "HABILITAR DNSSEC",
+      "AÑADIR TEXTO",
+      "ENVIAR PRUEBA",
+      "GESTIONAR NOMBRE"
+    ],
+    "dnsowner": "Propietario de DNS",
+    "steps": {
+      "addtext": {
+        "text": "Da click en 'Aprender más' para leer sobre el proceso.",
+        "title": "Establece un registro de texto en un dominio y presiona actualizar. El registro de texto debería tener tu dirección de Ethereum en la forma:"
+      },
+      "enable": {
+        "text": "Da click en 'Aprender más' para leer sobre el proceso.",
+        "title": "Visita el registro del dominio para habilitar DNSSEC. Una vez habilitado, da click en actualizar para ver si puedes avanzar al siguiente paso."
+      },
+      "manage": {
+        "text1": "Como eres el propietario, puedes manejar tu nombre ahora.",
+        "text2": "Como no eres el propietario, sólo puedes ver el nombre en el gestionador.",
+        "title": "¡Felicidades! Has añadido el dominio DNS al registro de ENS correctamente."
+      },
+      "proof": {
+        "text1": "La dirección que aparece en registro de texto DNS es tu misma dirección.",
+        "text2": "Si conoces este dominio, cambia su registro TXT para que contenga tu dirección de Ethereum, y actualiza esta página para ejecutar la verificación DNSSEC de nuevo.",
+        "title1": "Eres el propietario de este dominio ",
+        "title2": "Parece que no eres el propietario este dominio DNS, pero cualquiera puede añadirlo al registro de ENS."
+      }
+    },
+    "viewinmanager": "Ver en el gestionador."
+  },
+  "expiryNotification": {
+    "placeholder": "Introduce tu correo electrónico",
+    "reminder": "Recúrdame"
+  },
+  "favourites": {
+    "favouriteTitle": "Favoritos",
+    "nofavouritesDomains": {
+      "text": "Para añadir nombres a tus favoritos, da click en el ícono de corazón en el dominio deseado.",
+      "title": "No hay nombres guardados."
+    },
+    "nofavouritesSubdomain": {
+      "title": "No hay subdominios guardados."
+    },
+    "nofavouritesSubdomains": {
+      "text": "Para añadir nombres a tus favoritos, da click en el ícono de corazón en el dominio deseado."
+    },
+    "subdomainFavouriteTitle": "Subdominios favoritos."
+  },
+  "home": {
+    "announcements": {
+      "migrationOver": "La migración del registro ENS ha concluido... ¿ahora qué? Un par de cosas para saber",
+      "renew": {
+        "body": [
+          "Puedes renovar varios dominios en una sola transacción en tu",
+          "página de direcciones",
+          "o presionando 'Mis nombres' al tener una sesión activa"
+        ],
+        "title": "Nombres adquiridos en Mayo expirarán pronto."
+      }
+    },
+    "howtouse": {
+      "body": "La aplicación ENS es una interfaz gráfica de usuario para usuarios no-técnicos. Te permite buscar cualquier nombre, gestionar sus direcciones o los recursos a los que direcciona, o crear subdominios para cada uno.",
+      "title": "Cómo utilizar ENS"
+    },
+    "permanentRegistrar": {
+      "title": "Aprende sobre el Registrante Permanente y el proceso de migración."
+    },
+    "whatisens": {
+      "body": "El Servicio de Nombres de Ethereum  es un sistema de nombres distribuido, abierto y extensible basado en la cadena de bloques de Ethereum. El ENS elimina la necesidad de copiar o escribir direcciones largas.",
+      "title": "Lo que es"
+    }
+  },
+  "howtouse": {
+    "favourite": {
+      "text": "Lleva un registro de los dominios y subdominios que posees o que quieres hacer seguimiento.",
+      "title": "Guarda tus nombres favoritos"
+    },
+    "manage": {
+      "text": "Apunta los dominios a tus direcciones de ethereum, transfiere la propiedad a otras personas y más.",
+      "title": "Gestiona nombres"
+    },
+    "register": {
+      "text": "Registra los nombres .eth por 5$ al año. Renueva o cancela el registro de tu nombre en cualquier momento.",
+      "title": "Registra nombres"
+    },
+    "search": {
+      "text": "Encuentra dominios y subdominios que puedes registrar o aprender más sobre ellos.",
+      "title": "Búsqueda de nombres"
+    }
+  },
+  "learnmore": {
+    "step1": {
+      "text": "El Resolvedor es un contrato inteligente responsable del proceso de traducir nombres en direcciones. En el área del Resolvedor, haga clic en \"Establecer\". A continuación, haga clic en el enlace \"usar el resolvedor público\" y \"guardar\" para iniciar la transacción.",
+      "title": "1. Establecer un Resolvedor"
+    },
+    "step2": {
+      "text": "Una vez que hayas configurado el Resolvedor, puedes añadir registros haciendo clic en el '+' del campo 'registros'. Al añadir tu dirección de ethereum, podrás apuntar tu billetera hacia tu nombre en el siguiente paso.",
+      "title": "2. Establecer la dirección"
+    },
+    "step3": {
+      "text": "Una vez que establezcas tu dirección, verás un mensaje que dice que el indicador inverso no está establecido. Presiona la flecha del campo para expandirlo y luego haz clic en el botón \"Guardar\". Esto traducirá tu dirección a tu nuevo nombre.",
+      "title": "3. Establecer un registro inverso"
+    },
+    "title": "Aprende a gestionar tu nombre."
+  },
+  "pendingTx": {
+    "text": "Tx Pendiente"
+  },
+  "pricer": {
+    "registrationPeriodLabel": "Periodo de registración",
+    "totalPriceLabel": "Precio total a pagar",
+    "yearUnit": "año"
+  },
+  "register": {
+    "buttons": {
+      "manage": "Gestiona",
+      "register": "Registrar",
+      "request": "Petición de registro",
+      "warning": "Presiona registrar para ir al paso 3"
+    },
+    "favourite": "* Selecciona un nombre como favorito para un acceso rápido en caso de que se cierre el navegador.",
+    "notifications": {
+      "ready": "listo para registrar"
+    },
+    "notify": "Notifícame",
+    "step1": {
+      "label": "Paso 1",
+      "text": "Tu cartera se abrirá y se te pedirá que confirmes la primera de las dos transacciones necesarias para el registro",
+      "title": "Solicitud de registro"
+    },
+    "step2": {
+      "label": "Paso 2",
+      "text": "El período de espera es necesario para asegurar que otra persona no ha intentado registrar el mismo nombre y protegerte después de que hagas la solicitud.",
+      "title": "Espera 1 minuto"
+    },
+    "step3": {
+      "label": "Paso 3",
+      "text": "Presiona en \"registrar\" y tu cartera se abrirá de nuevo. Sólo después de que se confirme la segunda transacción sabrás si tienes el dominio registrado",
+      "title": "Registro completo"
+    },
+    "titles": [
+      "El registro de un nombre requiere que completes 3 pasos",
+      "No cierres tu navegador! Pronto podrás gestionar tu nombre.",
+      "Has completado todos los pasos, ¡administra tu nombre ahora!"
+    ]
+  },
+  "registrymigration": {
+    "donotaccept": "*Si comercias con nombres de ENS, no acepten este nombre!",
+    "messages": {
+      "controller": "Este nombre está controlado por un contrato y no puede ser migrado automáticamente. Por favor, redefine tu contrato para usar el nuevo registro antes de establecer el nuevo controlador",
+      "default": "Este nombre necesita ser migrado al nuevo Registro. Sólo el padre de este nombre ({{ parent}}) puede hacerlo.",
+      "dnssec": "Este nombre necesita ser migrado al nuevo Registro. Por favor, configure el propietario correcto del DNS  y haga clic en el botón 'Sync' de abajo.",
+      "parentmigrate": "Primero debe migrar el dominio padre {{parent}} antes de poder migrar este subdominio"
+    }
+  },
+  "search": {
+    "button": "Buscar",
+    "placeholder": "Buscar nombres o direcciones",
+    "searchErrors": {
+      "domainMalformed": {
+        "long": "Has añadido un dominio sin un dominio de nivel superior como .eth o has añadido carácteres no soportados.",
+        "short": "Dominio malformado. {{searchTerm}} no es un dominio válido."
+      },
+      "unsupported": {
+        "long": "No soportamos todos los dominios en existencia. El soporte para dominios en el futuro está planeado.",
+        "short": "{{tld}} no es un dominio de nivel superior soportado."
+      }
+    }
+  },
+  "singleName": {
+    "banners": {
+      "namesExpiring": {
+        "text": "Presiona el botón renovar para evitar la caducidad. Para renovar todos sus nombres en bloque, navegua a <1>Mis nombres</1> y selecciona varios nombres antes de hacer clic en \"Renovar\".",
+        "title": "Muchos nombres adquiridos antes estarán fuera del periodo de gracia en Agosto."
+      }
+    },
+    "confirm": {
+      "button": {
+        "cancel": "Cancelar",
+        "confirm": "Confirmar"
+      },
+      "subTitle": "Esta acción modificará el estado de la cadena de bloques.",
+      "title": "¿Estás seguro(a) que quieres hacer esto?",
+      "value": {
+        "future": "FUTURO",
+        "previous": "PREVIO"
+      }
+    },
+    "dns": {
+      "messages": {
+        "error": "Resuelve el error en tu registrante de dominio. Actualiza para reflecar los cambios.",
+        "outOfSync": "El controlador y el propietario del DNS están desincronizados. Haz clic en 'Sincronizar' para hacer el controlador al mismo propietario del DNS. Haz clic en 'actualizar' si haces cambios al dominio en el registrante del DNS.",
+        "readyToRegister": "Haz clic en 'actualizar' si haces cambios al dominio en el registrante del DNS."
+      }
+    },
+    "domain": {
+      "state": {
+        "auction": "En subasta",
+        "default": "Estado desconocido",
+        "owned": "No disponible",
+        "owner": "Propietario",
+        "title": "Disponible"
+      }
+    },
+    "expiry": {
+      "cannotown": "Renovar un nombre que no posees no te da la propiedad del mismo.",
+      "expired": "Caducó",
+      "expiring": "Caducará pronto",
+      "gracePeriodEnds": "El periodo de gracia termina"
+    },
+    "messages": {
+      "alreadyregistered": "Este nombre ya está registrado.",
+      "noowner": "No tiene dueño",
+      "noresolver": "No tienes un Resolvedor",
+      "notfinalized": "(No has terminado)",
+      "pending": "Pendiente"
+    },
+    "record": {
+      "cantEdit": "No puedes añadir o editar registros hasta que migres al nuevo resolvedor.",
+      "messages": {
+        "explanation": "La resolución reversa traduce una dirección a un nombre. Permite a las Dapps mostrar '{{name}}' en lugar de la dirección larga '{{account}}'. Si quieres configurar la resolución inversa para una cuenta distinta, por favor cambia tu cuenta en tu navegador de dapps.",
+        "notSet": "Registro reverso: no configurado.",
+        "setTo": "Registro reverso: Configurado a",
+        "setToDifferent": "Registro reverso: Configurar a otro nombre:"
+      },
+      "title": "Registror"
+    },
+    "resolver": {
+      "error": "Error migrando el resolucionador.",
+      "message": "Para configurar el resolvedor manualmente, haz clic en (set) e intruduce la dirección del resolvedor.",
+      "publicResolver": "Utilizar resolvedor público",
+      "warning": "Estas utilizando una versión antigua del resolvedor público. Haz clic para migrar tu resolvedor y registros. Necesitarás confirmar dos transacciones para migrar ambas."
+    },
+    "search": {
+      "title": "Nombres"
+    },
+    "subdomains": {
+      "add": "Añade un Subdominio",
+      "nosubdomains": "No se han añadido aun Subdominios"
+    },
+    "tabs": {
+      "details": "Detalles",
+      "register": "Registar",
+      "subdomains": "Subdominios "
+    },
+    "test": {
+      "note": "Nota: El dominio .test permite a cualquier persona reclamar un nombre no utilizado para fines de prueba, que expira después de 28 días"
+    },
+    "tooltips": {
+      "detailsItem": {
+        "Controller": "Sólo se puede transferir el controlador si eres el controlador o registrante y está registrado en tu billetera",
+        "ControllerAndDnsAlreadySync": "El controlador y el propietario del DNS ya están sincronizados.",
+        "Resolver": "Sólo puedes configurar el resolvedor en este nombre si eres el controlador y está registrado en tu billetera",
+        "default": "Sólo puedes hacer cambios si eres el controlador y estás registrado en tu billetera",
+        "registrant": "Sólo puedes transferir al registrante  si eres el registrante y estás registrado en tu billetera",
+        "registrantExpired": "No puedes transferir este dominio si ha caducado. Por favor, renuévalo primero."
+      }
+    }
+  }
+}
