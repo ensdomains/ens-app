@@ -1,28 +1,4 @@
 {
-  "about": {
-    "card1": "Zuordnung einfacher Namen wie 'alice.eth' zu Ethereum-Adressen, Content Hashes und Metadaten.",
-    "card2": "Verbesserung der Benutzerfreundlichkeit von Dapps durch das Anzeigen von menschenlesbaren Namen statt langer Hashes durch 'reverse resolution'",
-    "elevatorpitch": "Der Ethereum Name Service ist ein verteiltes, offenes und erweiterbares System zur Namensauflösung, basierend auf der Ethereum Blockchain. Mit ENS muss man keine langen Adressen mehr kopieren oder eintippen.",
-    "subdomainText": "Wie DNS arbeitet ENS mit einem System durch Punkte-getrennter, hierarchischen Namen, die Domains genannt werden, wobei der Besitzer einer Domain die volle Kontrolle über die Vergabe von Subdomains hat.",
-    "subtitles": [
-      "Über ENS",
-      "TLDs & SUBDOMAINS",
-      "WIE MAN ENS BENUTZT",
-      "Unter der Oberfläche"
-    ],
-    "underTheSurface": {
-      "registrar": "Der Registrar ist der Smart Contract welcher das Kaufen oder Registrieren einer Domain möglich macht.",
-      "registry": "Das Register ist ein Smart Contract welcher eine Liste aller Domains und Subdomains enthält. Für jede werden zwei Informationen gespeichert: der Besitzer des Namens und der Resolver.",
-      "resolver": "Resolver sind Smart Contracts welche für den Prozess der Übersetzung von Namen zu Adressen, oder anderen Arten von Hashes und Ressourcen, verantwortlich sind.",
-      "reverse": "Der Resolver kann optional auch die umgekehrte Funktion der 'Reverse Resolution' übernehmen: Die Übersetzung einer Adresse in den dazugehörigen Namen.",
-      "titles": [
-        "Der Registrar",
-        "Das Register",
-        "Der Resolver",
-        "Reverse Resolution"
-      ]
-    }
-  },
   "address": {
     "etherscanButton": "Auf Etherscan anschauen",
     "filter": {
