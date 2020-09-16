@@ -74,7 +74,6 @@ function SubDomainsFromWeb3({ domain, canAddSubdomain }) {
               <ChildDomainItem
                 name={d.name}
                 owner={d.owner}
-                parent={d.parent}
                 labelhash={d.labelHash}
                 canDeleteSubdomain={canAddSubdomain}
               />
@@ -191,7 +190,6 @@ function SubDomains({
                       name={name}
                       isMigrated={d.isMigrated}
                       owner={d.owner.id}
-                      parent={domain.name}
                       labelhash={d.labelHash}
                       isSubdomain={true}
                       canDeleteSubdomain={canAddSubdomain}

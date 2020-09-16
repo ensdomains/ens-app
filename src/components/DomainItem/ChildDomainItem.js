@@ -65,7 +65,6 @@ const DomainLink = styled(Link)`
 export default function ChildDomainItem({
   name,
   owner,
-  parent,
   expiryDate,
   isMigrated,
   checkedBoxes,
