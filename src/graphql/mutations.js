@@ -84,6 +84,12 @@ export const CREATE_SUBDOMAIN = gql`
   }
 `
 
+export const DELETE_SUBDOMAIN = gql`
+  mutation deleteSubdomain($name: String) {
+    deleteSubdomain(name: $name) @client
+  }
+`
+
 /* Resolver Mutations */
 
 export const SET_NAME = gql`
