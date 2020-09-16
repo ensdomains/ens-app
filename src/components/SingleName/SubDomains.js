@@ -36,6 +36,7 @@ function SubDomainsFromWeb3({ domain, canAddSubdomain }) {
           data.getSubDomains.subDomains.filter(subdomain => {
             return parseInt(subdomain.owner, 16) !== 0
           })
+        const hasNoSubdomains = subdomains && subdomains.length === 0
         if (error) {
           console.log('error getting subdomains', error)
         }
@@ -50,7 +51,7 @@ function SubDomainsFromWeb3({ domain, canAddSubdomain }) {
               <Loader withWrap large />
             </>
           )
-        if (subdomains && subdomains.length === 0) {
+        if (hasNoSubdomains) {
           return (
             <>
               <AddSubdomainContainer
@@ -75,6 +76,7 @@ function SubDomainsFromWeb3({ domain, canAddSubdomain }) {
                 owner={d.owner}
                 parent={d.parent}
                 labelhash={d.labelHash}
+                canDeleteSubdomain={canAddSubdomain}
               />
             ))}
           </>
@@ -191,6 +193,8 @@ function SubDomains({
                       owner={d.owner.id}
                       parent={domain.name}
                       labelhash={d.labelHash}
+                      isSubdomain={true}
+                      canDeleteSubdomain={canAddSubdomain}
                     />
                   )
                 })}
