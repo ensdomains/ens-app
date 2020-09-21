@@ -36,7 +36,7 @@ const LANGUAGES = [
   },
   {
     value: 'pl',
-    label: 'Polskie (PL)'
+    label: 'Polski (PL)'
   },
   {
     value: 'ru',
