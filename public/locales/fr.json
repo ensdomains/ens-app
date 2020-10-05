@@ -1,0 +1,327 @@
+{
+  "address": {
+    "etherscanButton": "Voir sur Etherscan",
+    "filter": {
+      "controller": "Contrôleur ",
+      "registrant": "Titulaire"
+    },
+    "namesExpiringSoonBanner": {
+      "text": "Renouvelez-les tous en une seule transaction en sélectionnant plusieurs noms et cliquez sur 'Renouveler'",
+      "title": "De nombreux noms achetés dans le passé seront hors période de grâce en août."
+    },
+    "renew": {
+      "button": "Renouvellement selectionné",
+      "confirm": [
+        "Les noms suivants :",
+        "vont être renouvelés pour"
+      ],
+      "confirmButton": "Renouveler",
+      "year": "{{count}} année",
+      "year_plural": "{{count}} années "
+    },
+    "sort": {
+      "alphabetical": "alphabétique",
+      "expiry": "date d'expiration",
+      "transactionBanner": "Vous êtes ici en raison d'une transaction que nous vous avons envoyée ou d'une référence sur un autre site. Vous avez des noms ci-dessous qui doivent être renouvelés bientôt!"
+    }
+  },
+  "c": {
+    "Address": "Adresse",
+    "Content": "Contenu",
+    "Controller": "Contrôleur",
+    "DnsOwner": "PROPRIÉTAIRE DNS",
+    "Expiration Date": "Date d'expiration",
+    "Resolver": "Résolveur",
+    "about": "À propos",
+    "cancel": "Annuler",
+    "claim": "Revendiquer",
+    "edit": "Modifier",
+    "email": "Email",
+    "expires": "Expire",
+    "favourites": "Favoris",
+    "learnmore": "En Apprendre Plus",
+    "migrate": "Migrer",
+    "mynames": "Mes Noms",
+    "network": "réseau",
+    "otheraddresses": "Autres adresses",
+    "parent": "parent",
+    "permanentregistrar": "Registrar permanent",
+    "refresh": "Actualiser",
+    "register": "Enregistrer",
+    "registrant": "Titulaire",
+    "registrationDate": "Date d'enregistrement ",
+    "renew": "Renouveler",
+    "save": "Enregistrer",
+    "search": "Rechercher",
+    "set": "Définir",
+    "sync": "Synchroniser",
+    "textrecord": "Enregistrement Texte",
+    "transfer": "Transférer",
+    "warning": "Avertissement",
+    "year": "année",
+    "year_plural": "années"
+  },
+  "childDomainItem": {
+    "notmigrated": "non migré"
+  },
+  "dns": {
+    "breadcrumbs": [
+      "ACTIVER DNSSEC",
+      "AJOUTER DU TEXTE",
+      "SOUMETTRE UNE PREUVE",
+      "GÉRER UN NOM"
+    ],
+    "dnsowner": "Propriétaire DNS",
+    "steps": {
+      "addtext": {
+        "text": "Cliquez sur 'en apprendre plus' pour en lire davantage à propos du processus.",
+        "title": "Mettez en place un enregistrement Texte (TXT) sur votre nom de domaine (via votre registrar ou bureau d'enregistrement), puis cliquez sur 'actualiser'. L'enregistrement Texte doit contenir votre adresse Ethereum sous cette forme :"
+      },
+      "enable": {
+        "text": "Cliquez sur 'en apprendre plus' pour en lire davantage à propos du processus.",
+        "title": "Contactez votre registrar (ou bureau d'enregistrement) pour activer DNSSEC. Une fois activé, cliquez sur actualiser pour passer à l'étape suivante."
+      },
+      "manage": {
+        "text1": "Puisque vous êtes le propriétaire, vous pouvez gérer votre nom maintenant.",
+        "text2": "Puisque vous n'êtes pas le propriétaire, vous pouvez uniquement afficher le nom dans le gestionnaire.",
+        "title": "Félicitation! Vous avez ajouté ce nom de domaine DNS au registre ENS."
+      },
+      "proof": {
+        "text1": "L'adresse qui apparaît dans l'enregistrement TXT est votre même adresse.",
+        "text2": "Si vous êtes propriétaire de ce domaine, modifiez son enregistrement TXT pour qu'il contienne votre adresse Ethereum, puis actualisez cette page pour effectuer à nouveau la vérification DNSSEC.",
+        "title1": "Vous êtes le propriétaire de cette adresse. Ajoutez votre domaine au registre ENS dès maintenant.",
+        "title2": "Vous n'êtes pas être le propriétaire DNS de ce domaine, donc n'importe qui peut ajouter ce domaine au registre ENS."
+      }
+    },
+    "viewinmanager": "Voir dans le Gestionnaire"
+  },
+  "expiryNotification": {
+    "placeholder": "Entrez votre adresse email",
+    "reminder": "Rappelez-moi"
+  },
+  "favourites": {
+    "favouriteTitle": "Favoris",
+    "nofavouritesDomains": {
+      "text": "Pour ajouter des noms à vos favoris, cliquez sur l'icône en forme de cœur à côté du nom souhaité.",
+      "title": "Aucun nom n'a été enregistré."
+    },
+    "nofavouritesSubdomain": {
+      "title": "Aucun sous-domaine n'a été enregistré."
+    },
+    "nofavouritesSubdomains": {
+      "text": "Pour ajouter des noms à vos favoris, cliquez sur l'icône en forme de cœur à côté du nom souhaité."
+    },
+    "subdomainFavouriteTitle": "Sous-domaines Favoris"
+  },
+  "home": {
+    "announcements": {
+      "migrationOver": "La migration du registre ENS est terminée… et maintenant? Quelques choses à savoir",
+      "renew": {
+        "body": [
+          "Vous pouvez renouveler plusieurs domaines en une seule transaction en accédant à votre",
+          "page d'adresse",
+          "ou en cliquant sur 'Mes noms' lorsque vous êtes connecté"
+        ],
+        "title": "Les noms achetés en Mai expirent bientôt."
+      }
+    },
+    "howtouse": {
+      "body": "L'application ENS est une interface graphique pour des utilisateurs non techniques. Elle vous permet de rechercher n'importe quel nom, de créer des sous-domaines et de gérer leurs adresses et resources.",
+      "title": "Comment utiliser ENS"
+    },
+    "permanentRegistrar": {
+      "title": "Apprendre plus à propos du Registrar Permanent et du processus de migration."
+    },
+    "whatisens": {
+      "body": "Ethereum Name Service est un système de nommage distribué, ouvert et extensible basé sur la blockchain Ethereum. ENS élimine le besoin de copier ou taper de longues adresses Ethereum. ",
+      "title": "Ce que c'est"
+    }
+  },
+  "howtouse": {
+    "favourite": {
+      "text": "Gardez une trace des domaines et sous-domaines que vous possédez ou que vous souhaitez suivre.",
+      "title": "Enregistrer vos noms favoris"
+    },
+    "manage": {
+      "text": "Pointez les domaines vers vos adresses ethereum, transférez la propriété à d'autres personnes et plus encore.",
+      "title": "Gérer les noms"
+    },
+    "register": {
+      "text": "Enregistrez des noms .eth pour 5 $ / an. Renouvelez ou annulez votre inscription à tout moment.",
+      "title": "Enregistrer des noms"
+    },
+    "search": {
+      "text": "Trouvez des domaines et des sous-domaines que vous pouvez enregistrer ou analyser.",
+      "title": "Recherche de noms"
+    }
+  },
+  "learnmore": {
+    "step1": {
+      "text": "Le résolveur est un smart contract responsable du processus de traduction des noms en adresses. Dans la zone du résolveur, cliquez sur «Définir». Cliquez ensuite sur le lien \"utiliser le résolveur public\", puis sur \"enregistrer\" pour lancer la transaction.",
+      "title": "1. Définir le résolveur"
+    },
+    "step2": {
+      "text": "Une fois que vous avez défini le résolveur, vous pouvez ensuite ajouter des enregistrements en cliquant sur le «+» dans le champ «enregistrements». L'ajout de votre adresse ethereum vous permettra de faire pointer votre portefeuille vers votre nom.",
+      "title": "2. Définir l'adresse"
+    },
+    "step3": {
+      "text": "Une fois que vous avez défini votre adresse, vous verrez un message indiquant que le pointeur inverse n'est pas défini. Cliquez sur la flèche dans le champ pour développer, puis cliquez sur le bouton «enregistrer». Cela traduira votre adresse en votre nouveau nom.",
+      "title": "3. Définir un enregistrement inversé"
+    },
+    "title": "Apprenez à gérer votre nom."
+  },
+  "pendingTx": {
+    "text": "Transaction en attente"
+  },
+  "pricer": {
+    "registrationPeriodLabel": "Période d'enregistrement",
+    "totalPriceLabel": "Prix ​​total à payer",
+    "yearUnit": "année"
+  },
+  "register": {
+    "buttons": {
+      "manage": "Gérer",
+      "register": "Enregistrer",
+      "request": "Demande d'enregistrement",
+      "warning": "Cliquer sur Enregistrer pour passer à l'étape 3."
+    },
+    "favourite": "* Mettez en favoris les noms pour les retrouver facilement dans le cas où vous fermez votre navigateur. ",
+    "notifications": {
+      "ready": "est prêt à être enregistré"
+    },
+    "notify": "Notifiez-moi",
+    "step1": {
+      "label": "Étape 1",
+      "text": "Votre portefeuille s'ouvrira et il vous sera demandé de confirmer la première des deux transactions requises pour l'inscription.",
+      "title": "Demande d'enregistrement"
+    },
+    "step2": {
+      "label": "Étape 2",
+      "text": "La période d'attente est nécessaire pour garantir qu'une autre personne n'a pas essayé d'enregistrer le même nom, et pour vous protéger après votre demande.",
+      "title": "Attendez 1 minute"
+    },
+    "step3": {
+      "label": "Étape 3",
+      "text": "Cliquez sur \"Enregistrer\" et votre portefeuille s'ouvrira à nouveau. Ce n'est qu'après confirmation de la 2e transaction que vous saurez si vous avez obtenu le nom.",
+      "title": "Enregistrement terminé"
+    },
+    "titles": [
+      "L'enregistrement d'un nom vous oblige à suivre 3 étapes",
+      "Ne fermez pas votre navigateur! Vous pourrez bientôt gérer votre nom.",
+      "Vous avez terminé toutes les étapes, gérez votre nom maintenant!"
+    ]
+  },
+  "registrymigration": {
+    "donotaccept": "* Si vous échangez des noms ENS, n'acceptez pas ce nom!",
+    "messages": {
+      "controller": "Ce nom est contrôlé par un contrat et ne peut pas être migré automatiquement. Veuillez redéployer votre contrat pour utiliser le nouveau registre avant de configurer le nouveau contrôleur",
+      "default": "Ce nom doit être migré vers le nouveau registre. Seul le parent de ce nom ({{parent}}) peut le faire.",
+      "dnssec": "Ce nom doit être migré vers le nouveau registre. Veuillez configurer le bon propriétaire DNS et cliquez sur le bouton «Sync» ci-dessous",
+      "parentmigrate": "Vous devez d'abord migrer le domaine parent {{parent}} avant de pouvoir migrer ce sous-domaine"
+    }
+  },
+  "search": {
+    "button": "Rechercher",
+    "placeholder": "Rechercher des noms ou des adresses",
+    "searchErrors": {
+      "domainMalformed": {
+        "long": "Vous avez ajouté un domaine sans TLD tel que .eth ou vous avez ajouté des caractères non pris en charge.",
+        "short": "Domaine non correct. {{searchTerm}} n'est pas un domaine valide."
+      },
+      "unsupported": {
+        "long": "Nous ne prenons pas en charge tous les domaines. La prise en charge de futurs domaines est prévue à l'avenir.",
+        "short": "{{tld}} n'est actuellement pas un TLD pris en charge."
+      }
+    }
+  },
+  "singleName": {
+    "banners": {
+      "namesExpiring": {
+        "text": "Cliquez sur le bouton renouveler pour éviter l'expiration. Pour renouveler tous vos noms en bloc, accédez à <1> Mes noms </1> et sélectionnez plusieurs noms avant de cliquer sur \"Renouveler\"",
+        "title": "De nombreux noms achetés dans le passé seront hors période de grâce en août."
+      }
+    },
+    "confirm": {
+      "button": {
+        "cancel": "Annuler",
+        "confirm": "Confirmer"
+      },
+      "subTitle": "Cette action va modifier l'état de la Blockchain.",
+      "title": "Êtes-vous sûr de vouloir faire ça?",
+      "value": {
+        "future": "PROCHAIN",
+        "previous": "PRÉCÉDANT"
+      }
+    },
+    "dns": {
+      "messages": {
+        "error": "Corriger l'erreur chez le registrar DNS de votre domaine. Actualisez pour refléter les mises à jour.",
+        "outOfSync": "Le contrôleur et le propriétaire DNS ne sont pas synchronisés. Cliquez sur 'sync' pour définir le propriétaire DNS comme étant le contrôleur du domaine. Cliquez sur «Actualiser» si vous apportez des modifications au domaine chez le registrar DNS.",
+        "readyToRegister": "*Cliquez sur 'Actualiser' si vous apportez des modifications au domaine chez le registrar DNS."
+      }
+    },
+    "domain": {
+      "state": {
+        "auction": "En vente",
+        "default": "État inconnu",
+        "owned": "Indisponible",
+        "owner": "Propriétaire",
+        "title": "Disponible"
+      }
+    },
+    "expiry": {
+      "cannotown": "Renouveler un nom que vous ne possédez pas ne vous donne pas la propriété.",
+      "expired": "Expiré",
+      "expiring": "Expire bientôt",
+      "gracePeriodEnds": "Fin du délai de grâce"
+    },
+    "messages": {
+      "alreadyregistered": "Ce nom est déjà enregistré",
+      "noowner": "Vous n'êtes pas propriétaire",
+      "noresolver": "Aucun Résolveur définit",
+      "notfinalized": "(Vous n'avez pas finalisé)",
+      "pending": "En attente"
+    },
+    "record": {
+      "cantEdit": "Vous ne pouvez pas modifier ou ajouter d’enregistrements tant que vous n’avez pas migré vers le nouveau résolveur.",
+      "messages": {
+        "explanation": "La résolution inverse traduit une adresse en un nom. Il permet aux Dapps d'afficher dans leurs interfaces '{{name}}' plutôt que l'adresse longue '{{account}}'. Si vous souhaitez configurer votre reverse pour un autre compte, veuillez changer de compte dans votre navigateur.",
+        "notSet": "Enregistrement inverse : non définit",
+        "setTo": "Enregistrement inverse : Définir à",
+        "setToDifferent": "Enregistrement inverse : Définir à un nom différent"
+      },
+      "title": "Enregistrements"
+    },
+    "resolver": {
+      "error": "Erreur lors de la migration du Résolveur",
+      "message": "Pour réinitialiser votre résolveur manuellement, cliquez sur définir et entrez l'adresse de votre résolveur personnalisé.",
+      "publicResolver": "Utiliser un Résolveur Public",
+      "warning": "Vous utilisez une version obsolète du résolveur public, cliquez pour migrer votre résolveur et vos enregistrements. Vous devrez confirmer deux transactions afin de migrer à la fois vos enregistrements et votre résolveur."
+    },
+    "search": {
+      "title": "Noms"
+    },
+    "subdomains": {
+      "add": "Ajouter un sous-domaine",
+      "nosubdomains": "Aucun sous-domaine n'a été ajouté"
+    },
+    "tabs": {
+      "details": "Détails",
+      "register": "Enregistrer",
+      "subdomains": "Sous-domaines"
+    },
+    "test": {
+      "note": "Remarque: le domaine .test permet à quiconque de revendiquer un nom inutilisé à des fins de test, qui expire après 28 jours"
+    },
+    "tooltips": {
+      "detailsItem": {
+        "Controller": "Vous ne pouvez transférer le contrôleur que si vous êtes le contrôleur ou le titulaire, et que vous êtes connecté à votre portefeuille",
+        "ControllerAndDnsAlreadySync": "Le contrôleur et le propriétaire DNS sont déjà synchronisés",
+        "Resolver": "Vous ne pouvez définir le résolveur sur ce nom que si vous êtes le contrôleur et que vous êtes connecté à votre portefeuille",
+        "default": "Vous ne pouvez apporter des modifications que si vous êtes le contrôleur et que vous êtes connecté à votre portefeuille",
+        "registrant": "Vous ne pouvez transférer la propriété du nom que si vous êtes le propriétaire et que vous êtes connecté à votre portefeuille",
+        "registrantExpired": "Vous ne pouvez pas transférer ce domaine car il est expiré. Veuillez d'abord le renouveler."
+      }
+    }
+  }
+}

@@ -21,6 +21,30 @@ const LANGUAGES = [
   {
     value: 'de',
     label: 'Deutsch (DE)'
+  },
+  {
+    value: 'es',
+    label: 'Español (ES)'
+  },
+  {
+    value: 'fr',
+    label: 'Français (FR)'
+  },
+  {
+    value: 'ko',
+    label: '한국어 (KO)'
+  },
+  {
+    value: 'pl',
+    label: 'Polski (PL)'
+  },
+  {
+    value: 'ru',
+    label: 'Pусский (RU)'
+  },
+  {
+    value: 'vi',
+    label: 'Tiếng Việt (VI)'
   }
 ]
 
