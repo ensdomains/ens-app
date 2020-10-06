@@ -195,6 +195,8 @@ describe('Name detail view', () => {
 
   it('can add a content hash', () => {
     const content = 'ipfs://QmTeW79w7QQ6Npa3b1d5tANreCDxF2iDaAPsDvW6KtLmfB'
+    const contentv1 =
+      'ipfs://bafybeico3uuyj3vphxpvbowchdwjlrlrh62awxscrnii7w7flu5z6fk77y'
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
@@ -212,7 +214,7 @@ describe('Name detail view', () => {
       waitUntilInputResolves('Save').then(() => {
         cy.getByText('Save').click({ force: true })
         //Value updated
-        cy.queryByText(content, {
+        cy.queryByText(contentv1, {
           exact: false,
           timeout: 10000
         }).should('exist')
