@@ -1738,10 +1738,10 @@
     truffle-flattener "^1.4.2"
     web3-utils "^1.0.0-beta.48"
 
-"@ensdomains/mock@^2.0.22":
-  version "2.0.22"
-  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.0.22.tgz#3e1e2afbb20fde4349f7c56b820b006d2deba853"
-  integrity sha512-Uc9P40Nh1jCwj4T8qp0/rpJPOow3Bj6Eg4mDqRDjvZldI3+GN+/ONuweztBlJLeZYCKX6SjZTg5zgu3ECibWKA==
+"@ensdomains/mock@^2.0.27":
+  version "2.0.27"
+  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.0.27.tgz#6ecd5dc6cc3ba63e9971d81e600a07e0c099668b"
+  integrity sha512-VTLVe0RLwSy8LVdRuXCDGPCRSvv3Wl/qS784HzB1hGiFfzkb6eLLrFDlNtR40LZY7WwwrtPaqBea99HCOHnLcQ==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
@@ -1855,8 +1855,8 @@
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
     "@babel/runtime" "^7.4.4"
+    "@ensdomains/address-encoder" "^0.1.7"
     "@ensdomains/content-hash" "^2.5.3"
-    "@ensdomains/address-encoder" "^0.1.8"
     "@ensdomains/dnsregistrar" "^0.3.9"
     "@ensdomains/ens" "^0.4.3"
     "@ensdomains/ens-022" "npm:@ensdomains/ens@0.2.2"
