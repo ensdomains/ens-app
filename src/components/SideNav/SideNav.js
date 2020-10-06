@@ -1,7 +1,8 @@
-import React, { useContext, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
 import GlobalState from '../../globalState'
+import { Web3Provider, getDefaultProvider } from '@ethersproject/providers'
 
 import NetworkInformation from '../NetworkInformation/NetworkInformation'
 import useNetworkInfo from '../NetworkInformation/useNetworkInfo'
@@ -13,6 +14,11 @@ import mq from 'mediaQuery'
 import { Link, withRouter } from 'react-router-dom'
 import { setupENS } from '@ensdomains/ui'
 import LoginWithEthereum from '@enslogin/login-with-ethereum'
+import Web3Modal from 'web3modal'
+import WalletConnectProvider from '@walletconnect/web3-provider'
+import DefaultButton from '../Forms/Button'
+
+const Button = styled(DefaultButton)``
 
 const config = {
   provider: {
@@ -133,6 +139,7 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
 
   const context = useContext(GlobalState)
   let [networkSwitched, setNetworkSwitched] = useState(null)
+  let [provider, setProvider] = useState()
 
   console.log('***GlobalState', { context, networkSwitched })
   console.log('** SideNav', { config, accounts })
@@ -169,6 +176,50 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
     console.log('*** handleDisconnect2', { res })
   }
 
+  const INFURA_ID = 'INVALID_INFURA_KEY'
+
+  // Web3Modal also supports many other wallets.
+  // You can see other options at https://github.com/Web3Modal/web3modal
+  const web3Modal = new Web3Modal({
+    network: 'mainnet',
+    cacheProvider: true,
+    providerOptions: {
+      walletconnect: {
+        package: WalletConnectProvider,
+        options: {
+          infuraId: INFURA_ID
+        }
+      }
+    }
+  })
+
+  const logoutOfWeb3Modal = async function() {
+    await web3Modal.clearCachedProvider()
+    window.location.reload()
+  }
+
+  function WalletButton({ provider, loadWeb3Modal }) {
+    return (
+      <Button
+        onClick={() => {
+          if (!provider) {
+            loadWeb3Modal()
+          } else {
+            logoutOfWeb3Modal()
+          }
+        }}
+      >
+        {!provider ? 'Connect Wallet' : 'Disconnect Wallet'}
+      </Button>
+    )
+  }
+
+  const loadWeb3Modal = useCallback(async () => {
+    const newProvider = await web3Modal.connect()
+    const _provider = new Web3Provider(newProvider)
+    setProvider(_provider)
+  }, [])
+
   return (
     <SideNavContainer isMenuOpen={isMenuOpen}>
       <NetworkInformation
@@ -187,6 +238,9 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
             noInjected={true}
             // networks     = { [{'name':'goerli'}, {'name':'ropsten'}, {'name':'rinkeby'}] }
           />
+        </li>
+        <li>
+          <WalletButton provider={provider} loadWeb3Modal={loadWeb3Modal} />
         </li>
         {accounts && accounts.length > 0 ? (
           <li>
