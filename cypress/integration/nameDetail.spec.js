@@ -213,7 +213,7 @@ describe('Name detail view', () => {
         .type(content, { force: true })
       waitUntilInputResolves('Save').then(() => {
         cy.getByText('Save').click({ force: true })
-        //Value updated
+        // It automatically convert v0 to v1
         cy.queryByText(contentv1, {
           exact: false,
           timeout: 10000
