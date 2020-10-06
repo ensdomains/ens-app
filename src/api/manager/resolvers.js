@@ -790,6 +790,15 @@ const resolvers = {
         console.log(e)
       }
     },
+    deleteSubdomain: async (_, { name }, { cache }) => {
+      try {
+        const ens = getENS()
+        const tx = await ens.deleteSubdomain(name)
+        return sendHelper(tx)
+      } catch (e) {
+        console.log(e)
+      }
+    },
     addFavourite: async (_, { domain }, { cache }) => {
       const newFavourite = {
         ...domain,
