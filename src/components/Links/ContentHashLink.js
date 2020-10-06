@@ -39,7 +39,7 @@ const ContentHashLink = ({ value, contentType }) => {
     return <DecodedError>{error}</DecodedError>
   }
   if (protocolType === 'ipfs') {
-    externalLink = `https://gateway.ipfs.io/ipfs/${decoded}`
+    externalLink = `https://${decoded}.ipfs.dweb.link` // using ipfs's secured origin gateway
     url = `ipfs://${decoded}`
   } else if (protocolType === 'ipns') {
     externalLink = `https://gateway.ipfs.io/ipns/${decoded}`
