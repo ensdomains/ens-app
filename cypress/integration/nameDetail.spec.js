@@ -16,6 +16,18 @@ function waitUntilTextDoesNotExist(text) {
 }
 
 describe('Name detail view', () => {
+  it('can see list of top level domains from [root]', () => {
+    cy.visit(`${NAME_ROOT}/eth`)
+    cy.queryByText(`[root]`, { timeout: 10000 }).should('exist')
+    cy.getByText('[root]')
+      .scrollIntoView()
+      .click({ force: true })
+    cy.url().should('eq', `${NAME_ROOT}/[root]`)
+    cy.getByText('Subdomains')
+      .scrollIntoView()
+      .click({ force: true })
+    cy.queryByTestId('eth', { timeout: 10000 }).should('exist')
+  })
   it('cannot transfer ownership to a non-ethereum address', () => {
     cy.visit(`${NAME_ROOT}/awesome.eth`)
     cy.getByText('Transfer')
@@ -195,6 +207,8 @@ describe('Name detail view', () => {
 
   it('can add a content hash', () => {
     const content = 'ipfs://QmTeW79w7QQ6Npa3b1d5tANreCDxF2iDaAPsDvW6KtLmfB'
+    const contentv1 =
+      'ipfs://bafybeico3uuyj3vphxpvbowchdwjlrlrh62awxscrnii7w7flu5z6fk77y'
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
@@ -211,8 +225,8 @@ describe('Name detail view', () => {
         .type(content, { force: true })
       waitUntilInputResolves('Save').then(() => {
         cy.getByText('Save').click({ force: true })
-        //Value updated
-        cy.queryByText(content, {
+        // It automatically convert v0 to v1
+        cy.queryByText(contentv1, {
           exact: false,
           timeout: 10000
         }).should('exist')
