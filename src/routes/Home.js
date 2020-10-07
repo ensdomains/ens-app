@@ -11,7 +11,7 @@ import SearchDefault from '../components/SearchName/Search'
 import NoAccountsDefault from '../components/NoAccounts/NoAccountsModal'
 import bg from '../assets/heroBG.jpg'
 import useNetworkInfo from '../components/NetworkInformation/useNetworkInfo'
-import { ButtonLink } from '../components/Forms/Button'
+import { ExternalButtonLink } from '../components/Forms/Button'
 import TextBubbleDefault from '../components/Icons/TextBubble'
 import QuestionMarkDefault from '../components/Icons/QuestionMark'
 import HowToUseDefault from '../components/HowToUse/HowToUse'
@@ -325,9 +325,9 @@ export default ({ match }) => {
               {t('home.whatisens.title')}
             </H2>
             <p>{t('home.whatisens.body')}</p>
-            <ButtonLink type="primary" to="/about">
+            <ExternalButtonLink href={abougPageURL()}>
               {t('c.learnmore')}
-            </ButtonLink>
+            </ExternalButtonLink>
           </Inner>
         </WhatItIs>
         <NameAnimation>
@@ -341,9 +341,9 @@ export default ({ match }) => {
               {t('home.howtouse.title')}
             </H2>
             <p>{t('home.howtouse.body')}</p>
-            <ButtonLink type="primary" to="/about">
+            <ExternalButtonLink href={abougPageURL()}>
               {t('c.learnmore')}
-            </ButtonLink>
+            </ExternalButtonLink>
           </Inner>
         </HowItWorks>
       </Explanation>
