@@ -7,6 +7,7 @@ import useNetworkInfo from '../NetworkInformation/useNetworkInfo'
 import Heart from '../Icons/Heart'
 import File from '../Icons/File'
 import { abougPageURL } from '../../utils/utils'
+import SpeechBubble from '../Icons/SpeechBubble'
 
 import mq from 'mediaQuery'
 import { Link, withRouter } from 'react-router-dom'
@@ -149,6 +150,7 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
         </li>
         <li>
           <ThirdPartyLink href={abougPageURL()}>
+            <SpeechBubble />
             <span>{t('c.about')}</span>
           </ThirdPartyLink>
         </li>
