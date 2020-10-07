@@ -39,10 +39,10 @@ const ContentHashLink = ({ value, contentType }) => {
     return <DecodedError>{error}</DecodedError>
   }
   if (protocolType === 'ipfs') {
-    externalLink = `https://${decoded}.ipfs.dweb.link` // using ipfs's secured origin gateway
+    externalLink = `https://dweb.link/ipfs/${decoded}` // using ipfs's secured origin gateway
     url = `ipfs://${decoded}`
   } else if (protocolType === 'ipns') {
-    externalLink = `https://gateway.ipfs.io/ipns/${decoded}`
+    externalLink = `https://dweb.link/ipns/${decoded}`
     url = `ipns://${decoded}`
   } else if (protocolType === 'bzz') {
     externalLink = `https://swarm-gateways.net/bzz://${decoded}`
