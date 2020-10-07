@@ -1847,10 +1847,10 @@
     js-sha3 "^0.8.0"
     lodash "^4.17.11"
 
-"@ensdomains/ui@^3.0.34":
-  version "3.0.34"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.34.tgz#4c3567a7058b15b154b609afc6a510af23fd46c8"
-  integrity sha512-OgsR1qSU7B58mBu4yfYfBn23FNv2cWGyHfndwtAH4jdBbW3teN+8QW64f96b+tLkmV1+noKoo9/Z+dnFDbc/vQ==
+"@ensdomains/ui@^3.0.35":
+  version "3.0.35"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.35.tgz#4c0307411ce40743857e53bceaa967eadaab2172"
+  integrity sha512-KZTZdqEMXXZQuYIufyggcdIPRgC3ALX78FZuQBbCfXcIrKoMyWk/tEPWncp9ZagnGD5kHMDjZ9jVDQhmyLNrkw==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
