@@ -70,14 +70,15 @@ function SubDomainsFromWeb3({ domain, canAddSubdomain }) {
               refetch={refetch}
               canAddSubdomain={canAddSubdomain}
             />
-            {subdomains.map(d => (
-              <ChildDomainItem
-                name={d.name}
-                owner={d.owner}
-                labelhash={d.labelHash}
-                canDeleteSubdomain={canAddSubdomain}
-              />
-            ))}
+            {subdomains &&
+              subdomains.map(d => (
+                <ChildDomainItem
+                  name={d.name}
+                  owner={d.owner}
+                  labelhash={d.labelHash}
+                  canDeleteSubdomain={canAddSubdomain}
+                />
+              ))}
           </>
         )
       }}
