@@ -16,6 +16,18 @@ function waitUntilTextDoesNotExist(text) {
 }
 
 describe('Name detail view', () => {
+  it('can see list of top level domains from [root]', () => {
+    cy.visit(`${NAME_ROOT}/eth`)
+    cy.queryByText(`[root]`, { timeout: 10000 }).should('exist')
+    cy.getByText('[root]')
+      .scrollIntoView()
+      .click({ force: true })
+    cy.url().should('eq', `${NAME_ROOT}/[root]`)
+    cy.getByText('Subdomains')
+      .scrollIntoView()
+      .click({ force: true })
+    cy.queryByTestId('eth', { timeout: 10000 }).should('exist')
+  })
   it('cannot transfer ownership to a non-ethereum address', () => {
     cy.visit(`${NAME_ROOT}/awesome.eth`)
     cy.getByText('Transfer')

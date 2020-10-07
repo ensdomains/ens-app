@@ -70,14 +70,15 @@ function SubDomainsFromWeb3({ domain, canAddSubdomain }) {
               refetch={refetch}
               canAddSubdomain={canAddSubdomain}
             />
-            {subdomains.map(d => (
-              <ChildDomainItem
-                name={d.name}
-                owner={d.owner}
-                labelhash={d.labelHash}
-                canDeleteSubdomain={canAddSubdomain}
-              />
-            ))}
+            {subdomains &&
+              subdomains.map(d => (
+                <ChildDomainItem
+                  name={d.name}
+                  owner={d.owner}
+                  labelhash={d.labelHash}
+                  canDeleteSubdomain={canAddSubdomain}
+                />
+              ))}
           </>
         )
       }}
@@ -178,11 +179,16 @@ function SubDomains({
                   canAddSubdomain={canAddSubdomain}
                 />
                 {subdomains.map(d => {
-                  let name
-                  if (d.labelName !== null) {
-                    name = `${d.labelName}.${domain.name}`
+                  let name, parentLabel
+                  if (domain.name === '[root]') {
+                    parentLabel = ''
                   } else {
-                    name = `${decryptName(d.labelhash)}.${domain.name}`
+                    parentLabel = `.${domain.name}`
+                  }
+                  if (d.labelName !== null) {
+                    name = `${d.labelName}${parentLabel}`
+                  } else {
+                    name = `${decryptName(d.labelhash)}${parentLabel}`
                   }
                   return (
                     <ChildDomainItem
