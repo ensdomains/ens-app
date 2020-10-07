@@ -215,7 +215,9 @@ function DetailsContainer({
   const registrant =
     domain.available || domain.registrant === '0x0' ? null : domain.registrant
 
-  const domainParent = domain.parent ? domain.parent : '[root]'
+  const domainParent =
+    domain.name === '[root]' ? null : domain.parent ? domain.parent : '[root]'
+
   return (
     <Details data-testid="name-details">
       {isOwner && <SetupName initialState={showExplainer} />}
@@ -234,12 +236,16 @@ function DetailsContainer({
             loadingIsParentMigrated={loadingIsParentMigrated}
           />
         )}
-      <DetailsItem uneditable>
-        <DetailsKey>{t('c.parent')}</DetailsKey>
-        <DetailsValue>
-          <Link to={`/name/${domainParent}`}>{domainParent}</Link>
-        </DetailsValue>
-      </DetailsItem>
+      {domainParent ? (
+        <DetailsItem uneditable>
+          <DetailsKey>{t('c.parent')}</DetailsKey>
+          <DetailsValue>
+            <Link to={`/name/${domainParent}`}>{domainParent}</Link>
+          </DetailsValue>
+        </DetailsItem>
+      ) : (
+        ''
+      )}
       <OwnerFields outOfSync={outOfSync}>
         {domain.parent === 'eth' && domain.isNewRegistrar ? (
           <>
