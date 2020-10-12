@@ -277,7 +277,6 @@ const ContentHashEditable = ({
                     >
                       Cancel
                     </Switch>
-                    }
                   </>
                 )}
               </EditRecord>

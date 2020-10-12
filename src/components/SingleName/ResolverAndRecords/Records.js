@@ -344,7 +344,6 @@ export default function Records({
               addMultiRecords({
                 variables: { name: domain.name, records: changedRecords }
               })
-              //stopEditing(false)
             }}
             mutationButton="Confirm"
             stopEditing={stopEditing}
