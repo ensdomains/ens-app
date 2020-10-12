@@ -17,6 +17,14 @@ const LinkToLearnMore = styled('a')`
   min-width: 130px;
 `
 
+const LinkToReclaim = styled('a')`
+  margin-right: ${props => (props.outOfSync ? '' : '2em')};
+  letter-spacing: 0.58px;
+  text-align: center;
+  margin-left: auto;
+  min-width: 130px;
+`
+
 const WarningBox = styled('div')`
   display: flex;
   justify-content: space-between;
@@ -44,7 +52,7 @@ const Return = styled(ExternalButtonLink)`
   flex: 2 1 auto;
 `
 
-export default function MigrationWarning({ domain, isOwner, refetch }) {
+export default function MigrationWarning({ domain, isDeedOwner }) {
   const { t } = useTranslation()
   const { state, actions } = useEditable()
   const { txHash, pending, confirmed } = state
@@ -55,50 +63,15 @@ export default function MigrationWarning({ domain, isOwner, refetch }) {
       startPending(Object.values(data)[0])
     }
   })
-  return confirmed ? (
-    <WarningBox>
-      <WarningContent>{t('releaseDeed.depositReturned')}</WarningContent>
-    </WarningBox>
-  ) : (
+  return (
     <WarningBox>
       <WarningContent>
-        {isOwner ? (
-          <>{t('releaseDeed.returnDeposit')}</>
-        ) : (
-          <>{t('releaseDeed.connectRegistrar')}</>
-        )}
-        <SubWarning>
-          {t('releaseDeed.whyMigrated')}
-          <LinkToLearnMore
-            href="https://medium.com/the-ethereum-name-service"
-            target="_blank"
-          >
-            {' '}
-            {t('c.learnmore')}
-          </LinkToLearnMore>
-        </SubWarning>
+        {t('releaseDeed.returnDeposit')}
+        <LinkToReclaim href="https://reclaim.ens.domains" target="_blank">
+          {' '}
+          {'https://reclaim.ens.domains'}
+        </LinkToReclaim>
       </WarningContent>
-      {pending && !confirmed && txHash ? (
-        <PendingTx
-          txHash={txHash}
-          onConfirmed={() => {
-            setConfirmed()
-          }}
-        />
-      ) : isOwner ? (
-        <Return
-          data-testid="enabled-return-button"
-          onClick={releaseDeed}
-          type={'hollow-primary'}
-          href="#"
-        >
-          {t('c.return')}
-        </Return>
-      ) : (
-        <Button data-testid="disabled-return-button" type="disabled">
-          {t('c.return')}
-        </Button>
-      )}
     </WarningBox>
   )
 }

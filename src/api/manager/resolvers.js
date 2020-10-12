@@ -204,7 +204,7 @@ function setState(node) {
   }
   if (node.available) {
     state = 'Open'
-  } else if (parseInt(node.owner, 16) !== 0) {
+  } else {
     state = 'Owned'
   }
   return {
@@ -901,6 +901,15 @@ const resolvers = {
       try {
         const ens = getENS()
         const tx = await ens.createSubdomain(name)
+        return sendHelper(tx)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    deleteSubdomain: async (_, { name }, { cache }) => {
+      try {
+        const ens = getENS()
+        const tx = await ens.deleteSubdomain(name)
         return sendHelper(tx)
       } catch (e) {
         console.log(e)

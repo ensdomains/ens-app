@@ -36,6 +36,7 @@ function SubDomainsFromWeb3({ domain, canAddSubdomain }) {
           data.getSubDomains.subDomains.filter(subdomain => {
             return parseInt(subdomain.owner, 16) !== 0
           })
+        const hasNoSubdomains = subdomains && subdomains.length === 0
         if (error) {
           console.log('error getting subdomains', error)
         }
@@ -50,7 +51,7 @@ function SubDomainsFromWeb3({ domain, canAddSubdomain }) {
               <Loader withWrap large />
             </>
           )
-        if (subdomains && subdomains.length === 0) {
+        if (hasNoSubdomains) {
           return (
             <>
               <AddSubdomainContainer
@@ -69,14 +70,15 @@ function SubDomainsFromWeb3({ domain, canAddSubdomain }) {
               refetch={refetch}
               canAddSubdomain={canAddSubdomain}
             />
-            {subdomains.map(d => (
-              <ChildDomainItem
-                name={d.name}
-                owner={d.owner}
-                parent={d.parent}
-                labelhash={d.labelHash}
-              />
-            ))}
+            {subdomains &&
+              subdomains.map(d => (
+                <ChildDomainItem
+                  name={d.name}
+                  owner={d.owner}
+                  labelhash={d.labelHash}
+                  canDeleteSubdomain={canAddSubdomain}
+                />
+              ))}
           </>
         )
       }}
@@ -177,11 +179,16 @@ function SubDomains({
                   canAddSubdomain={canAddSubdomain}
                 />
                 {subdomains.map(d => {
-                  let name
-                  if (d.labelName !== null) {
-                    name = `${d.labelName}.${domain.name}`
+                  let name, parentLabel
+                  if (domain.name === '[root]') {
+                    parentLabel = ''
                   } else {
-                    name = `${decryptName(d.labelhash)}.${domain.name}`
+                    parentLabel = `.${domain.name}`
+                  }
+                  if (d.labelName !== null) {
+                    name = `${d.labelName}${parentLabel}`
+                  } else {
+                    name = `${decryptName(d.labelhash)}${parentLabel}`
                   }
                   return (
                     <ChildDomainItem
@@ -189,8 +196,9 @@ function SubDomains({
                       name={name}
                       isMigrated={d.isMigrated}
                       owner={d.owner.id}
-                      parent={domain.name}
                       labelhash={d.labelHash}
+                      isSubdomain={true}
+                      canDeleteSubdomain={canAddSubdomain}
                     />
                   )
                 })}

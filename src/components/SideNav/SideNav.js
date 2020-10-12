@@ -6,6 +6,7 @@ import NetworkInformation from '../NetworkInformation/NetworkInformation'
 import useNetworkInfo from '../NetworkInformation/useNetworkInfo'
 import Heart from '../Icons/Heart'
 import File from '../Icons/File'
+import { abougPageURL } from '../../utils/utils'
 import SpeechBubble from '../Icons/SpeechBubble'
 
 import mq from 'mediaQuery'
@@ -79,6 +80,44 @@ const NavLink = styled(Link)`
   }
 `
 
+const ThirdPartyLink = styled('a')`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 200;
+  font-size: 22px;
+  color: ${p => (p.active ? '#5284FF' : '#C7D3E3')};
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+  ${mq.medium`
+    justify-content: start;
+    border-bottom: 0;
+  `}
+
+  &:visited {
+    color: #c7d3e3;
+  }
+
+  span {
+    transition: 0.2s;
+    margin-left: 15px;
+    color: ${p => (p.active ? '#5284FF' : '#C7D3E3')};
+  }
+
+  &:hover {
+    span {
+      color: #5284ff;
+    }
+    path {
+      fill: #5284ff;
+    }
+    g {
+      fill: #5284ff;
+    }
+  }
+`
+
 function SideNav({ match, isMenuOpen, toggleMenu }) {
   const { url } = match
   const { t } = useTranslation()
@@ -110,10 +149,10 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
           </NavLink>
         </li>
         <li>
-          <NavLink onClick={toggleMenu} active={url === '/about'} to="/about">
-            <SpeechBubble active={url === '/about'} />
+          <ThirdPartyLink href={abougPageURL()}>
+            <SpeechBubble />
             <span>{t('c.about')}</span>
-          </NavLink>
+          </ThirdPartyLink>
         </li>
       </ul>
     </SideNavContainer>
