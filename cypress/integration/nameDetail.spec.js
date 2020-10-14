@@ -140,21 +140,18 @@ describe('Name detail view', () => {
     )
   })
 
-  it.only(`prevents user from adding a record that isn't an address`, () => {
+  it(`prevents user from adding a record that isn't an address`, () => {
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
     cy.getByTestId('name-details').within(container => {
       cy.getByText('Add/Edit Record').click({ force: true, exact: false })
-      cy.wait(1000)
       cy.getByText('Add record', { timeout: 10000 }).click({
         force: true
       })
       cy.getByText('Addresses', { timeout: 10000 }).click({
         force: true
       })
-      // cy.get('#react-select-2-option-0')
-      //   .contains('Address')
-      //   .click({ force: true })
+
       cy.getByText('Coin', { timeout: 10000 }).click({
         force: true
       })
@@ -166,20 +163,24 @@ describe('Name detail view', () => {
         exact: false
       }).type('blah', { force: true, timeout: 10000 })
 
-      cy.getByPlaceholderText('Enter a Eth Address').should(elem => {
-        expect(elem.val()).to.equal('blah')
-      })
-      cy.queryByTestId('action', { exact: false }).should(
+      cy.getByPlaceholderText('Enter a Eth Address', { exact: false }).should(
+        elem => {
+          expect(elem.val()).to.equal('blah')
+        }
+      )
+      cy.queryByTestId('save-record', { exact: false }).should(
         'have.css',
         'background-color',
         DISABLED_COLOUR
       )
       //force click like a real user
-      cy.getByText('save', { exact: false }).click({ force: true })
+      cy.getByTestId('save-record', { exact: false }).click({ force: true })
 
-      cy.getByPlaceholderText('Enter Ethereum name or address').should(elem => {
-        expect(elem.val()).to.equal('blah')
-      })
+      cy.getByPlaceholderText('Enter a Eth Address', { exact: false }).should(
+        elem => {
+          expect(elem.val()).to.equal('blah')
+        }
+      )
 
       // Form was not closed and nothing happened
       // This query seems flakey
@@ -187,31 +188,47 @@ describe('Name detail view', () => {
     })
   })
 
-  it('can add an address', () => {
+  it.only('can add an address', () => {
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
     cy.getByTestId('name-details').within(container => {
-      cy.getByText('+').click({ force: true })
-      cy.getByText('select a record', { exact: false, timeout: 10000 }).click({
+      cy.getByText('Add/Edit Record').click({ force: true, exact: false })
+      cy.getByText('Add record', { timeout: 10000 }).click({
         force: true
       })
-      cy.get('#react-select-2-option-0')
-        .contains('Address')
-        .click({ force: true })
+      cy.getByText('Addresses', { timeout: 10000 }).click({
+        force: true
+      })
 
-      cy.getByPlaceholderText('Enter Ethereum name or address', {
+      cy.getByText('Coin', { timeout: 10000 }).click({
+        force: true
+      })
+      cy.getByText('ETH', { timeout: 10000 }).click({
+        force: true
+      })
+      cy.getByPlaceholderText('Enter a Eth Address', {
+        timeout: 10000,
         exact: false
-      }).type('0x0000000000000000000000000000000000000003', { force: true })
+      }).type('0x0000000000000000000000000000000000000003', {
+        force: true,
+        timeout: 10000
+      })
 
       waitUntilInputResolves('Save').then(() => {
         cy.wait(1000)
         cy.getByText('Save').click({ force: true })
 
         //Value updated
-        cy.getByText('0x0000000000000000000000000000000000000003', {
-          timeout: 10000
-        }).should('exist')
+        // cy.getByText('0x0000000000000000000000000000000000000003', {
+        //   timeout: 10000
+        // }).should('exist')
       })
+
+      cy.getByTestId('action').click({ force: true })
+    })
+
+    cy.getByTestId('send-transaction').click({
+      force: true
     })
   })
 

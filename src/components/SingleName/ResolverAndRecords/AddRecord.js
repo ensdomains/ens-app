@@ -231,13 +231,8 @@ function Editable({
     selectedKey: selectedKey && selectedKey.value
   }
 
-  console.log('**records', args)
-  console.log(selectedRecord && selectedRecord.value)
-
   const isValid =
     selectedRecord && selectedRecord.value ? validateRecord(args) : false
-
-  console.log(isValid, 'isValid')
 
   function saveRecord(selectedRecord, selectedKey, newValue) {
     function createRecordObj({
@@ -402,6 +397,7 @@ function Editable({
               ) : (
                 <AddRecordButton>
                   <Button
+                    data-testid="save-record"
                     onClick={() => {
                       console.log(isValid, 'inside save button')
                       if (isValid) {
@@ -418,6 +414,7 @@ function Editable({
           ) : (
             <AddRecordButton>
               <Button
+                data-testid="save-record"
                 type={isValid ? 'primary' : 'disabled'}
                 onClick={() => {
                   if (isValid) {
