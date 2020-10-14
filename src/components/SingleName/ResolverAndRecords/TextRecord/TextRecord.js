@@ -8,7 +8,7 @@ const getPlaceholder = key => {
 const PLACEHOLDER_RECORDS = ['vnd.twitter', 'vnd.github', 'url']
 
 export default function TextRecords(props) {
-  if (!props.textRecords) return null
+  //if (!props.textRecords) return null
 
   return (
     <KeyValueRecord

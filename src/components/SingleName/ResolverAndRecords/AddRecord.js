@@ -241,7 +241,12 @@ function Editable({
       newValue,
       records
     }) {
-      console.log(selectedRecord, newValue)
+      console.log({
+        selectedRecord,
+        selectedKey,
+        newValue,
+        records
+      })
       if (selectedRecord.value === 'content') {
         return newValue
       } else {

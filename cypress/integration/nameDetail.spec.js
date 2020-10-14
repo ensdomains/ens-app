@@ -261,7 +261,7 @@ describe('Name detail view', () => {
     confirmRecordUpdate()
   })
 
-  it.only('can add other address', () => {
+  it('can add other address', () => {
     const address = 'MQMcJhpWHYVeQArcZR3sBgyPZxxRtnH441'
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
@@ -294,9 +294,9 @@ describe('Name detail view', () => {
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
-      cy.getByText('+')
+      cy.getByText('Add/Edit Record')
         .click({ force: true })
-        .getByText('select a record', { exact: false, timeout: 10000 })
+        .getByText('Add record', { timeout: 10000 })
         .click({ force: true })
         .getByText('Text')
         .click({ force: true })
@@ -308,22 +308,20 @@ describe('Name detail view', () => {
         .type(text, { force: true })
       waitUntilInputResolves('Save').then(() => {
         cy.getByText('Save').click({ force: true })
-        cy.queryByText(text, {
-          exact: false,
-          timeout: 10000
-        }).should('exist')
       })
     })
+
+    confirmRecordUpdate()
   })
 
-  it('can add custom Text', () => {
+  it.only('can add custom Text', () => {
     const text = 'Bar'
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
-      cy.getByText('+')
+      cy.getByText('Add/Edit Record')
         .click({ force: true })
-        .getByText('select a record', { exact: false })
+        .getByText('Add record', { timeout: 10000 })
         .click({ force: true })
         .getByText('Text')
         .click({ force: true })
@@ -337,11 +335,9 @@ describe('Name detail view', () => {
       waitUntilInputResolves('Save').then(() => {
         cy.getByText('Save').click({ force: true })
       })
-      cy.queryByText(text, {
-        exact: false,
-        timeout: 10000
-      }).should('exist')
     })
+
+    confirmRecordUpdate()
   })
 
   it('can change the address', () => {

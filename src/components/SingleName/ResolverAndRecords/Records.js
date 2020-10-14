@@ -226,7 +226,10 @@ export default function Records({
   )
 
   const initialRecords = {
-    textRecords: dataTextRecords && dataTextRecords.getTextRecords,
+    textRecords:
+      dataTextRecords && dataTextRecords.getTextRecords
+        ? dataTextRecords.getTextRecords
+        : [],
     coins: dataAddresses && dataAddresses.getAddresses,
     content: domain.content?.startsWith('undefined') ? '' : domain.content,
     loading: textRecordsLoading || addressesLoading
