@@ -329,9 +329,9 @@ describe('Name detail view', () => {
         .click({ force: true })
         .get('input#react-select-3-input')
         .type('FOOOOOOOO{enter}')
-        .getByText('CREATE "FOOOOOOOO"', { exact: false })
+        .getByPlaceholderText('FOOOOOOOO', { exact: false })
+        .type('Bar', { force: true })
 
-      cy.get('input:last').type(text, { force: true })
       waitUntilInputResolves('Save').then(() => {
         cy.getByText('Save').click({ force: true })
       })
