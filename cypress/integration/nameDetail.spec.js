@@ -140,23 +140,33 @@ describe('Name detail view', () => {
     )
   })
 
-  it(`prevents user from adding a record that isn't an address`, () => {
+  it.only(`prevents user from adding a record that isn't an address`, () => {
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
     cy.getByTestId('name-details').within(container => {
-      cy.getByText('+').click({ force: true })
-      cy.getByText('select a record', { exact: false, timeout: 10000 }).click({
+      cy.getByText('Add/Edit Record').click({ force: true, exact: false })
+      cy.wait(1000)
+      cy.getByText('Add record', { timeout: 10000 }).click({
         force: true
       })
-      cy.get('#react-select-2-option-0')
-        .contains('Address')
-        .click({ force: true })
-      cy.getByPlaceholderText('Enter Ethereum name or address', {
+      cy.getByText('Addresses', { timeout: 10000 }).click({
+        force: true
+      })
+      // cy.get('#react-select-2-option-0')
+      //   .contains('Address')
+      //   .click({ force: true })
+      cy.getByText('Coin', { timeout: 10000 }).click({
+        force: true
+      })
+      cy.getByText('ETH', { timeout: 10000 }).click({
+        force: true
+      })
+      cy.getByPlaceholderText('Enter a Eth Address', {
         timeout: 10000,
         exact: false
       }).type('blah', { force: true, timeout: 10000 })
 
-      cy.getByPlaceholderText('Enter Ethereum name or address').should(elem => {
+      cy.getByPlaceholderText('Enter a Eth Address').should(elem => {
         expect(elem.val()).to.equal('blah')
       })
       cy.queryByTestId('action', { exact: false }).should(
