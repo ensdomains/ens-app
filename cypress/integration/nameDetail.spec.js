@@ -15,6 +15,13 @@ function waitUntilTextDoesNotExist(text) {
   return cy.waitUntilTextDoesNotExist(text)
 }
 
+function confirmRecordUpdate() {
+  cy.getByTestId('action').click({ force: true })
+  cy.getByTestId('send-transaction').click({
+    force: true
+  })
+}
+
 describe('Name detail view', () => {
   it('can see list of top level domains from [root]', () => {
     cy.visit(`${NAME_ROOT}/eth`)
@@ -218,16 +225,12 @@ describe('Name detail view', () => {
         cy.wait(1000)
         cy.getByText('Save').click({ force: true })
       })
-
-      cy.getByTestId('action').click({ force: true })
     })
 
-    cy.getByTestId('send-transaction').click({
-      force: true
-    })
+    confirmRecordUpdate()
   })
 
-  it.only('can add a content hash', () => {
+  it('can add a content hash', () => {
     const content = 'ipfs://QmTeW79w7QQ6Npa3b1d5tANreCDxF2iDaAPsDvW6KtLmfB'
     const contentv1 =
       'ipfs://bafybeico3uuyj3vphxpvbowchdwjlrlrh62awxscrnii7w7flu5z6fk77y'
@@ -253,24 +256,21 @@ describe('Name detail view', () => {
         //   timeout: 10000
         // }).should('exist')
       })
-      cy.getByTestId('action').click({ force: true })
     })
 
-    cy.getByTestId('send-transaction').click({
-      force: true
-    })
+    confirmRecordUpdate()
   })
 
-  it('can add other address', () => {
+  it.only('can add other address', () => {
     const address = 'MQMcJhpWHYVeQArcZR3sBgyPZxxRtnH441'
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
-      cy.getByText('+')
+      cy.getByText('Add/Edit Record')
         .click({ force: true })
-        .getByText('select a record', { exact: false, timeout: 10000 })
+        .getByText('Add record', { timeout: 10000 })
         .click({ force: true })
-        .getByText('Other addresses')
+        .getByText('Addresses')
         .click({ force: true })
         .getByText('Coin', { exact: false })
         .click({ force: true })
@@ -283,12 +283,10 @@ describe('Name detail view', () => {
         .type(address, { force: true })
       waitUntilInputResolves('Save').then(() => {
         cy.getByText('Save').click({ force: true })
-        cy.queryByText(address, {
-          exact: false,
-          timeout: 10000
-        }).should('exist')
       })
     })
+
+    confirmRecordUpdate()
   })
 
   it('can add default Text', () => {
