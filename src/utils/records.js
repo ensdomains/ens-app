@@ -13,7 +13,9 @@ export function validateRecord({ type, value, contentType, selectedKey }) {
       const isAddress = addressUtils.isAddress(value)
       return isAddress
     case 'content':
+      console.log('value', value)
       const encoded = encodeContenthash(value)
+      console.log(encoded)
       if (encoded) {
         return isValidContenthash(encoded)
       } else {

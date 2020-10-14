@@ -207,10 +207,10 @@ const ContentHashEditable = ({
                     const value = event.target.value
                     setUpdatedRecords(records => ({
                       ...records,
-                      contentHash: value
+                      content: value
                     }))
                   }}
-                  value={updatedRecords.contentHash}
+                  value={value}
                   dataType={type}
                   contentType={domain.contentType}
                   isValid={isValid}
@@ -236,13 +236,12 @@ const ContentHashEditable = ({
                         setUpdatedRecords(records => {
                           return {
                             ...records,
-                            contentHash: value
+                            content: value
                           }
                         })
                       }}
                       newValue={newValue}
                     />
-                    {console.log('contenthash', value)}
                     {value !== '' ? (
                       <NewRecordsContainer>
                         <RecordsKey>New IPFS Hash:</RecordsKey>
@@ -293,7 +292,7 @@ const ContentHashEditable = ({
                   setUpdatedRecords(records => {
                     return {
                       ...records,
-                      contentHash: emptyAddress
+                      content: emptyAddress
                     }
                   })
                 }}

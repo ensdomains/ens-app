@@ -188,7 +188,7 @@ describe('Name detail view', () => {
     })
   })
 
-  it.only('can add an address', () => {
+  it('can add an address', () => {
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
     cy.getByTestId('name-details').within(container => {
@@ -217,11 +217,6 @@ describe('Name detail view', () => {
       waitUntilInputResolves('Save').then(() => {
         cy.wait(1000)
         cy.getByText('Save').click({ force: true })
-
-        //Value updated
-        // cy.getByText('0x0000000000000000000000000000000000000003', {
-        //   timeout: 10000
-        // }).should('exist')
       })
 
       cy.getByTestId('action').click({ force: true })
@@ -232,16 +227,16 @@ describe('Name detail view', () => {
     })
   })
 
-  it('can add a content hash', () => {
+  it.only('can add a content hash', () => {
     const content = 'ipfs://QmTeW79w7QQ6Npa3b1d5tANreCDxF2iDaAPsDvW6KtLmfB'
     const contentv1 =
       'ipfs://bafybeico3uuyj3vphxpvbowchdwjlrlrh62awxscrnii7w7flu5z6fk77y'
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
-      cy.getByText('+')
+      cy.getByText('Add/Edit Record')
         .click({ force: true })
-        .getByText('select a record', { exact: false, timeout: 10000 })
+        .getByText('Add record', { timeout: 10000 })
         .click({ force: true })
         .get('#react-select-2-option-1', { timeout: 10000 })
         .contains('Content')
@@ -253,11 +248,16 @@ describe('Name detail view', () => {
       waitUntilInputResolves('Save').then(() => {
         cy.getByText('Save').click({ force: true })
         // It automatically convert v0 to v1
-        cy.queryByText(contentv1, {
-          exact: false,
-          timeout: 10000
-        }).should('exist')
+        // cy.queryByText(contentv1, {
+        //   exact: false,
+        //   timeout: 10000
+        // }).should('exist')
       })
+      cy.getByTestId('action').click({ force: true })
+    })
+
+    cy.getByTestId('send-transaction').click({
+      force: true
     })
   })
 

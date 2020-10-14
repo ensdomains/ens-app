@@ -122,17 +122,14 @@ function getChangedRecords(initialRecords, updatedRecords) {
     isEqual
   )
 
-  const contentHash = !isEqual(
-    updatedRecords.contentHash,
-    initialRecords.contentHash
-  )
-    ? updatedRecords.contentHash
+  const content = !isEqual(updatedRecords.content, initialRecords.content)
+    ? updatedRecords.content
     : undefined
 
   return {
     textRecords,
     coins,
-    ...(contentHash && { contentHash })
+    ...(content && { content })
   }
 }
 
@@ -140,7 +137,7 @@ function checkRecordsHaveChanged(changedRecords) {
   return (
     changedRecords.textRecords.length > 0 ||
     changedRecords.coins.length > 0 ||
-    changedRecords.contenthash
+    changedRecords.content
   )
 }
 
@@ -181,7 +178,7 @@ export default function Records({
     }
   })
   const [updatedRecords, setUpdatedRecords] = useState({
-    contentHash: undefined,
+    content: undefined,
     coins: [],
     textRecords: []
   })
@@ -231,7 +228,7 @@ export default function Records({
   const initialRecords = {
     textRecords: dataTextRecords && dataTextRecords.getTextRecords,
     coins: dataAddresses && dataAddresses.getAddresses,
-    contentHash: domain.content?.startsWith('undefined') ? '' : domain.content,
+    content: domain.content?.startsWith('undefined') ? '' : domain.content,
     loading: textRecordsLoading || addressesLoading
   }
 
@@ -267,6 +264,8 @@ export default function Records({
 
   const haveRecordsChanged = checkRecordsHaveChanged(changedRecords)
   const areRecordsValid = checkRecordsAreValid(changedRecords)
+
+  console.log('updatedRecords', updatedRecords, changedRecords)
 
   return (
     <RecordsWrapper
@@ -305,11 +304,10 @@ export default function Records({
         domain={domain}
         keyName="Content"
         type="content"
-        value={domain.content.startsWith('undefined') ? '' : domain.content}
+        value={updatedRecords.content}
         refetch={refetch}
         updatedRecords={updatedRecords}
         setUpdatedRecords={setUpdatedRecords}
-        changedRecords={changedRecords}
       />
       <TextRecord
         canEdit={canEditRecords}

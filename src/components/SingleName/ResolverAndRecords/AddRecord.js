@@ -241,7 +241,8 @@ function Editable({
       newValue,
       records
     }) {
-      if (selectedRecord === 'content') {
+      console.log(selectedRecord, newValue)
+      if (selectedRecord.value === 'content') {
         return newValue
       } else {
         const exists = records[selectedRecord.value].find(
@@ -262,6 +263,7 @@ function Editable({
         }
       }
     }
+
     setUpdatedRecords(records => {
       const newRecord = createRecordObj({
         selectedRecord,

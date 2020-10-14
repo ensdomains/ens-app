@@ -577,7 +577,6 @@ const resolvers = {
     },
     addMultiRecords: async (_, { name, records }, { cache }) => {
       const ens = getENS()
-      console.log('**** records', records)
 
       function setupTransactions({ name, records, resolverInstance }) {
         try {
@@ -595,8 +594,6 @@ const resolvers = {
                 return encoded
               case 1:
                 if (!record) return undefined
-
-                console.log('contenthash', record)
                 const encodedContenthash = record
                 return resolver.setContenthash.encode([
                   namehash,
@@ -645,10 +642,10 @@ const resolvers = {
         /*  eslint-disable no-sparse-arrays */
         const newRecords = [
           ,
-          records.contentHash === emptyAddress
+          records.content === emptyAddress
             ? emptyAddress
-            : records.contentHash
-            ? encodeContenthash(records.contentHash)
+            : records.content
+            ? encodeContenthash(records.content)
             : undefined,
           records.textRecords,
           records.coins
