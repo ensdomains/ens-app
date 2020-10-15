@@ -365,13 +365,12 @@ describe('Name detail view', () => {
     confirmRecordUpdate()
   })
 
-  it.only('can change text', () => {
+  it('can change text', () => {
     const TEXT = 'world'
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
       cy.getByText('Add/Edit Record').click()
-      cy.wait(1000) //TODO - get rid of wait and wait until text as some input before deleting
       cy.getByTestId('notice-record-input')
         .clear()
         .type(TEXT)
@@ -381,76 +380,52 @@ describe('Name detail view', () => {
   })
 
   it('can change other address', () => {
-    const content = 'MQMcJhpWHYVeQArcZR3sBgyPZxxRtnH441'
+    const ADDRESS = 'MQMcJhpWHYVeQArcZR3sBgyPZxxRtnH441'
 
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
-      cy.getByTestId('edit-ltc', { exact: false, timeout: 10000 }).click({
-        force: true
-      })
-      cy.getByPlaceholderText('Enter a LTC address', {
-        timeout: 10000,
-        exact: false
-      }).type(content, { force: true })
-
-      waitUntilInputResolves('Save').then(() => {
-        cy.getByText('Save').click({ force: true })
-
-        //form closed
-        waitUntilTestIdDoesNotExist('action')
-        waitUntilTestIdDoesNotExist('cancel')
-
-        //Value updated
-        cy.queryByText(content, { exact: false, timeout: 10000 }).should(
-          'exist'
-        )
-      })
+      cy.getByText('Add/Edit Record').click()
+      cy.getByTestId('LTC-record-input')
+        .clear()
+        .type(ADDRESS)
     })
+
+    confirmRecordUpdate()
   })
 
-  it('can delete records', () => {
+  it.only('can delete records', () => {
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
     cy.getByTestId('name-details').within(container => {
-      cy.getByTestId('edit-address', { exact: false, timeout: 10000 }).click({
-        force: true
-      })
-      cy.getByTestId('delete-address', { exact: false, timeout: 10000 }).click({
-        force: true
-      })
-      cy.wait(1000)
+      cy.getByText('Add/Edit Record').click()
 
-      cy.getByTestId('edit-content', { exact: false, timeout: 10000 }).click({
+      cy.getByTestId('ETH-record-delete', {
+        exact: false,
+        timeout: 10000
+      }).click({
         force: true
       })
+
       cy.getByTestId('delete-content', { exact: false, timeout: 10000 }).click({
         force: true
       })
 
-      cy.getByTestId('edit-ltc', { exact: false, timeout: 10000 }).click({
-        force: true
-      })
-      cy.getByTestId('delete-KeyValue-ltc', {
+      cy.getByTestId('LTC-record-delete', {
         exact: false,
         timeout: 10000
       }).click({
         force: true
       })
 
-      cy.getByTestId('edit-notice', { exact: false, timeout: 10000 }).click({
-        force: true
-      })
-      cy.getByTestId('delete-KeyValue-notice', {
+      cy.getByTestId('notice-record-delete', {
         exact: false,
         timeout: 10000
       }).click({
         force: true
       })
-      cy.wait(1000)
-
-      //No addresses to edit
-      cy.queryByText('+', { exact: false }).should('exist')
     })
+
+    confirmRecordUpdate()
   })
 
   it('can navigate to a subdomain', () => {

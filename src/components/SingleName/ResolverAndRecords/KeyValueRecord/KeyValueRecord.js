@@ -145,6 +145,7 @@ const Editable = ({
           />
 
           <Bin
+            data-testid={`${textKey}-record-delete`}
             onClick={() =>
               setUpdatedRecords(state => ({
                 ...state,
