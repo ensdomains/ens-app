@@ -203,6 +203,7 @@ const ContentHashEditable = ({
             <>
               <EditRecord>
                 <RecordInput
+                  testId="content-record-input"
                   onChange={event => {
                     const value = event.target.value
                     setUpdatedRecords(records => ({

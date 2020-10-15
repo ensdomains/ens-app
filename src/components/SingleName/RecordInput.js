@@ -24,7 +24,8 @@ const RecordInput = ({
   dataType,
   contentType,
   placeholder,
-  hasBeenUpdated
+  hasBeenUpdated,
+  testId
 }) => {
   return (
     <Input
@@ -35,6 +36,7 @@ const RecordInput = ({
       invalid={isInvalid}
       placeholder={placeholder || getPlaceholder(dataType, contentType)}
       onChange={onChange}
+      testId={testId}
     />
   )
 }

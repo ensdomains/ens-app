@@ -121,6 +121,7 @@ const Editable = ({
         <KeyValuesContent editing={editing}>
           <RecordsSubKey>{textKey}</RecordsSubKey>
           <RecordInput
+            testId={`${textKey}-record-input`}
             hasBeenUpdated={hasBeenUpdated}
             type="text"
             isValid={isValid}
@@ -226,6 +227,7 @@ function Records({
   title,
   placeholderRecords,
   setUpdatedRecords,
+  updatedRecords,
   changedRecords,
   recordType
 }) {
@@ -235,10 +237,7 @@ function Records({
       {hasRecord && <Key>{title}</Key>}
       <KeyValuesList>
         {records.map(({ key, value }) => {
-          if (
-            (value === emptyAddress || value === '') &&
-            !placeholderRecords.includes(key)
-          ) {
+          if (value === emptyAddress && !placeholderRecords.includes(key)) {
             return null
           }
           return (

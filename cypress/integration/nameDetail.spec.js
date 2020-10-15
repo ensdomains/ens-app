@@ -250,11 +250,6 @@ describe('Name detail view', () => {
         .type(content, { force: true })
       waitUntilInputResolves('Save').then(() => {
         cy.getByText('Save').click({ force: true })
-        // It automatically convert v0 to v1
-        // cy.queryByText(contentv1, {
-        //   exact: false,
-        //   timeout: 10000
-        // }).should('exist')
       })
     })
 
@@ -314,7 +309,7 @@ describe('Name detail view', () => {
     confirmRecordUpdate()
   })
 
-  it.only('can add custom Text', () => {
+  it('can add custom Text', () => {
     const text = 'Bar'
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
@@ -345,82 +340,44 @@ describe('Name detail view', () => {
     const ADDRESS = '0x0000000000000000000000000000000000000007'
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
-      cy.getByTestId('edit-address', { exact: false }).click({ force: true })
-      cy.getByPlaceholderText('Enter Ethereum name or address', {
-        timeout: 10000,
-        exact: false
-      }).type(ADDRESS, { force: true })
-
-      waitUntilInputResolves('Save').then(() => {
-        cy.wait(1000)
-        cy.getByText('Save').click({ force: true })
-
-        //form closed
-        waitUntilTestIdDoesNotExist('action')
-        waitUntilTestIdDoesNotExist('cancel')
-
-        cy.queryByText(ADDRESS, {
-          exact: false,
-          timeout: 10000
-        }).should('exist')
-      })
+      cy.getByText('Add/Edit Record').click()
+      cy.getByTestId('ETH-record-input')
+        .clear()
+        .type(ADDRESS)
     })
+
+    confirmRecordUpdate()
   })
 
   it('can change the content hash', () => {
-    const content =
+    const CONTENT =
       'bzz://d1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162'
 
     cy.visit(`${NAME_ROOT}/abittooawesome.eth`)
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
-      cy.getByTestId('edit-content', { exact: false, timeout: 10000 })
-        .scrollIntoView()
-        .click({
-          force: true
-        })
-      cy.getByPlaceholderText('Enter a content hash', {
-        timeout: 10000,
-        exact: false
-      }).type(content, { force: true })
-
-      waitUntilInputResolves('Save').then(() => {
-        cy.getByText('Save').click({ force: true })
-
-        //form closed
-        waitUntilTestIdDoesNotExist('action')
-        waitUntilTestIdDoesNotExist('cancel')
-
-        //Value updated
-        cy.queryByText(content, { exact: false }).should('exist')
-      })
+      cy.getByText('Add/Edit Record').click()
+      cy.wait(1000) //TODO - get rid of wait and wait until text as some input before deleting
+      cy.getByTestId('content-record-input').type(
+        `{selectall}{backspace}${CONTENT}`
+      )
     })
+    confirmRecordUpdate()
   })
 
-  it('can change text', () => {
-    const content = 'world'
+  it.only('can change text', () => {
+    const TEXT = 'world'
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
-    cy.getByTestId('name-details').within(container => {
-      cy.getByTestId('edit-notice', { exact: false, timeout: 10000 }).click({
-        force: true
-      })
-      cy.getByPlaceholderText('Enter notice', {
-        timeout: 10000,
-        exact: false
-      }).type(content, { force: true })
-
-      waitUntilInputResolves('Save').then(() => {
-        cy.getByText('Save').click({ force: true })
-
-        //form closed
-        waitUntilTestIdDoesNotExist('action')
-        waitUntilTestIdDoesNotExist('cancel')
-
-        //Value updated
-        cy.queryByText(content, { exact: false }).should('exist')
-      })
+    cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
+      cy.getByText('Add/Edit Record').click()
+      cy.wait(1000) //TODO - get rid of wait and wait until text as some input before deleting
+      cy.getByTestId('notice-record-input')
+        .clear()
+        .type(TEXT)
     })
+
+    confirmRecordUpdate()
   })
 
   it('can change other address', () => {

@@ -88,7 +88,8 @@ const Input = ({
   invalid,
   large,
   placeholder,
-  value
+  value,
+  testId
 }) => (
   <InputContainer
     valid={valid}
@@ -97,6 +98,7 @@ const Input = ({
     className={className}
   >
     <StyledInput
+      data-testid={testId}
       onChange={onChange}
       type={type ? type : 'text'}
       wide
