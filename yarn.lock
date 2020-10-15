@@ -1738,10 +1738,10 @@
     truffle-flattener "^1.4.2"
     web3-utils "^1.0.0-beta.48"
 
-"@ensdomains/mock@^2.0.29":
-  version "2.0.29"
-  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.0.29.tgz#764200301bc5c7de3c53e2691b6951dedab68d4b"
-  integrity sha512-2iLQZzNPblA9H+2feQUNkYj6isz6iSd6IkL2czuxhoytxMNtzKenbJkznxEEmGjPAnJVLA9NxVlA9akcyfAWgA==
+"@ensdomains/mock@^2.0.32":
+  version "2.0.32"
+  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.0.32.tgz#78304e1d4e9285950325953a74547711c91441fe"
+  integrity sha512-Rfh6tD/2DudipXtASO0mjDajzDMm9GZUX05piBjwjUuvmhBMbl/lHM+Cn5eHxaaKZmYmi0XRk9mAo+b3FMrW5w==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
@@ -1847,10 +1847,10 @@
     js-sha3 "^0.8.0"
     lodash "^4.17.11"
 
-"@ensdomains/ui@^3.0.35":
-  version "3.0.35"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.35.tgz#4c0307411ce40743857e53bceaa967eadaab2172"
-  integrity sha512-KZTZdqEMXXZQuYIufyggcdIPRgC3ALX78FZuQBbCfXcIrKoMyWk/tEPWncp9ZagnGD5kHMDjZ9jVDQhmyLNrkw==
+"@ensdomains/ui@^3.0.36":
+  version "3.0.36"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.36.tgz#8f93ea045b3b3591bfaa2e8a74c22f6278c0a00e"
+  integrity sha512-d4IL3RrIpbh4fJdeq3AR2JxccLKSYaZ8mYokKzWTNcWfeSnNZlAPH+lO28Lw3f5YONJ4QjranG+UEgkAycT6+w==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"

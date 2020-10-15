@@ -10,7 +10,7 @@
     "@emotion/styled": "^10.0.9",
     "@ensdomains/address-encoder": "^0.1.8",
     "@ensdomains/react-ens-address": "^0.0.25",
-    "@ensdomains/ui": "^3.0.35",
+    "@ensdomains/ui": "^3.0.36",
     "apollo-cache-inmemory": "^1.2.9",
     "apollo-client": "^2.4.5",
     "apollo-link": "^1.2.2",
@@ -93,7 +93,7 @@
     }
   },
   "devDependencies": {
-    "@ensdomains/mock": "^2.0.29",
+    "@ensdomains/mock": "^2.0.32",
     "apollo-client-mock": "0.0.8",
     "babel-plugin-macros": "^2.4.2",
     "cypress": "4.5.0",
