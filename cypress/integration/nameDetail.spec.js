@@ -24,7 +24,7 @@ function confirmRecordUpdate() {
 }
 
 describe('Name detail view', () => {
-  it.only('can see list of top level domains from [root]', () => {
+  it('can see list of top level domains from [root]', () => {
     cy.visit(`${NAME_ROOT}/[root]/subdomains`)
     cy.queryByTestId('eth', { timeout: 10000 }).should('exist')
     cy.queryByTestId('reverse', { timeout: 10000 }).should('exist')
@@ -423,19 +423,16 @@ describe('Name detail view', () => {
     confirmRecordUpdate()
   })
 
-  it('can navigate to a subdomain', () => {
-    cy.visit(`${NAME_ROOT}/subdomaindummy.eth`)
-      .getByText('subdomains', { exact: false, timeout: 10000 })
-      .click({ force: true })
-      .getByText('original.subdomaindummy.eth', { timeout: 15000 })
-      .click({ force: true })
+  it.only('can navigate to a subdomain', () => {
+    cy.visit(`${NAME_ROOT}/subdomaindummy.eth/subdomains`, { timeout: 10000 })
+    cy.getByText('original.subdomaindummy.eth', { timeout: 15000 }).click({
+      force: true
+    })
   })
 
-  it('can add a subdomain', () => {
+  it.only('can add a subdomain', () => {
     const LABEL = 'sub1' // using the same subdomain label which is used at sub1.testing.eth
-    cy.visit(`${NAME_ROOT}/subdomaindummy.eth`, { timeout: 10000 })
-      .getByText('subdomains', { exact: false, timeout: 10000 })
-      .click({ force: true })
+    cy.visit(`${NAME_ROOT}/subdomaindummy.eth/subdomains`, { timeout: 10000 })
 
     cy.getByTestId('subdomains').within(() => {
       cy.wait(1000)
