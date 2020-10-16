@@ -20,20 +20,15 @@ function confirmRecordUpdate() {
   cy.getByTestId('send-transaction').click({
     force: true
   })
+  cy.wait(100)
 }
 
 describe('Name detail view', () => {
-  it('can see list of top level domains from [root]', () => {
-    cy.visit(`${NAME_ROOT}/eth`)
-    cy.queryByText(`[root]`, { timeout: 10000 }).should('exist')
-    cy.getByText('[root]')
-      .scrollIntoView()
-      .click({ force: true })
-    cy.url().should('eq', `${NAME_ROOT}/[root]`)
-    cy.getByText('Subdomains')
-      .scrollIntoView()
-      .click({ force: true })
+  it.only('can see list of top level domains from [root]', () => {
+    cy.visit(`${NAME_ROOT}/[root]/subdomains`)
     cy.queryByTestId('eth', { timeout: 10000 }).should('exist')
+    cy.queryByTestId('reverse', { timeout: 10000 }).should('exist')
+    cy.url().should('eq', `${NAME_ROOT}/[root]/subdomains`)
   })
   it('cannot transfer ownership to a non-ethereum address', () => {
     cy.visit(`${NAME_ROOT}/awesome.eth`)
@@ -394,7 +389,7 @@ describe('Name detail view', () => {
     confirmRecordUpdate()
   })
 
-  it.only('can delete records', () => {
+  it('can delete records', () => {
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
     cy.getByTestId('name-details').within(container => {
       cy.getByText('Add/Edit Record').click()
