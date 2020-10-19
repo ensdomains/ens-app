@@ -423,14 +423,14 @@ describe('Name detail view', () => {
     confirmRecordUpdate()
   })
 
-  it.only('can navigate to a subdomain', () => {
+  it('can navigate to a subdomain', () => {
     cy.visit(`${NAME_ROOT}/subdomaindummy.eth/subdomains`, { timeout: 10000 })
     cy.getByText('original.subdomaindummy.eth', { timeout: 15000 }).click({
       force: true
     })
   })
 
-  it.only('can add a subdomain', () => {
+  it('can add a subdomain', () => {
     const LABEL = 'sub1' // using the same subdomain label which is used at sub1.testing.eth
     cy.visit(`${NAME_ROOT}/subdomaindummy.eth/subdomains`, { timeout: 10000 })
 
