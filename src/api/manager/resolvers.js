@@ -582,7 +582,6 @@ const resolvers = {
         try {
           const resolver = resolverInstance.interface.functions
           const namehash = getNamehash(name)
-          console.log('**** records', records)
           const transactionArray = records.map((record, i) => {
             switch (i) {
               case 0:
