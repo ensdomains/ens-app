@@ -14,7 +14,6 @@ import { getOldContentWarning } from './warnings'
 import { getEnsAddress } from '../../../api/ens'
 
 import { DetailsItem, DetailsKey, DetailsValue } from '../DetailsItem'
-import AddReverseRecord from './AddReverseRecord'
 import Upload from '../../IPFS/Upload'
 import IpfsLogin from '../../IPFS/Login'
 import StyledUpload from '../../Forms/Upload'
@@ -418,9 +417,6 @@ const RecordItemEditable = ({
             ) : (
               ''
             )}
-            {keyName === 'Address' && (
-              <AddReverseRecord account={account} name={domain.name} />
-            )}
           </RecordsItem>
         )}
       </Mutation>
@@ -452,10 +448,6 @@ function RecordItemViewOnly({ keyName, value, type, domain, account }) {
           />
         </Action>
       </RecordsContent>
-      {keyName === 'Address' &&
-        value.toLowerCase() === account.toLowerCase() && (
-          <AddReverseRecord account={account} name={name} />
-        )}
     </RecordsItem>
   )
 }

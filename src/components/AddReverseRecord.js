@@ -1,32 +1,49 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react'
+import _ from 'lodash'
+import { useQuery } from 'react-apollo'
 import styled from '@emotion/styled/macro'
 import { Mutation } from 'react-apollo'
 import { useTranslation, Trans } from 'react-i18next'
+//import { getAddress } from '@ensdomains/ui'
+import getENS from 'api/ens'
 
 import { SET_NAME } from 'graphql/mutations'
 import mq from 'mediaQuery'
-import { useEditable } from '../../hooks'
+import { useEditable } from './hooks'
 
-import { useQuery } from 'react-apollo'
-import { GET_REVERSE_RECORD } from '../../../graphql/queries'
-import SaveCancel from '../SaveCancel'
-import PendingTx from '../../PendingTx'
+import { GET_REVERSE_RECORD } from 'graphql/queries'
+import SaveCancel from './SingleName/SaveCancel'
+import PendingTx from './PendingTx'
+import DefaultInput from './Forms/Input'
 
-import { ReactComponent as DefaultCheck } from '../../Icons/Check.svg'
-import { ReactComponent as DefaultBlueWarning } from '../../Icons/BlueWarning.svg'
-import RotatingSmallCaret from '../../Icons/RotatingSmallCaret'
+import { ReactComponent as DefaultCheck } from './Icons/Check.svg'
+import { ReactComponent as DefaultBlueWarning } from './Icons/BlueWarning.svg'
+import RotatingSmallCaret from './Icons/RotatingSmallCaret'
+
+const Loading = styled('span')`
+  color: #adbbcd;
+`
 
 const AddReverseRecordContainer = styled('div')`
   background: #f0f6fa;
   border: 1px solid #ededed;
   border-radius: 8px;
-  margin-top: 20px;
+  margin: 20px 30px 20px;
   padding: 10px 15px;
+
+  ${mq.medium`
+    margin: 20px 40px 20px;
+  `}
 `
 
 const SetReverseContainer = styled('div')`
   margin-top: 15px;
   padding: 10px;
+`
+
+const ErrorMessage = styled('div')`
+  font-weight: 300;
+  font-size: 14px;
 `
 
 const Message = styled('div')`
@@ -106,9 +123,16 @@ const Name = styled('div')`
   `}
 `
 
+const Input = styled(DefaultInput)`
+  margin-bottom: 20px;
+`
+
 function AddReverseRecord({ account, name }) {
   const { t } = useTranslation()
   const { state, actions } = useEditable()
+  const [newName, setNewName] = useState('')
+  const [isValid, setIsValid] = useState(null)
+  const [address, setAddress] = useState(null)
 
   const { editing, txHash, pending, confirmed } = state
 
@@ -122,26 +146,37 @@ function AddReverseRecord({ account, name }) {
     }
   )
 
+  const delayedQuery = useCallback(_.debounce(q => sendQuery(q), 500), [])
+
+  async function sendQuery(newName) {
+    const ens = getENS()
+    try {
+      const address = await ens.getAddress(newName)
+      setAddress(address)
+      if (address?.toLowerCase() === account.toLowerCase()) {
+        setIsValid(true)
+      } else {
+        setIsValid(false)
+      }
+    } catch (e) {
+      setIsValid(false)
+    }
+  }
+
+  const isInvalid = !isValid && newName.length > 0
+
   return (
     <AddReverseRecordContainer>
       {loading ? (
-        ''
+        <Loading>Loading reverse record...</Loading>
       ) : (
         <>
           <Message onClick={editing ? stopEditing : startEditing}>
             {getReverseRecord && getReverseRecord.name !== null ? (
-              name.toLowerCase() === getReverseRecord.name ? (
-                <MessageContent>
-                  <Check />
-                  {t('singleName.record.messages.setTo') + name}
-                </MessageContent>
-              ) : (
-                <MessageContent>
-                  <BlueWarning />
-                  {t('singleName.record.messages.setToDifferent')}
-                  {getReverseRecord.name}
-                </MessageContent>
-              )
+              <MessageContent>
+                <Check />
+                {t('singleName.record.messages.setTo') + getReverseRecord.name}
+              </MessageContent>
             ) : (
               t('singleName.record.messages.notSet')
             )}
@@ -169,20 +204,38 @@ function AddReverseRecord({ account, name }) {
                 </Trans>
               </Explanation>
               <Account>{account}</Account>
-              <Name>{name}</Name>
+              <Input
+                valid={isValid}
+                invalid={isInvalid}
+                value={newName}
+                onChange={e => {
+                  setNewName(e.target.value)
+                  delayedQuery(e.target.value)
+                }}
+              />
+
               <Mutation
                 mutation={SET_NAME}
                 variables={{
-                  name
+                  name: newName
                 }}
                 onCompleted={data => {
                   startPending(Object.values(data)[0])
                 }}
               >
                 {mutation => (
-                  <SaveCancel mutation={mutation} stopEditing={stopEditing} />
+                  <SaveCancel
+                    mutation={mutation}
+                    stopEditing={stopEditing}
+                    isValid={isValid}
+                  />
                 )}
               </Mutation>
+              {isInvalid && (
+                <ErrorMessage>
+                  Forward resolution must match your account
+                </ErrorMessage>
+              )}
             </SetReverseContainer>
           )}
         </>
