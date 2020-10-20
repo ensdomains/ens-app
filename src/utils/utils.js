@@ -107,7 +107,10 @@ export const parseSearchTerm = async term => {
     return 'invalid'
   }
   const address = await ens.getOwner(tld)
-  return _parseSearchTerm(term, parseInt(address, 16) !== 0)
+  return _parseSearchTerm(
+    term,
+    parseInt(address, 16) !== 0 || tld === 'reverse'
+  )
 }
 
 export function humaniseName(name) {
