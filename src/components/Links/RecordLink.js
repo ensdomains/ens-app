@@ -2,6 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled/macro'
 import externalLinkSvg from '../Icons/externalLink.svg'
 import CopyToClipboard from '../CopyToClipboard/'
+import { emptyAddress } from '../../utils/utils'
 
 const LinkContainer = styled('div')`
   display: block;
@@ -29,6 +30,13 @@ const UnlinkedValue = styled('div')`
   text-overflow: ellipsis;
 `
 
+const UnsetValue = styled('div')`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #ccc;
+`
+
 const UnlinkedValueContainer = styled('div')`
   display: inline-flex;
   white-space: nowrap;
@@ -40,6 +48,10 @@ const AvatarImage = styled('img')`
   width: 180px;
   margin: 1em 0;
 `
+
+function isRecordEmpty(value) {
+  return value === emptyAddress || value === ''
+}
 
 const prependUrl = url => {
   if (url && !url.match(/http[s]?:\/\//)) {
@@ -72,6 +84,8 @@ const RecordLink = ({ textKey, value }) => {
     avatar = prependUrl(value)
   }
 
+  const isEmpty = isRecordEmpty(value)
+
   return url ? (
     <LinkContainer>
       <a target="_blank" href={url} rel="noopener noreferrer">
@@ -102,8 +116,14 @@ const RecordLink = ({ textKey, value }) => {
     </div>
   ) : (
     <UnlinkedValueContainer>
-      <UnlinkedValue>{value}</UnlinkedValue>
-      <CopyToClipboard value={value} />
+      {isEmpty ? (
+        <UnsetValue>Not set</UnsetValue>
+      ) : (
+        <>
+          <UnlinkedValue>{value}</UnlinkedValue>
+          <CopyToClipboard value={value} />
+        </>
+      )}
     </UnlinkedValueContainer>
   )
 }
