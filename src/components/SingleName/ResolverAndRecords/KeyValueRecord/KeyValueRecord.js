@@ -84,6 +84,10 @@ const KeyValuesContent = styled(RecordsContent)`
   `}
 `
 
+const DeleteRecord = styled('span')`
+  color: red;
+`
+
 const Editable = ({
   editing,
   domain,
@@ -209,11 +213,15 @@ function Record(props) {
   )
 }
 
-function ViewOnly({ textKey, value }) {
+function ViewOnly({ textKey, value, remove }) {
   return (
     <RecordsListItem>
       <RecordsSubKey>{textKey}</RecordsSubKey>
-      <RecordLink textKey={textKey} value={value} />
+      {remove ? (
+        <DeleteRecord>Delete Record</DeleteRecord>
+      ) : (
+        <RecordLink textKey={textKey} value={value} />
+      )}
     </RecordsListItem>
   )
 }

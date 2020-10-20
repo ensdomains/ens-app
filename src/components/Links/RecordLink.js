@@ -2,7 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled/macro'
 import externalLinkSvg from '../Icons/externalLink.svg'
 import CopyToClipboard from '../CopyToClipboard/'
-import { emptyAddress } from '../../utils/utils'
+import { isRecordEmpty } from '../../utils/utils'
 
 const LinkContainer = styled('div')`
   display: block;
@@ -48,10 +48,6 @@ const AvatarImage = styled('img')`
   width: 180px;
   margin: 1em 0;
 `
-
-function isRecordEmpty(value) {
-  return value === emptyAddress || value === ''
-}
 
 const prependUrl = url => {
   if (url && !url.match(/http[s]?:\/\//)) {

@@ -8,6 +8,7 @@ import {
 } from './KeyValueRecord/'
 
 import { RecordsValue } from './ContentHash.js'
+import { isRecordEmpty } from '../../../utils/utils'
 
 const Key = styled(DefaultKey)``
 
@@ -21,6 +22,10 @@ const Contenthash = styled('div')`
   display: flex;
 `
 
+const Delete = styled('span')`
+  color: red;
+`
+
 export default function MultipleRecordsCheck({ changedRecords }) {
   return (
     <div>
@@ -30,7 +35,11 @@ export default function MultipleRecordsCheck({ changedRecords }) {
           <KeyValuesList>
             {changedRecords.coins.map(record =>
               record.value === '' ? (
-                'delete record'
+                <KeyValueViewOnly
+                  textKey={record.key}
+                  value={record.value}
+                  remove={true}
+                />
               ) : (
                 <KeyValueViewOnly textKey={record.key} value={record.value} />
               )
@@ -42,16 +51,30 @@ export default function MultipleRecordsCheck({ changedRecords }) {
       {changedRecords.contentHash && (
         <Contenthash>
           <Key>Content Hash</Key>
-          <RecordsValue>{changedRecords.contentHash}</RecordsValue>
+          <RecordsValue>
+            {isRecordEmpty(changedRecords.contentHash) ? (
+              <Delete>Delete Record</Delete>
+            ) : (
+              changedRecords.contentHash
+            )}
+          </RecordsValue>
         </Contenthash>
       )}
       {changedRecords.textRecords.length > 0 && (
         <KeyValueContainer>
           <Key>Text Records</Key>
           <KeyValuesList>
-            {changedRecords.textRecords.map(record => (
-              <KeyValueViewOnly textKey={record.key} value={record.value} />
-            ))}
+            {changedRecords.textRecords.map(record =>
+              record.value === '' ? (
+                <KeyValueViewOnly
+                  textKey={record.key}
+                  value={record.value}
+                  remove={true}
+                />
+              ) : (
+                <KeyValueViewOnly textKey={record.key} value={record.value} />
+              )
+            )}
           </KeyValuesList>
         </KeyValueContainer>
       )}
