@@ -316,7 +316,6 @@ function ContentHashViewOnly({ keyName, value, type, domain, account }) {
         <RecordsKey>{t(`c.${keyName}`)}</RecordsKey>
         <RecordsValue>
           <ContentHashLink value={value} contentType={contentType} />
-          )}
           <CopyToClipBoard value={value} />
         </RecordsValue>
         <Action>
