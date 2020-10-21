@@ -155,6 +155,7 @@ const ContentHashEditable = ({
   value,
   type,
 
+  changedRecords,
   variableName,
   account,
   editing,
@@ -181,6 +182,7 @@ const ContentHashEditable = ({
   })
 
   const isInvalid = value !== '' && !isValid
+  const hasBeenUpdated = changedRecords.hasOwnProperty('content')
 
   return (
     <>
@@ -215,6 +217,7 @@ const ContentHashEditable = ({
                       content: value
                     }))
                   }}
+                  hasBeenUpdated={hasBeenUpdated}
                   value={value}
                   dataType={type}
                   contentType={domain.contentType}
@@ -228,9 +231,7 @@ const ContentHashEditable = ({
                   value={value}
                 />
                 {uploading && !authorized && (
-                  <>
-                    <IpfsLogin startAuthorizing={startAuthorizing} />
-                  </>
+                  <IpfsLogin startAuthorizing={startAuthorizing} />
                 )}
 
                 {uploading && authorized && (
@@ -297,7 +298,7 @@ const ContentHashEditable = ({
                   setUpdatedRecords(records => {
                     return {
                       ...records,
-                      content: emptyAddress
+                      content: ''
                     }
                   })
                 }}
@@ -348,7 +349,8 @@ ContentHash.propTypes = {
   editButton: PropTypes.string, //Edit button text
   domain: PropTypes.object.isRequired,
   variableName: PropTypes.string, //can change the variable name for mutation
-  account: PropTypes.string
+  account: PropTypes.string,
+  changedRecords: PropTypes.array
 }
 
 export default ContentHash

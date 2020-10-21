@@ -129,7 +129,7 @@ function getChangedRecords(initialRecords, updatedRecords) {
   return {
     textRecords,
     coins,
-    ...(content && { content })
+    ...(content !== undefined && { content })
   }
 }
 
@@ -309,6 +309,7 @@ export default function Records({
         type="content"
         value={updatedRecords.content}
         refetch={refetch}
+        changedRecords={changedRecords}
         updatedRecords={updatedRecords}
         setUpdatedRecords={setUpdatedRecords}
       />

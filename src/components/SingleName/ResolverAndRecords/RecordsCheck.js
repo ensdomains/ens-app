@@ -7,19 +7,27 @@ import {
   Key as DefaultKey
 } from './KeyValueRecord/'
 
+import mq from 'mediaQuery'
+
 import { RecordsValue } from './ContentHash.js'
 import { isRecordEmpty } from '../../../utils/utils'
 
-const Key = styled(DefaultKey)``
+const Key = styled(DefaultKey)`
+  ${mq.small`
+    margin-bottom: 0;
+  `}
+`
 
 const KeyValuesList = styled(DefaultKeyValuesList)``
 
 const KeyValueContainer = styled(DefaultKeyValueContainer)`
   padding: 0;
+  margin-bottom: 20px;
 `
 
 const Contenthash = styled('div')`
   display: flex;
+  margin-bottom: 20px;
 `
 
 const Delete = styled('span')`
@@ -27,6 +35,7 @@ const Delete = styled('span')`
 `
 
 export default function MultipleRecordsCheck({ changedRecords }) {
+  console.log(changedRecords)
   return (
     <div>
       {changedRecords.coins.length > 0 && (
@@ -48,14 +57,14 @@ export default function MultipleRecordsCheck({ changedRecords }) {
         </KeyValueContainer>
       )}
 
-      {changedRecords.contentHash && (
+      {changedRecords.content !== undefined && (
         <Contenthash>
           <Key>Content Hash</Key>
           <RecordsValue>
-            {isRecordEmpty(changedRecords.contentHash) ? (
+            {isRecordEmpty(changedRecords.content) ? (
               <Delete>Delete Record</Delete>
             ) : (
-              changedRecords.contentHash
+              changedRecords.content
             )}
           </RecordsValue>
         </Contenthash>

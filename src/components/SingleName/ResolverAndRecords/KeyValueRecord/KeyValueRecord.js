@@ -241,14 +241,31 @@ function Records({
   recordType
 }) {
   const [hasRecord, setHasRecord] = useState(false)
+  const nonDuplicatePlaceholderRecords = placeholderRecords.filter(
+    record => !records.find(r => record === r.key)
+  )
   return (
     <KeyValueContainer hasRecord={hasRecord}>
       {hasRecord && <Key>{title}</Key>}
       <KeyValuesList>
-        {records.map(({ key, value }) => {
-          if (value === emptyAddress && !placeholderRecords.includes(key)) {
+        {[
+          ...records,
+          ...nonDuplicatePlaceholderRecords.map(record => ({
+            key: record,
+            value: ''
+          }))
+        ].map(({ key, value }) => {
+          if (
+            // Value empty
+            (value === emptyAddress || value === '') &&
+            // Value has not been changed
+            !changedRecords[recordType].hasOwnProperty(key) &&
+            // Value is not a placeholder
+            !placeholderRecords.includes(key)
+          ) {
             return null
           }
+
           return (
             <Record
               editing={editing}

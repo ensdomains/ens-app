@@ -5,7 +5,14 @@ const getPlaceholder = key => {
   return `Enter ${key}`
 }
 
-const PLACEHOLDER_RECORDS = ['vnd.twitter', 'vnd.github', 'url']
+const PLACEHOLDER_RECORDS = [
+  'vnd.twitter',
+  'vnd.github',
+  'url',
+  'email',
+  'avatar',
+  'notice'
+]
 
 export default function TextRecords(props) {
   return (

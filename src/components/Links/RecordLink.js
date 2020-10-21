@@ -82,7 +82,7 @@ const RecordLink = ({ textKey, value }) => {
 
   const isEmpty = isRecordEmpty(value)
 
-  return url ? (
+  return url && !isEmpty ? (
     <LinkContainer>
       <a target="_blank" href={url} rel="noopener noreferrer">
         {value}
@@ -94,7 +94,7 @@ const RecordLink = ({ textKey, value }) => {
       </a>
       <CopyToClipboard value={value} />
     </LinkContainer>
-  ) : avatar ? (
+  ) : avatar && !isEmpty ? (
     <div>
       <LinkContainer>
         <a target="_blank" href={value} rel="noopener noreferrer">
