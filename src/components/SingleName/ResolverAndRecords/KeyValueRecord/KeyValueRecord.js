@@ -69,6 +69,7 @@ const RecordsListItem = styled('div')`
 
   ${mq.medium`
     flex-direction: row;
+    margin-bottom: 20px;
   `}
 `
 
