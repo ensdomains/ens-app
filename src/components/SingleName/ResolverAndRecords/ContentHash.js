@@ -59,6 +59,11 @@ export const RecordsKey = styled(DetailsKey)`
     width: 180px;
     margin-right: 0px;
   `}
+
+  ${mq.large`
+    width: 200px;
+    margin-right: 0px;
+  `}
 `
 
 export const RecordsSubKey = styled('div')`
