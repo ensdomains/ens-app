@@ -321,15 +321,15 @@ function ContentHashViewOnly({ keyName, value, type, domain, account }) {
       <RecordsContent>
         <RecordsKey>{t(`c.${keyName}`)}</RecordsKey>
         <RecordsValue>
-          <ContentHashLink value={value} contentType={contentType} />
-          <CopyToClipBoard value={value} />
+          {value !== '' ? (
+            <>
+              <ContentHashLink value={value} contentType={contentType} />
+              <CopyToClipBoard value={value} />
+            </>
+          ) : (
+            <RecordsValue>Content Hash not set</RecordsValue>
+          )}
         </RecordsValue>
-        <Action>
-          <Pencil
-            disabled={true}
-            data-testid={`edit-${keyName.toLowerCase()}`}
-          />
-        </Action>
       </RecordsContent>
     </RecordsItem>
   )

@@ -592,7 +592,7 @@ const resolvers = {
                 ])
                 return encoded
               case 1:
-                if (!record) return undefined
+                if (record === undefined) return undefined
                 const encodedContenthash = record
                 return resolver.setContenthash.encode([
                   namehash,
@@ -641,7 +641,7 @@ const resolvers = {
         /*  eslint-disable no-sparse-arrays */
         const newRecords = [
           ,
-          records.content === emptyAddress
+          records.content === ''
             ? emptyAddress
             : records.content
             ? encodeContenthash(records.content)
