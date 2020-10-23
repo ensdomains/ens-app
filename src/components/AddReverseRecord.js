@@ -205,6 +205,7 @@ function AddReverseRecord({ account, name }) {
               </Explanation>
               <Account>{account}</Account>
               <Input
+                testId="reverse-input"
                 valid={isValid}
                 invalid={isInvalid}
                 value={newName}
