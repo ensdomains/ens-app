@@ -218,6 +218,15 @@ function DetailsContainer({
   const domainParent =
     domain.name === '[root]' ? null : domain.parent ? domain.parent : '[root]'
 
+  let deleteActionText
+  if (!!dnssecmode.deleteProof) {
+    deleteActionText = 'Delete Proof'
+  } else if (!!dnssecmode.deleteDomain) {
+    deleteActionText = 'Delete Domain'
+  } else {
+    deleteActionText = t('c.sync')
+  }
+
   return (
     <Details data-testid="name-details">
       {isOwner && <SetupName initialState={showExplainer} />}
@@ -338,7 +347,7 @@ function DetailsContainer({
                   name={domain.name}
                   parentOwner={domain.parentOwner}
                   refetch={refetch}
-                  actionText={t('c.sync')}
+                  actionText={deleteActionText}
                 />
               ) : (
                 <Tooltip
@@ -577,7 +586,6 @@ function NameDetails({
 
   const isMigratedToNewRegistry = !loadingIsMigrated && isMigrated
   const isParentMigratedToNewRegistry = isParentMigrated
-
   const isDeedOwner = domain.deedOwner === account
   const isRegistrant = !domain.available && domain.registrant === account
   let dnssecmode, canSubmit

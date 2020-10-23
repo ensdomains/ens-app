@@ -49,5 +49,25 @@ export default [
     explainer:
       "Click 'sync' to make the DNS Owner the Controller. Click 'refresh' if you make changes to the domain in the DNS Registrar.",
     outOfSync: true
+  },
+  // 8,
+  {
+    state: 'SUBMIT_PROOF',
+    title: 'There is no owner record on DNS',
+    explainer:
+      'There is no owner set under _ens subdomain. You can add an owner hex address in the DNS Registrar and click refresh. Or you can delete the controller',
+    outOfSync: true,
+    deleteProof: true,
+    deleteDomain: true
+  },
+  // 9,
+  {
+    state: 'SUBMIT_PROOF',
+    title: 'Ready to delete the domain',
+    explainer:
+      'The proof iYou can add an owner hex address in the DNS Registrar and click refresh. Or you can delete the controller',
+    outOfSync: true,
+    deleteProof: false,
+    deleteDomain: true
   }
 ]

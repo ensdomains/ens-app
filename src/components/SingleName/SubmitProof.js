@@ -16,7 +16,7 @@ const Action = styled('div')`
 `
 
 function SubmitProof({ name, parentOwner, refetch, actionText }) {
-  console.log('SubmitProof', { name, parentOwner, refetch, actionText })
+  console.log('***SubmitProof', { name, parentOwner, refetch, actionText })
   const { state, actions } = useEditable()
   const { txHash, pending, confirmed } = state
   const { startPending } = actions
