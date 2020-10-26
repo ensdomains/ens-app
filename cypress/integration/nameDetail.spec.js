@@ -338,7 +338,7 @@ describe('Name detail view', () => {
       cy.getByText('Add/Edit Record').click()
       cy.getByTestId('ETH-record-input')
         .clear()
-        .type(ADDRESS)
+        .type(ADDRESS, { force: true })
     })
 
     confirmRecordUpdate()
@@ -351,7 +351,7 @@ describe('Name detail view', () => {
     cy.visit(`${NAME_ROOT}/abittooawesome.eth`)
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
-      cy.getByText('Add/Edit Record').click()
+      cy.getByText('Add/Edit Record').click({ force: true })
       cy.wait(1000) //TODO - get rid of wait and wait until text as some input before deleting
       cy.getByTestId('content-record-input').type(
         `{selectall}{backspace}${CONTENT}`
@@ -365,7 +365,7 @@ describe('Name detail view', () => {
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
-      cy.getByText('Add/Edit Record').click()
+      cy.getByText('Add/Edit Record').click({ force: true })
       cy.getByTestId('notice-record-input')
         .clear()
         .type(TEXT)
@@ -380,7 +380,7 @@ describe('Name detail view', () => {
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
-      cy.getByText('Add/Edit Record').click()
+      cy.getByText('Add/Edit Record').click({ force: true })
       cy.getByTestId('LTC-record-input')
         .clear()
         .type(ADDRESS)
@@ -392,7 +392,7 @@ describe('Name detail view', () => {
   it('can delete records', () => {
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
     cy.getByTestId('name-details').within(container => {
-      cy.getByText('Add/Edit Record').click()
+      cy.getByText('Add/Edit Record').click({ force: true })
 
       cy.getByTestId('ETH-record-delete', {
         exact: false,
