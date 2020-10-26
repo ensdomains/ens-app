@@ -335,7 +335,7 @@ describe('Name detail view', () => {
     const ADDRESS = '0x0000000000000000000000000000000000000007'
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
-      cy.getByText('Add/Edit Record').click()
+      cy.getByText('Add/Edit Record').click({ force: true })
       cy.getByTestId('ETH-record-input')
         .clear()
         .type(ADDRESS, { force: true })
