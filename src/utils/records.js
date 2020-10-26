@@ -4,6 +4,7 @@ import { formatsByName } from '@ensdomains/address-encoder'
 
 export function validateRecord({ type, value, contentType, selectedKey }) {
   if (!type) return false
+  if (!value) return false
   if (type === 'content' && contentType === 'oldcontent') {
     return value.length > 32
   }

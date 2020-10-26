@@ -268,8 +268,6 @@ export default function Records({
   const haveRecordsChanged = checkRecordsHaveChanged(changedRecords)
   const areRecordsValid = checkRecordsAreValid(changedRecords)
 
-  console.log('updatedRecords', updatedRecords, changedRecords)
-
   return (
     <RecordsWrapper
       shouldShowRecords={shouldShowRecords}

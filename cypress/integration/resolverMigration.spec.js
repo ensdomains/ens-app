@@ -10,7 +10,7 @@ describe('Migrate resolver and records', () => {
     cy.queryByText('migrate', { timeout: 5000 }).should('not.exist')
   })
 
-  it('can visit a name with an old content resolver and migrate it as swarm contenthash', () => {
+  it.only('can visit a name with an old content resolver and migrate it as swarm contenthash', () => {
     cy.visit(`${ROOT}/name/oldresolver.eth`)
     cy.getByText('Migrate', { timeout: 10000 }).click({ force: true })
     cy.queryByText('migrate', { timeout: 10000 }).should('not.exist')
