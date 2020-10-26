@@ -100,9 +100,7 @@ const SelectAll = styled('div')`
 `
 
 function filterOutReverse(domains) {
-  return domains.filter(
-    domain => domain.parent && domain.parent.name !== 'addr.reverse'
-  )
+  return domains.filter(domain => domain.parent)
 }
 
 function normaliseAddress(address) {
