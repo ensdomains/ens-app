@@ -23,6 +23,15 @@ function confirmRecordUpdate() {
   cy.wait(100)
 }
 
+function refreshAndCheckText(url, textOrArrayOfText) {
+  cy.visit(url)
+  if (typeof textOrArrayOfText === 'string') {
+    cy.queryByText(textOrArrayOfText).should('exist')
+  } else {
+    textOrArrayOfText.forEach(text => cy.queryByText(text).should('exist'))
+  }
+}
+
 describe('Name detail view', () => {
   it('can see list of top level domains from [root]', () => {
     cy.visit(`${NAME_ROOT}/[root]/subdomains`)
@@ -191,7 +200,8 @@ describe('Name detail view', () => {
   })
 
   it('can add an address', () => {
-    cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
+    const url = `${NAME_ROOT}/notsoawesome.eth`
+    cy.visit(url)
 
     cy.getByTestId('name-details').within(container => {
       cy.getByText('Add/Edit Record').click({ force: true, exact: false })
@@ -223,13 +233,15 @@ describe('Name detail view', () => {
     })
 
     confirmRecordUpdate()
+    refreshAndCheckText(url, '0x0000000000000000000000000000000000000003')
   })
 
   it('can add a content hash', () => {
+    const url = `${NAME_ROOT}/notsoawesome.eth`
     const content = 'ipfs://QmTeW79w7QQ6Npa3b1d5tANreCDxF2iDaAPsDvW6KtLmfB'
     const contentv1 =
       'ipfs://bafybeico3uuyj3vphxpvbowchdwjlrlrh62awxscrnii7w7flu5z6fk77y'
-    cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
+    cy.visit(url)
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
       cy.getByText('Add/Edit Record')
@@ -249,11 +261,16 @@ describe('Name detail view', () => {
     })
 
     confirmRecordUpdate()
+    refreshAndCheckText(
+      url,
+      'ipfs://bafybeico3uuyj3vphxpvbowchdwjlrlrh62awxscrnii7w7flu5z6fk77y'
+    )
   })
 
   it('can add other address', () => {
     const address = 'MQMcJhpWHYVeQArcZR3sBgyPZxxRtnH441'
-    cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
+    const url = `${NAME_ROOT}/notsoawesome.eth`
+    cy.visit(url)
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
       cy.getByText('Add/Edit Record')
@@ -277,11 +294,13 @@ describe('Name detail view', () => {
     })
 
     confirmRecordUpdate()
+    refreshAndCheckText(url, 'MQMcJhpWHYVeQArcZR3sBgyPZxxRtnH441')
   })
 
   it('can add default Text', () => {
     const text = 'Hello'
-    cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
+    const url = `${NAME_ROOT}/notsoawesome.eth`
+    cy.visit(url)
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
       cy.getByText('Add/Edit Record')
@@ -302,11 +321,16 @@ describe('Name detail view', () => {
     })
 
     confirmRecordUpdate()
+    refreshAndCheckText(
+      url,
+      'ipfs://bafybeico3uuyj3vphxpvbowchdwjlrlrh62awxscrnii7w7flu5z6fk77y'
+    )
   })
 
   it('can add custom Text', () => {
     const text = 'Bar'
-    cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
+    const url = `${NAME_ROOT}/notsoawesome.eth`
+    cy.visit(url)
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
       cy.getByText('Add/Edit Record')
@@ -328,10 +352,12 @@ describe('Name detail view', () => {
     })
 
     confirmRecordUpdate()
+    refreshAndCheckText(url, ['FOOOOOOOO', 'Bar'])
   })
 
   it('can change the address', () => {
-    cy.visit(`${NAME_ROOT}/abittooawesome.eth`)
+    const url = `${NAME_ROOT}/abittooawesome.eth`
+    cy.visit(url)
     const ADDRESS = '0x0000000000000000000000000000000000000007'
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
@@ -343,13 +369,14 @@ describe('Name detail view', () => {
     })
 
     confirmRecordUpdate()
+    refreshAndCheckText(url, ADDRESS)
   })
 
   it('can change the content hash', () => {
     const CONTENT =
       'bzz://d1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162'
-
-    cy.visit(`${NAME_ROOT}/abittooawesome.eth`)
+    const url = `${NAME_ROOT}/abittooawesome.eth`
+    cy.visit(url)
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
       cy.getByText('Add/Edit Record').click({ force: true })
@@ -359,6 +386,7 @@ describe('Name detail view', () => {
       )
     })
     confirmRecordUpdate()
+    refreshAndCheckText(url, ADDRESS)
   })
 
   it('can change text', () => {
@@ -374,12 +402,14 @@ describe('Name detail view', () => {
     })
 
     confirmRecordUpdate()
+    refreshAndCheckText(url, TEXT)
   })
 
   it('can change other address', () => {
     const ADDRESS = 'MQMcJhpWHYVeQArcZR3sBgyPZxxRtnH441'
+    const url = `${NAME_ROOT}/notsoawesome.eth`
 
-    cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
+    cy.visit(url)
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
       cy.getByText('Add/Edit Record').click({ force: true })
@@ -390,6 +420,7 @@ describe('Name detail view', () => {
     })
 
     confirmRecordUpdate()
+    refreshAndCheckText(url, ADDRESS)
   })
 
   it('can delete records', () => {
