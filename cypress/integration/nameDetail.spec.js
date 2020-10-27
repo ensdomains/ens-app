@@ -330,7 +330,7 @@ describe('Name detail view', () => {
     confirmRecordUpdate()
   })
 
-  it.only('can change the address', () => {
+  it('can change the address', () => {
     cy.visit(`${NAME_ROOT}/abittooawesome.eth`)
     const ADDRESS = '0x0000000000000000000000000000000000000007'
 
@@ -345,7 +345,7 @@ describe('Name detail view', () => {
     confirmRecordUpdate()
   })
 
-  it.only('can change the content hash', () => {
+  it('can change the content hash', () => {
     const CONTENT =
       'bzz://d1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162'
 
@@ -367,6 +367,7 @@ describe('Name detail view', () => {
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
       cy.getByText('Add/Edit Record').click({ force: true })
+      cy.wait(2000) //TODO - get rid of wait and wait until text as some input before deleting
       cy.getByTestId('notice-record-input')
         .clear()
         .type(TEXT)
@@ -382,6 +383,7 @@ describe('Name detail view', () => {
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
       cy.getByText('Add/Edit Record').click({ force: true })
+      cy.wait(2000) //TODO - get rid of wait and wait until text as some input before deleting
       cy.getByTestId('LTC-record-input')
         .clear()
         .type(ADDRESS)
