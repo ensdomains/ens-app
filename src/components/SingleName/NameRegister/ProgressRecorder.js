@@ -71,11 +71,6 @@ const ProgressRecorder = ({
       setWaitUntil(savedStep.waitUntil)
     }
   }
-  if (!waitUntil) {
-    if (savedStep && savedStep.waitUntil) {
-      setWaitUntil(savedStep.waitUntil)
-    }
-  }
   if (!secondsPassed) {
     if (savedStep && savedStep.secondsPassed) {
       setSecondsPassed(savedStep.secondsPassed)

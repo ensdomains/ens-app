@@ -145,6 +145,12 @@ const NameRegister = ({
       }
     }
   )
+  if (!blockCreatedAt && checkCommitment > 0) {
+    setBlockCreatedAt(checkCommitment * 1000)
+  }
+  if (blockCreatedAt && !waitUntil) {
+    setWaitUntil(blockCreatedAt + waitTime * 1000)
+  }
 
   const oneMonthInSeconds = 2419200
   const twentyEightDaysInYears = oneMonthInSeconds / yearInSeconds
