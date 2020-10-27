@@ -20,15 +20,17 @@ function confirmRecordUpdate() {
   cy.getByTestId('send-transaction').click({
     force: true
   })
-  cy.wait(100)
+  cy.wait(1000)
 }
 
 function refreshAndCheckText(url, textOrArrayOfText) {
   cy.visit(url)
   if (typeof textOrArrayOfText === 'string') {
-    cy.queryByText(textOrArrayOfText).should('exist')
+    cy.queryByText(textOrArrayOfText, { timeout: 10000 }).should('exist')
   } else {
-    textOrArrayOfText.forEach(text => cy.queryByText(text).should('exist'))
+    textOrArrayOfText.forEach(text =>
+      cy.queryByText(text, { timeout: 10000 }).should('exist')
+    )
   }
 }
 
@@ -227,12 +229,11 @@ describe('Name detail view', () => {
       })
 
       waitUntilInputResolves('Save').then(() => {
-        cy.wait(1000)
         cy.getByText('Save').click({ force: true })
       })
     })
-
     confirmRecordUpdate()
+    cy
     refreshAndCheckText(url, '0x0000000000000000000000000000000000000003')
   })
 
@@ -349,7 +350,7 @@ describe('Name detail view', () => {
     refreshAndCheckText(url, ['FOOOOOOOO', 'Bar'])
   })
 
-  it('can change the address', () => {
+  it.only('can change the address', () => {
     const url = `${NAME_ROOT}/abittooawesome.eth`
     cy.visit(url)
     const ADDRESS = '0x0000000000000000000000000000000000000007'
@@ -400,7 +401,7 @@ describe('Name detail view', () => {
     refreshAndCheckText(url, TEXT)
   })
 
-  it.only('can change other address', () => {
+  it('can change other address', () => {
     const ADDRESS = 'MQMcJhpWHYVeQArcZR3sBgyPZxxRtnH441'
     const url = `${NAME_ROOT}/notsoawesome.eth`
 
@@ -408,7 +409,6 @@ describe('Name detail view', () => {
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
       cy.getByText('Add/Edit Record').click({ force: true })
-      cy.wait(10000)
       cy.getByTestId('LTC-record-input', { timeout: 10000 })
         .clear({ force: true })
         .type(ADDRESS)
