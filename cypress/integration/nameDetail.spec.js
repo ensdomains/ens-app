@@ -364,7 +364,7 @@ describe('Name detail view', () => {
       cy.getByText('Add/Edit Record').click({ force: true })
       cy.wait(2000)
       cy.getByTestId('ETH-record-input')
-        .clear()
+        .clear({ force: true })
         .type(ADDRESS, { force: true })
     })
 
@@ -397,7 +397,7 @@ describe('Name detail view', () => {
       cy.getByText('Add/Edit Record').click({ force: true })
       cy.wait(2000) //TODO - get rid of wait and wait until text as some input before deleting
       cy.getByTestId('notice-record-input')
-        .clear()
+        .clear({ force: true })
         .type(TEXT)
     })
 
@@ -415,7 +415,7 @@ describe('Name detail view', () => {
       cy.getByText('Add/Edit Record').click({ force: true })
       cy.wait(2000) //TODO - get rid of wait and wait until text as some input before deleting
       cy.getByTestId('LTC-record-input')
-        .clear()
+        .clear({ force: true })
         .type(ADDRESS)
     })
 
