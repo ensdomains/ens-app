@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Query, useQuery } from 'react-apollo'
 import moment from 'moment'
 import {
+  CHECK_COMMITMENT,
   GET_MINIMUM_COMMITMENT_AGE,
   GET_MAXIMUM_COMMITMENT_AGE,
   GET_RENT_PRICE,
@@ -85,7 +86,17 @@ const NameRegister = ({
       moment(blockCreatedAt).add(getMaximumCommitmentAge, 'second')
     )
   }
+  const {
+    data: { checkCommitment = false }
+  } = useQuery(CHECK_COMMITMENT, {
+    variables: {
+      label: domain.label,
+      secret
+    }
+  })
+
   ProgressRecorder({
+    checkCommitment,
     domain,
     networkId,
     states: registerMachine.states,
@@ -106,7 +117,7 @@ const NameRegister = ({
   useInterval(
     () => {
       if (blockCreatedAt && !waitUntil) {
-        setWaitUntil(blockCreatedAt && blockCreatedAt + waitTime * 1000)
+        setWaitUntil(blockCreatedAt + waitTime * 1000)
       }
       if (secondsPassed < waitTime) {
         setSecondsPassed(s => s + 1)
@@ -134,6 +145,12 @@ const NameRegister = ({
       }
     }
   )
+  if (!blockCreatedAt && checkCommitment > 0) {
+    setBlockCreatedAt(checkCommitment * 1000)
+  }
+  if (blockCreatedAt && !waitUntil) {
+    setWaitUntil(blockCreatedAt + waitTime * 1000)
+  }
 
   const oneMonthInSeconds = 2419200
   const twentyEightDaysInYears = oneMonthInSeconds / yearInSeconds

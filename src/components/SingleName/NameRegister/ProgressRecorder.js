@@ -35,6 +35,7 @@ const Store = {
 }
 
 const ProgressRecorder = ({
+  checkCommitment,
   domain,
   networkId,
   states,
@@ -70,11 +71,6 @@ const ProgressRecorder = ({
       setWaitUntil(savedStep.waitUntil)
     }
   }
-  if (!waitUntil) {
-    if (savedStep && savedStep.waitUntil) {
-      setWaitUntil(savedStep.waitUntil)
-    }
-  }
   if (!secondsPassed) {
     if (savedStep && savedStep.secondsPassed) {
       setSecondsPassed(savedStep.secondsPassed)
@@ -103,7 +99,17 @@ const ProgressRecorder = ({
   switch (step) {
     case 'PRICE_DECISION':
       if (!savedStep) {
-        Store.set(label, { step })
+        Store.set(label, { step, secret })
+      } else {
+        if (!savedStep.secret) {
+          Store.set(label, { step, secret })
+        } else {
+          let commitmentDate = new Date(checkCommitment * 1000)
+          if (commitmentDate > 0) {
+            dispatch('NEXT') // Go to pending
+            dispatch('NEXT') // Go to confirmed
+          }
+        }
       }
       break
     case 'COMMIT_CONFIRMED':
