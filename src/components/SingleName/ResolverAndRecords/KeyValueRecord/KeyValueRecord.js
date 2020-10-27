@@ -245,6 +245,7 @@ function Records({
   const nonDuplicatePlaceholderRecords = placeholderRecords.filter(
     record => !records.find(r => record === r.key)
   )
+  console.log(changedRecords)
   return (
     <KeyValueContainer hasRecord={hasRecord}>
       {hasRecord && <Key>{title}</Key>}
@@ -260,7 +261,7 @@ function Records({
             // Value empty
             (value === emptyAddress || value === '') &&
             // Value has not been changed
-            !changedRecords[recordType].hasOwnProperty(key) &&
+            !changedRecords[recordType].find(record => record.key === key) &&
             // Value is not a placeholder
             !placeholderRecords.includes(key)
           ) {

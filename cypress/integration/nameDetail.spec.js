@@ -261,10 +261,7 @@ describe('Name detail view', () => {
     })
 
     confirmRecordUpdate()
-    refreshAndCheckText(
-      url,
-      'ipfs://bafybeico3uuyj3vphxpvbowchdwjlrlrh62awxscrnii7w7flu5z6fk77y'
-    )
+    refreshAndCheckText(url, content)
   })
 
   it('can add other address', () => {
@@ -294,7 +291,7 @@ describe('Name detail view', () => {
     })
 
     confirmRecordUpdate()
-    refreshAndCheckText(url, 'MQMcJhpWHYVeQArcZR3sBgyPZxxRtnH441')
+    refreshAndCheckText(url, address)
   })
 
   it('can add default Text', () => {
@@ -321,10 +318,7 @@ describe('Name detail view', () => {
     })
 
     confirmRecordUpdate()
-    refreshAndCheckText(
-      url,
-      'ipfs://bafybeico3uuyj3vphxpvbowchdwjlrlrh62awxscrnii7w7flu5z6fk77y'
-    )
+    refreshAndCheckText(url, text)
   })
 
   it('can add custom Text', () => {
@@ -386,12 +380,13 @@ describe('Name detail view', () => {
       )
     })
     confirmRecordUpdate()
-    refreshAndCheckText(url, ADDRESS)
+    refreshAndCheckText(url, CONTENT)
   })
 
   it('can change text', () => {
     const TEXT = 'world'
-    cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
+    const url = `${NAME_ROOT}/notsoawesome.eth`
+    cy.visit(url)
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
       cy.getByText('Add/Edit Record').click({ force: true })
@@ -405,7 +400,7 @@ describe('Name detail view', () => {
     refreshAndCheckText(url, TEXT)
   })
 
-  it('can change other address', () => {
+  it.only('can change other address', () => {
     const ADDRESS = 'MQMcJhpWHYVeQArcZR3sBgyPZxxRtnH441'
     const url = `${NAME_ROOT}/notsoawesome.eth`
 
@@ -413,8 +408,8 @@ describe('Name detail view', () => {
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
       cy.getByText('Add/Edit Record').click({ force: true })
-      cy.wait(2000) //TODO - get rid of wait and wait until text as some input before deleting
-      cy.getByTestId('LTC-record-input')
+      cy.wait(10000)
+      cy.getByTestId('LTC-record-input', { timeout: 10000 })
         .clear({ force: true })
         .type(ADDRESS)
     })
