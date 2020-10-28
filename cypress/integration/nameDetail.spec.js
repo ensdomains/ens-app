@@ -350,7 +350,7 @@ describe('Name detail view', () => {
     refreshAndCheckText(url, ['FOOOOOOOO', 'Bar'])
   })
 
-  it.only('can change the address', () => {
+  it('can change the address', () => {
     const url = `${NAME_ROOT}/abittooawesome.eth`
     cy.visit(url)
     const ADDRESS = '0x0000000000000000000000000000000000000007'
