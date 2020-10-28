@@ -237,7 +237,7 @@ describe('Name detail view', () => {
     refreshAndCheckText(url, '0x0000000000000000000000000000000000000003')
   })
 
-  it.only('can add a content hash', () => {
+  it('can add a content hash', () => {
     const url = `${NAME_ROOT}/notsoawesome.eth`
     const content = 'ipfs://QmTeW79w7QQ6Npa3b1d5tANreCDxF2iDaAPsDvW6KtLmfB'
     const contentv1 =
