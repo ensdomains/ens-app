@@ -26,10 +26,10 @@ function confirmRecordUpdate() {
 function refreshAndCheckText(url, textOrArrayOfText) {
   cy.visit(url)
   if (typeof textOrArrayOfText === 'string') {
-    cy.queryByText(textOrArrayOfText, { timeout: 10000 }).should('exist')
+    cy.queryByText(textOrArrayOfText, { timeout: 20000 }).should('exist')
   } else {
     textOrArrayOfText.forEach(text =>
-      cy.queryByText(text, { timeout: 10000 }).should('exist')
+      cy.queryByText(text, { timeout: 20000 }).should('exist')
     )
   }
 }
@@ -265,7 +265,7 @@ describe('Name detail view', () => {
     refreshAndCheckText(url, content)
   })
 
-  it('can add other address', () => {
+  it.only('can add other address', () => {
     const address = 'MQMcJhpWHYVeQArcZR3sBgyPZxxRtnH441'
     const url = `${NAME_ROOT}/notsoawesome.eth`
     cy.visit(url)
