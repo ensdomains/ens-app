@@ -11,10 +11,7 @@
     },
     "renew": {
       "button": "Ausgewählte verlängern",
-      "confirm": [
-        "Die folgenden Namen:",
-        "werden für "
-      ],
+      "confirm": ["Die folgenden Namen:", "werden für "],
       "confirmButton": "Verlängern",
       "year": "{{count}} Jahr verlängert",
       "year_plural": "{{count}} Jahre verlängert"
@@ -47,6 +44,7 @@
     "mynames": "Meine Namen",
     "network": "Netzwerk",
     "otheraddresses": "Andere Adressen",
+    "addresses": "Adressen",
     "parent": "Elterndomain",
     "refresh": "Aktualisieren",
     "register": "Registrieren",

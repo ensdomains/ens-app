@@ -15,18 +15,31 @@ function waitUntilTextDoesNotExist(text) {
   return cy.waitUntilTextDoesNotExist(text)
 }
 
+function confirmRecordUpdate() {
+  cy.getByTestId('action').click({ force: true })
+  cy.getByTestId('send-transaction').click({
+    force: true
+  })
+  cy.wait(1000)
+}
+
+function refreshAndCheckText(url, textOrArrayOfText) {
+  cy.visit(url)
+  if (typeof textOrArrayOfText === 'string') {
+    cy.queryByText(textOrArrayOfText, { timeout: 20000 }).should('exist')
+  } else {
+    textOrArrayOfText.forEach(text =>
+      cy.queryByText(text, { timeout: 20000 }).should('exist')
+    )
+  }
+}
+
 describe('Name detail view', () => {
   it('can see list of top level domains from [root]', () => {
-    cy.visit(`${NAME_ROOT}/eth`)
-    cy.queryByText(`[root]`, { timeout: 10000 }).should('exist')
-    cy.getByText('[root]')
-      .scrollIntoView()
-      .click({ force: true })
-    cy.url().should('eq', `${NAME_ROOT}/[root]`)
-    cy.getByText('Subdomains')
-      .scrollIntoView()
-      .click({ force: true })
+    cy.visit(`${NAME_ROOT}/[root]/subdomains`)
     cy.queryByTestId('eth', { timeout: 10000 }).should('exist')
+    cy.queryByTestId('reverse', { timeout: 10000 }).should('exist')
+    cy.url().should('eq', `${NAME_ROOT}/[root]/subdomains`)
   })
   it('cannot transfer ownership to a non-ethereum address', () => {
     cy.visit(`${NAME_ROOT}/awesome.eth`)
@@ -144,32 +157,43 @@ describe('Name detail view', () => {
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 
     cy.getByTestId('name-details').within(container => {
-      cy.getByText('+').click({ force: true })
-      cy.getByText('select a record', { exact: false, timeout: 10000 }).click({
+      cy.getByText('Add/Edit Record').click({ force: true, exact: false })
+      cy.getByText('Add record', { timeout: 10000 }).click({
         force: true
       })
-      cy.get('#react-select-2-option-0')
-        .contains('Address')
-        .click({ force: true })
-      cy.getByPlaceholderText('Enter Ethereum name or address', {
+      cy.getByText('Addresses', { timeout: 10000 }).click({
+        force: true
+      })
+
+      cy.getByText('Coin', { timeout: 10000 }).click({
+        force: true
+      })
+      cy.getByText('ETH', { timeout: 10000 }).click({
+        force: true
+      })
+      cy.getByPlaceholderText('Enter a Eth Address', {
         timeout: 10000,
         exact: false
       }).type('blah', { force: true, timeout: 10000 })
 
-      cy.getByPlaceholderText('Enter Ethereum name or address').should(elem => {
-        expect(elem.val()).to.equal('blah')
-      })
-      cy.queryByTestId('action', { exact: false }).should(
+      cy.getByPlaceholderText('Enter a Eth Address', { exact: false }).should(
+        elem => {
+          expect(elem.val()).to.equal('blah')
+        }
+      )
+      cy.queryByTestId('save-record', { exact: false }).should(
         'have.css',
         'background-color',
         DISABLED_COLOUR
       )
       //force click like a real user
-      cy.getByText('save', { exact: false }).click({ force: true })
+      cy.getByTestId('save-record', { exact: false }).click({ force: true })
 
-      cy.getByPlaceholderText('Enter Ethereum name or address').should(elem => {
-        expect(elem.val()).to.equal('blah')
-      })
+      cy.getByPlaceholderText('Enter a Eth Address', { exact: false }).should(
+        elem => {
+          expect(elem.val()).to.equal('blah')
+        }
+      )
 
       // Form was not closed and nothing happened
       // This query seems flakey
@@ -178,43 +202,52 @@ describe('Name detail view', () => {
   })
 
   it('can add an address', () => {
-    cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
+    const url = `${NAME_ROOT}/notsoawesome.eth`
+    cy.visit(url)
 
     cy.getByTestId('name-details').within(container => {
-      cy.getByText('+').click({ force: true })
-      cy.getByText('select a record', { exact: false, timeout: 10000 }).click({
+      cy.getByText('Add/Edit Record').click({ force: true, exact: false })
+      cy.getByText('Add record', { timeout: 10000 }).click({
         force: true
       })
-      cy.get('#react-select-2-option-0')
-        .contains('Address')
-        .click({ force: true })
+      cy.getByText('Addresses', { timeout: 10000 }).click({
+        force: true
+      })
 
-      cy.getByPlaceholderText('Enter Ethereum name or address', {
+      cy.getByText('Coin', { timeout: 10000 }).click({
+        force: true
+      })
+      cy.getByText('ETH', { timeout: 10000 }).click({
+        force: true
+      })
+      cy.getByPlaceholderText('Enter a Eth Address', {
+        timeout: 10000,
         exact: false
-      }).type('0x0000000000000000000000000000000000000003', { force: true })
+      }).type('0x0000000000000000000000000000000000000003', {
+        force: true,
+        timeout: 10000
+      })
 
       waitUntilInputResolves('Save').then(() => {
-        cy.wait(1000)
         cy.getByText('Save').click({ force: true })
-
-        //Value updated
-        cy.getByText('0x0000000000000000000000000000000000000003', {
-          timeout: 10000
-        }).should('exist')
       })
     })
+    confirmRecordUpdate()
+    cy
+    refreshAndCheckText(url, '0x0000000000000000000000000000000000000003')
   })
 
   it('can add a content hash', () => {
+    const url = `${NAME_ROOT}/notsoawesome.eth`
     const content = 'ipfs://QmTeW79w7QQ6Npa3b1d5tANreCDxF2iDaAPsDvW6KtLmfB'
     const contentv1 =
       'ipfs://bafybeico3uuyj3vphxpvbowchdwjlrlrh62awxscrnii7w7flu5z6fk77y'
-    cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
+    cy.visit(url)
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
-      cy.getByText('+')
+      cy.getByText('Add/Edit Record')
         .click({ force: true })
-        .getByText('select a record', { exact: false, timeout: 10000 })
+        .getByText('Add record', { timeout: 10000 })
         .click({ force: true })
         .get('#react-select-2-option-1', { timeout: 10000 })
         .contains('Content')
@@ -225,25 +258,24 @@ describe('Name detail view', () => {
         .type(content, { force: true })
       waitUntilInputResolves('Save').then(() => {
         cy.getByText('Save').click({ force: true })
-        // It automatically convert v0 to v1
-        cy.queryByText(contentv1, {
-          exact: false,
-          timeout: 10000
-        }).should('exist')
       })
     })
+
+    confirmRecordUpdate()
+    refreshAndCheckText(url, contentv1)
   })
 
   it('can add other address', () => {
     const address = 'MQMcJhpWHYVeQArcZR3sBgyPZxxRtnH441'
-    cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
+    const url = `${NAME_ROOT}/notsoawesome.eth`
+    cy.visit(url)
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
-      cy.getByText('+')
+      cy.getByText('Add/Edit Record')
         .click({ force: true })
-        .getByText('select a record', { exact: false, timeout: 10000 })
+        .getByText('Add record', { timeout: 10000 })
         .click({ force: true })
-        .getByText('Other addresses')
+        .getByText('Addresses')
         .click({ force: true })
         .getByText('Coin', { exact: false })
         .click({ force: true })
@@ -256,22 +288,22 @@ describe('Name detail view', () => {
         .type(address, { force: true })
       waitUntilInputResolves('Save').then(() => {
         cy.getByText('Save').click({ force: true })
-        cy.queryByText(address, {
-          exact: false,
-          timeout: 10000
-        }).should('exist')
       })
     })
+
+    confirmRecordUpdate()
+    refreshAndCheckText(url, address)
   })
 
   it('can add default Text', () => {
     const text = 'Hello'
-    cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
+    const url = `${NAME_ROOT}/notsoawesome.eth`
+    cy.visit(url)
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
-      cy.getByText('+')
+      cy.getByText('Add/Edit Record')
         .click({ force: true })
-        .getByText('select a record', { exact: false, timeout: 10000 })
+        .getByText('Add record', { timeout: 10000 })
         .click({ force: true })
         .getByText('Text')
         .click({ force: true })
@@ -283,22 +315,22 @@ describe('Name detail view', () => {
         .type(text, { force: true })
       waitUntilInputResolves('Save').then(() => {
         cy.getByText('Save').click({ force: true })
-        cy.queryByText(text, {
-          exact: false,
-          timeout: 10000
-        }).should('exist')
       })
     })
+
+    confirmRecordUpdate()
+    refreshAndCheckText(url, text)
   })
 
   it('can add custom Text', () => {
     const text = 'Bar'
-    cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
+    const url = `${NAME_ROOT}/notsoawesome.eth`
+    cy.visit(url)
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
-      cy.getByText('+')
+      cy.getByText('Add/Edit Record')
         .click({ force: true })
-        .getByText('select a record', { exact: false })
+        .getByText('Add record', { timeout: 10000 })
         .click({ force: true })
         .getByText('Text')
         .click({ force: true })
@@ -306,188 +338,130 @@ describe('Name detail view', () => {
         .click({ force: true })
         .get('input#react-select-3-input')
         .type('FOOOOOOOO{enter}')
-        .getByText('CREATE "FOOOOOOOO"', { exact: false })
+        .getByPlaceholderText('FOOOOOOOO', { exact: false })
+        .type('Bar', { force: true })
 
-      cy.get('input:last').type(text, { force: true })
       waitUntilInputResolves('Save').then(() => {
         cy.getByText('Save').click({ force: true })
       })
-      cy.queryByText(text, {
-        exact: false,
-        timeout: 10000
-      }).should('exist')
     })
+
+    confirmRecordUpdate()
+    refreshAndCheckText(url, ['FOOOOOOOO', 'Bar'])
   })
 
   it('can change the address', () => {
-    cy.visit(`${NAME_ROOT}/abittooawesome.eth`)
+    const url = `${NAME_ROOT}/abittooawesome.eth`
+    cy.visit(url)
     const ADDRESS = '0x0000000000000000000000000000000000000007'
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
-      cy.getByTestId('edit-address', { exact: false }).click({ force: true })
-      cy.getByPlaceholderText('Enter Ethereum name or address', {
-        timeout: 10000,
-        exact: false
-      }).type(ADDRESS, { force: true })
-
-      waitUntilInputResolves('Save').then(() => {
-        cy.wait(1000)
-        cy.getByText('Save').click({ force: true })
-
-        //form closed
-        waitUntilTestIdDoesNotExist('action')
-        waitUntilTestIdDoesNotExist('cancel')
-
-        cy.queryByText(ADDRESS, {
-          exact: false,
-          timeout: 10000
-        }).should('exist')
-      })
+      cy.getByText('Add/Edit Record').click({ force: true })
+      cy.wait(2000)
+      cy.getByTestId('ETH-record-input')
+        .clear({ force: true })
+        .type(ADDRESS, { force: true })
     })
+
+    confirmRecordUpdate()
+    refreshAndCheckText(url, ADDRESS)
   })
 
   it('can change the content hash', () => {
-    const content =
+    const CONTENT =
       'bzz://d1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162'
-
-    cy.visit(`${NAME_ROOT}/abittooawesome.eth`)
+    const url = `${NAME_ROOT}/abittooawesome.eth`
+    cy.visit(url)
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
-      cy.getByTestId('edit-content', { exact: false, timeout: 10000 })
-        .scrollIntoView()
-        .click({
-          force: true
-        })
-      cy.getByPlaceholderText('Enter a content hash', {
-        timeout: 10000,
-        exact: false
-      }).type(content, { force: true })
-
-      waitUntilInputResolves('Save').then(() => {
-        cy.getByText('Save').click({ force: true })
-
-        //form closed
-        waitUntilTestIdDoesNotExist('action')
-        waitUntilTestIdDoesNotExist('cancel')
-
-        //Value updated
-        cy.queryByText(content, { exact: false }).should('exist')
-      })
+      cy.getByText('Add/Edit Record').click({ force: true })
+      cy.wait(2000) //TODO - get rid of wait and wait until text as some input before deleting
+      cy.getByTestId('content-record-input').type(
+        `{selectall}{backspace}${CONTENT}`
+      )
     })
+    confirmRecordUpdate()
+    refreshAndCheckText(url, CONTENT)
   })
 
   it('can change text', () => {
-    const content = 'world'
-    cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
+    const TEXT = 'world'
+    const url = `${NAME_ROOT}/notsoawesome.eth`
+    cy.visit(url)
 
-    cy.getByTestId('name-details').within(container => {
-      cy.getByTestId('edit-notice', { exact: false, timeout: 10000 }).click({
-        force: true
-      })
-      cy.getByPlaceholderText('Enter notice', {
-        timeout: 10000,
-        exact: false
-      }).type(content, { force: true })
-
-      waitUntilInputResolves('Save').then(() => {
-        cy.getByText('Save').click({ force: true })
-
-        //form closed
-        waitUntilTestIdDoesNotExist('action')
-        waitUntilTestIdDoesNotExist('cancel')
-
-        //Value updated
-        cy.queryByText(content, { exact: false }).should('exist')
-      })
+    cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
+      cy.getByText('Add/Edit Record').click({ force: true })
+      cy.wait(2000) //TODO - get rid of wait and wait until text as some input before deleting
+      cy.getByTestId('notice-record-input')
+        .clear({ force: true })
+        .type(TEXT)
     })
+
+    confirmRecordUpdate()
+    refreshAndCheckText(url, TEXT)
   })
 
   it('can change other address', () => {
-    const content = 'MQMcJhpWHYVeQArcZR3sBgyPZxxRtnH441'
+    const ADDRESS = 'MQMcJhpWHYVeQArcZR3sBgyPZxxRtnH441'
+    const url = `${NAME_ROOT}/notsoawesome.eth`
 
-    cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
+    cy.visit(url)
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
-      cy.getByTestId('edit-ltc', { exact: false, timeout: 10000 }).click({
-        force: true
-      })
-      cy.getByPlaceholderText('Enter a LTC address', {
-        timeout: 10000,
-        exact: false
-      }).type(content, { force: true })
-
-      waitUntilInputResolves('Save').then(() => {
-        cy.getByText('Save').click({ force: true })
-
-        //form closed
-        waitUntilTestIdDoesNotExist('action')
-        waitUntilTestIdDoesNotExist('cancel')
-
-        //Value updated
-        cy.queryByText(content, { exact: false, timeout: 10000 }).should(
-          'exist'
-        )
-      })
+      cy.getByText('Add/Edit Record').click({ force: true })
+      cy.getByTestId('LTC-record-input', { timeout: 10000 })
+        .clear({ force: true })
+        .type(ADDRESS)
     })
+
+    confirmRecordUpdate()
+    refreshAndCheckText(url, ADDRESS)
   })
 
   it('can delete records', () => {
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
     cy.getByTestId('name-details').within(container => {
-      cy.getByTestId('edit-address', { exact: false, timeout: 10000 }).click({
-        force: true
-      })
-      cy.getByTestId('delete-address', { exact: false, timeout: 10000 }).click({
-        force: true
-      })
-      cy.wait(1000)
+      cy.getByText('Add/Edit Record').click({ force: true })
 
-      cy.getByTestId('edit-content', { exact: false, timeout: 10000 }).click({
+      cy.getByTestId('ETH-record-delete', {
+        exact: false,
+        timeout: 10000
+      }).click({
         force: true
       })
+
       cy.getByTestId('delete-content', { exact: false, timeout: 10000 }).click({
         force: true
       })
 
-      cy.getByTestId('edit-ltc', { exact: false, timeout: 10000 }).click({
-        force: true
-      })
-      cy.getByTestId('delete-KeyValue-ltc', {
+      cy.getByTestId('LTC-record-delete', {
         exact: false,
         timeout: 10000
       }).click({
         force: true
       })
 
-      cy.getByTestId('edit-notice', { exact: false, timeout: 10000 }).click({
-        force: true
-      })
-      cy.getByTestId('delete-KeyValue-notice', {
+      cy.getByTestId('notice-record-delete', {
         exact: false,
         timeout: 10000
       }).click({
         force: true
       })
-      cy.wait(1000)
-
-      //No addresses to edit
-      cy.queryByText('+', { exact: false }).should('exist')
     })
+
+    confirmRecordUpdate()
   })
 
   it('can navigate to a subdomain', () => {
-    cy.visit(`${NAME_ROOT}/subdomaindummy.eth`)
-      .getByText('subdomains', { exact: false, timeout: 10000 })
-      .click({ force: true })
-      .getByText('original.subdomaindummy.eth', { timeout: 15000 })
-      .click({ force: true })
+    cy.visit(`${NAME_ROOT}/subdomaindummy.eth/subdomains`, { timeout: 10000 })
+    cy.getByText('original.subdomaindummy.eth', { timeout: 15000 }).click({
+      force: true
+    })
   })
 
   it('can add a subdomain', () => {
     const LABEL = 'sub1' // using the same subdomain label which is used at sub1.testing.eth
-    cy.visit(`${NAME_ROOT}/subdomaindummy.eth`, { timeout: 10000 })
-      .getByText('subdomains', { exact: false, timeout: 10000 })
-      .click({ force: true })
+    cy.visit(`${NAME_ROOT}/subdomaindummy.eth/subdomains`, { timeout: 10000 })
 
     cy.getByTestId('subdomains').within(() => {
       cy.wait(1000)

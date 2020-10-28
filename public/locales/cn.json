@@ -11,10 +11,7 @@
     },
     "renew": {
       "button": "给已勾选项目续费",
-      "confirm": [
-        "以下域名：",
-        "将同时续费 "
-      ],
+      "confirm": ["以下域名：", "将同时续费 "],
       "confirmButton": "续费"
     },
     "sort": {
@@ -45,6 +42,7 @@
     "mynames": "我的域名",
     "network": "网络",
     "otheraddresses": "其他地址",
+    "addresses": "地址",
     "parent": "父域名",
     "refresh": "刷新",
     "register": "注册",
@@ -64,12 +62,7 @@
     "notmigrated": "暂未迁移"
   },
   "dns": {
-    "breadcrumbs": [
-      "启用 DNSSEC",
-      "提交验证",
-      "提交验证",
-      "管理域名"
-    ],
+    "breadcrumbs": ["启用 DNSSEC", "提交验证", "提交验证", "管理域名"],
     "dnsowner": "DNS 所有者",
     "steps": {
       "addtext": {

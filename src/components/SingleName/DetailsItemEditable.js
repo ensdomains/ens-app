@@ -51,7 +51,7 @@ const AddressLink = styled(DefaultAddressLink)`
 `
 
 const Address = styled('span')`
-  display: inline-block;
+  display: block;
   align-items: center;
   overflow: hidden;
   text-overflow: ellipsis;

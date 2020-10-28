@@ -1,18 +1,10 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled/macro'
-import { Mutation } from 'react-apollo'
 import mq from 'mediaQuery'
 import { useTranslation } from 'react-i18next'
 
 import { validateRecord } from '../../../utils/records'
 import { useEditable } from '../../hooks'
-import {
-  SET_CONTENT,
-  SET_CONTENTHASH,
-  SET_ADDRESS,
-  SET_ADDR,
-  SET_TEXT
-} from '../../../graphql/mutations'
 import { getOldContentWarning } from './warnings'
 import TEXT_RECORD_KEYS from 'constants/textRecords'
 import COIN_LIST from 'constants/coinList'
@@ -26,7 +18,6 @@ import { DetailsKey } from '../DetailsItem'
 import DetailsItemInput from '../DetailsItemInput'
 import { SaveCancel, SaveCancelSwitch } from '../SaveCancel'
 import DefaultSelect from '../../Forms/Select'
-import PendingTx from '../../PendingTx'
 import DefaultAddressInput from '@ensdomains/react-ens-address'
 
 const AddressInput = styled(DefaultAddressInput)`
@@ -34,7 +25,12 @@ const AddressInput = styled(DefaultAddressInput)`
 `
 
 const ToggleAddRecord = styled('span')`
-  font-size: 22px;
+  font-family: Overpass;
+  font-weight: bold;
+  font-size: 14px;
+  color: #5284ff;
+  letter-spacing: 0.58px;
+  text-align: center;
 
   &:hover {
     cursor: pointer;
@@ -124,24 +120,10 @@ const UploadBtn = styled(Button)`
   `}
 `
 
-function chooseMutation(recordType, contentType) {
-  switch (recordType.value) {
-    case 'content':
-      if (contentType === 'oldcontent') {
-        return SET_CONTENT
-      } else {
-        return SET_CONTENTHASH
-      }
-    case 'address':
-      return SET_ADDRESS
-    case 'otherAddresses':
-      return SET_ADDR
-    case 'text':
-      return SET_TEXT
-    default:
-      throw new Error('Not a recognised record type')
-  }
-}
+const AddRecordButton = styled('div')`
+  display: flex;
+  justify-content: flex-end;
+`
 
 function TextRecordInput({
   selectedRecord,
@@ -208,7 +190,18 @@ function AddressRecordInput({
   )
 }
 
-function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
+function Editable({
+  domain,
+  emptyRecords,
+  refetch,
+  setRecordAdded,
+  canEdit,
+  editing,
+  startEditing,
+  stopEditing,
+  updatedRecords,
+  setUpdatedRecords
+}) {
   const [selectedRecord, selectRecord] = useState(null)
   const [selectedKey, setSelectedKey] = useState(null)
   const { state, actions } = useEditable()
@@ -221,34 +214,74 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
     e.preventDefault()
   }
 
-  const {
-    editing,
-    uploading,
-    authorized,
-    newValue,
-    txHash,
-    pending,
-    confirmed
-  } = state
+  const { uploading, authorized, newValue } = state
 
   const {
-    startEditing,
-    stopEditing,
     startUploading,
     stopUploading,
     startAuthorizing,
     stopAuthorizing,
-    updateValue,
-    startPending,
-    setConfirmed
+    updateValue
   } = actions
 
-  const isValid = validateRecord({
+  const args = {
     type: selectedRecord && selectedRecord.value ? selectedRecord.value : null,
     value: newValue,
     contentType: domain.contentType,
     selectedKey: selectedKey && selectedKey.value
-  })
+  }
+
+  const isValid =
+    selectedRecord && selectedRecord.value ? validateRecord(args) : false
+
+  function saveRecord(selectedRecord, selectedKey, newValue) {
+    function createRecordObj({
+      selectedRecord,
+      selectedKey,
+      newValue,
+      records
+    }) {
+      console.log({
+        selectedRecord,
+        selectedKey,
+        newValue,
+        records
+      })
+      if (selectedRecord.value === 'content') {
+        return newValue
+      } else {
+        const exists = records[selectedRecord.value].find(
+          record => record.key === selectedKey.value
+        )
+
+        if (exists) {
+          return records[selectedRecord.value].map(record =>
+            record.key === selectedKey.value
+              ? { ...record, value: newValue }
+              : record
+          )
+        } else {
+          return [
+            ...records[selectedRecord.value],
+            { key: selectedKey.value, value: newValue }
+          ]
+        }
+      }
+    }
+
+    setUpdatedRecords(records => {
+      const newRecord = createRecordObj({
+        selectedRecord,
+        selectedKey,
+        newValue,
+        records
+      })
+      return { ...records, [selectedRecord.value]: newRecord }
+    })
+    setSelectedKey(null)
+    selectRecord(null)
+    updateValue('')
+  }
 
   const { t } = useTranslation()
   const isInvalid = newValue !== '' && !isValid
@@ -256,26 +289,15 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
     <>
       <RecordsTitle>
         {t('singleName.record.title')}
-        {emptyRecords.length > 0 ? (
-          !editing ? (
-            pending && !confirmed ? (
-              <PendingTx
-                txHash={txHash}
-                onConfirmed={() => {
-                  setConfirmed()
-                  refetch()
-                  if (selectedKey) {
-                    setRecordAdded(selectedKey.value)
-                  }
-                }}
-              />
-            ) : (
-              <ToggleAddRecord onClick={startEditing}>+</ToggleAddRecord>
-            )
-          ) : (
-            <ToggleAddRecord onClick={stopEditing}>-</ToggleAddRecord>
-          )
-        ) : null}
+        {editing ? (
+          <ToggleAddRecord onClick={stopEditing}>
+            Close Add/Edit Record
+          </ToggleAddRecord>
+        ) : (
+          <ToggleAddRecord onClick={startEditing}>
+            Add/Edit Record
+          </ToggleAddRecord>
+        )}
       </RecordsTitle>
       {editing && (
         <AddRecordForm onSubmit={handleSubmit}>
@@ -283,10 +305,10 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
             <Select
               selectedRecord={selectedRecord}
               handleChange={handleChange}
-              placeholder="Select a record"
+              placeholder="Add record"
               options={emptyRecords}
             />
-            {selectedRecord && selectedRecord.value === 'otherAddresses' ? (
+            {selectedRecord && selectedRecord.value === 'coins' ? (
               <AddressRecordInput
                 selectedRecord={selectedRecord}
                 newValue={newValue}
@@ -338,7 +360,7 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
                 }}
                 ensAddress={getEnsAddress()}
               />
-            ) : selectedRecord && selectedRecord.value === 'text' ? (
+            ) : selectedRecord && selectedRecord.value === 'textRecords' ? (
               <TextRecordInput
                 selectedRecord={selectedRecord}
                 newValue={newValue}
@@ -348,16 +370,7 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
                 isValid={isValid}
                 isInvalid={isInvalid}
               />
-            ) : (
-              <DetailsItemInput
-                newValue={newValue}
-                dataType={selectedRecord ? selectedRecord.value : null}
-                contentType={domain.contentType}
-                updateValue={updateValue}
-                isValid={isValid}
-                isInvalid={isInvalid}
-              />
-            )}
+            ) : null}
           </Row>
           {selectedRecord &&
             uploading &&
@@ -375,63 +388,50 @@ function Editable({ domain, emptyRecords, refetch, setRecordAdded }) {
           {uploading && !authorized && selectedRecord.value === 'content' ? (
             <SaveCancel stopEditing={stopUploading} disabled />
           ) : selectedRecord ? (
-            <Mutation
-              mutation={chooseMutation(selectedRecord, domain.contentType)}
-              variables={{
-                name: domain.name,
-                recordValue: newValue,
-                key: selectedKey && selectedKey.value
-              }}
-              onCompleted={data => {
-                startPending(Object.values(data)[0])
-              }}
-            >
-              {mutate => (
-                <>
-                  {uploading &&
-                  authorized &&
-                  selectedRecord.value === 'content' ? (
-                    <SaveCancelSwitch
-                      warningMessage={getOldContentWarning(
-                        selectedRecord.value,
-                        domain.contentType
-                      )}
-                      mutation={e => {
-                        e.preventDefault()
-                        mutate().then(() => {
-                          refetch()
-                        })
-                      }}
-                      isValid={isValid}
-                      newValue={newValue}
-                      startUploading={startUploading}
-                      stopUploading={stopUploading}
-                      stopAuthorizing={stopAuthorizing}
-                    />
-                  ) : (
-                    <SaveCancel
-                      warningMessage={getOldContentWarning(
-                        selectedRecord.value,
-                        domain.contentType
-                      )}
-                      isValid={isValid}
-                      stopEditing={() => {
-                        stopEditing()
-                        selectRecord(null)
-                      }}
-                      mutation={e => {
-                        e.preventDefault()
-                        mutate().then(() => {
-                          refetch()
-                        })
-                      }}
-                    />
+            <>
+              {uploading && authorized && selectedRecord.value === 'content' ? (
+                <SaveCancelSwitch
+                  warningMessage={getOldContentWarning(
+                    selectedRecord.value,
+                    domain.contentType
                   )}
-                </>
+                  isValid={isValid}
+                  newValue={newValue}
+                  startUploading={startUploading}
+                  stopUploading={stopUploading}
+                  stopAuthorizing={stopAuthorizing}
+                />
+              ) : (
+                <AddRecordButton>
+                  <Button
+                    data-testid="save-record"
+                    onClick={() => {
+                      console.log(isValid, 'inside save button')
+                      if (isValid) {
+                        saveRecord(selectedRecord, selectedKey, newValue)
+                      }
+                    }}
+                    type={isValid ? 'primary' : 'disabled'}
+                  >
+                    Save
+                  </Button>
+                </AddRecordButton>
               )}
-            </Mutation>
+            </>
           ) : (
-            <SaveCancel stopEditing={stopEditing} disabled />
+            <AddRecordButton>
+              <Button
+                data-testid="save-record"
+                type={isValid ? 'primary' : 'disabled'}
+                onClick={() => {
+                  if (isValid) {
+                    saveRecord(selectedRecord, selectedKey, newValue)
+                  }
+                }}
+              >
+                Save
+              </Button>
+            </AddRecordButton>
           )}
         </AddRecordForm>
       )}

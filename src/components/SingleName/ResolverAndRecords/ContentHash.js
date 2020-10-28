@@ -1,0 +1,356 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from '@emotion/styled/macro'
+import { useTranslation } from 'react-i18next'
+
+import { validateRecord } from 'utils/records'
+import { emptyAddress } from 'utils/utils'
+import mq from 'mediaQuery'
+
+import { DetailsItem, DetailsKey, DetailsValue } from '../DetailsItem'
+import Upload from '../../IPFS/Upload'
+import IpfsLogin from '../../IPFS/Login'
+import StyledUpload from '../../Forms/Upload'
+import ContentHashLink from '../../Links/ContentHashLink'
+import Pencil from '../../Forms/Pencil'
+import DefaultBin from '../../Forms/Bin'
+import RecordInput from '../RecordInput'
+import CopyToClipBoard from '../../CopyToClipboard/'
+import { useEditable } from '../../hooks'
+import Button from '../../Forms/Button'
+
+export const RecordsItem = styled(DetailsItem)`
+  ${p => !p.hasRecord && 'display: none;'}
+  ${p => (p.noBorder ? '' : 'border-top: 1px dashed #d3d3d3;')}
+  display: block;
+  padding: 20px;
+  flex-direction: column;
+  ${mq.small`
+    align-items: flex-start;
+  `}
+
+  border-bottom: 1px dashed #d3d3d3;
+
+  ${mq.medium`
+    display: flex;
+    flex-direction: column;
+  `}
+`
+
+export const RecordsContent = styled('div')`
+  display: grid;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  ${mq.medium`
+    display: flex;
+  `}
+  ${({ editing }) => editing && 'margin-bottom: 30px'};
+`
+
+export const RecordsKey = styled(DetailsKey)`
+  font-size: 12px;
+  margin-bottom: 0;
+  max-width: 100%;
+  margin-right: 10px;
+  align-self: flex-start;
+  ${mq.medium`
+    width: 180px;
+    margin-right: 0px;
+  `}
+
+  ${mq.large`
+    width: 200px;
+    margin-right: 0px;
+  `}
+`
+
+export const RecordsSubKey = styled('div')`
+  font-family: Overpass Mono;
+  font-weight: 500;
+  font-size: 14px;
+  color: #adbbcd;
+  letter-spacing: 0;
+
+  ${mq.small`
+    font-size: 16px;
+    max-width: 220px;
+    min-width: 180px;
+  `}
+`
+
+export const RecordsValue = styled(DetailsValue)`
+  font-size: 14px;
+  margin-top: 1em;
+  ${mq.small`
+      margin-top: 0;
+  `}
+`
+
+const NewRecordsContainer = styled('div')`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  position: relative;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-size: 21px;
+  overflow: hidden;
+  ${mq.medium`
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  `}
+`
+
+const EditRecord = styled('div')`
+  width: 100%;
+`
+
+const Action = styled('div')`
+  margin-left: 0;
+  ${mq.small`
+    margin-left: auto;
+  `};
+`
+
+const Bin = styled(DefaultBin)`
+  align-self: flex-start;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+`
+
+const SecondaryAction = styled('div')`
+  margin-right: 10px;
+`
+
+const Uploadable = ({ startUploading, keyName, value }) => {
+  if (value && !value.error) {
+    return (
+      <SecondaryAction>
+        <StyledUpload
+          onClick={startUploading}
+          data-testid={`edit-upload-temporal`}
+        />
+      </SecondaryAction>
+    )
+  }
+  return null
+}
+
+const Switch = styled(Button)`
+  margin-bottom: 5px;
+  ${mq.small`
+    margin-right: 20px;
+    margin-bottom: 0px; 
+  `}
+`
+
+const ContentHashEditable = ({
+  domain,
+  keyName,
+  value,
+  type,
+
+  changedRecords,
+  variableName,
+  account,
+  editing,
+  updatedRecords,
+  setUpdatedRecords
+}) => {
+  const { t } = useTranslation()
+  const { state, actions } = useEditable()
+
+  const { authorized, uploading, newValue } = state
+
+  const {
+    startUploading,
+    stopUploading,
+    startAuthorizing,
+    stopAuthorizing,
+    updateValue
+  } = actions
+
+  const isValid = validateRecord({
+    type,
+    value,
+    contentType: domain.contentType
+  })
+
+  const isInvalid = value !== '' && !isValid
+  const hasBeenUpdated = changedRecords.hasOwnProperty('content')
+
+  return (
+    <>
+      <RecordsItem editing={editing} hasRecord={true}>
+        <RecordsContent editing={editing}>
+          <RecordsKey>{t(`c.${keyName}`)}</RecordsKey>
+          {!editing && (
+            <RecordsValue editableSmall>
+              {value !== '' ? (
+                <>
+                  <ContentHashLink
+                    value={value}
+                    contentType={domain.contentType}
+                  />
+                  <CopyToClipBoard value={value} />
+                </>
+              ) : (
+                'Content Hash not set'
+              )}
+            </RecordsValue>
+          )}
+
+          {editing ? (
+            <>
+              <EditRecord>
+                <RecordInput
+                  testId="content-record-input"
+                  onChange={event => {
+                    const value = event.target.value
+                    setUpdatedRecords(records => ({
+                      ...records,
+                      content: value
+                    }))
+                  }}
+                  hasBeenUpdated={hasBeenUpdated}
+                  value={value}
+                  dataType={type}
+                  contentType={domain.contentType}
+                  isValid={isValid}
+                  isInvalid={isInvalid}
+                />
+
+                <Uploadable
+                  startUploading={startUploading}
+                  keyName={keyName}
+                  value={value}
+                />
+                {uploading && !authorized && (
+                  <IpfsLogin startAuthorizing={startAuthorizing} />
+                )}
+
+                {uploading && authorized && (
+                  <>
+                    <Upload
+                      updateValue={value => {
+                        updateValue(value)
+                        setUpdatedRecords(records => {
+                          return {
+                            ...records,
+                            content: value
+                          }
+                        })
+                      }}
+                      newValue={newValue}
+                    />
+                    {value !== '' ? (
+                      <NewRecordsContainer>
+                        <RecordsKey>New IPFS Hash:</RecordsKey>
+                        <ContentHashLink
+                          value={value}
+                          contentType={domain.contentType}
+                        />
+                      </NewRecordsContainer>
+                    ) : (
+                      <RecordsValue>Content Hash not set</RecordsValue>
+                    )}
+                    {value !== '' && (
+                      <Switch
+                        data-testid="reset"
+                        type="hollow"
+                        onClick={startUploading}
+                      >
+                        New Upload
+                      </Switch>
+                    )}
+                    <Switch
+                      data-testid="switch"
+                      type="hollow"
+                      onClick={stopAuthorizing}
+                    >
+                      Logout
+                    </Switch>
+                    <Switch
+                      data-testid="cancel"
+                      type="hollow"
+                      onClick={stopUploading}
+                    >
+                      Cancel
+                    </Switch>
+                  </>
+                )}
+              </EditRecord>
+            </>
+          ) : (
+            ''
+          )}
+          {editing && (
+            <Action>
+              <Bin
+                data-testid={`delete-${type.toLowerCase()}`}
+                onClick={e => {
+                  e.preventDefault()
+                  setUpdatedRecords(records => {
+                    return {
+                      ...records,
+                      content: ''
+                    }
+                  })
+                }}
+              />
+            </Action>
+          )}
+        </RecordsContent>
+      </RecordsItem>
+    </>
+  )
+}
+
+function ContentHashViewOnly({ keyName, value, type, domain, account }) {
+  const { name, contentType } = domain
+  const { t } = useTranslation()
+  return keyName !== 'Address' && contentType === 'error' ? (
+    ''
+  ) : (
+    <RecordsItem>
+      <RecordsContent>
+        <RecordsKey>{t(`c.${keyName}`)}</RecordsKey>
+        <RecordsValue>
+          {value !== '' ? (
+            <>
+              <ContentHashLink value={value} contentType={contentType} />
+              <CopyToClipBoard value={value} />
+            </>
+          ) : (
+            <RecordsValue>Content Hash not set</RecordsValue>
+          )}
+        </RecordsValue>
+      </RecordsContent>
+    </RecordsItem>
+  )
+}
+
+function ContentHash(props) {
+  const { canEdit } = props
+  if (canEdit) return <ContentHashEditable {...props} />
+
+  return <ContentHashViewOnly {...props} />
+}
+
+ContentHash.propTypes = {
+  keyName: PropTypes.string.isRequired, // key of the record
+  value: PropTypes.string.isRequired, // value of the record (normally hex address)
+  type: PropTypes.string, // type of value. Defaults to address
+  editButton: PropTypes.string, //Edit button text
+  domain: PropTypes.object.isRequired,
+  variableName: PropTypes.string, //can change the variable name for mutation
+  account: PropTypes.string,
+  changedRecords: PropTypes.array
+}
+
+export default ContentHash

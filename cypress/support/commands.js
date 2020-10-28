@@ -66,6 +66,21 @@ Cypress.Commands.add(
 )
 
 Cypress.Commands.add(
+  'waitUntilTextDoesExist',
+  function waitUntilTextDoesNotExist(text, options) {
+    return cy
+      .waitUntil(() => cy.queryByText(text, { exact: false, timeout: 1000 }), {
+        timeout: 10000,
+        interval: 10,
+        ...options
+      })
+      .then(() => {
+        cy.queryByText(text, { exact: false, timeout: 1000 }).should('exist')
+      })
+  }
+)
+
+Cypress.Commands.add(
   'waitUntilTestIdDoesNotExist',
   function waitUntilTestIdDoesNotExist(testId) {
     return cy

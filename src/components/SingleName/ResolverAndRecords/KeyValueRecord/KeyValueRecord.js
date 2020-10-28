@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled/macro'
-import { useMutation, useQuery, Mutation } from 'react-apollo'
 import RecordLink from '../../../Links/RecordLink'
 import mq from 'mediaQuery'
 
@@ -10,20 +9,22 @@ import {
   RecordsKey,
   RecordsSubKey
 } from '../RecordsItem'
-import DetailsItemInput from '../../DetailsItemInput'
-import { useEditable } from '../../../hooks'
-import PendingTx from 'components/PendingTx'
-import Pencil from '../../../Forms/Pencil'
-import Bin from '../../../Forms/Bin'
-import SaveCancel from '../../SaveCancel'
+import RecordInput from '../../RecordInput'
+import DefaultBin from '../../../Forms/Bin'
+import { emptyAddress } from '../../../../utils/utils'
+
+const Bin = styled(DefaultBin)`
+  align-self: center;
+  margin-left: 10px;
+  margin-right: 10px;
+`
 
 const KeyValueItem = styled(RecordsItem)`
   display: flex;
   flex-direction: column;
   border-radius: 5px;
   width: 100%;
-  padding ${p => (p.editing ? '20px' : '0')};
-
+  padding 0;
   ${mq.medium`
     flex-direction: row;
   `}
@@ -65,10 +66,10 @@ const Key = styled(RecordsKey)`
 const RecordsListItem = styled('div')`
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
 
   ${mq.medium`
     flex-direction: row;
+    margin-bottom: 20px;
   `}
 `
 
@@ -78,153 +79,99 @@ const KeyValuesContent = styled(RecordsContent)`
   grid-template-columns: 1fr;
   align-items: flex-start;
   overflow: hidden;
+  ${p => (p.hasBeenUpdated ? 'border: solid 1px red;' : '')}
   ${mq.small`
     grid-template-columns: 150px 1fr;
   `}
 `
 
-const Action = styled('div')`
-  margin-top: 10px;
-  margin-left: 0;
-  ${mq.small`
-    margin-top: 0;
-    margin-left: auto;
-  `}
-`
-
-const Actionable = ({ startEditing, keyName, value }) => {
-  if (value && !value.error) {
-    return (
-      <Action>
-        <Pencil
-          onClick={startEditing}
-          data-testid={`edit-${keyName.toLowerCase()}`}
-        />
-      </Action>
-    )
-  }
-}
-
-const EditRecord = styled('div')`
-  width: 100%;
+const DeleteRecord = styled('span')`
+  color: red;
 `
 
 const Editable = ({
+  editing,
   domain,
   textKey,
   validator,
   getPlaceholder,
   value,
-  type,
-  refetch,
-  mutation
+  setUpdatedRecords,
+  recordType,
+  changedRecords
 }) => {
-  const { state, actions } = useEditable()
-
-  const { editing, newValue, txHash, pending, confirmed } = state
-
-  const {
-    startEditing,
-    stopEditing,
-    updateValue,
-    startPending,
-    setConfirmed
-  } = actions
+  const hasBeenUpdated = changedRecords[recordType].find(
+    record => record.key === textKey
+  )
+    ? true
+    : false
 
   let isValid = true
   let isInvalid = false
 
-  const [setRecord] = useMutation(mutation, {
-    onCompleted: data => {
-      startPending(Object.values(data)[0])
+  if (validator) {
+    if (value === emptyAddress || value === '') {
+      isValid = true
+    } else {
+      isValid = validator(textKey, value)
     }
-  })
-
-  if (newValue === '') {
-    isValid = false
-  } else if (validator) {
-    isValid = validator(textKey, newValue)
     isInvalid = !isValid
   } else {
     isValid = true
   }
+
   return (
     <KeyValueItem editing={editing} hasRecord={true} noBorder>
-      <KeyValuesContent editing={editing}>
-        <RecordsSubKey>{textKey}</RecordsSubKey>
-        <RecordLink textKey={textKey} value={value} />
-
-        {pending && !confirmed && txHash ? (
-          <PendingTx
-            txHash={txHash}
-            onConfirmed={() => {
-              setConfirmed()
-              refetch()
-            }}
-          />
-        ) : editing ? (
-          <Action>
-            <Mutation
-              mutation={mutation}
-              variables={{
-                name: domain.name,
-                key: textKey,
-                recordValue: ''
-              }}
-              onCompleted={data => {
-                startPending(Object.values(data)[0])
-              }}
-            >
-              {mutate => (
-                <Bin
-                  data-testid={`delete-KeyValue-${textKey.toLowerCase()}`}
-                  onClick={e => {
-                    e.preventDefault()
-                    mutate()
-                  }}
-                />
-              )}
-            </Mutation>
-          </Action>
-        ) : (
-          <Actionable
-            startEditing={startEditing}
-            keyName={textKey}
-            value={value}
-          />
-        )}
-      </KeyValuesContent>
       {editing ? (
-        <>
-          <EditRecord>
-            <DetailsItemInput
-              newValue={newValue}
-              dataType={type}
-              isValid={isValid}
-              isInvalid={isInvalid}
-              contentType={domain.contentType}
-              updateValue={updateValue}
-              placeholder={getPlaceholder ? getPlaceholder(textKey) : ''}
-            />
-          </EditRecord>
-          <SaveCancel
-            mutation={e => {
-              e.preventDefault()
-              const variables = {
-                name: domain.name,
-                key: textKey,
-                recordValue: newValue
-              }
-              setRecord({
-                variables
-              })
-            }}
+        <KeyValuesContent editing={editing}>
+          <RecordsSubKey>{textKey}</RecordsSubKey>
+          <RecordInput
+            testId={`${textKey}-record-input`}
+            hasBeenUpdated={hasBeenUpdated}
+            type="text"
             isValid={isValid}
-            stopEditing={stopEditing}
+            isInvalid={isInvalid}
+            onChange={event => {
+              const value = event.target.value
+              setUpdatedRecords(state => ({
+                ...state,
+                [recordType]: state[recordType].map(record =>
+                  record.key === textKey
+                    ? {
+                        ...record,
+                        value,
+                        isValid: validator ? validator(textKey, value) : true
+                      }
+                    : record
+                )
+              }))
+            }}
+            value={value === emptyAddress ? '' : value}
           />
-        </>
+
+          <Bin
+            data-testid={`${textKey}-record-delete`}
+            onClick={() =>
+              setUpdatedRecords(state => ({
+                ...state,
+                [recordType]: state[recordType].map(record =>
+                  record.key === textKey
+                    ? {
+                        ...record,
+                        value: '',
+                        isValid: validator ? validator(textKey, value) : true
+                      }
+                    : record
+                )
+              }))
+            }
+          />
+        </KeyValuesContent>
       ) : (
-        ''
+        <KeyValuesContent>
+          <RecordsSubKey>{textKey}</RecordsSubKey>
+          <RecordLink textKey={textKey} value={value} />
+        </KeyValuesContent>
       )}
     </KeyValueItem>
   )
@@ -233,144 +180,120 @@ const Editable = ({
 function Record(props) {
   const {
     textKey,
+    dataValue,
     validator,
     getPlaceholder,
-    name,
     setHasRecord,
     hasRecord,
     canEdit,
-    recordAdded,
-    query,
-    mutation
+    editing,
+    setUpdatedRecords,
+    recordType,
+    changedRecords
   } = props
-  const { data, loading, error, refetch } = useQuery(query, {
-    variables: {
-      name,
-      key: textKey
-    }
-  })
-  const dataValue = Object.values(data)[0]
-  useEffect(() => {
-    if (recordAdded === textKey) {
-      let timeToWait = 200
-      let timesToTry = 5
-      let timesTried = 0
-      refetch().then(({ data }) => {
-        //retry until record is there or tried more than timesToTry
-        let response = Object.values(data)[0]
-        if (response === null || parseInt(response) === 0) {
-          if (timesTried < timesToTry) {
-            setTimeout(() => {
-              refetch()
-              timesTried++
-            }, timeToWait * (timesTried + 1))
-          }
-        }
-      })
-    }
-  }, [recordAdded, refetch, textKey])
+
   useEffect(() => {
     if (dataValue && parseInt(dataValue, 16) !== 0 && !hasRecord) {
       setHasRecord(true)
     }
   }, [dataValue, hasRecord, setHasRecord])
 
-  if (error || loading || !dataValue || parseInt(dataValue, 16) === 0) {
-    return null
-  }
   return canEdit ? (
     <Editable
       {...props}
       value={dataValue}
       validator={validator}
-      getPlaceholde={getPlaceholder}
-      refetch={refetch}
-      mutation={mutation}
+      getPlaceholder={getPlaceholder}
+      editing={editing}
+      setUpdatedRecords={setUpdatedRecords}
+      changedRecords={changedRecords}
+      recordType={recordType}
     />
   ) : (
     <ViewOnly textKey={textKey} value={dataValue} />
   )
 }
 
-function ViewOnly({ textKey, value }) {
+function ViewOnly({ textKey, value, remove }) {
   return (
     <RecordsListItem>
       <RecordsSubKey>{textKey}</RecordsSubKey>
-      <RecordLink textKey={textKey} value={value} />
+      {remove ? (
+        <DeleteRecord>Delete Record</DeleteRecord>
+      ) : (
+        <RecordLink textKey={textKey} value={value} />
+      )}
     </RecordsListItem>
   )
 }
 
 function Records({
+  editing,
   domain,
   canEdit,
-  recordAdded,
-  query,
-  mutation,
-  keys,
+  records,
   validator,
   getPlaceholder,
-  title
+  title,
+  placeholderRecords,
+  setUpdatedRecords,
+  updatedRecords,
+  changedRecords,
+  recordType
 }) {
-  if (
-    recordAdded !== 0 &&
-    !keys.includes(recordAdded) &&
-    title === 'Text Record'
-  ) {
-    keys.push(recordAdded)
-  }
-
   const [hasRecord, setHasRecord] = useState(false)
+  const nonDuplicatePlaceholderRecords = placeholderRecords.filter(
+    record => !records.find(r => record === r.key)
+  )
   return (
     <KeyValueContainer hasRecord={hasRecord}>
       {hasRecord && <Key>{title}</Key>}
       <KeyValuesList>
-        {keys.map(key => (
-          <Record
-            key={key}
-            validator={validator}
-            getPlaceholder={getPlaceholder}
-            textKey={key}
-            domain={domain}
-            name={domain.name}
-            setHasRecord={setHasRecord}
-            hasRecord={hasRecord}
-            canEdit={canEdit}
-            recordAdded={recordAdded}
-            query={query}
-            mutation={mutation}
-          />
-        ))}
+        {[
+          ...records,
+          ...nonDuplicatePlaceholderRecords.map(record => ({
+            key: record,
+            value: ''
+          }))
+        ].map(({ key, value }) => {
+          if (
+            // Value empty
+            (value === emptyAddress || value === '') &&
+            // Value has not been changed
+            !changedRecords[recordType].find(record => record.key === key) &&
+            // Value is not a placeholder
+            !placeholderRecords.includes(key)
+          ) {
+            return null
+          }
+
+          return (
+            <Record
+              editing={editing}
+              key={key}
+              dataValue={value}
+              validator={validator}
+              getPlaceholder={getPlaceholder}
+              textKey={key}
+              domain={domain}
+              name={domain.name}
+              setHasRecord={setHasRecord}
+              hasRecord={hasRecord}
+              canEdit={canEdit}
+              setUpdatedRecords={setUpdatedRecords}
+              changedRecords={changedRecords}
+              recordType={recordType}
+            />
+          )
+        })}
       </KeyValuesList>
     </KeyValueContainer>
   )
 }
 
-export default function KeyValueRecord({
-  domain,
-  canEdit,
-  refetch,
-  recordAdded,
-  query,
-  mutation,
-  keys,
-  validator,
-  getPlaceholder,
-  title
-}) {
-  return (
-    <Records
-      keys={keys}
-      validator={validator}
-      getPlaceholder={getPlaceholder}
-      name={domain.name}
-      domain={domain}
-      canEdit={canEdit}
-      refetch={refetch}
-      recordAdded={recordAdded}
-      query={query}
-      mutation={mutation}
-      title={title}
-    />
-  )
+export default function KeyValueRecord(props) {
+  if (props.loading) return null
+  return <Records {...props} />
 }
+
+export { ViewOnly, KeyValueContainer, KeyValuesList, Key }

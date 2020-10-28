@@ -32,6 +32,7 @@ export function useEditable(
     START_EDITING: 'START_EDITING',
     STOP_EDITING: 'STOP_EDITING',
     START_PENDING: 'START_PENDING',
+    RESET_PENDING: 'RESET_PENDING',
     SET_CONFIRMED: 'SET_CONFIRMED',
     START_UPLOADING: 'START_UPLOADING',
     STOP_UPLOADING: 'STOP_UPLOADING',
@@ -45,6 +46,7 @@ export function useEditable(
   const stopEditing = () => dispatch({ type: types.STOP_EDITING })
   const updateValue = value => dispatch({ type: types.UPDATE_VALUE, value })
   const startPending = txHash => dispatch({ type: types.START_PENDING, txHash })
+  const resetPending = () => dispatch({ type: types.RESET_PENDING })
   const setConfirmed = () => dispatch({ type: types.SET_CONFIRMED })
   const startUploading = () => dispatch({ type: types.START_UPLOADING })
   const stopUploading = () => dispatch({ type: types.STOP_UPLOADING })
@@ -56,6 +58,7 @@ export function useEditable(
     stopEditing,
     updateValue,
     startPending,
+    resetPending,
     setConfirmed,
     startUploading,
     stopUploading,
@@ -87,6 +90,14 @@ export function useEditable(
           editing: false,
           uploading: false,
           txHash: action.txHash
+        }
+      case types.RESET_PENDING:
+        return {
+          ...state,
+          pending: false,
+          uploading: false,
+          editing: false,
+          txHash: undefined
         }
       case types.SET_CONFIRMED:
         return { ...state, pending: false, confirmed: true }

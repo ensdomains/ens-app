@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import styled from '@emotion/styled/macro'
 import moment from 'moment'
 import { css } from 'emotion'
@@ -16,6 +17,7 @@ import Button from '../../Forms/Button'
 import AddToCalendar from '../../Calendar/RenewalCalendar'
 import { ReactComponent as DefaultPencil } from '../../Icons/SmallPencil.svg'
 import { ReactComponent as DefaultOrangeExclamation } from '../../Icons/OrangeExclamation.svg'
+import { useAccount } from '../../QueryAccount'
 
 const CTAContainer = styled('div')`
   display: flex;
@@ -38,6 +40,10 @@ const OrangeExclamation = styled(DefaultOrangeExclamation)`
   width: 12px;
 `
 
+const SetReverseRecord = styled(Link)`
+  margin-right: 20px;
+`
+
 function getCTA({
   step,
   incrementStep,
@@ -55,7 +61,8 @@ function getCTA({
   price,
   history,
   t,
-  ethUsdPrice
+  ethUsdPrice,
+  account
 }) {
   const CTAs = {
     PRICE_DECISION: (
@@ -167,6 +174,9 @@ function getCTA({
     ),
     REVEAL_CONFIRMED: (
       <>
+        <SetReverseRecord to={`/address/${account}`}>
+          Set reverse record
+        </SetReverseRecord>
         <AddToCalendar
           css={css`
             margin-right: 20px;
@@ -210,6 +220,7 @@ const CTA = ({
 }) => {
   const { t } = useTranslation()
   const history = useHistory()
+  const account = useAccount()
   const [txHash, setTxHash] = useState(undefined)
   return (
     <CTAContainer>
@@ -230,7 +241,8 @@ const CTA = ({
         price,
         history,
         t,
-        ethUsdPrice
+        ethUsdPrice,
+        account
       })}
     </CTAContainer>
   )

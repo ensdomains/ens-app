@@ -4,6 +4,7 @@ import { formatsByName } from '@ensdomains/address-encoder'
 
 export function validateRecord({ type, value, contentType, selectedKey }) {
   if (!type) return false
+  if (!value) return false
   if (type === 'content' && contentType === 'oldcontent') {
     return value.length > 32
   }
@@ -13,16 +14,20 @@ export function validateRecord({ type, value, contentType, selectedKey }) {
       const isAddress = addressUtils.isAddress(value)
       return isAddress
     case 'content':
+      if (value === EMPTY_ADDRESS) return true // delete record
       const encoded = encodeContenthash(value)
       if (encoded) {
         return isValidContenthash(encoded)
       } else {
         return false
       }
-    case 'text':
+    case 'textRecords':
       return true
-    case 'otherAddresses':
+    case 'coins':
       if (value === '') return false
+      if (selectedKey === 'ETH') {
+        return addressUtils.isAddress(value)
+      }
       try {
         formatsByName[selectedKey].decoder(value)
         return true
