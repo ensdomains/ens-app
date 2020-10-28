@@ -26,10 +26,10 @@ function confirmRecordUpdate() {
 function refreshAndCheckText(url, textOrArrayOfText) {
   cy.visit(url)
   if (typeof textOrArrayOfText === 'string') {
-    cy.queryByText(textOrArrayOfText, { timeout: 30000 }).should('exist')
+    cy.queryByText(textOrArrayOfText, { timeout: 20000 }).should('exist')
   } else {
     textOrArrayOfText.forEach(text =>
-      cy.queryByText(text, { timeout: 30000 }).should('exist')
+      cy.queryByText(text, { timeout: 20000 }).should('exist')
     )
   }
 }
@@ -237,7 +237,7 @@ describe('Name detail view', () => {
     refreshAndCheckText(url, '0x0000000000000000000000000000000000000003')
   })
 
-  it('can add a content hash', () => {
+  it.only('can add a content hash', () => {
     const url = `${NAME_ROOT}/notsoawesome.eth`
     const content = 'ipfs://QmTeW79w7QQ6Npa3b1d5tANreCDxF2iDaAPsDvW6KtLmfB'
     const contentv1 =
@@ -262,7 +262,7 @@ describe('Name detail view', () => {
     })
 
     confirmRecordUpdate()
-    refreshAndCheckText(url, content)
+    refreshAndCheckText(url, contentv1)
   })
 
   it('can add other address', () => {
