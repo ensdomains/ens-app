@@ -265,7 +265,7 @@ describe('Name detail view', () => {
     refreshAndCheckText(url, content)
   })
 
-  it.only('can add other address', () => {
+  it('can add other address', () => {
     const address = 'MQMcJhpWHYVeQArcZR3sBgyPZxxRtnH441'
     const url = `${NAME_ROOT}/notsoawesome.eth`
     cy.visit(url)
