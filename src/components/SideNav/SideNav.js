@@ -16,6 +16,10 @@ const SideNavContainer = styled('nav')`
   display: ${p => (p.isMenuOpen ? 'block' : 'none')};
   position: fixed;
   z-index: 10000000;
+  ${mq.medium`
+    z-index: 1;
+  `}
+
   left: 0;
   top: 50px;
   height: auto;

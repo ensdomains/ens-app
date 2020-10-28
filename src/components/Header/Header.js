@@ -22,7 +22,6 @@ const Header = styled('header')`
   left: 0;
   top: 0;
   width: 100%;
-  z-index: 100000;
   box-shadow: 0 4px 8px 0 rgba(230, 240, 247, 0.8);
   height: 50px;
   ${mq.medium`

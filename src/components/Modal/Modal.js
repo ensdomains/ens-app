@@ -38,7 +38,6 @@ const ModalContainer = styled('div')`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 99999999;
   background: rgba(0, 0, 0, 0.5);
 
   ${mq.small`

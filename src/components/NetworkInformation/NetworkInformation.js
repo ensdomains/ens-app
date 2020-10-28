@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
 
@@ -10,6 +10,7 @@ import Loader from 'components/Loader'
 import useNetworkInfo from './useNetworkInfo'
 import { useQuery } from 'react-apollo'
 import { GET_REVERSE_RECORD } from '../../graphql/queries'
+import { connect, disconnect } from '../../api/web3modal'
 
 const NetworkInformationContainer = styled('div')`
   position: relative;
@@ -110,14 +111,15 @@ const WaitingText = styled('span')`
 
 function NetworkInformation() {
   const { t } = useTranslation()
-  const { accounts, network, loading, error, isReadOnly } = useNetworkInfo()
-  console.log('***NetworkInformation', {
+  const {
     accounts,
     network,
     loading,
     error,
+    refetch,
     isReadOnly
-  })
+  } = useNetworkInfo()
+  let [networkSwitched, setNetworkSwitched] = useState(null)
   const address = accounts && accounts[0]
   const {
     data: { getReverseRecord } = {},
@@ -129,6 +131,18 @@ function NetworkInformation() {
   })
   const displayName =
     getReverseRecord && getReverseRecord.name ? getReverseRecord.name : address
+
+  const handleConnect = async () => {
+    await connect()
+    setNetworkSwitched(new Date())
+    refetch()
+  }
+
+  const handleDisconnect = async () => {
+    await disconnect()
+    setNetworkSwitched(new Date())
+    refetch()
+  }
 
   if (loading) {
     return (
@@ -163,10 +177,18 @@ function NetworkInformation() {
           <NetworkStatus>
             {network} {t('c.network')}
           </NetworkStatus>
-          {isReadOnly ? <div>Connect</div> : <div>Disconnect</div>}
+          <NoAccountsModal
+            onClick={handleDisconnect}
+            buttonText={'Disconnect'}
+            colour={'#F5A623'}
+          />
         </AccountContainer>
       ) : (
-        <NoAccountsModal colour={'#F5A623'} />
+        <NoAccountsModal
+          onClick={handleConnect}
+          colour={'#F5A623'}
+          buttonText={'Connect'}
+        />
       )}
     </NetworkInformationContainer>
   )

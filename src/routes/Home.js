@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
+import { useQuery } from 'react-apollo'
 import { Link } from 'react-router-dom'
 import styled from '@emotion/styled/macro'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import warning from '../assets/whiteWarning.svg'
-
+import { GET_REVERSE_RECORD } from 'graphql/queries'
 import mq from 'mediaQuery'
 
 import SearchDefault from '../components/SearchName/Search'
@@ -18,7 +19,7 @@ import HowToUseDefault from '../components/HowToUse/HowToUse'
 import Alice from '../components/HomePage/Alice'
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
 import { abougPageURL } from '../utils/utils'
-import { setup as setupENS } from '../api/ens'
+import { connect, disconnect } from '../api/web3modal'
 
 const HeroTop = styled('div')`
   display: grid;
@@ -33,10 +34,14 @@ const HeroTop = styled('div')`
   `}
 `
 
-const NoAccounts = styled(NoAccountsDefault)`
-  ${mq.small`
-    left: 40px;
-  `}
+const NoAccounts = styled(NoAccountsDefault)``
+
+const Network = styled('div')`
+  margin-bottom: 5px;
+`
+const Name = styled('span')`
+  margin-left: 5px;
+  text-transform: none;
 `
 
 const NetworkStatus = styled('div')`
@@ -210,7 +215,6 @@ const WhatItIs = styled(Section)`
 
 const HowItWorks = styled(Section)`
   background: #f0f6fa;
-  z-index: 100;
   padding: 40px 20px 80px;
 `
 
@@ -267,7 +271,18 @@ export default ({ match }) => {
   const { t } = useTranslation()
   let [networkSwitched, setNetworkSwitched] = useState(null)
   const { accounts, network, loading, refetch, isReadOnly } = useNetworkInfo()
-  console.log('***NetworkInformation', { accounts, network, isReadOnly })
+  const address = accounts && accounts[0]
+  const {
+    data: { getReverseRecord } = {},
+    loading: reverseRecordLoading
+  } = useQuery(GET_REVERSE_RECORD, {
+    variables: {
+      address
+    }
+  })
+  const displayName =
+    getReverseRecord && getReverseRecord.name ? getReverseRecord.name : address
+
   const animation = {
     initial: {
       scale: 0,
@@ -280,20 +295,14 @@ export default ({ match }) => {
   }
 
   const handleConnect = async () => {
-    let res = await setupENS({
-      reloadOnAccountsChange: true,
-      enforceReload: true
-    })
+    await connect()
     setNetworkSwitched(new Date())
     refetch()
   }
 
   const handleDisconnect = async () => {
-    let res = await setupENS({
-      reloadOnAccountsChange: true,
-      enforceReadOnly: true,
-      enforceReload: true
-    })
+    console.log('***handleDisconnect')
+    await disconnect()
     setNetworkSwitched(new Date())
     refetch()
   }
@@ -302,22 +311,21 @@ export default ({ match }) => {
     <>
       <Hero>
         <HeroTop>
-          {loading ? null : accounts.length > 0 && network ? (
+          {!loading && (
             <>
               <NetworkStatus>
-                {network} {t('c.network')}
-                {isReadOnly ? (
-                  <div onClick={handleConnect}>Connect</div>
-                ) : (
-                  <div onClick={handleDisconnect}>Disconnect</div>
-                )}
+                <Network>
+                  {isReadOnly
+                    ? 'Not connected'
+                    : `${network} ${t('c.network')}`}
+                  {!isReadOnly && <Name>({displayName})</Name>}
+                </Network>
+                <NoAccounts
+                  onClick={isReadOnly ? handleConnect : handleDisconnect}
+                  buttonText={isReadOnly ? 'Connect' : 'Disconnect'}
+                />
               </NetworkStatus>
             </>
-          ) : (
-            <div>
-              <NoAccounts textColour={'white'} />
-              <div onClick={handleConnect}>Connect</div>
-            </div>
           )}
           <Nav>
             {accounts?.length > 0 && (
