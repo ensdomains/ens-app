@@ -26,10 +26,10 @@ function confirmRecordUpdate() {
 function refreshAndCheckText(url, textOrArrayOfText) {
   cy.visit(url)
   if (typeof textOrArrayOfText === 'string') {
-    cy.queryByText(textOrArrayOfText, { timeout: 20000 }).should('exist')
+    cy.queryByText(textOrArrayOfText, { timeout: 30000 }).should('exist')
   } else {
     textOrArrayOfText.forEach(text =>
-      cy.queryByText(text, { timeout: 20000 }).should('exist')
+      cy.queryByText(text, { timeout: 30000 }).should('exist')
     )
   }
 }
@@ -367,7 +367,7 @@ describe('Name detail view', () => {
     refreshAndCheckText(url, ADDRESS)
   })
 
-  it('can change the content hash', () => {
+  it.only('can change the content hash', () => {
     const CONTENT =
       'bzz://d1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162'
     const url = `${NAME_ROOT}/abittooawesome.eth`
