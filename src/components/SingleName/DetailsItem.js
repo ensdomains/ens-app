@@ -59,7 +59,7 @@ export const DetailsValue = styled('div')`
     `}
 
   a {
-    display: block;
+    display: flex;
     overflow: hidden;
   }
 `

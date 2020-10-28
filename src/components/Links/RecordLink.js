@@ -2,6 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled/macro'
 import externalLinkSvg from '../Icons/externalLink.svg'
 import CopyToClipboard from '../CopyToClipboard/'
+import { isRecordEmpty } from '../../utils/utils'
 
 const LinkContainer = styled('div')`
   display: block;
@@ -29,6 +30,13 @@ const UnlinkedValue = styled('div')`
   text-overflow: ellipsis;
 `
 
+const UnsetValue = styled('div')`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #ccc;
+`
+
 const UnlinkedValueContainer = styled('div')`
   display: inline-flex;
   white-space: nowrap;
@@ -51,7 +59,6 @@ const prependUrl = url => {
 
 const RecordLink = ({ textKey, value }) => {
   let url, avatar
-  console.log(textKey)
   switch (textKey) {
     case 'url':
       url = `${value}`
@@ -66,8 +73,6 @@ const RecordLink = ({ textKey, value }) => {
   }
   url = prependUrl(url)
 
-  console.log(url)
-
   if (textKey === 'email') {
     url = `mailto:${value}`
   }
@@ -75,7 +80,9 @@ const RecordLink = ({ textKey, value }) => {
     avatar = prependUrl(value)
   }
 
-  return url ? (
+  const isEmpty = isRecordEmpty(value)
+
+  return url && !isEmpty ? (
     <LinkContainer>
       <a target="_blank" href={url} rel="noopener noreferrer">
         {value}
@@ -87,7 +94,7 @@ const RecordLink = ({ textKey, value }) => {
       </a>
       <CopyToClipboard value={value} />
     </LinkContainer>
-  ) : avatar ? (
+  ) : avatar && !isEmpty ? (
     <div>
       <LinkContainer>
         <a target="_blank" href={value} rel="noopener noreferrer">
@@ -105,8 +112,14 @@ const RecordLink = ({ textKey, value }) => {
     </div>
   ) : (
     <UnlinkedValueContainer>
-      <UnlinkedValue>{value}</UnlinkedValue>
-      <CopyToClipboard value={value} />
+      {isEmpty ? (
+        <UnsetValue>Not set</UnsetValue>
+      ) : (
+        <>
+          <UnlinkedValue>{value}</UnlinkedValue>
+          <CopyToClipboard value={value} />
+        </>
+      )}
     </UnlinkedValueContainer>
   )
 }

@@ -6,7 +6,7 @@ describe('Reverse record', () => {
   it('is set to abittooawesome.eth', () => {
     cy.visit(ROOT)
     cy.getByPlaceholderText('Search', { exact: false }).type(
-      'abittooawesome.eth'
+      Cypress.env('ownerAddress')
     )
     cy.get('button')
       .contains('Search')
@@ -21,21 +21,29 @@ describe('Reverse record', () => {
       'abittooawesome.eth'
     )
   })
-  it('prompts to change if the logged in user searches the record they own but reverse record is set to something else', () => {
+  it('Does not allow reverse switch if forward resolution is not set', () => {
     cy.visit(ROOT)
-    cy.getByPlaceholderText('Search', { exact: false }).type('resolver.eth')
+    cy.getByPlaceholderText('Search', { exact: false }).type(
+      Cypress.env('ownerAddress')
+    )
     cy.get('button')
       .contains('Search')
       .click()
 
     cy.scrollTo(0, 500)
 
-    cy.queryByText(
-      'Reverse record: Set to a different name:abittooawesome.eth',
-      { exact: false, timeout: 10000 }
-    ).should('exist')
+    cy.queryByText('Reverse record: Set to abittooawesome.eth', {
+      exact: false,
+      timeout: 10000
+    }).should('exist')
     cy.getByTestId('open-reverse').click({ force: true })
+    cy.getByTestId('reverse-input').type('resolver.eth')
 
-    cy.queryByText('resolver.eth', { exact: false }).should('exist')
+    cy.queryByText('Forward resolution must match your account', {
+      exact: false,
+      timeout: 10000
+    }).should('exist')
   })
+
+  //TODO: Add test for setting reverse record
 })

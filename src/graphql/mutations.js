@@ -133,6 +133,12 @@ export const MIGRATE_RESOLVER = gql`
   }
 `
 
+export const ADD_MULTI_RECORDS = gql`
+  mutation addMultiRecords($name: String, $records: Records) {
+    addMultiRecords(name: $name, records: $records) @client
+  }
+`
+
 /* Registrar Mutations */
 
 export const SET_REGISTRANT = gql`

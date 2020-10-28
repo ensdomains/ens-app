@@ -178,3 +178,7 @@ export const abougPageURL = () => {
 
   return `https://ens.domains/${lang === 'en' ? '' : lang}`
 }
+
+export function isRecordEmpty(value) {
+  return value === emptyAddress || value === ''
+}

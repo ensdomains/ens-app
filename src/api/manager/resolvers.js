@@ -459,6 +459,20 @@ const resolvers = {
 
       return address
     },
+    getAddresses: async (_, { name, keys }) => {
+      const ens = getENS()
+      const addresses = keys.map(key =>
+        ens.getAddr(name, key).then(addr => ({ key, value: addr }))
+      )
+      return Promise.all(addresses)
+    },
+    getTextRecords: async (_, { name, keys }) => {
+      const ens = getENS()
+      const textRecords = keys.map(key =>
+        ens.getText(name, key).then(addr => ({ key, value: addr }))
+      )
+      return Promise.all(textRecords)
+    },
     waitBlockTimestamp: async (_, { waitUntil }) => {
       if (waitUntil) {
         let block = await getBlock()
@@ -561,9 +575,166 @@ const resolvers = {
         console.log(e)
       }
     },
+    addMultiRecords: async (_, { name, records }, { cache }) => {
+      const ens = getENS()
+
+      function setupTransactions({ name, records, resolverInstance }) {
+        try {
+          const resolver = resolverInstance.interface.functions
+          const namehash = getNamehash(name)
+          const transactionArray = records.map((record, i) => {
+            switch (i) {
+              case 0:
+                if (!record) return undefined
+                let encoded = resolver['setAddr(bytes32,address)'].encode([
+                  namehash,
+                  record
+                ])
+                return encoded
+              case 1:
+                if (record === undefined) return undefined
+                const encodedContenthash = record
+                return resolver.setContenthash.encode([
+                  namehash,
+                  encodedContenthash
+                ])
+              case 2:
+                return record.map(textRecord => {
+                  return resolver.setText.encode([
+                    namehash,
+                    textRecord.key,
+                    textRecord.value
+                  ])
+                })
+              case 3:
+                return record.map(coinRecord => {
+                  const { decoder, coinType } = formatsByName[coinRecord.key]
+                  let addressAsBytes
+                  // use 0x00... for ETH because an empty string throws
+                  if (coinRecord.key === 'ETH' && coinRecord.value === '') {
+                    coinRecord.value = emptyAddress
+                  }
+                  if (!coinRecord.value || coinRecord.value === '') {
+                    addressAsBytes = Buffer.from('')
+                  } else {
+                    addressAsBytes = decoder(coinRecord.value)
+                  }
+                  return resolver['setAddr(bytes32,uint256,bytes)'].encode([
+                    namehash,
+                    coinType,
+                    addressAsBytes
+                  ])
+                })
+              default:
+                throw Error('More records than expected')
+            }
+          })
+
+          // flatten textrecords and addresses and remove undefined
+          return transactionArray.flat().filter(bytes => bytes)
+        } catch (e) {
+          console.log('error creating transaction array', e)
+        }
+      }
+
+      function createRecordsArray(records) {
+        /*  eslint-disable no-sparse-arrays */
+        const newRecords = [
+          ,
+          records.content === ''
+            ? emptyAddress
+            : records.content
+            ? encodeContenthash(records.content)
+            : undefined,
+          records.textRecords,
+          records.coins
+        ]
+        return newRecords
+      }
+
+      const recordsArray = createRecordsArray(records)
+
+      const provider = await getProvider()
+      const resolver = await ens.getResolver(name)
+
+      const resolverInstanceWithoutSigner = await getResolverContract({
+        address: resolver,
+        provider
+      })
+
+      const signer = await getSigner()
+      const resolverInstance = resolverInstanceWithoutSigner.connect(signer)
+      const transactionArray = setupTransactions({
+        name,
+        records: recordsArray,
+        resolverInstance
+      })
+
+      //add them all together into one transaction
+      const tx1 = await resolverInstance.multicall(transactionArray)
+      return sendHelper(tx1)
+    },
     migrateResolver: async (_, { name }, { cache }) => {
       const ens = getENS()
       const provider = await getProvider()
+
+      function setupTransactions({ name, records, resolverInstance }) {
+        try {
+          const resolver = resolverInstance.interface.functions
+          const namehash = getNamehash(name)
+          const transactionArray = records.map((record, i) => {
+            switch (i) {
+              case 0:
+                if (parseInt(record, 16) === 0) return undefined
+                let encoded = resolver['setAddr(bytes32,address)'].encode([
+                  namehash,
+                  record
+                ])
+                return encoded
+              case 1:
+                if (!record || parseInt(record, 16) === 0) return undefined
+                const encodedContenthash = record
+                return resolver.setContenthash.encode([
+                  namehash,
+                  encodedContenthash
+                ])
+              case 2:
+                return record.map(textRecord => {
+                  if (textRecord.value.length === 0) return undefined
+                  return resolver.setText.encode([
+                    namehash,
+                    textRecord.key,
+                    textRecord.value
+                  ])
+                })
+              case 3:
+                return record.map(coinRecord => {
+                  if (parseInt(coinRecord.value, 16) === 0) return undefined
+                  const { decoder, coinType } = formatsByName[coinRecord.key]
+                  let addressAsBytes
+                  if (!coinRecord.value || coinRecord.value === '') {
+                    addressAsBytes = Buffer.from('')
+                  } else {
+                    addressAsBytes = decoder(coinRecord.value)
+                  }
+                  return resolver['setAddr(bytes32,uint256,bytes)'].encode([
+                    namehash,
+                    coinType,
+                    addressAsBytes
+                  ])
+                })
+              default:
+                throw Error('More records than expected')
+            }
+          })
+
+          // flatten textrecords and addresses and remove undefined
+          return transactionArray.flat().filter(bytes => bytes)
+        } catch (e) {
+          console.log('error creating transaction array', e)
+        }
+      }
+
       function calculateIsOldContentResolver(resolver) {
         const oldContentResolvers = [
           '0x5ffc014343cd971b7eb70732021e26c35b744cc4',
@@ -670,63 +841,6 @@ const resolvers = {
         return isEqual(oldRecords, newRecords)
       }
 
-      function setupTransactions({ name, records, resolverInstance }) {
-        try {
-          const resolver = resolverInstance.interface.functions
-          const namehash = getNamehash(name)
-          const transactionArray = records.map((record, i) => {
-            switch (i) {
-              case 0:
-                if (parseInt(record, 16) === 0) return undefined
-                let encoded = resolver['setAddr(bytes32,address)'].encode([
-                  namehash,
-                  record
-                ])
-                return encoded
-              case 1:
-                if (!record || parseInt(record, 16) === 0) return undefined
-                const encodedContenthash = record
-                return resolver.setContenthash.encode([
-                  namehash,
-                  encodedContenthash
-                ])
-              case 2:
-                return record.map(textRecord => {
-                  if (textRecord.value.length === 0) return undefined
-                  return resolver.setText.encode([
-                    namehash,
-                    textRecord.key,
-                    textRecord.value
-                  ])
-                })
-              case 3:
-                return record.map(coinRecord => {
-                  if (parseInt(coinRecord.value, 16) === 0) return undefined
-                  const { decoder, coinType } = formatsByName[coinRecord.key]
-                  let addressAsBytes
-                  if (!coinRecord.value || coinRecord.value === '') {
-                    addressAsBytes = Buffer.from('')
-                  } else {
-                    addressAsBytes = decoder(coinRecord.value)
-                  }
-                  return resolver['setAddr(bytes32,uint256,bytes)'].encode([
-                    namehash,
-                    coinType,
-                    addressAsBytes
-                  ])
-                })
-              default:
-                throw Error('More records than expected')
-            }
-          })
-
-          // flatten textrecords and addresses and remove undefined
-          return transactionArray.flat().filter(bytes => bytes)
-        } catch (e) {
-          console.log('error creating transaction array', e)
-        }
-      }
-
       // get public resolver
       try {
         const publicResolver = await ens.getAddress('resolver.eth')
@@ -734,7 +848,6 @@ const resolvers = {
         const isOldContentResolver = calculateIsOldContentResolver(resolver)
 
         // get old and new records in parallel
-        //console.log(getAllRecords(name))
         const [records, newResolverRecords] = await Promise.all([
           getAllRecords(name, isOldContentResolver),
           getAllRecordsNew(name, publicResolver)
@@ -763,7 +876,6 @@ const resolvers = {
         } else {
           const tx = await ens.setResolver(name, publicResolver)
           const value = await sendHelper(tx)
-          console.log(value)
           return [value]
         }
       } catch (e) {

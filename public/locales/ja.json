@@ -11,10 +11,7 @@
     },
     "renew": {
       "button": "選択済を更新",
-      "confirm": [
-        "以下の名前:",
-        "次の期間にて更新されます。"
-      ],
+      "confirm": ["以下の名前:", "次の期間にて更新されます。"],
       "confirmButton": "更新",
       "year": "{{count}} 年"
     },
@@ -46,6 +43,7 @@
     "mynames": "マイENS",
     "network": "ネットワーク",
     "otheraddresses": "その他のアドレス",
+    "addresses": "Addresses",
     "parent": "ペアレント",
     "refresh": "更新",
     "register": "登録",
@@ -66,12 +64,7 @@
     "notmigrated": "移行されていません"
   },
   "dns": {
-    "breadcrumbs": [
-      "DNSSEC有効化",
-      "TEXT追加",
-      "証明送信",
-      "名前管理"
-    ],
+    "breadcrumbs": ["DNSSEC有効化", "TEXT追加", "証明送信", "名前管理"],
     "dnsowner": "DNS所有者",
     "steps": {
       "addtext": {

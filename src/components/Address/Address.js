@@ -4,6 +4,7 @@ import { useQuery } from 'react-apollo'
 import { useLocation } from 'react-router-dom'
 import { useTranslation, Trans } from 'react-i18next'
 import moment from 'moment'
+import { useAccount } from '../QueryAccount'
 
 import {
   GET_DOMAINS_SUBGRAPH,
@@ -28,6 +29,7 @@ import Banner from '../Banner'
 import Checkbox from '../Forms/Checkbox'
 import { SingleNameBlockies } from '../Blockies'
 import Pager from './Pager'
+import AddReverseRecord from '../AddReverseRecord'
 
 import warning from '../../assets/yellowwarning.svg'
 import close from '../../assets/close.svg'
@@ -73,6 +75,7 @@ const Controls = styled('div')`
     'sorting'
     'selectall';
   grid-gap: 20px 10px;
+  margin: 20px;
 
   ${mq.large`
     margin: 20px 30px;
@@ -158,6 +161,7 @@ export default function Address({
 }) {
   const normalisedAddress = normaliseAddress(address)
   const { search } = useLocation()
+  const account = useAccount()
   const pageQuery = new URLSearchParams(search).get('page')
   const page = pageQuery ? parseInt(pageQuery) : 1
   const { block } = useBlock()
@@ -235,6 +239,10 @@ export default function Address({
     calculateIsExpiredSoon(domain.expiryDate)
   )
 
+  function isAccountMatched(account, address) {
+    return account && address && account.toLowerCase() === address.toLowerCase()
+  }
+
   return (
     <>
       {showOriginBanner && showOriginBannerFlag && (
@@ -268,6 +276,9 @@ export default function Address({
             </EtherScanLink>
           )}
         </TopBar>
+        {isAccountMatched(account, address) && (
+          <AddReverseRecord account={account} />
+        )}
         <Controls>
           <Filtering
             activeFilter={domainType}

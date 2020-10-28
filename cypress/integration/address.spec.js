@@ -12,14 +12,14 @@ describe('/address', () => {
       .click()
 
     cy.getByTestId('sitenav').within(container => {
-      cy.queryByText('My Names', { container, exact: false }).should(
+      cy.queryByText('My Account', { container, exact: false }).should(
         'have.css',
         'color',
         DISABLED_COLOUR
       )
     })
 
-    cy.getByText('My Names').click({ force: true })
+    cy.getByText('My Account').click({ force: true })
     cy.queryByText('View On Etherscan', {
       exact: false,
       timeout: 10000
@@ -27,7 +27,7 @@ describe('/address', () => {
     cy.queryByText('newname.eth', { exact: false }).should('exist')
     cy.queryByText('Expires', { exact: false }).should('exist')
     cy.getByTestId('sitenav').within(container => {
-      cy.queryByText('My Names', { container, exact: false }).should(
+      cy.queryByText('My Account', { container, exact: false }).should(
         'have.css',
         'color',
         ENABLED_COLOUR
@@ -37,7 +37,7 @@ describe('/address', () => {
 
   it('can select a name', () => {
     cy.visit(ROOT)
-    cy.getByText('My Names').click({ force: true })
+    cy.getByText('My Account').click({ force: true })
     cy.getByTestId('checkbox-newname.eth', { timeout: 10000 }).click()
     cy.get('[data-testid="checkbox-newname.eth"] div').should(
       'have.css',
@@ -48,7 +48,7 @@ describe('/address', () => {
 
   it('cannot renew if no names selected', () => {
     cy.visit(ROOT)
-    cy.getByText('My Names').click({ force: true })
+    cy.getByText('My Account').click({ force: true })
     cy.getByText('Renew', { exact: false, timeout: 10000 }).click()
     cy.queryByText('Renew', { exact: false }).should(
       'have.css',
@@ -60,7 +60,7 @@ describe('/address', () => {
   it('can click select all and renew all', () => {
     const name = `newname.eth`
     cy.visit(ROOT)
-    cy.getByText('My Names').click({ force: true })
+    cy.getByText('My Account').click({ force: true })
     cy.get(`[data-testid="expiry-date-${name}"]`, {
       timeout: 10000
     })
@@ -90,7 +90,7 @@ describe('/address', () => {
   it('can select a single name and renew', () => {
     const name = `newname.eth`
     cy.visit(ROOT)
-    cy.getByText('My Names').click({ force: true })
+    cy.getByText('My Account').click({ force: true })
     cy.get(`[data-testid="expiry-date-${name}"]`, {
       timeout: 10000
     })

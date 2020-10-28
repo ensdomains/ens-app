@@ -130,11 +130,12 @@ const Confirm = ({
             {t('singleName.confirm.button.cancel')}
           </Cancel>
           {disabled ? (
-            <Action type="disabled">
+            <Action type="disabled" data-testid="send-transaction">
               {t('singleName.confirm.button.confirm')}
             </Action>
           ) : (
             <Action
+              data-testid="send-transaction"
               onClick={() => {
                 mutation()
                 cancel()
