@@ -6,11 +6,15 @@ let ens = {},
 
 export async function setup({
   reloadOnAccountsChange,
+  enforceReadOnly,
+  enforceReload,
   customProvider,
   ensAddress
 }) {
   const { ens: ensInstance, registrar: registrarInstance } = await setupENS({
     reloadOnAccountsChange,
+    enforceReadOnly,
+    enforceReload,
     customProvider,
     ensAddress
   })

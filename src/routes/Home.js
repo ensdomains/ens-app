@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from '@emotion/styled/macro'
 import { motion } from 'framer-motion'
@@ -18,6 +18,7 @@ import HowToUseDefault from '../components/HowToUse/HowToUse'
 import Alice from '../components/HomePage/Alice'
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
 import { abougPageURL } from '../utils/utils'
+import { setup as setupENS } from '../api/ens'
 
 const HeroTop = styled('div')`
   display: grid;
@@ -264,7 +265,9 @@ const PermanentRegistrarLogo = styled(motion.h1)`
 export default ({ match }) => {
   const { url } = match
   const { t } = useTranslation()
-
+  let [networkSwitched, setNetworkSwitched] = useState(null)
+  const { accounts, network, loading, refetch, isReadOnly } = useNetworkInfo()
+  console.log('***NetworkInformation', { accounts, network, isReadOnly })
   const animation = {
     initial: {
       scale: 0,
@@ -276,17 +279,45 @@ export default ({ match }) => {
     }
   }
 
-  const { accounts, network, loading } = useNetworkInfo()
+  const handleConnect = async () => {
+    let res = await setupENS({
+      reloadOnAccountsChange: true,
+      enforceReload: true
+    })
+    setNetworkSwitched(new Date())
+    refetch()
+  }
+
+  const handleDisconnect = async () => {
+    let res = await setupENS({
+      reloadOnAccountsChange: true,
+      enforceReadOnly: true,
+      enforceReload: true
+    })
+    setNetworkSwitched(new Date())
+    refetch()
+  }
+
   return (
     <>
       <Hero>
         <HeroTop>
           {loading ? null : accounts.length > 0 && network ? (
-            <NetworkStatus>
-              {network} {t('c.network')}
-            </NetworkStatus>
+            <>
+              <NetworkStatus>
+                {network} {t('c.network')}
+                {isReadOnly ? (
+                  <div onClick={handleConnect}>Connect</div>
+                ) : (
+                  <div onClick={handleDisconnect}>Disconnect</div>
+                )}
+              </NetworkStatus>
+            </>
           ) : (
-            <NoAccounts textColour={'white'} />
+            <div>
+              <NoAccounts textColour={'white'} />
+              <div onClick={handleConnect}>Connect</div>
+            </div>
           )}
           <Nav>
             {accounts?.length > 0 && (

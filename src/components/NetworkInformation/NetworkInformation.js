@@ -110,7 +110,14 @@ const WaitingText = styled('span')`
 
 function NetworkInformation() {
   const { t } = useTranslation()
-  const { accounts, network, loading, error } = useNetworkInfo()
+  const { accounts, network, loading, error, isReadOnly } = useNetworkInfo()
+  console.log('***NetworkInformation', {
+    accounts,
+    network,
+    loading,
+    error,
+    isReadOnly
+  })
   const address = accounts && accounts[0]
   const {
     data: { getReverseRecord } = {},
@@ -156,6 +163,7 @@ function NetworkInformation() {
           <NetworkStatus>
             {network} {t('c.network')}
           </NetworkStatus>
+          {isReadOnly ? <div>Connect</div> : <div>Disconnect</div>}
         </AccountContainer>
       ) : (
         <NoAccountsModal colour={'#F5A623'} />
