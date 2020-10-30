@@ -234,7 +234,7 @@ const ContentHashEditable = ({
                   isValid={isValid}
                   isInvalid={isInvalid}
                 />
-
+                {/* 
                 <Uploadable
                   startUploading={startUploading}
                   keyName={keyName}
@@ -293,7 +293,7 @@ const ContentHashEditable = ({
                       Cancel
                     </Switch>
                   </>
-                )}
+                )} */}
               </EditRecord>
             </>
           ) : null}
