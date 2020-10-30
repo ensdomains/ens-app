@@ -1965,10 +1965,10 @@
     js-sha3 "^0.8.0"
     lodash "^4.17.11"
 
-"@ensdomains/ui@^3.0.37":
-  version "3.0.37"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.37.tgz#2e78d8e65deab2fb41a89b3eac7e976c32347014"
-  integrity sha512-zGH23OLgzOH94qAP45iHaXgySGN2zUr1R1y7epdi98my+brlR1bY1Tn30Mz2RtmqmGV47RysUwlaCoNgKaCXpw==
+"@ensdomains/ui@^3.0.38":
+  version "3.0.38"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.38.tgz#d868019212b1f352068b5569af1190481768d744"
+  integrity sha512-VpmRercMde/e8fQIxmUngNeVYHEmMQo2BDJHNTN2JG3BjwpW2z3rnone8go24WjQ/FGy0cZtAr3SvVPdpx57lA==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
