@@ -242,9 +242,6 @@ function Records({
   recordType
 }) {
   const [hasRecord, setHasRecord] = useState(false)
-  // const nonDuplicatePlaceholderRecords = placeholderRecords.filter(
-  //   record => !records.find(r => record === r.key)
-  // )
   return (
     <KeyValueContainer hasRecord={hasRecord}>
       <Key>{title}</Key>
