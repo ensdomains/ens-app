@@ -319,7 +319,7 @@ export default ({ match }) => {
                   {isReadOnly
                     ? 'Not connected'
                     : `${network} ${t('c.network')}`}
-                  {!isReadOnly && <Name>({displayName})</Name>}
+                  {!isReadOnly && displayName && <Name>({displayName})</Name>}
                 </Network>
                 <NoAccounts
                   onClick={isReadOnly ? handleConnect : handleDisconnect}

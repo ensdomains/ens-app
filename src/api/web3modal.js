@@ -27,38 +27,42 @@ const web3Modal = new Web3Modal({
     walletconnect: {
       package: WalletConnectProvider,
       display: {
-        description: 'Walletconnect'
+        description: ' '
       },
       options: {
-        infuraId: INFURA_ID,
-        description: 'Walletconnect'
+        infuraId: INFURA_ID
       }
     },
     // Alphabetical order from now on.
     authereum: {
       package: Authereum,
-      options: {
-        description: 'Authereum'
+      display: {
+        description: ' '
       }
     },
     mewconnect: {
       package: MewConnect,
+      display: {
+        description: ' '
+      },
       options: {
         infuraId: INFURA_ID,
-        description: 'Mewconnect'
+        description: ' '
       }
     },
     portis: {
       package: Portis,
+      display: {
+        description: ' '
+      },
       options: {
-        id: PORTIS_ID,
-        description: 'Portis'
+        id: PORTIS_ID
       }
     },
     torus: {
       package: Torus,
-      options: {
-        description: 'Torus'
+      display: {
+        description: ' '
       }
     }
   }
@@ -75,7 +79,7 @@ export const connect = async () => {
 
 export const disconnect = async function() {
   // Disconnect wallet connect provider
-  if (provider) {
+  if (provider && provider.disconnect) {
     provider.disconnect()
   }
   await setupENS({
