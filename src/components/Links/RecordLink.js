@@ -30,7 +30,7 @@ const UnlinkedValue = styled('div')`
   text-overflow: ellipsis;
 `
 
-const UnsetValue = styled('div')`
+const NotSet = styled('div')`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -113,7 +113,7 @@ const RecordLink = ({ textKey, value }) => {
   ) : (
     <UnlinkedValueContainer>
       {isEmpty ? (
-        <UnsetValue>Not set</UnsetValue>
+        <NotSet>Not set</NotSet>
       ) : (
         <>
           <UnlinkedValue>{value}</UnlinkedValue>

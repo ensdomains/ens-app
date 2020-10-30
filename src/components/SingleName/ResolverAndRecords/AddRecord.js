@@ -338,13 +338,13 @@ function Editable({
                   isValid={isValid}
                   isInvalid={isInvalid}
                 />
-                <UploadBtn
+                {/* <UploadBtn
                   data-testid="upload"
                   type="hollow"
                   onClick={startUploading}
                 >
                   New Upload
-                </UploadBtn>
+                </UploadBtn> */}
               </>
             ) : selectedRecord && selectedRecord.value === 'address' ? (
               <AddressInput

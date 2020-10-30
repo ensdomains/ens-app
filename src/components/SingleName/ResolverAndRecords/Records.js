@@ -69,6 +69,15 @@ const RECORDS = [
   }
 ]
 
+const TEXT_PLACEHOLDER_RECORDS = [
+  'vnd.twitter',
+  'vnd.github',
+  'url',
+  'email',
+  'avatar',
+  'notice'
+]
+
 function isEmpty(record) {
   if (parseInt(record, 16) === 0) {
     return true
@@ -225,11 +234,25 @@ export default function Records({
     }
   )
 
+  function processTextRecords(records) {
+    const nonDuplicatePlaceholderRecords = TEXT_PLACEHOLDER_RECORDS.filter(
+      record => !records.find(r => record === r.key)
+    )
+
+    return [
+      ...records,
+      ...nonDuplicatePlaceholderRecords.map(record => ({
+        key: record,
+        value: ''
+      }))
+    ]
+  }
+
   const initialRecords = {
     textRecords:
       dataTextRecords && dataTextRecords.getTextRecords
-        ? dataTextRecords.getTextRecords
-        : [],
+        ? processTextRecords(dataTextRecords.getTextRecords)
+        : processTextRecords([]),
     coins: dataAddresses && dataAddresses.getAddresses,
     content: domain.content?.startsWith('undefined') ? '' : domain.content,
     loading: textRecordsLoading || addressesLoading
@@ -319,6 +342,7 @@ export default function Records({
         loading={textRecordsLoading}
         title={t('c.textrecord')}
         updatedRecords={updatedRecords}
+        placeholderRecords={TEXT_PLACEHOLDER_RECORDS}
         setUpdatedRecords={setUpdatedRecords}
         changedRecords={changedRecords}
       />
