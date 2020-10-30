@@ -283,7 +283,9 @@ export default ({ match }) => {
     }
   })
   const displayName =
-    getReverseRecord && getReverseRecord.name ? getReverseRecord.name : address
+    getReverseRecord && getReverseRecord.name
+      ? getReverseRecord.name
+      : address && `${address.slice(0, 10)}...`
 
   const animation = {
     initial: {
