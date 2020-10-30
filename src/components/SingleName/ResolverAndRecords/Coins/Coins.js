@@ -10,7 +10,7 @@ const validator = (symbol, value) => {
   })
 }
 
-const PLACEHOLDER_RECORDS = ['ETH', 'BTC', 'DOGE', 'ETC']
+const PLACEHOLDER_RECORDS = ['ETH', 'BTC', 'DOGE', 'LTC']
 
 const getPlaceholder = symbol => {
   return `Enter a ${symbol} address`

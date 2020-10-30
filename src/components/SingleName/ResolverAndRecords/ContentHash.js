@@ -127,6 +127,13 @@ const SecondaryAction = styled('div')`
   margin-right: 10px;
 `
 
+const NotSet = styled('div')`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #ccc;
+`
+
 const Uploadable = ({ startUploading, keyName, value }) => {
   if (value && !value.error) {
     return (
@@ -191,7 +198,12 @@ const ContentHashEditable = ({
           <RecordsKey>{t(`c.${keyName}`)}</RecordsKey>
           {!editing && (
             <RecordsValue editableSmall>
-              {value !== '' ? (
+              {value === '' ||
+              value === emptyAddress ||
+              value === undefined ||
+              value === 'undefined' ? (
+                <NotSet>Not set</NotSet>
+              ) : (
                 <>
                   <ContentHashLink
                     value={value}
@@ -199,8 +211,6 @@ const ContentHashEditable = ({
                   />
                   <CopyToClipBoard value={value} />
                 </>
-              ) : (
-                'Content Hash not set'
               )}
             </RecordsValue>
           )}
@@ -257,7 +267,7 @@ const ContentHashEditable = ({
                         />
                       </NewRecordsContainer>
                     ) : (
-                      <RecordsValue>Content Hash not set</RecordsValue>
+                      <NotSet>Not set</NotSet>
                     )}
                     {value !== '' && (
                       <Switch
@@ -286,9 +296,7 @@ const ContentHashEditable = ({
                 )}
               </EditRecord>
             </>
-          ) : (
-            ''
-          )}
+          ) : null}
           {editing && (
             <Action>
               <Bin

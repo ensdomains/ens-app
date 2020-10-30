@@ -247,7 +247,7 @@ function Records({
   // )
   return (
     <KeyValueContainer hasRecord={hasRecord}>
-      {hasRecord && <Key>{title}</Key>}
+      <Key>{title}</Key>
       <KeyValuesList>
         {records.map(({ key, value }) => {
           if (
