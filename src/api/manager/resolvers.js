@@ -578,6 +578,8 @@ const resolvers = {
     addMultiRecords: async (_, { name, records }, { cache }) => {
       const ens = getENS()
 
+      console.log(records)
+
       function setupTransactions({ name, records, resolverInstance }) {
         try {
           const resolver = resolverInstance.interface.functions
@@ -654,6 +656,8 @@ const resolvers = {
 
       const recordsArray = createRecordsArray(records)
 
+      console.log('recordsArray,', recordsArray)
+
       const provider = await getProvider()
       const resolver = await ens.getResolver(name)
 
@@ -669,6 +673,8 @@ const resolvers = {
         records: recordsArray,
         resolverInstance
       })
+
+      console.log('transactionsArray', transactionArray)
 
       //add them all together into one transaction
       const tx1 = await resolverInstance.multicall(transactionArray)

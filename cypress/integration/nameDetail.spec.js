@@ -401,6 +401,23 @@ describe('Name detail view', () => {
     refreshAndCheckText(url, TEXT)
   })
 
+  it('can edit a placeholder text', () => {
+    const TEXT = 'vitalik'
+    const url = `${NAME_ROOT}/notsoawesome.eth`
+    cy.visit(url)
+
+    cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
+      cy.getByText('Add/Edit Record').click({ force: true })
+      cy.wait(2000) //TODO - get rid of wait and wait until text as some input before deleting
+      cy.getByTestId('vnd.twitter-record-input')
+        .clear({ force: true })
+        .type(TEXT)
+    })
+
+    confirmRecordUpdate()
+    refreshAndCheckText(url, TEXT)
+  })
+
   it('can change other address', () => {
     const ADDRESS = 'MQMcJhpWHYVeQArcZR3sBgyPZxxRtnH441'
     const url = `${NAME_ROOT}/notsoawesome.eth`
