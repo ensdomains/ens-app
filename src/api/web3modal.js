@@ -6,6 +6,7 @@ import Authereum from 'authereum'
 import MewConnect from '@myetherwallet/mewconnect-web-client'
 import Torus from '@toruslabs/torus-embed'
 import Portis from '@portis/web3'
+import { getNetwork } from '@ensdomains/ui'
 
 const INFURA_ID = '58a380d3ecd545b2b5b3dad5d2b18bf0'
 const PORTIS_ID = '57e5d6ca-e408-4925-99c4-e7da3bdb8bf5'
@@ -72,6 +73,7 @@ export const connect = async () => {
     reloadOnAccountsChange: true,
     enforceReload: true
   })
+  return await getNetwork()
 }
 
 export const disconnect = async function() {
