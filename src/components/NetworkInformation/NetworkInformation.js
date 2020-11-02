@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
 
 import mq from 'mediaQuery'
-
+import GlobalState from '../../globalState'
 import UnstyledBlockies from '../Blockies'
 import NoAccountsModal from '../NoAccounts/NoAccountsModal'
 import Loader from 'components/Loader'
@@ -119,7 +119,6 @@ function NetworkInformation() {
     refetch,
     isReadOnly
   } = useNetworkInfo()
-  let [networkSwitched, setNetworkSwitched] = useState(null)
   const address = accounts && accounts[0]
   const {
     data: { getReverseRecord } = {},
@@ -129,18 +128,20 @@ function NetworkInformation() {
       address
     }
   })
+  const { switchNetwork, currentNetwork } = useContext(GlobalState)
+
   const displayName =
     getReverseRecord && getReverseRecord.name ? getReverseRecord.name : address
 
   const handleConnect = async () => {
-    await connect()
-    setNetworkSwitched(new Date())
+    let network = await connect()
+    switchNetwork(network.chainId)
     refetch()
   }
 
   const handleDisconnect = async () => {
     await disconnect()
-    setNetworkSwitched(new Date())
+    switchNetwork(1)
     refetch()
   }
 
@@ -184,11 +185,19 @@ function NetworkInformation() {
           />
         </AccountContainer>
       ) : (
-        <NoAccountsModal
-          onClick={handleConnect}
-          colour={'#F5A623'}
-          buttonText={'Connect'}
-        />
+        <>
+          <Account data-testid="account" className="account">
+            Read only
+          </Account>
+          <NetworkStatus>
+            {network} {t('c.network')}
+          </NetworkStatus>
+          <NoAccountsModal
+            onClick={handleConnect}
+            colour={'#F5A623'}
+            buttonText={'Connect'}
+          />
+        </>
       )}
     </NetworkInformationContainer>
   )

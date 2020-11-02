@@ -37,7 +37,9 @@ window.addEventListener('load', async () => {
       )
     } else {
       await setup({
-        reloadOnAccountsChange: false
+        reloadOnAccountsChange: false,
+        enforceReadOnly: true,
+        enforceReload: true
       })
     }
     const networkId = await getNetworkId()
@@ -52,11 +54,9 @@ window.addEventListener('load', async () => {
   }
   ReactDOM.render(
     <Suspense fallback={null}>
-      <ApolloProvider client={client}>
-        <GlobalStateProvider>
-          <App />
-        </GlobalStateProvider>
-      </ApolloProvider>
+      <GlobalStateProvider>
+        <App initialClient={client} />
+      </GlobalStateProvider>
     </Suspense>,
     document.getElementById('root')
   )

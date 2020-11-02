@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useQuery } from 'react-apollo'
 import { Link } from 'react-router-dom'
 import styled from '@emotion/styled/macro'
@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import warning from '../assets/whiteWarning.svg'
 import { GET_REVERSE_RECORD } from 'graphql/queries'
 import mq from 'mediaQuery'
-
+import GlobalState from '../globalState'
 import SearchDefault from '../components/SearchName/Search'
 import NoAccountsDefault from '../components/NoAccounts/NoAccountsModal'
 import bg from '../assets/heroBG.jpg'
@@ -271,7 +271,7 @@ const PermanentRegistrarLogo = styled(motion.h1)`
 export default ({ match }) => {
   const { url } = match
   const { t } = useTranslation()
-  let [networkSwitched, setNetworkSwitched] = useState(null)
+  const { switchNetwork, currentNetwork } = useContext(GlobalState)
   const { accounts, network, loading, refetch, isReadOnly } = useNetworkInfo()
   const address = accounts && accounts[0]
   const {
@@ -299,17 +299,16 @@ export default ({ match }) => {
   }
 
   const handleConnect = async () => {
-    await connect()
-    setNetworkSwitched(new Date())
+    let newNetwork = await connect()
+    switchNetwork(newNetwork.chainId)
     refetch()
   }
 
   const handleDisconnect = async () => {
     await disconnect()
-    setNetworkSwitched(new Date())
+    switchNetwork(1)
     refetch()
   }
-
   return (
     <>
       <Hero>
@@ -318,9 +317,8 @@ export default ({ match }) => {
             <>
               <NetworkStatus>
                 <Network>
-                  {isReadOnly
-                    ? 'Not connected'
-                    : `${network} ${t('c.network')}`}
+                  {`${network} ${t('c.network')}`}
+                  {isReadOnly && '(Read only)'}
                   {!isReadOnly && displayName && <Name>({displayName})</Name>}
                 </Network>
                 <NoAccounts

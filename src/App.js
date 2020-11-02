@@ -30,7 +30,7 @@ import { ApolloProvider } from 'react-apollo'
 import { setup as setupENS } from './api/ens'
 import { SET_ERROR } from 'graphql/mutations'
 import { setupClient } from 'apolloClient'
-import { getNetwork } from '@ensdomains/ui'
+import { getNetworkId } from '@ensdomains/ui'
 
 const errorHandler = new StackdriverErrorReporter()
 
@@ -84,13 +84,9 @@ const App = ({ initialClient }) => {
               ...JSON.parse(process.env.REACT_APP_LABELS)
             })
           )
-        } else {
-          await setupENS({
-            reloadOnAccountsChange: false
-          })
         }
-        const { chainId: networkId, name } = await getNetwork()
-        client = await setupClient(networkId)
+        const networkId = await getNetworkId()
+        client = await setupClient(currentNetwork || networkId)
         setCurrentClient(client)
       } catch (e) {
         console.log(e)
