@@ -10,7 +10,7 @@
     "@emotion/styled": "^10.0.9",
     "@ensdomains/address-encoder": "^0.1.8",
     "@ensdomains/react-ens-address": "^0.0.25",
-    "@ensdomains/ui": "^3.0.38",
+    "@ensdomains/ui": "^3.0.39",
     "@myetherwallet/mewconnect-web-client": "^2.1.10-beta.1",
     "@portis/web3": "^2.0.0-beta.59",
     "@toruslabs/torus-embed": "^1.8.6",
