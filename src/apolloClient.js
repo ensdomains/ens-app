@@ -48,6 +48,11 @@ export async function setupClient(network) {
     fetchOptions: {
       mode: 'no-cors'
     },
+    defaultOptions: {
+      watchQuery: {
+        fetchPolicy: 'network-only'
+      }
+    },
     cache,
     addTypename: true,
     link: ApolloLink.from([stateLink, httpLink], cache)

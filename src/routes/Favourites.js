@@ -93,7 +93,7 @@ function Favourites() {
   useEffect(() => {
     document.title = 'ENS Favourites'
   }, [])
-  const { data: { favourites } = [] } = useQuery(GET_FAVOURITES)
+  const { data: { favourites = [] } = [] } = useQuery(GET_FAVOURITES)
   const ids = favourites.map(f => getNamehash(f.name))
   const { data: { registrations } = [] } = useQuery(
     GET_REGISTRATIONS_BY_IDS_SUBGRAPH,
@@ -102,7 +102,7 @@ function Favourites() {
     }
   )
 
-  if (favourites.length === 0 && !registrations) {
+  if (!favourites || (favourites.length === 0 && !registrations)) {
     return <NoDomains type="domain" />
   }
   let favouritesList = []
@@ -155,7 +155,11 @@ function Favourites() {
       <H2>{t('favourites.subdomainFavouriteTitle')}</H2>
       <Query query={GET_SUBDOMAIN_FAVOURITES}>
         {({ data }) => {
-          if (data.subDomainFavourites.length === 0) {
+          if (
+            !data ||
+            !data.subDomainFavourites ||
+            data.subDomainFavourites.length === 0
+          ) {
             return (
               <NoDomains type="subDomainName">
                 <LargeHeart />
@@ -166,32 +170,36 @@ function Favourites() {
           }
           return (
             <>
-              {data.subDomainFavourites.map(domain => (
-                <Query
-                  query={GET_OWNER}
-                  variables={{ name: domain.name }}
-                  key={domain.name}
-                >
-                  {({ loading, error, data }) => {
-                    if (error)
+              {data &&
+                data.subDomainFavourites &&
+                data.subDomainFavourites.map(domain => (
+                  <Query
+                    query={GET_OWNER}
+                    variables={{ name: domain.name }}
+                    key={domain.name}
+                  >
+                    {({ loading, error, data }) => {
+                      if (error)
+                        return (
+                          <div>
+                            {(console.log(error), JSON.stringify(error))}
+                          </div>
+                        )
                       return (
-                        <div>{(console.log(error), JSON.stringify(error))}</div>
+                        <DomainItem
+                          loading={loading}
+                          domain={{
+                            ...domain,
+                            state: getDomainState(data.getOwner, false),
+                            owner: data.getOwner
+                          }}
+                          isSubDomain={true}
+                          isFavourite={true}
+                        />
                       )
-                    return (
-                      <DomainItem
-                        loading={loading}
-                        domain={{
-                          ...domain,
-                          state: getDomainState(data.getOwner, false),
-                          owner: data.getOwner
-                        }}
-                        isSubDomain={true}
-                        isFavourite={true}
-                      />
-                    )
-                  }}
-                </Query>
-              ))}
+                    }}
+                  </Query>
+                ))}
             </>
           )
         }}
