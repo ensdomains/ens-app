@@ -1,12 +1,24 @@
 const ROOT = Cypress.env('ROOT')
 const NAME_ROOT = Cypress.env('NAME_ROOT')
+const ENABLED_COLOUR = 'rgb(82, 132, 255)'
+const DISABLED_COLOUR = 'rgb(199, 211, 227)'
 
 describe('Reverse record', () => {
   //Visit a domain, check the owner, resolver, address, content exists
   it('is set to abittooawesome.eth', () => {
     cy.visit(ROOT)
+    cy.queryByText('Search', { exact: false }).should(
+      'have.css',
+      'background-color',
+      DISABLED_COLOUR
+    )
     cy.getByPlaceholderText('Search', { exact: false }).type(
       Cypress.env('ownerAddress')
+    )
+    cy.queryByText('Search', { exact: false }).should(
+      'have.css',
+      'background-color',
+      ENABLED_COLOUR
     )
     cy.get('button')
       .contains('Search')
@@ -23,8 +35,18 @@ describe('Reverse record', () => {
   })
   it('Does not allow reverse switch if forward resolution is not set', () => {
     cy.visit(ROOT)
+    cy.queryByText('Search', { exact: false }).should(
+      'have.css',
+      'background-color',
+      DISABLED_COLOUR
+    )
     cy.getByPlaceholderText('Search', { exact: false }).type(
       Cypress.env('ownerAddress')
+    )
+    cy.queryByText('Search', { exact: false }).should(
+      'have.css',
+      'background-color',
+      ENABLED_COLOUR
     )
     cy.get('button')
       .contains('Search')
