@@ -52,7 +52,7 @@ describe('/address', () => {
     cy.visit(ROOT)
     cy.getByText('My Account').click({ force: true })
     cy.getByText('Renew', { exact: false, timeout: 10000 }).click()
-    cy.queryByText('Renew', { exact: false }).should(
+    cy.queryByText('Renew', { exact: false, timeout: 10000 }).should(
       'have.css',
       'background-color',
       'rgb(223, 223, 223)'
@@ -76,10 +76,19 @@ describe('/address', () => {
         cy.get(`[data-testid="checkbox-${name}"] div`, {
           timeout: 10000
         }).should('have.css', 'border-top-color', ENABLED_COLOUR)
-        cy.getByText('Renew Selected', { exact: false }).click({ force: true })
-        cy.queryByText('Registration Period', { exact: false }).should('exist')
-        cy.getByText('Renew', { exact: false }).click({ force: true })
-        cy.getByText('Confirm', { exact: true }).click({ force: true })
+        cy.getByText('Renew Selected', { exact: false, timeout: 10000 }).click({
+          force: true
+        })
+        cy.queryByText('Registration Period', {
+          exact: false,
+          timeout: 10000
+        }).should('exist')
+        cy.getByText('Renew', { exact: false, timeout: 10000 }).click({
+          force: true
+        })
+        cy.getByText('Confirm', { exact: true, timeout: 10000 }).click({
+          force: true
+        })
         cy.get(`[data-testid="${name}"]`, {
           timeout: 10000
         }).within(() => {
@@ -107,10 +116,19 @@ describe('/address', () => {
         cy.get(`[data-testid="checkbox-${name}"] div`, {
           timeout: 10000
         }).should('have.css', 'border-top-color', ENABLED_COLOUR)
-        cy.getByText('Renew Selected', { exact: false }).click({ force: true })
-        cy.queryByText('Registration Period', { exact: false }).should('exist')
-        cy.getByText('Renew', { exact: false }).click({ force: true })
-        cy.getByText('Confirm', { exact: true }).click({ force: true })
+        cy.getByText('Renew Selected', { exact: false, timeout: 10000 }).click({
+          force: true
+        })
+        cy.queryByText('Registration Period', {
+          exact: false,
+          timeout: 10000
+        }).should('exist')
+        cy.getByText('Renew', { exact: false, timeout: 10000 }).click({
+          force: true
+        })
+        cy.getByText('Confirm', { exact: true, timeout: 10000 }).click({
+          force: true
+        })
         cy.get(`[data-testid="${name}"]`, {
           timeout: 10000
         }).within(() => {
