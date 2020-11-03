@@ -29,7 +29,6 @@ export async function setup({
   ens = ensInstance
   registrar = registrarInstance
   ensRegistryAddress = ensAddress
-  // let ens, registrar
   return { ens, registrar }
 }
 
