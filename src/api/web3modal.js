@@ -15,34 +15,18 @@ const web3Modal = new Web3Modal({
   network: 'mainnet', // optional
   cacheProvider: true, // optional
   providerOptions: {
-    injected: {
-      display: {
-        name: 'Injected',
-        description: 'eg: Metamask, Opera, Status.im'
-      },
-      package: null
-    },
     walletconnect: {
       package: WalletConnectProvider,
-      display: {
-        description: ' '
-      },
       options: {
         infuraId: INFURA_ID
       }
     },
     // Alphabetical order from now on.
     authereum: {
-      package: Authereum,
-      display: {
-        description: ' '
-      }
+      package: Authereum
     },
     mewconnect: {
       package: MewConnect,
-      display: {
-        description: ' '
-      },
       options: {
         infuraId: INFURA_ID,
         description: ' '
@@ -50,18 +34,12 @@ const web3Modal = new Web3Modal({
     },
     portis: {
       package: Portis,
-      display: {
-        description: ' '
-      },
       options: {
         id: PORTIS_ID
       }
     },
     torus: {
-      package: Torus,
-      display: {
-        description: ' '
-      }
+      package: Torus
     }
   }
 })
