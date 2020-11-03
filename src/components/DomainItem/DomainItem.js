@@ -169,7 +169,10 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
           domain.owner &&
           parseInt(domain.owner, 16) !== 0
         ) {
-          isOwner = domain.owner.toLowerCase() === account.toLowerCase()
+          isOwner =
+            account &&
+            domain.owner &&
+            domain.owner.toLowerCase() === account.toLowerCase()
         }
         const percentDone = 0
         let expiryDate = domain.expiryDate
