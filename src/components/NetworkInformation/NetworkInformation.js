@@ -185,7 +185,7 @@ function NetworkInformation() {
           />
         </AccountContainer>
       ) : (
-        <>
+        <AccountContainer>
           <Account data-testid="account" className="account">
             {t('c.readonly')}
           </Account>
@@ -197,7 +197,7 @@ function NetworkInformation() {
             colour={'#F5A623'}
             buttonText={t('c.connect')}
           />
-        </>
+        </AccountContainer>
       )}
     </NetworkInformationContainer>
   )
