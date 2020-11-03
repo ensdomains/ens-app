@@ -180,14 +180,14 @@ function NetworkInformation() {
           </NetworkStatus>
           <NoAccountsModal
             onClick={handleDisconnect}
-            buttonText={'Disconnect'}
+            buttonText={t('c.disconnect')}
             colour={'#F5A623'}
           />
         </AccountContainer>
       ) : (
         <>
           <Account data-testid="account" className="account">
-            Read only
+            {t('c.readonly')}
           </Account>
           <NetworkStatus>
             {network} {t('c.network')}
@@ -195,7 +195,7 @@ function NetworkInformation() {
           <NoAccountsModal
             onClick={handleConnect}
             colour={'#F5A623'}
-            buttonText={'Connect'}
+            buttonText={t('c.connect')}
           />
         </>
       )}

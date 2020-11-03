@@ -318,12 +318,12 @@ export default ({ match }) => {
               <NetworkStatus>
                 <Network>
                   {`${network} ${t('c.network')}`}
-                  {isReadOnly && '(Read only)'}
+                  {isReadOnly && `(${t('c.readonly')})`}
                   {!isReadOnly && displayName && <Name>({displayName})</Name>}
                 </Network>
                 <NoAccounts
                   onClick={isReadOnly ? handleConnect : handleDisconnect}
-                  buttonText={isReadOnly ? 'Connect' : 'Disconnect'}
+                  buttonText={isReadOnly ? t('c.connect') : t('c.disconnect')}
                 />
               </NetworkStatus>
             </>
