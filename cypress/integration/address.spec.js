@@ -38,7 +38,9 @@ describe('/address', () => {
   it('can select a name', () => {
     cy.visit(ROOT)
     cy.getByText('My Account').click({ force: true })
-    cy.getByTestId('checkbox-newname.eth', { timeout: 10000 }).click()
+    cy.getByTestId('checkbox-newname.eth', { timeout: 10000 }).click({
+      force: true
+    })
     cy.get('[data-testid="checkbox-newname.eth"] div').should(
       'have.css',
       'border-top-color',
@@ -97,7 +99,9 @@ describe('/address', () => {
       .invoke('text')
       .then(text => {
         const currentYear = parseInt(text.match(/(\d){4}/)[0])
-        cy.getByTestId(`checkbox-${name}`, { timeout: 10000 }).click()
+        cy.getByTestId(`checkbox-${name}`, { timeout: 10000 }).click({
+          force: true
+        })
         cy.get(`[data-testid="checkbox-${name}"] div`, {
           timeout: 10000
         }).should('have.css', 'border-top-color', ENABLED_COLOUR)
