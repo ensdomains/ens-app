@@ -135,8 +135,10 @@ function NetworkInformation() {
 
   const handleConnect = async () => {
     let network = await connect()
-    switchNetwork(network.chainId)
-    refetch()
+    if (network) {
+      switchNetwork(network.chainId)
+      refetch()
+    }
   }
 
   const handleDisconnect = async () => {

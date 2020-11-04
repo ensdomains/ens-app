@@ -45,13 +45,19 @@ const web3Modal = new Web3Modal({
 })
 
 export const connect = async () => {
-  provider = await web3Modal.connect()
-  let res = await setupENS({
-    customProvider: provider,
-    reloadOnAccountsChange: true,
-    enforceReload: true
-  })
-  return await getNetwork()
+  try {
+    provider = await web3Modal.connect()
+    await setupENS({
+      customProvider: provider,
+      reloadOnAccountsChange: true,
+      enforceReload: true
+    })
+    return await getNetwork()
+  } catch (e) {
+    if (e !== 'Modal closed by user') {
+      throw e
+    }
+  }
 }
 
 export const disconnect = async function() {

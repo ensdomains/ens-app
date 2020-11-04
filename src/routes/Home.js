@@ -300,7 +300,10 @@ export default ({ match }) => {
 
   const handleConnect = async () => {
     let newNetwork = await connect()
-    switchNetwork(newNetwork.chainId)
+    if (network) {
+      switchNetwork(network.chainId)
+      refetch()
+    }
     refetch()
   }
 
