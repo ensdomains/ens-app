@@ -6,30 +6,6 @@ const DISABLED_COLOUR = 'rgb(199, 211, 227)'
 describe('/address', () => {
   it('contains the list of names owened by the user', () => {
     cy.visit(ROOT)
-    cy.queryByText('Search', { exact: false }).should(
-      'have.css',
-      'background-color',
-      DISABLED_COLOUR
-    )
-    cy.getByPlaceholderText('Search', { exact: false }).type('resolver.eth')
-    cy.queryByText('Search', { exact: false }).should(
-      'have.css',
-      'background-color',
-      ENABLED_COLOUR
-    )
-
-    cy.get('button')
-      .contains('Search')
-      .click()
-
-    cy.getByTestId('sitenav').within(container => {
-      cy.queryByText('My Account', { container, exact: false }).should(
-        'have.css',
-        'color',
-        DISABLED_COLOUR
-      )
-    })
-
     cy.getByText('My Account').click({ force: true })
     cy.queryByText('View On Etherscan', {
       exact: false,
