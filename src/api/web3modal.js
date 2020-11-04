@@ -11,7 +11,7 @@ import { getNetwork } from '@ensdomains/ui'
 const INFURA_ID = '58a380d3ecd545b2b5b3dad5d2b18bf0'
 const PORTIS_ID = '57e5d6ca-e408-4925-99c4-e7da3bdb8bf5'
 let provider
-const web3Modal = new Web3Modal({
+const option = {
   network: 'mainnet', // optional
   cacheProvider: true, // optional
   providerOptions: {
@@ -42,10 +42,11 @@ const web3Modal = new Web3Modal({
       package: Torus
     }
   }
-})
-
+}
+let web3Modal
 export const connect = async () => {
   try {
+    web3Modal = new Web3Modal(option)
     provider = await web3Modal.connect()
     await setupENS({
       customProvider: provider,
@@ -70,5 +71,7 @@ export const disconnect = async function() {
     enforceReadOnly: true,
     enforceReload: true
   })
-  await web3Modal.clearCachedProvider()
+  if (web3Modal) {
+    await web3Modal.clearCachedProvider()
+  }
 }
