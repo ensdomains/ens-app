@@ -43,7 +43,7 @@ const EmailNotifyLink = ({ address, domainName, children, onClick = null }) => {
     // global CSS and other parts of the site.
     // See: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md#case-i-want-navigable-links
 
-    // eslint-disable-next-line jsx-a11y/anchor-is-valid
+    // eslint-disable-next-line
     <a href="#" onClick={handleClick}>
       {children}
     </a>
