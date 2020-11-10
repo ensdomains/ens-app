@@ -18,7 +18,7 @@ import { DetailsKey } from '../DetailsItem'
 import DetailsItemInput from '../DetailsItemInput'
 import { SaveCancel, SaveCancelSwitch } from '../SaveCancel'
 import DefaultSelect from '../../Forms/Select'
-import DefaultAddressInput from '@ensdomains/react-ens-address'
+import DefaultAddressInput from 'ensdomains-react-ens-address'
 
 const AddressInput = styled(DefaultAddressInput)`
   margin-bottom: 10px;

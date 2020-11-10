@@ -1,4 +1,8 @@
-import { ethers, getNetworkId, getNetworkProviderUrl } from '@ensdomains/ui'
+import {
+  ethers,
+  getNetworkId,
+  getNetworkProviderUrl
+} from 'makoto-ensdomains-ui'
 
 const ChainLinkABI = [
   {

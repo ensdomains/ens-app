@@ -1,4 +1,9 @@
-import { getWeb3, getAccounts, getNetworkId, isReadOnly } from '@ensdomains/ui'
+import {
+  getWeb3,
+  getAccounts,
+  getNetworkId,
+  isReadOnly
+} from 'makoto-ensdomains-ui'
 import getENS from 'api/ens'
 import merge from 'lodash/merge'
 import managerResolvers, {

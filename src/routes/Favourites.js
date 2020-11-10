@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import styled from '@emotion/styled/macro'
 import { Query } from 'react-apollo'
 import DomainItem from '../components/DomainItem/DomainItem'
-import { getNamehash } from '@ensdomains/ui'
+import { getNamehash } from 'makoto-ensdomains-ui'
 import { useQuery } from 'react-apollo'
 import {
   GET_FAVOURITES,

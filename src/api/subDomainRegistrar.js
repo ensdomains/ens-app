@@ -1,5 +1,5 @@
 import subDomainRegistrarContract from './contracts/subDomainRegistrarContract.json'
-import { getProvider } from '@ensdomains/ui'
+import { getProvider } from 'makoto-ensdomains-ui'
 import { Contract, utils } from 'ethers'
 import domains from '../constants/domains.json'
 let subDomainRegistrars = {}

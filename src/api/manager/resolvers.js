@@ -11,7 +11,7 @@ import {
   getProvider,
   labelhash,
   utils
-} from '@ensdomains/ui'
+} from 'makoto-ensdomains-ui'
 import { formatsByName } from '@ensdomains/address-encoder'
 import isEqual from 'lodash/isEqual'
 import modeNames from '../modes'
@@ -389,6 +389,7 @@ const resolvers = {
     isMigrated: async (_, { name }, { cache }) => {
       const ens = getENS()
       let result = await ens.isMigrated(name)
+      console.log('****isMigrated', { name, result })
       return result
     },
     isContractController: async (_, { address }, { cache }) => {

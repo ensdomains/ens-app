@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from '@emotion/styled/macro'
 import { Mutation } from 'react-apollo'
 import { useTranslation } from 'react-i18next'
-import DefaultAddressInput from '@ensdomains/react-ens-address'
+import DefaultAddressInput from 'ensdomains-react-ens-address'
 
 import { SET_CONTENT, SET_CONTENTHASH, SET_ADDRESS } from 'graphql/mutations'
 

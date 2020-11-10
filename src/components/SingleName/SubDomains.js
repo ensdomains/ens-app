@@ -10,7 +10,7 @@ import Loader from '../Loader'
 import { H2 } from '../Typography/Basic'
 import AddSubdomain from './AddSubdomain'
 import ChildDomainItem from '../DomainItem/ChildDomainItem'
-import { getNamehash } from '@ensdomains/ui'
+import { getNamehash } from 'makoto-ensdomains-ui'
 import { decryptName } from '../../api/labels'
 
 const SubDomainsContainer = styled('div')`
@@ -127,7 +127,7 @@ function SubDomains({
                 return parseInt(subdomain.owner.id, 16) !== 0
               })
 
-            if (error || !data.domain) {
+            if (error || !data || !data.domain) {
               console.error(
                 'Unable to get subdomains from subgraph, falling back to web3 ',
                 error

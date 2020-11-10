@@ -2,7 +2,7 @@ import { useEffect, useReducer, useRef, useState } from 'react'
 import getEtherPrice from 'api/price'
 import { useLocation } from 'react-router-dom'
 import { loggedIn, logout } from './IPFS/auth'
-import { getBlock } from '@ensdomains/ui'
+import { getBlock } from 'makoto-ensdomains-ui'
 
 export function useDocumentTitle(title) {
   useEffect(() => {

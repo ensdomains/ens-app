@@ -557,7 +557,7 @@ function NameDetails({
 }) {
   const [loading, setLoading] = useState(undefined)
   const {
-    data: { isMigrated },
+    data: { isMigrated } = {},
     loading: loadingIsMigrated,
     refetch: refetchIsMigrated
   } = useQuery(IS_MIGRATED, {
@@ -567,7 +567,7 @@ function NameDetails({
   })
 
   const {
-    data: { isMigrated: isParentMigrated },
+    data: { isMigrated: isParentMigrated } = {},
     loading: loadingIsParentMigrated
   } = useQuery(IS_MIGRATED, {
     variables: {
