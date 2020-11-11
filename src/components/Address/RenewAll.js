@@ -115,15 +115,17 @@ export default function Renew({
     onCompleted: res => {
       const txHash = Object.values(res)[0]
       startPending(txHash)
-      trackReferral({
-        labels: labelsToRenew, // labels array
-        transactionId: txHash, //hash
-        type: 'renew', // renew/register
-        price: new EthVal(`${getRentPrices._hex}`)
-          .toEth()
-          .mul(ethUsdPrice)
-          .toFixed(2) // in wei
-      })
+      if (getRentPrices && txHash && ethUsdPrice) {
+        trackReferral({
+          labels: labelsToRenew, // labels array
+          transactionId: txHash, //hash
+          type: 'renew', // renew/register
+          price: new EthVal(`${getRentPrices._hex}`)
+            .toEth()
+            .mul(ethUsdPrice)
+            .toFixed(2) // in wei
+        })
+      }
     }
   })
 
