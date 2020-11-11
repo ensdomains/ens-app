@@ -8,5 +8,9 @@
   "projectId": "rzedru",
   "defaultCommandTimeout": 12000,
   "viewportWidth": 1440,
-  "viewportHeight": 900
+  "viewportHeight": 900,
+  "retries": {
+    "runMode": 2,
+    "openMode": 1
+  }
 }
