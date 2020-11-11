@@ -5692,16 +5692,16 @@ ensdomains-mock@^2.0.31, ensdomains-mock@^2.0.32:
     table "^5.4.6"
     web3 "^1.3.0"
 
-ensdomains-react-ens-address@^0.0.27:
-  version "0.0.27"
-  resolved "https://registry.yarnpkg.com/ensdomains-react-ens-address/-/ensdomains-react-ens-address-0.0.27.tgz#760cc17de0cfcdde013af9b8f59f00dde9b21718"
-  integrity sha512-v5eB7YHITLzBTjTuQD5ZNIoqn+wjCQF5UfKhXxwNSz5Hk2co2SHPzyBdZYVGdESPwIjtv56l0rvVuRf7/+YbXg==
+ensdomains-react-ens-address@^0.0.29:
+  version "0.0.29"
+  resolved "https://registry.yarnpkg.com/ensdomains-react-ens-address/-/ensdomains-react-ens-address-0.0.29.tgz#fee462bbeb09d28f76a074c3c4d8ea9706dab335"
+  integrity sha512-9h3xLEIQ/sEkJZ8YSfI9dk8+mXnk+HcDsfa2CEdxvipaE02A2esFaiom9wNi3Gu/HmA5V9qzkz4JtK8xdlLN9A==
   dependencies:
     "@emotion/core" "^10.0.14"
     "@emotion/styled" "^10.0.14"
     ethers "^4.0.32"
     lodash "^4.17.13"
-    makoto-ensdomains-ui "^3.0.42"
+    makoto-ensdomains-ui "^3.0.43"
 
 entities@^1.1.1:
   version "1.1.2"
@@ -10040,10 +10040,10 @@ makeerror@1.0.x:
   dependencies:
     tmpl "1.0.x"
 
-makoto-ensdomains-ui@3.0.42, makoto-ensdomains-ui@^3.0.42:
-  version "3.0.42"
-  resolved "https://registry.yarnpkg.com/makoto-ensdomains-ui/-/makoto-ensdomains-ui-3.0.42.tgz#b1ae9608e2062e43e007afcaf09bc1d048c0650e"
-  integrity sha512-L85OVj7MTn/oJMl5P5fDHsykeBP3YKPBI9Cu2PxaVKkwR7PznKtPynaS4eRk9hkfJNx3Mcbc6av00Si4Ng4GxQ==
+makoto-ensdomains-ui@3.0.43, makoto-ensdomains-ui@^3.0.43:
+  version "3.0.43"
+  resolved "https://registry.yarnpkg.com/makoto-ensdomains-ui/-/makoto-ensdomains-ui-3.0.43.tgz#96e56c308fa03f2746557491124eaa092c7e4e7a"
+  integrity sha512-5VxnijUtyEDFhLPeM8Tm8nxYCNwUbAYZnuyLhgA0sgIiD9o9cL4QT3x8kglzWUz/h6ZR9FI2KBwdoRTV9h6Q4A==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
