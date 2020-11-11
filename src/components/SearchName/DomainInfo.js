@@ -26,7 +26,7 @@ const DomainInfoContainer = ({ searchTerm }) => {
 
         return (
           <Query query={GET_FAVOURITES}>
-            {({ data: { favourites } }) => (
+            {({ data: { favourites } = {} }) => (
               <DomainItem
                 loading={loading}
                 domain={singleName}

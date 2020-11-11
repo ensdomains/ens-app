@@ -30,7 +30,7 @@ function MultiplePendingTx(props) {
   const [txHashesStatus, setTxHashesStatus] = useState(txHashes)
   return (
     <Query query={GET_TRANSACTION_HISTORY}>
-      {({ data: { transactionHistory } }) => {
+      {({ data: { transactionHistory } = {} }) => {
         txHashesStatus.forEach(txHash => {
           transactionHistory.forEach(tx => {
             if (tx && tx.txHash === txHash && tx.txState === 'Confirmed') {
@@ -63,7 +63,7 @@ function PendingTx(props) {
   }
   return (
     <Query query={GET_TRANSACTION_HISTORY}>
-      {({ data: { transactionHistory } }) => {
+      {({ data: { transactionHistory } = {} }) => {
         const lastTransaction = _.last(transactionHistory)
         if (
           lastTransaction &&
