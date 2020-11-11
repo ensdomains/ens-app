@@ -23,7 +23,7 @@ jobs:
       name: 'Test'
       install:
         - yarn
-        - yarn global add cypress
+        - yarn global add cypress@5.6.0
         - cypress install
         - yarn global add ganache-cli@6.9.1
         - yarn global add wait-on
