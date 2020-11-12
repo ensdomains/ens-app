@@ -22,7 +22,7 @@ describe('Migrate a subdomain to new registry', () => {
 
     // By the time resolver migration message comes up, registrar migration page should disappear
     cy.queryByTestId('registry-migrate-button-enabled', {
-      timeout: 1000
+      timeout: 0
     }).should('not.exist')
 
     cy.queryByTestId('edit-controller').should(
@@ -81,7 +81,6 @@ describe('Migrate a subdomain to new registry', () => {
 
   it('cannot migrate other domain because I do not own parent domain', () => {
     cy.visit(`${ROOT}/name/sub2.otherowner.eth`)
-    cy.queryByTestId('owner-type', { exact: false }).should('not.exist')
     cy.queryByText('This name needs to be migrated to the new Registry.', {
       timeout: 10000,
       exact: false
@@ -94,10 +93,12 @@ describe('Migrate a subdomain to new registry', () => {
       'background-color',
       DISABLED_COLOUR
     )
+    cy.queryByTestId('owner-type', { exact: false, timeout: 0 }).should(
+      'not.exist'
+    )
   })
   it('can migrate other domain because I own parent domain', () => {
     cy.visit(`${ROOT}/name/sub4.testing.eth`)
-    cy.queryByTestId('owner-type', { exact: false }).should('not.exist')
     cy.queryByText('This name needs to be migrated to the new Registry.', {
       timeout: 10000,
       exact: false
@@ -105,5 +106,8 @@ describe('Migrate a subdomain to new registry', () => {
     cy.queryByTestId('registry-migrate-button-enabled', {
       timeout: 1000
     }).should('exist')
+    cy.queryByTestId('owner-type', { exact: false, timeout: 0 }).should(
+      'not.exist'
+    )
   })
 })
