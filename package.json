@@ -19,7 +19,7 @@
     "core-js": "^3.1.4",
     "cross-fetch": "^2.2.3",
     "emotion": "^10.0.9",
-    "ensdomains-mock": "^2.0.31",
+    "ensdomains-mock": "^2.0.33",
     "ensdomains-react-ens-address": "^0.0.29",
     "esm": "^3.2.22",
     "eth-ens-namehash": "^2.0.8",
