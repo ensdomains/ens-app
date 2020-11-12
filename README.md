@@ -150,6 +150,15 @@ function Component(){
 }
 ```
 
+### Cypress testing best practice.
+
+Cypress end 2 end testing tends to be very flakey when ran on CI environment.
+
+- Assert the existence before assert the non existence = Cypress waits until the default timeout (set to 12 sec) to make sure that the element does not exist whereas asserting the existence of an element completes as soon as the element becomes visible. Try to assert existing element with default timeout, then try to assert non-existing element with `timeout:0` to speed up.
+- Fix warnings = Sometimes React elements render in the strange way very subtly which may not be visible by human but can be detected by automated test. If some assertion is failing, check if there are warning and try to fix them first.
+- Make use of testid rather than asserting with css attributes (such as color) = Asserting to change if button becomes clickable tends to be flakey as you have to manually loop and check the css attribute rather than allowing cypress to wait with built-in timeout feature. Try to set testid such as `button-${ canClick ? 'enabled' : 'disabled' }` so that you can set assertion against enabled/disabled condition.
+- Consolidate tests where applicable = Even though it's discouraged in unit testing, doing so will save time for setup/teardown. If test is slow because it's doing lots of setup/teardown for each test cast, try to consolidate them.
+
 ## Internationalisation
 
 We use the `i18next` and `react-i18next` package for internationlisation.
