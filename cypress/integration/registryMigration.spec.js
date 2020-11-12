@@ -10,8 +10,7 @@ describe('Migrate a subdomain to new registry', () => {
     cy.getByTestId('registry-migrate-button-enabled', { timeout: 10000 }).click(
       { force: true }
     )
-    cy.wait(1000)
-    cy.queryByTestId('edit-controller').should(
+    cy.queryByTestId('edit-controller', { timeout: 10000 }).should(
       'have.css',
       'background-color',
       ENABLED_COLOUR
