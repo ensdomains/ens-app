@@ -107,6 +107,9 @@ export default function RegistryMigration({
         />
       ) : (
         <Migrate
+          data-testid={`registry-migrate-button-${
+            canMigrate ? 'enabled' : 'disabled'
+          }`}
           onClick={canMigrate ? migrateRegistry : () => {}}
           type={canMigrate ? 'hollow-primary' : 'hollow-primary-disabled'}
           href="#"

@@ -7,16 +7,18 @@ const ENABLED_COLOUR = 'rgb(83, 132, 254)'
 describe('Migrate a subdomain to new registry', () => {
   it('can visit an unmigrated name and migrate it', () => {
     cy.visit(`${ROOT}/name/sub1.testing.eth`)
-    cy.waitUntilHollowInputResolves('Migrate').then(() => {
-      cy.getByText('Migrate').click({ force: true })
-      cy.queryByText('migrate', { timeout: 1000 }).should('not.exist')
-    })
+    cy.getByTestId('registry-migrate-button-enabled', { timeout: 10000 }).click(
+      { force: true }
+    )
     cy.wait(1000)
     cy.queryByTestId('edit-controller').should(
       'have.css',
       'background-color',
       ENABLED_COLOUR
     )
+    cy.queryByTestId('registry-migrate-button-enabled', {
+      timeout: 1000
+    }).should('not.exist')
   })
 
   it('can visit an unmigrated name and cannot migrate because parent is unmigrated', () => {
@@ -89,12 +91,8 @@ describe('Migrate a subdomain to new registry', () => {
       timeout: 10000,
       exact: false
     }).should('exist')
-    cy.waitUntilHollowInputResolves('Migrate').then(() => {
-      cy.queryByText('Migrate', { timeout: 10000 }).should(
-        'have.css',
-        'color',
-        ENABLED_COLOUR
-      )
-    })
+    cy.queryByTestId('registry-migrate-button-enabled', {
+      timeout: 1000
+    }).should('exist')
   })
 })
