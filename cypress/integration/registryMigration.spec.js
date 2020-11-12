@@ -10,14 +10,15 @@ describe('Migrate a subdomain to new registry', () => {
     cy.getByTestId('registry-migrate-button-enabled', { timeout: 10000 }).click(
       { force: true }
     )
-    cy.queryByTestId('edit-controller', { timeout: 10000 }).should(
+    cy.queryByTestId('registry-migrate-button-enabled', {
+      timeout: 10000
+    }).should('not.exist')
+
+    cy.queryByTestId('edit-controller').should(
       'have.css',
       'background-color',
       ENABLED_COLOUR
     )
-    cy.queryByTestId('registry-migrate-button-enabled', {
-      timeout: 1000
-    }).should('not.exist')
   })
 
   it('can visit an unmigrated name and cannot migrate because parent is unmigrated', () => {
