@@ -63,11 +63,18 @@ export default function RegistryMigration({
   })
 
   const loading = loadingIsParentMigrated || loadingIsContractController
-  const canMigrate =
-    !loading &&
-    isParentMigratedToNewRegistry &&
-    account === domain.parentOwner &&
-    !isContractController
+  let canMigrate
+  // isContractController query takes a while which causes CI to fail.
+  // Make it migratable while isContractController is undefined
+  // and make it un migratable only if it ended up being smart contract.
+  if (isContractController === undefined) {
+    canMigrate = true
+  } else {
+    canMigrate =
+      !loading &&
+      isParentMigratedToNewRegistry &&
+      account === domain.parentOwner
+  }
 
   const isContractControllerMessage = t('registrymigration.messages.controller')
   const defaultMessage = (

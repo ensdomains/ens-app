@@ -27,36 +27,32 @@ const Pending = ({ className, children = 'Tx pending' }) => (
 function MultiplePendingTx(props) {
   const { txHashes, onConfirmed } = props
   const [txHashesStatus, setTxHashesStatus] = useState(txHashes)
-  return (
-    <Query query={GET_TRANSACTION_HISTORY}>
-      {({ data: { transactionHistory } = {} }) => {
-        txHashesStatus.forEach(txHash => {
-          transactionHistory.forEach(tx => {
-            if (tx && tx.txHash === txHash && tx.txState === 'Confirmed') {
-              const index = txHashesStatus.findIndex(tx => tx === txHash)
-              const newTxHashesStatus = [...txHashesStatus]
-              newTxHashesStatus[index] = 1
-              setTxHashesStatus(newTxHashesStatus)
-
-              if (
-                newTxHashesStatus.reduce((acc, curr) => acc + curr) ===
-                newTxHashesStatus.length
-              ) {
-                onConfirmed()
-              }
-            }
-          })
-        })
-
-        return <Pending {...props} />
-      }}
-    </Query>
+  const { data: { transactionHistory } = {} } = useQuery(
+    GET_TRANSACTION_HISTORY
   )
+  txHashesStatus.forEach(txHash => {
+    transactionHistory.forEach(tx => {
+      if (tx && tx.txHash === txHash && tx.txState === 'Confirmed') {
+        const index = txHashesStatus.findIndex(tx => tx === txHash)
+        const newTxHashesStatus = [...txHashesStatus]
+        newTxHashesStatus[index] = 1
+        setTxHashesStatus(newTxHashesStatus)
+
+        if (
+          newTxHashesStatus.reduce((acc, curr) => acc + curr) ===
+          newTxHashesStatus.length
+        ) {
+          onConfirmed()
+        }
+      }
+    })
+  })
+  return <Pending {...props} />
 }
 
 function PendingTx(props) {
   const { txHash, txHashes, onConfirmed } = props
-  const { data: { transactionHistory } = {}, loading, refetch } = useQuery(
+  const { data: { transactionHistory } = {} } = useQuery(
     GET_TRANSACTION_HISTORY
   )
   const lastTransaction = _.last(transactionHistory)

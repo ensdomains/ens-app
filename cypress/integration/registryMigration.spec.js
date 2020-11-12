@@ -7,11 +7,22 @@ const ENABLED_COLOUR = 'rgb(83, 132, 254)'
 describe('Migrate a subdomain to new registry', () => {
   it('can visit an unmigrated name and migrate it', () => {
     cy.visit(`${ROOT}/name/sub1.testing.eth`)
+    cy.getByText('This name needs to be migrated to the new Registry.', {
+      timeout: 5000,
+      exact: false
+    }).should('exist')
     cy.getByTestId('registry-migrate-button-enabled', { timeout: 10000 }).click(
       { force: true }
     )
+    // Wait until resolver migration message comes up.
+    cy.getByText(
+      'To reset your resolver manually, click set and enter the address of your custom resolver.',
+      { timeout: 5000, exact: false }
+    ).should('exist')
+
+    // By the time resolver migration message comes up, registrar migration page should disappear
     cy.queryByTestId('registry-migrate-button-enabled', {
-      timeout: 10000
+      timeout: 1000
     }).should('not.exist')
 
     cy.queryByTestId('edit-controller').should(
