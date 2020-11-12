@@ -389,7 +389,6 @@ const resolvers = {
     isMigrated: async (_, { name }, { cache }) => {
       const ens = getENS()
       let result = await ens.isMigrated(name)
-      console.log('****isMigrated', { name, result })
       return result
     },
     isContractController: async (_, { address }, { cache }) => {
