@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled/macro'
-import { Query } from 'react-apollo'
-
+import { useQuery } from 'react-apollo'
 import { GET_TRANSACTION_HISTORY } from '../graphql/queries'
 
 import Loader from './Loader'
@@ -57,27 +56,25 @@ function MultiplePendingTx(props) {
 
 function PendingTx(props) {
   const { txHash, txHashes, onConfirmed } = props
-
+  const { data: { transactionHistory } = {}, loading, refetch } = useQuery(
+    GET_TRANSACTION_HISTORY
+  )
+  const lastTransaction = _.last(transactionHistory)
+  useEffect(() => {
+    if (
+      lastTransaction &&
+      lastTransaction.txHash === txHash &&
+      lastTransaction.txState === 'Confirmed'
+    ) {
+      onConfirmed({
+        blockCreatedAt: lastTransaction.createdAt
+      })
+    }
+  }, [transactionHistory])
   if (txHashes) {
     return <MultiplePendingTx txHashes={txHashes} onConfirmed={onConfirmed} />
   }
-  return (
-    <Query query={GET_TRANSACTION_HISTORY}>
-      {({ data: { transactionHistory } = {} }) => {
-        const lastTransaction = _.last(transactionHistory)
-        if (
-          lastTransaction &&
-          lastTransaction.txHash === txHash &&
-          lastTransaction.txState === 'Confirmed'
-        ) {
-          onConfirmed({
-            blockCreatedAt: lastTransaction.createdAt
-          })
-        }
-        return <Pending {...props} />
-      }}
-    </Query>
-  )
+  return <Pending {...props} />
 }
 
 PendingTx.propTypes = {
