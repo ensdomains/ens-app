@@ -1,4 +1,4 @@
-import { encodeContenthash, isValidContenthash } from 'makoto-ensdomains-ui'
+import { encodeContenthash, isValidContenthash } from '@ensdomains/ui'
 import { addressUtils } from 'utils/utils'
 import { formatsByName } from '@ensdomains/address-encoder'
 

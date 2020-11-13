@@ -5,7 +5,7 @@ import isEqual from 'lodash/isEqual'
 import differenceWith from 'lodash/differenceWith'
 import { useQuery } from 'react-apollo'
 import { useTranslation } from 'react-i18next'
-import { getNamehash } from 'makoto-ensdomains-ui'
+import { getNamehash } from '@ensdomains/ui'
 
 import { useEditable } from '../../hooks'
 import { ADD_MULTI_RECORDS } from '../../../graphql/mutations'

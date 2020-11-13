@@ -1,4 +1,4 @@
-import { setupENS } from 'makoto-ensdomains-ui'
+import { setupENS } from '@ensdomains/ui'
 
 let ens = {},
   registrar = {},

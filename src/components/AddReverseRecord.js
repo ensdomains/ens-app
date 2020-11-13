@@ -4,7 +4,7 @@ import { useQuery } from 'react-apollo'
 import styled from '@emotion/styled/macro'
 import { Mutation } from 'react-apollo'
 import { useTranslation, Trans } from 'react-i18next'
-//import { getAddress } from 'makoto-ensdomains-ui'
+//import { getAddress } from '@ensdomains/ui'
 import getENS from 'api/ens'
 
 import { SET_NAME } from 'graphql/mutations'
