@@ -1394,10 +1394,10 @@
     table "^5.4.6"
     web3 "^1.3.0"
 
-"@ensdomains/react-ens-address@^0.0.26":
-  version "0.0.26"
-  resolved "https://registry.yarnpkg.com/@ensdomains/react-ens-address/-/react-ens-address-0.0.26.tgz#864500b50179d44436167664a180628018374846"
-  integrity sha512-X9f+ocaBnDEND9aFz7B+OhPBZgFP6RhdIoshy3IQ3iyPd0k4e/CBVF6HpBTQXJHJ1HGW/kFh6ovQiAFblqxQkw==
+"@ensdomains/react-ens-address@^0.0.27":
+  version "0.0.27"
+  resolved "https://registry.yarnpkg.com/@ensdomains/react-ens-address/-/react-ens-address-0.0.27.tgz#42ba9a4563ad60b146bdb2b0c260b2a1f86baa8b"
+  integrity sha512-IP1+RYQVmHJo2pz+2sRQH/6X3XFUHe2AX7mr2dzkrS+N9pGEo3bwsz4farXWlNWlIXTD9E5oErRvcR314d7CsQ==
   dependencies:
     "@emotion/core" "^10.0.14"
     "@emotion/styled" "^10.0.14"
