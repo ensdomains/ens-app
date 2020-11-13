@@ -1367,6 +1367,31 @@
     idempotent-babel-polyfill "^7.4.4"
     isomorphic-fetch "^2.2.1"
 
+"@ensdomains/dnssec-oracle-anchors@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@ensdomains/dnssec-oracle-anchors/-/dnssec-oracle-anchors-0.0.1.tgz#53c9100fe95f7c7102d66d8a69208bc6be39a049"
+  integrity sha512-0I2TcOMwM83YpLkBaI/RLxu7kkic3/nUehIFsgIv5jc84FqrIzeYDYPCG0q6OnbooSmAsC36BJQcMLmUjON8Fg==
+  dependencies:
+    dns-packet "^5.2.1"
+
+"@ensdomains/mock@^2.0.33":
+  version "2.0.33"
+  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.0.33.tgz#29343946f8277b30d196494632051272d3c2b329"
+  integrity sha512-o8dJj4p6ZnL8JQOAkYFgtsGIq40rP+kd42sxdTFe3wmz7owBEhLJ3E3R4VaOPcTw76ab+CpRjW3pJgXCnhoMQQ==
+  dependencies:
+    "@0xproject/utils" "^2.0.2"
+    "@babel/runtime" "^7.4.4"
+    "@ensdomains/contracts" "^0.0.1"
+    "@ensdomains/dnssec-oracle-anchors" "^0.0.1"
+    chalk "^3.0.0"
+    cross-fetch "^3.0.2"
+    dns-packet "^5.2.1"
+    eth-ens-namehash "^2.0.8"
+    lodash "^4.17.11"
+    moment "^2.26.0"
+    table "^5.4.6"
+    web3 "^1.3.0"
+
 "@eslint/eslintrc@^0.2.1":
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-0.2.1.tgz#f72069c330461a06684d119384435e12a5d76e3c"
@@ -5754,23 +5779,6 @@ ensdomains-mock@^2.0.34:
     "@ensdomains/contracts" "^0.0.1"
     chalk "^3.0.0"
     cross-fetch "^3.0.2"
-    eth-ens-namehash "^2.0.8"
-    lodash "^4.17.11"
-    moment "^2.26.0"
-    table "^5.4.6"
-    web3 "^1.3.0"
-
-ensdomains-mock@^2.0.35:
-  version "2.0.35"
-  resolved "https://registry.yarnpkg.com/ensdomains-mock/-/ensdomains-mock-2.0.35.tgz#b0aed0799a84bf854d5a514c08f7c714c1d3dab9"
-  integrity sha512-+OzKGBHn8dZoiTyYdT8tC9qAhJ46AN39RpqanRhJgAYzvLsNQUCK7LG+fNpONMFrpdHKyX6LnsdMmXRBPVoEOw==
-  dependencies:
-    "@0xproject/utils" "^2.0.2"
-    "@babel/runtime" "^7.4.4"
-    "@ensdomains/contracts" "^0.0.1"
-    chalk "^3.0.0"
-    cross-fetch "^3.0.2"
-    dns-packet "^5.2.1"
     eth-ens-namehash "^2.0.8"
     lodash "^4.17.11"
     moment "^2.26.0"

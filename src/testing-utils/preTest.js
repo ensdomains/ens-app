@@ -1,4 +1,4 @@
-import { deployENS as deployTestEns } from 'ensdomains-mock'
+import { deployENS as deployTestEns } from '@ensdomains/mock'
 import Web3 from 'web3'
 import fs from 'fs'
 
