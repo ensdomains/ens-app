@@ -1355,6 +1355,20 @@
   resolved "https://registry.yarnpkg.com/@ensdomains/contracts/-/contracts-0.0.1.tgz#edb841955adbd6f86bddaf9d05f6d239d25d5ab7"
   integrity sha512-MfcOfE3JqDetwbSHXLNSBtgJjpsdhzuHP70yAKrhmW2VwEFaEpJwKioB6GIGGRTy6e9QYnrj6e0FUhd2C9DdRQ==
 
+"@ensdomains/dnsprovejs@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@ensdomains/dnsprovejs/-/dnsprovejs-0.2.0.tgz#08a7589ee18cedaaf6ef278fc713066a15505599"
+  integrity sha512-ft72da7sEoivsBiEkxKnTTiS0gWN7Zr+temnVZngo6qCuooL6D6W1bYDS7cOeCll93P6gzHgt/Kd/iumecKU7w==
+  dependencies:
+    "@ensdomains/contracts" "0.0.1"
+    "@ensdomains/dnssec-oracle-anchors" "0.0.1"
+    dns-packet "^5.0.4"
+    es6-promise "^4.2.4"
+    eth-ens-namehash "^2.0.8"
+    ethereumjs-util "^5.2.0"
+    idempotent-babel-polyfill "^7.4.4"
+    isomorphic-fetch "^2.2.1"
+
 "@ensdomains/dnssec-oracle-anchors@0.0.1", "@ensdomains/dnssec-oracle-anchors@^0.0.1":
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@ensdomains/dnssec-oracle-anchors/-/dnssec-oracle-anchors-0.0.1.tgz#53c9100fe95f7c7102d66d8a69208bc6be39a049"
@@ -1362,10 +1376,10 @@
   dependencies:
     dns-packet "^5.2.1"
 
-"@ensdomains/mock@^2.0.33":
-  version "2.0.33"
-  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.0.33.tgz#29343946f8277b30d196494632051272d3c2b329"
-  integrity sha512-o8dJj4p6ZnL8JQOAkYFgtsGIq40rP+kd42sxdTFe3wmz7owBEhLJ3E3R4VaOPcTw76ab+CpRjW3pJgXCnhoMQQ==
+"@ensdomains/mock@^2.0.34":
+  version "2.0.34"
+  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.0.34.tgz#a9426a397c2ea43afbbedda4ffc5c81c6acbd0c2"
+  integrity sha512-sNcN9/uSWgkZg88u8yDtYcE4DmjpbVuWo6dGgaKuc/7lbiiy1Si6Ul9XIRsvvHKm/K/sIn/0N6eNy1gWv1WmEw==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
@@ -1378,6 +1392,42 @@
     lodash "^4.17.11"
     moment "^2.26.0"
     table "^5.4.6"
+    web3 "^1.3.0"
+
+"@ensdomains/react-ens-address@^0.0.26":
+  version "0.0.26"
+  resolved "https://registry.yarnpkg.com/@ensdomains/react-ens-address/-/react-ens-address-0.0.26.tgz#864500b50179d44436167664a180628018374846"
+  integrity sha512-X9f+ocaBnDEND9aFz7B+OhPBZgFP6RhdIoshy3IQ3iyPd0k4e/CBVF6HpBTQXJHJ1HGW/kFh6ovQiAFblqxQkw==
+  dependencies:
+    "@emotion/core" "^10.0.14"
+    "@emotion/styled" "^10.0.14"
+    "@ensdomains/ui" "^3.0.40"
+    ethers "^4.0.32"
+    lodash "^4.17.13"
+
+"@ensdomains/ui@^3.0.40":
+  version "3.0.40"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.40.tgz#8d91010a3128c208abf6302b9dbfefee956ff915"
+  integrity sha512-H8+IdlwCpOUfzjekqZ8SrMUnx94zOC5t36Kd+ufuwK5BVSoWFi0uTMVe7DhrLRH9qiaaR7lrBAHszVGJG9m29Q==
+  dependencies:
+    "@0xproject/utils" "^2.0.2"
+    "@babel/plugin-proposal-class-properties" "^7.8.3"
+    "@babel/runtime" "^7.4.4"
+    "@ensdomains/address-encoder" "^0.1.7"
+    "@ensdomains/content-hash" "^2.5.3"
+    "@ensdomains/contracts" "^0.0.1"
+    "@ensdomains/dnsprovejs" "^0.2.0"
+    "@ensdomains/mock" "^2.0.34"
+    "@ethvault/iframe-provider" "0.1.9"
+    base58check "^2.0.0"
+    bech32 "^1.1.3"
+    bs58 "^4.0.1"
+    cross-fetch "^3.0.2"
+    dns-packet "^5.2.1"
+    eth-ens-namehash "^2.0.8"
+    ethers "4.0.44"
+    js-sha3 "^0.8.0"
+    lodash "^4.17.11"
     web3 "^1.3.0"
 
 "@eslint/eslintrc@^0.2.1":
@@ -5715,52 +5765,6 @@ enquirer@^2.3.5:
   integrity sha512-yjNnPr315/FjS4zIsUxYguYUPP2e1NK4d7E7ZOLiyYCcbFBiTMyID+2wvm2w6+pZ/odMA7cRkjhsPbltwBOrLg==
   dependencies:
     ansi-colors "^4.1.1"
-
-ensdomain-contracts@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/ensdomain-contracts/-/ensdomain-contracts-0.0.3.tgz#4c165050daa89a71d7d5b7966bc9f18995c3d0df"
-  integrity sha512-QWKngT1Qr5dh9fgrESwKwZOMCK0OKNhb4Au0q/DJVWfM16PHj1O7NNHoW4zI5xKzg3KBWS0YB9ehucrfKbG3RA==
-
-ensdomains-dnsprovejs@^0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/ensdomains-dnsprovejs/-/ensdomains-dnsprovejs-0.2.3.tgz#871ab315ac1d1de3c1245468d0542e6a1f951d77"
-  integrity sha512-MAj/QRgiUnD4Cv6z3x/mk75DwuKo9vuGyM6ENR3Nb+pXq6kVfJBhLkAsQZbfHOzb3EOQJRdVE0k4F/pfYrah2w==
-  dependencies:
-    "@ensdomains/contracts" "0.0.1"
-    "@ensdomains/dnssec-oracle-anchors" "0.0.1"
-    dns-packet "^5.0.4"
-    es6-promise "^4.2.4"
-    eth-ens-namehash "^2.0.8"
-    ethereumjs-util "^5.2.0"
-    idempotent-babel-polyfill "^7.4.4"
-    isomorphic-fetch "^2.2.1"
-
-ensdomains-mock@^2.0.32:
-  version "2.0.32"
-  resolved "https://registry.yarnpkg.com/ensdomains-mock/-/ensdomains-mock-2.0.32.tgz#0fed7e827504a71c686a80c675d833f4bfb2f56a"
-  integrity sha512-8OB3FtYf73vhtx0kPhwRtY+8hGS0tZwIjwv+YlEcIGmmtOEi4EVn2a3X+VZFMt4JmwE5ROkKDfW4IKy688SZsw==
-  dependencies:
-    "@0xproject/utils" "^2.0.2"
-    "@babel/runtime" "^7.4.4"
-    chalk "^3.0.0"
-    cross-fetch "^3.0.2"
-    ensdomain-contracts "^0.0.3"
-    eth-ens-namehash "^2.0.8"
-    lodash "^4.17.11"
-    moment "^2.26.0"
-    table "^5.4.6"
-    web3 "^1.3.0"
-
-ensdomains-react-ens-address@^0.0.29:
-  version "0.0.29"
-  resolved "https://registry.yarnpkg.com/ensdomains-react-ens-address/-/ensdomains-react-ens-address-0.0.29.tgz#fee462bbeb09d28f76a074c3c4d8ea9706dab335"
-  integrity sha512-9h3xLEIQ/sEkJZ8YSfI9dk8+mXnk+HcDsfa2CEdxvipaE02A2esFaiom9wNi3Gu/HmA5V9qzkz4JtK8xdlLN9A==
-  dependencies:
-    "@emotion/core" "^10.0.14"
-    "@emotion/styled" "^10.0.14"
-    ethers "^4.0.32"
-    lodash "^4.17.13"
-    makoto-ensdomains-ui "^3.0.43"
 
 entities@^1.1.1:
   version "1.1.2"
@@ -10110,53 +10114,6 @@ makeerror@1.0.x:
   integrity sha1-4BpckQnyr3lmDk6LlYd5AYT1qWw=
   dependencies:
     tmpl "1.0.x"
-
-makoto-ensdomains-ui@^3.0.43:
-  version "3.0.43"
-  resolved "https://registry.yarnpkg.com/makoto-ensdomains-ui/-/makoto-ensdomains-ui-3.0.43.tgz#96e56c308fa03f2746557491124eaa092c7e4e7a"
-  integrity sha512-5VxnijUtyEDFhLPeM8Tm8nxYCNwUbAYZnuyLhgA0sgIiD9o9cL4QT3x8kglzWUz/h6ZR9FI2KBwdoRTV9h6Q4A==
-  dependencies:
-    "@0xproject/utils" "^2.0.2"
-    "@babel/plugin-proposal-class-properties" "^7.8.3"
-    "@babel/runtime" "^7.4.4"
-    "@ensdomains/address-encoder" "^0.1.7"
-    "@ensdomains/content-hash" "^2.5.3"
-    "@ethvault/iframe-provider" "0.1.9"
-    base58check "^2.0.0"
-    bech32 "^1.1.3"
-    bs58 "^4.0.1"
-    cross-fetch "^3.0.2"
-    ensdomain-contracts "^0.0.3"
-    ensdomains-mock "^2.0.32"
-    eth-ens-namehash "^2.0.8"
-    ethers "4.0.44"
-    js-sha3 "^0.8.0"
-    lodash "^4.17.11"
-
-makoto-ensdomains-ui@^3.0.46:
-  version "3.0.46"
-  resolved "https://registry.yarnpkg.com/makoto-ensdomains-ui/-/makoto-ensdomains-ui-3.0.46.tgz#98aaa6fa87cdf41335e50f7cd5bac1fec3733adb"
-  integrity sha512-BYjkqQKX3St+DBsuOMZJSj2jo7v4dleF38YeIQVk4+8KyPZK6vsWgEiIWyL1SqztzSg3EoONbt2LhbwS5BGalQ==
-  dependencies:
-    "@0xproject/utils" "^2.0.2"
-    "@babel/plugin-proposal-class-properties" "^7.8.3"
-    "@babel/runtime" "^7.4.4"
-    "@ensdomains/address-encoder" "^0.1.7"
-    "@ensdomains/content-hash" "^2.5.3"
-    "@ensdomains/contracts" "^0.0.1"
-    "@ensdomains/mock" "^2.0.33"
-    "@ethvault/iframe-provider" "0.1.9"
-    base58check "^2.0.0"
-    bech32 "^1.1.3"
-    bs58 "^4.0.1"
-    cross-fetch "^3.0.2"
-    dns-packet "^5.2.1"
-    ensdomains-dnsprovejs "^0.2.3"
-    eth-ens-namehash "^2.0.8"
-    ethers "4.0.44"
-    js-sha3 "^0.8.0"
-    lodash "^4.17.11"
-    web3 "^1.3.0"
 
 map-age-cleaner@^0.1.1:
   version "0.1.3"
