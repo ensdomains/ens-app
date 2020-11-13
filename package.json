@@ -34,7 +34,7 @@
     "ipfs-http-client": "^40.1.0",
     "js-sha3": "^0.8.0",
     "lodash": "^4.17.19",
-    "makoto-ensdomains-ui": "^3.0.45",
+    "makoto-ensdomains-ui": "^3.0.46",
     "moment": "^2.22.2",
     "notification-polyfill": "^1.0.0",
     "react": "^16.12.0",
