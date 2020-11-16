@@ -264,11 +264,15 @@ function getInputType(
       />
     )
   }
-
+  const ensAddress = getEnsAddress()
+  const provider =
+    process.env.REACT_APP_STAGE === 'local'
+      ? 'http://localhost:8545'
+      : window.ethereum || window.web3
   if (type === 'address') {
     let option = {
       presetValue: presetValue || '',
-      provider: window.ethereum || window.web3 || 'http://localhost:8545',
+      provider,
       onResolve: ({ address }) => {
         if (address) {
           updateValue(address)
@@ -276,7 +280,7 @@ function getInputType(
           updateValue('')
         }
       },
-      ensAddress: getEnsAddress()
+      ensAddress
     }
     if (keyName === 'Resolver') {
       option.placeholder =

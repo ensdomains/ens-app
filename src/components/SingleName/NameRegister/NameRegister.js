@@ -68,16 +68,14 @@ const NameRegister = ({
   const { loading: ethUsdPriceLoading, price: ethUsdPrice } = useEthPrice()
   const { block } = useBlock()
   const [invalid, setInvalid] = useState(false)
-  const {
-    data: { waitBlockTimestamp }
-  } = useQuery(WAIT_BLOCK_TIMESTAMP, {
+  const { data: { waitBlockTimestamp } = {} } = useQuery(WAIT_BLOCK_TIMESTAMP, {
     variables: {
       waitUntil
     }
   })
-  const {
-    data: { getMaximumCommitmentAge }
-  } = useQuery(GET_MAXIMUM_COMMITMENT_AGE)
+  const { data: { getMaximumCommitmentAge } = {} } = useQuery(
+    GET_MAXIMUM_COMMITMENT_AGE
+  )
   if (block) {
     now = moment(block.timestamp * 1000)
   }
@@ -86,14 +84,15 @@ const NameRegister = ({
       moment(blockCreatedAt).add(getMaximumCommitmentAge, 'second')
     )
   }
-  const {
-    data: { checkCommitment = false }
-  } = useQuery(CHECK_COMMITMENT, {
-    variables: {
-      label: domain.label,
-      secret
+  const { data: { checkCommitment = false } = {} } = useQuery(
+    CHECK_COMMITMENT,
+    {
+      variables: {
+        label: domain.label,
+        secret
+      }
     }
-  })
+  )
 
   ProgressRecorder({
     checkCommitment,

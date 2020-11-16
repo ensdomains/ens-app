@@ -199,7 +199,7 @@ class SubDomainResults extends Component {
   render() {
     return (
       <Query query={GET_SUBDOMAIN_FAVOURITES}>
-        {({ data: { subDomainFavourites }, loading: loading2 }) => (
+        {({ data: { subDomainFavourites } = {}, loading: loading2 }) => (
           <Query query={GET_SUBDOMAIN_STATE}>
             {({ data, loading }) => {
               const { subDomainState } = data
