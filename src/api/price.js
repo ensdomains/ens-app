@@ -13,6 +13,8 @@ const ChainLinkABI = [
 ]
 
 function getContract(network) {
+  // No chainlink deployed on Goerli
+  // https://docs.chain.link/docs/ethereum-addresses
   const contracts = {
     1: '0xF79D6aFBb6dA890132F9D7c355e3015f15F3406F',
     3: '0x8468b2bDCE073A157E560AA4D9CcF6dB1DB98507',
