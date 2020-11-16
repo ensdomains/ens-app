@@ -127,7 +127,7 @@ function SubDomains({
                 return parseInt(subdomain.owner.id, 16) !== 0
               })
 
-            if (error || !data.domain) {
+            if (error || !data || !data.domain) {
               console.error(
                 'Unable to get subdomains from subgraph, falling back to web3 ',
                 error

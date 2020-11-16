@@ -17,14 +17,16 @@ const DomainInfoContainer = ({ searchTerm }) => {
   return (
     <Query query={GET_SINGLE_NAME} variables={{ name: searchTerm }}>
       {({ data, loading, error }) => {
-        const { singleName } = data
+        if (loading || !data) return null
         if (error) {
           console.error(error)
           return null
         }
+        const { singleName } = data
+
         return (
           <Query query={GET_FAVOURITES}>
-            {({ data: { favourites } }) => (
+            {({ data: { favourites } = {} }) => (
               <DomainItem
                 loading={loading}
                 domain={singleName}

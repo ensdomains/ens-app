@@ -50,7 +50,7 @@ export default function RegistryMigration({
   const { txHash, pending, confirmed } = state
   const { startPending, setConfirmed } = actions
   const {
-    data: { isContractController },
+    data: { isContractController } = {},
     loading: loadingIsContractController
   } = useQuery(IS_CONTRACT_CONTROLLER, {
     variables: { address: domain.owner }
@@ -62,13 +62,27 @@ export default function RegistryMigration({
     }
   })
 
-  const loading = loadingIsParentMigrated || loadingIsContractController
-  const canMigrate =
-    !loading &&
-    isParentMigratedToNewRegistry &&
-    account === domain.parentOwner &&
-    !isContractController
-
+  const loading = loadingIsParentMigrated
+  let canMigrate
+  // isContractController query takes a while which causes CI to fail.
+  // Make it migratable while isContractController is undefined
+  // and make it un migratable only if it ended up being smart contract.
+  if (!!isContractController) {
+    canMigrate = false
+  } else {
+    canMigrate =
+      !loading &&
+      isParentMigratedToNewRegistry &&
+      account === domain.parentOwner
+  }
+  // canMigrate = !loading && isParentMigratedToNewRegistry && account === domain.parentOwner && !isContractController
+  console.log('***canMigrate', {
+    canMigrate,
+    loading,
+    isContractController,
+    isParentMigratedToNewRegistry,
+    date: new Date()
+  })
   const isContractControllerMessage = t('registrymigration.messages.controller')
   const defaultMessage = (
     <Trans
@@ -107,6 +121,9 @@ export default function RegistryMigration({
         />
       ) : (
         <Migrate
+          data-testid={`registry-migrate-button-${
+            canMigrate ? 'enabled' : 'disabled'
+          }`}
           onClick={canMigrate ? migrateRegistry : () => {}}
           type={canMigrate ? 'hollow-primary' : 'hollow-primary-disabled'}
           href="#"
