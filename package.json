@@ -15,7 +15,7 @@
     "@ensdomains/address-encoder": "^0.2.0",
     "@ensdomains/mock": "^2.0.34",
     "@ensdomains/react-ens-address": "^0.0.27",
-    "@ensdomains/ui": "^3.0.44",
+    "@ensdomains/ui": "^3.0.45",
     "apollo-cache-inmemory": "^1.2.9",
     "apollo-client": "^2.4.5",
     "apollo-link": "^1.2.2",
