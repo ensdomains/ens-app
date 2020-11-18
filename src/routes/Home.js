@@ -1,11 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { useQuery } from 'react-apollo'
+import { useQuery, useMutation } from 'react-apollo'
 import { Link } from 'react-router-dom'
 import styled from '@emotion/styled/macro'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import warning from '../assets/whiteWarning.svg'
 import { GET_REVERSE_RECORD } from 'graphql/queries'
+import { SET_ERROR } from 'graphql/mutations'
 import mq from 'mediaQuery'
 import GlobalState from '../globalState'
 import SearchDefault from '../components/SearchName/Search'
@@ -298,8 +299,14 @@ export default ({ match }) => {
     }
   }
 
+  const [setError] = useMutation(SET_ERROR)
   const handleConnect = async () => {
-    let newNetwork = await connect()
+    let network
+    try {
+      network = await connect()
+    } catch (e) {
+      setError({ variables: { message: e.message } })
+    }
     if (network) {
       switchNetwork(network.chainId)
       refetch()

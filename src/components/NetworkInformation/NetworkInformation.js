@@ -8,8 +8,9 @@ import UnstyledBlockies from '../Blockies'
 import NoAccountsModal from '../NoAccounts/NoAccountsModal'
 import Loader from 'components/Loader'
 import useNetworkInfo from './useNetworkInfo'
-import { useQuery } from 'react-apollo'
+import { useQuery, useMutation } from 'react-apollo'
 import { GET_REVERSE_RECORD } from '../../graphql/queries'
+import { SET_ERROR } from '../../graphql/mutations'
 import { connect, disconnect } from '../../api/web3modal'
 
 const NetworkInformationContainer = styled('div')`
@@ -133,8 +134,14 @@ function NetworkInformation() {
   const displayName =
     getReverseRecord && getReverseRecord.name ? getReverseRecord.name : address
 
+  const [setError] = useMutation(SET_ERROR)
   const handleConnect = async () => {
-    let network = await connect()
+    let network
+    try {
+      network = await connect()
+    } catch (e) {
+      setError({ variables: { message: e.message } })
+    }
     if (network) {
       switchNetwork(network.chainId)
       refetch()
