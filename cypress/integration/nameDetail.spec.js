@@ -1,7 +1,6 @@
 const ROOT = Cypress.env('ROOT')
 const NAME_ROOT = Cypress.env('NAME_ROOT')
 
-const ENABLED_COLOUR = 'rgb(82, 132, 255)'
 const DISABLED_COLOUR = 'rgb(223, 223, 223)'
 
 function waitUntilInputResolves(buttonTextOrOptions) {
@@ -44,13 +43,11 @@ describe('Name detail view', () => {
   })
   it('cannot transfer ownership to a non-ethereum address', () => {
     cy.visit(`${NAME_ROOT}/awesome.eth`)
-    // The message appears when it recognised that the account can transfer
-    cy.queryByTestId('owner-type', { timeout: 10000 }).should('exist')
-    cy.getByText('Transfer', { timeout: 10000 })
+    cy.getByText('Transfer')
       .scrollIntoView()
       .click({ force: true })
 
-    cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
+    cy.getByTestId('name-details').within(container => {
       cy.getByPlaceholderText('address', {
         container,
         exact: false,
@@ -69,8 +66,6 @@ describe('Name detail view', () => {
 
   it('can transfer ownership', () => {
     cy.visit(`${NAME_ROOT}/awesome.eth`)
-    // The message appears when it recognised that the account can transfer
-    cy.queryByTestId('owner-type', { timeout: 10000 }).should('exist')
     cy.getByText('Transfer').click({ force: true })
 
     cy.getByTestId('name-details').within(container => {
@@ -96,8 +91,6 @@ describe('Name detail view', () => {
 
   it('can change the resolver', () => {
     cy.visit(`${NAME_ROOT}/superawesome.eth`)
-    // The message appears when it recognised that the account can transfer
-    cy.queryByTestId('owner-type', { timeout: 10000 }).should('exist')
 
     waitUntilInputResolves({ type: 'testId', value: 'edit-resolver' }).then(
       () => {
@@ -122,9 +115,6 @@ describe('Name detail view', () => {
 
   it('can change the resolver to the public resolver', () => {
     cy.visit(`${NAME_ROOT}/superawesome.eth`)
-    // The message appears when it recognised that the account can transfer
-    cy.queryByTestId('owner-type', { timeout: 10000 }).should('exist')
-
     waitUntilInputResolves({ type: 'testId', value: 'edit-resolver' }).then(
       () => {
         cy.getByTestId('edit-resolver').click({ force: true })
@@ -165,8 +155,6 @@ describe('Name detail view', () => {
 
   it(`prevents user from adding a record that isn't an address`, () => {
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
-    // The message appears when it recognised that the account can transfer
-    cy.queryByTestId('owner-type', { timeout: 10000 }).should('exist')
 
     cy.getByTestId('name-details').within(container => {
       cy.getByText('Add/Edit Record').click({ force: true, exact: false })
@@ -216,8 +204,6 @@ describe('Name detail view', () => {
   it('can add an address', () => {
     const url = `${NAME_ROOT}/notsoawesome.eth`
     cy.visit(url)
-    // The message appears when it recognised that the account can transfer
-    cy.queryByTestId('owner-type', { timeout: 10000 }).should('exist')
 
     cy.getByTestId('name-details').within(container => {
       cy.getByText('Add/Edit Record').click({ force: true, exact: false })
@@ -257,8 +243,6 @@ describe('Name detail view', () => {
     const contentv1 =
       'ipfs://bafybeico3uuyj3vphxpvbowchdwjlrlrh62awxscrnii7w7flu5z6fk77y'
     cy.visit(url)
-    // The message appears when it recognised that the account can transfer
-    cy.queryByTestId('owner-type', { timeout: 10000 }).should('exist')
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
       cy.getByText('Add/Edit Record')
@@ -285,8 +269,6 @@ describe('Name detail view', () => {
     const address = 'MQMcJhpWHYVeQArcZR3sBgyPZxxRtnH441'
     const url = `${NAME_ROOT}/notsoawesome.eth`
     cy.visit(url)
-    // The message appears when it recognised that the account can transfer
-    cy.queryByTestId('owner-type', { timeout: 10000 }).should('exist')
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
       cy.getByText('Add/Edit Record')
@@ -317,8 +299,6 @@ describe('Name detail view', () => {
     const text = 'Hello'
     const url = `${NAME_ROOT}/notsoawesome.eth`
     cy.visit(url)
-    // The message appears when it recognised that the account can transfer
-    cy.queryByTestId('owner-type', { timeout: 10000 }).should('exist')
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
       cy.getByText('Add/Edit Record')
@@ -346,8 +326,6 @@ describe('Name detail view', () => {
     const text = 'Bar'
     const url = `${NAME_ROOT}/notsoawesome.eth`
     cy.visit(url)
-    // The message appears when it recognised that the account can transfer
-    cy.queryByTestId('owner-type', { timeout: 10000 }).should('exist')
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
       cy.getByText('Add/Edit Record')
@@ -376,8 +354,6 @@ describe('Name detail view', () => {
     const url = `${NAME_ROOT}/abittooawesome.eth`
     cy.visit(url)
     const ADDRESS = '0x0000000000000000000000000000000000000007'
-    // The message appears when it recognised that the account can transfer
-    cy.queryByTestId('owner-type', { timeout: 10000 }).should('exist')
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
       cy.getByText('Add/Edit Record').click({ force: true })
@@ -396,8 +372,6 @@ describe('Name detail view', () => {
       'bzz://d1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162'
     const url = `${NAME_ROOT}/abittooawesome.eth`
     cy.visit(url)
-    // The message appears when it recognised that the account can transfer
-    cy.queryByTestId('owner-type', { timeout: 10000 }).should('exist')
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
       cy.getByText('Add/Edit Record').click({ force: true })
@@ -414,8 +388,6 @@ describe('Name detail view', () => {
     const TEXT = 'world'
     const url = `${NAME_ROOT}/notsoawesome.eth`
     cy.visit(url)
-    // The message appears when it recognised that the account can transfer
-    cy.queryByTestId('owner-type', { timeout: 10000 }).should('exist')
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
       cy.getByText('Add/Edit Record').click({ force: true })
@@ -451,8 +423,6 @@ describe('Name detail view', () => {
     const url = `${NAME_ROOT}/notsoawesome.eth`
 
     cy.visit(url)
-    // The message appears when it recognised that the account can transfer
-    cy.queryByTestId('owner-type', { timeout: 10000 }).should('exist')
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
       cy.getByText('Add/Edit Record').click({ force: true })
@@ -467,9 +437,6 @@ describe('Name detail view', () => {
 
   it('can delete records', () => {
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
-    // The message appears when it recognised that the account can transfer
-    cy.queryByTestId('owner-type', { timeout: 10000 }).should('exist')
-
     cy.getByTestId('name-details').within(container => {
       cy.getByText('Add/Edit Record').click({ force: true })
 
@@ -512,8 +479,6 @@ describe('Name detail view', () => {
   it('can add a subdomain', () => {
     const LABEL = 'sub1' // using the same subdomain label which is used at sub1.testing.eth
     cy.visit(`${NAME_ROOT}/subdomaindummy.eth/subdomains`, { timeout: 10000 })
-    // The message appears when it recognised that the account can transfer
-    cy.queryByTestId('owner-type', { timeout: 10000 }).should('exist')
 
     cy.getByTestId('subdomains').within(() => {
       cy.wait(1000)

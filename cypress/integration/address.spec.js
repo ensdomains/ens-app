@@ -6,6 +6,19 @@ const DISABLED_COLOUR = 'rgb(199, 211, 227)'
 describe('/address', () => {
   it('contains the list of names owened by the user', () => {
     cy.visit(ROOT)
+    cy.getByPlaceholderText('Search', { exact: false }).type('resolver.eth')
+    cy.get('button')
+      .contains('Search')
+      .click()
+
+    cy.getByTestId('sitenav').within(container => {
+      cy.queryByText('My Account', { container, exact: false }).should(
+        'have.css',
+        'color',
+        DISABLED_COLOUR
+      )
+    })
+
     cy.getByText('My Account').click({ force: true })
     cy.queryByText('View On Etherscan', {
       exact: false,
@@ -25,9 +38,7 @@ describe('/address', () => {
   it('can select a name', () => {
     cy.visit(ROOT)
     cy.getByText('My Account').click({ force: true })
-    cy.getByTestId('checkbox-newname.eth', { timeout: 10000 }).click({
-      force: true
-    })
+    cy.getByTestId('checkbox-newname.eth', { timeout: 10000 }).click()
     cy.get('[data-testid="checkbox-newname.eth"] div').should(
       'have.css',
       'border-top-color',
@@ -39,7 +50,7 @@ describe('/address', () => {
     cy.visit(ROOT)
     cy.getByText('My Account').click({ force: true })
     cy.getByText('Renew', { exact: false, timeout: 10000 }).click()
-    cy.queryByText('Renew', { exact: false, timeout: 10000 }).should(
+    cy.queryByText('Renew', { exact: false }).should(
       'have.css',
       'background-color',
       'rgb(223, 223, 223)'
@@ -57,25 +68,14 @@ describe('/address', () => {
       .then(text => {
         const currentYear = parseInt(text.match(/(\d){4}/)[0])
         // Select all
-        cy.getByTestId(`checkbox-renewall`, { timeout: 10000 }).click({
-          force: true
-        })
+        cy.getByTestId(`checkbox-renewall`, { timeout: 10000 }).click()
         cy.get(`[data-testid="checkbox-${name}"] div`, {
           timeout: 10000
         }).should('have.css', 'border-top-color', ENABLED_COLOUR)
-        cy.getByText('Renew Selected', { exact: false, timeout: 10000 }).click({
-          force: true
-        })
-        cy.queryByText('Registration Period', {
-          exact: false,
-          timeout: 10000
-        }).should('exist')
-        cy.getByText('Renew', { exact: false, timeout: 10000 }).click({
-          force: true
-        })
-        cy.getByText('Confirm', { exact: true, timeout: 10000 }).click({
-          force: true
-        })
+        cy.getByText('Renew Selected', { exact: false }).click()
+        cy.queryByText('Registration Period', { exact: false }).should('exist')
+        cy.getByText('Renew', { exact: false }).click()
+        cy.getByText('Confirm', { exact: true }).click()
         cy.get(`[data-testid="${name}"]`, {
           timeout: 10000
         }).within(() => {
@@ -97,25 +97,14 @@ describe('/address', () => {
       .invoke('text')
       .then(text => {
         const currentYear = parseInt(text.match(/(\d){4}/)[0])
-        cy.getByTestId(`checkbox-${name}`, { timeout: 10000 }).click({
-          force: true
-        })
+        cy.getByTestId(`checkbox-${name}`, { timeout: 10000 }).click()
         cy.get(`[data-testid="checkbox-${name}"] div`, {
           timeout: 10000
         }).should('have.css', 'border-top-color', ENABLED_COLOUR)
-        cy.getByText('Renew Selected', { exact: false, timeout: 10000 }).click({
-          force: true
-        })
-        cy.queryByText('Registration Period', {
-          exact: false,
-          timeout: 10000
-        }).should('exist')
-        cy.getByText('Renew', { exact: false, timeout: 10000 }).click({
-          force: true
-        })
-        cy.getByText('Confirm', { exact: true, timeout: 10000 }).click({
-          force: true
-        })
+        cy.getByText('Renew Selected', { exact: false }).click()
+        cy.queryByText('Registration Period', { exact: false }).should('exist')
+        cy.getByText('Renew', { exact: false }).click()
+        cy.getByText('Confirm', { exact: true }).click()
         cy.get(`[data-testid="${name}"]`, {
           timeout: 10000
         }).within(() => {
