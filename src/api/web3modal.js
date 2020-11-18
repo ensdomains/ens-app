@@ -1,7 +1,6 @@
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import { setup as setupENS } from '../api/ens'
-import { getProvider } from '@ensdomains/ui'
 import Authereum from 'authereum'
 import MewConnect from '@myetherwallet/mewconnect-web-client'
 import Torus from '@toruslabs/torus-embed'
