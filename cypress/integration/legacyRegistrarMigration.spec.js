@@ -5,7 +5,6 @@ describe('Release Deed from Migrated Legacy registrar', () => {
   it('show link to reclaim page', () => {
     cy.visit(`${ROOT}/name/auctioned3.eth`)
     cy.queryByText('https://reclaim.ens.domains', {
-      timeout: 5000,
       exact: false
     }).should('exist')
   })
