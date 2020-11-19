@@ -59,7 +59,7 @@ const Route = ({
 }
 
 const App = ({ initialClient, initialNetworkId }) => {
-  const { switchNetwork, currentNetwork } = useContext(GlobalState)
+  const { currentNetwork } = useContext(GlobalState)
   let [currentClient, setCurrentClient] = useState(initialClient)
   let client
   useEffect(() => {
