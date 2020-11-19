@@ -269,6 +269,10 @@ const PermanentRegistrarLogo = styled(motion.h1)`
   text-align: center;
 `
 
+const ReadOnly = styled('span')`
+  margin-left: 1em;
+`
+
 export default ({ match }) => {
   const { url } = match
   const { t } = useTranslation()
@@ -328,7 +332,7 @@ export default ({ match }) => {
               <NetworkStatus>
                 <Network>
                   {`${network} ${t('c.network')}`}
-                  {isReadOnly && `(${t('c.readonly')})`}
+                  {isReadOnly && <ReadOnly>({t('c.readonly')})</ReadOnly>}
                   {!isReadOnly && displayName && <Name>({displayName})</Name>}
                 </Network>
                 <NoAccounts
