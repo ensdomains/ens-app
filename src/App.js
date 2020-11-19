@@ -58,7 +58,7 @@ const Route = ({
   )
 }
 
-const App = ({ initialClient }) => {
+const App = ({ initialClient, initialNetworkId }) => {
   const { switchNetwork, currentNetwork } = useContext(GlobalState)
   let [currentClient, setCurrentClient] = useState(initialClient)
   let client
@@ -67,7 +67,8 @@ const App = ({ initialClient }) => {
       try {
         if (
           process.env.REACT_APP_STAGE === 'local' &&
-          process.env.REACT_APP_ENS_ADDRESS
+          process.env.REACT_APP_ENS_ADDRESS &&
+          currentNetwork !== 1 // If 1, login as Read only
         ) {
           await setupENS({
             reloadOnAccountsChange: true,
@@ -86,8 +87,10 @@ const App = ({ initialClient }) => {
           )
         }
         const networkId = await getNetworkId()
-        client = await setupClient(currentNetwork || networkId)
-        setCurrentClient(client)
+        if ((currentNetwork || initialNetworkId) !== networkId) {
+          client = await setupClient(currentNetwork || networkId)
+          setCurrentClient(client)
+        }
       } catch (e) {
         console.log(e)
         client = await setupClient()

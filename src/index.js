@@ -13,7 +13,7 @@ import { getNetworkId } from '@ensdomains/ui'
 import './i18n'
 
 window.addEventListener('load', async () => {
-  let client
+  let client, networkId
 
   try {
     if (
@@ -42,7 +42,7 @@ window.addEventListener('load', async () => {
         enforceReload: true
       })
     }
-    const networkId = await getNetworkId()
+    networkId = await getNetworkId()
     client = await setupClient(networkId)
   } catch (e) {
     console.log(e)
@@ -55,7 +55,7 @@ window.addEventListener('load', async () => {
   ReactDOM.render(
     <Suspense fallback={null}>
       <GlobalStateProvider>
-        <App initialClient={client} />
+        <App initialClient={client} initialNetworkId={networkId} />
       </GlobalStateProvider>
     </Suspense>,
     document.getElementById('root')
