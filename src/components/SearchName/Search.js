@@ -93,10 +93,8 @@ function Search({ history, className, style }) {
         let searchTerm
         if (input && input.value) {
           searchTerm = input.value.toLowerCase()
-        } else {
-          debugger
         }
-        if (searchTerm.length < 1) {
+        if (!searchTerm || searchTerm.length < 1) {
           return
         }
 
