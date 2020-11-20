@@ -91,7 +91,7 @@ function Search({ history, className, style }) {
         if (!hasSearch) return
         const type = await parseSearchTerm(inputValue)
         let searchTerm
-        if (input.value) {
+        if (input && input.value) {
           searchTerm = input.value.toLowerCase()
         } else {
           debugger
