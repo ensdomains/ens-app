@@ -27,7 +27,7 @@ import { pageview, setup as setupAnalytics } from './utils/analytics'
 import StackdriverErrorReporter from 'stackdriver-errors-js'
 import GlobalState from './globalState'
 import { ApolloProvider } from 'react-apollo'
-import { handleNetworkChange } from './utils/utils'
+import { setupClient } from 'apolloClient'
 const errorHandler = new StackdriverErrorReporter()
 
 // If we are targeting an IPFS build we need to use HashRouter
@@ -58,10 +58,9 @@ const App = ({ initialClient, initialNetworkId }) => {
   const { currentNetwork } = useContext(GlobalState)
   let [currentClient, setCurrentClient] = useState(initialClient)
   useEffect(() => {
-    console.log('*** currentNetwork', currentNetwork)
+    console.log('*** currentNetwork1', { currentNetwork, initialNetworkId })
     if (currentNetwork) {
-      // Skip for the first time as it is already called at index.js
-      handleNetworkChange().then(({ client }) => setCurrentClient(client))
+      setupClient(currentNetwork).then(client => setCurrentClient(client))
     }
   }, [currentNetwork])
   return (

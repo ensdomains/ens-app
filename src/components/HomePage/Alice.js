@@ -207,7 +207,7 @@ class Explainer extends Component {
 
   render() {
     return (
-      <BaseContainer innerRef={this.explainer}>
+      <BaseContainer ref={this.explainer}>
         <div className="background">
           {hexStrings.map((s, i) => (
             <div key={i} className="bg-string" ref={this['string' + i]}>

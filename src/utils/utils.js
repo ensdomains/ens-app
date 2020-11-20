@@ -194,7 +194,7 @@ export async function handleNetworkChange() {
       process.env.REACT_APP_STAGE === 'local' &&
       process.env.REACT_APP_ENS_ADDRESS
     ) {
-      await setupENS({
+      await setup({
         reloadOnAccountsChange: true,
         customProvider: 'http://localhost:8545',
         ensAddress: process.env.REACT_APP_ENS_ADDRESS
@@ -219,15 +219,17 @@ export async function handleNetworkChange() {
       console.log('***handleNetworkChange2')
     }
     networkId = await getNetworkId()
+    console.log('***handleNetworkChange3', { networkId })
     client = await setupClient(networkId)
   } catch (e) {
     networkId = networkId || 1 // Readonly to Mainnet
+    console.log('***handleNetworkChange4', { networkId })
     client = await setupClient()
     await client.mutate({
       mutation: SET_ERROR,
       variables: { message: e.message }
     })
   }
-  console.log('***handleNetworkChange３', { client, networkId })
+  console.log('***handleNetworkChange5', { client, networkId })
   return { client, networkId }
 }
