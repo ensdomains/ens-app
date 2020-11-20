@@ -144,6 +144,7 @@ function NetworkInformation() {
     }
     if (network) {
       switchNetwork(network.chainId)
+      console.log('*** params: refetch')
       refetch()
     }
   }
@@ -151,6 +152,7 @@ function NetworkInformation() {
   const handleDisconnect = async () => {
     await disconnect()
     switchNetwork(1)
+    console.log('*** params: refetch')
     refetch()
   }
 
@@ -171,8 +173,8 @@ function NetworkInformation() {
   }
 
   return (
-    <NetworkInformationContainer hasAccount={accounts.length > 0}>
-      {accounts.length > 0 ? (
+    <NetworkInformationContainer hasAccount={accounts && accounts.length > 0}>
+      {accounts && accounts.length > 0 ? (
         <AccountContainer>
           {!reverseRecordLoading &&
           getReverseRecord &&

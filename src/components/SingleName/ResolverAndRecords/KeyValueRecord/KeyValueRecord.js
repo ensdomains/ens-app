@@ -246,37 +246,38 @@ function Records({
     <KeyValueContainer hasRecord={hasRecord}>
       <Key>{title}</Key>
       <KeyValuesList>
-        {records.map(({ key, value }) => {
-          if (
-            // Value empty
-            (value === emptyAddress || value === '') &&
-            // Value has not been changed
-            !changedRecords[recordType].find(record => record.key === key) &&
-            // Value is not a placeholder
-            !placeholderRecords.includes(key)
-          ) {
-            return null
-          }
+        {records &&
+          records.map(({ key, value }) => {
+            if (
+              // Value empty
+              (value === emptyAddress || value === '') &&
+              // Value has not been changed
+              !changedRecords[recordType].find(record => record.key === key) &&
+              // Value is not a placeholder
+              !placeholderRecords.includes(key)
+            ) {
+              return null
+            }
 
-          return (
-            <Record
-              editing={editing}
-              key={key}
-              dataValue={value}
-              validator={validator}
-              getPlaceholder={getPlaceholder}
-              textKey={key}
-              domain={domain}
-              name={domain.name}
-              setHasRecord={setHasRecord}
-              hasRecord={hasRecord}
-              canEdit={canEdit}
-              setUpdatedRecords={setUpdatedRecords}
-              changedRecords={changedRecords}
-              recordType={recordType}
-            />
-          )
-        })}
+            return (
+              <Record
+                editing={editing}
+                key={key}
+                dataValue={value}
+                validator={validator}
+                getPlaceholder={getPlaceholder}
+                textKey={key}
+                domain={domain}
+                name={domain.name}
+                setHasRecord={setHasRecord}
+                hasRecord={hasRecord}
+                canEdit={canEdit}
+                setUpdatedRecords={setUpdatedRecords}
+                changedRecords={changedRecords}
+                recordType={recordType}
+              />
+            )
+          })}
       </KeyValuesList>
     </KeyValueContainer>
   )
