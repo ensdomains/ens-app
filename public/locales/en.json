@@ -278,7 +278,7 @@
         "title": "1. Set Resolver"
       },
       "step2": {
-        "text": "Once you have set the Resolver, you can then add records by clicking the ‘+’ in the ‘records’ field. Adding your ethereum address will allow you to point your wallet to your name in the next step.",
+        "text": "Once you have set the Resolver, you can then add records by clicking the ‘ADD/EDIT RECORD’ in the ‘records’ field. Find 'addresses' and then 'ETH' in the dropdown, paste in your address and then click confirm below and then in the modal. Adding your ethereum address will allow you to point your wallet to your name in the next step.",
         "title": "2. Set Address"
       },
       "step3": {
