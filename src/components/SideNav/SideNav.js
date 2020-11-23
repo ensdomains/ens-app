@@ -149,6 +149,12 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
           </NavLink>
         </li>
         <li>
+          <NavLink onClick={toggleMenu} active={url === '/faq'} to="/faq">
+            <SpeechBubble />
+            <span>{t('c.faq')}</span>
+          </NavLink>
+        </li>
+        <li>
           <ThirdPartyLink href={abougPageURL()}>
             <SpeechBubble />
             <span>{t('c.about')}</span>
