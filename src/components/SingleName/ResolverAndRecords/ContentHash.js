@@ -335,7 +335,7 @@ function ContentHashViewOnly({ keyName, value, type, domain, account }) {
               <CopyToClipBoard value={value} />
             </>
           ) : (
-            <RecordsValue>Content Hash not set</RecordsValue>
+            <NotSet>Not set</NotSet>
           )}
         </RecordsValue>
       </RecordsContent>
