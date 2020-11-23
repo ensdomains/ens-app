@@ -254,7 +254,10 @@ export default function Records({
         ? processTextRecords(dataTextRecords.getTextRecords)
         : processTextRecords([]),
     coins: dataAddresses && dataAddresses.getAddresses,
-    content: domain.content?.startsWith('undefined') ? '' : domain.content,
+    content:
+      domain.content?.startsWith('undefined') || domain.content === emptyAddress
+        ? ''
+        : domain.content,
     loading: textRecordsLoading || addressesLoading
   }
 
