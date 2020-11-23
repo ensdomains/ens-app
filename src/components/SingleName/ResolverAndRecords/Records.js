@@ -163,6 +163,15 @@ function checkRecordsAreValid(changedRecords) {
   return textRecordsValid && coinsValid
 }
 
+function isContentHashEmpty(hash) {
+  return (
+    hash?.startsWith('undefined') ||
+    hash === emptyAddress ||
+    hash ===
+      '0x0000000000000000000000000000000000000000000000000000000000000000'
+  )
+}
+
 // graphql data in resolver and records to check current records
 // state in resolver and records to record new edit changes
 // check old and new to see if any have changed
@@ -254,10 +263,7 @@ export default function Records({
         ? processTextRecords(dataTextRecords.getTextRecords)
         : processTextRecords([]),
     coins: dataAddresses && dataAddresses.getAddresses,
-    content:
-      domain.content?.startsWith('undefined') || domain.content === emptyAddress
-        ? ''
-        : domain.content,
+    content: isContentHashEmpty(domain.content) ? '' : domain.content,
     loading: textRecordsLoading || addressesLoading
   }
 
