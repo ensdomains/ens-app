@@ -164,12 +164,7 @@ function checkRecordsAreValid(changedRecords) {
 }
 
 function isContentHashEmpty(hash) {
-  return (
-    hash?.startsWith('undefined') ||
-    hash === emptyAddress ||
-    hash ===
-      '0x0000000000000000000000000000000000000000000000000000000000000000'
-  )
+  return hash?.startsWith('undefined') || parseInt(hash, 16) === 0
 }
 
 // graphql data in resolver and records to check current records
