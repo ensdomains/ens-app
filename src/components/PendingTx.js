@@ -58,6 +58,7 @@ function PendingTx(props) {
   const lastTransaction = _.last(transactionHistory)
   useEffect(() => {
     if (
+      onConfirmed &&
       lastTransaction &&
       lastTransaction.txHash === txHash &&
       lastTransaction.txState === 'Confirmed'
