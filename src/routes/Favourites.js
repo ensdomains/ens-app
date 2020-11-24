@@ -137,11 +137,14 @@ function Favourites() {
     (subDomainFavourites && subDomainFavourites.length > 0)
   if (!hasFavourites) {
     return (
-      <NoDomains>
-        <LargeHeart />
-        <h2>{t('favourites.nofavouritesDomains.title')}</h2>
-        <p>{t('favourites.nofavouritesDomains.text')}</p>
-      </NoDomains>
+      <FavouritesContainer data-testid="favourites-container">
+        <H2>{t('favourites.favouriteTitle')}</H2>
+        <NoDomains>
+          <LargeHeart />
+          <h2>{t('favourites.nofavouritesDomains.title')}</h2>
+          <p>{t('favourites.nofavouritesDomains.text')}</p>
+        </NoDomains>
+      </FavouritesContainer>
     )
   }
 
