@@ -97,7 +97,7 @@
     "reminder": "Remind me"
   },
   "favourites": {
-    "favouriteTitle": "Favourite Domains",
+    "favouriteTitle": "Favourites",
     "nofavouritesDomains": {
       "text": "To add names to favourites, click the heart icon next to any desired name.",
       "title": "No names have been saved."

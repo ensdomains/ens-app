@@ -100,19 +100,6 @@ const DomainName = styled('h2')`
   }};
 `
 
-const Price = styled('span')`
-  margin-right: 20px;
-  font-size: 18px;
-  font-weight: 100;
-  display: none;
-  ${mq.small`
-    display: inline;
-  `}
-  ${mq.medium`
-    font-size: 28px;
-  `}
-`
-
 const LabelContainer = styled('div')`
   margin-right: 20px;
   font-size: 16px;
@@ -190,17 +177,6 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
             <ExpiryDate expiryDate={expiryDate} />
             <Label domain={domain} isOwner={isOwner} />
             <RightContainer>
-              {isSubDomain && domain.state === 'Open' ? (
-                <Price className="price">
-                  {domain.price
-                    ? domain.price > 0
-                      ? `${domain.price} ETH`
-                      : 'Free'
-                    : ''}
-                </Price>
-              ) : (
-                ''
-              )}
               <AddFavourite
                 domain={domain}
                 isSubDomain={isSubDomain}
