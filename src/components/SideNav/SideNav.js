@@ -6,7 +6,7 @@ import NetworkInformation from '../NetworkInformation/NetworkInformation'
 import useNetworkInfo from '../NetworkInformation/useNetworkInfo'
 import Heart from '../Icons/Heart'
 import File from '../Icons/File'
-import { abougPageURL } from '../../utils/utils'
+import { aboutPageURL } from '../../utils/utils'
 import SpeechBubble from '../Icons/SpeechBubble'
 
 import mq from 'mediaQuery'
@@ -153,7 +153,7 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
           </NavLink>
         </li>
         <li>
-          <ThirdPartyLink href={abougPageURL()}>
+          <ThirdPartyLink href={aboutPageURL()}>
             <SpeechBubble />
             <span>{t('c.about')}</span>
           </ThirdPartyLink>

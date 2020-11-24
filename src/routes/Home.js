@@ -19,7 +19,7 @@ import QuestionMarkDefault from '../components/Icons/QuestionMark'
 import HowToUseDefault from '../components/HowToUse/HowToUse'
 import Alice from '../components/HomePage/Alice'
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
-import { abougPageURL } from '../utils/utils'
+import { aboutPageURL } from '../utils/utils'
 import { connect, disconnect } from '../api/web3modal'
 
 const HeroTop = styled('div')`
@@ -352,7 +352,7 @@ export default ({ match }) => {
               </NavLink>
             )}
             <NavLink to="/favourites">{t('c.favourites')}</NavLink>
-            <ExternalLink href={abougPageURL()}>{t('c.about')}</ExternalLink>
+            <ExternalLink href={aboutPageURL()}>{t('c.about')}</ExternalLink>
           </Nav>
         </HeroTop>
         <SearchContainer>
@@ -379,7 +379,7 @@ export default ({ match }) => {
               {t('home.whatisens.title')}
             </H2>
             <p>{t('home.whatisens.body')}</p>
-            <ExternalButtonLink href={abougPageURL()}>
+            <ExternalButtonLink href={aboutPageURL()}>
               {t('c.learnmore')}
             </ExternalButtonLink>
           </Inner>
@@ -395,7 +395,7 @@ export default ({ match }) => {
               {t('home.howtouse.title')}
             </H2>
             <p>{t('home.howtouse.body')}</p>
-            <ExternalButtonLink href={abougPageURL()}>
+            <ExternalButtonLink href={aboutPageURL()}>
               {t('c.learnmore')}
             </ExternalButtonLink>
           </Inner>

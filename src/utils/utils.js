@@ -177,7 +177,7 @@ export function isShortName(term) {
   return [...term].length < 3
 }
 
-export const abougPageURL = () => {
+export const aboutPageURL = () => {
   const lang = window.localStorage.getItem('language') || ''
 
   return `https://ens.domains/${lang === 'en' ? '' : lang}`
