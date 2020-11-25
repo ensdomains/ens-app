@@ -5,6 +5,7 @@ describe('Search', () => {
   it('can list a domain', () => {
     cy.visit(ROOT)
     cy.getByPlaceholderText('Search', { exact: false }).type('resolver')
+    cy.wait(500)
     cy.get('button')
       .contains('Search')
       .click()
@@ -19,6 +20,7 @@ describe('Search', () => {
   it('can search for a domain', () => {
     cy.visit(ROOT)
     cy.getByPlaceholderText('Search', { exact: false }).type('resolver.eth')
+    cy.wait(500)
     cy.get('button')
       .contains('Search')
       .click()
@@ -31,6 +33,7 @@ describe('Search', () => {
   it('can search for a domain', () => {
     cy.visit(ROOT)
     cy.getByPlaceholderText('Search', { exact: false }).type('resolver.eth')
+    cy.wait(500)
     cy.get('button')
       .contains('Search')
       .click()
@@ -52,6 +55,7 @@ describe('Search', () => {
   it('can not search names with invalid format', () => {
     cy.visit(ROOT)
     cy.getByPlaceholderText('Search', { exact: false }).type('abc defg')
+    cy.wait(500)
     cy.get('button')
       .contains('Search')
       .click()
@@ -85,6 +89,7 @@ describe('Search', () => {
   it('can see the list of Names if no TLDS are specified', () => {
     cy.visit(ROOT)
     cy.getByPlaceholderText('Search', { exact: false }).type('notldispsecified')
+    cy.wait(500)
     cy.get('button')
       .contains('Search')
       .click()
