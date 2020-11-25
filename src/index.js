@@ -11,52 +11,16 @@ import 'globalStyles'
 import { setupClient } from 'apolloClient'
 import { getNetworkId } from '@ensdomains/ui'
 import './i18n'
+import { handleNetworkChange } from './utils/utils'
 
 window.addEventListener('load', async () => {
-  let client
-
-  try {
-    if (
-      process.env.REACT_APP_STAGE === 'local' &&
-      process.env.REACT_APP_ENS_ADDRESS
-    ) {
-      await setup({
-        reloadOnAccountsChange: true,
-        customProvider: 'http://localhost:8545',
-        ensAddress: process.env.REACT_APP_ENS_ADDRESS
-      })
-      let labels = window.localStorage['labels']
-        ? JSON.parse(window.localStorage['labels'])
-        : {}
-      window.localStorage.setItem(
-        'labels',
-        JSON.stringify({
-          ...labels,
-          ...JSON.parse(process.env.REACT_APP_LABELS)
-        })
-      )
-    } else {
-      await setup({
-        reloadOnAccountsChange: false
-      })
-    }
-    const networkId = await getNetworkId()
-    client = await setupClient(networkId)
-  } catch (e) {
-    console.log(e)
-    client = await setupClient()
-    await client.mutate({
-      mutation: SET_ERROR,
-      variables: { message: e.message }
-    })
-  }
+  const { client, networkId } = await handleNetworkChange()
+  console.log('*** index2', { client, networkId })
   ReactDOM.render(
     <Suspense fallback={null}>
-      <ApolloProvider client={client}>
-        <GlobalStateProvider>
-          <App />
-        </GlobalStateProvider>
-      </ApolloProvider>
+      <GlobalStateProvider>
+        <App initialClient={client} initialNetworkId={networkId} />
+      </GlobalStateProvider>
     </Suspense>,
     document.getElementById('root')
   )

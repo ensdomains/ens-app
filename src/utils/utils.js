@@ -10,6 +10,9 @@ import {
 import getENS from '../api/ens'
 import * as jsSHA3 from 'js-sha3'
 import { saveName } from '../api/labels'
+import { setup } from '../api/ens'
+import { SET_ERROR } from 'graphql/mutations'
+import { setupClient } from 'apolloClient'
 
 // From https://github.com/0xProject/0x-monorepo/blob/development/packages/utils/src/address_utils.ts
 
@@ -181,4 +184,51 @@ export const abougPageURL = () => {
 
 export function isRecordEmpty(value) {
   return value === emptyAddress || value === ''
+}
+
+export async function handleNetworkChange() {
+  let client, networkId
+  try {
+    if (
+      process.env.REACT_APP_STAGE === 'local' &&
+      process.env.REACT_APP_ENS_ADDRESS
+    ) {
+      await setup({
+        reloadOnAccountsChange: true,
+        customProvider: 'http://localhost:8545',
+        ensAddress: process.env.REACT_APP_ENS_ADDRESS
+      })
+      let labels = window.localStorage['labels']
+        ? JSON.parse(window.localStorage['labels'])
+        : {}
+      window.localStorage.setItem(
+        'labels',
+        JSON.stringify({
+          ...labels,
+          ...JSON.parse(process.env.REACT_APP_LABELS)
+        })
+      )
+    } else {
+      console.log('***handleNetworkChange1')
+      await setup({
+        reloadOnAccountsChange: false,
+        enforceReadOnly: true,
+        enforceReload: true
+      })
+      console.log('***handleNetworkChange2')
+    }
+    networkId = await getNetworkId()
+    console.log('***handleNetworkChange3', { networkId })
+    client = await setupClient(networkId)
+  } catch (e) {
+    networkId = networkId || 1 // Readonly to Mainnet
+    console.log('***handleNetworkChange4', { networkId })
+    client = await setupClient()
+    await client.mutate({
+      mutation: SET_ERROR,
+      variables: { message: e.message }
+    })
+  }
+  console.log('***handleNetworkChange5', { client, networkId })
+  return { client, networkId }
 }

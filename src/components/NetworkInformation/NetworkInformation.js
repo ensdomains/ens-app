@@ -1,15 +1,18 @@
-import React from 'react'
+import React, { useState, useContext } from 'react'
 import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
 
 import mq from 'mediaQuery'
+import GlobalState from '../../globalState'
 
 import UnstyledBlockies from '../Blockies'
 import NoAccountsModal from '../NoAccounts/NoAccountsModal'
 import Loader from 'components/Loader'
 import useNetworkInfo from './useNetworkInfo'
-import { useQuery } from 'react-apollo'
+import { useQuery, useMutation } from 'react-apollo'
 import { GET_REVERSE_RECORD } from '../../graphql/queries'
+import { SET_ERROR } from '../../graphql/mutations'
+import { connect, disconnect } from '../../api/web3modal'
 
 const NetworkInformationContainer = styled('div')`
   position: relative;
@@ -110,7 +113,14 @@ const WaitingText = styled('span')`
 
 function NetworkInformation() {
   const { t } = useTranslation()
-  const { accounts, network, loading, error } = useNetworkInfo()
+  const {
+    accounts,
+    network,
+    loading,
+    error,
+    refetch,
+    isReadOnly
+  } = useNetworkInfo()
   const address = accounts && accounts[0]
   const {
     data: { getReverseRecord } = {},
@@ -120,8 +130,31 @@ function NetworkInformation() {
       address
     }
   })
+  const { switchNetwork, currentNetwork } = useContext(GlobalState)
   const displayName =
     getReverseRecord && getReverseRecord.name ? getReverseRecord.name : address
+
+  const [setError] = useMutation(SET_ERROR)
+  const handleConnect = async () => {
+    let network
+    try {
+      network = await connect()
+    } catch (e) {
+      setError({ variables: { message: e.message } })
+    }
+    if (network) {
+      switchNetwork(network.chainId)
+      console.log('*** params: refetch')
+      refetch()
+    }
+  }
+
+  const handleDisconnect = async () => {
+    await disconnect()
+    switchNetwork(1)
+    console.log('*** params: refetch')
+    refetch()
+  }
 
   if (loading) {
     return (
@@ -156,9 +189,26 @@ function NetworkInformation() {
           <NetworkStatus>
             {network} {t('c.network')}
           </NetworkStatus>
+          <NoAccountsModal
+            onClick={handleDisconnect}
+            buttonText={t('c.disconnect')}
+            colour={'#F5A623'}
+          />
         </AccountContainer>
       ) : (
-        <NoAccountsModal colour={'#F5A623'} />
+        <AccountContainer>
+          <Account data-testid="account" className="account">
+            {t('c.readonly')}
+          </Account>
+          <NetworkStatus>
+            {network} {t('c.network')}
+          </NetworkStatus>
+          <NoAccountsModal
+            onClick={handleConnect}
+            colour={'#F5A623'}
+            buttonText={t('c.connect')}
+          />
+        </AccountContainer>
       )}
     </NetworkInformationContainer>
   )
