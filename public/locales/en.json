@@ -39,6 +39,7 @@
     "edit": "Edit",
     "email": "Email",
     "expires": "Expires",
+    "faq": "FAQ",
     "favourites": "Favourites",
     "learnmore": "Learn More",
     "learnmoreenglishonly": "Learn More",
@@ -99,7 +100,7 @@
     "reminder": "Remind me"
   },
   "favourites": {
-    "favouriteTitle": "Favourite Domains",
+    "favouriteTitle": "Favourites",
     "nofavouritesDomains": {
       "text": "To add names to favourites, click the heart icon next to any desired name.",
       "title": "No names have been saved."
@@ -281,7 +282,7 @@
         "title": "1. Set Resolver"
       },
       "step2": {
-        "text": "Once you have set the Resolver, you can then add records by clicking the ‘+’ in the ‘records’ field. Adding your ethereum address will allow you to point your wallet to your name in the next step.",
+        "text": "Once you have set the Resolver, you can then add records by clicking the ‘ADD/EDIT RECORD’ in the ‘records’ field. Find 'addresses' and then 'ETH' in the dropdown, paste in your address and then click confirm below and then in the modal. Adding your ethereum address will allow you to point your wallet to your name in the next step.",
         "title": "2. Set Address"
       },
       "step3": {
