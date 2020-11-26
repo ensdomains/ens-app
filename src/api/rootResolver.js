@@ -1,4 +1,4 @@
-import { getWeb3, getAccounts, getNetworkId, isReadOnly } from '@ensdomains/ui'
+import { getWeb3, getAccounts, getNetworkId, isReadOnly } from 'ui-ethers5023'
 import getENS from 'api/ens'
 import merge from 'lodash/merge'
 import managerResolvers, {

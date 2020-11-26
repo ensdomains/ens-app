@@ -1,4 +1,4 @@
-import { setupENS } from '@ensdomains/ui'
+import { setupENS } from 'ui-ethers5023'
 
 let ens = {},
   registrar = {},

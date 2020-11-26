@@ -1,5 +1,5 @@
 import jsSHA3 from 'js-sha3'
-import { isEncodedLabelhash, decodeLabelhash } from '@ensdomains/ui'
+import { isEncodedLabelhash, decodeLabelhash } from 'ui-ethers5023'
 
 function getLabels() {
   return JSON.parse(localStorage.getItem('labels')) || {}

@@ -9,7 +9,7 @@ import { SET_ERROR } from 'graphql/mutations'
 import { GlobalStateProvider } from 'globalState'
 import 'globalStyles'
 import { setupClient } from 'apolloClient'
-import { getNetworkId } from '@ensdomains/ui'
+import { getNetworkId } from 'ui-ethers5023'
 import './i18n'
 
 window.addEventListener('load', async () => {
