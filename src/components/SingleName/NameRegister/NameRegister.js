@@ -58,6 +58,7 @@ const NameRegister = ({
   const [years, setYears] = useState(1)
   const [secondsPassed, setSecondsPassed] = useState(0)
   const [timerRunning, setTimerRunning] = useState(false)
+  const [commitmentTimerRunning, setCommitmentTimerRunning] = useState(false)
   const [blockCreatedAt, setBlockCreatedAt] = useState(null)
   const [waitUntil, setWaitUntil] = useState(null)
   const [targetDate, setTargetDate] = useState(false)
@@ -89,7 +90,9 @@ const NameRegister = ({
     {
       variables: {
         label: domain.label,
-        secret
+        secret,
+        // Add this varialbe so that it keeps polling only during the timer is on
+        commitmentTimerRunning
       }
     }
   )
@@ -132,7 +135,18 @@ const NameRegister = ({
     },
     timerRunning ? 1000 : null
   )
-
+  useInterval(
+    () => {
+      if (checkCommitment > 0) {
+        incrementStep()
+        setTimerRunning(true)
+        setCommitmentTimerRunning(false)
+      } else {
+        setCommitmentTimerRunning(new Date())
+      }
+    },
+    commitmentTimerRunning ? 1000 : null
+  )
   const parsedYears = parseFloat(years)
   const duration = calculateDuration(years)
   const { data: { getRentPrice } = {}, loading: rentPriceLoading } = useQuery(
@@ -140,7 +154,8 @@ const NameRegister = ({
     {
       variables: {
         duration,
-        label: domain.label
+        label: domain.label,
+        commitmentTimerRunning
       }
     }
   )
@@ -267,6 +282,8 @@ const NameRegister = ({
         secondsPassed={secondsPassed}
         timerRunning={timerRunning}
         setTimerRunning={setTimerRunning}
+        setCommitmentTimerRunning={setCommitmentTimerRunning}
+        commitmentTimerRunning={commitmentTimerRunning}
         setBlockCreatedAt={setBlockCreatedAt}
         refetch={refetch}
         refetchIsMigrated={refetchIsMigrated}

@@ -12,6 +12,7 @@ import { ADD_MULTI_RECORDS } from '../../../graphql/mutations'
 import COIN_LIST from 'constants/coinList'
 import PendingTx from '../../PendingTx'
 import { emptyAddress } from '../../../utils/utils'
+import { formatsByCoinType } from '@ensdomains/address-encoder'
 
 import {
   GET_ADDRESSES,
@@ -77,6 +78,10 @@ const TEXT_PLACEHOLDER_RECORDS = [
   'avatar',
   'notice'
 ]
+
+const COIN_PLACEHOLDER_RECORDS = ['ETH', ...COIN_LIST.slice(0, 3)].map(c => {
+  return { key: c, value: emptyAddress }
+})
 
 function isEmpty(record) {
   if (parseInt(record, 16) === 0) {
@@ -177,11 +182,9 @@ export default function Records({
   domain,
   isOwner,
   refetch,
-  account,
   hasResolver,
   isOldPublicResolver,
   isDeprecatedResolver,
-  hasMigratedRecords,
   needsToBeMigrated
 }) {
   const { t } = useTranslation()
@@ -206,33 +209,38 @@ export default function Records({
     resetPending
   } = actions
 
-  //const [editMode, setEditMode] = useState(false)
-
-  const { loading: addressesLoading, data: dataAddresses } = useQuery(
-    GET_ADDRESSES,
-    {
-      variables: { name: domain.name, keys: COIN_LIST }
-    }
-  )
-
   const { data: dataTextRecordKeys } = useQuery(GET_RESOLVER_FROM_SUBGRAPH, {
     variables: {
       id: getNamehash(domain.name)
     }
   })
 
-  //TEXT_RECORD_KEYS use for fallback
+  const resolver =
+    dataTextRecordKeys &&
+    dataTextRecordKeys.domain &&
+    dataTextRecordKeys.domain.resolver
 
+  const coinList =
+    resolver &&
+    resolver.coinTypes &&
+    resolver.coinTypes.map(c => formatsByCoinType[c].name)
+
+  const { loading: addressesLoading, data: dataAddresses } = useQuery(
+    GET_ADDRESSES,
+    {
+      variables: { name: domain.name, keys: coinList },
+      skip: !coinList
+    }
+  )
+
+  const coinAddresses =
+    (dataAddresses && dataAddresses.getAddresses) || COIN_PLACEHOLDER_RECORDS
   const { loading: textRecordsLoading, data: dataTextRecords } = useQuery(
     GET_TEXT_RECORDS,
     {
       variables: {
         name: domain.name,
-        keys:
-          dataTextRecordKeys &&
-          dataTextRecordKeys.domain &&
-          dataTextRecordKeys.domain.resolver &&
-          dataTextRecordKeys.domain.resolver.texts
+        keys: resolver && resolver.texts
       },
       skip: !dataTextRecordKeys
     }
@@ -257,7 +265,7 @@ export default function Records({
       dataTextRecords && dataTextRecords.getTextRecords
         ? processTextRecords(dataTextRecords.getTextRecords)
         : processTextRecords([]),
-    coins: dataAddresses && dataAddresses.getAddresses,
+    coins: coinAddresses,
     content: isContentHashEmpty(domain.content) ? '' : domain.content,
     loading: textRecordsLoading || addressesLoading
   }
