@@ -321,8 +321,16 @@ export const GET_MAXIMUM_COMMITMENT_AGE = gql`
 `
 
 export const CHECK_COMMITMENT = gql`
-  query checkCommitment($label: String, $secret: String) {
-    checkCommitment(label: $label, secret: $secret) @client
+  query checkCommitment(
+    $label: String
+    $secret: String
+    $commitmentTimerRunning: String
+  ) {
+    checkCommitment(
+      label: $label
+      secret: $secret
+      commitmentTimerRunning: $commitmentTimerRunning
+    ) @client
   }
 `
 
