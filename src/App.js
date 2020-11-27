@@ -59,7 +59,6 @@ const App = ({ initialClient, initialNetworkId }) => {
   const { currentNetwork } = useContext(GlobalState)
   let [currentClient, setCurrentClient] = useState(initialClient)
   useEffect(() => {
-    console.log('*** currentNetwork1', { currentNetwork, initialNetworkId })
     if (currentNetwork) {
       setupClient(currentNetwork).then(client => setCurrentClient(client))
     }

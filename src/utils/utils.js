@@ -223,21 +223,16 @@ export async function handleNetworkChange() {
           enforceReload: true
         })
       }
-
-      console.log('***handleNetworkChange2')
     }
     networkId = await getNetworkId()
-    console.log('***handleNetworkChange3', { networkId })
     client = await setupClient(networkId)
   } catch (e) {
     networkId = networkId || 1 // Readonly to Mainnet
-    console.log('***handleNetworkChange4', { networkId })
     client = await setupClient()
     await client.mutate({
       mutation: SET_ERROR,
       variables: { message: e.message }
     })
   }
-  console.log('***handleNetworkChange5', { client, networkId })
   return { client, networkId }
 }
