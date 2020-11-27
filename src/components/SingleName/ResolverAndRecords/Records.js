@@ -207,16 +207,14 @@ export default function Records({
     resetPending
   } = actions
 
-  const { data: dataTextRecordKeys } = useQuery(GET_RESOLVER_FROM_SUBGRAPH, {
+  const { data: dataResolver } = useQuery(GET_RESOLVER_FROM_SUBGRAPH, {
     variables: {
       id: getNamehash(domain.name)
     }
   })
 
   const resolver =
-    dataTextRecordKeys &&
-    dataTextRecordKeys.domain &&
-    dataTextRecordKeys.domain.resolver
+    dataResolver && dataResolver.domain && dataResolver.domain.resolver
 
   const coinList =
     resolver &&
@@ -238,7 +236,7 @@ export default function Records({
         name: domain.name,
         keys: resolver && resolver.texts
       },
-      skip: !dataTextRecordKeys
+      skip: !dataResolver
     }
   )
 
