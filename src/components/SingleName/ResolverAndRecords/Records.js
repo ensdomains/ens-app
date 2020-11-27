@@ -79,9 +79,7 @@ const TEXT_PLACEHOLDER_RECORDS = [
   'notice'
 ]
 
-const COIN_PLACEHOLDER_RECORDS = ['ETH', ...COIN_LIST.slice(0, 3)].map(c => {
-  return { key: c, value: emptyAddress }
-})
+const COIN_PLACEHOLDER_RECORDS = ['ETH', ...COIN_LIST.slice(0, 3)]
 
 function isEmpty(record) {
   if (parseInt(record, 16) === 0) {
@@ -233,8 +231,6 @@ export default function Records({
     }
   )
 
-  const coinAddresses =
-    (dataAddresses && dataAddresses.getAddresses) || COIN_PLACEHOLDER_RECORDS
   const { loading: textRecordsLoading, data: dataTextRecords } = useQuery(
     GET_TEXT_RECORDS,
     {
@@ -246,11 +242,10 @@ export default function Records({
     }
   )
 
-  function processTextRecords(records) {
-    const nonDuplicatePlaceholderRecords = TEXT_PLACEHOLDER_RECORDS.filter(
+  function processRecords(records, placeholder) {
+    const nonDuplicatePlaceholderRecords = placeholder.filter(
       record => !records.find(r => record === r.key)
     )
-
     return [
       ...records,
       ...nonDuplicatePlaceholderRecords.map(record => ({
@@ -263,9 +258,15 @@ export default function Records({
   const initialRecords = {
     textRecords:
       dataTextRecords && dataTextRecords.getTextRecords
-        ? processTextRecords(dataTextRecords.getTextRecords)
-        : processTextRecords([]),
-    coins: coinAddresses,
+        ? processRecords(
+            dataTextRecords.getTextRecords,
+            TEXT_PLACEHOLDER_RECORDS
+          )
+        : processRecords([], TEXT_PLACEHOLDER_RECORDS),
+    coins:
+      dataAddresses && dataAddresses.getAddresses
+        ? processRecords(dataAddresses.getAddresses, COIN_PLACEHOLDER_RECORDS)
+        : processRecords([], COIN_PLACEHOLDER_RECORDS),
     content: isContentHashEmpty(domain.content) ? '' : domain.content,
     loading: textRecordsLoading || addressesLoading
   }
