@@ -276,11 +276,8 @@ export default function Records({
   }, [textRecordsLoading, addressesLoading, dataAddresses, dataTextRecords])
 
   const emptyRecords = RECORDS.filter(record => {
-    if (record.value === 'address') {
-      return isEmpty(domain['addr']) ? true : false
-    }
-
-    return isEmpty(domain[record.value]) ? true : false
+    // Always display all options for consistency now that both Addess and text almost always have empty record
+    return true
   })
 
   const hasRecords = hasAnyRecord(domain)
