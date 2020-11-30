@@ -329,29 +329,24 @@ describe('Name detail view', () => {
       cy.wait(2000)
       // Address
       cy.getByTestId('ETH-record-input')
-        .then(input => {
-          input.text(ADDRESS)
-        })
+        .clear({ force: true })
+        .type(ADDRESS, { force: true })
         // Content
         .getByTestId('content-record-input')
-        .then(input => {
-          input.text(CONTENT)
-        })
+        .clear({ force: true })
+        .type(CONTENT, { force: true })
         // // Text
         .getByTestId('notice-record-input')
-        .then(input => {
-          input.text(TEXT)
-        })
+        .clear({ force: true })
+        .type(TEXT, { force: true })
         // Other Text
         .getByTestId('vnd.twitter-record-input')
-        .then(input => {
-          input.text(OTHER_TEXT)
-        })
+        .clear({ force: true })
+        .type(OTHER_TEXT, { force: true })
         // Other Address
         .getByTestId('LTC-record-input', { timeout: 10000 })
-        .then(input => {
-          input.text(OTHER_ADDRESS)
-        })
+        .clear({ force: true })
+        .type(OTHER_ADDRESS, { force: true })
     })
 
     confirmRecordUpdate()
