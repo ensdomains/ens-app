@@ -44,7 +44,11 @@ const resolvers = {
         console.log(e)
       }
     },
-    async checkCommitment(_, { label, secret }, { cache }) {
+    async checkCommitment(
+      _,
+      { label, secret, commitmentTimerRunning },
+      { cache }
+    ) {
       try {
         const registrar = getRegistrar()
         const commitment = await registrar.checkCommitment(label, secret)

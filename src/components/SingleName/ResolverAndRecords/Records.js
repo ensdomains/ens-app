@@ -12,6 +12,7 @@ import { ADD_MULTI_RECORDS } from '../../../graphql/mutations'
 import COIN_LIST from 'constants/coinList'
 import PendingTx from '../../PendingTx'
 import { emptyAddress } from '../../../utils/utils'
+import { formatsByCoinType } from '@ensdomains/address-encoder'
 
 import {
   GET_ADDRESSES,
@@ -77,6 +78,8 @@ const TEXT_PLACEHOLDER_RECORDS = [
   'avatar',
   'notice'
 ]
+
+const COIN_PLACEHOLDER_RECORDS = ['ETH', ...COIN_LIST.slice(0, 3)]
 
 function isEmpty(record) {
   if (parseInt(record, 16) === 0) {
@@ -163,6 +166,10 @@ function checkRecordsAreValid(changedRecords) {
   return textRecordsValid && coinsValid
 }
 
+function isContentHashEmpty(hash) {
+  return hash?.startsWith('undefined') || parseInt(hash, 16) === 0
+}
+
 // graphql data in resolver and records to check current records
 // state in resolver and records to record new edit changes
 // check old and new to see if any have changed
@@ -173,11 +180,9 @@ export default function Records({
   domain,
   isOwner,
   refetch,
-  account,
   hasResolver,
   isOldPublicResolver,
   isDeprecatedResolver,
-  hasMigratedRecords,
   needsToBeMigrated
 }) {
   const { t } = useTranslation()
@@ -202,43 +207,43 @@ export default function Records({
     resetPending
   } = actions
 
-  //const [editMode, setEditMode] = useState(false)
-
-  const { loading: addressesLoading, data: dataAddresses } = useQuery(
-    GET_ADDRESSES,
-    {
-      variables: { name: domain.name, keys: COIN_LIST }
-    }
-  )
-
-  const { data: dataTextRecordKeys } = useQuery(GET_RESOLVER_FROM_SUBGRAPH, {
+  const { data: dataResolver } = useQuery(GET_RESOLVER_FROM_SUBGRAPH, {
     variables: {
       id: getNamehash(domain.name)
     }
   })
 
-  //TEXT_RECORD_KEYS use for fallback
+  const resolver =
+    dataResolver && dataResolver.domain && dataResolver.domain.resolver
+
+  const coinList =
+    resolver &&
+    resolver.coinTypes &&
+    resolver.coinTypes.map(c => formatsByCoinType[c].name)
+
+  const { loading: addressesLoading, data: dataAddresses } = useQuery(
+    GET_ADDRESSES,
+    {
+      variables: { name: domain.name, keys: coinList },
+      skip: !coinList
+    }
+  )
 
   const { loading: textRecordsLoading, data: dataTextRecords } = useQuery(
     GET_TEXT_RECORDS,
     {
       variables: {
         name: domain.name,
-        keys:
-          dataTextRecordKeys &&
-          dataTextRecordKeys.domain &&
-          dataTextRecordKeys.domain.resolver &&
-          dataTextRecordKeys.domain.resolver.texts
+        keys: resolver && resolver.texts
       },
-      skip: !dataTextRecordKeys
+      skip: !dataResolver
     }
   )
 
-  function processTextRecords(records) {
-    const nonDuplicatePlaceholderRecords = TEXT_PLACEHOLDER_RECORDS.filter(
+  function processRecords(records, placeholder) {
+    const nonDuplicatePlaceholderRecords = placeholder.filter(
       record => !records.find(r => record === r.key)
     )
-
     return [
       ...records,
       ...nonDuplicatePlaceholderRecords.map(record => ({
@@ -251,10 +256,16 @@ export default function Records({
   const initialRecords = {
     textRecords:
       dataTextRecords && dataTextRecords.getTextRecords
-        ? processTextRecords(dataTextRecords.getTextRecords)
-        : processTextRecords([]),
-    coins: dataAddresses && dataAddresses.getAddresses,
-    content: domain.content?.startsWith('undefined') ? '' : domain.content,
+        ? processRecords(
+            dataTextRecords.getTextRecords,
+            TEXT_PLACEHOLDER_RECORDS
+          )
+        : processRecords([], TEXT_PLACEHOLDER_RECORDS),
+    coins:
+      dataAddresses && dataAddresses.getAddresses
+        ? processRecords(dataAddresses.getAddresses, COIN_PLACEHOLDER_RECORDS)
+        : processRecords([], COIN_PLACEHOLDER_RECORDS),
+    content: isContentHashEmpty(domain.content) ? '' : domain.content,
     loading: textRecordsLoading || addressesLoading
   }
 
@@ -265,11 +276,8 @@ export default function Records({
   }, [textRecordsLoading, addressesLoading, dataAddresses, dataTextRecords])
 
   const emptyRecords = RECORDS.filter(record => {
-    if (record.value === 'address') {
-      return isEmpty(domain['addr']) ? true : false
-    }
-
-    return isEmpty(domain[record.value]) ? true : false
+    // Always display all options for consistency now that both Addess and text almost always have empty record
+    return true
   })
 
   const hasRecords = hasAnyRecord(domain)

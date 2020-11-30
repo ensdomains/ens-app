@@ -53,6 +53,8 @@ function getCTA({
   txHash,
   setTxHash,
   setTimerRunning,
+  setCommitmentTimerRunning,
+  commitmentTimerRunning,
   setBlockCreatedAt,
   isAboveMinDuration,
   refetch,
@@ -68,10 +70,11 @@ function getCTA({
     PRICE_DECISION: (
       <Mutation
         mutation={COMMIT}
-        variables={{ label, secret }}
+        variables={{ label, secret, commitmentTimerRunning }}
         onCompleted={data => {
           const txHash = Object.values(data)[0]
           setTxHash(txHash)
+          setCommitmentTimerRunning(true)
           incrementStep()
         }}
       >
@@ -112,18 +115,7 @@ function getCTA({
         }
       </Mutation>
     ),
-    COMMIT_SENT: (
-      <PendingTx
-        txHash={txHash}
-        onConfirmed={data => {
-          incrementStep()
-          if (data.blockCreatedAt) {
-            setBlockCreatedAt(data.blockCreatedAt)
-          }
-          setTimerRunning(true)
-        }}
-      />
-    ),
+    COMMIT_SENT: <PendingTx txHash={txHash} />,
     COMMIT_CONFIRMED: (
       <Button data-testid="disabled-register-button" type="disabled">
         {t('register.buttons.register')}
@@ -210,6 +202,8 @@ const CTA = ({
   duration,
   label,
   setTimerRunning,
+  setCommitmentTimerRunning,
+  commitmentTimerRunning,
   setBlockCreatedAt,
   isAboveMinDuration,
   refetch,
@@ -234,6 +228,8 @@ const CTA = ({
         setTxHash,
         setTimerRunning,
         setBlockCreatedAt,
+        setCommitmentTimerRunning,
+        commitmentTimerRunning,
         isAboveMinDuration,
         refetch,
         refetchIsMigrated,
