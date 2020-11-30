@@ -17,7 +17,7 @@ describe('Migrate a subdomain to new registry', () => {
     // Wait until resolver migration message comes up.
     cy.getByText(
       'To reset your resolver manually, click set and enter the address of your custom resolver.',
-      { timeout: 5000, exact: false }
+      { timeout: 15000, exact: false }
     ).should('exist')
 
     // By the time resolver migration message comes up, registrar migration page should disappear
