@@ -314,89 +314,54 @@ describe('Name detail view', () => {
     ])
   })
 
-  it('can change the address', () => {
+  it('can change the record', () => {
     const url = `${NAME_ROOT}/abittooawesome.eth`
     cy.visit(url)
     const ADDRESS = '0x0000000000000000000000000000000000000007'
+    const CONTENT =
+      'bzz://d1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162'
+    const TEXT = 'world'
+    const OTHER_TEXT = 'vitalik'
+    const OTHER_ADDRESS = 'MQMcJhpWHYVeQArcZR3sBgyPZxxRtnH441'
 
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
       cy.getByText('Add/Edit Record').click({ force: true })
       cy.wait(2000)
+      // Address
       cy.getByTestId('ETH-record-input')
-        .clear({ force: true })
-        .type(ADDRESS, { force: true })
+        .then(input => {
+          input.text(ADDRESS)
+        })
+        // Content
+        .getByTestId('content-record-input')
+        .then(input => {
+          input.text(CONTENT)
+        })
+        // // Text
+        .getByTestId('notice-record-input')
+        .then(input => {
+          input.text(TEXT)
+        })
+        // Other Text
+        .getByTestId('vnd.twitter-record-input')
+        .then(input => {
+          input.text(OTHER_TEXT)
+        })
+        // Other Address
+        .getByTestId('LTC-record-input', { timeout: 10000 })
+        .then(input => {
+          input.text(OTHER_ADDRESS)
+        })
     })
 
     confirmRecordUpdate()
-    refreshAndCheckText(url, ADDRESS)
-  })
-
-  it('can change the content hash', () => {
-    const CONTENT =
-      'bzz://d1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162'
-    const url = `${NAME_ROOT}/abittooawesome.eth`
-    cy.visit(url)
-
-    cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
-      cy.getByText('Add/Edit Record').click({ force: true })
-      cy.wait(2000) //TODO - get rid of wait and wait until text as some input before deleting
-      cy.getByTestId('content-record-input').type(
-        `{selectall}{backspace}${CONTENT}`
-      )
-    })
-    confirmRecordUpdate()
-    refreshAndCheckText(url, CONTENT)
-  })
-
-  it('can change text', () => {
-    const TEXT = 'world'
-    const url = `${NAME_ROOT}/notsoawesome.eth`
-    cy.visit(url)
-
-    cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
-      cy.getByText('Add/Edit Record').click({ force: true })
-      cy.wait(2000) //TODO - get rid of wait and wait until text as some input before deleting
-      cy.getByTestId('notice-record-input')
-        .clear({ force: true })
-        .type(TEXT)
-    })
-
-    confirmRecordUpdate()
-    refreshAndCheckText(url, TEXT)
-  })
-
-  it('can edit a placeholder text', () => {
-    const TEXT = 'vitalik'
-    const url = `${NAME_ROOT}/notsoawesome.eth`
-    cy.visit(url)
-
-    cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
-      cy.getByText('Add/Edit Record').click({ force: true })
-      cy.wait(2000) //TODO - get rid of wait and wait until text as some input before deleting
-      cy.getByTestId('vnd.twitter-record-input')
-        .clear({ force: true })
-        .type(TEXT)
-    })
-
-    confirmRecordUpdate()
-    refreshAndCheckText(url, TEXT)
-  })
-
-  it('can change other address', () => {
-    const ADDRESS = 'MQMcJhpWHYVeQArcZR3sBgyPZxxRtnH441'
-    const url = `${NAME_ROOT}/notsoawesome.eth`
-
-    cy.visit(url)
-
-    cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
-      cy.getByText('Add/Edit Record').click({ force: true })
-      cy.getByTestId('LTC-record-input', { timeout: 10000 })
-        .clear({ force: true })
-        .type(ADDRESS)
-    })
-
-    confirmRecordUpdate()
-    refreshAndCheckText(url, ADDRESS)
+    refreshAndCheckText(url, [
+      ADDRESS,
+      CONTENT,
+      TEXT,
+      OTHER_TEXT,
+      OTHER_ADDRESS
+    ])
   })
 
   it('can delete records', () => {
