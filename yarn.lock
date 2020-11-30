@@ -1341,18 +1341,20 @@
     crypto-addr-codec "^0.1.7"
     eztz-lib "^0.1.2"
 
-"@ensdomains/address-encoder@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@ensdomains/address-encoder/-/address-encoder-0.2.0.tgz#c9ba41a037f84e89388c29fdebd417f0c0c7c716"
-  integrity sha512-HA2ABdFCirSMETXpvgbNtZapcoEBkTziCJXcmmJGIddb3WTmxSwVkQFvJcEjUdCcAe7imOqBlkPdf1P0529J5w==
+"@ensdomains/address-encoder@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@ensdomains/address-encoder/-/address-encoder-0.2.1.tgz#20e15a98f33f88e927e2aa804c7f6f12b8ec2556"
+  integrity sha512-wnkx8O7ckFZr/z+mpqclUV7PqBezHt7wSq/VOfc2dmIzC6XpUOEjUj+QOBhLY+2CLeQxbJG9juH2gLCA6R7Fuw==
   dependencies:
     bech32 "^1.1.3"
     blakejs "^1.1.0"
     bn.js "^4.11.8"
     bs58 "^4.0.1"
     crypto-addr-codec "^0.1.7"
+    js-sha512 "^0.8.0"
     nano-base32 "^1.0.1"
     ripemd160 "^2.0.2"
+    sha3 "^2.1.3"
 
 "@ensdomains/content-hash@^2.5.3":
   version "2.5.3"
@@ -1443,15 +1445,15 @@
     lodash "^4.17.11"
     web3 "^1.3.0"
 
-"@ensdomains/ui@^3.0.44":
-  version "3.0.44"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.44.tgz#ec9051401d983fb60576732dea66e563564421b2"
-  integrity sha512-txYAd3k9S9SWudGWeNdiHDu1BKBKIaaIrDjaqy3dSZEOBqR0v/D7HHSvqfApgKGF5hNZrGmSgQfX2j67VRhgzA==
+"@ensdomains/ui@^3.0.50":
+  version "3.0.50"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.50.tgz#7ef9294c45ade3d4278bba1b5c8da8d8369841e0"
+  integrity sha512-wQVep2wq0AsXYzhCaiLlnE5cUf585M+LAmRVtiwReV44vYW546g0pg6fXpz7fHv4Q+tMChPbopITejEa2GPj4w==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
     "@babel/runtime" "^7.4.4"
-    "@ensdomains/address-encoder" "^0.2.0"
+    "@ensdomains/address-encoder" "^0.2.1"
     "@ensdomains/content-hash" "^2.5.3"
     "@ensdomains/contracts" "^0.0.1"
     "@ensdomains/dnsprovejs" "^0.2.0"
@@ -9462,6 +9464,11 @@ js-sha3@^0.8.0, js-sha3@~0.8.0:
   resolved "https://registry.yarnpkg.com/js-sha3/-/js-sha3-0.8.0.tgz#b9b7a5da73afad7dedd0f8c463954cbde6818840"
   integrity sha512-gF1cRrHhIzNfToc802P800N8PpXS+evLLXfsVpowqmAFR9uwbi89WvXg2QspOmXL8QL86J4T1EpFu+yUkwJY3Q==
 
+js-sha512@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/js-sha512/-/js-sha512-0.8.0.tgz#dd22db8d02756faccf19f218e3ed61ec8249f7d4"
+  integrity sha512-PWsmefG6Jkodqt+ePTvBZCSMFgN7Clckjd0O7su3I0+BW2QWUTJNzjktHsztGLhncP2h8mcF9V9Y2Ha59pAViQ==
+
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -13965,7 +13972,7 @@ sha.js@^2.4.0, sha.js@^2.4.8:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
 
-sha3@^2.1.1:
+sha3@^2.1.1, sha3@^2.1.3:
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/sha3/-/sha3-2.1.3.tgz#ab05b841b2bce347765db31f57fe2a3134b9fb48"
   integrity sha512-Io53D4o9qOmf3Ow9p/DoGLQiQHhtuR0ulbyambvRSG+OX5yXExk2yYfvjHtb7AtOyk6K6+sPeK/qaowWc/E/GA==
