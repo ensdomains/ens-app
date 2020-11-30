@@ -13,6 +13,7 @@ import { saveName } from '../api/labels'
 import { setup } from '../api/ens'
 import { SET_ERROR } from 'graphql/mutations'
 import { setupClient } from 'apolloClient'
+import { connect } from '../api/web3modal'
 
 // From https://github.com/0xProject/0x-monorepo/blob/development/packages/utils/src/address_utils.ts
 
@@ -210,26 +211,28 @@ export async function handleNetworkChange() {
         })
       )
     } else {
-      console.log('***handleNetworkChange1')
-      await setup({
-        reloadOnAccountsChange: false,
-        enforceReadOnly: true,
-        enforceReload: true
-      })
-      console.log('***handleNetworkChange2')
+      const cachedProvider = window.localStorage.getItem(
+        'WEB3_CONNECT_CACHED_PROVIDER'
+      )
+      if (cachedProvider) {
+        const network = await connect()
+      } else {
+        await setup({
+          reloadOnAccountsChange: false,
+          enforceReadOnly: true,
+          enforceReload: true
+        })
+      }
     }
     networkId = await getNetworkId()
-    console.log('***handleNetworkChange3', { networkId })
     client = await setupClient(networkId)
   } catch (e) {
     networkId = networkId || 1 // Readonly to Mainnet
-    console.log('***handleNetworkChange4', { networkId })
     client = await setupClient()
     await client.mutate({
       mutation: SET_ERROR,
       variables: { message: e.message }
     })
   }
-  console.log('***handleNetworkChange5', { client, networkId })
   return { client, networkId }
 }

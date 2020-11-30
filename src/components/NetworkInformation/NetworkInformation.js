@@ -144,7 +144,6 @@ function NetworkInformation() {
     }
     if (network) {
       switchNetwork(network.chainId)
-      console.log('*** params: refetch')
       refetch()
     }
   }
@@ -152,7 +151,6 @@ function NetworkInformation() {
   const handleDisconnect = async () => {
     await disconnect()
     switchNetwork(1)
-    console.log('*** params: refetch')
     refetch()
   }
 

@@ -43,7 +43,6 @@ const Section = ({ question, children }) => {
     slug = slugify(question, {
       lower: true
     })
-    console.log('***slug', { slug })
   }
   return (
     <>
