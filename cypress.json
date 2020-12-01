@@ -6,7 +6,7 @@
     "GRAPH_ROOT": "http://localhost:8000/subgraphs/name/graphprotocol/ens/graphql"
   },
   "projectId": "rzedru",
-  "defaultCommandTimeout": 12000,
+  "defaultCommandTimeout": 15000,
   "viewportWidth": 1440,
   "viewportHeight": 900,
   "retries": {

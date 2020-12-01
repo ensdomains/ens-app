@@ -574,7 +574,7 @@ function NameDetails({
       name: domain.parent
     }
   })
-
+  const isLoggedIn = parseInt(account) !== 0
   const isMigratedToNewRegistry = !loadingIsMigrated && isMigrated
   const isParentMigratedToNewRegistry = isParentMigrated
 
@@ -583,10 +583,12 @@ function NameDetails({
   let dnssecmode, canSubmit
   if ([5, 6].includes(domain.state) && !isMigrated) {
     dnssecmode = dnssecmodes[7]
-    canSubmit = domain.isDNSRegistrar && dnssecmode.state === 'SUBMIT_PROOF'
+    canSubmit =
+      isLoggedIn && domain.isDNSRegistrar && dnssecmode.state === 'SUBMIT_PROOF'
   } else {
     dnssecmode = dnssecmodes[domain.state]
     canSubmit =
+      isLoggedIn &&
       domain.isDNSRegistrar &&
       dnssecmode.state === 'SUBMIT_PROOF' && // This is for not allowing the case user does not have record rather than having empty address record.
       domain.owner.toLowerCase() !== domain.dnsOwner.toLowerCase()

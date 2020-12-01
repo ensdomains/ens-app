@@ -7,14 +7,14 @@ export const GET_WEB3 = gql`
       accounts
       networkId
       network
+      isReadOnly
     }
   }
 `
 
 const useNetworkInfo = () => {
-  const { data, loading, error } = useQuery(GET_WEB3)
-
-  if (loading) {
+  const { data, loading, error, refetch } = useQuery(GET_WEB3)
+  if (loading || !data || !data.web3) {
     return {
       accounts: undefined,
       network: undefined,
@@ -24,9 +24,17 @@ const useNetworkInfo = () => {
     }
   }
   const {
-    web3: { accounts, network, networkId }
+    web3: { accounts, network, networkId, isReadOnly }
   } = data
-  return { accounts, network, networkId, loading, error }
+  return {
+    accounts: isReadOnly ? [] : accounts,
+    network,
+    networkId,
+    loading,
+    refetch,
+    error,
+    isReadOnly
+  }
 }
 
 export default useNetworkInfo

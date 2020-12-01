@@ -75,14 +75,6 @@ export default function RegistryMigration({
       isParentMigratedToNewRegistry &&
       account === domain.parentOwner
   }
-  // canMigrate = !loading && isParentMigratedToNewRegistry && account === domain.parentOwner && !isContractController
-  console.log('***canMigrate', {
-    canMigrate,
-    loading,
-    isContractController,
-    isParentMigratedToNewRegistry,
-    date: new Date()
-  })
   const isContractControllerMessage = t('registrymigration.messages.controller')
   const defaultMessage = (
     <Trans

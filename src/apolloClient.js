@@ -43,15 +43,24 @@ export async function setupClient(network) {
   const httpLink = new HttpLink({
     uri: getGraphQLAPI(network)
   })
-
-  client = new ApolloClient({
+  const option = {
     fetchOptions: {
       mode: 'no-cors'
     },
     cache,
     addTypename: true,
     link: ApolloLink.from([stateLink, httpLink], cache)
-  })
+  }
+
+  if (process.env.REACT_APP_STAGE !== 'local') {
+    option.defaultOptions = {
+      watchQuery: {
+        fetchPolicy: 'network-only'
+      }
+    }
+  }
+
+  client = new ApolloClient(option)
   return client
 }
 
