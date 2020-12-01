@@ -97,7 +97,7 @@ function Favourites() {
     }
   )
 
-  if (favourites.length === 0 && !registrations) {
+  if (!favourites || (favourites.length === 0 && !registrations)) {
     return <NoDomains />
   }
   let favouritesList = []

@@ -18,8 +18,10 @@ export class GlobalStateProvider extends Component {
 
     this.state = {
       filters,
-      currentModal:null,
-      toggleModal:this.toggleModal,
+      currentModal: null,
+      currentNetwork: null,
+      toggleModal: this.toggleModal,
+      switchNetwork: this.switchNetwork,
       actions: {
         toggleUnavailableNames: this.toggleUnavailableNames,
         togglePriceFilter: this.togglePriceFilter,
@@ -34,12 +36,17 @@ export class GlobalStateProvider extends Component {
     })
   }
 
+  switchNetwork = network => {
+    this.setState({
+      currentNetwork: network
+    })
+  }
+
   toggleModal = modal => {
-    this.setState(
-      state =>
-        state.currentModal && state.currentModal.name === modal.name
-          ? { currentModal: null }
-          : { currentModal: modal }
+    this.setState(state =>
+      state.currentModal && state.currentModal.name === modal.name
+        ? { currentModal: null }
+        : { currentModal: modal }
     )
   }
 

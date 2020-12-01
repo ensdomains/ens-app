@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useState, useContext, useEffect } from 'react'
+import { useQuery, useMutation } from 'react-apollo'
 import { Link } from 'react-router-dom'
 import styled from '@emotion/styled/macro'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import warning from '../assets/whiteWarning.svg'
-
+import { GET_REVERSE_RECORD } from 'graphql/queries'
+import { SET_ERROR } from 'graphql/mutations'
 import mq from 'mediaQuery'
-
+import GlobalState from '../globalState'
 import SearchDefault from '../components/SearchName/Search'
 import NoAccountsDefault from '../components/NoAccounts/NoAccountsModal'
 import bg from '../assets/heroBG.jpg'
@@ -17,7 +19,8 @@ import QuestionMarkDefault from '../components/Icons/QuestionMark'
 import HowToUseDefault from '../components/HowToUse/HowToUse'
 import Alice from '../components/HomePage/Alice'
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
-import { abougPageURL } from '../utils/utils'
+import { aboutPageURL } from '../utils/utils'
+import { connect, disconnect } from '../api/web3modal'
 
 const HeroTop = styled('div')`
   display: grid;
@@ -32,10 +35,16 @@ const HeroTop = styled('div')`
   `}
 `
 
-const NoAccounts = styled(NoAccountsDefault)`
-  ${mq.small`
-    left: 40px;
-  `}
+const NoAccounts = styled(NoAccountsDefault)``
+
+const Network = styled('div')`
+  margin-bottom: 5px;
+`
+const Name = styled('span')`
+  margin-left: 5px;
+  text-transform: none;
+  display: inline-block;
+  width: 100px;
 `
 
 const NetworkStatus = styled('div')`
@@ -209,7 +218,6 @@ const WhatItIs = styled(Section)`
 
 const HowItWorks = styled(Section)`
   background: #f0f6fa;
-  z-index: 100;
   padding: 40px 20px 80px;
 `
 
@@ -261,9 +269,28 @@ const PermanentRegistrarLogo = styled(motion.h1)`
   text-align: center;
 `
 
+const ReadOnly = styled('span')`
+  margin-left: 1em;
+`
+
 export default ({ match }) => {
   const { url } = match
   const { t } = useTranslation()
+  const { switchNetwork, currentNetwork } = useContext(GlobalState)
+  const { accounts, network, loading, refetch, isReadOnly } = useNetworkInfo()
+  const address = accounts && accounts[0]
+  const {
+    data: { getReverseRecord } = {},
+    loading: reverseRecordLoading
+  } = useQuery(GET_REVERSE_RECORD, {
+    variables: {
+      address
+    }
+  })
+  const displayName =
+    getReverseRecord && getReverseRecord.name
+      ? getReverseRecord.name
+      : address && `${address.slice(0, 10)}...`
 
   const animation = {
     initial: {
@@ -276,17 +303,44 @@ export default ({ match }) => {
     }
   }
 
-  const { accounts, network, loading } = useNetworkInfo()
+  const [setError] = useMutation(SET_ERROR)
+  const handleConnect = async () => {
+    let network
+    try {
+      network = await connect()
+    } catch (e) {
+      setError({ variables: { message: e.message } })
+    }
+    if (network) {
+      switchNetwork(network.chainId)
+      refetch()
+    }
+    refetch()
+  }
+
+  const handleDisconnect = async () => {
+    await disconnect()
+    switchNetwork(1)
+    refetch()
+  }
   return (
     <>
       <Hero>
         <HeroTop>
-          {loading ? null : accounts.length > 0 && network ? (
-            <NetworkStatus>
-              {network} {t('c.network')}
-            </NetworkStatus>
-          ) : (
-            <NoAccounts textColour={'white'} />
+          {!loading && (
+            <>
+              <NetworkStatus>
+                <Network>
+                  {`${network} ${t('c.network')}`}
+                  {isReadOnly && <ReadOnly>({t('c.readonly')})</ReadOnly>}
+                  {!isReadOnly && displayName && <Name>({displayName})</Name>}
+                </Network>
+                <NoAccounts
+                  onClick={isReadOnly ? handleConnect : handleDisconnect}
+                  buttonText={isReadOnly ? t('c.connect') : t('c.disconnect')}
+                />
+              </NetworkStatus>
+            </>
           )}
           <Nav>
             {accounts?.length > 0 && (
@@ -298,7 +352,7 @@ export default ({ match }) => {
               </NavLink>
             )}
             <NavLink to="/favourites">{t('c.favourites')}</NavLink>
-            <ExternalLink href={abougPageURL()}>{t('c.about')}</ExternalLink>
+            <ExternalLink href={aboutPageURL()}>{t('c.about')}</ExternalLink>
           </Nav>
         </HeroTop>
         <SearchContainer>
@@ -325,7 +379,7 @@ export default ({ match }) => {
               {t('home.whatisens.title')}
             </H2>
             <p>{t('home.whatisens.body')}</p>
-            <ExternalButtonLink href={abougPageURL()}>
+            <ExternalButtonLink href={aboutPageURL()}>
               {t('c.learnmore')}
             </ExternalButtonLink>
           </Inner>
@@ -341,7 +395,7 @@ export default ({ match }) => {
               {t('home.howtouse.title')}
             </H2>
             <p>{t('home.howtouse.body')}</p>
-            <ExternalButtonLink href={abougPageURL()}>
+            <ExternalButtonLink href={aboutPageURL()}>
               {t('c.learnmore')}
             </ExternalButtonLink>
           </Inner>

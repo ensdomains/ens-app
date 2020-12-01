@@ -32,6 +32,7 @@ const DomainInfoContainer = ({ searchTerm }) => {
                 domain={singleName}
                 isFavourite={
                   singleName &&
+                  favourites &&
                   favourites.filter(domain => domain.name === singleName.name)
                     .length > 0
                 }
