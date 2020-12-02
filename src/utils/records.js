@@ -55,3 +55,7 @@ export function getPlaceholder(recordType, contentType) {
 }
 
 export const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000'
+
+export function isEmptyAddress(address) {
+  return parseInt(address) === 0
+}

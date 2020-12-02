@@ -15,7 +15,7 @@ import {
 import { IS_MIGRATED } from '../../graphql/queries'
 
 import { formatDate } from '../../utils/dates'
-import { EMPTY_ADDRESS } from '../../utils/records'
+import { isEmptyAddress } from '../../utils/records'
 
 import NameRegister from './NameRegister'
 import SubmitProof from './SubmitProof'
@@ -605,7 +605,7 @@ function NameDetails({
         domain={domain}
         refetch={refetch}
         refetchIsMigrated={refetchIsMigrated}
-        readOnly={account === EMPTY_ADDRESS}
+        readOnly={isEmptyAddress(account)}
       />
     )
   } else if (
@@ -717,7 +717,7 @@ function NameDetails({
             domain={domain}
             refetch={refetch}
             refetchIsMigrated={refetchIsMigrated}
-            readOnly={account === EMPTY_ADDRESS}
+            readOnly={isEmptyAddress(account)}
           />
         )}
       />
