@@ -1356,6 +1356,21 @@
     ripemd160 "^2.0.2"
     sha3 "^2.1.3"
 
+"@ensdomains/address-encoder@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@ensdomains/address-encoder/-/address-encoder-0.2.2.tgz#eb5535012460d97062f40060659c870d38c202ec"
+  integrity sha512-HK4rArlGpa+Cm41/Utq980lLGAB8IoZr5pI7TpJyT/AfF+QP9vunMQgiujlbw4uqNMWRDmVnYNmLkEmr206cSQ==
+  dependencies:
+    bech32 "^1.1.3"
+    blakejs "^1.1.0"
+    bn.js "^4.11.8"
+    bs58 "^4.0.1"
+    crypto-addr-codec "^0.1.7"
+    js-sha512 "^0.8.0"
+    nano-base32 "^1.0.1"
+    ripemd160 "^2.0.2"
+    sha3 "^2.1.3"
+
 "@ensdomains/content-hash@^2.5.3":
   version "2.5.3"
   resolved "https://registry.yarnpkg.com/@ensdomains/content-hash/-/content-hash-2.5.3.tgz#017ff30d36d6b4f7917afe5718b313e4dcd7ca79"
@@ -1445,15 +1460,15 @@
     lodash "^4.17.11"
     web3 "^1.3.0"
 
-"@ensdomains/ui@^3.0.50":
-  version "3.0.50"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.50.tgz#7ef9294c45ade3d4278bba1b5c8da8d8369841e0"
-  integrity sha512-wQVep2wq0AsXYzhCaiLlnE5cUf585M+LAmRVtiwReV44vYW546g0pg6fXpz7fHv4Q+tMChPbopITejEa2GPj4w==
+"@ensdomains/ui@^3.0.53":
+  version "3.0.53"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.53.tgz#6d606ad69e3fca6ef37b981d162fafeeef4d5a48"
+  integrity sha512-RPwgGATk2i2kjbl8FgnNn9aoXJx61s/KVV5EWaYvraAyTd27lIlQg7jHctuQVY0suYCFi3CCiV3IV8WV6iTAUQ==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
     "@babel/runtime" "^7.4.4"
-    "@ensdomains/address-encoder" "^0.2.1"
+    "@ensdomains/address-encoder" "^0.2.2"
     "@ensdomains/content-hash" "^2.5.3"
     "@ensdomains/contracts" "^0.0.1"
     "@ensdomains/dnsprovejs" "^0.2.0"

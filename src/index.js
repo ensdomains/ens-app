@@ -11,6 +11,7 @@ import 'globalStyles'
 import { setupClient } from 'apolloClient'
 import { getNetworkId } from '@ensdomains/ui'
 import './i18n'
+const INFURA = '58a380d3ecd545b2b5b3dad5d2b18bf0'
 
 window.addEventListener('load', async () => {
   let client
@@ -37,7 +38,8 @@ window.addEventListener('load', async () => {
       )
     } else {
       await setup({
-        reloadOnAccountsChange: false
+        reloadOnAccountsChange: false,
+        infura: INFURA
       })
     }
     const networkId = await getNetworkId()
