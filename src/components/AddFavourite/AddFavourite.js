@@ -5,6 +5,7 @@ import InActiveHeartDefault from '../Icons/InActiveHeart'
 import ActiveHeartDefault from '../Icons/ActiveHeart'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
+// import { GET_SUBDOMAIN_FAVOURITES, GET_FAVOURITES } from '../../graphql/queries'
 
 const ActiveHeart = styled(ActiveHeartDefault)`
   &:hover {
@@ -42,6 +43,7 @@ const DELETE_SUBDOMAIN_FAVOURITE = gql`
 
 class AddFavourite extends Component {
   render() {
+    console.log('***AddFavourite', this.props.isFavourite)
     const { domain } = this.props
     if (this.props.isSubDomain) {
       return (
@@ -56,6 +58,12 @@ class AddFavourite extends Component {
               name: domain.name
             }
           }}
+          // refetchQueries={
+          //   [
+          //     { query: GET_SUBDOMAIN_FAVOURITES }
+          //   ]
+          // }
+          // awaitRefetchQueries = {true}
         >
           {favouriteMutation => (
             <AddFavouriteContainer
@@ -80,6 +88,12 @@ class AddFavourite extends Component {
             name: domain.name
           }
         }}
+        // refetchQueries={
+        //   [
+        //     { query: GET_FAVOURITES }
+        //   ]
+        // }
+        // awaitRefetchQueries = {true}
       >
         {favouriteMutation => (
           <AddFavouriteContainer

@@ -55,7 +55,10 @@ export async function setupClient(network) {
   if (process.env.REACT_APP_STAGE !== 'local') {
     option.defaultOptions = {
       watchQuery: {
-        fetchPolicy: 'network-only'
+        // fetchPolicy: 'cache-only'
+        fetchPolicy: 'cache-and-network'
+        // fetchPolicy: 'network-only'
+        // fetchPolicy: 'no-cache'
       }
     }
   }

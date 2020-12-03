@@ -912,6 +912,7 @@ const resolvers = {
       }
     },
     addFavourite: async (_, { domain }, { cache }) => {
+      console.log('***addFavourite1', domain)
       const newFavourite = {
         ...domain,
         __typename: 'Domain'
@@ -927,10 +928,11 @@ const resolvers = {
         'ensFavourites',
         JSON.stringify(data.favourites)
       )
-
+      console.log('***addFavourite1', data)
       return data
     },
     deleteFavourite: async (_, { domain }, { cache }) => {
+      console.log('***deleteFavourite1', domain)
       const previous = cache.readQuery({ query: GET_FAVOURITES })
 
       const data = {
@@ -944,10 +946,11 @@ const resolvers = {
         'ensFavourites',
         JSON.stringify(data.favourites)
       )
-
+      console.log('***deleteFavourite2', { previous, data })
       return data
     },
     addSubDomainFavourite: async (_, { domain }, { cache }) => {
+      console.log('***addSubDomainFavourite1')
       const previous = cache.readQuery({ query: GET_SUBDOMAIN_FAVOURITES })
 
       const newFavourite = {
@@ -963,10 +966,11 @@ const resolvers = {
         'ensSubDomainFavourites',
         JSON.stringify(data.subDomainFavourites)
       )
-
+      console.log('***addSubDomainFavourite2', data.subDomainFavourites)
       return data
     },
     deleteSubDomainFavourite: async (_, { domain }, { cache }) => {
+      console.log('***deleteSubDomainFavourite1', domain)
       const previous = cache.readQuery({ query: GET_SUBDOMAIN_FAVOURITES })
 
       const data = {
@@ -980,7 +984,7 @@ const resolvers = {
         'ensSubDomainFavourites',
         JSON.stringify(data.subDomainFavourites)
       )
-
+      console.log('***deleteSubDomainFavourite1', { previous, data })
       return data
     }
   }
