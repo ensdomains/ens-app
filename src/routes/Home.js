@@ -305,7 +305,6 @@ export default ({ match }) => {
 
   const [setError] = useMutation(SET_ERROR)
   const handleConnect = async () => {
-    console.log('***handleConnect1')
     let network
     try {
       network = await connect()
@@ -313,21 +312,15 @@ export default ({ match }) => {
       setError({ variables: { message: e.message } })
     }
     if (network) {
-      console.log('***handleConnect2')
       switchNetwork(network.chainId)
-      // refetch()
     }
-    console.log('***handleConnect3')
-    refetch()
+    location.reload()
   }
 
   const handleDisconnect = async () => {
-    console.log('***handleDisconnect1')
     await disconnect()
-    console.log('***handleDisconnect2')
     switchNetwork(1)
-    console.log('***handleDisconnect3')
-    refetch()
+    location.reload()
   }
   return (
     <>

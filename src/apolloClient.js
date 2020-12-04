@@ -52,17 +52,6 @@ export async function setupClient(network) {
     link: ApolloLink.from([stateLink, httpLink], cache)
   }
 
-  if (process.env.REACT_APP_STAGE !== 'local') {
-    option.defaultOptions = {
-      watchQuery: {
-        // fetchPolicy: 'cache-only'
-        fetchPolicy: 'cache-and-network'
-        // fetchPolicy: 'network-only'
-        // fetchPolicy: 'no-cache'
-      }
-    }
-  }
-
   client = new ApolloClient(option)
   return client
 }
