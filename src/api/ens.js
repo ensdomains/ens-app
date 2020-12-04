@@ -1,6 +1,6 @@
 import { setupENS } from '@ensdomains/ui'
 
-const INFURA_ID = '90f210707d3c450f847659dc9a3436ea'
+const INFURA_ID = '58a380d3ecd545b2b5b3dad5d2b18bf0'
 
 let ens = {},
   registrar = {},
