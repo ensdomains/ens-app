@@ -927,7 +927,6 @@ const resolvers = {
         'ensFavourites',
         JSON.stringify(data.favourites)
       )
-
       return data
     },
     deleteFavourite: async (_, { domain }, { cache }) => {
@@ -944,7 +943,6 @@ const resolvers = {
         'ensFavourites',
         JSON.stringify(data.favourites)
       )
-
       return data
     },
     addSubDomainFavourite: async (_, { domain }, { cache }) => {
@@ -963,7 +961,6 @@ const resolvers = {
         'ensSubDomainFavourites',
         JSON.stringify(data.subDomainFavourites)
       )
-
       return data
     },
     deleteSubDomainFavourite: async (_, { domain }, { cache }) => {
@@ -980,7 +977,6 @@ const resolvers = {
         'ensSubDomainFavourites',
         JSON.stringify(data.subDomainFavourites)
       )
-
       return data
     }
   }

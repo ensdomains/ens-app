@@ -68,7 +68,6 @@ const App = ({ initialClient, initialNetworkId }) => {
       <Query query={GET_ERRORS}>
         {({ data }) => {
           setupAnalytics()
-
           errorHandler.start({
             key: 'AIzaSyDW3loXBr_2e-Q2f8ZXdD0UAvMzaodBBNg',
             projectId: 'idyllic-ethos-235310'

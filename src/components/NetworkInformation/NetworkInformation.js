@@ -144,14 +144,14 @@ function NetworkInformation() {
     }
     if (network) {
       switchNetwork(network.chainId)
-      refetch()
+      location.reload()
     }
   }
 
   const handleDisconnect = async () => {
     await disconnect()
     switchNetwork(1)
-    refetch()
+    location.reload()
   }
 
   if (loading) {
