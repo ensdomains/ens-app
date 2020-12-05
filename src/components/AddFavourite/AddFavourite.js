@@ -43,7 +43,6 @@ const DELETE_SUBDOMAIN_FAVOURITE = gql`
 
 class AddFavourite extends Component {
   render() {
-    console.log('***AddFavourite', this.props.isFavourite)
     const { domain } = this.props
     if (this.props.isSubDomain) {
       return (
@@ -58,12 +57,6 @@ class AddFavourite extends Component {
               name: domain.name
             }
           }}
-          // refetchQueries={
-          //   [
-          //     { query: GET_SUBDOMAIN_FAVOURITES }
-          //   ]
-          // }
-          // awaitRefetchQueries = {true}
         >
           {favouriteMutation => (
             <AddFavouriteContainer
@@ -88,12 +81,6 @@ class AddFavourite extends Component {
             name: domain.name
           }
         }}
-        // refetchQueries={
-        //   [
-        //     { query: GET_FAVOURITES }
-        //   ]
-        // }
-        // awaitRefetchQueries = {true}
       >
         {favouriteMutation => (
           <AddFavouriteContainer

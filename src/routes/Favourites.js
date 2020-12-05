@@ -89,7 +89,6 @@ function Favourites() {
   const { data: { subDomainFavourites } = [] } = useQuery(
     GET_SUBDOMAIN_FAVOURITES
   )
-  console.log('***Favourites', { favourites })
   const ids = favourites && favourites.map(f => getNamehash(f.name))
   const { data: { registrations } = [] } = useQuery(
     GET_REGISTRATIONS_BY_IDS_SUBGRAPH,
