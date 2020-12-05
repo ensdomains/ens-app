@@ -313,15 +313,14 @@ export default ({ match }) => {
     }
     if (network) {
       switchNetwork(network.chainId)
-      refetch()
     }
-    refetch()
+    location.reload()
   }
 
   const handleDisconnect = async () => {
     await disconnect()
     switchNetwork(1)
-    refetch()
+    location.reload()
   }
   return (
     <>

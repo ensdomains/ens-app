@@ -52,14 +52,6 @@ export async function setupClient(network) {
     link: ApolloLink.from([stateLink, httpLink], cache)
   }
 
-  if (process.env.REACT_APP_STAGE !== 'local') {
-    option.defaultOptions = {
-      watchQuery: {
-        fetchPolicy: 'network-only'
-      }
-    }
-  }
-
   client = new ApolloClient(option)
   return client
 }

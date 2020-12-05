@@ -231,7 +231,7 @@ export async function handleNetworkChange() {
     client = await setupClient()
     await client.mutate({
       mutation: SET_ERROR,
-      variables: { message: e.message }
+      variables: { message: e && e.message }
     })
   }
   return { client, networkId }
