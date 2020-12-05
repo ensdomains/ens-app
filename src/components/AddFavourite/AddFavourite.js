@@ -5,7 +5,6 @@ import InActiveHeartDefault from '../Icons/InActiveHeart'
 import ActiveHeartDefault from '../Icons/ActiveHeart'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
-// import { GET_SUBDOMAIN_FAVOURITES, GET_FAVOURITES } from '../../graphql/queries'
 
 const ActiveHeart = styled(ActiveHeartDefault)`
   &:hover {
