@@ -224,8 +224,8 @@ function Faq() {
 
 const FaqContainer = styled('div')`
   margin: 1em;
-  padding-bottom: 60px;
-  color: #adbbcd;
+  padding: 20px 40px;
+  background-color: white;
 `
 
 export default Faq
