@@ -12,7 +12,9 @@
     "renew": {
       "button": "给已勾选项目续费",
       "confirm": ["以下域名：", "将同时续费 "],
-      "confirmButton": "续费"
+      "confirmButton": "续费",
+      "year": "{{count}} 年",
+      "year_plural": "{{count}} 年"
     },
     "sort": {
       "alphabetical": "按字母顺序",
@@ -32,12 +34,15 @@
     "about": "关于",
     "cancel": "取消",
     "claim": "申请",
+    "connect": "连接",
+    "disconnect": "断开连接",
     "edit": "编辑",
     "email": "电子邮箱",
     "expires": "到期",
+    "faq": "常见问题",
     "favourites": "收藏",
     "learnmore": "了解更多",
-    "learnmoreenglishonly": "了解更多 (仅提供英语内容)",
+    "learnmoreenglishonly": "了解更多 (仅提供英文内容)",
     "migrate": "迁移",
     "mynames": "我的域名",
     "network": "网络",
@@ -45,6 +50,7 @@
     "addresses": "地址",
     "parent": "父域名",
     "refresh": "刷新",
+    "readonly": "只读状态",
     "register": "注册",
     "registrant": "注册人",
     "registrationDate": "注册时间",
@@ -56,7 +62,9 @@
     "sync": "同步",
     "textrecord": "文本记录",
     "transfer": "转让",
-    "warning": "警告"
+    "warning": "警告",
+    "year": "年",
+    "year_plural": "年"
   },
   "childDomainItem": {
     "notmigrated": "暂未迁移"
@@ -200,10 +208,10 @@
     }
   },
   "releaseDeed": {
-    "returnDeposit": "There is still an unclaimed deposit on this name. To get the deposited eth back, Go to"
+    "returnDeposit": "这个域名上还有一笔无人认领的锁定资金，要收回锁定的资金，请前往 "
   },
   "reminder": {
-    "everywhere": "everywhere",
+    "everywhere": "任意地点",
     "release": {
       "description": "在 https://app.ens.domains/name/{{name}}/register 注册 {{name}}",
       "title": "注册 {{name}}"
@@ -292,6 +300,8 @@
     },
     "record": {
       "cantEdit": "在迁移到新的解析器之前，您不能编辑或添加记录。",
+      "openEdit": "添加/编辑 记录",
+      "closeEdit": "关闭 添加/编辑 记录",
       "messages": {
         "explanation": "反向解析将地址转换为域名。它能让 dapp 在其界面上显示 “{{name}}”，而不是 “{{account}}” 这个冗长的地址。如果您想为另一个账户设置反向解析，请先在 dapp 浏览器中切换帐户。",
         "notSet": "反向记录：未设置",

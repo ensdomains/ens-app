@@ -61,6 +61,8 @@ const Price = ({
           ? `$${basePrice.toFixed(0)}(+$${ethUsdPremiumPrice.toFixed(2)}) =`
           : null
       usdPremium = ethVal.mul(ethUsdPrice).toFixed(2)
+    } else if (ethUsdPrice) {
+      usdPremium = ethVal.mul(ethUsdPrice).toFixed(2)
     }
   }
 
