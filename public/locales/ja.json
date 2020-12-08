@@ -1,28 +1,4 @@
 {
-  "about": {
-    "card1": "‘alice.eth’のような簡単な名前をイーサリアムアドレス、コンテンツハッシュ、メタデータにマッピングします。",
-    "card2": "'逆引き解決'により長いハッシュの代わりに、人間が読める名前を返すことでDappsのユーザビリティを改善します。",
-    "elevatorpitch": "イーサリアム・ネーム・サービスは、イーサリアム・ブロックチェーンをベースにした分散型のオープンで拡張性の高いネーミングシステムです。ENSは、長いアドレスをコピーしたりタイプしたりする必要がありません。",
-    "subdomainText": "DNSと同様に、ENSはドメインと呼ばれるドットで分離された階層名のシステム上で動作し、ドメインの所有者はサブドメインの割り当てを完全に制御することができます。",
-    "subtitles": [
-      "ENSについて",
-      "TLD & サブドメイン",
-      "ENSの使い方",
-      "より深く知る"
-    ],
-    "underTheSurface": {
-      "registrar": "レジストラは、ドメインの購入や登録ができるスマート・コントラクトのことです。",
-      "registry": "レジストリは、すべてのドメインとサブドメインのリストを含むスマート・コントラクトで、名前の所有者とリゾルバという2つの情報をそれぞれ保存します。",
-      "resolver": "リゾルバは、名前をアドレス、または他のタイプのハッシュやリソースへ変換するプロセスを担当するスマート・コントラクトです。",
-      "reverse": "リゾルバは、オプションで'逆引き'となる反対の機能、つまりアドレスを関連する名前に変換する機能を実行することができます。",
-      "titles": [
-        "レジストラ",
-        "レジストリ",
-        "リゾルバ",
-        "逆引き"
-      ]
-    }
-  },
   "address": {
     "etherscanButton": "Etherscanで確認",
     "filter": {
@@ -35,10 +11,7 @@
     },
     "renew": {
       "button": "選択済を更新",
-      "confirm": [
-        "以下の名前:",
-        "次の期間にて更新されます。"
-      ],
+      "confirm": ["以下の名前:", "次の期間にて更新されます。"],
       "confirmButton": "更新",
       "year": "{{count}} 年"
     },
@@ -70,6 +43,7 @@
     "mynames": "マイENS",
     "network": "ネットワーク",
     "otheraddresses": "その他のアドレス",
+    "addresses": "Addresses",
     "parent": "ペアレント",
     "refresh": "更新",
     "register": "登録",
@@ -90,12 +64,7 @@
     "notmigrated": "移行されていません"
   },
   "dns": {
-    "breadcrumbs": [
-      "DNSSEC有効化",
-      "TEXT追加",
-      "証明送信",
-      "名前管理"
-    ],
+    "breadcrumbs": ["DNSSEC有効化", "TEXT追加", "証明送信", "名前管理"],
     "dnsowner": "DNS所有者",
     "steps": {
       "addtext": {
@@ -219,7 +188,7 @@
     },
     "titles": [
       "名前を登録するには、3つのステップを完了する必要があります。",
-      "ブラウザを閉じないでください！すぐに名前の管理ができるようになります。",
+      "すぐに名前の管理ができるようになります。",
       "すべての手順が完了しました！今すぐ名前を管理しましょう！"
     ]
   },
@@ -233,10 +202,7 @@
     }
   },
   "releaseDeed": {
-    "connectRegistrar": "This name was automatically migrated to the new Registrar. To get the deposited eth back, please connect via the registrant account and click the 'return' button.",
-    "depositReturned": "Your deposit is now returned.",
-    "returnDeposit": "Your name was automatically migrated to the new Registrar. To get your deposited eth back, click the 'return' button.",
-    "whyMigrated": "*To understand why this name was migrated"
+    "returnDeposit": "このドメインにはまだデポジットが残っています。次のサイトより返却手続きを行ってください"
   },
   "reminder": {
     "everywhere": "everywhere",

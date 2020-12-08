@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled/macro'
-import { Query } from 'react-apollo'
-
+import { useQuery } from 'react-apollo'
 import { GET_TRANSACTION_HISTORY } from '../graphql/queries'
 
 import Loader from './Loader'
@@ -28,56 +27,51 @@ const Pending = ({ className, children = 'Tx pending' }) => (
 function MultiplePendingTx(props) {
   const { txHashes, onConfirmed } = props
   const [txHashesStatus, setTxHashesStatus] = useState(txHashes)
-  return (
-    <Query query={GET_TRANSACTION_HISTORY}>
-      {({ data: { transactionHistory } }) => {
-        txHashesStatus.forEach(txHash => {
-          transactionHistory.forEach(tx => {
-            if (tx && tx.txHash === txHash && tx.txState === 'Confirmed') {
-              const index = txHashesStatus.findIndex(tx => tx === txHash)
-              const newTxHashesStatus = [...txHashesStatus]
-              newTxHashesStatus[index] = 1
-              setTxHashesStatus(newTxHashesStatus)
-
-              if (
-                newTxHashesStatus.reduce((acc, curr) => acc + curr) ===
-                newTxHashesStatus.length
-              ) {
-                onConfirmed()
-              }
-            }
-          })
-        })
-
-        return <Pending {...props} />
-      }}
-    </Query>
+  const { data: { transactionHistory } = {} } = useQuery(
+    GET_TRANSACTION_HISTORY
   )
+  txHashesStatus.forEach(txHash => {
+    transactionHistory.forEach(tx => {
+      if (tx && tx.txHash === txHash && tx.txState === 'Confirmed') {
+        const index = txHashesStatus.findIndex(tx => tx === txHash)
+        const newTxHashesStatus = [...txHashesStatus]
+        newTxHashesStatus[index] = 1
+        setTxHashesStatus(newTxHashesStatus)
+
+        if (
+          newTxHashesStatus.reduce((acc, curr) => acc + curr) ===
+          newTxHashesStatus.length
+        ) {
+          onConfirmed()
+        }
+      }
+    })
+  })
+  return <Pending {...props} />
 }
 
 function PendingTx(props) {
   const { txHash, txHashes, onConfirmed } = props
-
+  const { data: { transactionHistory } = {} } = useQuery(
+    GET_TRANSACTION_HISTORY
+  )
+  const lastTransaction = _.last(transactionHistory)
+  useEffect(() => {
+    if (
+      onConfirmed &&
+      lastTransaction &&
+      lastTransaction.txHash === txHash &&
+      lastTransaction.txState === 'Confirmed'
+    ) {
+      onConfirmed({
+        blockCreatedAt: lastTransaction.createdAt
+      })
+    }
+  }, [transactionHistory])
   if (txHashes) {
     return <MultiplePendingTx txHashes={txHashes} onConfirmed={onConfirmed} />
   }
-  return (
-    <Query query={GET_TRANSACTION_HISTORY}>
-      {({ data: { transactionHistory } }) => {
-        const lastTransaction = _.last(transactionHistory)
-        if (
-          lastTransaction &&
-          lastTransaction.txHash === txHash &&
-          lastTransaction.txState === 'Confirmed'
-        ) {
-          onConfirmed({
-            blockCreatedAt: lastTransaction.createdAt
-          })
-        }
-        return <Pending {...props} />
-      }}
-    </Query>
-  )
+  return <Pending {...props} />
 }
 
 PendingTx.propTypes = {

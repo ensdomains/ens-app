@@ -57,6 +57,18 @@ export const GET_ADDR = gql`
   }
 `
 
+export const GET_ADDRESSES = gql`
+  query getAddresses($name: String, $keys: [String]) {
+    getAddresses(name: $name, keys: $keys) @client
+  }
+`
+
+export const GET_TEXT_RECORDS = gql`
+  query getTextRecords($name: String, $keys: [String]) {
+    getTextRecords(name: $name, keys: $keys) @client
+  }
+`
+
 export const GET_SINGLE_NAME = gql`
   query singleName($name: String) {
     singleName(name: $name) @client {
@@ -305,6 +317,20 @@ export const GET_MINIMUM_COMMITMENT_AGE = gql`
 export const GET_MAXIMUM_COMMITMENT_AGE = gql`
   query getMaximumCommitmentAge {
     getMaximumCommitmentAge @client
+  }
+`
+
+export const CHECK_COMMITMENT = gql`
+  query checkCommitment(
+    $label: String
+    $secret: String
+    $commitmentTimerRunning: String
+  ) {
+    checkCommitment(
+      label: $label
+      secret: $secret
+      commitmentTimerRunning: $commitmentTimerRunning
+    ) @client
   }
 `
 

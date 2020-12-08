@@ -43,7 +43,6 @@ const BaseContainer = styled('div')`
     margin: 0 auto 0;
     padding-top: 45px;
     position: relative;
-    z-index: 100;
     width: 100%;
     text-align: center;
 
@@ -208,7 +207,7 @@ class Explainer extends Component {
 
   render() {
     return (
-      <BaseContainer innerRef={this.explainer}>
+      <BaseContainer ref={this.explainer}>
         <div className="background">
           {hexStrings.map((s, i) => (
             <div key={i} className="bg-string" ref={this['string' + i]}>

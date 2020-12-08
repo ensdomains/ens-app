@@ -50,18 +50,19 @@ const Price = ({
 }) => {
   const { t } = useTranslation()
   let ethPrice = <InlineLoader />
-  let ethVal, basePrice
+  let ethVal, basePrice, withPremium, usdPremium
   if (!loading && price) {
     ethVal = new EthVal(`${price}`).toEth()
-    ethPrice = ethVal.toFixed(3)
+    ethPrice = ethVal && ethVal.toFixed(3)
     if (ethUsdPrice && ethUsdPremiumPrice) {
       basePrice = ethVal.mul(ethUsdPrice) - ethUsdPremiumPrice
+      withPremium =
+        underPremium && ethUsdPremiumPrice
+          ? `$${basePrice.toFixed(0)}(+$${ethUsdPremiumPrice.toFixed(2)}) =`
+          : null
+      usdPremium = ethVal.mul(ethUsdPrice).toFixed(2)
     }
   }
-  const withPremium =
-    underPremium && ethUsdPremiumPrice
-      ? `$${basePrice.toFixed(0)}(+$${ethUsdPremiumPrice.toFixed(2)}) =`
-      : null
 
   return (
     <PriceContainer>
@@ -69,7 +70,7 @@ const Price = ({
         {ethPrice} ETH
         {ethVal && ethUsdPrice && (
           <USD>
-            {withPremium}${ethVal.mul(ethUsdPrice).toFixed(2)}
+            {withPremium}${usdPremium}
             USD
           </USD>
         )}

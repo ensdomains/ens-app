@@ -15,7 +15,7 @@ import {
 import { IS_MIGRATED } from '../../graphql/queries'
 
 import { formatDate } from '../../utils/dates'
-import { EMPTY_ADDRESS } from '../../utils/records'
+import { isEmptyAddress } from '../../utils/records'
 
 import NameRegister from './NameRegister'
 import SubmitProof from './SubmitProof'
@@ -214,6 +214,10 @@ function DetailsContainer({
     domain.available || domain.owner === '0x0' ? null : domain.owner
   const registrant =
     domain.available || domain.registrant === '0x0' ? null : domain.registrant
+
+  const domainParent =
+    domain.name === '[root]' ? null : domain.parent ? domain.parent : '[root]'
+
   return (
     <Details data-testid="name-details">
       {isOwner && <SetupName initialState={showExplainer} />}
@@ -232,13 +236,15 @@ function DetailsContainer({
             loadingIsParentMigrated={loadingIsParentMigrated}
           />
         )}
-      {domain.parent && (
+      {domainParent ? (
         <DetailsItem uneditable>
           <DetailsKey>{t('c.parent')}</DetailsKey>
           <DetailsValue>
-            <Link to={`/name/${domain.parent}`}>{domain.parent}</Link>
+            <Link to={`/name/${domainParent}`}>{domainParent}</Link>
           </DetailsValue>
         </DetailsItem>
+      ) : (
+        ''
       )}
       <OwnerFields outOfSync={outOfSync}>
         {domain.parent === 'eth' && domain.isNewRegistrar ? (
@@ -551,7 +557,7 @@ function NameDetails({
 }) {
   const [loading, setLoading] = useState(undefined)
   const {
-    data: { isMigrated },
+    data: { isMigrated } = {},
     loading: loadingIsMigrated,
     refetch: refetchIsMigrated
   } = useQuery(IS_MIGRATED, {
@@ -561,14 +567,14 @@ function NameDetails({
   })
 
   const {
-    data: { isMigrated: isParentMigrated },
+    data: { isMigrated: isParentMigrated } = {},
     loading: loadingIsParentMigrated
   } = useQuery(IS_MIGRATED, {
     variables: {
       name: domain.parent
     }
   })
-
+  const isLoggedIn = parseInt(account) !== 0
   const isMigratedToNewRegistry = !loadingIsMigrated && isMigrated
   const isParentMigratedToNewRegistry = isParentMigrated
 
@@ -577,10 +583,12 @@ function NameDetails({
   let dnssecmode, canSubmit
   if ([5, 6].includes(domain.state) && !isMigrated) {
     dnssecmode = dnssecmodes[7]
-    canSubmit = domain.isDNSRegistrar && dnssecmode.state === 'SUBMIT_PROOF'
+    canSubmit =
+      isLoggedIn && domain.isDNSRegistrar && dnssecmode.state === 'SUBMIT_PROOF'
   } else {
     dnssecmode = dnssecmodes[domain.state]
     canSubmit =
+      isLoggedIn &&
       domain.isDNSRegistrar &&
       dnssecmode.state === 'SUBMIT_PROOF' && // This is for not allowing the case user does not have record rather than having empty address record.
       domain.owner.toLowerCase() !== domain.dnsOwner.toLowerCase()
@@ -597,7 +605,7 @@ function NameDetails({
         domain={domain}
         refetch={refetch}
         refetchIsMigrated={refetchIsMigrated}
-        readOnly={account === EMPTY_ADDRESS}
+        readOnly={isEmptyAddress(account)}
       />
     )
   } else if (
@@ -709,7 +717,7 @@ function NameDetails({
             domain={domain}
             refetch={refetch}
             refetchIsMigrated={refetchIsMigrated}
-            readOnly={account === EMPTY_ADDRESS}
+            readOnly={isEmptyAddress(account)}
           />
         )}
       />

@@ -29,20 +29,6 @@ Cypress.Commands.add('waitUntilInputResolves', function waitUntilInputResolves(
 })
 
 Cypress.Commands.add(
-  'waitUntilHollowInputResolves',
-  function waitUntilHollowInputResolves(buttonText) {
-    return cy.waitUntil(
-      () => {
-        return cy
-          .getByText(buttonText)
-          .then($el => $el.css('color') === ACTIVE_COLOUR)
-      },
-      { timeout: 1000, interval: 10 }
-    )
-  }
-)
-
-Cypress.Commands.add(
   'waitUntilTextDoesNotExist',
   function waitUntilTextDoesNotExist(text, options) {
     return cy
@@ -61,6 +47,21 @@ Cypress.Commands.add(
         cy.queryByText(text, { exact: false, timeout: 1000 }).should(
           'not.exist'
         )
+      })
+  }
+)
+
+Cypress.Commands.add(
+  'waitUntilTextDoesExist',
+  function waitUntilTextDoesNotExist(text, options) {
+    return cy
+      .waitUntil(() => cy.queryByText(text, { exact: false, timeout: 1000 }), {
+        timeout: 10000,
+        interval: 10,
+        ...options
+      })
+      .then(() => {
+        cy.queryByText(text, { exact: false, timeout: 1000 }).should('exist')
       })
   }
 )

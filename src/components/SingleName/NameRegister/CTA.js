@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import styled from '@emotion/styled/macro'
 import moment from 'moment'
 import { css } from 'emotion'
@@ -16,6 +17,7 @@ import Button from '../../Forms/Button'
 import AddToCalendar from '../../Calendar/RenewalCalendar'
 import { ReactComponent as DefaultPencil } from '../../Icons/SmallPencil.svg'
 import { ReactComponent as DefaultOrangeExclamation } from '../../Icons/OrangeExclamation.svg'
+import { useAccount } from '../../QueryAccount'
 
 const CTAContainer = styled('div')`
   display: flex;
@@ -38,6 +40,10 @@ const OrangeExclamation = styled(DefaultOrangeExclamation)`
   width: 12px;
 `
 
+const SetReverseRecord = styled(Link)`
+  margin-right: 20px;
+`
+
 function getCTA({
   step,
   incrementStep,
@@ -47,6 +53,8 @@ function getCTA({
   txHash,
   setTxHash,
   setTimerRunning,
+  setCommitmentTimerRunning,
+  commitmentTimerRunning,
   setBlockCreatedAt,
   isAboveMinDuration,
   refetch,
@@ -55,16 +63,18 @@ function getCTA({
   price,
   history,
   t,
-  ethUsdPrice
+  ethUsdPrice,
+  account
 }) {
   const CTAs = {
     PRICE_DECISION: (
       <Mutation
         mutation={COMMIT}
-        variables={{ label, secret }}
+        variables={{ label, secret, commitmentTimerRunning }}
         onCompleted={data => {
           const txHash = Object.values(data)[0]
           setTxHash(txHash)
+          setCommitmentTimerRunning(true)
           incrementStep()
         }}
       >
@@ -105,18 +115,7 @@ function getCTA({
         }
       </Mutation>
     ),
-    COMMIT_SENT: (
-      <PendingTx
-        txHash={txHash}
-        onConfirmed={data => {
-          incrementStep()
-          if (data.blockCreatedAt) {
-            setBlockCreatedAt(data.blockCreatedAt)
-          }
-          setTimerRunning(true)
-        }}
-      />
-    ),
+    COMMIT_SENT: <PendingTx txHash={txHash} />,
     COMMIT_CONFIRMED: (
       <Button data-testid="disabled-register-button" type="disabled">
         {t('register.buttons.register')}
@@ -129,15 +128,18 @@ function getCTA({
         onCompleted={data => {
           const txHash = Object.values(data)[0]
           setTxHash(txHash)
-          trackReferral({
-            transactionId: txHash,
-            labels: [label],
-            type: 'register', // renew/register
-            price: new EthVal(`${price._hex}`)
-              .toEth()
-              .mul(ethUsdPrice)
-              .toFixed(2) // in wei, // in wei
-          })
+          if (ethUsdPrice) {
+            // this is not set on local test env
+            trackReferral({
+              transactionId: txHash,
+              labels: [label],
+              type: 'register', // renew/register
+              price: new EthVal(`${price._hex}`)
+                .toEth()
+                .mul(ethUsdPrice)
+                .toFixed(2) // in wei, // in wei
+            })
+          }
           incrementStep()
         }}
       >
@@ -164,6 +166,9 @@ function getCTA({
     ),
     REVEAL_CONFIRMED: (
       <>
+        <SetReverseRecord to={`/address/${account}`}>
+          Set reverse record
+        </SetReverseRecord>
         <AddToCalendar
           css={css`
             margin-right: 20px;
@@ -197,6 +202,8 @@ const CTA = ({
   duration,
   label,
   setTimerRunning,
+  setCommitmentTimerRunning,
+  commitmentTimerRunning,
   setBlockCreatedAt,
   isAboveMinDuration,
   refetch,
@@ -207,6 +214,7 @@ const CTA = ({
 }) => {
   const { t } = useTranslation()
   const history = useHistory()
+  const account = useAccount()
   const [txHash, setTxHash] = useState(undefined)
   return (
     <CTAContainer>
@@ -220,6 +228,8 @@ const CTA = ({
         setTxHash,
         setTimerRunning,
         setBlockCreatedAt,
+        setCommitmentTimerRunning,
+        commitmentTimerRunning,
         isAboveMinDuration,
         refetch,
         refetchIsMigrated,
@@ -227,7 +237,8 @@ const CTA = ({
         price,
         history,
         t,
-        ethUsdPrice
+        ethUsdPrice,
+        account
       })}
     </CTAContainer>
   )

@@ -43,6 +43,19 @@ const resolvers = {
       } catch (e) {
         console.log(e)
       }
+    },
+    async checkCommitment(
+      _,
+      { label, secret, commitmentTimerRunning },
+      { cache }
+    ) {
+      try {
+        const registrar = getRegistrar()
+        const commitment = await registrar.checkCommitment(label, secret)
+        return parseInt(commitment)
+      } catch (e) {
+        console.log(e)
+      }
     }
   },
   Mutation: {

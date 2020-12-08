@@ -1,28 +1,4 @@
 {
-  "about": {
-    "card1": "Map simple names like ‘alice.eth’ to Ethereum addresses, content hashes, and metadata.",
-    "card2": "Improve usability of Dapps by returning human readable names instead of long hashes through 'reverse resolution'",
-    "elevatorpitch": "The Ethereum Name Service is a distributed, open and extensible naming system based on the Ethereum blockchain. ENS eliminates the need to copy or type long addresses.",
-    "subdomainText": "Like DNS, ENS operates on a system of dot-separated hierarchial names called domains, with the owner of a domain having full control over the allocation of subdomains.",
-    "subtitles": [
-      "About ENS",
-      "TLDs & SUBDOMAINS",
-      "HOW TO USE ENS",
-      "Under the surface"
-    ],
-    "underTheSurface": {
-      "registrar": "The Registrar is the Smart Contract that allows you to buy or register a domain.",
-      "registry": "The Registry is a Smart Contract that contains a list of all domains and subdomains, storing for each two pieces of information: the owner of the name and the Resolver.",
-      "resolver": "Resolvers are Smart Contracts responsible for the process of translating names into addresses, or other types of hashes and resources.",
-      "reverse": "The Resolver can optionally perform the opposite functionality of 'Reverse Resolving': translating an address into an associated name",
-      "titles": [
-        "The Registrar",
-        "The Registry",
-        "Resolvers",
-        "Reverse Resolution"
-      ]
-    }
-  },
   "address": {
     "etherscanButton": "View on Etherscan",
     "filter": {
@@ -35,10 +11,7 @@
     },
     "renew": {
       "button": "Renew Selected",
-      "confirm": [
-        "The following names:",
-        "will be renewed for "
-      ],
+      "confirm": ["The following names:", "will be renewed for "],
       "confirmButton": "Renew",
       "year": "{{count}} year",
       "year_plural": "{{count}} years"
@@ -61,18 +34,23 @@
     "about": "About",
     "cancel": "Cancel",
     "claim": "Claim",
+    "connect": "Connect",
+    "disconnect": "Disconnect",
     "edit": "Edit",
     "email": "Email",
     "expires": "Expires",
+    "faq": "FAQ",
     "favourites": "Favourites",
     "learnmore": "Learn More",
     "learnmoreenglishonly": "Learn More",
     "migrate": "Migrate",
-    "mynames": "My Names",
+    "mynames": "My Account",
     "network": "network",
     "otheraddresses": "Other Addresses",
+    "addresses": "Addresses",
     "parent": "parent",
     "refresh": "Refresh",
+    "readonly": "Read only",
     "register": "Register",
     "registrant": "Registrant",
     "registrationDate": "Registration Date",
@@ -92,12 +70,7 @@
     "notmigrated": "not migrated"
   },
   "dns": {
-    "breadcrumbs": [
-      "ENABLE DNSSEC",
-      "ADD TEXT",
-      "SUBMIT PROOF",
-      "MANAGE NAME"
-    ],
+    "breadcrumbs": ["ENABLE DNSSEC", "ADD TEXT", "SUBMIT PROOF", "MANAGE NAME"],
     "dnsowner": "DNS Owner",
     "steps": {
       "addtext": {
@@ -127,7 +100,7 @@
     "reminder": "Remind me"
   },
   "favourites": {
-    "favouriteTitle": "Favourite Domains",
+    "favouriteTitle": "Favourites",
     "nofavouritesDomains": {
       "text": "To add names to favourites, click the heart icon next to any desired name.",
       "title": "No names have been saved."
@@ -221,7 +194,7 @@
     },
     "titles": [
       "Registering a name requires you to complete 3 steps",
-      "Don’t close your browser! You’ll be able to manage your name soon.",
+      "You’ll be able to manage your name soon.",
       "You’ve completed all the steps, manage your name now!"
     ]
   },
@@ -235,10 +208,7 @@
     }
   },
   "releaseDeed": {
-    "connectRegistrar": "This name was automatically migrated to the new Registrar. To get the deposited eth back, please connect via the registrant account and click the 'return' button.",
-    "depositReturned": "Your deposit is now returned.",
-    "returnDeposit": "Your name was automatically migrated to the new Registrar. To get your deposited eth back, click the 'return' button.",
-    "whyMigrated": "*To understand why this name was migrated"
+    "returnDeposit": "There is still an unclaimed deposit on this name. To get the deposited eth back, Go to"
   },
   "reminder": {
     "everywhere": "everywhere",
@@ -312,7 +282,7 @@
         "title": "1. Set Resolver"
       },
       "step2": {
-        "text": "Once you have set the Resolver, you can then add records by clicking the ‘+’ in the ‘records’ field. Adding your ethereum address will allow you to point your wallet to your name in the next step.",
+        "text": "Once you have set the Resolver, you can then add records by clicking the ‘ADD/EDIT RECORD’ in the ‘records’ field. Find 'addresses' and then 'ETH' in the dropdown, paste in your address and then click confirm below and then in the modal. Adding your ethereum address will allow you to point your wallet to your name in the next step.",
         "title": "2. Set Address"
       },
       "step3": {
@@ -330,6 +300,8 @@
     },
     "record": {
       "cantEdit": "You can’t edit or add records until you migrate to the new resolver.",
+      "openEdit": "Add/Edit Records",
+      "closeEdit": "Close Add/Edit Records",
       "messages": {
         "explanation": "The Reverse Resolution translates an address into a name. It allows Dapps to show in their interfaces '{{name}}' rather than the long address '{{account}}'. If you would like to set up your reverse for a different account, please switch accounts in your dapp browser",
         "notSet": "Reverse record: not set",

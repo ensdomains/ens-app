@@ -51,7 +51,7 @@ const AddressLink = styled(DefaultAddressLink)`
 `
 
 const Address = styled('span')`
-  display: inline-block;
+  display: block;
   align-items: center;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -264,11 +264,15 @@ function getInputType(
       />
     )
   }
-
+  const ensAddress = getEnsAddress()
+  const provider =
+    process.env.REACT_APP_STAGE === 'local'
+      ? 'http://localhost:8545'
+      : window.ethereum || window.web3
   if (type === 'address') {
     let option = {
       presetValue: presetValue || '',
-      provider: window.ethereum || window.web3 || 'http://localhost:8545',
+      provider,
       onResolve: ({ address }) => {
         if (address) {
           updateValue(address)
@@ -276,7 +280,7 @@ function getInputType(
           updateValue('')
         }
       },
-      ensAddress: getEnsAddress()
+      ensAddress
     }
     if (keyName === 'Resolver') {
       option.placeholder =
@@ -379,7 +383,7 @@ const Editable = ({
   const account = useAccount()
   const isOwnerOfParent = isOwnerOfParentDomain(domain, account)
   const isRegistrant = !domain.available && domain.registrant === account
-  const canDelete = ['Controller', 'Resolver'].includes(keyName)
+  const canDelete = ['Resolver'].includes(keyName)
   return (
     <Mutation
       mutation={mutation}

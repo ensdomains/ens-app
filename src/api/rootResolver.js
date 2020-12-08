@@ -1,4 +1,10 @@
-import { getWeb3, getAccounts, getNetworkId, isReadOnly } from '@ensdomains/ui'
+import {
+  getWeb3,
+  getAccounts,
+  getNetworkId,
+  isReadOnly,
+  emptyAddress
+} from '@ensdomains/ui'
 import getENS from 'api/ens'
 import merge from 'lodash/merge'
 import managerResolvers, {
@@ -25,7 +31,13 @@ const rootDefaults = {
 
 const resolvers = {
   Web3: {
-    accounts: () => getAccounts(),
+    accounts: () => {
+      if (!isReadOnly()) {
+        return getAccounts()
+      } else {
+        return emptyAddress
+      }
+    },
     networkId: async () => {
       const networkId = await getNetworkId()
       return networkId

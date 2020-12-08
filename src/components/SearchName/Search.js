@@ -14,7 +14,6 @@ import LanguageSwitcher from '../LanguageSwitcher'
 const SearchForm = styled('form')`
   display: flex;
   position: relative;
-  z-index: 10000;
 
   &:before {
     content: '';
@@ -52,7 +51,7 @@ const SearchForm = styled('form')`
   }
 
   button {
-    background: #5284ff;
+    ${p => (p && p.hasSearch ? 'background: #5284ff;' : 'background: #c7d3e3;')}
     color: white;
     font-size: 22px;
     font-family: Overpass;
@@ -66,7 +65,7 @@ const SearchForm = styled('form')`
     `}
 
     &:hover {
-      cursor: pointer;
+      ${p => (p && p.hasSearch ? 'cursor: pointer;' : 'cursor: default;')}
     }
   }
 `
@@ -80,17 +79,22 @@ function Search({ history, className, style }) {
   const handleParse = e => {
     setInputValue(e.target.value)
   }
-
+  const hasSearch = inputValue && inputValue.length > 0
   return (
     <SearchForm
       className={className}
       style={style}
       action="#"
+      hasSearch={hasSearch}
       onSubmit={async e => {
         e.preventDefault()
+        if (!hasSearch) return
         const type = await parseSearchTerm(inputValue)
-        const searchTerm = input.value.toLowerCase()
-        if (searchTerm.length < 1) {
+        let searchTerm
+        if (input && input.value) {
+          searchTerm = input.value.toLowerCase()
+        }
+        if (!searchTerm || searchTerm.length < 1) {
           return
         }
 
@@ -121,7 +125,9 @@ function Search({ history, className, style }) {
           }
         /> */}
       {/* <Filters show={filterOpen} /> */}
-      <button type="submit">{t('search.button')}</button>
+      <button disabled={!hasSearch} type="submit">
+        {t('search.button')}
+      </button>
     </SearchForm>
   )
 }

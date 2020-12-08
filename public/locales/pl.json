@@ -1,0 +1,327 @@
+{
+  "address": {
+    "etherscanButton": "Zobacz na Etherscan",
+    "filter": {
+      "controller": "Kontroler",
+      "registrant": "Rejestrujący"
+    },
+    "namesExpiringSoonBanner": {
+      "text": "Odnów je wszystkie w jednej transakcji, wybierając wiele adresów i klikając „Odnów”",
+      "title": "Wiele domen zakupionych w przeszłości będzie przedawnionych w Sierpniu."
+    },
+    "renew": {
+      "button": "Odnowienie Wybrane",
+      "confirm": [
+        "Następujące nazwy:",
+        "zostaną odnowione"
+      ],
+      "confirmButton": "Odnów",
+      "year": "{{count}} rok",
+      "year_plural": "{{count}} lata"
+    },
+    "sort": {
+      "alphabetical": "Alfabetycznie",
+      "expiry": "Data Wygaśnięcia",
+      "transactionBanner": "Jesteś tutaj ze względu na transakcję, którą wysłaliśmy Ci lub z uwagi na przekierowanie z innej strony. Poniżej znajdują się nazwy, które musisz niedługo odnowić!"
+    }
+  },
+  "c": {
+    "Address": "Adres",
+    "Content": "Zawartość",
+    "Controller": "Kontroler",
+    "DnsOwner": "Właściciel DNS",
+    "Expiration Date": "Data Wygaśnięcia",
+    "Resolver": "Rozwiązujący",
+    "about": "O Nas",
+    "cancel": "Anuluj",
+    "claim": "Odbierz",
+    "edit": "Edytuj",
+    "email": "Email",
+    "expires": "Wygasa",
+    "favourites": "Ulubione",
+    "learnmore": "Dowiedz się więcej",
+    "migrate": "Przenieś",
+    "mynames": "Moje Nazwy",
+    "network": "sieć",
+    "otheraddresses": "Inne Adresy",
+    "parent": "rodzic",
+    "permanentregistrar": "Pernamentny Rejestrator",
+    "refresh": "Odśwież",
+    "register": "Zarejestruj",
+    "registrant": "Rejestrujący",
+    "registrationDate": "Data Rejestracji",
+    "renew": "Odnów",
+    "save": "Zapisz",
+    "search": "Szukaj",
+    "set": "Ustaw",
+    "sync": "Rekord Tekstu",
+    "textrecord": "Zapis Tekstowy",
+    "transfer": "Transfer (if verb then: Transferuj)",
+    "warning": "Ostrzeżenie",
+    "year": "rok",
+    "year_plural": "lata"
+  },
+  "childDomainItem": {
+    "notmigrated": "nie przeniesiono"
+  },
+  "dns": {
+    "breadcrumbs": [
+      "WŁĄCZ DNSSEC",
+      "DODAJ TEKST",
+      "DODAJ DOWÓD",
+      "USTAW NAZWĘ"
+    ],
+    "dnsowner": "Właściciel DNS",
+    "steps": {
+      "addtext": {
+        "text": "Kliknij \"dowiedz się więcej\", aby przeczytać o procesie.",
+        "title": "\nSkonfiguruj rekord tekstowy w rejestratorze domeny, a następnie kliknij Odśwież. Rekord tekstowy powinien zawierać Twój adres Ethereum w postaci:"
+      },
+      "enable": {
+        "text": "Kliknij \"dowiedz się więcej\", aby przeczytać o procesie.",
+        "title": "\nOdwiedź swojego rejestratora domen, aby włączyć DNSSEC. Po włączeniu kliknij przycisk odśwież, aby sprawdzić, czy możesz przejść do następnego kroku."
+      },
+      "manage": {
+        "text1": "Odkąd jesteś właścicielem, możesz zarządzać swoimi nazwami.",
+        "text2": "Ponieważ nie jesteś właścicielem, możesz tylko wyświetlać nazwy w rejestratorze.",
+        "title": "Gratulacje! Udało ci się dodać domenę DNS do Rejestru ENS"
+      },
+      "proof": {
+        "text1": "\nAdres, który pojawia się w rekordzie txt DNS, to ten sam adres.",
+        "text2": "Jeśli wiesz, że posiadasz tę domenę, zmień jej rekord TXT, aby zawierał Adres Ethereum i odśwież stronę, aby ponownie przeprowadzić weryfikację DNSSEC.",
+        "title1": "Jesteś właścicielem tego adresu. Dodaj teraz swoją domenę do Rejestru ENS.",
+        "title2": "Nie jesteś właścicielem DNS tej domeny, lecz każdy może dodać domenę do Rejestru ENS."
+      }
+    },
+    "viewinmanager": "Zobacz w Menedżerze"
+  },
+  "expiryNotification": {
+    "placeholder": "Wprowadź Adres Email",
+    "reminder": "Przypomnij Mi"
+  },
+  "favourites": {
+    "favouriteTitle": "Ulubione",
+    "nofavouritesDomains": {
+      "text": "Aby dodać nazwy do ulubionych, kliknij ikonę serca koło wybranej nazwy.",
+      "title": "Żadne z nazw nie zostały zapisane."
+    },
+    "nofavouritesSubdomain": {
+      "title": "Nie zapisano żadnej Subdomeny."
+    },
+    "nofavouritesSubdomains": {
+      "text": "Aby dodać nazwy do ulubionych, kliknij ikonę serca koło wybranej nazwy."
+    },
+    "subdomainFavouriteTitle": "Ulubione Subdomeny"
+  },
+  "home": {
+    "announcements": {
+      "migrationOver": "Przeniesienie Rejestru ENS zostało zakończone... Co dalej? Oto kilka rzeczy, o których musisz wiedzieć",
+      "renew": {
+        "body": [
+          "Możesz odnowić wszystkie domeny w jednej transakcji, na swojej",
+          "stronie adresów",
+          "lub klikając \"Moje nazwy\" w czasie, gdy jesteś zalogowany"
+        ],
+        "title": "Nazwy kupione w maju niedługo wygasają."
+      }
+    },
+    "howtouse": {
+      "body": "Aplikacja ENS to graficzny interfejs użytkownika dla użytkowników nietechnicznych. Umożliwia wyszukiwanie dowolnej nazwy, zarządzanie jej adresami lub zasobami, na które wskazuje, i tworzenie subdomen dla każdej nazwy.",
+      "title": "Jak używać ENS"
+    },
+    "permanentRegistrar": {
+      "title": "Dowiedzi się o Pernamentnym Rejestratorze i procesie migracji"
+    },
+    "whatisens": {
+      "body": "The Ethereum Name Service to rozproszony, otwarty i rozszerzalny system nazewnictwa oparty na blockchainie Ethereum. ENS eliminuje potrzebę kopiowania lub wpisywania długich adresów.",
+      "title": "Co to jest"
+    }
+  },
+  "howtouse": {
+    "favourite": {
+      "text": "\nŚledź domeny i subdomeny, które posiadasz lub które chcesz śledzić.",
+      "title": "Ustaw ulubione nazwy"
+    },
+    "manage": {
+      "text": "\nPołącz domeny z adresami ethereum, przenieś własność na inne osoby i nie tylko.",
+      "title": "Zarządzaj nazwami"
+    },
+    "register": {
+      "text": "Zarejestruj nazwę .eth za $5/rok. Odnów lub anuluj twoją rejestrację nazwy w dowolnym momencie.",
+      "title": "Zarejestruj nazwy"
+    },
+    "search": {
+      "text": "Znajdź domeny i subdomeny, które możesz zarejestrować lub dowiedzieć się o nich więcej.",
+      "title": "Szukaj nazw"
+    }
+  },
+  "learnmore": {
+    "step1": {
+      "text": "Rozwiązujący to smart kontrakt odpowiedzialny za proces tłumaczenia nazw na adresy. W obszarze Rozwiązujący kliknij \"Ustaw”. Następnie kliknij link \"użyj publicznego rozwiązującego” i \"zapisz”, aby rozpocząć transakcję.",
+      "title": "1. Ustaw Rozwiązującego"
+    },
+    "step2": {
+      "text": "Po ustawieniu Rozwiązującego możesz następnie dodawać rekordy, klikając \"+” w polu „rekordy”. Dodanie adresu ethereum pozwoli Ci wskazać portfel na swoją nazwę w następnym kroku.",
+      "title": "2. Ustaw Adres"
+    },
+    "step3": {
+      "text": "Po ustawieniu adresu zobaczysz komunikat informujący, że wskaźnik odwrotny nie jest ustawiony. Kliknij strzałkę w polu, aby rozwinąć, a następnie kliknij przycisk \"zapisz”. To przełoży Twój adres na nową nazwę.",
+      "title": "3. Ustaw Zapis Odwrócenia"
+    },
+    "title": "Naucz się jak zarządzać swoimi nazwami"
+  },
+  "pendingTx": {
+    "text": "Oczekujący Tx"
+  },
+  "pricer": {
+    "registrationPeriodLabel": "Czas rejestracji",
+    "totalPriceLabel": "Łączna kwota do zapłaty",
+    "yearUnit": "rok"
+  },
+  "register": {
+    "buttons": {
+      "manage": "Zarządzaj",
+      "register": "Zarejestruj",
+      "request": "Wniosek o rejestrację",
+      "warning": "Kliknij zarejestruj, aby przejść do 3 kroku"
+    },
+    "favourite": "* Ustaw ulubione nazwy do łatwego dostępu, w przypadku, gdy przypadkowo zamkniesz swoją przeglądarkę.",
+    "notifications": {
+      "ready": "jest łatwe do zarejestrowania"
+    },
+    "notify": "Powiadom Mnie",
+    "step1": {
+      "label": "Krok 1",
+      "text": "Twój portfel zostanie otwarty i będziesz poproszony o potwierdzenie dwóch transakcji wymaganych do rejestracji",
+      "title": "Wniosek o rejestrację"
+    },
+    "step2": {
+      "label": "Krok 2",
+      "text": "Wymagany jest okres oczekiwania, aby inna osoba nie próbowała zarejestrować tej samej nazwy i chronić cię po twojej próbie.",
+      "title": "Poczekaj minutę"
+    },
+    "step3": {
+      "label": "Krok 3",
+      "text": "Kliknij \"zarejestruj\" i twój portfel otworzy się ponownie. Dopiero po potwierdzeniu drugiej transakcji będziesz wiedział czy otrzymałeś domenę.",
+      "title": "Dokończ Rejestrację"
+    },
+    "titles": [
+      "Rejestracja nazwy wymaga od ciebie ukończenia 3 kroków",
+      "Będziesz w stanie zarządzać swoimi nazwami wkrótce.",
+      "Zakończyłeś wszystkie kroki, możesz zarządzać swoimi nazwami!"
+    ]
+  },
+  "registrymigration": {
+    "donotaccept": "* Jeśli hadlujesz nazwami ENS, nie akcpetuj tej nazwy!",
+    "messages": {
+      "controller": "Ta nazwa jest kontrolowana przez kontrakt i nie może być przeniesiona automatycznie. Przed ustawieniem nowego kontrolera ponownie zdeponuj kontrakt, aby używać nowego rejestru.",
+      "default": "Tę nazwę należy przenieść do nowego rejestru. Tylko rodzic tej nazwy ({{parent}}) może to zrobić.",
+      "dnssec": "Tę nazwę należy przenieść do nowego rejestru. Skonfiguruj poprawnego właściciela DNS i kliknij przycisk „Synchronizuj” poniżej",
+      "parentmigrate": "Najpierw musisz przeprowadzić migrację domeny nadrzędnej {{parent}}, aby móc przenieść tę subdomenę"
+    }
+  },
+  "search": {
+    "button": "Szukaj",
+    "placeholder": "Szukaj nazw lub adresów",
+    "searchErrors": {
+      "domainMalformed": {
+        "long": "Dodałeś domenę bez TLD, na przykład .eth, albo dodałeś nieobsługiwane znaki.",
+        "short": "Domena jest źle określona. {{searchTerm}} nie jest prawidłową domeną."
+      },
+      "unsupported": {
+        "long": "Nie obsługujemy każdej domeny. W przyszłości planowane jest wsparcie dla przyszłych domen.",
+        "short": "{{tld}} nie jest obecnie obsługiwanym TLD."
+      }
+    }
+  },
+  "singleName": {
+    "banners": {
+      "namesExpiring": {
+        "text": "Kliknij przycisk odnowienia, aby uniknąć wygaśnięcia. Aby zbiorowo odnowić wszystkie swoje nazwy, przejdź do <1> Moje Nazwy </1> i wybierz wiele nazw przed kliknięciem \"Odnów”",
+        "title": "Wiele domen zakupionych w przeszłości będzie przedawnionych w Sierpniu."
+      }
+    },
+    "confirm": {
+      "button": {
+        "cancel": "Anuluj",
+        "confirm": "Potwierdź"
+      },
+      "subTitle": "To działanie zmieni stan blockchaina.",
+      "title": "Czy na pewno chcesz to zrobić?",
+      "value": {
+        "future": "PRZYSZŁE",
+        "previous": "POPRZEDNIE"
+      }
+    },
+    "dns": {
+      "messages": {
+        "error": "Rozwiąż błąd w swoim rejestratorze domeny. Odśwież, aby odzwierciedlić aktualizacje.",
+        "outOfSync": "Kontroler i Właściciel DNS nie są zsynchronizowani. Kliknij „sync”, aby ustawić Właściciela DNS jako Kontrolera. Kliknij „odśwież”, jeśli wprowadzasz zmiany w domenie w rejestratorze DNS.",
+        "readyToRegister": "* Kliknij przycisk „odśwież”, jeśli wprowadzasz zmiany w domenie w rejestratorze DNS."
+      }
+    },
+    "domain": {
+      "state": {
+        "auction": "Na Aukcji",
+        "default": "Nieznany Stan",
+        "owned": "Niedostępne",
+        "owner": "Właściciel",
+        "title": "Dostępne"
+      }
+    },
+    "expiry": {
+      "cannotown": "Odnowienie nazwy, której nie jesteś właścicielem, nie daje jej prawa własności.",
+      "expired": "Wygasła",
+      "expiring": "Wygasa Niedługo",
+      "gracePeriodEnds": "Okres karencji się kończy"
+    },
+    "messages": {
+      "alreadyregistered": "Ten adress jest już zarejestrowany",
+      "noowner": "Nieposiadane",
+      "noresolver": "Nie ustawiono Rozwiązującego",
+      "notfinalized": "(Nie sfinalizowałeś)",
+      "pending": "Oczekujące"
+    },
+    "record": {
+      "cantEdit": "Nie możesz edytować ani dodawać rekordów, dopóki nie przeprowadzisz migracji do nowego resolvera.",
+      "messages": {
+        "explanation": "Reverse Resolution tłumaczy adres na nazwę. Pozwala Dapps na wyświetlanie w ich interfejsach '{{name}}' zamiast długiego adresu '{{konto}}'. Jeśli chcesz skonfigurować swój rewers dla innego konta, przełącz konta w przeglądarce dapp.",
+        "notSet": "Rekord Reverse: nie ustawiono",
+        "setTo": "Rekord Reverse: Ustaw na",
+        "setToDifferent": "Rekord Reverse: Ustaw na inną nazwę:"
+      },
+      "title": "Rekordy"
+    },
+    "resolver": {
+      "error": "Błąd Migracji Revolver'a",
+      "message": "Aby ręcznie zresetować program rozpoznawania nazw, kliknij ustaw i wprowadź adres niestandardowego programu do rozwiązywania problemów.",
+      "publicResolver": "Użyj Publicznego Resolvera",
+      "warning": "Używasz przestarzałej wersji publicznego resolwera. Kliknij, aby przeprowadzić migrację swojego resolwera i rekordów. Będziesz musiał potwierdzić dwie transakcje, aby przenieść zarówno swoje rekordy, jak i program rozpoznawania nazw."
+    },
+    "search": {
+      "title": "Nazwy"
+    },
+    "subdomains": {
+      "add": "Dodaj Subdomenę",
+      "nosubdomains": "Nie dodano Subdomen"
+    },
+    "tabs": {
+      "details": "Szczegóły",
+      "register": "Rejestr (if verb then: Zarejestruj)",
+      "subdomains": "Subdomeny"
+    },
+    "test": {
+      "note": "Uwaga: domena .test pozwala każdemu ubiegać się o nieużywaną nazwę do celów testowych, która wygasa po 28 dniach"
+    },
+    "tooltips": {
+      "detailsItem": {
+        "Controller": "Możesz przenieść kontroler tylko wtedy, gdy jesteś kontrolerem lub rejestrującym i jesteś zalogowany w swoim portfelu",
+        "ControllerAndDnsAlreadySync": "Kontroler i Właściciel DNS są już zsynchronizowani",
+        "Resolver": "Możesz ustawić rozwiązującego na tę nazwę tylko wtedy, gdy jesteś kontrolerem i jesteś zalogowany do swojego portfela",
+        "default": "Możesz dokonać zmian tylko, jeśli jesteś kontrolerem i jesteś zalogowany w swoim portfelu",
+        "registrant": "Rejestrującego możesz przenieść tylko wtedy, gdy jesteś rejestrującym i jesteś zalogowany w swoim portfelu",
+        "registrantExpired": "Nie możesz przenieść tej domeny, gdy wygasła. Najpierw ją odnów."
+      }
+    }
+  }
+}

@@ -20,7 +20,7 @@ const DomainInfoContainer = ({ name }) => {
         const { singleName } = data
         return (
           <Query query={GET_FAVOURITES}>
-            {({ data: { favourites } }) => (
+            {({ data: { favourites } = {} }) => (
               <DomainItem
                 loading={loading}
                 domain={singleName}

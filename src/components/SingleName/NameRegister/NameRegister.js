@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Query, useQuery } from 'react-apollo'
 import moment from 'moment'
 import {
+  CHECK_COMMITMENT,
   GET_MINIMUM_COMMITMENT_AGE,
   GET_MAXIMUM_COMMITMENT_AGE,
   GET_RENT_PRICE,
@@ -57,6 +58,7 @@ const NameRegister = ({
   const [years, setYears] = useState(1)
   const [secondsPassed, setSecondsPassed] = useState(0)
   const [timerRunning, setTimerRunning] = useState(false)
+  const [commitmentTimerRunning, setCommitmentTimerRunning] = useState(false)
   const [blockCreatedAt, setBlockCreatedAt] = useState(null)
   const [waitUntil, setWaitUntil] = useState(null)
   const [targetDate, setTargetDate] = useState(false)
@@ -67,16 +69,14 @@ const NameRegister = ({
   const { loading: ethUsdPriceLoading, price: ethUsdPrice } = useEthPrice()
   const { block } = useBlock()
   const [invalid, setInvalid] = useState(false)
-  const {
-    data: { waitBlockTimestamp }
-  } = useQuery(WAIT_BLOCK_TIMESTAMP, {
+  const { data: { waitBlockTimestamp } = {} } = useQuery(WAIT_BLOCK_TIMESTAMP, {
     variables: {
       waitUntil
     }
   })
-  const {
-    data: { getMaximumCommitmentAge }
-  } = useQuery(GET_MAXIMUM_COMMITMENT_AGE)
+  const { data: { getMaximumCommitmentAge } = {} } = useQuery(
+    GET_MAXIMUM_COMMITMENT_AGE
+  )
   if (block) {
     now = moment(block.timestamp * 1000)
   }
@@ -85,7 +85,20 @@ const NameRegister = ({
       moment(blockCreatedAt).add(getMaximumCommitmentAge, 'second')
     )
   }
+  const { data: { checkCommitment = false } = {} } = useQuery(
+    CHECK_COMMITMENT,
+    {
+      variables: {
+        label: domain.label,
+        secret,
+        // Add this varialbe so that it keeps polling only during the timer is on
+        commitmentTimerRunning
+      }
+    }
+  )
+
   ProgressRecorder({
+    checkCommitment,
     domain,
     networkId,
     states: registerMachine.states,
@@ -106,7 +119,7 @@ const NameRegister = ({
   useInterval(
     () => {
       if (blockCreatedAt && !waitUntil) {
-        setWaitUntil(blockCreatedAt && blockCreatedAt + waitTime * 1000)
+        setWaitUntil(blockCreatedAt + waitTime * 1000)
       }
       if (secondsPassed < waitTime) {
         setSecondsPassed(s => s + 1)
@@ -122,7 +135,18 @@ const NameRegister = ({
     },
     timerRunning ? 1000 : null
   )
-
+  useInterval(
+    () => {
+      if (checkCommitment > 0) {
+        incrementStep()
+        setTimerRunning(true)
+        setCommitmentTimerRunning(false)
+      } else {
+        setCommitmentTimerRunning(new Date())
+      }
+    },
+    commitmentTimerRunning ? 1000 : null
+  )
   const parsedYears = parseFloat(years)
   const duration = calculateDuration(years)
   const { data: { getRentPrice } = {}, loading: rentPriceLoading } = useQuery(
@@ -130,10 +154,17 @@ const NameRegister = ({
     {
       variables: {
         duration,
-        label: domain.label
+        label: domain.label,
+        commitmentTimerRunning
       }
     }
   )
+  if (!blockCreatedAt && checkCommitment > 0) {
+    setBlockCreatedAt(checkCommitment * 1000)
+  }
+  if (blockCreatedAt && !waitUntil) {
+    setWaitUntil(blockCreatedAt + waitTime * 1000)
+  }
 
   const oneMonthInSeconds = 2419200
   const twentyEightDaysInYears = oneMonthInSeconds / yearInSeconds
@@ -251,6 +282,8 @@ const NameRegister = ({
         secondsPassed={secondsPassed}
         timerRunning={timerRunning}
         setTimerRunning={setTimerRunning}
+        setCommitmentTimerRunning={setCommitmentTimerRunning}
+        commitmentTimerRunning={commitmentTimerRunning}
         setBlockCreatedAt={setBlockCreatedAt}
         refetch={refetch}
         refetchIsMigrated={refetchIsMigrated}

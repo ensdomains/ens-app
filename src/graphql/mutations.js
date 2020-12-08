@@ -84,6 +84,12 @@ export const CREATE_SUBDOMAIN = gql`
   }
 `
 
+export const DELETE_SUBDOMAIN = gql`
+  mutation deleteSubdomain($name: String) {
+    deleteSubdomain(name: $name) @client
+  }
+`
+
 /* Resolver Mutations */
 
 export const SET_NAME = gql`
@@ -124,6 +130,12 @@ export const SET_ADDR = gql`
 export const MIGRATE_RESOLVER = gql`
   mutation migrateResolver($name: String) {
     migrateResolver(name: $name) @client
+  }
+`
+
+export const ADD_MULTI_RECORDS = gql`
+  mutation addMultiRecords($name: String, $records: Records) {
+    addMultiRecords(name: $name, records: $records) @client
   }
 `
 

@@ -47,7 +47,6 @@ const StyledInput = styled('input')`
 
 const InputContainer = styled('div')`
   position: relative;
-  margin-bottom: 20px;
 
   ${p => {
     if (p.invalid || p.warning) {
@@ -89,7 +88,8 @@ const Input = ({
   invalid,
   large,
   placeholder,
-  value
+  value,
+  testId
 }) => (
   <InputContainer
     valid={valid}
@@ -98,6 +98,7 @@ const Input = ({
     className={className}
   >
     <StyledInput
+      data-testid={testId}
       onChange={onChange}
       type={type ? type : 'text'}
       wide

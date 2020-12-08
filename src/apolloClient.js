@@ -43,15 +43,16 @@ export async function setupClient(network) {
   const httpLink = new HttpLink({
     uri: getGraphQLAPI(network)
   })
-
-  client = new ApolloClient({
+  const option = {
     fetchOptions: {
       mode: 'no-cors'
     },
     cache,
     addTypename: true,
     link: ApolloLink.from([stateLink, httpLink], cache)
-  })
+  }
+
+  client = new ApolloClient(option)
   return client
 }
 

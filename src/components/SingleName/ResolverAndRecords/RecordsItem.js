@@ -14,7 +14,6 @@ import { getOldContentWarning } from './warnings'
 import { getEnsAddress } from '../../../api/ens'
 
 import { DetailsItem, DetailsKey, DetailsValue } from '../DetailsItem'
-import AddReverseRecord from './AddReverseRecord'
 import Upload from '../../IPFS/Upload'
 import IpfsLogin from '../../IPFS/Login'
 import StyledUpload from '../../Forms/Upload'
@@ -42,7 +41,7 @@ export const RecordsItem = styled(DetailsItem)`
     align-items: flex-start;
   `}
 
-  background: ${({ editing }) => (editing ? '#F0F6FA' : 'white')};
+  background: ${({ editing }) => (editing ? 'white' : 'white')};
   ${mq.medium`
     display: flex;
     flex-direction: column;
@@ -58,7 +57,6 @@ export const RecordsContent = styled('div')`
   ${mq.medium`
     display: flex;
   `}
-  ${({ editing }) => editing && 'margin-bottom: 30px'};
 `
 
 export const RecordsKey = styled(DetailsKey)`
@@ -88,6 +86,7 @@ export const RecordsSubKey = styled('div')`
 
 export const RecordsValue = styled(DetailsValue)`
   font-size: 14px;
+  font-family: Overpass Mono;
   margin-top: 1em;
   ${mq.small`
       margin-top: 0;
@@ -418,9 +417,6 @@ const RecordItemEditable = ({
             ) : (
               ''
             )}
-            {keyName === 'Address' && (
-              <AddReverseRecord account={account} name={domain.name} />
-            )}
           </RecordsItem>
         )}
       </Mutation>
@@ -452,10 +448,6 @@ function RecordItemViewOnly({ keyName, value, type, domain, account }) {
           />
         </Action>
       </RecordsContent>
-      {keyName === 'Address' &&
-        value.toLowerCase() === account.toLowerCase() && (
-          <AddReverseRecord account={account} name={name} />
-        )}
     </RecordsItem>
   )
 }
