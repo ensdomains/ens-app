@@ -12,8 +12,6 @@ import mq from 'mediaQuery'
 import { RecordsValue } from './ContentHash.js'
 import { isRecordEmpty } from '../../../utils/utils'
 import 'cross-fetch/polyfill'
-// TODO: Change to eth.link once migrated
-const CERTIFICATE_HOST = 'eth.domains'
 
 const Key = styled(DefaultKey)`
   ${mq.small`
@@ -44,9 +42,18 @@ function isEthSubdomain(name) {
 }
 
 function requestCertificate(parentName) {
-  if (window.location.host !== 'app.ens.domains') return
-  const fetchUrl = `https://${CERTIFICATE_HOST}/names/${parentName}.domains`
-  fetch(fetchUrl, { method: 'PUT' })
+  // if (window.location.host !== 'app.ens.domains') return
+  // TODO: Change to .link once transitioned
+  const fetchUrl = `https://eth.domains/names/${parentName}.domains`
+  fetch(fetchUrl, {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    }
+  }).catch(e => {
+    console.log(e)
+  })
 }
 
 export default function MultipleRecordsCheck({
