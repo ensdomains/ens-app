@@ -153,6 +153,31 @@ describe('Name detail view', () => {
     )
   })
 
+  it('cannot change the resolver to a non contract address', () => {
+    cy.visit(`${NAME_ROOT}/superawesome.eth`)
+    waitUntilInputResolves({ type: 'testId', value: 'edit-resolver' }).then(
+      () => {
+        cy.getByTestId('edit-resolver').click({ force: true })
+        cy.getByPlaceholderText(
+          'Use the Public Resolver or enter the address of your custom resolver contract',
+          {
+            timeout: 10000,
+            exact: false
+          }
+        ).type('0x0000000000000000000000000000000000000002', {
+          force: true,
+          timeout: 10000
+        })
+        cy.queryByValue('Only contract address is allowed').should('exist')
+        cy.queryByValue('Save', { exact: false }).should(
+          'have.css',
+          'background-color',
+          DISABLED_COLOUR
+        )
+      }
+    )
+  })
+
   it(`prevents user from adding a record that isn't an address`, () => {
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
 

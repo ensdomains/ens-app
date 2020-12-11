@@ -311,8 +311,10 @@
       "title": "Records"
     },
     "resolver": {
+      "resolverAddressWarning": "Only contract address is allowed",
       "error": "Error Migrating Resolver",
       "message": "To reset your resolver manually, click set and enter the address of your custom resolver.",
+      "placeholder": "Use the Public Resolver or enter the address of your custom resolver contract",
       "publicResolver": "Use Public Resolver",
       "warning": "You’re using an outdated version of the public resolver. Click to migrate your resolver and records. You will need to confirm two transactions in order to migrate both your records and resolver."
     },
