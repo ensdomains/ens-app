@@ -49,7 +49,9 @@ function requestCertificate(parentName) {
     method: 'PUT',
     mode: 'cors',
     headers: {
-      'Access-Control-Allow-Origin': '*'
+      Origin: '*',
+      'Content-Type': 'text/plain',
+      'Access-Control-Request-Method': 'PUT'
     }
   }).catch(e => {
     console.log(e)
