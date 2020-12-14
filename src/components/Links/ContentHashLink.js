@@ -40,10 +40,9 @@ const ContentHashLink = ({ value, contentType, domain }) => {
   if (error) {
     return <DecodedError>{error}</DecodedError>
   }
-  // TODO: Change from .domains to .link
   const ethUrl =
     !!domain.name.match('.eth$') && networkId === 1
-      ? `https://${domain.name}.domains`
+      ? `https://${domain.name}.link`
       : null
   if (protocolType === 'ipfs') {
     externalLink = ethUrl || `https://dweb.link/ipfs/${decoded}` // using ipfs's secured origin gateway

@@ -42,9 +42,13 @@ function isEthSubdomain(name) {
 }
 
 function requestCertificate(parentName) {
-  // if (window.location.host !== 'app.ens.domains') return
-  // TODO: Change to .link once transitioned
-  const fetchUrl = `https://eth.domains/names/${parentName}.domains`
+  if (
+    !['app.ens.domains', 'ens.eth', 'ens.eth.link'].includes(
+      window.location.host
+    )
+  )
+    return
+  const fetchUrl = `https://eth.domains/names/${parentName}.link`
   fetch(fetchUrl, {
     method: 'PUT',
     mode: 'cors',
