@@ -280,7 +280,7 @@ function getInputType(
     process.env.REACT_APP_STAGE === 'local'
       ? 'http://localhost:8545'
       : window.ethereum || window.web3
-  if (type === 'address') {
+  if (type === 'address' && keyName !== 'Resolver') {
     let option = {
       presetValue: presetValue || '',
       provider,
@@ -293,9 +293,6 @@ function getInputType(
       },
       ensAddress
     }
-    if (keyName === 'Resolver') {
-      option.placeholder = placeholder
-    }
     return <AddressInput {...option} />
   }
 
@@ -305,7 +302,7 @@ function getInputType(
       onChange={e => updateValue(e.target.value)}
       valid={isValid}
       invalid={isInvalid}
-      placeholder=""
+      placeholder={keyName === 'Resolver' ? placeholder : ''}
       large
     />
   )
@@ -647,7 +644,7 @@ const Editable = ({
                             <DefaultResolverButton
                               onClick={e => {
                                 e.preventDefault()
-                                setPresetValue(data.publicResolver.address)
+                                updateValue(data.publicResolver.address)
                               }}
                             >
                               {t('singleName.resolver.publicResolver')}
