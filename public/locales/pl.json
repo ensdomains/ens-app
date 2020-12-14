@@ -16,41 +16,50 @@
         "zostaną odnowione"
       ],
       "confirmButton": "Odnów",
-      "year": "{{count}} rok",
-      "year_plural": "{{count}} lata"
+      "year_0": "{{count}} years",
+      "year_1": "{{count}} years",
+      "year_2": "{{count}} years"
     },
     "sort": {
       "alphabetical": "Alfabetycznie",
-      "expiry": "Data Wygaśnięcia",
-      "transactionBanner": "Jesteś tutaj ze względu na transakcję, którą wysłaliśmy Ci lub z uwagi na przekierowanie z innej strony. Poniżej znajdują się nazwy, które musisz niedługo odnowić!"
-    }
+      "expiry": "Data Wygaśnięcia"
+    },
+    "transactionBanner": "You are here because of a transaction we sent you or a referral from another site. You have names below that need to be renewed soon!"
+  },
+  "blockies": {
+    "noAddressFound": "No address found"
   },
   "c": {
     "Address": "Adres",
     "Content": "Zawartość",
     "Controller": "Kontroler",
-    "DnsOwner": "Właściciel DNS",
     "Expiration Date": "Data Wygaśnięcia",
     "Resolver": "Rozwiązujący",
     "about": "O Nas",
+    "addresses": "Addresses",
     "cancel": "Anuluj",
     "claim": "Odbierz",
+    "connect": "Connect",
+    "disconnect": "Disconnect",
     "edit": "Edytuj",
     "email": "Email",
     "expires": "Wygasa",
+    "faq": "FAQ",
     "favourites": "Ulubione",
     "learnmore": "Dowiedz się więcej",
+    "learnmoreenglishonly": "Learn More",
     "migrate": "Przenieś",
     "mynames": "Moje Nazwy",
     "network": "sieć",
     "otheraddresses": "Inne Adresy",
     "parent": "rodzic",
-    "permanentregistrar": "Pernamentny Rejestrator",
+    "readonly": "Read only",
     "refresh": "Odśwież",
     "register": "Zarejestruj",
     "registrant": "Rejestrujący",
     "registrationDate": "Data Rejestracji",
     "renew": "Odnów",
+    "return": "Return",
     "save": "Zapisz",
     "search": "Szukaj",
     "set": "Ustaw",
@@ -58,8 +67,9 @@
     "textrecord": "Zapis Tekstowy",
     "transfer": "Transfer (if verb then: Transferuj)",
     "warning": "Ostrzeżenie",
-    "year": "rok",
-    "year_plural": "lata"
+    "year_0": "years",
+    "year_1": "years",
+    "year_2": "years"
   },
   "childDomainItem": {
     "notmigrated": "nie przeniesiono"
@@ -105,32 +115,18 @@
       "text": "Aby dodać nazwy do ulubionych, kliknij ikonę serca koło wybranej nazwy.",
       "title": "Żadne z nazw nie zostały zapisane."
     },
-    "nofavouritesSubdomain": {
-      "title": "Nie zapisano żadnej Subdomeny."
-    },
     "nofavouritesSubdomains": {
-      "text": "Aby dodać nazwy do ulubionych, kliknij ikonę serca koło wybranej nazwy."
+      "text": "Aby dodać nazwy do ulubionych, kliknij ikonę serca koło wybranej nazwy.",
+      "title": "No Subdomains have been saved."
     },
     "subdomainFavouriteTitle": "Ulubione Subdomeny"
   },
   "home": {
     "announcements": {
-      "migrationOver": "Przeniesienie Rejestru ENS zostało zakończone... Co dalej? Oto kilka rzeczy, o których musisz wiedzieć",
-      "renew": {
-        "body": [
-          "Możesz odnowić wszystkie domeny w jednej transakcji, na swojej",
-          "stronie adresów",
-          "lub klikając \"Moje nazwy\" w czasie, gdy jesteś zalogowany"
-        ],
-        "title": "Nazwy kupione w maju niedługo wygasają."
-      }
     },
     "howtouse": {
       "body": "Aplikacja ENS to graficzny interfejs użytkownika dla użytkowników nietechnicznych. Umożliwia wyszukiwanie dowolnej nazwy, zarządzanie jej adresami lub zasobami, na które wskazuje, i tworzenie subdomen dla każdej nazwy.",
       "title": "Jak używać ENS"
-    },
-    "permanentRegistrar": {
-      "title": "Dowiedzi się o Pernamentnym Rejestratorze i procesie migracji"
     },
     "whatisens": {
       "body": "The Ethereum Name Service to rozproszony, otwarty i rozszerzalny system nazewnictwa oparty na blockchainie Ethereum. ENS eliminuje potrzebę kopiowania lub wpisywania długich adresów.",
@@ -155,25 +151,17 @@
       "title": "Szukaj nazw"
     }
   },
-  "learnmore": {
-    "step1": {
-      "text": "Rozwiązujący to smart kontrakt odpowiedzialny za proces tłumaczenia nazw na adresy. W obszarze Rozwiązujący kliknij \"Ustaw”. Następnie kliknij link \"użyj publicznego rozwiązującego” i \"zapisz”, aby rozpocząć transakcję.",
-      "title": "1. Ustaw Rozwiązującego"
-    },
-    "step2": {
-      "text": "Po ustawieniu Rozwiązującego możesz następnie dodawać rekordy, klikając \"+” w polu „rekordy”. Dodanie adresu ethereum pozwoli Ci wskazać portfel na swoją nazwę w następnym kroku.",
-      "title": "2. Ustaw Adres"
-    },
-    "step3": {
-      "text": "Po ustawieniu adresu zobaczysz komunikat informujący, że wskaźnik odwrotny nie jest ustawiony. Kliknij strzałkę w polu, aby rozwinąć, a następnie kliknij przycisk \"zapisz”. To przełoży Twój adres na nową nazwę.",
-      "title": "3. Ustaw Zapis Odwrócenia"
-    },
-    "title": "Naucz się jak zarządzać swoimi nazwami"
+  "linegraph": {
+    "daysRemaining": "{{daysRemaining}} (out of {{totalDays}}) days remaining",
+    "endPrice": "End price",
+    "startingPrice": "Starting price",
+    "title": "Buy now for {{premiumInEth}}"
   },
   "pendingTx": {
     "text": "Oczekujący Tx"
   },
   "pricer": {
+    "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "Czas rejestracji",
     "totalPriceLabel": "Łączna kwota do zapłaty",
     "yearUnit": "rok"
@@ -190,6 +178,15 @@
       "ready": "jest łatwe do zarejestrowania"
     },
     "notify": "Powiadom Mnie",
+    "premium": {
+      "dateDescription": "Date and time shown in local time zone",
+      "invalid": "Any number over 2k is invalid",
+      "title": "Premium"
+    },
+    "premiumWarning": {
+      "description": "To ensure everyone has a fair opportunity to register a newly expired name, these names have a premium that starts at $2,000 and reduces over 28 days until the premium is gone. Enter the amount you're willing to pay as a premium to learn which date to revisit the app to register the name.",
+      "title": "This name has a temporary premium."
+    },
     "step1": {
       "label": "Krok 1",
       "text": "Twój portfel zostanie otwarty i będziesz poproszony o potwierdzenie dwóch transakcji wymaganych do rejestracji",
@@ -220,27 +217,40 @@
       "parentmigrate": "Najpierw musisz przeprowadzić migrację domeny nadrzędnej {{parent}}, aby móc przenieść tę subdomenę"
     }
   },
+  "releaseDeed": {
+    "returnDeposit": "There is still an unclaimed deposit on this name. To get the deposited eth back, Go to"
+  },
+  "reminder": {
+    "everywhere": "everywhere",
+    "release": {
+      "description": "Register {{name}} at https://app.ens.domains/name/{{name}}/register",
+      "title": "Register {{name}}"
+    },
+    "renewal": {
+      "description": "Your ENS name is expiring soon, please renew it",
+      "title": "Renew your ENS domain {{name}}"
+    }
+  },
   "search": {
     "button": "Szukaj",
-    "placeholder": "Szukaj nazw lub adresów",
-    "searchErrors": {
-      "domainMalformed": {
-        "long": "Dodałeś domenę bez TLD, na przykład .eth, albo dodałeś nieobsługiwane znaki.",
-        "short": "Domena jest źle określona. {{searchTerm}} nie jest prawidłową domeną."
-      },
-      "unsupported": {
-        "long": "Nie obsługujemy każdej domeny. W przyszłości planowane jest wsparcie dla przyszłych domen.",
-        "short": "{{tld}} nie jest obecnie obsługiwanym TLD."
-      }
+    "placeholder": "Szukaj nazw lub adresów"
+  },
+  "searchErrors": {
+    "domainMalformed": {
+      "long": "You have either added a domain without a TLD such as .eth or you have added unsupported characters.",
+      "short": "Domain malformed. {{searchTerm}} is not a valid domain."
+    },
+    "tooShort": {
+      "long": "Names less than 6 characters have been reserved for when the permanent registrar has been released.",
+      "short1": "Name is too short.",
+      "short2": "Names must be at least 3 characters long"
+    },
+    "unsupported": {
+      "long": "We do not support every single domain. Support for future domains are planned in the future",
+      "short": "{{tld}} is not currently a supported TLD."
     }
   },
   "singleName": {
-    "banners": {
-      "namesExpiring": {
-        "text": "Kliknij przycisk odnowienia, aby uniknąć wygaśnięcia. Aby zbiorowo odnowić wszystkie swoje nazwy, przejdź do <1> Moje Nazwy </1> i wybierz wiele nazw przed kliknięciem \"Odnów”",
-        "title": "Wiele domen zakupionych w przeszłości będzie przedawnionych w Sierpniu."
-      }
-    },
     "confirm": {
       "button": {
         "cancel": "Anuluj",
@@ -263,39 +273,59 @@
     "domain": {
       "state": {
         "auction": "Na Aukcji",
+        "available": "Available",
         "default": "Nieznany Stan",
         "owned": "Niedostępne",
-        "owner": "Właściciel",
-        "title": "Dostępne"
+        "owner": "Właściciel"
       }
     },
     "expiry": {
       "cannotown": "Odnowienie nazwy, której nie jesteś właścicielem, nie daje jej prawa własności.",
       "expired": "Wygasła",
       "expiring": "Wygasa Niedługo",
-      "gracePeriodEnds": "Okres karencji się kończy"
+      "gracePeriodEnds": "Okres karencji się kończy",
+      "isUnderPremiumSale": "Available with a temporary premium"
+    },
+    "learnmore": {
+      "step1": {
+        "text": "The Resolver is a Smart Contract responsible for the process of translating names into addresses. In the Resolver area click ‘Set’. Then click the ‘use public resolver’ link, and ‘save’ to launch the transaction.",
+        "title": "1. Set Resolver"
+      },
+      "step2": {
+        "text": "Once you have set the Resolver, you can then add records by clicking the ‘ADD/EDIT RECORD’ in the ‘records’ field. Find 'addresses' and then 'ETH' in the dropdown, paste in your address and then click confirm below and then in the modal. Adding your ethereum address will allow you to point your wallet to your name in the next step.",
+        "title": "2. Set Address"
+      },
+      "step3": {
+        "text": "Once you set your address, you will see a message saying the reverse pointer is not set. Click the arrow in the field to expand, then click the button ‘save’. This will translate your address into your new name.",
+        "title": "3. Set Reverse Record"
+      },
+      "title": "Learn how to manage your name."
     },
     "messages": {
       "alreadyregistered": "Ten adress jest już zarejestrowany",
       "noowner": "Nieposiadane",
       "noresolver": "Nie ustawiono Rozwiązującego",
-      "notfinalized": "(Nie sfinalizowałeś)",
+      "notfinalised": "(You have not finalised)",
       "pending": "Oczekujące"
     },
     "record": {
       "cantEdit": "Nie możesz edytować ani dodawać rekordów, dopóki nie przeprowadzisz migracji do nowego resolvera.",
+      "closeEdit": "Close Add/Edit Records",
       "messages": {
         "explanation": "Reverse Resolution tłumaczy adres na nazwę. Pozwala Dapps na wyświetlanie w ich interfejsach '{{name}}' zamiast długiego adresu '{{konto}}'. Jeśli chcesz skonfigurować swój rewers dla innego konta, przełącz konta w przeglądarce dapp.",
         "notSet": "Rekord Reverse: nie ustawiono",
         "setTo": "Rekord Reverse: Ustaw na",
         "setToDifferent": "Rekord Reverse: Ustaw na inną nazwę:"
       },
+      "openEdit": "Add/Edit Records",
       "title": "Rekordy"
     },
     "resolver": {
       "error": "Błąd Migracji Revolver'a",
       "message": "Aby ręcznie zresetować program rozpoznawania nazw, kliknij ustaw i wprowadź adres niestandardowego programu do rozwiązywania problemów.",
+      "placeholder": "Use the Public Resolver or enter the address of your custom resolver contract",
       "publicResolver": "Użyj Publicznego Resolvera",
+      "resolverAddressWarning": "Only contract address is allowed",
       "warning": "Używasz przestarzałej wersji publicznego resolwera. Kliknij, aby przeprowadzić migrację swojego resolwera i rekordów. Będziesz musiał potwierdzić dwie transakcje, aby przenieść zarówno swoje rekordy, jak i program rozpoznawania nazw."
     },
     "search": {
