@@ -16,41 +16,50 @@
         "будут продлены за"
       ],
       "confirmButton": "Продлить",
-      "year": "{{count}} лет",
-      "year_plural": "{{count}} лет"
+      "year_0": "{{count}} years",
+      "year_1": "{{count}} years",
+      "year_2": "{{count}} years"
     },
     "sort": {
       "alphabetical": "Алфавитный",
-      "expiry": "Срок действия",
-      "transactionBanner": "Вы находитесь здесь из-за транзакции, которые мы вам послали или ссылки от другого сайта. Нижеследующим вашим именам скоро потребуется продление."
-    }
+      "expiry": "Срок действия"
+    },
+    "transactionBanner": "You are here because of a transaction we sent you or a referral from another site. You have names below that need to be renewed soon!"
+  },
+  "blockies": {
+    "noAddressFound": "No address found"
   },
   "c": {
     "Address": "Адрес",
     "Content": "Содержимое",
     "Controller": "Контроллер",
-    "DnsOwner": "Владелец DNS",
     "Expiration Date": "Срок действия",
     "Resolver": "Резолвер",
     "about": "О",
+    "addresses": "Addresses",
     "cancel": "Отменить",
     "claim": "Заявить",
+    "connect": "Connect",
+    "disconnect": "Disconnect",
     "edit": "Редактировать",
     "email": "Электронный почта",
     "expires": "Истекает",
+    "faq": "FAQ",
     "favourites": "Избранное",
     "learnmore": "Узнать больше",
+    "learnmoreenglishonly": "Learn More",
     "migrate": "Мигрировать",
     "mynames": "Мои Имена",
     "network": "сеть",
     "otheraddresses": "Другие Адреса",
     "parent": "родитель",
-    "permanentregistrar": "Постоянный Регистратор",
+    "readonly": "Read only",
     "refresh": "Обновить",
     "register": "Зарегистрировать",
     "registrant": "Получатель",
     "registrationDate": "Дата Регистрации",
     "renew": "Продлить",
+    "return": "Return",
     "save": "Сохранить",
     "search": "Поиск",
     "set": "Установить",
@@ -58,8 +67,9 @@
     "textrecord": "Текстовая Запись",
     "transfer": "Перенести",
     "warning": "Предупреждение",
-    "year": "год",
-    "year_plural": "лет"
+    "year_0": "years",
+    "year_1": "years",
+    "year_2": "years"
   },
   "childDomainItem": {
     "notmigrated": "не перенесён"
@@ -105,32 +115,18 @@
       "text": "Чтобы добавить имена в Избранное, нажмите на иконку 'сердца' возле желаемого имени.",
       "title": "Имена не были сохранены."
     },
-    "nofavouritesSubdomain": {
-      "title": "Поддомены не были сохранены."
-    },
     "nofavouritesSubdomains": {
-      "text": "Чтобы добавить имена в Избранное, нажмите на иконку 'сердца' возле желаемого имени."
+      "text": "Чтобы добавить имена в Избранное, нажмите на иконку 'сердца' возле желаемого имени.",
+      "title": "No Subdomains have been saved."
     },
     "subdomainFavouriteTitle": "Избранные Поддомены"
   },
   "home": {
     "announcements": {
-      "migrationOver": "Миграция ENS Реестра завершена..  Что дальше? Необходимо ознакомиться с несколькими вещами.",
-      "renew": {
-        "body": [
-          "Вы можете продлить сразу несколько доменов одной транзакцией перейдя к вашей",
-          "адресной странице",
-          "или нажав 'Мои имена' будучи залогиненым"
-        ],
-        "title": "Срок действия имён, купленных в мае, скоро истекает."
-      }
     },
     "howtouse": {
       "body": "Приложение ENS App является графическим интерфейсом пользователя для обычных пользователей. Оно позволяет вам найти любое имя, управлять его адресом или тем, куда он направляет и создавать поддомены для каждого из имён.",
       "title": "Как пользоваться ENS"
-    },
-    "permanentRegistrar": {
-      "title": "Узнайте больше о Постоянном Регистраторе и процессе миграции."
     },
     "whatisens": {
       "body": "Ethereum Name Service является распределённой, открытой и исчерпывающий системой имён на блокчейне Ethereum. ENS устраняет необходимость копировать или набирать длинные адреса.",
@@ -155,25 +151,17 @@
       "title": "Искать имена"
     }
   },
-  "learnmore": {
-    "step1": {
-      "text": "Резолвер это - Смарт Контракт, ответственный за процесс перевода имён в адреса. В поле Резолвер нажмите 'Установить'. Затем нажмите ссылку 'Использоваться публичный резолвер' и 'сохранить' чтобы запустить транзакцию.",
-      "title": "1. Установить Резолвер"
-    },
-    "step2": {
-      "text": "Когда вы установили Резолвер, вы можете затем добавить запись, нажав на '+' в поле 'записи'. Добавление вашего ethereum адреса позволит  направить ваш кошелек к вашему имени следующим шагом.",
-      "title": "2. Установить Адрес"
-    },
-    "step3": {
-      "text": "Когда адрес установлен, вы увидите сообщение, говорящее о том что обратный указатель не установлен. Нажмите на стрелочку в поле чтобы его раскрыть, затем нажмите на кнопку 'сохранить'. Это переведёт ваше адрес к вашему новому имени.",
-      "title": "3. Установить обратную запись"
-    },
-    "title": "Научитесь управлять вашим именем."
+  "linegraph": {
+    "daysRemaining": "{{daysRemaining}} (out of {{totalDays}}) days remaining",
+    "endPrice": "End price",
+    "startingPrice": "Starting price",
+    "title": "Buy now for {{premiumInEth}}"
   },
   "pendingTx": {
     "text": "TX в ожидании"
   },
   "pricer": {
+    "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "Срок регистрации",
     "totalPriceLabel": "Общие сумма к оплате",
     "yearUnit": "год"
@@ -190,6 +178,15 @@
       "ready": "Готово к регистрации"
     },
     "notify": "Сообщить мне",
+    "premium": {
+      "dateDescription": "Date and time shown in local time zone",
+      "invalid": "Any number over 2k is invalid",
+      "title": "Premium"
+    },
+    "premiumWarning": {
+      "description": "To ensure everyone has a fair opportunity to register a newly expired name, these names have a premium that starts at $2,000 and reduces over 28 days until the premium is gone. Enter the amount you're willing to pay as a premium to learn which date to revisit the app to register the name.",
+      "title": "This name has a temporary premium."
+    },
     "step1": {
       "label": "Шаг 1",
       "text": "Ваш кошелёк откроется и вас попросят подтвердить первые две транзакции, необходимые для регистрации.",
@@ -220,27 +217,40 @@
       "parentmigrate": "Сначала вам необходимо перенести домен-родитель ({{ parent}})  до того, как вы сможете мигрировать этот поддомен."
     }
   },
+  "releaseDeed": {
+    "returnDeposit": "There is still an unclaimed deposit on this name. To get the deposited eth back, Go to"
+  },
+  "reminder": {
+    "everywhere": "everywhere",
+    "release": {
+      "description": "Register {{name}} at https://app.ens.domains/name/{{name}}/register",
+      "title": "Register {{name}}"
+    },
+    "renewal": {
+      "description": "Your ENS name is expiring soon, please renew it",
+      "title": "Renew your ENS domain {{name}}"
+    }
+  },
   "search": {
     "button": "Поиск",
-    "placeholder": "Искать имена или адреса",
-    "searchErrors": {
-      "domainMalformed": {
-        "long": "Вы добавили имя без домена верхнего уровня, такого как .eth, либо ввели неподдерживаемые символы.",
-        "short": "Домен не сформирован. {{searchTerm}} не корректный домен."
-      },
-      "unsupported": {
-        "long": "Мы поддерживаем не все домены. В будущем планируется поддержка других доменов.",
-        "short": "{{tld}} не поддерживаемый домен верхнего уровня."
-      }
+    "placeholder": "Искать имена или адреса"
+  },
+  "searchErrors": {
+    "domainMalformed": {
+      "long": "You have either added a domain without a TLD such as .eth or you have added unsupported characters.",
+      "short": "Domain malformed. {{searchTerm}} is not a valid domain."
+    },
+    "tooShort": {
+      "long": "Names less than 6 characters have been reserved for when the permanent registrar has been released.",
+      "short1": "Name is too short.",
+      "short2": "Names must be at least 3 characters long"
+    },
+    "unsupported": {
+      "long": "We do not support every single domain. Support for future domains are planned in the future",
+      "short": "{{tld}} is not currently a supported TLD."
     }
   },
   "singleName": {
-    "banners": {
-      "namesExpiring": {
-        "text": "Нажмите кнопку 'Продлить' чтобы избежать просрочки. Чтобы продлить сразу все ваши имена, перейдите к <1>Мои Имена</1> и выберите несколько имен, прежде чем нажать 'продлить'",
-        "title": "Многие, зарегистрированные в прошлом, имена стану доступны в Августе"
-      }
-    },
     "confirm": {
       "button": {
         "cancel": "Отменить",
@@ -263,39 +273,59 @@
     "domain": {
       "state": {
         "auction": "На аукционе",
+        "available": "Available",
         "default": "Неизвестный статус",
         "owned": "Недоступен",
-        "owner": "Владелец",
-        "title": "Доступен"
+        "owner": "Владелец"
       }
     },
     "expiry": {
       "cannotown": "Продление имени, владельцем которого вы не являетесь, не даёт вам право владения им.",
       "expired": "Срок действия истёк",
       "expiring": "Срок действия скоро истекает",
-      "gracePeriodEnds": "Льготный период заканчивается"
+      "gracePeriodEnds": "Льготный период заканчивается",
+      "isUnderPremiumSale": "Available with a temporary premium"
+    },
+    "learnmore": {
+      "step1": {
+        "text": "The Resolver is a Smart Contract responsible for the process of translating names into addresses. In the Resolver area click ‘Set’. Then click the ‘use public resolver’ link, and ‘save’ to launch the transaction.",
+        "title": "1. Set Resolver"
+      },
+      "step2": {
+        "text": "Once you have set the Resolver, you can then add records by clicking the ‘ADD/EDIT RECORD’ in the ‘records’ field. Find 'addresses' and then 'ETH' in the dropdown, paste in your address and then click confirm below and then in the modal. Adding your ethereum address will allow you to point your wallet to your name in the next step.",
+        "title": "2. Set Address"
+      },
+      "step3": {
+        "text": "Once you set your address, you will see a message saying the reverse pointer is not set. Click the arrow in the field to expand, then click the button ‘save’. This will translate your address into your new name.",
+        "title": "3. Set Reverse Record"
+      },
+      "title": "Learn how to manage your name."
     },
     "messages": {
       "alreadyregistered": "Имя уже зарегистрирован",
       "noowner": "Не владелец",
       "noresolver": "Резолвер не установлен",
-      "notfinalized": "(Вы не завершили)",
+      "notfinalised": "(You have not finalised)",
       "pending": "В ожидании"
     },
     "record": {
       "cantEdit": "Вы не можете изменить или добавить запись до тех пор, пока вы не мигрируете на новый ресолвер.",
+      "closeEdit": "Close Add/Edit Records",
       "messages": {
         "explanation": "Обратная Резолюция преобразовывает адрес в имя. Это позволяет Dapps показывать в их интерфейсах '{{имя}}' вместо длинного адреса '{{аккаунт}}'. Если вы хотите установить преобразование для другого аккаунта, пожалуйста, переключитите аккаунты в браузере dapp.",
         "notSet": "Обратная запись: не установлена",
         "setTo": "Обратная запись: Установлена на",
         "setToDifferent": "Обратная запись: Установлена на другое имя:"
       },
+      "openEdit": "Add/Edit Records",
       "title": "Записи"
     },
     "resolver": {
       "error": "Ошибка Мигрирования Ресолвера",
       "message": "Чтобы сбросить ваше ресолвер вручную, нажмите установить и введите адрес вашего ресолвера.",
+      "placeholder": "Use the Public Resolver or enter the address of your custom resolver contract",
       "publicResolver": "Использовать Публичный Ресолвер",
+      "resolverAddressWarning": "Only contract address is allowed",
       "warning": "Вы используете устаревшую версию публичного ресолвера. Нажмите, чтобы перенести ваш ресолвер и записи. Вам будет необходимо подвердить две транзакции для переноса ваших записей и ресолвера."
     },
     "search": {

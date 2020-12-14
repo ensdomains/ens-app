@@ -340,7 +340,7 @@ const resolvers = {
 
       if (RESOLVERS[networkId]) {
         DEPRECATED_RESOLVERS = [...RESOLVERS[networkId].DEPRECATED]
-        OLD_RESOLVERS = [...RESOLVERS[networkId].OLD]
+        OLD_RESOLVERS = [...OLD_RESOLVERS, ...RESOLVERS[networkId].OLD]
       }
 
       if (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { css } from 'emotion'
 import moment from 'moment'
 import styled from '@emotion/styled/macro'
@@ -8,7 +8,11 @@ import PropTypes from 'prop-types'
 import { motion, AnimatePresence } from 'framer-motion'
 import EthVal from 'ethval'
 
-import { GET_PUBLIC_RESOLVER, GET_RENT_PRICE } from '../../graphql/queries'
+import {
+  GET_PUBLIC_RESOLVER,
+  GET_RENT_PRICE,
+  IS_CONTRACT_CONTROLLER
+} from '../../graphql/queries'
 import { SET_RESOLVER, SET_SUBNODE_OWNER, SET_OWNER } from 'graphql/mutations'
 
 import mq from 'mediaQuery'
@@ -158,6 +162,12 @@ const Buttons = styled('div')`
   flex-wrap: wrap;
 `
 
+const ResolverAddressWarning = styled('span')`
+  color: #f6412d;
+  margin-left: 3em;
+  margin-right: auto;
+`
+
 const SaveCancel = motion.custom(DefaultSaveCancel)
 
 function getMessages({ keyName, parent, deedOwner, isDeedOwner, t }) {
@@ -243,7 +253,8 @@ function getInputType(
     duration,
     expirationDate,
     rentPriceLoading,
-    rentPrice
+    rentPrice,
+    placeholder
   }
 ) {
   if (keyName === 'Expiration Date') {
@@ -269,7 +280,7 @@ function getInputType(
     process.env.REACT_APP_STAGE === 'local'
       ? 'http://localhost:8545'
       : window.ethereum || window.web3
-  if (type === 'address') {
+  if (type === 'address' && keyName !== 'Resolver') {
     let option = {
       presetValue: presetValue || '',
       provider,
@@ -282,10 +293,6 @@ function getInputType(
       },
       ensAddress
     }
-    if (keyName === 'Resolver') {
-      option.placeholder =
-        'Use the Public Resolver or enter the address of your custom resolver contract'
-    }
     return <AddressInput {...option} />
   }
 
@@ -295,16 +302,18 @@ function getInputType(
       onChange={e => updateValue(e.target.value)}
       valid={isValid}
       invalid={isInvalid}
-      placeholder=""
+      placeholder={keyName === 'Resolver' ? placeholder : ''}
       large
     />
   )
 }
 
-function getValidation(keyName, newValue) {
+function getValidation(keyName, newValue, isContractAddress) {
   switch (keyName) {
     case 'Expiration Date':
       return true
+    case 'Resolver':
+      return !!isContractAddress
     default:
       return addressUtils.isAddress(newValue) && newValue !== emptyAddress
   }
@@ -378,12 +387,27 @@ const Editable = ({
       skip: keyName !== 'Expiration Date'
     }
   )
-  const isValid = getValidation(keyName, newValue)
+  const isNewResolverAddress =
+    keyName === 'Resolver' &&
+    addressUtils.isAddress(newValue) &&
+    newValue !== emptyAddress
+  const { data: { isContractController: isContractAddress } = {} } = useQuery(
+    IS_CONTRACT_CONTROLLER,
+    {
+      variables: {
+        address: newValue
+      },
+      skip: !isNewResolverAddress
+    }
+  )
+  const isValid = getValidation(keyName, newValue, isContractAddress)
+
   const isInvalid = !isValid && newValue.length > 0
   const account = useAccount()
   const isOwnerOfParent = isOwnerOfParentDomain(domain, account)
   const isRegistrant = !domain.available && domain.registrant === account
   const canDelete = ['Resolver'].includes(keyName)
+  const placeholder = t('singleName.resolver.placeholder')
   return (
     <Mutation
       mutation={mutation}
@@ -594,7 +618,8 @@ const Editable = ({
                     duration,
                     expirationDate,
                     rentPriceLoading,
-                    rentPrice: getRentPrice
+                    rentPrice: getRentPrice,
+                    placeholder
                   })}
                 </EditRecord>
                 <Buttons>
@@ -606,21 +631,28 @@ const Editable = ({
                     ''
                   )}
                   {keyName === 'Resolver' && (
-                    <Query query={GET_PUBLIC_RESOLVER}>
-                      {({ data, loading }) => {
-                        if (loading) return null
-                        return (
-                          <DefaultResolverButton
-                            onClick={e => {
-                              e.preventDefault()
-                              setPresetValue(data.publicResolver.address)
-                            }}
-                          >
-                            {t('singleName.resolver.publicResolver')}
-                          </DefaultResolverButton>
-                        )
-                      }}
-                    </Query>
+                    <>
+                      {isNewResolverAddress && !isContractAddress && (
+                        <ResolverAddressWarning data-testid="resolver-address-warning">
+                          {t('singleName.resolver.resolverAddressWarning')}
+                        </ResolverAddressWarning>
+                      )}
+                      <Query query={GET_PUBLIC_RESOLVER}>
+                        {({ data, loading }) => {
+                          if (loading) return null
+                          return (
+                            <DefaultResolverButton
+                              onClick={e => {
+                                e.preventDefault()
+                                updateValue(data.publicResolver.address)
+                              }}
+                            >
+                              {t('singleName.resolver.publicResolver')}
+                            </DefaultResolverButton>
+                          )
+                        }}
+                      </Query>
+                    </>
                   )}
 
                   <SaveCancel
