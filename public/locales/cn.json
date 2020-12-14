@@ -11,10 +11,11 @@
     },
     "renew": {
       "button": "给已勾选项目续费",
-      "confirm": ["以下域名：", "将同时续费 "],
-      "confirmButton": "续费",
-      "year": "{{count}} 年",
-      "year_plural": "{{count}} 年"
+      "confirm": [
+        "以下域名：",
+        "将同时续费 "
+      ],
+      "confirmButton": "续费"
     },
     "sort": {
       "alphabetical": "按字母顺序",
@@ -32,6 +33,7 @@
     "Expiration Date": "到期时间",
     "Resolver": "解析器",
     "about": "关于",
+    "addresses": "地址",
     "cancel": "取消",
     "claim": "申请",
     "connect": "连接",
@@ -47,10 +49,9 @@
     "mynames": "我的域名",
     "network": "网络",
     "otheraddresses": "其他地址",
-    "addresses": "地址",
     "parent": "父域名",
-    "refresh": "刷新",
     "readonly": "只读状态",
+    "refresh": "刷新",
     "register": "注册",
     "registrant": "注册人",
     "registrationDate": "注册时间",
@@ -62,15 +63,18 @@
     "sync": "同步",
     "textrecord": "文本记录",
     "transfer": "转让",
-    "warning": "警告",
-    "year": "年",
-    "year_plural": "年"
+    "warning": "警告"
   },
   "childDomainItem": {
     "notmigrated": "暂未迁移"
   },
   "dns": {
-    "breadcrumbs": ["启用 DNSSEC", "提交验证", "提交验证", "管理域名"],
+    "breadcrumbs": [
+      "启用 DNSSEC",
+      "提交验证",
+      "提交验证",
+      "管理域名"
+    ],
     "dnsowner": "DNS 所有者",
     "steps": {
       "addtext": {
@@ -300,7 +304,6 @@
     },
     "record": {
       "cantEdit": "在迁移到新的解析器之前，您不能编辑或添加记录。",
-      "openEdit": "添加/编辑 记录",
       "closeEdit": "关闭 添加/编辑 记录",
       "messages": {
         "explanation": "反向解析将地址转换为域名。它能让 dapp 在其界面上显示 “{{name}}”，而不是 “{{account}}” 这个冗长的地址。如果您想为另一个账户设置反向解析，请先在 dapp 浏览器中切换帐户。",
@@ -308,12 +311,15 @@
         "setTo": "反向记录：解析至 ",
         "setToDifferent": "反向记录：已解析至另一个域名："
       },
+      "openEdit": "添加/编辑 记录",
       "title": "解析记录"
     },
     "resolver": {
       "error": "解析器迁移异常",
       "message": "若要手动重置解析器，请单击 “设置” 并输入自定义解析器的地址。",
+      "placeholder": "Use the Public Resolver or enter the address of your custom resolver contract",
       "publicResolver": "使用公共解析器",
+      "resolverAddressWarning": "Only contract address is allowed",
       "warning": "您使用的公共解析器是一个过时的版本。单击 “迁移” 来迁移解析器和解析记录。迁移您的解析器和解析记录时，需要您确认两笔交易。"
     },
     "search": {

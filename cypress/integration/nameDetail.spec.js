@@ -89,30 +89,6 @@ describe('Name detail view', () => {
     })
   })
 
-  it('can change the resolver', () => {
-    cy.visit(`${NAME_ROOT}/superawesome.eth`)
-
-    waitUntilInputResolves({ type: 'testId', value: 'edit-resolver' }).then(
-      () => {
-        cy.getByTestId('edit-resolver').click({ force: true })
-        cy.getByTestId('name-details').within(container => {
-          cy.getByPlaceholderText('address', {
-            container,
-            timeout: 10000,
-            exact: false
-          }).type('0x0000000000000000000000000000000000000002', { force: true })
-        })
-        waitUntilInputResolves('Save').then(() => {
-          cy.getByText('Save').click({ force: true })
-
-          cy.getByText('0x0000000000000000000000000000000000000002', {
-            timeout: 10000
-          }).should('exist')
-        })
-      }
-    )
-  })
-
   it('can change the resolver to the public resolver', () => {
     cy.visit(`${NAME_ROOT}/superawesome.eth`)
     waitUntilInputResolves({ type: 'testId', value: 'edit-resolver' }).then(
@@ -149,6 +125,29 @@ describe('Name detail view', () => {
             cy.getByText($address.val(), { timeout: 10000 }).should('exist')
           })
         })
+      }
+    )
+  })
+
+  it('cannot change the resolver to a non contract address', () => {
+    cy.visit(`${NAME_ROOT}/superawesome.eth`)
+    waitUntilInputResolves({ type: 'testId', value: 'edit-resolver' }).then(
+      () => {
+        cy.getByTestId('edit-resolver').click({ force: true })
+        cy.getByPlaceholderText(
+          'Use the Public Resolver or enter the address of your custom resolver contract',
+          {
+            timeout: 10000,
+            exact: false
+          }
+        ).type('0x0000000000000000000000000000000000000002', {
+          force: true,
+          timeout: 10000
+        })
+        cy.queryByTestId('resolver-address-warning').should('exist')
+        cy.queryByTestId('action')
+          .should('have.text', 'Save')
+          .should('have.css', 'background-color', DISABLED_COLOUR)
       }
     )
   })

@@ -16,41 +16,48 @@
         "sẽ được gia hạn cho"
       ],
       "confirmButton": "Gia hạn",
-      "year": "{{count}} năm",
-      "year_plural": "{{count}} năm"
+      "year": "{{count}} năm"
     },
     "sort": {
       "alphabetical": "Thứ tự chữ cái",
-      "expiry": "Ngày hết hạn",
-      "transactionBanner": "Bạn thấy trang này vì một giao dịch chúng tôi gửi tới bạn \nhoặc do một giới thiệu từ trang web khác.\nBạn có các tên miền sau cần gia hạn sớm!"
-    }
+      "expiry": "Ngày hết hạn"
+    },
+    "transactionBanner": "You are here because of a transaction we sent you or a referral from another site. You have names below that need to be renewed soon!"
+  },
+  "blockies": {
+    "noAddressFound": "No address found"
   },
   "c": {
     "Address": "Địa chỉ",
     "Content": "Nội dung ",
     "Controller": "Quản lý",
-    "DnsOwner": "CHỦ SỞ HỮU DNS",
     "Expiration Date": "Ngày hết hạn",
     "Resolver": "Resolver",
     "about": "Giới thiệu",
+    "addresses": "Addresses",
     "cancel": "Hủy bỏ",
     "claim": "Sở hữu",
+    "connect": "Connect",
+    "disconnect": "Disconnect",
     "edit": "Chỉ sửa",
     "email": "Email",
     "expires": "Hết hạn",
+    "faq": "FAQ",
     "favourites": "Yêu thích ",
     "learnmore": "Tìm hiểu thêm",
+    "learnmoreenglishonly": "Learn More",
     "migrate": "Chuyển đổi",
     "mynames": "Tên tôi:",
     "network": "Mạng lưới",
     "otheraddresses": "Địa chỉ khác ",
     "parent": "Miền gốc",
-    "permanentregistrar": "Nhà Cung Cấp Thường Trực",
+    "readonly": "Read only",
     "refresh": "Làm mới ",
     "register": "Đăng kí",
     "registrant": "Người đăng ký",
     "registrationDate": "Ngày Đăng ký",
     "renew": "Gia hạn",
+    "return": "Return",
     "save": "Lưu ",
     "search": "Tìm kiếm",
     "set": "Ấn định",
@@ -58,8 +65,7 @@
     "textrecord": "Bản ghi ",
     "transfer": "Chuyển quyền ",
     "warning": "Cảnh Báo",
-    "year": "năm",
-    "year_plural": "năm"
+    "year": "năm"
   },
   "childDomainItem": {
     "notmigrated": "Chưa Được Chuyển Đổi"
@@ -105,32 +111,18 @@
       "text": "Để thêm tên vào mục ưa thích, nhấn biểu tượng hình trái tim đặt kế bất cứ tên miền nào ",
       "title": "Chưa có tên nào được lưu"
     },
-    "nofavouritesSubdomain": {
-      "title": "Không có tên miền con nào được lưu."
-    },
     "nofavouritesSubdomains": {
-      "text": "Để thêm tên vào mục ưa thích, nhấn biểu tượng hình trái tim đặt kế bất cứ tên miền nào "
+      "text": "Để thêm tên vào mục ưa thích, nhấn biểu tượng hình trái tim đặt kế bất cứ tên miền nào ",
+      "title": "No Subdomains have been saved."
     },
     "subdomainFavouriteTitle": "Tên miền con ưa thích"
   },
   "home": {
     "announcements": {
-      "migrationOver": "Chuyển Đổi Đăng Ký Tên Miền Đã Kết Thúc...Bước Tiếp Theo? Đây Là Thông Tin Bạn Cần Biết",
-      "renew": {
-        "body": [
-          "Bạn có thể gia hạn nhiều tên miền trong một \nlệnh giao dịch  bằng cách vào ",
-          "trang địa chỉ của bạn",
-          "hoặc nhấn \"Các tên miền của tôi\" khi đăng nhập"
-        ],
-        "title": "Các tên được mua trong tháng 5 sắp sớm hết hạn"
-      }
     },
     "howtouse": {
       "body": "ENS App là một giao diện cho người dùng không rành về kỹ thuật . Cho phép bạn tìm bất cứ tên nào, quản lý địa chỉ, tính năng và tạo tên miền con của mỗi tên.",
       "title": "Cách dùng  ENS "
-    },
-    "permanentRegistrar": {
-      "title": "Tìm hiểu về Nhà Cung Cấp Thường Trực và quá trình chuyển đổi"
     },
     "whatisens": {
       "body": "Ethereum Name Service là một dịch vụ phân tán, mã nguồn mở, có thể mở rộng hệ thống tên dựa trên nền chuỗi khối Ethereum.\nENS giúp hạn chế việc copy hay đánh các địa chỉ quá dài.",
@@ -155,25 +147,17 @@
       "title": "Tìm tên miền"
     }
   },
-  "learnmore": {
-    "step1": {
-      "text": "Trình phân giải là một Hợp đồng Thông minh chịu trách nhiệm cho quá trình phiên dịch tên miền thành địa chỉ. Trong Trình phân giải hãy nhấp vào 'Ấn định'. Sau đó nhấp vào đường dẫn 'sử dụng phân giải công khai', và 'lưu' để phát sinh giao dịch",
-      "title": "1. Ấn định Trình phân giải"
-    },
-    "step2": {
-      "text": "Một khi bạn đã ấn định Trình phân giải, bạn có thể thêm bản ghi bằng cách nhấp vào dấu '+' trong vùng 'bản ghi'. Thêm địa chỉ Ethereum của bạn vào sẽ cho phép bạn chuyển ướng tới ví bạn trong bước tiếp theo",
-      "title": "Ấn định địa chỉ"
-    },
-    "step3": {
-      "text": "Một khi bạn đã ấn định địa chỉ, bạn sẽ thấy một tin hắn nói rằng bộ chuyển hướng đảo chiều không được ấn định. Nhấp vào mũi tên trong vùng mở rộng, sau đó nhấn nút 'lưu'. Điều này sẽ giúp bạn dịch địa chỉ thành tên miền mới",
-      "title": "Ấn đinh Bản ghi Đảo chiều"
-    },
-    "title": "Học cách quản lý tên miền"
+  "linegraph": {
+    "daysRemaining": "{{daysRemaining}} (out of {{totalDays}}) days remaining",
+    "endPrice": "End price",
+    "startingPrice": "Starting price",
+    "title": "Buy now for {{premiumInEth}}"
   },
   "pendingTx": {
     "text": "Đang xử lý giao dịch"
   },
   "pricer": {
+    "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "Thời gian đăng ký",
     "totalPriceLabel": "Tổng giá thanh toán",
     "yearUnit": "Năm"
@@ -190,6 +174,15 @@
       "ready": "có thể đăng ký"
     },
     "notify": "Nhắc tôi",
+    "premium": {
+      "dateDescription": "Date and time shown in local time zone",
+      "invalid": "Any number over 2k is invalid",
+      "title": "Premium"
+    },
+    "premiumWarning": {
+      "description": "To ensure everyone has a fair opportunity to register a newly expired name, these names have a premium that starts at $2,000 and reduces over 28 days until the premium is gone. Enter the amount you're willing to pay as a premium to learn which date to revisit the app to register the name.",
+      "title": "This name has a temporary premium."
+    },
     "step1": {
       "label": "Bước 1",
       "text": "Ví của bạn sẽ mở và bạn sẽ được yêu cầu xác nhận 2 giao dịch bắt buộc để đăng ký",
@@ -220,27 +213,40 @@
       "parentmigrate": "Trước tiên xin hãy chuyển đổi tên miền gốc phía dưới {{parent}} trước khi bạn có thể chuyển đổi tên miền phụ"
     }
   },
+  "releaseDeed": {
+    "returnDeposit": "There is still an unclaimed deposit on this name. To get the deposited eth back, Go to"
+  },
+  "reminder": {
+    "everywhere": "everywhere",
+    "release": {
+      "description": "Register {{name}} at https://app.ens.domains/name/{{name}}/register",
+      "title": "Register {{name}}"
+    },
+    "renewal": {
+      "description": "Your ENS name is expiring soon, please renew it",
+      "title": "Renew your ENS domain {{name}}"
+    }
+  },
   "search": {
     "button": "Tìm kiếm",
-    "placeholder": "Tìm kiếm tên miền hoặc địa chỉ",
-    "searchErrors": {
-      "domainMalformed": {
-        "long": "Có thể bạn đã thêm một tền miền không có TLD ví dụ như .eth hoặc bạn đã thêm những ký tự không được hỗ trợ",
-        "short": "Tên miền sai định dạng. {{searchTerms}} không phải là một tên miền hợp lệ"
-      },
-      "unsupported": {
-        "long": "Chúng tôi không hỗ trợ cho bất kì tên miền nào. Hỗ trợ cho những tên miền sau này sẽ được lên kế hoạch trong tương lai",
-        "short": "{{tld}} hiện không phải là một TLD được hỗ trợ"
-      }
+    "placeholder": "Tìm kiếm tên miền hoặc địa chỉ"
+  },
+  "searchErrors": {
+    "domainMalformed": {
+      "long": "You have either added a domain without a TLD such as .eth or you have added unsupported characters.",
+      "short": "Domain malformed. {{searchTerm}} is not a valid domain."
+    },
+    "tooShort": {
+      "long": "Names less than 6 characters have been reserved for when the permanent registrar has been released.",
+      "short1": "Name is too short.",
+      "short2": "Names must be at least 3 characters long"
+    },
+    "unsupported": {
+      "long": "We do not support every single domain. Support for future domains are planned in the future",
+      "short": "{{tld}} is not currently a supported TLD."
     }
   },
   "singleName": {
-    "banners": {
-      "namesExpiring": {
-        "text": "Nhấn vào nút làm mới để tránh việc tên miền hết hạn. Để có thể làm mới hàng loạt tên miền đang sở hữu, tìm <1>My Names</1> và chọn nhiều tên miền trước khi nhấn vào nút 'Renew'",
-        "title": "Nhiều tên miền được mua trong quá khứ sẽ \nkhông còn được ân hạn trong tháng 8."
-      }
-    },
     "confirm": {
       "button": {
         "cancel": "Huỷ",
@@ -263,39 +269,59 @@
     "domain": {
       "state": {
         "auction": "Đang đấu giá",
+        "available": "Available",
         "default": "Tình trạng chưa rõ",
         "owned": "Không có sẵn",
-        "owner": "Chủ nhân",
-        "title": "Có sẵn"
+        "owner": "Chủ nhân"
       }
     },
     "expiry": {
       "cannotown": "Gia hạn một tên miền mà bạn không sở hữu sẽ không biến nó trở thành của bạn",
       "expired": "Đã hết hạn",
       "expiring": "Sắp hến hạn",
-      "gracePeriodEnds": "Ân hạn kết thúc"
+      "gracePeriodEnds": "Ân hạn kết thúc",
+      "isUnderPremiumSale": "Available with a temporary premium"
+    },
+    "learnmore": {
+      "step1": {
+        "text": "The Resolver is a Smart Contract responsible for the process of translating names into addresses. In the Resolver area click ‘Set’. Then click the ‘use public resolver’ link, and ‘save’ to launch the transaction.",
+        "title": "1. Set Resolver"
+      },
+      "step2": {
+        "text": "Once you have set the Resolver, you can then add records by clicking the ‘ADD/EDIT RECORD’ in the ‘records’ field. Find 'addresses' and then 'ETH' in the dropdown, paste in your address and then click confirm below and then in the modal. Adding your ethereum address will allow you to point your wallet to your name in the next step.",
+        "title": "2. Set Address"
+      },
+      "step3": {
+        "text": "Once you set your address, you will see a message saying the reverse pointer is not set. Click the arrow in the field to expand, then click the button ‘save’. This will translate your address into your new name.",
+        "title": "3. Set Reverse Record"
+      },
+      "title": "Learn how to manage your name."
     },
     "messages": {
       "alreadyregistered": "Tên miền này đã được đăng ký",
       "noowner": "Không sở hữu",
       "noresolver": "Không có Trình phân giải nào được ấn định",
-      "notfinalized": "(Bạn chưa hoàn thành)",
+      "notfinalised": "(You have not finalised)",
       "pending": "Đang xử lý"
     },
     "record": {
       "cantEdit": "Bạn không thể chỉnh sửa hoặc thêm bản khi cho đến khi bạn dịch chuyển đến trình phân giải mới",
+      "closeEdit": "Close Add/Edit Records",
       "messages": {
         "explanation": "Trình Phân giải đảo chiều dịch địa chỉ thành tên miền. Nó cho phép các DApps hiển thị giao diện '{{name}}' chứ không phải những địa chỉ dài dòng '{{account}}'. Nếu bạn muốn cài đặt việc đảo chiều đến một tài khoản khác, hãy chuyển tài khoản trong trình duyệt dapp của mình",
         "notSet": "Bản ghi đảo chiều: chưa ấn định",
         "setTo": "Bản ghi đảo chiều: ấn định cho",
         "setToDifferent": "Bản ghi đảo chiều: Ấn định cho tên miền khác"
       },
+      "openEdit": "Add/Edit Records",
       "title": "Tập ghi"
     },
     "resolver": {
       "error": "Lỗi Di chuyển Trình phân giải",
       "message": "Nhấp đặt và thêm vào địa chỉ phân giải tuỳ chỉnh của bạn để tự tay đặt lại trình phân giải tuỳ chỉnh của bạn",
+      "placeholder": "Use the Public Resolver or enter the address of your custom resolver contract",
       "publicResolver": "Dùng Trình phân giải Công khai",
+      "resolverAddressWarning": "Only contract address is allowed",
       "warning": "Bạn đang dùng một trình phân giải công khai phiên bản cũ, Nhấp vào để di chuyển trình phân giải và bản ghi. Bạn sẽ cần phải xác nhận 2 giao dịch để di chuyển cả bản ghi và trình phân giải"
     },
     "search": {
