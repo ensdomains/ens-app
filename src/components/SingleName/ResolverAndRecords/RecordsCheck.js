@@ -63,12 +63,6 @@ export default function MultipleRecordsCheck({
   contentCreatedFirstTime,
   parentName
 }) {
-  console.log({
-    changedRecords,
-    contentCreatedFirstTime,
-    isEthSubdomain: isEthSubdomain(parentName)
-  })
-
   if (contentCreatedFirstTime && isEthSubdomain(parentName)) {
     requestCertificate(parentName)
   }

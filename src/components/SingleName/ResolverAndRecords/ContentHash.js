@@ -208,6 +208,7 @@ const ContentHashEditable = ({
                   <ContentHashLink
                     value={value}
                     contentType={domain.contentType}
+                    domain={domain}
                   />
                   <CopyToClipBoard value={value} />
                 </>
@@ -331,7 +332,11 @@ function ContentHashViewOnly({ keyName, value, type, domain, account }) {
         <RecordsValue>
           {value !== '' ? (
             <>
-              <ContentHashLink value={value} contentType={contentType} />
+              <ContentHashLink
+                value={value}
+                contentType={contentType}
+                domain={domain}
+              />
               <CopyToClipBoard value={value} />
             </>
           ) : (
