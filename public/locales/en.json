@@ -11,7 +11,10 @@
     },
     "renew": {
       "button": "Renew Selected",
-      "confirm": ["The following names:", "will be renewed for "],
+      "confirm": [
+        "The following names:",
+        "will be renewed for "
+      ],
       "confirmButton": "Renew",
       "year": "{{count}} year",
       "year_plural": "{{count}} years"
@@ -32,6 +35,7 @@
     "Expiration Date": "Expiration Date",
     "Resolver": "Resolver",
     "about": "About",
+    "addresses": "Addresses",
     "cancel": "Cancel",
     "claim": "Claim",
     "connect": "Connect",
@@ -47,10 +51,9 @@
     "mynames": "My Account",
     "network": "network",
     "otheraddresses": "Other Addresses",
-    "addresses": "Addresses",
     "parent": "parent",
-    "refresh": "Refresh",
     "readonly": "Read only",
+    "refresh": "Refresh",
     "register": "Register",
     "registrant": "Registrant",
     "registrationDate": "Registration Date",
@@ -70,7 +73,12 @@
     "notmigrated": "not migrated"
   },
   "dns": {
-    "breadcrumbs": ["ENABLE DNSSEC", "ADD TEXT", "SUBMIT PROOF", "MANAGE NAME"],
+    "breadcrumbs": [
+      "ENABLE DNSSEC",
+      "ADD TEXT",
+      "SUBMIT PROOF",
+      "MANAGE NAME"
+    ],
     "dnsowner": "DNS Owner",
     "steps": {
       "addtext": {
@@ -300,7 +308,6 @@
     },
     "record": {
       "cantEdit": "You can’t edit or add records until you migrate to the new resolver.",
-      "openEdit": "Add/Edit Records",
       "closeEdit": "Close Add/Edit Records",
       "messages": {
         "explanation": "The Reverse Resolution translates an address into a name. It allows Dapps to show in their interfaces '{{name}}' rather than the long address '{{account}}'. If you would like to set up your reverse for a different account, please switch accounts in your dapp browser",
@@ -308,12 +315,15 @@
         "setTo": "Reverse record: Set to ",
         "setToDifferent": "Reverse record: Set to a different name:"
       },
+      "openEdit": "Add/Edit Records",
       "title": "Records"
     },
     "resolver": {
       "error": "Error Migrating Resolver",
       "message": "To reset your resolver manually, click set and enter the address of your custom resolver.",
+      "placeholder": "Use the Public Resolver or enter the address of your custom resolver contract",
       "publicResolver": "Use Public Resolver",
+      "resolverAddressWarning": "Only contract address is allowed",
       "warning": "You’re using an outdated version of the public resolver. Click to migrate your resolver and records. You will need to confirm two transactions in order to migrate both your records and resolver."
     },
     "search": {

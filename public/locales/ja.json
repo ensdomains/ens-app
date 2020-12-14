@@ -11,7 +11,10 @@
     },
     "renew": {
       "button": "選択済を更新",
-      "confirm": ["以下の名前:", "次の期間にて更新されます。"],
+      "confirm": [
+        "以下の名前:",
+        "次の期間にて更新されます。"
+      ],
       "confirmButton": "更新",
       "year": "{{count}} 年"
     },
@@ -31,11 +34,15 @@
     "Expiration Date": "有効期限",
     "Resolver": "リゾルバ",
     "about": "ENSとは",
+    "addresses": "Addresses",
     "cancel": "キャンセル",
     "claim": "請求",
+    "connect": "Connect",
+    "disconnect": "Disconnect",
     "edit": "編集",
     "email": "Email",
     "expires": "期限切れ",
+    "faq": "FAQ",
     "favourites": "お気に入り",
     "learnmore": "詳細",
     "learnmoreenglishonly": "詳細 (English Only)",
@@ -43,8 +50,8 @@
     "mynames": "マイENS",
     "network": "ネットワーク",
     "otheraddresses": "その他のアドレス",
-    "addresses": "Addresses",
     "parent": "ペアレント",
+    "readonly": "Read only",
     "refresh": "更新",
     "register": "登録",
     "registrant": "登録者",
@@ -64,7 +71,12 @@
     "notmigrated": "移行されていません"
   },
   "dns": {
-    "breadcrumbs": ["DNSSEC有効化", "TEXT追加", "証明送信", "名前管理"],
+    "breadcrumbs": [
+      "DNSSEC有効化",
+      "TEXT追加",
+      "証明送信",
+      "名前管理"
+    ],
     "dnsowner": "DNS所有者",
     "steps": {
       "addtext": {
@@ -294,18 +306,22 @@
     },
     "record": {
       "cantEdit": "新しいリゾルバに変更するまで編集や移行はできません",
+      "closeEdit": "Close Add/Edit Records",
       "messages": {
         "explanation": "The Reverse Resolution translates an address into a name. It allows Dapps to show in their interfaces '{{name}}' rather than the long address '{{account}}'. If you would like to set up your reverse for a different account, please switch accounts in your dapp browser",
         "notSet": "Reverse record: not set",
         "setTo": "Reverse record: Set to ",
         "setToDifferent": "Reverse record: Set to a different name:"
       },
+      "openEdit": "Add/Edit Records",
       "title": "レコード"
     },
     "resolver": {
       "error": "移行に失敗しました",
       "message": "手動でリゾルバをリセットするには、「設定」をクリックしてカスタムリゾルバのアドレスを入力します",
+      "placeholder": "Use the Public Resolver or enter the address of your custom resolver contract",
       "publicResolver": "パプリックリゾルバを使う",
+      "resolverAddressWarning": "Only contract address is allowed",
       "warning": "古いバージョンの公開リゾルバを使用している場合は、クリックしてリゾルバとレコードを移行してください。レコードとリゾルバの両方を移行するには、2つのトランザクションを確認する必要があります。"
     },
     "search": {

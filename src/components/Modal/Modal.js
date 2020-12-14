@@ -39,7 +39,7 @@ const ModalContainer = styled('div')`
   justify-content: center;
   align-items: center;
   background: rgba(0, 0, 0, 0.5);
-
+  z-index: 1;
   ${mq.small`
     padding: 20px;
   `};
