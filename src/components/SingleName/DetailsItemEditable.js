@@ -633,7 +633,7 @@ const Editable = ({
                   {keyName === 'Resolver' && (
                     <>
                       {isNewResolverAddress && !isContractAddress && (
-                        <ResolverAddressWarning>
+                        <ResolverAddressWarning data-testid="resolver-address-warning">
                           {t('singleName.resolver.resolverAddressWarning')}
                         </ResolverAddressWarning>
                       )}
