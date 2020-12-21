@@ -264,7 +264,6 @@ function AddReverseRecord({ account, name, currentAddress }) {
             <ReadOnlyMessage>
               {getReverseRecord && getReverseRecord.name !== null ? (
                 <MessageContent data-testid="readonly-reverse-record-set">
-                  <Check />
                   {t('singleName.record.messages.setTo') +
                     getReverseRecord.name}
                 </MessageContent>
