@@ -49,8 +49,8 @@ describe('Reverse record', () => {
   })
   it('Display reverse record not set for non owner', () => {
     cy.visit(`${ROOT}/name/otherowner.eth`)
-    cy.getByTestId('details-value-registrant').click({
-      force: true
+    cy.getByTestId('details-value-registrant').within(container => {
+      cy.get('a').click({ force: true })
     })
     cy.queryByTestId('readonly-reverse-record-not-set', {
       exact: false
