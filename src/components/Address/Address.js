@@ -239,10 +239,6 @@ export default function Address({
     calculateIsExpiredSoon(domain.expiryDate)
   )
 
-  function isAccountMatched(account, address) {
-    return account && address && account.toLowerCase() === address.toLowerCase()
-  }
-
   return (
     <>
       {showOriginBanner && showOriginBannerFlag && (
@@ -276,9 +272,7 @@ export default function Address({
             </EtherScanLink>
           )}
         </TopBar>
-        {isAccountMatched(account, address) && (
-          <AddReverseRecord account={account} />
-        )}
+        <AddReverseRecord account={account} currentAddress={address} />
         <Controls>
           <Filtering
             activeFilter={domainType}

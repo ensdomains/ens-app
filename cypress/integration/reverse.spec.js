@@ -12,6 +12,9 @@ describe('Reverse record', () => {
       .contains('Search')
       .click()
 
+    cy.queryByTestId('editable-reverse-record-set', { exact: false }).should(
+      'exist'
+    )
     cy.queryByText('Reverse record: Set to abittooawesome.eth', {
       exact: false,
       timeout: 10000
@@ -42,6 +45,15 @@ describe('Reverse record', () => {
     cy.queryByText('Forward resolution must match your account', {
       exact: false,
       timeout: 10000
+    }).should('exist')
+  })
+  it('Display reverse record not set for non owner', () => {
+    cy.visit(`${ROOT}/name/otherowner.eth`)
+    cy.getByTestId('details-value-registrant').click({
+      force: true
+    })
+    cy.queryByTestId('readonly-reverse-record-not-set', {
+      exact: false
     }).should('exist')
   })
 
