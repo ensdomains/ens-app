@@ -61,6 +61,12 @@ const Message = styled('div')`
   }
 `
 
+const ReadOnlyMessage = styled(Message)`
+  &:hover {
+    cursor: default;
+  }
+`
+
 const MessageContent = styled('div')`
   display: flex;
   align-items: center;
@@ -127,7 +133,7 @@ const Input = styled(DefaultInput)`
   margin-bottom: 20px;
 `
 
-function AddReverseRecord({ account, name }) {
+function AddReverseRecord({ account, name, currentAddress }) {
   const { t } = useTranslation()
   const { state, actions } = useEditable()
   const [newName, setNewName] = useState('')
@@ -141,12 +147,16 @@ function AddReverseRecord({ account, name }) {
     GET_REVERSE_RECORD,
     {
       variables: {
-        address: account
+        address: currentAddress
       }
     }
   )
 
   const delayedQuery = useCallback(_.debounce(q => sendQuery(q), 500), [])
+  const isAccountMatched =
+    account &&
+    currentAddress &&
+    account.toLowerCase() === currentAddress.toLowerCase()
 
   async function sendQuery(newName) {
     const ens = getENS()
@@ -163,6 +173,83 @@ function AddReverseRecord({ account, name }) {
     }
   }
 
+  function ReverseRecordEditor() {
+    return (
+      <>
+        <Message onClick={editing ? stopEditing : startEditing}>
+          {getReverseRecord && getReverseRecord.name !== null ? (
+            <MessageContent data-testid="editable-reverse-record-set">
+              <Check />
+              {t('singleName.record.messages.setTo') + getReverseRecord.name}
+            </MessageContent>
+          ) : (
+            <div data-testid="editable-reverse-record-not-set">
+              t('singleName.record.messages.notSet')
+            </div>
+          )}
+          {pending && !confirmed && txHash ? (
+            <PendingTx
+              txHash={txHash}
+              onConfirmed={() => {
+                setConfirmed()
+                refetch()
+              }}
+            />
+          ) : (
+            <RotatingSmallCaret rotated={editing} testid="open-reverse" />
+          )}
+        </Message>
+        {editing && (
+          <SetReverseContainer>
+            <Explanation>
+              <Trans i18nKey="singleName.record.messages.explanation">
+                The Reverse Resolution translates an address into a name. It
+                allows Dapps to show in their interfaces '{{ name }}' rather
+                than the long address '{{ account }}'. If you would like to set
+                up your reverse for a different account, please switch accounts
+                in your dapp browser.
+              </Trans>
+            </Explanation>
+            <Account>{account}</Account>
+            <Input
+              testId="reverse-input"
+              valid={isValid}
+              invalid={isInvalid}
+              value={newName}
+              onChange={e => {
+                setNewName(e.target.value)
+                delayedQuery(e.target.value)
+              }}
+            />
+
+            <Mutation
+              mutation={SET_NAME}
+              variables={{
+                name: newName
+              }}
+              onCompleted={data => {
+                startPending(Object.values(data)[0])
+              }}
+            >
+              {mutation => (
+                <SaveCancel
+                  mutation={mutation}
+                  stopEditing={stopEditing}
+                  isValid={isValid}
+                />
+              )}
+            </Mutation>
+            {isInvalid && (
+              <ErrorMessage>
+                Forward resolution must match your account
+              </ErrorMessage>
+            )}
+          </SetReverseContainer>
+        )}
+      </>
+    )
+  }
+
   const isInvalid = !isValid && newName.length > 0
 
   return (
@@ -171,73 +258,21 @@ function AddReverseRecord({ account, name }) {
         <Loading>Loading reverse record...</Loading>
       ) : (
         <>
-          <Message onClick={editing ? stopEditing : startEditing}>
-            {getReverseRecord && getReverseRecord.name !== null ? (
-              <MessageContent>
-                <Check />
-                {t('singleName.record.messages.setTo') + getReverseRecord.name}
-              </MessageContent>
-            ) : (
-              t('singleName.record.messages.notSet')
-            )}
-            {pending && !confirmed && txHash ? (
-              <PendingTx
-                txHash={txHash}
-                onConfirmed={() => {
-                  setConfirmed()
-                  refetch()
-                }}
-              />
-            ) : (
-              <RotatingSmallCaret rotated={editing} testid="open-reverse" />
-            )}
-          </Message>
-          {editing && (
-            <SetReverseContainer>
-              <Explanation>
-                <Trans i18nKey="singleName.record.messages.explanation">
-                  The Reverse Resolution translates an address into a name. It
-                  allows Dapps to show in their interfaces '{{ name }}' rather
-                  than the long address '{{ account }}'. If you would like to
-                  set up your reverse for a different account, please switch
-                  accounts in your dapp browser.
-                </Trans>
-              </Explanation>
-              <Account>{account}</Account>
-              <Input
-                testId="reverse-input"
-                valid={isValid}
-                invalid={isInvalid}
-                value={newName}
-                onChange={e => {
-                  setNewName(e.target.value)
-                  delayedQuery(e.target.value)
-                }}
-              />
-
-              <Mutation
-                mutation={SET_NAME}
-                variables={{
-                  name: newName
-                }}
-                onCompleted={data => {
-                  startPending(Object.values(data)[0])
-                }}
-              >
-                {mutation => (
-                  <SaveCancel
-                    mutation={mutation}
-                    stopEditing={stopEditing}
-                    isValid={isValid}
-                  />
-                )}
-              </Mutation>
-              {isInvalid && (
-                <ErrorMessage>
-                  Forward resolution must match your account
-                </ErrorMessage>
+          {isAccountMatched ? (
+            <ReverseRecordEditor />
+          ) : (
+            <ReadOnlyMessage>
+              {getReverseRecord && getReverseRecord.name !== null ? (
+                <MessageContent data-testid="readonly-reverse-record-set">
+                  {t('singleName.record.messages.setTo') +
+                    getReverseRecord.name}
+                </MessageContent>
+              ) : (
+                <div data-testid="readonly-reverse-record-not-set">
+                  {t('singleName.record.messages.notSet')}
+                </div>
               )}
-            </SetReverseContainer>
+            </ReadOnlyMessage>
           )}
         </>
       )}
