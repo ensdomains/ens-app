@@ -162,6 +162,7 @@
   },
   "register": {
     "buttons": {
+      "insufficient": "Insufficient balance on your wallet. Fill in your wallet and reload the page.",
       "manage": "管理域名",
       "register": "注册",
       "request": "请求注册",
