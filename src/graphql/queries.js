@@ -179,6 +179,12 @@ export const WAIT_BLOCK_TIMESTAMP = gql`
   }
 `
 
+export const GET_BALANCE = gql`
+  query getBalance($address: String) {
+    getBalance(address: $address) @client
+  }
+`
+
 export const GET_FAVOURITES = gql`
   query getFavourites {
     favourites @client {

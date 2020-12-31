@@ -164,6 +164,7 @@
   },
   "register": {
     "buttons": {
+      "insufficient": "Insufficient balance on your wallet. Fill in your wallet and reload the page.",
       "manage": "관리",
       "register": "등록",
       "request": "등록 요청",

@@ -50,6 +50,7 @@ function getCTA({
   secret,
   duration,
   label,
+  hasSufficientBalance,
   txHash,
   setTxHash,
   setTimerRunning,
@@ -80,9 +81,21 @@ function getCTA({
       >
         {mutate =>
           isAboveMinDuration && !readOnly ? (
-            <Button data-testid="request-register-button" onClick={mutate}>
-              {t('register.buttons.request')}
-            </Button>
+            hasSufficientBalance ? (
+              <Button data-testid="request-register-button" onClick={mutate}>
+                {t('register.buttons.request')}
+              </Button>
+            ) : (
+              <>
+                <Prompt>
+                  <OrangeExclamation />
+                  {t('register.buttons.insufficient')}
+                </Prompt>
+                <Button data-testid="request-register-button" type="disabled">
+                  {t('register.buttons.request')}
+                </Button>
+              </>
+            )
           ) : readOnly ? (
             <Tooltip
               text="<p>You are not connected to a web3 browser. Please connect to a web3 browser and try again</p>"
@@ -145,13 +158,27 @@ function getCTA({
       >
         {mutate => (
           <>
-            <Prompt>
-              <OrangeExclamation />
-              {t('register.buttons.warning')}
-            </Prompt>
-            <Button data-testid="register-button" onClick={mutate}>
-              {t('register.buttons.register')}
-            </Button>
+            {hasSufficientBalance ? (
+              <>
+                <Prompt>
+                  <OrangeExclamation />
+                  {t('register.buttons.warning')}
+                </Prompt>
+                <Button data-testid="register-button" onClick={mutate}>
+                  {t('register.buttons.register')}
+                </Button>
+              </>
+            ) : (
+              <>
+                <Prompt>
+                  <OrangeExclamation />
+                  {t('register.buttons.insufficient')}
+                </Prompt>
+                <Button data-testid="register-button" type="disabled">
+                  {t('register.buttons.register')}
+                </Button>
+              </>
+            )}
           </>
         )}
       </Mutation>
@@ -201,6 +228,7 @@ const CTA = ({
   secret,
   duration,
   label,
+  hasSufficientBalance,
   setTimerRunning,
   setCommitmentTimerRunning,
   commitmentTimerRunning,
@@ -224,6 +252,7 @@ const CTA = ({
         secret,
         duration,
         label,
+        hasSufficientBalance,
         txHash,
         setTxHash,
         setTimerRunning,
