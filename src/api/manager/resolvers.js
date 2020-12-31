@@ -486,6 +486,16 @@ const resolvers = {
       } else {
         return false
       }
+    },
+    getBalance: async (_, { address }) => {
+      const provider = await getProvider()
+      let balance
+      try {
+        balance = await provider.getBalance(address)
+      } catch (e) {
+        console.log(e)
+      }
+      return balance
     }
   },
   Mutation: {

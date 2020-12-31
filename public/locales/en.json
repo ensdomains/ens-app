@@ -169,7 +169,8 @@
       "manage": "Manage",
       "register": "Register",
       "request": "Request to register",
-      "warning": "Click register to move to the 3rd step"
+      "warning": "Click register to move to the 3rd step",
+      "insufficient": "Insufficient balance on your wallet. Fill in your wallet and reload the page."
     },
     "favourite": "* Favorite the name for easy access in case you close out of your browser.",
     "notifications": {

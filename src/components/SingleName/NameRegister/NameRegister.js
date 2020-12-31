@@ -8,9 +8,11 @@ import {
   GET_MINIMUM_COMMITMENT_AGE,
   GET_MAXIMUM_COMMITMENT_AGE,
   GET_RENT_PRICE,
-  WAIT_BLOCK_TIMESTAMP
+  WAIT_BLOCK_TIMESTAMP,
+  GET_BALANCE
 } from 'graphql/queries'
 import { useInterval, useEthPrice, useBlock } from 'components/hooks'
+import { useAccount } from '../../QueryAccount'
 import { registerMachine, registerReducer } from './registerReducer'
 import { sendNotification } from './notification'
 import { calculateDuration, yearInSeconds } from 'utils/dates'
@@ -74,6 +76,11 @@ const NameRegister = ({
       waitUntil
     }
   })
+  const account = useAccount()
+  const { data: { getBalance } = {} } = useQuery(GET_BALANCE, {
+    variables: { address: account }
+  })
+
   const { data: { getMaximumCommitmentAge } = {} } = useQuery(
     GET_MAXIMUM_COMMITMENT_AGE
   )
@@ -159,8 +166,12 @@ const NameRegister = ({
       }
     }
   )
+  let hasSufficientBalance
   if (!blockCreatedAt && checkCommitment > 0) {
     setBlockCreatedAt(checkCommitment * 1000)
+  }
+  if (getBalance && getRentPrice) {
+    hasSufficientBalance = getBalance.gt(getRentPrice)
   }
   if (blockCreatedAt && !waitUntil) {
     setWaitUntil(blockCreatedAt + waitTime * 1000)
@@ -272,6 +283,7 @@ const NameRegister = ({
       />
       <Progress step={step} waitPercentComplete={waitPercentComplete} />
       <CTA
+        hasSufficientBalance={hasSufficientBalance}
         waitTime={waitTime}
         incrementStep={incrementStep}
         decrementStep={decrementStep}
