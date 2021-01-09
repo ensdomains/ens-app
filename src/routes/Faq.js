@@ -97,6 +97,21 @@ function Faq() {
         names.
       </Section>
 
+      <Section question="How much gas does it cost to register and renew?">
+        It depends on the gas price. You can check the historical registration
+        and renewal transaction costs
+        <a href="https://explore.duneanalytics.com/dashboard/-eth-registration-funnel">
+          {' '}
+          here{' '}
+        </a>
+        . "Transaction cost (USD)" query will tell you how much it costs to
+        register (commit + registerWithConfig) and renew.
+        <br />
+        Please bear in mind that "registerWithConfig" combines 3 transactions
+        (register, set resolver and set eth address) hence the gas cost is
+        reelatively expensive
+      </Section>
+
       <Section question="Can I register names other than .eth?">
         Yes, if you own DNS domains listed
         <a href="https://app.ens.domains/name/[root]/subdomains"> here </a>, you
