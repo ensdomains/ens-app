@@ -100,7 +100,7 @@ function Faq() {
       <Section question="How much gas does it cost to register and renew?">
         It depends on the gas price. You can check the historical registration
         and renewal transaction costs
-        <a href="https://explore.duneanalytics.com/dashboard/-eth-registration-funnel">
+        <a href="https://explore.duneanalytics.com/public/dashboards/48pBVvSxRNVjSE8Ing1uOrCtjD4r3WmV0v5KpS05">
           {' '}
           here{' '}
         </a>
@@ -109,7 +109,7 @@ function Faq() {
         <br />
         Please bear in mind that "registerWithConfig" combines 3 transactions
         (register, set resolver and set eth address) hence the gas cost is
-        reelatively expensive
+        reelatively expensive.
       </Section>
 
       <Section question="Can I register names other than .eth?">
