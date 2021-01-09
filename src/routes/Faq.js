@@ -97,10 +97,10 @@ function Faq() {
         names.
       </Section>
 
-      <Section question="Can I register domains other than .eth?">
+      <Section question="Can I register names other than .eth?">
         Yes, if you own DNS domains listed
-        <a href="https://app.ens.domains/name/[root]/subdomains">here</a>, you
-        can use DNS record as a proof to claim the equivalent ENS names.
+        <a href="https://app.ens.domains/name/[root]/subdomains"> here </a>, you
+        can use the DNS record as the proof to claim the equivalent ENS names.
         <br />
         Please refer to our{' '}
         <a href="https://docs.ens.domains/dns-registrar-guide">guiide</a> for
@@ -231,7 +231,7 @@ function Faq() {
 
       <Section question="I registered names before 2019 May. Can I have my deposit back?">
         Yes, you can get your deposit back from
-        <a href="https://reclaim.ens.domains">reclaim.ens.domains</a> whether
+        <a href="https://reclaim.ens.domains"> reclaim.ens.domains </a> whether
         you renewed the name or not.
         <br />
         Please remember that the amount you will receive is the amount of the
