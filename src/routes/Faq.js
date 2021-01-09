@@ -235,11 +235,10 @@ function Faq() {
         you renewed the name or not.
         <br />
         Please remember that the amount you will receive is the amount of the
-        second-highest bidder (unless you weree the only bidder). For example,
-        if you bid 1 ETH and the second highest bidder bid 0.1 ETH, you
-        deposited 0.1 ETH and you have already received the remaining (0.9 ETH)
-        when you finailsed the auction. Therefore you can now only reclaim 0.1
-        ETH back.
+        second-highest bidder (unless you were the only bidder). For example, if
+        you bid 1 ETH and the second highest bidder bid 0.1 ETH, you deposited
+        0.1 ETH and you have already received the remaining (0.9 ETH) when you
+        finailsed the auction. Therefore you can now only reclaim 0.1 ETH back.
       </Section>
     </FaqContainer>
   )
