@@ -97,6 +97,16 @@ function Faq() {
         names.
       </Section>
 
+      <Section question="Can I register domains other than .eth?">
+        Yes, if you own DNS domains listed
+        <a href="https://app.ens.domains/name/[root]/subdomains">here</a>, you
+        can use DNS record as a proof to claim the equivalent ENS names.
+        <br />
+        Please refer to our{' '}
+        <a href="https://docs.ens.domains/dns-registrar-guide">guiide</a> for
+        more detail.
+      </Section>
+
       <H2>When you register</H2>
 
       <Section question="At step 1, the transaction was slow so I speeded up">
@@ -217,6 +227,19 @@ function Faq() {
         Any Ethereum account can pay to renew any ENS name, though doing so from
         an account that, s not the owner will not change ownership of the name.
         Just go to the name,s page and click "Renew".
+      </Section>
+
+      <Section question="I registered names before 2019 May. Can I have my deposit back?">
+        Yes, you can get your deposit back from
+        <a href="https://reclaim.ens.domains">reclaim.ens.domains</a> whether
+        you renewed the name or not.
+        <br />
+        Please remember that the amount you will receive is the amount of the
+        second-highest bidder (unless you weree the only bidder). For example,
+        if you bid 1 ETH and the second highest bidder bid 0.1 ETH, you
+        deposited 0.1 ETH and you have already received the remaining (0.9 ETH)
+        when you finailsed the auction. Therefore you can now only reclaim 0.1
+        ETH back.
       </Section>
     </FaqContainer>
   )
