@@ -33,7 +33,7 @@ jobs:
         - ganache-cli -h 0.0.0.0 -b 1 >ganache.log 2>&1 &
         - sleep 5
         - cd ../ && git clone https://github.com/ensdomains/ens-subgraph.git
-        - cd ens-subgraph && yarn && cd ../
+        - cd ens-subgraph && git checkout parentdomain && yarn && cd ../
         - git clone https://github.com/graphprotocol/graph-node
         - pwd
         - ls graph-node/docker
