@@ -12,7 +12,7 @@ import mq from 'mediaQuery'
 import { RecordsValue } from './ContentHash.js'
 import { isRecordEmpty } from '../../../utils/utils'
 import 'cross-fetch/polyfill'
-
+import { requestCertificate, isEthSubdomain } from './Certificate.js'
 const Key = styled(DefaultKey)`
   ${mq.small`
     margin-bottom: 0;
@@ -34,33 +34,6 @@ const Contenthash = styled('div')`
 const Delete = styled('span')`
   color: red;
 `
-
-function isEthSubdomain(name) {
-  let labels = name.split('.')
-  let suffix = labels[labels.length - 1]
-  return suffix === 'eth' && name !== 'eth'
-}
-
-function requestCertificate(parentName) {
-  if (
-    !['app.ens.domains', 'ens.eth', 'ens.eth.link'].includes(
-      window.location.host
-    )
-  )
-    return
-  const fetchUrl = `https://eth.domains/names/${parentName}.link`
-  fetch(fetchUrl, {
-    method: 'PUT',
-    mode: 'cors',
-    headers: {
-      Origin: '*',
-      'Content-Type': 'text/plain',
-      'Access-Control-Request-Method': 'PUT'
-    }
-  }).catch(e => {
-    console.log(e)
-  })
-}
 
 export default function MultipleRecordsCheck({
   changedRecords,
