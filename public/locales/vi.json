@@ -164,6 +164,7 @@
   },
   "register": {
     "buttons": {
+      "insufficient": "Insufficient balance on your wallet. Fill in your wallet and reload the page.",
       "manage": "Quản lý",
       "register": "Đăng lý",
       "request": "Yêu cầu đăng ký",
