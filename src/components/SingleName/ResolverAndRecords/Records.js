@@ -387,6 +387,7 @@ export default function Records({
                 changedRecords={changedRecords}
                 contentCreatedFirstTime={contentCreatedFirstTime}
                 parentName={domain.parent}
+                name={domain.name}
               />
             }
             isValid={haveRecordsChanged && areRecordsValid}

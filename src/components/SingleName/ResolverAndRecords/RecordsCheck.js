@@ -38,10 +38,11 @@ const Delete = styled('span')`
 export default function MultipleRecordsCheck({
   changedRecords,
   contentCreatedFirstTime,
-  parentName
+  parentName,
+  name
 }) {
   if (contentCreatedFirstTime && isEthSubdomain(parentName)) {
-    requestCertificate(parentName)
+    requestCertificate(name)
   }
   return (
     <div>

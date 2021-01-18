@@ -71,7 +71,7 @@ export default function RequestCertificate({ domain }) {
       return (
         <Action>
           <Warning>
-            SSL certificate for {domain.parent}.link is not created yet
+            SSL certificate for {domain.name}.link is not created yet
           </Warning>
           <Button onClick={handleRequestCertificate}>
             Request SSL certificate
