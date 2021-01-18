@@ -1,5 +1,6 @@
+const TLD = 'link'
 function createFetchUrl(name) {
-  return `https://eth.domains/names/${name}.domains`
+  return `https://eth.${TLD}/names/${name}.${TLD}`
 }
 
 function whitelisted() {
@@ -10,7 +11,7 @@ function whitelisted() {
 
 export function requestCertificate(name) {
   if (!whitelisted()) return
-  const fetchUrl = `https://eth.domains/names/${name}.domains`
+  const fetchUrl = createFetchUrl(name)
   fetch(fetchUrl, {
     method: 'PUT',
     mode: 'cors',
