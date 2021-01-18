@@ -18,6 +18,7 @@ import RecordInput from '../RecordInput'
 import CopyToClipBoard from '../../CopyToClipboard/'
 import { useEditable } from '../../hooks'
 import Button from '../../Forms/Button'
+import RequestCertificate from './RequestCertificate'
 
 export const RecordsItem = styled(DetailsItem)`
   ${p => !p.hasRecord && 'display: none;'}
@@ -208,6 +209,7 @@ const ContentHashEditable = ({
                   <ContentHashLink
                     value={value}
                     contentType={domain.contentType}
+                    domain={domain}
                   />
                   <CopyToClipBoard value={value} />
                 </>
@@ -313,6 +315,7 @@ const ContentHashEditable = ({
               />
             </Action>
           )}
+          {!editing && <RequestCertificate domain={domain} />}
         </RecordsContent>
       </RecordsItem>
     </>
@@ -331,13 +334,18 @@ function ContentHashViewOnly({ keyName, value, type, domain, account }) {
         <RecordsValue>
           {value !== '' ? (
             <>
-              <ContentHashLink value={value} contentType={contentType} />
+              <ContentHashLink
+                value={value}
+                contentType={contentType}
+                domain={domain}
+              />
               <CopyToClipBoard value={value} />
             </>
           ) : (
             <NotSet>Not set</NotSet>
           )}
         </RecordsValue>
+        <RequestCertificate domain={domain} />
       </RecordsContent>
     </RecordsItem>
   )
