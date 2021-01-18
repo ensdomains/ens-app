@@ -162,6 +162,7 @@
   },
   "register": {
     "buttons": {
+      "insufficient": "您钱包上的余额不足，请向您的钱包充值并重新加载页面。",
       "manage": "管理域名",
       "register": "注册",
       "request": "请求注册",
@@ -317,9 +318,9 @@
     "resolver": {
       "error": "解析器迁移异常",
       "message": "若要手动重置解析器，请单击 “设置” 并输入自定义解析器的地址。",
-      "placeholder": "Use the Public Resolver or enter the address of your custom resolver contract",
+      "placeholder": "使用公共解析器或输入自定义解析器合约的地址",
       "publicResolver": "使用公共解析器",
-      "resolverAddressWarning": "Only contract address is allowed",
+      "resolverAddressWarning": "仅允许使用合约地址",
       "warning": "您使用的公共解析器是一个过时的版本。单击 “迁移” 来迁移解析器和解析记录。迁移您的解析器和解析记录时，需要您确认两笔交易。"
     },
     "search": {
