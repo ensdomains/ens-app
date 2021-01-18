@@ -55,8 +55,7 @@ export default function RequestCertificate({ domain }) {
       domain.contentType === 'contenthash' &&
       domain.content !== emptyAddress
     ) {
-      // Only request to create the certificate of subdomain if wildcard certificate on the parent does not exist
-      checkCertificate(domain.parent).then(({ status }) => {
+      checkCertificate(domain.name).then(({ status }) => {
         setRequireCertificate(status === 404)
       })
     }
