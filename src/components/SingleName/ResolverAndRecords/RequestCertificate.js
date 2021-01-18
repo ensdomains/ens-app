@@ -28,7 +28,7 @@ const Action = styled('div')`
 export default function RequestCertificate({ domain }) {
   const { networkId } = useNetworkInfo()
   // CloudFlaire only creates certificate if the domain exists on Mainnet
-  if (networkId !== 1) return
+  if (networkId !== 1) return ''
 
   const [requireCertificate, setRequireCertificate] = useState(false)
   const [timerRunning, setTimerRunning] = useState(false)
@@ -38,6 +38,7 @@ export default function RequestCertificate({ domain }) {
   }
   useInterval(
     () => {
+      // Make sure that the requested certificate for subdomain is created
       checkCertificate(domain.name).then(({ status }) => {
         if (status === 200) {
           setRequireCertificate(false)
@@ -54,7 +55,8 @@ export default function RequestCertificate({ domain }) {
       domain.contentType === 'contenthash' &&
       domain.content !== emptyAddress
     ) {
-      checkCertificate(domain.name).then(({ status }) => {
+      // Only request to create the certificate of subdomain if wildcard certificate on the parent does not exist
+      checkCertificate(domain.parent).then(({ status }) => {
         setRequireCertificate(status === 404)
       })
     }
