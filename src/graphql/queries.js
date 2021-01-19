@@ -163,6 +163,16 @@ export const GET_SUBDOMAINS_FROM_SUBGRAPH = gql`
   }
 `
 
+export const GET_NAMES_FROM_SUBGRAPH = gql`
+  query getNamesFromSubgraph($address: String!) {
+    resolvers(where: { addr: $address }) {
+      domain {
+        name
+      }
+    }
+  }
+`
+
 export const GET_TRANSACTION_HISTORY = gql`
   query getTransactionHistory {
     transactionHistory @client {

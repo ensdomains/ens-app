@@ -11,7 +11,8 @@ import { SET_NAME } from 'graphql/mutations'
 import mq from 'mediaQuery'
 import { useEditable } from './hooks'
 
-import { GET_REVERSE_RECORD } from 'graphql/queries'
+import { GET_REVERSE_RECORD, GET_NAMES_FROM_SUBGRAPH } from 'graphql/queries'
+
 import SaveCancel from './SingleName/SaveCancel'
 import PendingTx from './PendingTx'
 import DefaultInput from './Forms/Input'
@@ -19,6 +20,7 @@ import DefaultInput from './Forms/Input'
 import { ReactComponent as DefaultCheck } from './Icons/Check.svg'
 import { ReactComponent as DefaultBlueWarning } from './Icons/BlueWarning.svg'
 import RotatingSmallCaret from './Icons/RotatingSmallCaret'
+import Select from 'react-select'
 
 const Loading = styled('span')`
   color: #adbbcd;
@@ -76,10 +78,6 @@ const IconStyles = () => `margin-right: 10px;
   flex-shrink: 0;
 `
 
-const BlueWarning = styled(DefaultBlueWarning)`
-  ${IconStyles()};
-`
-
 const Check = styled(DefaultCheck)`
   ${IconStyles()};
 `
@@ -96,44 +94,7 @@ const Explanation = styled('div')`
   hyphens: auto;
 `
 
-const Account = styled('div')`
-  font-family: Overpass Mono;
-  font-weight: 300;
-  font-size: 14px;
-  color: #adbbcd;
-  letter-spacing: 0;
-  border: 1px dashed #adbbcd;
-  border-radius: 6px;
-  padding: 8px 20px;
-  margin-bottom: 20px;
-  whitespace: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  ${mq.small`
-    font-size: 18px;
-  `}
-`
-
-const Name = styled('div')`
-  font-family: Overpass Mono;
-  font-weight: 300;
-  font-size: 14px;
-  color: #2b2b2b;
-  letter-spacing: 0;
-  border: 1px dashed #2b2b2b;
-  border-radius: 6px;
-  padding: 8px 20px;
-  margin-bottom: 20px;
-  ${mq.small`
-    font-size: 18px;
-  `}
-`
-
-const Input = styled(DefaultInput)`
-  margin-bottom: 20px;
-`
-
-function AddReverseRecord({ account, name, currentAddress }) {
+function AddReverseRecord({ account, currentAddress }) {
   const { t } = useTranslation()
   const { state, actions } = useEditable()
   const [newName, setNewName] = useState('')
@@ -143,6 +104,8 @@ function AddReverseRecord({ account, name, currentAddress }) {
   const { editing, txHash, pending, confirmed } = state
 
   const { startEditing, stopEditing, startPending, setConfirmed } = actions
+  let options
+
   const { data: { getReverseRecord } = {}, loading, refetch } = useQuery(
     GET_REVERSE_RECORD,
     {
@@ -152,24 +115,29 @@ function AddReverseRecord({ account, name, currentAddress }) {
     }
   )
 
-  const delayedQuery = useCallback(_.debounce(q => sendQuery(q), 500), [])
+  const { data: { resolvers } = {} } = useQuery(GET_NAMES_FROM_SUBGRAPH, {
+    variables: {
+      address: currentAddress
+    }
+  })
+
   const isAccountMatched =
     account &&
     currentAddress &&
     account.toLowerCase() === currentAddress.toLowerCase()
 
-  async function sendQuery(newName) {
-    const ens = getENS()
-    try {
-      const address = await ens.getAddress(newName)
-      setAddress(address)
-      if (address?.toLowerCase() === account.toLowerCase()) {
-        setIsValid(true)
-      } else {
-        setIsValid(false)
-      }
-    } catch (e) {
-      setIsValid(false)
+  if (resolvers) {
+    options = _.uniq(resolvers.map(r => r.domain.name).sort()).map(r => {
+      return { value: r, label: r }
+    })
+  }
+
+  function handleSelect(e) {
+    if (e && e.label) {
+      let name = e.label
+      setNewName(name)
+    } else {
+      setNewName('')
     }
   }
 
@@ -204,24 +172,26 @@ function AddReverseRecord({ account, name, currentAddress }) {
             <Explanation>
               <Trans i18nKey="singleName.record.messages.explanation">
                 The Reverse Resolution translates an address into a name. It
-                allows Dapps to show in their interfaces '{{ name }}' rather
-                than the long address '{{ account }}'. If you would like to set
-                up your reverse for a different account, please switch accounts
-                in your dapp browser.
+                allows Dapps to show in their interfaces '
+                {{ name: getReverseRecord.name }}' rather than the long address
+                '{{ account }}'. If you would like to set up your reverse for a
+                different account, please switch accounts in your dapp browser.
               </Trans>
             </Explanation>
-            <Account>{account}</Account>
-            <Input
-              testId="reverse-input"
-              valid={isValid}
-              invalid={isInvalid}
-              value={newName}
-              onChange={e => {
-                setNewName(e.target.value)
-                delayedQuery(e.target.value)
-              }}
+            <Select
+              placeholder="Choose your ENS name"
+              // value={newName}
+              isClearable={true}
+              onChange={handleSelect}
+              options={options}
             />
-
+            <Explanation>
+              <p>
+                <Trans i18nKey="singleName.record.messages.explanation2">
+                  You can only select names you set this Ethereum Address as.
+                </Trans>
+              </p>
+            </Explanation>
             <Mutation
               mutation={SET_NAME}
               variables={{
@@ -235,22 +205,15 @@ function AddReverseRecord({ account, name, currentAddress }) {
                 <SaveCancel
                   mutation={mutation}
                   stopEditing={stopEditing}
-                  isValid={isValid}
+                  isValid={!!newName}
                 />
               )}
             </Mutation>
-            {isInvalid && (
-              <ErrorMessage>
-                Forward resolution must match your account
-              </ErrorMessage>
-            )}
           </SetReverseContainer>
         )}
       </>
     )
   }
-
-  const isInvalid = !isValid && newName.length > 0
 
   return (
     <AddReverseRecordContainer>
