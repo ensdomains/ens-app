@@ -2,6 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled/macro'
 import { ReactComponent as ExternalLinkIcon } from '../Icons/externalLink.svg'
 import { decodeContenthash, encodeContenthash } from '@ensdomains/ui'
+import useNetworkInfo from '../NetworkInformation/useNetworkInfo'
 
 const ContentHashLinkContainer = styled('a')`
   display: inline-block;
@@ -27,7 +28,8 @@ const DecodedError = styled('div')`
   overflow: scroll;
 `
 
-const ContentHashLink = ({ value, contentType }) => {
+const ContentHashLink = ({ value, contentType, domain }) => {
+  const { networkId } = useNetworkInfo()
   if (contentType === 'oldcontent') {
     return <div>{value}</div>
   }
@@ -38,11 +40,15 @@ const ContentHashLink = ({ value, contentType }) => {
   if (error) {
     return <DecodedError>{error}</DecodedError>
   }
+  const ethUrl =
+    !!domain.name.match('.eth$') && networkId === 1
+      ? `https://${domain.name}.link`
+      : null
   if (protocolType === 'ipfs') {
-    externalLink = `https://dweb.link/ipfs/${decoded}` // using ipfs's secured origin gateway
+    externalLink = ethUrl || `https://dweb.link/ipfs/${decoded}` // using ipfs's secured origin gateway
     url = `ipfs://${decoded}`
   } else if (protocolType === 'ipns') {
-    externalLink = `https://dweb.link/ipns/${decoded}`
+    externalLink = ethUrl || `https://dweb.link/ipns/${decoded}`
     url = `ipns://${decoded}`
   } else if (protocolType === 'bzz') {
     externalLink = `https://swarm-gateways.net/bzz://${decoded}`

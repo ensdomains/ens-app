@@ -246,6 +246,7 @@ const RecordItemEditable = ({
                   <ContentHashLink
                     value={value}
                     contentType={domain.contentType}
+                    domain={domain}
                   />
                 )}
                 <CopyToClipBoard value={value} />
@@ -366,6 +367,7 @@ const RecordItemEditable = ({
                       <ContentHashLink
                         value={newValue}
                         contentType={domain.contentType}
+                        domain={domain}
                       />
                     </NewRecordsContainer>
                   )}
@@ -437,7 +439,11 @@ function RecordItemViewOnly({ keyName, value, type, domain, account }) {
           {type === 'address' ? (
             <AddressLink address={value}>{value}</AddressLink>
           ) : (
-            <ContentHashLink value={value} contentType={contentType} />
+            <ContentHashLink
+              value={value}
+              contentType={contentType}
+              domain={domain}
+            />
           )}
           <CopyToClipBoard value={value} />
         </RecordsValue>

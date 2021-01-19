@@ -283,7 +283,8 @@ export default function Records({
   const hasRecords = hasAnyRecord(domain)
 
   const changedRecords = getChangedRecords(initialRecords, updatedRecords)
-
+  const contentCreatedFirstTime =
+    !initialRecords.content && !!updatedRecords.content
   const shouldShowRecords = calculateShouldShowRecords(
     isOwner,
     hasResolver,
@@ -382,7 +383,12 @@ export default function Records({
             disabled={false}
             confirm={true}
             extraDataComponent={
-              <RecordsCheck changedRecords={changedRecords} />
+              <RecordsCheck
+                changedRecords={changedRecords}
+                contentCreatedFirstTime={contentCreatedFirstTime}
+                parentName={domain.parent}
+                name={domain.name}
+              />
             }
             isValid={haveRecordsChanged && areRecordsValid}
           />
