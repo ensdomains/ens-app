@@ -32,6 +32,7 @@ export default function RequestCertificate({ domain }) {
 
   const [requireCertificate, setRequireCertificate] = useState(false)
   const [timerRunning, setTimerRunning] = useState(false)
+  const { t } = useTranslation()
   const handleRequestCertificate = () => {
     requestCertificate(domain.name)
     setTimerRunning(true)
@@ -65,17 +66,15 @@ export default function RequestCertificate({ domain }) {
     if (timerRunning) {
       return (
         <Action>
-          <PendingTx>Pending</PendingTx>
+          <PendingTx>{t('singleName.messages.pending')}</PendingTx>
         </Action>
       )
     } else {
       return (
         <Action>
-          <Warning>
-            SSL certificate for {domain.name}.link is not created yet
-          </Warning>
+          <Warning>{t('certificate.warning', { name: domain.name })}</Warning>
           <Button onClick={handleRequestCertificate}>
-            Request SSL certificate
+            {t('certificate.button')}
           </Button>
         </Action>
       )
