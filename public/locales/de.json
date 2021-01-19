@@ -316,6 +316,7 @@
       "closeEdit": "Close Add/Edit Records",
       "messages": {
         "explanation": "The Reverse Resolution translates an address into a name. It allows Dapps to show in their interfaces '{{name}}' rather than the long address '{{account}}'. If you would like to set up your reverse for a different account, please switch accounts in your dapp browser",
+        "explanation2": "You can only select names you set this Ethereum Address as.",
         "notSet": "Reverse record: not set",
         "setTo": "Reverse record: Set to ",
         "setToDifferent": "Reverse record: Set to a different name:"
