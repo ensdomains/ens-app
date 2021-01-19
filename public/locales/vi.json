@@ -67,6 +67,10 @@
     "warning": "Cảnh Báo",
     "year": "năm"
   },
+  "certificate": {
+    "button": "Request SSL certificate",
+    "warning": "SSL certificate for {{ name }}.link is not created yet"
+  },
   "childDomainItem": {
     "notmigrated": "Chưa Được Chuyển Đổi"
   },
