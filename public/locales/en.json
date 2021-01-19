@@ -69,6 +69,10 @@
     "year": "year",
     "year_plural": "years"
   },
+  "certificate": {
+    "button": "Request SSL certificate",
+    "warning": "SSL certificate for {{ name }}.link is not created yet"
+  },
   "childDomainItem": {
     "notmigrated": "not migrated"
   },

@@ -67,6 +67,10 @@
     "warning": "경고",
     "year": "년"
   },
+  "certificate": {
+    "button": "Request SSL certificate",
+    "warning": "SSL certificate for {{ name }}.link is not created yet"
+  },
   "childDomainItem": {
     "notmigrated": "마이그레이션되지 않았습니다"
   },

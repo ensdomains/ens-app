@@ -65,6 +65,10 @@
     "transfer": "转让",
     "warning": "警告"
   },
+  "certificate": {
+    "button": "Request SSL certificate",
+    "warning": "SSL certificate for {{ name }}.link is not created yet"
+  },
   "childDomainItem": {
     "notmigrated": "暂未迁移"
   },
