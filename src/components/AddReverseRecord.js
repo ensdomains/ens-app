@@ -134,8 +134,7 @@ function AddReverseRecord({ account, currentAddress }) {
 
   function handleSelect(e) {
     if (e && e.label) {
-      let name = e.label
-      setNewName(name)
+      setNewName(e)
     } else {
       setNewName('')
     }
@@ -180,8 +179,8 @@ function AddReverseRecord({ account, currentAddress }) {
             </Explanation>
             <Select
               placeholder="Choose your ENS name"
-              // value={newName}
               isClearable={true}
+              value={newName}
               onChange={handleSelect}
               options={options}
             />
@@ -195,7 +194,7 @@ function AddReverseRecord({ account, currentAddress }) {
             <Mutation
               mutation={SET_NAME}
               variables={{
-                name: newName
+                name: newName?.value
               }}
               onCompleted={data => {
                 startPending(Object.values(data)[0])
