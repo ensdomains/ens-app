@@ -71,6 +71,10 @@
     "year_1": "years",
     "year_2": "years"
   },
+  "certificate": {
+    "button": "Request SSL certificate",
+    "warning": "SSL certificate for {{ name }}.link is not created yet"
+  },
   "childDomainItem": {
     "notmigrated": "не перенесён"
   },
@@ -314,7 +318,9 @@
       "closeEdit": "Close Add/Edit Records",
       "messages": {
         "explanation": "Обратная Резолюция преобразовывает адрес в имя. Это позволяет Dapps показывать в их интерфейсах '{{имя}}' вместо длинного адреса '{{аккаунт}}'. Если вы хотите установить преобразование для другого аккаунта, пожалуйста, переключитите аккаунты в браузере dapp.",
+        "explanation2": "You can only select names you set this Ethereum Address as.",
         "notSet": "Обратная запись: не установлена",
+        "selectPlaceholder": "Select your ENS name",
         "setTo": "Обратная запись: Установлена на",
         "setToDifferent": "Обратная запись: Установлена на другое имя:"
       },

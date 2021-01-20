@@ -4,13 +4,13 @@ function createFetchUrl(name) {
 }
 
 function whitelisted() {
-  return !['app.ens.domains', 'ens.eth', 'ens.eth.link'].includes(
+  return ['app.ens.domains', 'ens.eth', 'ens.eth.link'].includes(
     window.location.host
   )
 }
 
 export function requestCertificate(name) {
-  if (!whitelisted()) return
+  if (!whitelisted()) return Promise.resolve({ status: null })
   const fetchUrl = createFetchUrl(name)
   fetch(fetchUrl, {
     method: 'PUT',
@@ -26,7 +26,7 @@ export function requestCertificate(name) {
 }
 
 export function checkCertificate(name) {
-  if (!whitelisted()) return
+  if (!whitelisted()) return Promise.resolve({ status: null })
   return fetch(createFetchUrl(name))
 }
 

@@ -69,6 +69,10 @@
     "year": "année",
     "year_plural": "années"
   },
+  "certificate": {
+    "button": "Request SSL certificate",
+    "warning": "SSL certificate for {{ name }}.link is not created yet"
+  },
   "childDomainItem": {
     "notmigrated": "non migré"
   },
@@ -312,7 +316,9 @@
       "closeEdit": "Close Add/Edit Records",
       "messages": {
         "explanation": "La résolution inverse traduit une adresse en un nom. Il permet aux Dapps d'afficher dans leurs interfaces '{{name}}' plutôt que l'adresse longue '{{account}}'. Si vous souhaitez configurer votre reverse pour un autre compte, veuillez changer de compte dans votre navigateur.",
+        "explanation2": "You can only select names you set this Ethereum Address as.",
         "notSet": "Enregistrement inverse : non définit",
+        "selectPlaceholder": "Select your ENS name",
         "setTo": "Enregistrement inverse : Définir à",
         "setToDifferent": "Enregistrement inverse : Définir à un nom différent"
       },
