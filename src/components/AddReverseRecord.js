@@ -196,7 +196,7 @@ function AddReverseRecord({ account, currentAddress }) {
               </Trans>
             </Explanation>
             <Select
-              placeholder="Choose your ENS name"
+              placeholder={t('singleName.record.messages.selectPlaceholder')}
               isClearable={true}
               value={newName}
               onChange={handleSelect}

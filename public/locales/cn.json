@@ -314,6 +314,7 @@
         "explanation": "反向解析将地址转换为域名。它能让 dapp 在其界面上显示 “{{name}}”，而不是 “{{account}}” 这个冗长的地址。如果您想为另一个账户设置反向解析，请先在 dapp 浏览器中切换帐户。",
         "explanation2": "You can only select names you set this Ethereum Address as.",
         "notSet": "反向记录：未设置",
+        "selectPlaceholder": "Select your ENS name",
         "setTo": "反向记录：解析至 ",
         "setToDifferent": "反向记录：已解析至另一个域名："
       },

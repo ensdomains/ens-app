@@ -316,6 +316,7 @@
         "explanation": "Trình Phân giải đảo chiều dịch địa chỉ thành tên miền. Nó cho phép các DApps hiển thị giao diện '{{name}}' chứ không phải những địa chỉ dài dòng '{{account}}'. Nếu bạn muốn cài đặt việc đảo chiều đến một tài khoản khác, hãy chuyển tài khoản trong trình duyệt dapp của mình",
         "explanation2": "You can only select names you set this Ethereum Address as.",
         "notSet": "Bản ghi đảo chiều: chưa ấn định",
+        "selectPlaceholder": "Select your ENS name",
         "setTo": "Bản ghi đảo chiều: ấn định cho",
         "setToDifferent": "Bản ghi đảo chiều: Ấn định cho tên miền khác"
       },
