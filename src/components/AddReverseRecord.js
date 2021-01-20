@@ -20,6 +20,7 @@ import DefaultInput from './Forms/Input'
 import { ReactComponent as DefaultCheck } from './Icons/Check.svg'
 import { ReactComponent as DefaultBlueWarning } from './Icons/BlueWarning.svg'
 import RotatingSmallCaret from './Icons/RotatingSmallCaret'
+import { decryptName, checkIsDecrypted } from '../api/labels'
 import Select from 'react-select'
 
 const Loading = styled('span')`
@@ -127,7 +128,24 @@ function AddReverseRecord({ account, currentAddress }) {
     account.toLowerCase() === currentAddress.toLowerCase()
 
   if (resolvers) {
-    options = _.uniq(resolvers.map(r => r.domain.name).sort()).map(r => {
+    options = _.uniq(
+      resolvers
+        .map(r => {
+          if (checkIsDecrypted(r.domain.name)) {
+            return r.domain.name
+          } else {
+            let decrypted = decryptName(r.domain.name)
+            // Ignore if label is not found
+            if (checkIsDecrypted(decrypted)) {
+              return decrypted
+            } else {
+              return null
+            }
+          }
+        })
+        .filter(r => !!r)
+        .sort()
+    ).map(r => {
       return { value: r, label: r }
     })
   }
