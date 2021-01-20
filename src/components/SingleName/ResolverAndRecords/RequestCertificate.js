@@ -40,12 +40,16 @@ export default function RequestCertificate({ domain }) {
   useInterval(
     () => {
       // Make sure that the requested certificate for subdomain is created
-      checkCertificate(domain.name).then(({ status }) => {
-        if (status === 200) {
-          setRequireCertificate(false)
-          setTimerRunning(false)
-        }
-      })
+      checkCertificate(domain.name)
+        .then(({ status }) => {
+          if (status === 200) {
+            setRequireCertificate(false)
+            setTimerRunning(false)
+          }
+        })
+        .catch(e => {
+          console.log('checkCertificate error', { e })
+        })
     },
     timerRunning ? 3000 : null
   )
