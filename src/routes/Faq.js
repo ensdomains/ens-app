@@ -233,9 +233,11 @@ function Faq() {
 
       <Section question="What happens if I forget to renew a name?">
         After your name expires, there is a 90 day grace period in which the
-        owner can,t edit the records but can still renew the name. After the
+        owner can't edit the records but can still renew the name. After the
         grace period, the name is released for registration by anyone with a
-        temporary premium which decreases over a 28 days period.
+        temporary premium which decreases over a 28 days period. The released
+        name continues to resolve your ETH address until the new owner
+        overwrites it.
       </Section>
 
       <Section question="I lost access to the Ethereum account that owns a name I registered. Can I still renew it?">
