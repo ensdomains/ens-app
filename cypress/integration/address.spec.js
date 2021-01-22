@@ -26,13 +26,6 @@ describe('/address', () => {
     }).should('exist')
     cy.queryByText('newname.eth', { exact: false }).should('exist')
     cy.queryByText('Expires', { exact: false }).should('exist')
-    cy.getByTestId('sitenav').within(container => {
-      cy.queryByText('My Account', { container, exact: false }).should(
-        'have.css',
-        'color',
-        ENABLED_COLOUR
-      )
-    })
   })
 
   it('can select a name', () => {
