@@ -16,7 +16,7 @@ import { formatsByName } from '@ensdomains/address-encoder'
 import isEqual from 'lodash/isEqual'
 import modeNames from '../modes'
 import { sendHelper, sendHelperArray } from '../resolverUtils'
-import { emptyAddress } from '../../utils/utils'
+import { emptyAddress, ROPSTEN_DNSREGISTRAR_ADDRESS } from '../../utils/utils'
 import TEXT_RECORD_KEYS from 'constants/textRecords'
 import COIN_LIST_KEYS from 'constants/coinList'
 import {
@@ -105,11 +105,18 @@ async function getDNSEntryDetails(name) {
   const ens = getENS()
   const registrar = getRegistrar()
   const nameArray = name.split('.')
-  if (nameArray.length > 3) return {}
+  const networkId = await getNetworkId()
+  if (nameArray.length > 2) return {}
 
   let tld = nameArray[1]
   let owner
-  let tldowner = (await ens.getOwner(tld)).toLocaleLowerCase()
+  let tldowner
+  if (networkId === 3) {
+    tldowner = ROPSTEN_DNSREGISTRAR_ADDRESS
+  } else {
+    tldowner = (await ens.getOwner(tld)).toLocaleLowerCase()
+  }
+
   try {
     owner = (await ens.getOwner(name)).toLocaleLowerCase()
   } catch {
