@@ -168,7 +168,7 @@
     "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "Periodo de registración",
     "registrationPriceLabel": "Registration price to pay",
-    "totalDescription": "Estimated Total (Price + 10% buffer + Gas). The buffer is added to handle ETH price fluctuation and any unspent will be returned.",
+    "totalDescription": "Estimated Total (Price + 10% buffer + Gas). The buffer is added to handle ETH price fluctuation and any unspent will be returned. The gas price is based at {{gasPriceToGwei}} Gwei.",
     "totalPriceLabel": "Precio total a pagar",
     "yearUnit": "año"
   },

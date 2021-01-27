@@ -56,59 +56,32 @@ const Input = styled(DefaultInput)`
 
 const EthRegistrationGasPrice = ({ price, ethUsdPrice, initialGasPrice }) => {
   const { t } = useTranslation()
-  const [gasPrice, setGasPrice] = useState(initialGasPrice)
-  const handleGasPrice = e => {
-    setGasPrice((e.target.value || 0) * GWEI)
-  }
-
+  const gasPrice = initialGasPrice
   const ethVal = new EthVal(`${price}`).toEth()
   const commitGas = new EthVal(`${COMMIT_GAS_WEI * gasPrice}`).toEth()
   const registerGas = new EthVal(`${REGISTER_GAS_WEI * gasPrice}`).toEth()
   const gasPriceToGwei = new EthVal(`${gasPrice}`).toGwei()
   const totalGas = commitGas.add(registerGas)
-  const totalGasInUsd = totalGas.mul(ethUsdPrice)
   const buffer = ethVal.div(10)
   const total = ethVal.add(buffer).add(totalGas)
   const totalInUsd = total.mul(ethUsdPrice)
   return (
-    <>
-      <PriceContainer>
-        <Value>
-          {totalGas.toFixed(3)} ETH ({commitGas.toFixed(3)} ETH +{' '}
-          {registerGas.toFixed(3)} ETH){' '}
-          <Trans i18nKey="pricer.gasValue">
-            when the gas price is
-            <Input
-              value={gasPriceToGwei.toFixed(0)}
-              onChange={handleGasPrice}
-            />{' '}
-            Gwei
-          </Trans>
-          {ethVal && ethUsdPrice && (
-            <USD>
-              {' '}
-              = ${totalGasInUsd.toFixed(2)}
-              USD
-            </USD>
-          )}
-        </Value>
-        <Description>{t('pricer.gasDescription')}</Description>
-      </PriceContainer>
-      <PriceContainer>
-        <TotalValue>
-          {total.toFixed(3)} ETH ({ethVal.toFixed(3)} ETH + {buffer.toFixed(3)}{' '}
-          ETH + {totalGas.toFixed(3)} ETH)
-          {ethVal && ethUsdPrice && (
-            <USD>
-              {' '}
-              = ${totalInUsd.toFixed(2)}
-              USD
-            </USD>
-          )}
-        </TotalValue>
-        <Description>{t('pricer.totalDescription')}</Description>
-      </PriceContainer>
-    </>
+    <PriceContainer>
+      <TotalValue>
+        {total.toFixed(4)} ETH ({ethVal.toFixed(4)} ETH + {buffer.toFixed(4)}{' '}
+        ETH + {totalGas.toFixed(3)} ETH)
+        {ethVal && ethUsdPrice && (
+          <USD>
+            {' '}
+            = ${totalInUsd.toFixed(2)}
+            USD
+          </USD>
+        )}
+      </TotalValue>
+      <Description>
+        {t('pricer.totalDescription', { gasPriceToGwei })}
+      </Description>
+    </PriceContainer>
   )
 }
 
