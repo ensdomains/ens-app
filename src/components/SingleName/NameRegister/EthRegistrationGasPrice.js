@@ -54,7 +54,7 @@ const Input = styled(DefaultInput)`
   margin: 5px 0;
 `
 
-const Price = ({ price, ethUsdPrice, initialGasPrice }) => {
+const EthRegistrationGasPrice = ({ price, ethUsdPrice, initialGasPrice }) => {
   const { t } = useTranslation()
   const [gasPrice, setGasPrice] = useState(initialGasPrice)
   const handleGasPrice = e => {
@@ -112,4 +112,4 @@ const Price = ({ price, ethUsdPrice, initialGasPrice }) => {
   )
 }
 
-export default Price
+export default EthRegistrationGasPrice

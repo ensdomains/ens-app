@@ -3,7 +3,7 @@ import styled from '@emotion/styled/macro'
 
 import Years from './NameRegister/Years'
 import Price from './NameRegister/Price'
-import GasPrice from './NameRegister/GasPrice'
+import EthRegistrationGasPrice from './NameRegister/EthRegistrationGasPrice'
 
 import mq from 'mediaQuery'
 
@@ -42,7 +42,8 @@ function PricerInner({
   price,
   gasPrice,
   reference,
-  underPremium
+  underPremium,
+  displayGas = false
 }) {
   return (
     <>
@@ -59,17 +60,19 @@ function PricerInner({
           underPremium={underPremium}
         />
       </PricingContainer>
-      <div>
-        <GasPrice
-          price={price}
-          initialGasPrice={gasPrice}
-          loading={loading}
-          ethUsdPriceLoading={ethUsdPriceLoading}
-          ethUsdPrice={ethUsdPrice}
-          ethUsdPremiumPrice={ethUsdPremiumPrice}
-          underPremium={underPremium}
-        />
-      </div>
+      {displayGas && gasPrice && (
+        <div>
+          <EthRegistrationGasPrice
+            price={price}
+            initialGasPrice={gasPrice}
+            loading={loading}
+            ethUsdPriceLoading={ethUsdPriceLoading}
+            ethUsdPrice={ethUsdPrice}
+            ethUsdPremiumPrice={ethUsdPremiumPrice}
+            underPremium={underPremium}
+          />
+        </div>
+      )}
     </>
   )
 }

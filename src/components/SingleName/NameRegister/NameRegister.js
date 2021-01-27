@@ -255,6 +255,7 @@ const NameRegister = ({
           loading={rentPriceLoading}
           price={getRentPrice}
           underPremium={underPremium}
+          displayGas={true}
         />
       )}
       {showPremiumWarning ? (
