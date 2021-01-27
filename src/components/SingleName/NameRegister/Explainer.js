@@ -99,7 +99,7 @@ const Explainer = ({ step, waitPercentComplete, waitTime }) => {
             step === 'PRICE_DECISION' ? 0 : step === 'COMMIT_SENT' ? 50 : 100
           }
           title={t('register.step1.title')}
-          text={t('register.step1.text') + t('register.step1.text2')}
+          text={t('register.step1.text') + ' ' + t('register.step1.text2')}
         />
         <Step
           number={2}
