@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled/macro'
-import { useTranslation } from 'react-i18next'
+import { useTranslation, Trans } from 'react-i18next'
 import mq from 'mediaQuery'
 import EthVal from 'ethval'
 import { InlineLoader } from 'components/Loader'
@@ -108,15 +108,21 @@ const Price = ({
         <Description>
           {ethUsdPremiumPrice
             ? t('pricer.pricePerAmount')
-            : t('pricer.totalPriceLabel')}
+            : t('pricer.registrationPriceLabel')}
         </Description>
       </PriceContainer>
       <PriceContainer>
         <Value>
           {totalGas.toFixed(3)} ETH ({commitGas.toFixed(3)} ETH +{' '}
-          {registerGas.toFixed(3)} ETH) when the gas price is{' '}
-          <Input value={gasPriceToGwei.toNumber()} onChange={handleGasPrice} />{' '}
-          Gwei
+          {registerGas.toFixed(3)} ETH){' '}
+          <Trans i18nKey="pricer.gasValue">
+            when the gas price is
+            <Input
+              value={gasPriceToGwei.toFixed(0)}
+              onChange={handleGasPrice}
+            />{' '}
+            Gwei
+          </Trans>
           {ethVal && ethUsdPrice && (
             <USD>
               {' '}
@@ -125,9 +131,7 @@ const Price = ({
             </USD>
           )}
         </Value>
-        <Description>
-          Estimated Gas Price (Step 1 + Step 3). The gas price will flucuate.
-        </Description>
+        <Description>{t('pricer.gasDescription')}</Description>
       </PriceContainer>
       <PriceContainer>
         <TotalValue>
@@ -141,10 +145,7 @@ const Price = ({
             </USD>
           )}
         </TotalValue>
-        <Description>
-          Estimated Total (Price + 10% buffer + Gas). The buffer is added to
-          handle ETH price fluctuation and any unspent will be returned.
-        </Description>
+        <Description>{t('pricer.totalDescription')}</Description>
       </PriceContainer>
     </>
   )

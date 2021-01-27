@@ -161,8 +161,12 @@
     "text": "保留中のTx"
   },
   "pricer": {
+    "gasDescription": "Estimated Gas Price (Step 1 + Step 3). The gas price will flucuate.",
+    "gasValue": "ガス代が<1></1> Gwei時の額",
     "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "登録期間",
+    "registrationPriceLabel": "Registration price to pay",
+    "totalDescription": "Estimated Total (Price + 10% buffer + Gas). The buffer is added to handle ETH price fluctuation and any unspent will be returned.",
     "totalPriceLabel": "お支払合計額",
     "yearUnit": "年"
   },
