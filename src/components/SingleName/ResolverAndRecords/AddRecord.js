@@ -125,6 +125,15 @@ const AddRecordButton = styled('div')`
   justify-content: flex-end;
 `
 
+const textRecordOptions = TEXT_RECORD_KEYS.sort().map(key => ({
+  label: key,
+  value: key
+}))
+const coinOptions = COIN_LIST.sort().map(key => ({
+  label: key,
+  value: key
+}))
+
 function TextRecordInput({
   selectedRecord,
   updateValue,
@@ -141,10 +150,7 @@ function TextRecordInput({
         handleChange={setSelectedKey}
         placeholder="Key"
         addNewKey={true}
-        options={TEXT_RECORD_KEYS.map(key => ({
-          label: key,
-          value: key
-        }))}
+        options={textRecordOptions}
       />
       <DetailsItemInput
         newValue={newValue}
@@ -173,10 +179,7 @@ function AddressRecordInput({
         selectedRecord={selectedKey}
         handleChange={setSelectedKey}
         placeholder="Coin"
-        options={COIN_LIST.map(key => ({
-          label: key,
-          value: key
-        }))}
+        options={coinOptions}
       />
       <DetailsItemInput
         newValue={newValue}
