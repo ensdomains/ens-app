@@ -193,6 +193,7 @@
     "step1": {
       "label": "Schritt 1",
       "text": "Ihr Wallet wird sich öffnen und Sie werden gebeten, die erste von zwei für die Registrierung erforderlichen Transaktionen zu bestätigen.",
+      "text2": "If the second transaction is not processed within 24 hours of the first, you will need to start again from step 1.",
       "title": "Anfrage zur Registrierung"
     },
     "step2": {

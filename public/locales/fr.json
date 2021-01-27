@@ -193,6 +193,7 @@
     "step1": {
       "label": "Étape 1",
       "text": "Votre portefeuille s'ouvrira et il vous sera demandé de confirmer la première des deux transactions requises pour l'inscription.",
+      "text2": "If the second transaction is not processed within 24 hours of the first, you will need to start again from step 1.",
       "title": "Demande d'enregistrement"
     },
     "step2": {

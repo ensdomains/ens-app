@@ -193,6 +193,7 @@
     "step1": {
       "label": "Paso 1",
       "text": "Tu cartera se abrirá y se te pedirá que confirmes la primera de las dos transacciones necesarias para el registro",
+      "text2": "If the second transaction is not processed within 24 hours of the first, you will need to start again from step 1.",
       "title": "Solicitud de registro"
     },
     "step2": {

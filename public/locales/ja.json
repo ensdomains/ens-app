@@ -191,6 +191,7 @@
     "step1": {
       "label": "ステップ１",
       "text": "ウォレットが開き、登録に必要な2つのトランザクションのうち最初のトランザクションの確認を求められます。",
+      "text2": "If the second transaction is not processed within 24 hours of the first, you will need to start again from step 1.",
       "title": "登録のリクエスト"
     },
     "step2": {

@@ -191,6 +191,7 @@
     "step1": {
       "label": "단계 1",
       "text": "지갑 화면이 열리고 등록에 필요한 두 개의 트랜잭션 중 첫번째 트랜잭션에 대한 컨펌 요청이 있을 것입니다.",
+      "text2": "If the second transaction is not processed within 24 hours of the first, you will need to start again from step 1.",
       "title": "등록 요청"
     },
     "step2": {
