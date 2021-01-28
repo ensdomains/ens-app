@@ -180,6 +180,28 @@ export function useEthPrice(enabled = true) {
   }
 }
 
+export function useGasPrice(enabled = true) {
+  const [loading, setLoading] = useState(true)
+  const [price, setPrice] = useState({})
+
+  const gasApi = 'https://www.gasnow.org/api/v3/gas/price'
+  useEffect(() => {
+    fetch(gasApi)
+      .then(res => {
+        return res.json()
+      })
+      .then(({ data }) => {
+        setPrice(data)
+        setLoading(false)
+      })
+      .catch(() => '') // ignore error
+  }, [enabled])
+  return {
+    loading,
+    price
+  }
+}
+
 export function useReferrer() {
   let location = useLocation()
   const queryParams = new URLSearchParams(location.search)

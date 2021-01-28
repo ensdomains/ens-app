@@ -3,6 +3,7 @@ import styled from '@emotion/styled/macro'
 
 import Years from './NameRegister/Years'
 import Price from './NameRegister/Price'
+import EthRegistrationGasPrice from './NameRegister/EthRegistrationGasPrice'
 
 import mq from 'mediaQuery'
 
@@ -39,22 +40,40 @@ function PricerInner({
   className,
   loading,
   price,
+  gasPrice,
   reference,
-  underPremium
+  underPremium,
+  displayGas = false
 }) {
   return (
-    <PricingContainer className={className} ref={reference}>
-      <Years years={years} setYears={setYears} />
-      <Chain />
-      <Price
-        price={price}
-        loading={loading}
-        ethUsdPriceLoading={ethUsdPriceLoading}
-        ethUsdPrice={ethUsdPrice}
-        ethUsdPremiumPrice={ethUsdPremiumPrice}
-        underPremium={underPremium}
-      />
-    </PricingContainer>
+    <>
+      <PricingContainer className={className} ref={reference}>
+        <Years years={years} setYears={setYears} />
+        <Chain />
+        <Price
+          price={price}
+          gasPrice={gasPrice}
+          loading={loading}
+          ethUsdPriceLoading={ethUsdPriceLoading}
+          ethUsdPrice={ethUsdPrice}
+          ethUsdPremiumPrice={ethUsdPremiumPrice}
+          underPremium={underPremium}
+        />
+      </PricingContainer>
+      {displayGas && gasPrice && (
+        <div>
+          <EthRegistrationGasPrice
+            price={price}
+            gasPrice={gasPrice}
+            loading={loading}
+            ethUsdPriceLoading={ethUsdPriceLoading}
+            ethUsdPrice={ethUsdPrice}
+            ethUsdPremiumPrice={ethUsdPremiumPrice}
+            underPremium={underPremium}
+          />
+        </div>
+      )}
+    </>
   )
 }
 

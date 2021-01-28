@@ -163,8 +163,11 @@
     "text": "Tx Pending"
   },
   "pricer": {
+    "gasDescription": "Estimated Gas Price (Step 1 + Step 3). The gas price will flucuate.",
     "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "Registration Period",
+    "registrationPriceLabel": "Registration price to pay",
+    "totalDescription": "Estimated Total (Price + Gas). The gas price is based at {{gasPriceToGweiSlow}}-{{gasPriceToGweiFast}} Gwei.",
     "totalPriceLabel": "Total price to pay",
     "yearUnit": "year"
   },
@@ -193,6 +196,7 @@
     "step1": {
       "label": "Step 1",
       "text": "Your wallet will open and you will be asked to confirm the first of two transactions required for registration.",
+      "text2": "If the second transaction is not processed within 24 hours of the first, you will need to start again from step 1.",
       "title": "Request to register"
     },
     "step2": {
