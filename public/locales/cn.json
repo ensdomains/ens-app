@@ -159,8 +159,7 @@
     "text": "等待交易被打包"
   },
   "pricer": {
-    "gasDescription": "Estimated Gas Price (Step 1 + Step 3). The gas price will flucuate.",
-    "gasValue": "when the gas price is <1></1> Gwei",
+    "gasDescription": "Estimated Gas Price (Step 1 + Step 3). The gas price will flucuate.",    
     "pricePerAmount": "当前选定时长的注册价格",
     "registrationPeriodLabel": "注册期",
     "registrationPriceLabel": "Registration price to pay",

@@ -161,8 +161,7 @@
     "text": "Đang xử lý giao dịch"
   },
   "pricer": {
-    "gasDescription": "Estimated Gas Price (Step 1 + Step 3). The gas price will flucuate.",
-    "gasValue": "when the gas price is <1></1> Gwei",
+    "gasDescription": "Estimated Gas Price (Step 1 + Step 3). The gas price will flucuate.",    
     "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "Thời gian đăng ký",
     "registrationPriceLabel": "Registration price to pay",

@@ -164,7 +164,6 @@
   },
   "pricer": {
     "gasDescription": "Estimated Gas Price (Step 1 + Step 3). The gas price will flucuate.",
-    "gasValue": "when the gas price is <1></1> Gwei",
     "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "Période d'enregistrement",
     "registrationPriceLabel": "Registration price to pay",
