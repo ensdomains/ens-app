@@ -46,9 +46,11 @@ const Price = ({
   ethUsdPrice,
   ethUsdPremiumPrice,
   ethUsdPriceLoading,
+  initialGasPrice,
   underPremium
 }) => {
   const { t } = useTranslation()
+
   let ethPrice = <InlineLoader />
   let ethVal, basePrice, withPremium, usdPremium
   if (!loading && price) {
@@ -65,7 +67,6 @@ const Price = ({
       usdPremium = ethVal.mul(ethUsdPrice).toFixed(2)
     }
   }
-
   return (
     <PriceContainer>
       <Value>
@@ -80,7 +81,7 @@ const Price = ({
       <Description>
         {ethUsdPremiumPrice
           ? t('pricer.pricePerAmount')
-          : t('pricer.totalPriceLabel')}
+          : t('pricer.registrationPriceLabel')}
       </Description>
     </PriceContainer>
   )
