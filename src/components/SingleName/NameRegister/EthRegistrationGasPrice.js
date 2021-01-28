@@ -7,6 +7,7 @@ import DefaultInput from '../../Forms/Input'
 const GWEI = 1000000000
 const COMMIT_GAS_WEI = 42000
 const REGISTER_GAS_WEI = 240000
+const TOGAL_GAS_WEI = COMMIT_GAS_WEI + REGISTER_GAS_WEI
 
 const PriceContainer = styled('div')`
   width: 100%;
@@ -54,32 +55,37 @@ const Input = styled(DefaultInput)`
   margin: 5px 0;
 `
 
-const EthRegistrationGasPrice = ({ price, ethUsdPrice, initialGasPrice }) => {
+const EthRegistrationGasPrice = ({ price, ethUsdPrice, gasPrice }) => {
   const { t } = useTranslation()
-  const gasPrice = initialGasPrice
+  console.log('***gasPrice', gasPrice)
   const ethVal = new EthVal(`${price}`).toEth()
-  const commitGas = new EthVal(`${COMMIT_GAS_WEI * gasPrice}`).toEth()
-  const registerGas = new EthVal(`${REGISTER_GAS_WEI * gasPrice}`).toEth()
-  const gasPriceToGwei = new EthVal(`${gasPrice}`).toGwei()
-  const totalGas = commitGas.add(registerGas)
-  const buffer = ethVal.div(10)
-  const total = ethVal.add(buffer).add(totalGas)
-  const totalInUsd = total.mul(ethUsdPrice)
+  const registerGasSlow = new EthVal(`${TOGAL_GAS_WEI * gasPrice.slow}`).toEth()
+  const registerGasFast = new EthVal(`${TOGAL_GAS_WEI * gasPrice.fast}`).toEth()
+  const gasPriceToGweiSlow = new EthVal(`${gasPrice.slow}`).toGwei()
+  const gasPriceToGweiFast = new EthVal(`${gasPrice.fast}`).toGwei()
+  const totalSlow = ethVal.add(registerGasSlow)
+  const totalFast = ethVal.add(registerGasFast)
+  const totalInUsdSlow = totalSlow.mul(ethUsdPrice)
+  const totalInUsdFast = totalFast.mul(ethUsdPrice)
   return (
     <PriceContainer>
       <TotalValue>
-        {total.toFixed(4)} ETH ({ethVal.toFixed(4)} ETH + {buffer.toFixed(4)}{' '}
-        ETH + {totalGas.toFixed(3)} ETH)
+        {ethVal.toFixed(3)} ETH + {registerGasSlow.toFixed(3)}-
+        {registerGasFast.toFixed(3)} ETH = {totalSlow.toFixed(3)}-
+        {totalFast.toFixed(3)} ETH
         {ethVal && ethUsdPrice && (
           <USD>
             {' '}
-            = ${totalInUsd.toFixed(2)}
+            ${totalInUsdSlow.toFixed(2)}-${totalInUsdFast.toFixed(2)}
             USD
           </USD>
         )}
       </TotalValue>
       <Description>
-        {t('pricer.totalDescription', { gasPriceToGwei })}
+        {t('pricer.totalDescription', {
+          gasPriceToGweiSlow: gasPriceToGweiSlow.toFixed(0),
+          gasPriceToGweiFast: gasPriceToGweiFast.toFixed(0)
+        })}
       </Description>
     </PriceContainer>
   )

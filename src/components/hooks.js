@@ -182,7 +182,7 @@ export function useEthPrice(enabled = true) {
 
 export function useGasPrice(enabled = true) {
   const [loading, setLoading] = useState(true)
-  const [price, setPrice] = useState(undefined)
+  const [price, setPrice] = useState({})
 
   const gasApi = 'https://www.gasnow.org/api/v3/gas/price'
   useEffect(() => {
@@ -191,7 +191,7 @@ export function useGasPrice(enabled = true) {
         return res.json()
       })
       .then(({ data }) => {
-        setPrice(data.fast)
+        setPrice(data)
         setLoading(false)
       })
       .catch(() => '') // ignore error
