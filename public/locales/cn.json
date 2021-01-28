@@ -159,8 +159,11 @@
     "text": "等待交易被打包"
   },
   "pricer": {
+    "gasDescription": "Estimated Gas Price (Step 1 + Step 3). The gas price will flucuate.",    
     "pricePerAmount": "当前选定时长的注册价格",
     "registrationPeriodLabel": "注册期",
+    "registrationPriceLabel": "Registration price to pay",
+    "totalDescription": "Estimated Total (Price + Gas). The gas price is based at {{gasPriceToGweiSlow}}-{{gasPriceToGweiFast}} Gwei.",
     "totalPriceLabel": "支付总额",
     "yearUnit": "年份"
   },
@@ -189,6 +192,7 @@
     "step1": {
       "label": "第 1 步",
       "text": "需要在钱包中确认一笔交易，这是完成域名注册所需的两笔交易中的第一笔。",
+      "text2": "If the second transaction is not processed within 24 hours of the first, you will need to start again from step 1.",
       "title": "请求注册"
     },
     "step2": {
