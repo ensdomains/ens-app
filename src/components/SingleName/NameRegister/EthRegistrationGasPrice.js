@@ -57,7 +57,6 @@ const Input = styled(DefaultInput)`
 
 const EthRegistrationGasPrice = ({ price, ethUsdPrice, gasPrice }) => {
   const { t } = useTranslation()
-  console.log('***gasPrice', gasPrice)
   const ethVal = new EthVal(`${price}`).toEth()
   const registerGasSlow = new EthVal(`${TOGAL_GAS_WEI * gasPrice.slow}`).toEth()
   const registerGasFast = new EthVal(`${TOGAL_GAS_WEI * gasPrice.fast}`).toEth()
@@ -65,8 +64,12 @@ const EthRegistrationGasPrice = ({ price, ethUsdPrice, gasPrice }) => {
   const gasPriceToGweiFast = new EthVal(`${gasPrice.fast}`).toGwei()
   const totalSlow = ethVal.add(registerGasSlow)
   const totalFast = ethVal.add(registerGasFast)
-  const totalInUsdSlow = totalSlow.mul(ethUsdPrice)
-  const totalInUsdFast = totalFast.mul(ethUsdPrice)
+  let totalInUsdSlow, totalInUsdFast
+  // No price oracle on Goerli
+  if (ethUsdPrice) {
+    totalInUsdSlow = totalSlow.mul(ethUsdPrice)
+    totalInUsdFast = totalFast.mul(ethUsdPrice)
+  }
   return (
     <PriceContainer>
       <TotalValue>
