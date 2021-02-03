@@ -279,7 +279,7 @@ function getInputType(
   const provider =
     process.env.REACT_APP_STAGE === 'local'
       ? 'http://localhost:8545'
-      : window.ethereum || window.web3
+      : window.ethereum
   if (type === 'address' && keyName !== 'Resolver') {
     let option = {
       presetValue: presetValue || '',

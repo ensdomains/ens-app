@@ -1,4 +1,6 @@
-import Web3Modal from 'web3modal'
+// import Web3Modal from 'web3modal'
+import Web3Modal from 'no-window-web3'
+
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import { setup as setupENS } from '../api/ens'
 import Authereum from 'authereum'

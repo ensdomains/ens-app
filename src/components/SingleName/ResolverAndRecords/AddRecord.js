@@ -348,9 +348,7 @@ function Editable({
               </>
             ) : selectedRecord && selectedRecord.value === 'address' ? (
               <AddressInput
-                provider={
-                  window.ethereum || window.web3 || 'http://localhost:8545'
-                }
+                provider={window.ethereum || 'http://localhost:8545'}
                 onResolve={({ address }) => {
                   if (address) {
                     updateValue(address)
