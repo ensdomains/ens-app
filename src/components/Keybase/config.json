@@ -1,0 +1,48 @@
+{
+    // Please version bump when updating config
+    "version": 1,
+    "domain": "app.ens.domains",
+    "display_name": "ENS Domains",
+  
+    // A regex for validating usernames on Bee Activists in the re2 format
+    // https://github.com/google/re2/wiki/Syntax (inline flags, like for case-insensitivity, are not supported).
+    // Keybase will treat these case-insensitively and will only display usernames
+    // in lowercase.
+    "username": {
+      "re": "^[a-zA-Z0-9_]{2,20}$",
+      "min": 2,
+      "max": 20
+    },
+  
+    "brand_color": "//FFB800",
+  
+    // Your brand logo will appear in various places around the Keybase app.
+    // Assets will be rehosted by Keybase, so do let us know about updates.
+    "logo": {
+      // A full-black monochrome SVG. Should look good at 16px square. Expand all texts and strokes to shapes.
+      "svg_black": "https://app.ens.domains/small-black-logo.svg",
+      // A full color SVG. Should look good at 32px square. Expand all texts and strokes to shapes.
+      "svg_full": "https://app.ens.domains/full-color.logo.svg",
+      // A full-white monochrome SVG. Should look good at 16px square. Expand all texts and strokes to shapes.
+      "svg_white": "https://app.ens.domains/small-white-logo.svg"
+    },
+  
+    "description": "Next gen social network using big data & AI in the cloud 🤖☁️.",
+  
+    // See the Protocol section for an explanation of these urls. All URLs must be
+    // on the given `domain` or a subdomain and accessible via HTTPS.
+    "prefill_url": "https://app.ens.domains/new-profile-proof?kb_username=%{kb_username}&username=%{username}&token=%{sig_hash}&kb_ua=%{kb_ua}",
+  
+    // Link to a profile page, for when users click from inside Keybase
+    "profile_url": "https://app.ens.domains/profile/%{username}",
+  
+    // Endpoint for checking a user's proofs
+    "check_url": "https://api.app.ens.domains/keybase-proofs.json?username=%{username}",
+    // Paths are explained below
+    "check_path": ["signatures"], // Path to signature list
+    "avatar_path": ["avatar"], // Optional path to avatar url
+  
+    //  A contact for Keybase in case of issues.
+    "contact": ["admin@app.ens.domains", "sassybedazzle@keybase"]
+  }
+  
