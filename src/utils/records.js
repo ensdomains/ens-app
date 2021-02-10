@@ -15,8 +15,8 @@ export function validateRecord({ type, value, contentType, selectedKey }) {
       return isAddress
     case 'content':
       if (value === EMPTY_ADDRESS) return true // delete record
-      const encoded = encodeContenthash(value)
-      if (encoded) {
+      const { encoded, error: encodeError } = encodeContenthash(value)
+      if (!encodeError && encoded) {
         return isValidContenthash(encoded)
       } else {
         return false

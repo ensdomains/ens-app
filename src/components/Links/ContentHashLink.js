@@ -32,11 +32,13 @@ const ContentHashLink = ({ value, contentType, domain }) => {
     return <div>{value}</div>
   }
 
-  const encoded = encodeContenthash(value)
-  const { protocolType, decoded, error } = decodeContenthash(encoded)
+  const { encoded, error: encodeError } = encodeContenthash(value)
+  const { protocolType, decoded, error: decodeError } = decodeContenthash(
+    encoded
+  )
   let externalLink, url
-  if (error) {
-    return <DecodedError>{error}</DecodedError>
+  if (decodeError || encodeError || decoded === 'invalid value') {
+    return <DecodedError>{decodeError || encodeError || decoded}</DecodedError>
   }
   if (protocolType === 'ipfs') {
     externalLink = `https://dweb.link/ipfs/${decoded}` // using ipfs's secured origin gateway

@@ -807,7 +807,8 @@ const resolvers = {
           provider
         })
         const content = await resolverInstanceWithoutSigner.content(namehash)
-        return encodeContenthash('bzz://' + content)
+        const { encoded } = encodeContenthash('bzz://' + content)
+        return encoded
       }
 
       async function getContenthash(name) {
