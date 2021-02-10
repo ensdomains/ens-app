@@ -1385,6 +1385,15 @@
     multicodec "^1.0.4"
     multihashes "^2.0.0"
 
+"@ensdomains/content-hash@^2.5.4":
+  version "2.5.4"
+  resolved "https://registry.yarnpkg.com/@ensdomains/content-hash/-/content-hash-2.5.4.tgz#4d5991bce2440d6f3dfc44e4da0aafdffff7d622"
+  integrity sha512-f8HHIRlucfgdsNiYxcQx/P9R/IEmj0k+Y9ET1FZx7RsVja0dLPpiHzPcjvKBcWJhtIoh5ci40WbWe+LqQRyphQ==
+  dependencies:
+    cids "^0.8.3"
+    multicodec "^1.0.4"
+    multihashes "^2.0.0"
+
 "@ensdomains/contracts@0.0.1", "@ensdomains/contracts@^0.0.1":
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@ensdomains/contracts/-/contracts-0.0.1.tgz#edb841955adbd6f86bddaf9d05f6d239d25d5ab7"
@@ -1465,16 +1474,16 @@
     lodash "^4.17.11"
     web3 "^1.3.0"
 
-"@ensdomains/ui@^3.0.58":
-  version "3.0.58"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.58.tgz#b028b190f036c4151e771e2c74e91b8e279af006"
-  integrity sha512-EUWB2QtZQ/q8WFvk/MaxPiVB7EWaQktqTICmLYAI7MtTPSgOoxxAV/v0j2b5J+yeXzylYLavJSv9c6eHaw+JSw==
+"@ensdomains/ui@^3.0.59":
+  version "3.0.59"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.59.tgz#252dd1b32a40bcae3bff97c15bbb8deadc3b5f8f"
+  integrity sha512-Mb3NUBHOQZYRiFYGJ6IRCCfPtI2iH0BGlTlBm4BQM02D+tadY/qrglSE9P1JGFznzkZcpqCjwCDQPyk95TW0Yw==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
     "@babel/runtime" "^7.4.4"
     "@ensdomains/address-encoder" "^0.2.5"
-    "@ensdomains/content-hash" "^2.5.3"
+    "@ensdomains/content-hash" "^2.5.4"
     "@ensdomains/contracts" "^0.0.1"
     "@ensdomains/dnsprovejs" "^0.2.0"
     "@ensdomains/mock" "^2.0.34"
