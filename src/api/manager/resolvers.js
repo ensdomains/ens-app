@@ -654,7 +654,7 @@ const resolvers = {
           records.content === ''
             ? emptyAddress
             : records.content
-            ? encodeContenthash(records.content)
+            ? encodeContenthash(records.content)?.encoded
             : undefined,
           records.textRecords,
           records.coins
