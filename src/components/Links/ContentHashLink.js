@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled/macro'
 import { ReactComponent as ExternalLinkIcon } from '../Icons/externalLink.svg'
-import { decodeContenthash, encodeContenthash } from '@ensdomains/ui'
+import { getProtocolType } from '@ensdomains/ui'
 
 const ContentHashLinkContainer = styled('a')`
   display: inline-block;
@@ -22,24 +22,12 @@ const ContentHashLinkContainer = styled('a')`
   }
 `
 
-const DecodedError = styled('div')`
-  white-space: normal;
-  overflow: scroll;
-`
-
 const ContentHashLink = ({ value, contentType, domain }) => {
-  if (contentType === 'oldcontent') {
+  if (contentType === 'oldcontent' || !value) {
     return <div>{value}</div>
   }
-
-  const { encoded, error: encodeError } = encodeContenthash(value)
-  const { protocolType, decoded, error: decodeError } = decodeContenthash(
-    encoded
-  )
+  const { protocolType, decoded } = getProtocolType(value)
   let externalLink, url
-  if (decodeError || encodeError || decoded === 'invalid value') {
-    return <DecodedError>{decodeError || encodeError || decoded}</DecodedError>
-  }
   if (protocolType === 'ipfs') {
     externalLink = `https://dweb.link/ipfs/${decoded}` // using ipfs's secured origin gateway
     url = `ipfs://${decoded}`
