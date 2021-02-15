@@ -163,7 +163,7 @@
     "pricePerAmount": "当前选定时长的注册价格",
     "registrationPeriodLabel": "注册期",
     "registrationPriceLabel": "注册费用",
-    "totalDescription": "预估的总费用（注册费 + Gas）。Gas 价格区间在 {{gasPriceToGweiSlow}}-{{gasPriceToGweiFast}} Gwei.",
+    "totalDescription": "预估的总费用（注册费 + Gas）。The gas price is based at {{gasPriceToGweiFast}} Gwei",
     "totalPriceLabel": "支付总额",
     "yearUnit": "年份"
   },
