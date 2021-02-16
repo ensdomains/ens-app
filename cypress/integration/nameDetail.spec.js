@@ -358,6 +358,19 @@ describe('Name detail view', () => {
     ])
   })
 
+  it('cannot change deprecated ipns contenthash', () => {
+    const url = `${NAME_ROOT}/abittooawesome2.eth`
+    cy.visit(url)
+    const DEPRECATED_CONTENT_HASH = 'ipns://app.uniswap.org'
+    cy.queryByText(DEPRECATED_CONTENT_HASH, { timeout: 10000 }).should('exist')
+
+    cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
+      cy.getByText('Add/Edit Record').click({ force: true })
+      cy.wait(2000)
+      cy.queryByTestId('content-record-input-invalid')
+    })
+  })
+
   it('can delete records', () => {
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
     cy.getByTestId('name-details').within(container => {
