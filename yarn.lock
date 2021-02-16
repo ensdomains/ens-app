@@ -1438,10 +1438,10 @@
     table "^5.4.6"
     web3 "^1.3.0"
 
-"@ensdomains/mock@^2.0.35":
-  version "2.0.35"
-  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.0.35.tgz#3581787581872aa8e1bfbe60a75b65521a6cb1da"
-  integrity sha512-K746kTZZnlFd7wdtYEP1QPqZn6qsUKVS8hWd7Hp+E0iw4Lex19nC79eZAJJPPNYmf+P8IBi3n8EBJmtrFhoNHQ==
+"@ensdomains/mock@^2.0.36":
+  version "2.0.36"
+  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.0.36.tgz#308eb17b86b58a68990a89a872d1ba249cac5d55"
+  integrity sha512-JNtXo4m9wfDL0SHFHbAPQbWVNEagLbNKq+UzHlUTx+OWa9wZK6wNwJFi63o2p0IQiTpQJs1zc5MC/HQATH76Vg==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
