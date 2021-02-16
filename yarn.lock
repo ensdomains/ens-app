@@ -1385,6 +1385,15 @@
     multicodec "^1.0.4"
     multihashes "^2.0.0"
 
+"@ensdomains/content-hash@^2.5.5":
+  version "2.5.5"
+  resolved "https://registry.yarnpkg.com/@ensdomains/content-hash/-/content-hash-2.5.5.tgz#3efb64ced7bc8c76d883648519fdcaa312ad6ae9"
+  integrity sha512-g97tsnHku7fC+uyWAPj71TlLmgI2TsMtDEsiXAGvK73eC67aTVCsEagk6sPIZbB7+iKV3DY2wTQQos2VGBLMTw==
+  dependencies:
+    cids "^0.8.3"
+    multicodec "^1.0.4"
+    multihashes "^2.0.0"
+
 "@ensdomains/contracts@0.0.1", "@ensdomains/contracts@^0.0.1":
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@ensdomains/contracts/-/contracts-0.0.1.tgz#edb841955adbd6f86bddaf9d05f6d239d25d5ab7"
@@ -1415,6 +1424,24 @@
   version "2.0.34"
   resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.0.34.tgz#a9426a397c2ea43afbbedda4ffc5c81c6acbd0c2"
   integrity sha512-sNcN9/uSWgkZg88u8yDtYcE4DmjpbVuWo6dGgaKuc/7lbiiy1Si6Ul9XIRsvvHKm/K/sIn/0N6eNy1gWv1WmEw==
+  dependencies:
+    "@0xproject/utils" "^2.0.2"
+    "@babel/runtime" "^7.4.4"
+    "@ensdomains/contracts" "^0.0.1"
+    "@ensdomains/dnssec-oracle-anchors" "^0.0.1"
+    chalk "^3.0.0"
+    cross-fetch "^3.0.2"
+    dns-packet "^5.2.1"
+    eth-ens-namehash "^2.0.8"
+    lodash "^4.17.11"
+    moment "^2.26.0"
+    table "^5.4.6"
+    web3 "^1.3.0"
+
+"@ensdomains/mock@^2.0.36":
+  version "2.0.36"
+  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.0.36.tgz#308eb17b86b58a68990a89a872d1ba249cac5d55"
+  integrity sha512-JNtXo4m9wfDL0SHFHbAPQbWVNEagLbNKq+UzHlUTx+OWa9wZK6wNwJFi63o2p0IQiTpQJs1zc5MC/HQATH76Vg==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/runtime" "^7.4.4"
@@ -1465,16 +1492,16 @@
     lodash "^4.17.11"
     web3 "^1.3.0"
 
-"@ensdomains/ui@^3.0.58":
-  version "3.0.58"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.58.tgz#b028b190f036c4151e771e2c74e91b8e279af006"
-  integrity sha512-EUWB2QtZQ/q8WFvk/MaxPiVB7EWaQktqTICmLYAI7MtTPSgOoxxAV/v0j2b5J+yeXzylYLavJSv9c6eHaw+JSw==
+"@ensdomains/ui@^3.0.61":
+  version "3.0.61"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.61.tgz#8263cce026eb4496b44618de843fac42ab0fbdaa"
+  integrity sha512-QrweOs7dfjX0h0DG1kybm+lMEBEt2da6R9JnPxvaYLSVesN0ikT3CWwum0WopJw8p7d7D/1T4+gkHGD/o7vxkA==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
     "@babel/runtime" "^7.4.4"
     "@ensdomains/address-encoder" "^0.2.5"
-    "@ensdomains/content-hash" "^2.5.3"
+    "@ensdomains/content-hash" "^2.5.5"
     "@ensdomains/contracts" "^0.0.1"
     "@ensdomains/dnsprovejs" "^0.2.0"
     "@ensdomains/mock" "^2.0.34"
