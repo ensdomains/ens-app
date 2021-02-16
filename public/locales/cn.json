@@ -66,8 +66,8 @@
     "warning": "警告"
   },
   "certificate": {
-    "button": "Request SSL certificate",
-    "warning": "SSL certificate for {{ name }}.link is not created yet"
+    "button": "请求 SSL 证书",
+    "warning": "{{ name }}.link 的 SSL 证书还没有创建"
   },
   "childDomainItem": {
     "notmigrated": "暂未迁移"
@@ -127,7 +127,7 @@
       "title": "如何使用 ENS"
     },
     "whatisens": {
-      "body": "以太坊名称服务（Ethereum Name Service）是一个基于以太坊区块链的分布式、开放和可扩展的命名系统。ENS 域名让人们不用再复制或输入冗长的区块链地址。通俗地说，ENS 就是区块链中的域名系统。",
+      "body": "以太坊名称服务（Ethereum Name Service）是一个基于以太坊区块链的分布式、开放和可扩展的域名系统。ENS 域名让人们不用再复制或输入冗长的区块链地址。通俗地说，ENS 就是区块链中的域名系统。",
       "title": "ENS 是什么"
     }
   },
@@ -159,11 +159,11 @@
     "text": "等待交易被打包"
   },
   "pricer": {
-    "gasDescription": "Estimated Gas Price (Step 1 + Step 3). The gas price will flucuate.",    
+    "gasDescription": "预估的 Gas 价格（第 1 步 + 第 3 步）。Gas 价格存在波动。",    
     "pricePerAmount": "当前选定时长的注册价格",
     "registrationPeriodLabel": "注册期",
-    "registrationPriceLabel": "Registration price to pay",
-    "totalDescription": "Estimated Total (Price + Gas). The gas price is based at {{gasPriceToGweiSlow}}-{{gasPriceToGweiFast}} Gwei.",
+    "registrationPriceLabel": "注册费用",
+    "totalDescription": "预估的总费用（注册费 + Gas）。The gas price is based at {{gasPriceToGweiFast}} Gwei",
     "totalPriceLabel": "支付总额",
     "yearUnit": "年份"
   },
@@ -173,7 +173,7 @@
       "manage": "管理域名",
       "register": "注册",
       "request": "请求注册",
-      "warning": "点击“注册”进入第三步"
+      "warning": "点击“注册”进入第 3 步"
     },
     "favourite": "* 您可以收藏喜欢的域名，以便于浏览器关闭以后重新查看这个域名。",
     "notifications": {
@@ -192,7 +192,7 @@
     "step1": {
       "label": "第 1 步",
       "text": "需要在钱包中确认一笔交易，这是完成域名注册所需的两笔交易中的第一笔。",
-      "text2": "If the second transaction is not processed within 24 hours of the first, you will need to start again from step 1.",
+      "text2": "如果第 1 步完成之后的 24 小时内没有进行第 2 步，则需要从第 1 步重新开始。",
       "title": "请求注册"
     },
     "step2": {
@@ -206,7 +206,7 @@
       "title": "完成注册"
     },
     "titles": [
-      "注册一个域名需要三个步骤",
+      "注册一个域名需要 3 个步骤",
       "您很快就可以完成域名注册",
       "您已经完成域名注册，现在可以管理域名了！"
     ]
@@ -316,9 +316,9 @@
       "closeEdit": "关闭 添加/编辑 记录",
       "messages": {
         "explanation": "反向解析将地址转换为域名。它能让 dapp 在其界面上显示 “{{name}}”，而不是 “{{account}}” 这个冗长的地址。如果您想为另一个账户设置反向解析，请先在 dapp 浏览器中切换帐户。",
-        "explanation2": "You can only select names you set this Ethereum Address as.",
+        "explanation2": "您只能选择已经解析至这个以太坊地址的域名。",
         "notSet": "反向记录：未设置",
-        "selectPlaceholder": "Select your ENS name",
+        "selectPlaceholder": "选择您的 ENS 域名",
         "setTo": "反向记录：解析至 ",
         "setToDifferent": "反向记录：已解析至另一个域名："
       },

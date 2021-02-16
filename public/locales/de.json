@@ -167,7 +167,7 @@
     "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "Registration Period",
     "registrationPriceLabel": "Registration price to pay",
-    "totalDescription": "Estimated Total (Price + Gas). The gas price is based at {{gasPriceToGweiSlow}}-{{gasPriceToGweiFast}} Gwei.",
+    "totalDescription": "Estimated Total (Price + Gas). The gas price is based at {{gasPriceToGweiFast}} Gwei",
     "totalPriceLabel": "Gesamtpreis",
     "yearUnit": "Jahr"
   },
