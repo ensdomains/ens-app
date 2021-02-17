@@ -40,6 +40,9 @@ const ContentHashLink = ({ value, contentType, domain }) => {
   } else if (protocolType === 'onion' || protocolType === 'onion3') {
     externalLink = `http://${decoded}.onion`
     url = `onion://${decoded}`
+  } else if (protocolType === 'sia') {
+    externalLink = `https://siasky.net/${decoded}`
+    url = `sia://${decoded}`
   } else {
     console.warn(`Unsupported protocol ${protocolType}`)
   }
