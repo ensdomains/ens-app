@@ -1,13 +1,12 @@
 import React from 'react'
 import styled from '@emotion/styled/macro'
-
 import Years from './NameRegister/Years'
 import Price from './NameRegister/Price'
 import EthRegistrationGasPrice from './NameRegister/EthRegistrationGasPrice'
-
+import { ReactComponent as DefaultOrangeExclamation } from '../Icons/OrangeExclamation.svg'
 import mq from 'mediaQuery'
-
 import { ReactComponent as ChainDefault } from '../Icons/chain.svg'
+import { useTranslation } from 'react-i18next'
 
 const PricingContainer = styled('div')`
   display: grid;
@@ -30,6 +29,16 @@ const Chain = styled(ChainDefault)`
   `}
 `
 
+const OrangeExclamation = styled(DefaultOrangeExclamation)`
+  height: 12px;
+  width: 12px;
+`
+
+const Prompt = styled('div')`
+  color: #ffa600;
+  margin-bottom: 10px;
+`
+
 function PricerInner({
   years,
   setYears,
@@ -45,8 +54,15 @@ function PricerInner({
   underPremium,
   displayGas = false
 }) {
+  const { t } = useTranslation()
   return (
     <>
+      {years <= 1 && (
+        <Prompt>
+          <OrangeExclamation />
+          {t('register.increaseRegistrationPeriod')}
+        </Prompt>
+      )}
       <PricingContainer className={className} ref={reference}>
         <Years years={years} setYears={setYears} />
         <Chain />
