@@ -129,7 +129,7 @@ const NameRegister = ({
       if (google_optimize || i >= 20) {
         if (google_optimize === '1') {
           setYears(0)
-        } else if ('2') {
+        } else if (google_optimize === '2') {
           setYears(5)
         }
         setOptimizeTimerRunning(false)
