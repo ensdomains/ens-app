@@ -159,7 +159,7 @@
     "text": "等待交易被打包"
   },
   "pricer": {
-    "gasDescription": "预估的 Gas 价格（第 1 步 + 第 3 步）。Gas 价格存在波动。",    
+    "gasDescription": "预估的 Gas 价格（第 1 步 + 第 3 步）。Gas 价格存在波动。",
     "pricePerAmount": "当前选定时长的注册价格",
     "registrationPeriodLabel": "注册期",
     "registrationPriceLabel": "注册费用",
@@ -176,6 +176,7 @@
       "warning": "点击“注册”进入第 3 步"
     },
     "favourite": "* 您可以收藏喜欢的域名，以便于浏览器关闭以后重新查看这个域名。",
+    "increaseRegistrationPeriod": "Increase registration period to avoid paying gas every year",
     "notifications": {
       "ready": "已经可以正式注册了"
     },
