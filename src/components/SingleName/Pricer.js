@@ -4,6 +4,7 @@ import styled from '@emotion/styled/macro'
 import Years from './NameRegister/Years'
 import Price from './NameRegister/Price'
 import EthRegistrationGasPrice from './NameRegister/EthRegistrationGasPrice'
+import { ReactComponent as DefaultOrangeExclamation } from '../Icons/OrangeExclamation.svg'
 
 import mq from 'mediaQuery'
 
@@ -30,6 +31,16 @@ const Chain = styled(ChainDefault)`
   `}
 `
 
+const OrangeExclamation = styled(DefaultOrangeExclamation)`
+  height: 12px;
+  width: 12px;
+`
+
+const Prompt = styled('div')`
+  color: #ffa600;
+  margin-bottom: 10px;
+`
+
 function PricerInner({
   years,
   setYears,
@@ -47,6 +58,12 @@ function PricerInner({
 }) {
   return (
     <>
+      {years <= 1 && (
+        <Prompt>
+          <OrangeExclamation />
+          Increament registration period to avoid paying gas every year
+        </Prompt>
+      )}
       <PricingContainer className={className} ref={reference}>
         <Years years={years} setYears={setYears} />
         <Chain />
