@@ -163,7 +163,7 @@
     "text": "Tx Pendiente"
   },
   "pricer": {
-    "gasDescription": "Estimated Gas Price (Step 1 + Step 3). The gas price will flucuate.",    
+    "gasDescription": "Estimated Gas Price (Step 1 + Step 3). The gas price will flucuate.",
     "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "Periodo de registración",
     "registrationPriceLabel": "Registration price to pay",
@@ -180,6 +180,7 @@
       "warning": "Presiona registrar para ir al paso 3"
     },
     "favourite": "* Selecciona un nombre como favorito para un acceso rápido en caso de que se cierre el navegador.",
+    "increaseRegistrationPeriod": "Increase registration period to avoid paying gas every year",
     "notifications": {
       "ready": "listo para registrar"
     },
