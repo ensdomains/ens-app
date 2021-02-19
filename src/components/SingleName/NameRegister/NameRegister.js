@@ -65,6 +65,7 @@ const NameRegister = ({
   const [years, setYears] = useState(1)
   const [secondsPassed, setSecondsPassed] = useState(0)
   const [timerRunning, setTimerRunning] = useState(false)
+  const [optimizeTimerRunning, setOptimizeTimerRunning] = useState(true)
   const [commitmentTimerRunning, setCommitmentTimerRunning] = useState(false)
   const [blockCreatedAt, setBlockCreatedAt] = useState(null)
   const [waitUntil, setWaitUntil] = useState(null)
@@ -108,6 +109,34 @@ const NameRegister = ({
         commitmentTimerRunning
       }
     }
+  )
+  let i = 0
+  useInterval(
+    () => {
+      // A B testing number of years via https://optimize.google.com
+      // Original = 90 % weight = 1 year
+      // 1        =  5 % weight = 0 year
+      // 2        =  5 % weight = 5 year2
+
+      let google_optimize = window.google_optimize?.get(
+        'wDWM_d4iSx6na454HBL9qw'
+      )
+      console.log('A B testing number of years', {
+        google_optimize,
+        i
+      })
+      // Timeout if the optimizer is not loaded within 2 sec
+      if (google_optimize || i >= 20) {
+        if (google_optimize === '1') {
+          setYears(0)
+        } else if ('2') {
+          setYears(5)
+        }
+        setOptimizeTimerRunning(false)
+      }
+      i++
+    },
+    optimizeTimerRunning ? 100 : null
   )
 
   ProgressRecorder({
