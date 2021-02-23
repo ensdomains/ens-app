@@ -176,12 +176,13 @@ export default function Address({
   let [checkedBoxes, setCheckedBoxes] = useState({})
   let [years, setYears] = useState(1)
   const [selectAll, setSelectAll] = useState(false)
-  let expiryDate
+  let currentDate
   if (block) {
-    expiryDate = moment(block.timestamp * 1000)
-      .subtract(90, 'days')
-      .unix()
+    currentDate = moment(block.timestamp * 1000)
+  } else {
+    currentDate = moment()
   }
+  let expiryDate = currentDate.subtract(90, 'days').unix()
 
   const { loading, data, error, refetch } = useDomains({
     domainType,
