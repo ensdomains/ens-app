@@ -177,7 +177,7 @@ export default function Address({
   let [years, setYears] = useState(1)
   const [selectAll, setSelectAll] = useState(false)
   let currentDate
-  if (block) {
+  if (process.env.REACT_APP_STAGE === 'local') {
     currentDate = moment(block.timestamp * 1000)
   } else {
     currentDate = moment()
