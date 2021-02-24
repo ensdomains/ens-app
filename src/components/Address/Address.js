@@ -176,13 +176,17 @@ export default function Address({
   let [checkedBoxes, setCheckedBoxes] = useState({})
   let [years, setYears] = useState(1)
   const [selectAll, setSelectAll] = useState(false)
-  let currentDate
+  let currentDate, expiryDate
   if (process.env.REACT_APP_STAGE === 'local') {
-    currentDate = moment(block.timestamp * 1000)
+    if (block) {
+      currentDate = moment(block.timestamp * 1000)
+    }
   } else {
     currentDate = moment()
   }
-  let expiryDate = currentDate.subtract(90, 'days').unix()
+  if (currentDate) {
+    expiryDate = currentDate.subtract(90, 'days').unix()
+  }
 
   const { loading, data, error, refetch } = useDomains({
     domainType,
