@@ -127,7 +127,7 @@
       "title": "如何使用 ENS"
     },
     "whatisens": {
-      "body": "以太坊名称服务（Ethereum Name Service）是一个基于以太坊区块链的分布式、开放和可扩展的域名系统。ENS 域名让人们不用再复制或输入冗长的区块链地址。通俗地说，ENS 就是区块链中的域名系统。",
+      "body": "以太坊域名服务（Ethereum Name Service）是一个基于以太坊区块链的分布式、开放和可扩展的域名系统。ENS 域名让人们不用再复制或输入冗长的区块链地址。通俗地说，ENS 就是区块链中的域名系统。",
       "title": "ENS 是什么"
     }
   },
@@ -159,11 +159,11 @@
     "text": "等待交易被打包"
   },
   "pricer": {
-    "gasDescription": "预估的 Gas 价格（第 1 步 + 第 3 步）。Gas 价格存在波动。",    
+    "gasDescription": "预估的 Gas 费（第 1 步 + 第 3 步）。Gas 价格存在波动。",
     "pricePerAmount": "当前选定时长的注册价格",
-    "registrationPeriodLabel": "注册期",
+    "registrationPeriodLabel": "注册时长",
     "registrationPriceLabel": "注册费用",
-    "totalDescription": "预估的总费用（注册费 + Gas）。Gas 价格区间在 {{gasPriceToGweiSlow}}-{{gasPriceToGweiFast}} Gwei.",
+    "totalDescription": "预估的总费用（注册费 + Gas）。Gas 价格基于 {{gasPriceToGweiFast}} Gwei",
     "totalPriceLabel": "支付总额",
     "yearUnit": "年份"
   },
@@ -176,6 +176,7 @@
       "warning": "点击“注册”进入第 3 步"
     },
     "favourite": "* 您可以收藏喜欢的域名，以便于浏览器关闭以后重新查看这个域名。",
+    "increaseRegistrationPeriod": "为避免每年都要支付 Gas，建议增加注册时长",
     "notifications": {
       "ready": "已经可以正式注册了"
     },

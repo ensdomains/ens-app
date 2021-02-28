@@ -163,11 +163,11 @@
     "text": "Tx ausstehend"
   },
   "pricer": {
-    "gasDescription": "Estimated Gas Price (Step 1 + Step 3). The gas price will flucuate.",    
+    "gasDescription": "Estimated Gas Price (Step 1 + Step 3). The gas price will flucuate.",
     "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "Registration Period",
     "registrationPriceLabel": "Registration price to pay",
-    "totalDescription": "Estimated Total (Price + Gas). The gas price is based at {{gasPriceToGweiSlow}}-{{gasPriceToGweiFast}} Gwei.",
+    "totalDescription": "Estimated Total (Price + Gas). The gas price is based at {{gasPriceToGweiFast}} Gwei",
     "totalPriceLabel": "Gesamtpreis",
     "yearUnit": "Jahr"
   },
@@ -180,6 +180,7 @@
       "warning": "Klicken Sie auf Registrieren um zum 3. Schritt zu gehen"
     },
     "favourite": "* Favorisieren Sie diesen Namen für einen einfachen Zugriff, falls Sie Ihren Browser schließen.",
+    "increaseRegistrationPeriod": "Increase registration period to avoid paying gas every year",
     "notifications": {
       "ready": "is bereit registriert zu werden"
     },

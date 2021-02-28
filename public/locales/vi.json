@@ -161,11 +161,11 @@
     "text": "Đang xử lý giao dịch"
   },
   "pricer": {
-    "gasDescription": "Estimated Gas Price (Step 1 + Step 3). The gas price will flucuate.",    
+    "gasDescription": "Estimated Gas Price (Step 1 + Step 3). The gas price will flucuate.",
     "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "Thời gian đăng ký",
     "registrationPriceLabel": "Registration price to pay",
-    "totalDescription": "Estimated Total (Price + Gas). The gas price is based at {{gasPriceToGweiSlow}}-{{gasPriceToGweiFast}} Gwei.",
+    "totalDescription": "Estimated Total (Price + Gas). The gas price is based at {{gasPriceToGweiFast}} Gwei",
     "totalPriceLabel": "Tổng giá thanh toán",
     "yearUnit": "Năm"
   },
@@ -178,6 +178,7 @@
       "warning": "Nhấn đăng ký để chuyển đến bước thứ 3"
     },
     "favourite": "*Đánh dấu tên miền yêu thích để dễ truy cập phòng trường hợp bạn đóng trình duyệt ",
+    "increaseRegistrationPeriod": "Increase registration period to avoid paying gas every year",
     "notifications": {
       "ready": "có thể đăng ký"
     },

@@ -165,11 +165,11 @@
     "text": "TX в ожидании"
   },
   "pricer": {
-    "gasDescription": "Estimated Gas Price (Step 1 + Step 3). The gas price will flucuate.",    
+    "gasDescription": "Estimated Gas Price (Step 1 + Step 3). The gas price will flucuate.",
     "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "Срок регистрации",
     "registrationPriceLabel": "Registration price to pay",
-    "totalDescription": "Estimated Total (Price + Gas). The gas price is based at {{gasPriceToGweiSlow}}-{{gasPriceToGweiFast}} Gwei.",
+    "totalDescription": "Estimated Total (Price + Gas). The gas price is based at {{gasPriceToGweiFast}} Gwei",
     "totalPriceLabel": "Общие сумма к оплате",
     "yearUnit": "год"
   },
@@ -182,6 +182,7 @@
       "warning": "Нажмите 'зарегистрировать' чтобы перейти 3-му шагу."
     },
     "favourite": "Добавьте имя в 'Избранное' для быстрого доступа в случае если вы закроете браузер.",
+    "increaseRegistrationPeriod": "Increase registration period to avoid paying gas every year",
     "notifications": {
       "ready": "Готово к регистрации"
     },

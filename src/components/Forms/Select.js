@@ -29,10 +29,10 @@ const styles = {
       //       : null,
       backgroundColor: 'white',
       textTransform: 'uppercase',
-      fontWeight: '700',
+      fontWeight: isSelected ? 700 : 500,
       fontSize: '12px',
       letterSpacing: '0.5px',
-      color: isDisabled ? '#ccc' : isSelected ? 'black' : '#ccc',
+      color: isDisabled ? '#ccc' : isSelected ? 'black' : '#666',
       cursor: isDisabled ? 'not-allowed' : 'default'
     }
   },
