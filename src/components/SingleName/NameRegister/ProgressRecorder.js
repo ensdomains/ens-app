@@ -43,6 +43,8 @@ const ProgressRecorder = ({
   dispatch,
   secret,
   setSecret,
+  years,
+  setYears,
   timerRunning,
   setTimerRunning,
   waitUntil,
@@ -64,6 +66,13 @@ const ProgressRecorder = ({
       setSecret(savedStep.secret)
     } else {
       setSecret(randomSecret())
+    }
+  }
+  if (!years) {
+    if (savedStep && savedStep.years) {
+      setYears(savedStep.years)
+    } else {
+      setYears(1)
     }
   }
   if (!waitUntil) {
@@ -101,13 +110,16 @@ const ProgressRecorder = ({
       if (!savedStep) {
         Store.set(label, { step, secret })
       } else {
-        if (!savedStep.secret) {
-          Store.set(label, { step, secret })
+        if (!savedStep.secret || !savedStep.years) {
+          Store.set(label, { step, secret, years })
         } else {
           let commitmentDate = new Date(checkCommitment * 1000)
           if (commitmentDate > 0) {
             dispatch('NEXT') // Go to pending
             dispatch('NEXT') // Go to confirmed
+          } else {
+            // This should be called only when user increament/decrement years
+            Store.set(label, { step, secret, years })
           }
         }
       }
