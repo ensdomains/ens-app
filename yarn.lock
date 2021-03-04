@@ -1493,10 +1493,10 @@
     lodash "^4.17.11"
     web3 "^1.3.0"
 
-"@ensdomains/ui@^3.0.62":
-  version "3.0.62"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.62.tgz#345210f23d70bb0d84f518af53bb0279dce223b0"
-  integrity sha512-YDnzkDJRy+lrK/IbZnqz01Zp1v09Nr4v+AlLXmswbDmiKZG5pAQdd/pyrV9wQ5+G3o6J5g+O1YvdqFy01SZYzQ==
+"@ensdomains/ui@^3.0.63":
+  version "3.0.63"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.63.tgz#46a916b8a7d633eb126322c7bda643326c89d20d"
+  integrity sha512-0WuoEUfNWC9DNpebrH2GZAipxQUgWXH3Y1Zj73p2Ha431l5JafTMFfgd9+YqLC0Wnmp2VxmM6/GV2rBqGNwP8g==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
