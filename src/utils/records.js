@@ -15,8 +15,8 @@ export function validateRecord({ type, value, contentType, selectedKey }) {
       return isAddress
     case 'content':
       if (value === EMPTY_ADDRESS) return true // delete record
-      const encoded = encodeContenthash(value)
-      if (encoded) {
+      const { encoded, error: encodeError } = encodeContenthash(value)
+      if (!encodeError && encoded) {
         return isValidContenthash(encoded)
       } else {
         return false
@@ -45,7 +45,7 @@ export function getPlaceholder(recordType, contentType) {
       return 'Enter an Ethereum address'
     case 'content':
       if (contentType === 'contenthash') {
-        return 'Enter a content hash (eg: /ipfs/..., ipfs://..., /ipns/..., ipns://..., bzz://..., onion://..., onion3://...)'
+        return 'Enter a content hash (eg: /ipfs/..., ipfs://..., /ipns/..., ipns://..., bzz://..., onion://..., onion3://..., sia://...)'
       } else {
         return 'Enter a content'
       }

@@ -165,8 +165,11 @@
     "text": "TX в ожидании"
   },
   "pricer": {
+    "gasDescription": "Estimated Gas Price (Step 1 + Step 3). The gas price will flucuate.",
     "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "Срок регистрации",
+    "registrationPriceLabel": "Registration price to pay",
+    "totalDescription": "Estimated Total (Price + Gas). The gas price is based at {{gasPriceToGweiFast}} Gwei",
     "totalPriceLabel": "Общие сумма к оплате",
     "yearUnit": "год"
   },
@@ -179,6 +182,7 @@
       "warning": "Нажмите 'зарегистрировать' чтобы перейти 3-му шагу."
     },
     "favourite": "Добавьте имя в 'Избранное' для быстрого доступа в случае если вы закроете браузер.",
+    "increaseRegistrationPeriod": "Increase registration period to avoid paying gas every year",
     "notifications": {
       "ready": "Готово к регистрации"
     },
@@ -195,6 +199,7 @@
     "step1": {
       "label": "Шаг 1",
       "text": "Ваш кошелёк откроется и вас попросят подтвердить первые две транзакции, необходимые для регистрации.",
+      "text2": "If the second transaction is not processed within 24 hours of the first, you will need to start again from step 1.",
       "title": "Запрос на регистрацию"
     },
     "step2": {

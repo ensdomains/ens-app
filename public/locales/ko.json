@@ -161,8 +161,11 @@
     "text": "트랜잭션 보류"
   },
   "pricer": {
+    "gasDescription": "Estimated Gas Price (Step 1 + Step 3). The gas price will flucuate.",
     "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "등록 기간",
+    "registrationPriceLabel": "Registration price to pay",
+    "totalDescription": "Estimated Total (Price + Gas). The gas price is based at {{gasPriceToGweiFast}} Gwei",
     "totalPriceLabel": "결제할 총 금액",
     "yearUnit": "년"
   },
@@ -175,6 +178,7 @@
       "warning": "3번째 단계로 넘어가려면 등록을 클릭하세요"
     },
     "favourite": "* 브라우저를 닫더라도 쉽게 접근할 수 있도록 도메인을 즐겨찾기 하세요.",
+    "increaseRegistrationPeriod": "Increase registration period to avoid paying gas every year",
     "notifications": {
       "ready": "등록될 준비가 되었습니다"
     },
@@ -191,6 +195,7 @@
     "step1": {
       "label": "단계 1",
       "text": "지갑 화면이 열리고 등록에 필요한 두 개의 트랜잭션 중 첫번째 트랜잭션에 대한 컨펌 요청이 있을 것입니다.",
+      "text2": "If the second transaction is not processed within 24 hours of the first, you will need to start again from step 1.",
       "title": "등록 요청"
     },
     "step2": {

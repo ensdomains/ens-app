@@ -161,8 +161,11 @@
     "text": "保留中のTx"
   },
   "pricer": {
+    "gasDescription": "Estimated Gas Price (Step 1 + Step 3). The gas price will flucuate.",
     "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "登録期間",
+    "registrationPriceLabel": "Registration price to pay",
+    "totalDescription": "Estimated Total (Price + Gas). The gas price is based at {{gasPriceToGweiFast}} Gwei",
     "totalPriceLabel": "お支払合計額",
     "yearUnit": "年"
   },
@@ -175,6 +178,7 @@
       "warning": "ステップ３に移るために登録をクリックしてください"
     },
     "favourite": "* ブラウザを閉じた時にアクセスしやすいよう名前をお気に入りに登録する",
+    "increaseRegistrationPeriod": "Increase registration period to avoid paying gas every year",
     "notifications": {
       "ready": "は登録の準備ができています"
     },
@@ -191,6 +195,7 @@
     "step1": {
       "label": "ステップ１",
       "text": "ウォレットが開き、登録に必要な2つのトランザクションのうち最初のトランザクションの確認を求められます。",
+      "text2": "If the second transaction is not processed within 24 hours of the first, you will need to start again from step 1.",
       "title": "登録のリクエスト"
     },
     "step2": {

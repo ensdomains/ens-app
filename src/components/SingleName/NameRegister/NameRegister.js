@@ -11,7 +11,12 @@ import {
   WAIT_BLOCK_TIMESTAMP,
   GET_BALANCE
 } from 'graphql/queries'
-import { useInterval, useEthPrice, useBlock } from 'components/hooks'
+import {
+  useInterval,
+  useEthPrice,
+  useGasPrice,
+  useBlock
+} from 'components/hooks'
 import { useAccount } from '../../QueryAccount'
 import { registerMachine, registerReducer } from './registerReducer'
 import { sendNotification } from './notification'
@@ -57,9 +62,10 @@ const NameRegister = ({
   let now, showPremiumWarning, currentPremium, currentPremiumInEth, underPremium
   const incrementStep = () => dispatch('NEXT')
   const decrementStep = () => dispatch('PREVIOUS')
-  const [years, setYears] = useState(1)
+  const [years, setYears] = useState(false)
   const [secondsPassed, setSecondsPassed] = useState(0)
   const [timerRunning, setTimerRunning] = useState(false)
+  const [optimizeTimerRunning, setOptimizeTimerRunning] = useState(true)
   const [commitmentTimerRunning, setCommitmentTimerRunning] = useState(false)
   const [blockCreatedAt, setBlockCreatedAt] = useState(null)
   const [waitUntil, setWaitUntil] = useState(null)
@@ -69,6 +75,7 @@ const NameRegister = ({
     false
   )
   const { loading: ethUsdPriceLoading, price: ethUsdPrice } = useEthPrice()
+  const { loading: gasPriceLoading, price: gasPrice } = useGasPrice()
   const { block } = useBlock()
   const [invalid, setInvalid] = useState(false)
   const { data: { waitBlockTimestamp } = {} } = useQuery(WAIT_BLOCK_TIMESTAMP, {
@@ -103,6 +110,35 @@ const NameRegister = ({
       }
     }
   )
+  let i = 0
+  // TODO: Should move this to ProgressRecorder
+  // useInterval(
+  //   () => {
+  //     // A B testing number of years via https://optimize.google.com
+  //     // Original = 90 % weight = 1 year
+  //     // 1        =  5 % weight = 0 year
+  //     // 2        =  5 % weight = 5 year2
+
+  //     let google_optimize = window.google_optimize?.get(
+  //       'wDWM_d4iSx6na454HBL9qw'
+  //     )
+  //     console.log('A B testing number of years', {
+  //       google_optimize,
+  //       i
+  //     })
+  //     // Timeout if the optimizer is not loaded within 2 sec
+  //     if (google_optimize || i >= 20) {
+  //       if (google_optimize === '1') {
+  //         setYears(0)
+  //       } else if (google_optimize === '2') {
+  //         setYears(5)
+  //       }
+  //       setOptimizeTimerRunning(false)
+  //     }
+  //     i++
+  //   },
+  //   optimizeTimerRunning ? 100 : null
+  // )
 
   ProgressRecorder({
     checkCommitment,
@@ -113,6 +149,8 @@ const NameRegister = ({
     step,
     secret,
     setSecret,
+    years,
+    setYears,
     timerRunning,
     setTimerRunning,
     waitUntil,
@@ -189,7 +227,7 @@ const NameRegister = ({
   const diff = zeroPremiumDate.diff(releasedDate)
   const rate = 2000 / diff
   if (!registrationOpen) return <NotAvailable domain={domain} />
-  if (ethUsdPriceLoading) return <></>
+  if (ethUsdPriceLoading || gasPriceLoading) return <></>
 
   const getTargetAmountByDate = date => {
     return zeroPremiumDate.diff(date) * rate
@@ -245,9 +283,11 @@ const NameRegister = ({
           ethUsdPriceLoading={ethUsdPriceLoading}
           ethUsdPremiumPrice={currentPremium}
           ethUsdPrice={ethUsdPrice}
+          gasPrice={gasPrice}
           loading={rentPriceLoading}
           price={getRentPrice}
           underPremium={underPremium}
+          displayGas={true}
         />
       )}
       {showPremiumWarning ? (

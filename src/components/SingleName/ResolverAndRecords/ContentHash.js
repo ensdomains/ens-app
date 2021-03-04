@@ -19,6 +19,8 @@ import CopyToClipBoard from '../../CopyToClipboard/'
 import { useEditable } from '../../hooks'
 import Button from '../../Forms/Button'
 import RequestCertificate from './RequestCertificate'
+import useNetworkInfo from '../../NetworkInformation/useNetworkInfo'
+import { ReactComponent as ExternalLinkIcon } from '../../Icons/externalLink.svg'
 
 export const RecordsItem = styled(DetailsItem)`
   ${p => !p.hasRecord && 'display: none;'}
@@ -135,6 +137,25 @@ const NotSet = styled('div')`
   color: #ccc;
 `
 
+const LinkContainer = styled('a')`
+  display: inline-block;
+  align-items: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  svg {
+    margin-left: 10px;
+    transition: 0.1s;
+    opacity: 0;
+  }
+
+  &:hover {
+    svg {
+      opacity: 1;
+    }
+  }
+`
+
 const Uploadable = ({ startUploading, keyName, value }) => {
   if (value && !value.error) {
     return (
@@ -172,7 +193,7 @@ const ContentHashEditable = ({
 }) => {
   const { t } = useTranslation()
   const { state, actions } = useEditable()
-
+  const { contentType } = domain
   const { authorized, uploading, newValue } = state
 
   const {
@@ -205,14 +226,11 @@ const ContentHashEditable = ({
               value === 'undefined' ? (
                 <NotSet>Not set</NotSet>
               ) : (
-                <>
-                  <ContentHashLink
-                    value={value}
-                    contentType={domain.contentType}
-                    domain={domain}
-                  />
-                  <CopyToClipBoard value={value} />
-                </>
+                <ContentHashLinkWithEthLink
+                  value={value}
+                  contentType={contentType}
+                  domain={domain}
+                />
               )}
             </RecordsValue>
           )}
@@ -221,7 +239,7 @@ const ContentHashEditable = ({
             <>
               <EditRecord>
                 <RecordInput
-                  testId="content-record-input"
+                  testId={`content-record-input${isInvalid ? '-invalid' : ''}`}
                   onChange={event => {
                     const value = event.target.value
                     setUpdatedRecords(records => ({
@@ -322,6 +340,39 @@ const ContentHashEditable = ({
   )
 }
 
+function ContentHashLinkWithEthLink({ value, contentType, domain }) {
+  const { networkId } = useNetworkInfo()
+  const displayEthLink =
+    !!domain.name.match('.eth$') && networkId === 1 && value?.match(/^ip/)
+  return (
+    <>
+      <div>
+        <ContentHashLink
+          value={value}
+          contentType={contentType}
+          domain={domain}
+        />
+        {displayEthLink && (
+          <div>
+            <LinkContainer
+              target="_blank"
+              rel="noopener"
+              href={`https://${domain.name}.link`}
+            >
+              ({`https://${domain.name}.link`})
+              <ExternalLinkIcon />
+            </LinkContainer>
+          </div>
+        )}
+      </div>
+      <div>
+        <CopyToClipBoard value={value} />
+        <div>{displayEthLink && <>&nbsp;</>}</div>
+      </div>
+    </>
+  )
+}
+
 function ContentHashViewOnly({ keyName, value, type, domain, account }) {
   const { name, contentType } = domain
   const { t } = useTranslation()
@@ -333,14 +384,11 @@ function ContentHashViewOnly({ keyName, value, type, domain, account }) {
         <RecordsKey>{t(`c.${keyName}`)}</RecordsKey>
         <RecordsValue>
           {value !== '' ? (
-            <>
-              <ContentHashLink
-                value={value}
-                contentType={contentType}
-                domain={domain}
-              />
-              <CopyToClipBoard value={value} />
-            </>
+            <ContentHashLinkWithEthLink
+              value={value}
+              contentType={contentType}
+              domain={domain}
+            />
           ) : (
             <NotSet>Not set</NotSet>
           )}

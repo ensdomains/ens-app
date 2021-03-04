@@ -22,8 +22,12 @@ const Icon = styled('div')`
   font-size: 28px;
   font-weight: 100;
   color: #adbbcd;
+  ${p => p.emphasize && 'background-color: #5384fe;'}
+  ${p => (p.emphasize ? 'color: white;' : 'color: #adbbcd;')}
+  ${p => (p.emphasize ? 'border-color: white;' : 'color: #adbbcd;')}
+  
   border-radius: 50%;
-  border: solid #adbbcd 1px;
+  border: solid 1px;
   width: 30px;
   height: 30px;
   display: flex;
@@ -73,8 +77,7 @@ const Description = styled('div')`
 const Years = ({ years, setYears }) => {
   const { t } = useTranslation()
   const incrementYears = () => setYears(years + 1)
-  const decrementYears = () => (years > 1 ? setYears(years - 1) : null)
-
+  const decrementYears = () => (years >= 1 ? setYears(years - 1) : null)
   const currentLanguage = window.localStorage.getItem('language')
   return (
     <YearsContainer>
@@ -96,7 +99,9 @@ const Years = ({ years, setYears }) => {
           {t('pricer.yearUnit')}
           {currentLanguage === 'en' && years > 1 && 's'}
         </Amount>
-        <Icon onClick={incrementYears}>+</Icon>
+        <Icon onClick={incrementYears} emphasize={years < 2}>
+          +
+        </Icon>
       </Stepper>
       <Description>{t('pricer.registrationPeriodLabel')}</Description>
     </YearsContainer>

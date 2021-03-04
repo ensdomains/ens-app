@@ -161,8 +161,11 @@
     "text": "Đang xử lý giao dịch"
   },
   "pricer": {
+    "gasDescription": "Estimated Gas Price (Step 1 + Step 3). The gas price will flucuate.",
     "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "Thời gian đăng ký",
+    "registrationPriceLabel": "Registration price to pay",
+    "totalDescription": "Estimated Total (Price + Gas). The gas price is based at {{gasPriceToGweiFast}} Gwei",
     "totalPriceLabel": "Tổng giá thanh toán",
     "yearUnit": "Năm"
   },
@@ -175,6 +178,7 @@
       "warning": "Nhấn đăng ký để chuyển đến bước thứ 3"
     },
     "favourite": "*Đánh dấu tên miền yêu thích để dễ truy cập phòng trường hợp bạn đóng trình duyệt ",
+    "increaseRegistrationPeriod": "Increase registration period to avoid paying gas every year",
     "notifications": {
       "ready": "có thể đăng ký"
     },
@@ -191,6 +195,7 @@
     "step1": {
       "label": "Bước 1",
       "text": "Ví của bạn sẽ mở và bạn sẽ được yêu cầu xác nhận 2 giao dịch bắt buộc để đăng ký",
+      "text2": "If the second transaction is not processed within 24 hours of the first, you will need to start again from step 1.",
       "title": "Yêu cầu đăng ký"
     },
     "step2": {

@@ -661,7 +661,7 @@ const resolvers = {
           records.content === ''
             ? emptyAddress
             : records.content
-            ? encodeContenthash(records.content)
+            ? encodeContenthash(records.content)?.encoded
             : undefined,
           records.textRecords,
           records.coins
@@ -814,7 +814,8 @@ const resolvers = {
           provider
         })
         const content = await resolverInstanceWithoutSigner.content(namehash)
-        return encodeContenthash('bzz://' + content)
+        const { encoded } = encodeContenthash('bzz://' + content)
+        return encoded
       }
 
       async function getContenthash(name) {

@@ -163,8 +163,11 @@
     "text": "Tx Pendiente"
   },
   "pricer": {
+    "gasDescription": "Estimated Gas Price (Step 1 + Step 3). The gas price will flucuate.",
     "pricePerAmount": "Price per amount of time selected",
     "registrationPeriodLabel": "Periodo de registración",
+    "registrationPriceLabel": "Registration price to pay",
+    "totalDescription": "Estimated Total (Price + Gas). The gas price is based at {{gasPriceToGweiFast}} Gwei",
     "totalPriceLabel": "Precio total a pagar",
     "yearUnit": "año"
   },
@@ -177,6 +180,7 @@
       "warning": "Presiona registrar para ir al paso 3"
     },
     "favourite": "* Selecciona un nombre como favorito para un acceso rápido en caso de que se cierre el navegador.",
+    "increaseRegistrationPeriod": "Increase registration period to avoid paying gas every year",
     "notifications": {
       "ready": "listo para registrar"
     },
@@ -193,6 +197,7 @@
     "step1": {
       "label": "Paso 1",
       "text": "Tu cartera se abrirá y se te pedirá que confirmes la primera de las dos transacciones necesarias para el registro",
+      "text2": "If the second transaction is not processed within 24 hours of the first, you will need to start again from step 1.",
       "title": "Solicitud de registro"
     },
     "step2": {
