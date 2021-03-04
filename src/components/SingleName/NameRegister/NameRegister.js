@@ -62,7 +62,7 @@ const NameRegister = ({
   let now, showPremiumWarning, currentPremium, currentPremiumInEth, underPremium
   const incrementStep = () => dispatch('NEXT')
   const decrementStep = () => dispatch('PREVIOUS')
-  const [years, setYears] = useState(1)
+  const [years, setYears] = useState(false)
   const [secondsPassed, setSecondsPassed] = useState(0)
   const [timerRunning, setTimerRunning] = useState(false)
   const [optimizeTimerRunning, setOptimizeTimerRunning] = useState(true)
@@ -111,33 +111,34 @@ const NameRegister = ({
     }
   )
   let i = 0
-  useInterval(
-    () => {
-      // A B testing number of years via https://optimize.google.com
-      // Original = 90 % weight = 1 year
-      // 1        =  5 % weight = 0 year
-      // 2        =  5 % weight = 5 year2
+  // TODO: Should move this to ProgressRecorder
+  // useInterval(
+  //   () => {
+  //     // A B testing number of years via https://optimize.google.com
+  //     // Original = 90 % weight = 1 year
+  //     // 1        =  5 % weight = 0 year
+  //     // 2        =  5 % weight = 5 year2
 
-      let google_optimize = window.google_optimize?.get(
-        'wDWM_d4iSx6na454HBL9qw'
-      )
-      console.log('A B testing number of years', {
-        google_optimize,
-        i
-      })
-      // Timeout if the optimizer is not loaded within 2 sec
-      if (google_optimize || i >= 20) {
-        if (google_optimize === '1') {
-          setYears(0)
-        } else if (google_optimize === '2') {
-          setYears(5)
-        }
-        setOptimizeTimerRunning(false)
-      }
-      i++
-    },
-    optimizeTimerRunning ? 100 : null
-  )
+  //     let google_optimize = window.google_optimize?.get(
+  //       'wDWM_d4iSx6na454HBL9qw'
+  //     )
+  //     console.log('A B testing number of years', {
+  //       google_optimize,
+  //       i
+  //     })
+  //     // Timeout if the optimizer is not loaded within 2 sec
+  //     if (google_optimize || i >= 20) {
+  //       if (google_optimize === '1') {
+  //         setYears(0)
+  //       } else if (google_optimize === '2') {
+  //         setYears(5)
+  //       }
+  //       setOptimizeTimerRunning(false)
+  //     }
+  //     i++
+  //   },
+  //   optimizeTimerRunning ? 100 : null
+  // )
 
   ProgressRecorder({
     checkCommitment,
@@ -148,6 +149,8 @@ const NameRegister = ({
     step,
     secret,
     setSecret,
+    years,
+    setYears,
     timerRunning,
     setTimerRunning,
     waitUntil,
