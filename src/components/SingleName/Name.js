@@ -34,6 +34,10 @@ function isRegistrationOpen(available, parent, isDeedOwner) {
 }
 
 function isDNSRegistrationOpen(domain) {
+  const nameArray = domain.name.split('.')
+  if (nameArray.length !== 2 || nameArray[1] !== 'eth') {
+    return false
+  }
   return domain.isDNSRegistrar && domain.owner === EMPTY_ADDRESS
 }
 

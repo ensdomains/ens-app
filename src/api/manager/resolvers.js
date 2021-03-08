@@ -106,8 +106,7 @@ async function getDNSEntryDetails(name) {
   const registrar = getRegistrar()
   const nameArray = name.split('.')
   const networkId = await getNetworkId()
-  if (nameArray.length > 2 || nameArray[nameArray.length - 1] === 'eth')
-    return {}
+  if (nameArray.length !== 2 || nameArray[1] === 'eth') return {}
 
   let tld = nameArray[1]
   let owner
