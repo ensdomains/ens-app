@@ -82,18 +82,9 @@ function Name({ details: domain, name, pathname, type, refetch }) {
   let containerState
   if (isDNSRegistrationOpen(domain)) {
     containerState = 'Open'
-    // if (networkId === 3) {
-    //   registrarAddress = ROPSTEN_DNSREGISTRAR_ADDRESS
-    // }
   } else {
     containerState = isOwner ? 'Yours' : domain.state
   }
-  console.log('***Name', {
-    domain,
-    networkId,
-    isDNSRegistrationOpen: isDNSRegistrationOpen(domain),
-    containerState
-  })
   return (
     <>
       <NameContainer state={containerState}>
