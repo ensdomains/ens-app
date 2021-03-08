@@ -34,7 +34,7 @@ function isRegistrationOpen(available, parent, isDeedOwner) {
 }
 
 function isDNSRegistrationOpen(domain) {
-  return !!domain.isDNSRegistrar
+  return domain.isDNSRegistrar && domain.owner === EMPTY_ADDRESS
 }
 
 function isOwnerOfDomain(domain, account) {
@@ -78,13 +78,14 @@ function Name({ details: domain, name, pathname, type, refetch }) {
   let containerState
   if (isDNSRegistrationOpen(domain)) {
     containerState = 'Open'
-    if (networkId === 3) {
-      registrarAddress = ROPSTEN_DNSREGISTRAR_ADDRESS
-    }
+    // if (networkId === 3) {
+    //   registrarAddress = ROPSTEN_DNSREGISTRAR_ADDRESS
+    // }
   } else {
     containerState = isOwner ? 'Yours' : domain.state
   }
   console.log('***Name', {
+    domain,
     networkId,
     isDNSRegistrationOpen: isDNSRegistrationOpen(domain),
     containerState
