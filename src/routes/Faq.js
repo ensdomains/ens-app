@@ -198,12 +198,16 @@ function Faq() {
         you can change the Registrant by simply transferring the NFT from any
         NFT compliant wallet/marketplace as well.
         <br />
-        For subdomains, click change the Controller to the new Ethereum account.
-        Note that transferring the ownership of the name does not change the
-        records, so the recipient may need to update them. If the recipient is
-        not experienced, it may be a good idea for you to clear your records and
-        set the ETH Address record to their Ethereum address before transferring
-        the name.
+        Note that transferring the ownership (aka the Registrant) of the name
+        does not change the controller nor records, so the recipient may need to
+        update them once received. If the recipient is not experienced or you
+        prefer your address not to be associated to the transferring names, it
+        may be a good idea for you to set the ETH Address record to their
+        Ethereum address, set the controller, then transfer the name.
+        <br />
+        For subdomains, there are no registrants unless the subdomain is
+        customised to be ERC721 compliant. Simply set the controller to the new
+        address (after setting the record to the new address).
       </Section>
 
       <Section question="Why are some of my subdomains shown as a jumble of characters?">
