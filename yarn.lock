@@ -1437,10 +1437,10 @@
   dependencies:
     dns-packet "^5.0.4"
 
-"@ensdomains/dnssecoraclejs@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@ensdomains/dnssecoraclejs/-/dnssecoraclejs-0.1.1.tgz#96bc835e2164bb719daaf4f04d13134c0a4fc447"
-  integrity sha512-ul/BuaIcS9Srl1cQUr1hG47uKU98xjCz+MjXJyq/F6WcNsBTlPZYvavFq5LS7pWMW7TTszzXqBnp091IvtBfWg==
+"@ensdomains/dnssecoraclejs@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@ensdomains/dnssecoraclejs/-/dnssecoraclejs-0.1.2.tgz#0e59b064525cdb719ce99ae673d5ad8efaeaf6e0"
+  integrity sha512-Ch/2EvHvTD7Rc0bnti6KivNnA7ilwWxWE7/RkRZ/JM8hJqaIpwLWrusGpYR/dupygT5qOxpkdmiEymDpn/1lrw==
   dependencies:
     "@ensdomains/dnsprovejs" "^0.3.0"
     "@ensdomains/dnssec-oracle" "^0.2.0"
@@ -1520,10 +1520,10 @@
     lodash "^4.17.11"
     web3 "^1.3.0"
 
-"@ensdomains/ui@^3.0.64":
-  version "3.0.64"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.64.tgz#dc107858f072d72cb7ac8c67d074c8a36363f9b7"
-  integrity sha512-mSafu02h2zo4x60LzKc14RtB2kS47xLRFN5m5LTaeRNbjei2VgWMD+Z+3Ds93R8ZQDQPVq4OkwTpHkqTbbrtqQ==
+"@ensdomains/ui@^3.0.65":
+  version "3.0.65"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.65.tgz#976fbe3384458f4bae8b3c36ebd0bf6b97821a1d"
+  integrity sha512-YDRX0qaW0i7q/bsYRV8fHw1Rc5BmJ978DAV3mBjK9t5LueUoPtffdL/XXqCIQF35C2EAw5wIuRB1Imj5QCfbCA==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
@@ -1532,7 +1532,7 @@
     "@ensdomains/content-hash" "^2.5.6"
     "@ensdomains/contracts" "^0.0.1"
     "@ensdomains/dnsprovejs" "^0.3.0"
-    "@ensdomains/dnssecoraclejs" "^0.1.1"
+    "@ensdomains/dnssecoraclejs" "^0.1.2"
     "@ensdomains/mock" "^2.0.34"
     "@ethvault/iframe-provider" "0.1.9"
     base58check "^2.0.0"
