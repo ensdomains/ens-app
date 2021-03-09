@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 
 import { useMediaMin } from 'mediaQuery'
 import { EMPTY_ADDRESS } from '../../utils/records'
-import { ROPSTEN_DNSREGISTRAR_ADDRESS } from '../../utils/utils'
 import { Title } from '../Typography/Basic'
 import TopBar from '../Basic/TopBar'
 import DefaultFavourite from '../AddFavourite/Favourite'
