@@ -11,7 +11,7 @@
     "@ensdomains/address-encoder": "^0.2.6",
     "@ensdomains/mock": "^2.0.36",
     "@ensdomains/react-ens-address": "^0.0.27",
-    "@ensdomains/ui": "^3.0.63",
+    "@ensdomains/ui": "^3.0.64",
     "@myetherwallet/mewconnect-web-client": "^2.1.11",
     "@portis/web3": "^2.0.0-beta.59",
     "@toruslabs/torus-embed": "^1.8.6",

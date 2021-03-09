@@ -128,7 +128,9 @@ async function getDNSEntryDetails(name) {
     const dnsEntry = await registrar.getDNSEntry(name, tldowner, owner)
     const node = {
       isDNSRegistrar: true,
-      dnsOwner: dnsEntry?.claim?.getOwner() || emptyAddress,
+      dnsOwner: dnsEntry.claim?.result
+        ? dnsEntry.claim.getOwner()
+        : emptyAddress,
       state: dnsEntry.state
     }
 
