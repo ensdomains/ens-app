@@ -95,6 +95,9 @@ const Explanation = styled('div')`
   hyphens: auto;
 `
 
+const EditableNotSet = styled('div')`
+  color: #5384fe;
+`
 function AddReverseRecord({ account, currentAddress }) {
   const { t } = useTranslation()
   const { state, actions } = useEditable()
@@ -168,9 +171,9 @@ function AddReverseRecord({ account, currentAddress }) {
               {t('singleName.record.messages.setTo') + getReverseRecord.name}
             </MessageContent>
           ) : (
-            <div data-testid="editable-reverse-record-not-set">
+            <EditableNotSet data-testid="editable-reverse-record-not-set">
               {t('singleName.record.messages.notSet')}
-            </div>
+            </EditableNotSet>
           )}
           {pending && !confirmed && txHash ? (
             <PendingTx
