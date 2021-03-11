@@ -11,7 +11,7 @@ const styles = {
   control: styles => ({
     ...styles,
     backgroundColor: 'white',
-    textTransform: 'uppercase',
+    textTransform: 'lowercase',
     fontWeight: '700',
     fontSize: '12px',
     color: '#2B2B2B',
@@ -28,7 +28,7 @@ const styles = {
       //       ? color.alpha(0.1).css()
       //       : null,
       backgroundColor: 'white',
-      textTransform: 'uppercase',
+      textTransform: 'lowercase',
       fontWeight: isSelected ? 700 : 500,
       fontSize: '12px',
       letterSpacing: '0.5px',
@@ -44,6 +44,7 @@ const styles = {
 class SelectComponent extends Component {
   render() {
     const { selectedOption, handleChange, className, addNewKey } = this.props
+    console.log('****', { addNewKey, selectedOption })
     const SelectorType = addNewKey ? CreatableSelect : Select
     return (
       <SelectContainer className={className}>
