@@ -596,7 +596,6 @@ const resolvers = {
     },
     addMultiRecords: async (_, { name, records }, { cache }) => {
       const ens = getENS()
-
       function setupTransactions({ name, records, resolverInstance }) {
         try {
           const resolver = resolverInstance.interface
@@ -605,11 +604,10 @@ const resolvers = {
             switch (i) {
               case 0:
                 if (!record) return undefined
-                let encoded = resolver.encodeFunctionData(
-                  'setAddr(bytes32,address)',
-                  [namehash, record]
-                )
-                return encoded
+                return resolver.encodeFunctionData('setAddr(bytes32,address)', [
+                  namehash,
+                  record
+                ])
               case 1:
                 if (record === undefined) return undefined
                 const encodedContenthash = record
@@ -638,7 +636,7 @@ const resolvers = {
                   } else {
                     addressAsBytes = decoder(coinRecord.value)
                   }
-                  resolver.encodeFunctionData(
+                  return resolver.encodeFunctionData(
                     'setAddr(bytes32,uint256,bytes)',
                     [namehash, coinType, addressAsBytes]
                   )
@@ -735,7 +733,7 @@ const resolvers = {
                   } else {
                     addressAsBytes = decoder(coinRecord.value)
                   }
-                  resolverInstance.encodeFunctionData(
+                  return resolverInstance.encodeFunctionData(
                     'setAddr(bytes32,uint256,bytes)',
                     [namehash, coinType, addressAsBytes]
                   )

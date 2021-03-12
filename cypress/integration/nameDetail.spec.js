@@ -313,7 +313,7 @@ describe('Name detail view', () => {
     ])
   })
 
-  it('can change the record', () => {
+  it.only('can change the record', () => {
     const url = `${NAME_ROOT}/abittooawesome.eth`
     cy.visit(url)
     const ADDRESS = '0x0000000000000000000000000000000000000007'
