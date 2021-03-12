@@ -79,13 +79,6 @@ describe('Search', () => {
     }).should('exist')
   })
 
-  it('cannot register unsupported tld', () => {
-    cy.visit(`${ROOT}/search/ab.cdef`)
-    cy.queryByText('is not currently a supported TLD', { exact: false }).should(
-      'exist'
-    )
-  })
-
   it('can see the list of Names if no TLDS are specified', () => {
     cy.visit(ROOT)
     cy.getByPlaceholderText('Search', { exact: false }).type('notldispsecified')

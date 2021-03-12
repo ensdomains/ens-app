@@ -600,6 +600,7 @@ const resolvers = {
       function setupTransactions({ name, records, resolverInstance }) {
         try {
           const resolver = resolverInstance.interface.functions
+          window.resolverInstance = resolverInstance
           const namehash = getNamehash(name)
           const transactionArray = records.map((record, i) => {
             switch (i) {
@@ -638,11 +639,11 @@ const resolvers = {
                   } else {
                     addressAsBytes = decoder(coinRecord.value)
                   }
-                  return resolver['setAddr(bytes32,uint256,bytes)'].encode([
-                    namehash,
-                    coinType,
-                    addressAsBytes
-                  ])
+                  debugger
+                  resolverInstance.encodeFunctionData(
+                    'setAddr(bytes32,uint256,bytes)',
+                    [namehash, coinType, addressAsBytes]
+                  )
                 })
               default:
                 throw Error('More records than expected')
@@ -683,6 +684,7 @@ const resolvers = {
 
       const signer = await getSigner()
       const resolverInstance = resolverInstanceWithoutSigner.connect(signer)
+      debugger
       const transactionArray = setupTransactions({
         name,
         records: recordsArray,
@@ -736,11 +738,10 @@ const resolvers = {
                   } else {
                     addressAsBytes = decoder(coinRecord.value)
                   }
-                  return resolver['setAddr(bytes32,uint256,bytes)'].encode([
-                    namehash,
-                    coinType,
-                    addressAsBytes
-                  ])
+                  resolverInstance.encodeFunctionData(
+                    'setAddr(bytes32,uint256,bytes)',
+                    [namehash, coinType, addressAsBytes]
+                  )
                 })
               default:
                 throw Error('More records than expected')
@@ -882,6 +883,7 @@ const resolvers = {
           })
           const signer = await getSigner()
           const resolverInstance = resolverInstanceWithoutSigner.connect(signer)
+          debugger
           const transactionArray = setupTransactions({
             name,
             records,
