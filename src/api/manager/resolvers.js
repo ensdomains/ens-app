@@ -599,28 +599,27 @@ const resolvers = {
 
       function setupTransactions({ name, records, resolverInstance }) {
         try {
-          const resolver = resolverInstance.interface.functions
-          window.resolverInstance = resolverInstance
+          const resolver = resolverInstance.interface
           const namehash = getNamehash(name)
           const transactionArray = records.map((record, i) => {
             switch (i) {
               case 0:
                 if (!record) return undefined
-                let encoded = resolver['setAddr(bytes32,address)'].encode([
-                  namehash,
-                  record
-                ])
+                let encoded = resolver.encodeFunctionData(
+                  'setAddr(bytes32,address)',
+                  [namehash, record]
+                )
                 return encoded
               case 1:
                 if (record === undefined) return undefined
                 const encodedContenthash = record
-                return resolver.setContenthash.encode([
+                return resolver.encodeFunctionData('setContenthash', [
                   namehash,
                   encodedContenthash
                 ])
               case 2:
                 return record.map(textRecord => {
-                  return resolver.setText.encode([
+                  return resolver.encodeFunctionData('setText', [
                     namehash,
                     textRecord.key,
                     textRecord.value
@@ -639,8 +638,7 @@ const resolvers = {
                   } else {
                     addressAsBytes = decoder(coinRecord.value)
                   }
-                  debugger
-                  resolverInstance.encodeFunctionData(
+                  resolver.encodeFunctionData(
                     'setAddr(bytes32,uint256,bytes)',
                     [namehash, coinType, addressAsBytes]
                   )
@@ -684,7 +682,6 @@ const resolvers = {
 
       const signer = await getSigner()
       const resolverInstance = resolverInstanceWithoutSigner.connect(signer)
-      debugger
       const transactionArray = setupTransactions({
         name,
         records: recordsArray,
@@ -701,28 +698,28 @@ const resolvers = {
 
       function setupTransactions({ name, records, resolverInstance }) {
         try {
-          const resolver = resolverInstance.interface.functions
+          const resolver = resolverInstance.interface
           const namehash = getNamehash(name)
           const transactionArray = records.map((record, i) => {
             switch (i) {
               case 0:
                 if (parseInt(record, 16) === 0) return undefined
-                let encoded = resolver['setAddr(bytes32,address)'].encode([
-                  namehash,
-                  record
-                ])
+                let encoded = resolver.encodeFunctionData(
+                  'setAddr(bytes32,address)',
+                  [namehash, record]
+                )
                 return encoded
               case 1:
                 if (!record || parseInt(record, 16) === 0) return undefined
                 const encodedContenthash = record
-                return resolver.setContenthash.encode([
+                return resolver.encodeFunctionData('setContenthash', [
                   namehash,
                   encodedContenthash
                 ])
               case 2:
                 return record.map(textRecord => {
                   if (textRecord.value.length === 0) return undefined
-                  return resolver.setText.encode([
+                  return resolver.encodeFunctionData('setText', [
                     namehash,
                     textRecord.key,
                     textRecord.value
@@ -883,7 +880,6 @@ const resolvers = {
           })
           const signer = await getSigner()
           const resolverInstance = resolverInstanceWithoutSigner.connect(signer)
-          debugger
           const transactionArray = setupTransactions({
             name,
             records,
