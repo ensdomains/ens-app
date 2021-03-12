@@ -25,18 +25,7 @@ describe('Search', () => {
       .contains('Search')
       .click()
 
-    cy.queryByText('registrant', { exact: false }).should('exist')
-    cy.queryByText('controller', { exact: false }).should('exist')
-    cy.queryByText('resolver', { exact: false }).should('exist')
-  })
-
-  it('can search for a domain', () => {
-    cy.visit(ROOT)
-    cy.getByPlaceholderText('Search', { exact: false }).type('resolver.eth')
     cy.wait(500)
-    cy.get('button')
-      .contains('Search')
-      .click()
 
     cy.getByTestId('details-value-registrant', { exact: false }).should(
       'have.text',
