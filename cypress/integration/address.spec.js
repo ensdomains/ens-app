@@ -10,6 +10,7 @@ describe('/address', () => {
     cy.get('button')
       .contains('Search')
       .click()
+      .click()
 
     cy.getByTestId('sitenav').within(container => {
       cy.queryByText('My Account', { container, exact: false }).should(
