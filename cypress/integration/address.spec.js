@@ -9,8 +9,7 @@ describe('/address', () => {
     cy.getByPlaceholderText('Search', { exact: false }).type('resolver.eth')
     cy.get('button')
       .contains('Search')
-      .click()
-      .click()
+      .click({ force: true })
 
     cy.getByTestId('sitenav').within(container => {
       cy.queryByText('My Account', { container, exact: false }).should(

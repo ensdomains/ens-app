@@ -15,8 +15,7 @@ describe(
       cy.wait(500)
       cy.get('button')
         .contains('Search')
-        .click()
-        .click()
+        .click({ force: true })
 
       cy.getByTestId('domain-container').within(container => {
         cy.queryByText('resolver.eth', { exact: false }).should('exist')
@@ -31,8 +30,7 @@ describe(
       cy.wait(500)
       cy.get('button')
         .contains('Search')
-        .click()
-        .click()
+        .click({ force: true })
 
       cy.getByTestId('details-value-registrant', { exact: false }).should(
         'have.text',
@@ -54,8 +52,7 @@ describe(
       cy.wait(500)
       cy.get('button')
         .contains('Search')
-        .click()
-        .click()
+        .click({ force: true })
 
       cy.queryByText('Domain malformed. abc defg is not a valid domain.', {
         exact: false
@@ -86,8 +83,7 @@ describe(
       cy.wait(500)
       cy.get('button')
         .contains('Search')
-        .click()
-        .click()
+        .click({ force: true })
 
       cy.queryByText('Names', { exact: false }).should('exist')
       cy.queryByText('notldispsecified.eth', { exact: false }).should('exist')

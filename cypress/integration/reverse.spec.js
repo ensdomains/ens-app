@@ -17,7 +17,7 @@ describe(
       )
       cy.get('button')
         .contains('Search')
-        .click()
+        .click({ force: true })
 
       cy.queryByTestId('editable-reverse-record-set', { exact: false }).should(
         'exist'
