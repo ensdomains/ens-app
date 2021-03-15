@@ -31,8 +31,7 @@ describe(
       cy.get('button')
         .contains('Search')
         .click()
-
-      cy.wait(500)
+        .click()
 
       cy.getByTestId('details-value-registrant', { exact: false }).should(
         'have.text',
