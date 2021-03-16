@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 
 import { useMediaMin } from 'mediaQuery'
 import { EMPTY_ADDRESS } from '../../utils/records'
-
 import { Title } from '../Typography/Basic'
 import TopBar from '../Basic/TopBar'
 import DefaultFavourite from '../AddFavourite/Favourite'
@@ -15,6 +14,7 @@ import Tabs from './Tabs'
 import { useAccount } from '../QueryAccount'
 import NameContainer from '../Basic/MainContainer'
 import Copy from '../CopyToClipboard/'
+import useNetworkInfo from '../NetworkInformation/useNetworkInfo'
 
 const Owner = styled('div')`
   color: #ccd4da;
@@ -33,6 +33,10 @@ function isRegistrationOpen(available, parent, isDeedOwner) {
 }
 
 function isDNSRegistrationOpen(domain) {
+  const nameArray = domain.name.split('.')
+  if (nameArray.length !== 2 || nameArray[1] === 'eth') {
+    return false
+  }
   return domain.isDNSRegistrar && domain.owner === EMPTY_ADDRESS
 }
 
@@ -51,6 +55,7 @@ function isOwnerOfParentDomain(domain, account) {
 }
 
 function Name({ details: domain, name, pathname, type, refetch }) {
+  const { networkId } = useNetworkInfo()
   const { t } = useTranslation()
   const smallBP = useMediaMin('small')
   const percentDone = 0
@@ -66,7 +71,8 @@ function Name({ details: domain, name, pathname, type, refetch }) {
   )
   const preferredTab = registrationOpen ? 'register' : 'details'
 
-  let ownerType
+  let ownerType,
+    registrarAddress = domain.parentOwner
   if (isDeedOwner || isRegistrant) {
     ownerType = 'Registrant'
   } else if (isOwner) {
@@ -132,6 +138,7 @@ function Name({ details: domain, name, pathname, type, refetch }) {
         {isDNSRegistrationOpen(domain) ? (
           <DNSNameRegister
             domain={domain}
+            registrarAddress={registrarAddress}
             pathname={pathname}
             refetch={refetch}
             account={account}

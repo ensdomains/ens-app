@@ -16,7 +16,7 @@ import { formatsByName } from '@ensdomains/address-encoder'
 import isEqual from 'lodash/isEqual'
 import modeNames from '../modes'
 import { sendHelper, sendHelperArray } from '../resolverUtils'
-import { emptyAddress } from '../../utils/utils'
+import { emptyAddress, ROPSTEN_DNSREGISTRAR_ADDRESS } from '../../utils/utils'
 import TEXT_RECORD_KEYS from 'constants/textRecords'
 import COIN_LIST_KEYS from 'constants/coinList'
 import {
@@ -83,6 +83,7 @@ async function getRegistrarEntry(name) {
   const node = {
     name: `${name}`,
     state: modeNames[state],
+    stateError: null, // This is only used for dnssec errors
     registrationDate,
     gracePeriodEndDate: gracePeriodEndDate || null,
     migrationStartDate: migrationStartDate || null,
@@ -105,11 +106,18 @@ async function getDNSEntryDetails(name) {
   const ens = getENS()
   const registrar = getRegistrar()
   const nameArray = name.split('.')
-  if (nameArray.length > 3) return {}
+  const networkId = await getNetworkId()
+  if (nameArray.length !== 2 || nameArray[1] === 'eth') return {}
 
   let tld = nameArray[1]
   let owner
-  let tldowner = (await ens.getOwner(tld)).toLocaleLowerCase()
+  let tldowner
+  if (networkId === 3) {
+    tldowner = ROPSTEN_DNSREGISTRAR_ADDRESS
+  } else {
+    tldowner = (await ens.getOwner(tld)).toLocaleLowerCase()
+  }
+
   try {
     owner = (await ens.getOwner(name)).toLocaleLowerCase()
   } catch {
@@ -121,8 +129,11 @@ async function getDNSEntryDetails(name) {
     const dnsEntry = await registrar.getDNSEntry(name, tldowner, owner)
     const node = {
       isDNSRegistrar: true,
-      dnsOwner: dnsEntry.dnsOwner || emptyAddress,
-      state: dnsEntry.state
+      dnsOwner: dnsEntry.claim?.result
+        ? dnsEntry.claim.getOwner()
+        : emptyAddress,
+      state: dnsEntry.state,
+      stateError: dnsEntry.stateError
     }
 
     return node
@@ -236,6 +247,7 @@ const resolvers = {
           value: null,
           highestBid: null,
           state: null,
+          stateError: null,
           label: null,
           decrypted,
           price: null,
@@ -587,30 +599,28 @@ const resolvers = {
     },
     addMultiRecords: async (_, { name, records }, { cache }) => {
       const ens = getENS()
-
       function setupTransactions({ name, records, resolverInstance }) {
         try {
-          const resolver = resolverInstance.interface.functions
+          const resolver = resolverInstance.interface
           const namehash = getNamehash(name)
           const transactionArray = records.map((record, i) => {
             switch (i) {
               case 0:
                 if (!record) return undefined
-                let encoded = resolver['setAddr(bytes32,address)'].encode([
+                return resolver.encodeFunctionData('setAddr(bytes32,address)', [
                   namehash,
                   record
                 ])
-                return encoded
               case 1:
                 if (record === undefined) return undefined
                 const encodedContenthash = record
-                return resolver.setContenthash.encode([
+                return resolver.encodeFunctionData('setContenthash', [
                   namehash,
                   encodedContenthash
                 ])
               case 2:
                 return record.map(textRecord => {
-                  return resolver.setText.encode([
+                  return resolver.encodeFunctionData('setText', [
                     namehash,
                     textRecord.key,
                     textRecord.value
@@ -629,11 +639,10 @@ const resolvers = {
                   } else {
                     addressAsBytes = decoder(coinRecord.value)
                   }
-                  return resolver['setAddr(bytes32,uint256,bytes)'].encode([
-                    namehash,
-                    coinType,
-                    addressAsBytes
-                  ])
+                  return resolver.encodeFunctionData(
+                    'setAddr(bytes32,uint256,bytes)',
+                    [namehash, coinType, addressAsBytes]
+                  )
                 })
               default:
                 throw Error('More records than expected')
@@ -690,28 +699,28 @@ const resolvers = {
 
       function setupTransactions({ name, records, resolverInstance }) {
         try {
-          const resolver = resolverInstance.interface.functions
+          const resolver = resolverInstance.interface
           const namehash = getNamehash(name)
           const transactionArray = records.map((record, i) => {
             switch (i) {
               case 0:
                 if (parseInt(record, 16) === 0) return undefined
-                let encoded = resolver['setAddr(bytes32,address)'].encode([
-                  namehash,
-                  record
-                ])
+                let encoded = resolver.encodeFunctionData(
+                  'setAddr(bytes32,address)',
+                  [namehash, record]
+                )
                 return encoded
               case 1:
                 if (!record || parseInt(record, 16) === 0) return undefined
                 const encodedContenthash = record
-                return resolver.setContenthash.encode([
+                return resolver.encodeFunctionData('setContenthash', [
                   namehash,
                   encodedContenthash
                 ])
               case 2:
                 return record.map(textRecord => {
                   if (textRecord.value.length === 0) return undefined
-                  return resolver.setText.encode([
+                  return resolver.encodeFunctionData('setText', [
                     namehash,
                     textRecord.key,
                     textRecord.value
@@ -727,11 +736,10 @@ const resolvers = {
                   } else {
                     addressAsBytes = decoder(coinRecord.value)
                   }
-                  return resolver['setAddr(bytes32,uint256,bytes)'].encode([
-                    namehash,
-                    coinType,
-                    addressAsBytes
-                  ])
+                  return resolverInstance.encodeFunctionData(
+                    'setAddr(bytes32,uint256,bytes)',
+                    [namehash, coinType, addressAsBytes]
+                  )
                 })
               default:
                 throw Error('More records than expected')

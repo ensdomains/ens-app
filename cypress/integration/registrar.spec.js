@@ -75,15 +75,4 @@ describe('PermanentRegistrar', () => {
       'not.exist'
     )
   })
-
-  it('cannot register unsupported tld', () => {
-    cy.visit(`${ROOT}/name/ab.cdef`)
-    cy.queryByText('CDEF is not currently a supported TLD', {
-      exact: false
-    }).should('exist')
-    // No need to wait 10 sec as the previous assertion should wait enough
-    cy.queryByText('request-register-button', { timeout: 1000 }).should(
-      'not.exist'
-    )
-  })
 })
