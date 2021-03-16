@@ -15,10 +15,12 @@ describe(
       cy.getByPlaceholderText('Search', { exact: false }).type(
         Cypress.env('ownerAddress')
       )
+      cy.wait(1500)
       cy.get('button')
         .contains('Search')
         .click({ force: true })
 
+      cy.wait(1500)
       cy.queryByTestId('editable-reverse-record-set', { exact: false }).should(
         'exist'
       )
