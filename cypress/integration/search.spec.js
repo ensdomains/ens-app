@@ -12,11 +12,11 @@ describe(
     it('can list a domain', () => {
       cy.visit(ROOT)
       cy.getByPlaceholderText('Search', { exact: false }).type('resolver')
-      cy.wait(500)
+      cy.wait(1500)
       cy.get('button')
         .contains('Search')
         .click({ force: true })
-
+      cy.wait(1500)
       cy.getByTestId('domain-container').within(container => {
         cy.queryByText('resolver.eth', { exact: false }).should('exist')
         cy.queryByText('Expires', { exact: false }).should('exist')
@@ -27,11 +27,11 @@ describe(
     it('can search for a domain', () => {
       cy.visit(ROOT)
       cy.getByPlaceholderText('Search', { exact: false }).type('resolver.eth')
-      cy.wait(500)
+      cy.wait(1500)
       cy.get('button')
         .contains('Search')
         .click({ force: true })
-
+      cy.wait(1500)
       cy.getByTestId('details-value-registrant', { exact: false }).should(
         'have.text',
         Cypress.env('ownerAddress')
