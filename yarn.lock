@@ -1423,6 +1423,15 @@
     ethereumjs-util "^7.0.7"
     typescript-logging "^1.0.0"
 
+"@ensdomains/dnsprovejs@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@ensdomains/dnsprovejs/-/dnsprovejs-0.3.1.tgz#2eb09751f0d0d9ea95d7a790f6f9eb61e0ac691f"
+  integrity sha512-Ykcm3Pqc2rQjNX3XAEZfkmjSyzJQlbNFRri8ejae1r20Hu0M89O7Va1lNoF3V23FI7zp5hhnVguVdF9mHtccxA==
+  dependencies:
+    dns-packet "^5.2.1"
+    ethereumjs-util "^7.0.7"
+    typescript-logging "^1.0.0"
+
 "@ensdomains/dnssec-oracle-anchors@0.0.1", "@ensdomains/dnssec-oracle-anchors@^0.0.1":
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@ensdomains/dnssec-oracle-anchors/-/dnssec-oracle-anchors-0.0.1.tgz#53c9100fe95f7c7102d66d8a69208bc6be39a049"
@@ -1437,14 +1446,15 @@
   dependencies:
     dns-packet "^5.0.4"
 
-"@ensdomains/dnssecoraclejs@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@ensdomains/dnssecoraclejs/-/dnssecoraclejs-0.1.2.tgz#0e59b064525cdb719ce99ae673d5ad8efaeaf6e0"
-  integrity sha512-Ch/2EvHvTD7Rc0bnti6KivNnA7ilwWxWE7/RkRZ/JM8hJqaIpwLWrusGpYR/dupygT5qOxpkdmiEymDpn/1lrw==
+"@ensdomains/dnssecoraclejs@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/@ensdomains/dnssecoraclejs/-/dnssecoraclejs-0.1.3.tgz#f0353468f573806dce5a595515992abb90a901c4"
+  integrity sha512-E/4WsIjmj2GYn6AqOhc6Msv9aRTBLi402Vu2nh6W4Zf7wBMHGZMGPX9MrFPN959RL3LdBNhm2ny7RfwG0iNYIg==
   dependencies:
     "@ensdomains/dnsprovejs" "^0.3.0"
     "@ensdomains/dnssec-oracle" "^0.2.0"
     dns-packet "^5.2.1"
+    dotenv "^8.2.0"
     ethers "^5.0.30"
     typescript-logging "^1.0.0"
 
@@ -1520,10 +1530,10 @@
     lodash "^4.17.11"
     web3 "^1.3.0"
 
-"@ensdomains/ui@^3.0.68":
-  version "3.0.68"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.68.tgz#1ef0cb7c81cb5a688b40d441b39008e6363ed5b6"
-  integrity sha512-MiAlMlLmCDE8gq5XJkanJoZOOZcgxTpI7MmpZsYXhj9wxZCf63Ky2/8IUFdIZDB6YyEQ2CV9e4mt7YYVioMHZQ==
+"@ensdomains/ui@^3.0.69":
+  version "3.0.69"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.69.tgz#29bdd78c512eaa22ca4a9169e8ca66ccc9e5bd5e"
+  integrity sha512-dBIVQl1KYd//kj6AGjsY1m2OawPcvQAsafKiT0McpUWbrt4VH8RVppk+ZITCp6mmEg/SGZSBSKC00bfxySrY9A==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
@@ -1531,8 +1541,8 @@
     "@ensdomains/address-encoder" "^0.2.5"
     "@ensdomains/content-hash" "^2.5.6"
     "@ensdomains/contracts" "^0.0.1"
-    "@ensdomains/dnsprovejs" "^0.3.0"
-    "@ensdomains/dnssecoraclejs" "^0.1.2"
+    "@ensdomains/dnsprovejs" "^0.3.1"
+    "@ensdomains/dnssecoraclejs" "^0.1.3"
     "@ensdomains/mock" "^2.0.34"
     "@ethvault/iframe-provider" "0.1.9"
     base58check "^2.0.0"
@@ -1544,6 +1554,7 @@
     ethers "^5.0.30"
     js-sha3 "^0.8.0"
     lodash "^4.17.11"
+    node-fetch "^2.6.1"
     web3 "^1.3.0"
 
 "@eslint/eslintrc@^0.2.1":
@@ -7577,7 +7588,7 @@ dotenv-expand@5.1.0:
   resolved "https://registry.yarnpkg.com/dotenv-expand/-/dotenv-expand-5.1.0.tgz#3fbaf020bfd794884072ea26b1e9791d45a629f0"
   integrity sha512-YXQl1DSa4/PQyRfgrv6aoNjhasp/p4qs9FjJ4q4cQk+8m4r6k4ZSiEyytKG8f8W9gi8WsQtIObNmKd+tMzNTmA==
 
-dotenv@8.2.0:
+dotenv@8.2.0, dotenv@^8.2.0:
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
   integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
