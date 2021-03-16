@@ -68,6 +68,7 @@ const typeDefs = `
     gracePeriodEndDate: Int
     isNewRegistrar: Boolean
     isDNSRegistrar: Boolean
+    stateError: String
     dnsOwner: String
   }
 
