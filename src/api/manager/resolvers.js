@@ -83,6 +83,7 @@ async function getRegistrarEntry(name) {
   const node = {
     name: `${name}`,
     state: modeNames[state],
+    stateError: null, // This is only used for dnssec errors
     registrationDate,
     gracePeriodEndDate: gracePeriodEndDate || null,
     migrationStartDate: migrationStartDate || null,
@@ -131,7 +132,8 @@ async function getDNSEntryDetails(name) {
       dnsOwner: dnsEntry.claim?.result
         ? dnsEntry.claim.getOwner()
         : emptyAddress,
-      state: dnsEntry.state
+      state: dnsEntry.state,
+      stateError: dnsEntry.stateError
     }
 
     return node
@@ -245,6 +247,7 @@ const resolvers = {
           value: null,
           highestBid: null,
           state: null,
+          stateError: null,
           label: null,
           decrypted,
           price: null,

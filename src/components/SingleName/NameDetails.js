@@ -433,7 +433,9 @@ function DetailsContainer({
             {dnssecmode.displayError ? (
               <ErrorExplainer>
                 <OrangeExclamation />
-                {t('singleName.dns.messages.error')}
+                {domain.stateError
+                  ? domain.stateError
+                  : t('singleName.dns.messages.error')}
                 <LinkToLearnMore
                   href="https://docs.ens.domains/dns-registrar-guide"
                   target="_blank"
