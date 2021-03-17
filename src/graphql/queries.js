@@ -82,6 +82,7 @@ export const GET_SINGLE_NAME = gql`
       value
       highestBid
       state
+      stateError
       price
       rent
       referralFeePPM

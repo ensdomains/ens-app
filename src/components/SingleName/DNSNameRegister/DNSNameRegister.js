@@ -183,7 +183,13 @@ const getContent = (step, account, dnsOwner, t) => {
   return content
 }
 
-const NameRegister = ({ account, domain, refetch, readOnly }) => {
+const NameRegister = ({
+  account,
+  domain,
+  refetch,
+  readOnly,
+  registrarAddress
+}) => {
   const { t } = useTranslation()
   const dnssecmode = dnssecmodes[domain.state]
   let [step, dispatch] = useReducer(
@@ -192,6 +198,8 @@ const NameRegister = ({ account, domain, refetch, readOnly }) => {
   )
   const incrementStep = () => dispatch('NEXT')
   const content = getContent(step, account, domain.dnsOwner, t)
+  const errorMessage =
+    dnssecmode.displayError && (domain.stateError || dnssecmode.title)
   const showDNSOwner =
     domain.dnsOwner &&
     [2, 3, 4].includes(content.number) &&
@@ -248,10 +256,10 @@ const NameRegister = ({ account, domain, refetch, readOnly }) => {
       ) : null}
       <CTA
         name={domain.name}
-        parentOwner={domain.parentOwner}
+        parentOwner={registrarAddress}
         incrementStep={incrementStep}
         step={step}
-        error={dnssecmode.displayError ? dnssecmode.title : null}
+        error={errorMessage}
         state={domain.state}
         label={domain.label}
         refetch={refetch}

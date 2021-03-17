@@ -49,5 +49,11 @@ export default [
     explainer:
       "Click 'sync' to make the DNS Owner the Controller. Click 'refresh' if you make changes to the domain in the DNS Registrar.",
     outOfSync: true
+  },
+  // 8,
+  {
+    state: 'ADD_TEXT',
+    title: 'DNS Record does not exist',
+    displayError: true
   }
 ]
