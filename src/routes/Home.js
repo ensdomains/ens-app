@@ -5,7 +5,10 @@ import styled from '@emotion/styled/macro'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import warning from '../assets/whiteWarning.svg'
-import { GET_REVERSE_RECORD } from 'graphql/queries'
+import {
+  GET_REVERSE_RECORD,
+  GET_META_BLOCK_NUMBER_FROM_GRAPH
+} from 'graphql/queries'
 import { SET_ERROR } from 'graphql/mutations'
 import mq from 'mediaQuery'
 import GlobalState from '../globalState'
@@ -21,6 +24,9 @@ import Alice from '../components/HomePage/Alice'
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
 import { aboutPageURL } from '../utils/utils'
 import { connect, disconnect } from '../api/web3modal'
+import { useBlock } from '../components/hooks'
+import { getBlock } from '@ensdomains/ui'
+import moment from 'moment'
 
 const HeroTop = styled('div')`
   display: grid;
@@ -45,6 +51,14 @@ const Name = styled('span')`
   text-transform: none;
   display: inline-block;
   width: 100px;
+`
+
+const Warning = styled('div')`
+  text-align: center;
+  background: red;
+  width: 100%;
+  color: white;
+  padding: 1em;
 `
 
 const NetworkStatus = styled('div')`
@@ -278,7 +292,28 @@ export default ({ match }) => {
   const { t } = useTranslation()
   const { switchNetwork, currentNetwork } = useContext(GlobalState)
   const { accounts, network, loading, refetch, isReadOnly } = useNetworkInfo()
+  const [graphBlock, setGraphBlock] = useState()
   const address = accounts && accounts[0]
+  const { data: metaBlock } = useQuery(GET_META_BLOCK_NUMBER_FROM_GRAPH)
+  const graphBlockNumber = metaBlock?._meta?.block?.number
+
+  const { block } = useBlock()
+
+  let subGraphLatency, delayInMin
+  if (block && graphBlock) {
+    moment
+      .unix(block.timestamp)
+      .diff(moment.unix(graphBlock.timestamp), 'minutes')
+  }
+
+  useEffect(() => {
+    if (graphBlockNumber) {
+      getBlock(graphBlockNumber).then(b => {
+        setGraphBlock(b)
+      })
+    }
+  }, [graphBlockNumber])
+
   const {
     data: { getReverseRecord } = {},
     loading: reverseRecordLoading
@@ -324,6 +359,12 @@ export default ({ match }) => {
   }
   return (
     <>
+      {delayInMin >= 0 && (
+        <Warning>
+          Warning: The data on this stie has only synced to Ethereum block{' '}
+          {graphBlockNumber} out of {block?.number}( {delayInMin} min delay)
+        </Warning>
+      )}
       <Hero>
         <HeroTop>
           {!loading && (

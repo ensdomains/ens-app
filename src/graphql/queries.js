@@ -118,6 +118,16 @@ export const GET_SUBDOMAINS = gql`
   }
 `
 
+export const GET_META_BLOCK_NUMBER_FROM_GRAPH = gql`
+  query getMetaBlockNumber {
+    _meta {
+      block {
+        number
+      }
+    }
+  }
+`
+
 export const GET_RESOLVER_FROM_SUBGRAPH = gql`
   query getResolverFromSubgraph($id: ID!) {
     domain(id: $id) {
