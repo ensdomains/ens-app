@@ -133,7 +133,8 @@ async function getDNSEntryDetails(name) {
         ? dnsEntry.claim.getOwner()
         : emptyAddress,
       state: dnsEntry.state,
-      stateError: dnsEntry.stateError
+      stateError: dnsEntry.stateError,
+      parentOwner: tldowner
     }
 
     return node
@@ -300,7 +301,10 @@ const resolvers = {
         })
 
         detailedNode = setState(detailedNode)
-
+        // Override parentOwner for dns if exists
+        if (parseInt(dnsEntry.parentOwner) !== 0) {
+          detailedNode.parentOwner = dnsEntry.parentOwner
+        }
         const data = {
           names: [...names, detailedNode]
         }
