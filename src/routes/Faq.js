@@ -89,8 +89,14 @@ function Faq() {
       <Section question="Can you have names with emojis?">Yes.</Section>
 
       <Section question="How much does it cost to register?">
-        Most names are $5 a year (paid in ETH), though shorter names (3 and 4
-        characters) are more expensive as they are more rare.
+        Currently, registration costs are set at the following prices:
+        <ul>
+          <li>5+ character .eth names: $5 in ETH per year.</li>
+          <li>4 character .eth names: $160 in ETH per year.</li>
+          <li>3 character .eth names $640 in ETH per year.</li>
+        </ul>
+        3 and 4 character names have 'premium' pricing to reflect the small
+        number of these names available.
         <br />
         Also, if the name was previously owned by someone but recently released,
         it has a temporary decreasing premium to prevent squatters snatching up
