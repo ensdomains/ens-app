@@ -302,7 +302,10 @@ const resolvers = {
 
         detailedNode = setState(detailedNode)
         // Override parentOwner for dns if exists
-        if (parseInt(dnsEntry.parentOwner) !== 0) {
+        if (
+          parseInt(detailedNode.parentOwner) === 0 &&
+          parseInt(dnsEntry.parentOwner) !== 0
+        ) {
           detailedNode.parentOwner = dnsEntry.parentOwner
         }
         const data = {
