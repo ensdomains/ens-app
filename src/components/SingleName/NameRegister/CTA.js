@@ -40,7 +40,7 @@ const OrangeExclamation = styled(DefaultOrangeExclamation)`
   width: 12px;
 `
 
-const SetReverseRecord = styled(Link)`
+const LeftLink = styled(Link)`
   margin-right: 20px;
 `
 
@@ -193,9 +193,6 @@ function getCTA({
     ),
     REVEAL_CONFIRMED: (
       <>
-        <SetReverseRecord to={`/address/${account}`}>
-          Set reverse record
-        </SetReverseRecord>
         <AddToCalendar
           css={css`
             margin-right: 20px;
@@ -206,15 +203,23 @@ function getCTA({
             .add(duration, 'seconds')
             .subtract(30, 'days')}
         />
-        <Button
-          data-testid="manage-name-button"
+        <LeftLink
           onClick={async () => {
             await Promise.all([refetch(), refetchIsMigrated()])
             history.push(`/name/${label}.eth`)
           }}
+          data-testid="manage-name-button"
+        >
+          {t('register.buttons.manage')}
+        </LeftLink>
+        <Button
+          onClick={async () => {
+            await Promise.all([refetch(), refetchIsMigrated()])
+            history.push(`/address/${account}`)
+          }}
         >
           <Pencil />
-          {t('register.buttons.manage')}
+          {t('register.buttons.setreverserecord')}
         </Button>
       </>
     )

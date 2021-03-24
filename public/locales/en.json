@@ -174,8 +174,9 @@
   "register": {
     "buttons": {
       "insufficient": "Insufficient balance on your wallet. Fill in your wallet and reload the page.",
-      "manage": "Manage",
+      "manage": "Manage name",
       "register": "Register",
+      "setreverserecord": "Set reverse record",
       "request": "Request to register",
       "warning": "Click register to move to the 3rd step"
     },
