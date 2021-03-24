@@ -175,6 +175,7 @@
       "manage": "관리",
       "register": "등록",
       "request": "등록 요청",
+      "setreverserecord": "Set reverse record",
       "warning": "3번째 단계로 넘어가려면 등록을 클릭하세요"
     },
     "favourite": "* 브라우저를 닫더라도 쉽게 접근할 수 있도록 도메인을 즐겨찾기 하세요.",
