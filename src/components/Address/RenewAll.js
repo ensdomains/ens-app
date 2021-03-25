@@ -123,7 +123,8 @@ export default function Renew({
           price: new EthVal(`${getRentPrices._hex}`)
             .toEth()
             .mul(ethUsdPrice)
-            .toFixed(2) // in wei
+            .toFixed(2), // in wei
+          years
         })
       }
     }

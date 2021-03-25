@@ -55,10 +55,14 @@ export const trackReferral = async ({
   labels, // labels array
   transactionId, //hash
   type, // renew/register
-  price // in wei
+  price, // in wei,
+  premium = 0,
+  years
 }) => {
   const mainnet = await isMainnet()
   const referrer = getUtm()
+  const unitPrice = (price - premium) / years / labels.length
+
   function track() {
     ReactGA.event({
       category: 'referral',
@@ -79,8 +83,20 @@ export const trackReferral = async ({
         id: transactionId,
         name: label,
         sku: label,
-        category: type
+        category: type,
+        price: unitPrice,
+        quantity: years
       })
+      if (premium > 0) {
+        ReactGA.plugin.execute('ecommerce', 'addItem', {
+          id: transactionId,
+          name: label,
+          sku: label,
+          category: type,
+          price: premium,
+          quantity: 1
+        })
+      }
     })
     ReactGA.plugin.execute('ecommerce', 'send')
     ReactGA.plugin.execute('ecommerce', 'clear')
@@ -102,6 +118,9 @@ export const trackReferral = async ({
         transactionId,
         type,
         price,
+        unitPrice,
+        premium,
+        years,
         referrer
       })
     )
