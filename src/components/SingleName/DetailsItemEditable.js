@@ -422,7 +422,8 @@ const Editable = ({
             price: new EthVal(`${getRentPrice._hex}`)
               .toEth()
               .mul(ethUsdPrice)
-              .toFixed(2) // in wei, // in wei
+              .toFixed(2), // in wei, // in wei
+            years
           })
         }
       }}

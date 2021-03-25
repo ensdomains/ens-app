@@ -173,6 +173,7 @@
       "manage": "管理域名",
       "register": "注册",
       "request": "请求注册",
+      "setreverserecord": "Set reverse record",
       "warning": "点击“注册”进入第 3 步"
     },
     "favourite": "* 您可以收藏喜欢的域名，以便于浏览器关闭以后重新查看这个域名。",

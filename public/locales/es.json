@@ -177,6 +177,7 @@
       "manage": "Gestiona",
       "register": "Registrar",
       "request": "Petición de registro",
+      "setreverserecord": "Set reverse record",
       "warning": "Presiona registrar para ir al paso 3"
     },
     "favourite": "* Selecciona un nombre como favorito para un acceso rápido en caso de que se cierre el navegador.",

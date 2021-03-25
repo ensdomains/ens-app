@@ -40,7 +40,7 @@ const OrangeExclamation = styled(DefaultOrangeExclamation)`
   width: 12px;
 `
 
-const SetReverseRecord = styled(Link)`
+const LeftLink = styled(Link)`
   margin-right: 20px;
 `
 
@@ -62,6 +62,8 @@ function getCTA({
   refetchIsMigrated,
   readOnly,
   price,
+  years,
+  premium,
   history,
   t,
   ethUsdPrice,
@@ -141,18 +143,6 @@ function getCTA({
         onCompleted={data => {
           const txHash = Object.values(data)[0]
           setTxHash(txHash)
-          if (ethUsdPrice) {
-            // this is not set on local test env
-            trackReferral({
-              transactionId: txHash,
-              labels: [label],
-              type: 'register', // renew/register
-              price: new EthVal(`${price._hex}`)
-                .toEth()
-                .mul(ethUsdPrice)
-                .toFixed(2) // in wei, // in wei
-            })
-          }
           incrementStep()
         }}
       >
@@ -187,15 +177,26 @@ function getCTA({
       <PendingTx
         txHash={txHash}
         onConfirmed={async () => {
+          if (ethUsdPrice) {
+            // this is not set on local test env
+            trackReferral({
+              transactionId: txHash,
+              labels: [label],
+              type: 'register', // renew/register
+              price: new EthVal(`${price._hex}`)
+                .toEth()
+                .mul(ethUsdPrice)
+                .toFixed(2), // in wei, // in wei
+              years,
+              premium
+            })
+          }
           incrementStep()
         }}
       />
     ),
     REVEAL_CONFIRMED: (
       <>
-        <SetReverseRecord to={`/address/${account}`}>
-          Set reverse record
-        </SetReverseRecord>
         <AddToCalendar
           css={css`
             margin-right: 20px;
@@ -206,15 +207,23 @@ function getCTA({
             .add(duration, 'seconds')
             .subtract(30, 'days')}
         />
-        <Button
-          data-testid="manage-name-button"
+        <LeftLink
           onClick={async () => {
             await Promise.all([refetch(), refetchIsMigrated()])
             history.push(`/name/${label}.eth`)
           }}
+          data-testid="manage-name-button"
+        >
+          {t('register.buttons.manage')}
+        </LeftLink>
+        <Button
+          onClick={async () => {
+            await Promise.all([refetch(), refetchIsMigrated()])
+            history.push(`/address/${account}`)
+          }}
         >
           <Pencil />
-          {t('register.buttons.manage')}
+          {t('register.buttons.setreverserecord')}
         </Button>
       </>
     )
@@ -238,6 +247,8 @@ const CTA = ({
   refetchIsMigrated,
   readOnly,
   price,
+  years,
+  premium,
   ethUsdPrice
 }) => {
   const { t } = useTranslation()
@@ -264,6 +275,8 @@ const CTA = ({
         refetchIsMigrated,
         readOnly,
         price,
+        years,
+        premium,
         history,
         t,
         ethUsdPrice,
