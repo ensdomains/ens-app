@@ -62,6 +62,8 @@ function getCTA({
   refetchIsMigrated,
   readOnly,
   price,
+  years,
+  premium,
   history,
   t,
   ethUsdPrice,
@@ -184,7 +186,9 @@ function getCTA({
               price: new EthVal(`${price._hex}`)
                 .toEth()
                 .mul(ethUsdPrice)
-                .toFixed(2) // in wei, // in wei
+                .toFixed(2), // in wei, // in wei
+              years,
+              premium
             })
           }
           incrementStep()
@@ -243,6 +247,8 @@ const CTA = ({
   refetchIsMigrated,
   readOnly,
   price,
+  years,
+  premium,
   ethUsdPrice
 }) => {
   const { t } = useTranslation()
@@ -269,6 +275,8 @@ const CTA = ({
         refetchIsMigrated,
         readOnly,
         price,
+        years,
+        premium,
         history,
         t,
         ethUsdPrice,

@@ -342,6 +342,8 @@ const NameRegister = ({
         isAboveMinDuration={isAboveMinDuration}
         readOnly={readOnly}
         price={getRentPrice}
+        years={years}
+        premium={currentPremium}
         ethUsdPrice={!ethUsdPriceLoading && ethUsdPrice}
       />
     </NameRegisterContainer>
