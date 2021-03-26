@@ -118,7 +118,8 @@ function NetworkInformation() {
     loading,
     error,
     refetch,
-    isReadOnly
+    isReadOnly,
+    isSafeApp
   } = useNetworkInfo()
   const address = accounts && accounts[0]
   const {
@@ -187,11 +188,13 @@ function NetworkInformation() {
           <NetworkStatus>
             {network} {t('c.network')}
           </NetworkStatus>
-          <NoAccountsModal
-            onClick={handleDisconnect}
-            buttonText={t('c.disconnect')}
-            colour={'#F5A623'}
-          />
+          {!isSafeApp && (
+            <NoAccountsModal
+              onClick={handleDisconnect}
+              buttonText={t('c.disconnect')}
+              colour={'#F5A623'}
+            />
+          )}
         </AccountContainer>
       ) : (
         <AccountContainer>

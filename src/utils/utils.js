@@ -14,6 +14,7 @@ import { setup } from '../api/ens'
 import { SET_ERROR } from 'graphql/mutations'
 import { setupClient } from 'apolloClient'
 import { connect } from '../api/web3modal'
+import { safeInfo, setupSafeApp } from './safeApps'
 
 // From https://github.com/0xProject/0x-monorepo/blob/development/packages/utils/src/address_utils.ts
 
@@ -210,10 +211,10 @@ export async function handleNetworkChange() {
         })
       )
     } else {
-      const cachedProvider = window.localStorage.getItem(
-        'WEB3_CONNECT_CACHED_PROVIDER'
-      )
-      if (cachedProvider) {
+      const safe = await safeInfo()
+      if (safe) {
+        const network = await setupSafeApp(safe)
+      } else if (window.localStorage.getItem('WEB3_CONNECT_CACHED_PROVIDER')) {
         const network = await connect()
       } else {
         await setup({
