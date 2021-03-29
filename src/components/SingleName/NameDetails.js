@@ -218,6 +218,9 @@ function DetailsContainer({
   const domainParent =
     domain.name === '[root]' ? null : domain.parent ? domain.parent : '[root]'
 
+  const is2ld = domain.name.split('.').length === 2
+  const showUnclaimableWarning =
+    domain.parent !== 'eth' && is2ld && parseInt(domain.owner) === 0
   return (
     <Details data-testid="name-details">
       {isOwner && <SetupName initialState={showExplainer} />}
@@ -245,6 +248,22 @@ function DetailsContainer({
         </DetailsItem>
       ) : (
         ''
+      )}
+      {showUnclaimableWarning && (
+        <GracePeriodWarningContainer>
+          <DetailsItem>
+            You cannot claim names under .{domainParent} on this site.
+            <LinkToLearnMore
+              href="https://docs.ens.domains/dns-registrar-guide"
+              target="_blank"
+            >
+              {t('c.learnmore')}{' '}
+              <EtherScanLinkContainer>
+                <ExternalLinkIcon />
+              </EtherScanLinkContainer>
+            </LinkToLearnMore>
+          </DetailsItem>
+        </GracePeriodWarningContainer>
       )}
       <OwnerFields outOfSync={outOfSync}>
         {domain.parent === 'eth' && domain.isNewRegistrar ? (
