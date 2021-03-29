@@ -112,10 +112,9 @@ async function getDNSEntryDetails(name) {
   let tld = nameArray[1]
   let owner
   let tldowner
-  if (networkId === 3) {
+  tldowner = (await ens.getOwner(tld)).toLocaleLowerCase()
+  if (parseInt(tldowner) === 0 && networkId === 3) {
     tldowner = ROPSTEN_DNSREGISTRAR_ADDRESS
-  } else {
-    tldowner = (await ens.getOwner(tld)).toLocaleLowerCase()
   }
 
   try {
