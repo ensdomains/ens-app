@@ -1426,19 +1426,10 @@
     idempotent-babel-polyfill "^7.4.4"
     isomorphic-fetch "^2.2.1"
 
-"@ensdomains/dnsprovejs@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@ensdomains/dnsprovejs/-/dnsprovejs-0.3.0.tgz#776752bcb1c59ffc2c92fedfc045e5aad074f24f"
-  integrity sha512-ssNb4ZhRUeqQ8PyjfOoJXb0DgdZpPMTSlW6bMhOjiZSGm+uQXF4CJ8JOSlOTp8mL+kycYdlGIfvq9c8ITp2C9A==
-  dependencies:
-    dns-packet "^5.2.1"
-    ethereumjs-util "^7.0.7"
-    typescript-logging "^1.0.0"
-
-"@ensdomains/dnsprovejs@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@ensdomains/dnsprovejs/-/dnsprovejs-0.3.1.tgz#2eb09751f0d0d9ea95d7a790f6f9eb61e0ac691f"
-  integrity sha512-Ykcm3Pqc2rQjNX3XAEZfkmjSyzJQlbNFRri8ejae1r20Hu0M89O7Va1lNoF3V23FI7zp5hhnVguVdF9mHtccxA==
+"@ensdomains/dnsprovejs@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@ensdomains/dnsprovejs/-/dnsprovejs-0.3.2.tgz#6aa5a6426cf6f5addea1b6cace4969938e7e96bb"
+  integrity sha512-DiRfadpvhF7yov9cW+emkyo0HavFoSNBwjYDGik9Jdy7vJwlgDNlh0owM3yxt1QPTNlYa4bSqAmmBzSnLtqFew==
   dependencies:
     dns-packet "^5.2.1"
     ethereumjs-util "^7.0.7"
@@ -1458,12 +1449,12 @@
   dependencies:
     dns-packet "^5.0.4"
 
-"@ensdomains/dnssecoraclejs@^0.1.5":
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@ensdomains/dnssecoraclejs/-/dnssecoraclejs-0.1.5.tgz#9f00712f8a398759cfa142de2c01874fbf762701"
-  integrity sha512-ZdoD0dCzy4KKo4l9cruxolc00X8dqKZdB3A0oypIKnjhEiAxRXS3Zzml+2TvHzdLqrLjRpKIDQ6lFfeOngTWLQ==
+"@ensdomains/dnssecoraclejs@^0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@ensdomains/dnssecoraclejs/-/dnssecoraclejs-0.1.6.tgz#72410d01626433eb7c084929c082c437ce51032e"
+  integrity sha512-ClY5iAkm8WEhCJKfdcke12ZH1+OynjhFE6Z3YVr2HXwJMYhyeJssEOoMV0F7/220xX0Dj5rj6pFU90jlnJbtwA==
   dependencies:
-    "@ensdomains/dnsprovejs" "^0.3.0"
+    "@ensdomains/dnsprovejs" "^0.3.2"
     "@ensdomains/dnssec-oracle" "^0.2.0"
     dns-packet "^5.2.1"
     dotenv "^8.2.0"
@@ -1542,10 +1533,10 @@
     lodash "^4.17.11"
     web3 "^1.3.0"
 
-"@ensdomains/ui@^3.0.73":
-  version "3.0.73"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.73.tgz#60283270c722013ace2f4df38ea4d0e45513c50c"
-  integrity sha512-i++6gZmnRKjJL1rQNG+8OmYEkw2XkvDvbvHakPPQUYNhwJiwOliiAO+f0OZmWwS/h4841iEFBHSBMjKFgoQj6g==
+"@ensdomains/ui@^3.0.74":
+  version "3.0.74"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.74.tgz#36f78c10510f9c32c5a89a4b416b88c5183b1b97"
+  integrity sha512-UMxdbLlD4XEd7oTq3dip4gqKXfUvDYwvJMQA5AhEVxfwIHwcnAUoBsMg535A4jWZhNEDb17bJt4OYLD5oOlaZg==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
@@ -1553,8 +1544,8 @@
     "@ensdomains/address-encoder" "^0.2.5"
     "@ensdomains/content-hash" "^2.5.6"
     "@ensdomains/contracts" "^0.0.1"
-    "@ensdomains/dnsprovejs" "^0.3.1"
-    "@ensdomains/dnssecoraclejs" "^0.1.5"
+    "@ensdomains/dnsprovejs" "^0.3.2"
+    "@ensdomains/dnssecoraclejs" "^0.1.6"
     "@ensdomains/mock" "^2.0.34"
     "@ethvault/iframe-provider" "0.1.9"
     base58check "^2.0.0"
