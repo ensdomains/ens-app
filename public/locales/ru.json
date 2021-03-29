@@ -38,6 +38,7 @@
     "about": "О",
     "addresses": "Addresses",
     "cancel": "Отменить",
+    "cannotclaimDns": "You cannot claim names under .{{ name }} on this site.",
     "claim": "Заявить",
     "connect": "Connect",
     "disconnect": "Disconnect",

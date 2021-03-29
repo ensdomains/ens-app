@@ -38,6 +38,7 @@
     "about": "O Nas",
     "addresses": "Addresses",
     "cancel": "Anuluj",
+    "cannotclaimDns": "You cannot claim names under .{{ name }} on this site.",
     "claim": "Odbierz",
     "connect": "Connect",
     "disconnect": "Disconnect",

@@ -36,6 +36,7 @@
     "about": "Giới thiệu",
     "addresses": "Addresses",
     "cancel": "Hủy bỏ",
+    "cannotclaimDns": "You cannot claim names under .{{ name }} on this site.",
     "claim": "Sở hữu",
     "connect": "Connect",
     "disconnect": "Disconnect",

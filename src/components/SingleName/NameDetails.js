@@ -256,7 +256,7 @@ function DetailsContainer({
       {showUnclaimableWarning && (
         <GracePeriodWarningContainer>
           <DetailsItem>
-            You cannot claim names under .{domainParent} on this site.
+            {t('c.cannotclaimDns', { name: domainParent })}
             <LinkToLearnMore
               href="https://docs.ens.domains/dns-registrar-guide"
               target="_blank"
