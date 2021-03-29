@@ -220,7 +220,11 @@ function DetailsContainer({
 
   const is2ld = domain.name.split('.').length === 2
   const showUnclaimableWarning =
-    domain.parent !== 'eth' && is2ld && parseInt(domain.owner) === 0
+    is2ld &&
+    parseInt(domain.owner) === 0 &&
+    domain.parent !== 'eth' &&
+    !domain.isDNSRegistrar
+
   return (
     <Details data-testid="name-details">
       {isOwner && <SetupName initialState={showExplainer} />}
