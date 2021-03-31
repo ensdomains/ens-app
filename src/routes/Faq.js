@@ -124,7 +124,7 @@ function Faq() {
         can use the DNS record as the proof to claim the equivalent ENS names.
         <br />
         Please refer to our{' '}
-        <a href="https://docs.ens.domains/dns-registrar-guide">guiide</a> for
+        <a href="https://docs.ens.domains/dns-registrar-guide">guide</a> for
         more detail.
       </Section>
 

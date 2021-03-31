@@ -218,6 +218,13 @@ function DetailsContainer({
   const domainParent =
     domain.name === '[root]' ? null : domain.parent ? domain.parent : '[root]'
 
+  const is2ld = domain.name.split('.').length === 2
+  const showUnclaimableWarning =
+    is2ld &&
+    parseInt(domain.owner) === 0 &&
+    domain.parent !== 'eth' &&
+    !domain.isDNSRegistrar
+
   return (
     <Details data-testid="name-details">
       {isOwner && <SetupName initialState={showExplainer} />}
@@ -245,6 +252,22 @@ function DetailsContainer({
         </DetailsItem>
       ) : (
         ''
+      )}
+      {showUnclaimableWarning && (
+        <GracePeriodWarningContainer>
+          <DetailsItem>
+            {t('c.cannotclaimDns', { name: domainParent })}
+            <LinkToLearnMore
+              href="https://docs.ens.domains/dns-registrar-guide"
+              target="_blank"
+            >
+              {t('c.learnmore')}{' '}
+              <EtherScanLinkContainer>
+                <ExternalLinkIcon />
+              </EtherScanLinkContainer>
+            </LinkToLearnMore>
+          </DetailsItem>
+        </GracePeriodWarningContainer>
       )}
       <OwnerFields outOfSync={outOfSync}>
         {domain.parent === 'eth' && domain.isNewRegistrar ? (

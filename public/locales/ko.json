@@ -36,6 +36,7 @@
     "about": "ENS란?",
     "addresses": "Addresses",
     "cancel": "취소",
+    "cannotclaimDns": "You cannot claim names under .{{ name }} on this site.",
     "claim": "요청",
     "connect": "Connect",
     "disconnect": "Disconnect",
