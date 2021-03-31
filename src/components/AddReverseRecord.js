@@ -134,8 +134,8 @@ function AddReverseRecord({ account, currentAddress }) {
     options = _.uniq(
       resolvers
         .map(r => {
-          if (checkIsDecrypted(r.domain.name)) {
-            return r.domain.name
+          if (checkIsDecrypted(r?.domain?.name)) {
+            return r?.domain?.name
           } else {
             let decrypted = decryptName(r.domain.name)
             // Ignore if label is not found
