@@ -2430,6 +2430,20 @@
   dependencies:
     eventemitter3 "^4.0.0"
 
+"@gnosis.pm/safe-apps-provider@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@gnosis.pm/safe-apps-provider/-/safe-apps-provider-0.2.2.tgz#ffc4e4205eb77a9dec05d32617e9eda74606fa6f"
+  integrity sha512-rg2sv4Qg4CgtmqDxWHhlmUGkjAMeH/WdFnXH4oFGV41F7cPIWu1sYVcqRVaP4NgObr1WPGP6rWdaCqZBHy0jWA==
+  dependencies:
+    "@gnosis.pm/safe-apps-sdk" "2.2.0"
+
+"@gnosis.pm/safe-apps-sdk@2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@gnosis.pm/safe-apps-sdk/-/safe-apps-sdk-2.2.0.tgz#aaaeb74d122816407fb2ac4333322355891ac774"
+  integrity sha512-4CCrTfCAGrT1NiYpOs22B/YSycEymC6lxO5h37H8LFC9WNjUijhrxsQZiu7rPzDE9VDXe6s2YOiaGgKCthoorA==
+  dependencies:
+    semver "^7.3.2"
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"

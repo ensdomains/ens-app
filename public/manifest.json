@@ -1,6 +1,8 @@
 {
   "short_name": "ENS App",
   "name": "ENS App",
+  "description": "Decentralised naming for wallets, websites, & more.",
+  "iconPath": "android-chrome-144x144.png",
   "icons": [
     {
       "src": "favicon.ico",

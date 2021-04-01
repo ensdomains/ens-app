@@ -291,7 +291,14 @@ export default ({ match }) => {
   const { url } = match
   const { t } = useTranslation()
   const { switchNetwork, currentNetwork } = useContext(GlobalState)
-  const { accounts, network, loading, refetch, isReadOnly } = useNetworkInfo()
+  const {
+    accounts,
+    network,
+    loading,
+    refetch,
+    isReadOnly,
+    isSafeApp
+  } = useNetworkInfo()
   const [graphBlock, setGraphBlock] = useState()
   const address = accounts && accounts[0]
   const { data: metaBlock } = useQuery(GET_META_BLOCK_NUMBER_FROM_GRAPH)
@@ -375,10 +382,12 @@ export default ({ match }) => {
                   {isReadOnly && <ReadOnly>({t('c.readonly')})</ReadOnly>}
                   {!isReadOnly && displayName && <Name>({displayName})</Name>}
                 </Network>
-                <NoAccounts
-                  onClick={isReadOnly ? handleConnect : handleDisconnect}
-                  buttonText={isReadOnly ? t('c.connect') : t('c.disconnect')}
-                />
+                {!isSafeApp && (
+                  <NoAccounts
+                    onClick={isReadOnly ? handleConnect : handleDisconnect}
+                    buttonText={isReadOnly ? t('c.connect') : t('c.disconnect')}
+                  />
+                )}
               </NetworkStatus>
             </>
           )}
