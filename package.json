@@ -69,7 +69,7 @@
     "start:test:ipfs": "REACT_APP_STAGE=local yarn start:ipfs",
     "build": "CI=false react-scripts --max_old_space_size=4096 build",
     "build:ipfs": "REACT_APP_IPFS=True PUBLIC_URL='.' yarn build",
-    "postbuild": "cp build/index.html build/200.html",
+    "postbuild": "cp build/index.html build/200.html && echo '*' > build/CORS",
     "test": "react-scripts test --env=jsdom",
     "test:coverage": "npm test -- --coverage",
     "eject": "react-scripts eject",
