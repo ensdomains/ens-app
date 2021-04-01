@@ -1536,7 +1536,7 @@
 "@ensdomains/ui@^3.0.76":
   version "3.0.76"
   resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.76.tgz#e8adfb075cb5a3bef37bd6e995978a03b69588db"
-  integrity sha512-Li9hPT6YhzXXo7SuYE5QUYTimU5FxsxAQqD1xigDoCoCbHzsUb2ArvvEE/o6ourh0P3wCExfzRBH9cTg/z8TeQ==.. PR comments
+  integrity sha512-Li9hPT6YhzXXo7SuYE5QUYTimU5FxsxAQqD1xigDoCoCbHzsUb2ArvvEE/o6ourh0P3wCExfzRBH9cTg/z8TeQ==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
@@ -2430,10 +2430,10 @@
   dependencies:
     eventemitter3 "^4.0.0"
 
-"@gnosis.pm/safe-apps-provider@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@gnosis.pm/safe-apps-provider/-/safe-apps-provider-0.2.0.tgz#f4e1809aaa8158738a8a5a6fac4f863205796b7b"
-  integrity sha512-2g1xkEtfG4ccW9hRR6Re+Mnr5dgusgsyIet3utRNGdAppqb5Wd5sIvHpg4fafwVDEMez16XMGatsZ1nyluTTrA==
+"@gnosis.pm/safe-apps-provider@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@gnosis.pm/safe-apps-provider/-/safe-apps-provider-0.2.2.tgz#ffc4e4205eb77a9dec05d32617e9eda74606fa6f"
+  integrity sha512-rg2sv4Qg4CgtmqDxWHhlmUGkjAMeH/WdFnXH4oFGV41F7cPIWu1sYVcqRVaP4NgObr1WPGP6rWdaCqZBHy0jWA==
   dependencies:
     "@gnosis.pm/safe-apps-sdk" "2.2.0"
 
