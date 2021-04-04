@@ -35,7 +35,7 @@
     "about": "关于",
     "addresses": "地址",
     "cancel": "取消",
-    "cannotclaimDns": "You cannot claim names under .{{ name }} on this site.",
+    "cannotclaimDns": "您不能在本站收回 .{{ name }} 的域名",
     "claim": "申请",
     "connect": "连接",
     "disconnect": "断开连接",
@@ -174,7 +174,7 @@
       "manage": "管理域名",
       "register": "注册",
       "request": "请求注册",
-      "setreverserecord": "Set reverse record",
+      "setreverserecord": "设置反向解析",
       "warning": "点击“注册”进入第 3 步"
     },
     "favourite": "* 您可以收藏喜欢的域名，以便于浏览器关闭以后重新查看这个域名。",
