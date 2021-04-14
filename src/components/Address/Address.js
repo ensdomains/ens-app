@@ -35,7 +35,7 @@ import warning from '../../assets/yellowwarning.svg'
 import close from '../../assets/close.svg'
 import { useBlock } from '../hooks'
 
-const RESULTS_PER_PAGE = 30
+const DEFAULT_RESULTS_PER_PAGE = 25
 
 const TopBar = styled(DefaultTopBar)`
   justify-content: flex-start;
@@ -121,12 +121,19 @@ function decryptNames(domains) {
   })
 }
 
-function useDomains({ domainType, address, sort, page, expiryDate }) {
-  const skip = (page - 1) * RESULTS_PER_PAGE
+function useDomains({
+  resultsPerPage,
+  domainType,
+  address,
+  sort,
+  page,
+  expiryDate
+}) {
+  const skip = (page - 1) * resultsPerPage
   const registrationsQuery = useQuery(GET_REGISTRATIONS_SUBGRAPH, {
     variables: {
       id: address,
-      first: RESULTS_PER_PAGE,
+      first: resultsPerPage,
       skip,
       orderBy: sort.type,
       orderDirection: sort.direction,
@@ -138,7 +145,7 @@ function useDomains({ domainType, address, sort, page, expiryDate }) {
   const controllersQuery = useQuery(GET_DOMAINS_SUBGRAPH, {
     variables: {
       id: address,
-      first: RESULTS_PER_PAGE,
+      first: resultsPerPage,
       skip
     },
     skip: domainType !== 'controller'
@@ -165,7 +172,7 @@ export default function Address({
   const pageQuery = new URLSearchParams(search).get('page')
   const page = pageQuery ? parseInt(pageQuery) : 1
   const { block } = useBlock()
-
+  let [resultsPerPage, setResultsPerPage] = useState(DEFAULT_RESULTS_PER_PAGE)
   let { t } = useTranslation()
   let [showOriginBannerFlag, setShowOriginBannerFlag] = useState(true)
   let [etherScanAddr, setEtherScanAddr] = useState(null)
@@ -189,6 +196,7 @@ export default function Address({
   }
 
   const { loading, data, error, refetch } = useDomains({
+    resultsPerPage,
     domainType,
     address: normalisedAddress,
     sort: activeSort,
@@ -339,7 +347,8 @@ export default function Address({
         <Pager
           variables={{ id: address, expiryDate }}
           currentPage={page}
-          resultsPerPage={RESULTS_PER_PAGE}
+          resultsPerPage={resultsPerPage}
+          setResultsPerPage={setResultsPerPage}
           pageLink={`/address/${address}/${domainType}`}
           query={
             domainType === 'registrant'

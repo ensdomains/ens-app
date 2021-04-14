@@ -3,6 +3,7 @@ import getClient from '../../apolloClient'
 import styled from '@emotion/styled/macro'
 import { Link } from 'react-router-dom'
 import mq from 'mediaQuery'
+import Select from 'react-select'
 
 const PageNumber = styled(Link)`
   ${p =>
@@ -20,7 +21,56 @@ const PagerContainer = styled('div')`
   `}
 `
 
-function useTotalPages({ resultsPerPage, query, address, variables }) {
+const SelectPagerContainer = styled('span')`
+  float: right;
+`
+
+const styles = {
+  container: styles => ({
+    ...styles,
+    display: 'inline-block',
+    width: '100px'
+  }),
+  control: styles => ({
+    ...styles,
+    backgroundColor: 'white',
+    textTransform: 'lowercase',
+    fontWeight: '700',
+    fontSize: '12px',
+    color: '#2B2B2B',
+    letterSpacing: '0.5px'
+  }),
+  option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+    return {
+      ...styles,
+      backgroundColor: 'white',
+      textTransform: 'lowercase',
+      fontWeight: isSelected ? 700 : 500,
+      fontSize: '12px',
+      letterSpacing: '0.5px',
+      color: isDisabled ? '#ccc' : isSelected ? 'black' : '#666',
+      cursor: isDisabled ? 'not-allowed' : 'default'
+    }
+  },
+  input: styles => ({ ...styles }),
+  placeholder: styles => ({ ...styles }),
+  singleValue: (styles, { data }) => ({ ...styles })
+}
+
+const options = [
+  { value: 25, label: 25 },
+  { value: 50, label: 50 },
+  { value: 100, label: 100 },
+  { value: 200, label: 200 }
+]
+
+function useTotalPages({
+  setResultsPerPage,
+  resultsPerPage,
+  query,
+  address,
+  variables
+}) {
   const limit = 1000
   const [loading, setLoading] = useState(true)
   const [totalResults, setTotalResults] = useState(0)
@@ -86,12 +136,18 @@ function Page({ page, pageLink, currentPage }) {
 
 export default function Pager({
   currentPage,
+  setResultsPerPage,
   resultsPerPage,
   query,
   variables,
   pageLink
 }) {
+  const handleSelect = e => {
+    setResultsPerPage(e.value)
+  }
+
   const { totalPages } = useTotalPages({
+    setResultsPerPage,
     resultsPerPage,
     variables,
     query
@@ -105,5 +161,20 @@ export default function Pager({
       <Page currentPage={currentPage} page={index + 1} pageLink={pageLink} />
     )
   })
-  return <PagerContainer>{pages}</PagerContainer>
+  return (
+    <PagerContainer>
+      {pages}
+      <SelectPagerContainer>
+        Show{' '}
+        <Select
+          defaultValue={options.filter(o => o.value === resultsPerPage)}
+          styles={styles}
+          menuPlacement="top"
+          onChange={handleSelect}
+          options={options}
+        />{' '}
+        Records
+      </SelectPagerContainer>
+    </PagerContainer>
+  )
 }
