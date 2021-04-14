@@ -7,6 +7,7 @@ import moment from 'moment'
 import { useAccount } from '../QueryAccount'
 
 import {
+  GET_FAVOURITES,
   GET_DOMAINS_SUBGRAPH,
   GET_REGISTRATIONS_SUBGRAPH
 } from '../../graphql/queries'
@@ -204,6 +205,7 @@ export default function Address({
     expiryDate
   })
 
+  const { data: { favourites } = [] } = useQuery(GET_FAVOURITES)
   useEffect(() => {
     getEtherScanAddr().then(setEtherScanAddr)
   }, [])
@@ -338,6 +340,7 @@ export default function Address({
           setSelectAll={setSelectAll}
           address={address}
           domains={domains}
+          favourites={favourites}
           activeSort={activeSort}
           activeFilter={domainType}
           checkedBoxes={checkedBoxes}
