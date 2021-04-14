@@ -35,7 +35,7 @@ const ContentHashLink = ({ value, contentType, domain }) => {
     externalLink = `https://dweb.link/ipns/${decoded}`
     url = `ipns://${decoded}`
   } else if (protocolType === 'bzz') {
-    externalLink = `https://swarm-gateways.net/bzz://${decoded}`
+    externalLink = `https://gateway.ethswarm.org/bzz/${decoded}`
     url = `bzz://${decoded}`
   } else if (protocolType === 'onion' || protocolType === 'onion3') {
     externalLink = `http://${decoded}.onion`
