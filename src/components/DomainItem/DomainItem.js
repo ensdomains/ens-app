@@ -9,6 +9,11 @@ import QueryAccount from '../QueryAccount'
 import ExpiryDate from './ExpiryDate'
 import Loader from '../Loader'
 import { humaniseName } from '../../utils/utils'
+import Checkbox from '../Forms/Checkbox'
+
+const CheckBoxContainer = styled('div')`
+  margin: 5px;
+`
 
 const DomainContainer = styled(Link)`
   &:before {
@@ -138,7 +143,15 @@ const Label = ({ domain, isOwner }) => {
   )
 }
 
-const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
+const Domain = ({
+  domain,
+  isSubDomain,
+  className,
+  isFavourite,
+  loading,
+  checkedBoxes = {},
+  setCheckedBoxes
+}) => {
   if (loading) {
     return (
       <DomainContainer state={'Owned'} className={className} to="">
@@ -146,7 +159,8 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
       </DomainContainer>
     )
   }
-
+  const nameArray = domain.name.split('.')
+  const isEthDomain = nameArray.length === 2 && nameArray[1] === 'eth'
   return (
     <QueryAccount>
       {({ account }) => {
@@ -185,6 +199,27 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
                 isSubDomain={isSubDomain}
                 isFavourite={isFavourite}
               />
+              {isEthDomain && (
+                <CheckBoxContainer>
+                  <Checkbox
+                    testid={`checkbox-${domain.name}`}
+                    checked={checkedBoxes[domain.name]}
+                    onClick={e => {
+                      e.preventDefault()
+                      setCheckedBoxes &&
+                        setCheckedBoxes(prevState => {
+                          return {
+                            ...prevState,
+                            [domain.name]: !prevState[domain.name]
+                          }
+                        })
+                      if (checkedBoxes[domain.name]) {
+                        setSelectAll(false)
+                      }
+                    }}
+                  />
+                </CheckBoxContainer>
+              )}
             </RightContainer>
           </DomainContainer>
         )

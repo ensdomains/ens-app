@@ -12,6 +12,14 @@ export function refetchTilUpdated(
   let maxTries = 10
   let tries = maxTries
   let incrementedInterval = interval
+  console.log('***recurseRefetch1', {
+    refetch,
+    interval,
+    keyToCompare,
+    name,
+    prevData,
+    getterString
+  })
 
   function recurseRefetch() {
     if (tries > 0) {

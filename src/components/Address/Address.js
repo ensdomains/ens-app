@@ -307,6 +307,7 @@ export default function Address({
               address={address}
               data={data}
               refetch={refetch}
+              getterString="account.registrations"
             />
           )}
           <Sorting

@@ -88,8 +88,10 @@ export default function Renew({
   setCheckedBoxes,
   setSelectAll,
   refetch,
-  data
+  data,
+  getterString
 }) {
+  console.log('***renewAll', { data, getterString })
   let { t } = useTranslation()
   const { state, actions } = useEditable()
   const { editing, txHash, pending, confirmed } = state
@@ -145,7 +147,7 @@ export default function Renew({
                   'expiryDate',
                   selectedNames[0],
                   data,
-                  'account.registrations'
+                  getterString
                 )
                 setCheckedBoxes({})
                 setSelectAll(false)
@@ -153,7 +155,7 @@ export default function Renew({
             />
           ) : (
             <>
-              {allNames.length > 0 ? (
+              {address && allNames.length > 0 ? (
                 <ExpiryNotifyDropdown address={address} />
               ) : (
                 ''
