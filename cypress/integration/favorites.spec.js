@@ -40,4 +40,41 @@ describe('Favorites', () => {
       'exist'
     )
   })
+
+  it('can click select all and renew all names with expiration', () => {
+    // Owned by others
+    const name = `otherowner.eth`
+    cy.visit(`${NAME_ROOT}/${name}`, { timeout: 20000 })
+    cy.wait(3000)
+    cy.getByTestId('add-favorite', { timeout: 10000 }).click({ force: true })
+    cy.visit(`${NAME_ROOT}/sub1.testing.eth`, { timeout: 20000 })
+    cy.wait(3000)
+    cy.visit(`${ROOT}/favourites`)
+    cy.get(`[data-testid="expiry-date-${name}"]`, {
+      timeout: 10000
+    })
+      .invoke('text')
+      .then(text => {
+        const currentYear = parseInt(text.match(/(\d){4}/)[0])
+        // Select all
+        cy.getByTestId(`checkbox-renewall`, { timeout: 10000 }).click({
+          force: true
+        })
+        cy.get(`[data-testid="checkbox-${name}"] div`, {
+          timeout: 10000
+        }).should('have.css', 'border-top-color', ENABLED_COLOUR)
+        cy.getByText('Renew Selected', { exact: false }).click({ force: true })
+        cy.queryByText('Registration Period', { exact: false }).should('exist')
+        cy.getByText('Renew', { exact: false }).click({ force: true })
+        cy.getByText('Confirm', { exact: true }).click({ force: true })
+        cy.get(`[data-testid="${name}"]`, {
+          timeout: 10000
+        }).within(() => {
+          cy.queryByText(`${currentYear + 1}`, {
+            exact: false,
+            timeout: 20000
+          }).should('exist')
+        })
+      })
+  })
 })
