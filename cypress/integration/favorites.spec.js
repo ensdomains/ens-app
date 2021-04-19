@@ -43,7 +43,7 @@ describe('Favorites', () => {
 
   it('can click select all and renew all names with expiration', () => {
     // Owned by others
-    const name = `otherowner.eth`
+    const name = 'otherowner.eth'
     cy.visit(`${NAME_ROOT}/${name}`, { timeout: 20000 })
     cy.wait(3000)
     cy.getByTestId('add-favorite', { timeout: 10000 }).click({ force: true })

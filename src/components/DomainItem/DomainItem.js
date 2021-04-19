@@ -186,12 +186,12 @@ const Domain = ({
             state={isOwner ? 'Yours' : domain.state}
             className={className}
             percentDone={percentDone}
-            data-testid="domain-container"
+            data-testid={`domain-${domain.name}`}
           >
             <DomainName state={isOwner ? 'Yours' : domain.state}>
               {humaniseName(domain.name)}
             </DomainName>
-            <ExpiryDate expiryDate={expiryDate} />
+            <ExpiryDate expiryDate={expiryDate} name={domain.name} />
             <Label domain={domain} isOwner={isOwner} />
             <RightContainer>
               <AddFavourite
