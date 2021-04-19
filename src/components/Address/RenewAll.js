@@ -91,7 +91,6 @@ export default function Renew({
   data,
   getterString
 }) {
-  console.log('***renewAll', { data, getterString })
   let { t } = useTranslation()
   const { state, actions } = useEditable()
   const { editing, txHash, pending, confirmed } = state

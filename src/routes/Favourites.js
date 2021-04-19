@@ -26,10 +26,6 @@ const SelectAll = styled('div')`
   justify-content: flex-end;
   padding-right: 40px;
   margin: 2em 0;
-
-  ${mq.large`
-    padding-right: 10px;
-  `}
 `
 
 const NoDomainsContainer = styled('div')`
@@ -171,10 +167,11 @@ function Favourites() {
     .map(([key]) => key)
 
   const allNames = favouritesList.map(f => f.name)
-
   const selectAllNames = () => {
-    const obj = allNames.reduce((acc, name) => {
-      acc[name] = true
+    const obj = favouritesList.reduce((acc, f) => {
+      if (f.expiryDate) {
+        acc[f.name] = true
+      }
       return acc
     }, {})
     setCheckedBoxes(obj)

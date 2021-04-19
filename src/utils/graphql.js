@@ -12,14 +12,6 @@ export function refetchTilUpdated(
   let maxTries = 10
   let tries = maxTries
   let incrementedInterval = interval
-  console.log('***recurseRefetch1', {
-    refetch,
-    interval,
-    keyToCompare,
-    name,
-    prevData,
-    getterString
-  })
 
   function recurseRefetch() {
     if (tries > 0) {
@@ -28,10 +20,10 @@ export function refetchTilUpdated(
         incrementedInterval = interval * (maxTries - tries + 1)
         refetch().then(({ data }) => {
           const updated =
-            get(data, getterString).find(item => {
+            get(data, getterString)?.find(item => {
               return decryptName(item.domain.name) === name
             })[keyToCompare] !==
-            get(prevData, getterString).find(item => {
+            get(prevData, getterString)?.find(item => {
               return decryptName(item.domain.name) === name
             })[keyToCompare]
 

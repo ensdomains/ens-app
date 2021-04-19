@@ -65,7 +65,7 @@ const DomainContainer = styled(Link)`
   transition: 0.2s all;
 
   ${mq.medium`
-    grid-template-columns: 1fr minmax(150px,350px) 100px 50px;
+    grid-template-columns: 1fr minmax(150px,350px) 100px 50px 50px;
     grid-template-rows: 39px;
   `}
 
@@ -150,7 +150,8 @@ const Domain = ({
   isFavourite,
   loading,
   checkedBoxes = {},
-  setCheckedBoxes
+  setCheckedBoxes,
+  setSelectAll
 }) => {
   if (loading) {
     return (
@@ -160,7 +161,6 @@ const Domain = ({
     )
   }
   const nameArray = domain.name.split('.')
-  const isEthDomain = nameArray.length === 2 && nameArray[1] === 'eth'
   return (
     <QueryAccount>
       {({ account }) => {
@@ -199,7 +199,9 @@ const Domain = ({
                 isSubDomain={isSubDomain}
                 isFavourite={isFavourite}
               />
-              {isEthDomain && (
+            </RightContainer>
+            <RightContainer>
+              {expiryDate && (
                 <CheckBoxContainer>
                   <Checkbox
                     testid={`checkbox-${domain.name}`}
