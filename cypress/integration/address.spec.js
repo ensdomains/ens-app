@@ -107,7 +107,7 @@ describe('/address', () => {
         cy.queryByText('Registration Period', { exact: false }).should('exist')
         cy.getByText('Renew', { exact: false }).click()
         cy.getByText('Confirm', { exact: true }).click()
-        cy.get(`[data-testid="${name}"]`, {
+        cy.get(`[data-testid="expiry-date-${name}"]`, {
           timeout: 10000
         }).within(() => {
           cy.queryByText(`${currentYear + 1}`, {
