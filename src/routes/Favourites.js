@@ -117,9 +117,10 @@ function Favourites() {
   let favouritesList = []
   if (favourites.length > 0) {
     if (registrations && registrations.length === favourites.length) {
-      favouritesList = registrations.map(r => {
+      favouritesList = registrations.map((r, i) => {
         return {
-          name: r.domain.name,
+          // registrations may not necessarily have decoded name so take the name from favourite
+          name: favourites[i].name,
           owner: r.domain.owner.id,
           available: getAvailable(r && r.expiryDate),
           expiryDate: r.expiryDate
