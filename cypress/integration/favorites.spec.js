@@ -65,7 +65,7 @@ describe('Favorites', () => {
         cy.queryByText('Registration Period', { exact: false }).should('exist')
         cy.getByText('Renew', { exact: false }).click({ force: true })
         cy.getByText('Confirm', { exact: true }).click({ force: true })
-        cy.get(`[data-testid="${name}"]`, {
+        cy.get(`[data-testid="expiry-date-${name}"]`, {
           timeout: 10000
         }).within(() => {
           cy.queryByText(`${currentYear + 1}`, {
