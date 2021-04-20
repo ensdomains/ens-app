@@ -61,9 +61,6 @@ describe('Favorites', () => {
         cy.getByTestId(`checkbox-renewall`, { timeout: 10000 }).click({
           force: true
         })
-        cy.get(`[data-testid="checkbox-${name}"] div`, {
-          timeout: 10000
-        }).should('have.css', 'border-top-color', ENABLED_COLOUR)
         cy.getByText('Renew Selected', { exact: false }).click({ force: true })
         cy.queryByText('Registration Period', { exact: false }).should('exist')
         cy.getByText('Renew', { exact: false }).click({ force: true })
