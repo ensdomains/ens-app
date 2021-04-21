@@ -67,6 +67,7 @@ describe('Favorites', () => {
           'Renewing a name you do not own does not give you ownership of it',
           { exact: false }
         ).should('exist')
+        cy.wait(1000)
         cy.getByText('Renew', { exact: false }).click({ force: true })
         cy.getByText('Confirm', { exact: true }).click({ force: true })
         cy.get(`[data-testid="expiry-date-${name}"]`, {
