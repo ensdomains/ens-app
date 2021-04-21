@@ -75,6 +75,15 @@ const ConfirmationList = styled('div')`
   overflow-y: scroll;
 `
 
+const WarningMessage = styled('span')`
+  color: #f6412d;
+  margin-right: auto;
+  margin-bottom: 1em;
+  ${mq.small`
+    margin-bottom: 0em;
+  `}
+`
+
 function isValid(selectedNames) {
   return selectedNames.length > 0
 }
@@ -89,7 +98,8 @@ export default function Renew({
   setSelectAll,
   refetch,
   data,
-  getterString
+  getterString,
+  checkedOtherOwner
 }) {
   let { t } = useTranslation()
   const { state, actions } = useEditable()
@@ -194,6 +204,11 @@ export default function Renew({
                 ethUsdPrice={ethUsdPrice || 0}
               />
               <Buttons>
+                {checkedOtherOwner && (
+                  <WarningMessage>
+                    *{t('singleName.expiry.cannotown')}
+                  </WarningMessage>
+                )}
                 <SaveCancel
                   stopEditing={stopEditing}
                   mutation={() => {

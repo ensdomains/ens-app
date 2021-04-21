@@ -19,6 +19,7 @@ import { H2 as DefaultH2 } from '../components/Typography/Basic'
 import LargeHeart from '../components/Icons/LargeHeart'
 import RenewAll from '../components/Address/RenewAll'
 import Checkbox from '../components/Forms/Checkbox'
+import { useAccount } from '../components/QueryAccount'
 
 const SelectAll = styled('div')`
   grid-area: selectall;
@@ -178,6 +179,14 @@ function Favourites() {
     setCheckedBoxes(obj)
   }
   let data = []
+  const account = useAccount()
+  const checkedOtherOwner =
+    favouritesList.filter(
+      f =>
+        f.expiryDate &&
+        f.owner === account.toLowerCase() &&
+        checkedBoxes[f.name]
+    ).length > 0
 
   return (
     <FavouritesContainer data-testid="favourites-container">
@@ -192,6 +201,7 @@ function Favourites() {
         refetch={refetch}
         data={data}
         getterString="registrations"
+        checkedOtherOwner={checkedOtherOwner}
       />
       <>
         <SelectAll>
@@ -223,6 +233,7 @@ function Favourites() {
               isFavourite={true}
               checkedBoxes={checkedBoxes}
               setCheckedBoxes={setCheckedBoxes}
+              setSelectAll={setSelectAll}
             />
           )
         })}

@@ -41,9 +41,9 @@ describe('Favorites', () => {
     )
   })
 
-  it('can click select all and renew all names with expiration', () => {
+  it('can click select all and renew all names with expiration including non owned names', () => {
     // Owned by others
-    const name = 'resolver.eth'
+    const name = 'otherowner.eth'
     cy.visit(`${NAME_ROOT}/${name}`, { timeout: 20000 })
     cy.queryByText('Registrant', { timeout: 10000, exact: false }).should(
       'exist'
@@ -63,6 +63,10 @@ describe('Favorites', () => {
         })
         cy.getByText('Renew Selected', { exact: false }).click({ force: true })
         cy.queryByText('Registration Period', { exact: false }).should('exist')
+        cy.queryByText(
+          'Renewing a name you do not own does not give you ownership of it',
+          { exact: false }
+        ).should('exist')
         cy.getByText('Renew', { exact: false }).click({ force: true })
         cy.getByText('Confirm', { exact: true }).click({ force: true })
         cy.get(`[data-testid="expiry-date-${name}"]`, {
