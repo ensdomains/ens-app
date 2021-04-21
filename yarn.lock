@@ -1426,7 +1426,7 @@
     idempotent-babel-polyfill "^7.4.4"
     isomorphic-fetch "^2.2.1"
 
-"@ensdomains/dnsprovejs@^0.3.7":
+"@ensdomains/dnsprovejs@^0.3.3", "@ensdomains/dnsprovejs@^0.3.7":
   version "0.3.7"
   resolved "https://registry.yarnpkg.com/@ensdomains/dnsprovejs/-/dnsprovejs-0.3.7.tgz#682a0d3efd2b0e380fd7b65dc20235250af75782"
   integrity sha512-5aLdt/4VHFW5NmsN0JI243v2kbgvbxM3n89Wj13F0QuQPk7u/X5dwAzdorqigVWvijNh6BX8J9yWbJuTRofk2A==
@@ -1449,7 +1449,7 @@
   dependencies:
     dns-packet "^5.0.4"
 
-"@ensdomains/dnssecoraclejs@^0.1.8":
+"@ensdomains/dnssecoraclejs@^0.1.7":
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/@ensdomains/dnssecoraclejs/-/dnssecoraclejs-0.1.8.tgz#94ee57bd39243c8fb1a51cd75047614e267c6904"
   integrity sha512-4ZkBQU2mWWcD9pskI0mgvcd4EmZ4Y9JMIlsQUlMcVMXvNC9Wmwph2XIsql/D+v7itFthA2Zv+pI1YLiWvt32CQ==
@@ -1533,10 +1533,10 @@
     lodash "^4.17.11"
     web3 "^1.3.0"
 
-"@ensdomains/ui@^3.0.76":
-  version "3.0.76"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.76.tgz#e8adfb075cb5a3bef37bd6e995978a03b69588db"
-  integrity sha512-Li9hPT6YhzXXo7SuYE5QUYTimU5FxsxAQqD1xigDoCoCbHzsUb2ArvvEE/o6ourh0P3wCExfzRBH9cTg/z8TeQ==
+"@ensdomains/ui@^3.0.78":
+  version "3.0.78"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.0.78.tgz#478c5e8d80d8d9173c03318ec47d5281cbd7a226"
+  integrity sha512-BsvYQNky/R1v2ka7WP3aGEWKDPs6DbqsVx5cfFQzx7O50q8U8cSYu/4TiYzS9bvlgA1sl6wbSoxMIVs4Qc9u0g==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
@@ -1544,8 +1544,8 @@
     "@ensdomains/address-encoder" "^0.2.5"
     "@ensdomains/content-hash" "^2.5.6"
     "@ensdomains/contracts" "^0.0.1"
-    "@ensdomains/dnsprovejs" "^0.3.7"
-    "@ensdomains/dnssecoraclejs" "^0.1.8"
+    "@ensdomains/dnsprovejs" "^0.3.3"
+    "@ensdomains/dnssecoraclejs" "^0.1.7"
     "@ensdomains/mock" "^2.0.34"
     "@ethvault/iframe-provider" "0.1.9"
     base58check "^2.0.0"
