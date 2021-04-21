@@ -187,39 +187,41 @@ function Favourites() {
         f.owner === account.toLowerCase() &&
         checkedBoxes[f.name]
     ).length > 0
-
+  const canRenew = favouritesList.filter(f => f.expiryDate).length > 0
   return (
     <FavouritesContainer data-testid="favourites-container">
       <H2>{t('favourites.favouriteTitle')}</H2>
-      <RenewAll
-        years={years}
-        setYears={setYears}
-        selectedNames={selectedNames}
-        setCheckedBoxes={setCheckedBoxes}
-        setSelectAll={setSelectAll}
-        allNames={allNames}
-        refetch={refetch}
-        data={data}
-        getterString="registrations"
-        checkedOtherOwner={checkedOtherOwner}
-      />
-      <>
-        <SelectAll>
-          <Checkbox
-            testid="checkbox-renewall"
-            type="double"
-            checked={selectAll}
-            onClick={() => {
-              if (!selectAll) {
-                selectAllNames()
-              } else {
-                setCheckedBoxes({})
-              }
-              setSelectAll(selectAll => !selectAll)
-            }}
+      {canRenew && (
+        <>
+          <RenewAll
+            years={years}
+            setYears={setYears}
+            selectedNames={selectedNames}
+            setCheckedBoxes={setCheckedBoxes}
+            setSelectAll={setSelectAll}
+            allNames={allNames}
+            refetch={refetch}
+            data={data}
+            getterString="registrations"
+            checkedOtherOwner={checkedOtherOwner}
           />
-        </SelectAll>
-      </>
+          <SelectAll>
+            <Checkbox
+              testid="checkbox-renewall"
+              type="double"
+              checked={selectAll}
+              onClick={() => {
+                if (!selectAll) {
+                  selectAllNames()
+                } else {
+                  setCheckedBoxes({})
+                }
+                setSelectAll(selectAll => !selectAll)
+              }}
+            />
+          </SelectAll>
+        </>
+      )}
 
       {favouritesList &&
         favouritesList.map(domain => {
