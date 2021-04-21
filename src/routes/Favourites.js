@@ -184,7 +184,7 @@ function Favourites() {
     favouritesList.filter(
       f =>
         f.expiryDate &&
-        f.owner === account?.toLowerCase() &&
+        f.owner !== account?.toLowerCase() &&
         checkedBoxes[f.name]
     ).length > 0
   const canRenew = favouritesList.filter(f => f.expiryDate).length > 0
