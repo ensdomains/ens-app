@@ -43,6 +43,7 @@ const DomainsContainer = styled('div')`
 `
 
 export default function DomainList({
+  favourites = [],
   address,
   activeSort,
   activeFilter,
@@ -63,6 +64,7 @@ export default function DomainList({
   return (
     <DomainsContainer>
       {domains.map(d => {
+        const isFavourite = favourites.map(m => m.name).includes(d.domain.name)
         return (
           <DomainItem
             key={d.domain.name}
@@ -79,6 +81,7 @@ export default function DomainList({
             }
             setSelectAll={setSelectAll}
             showBlockies={showBlockies}
+            isFavourite={isFavourite}
           />
         )
       })}

@@ -40,4 +40,45 @@ describe('Favorites', () => {
       'exist'
     )
   })
+
+  it('can click select all and renew all names with expiration including non owned names', () => {
+    // Owned by others
+    const name = 'otherowner.eth'
+    cy.visit(`${NAME_ROOT}/${name}`, { timeout: 20000 })
+    cy.queryByText('Registrant', { timeout: 10000, exact: false }).should(
+      'exist'
+    )
+    cy.getByTestId('add-favorite', { timeout: 10000 }).click({ force: true })
+    cy.wait(3000)
+    cy.visit(`${ROOT}/favourites`)
+    cy.get(`[data-testid="expiry-date-${name}"]`, {
+      timeout: 10000
+    })
+      .invoke('text')
+      .then(text => {
+        const currentYear = parseInt(text.match(/(\d){4}/)[0])
+        // Select all
+        cy.getByTestId(`checkbox-renewall`, { timeout: 10000 }).click({
+          force: true
+        })
+        cy.getByText('Renew Selected', { exact: false }).click({ force: true })
+        cy.queryByText('Registration Period', { exact: false }).should('exist')
+        cy.queryByText(
+          'Renewing a name you do not own does not give you ownership of it',
+          { exact: false }
+        ).should('exist')
+        cy.getByText('Renew', { exact: true }).click({ force: true })
+        cy.getByText('Confirm', { exact: true }).click({ force: true })
+        cy.wait(3000)
+        cy.visit(`${ROOT}/favourites`)
+        cy.get(`[data-testid="expiry-date-${name}"]`, {
+          timeout: 10000
+        }).within(() => {
+          cy.queryByText(`${currentYear + 1}`, {
+            exact: false,
+            timeout: 20000
+          }).should('exist')
+        })
+      })
+  })
 })

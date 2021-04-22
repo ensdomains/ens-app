@@ -296,16 +296,16 @@
     },
     "learnmore": {
       "step1": {
-        "text": "リゾルバは、名前をアドレスに変換するプロセスを担当するスマートコントラクトです。リゾルバエリアで‘設定’をクリックします。次に、‘パブリックリゾルバの使用’リンクをクリックし、‘保存’をクリックしてトランザクションを開始します。",
-        "title": "1. リゾルバ設定"
+        "text": "Once you register your name, Go to 'My Account' page and set a reverse record. This allows dapps to find and display your ENS name when you connect to them with your Ethereum account. ",
+        "title": "1. Set a reverse record"
       },
       "step2": {
-        "text": "リゾルバを設定したら、次に‘records’フィールドの‘+’をクリックしてレコードを追加します。イーサリアムアドレスを追加することで、次のステップでウォレットを自分の名前に紐づけることができます。",
-        "title": "2. アドレス設定"
+        "text": "You can set the addresses of many different cryptocurrencies, profile information such as an avatar, Twitter handle, and more",
+        "title": "2. Set other records"
       },
       "step3": {
-        "text": "アドレスを設定すると、逆ポインタが設定されていないというメッセージが表示されます。フィールドの矢印をクリックして展開し、‘保存’ボタンをクリックします。これでアドレスが新しい名前に変換されます。",
-        "title": "3. リバースレコード設定"
+        "text": "You can host your static html/css/images on IPFS and put the hash in your ENS name's Content record. Then it can be resolved by ENS-aware browsers (e.g. Opera), browser extensions (Metamask), or any browser with '.link' appended to the end (e.g. ens.eth.link).",
+        "title": "3. Set a content hash of a decentralized website"
       },
       "title": "名前の管理についてもっと知る"
     },

@@ -20,10 +20,10 @@ export function refetchTilUpdated(
         incrementedInterval = interval * (maxTries - tries + 1)
         refetch().then(({ data }) => {
           const updated =
-            get(data, getterString).find(item => {
+            get(data, getterString)?.find(item => {
               return decryptName(item.domain.name) === name
             })[keyToCompare] !==
-            get(prevData, getterString).find(item => {
+            get(prevData, getterString)?.find(item => {
               return decryptName(item.domain.name) === name
             })[keyToCompare]
 
