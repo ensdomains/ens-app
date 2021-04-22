@@ -75,6 +75,15 @@ const ConfirmationList = styled('div')`
   overflow-y: scroll;
 `
 
+const WarningMessage = styled('span')`
+  color: #f6412d;
+  margin-right: auto;
+  margin-bottom: 1em;
+  ${mq.small`
+    margin-bottom: 0em;
+  `}
+`
+
 function isValid(selectedNames) {
   return selectedNames.length > 0
 }
@@ -88,7 +97,9 @@ export default function Renew({
   setCheckedBoxes,
   setSelectAll,
   refetch,
-  data
+  data,
+  getterString,
+  checkedOtherOwner
 }) {
   let { t } = useTranslation()
   const { state, actions } = useEditable()
@@ -145,7 +156,7 @@ export default function Renew({
                   'expiryDate',
                   selectedNames[0],
                   data,
-                  'account.registrations'
+                  getterString
                 )
                 setCheckedBoxes({})
                 setSelectAll(false)
@@ -153,7 +164,7 @@ export default function Renew({
             />
           ) : (
             <>
-              {allNames.length > 0 ? (
+              {address && allNames.length > 0 ? (
                 <ExpiryNotifyDropdown address={address} />
               ) : (
                 ''
@@ -193,6 +204,11 @@ export default function Renew({
                 ethUsdPrice={ethUsdPrice || 0}
               />
               <Buttons>
+                {checkedOtherOwner && (
+                  <WarningMessage>
+                    *{t('singleName.expiry.cannotown')}
+                  </WarningMessage>
+                )}
                 <SaveCancel
                   stopEditing={stopEditing}
                   mutation={() => {

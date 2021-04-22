@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from '@emotion/styled/macro'
 import { Query } from 'react-apollo'
@@ -17,6 +17,17 @@ import moment from 'moment'
 
 import { H2 as DefaultH2 } from '../components/Typography/Basic'
 import LargeHeart from '../components/Icons/LargeHeart'
+import RenewAll from '../components/Address/RenewAll'
+import Checkbox from '../components/Forms/Checkbox'
+import { useAccount } from '../components/QueryAccount'
+
+const SelectAll = styled('div')`
+  grid-area: selectall;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 40px;
+  margin: 2em 0;
+`
 
 const NoDomainsContainer = styled('div')`
   display: flex;
@@ -82,6 +93,10 @@ function getDomainState(owner, available) {
 
 function Favourites() {
   const { t } = useTranslation()
+  let [years, setYears] = useState(1)
+  let [checkedBoxes, setCheckedBoxes] = useState({})
+  const [selectAll, setSelectAll] = useState(false)
+
   useEffect(() => {
     document.title = 'ENS Favourites'
   }, [])
@@ -90,7 +105,7 @@ function Favourites() {
     GET_SUBDOMAIN_FAVOURITES
   )
   const ids = favourites && favourites.map(f => getNamehash(f.name))
-  const { data: { registrations } = [] } = useQuery(
+  const { data: { registrations } = [], refetch } = useQuery(
     GET_REGISTRATIONS_BY_IDS_SUBGRAPH,
     {
       variables: { ids }
@@ -103,9 +118,10 @@ function Favourites() {
   let favouritesList = []
   if (favourites.length > 0) {
     if (registrations && registrations.length === favourites.length) {
-      favouritesList = registrations.map(r => {
+      favouritesList = registrations.map((r, i) => {
         return {
-          name: r.domain.name,
+          // registrations may not necessarily have decoded name so take the name from favourite
+          name: favourites[i].name,
           owner: r.domain.owner.id,
           available: getAvailable(r && r.expiryDate),
           expiryDate: r.expiryDate
@@ -148,9 +164,65 @@ function Favourites() {
     )
   }
 
+  const selectedNames = Object.entries(checkedBoxes)
+    .filter(([key, value]) => value)
+    .map(([key]) => key)
+
+  const allNames = favouritesList.map(f => f.name)
+  const selectAllNames = () => {
+    const obj = favouritesList.reduce((acc, f) => {
+      if (f.expiryDate) {
+        acc[f.name] = true
+      }
+      return acc
+    }, {})
+    setCheckedBoxes(obj)
+  }
+  let data = []
+  const account = useAccount()
+  const checkedOtherOwner =
+    favouritesList.filter(
+      f =>
+        f.expiryDate &&
+        f.owner !== account?.toLowerCase() &&
+        checkedBoxes[f.name]
+    ).length > 0
+  const canRenew = favouritesList.filter(f => f.expiryDate).length > 0
   return (
     <FavouritesContainer data-testid="favourites-container">
       <H2>{t('favourites.favouriteTitle')}</H2>
+      {canRenew && (
+        <>
+          <RenewAll
+            years={years}
+            setYears={setYears}
+            selectedNames={selectedNames}
+            setCheckedBoxes={setCheckedBoxes}
+            setSelectAll={setSelectAll}
+            allNames={allNames}
+            refetch={refetch}
+            data={data}
+            getterString="registrations"
+            checkedOtherOwner={checkedOtherOwner}
+          />
+          <SelectAll>
+            <Checkbox
+              testid="checkbox-renewall"
+              type="double"
+              checked={selectAll}
+              onClick={() => {
+                if (!selectAll) {
+                  selectAllNames()
+                } else {
+                  setCheckedBoxes({})
+                }
+                setSelectAll(selectAll => !selectAll)
+              }}
+            />
+          </SelectAll>
+        </>
+      )}
+
       {favouritesList &&
         favouritesList.map(domain => {
           return (
@@ -161,6 +233,9 @@ function Favourites() {
                 owner: domain.owner
               }}
               isFavourite={true}
+              checkedBoxes={checkedBoxes}
+              setCheckedBoxes={setCheckedBoxes}
+              setSelectAll={setSelectAll}
             />
           )
         })}

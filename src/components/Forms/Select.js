@@ -44,7 +44,6 @@ const styles = {
 class SelectComponent extends Component {
   render() {
     const { selectedOption, handleChange, className, addNewKey } = this.props
-    console.log('****', { addNewKey, selectedOption })
     const SelectorType = addNewKey ? CreatableSelect : Select
     return (
       <SelectContainer className={className}>

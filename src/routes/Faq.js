@@ -80,6 +80,13 @@ function Faq() {
         the hash in your ENS name,s Content record. Then it can be resolved by
         ENS-aware browsers (e.g. Opera), browser extensions (Metamask), or any
         browser with ".link" appended to the end (e.g. matoken.eth.link).
+        <br />
+        If you want to redirect your ENS name to an existing website, you could
+        write a html file containing JavasSript logic to redirect your website,
+        upload the file into ipfs using services like{' '}
+        <a href="https://pinata.cloud/">IPFS Pinata</a>, then set the CID to
+        your contenthash. See the source code of depositcontract.eth.link as an
+        example.
       </Section>
 
       <Section question="What is the maximum length of a name I can register?">

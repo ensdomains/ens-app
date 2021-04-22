@@ -14,6 +14,7 @@ const Heart = ({ active, className }) => (
 )
 
 const HeartContainer = styled('svg')`
+  vertical-align: middle;
   path {
     fill: #c7d3e3;
     stroke: #c7d3e3;

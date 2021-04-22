@@ -35,7 +35,7 @@
     "about": "关于",
     "addresses": "地址",
     "cancel": "取消",
-    "cannotclaimDns": "You cannot claim names under .{{ name }} on this site.",
+    "cannotclaimDns": "您不能在本站收回 .{{ name }} 的域名",
     "claim": "申请",
     "connect": "连接",
     "disconnect": "断开连接",
@@ -174,7 +174,7 @@
       "manage": "管理域名",
       "register": "注册",
       "request": "请求注册",
-      "setreverserecord": "Set reverse record",
+      "setreverserecord": "设置反向解析",
       "warning": "点击“注册”进入第 3 步"
     },
     "favourite": "* 您可以收藏喜欢的域名，以便于浏览器关闭以后重新查看这个域名。",
@@ -294,16 +294,16 @@
     },
     "learnmore": {
       "step1": {
-        "text": "解析器是一种智能合约，负责将域名转换为地址。 在解析器区域点击 “设置”， 然后点击“使用公共解析器”链接， 并点击“保存”来启用设置。",
-        "title": "1. 设置解析器"
+        "text": "Once you register your name, Go to 'My Account' page and set a reverse record. This allows dapps to find and display your ENS name when you connect to them with your Ethereum account. ",
+        "title": "1. Set a reverse record"
       },
       "step2": {
-        "text": "设置解析器之后，可以通过点击“解析记录”区域中的“+”添加记录。 添加以太坊地址可以为下一步设置反向记录提供前提。",
-        "title": "2. 设置地址"
+        "text": "You can set the addresses of many different cryptocurrencies, profile information such as an avatar, Twitter handle, and more",
+        "title": "2. Set other records"
       },
       "step3": {
-        "text": "一旦你设置了地址，你会看到一条表示反向记录没有设置的消息。 点击该区域的箭头展开，然后点击“保存”按钮， 该设置能把你的地址转换成你的新域名。",
-        "title": "3. 设置反向记录"
+        "text": "You can host your static html/css/images on IPFS and put the hash in your ENS name's Content record. Then it can be resolved by ENS-aware browsers (e.g. Opera), browser extensions (Metamask), or any browser with '.link' appended to the end (e.g. ens.eth.link).",
+        "title": "3. Set a content hash of a decentralized website"
       },
       "title": "学习如何管理你的域名"
     },

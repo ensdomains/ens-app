@@ -9,6 +9,11 @@ import QueryAccount from '../QueryAccount'
 import ExpiryDate from './ExpiryDate'
 import Loader from '../Loader'
 import { humaniseName } from '../../utils/utils'
+import Checkbox from '../Forms/Checkbox'
+
+const CheckBoxContainer = styled('div')`
+  margin: 5px;
+`
 
 const DomainContainer = styled(Link)`
   &:before {
@@ -60,7 +65,7 @@ const DomainContainer = styled(Link)`
   transition: 0.2s all;
 
   ${mq.medium`
-    grid-template-columns: 1fr minmax(150px,350px) 100px 50px;
+    grid-template-columns: 1fr minmax(150px,350px) 100px 50px 50px;
     grid-template-rows: 39px;
   `}
 
@@ -138,7 +143,16 @@ const Label = ({ domain, isOwner }) => {
   )
 }
 
-const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
+const Domain = ({
+  domain,
+  isSubDomain,
+  className,
+  isFavourite,
+  loading,
+  checkedBoxes = {},
+  setCheckedBoxes,
+  setSelectAll
+}) => {
   if (loading) {
     return (
       <DomainContainer state={'Owned'} className={className} to="">
@@ -146,7 +160,7 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
       </DomainContainer>
     )
   }
-
+  const nameArray = domain.name.split('.')
   return (
     <QueryAccount>
       {({ account }) => {
@@ -172,12 +186,12 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
             state={isOwner ? 'Yours' : domain.state}
             className={className}
             percentDone={percentDone}
-            data-testid="domain-container"
+            data-testid={`domain-${domain.name}`}
           >
             <DomainName state={isOwner ? 'Yours' : domain.state}>
               {humaniseName(domain.name)}
             </DomainName>
-            <ExpiryDate expiryDate={expiryDate} />
+            <ExpiryDate expiryDate={expiryDate} name={domain.name} />
             <Label domain={domain} isOwner={isOwner} />
             <RightContainer>
               <AddFavourite
@@ -185,6 +199,29 @@ const Domain = ({ domain, isSubDomain, className, isFavourite, loading }) => {
                 isSubDomain={isSubDomain}
                 isFavourite={isFavourite}
               />
+            </RightContainer>
+            <RightContainer>
+              {expiryDate && (
+                <CheckBoxContainer>
+                  <Checkbox
+                    testid={`checkbox-${domain.name}`}
+                    checked={checkedBoxes[domain.name]}
+                    onClick={e => {
+                      e.preventDefault()
+                      setCheckedBoxes &&
+                        setCheckedBoxes(prevState => {
+                          return {
+                            ...prevState,
+                            [domain.name]: !prevState[domain.name]
+                          }
+                        })
+                      if (checkedBoxes[domain.name]) {
+                        setSelectAll(false)
+                      }
+                    }}
+                  />
+                </CheckBoxContainer>
+              )}
             </RightContainer>
           </DomainContainer>
         )

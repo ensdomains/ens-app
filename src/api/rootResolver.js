@@ -7,6 +7,7 @@ import {
 } from '@ensdomains/ui'
 import getENS from 'api/ens'
 import merge from 'lodash/merge'
+import { isRunningAsSafeApp } from 'utils/safeApps'
 import managerResolvers, {
   defaults as managerDefaults
 } from './manager/resolvers'
@@ -69,6 +70,7 @@ const resolvers = {
         return {
           ...(await getWeb3()),
           isReadOnly: isReadOnly(),
+          isSafeApp: isRunningAsSafeApp(),
           __typename: 'Web3'
         }
       } catch (e) {
