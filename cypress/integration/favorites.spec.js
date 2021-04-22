@@ -41,10 +41,9 @@ describe('Favorites', () => {
     )
   })
 
-  it.only('can click select all and renew all names with expiration including non owned names', () => {
+  it('can click select all and renew all names with expiration including non owned names', () => {
     // Owned by others
     const name = 'otherowner.eth'
-    // const name = 'resolver.eth'
     cy.visit(`${NAME_ROOT}/${name}`, { timeout: 20000 })
     cy.queryByText('Registrant', { timeout: 10000, exact: false }).should(
       'exist'
@@ -70,6 +69,8 @@ describe('Favorites', () => {
         ).should('exist')
         cy.getByText('Renew', { exact: true }).click({ force: true })
         cy.getByText('Confirm', { exact: true }).click({ force: true })
+        cy.wait(3000)
+        cy.visit(`${ROOT}/favourites`)
         cy.get(`[data-testid="expiry-date-${name}"]`, {
           timeout: 10000
         }).within(() => {
