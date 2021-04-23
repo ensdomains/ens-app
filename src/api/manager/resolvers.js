@@ -303,6 +303,7 @@ const resolvers = {
         // Override parentOwner for dns if exists
         if (
           dnsEntry &&
+          dnsEntry.parentOwner &&
           parseInt(dnsEntry.parentOwner) !== 0 &&
           parseInt(detailedNode.parentOwner) === 0
         ) {
