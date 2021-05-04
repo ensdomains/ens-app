@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
 import { useQuery } from 'react-apollo'
 import styled from '@emotion/styled/macro'
@@ -119,6 +119,11 @@ function AddReverseRecord({ account, currentAddress }) {
     }
   )
 
+  useEffect(() => {
+    if (account && !getReverseRecord) {
+      startEditing()
+    }
+  }, [getReverseRecord, account])
   const { data: { resolvers } = {} } = useQuery(GET_NAMES_FROM_SUBGRAPH, {
     variables: {
       address: currentAddress
