@@ -130,11 +130,10 @@ const Announcement = styled('div')`
   p {
     text-align: center;
     color: white;
-    margin-top: 0;
   }
   a {
     color: white;
-    text-decoration: underline;
+    text-decoration: none;
   }
 `
 
@@ -419,7 +418,14 @@ export default ({ match }) => {
           </>
         </SearchContainer>
       </Hero>
-      <Announcement />
+      <Announcement>
+        <p>
+          <a href="https://medium.com/the-ethereum-name-service/celebrating-enss-4th-anniversary-with-an-original-pplpleasr-nft-giveaway-4fa1dd29de29">
+            🎉Celebrating ENS's 4th Anniversary with an Original Pplpleasr
+            NFT Giveaway
+          </a>
+        </p>
+      </Announcement>
       <Explanation>
         <WhatItIs>
           <Inner>
