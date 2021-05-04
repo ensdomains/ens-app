@@ -300,16 +300,16 @@
     },
     "learnmore": {
       "step1": {
-        "text": "The Resolver is a Smart Contract responsible for the process of translating names into addresses. In the Resolver area click ‘Set’. Then click the ‘use public resolver’ link, and ‘save’ to launch the transaction.",
-        "title": "1. Set Resolver"
+        "text": "Once you register your name, Go to 'My Account' page and set a reverse record. This allows dapps to find and display your ENS name when you connect to them with your Ethereum account. ",
+        "title": "1. Set a reverse record"
       },
       "step2": {
-        "text": "Once you have set the Resolver, you can then add records by clicking the ‘ADD/EDIT RECORD’ in the ‘records’ field. Find 'addresses' and then 'ETH' in the dropdown, paste in your address and then click confirm below and then in the modal. Adding your ethereum address will allow you to point your wallet to your name in the next step.",
-        "title": "2. Set Address"
+        "text": "You can set the addresses of many different cryptocurrencies, profile information such as an avatar, Twitter handle, and more",
+        "title": "2. Set other records"
       },
       "step3": {
-        "text": "Once you set your address, you will see a message saying the reverse pointer is not set. Click the arrow in the field to expand, then click the button ‘save’. This will translate your address into your new name.",
-        "title": "3. Set Reverse Record"
+        "text": "You can host your static html/css/images on IPFS and put the hash in your ENS name's Content record. Then it can be resolved by ENS-aware browsers (e.g. Opera), browser extensions (Metamask), or any browser with '.link' appended to the end (e.g. ens.eth.link).",
+        "title": "3. Set a content hash of a decentralized website"
       },
       "title": "Learn how to manage your name."
     },

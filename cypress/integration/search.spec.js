@@ -10,6 +10,7 @@ describe(
   },
   () => {
     it('can list a domain', () => {
+      const name = 'resolver.eth'
       cy.visit(ROOT)
       cy.getByPlaceholderText('Search', { exact: false }).type('resolver')
       cy.wait(1500)
@@ -17,8 +18,8 @@ describe(
         .contains('Search')
         .click({ force: true })
       cy.wait(1500)
-      cy.getByTestId('domain-container').within(container => {
-        cy.queryByText('resolver.eth', { exact: false }).should('exist')
+      cy.getByTestId(`domain-${name}`).within(container => {
+        cy.queryByText(name, { exact: false }).should('exist')
         cy.queryByText('Expires', { exact: false }).should('exist')
       })
     })

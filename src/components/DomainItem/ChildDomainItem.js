@@ -15,6 +15,7 @@ import Bin from '../Forms/Bin'
 import { useEditable } from '../hooks'
 import PendingTx from '../PendingTx'
 import { useAccount } from '../QueryAccount'
+import AddFavourite from '../AddFavourite/AddFavourite'
 
 const DomainLink = styled(Link)`
   display: grid;
@@ -31,7 +32,7 @@ const DomainLink = styled(Link)`
   ${p =>
     !p.showBlockies &&
     mq.small`
-        grid-template-columns: 1fr minmax(150px, 350px) 23px;
+        grid-template-columns: 1fr minmax(150px, 350px) 35px 23px;
         grid-template-rows: 50px
       `}
 
@@ -67,6 +68,7 @@ export default function ChildDomainItem({
   owner,
   expiryDate,
   isMigrated,
+  isFavourite,
   checkedBoxes,
   setCheckedBoxes,
   setSelectAll,
@@ -125,7 +127,14 @@ export default function ChildDomainItem({
           </Mutation>
         )
       ) : (
-        <ExpiryDate name={name} expiryDate={expiryDate} />
+        <>
+          <ExpiryDate name={name} expiryDate={expiryDate} />
+          <AddFavourite
+            domain={{ name }}
+            isSubDomain={false}
+            isFavourite={isFavourite}
+          />
+        </>
       )}
 
       {!isDecrypted && (
