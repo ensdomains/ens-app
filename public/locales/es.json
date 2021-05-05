@@ -324,6 +324,7 @@
       "messages": {
         "explanation": "La resolución reversa traduce una dirección a un nombre. Permite a las Dapps mostrar '{{name}}' en lugar de la dirección larga '{{account}}'. Si quieres configurar la resolución inversa para una cuenta distinta, por favor cambia tu cuenta en tu navegador de dapps.",
         "explanation2": "You can only select names you set this Ethereum Address as.",
+        "noForwardRecordAavilable": "You either do not own any ENS names, or your ENS names have no ETH records set to this address.",
         "notSet": "Registro reverso: no configurado.",
         "selectPlaceholder": "Select your ENS name",
         "setTo": "Registro reverso: Configurado a",

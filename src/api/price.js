@@ -1,4 +1,5 @@
 import { ethers, getNetworkId, getNetworkProviderUrl } from '@ensdomains/ui'
+import getENS, { getRegistrar } from 'api/ens'
 
 const ChainLinkABI = [
   {
@@ -12,21 +13,16 @@ const ChainLinkABI = [
   }
 ]
 
-function getContract(network) {
-  // No chainlink deployed on Goerli
-  // https://docs.chain.link/docs/ethereum-addresses
-  const contracts = {
-    1: '0xF79D6aFBb6dA890132F9D7c355e3015f15F3406F',
-    3: '0x8468b2bDCE073A157E560AA4D9CcF6dB1DB98507',
-    4: '0x0bF4e7bf3e1f6D6Dc29AA516A33134985cC3A5aA',
-    42: '0xD21912D8762078598283B14cbA40Cb4bFCb87581'
+async function getContract() {
+  let contractAddress
+  try {
+    const ens = getENS()
+    contractAddress = await ens.getAddress('eth-usd.data.eth')
+  } catch {
+    //return mainnet if it does not exist
+    contractAddress = '0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419'
   }
-  if (contracts[network]) {
-    return contracts[network]
-  }
-
-  //return mainnet if on private net
-  return '0xF79D6aFBb6dA890132F9D7c355e3015f15F3406F'
+  return contractAddress
 }
 
 export default async function getEtherPrice() {
@@ -36,7 +32,7 @@ export default async function getEtherPrice() {
     const provider = new ethers.providers.JsonRpcProvider(networkProvider)
 
     const ethUsdContract = new ethers.Contract(
-      getContract(network),
+      await getContract(),
       ChainLinkABI,
       provider
     )

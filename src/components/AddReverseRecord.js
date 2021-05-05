@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
 import { useQuery } from 'react-apollo'
 import styled from '@emotion/styled/macro'
@@ -25,6 +25,10 @@ import Select from 'react-select'
 
 const Loading = styled('span')`
   color: #adbbcd;
+`
+
+const Warning = styled(`div`)`
+  color: #f5a623;
 `
 
 const AddReverseRecordContainer = styled('div')`
@@ -119,6 +123,11 @@ function AddReverseRecord({ account, currentAddress }) {
     }
   )
 
+  useEffect(() => {
+    if (account && !getReverseRecord) {
+      startEditing()
+    }
+  }, [getReverseRecord, account])
   const { data: { resolvers } = {} } = useQuery(GET_NAMES_FROM_SUBGRAPH, {
     variables: {
       address: currentAddress
@@ -199,13 +208,19 @@ function AddReverseRecord({ account, currentAddress }) {
                 your dapp browser.
               </Trans>
             </Explanation>
-            <Select
-              placeholder={t('singleName.record.messages.selectPlaceholder')}
-              isClearable={true}
-              value={newName}
-              onChange={handleSelect}
-              options={options}
-            />
+            {options?.length > 0 ? (
+              <Select
+                placeholder={t('singleName.record.messages.selectPlaceholder')}
+                isClearable={true}
+                value={newName}
+                onChange={handleSelect}
+                options={options}
+              />
+            ) : (
+              <Warning>
+                {t('singleName.record.messages.noForwardRecordAavilable')}
+              </Warning>
+            )}
             <Explanation>
               <p>
                 <Trans i18nKey="singleName.record.messages.explanation2">
