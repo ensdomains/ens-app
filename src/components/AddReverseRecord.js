@@ -27,6 +27,10 @@ const Loading = styled('span')`
   color: #adbbcd;
 `
 
+const Warning = styled(`div`)`
+  color: #f5a623;
+`
+
 const AddReverseRecordContainer = styled('div')`
   background: #f0f6fa;
   border: 1px solid #ededed;
@@ -204,13 +208,19 @@ function AddReverseRecord({ account, currentAddress }) {
                 your dapp browser.
               </Trans>
             </Explanation>
-            <Select
-              placeholder={t('singleName.record.messages.selectPlaceholder')}
-              isClearable={true}
-              value={newName}
-              onChange={handleSelect}
-              options={options}
-            />
+            {options?.length > 0 ? (
+              <Select
+                placeholder={t('singleName.record.messages.selectPlaceholder')}
+                isClearable={true}
+                value={newName}
+                onChange={handleSelect}
+                options={options}
+              />
+            ) : (
+              <Warning>
+                {t('singleName.record.messages.noForwardRecordAavilable')}
+              </Warning>
+            )}
             <Explanation>
               <p>
                 <Trans i18nKey="singleName.record.messages.explanation2">

@@ -324,6 +324,7 @@
       "messages": {
         "explanation": "The Reverse Resolution translates an address into a name. It allows Dapps to show in their interfaces '{{name}}' rather than the long address '{{account}}'. If you would like to set up your reverse for a different account, please switch accounts in your dapp browser",
         "explanation2": "You can only select names you set this Ethereum Address as.",
+        "noForwardRecordAavilable": "You either do not own any ENS names, or your ENS names have no ETH records set to this address.",
         "notSet": "Reverse record: not set",
         "selectPlaceholder": "Select your ENS name",
         "setTo": "Reverse record: Set to ",
