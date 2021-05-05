@@ -294,16 +294,16 @@
     },
     "learnmore": {
       "step1": {
-        "text": "Once you register your name, Go to 'My Account' page and set a reverse record. This allows dapps to find and display your ENS name when you connect to them with your Ethereum account. ",
-        "title": "1. Set a reverse record"
+        "text": "域名注册完成后，打开“我的域名”页面，并设置一个反向解析记录。这样您用以太坊账户连接 Dapp 时，它们就可以直接显示你的 ENS 域名。",
+        "title": "1. 设置反向解析记录"
       },
       "step2": {
-        "text": "You can set the addresses of many different cryptocurrencies, profile information such as an avatar, Twitter handle, and more",
-        "title": "2. Set other records"
+        "text": "您可以设置许多不同加密货币的地址、个人资料信息（如头像、Twitter 等)",
+        "title": "2. 设置其他记录"
       },
       "step3": {
-        "text": "You can host your static html/css/images on IPFS and put the hash in your ENS name's Content record. Then it can be resolved by ENS-aware browsers (e.g. Opera), browser extensions (Metamask), or any browser with '.link' appended to the end (e.g. ens.eth.link).",
-        "title": "3. Set a content hash of a decentralized website"
+        "text": "您可以将在 IPFS 部署静态网站（html/css/images），并将其哈希值记录在 ENS 域名的内容记录中，然后那些支持 ENS 的浏览器（比如 Opera）、浏览器插件（比如 Metamask）或是在做任意浏览器中加上 ‘.link’ 后缀，就可以解析这类记录。",
+        "title": "3. 设置去中心化网站的内容哈希"
       },
       "title": "学习如何管理你的域名"
     },
@@ -320,6 +320,7 @@
       "messages": {
         "explanation": "反向解析将地址转换为域名。它能让 dapp 在其界面上显示 “{{name}}”，而不是 “{{account}}” 这个冗长的地址。如果您想为另一个账户设置反向解析，请先在 dapp 浏览器中切换帐户。",
         "explanation2": "您只能选择已经解析至这个以太坊地址的域名。",
+        "noForwardRecordAavilable": "You either do not own any ENS names, or your ENS names have no ETH records set to this address.",
         "notSet": "反向记录：未设置",
         "selectPlaceholder": "选择您的 ENS 域名",
         "setTo": "反向记录：解析至 ",

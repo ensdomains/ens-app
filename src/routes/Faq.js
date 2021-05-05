@@ -273,6 +273,12 @@ function Faq() {
         you bid 1 ETH and the second highest bidder bid 0.1 ETH, you deposited
         0.1 ETH and you have already received the remaining (0.9 ETH) when you
         finailsed the auction. Therefore you can now only reclaim 0.1 ETH back.
+        Please read the{' '}
+        <a href="https://medium.com/the-ethereum-name-service/a-beginners-guide-to-buying-an-ens-domain-3ccac2bdc770">
+          {' '}
+          the initial guide back in 2017{' '}
+        </a>{' '}
+        for more detail.
       </Section>
     </FaqContainer>
   )
