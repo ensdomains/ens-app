@@ -148,8 +148,8 @@ function Faq() {
         for more than 5 min after moving to step 2, please contact us on
         Discord.
         <br />
-        Note that if you leave it at step 2 for more than 24 hours, it gets
-        reset and you have to start from step 1 again.
+        Note that if you leave it at step 2 for more than 7 days, it gets reset
+        and you have to start from step 1 again.
       </Section>
 
       <Section question="My transaction at step 3 failed">

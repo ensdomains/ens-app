@@ -201,7 +201,7 @@
     "step1": {
       "label": "Шаг 1",
       "text": "Ваш кошелёк откроется и вас попросят подтвердить первые две транзакции, необходимые для регистрации.",
-      "text2": "If the second transaction is not processed within 24 hours of the first, you will need to start again from step 1.",
+      "text2": "If the second transaction is not processed within 7 days of the first, you will need to start again from step 1.",
       "title": "Запрос на регистрацию"
     },
     "step2": {
