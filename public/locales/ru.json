@@ -201,7 +201,7 @@
     "step1": {
       "label": "Шаг 1",
       "text": "Ваш кошелёк откроется и вас попросят подтвердить первые две транзакции, необходимые для регистрации.",
-      "text2": "If the second transaction is not processed within 24 hours of the first, you will need to start again from step 1.",
+      "text2": "If the second transaction is not processed within 7 days of the first, you will need to start again from step 1.",
       "title": "Запрос на регистрацию"
     },
     "step2": {
@@ -326,6 +326,7 @@
       "messages": {
         "explanation": "Обратная Резолюция преобразовывает адрес в имя. Это позволяет Dapps показывать в их интерфейсах '{{имя}}' вместо длинного адреса '{{аккаунт}}'. Если вы хотите установить преобразование для другого аккаунта, пожалуйста, переключитите аккаунты в браузере dapp.",
         "explanation2": "You can only select names you set this Ethereum Address as.",
+        "noForwardRecordAavilable": "You either do not own any ENS names, or your ENS names have no ETH records set to this address.",
         "notSet": "Обратная запись: не установлена",
         "selectPlaceholder": "Select your ENS name",
         "setTo": "Обратная запись: Установлена на",

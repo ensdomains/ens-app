@@ -197,7 +197,7 @@
     "step1": {
       "label": "ステップ１",
       "text": "ウォレットが開き、登録に必要な2つのトランザクションのうち最初のトランザクションの確認を求められます。",
-      "text2": "If the second transaction is not processed within 24 hours of the first, you will need to start again from step 1.",
+      "text2": "If the second transaction is not processed within 7 days of the first, you will need to start again from step 1.",
       "title": "登録のリクエスト"
     },
     "step2": {
@@ -322,6 +322,7 @@
       "messages": {
         "explanation": "The Reverse Resolution translates an address into a name. It allows Dapps to show in their interfaces '{{name}}' rather than the long address '{{account}}'. If you would like to set up your reverse for a different account, please switch accounts in your dapp browser",
         "explanation2": "You can only select names you set this Ethereum Address as.",
+        "noForwardRecordAavilable": "You either do not own any ENS names, or your ENS names have no ETH records set to this address.",
         "notSet": "Reverse record: not set",
         "selectPlaceholder": "Select your ENS name",
         "setTo": "Reverse record: Set to ",

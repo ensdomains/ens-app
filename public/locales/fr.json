@@ -199,7 +199,7 @@
     "step1": {
       "label": "Étape 1",
       "text": "Votre portefeuille s'ouvrira et il vous sera demandé de confirmer la première des deux transactions requises pour l'inscription.",
-      "text2": "If the second transaction is not processed within 24 hours of the first, you will need to start again from step 1.",
+      "text2": "If the second transaction is not processed within 7 days of the first, you will need to start again from step 1.",
       "title": "Demande d'enregistrement"
     },
     "step2": {
@@ -324,6 +324,7 @@
       "messages": {
         "explanation": "La résolution inverse traduit une adresse en un nom. Il permet aux Dapps d'afficher dans leurs interfaces '{{name}}' plutôt que l'adresse longue '{{account}}'. Si vous souhaitez configurer votre reverse pour un autre compte, veuillez changer de compte dans votre navigateur.",
         "explanation2": "You can only select names you set this Ethereum Address as.",
+        "noForwardRecordAavilable": "You either do not own any ENS names, or your ENS names have no ETH records set to this address.",
         "notSet": "Enregistrement inverse : non définit",
         "selectPlaceholder": "Select your ENS name",
         "setTo": "Enregistrement inverse : Définir à",
