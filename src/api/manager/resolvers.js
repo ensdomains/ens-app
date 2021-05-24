@@ -439,7 +439,10 @@ const resolvers = {
         const { name: reverseName } = await ens.getName(address)
         const reverseAddress = await ens.getAddress(reverseName)
         const normalisedName = normalize(reverseName)
-        if (address === reverseAddress && reverseName === normalisedName) {
+        if (
+          parseInt(address) === parseInt(reverseAddress) &&
+          reverseName === normalisedName
+        ) {
           name = reverseName
         }
         if (name !== null) {
