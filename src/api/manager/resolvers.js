@@ -27,6 +27,7 @@ import {
 } from '../../graphql/queries'
 import getClient from '../../apolloClient'
 import getENS, { getRegistrar } from 'api/ens'
+import { normalize } from 'eth-ens-namehash'
 
 let savedFavourites =
   JSON.parse(window.localStorage.getItem('ensFavourites')) || []
@@ -426,6 +427,7 @@ const resolvers = {
       }
     },
     getReverseRecord: async (_, { address }, { cache }) => {
+      let name
       const ens = getENS()
       const obj = {
         address,
@@ -434,14 +436,18 @@ const resolvers = {
       if (!address) return obj
 
       try {
-        const { name } = await ens.getName(address)
+        const { name: reverseName } = await ens.getName(address)
+        const reverseAddress = await ens.getAddress(reverseName)
+        const normalisedName = normalize(reverseName)
+        if (address === reverseAddress && reverseName === normalisedName) {
+          name = reverseName
+        }
         if (name !== null) {
-          const addr = await ens.getAddress(name)
           const avatar = await ens.getText(name, 'avatar')
           return {
             ...obj,
             name,
-            addr,
+            addr: reverseAddress,
             avatar,
             match: false
           }

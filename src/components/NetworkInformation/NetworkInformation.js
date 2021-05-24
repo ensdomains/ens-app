@@ -170,7 +170,6 @@ function NetworkInformation() {
       </Waiting>
     )
   }
-
   return (
     <NetworkInformationContainer hasAccount={accounts && accounts.length > 0}>
       {accounts && accounts.length > 0 ? (
