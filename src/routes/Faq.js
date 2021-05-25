@@ -122,7 +122,7 @@ function Faq() {
         <br />
         Please bear in mind that "registerWithConfig" combines 3 transactions
         (register, set resolver and set eth address) hence the gas cost is
-        reelatively expensive.
+        relatively expensive.
       </Section>
 
       <Section question="Can I register names other than .eth?">
