@@ -35,6 +35,10 @@ const LANGUAGES = [
     label: '한국어 (KO)'
   },
   {
+    value: 'it',
+    label: 'Italiano (IT)'
+  },
+  {
     value: 'pl',
     label: 'Polski (PL)'
   },
