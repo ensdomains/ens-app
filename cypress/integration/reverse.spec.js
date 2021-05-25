@@ -9,30 +9,6 @@ describe(
     }
   },
   () => {
-    //Visit a domain, check the owner, resolver, address, content exists
-    it('is set to abittooawesome.eth', () => {
-      cy.visit(ROOT)
-      cy.getByPlaceholderText('Search', { exact: false }).type(
-        Cypress.env('ownerAddress')
-      )
-      cy.wait(1500)
-      cy.get('button')
-        .contains('Search')
-        .click({ force: true })
-
-      cy.wait(1500)
-      cy.queryByTestId('editable-reverse-record-set', { exact: false }).should(
-        'exist'
-      )
-      cy.queryByText('Reverse record: Set to abittooawesome.eth', {
-        exact: false,
-        timeout: 10000
-      }).should('exist')
-      cy.getByTestId('account', { exact: false, timeout: 10000 }).should(
-        'have.text',
-        'abittooawesome.eth'
-      )
-    })
     it('Display reverse record not set for non owner', () => {
       cy.visit(`${ROOT}/name/otherowner.eth`)
       cy.getByTestId('details-value-registrant').within(container => {
