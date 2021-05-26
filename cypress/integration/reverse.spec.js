@@ -34,22 +34,22 @@ describe(
       const url = `${NAME_ROOT}/${name}`
       cy.visit(url)
 
-      cy.getByTestId('account', { exact: false, timeout: 10000 }).should(
-        'not.have.text',
-        name
-      )
+      // cy.getByTestId('account', { exact: false, timeout: 10000 }).should(
+      //   'not.have.text',
+      //   name
+      // )
 
-      cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
-        cy.getByText('Add/Edit Record').click({ force: true })
-        cy.wait(2000)
-        // Address
-        cy.getByTestId('ETH-record-input')
-          .clear({ force: true })
-          .type(ADDRESS, { force: true })
-      })
+      // cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
+      //   cy.getByText('Add/Edit Record').click({ force: true })
+      //   cy.wait(2000)
+      //   // Address
+      //   cy.getByTestId('ETH-record-input')
+      //     .clear({ force: true })
+      //     .type(ADDRESS, { force: true })
+      // })
 
-      confirmRecordUpdate()
-      refreshAndCheckText(url, [ADDRESS])
+      // confirmRecordUpdate()
+      // refreshAndCheckText(url, [ADDRESS])
 
       cy.getByText('My Account').click({ force: true })
 
