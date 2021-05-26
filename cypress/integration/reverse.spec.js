@@ -1,5 +1,5 @@
 const ROOT = Cypress.env('ROOT')
-const NAME_ROOT = Cypress.env('NAME_ROOT')
+const ADDRESS = Cypress.env('ownerAddress')
 
 describe(
   'Reverse record',
@@ -9,40 +9,40 @@ describe(
     }
   },
   () => {
-    //Visit a domain, check the owner, resolver, address, content exists
-    it('is set to abittooawesome.eth', () => {
-      cy.visit(ROOT)
-      cy.getByPlaceholderText('Search', { exact: false }).type(
-        Cypress.env('ownerAddress')
-      )
-      cy.wait(1500)
-      cy.get('button')
-        .contains('Search')
-        .click({ force: true })
-
-      cy.wait(1500)
-      cy.queryByTestId('editable-reverse-record-set', { exact: false }).should(
-        'exist'
-      )
-      cy.queryByText('Reverse record: Set to abittooawesome.eth', {
+    it('is set', () => {
+      const url = `${ROOT}/address/${ADDRESS}`
+      cy.visit(url)
+      cy.queryByText(`everse record: not set`, {
         exact: false,
         timeout: 10000
       }).should('exist')
+
       cy.getByTestId('account', { exact: false, timeout: 10000 }).should(
         'have.text',
-        'abittooawesome.eth'
+        ADDRESS
       )
-    })
-    it('Display reverse record not set for non owner', () => {
-      cy.visit(`${ROOT}/name/otherowner.eth`)
-      cy.getByTestId('details-value-registrant').within(container => {
-        cy.get('a').click({ force: true })
-      })
-      cy.queryByTestId('readonly-reverse-record-not-set', {
-        exact: false
-      }).should('exist')
-    })
+      cy.getByText('Select your ENS name', { exact: false })
+        .click({ force: true })
+        .get('#react-select-2-option-1', { timeout: 10000 })
+        .invoke('text')
+        .then(name => {
+          console.log('***TEST', { name })
+          cy.get('#react-select-2-option-1', { timeout: 10000 })
+            .click({ force: true })
+            .getByText('Save', { timeout: 5000 })
+            .click({ force: true })
 
-    //TODO: Add test for setting reverse record
+          cy.queryByText(`Reverse record: Set to`, {
+            exact: false,
+            timeout: 10000
+          }).should('exist')
+          cy.visit(url)
+          cy.wait(5000)
+          cy.getByTestId('account', { exact: false, timeout: 10000 }).should(
+            'have.text',
+            name
+          )
+        })
+    })
   }
 )
