@@ -29,7 +29,7 @@ describe(
     }
   },
   () => {
-    it('is set to abittooawesome2.eth', () => {
+    it.only('is set to abittooawesome2.eth', () => {
       const name = 'abittooawesome2.eth'
       const url = `${NAME_ROOT}/${name}`
       cy.visit(url)
