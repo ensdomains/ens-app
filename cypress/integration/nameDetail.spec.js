@@ -360,7 +360,7 @@ describe('Name detail view', () => {
   })
 
   it('cannot change deprecated ipns contenthash', () => {
-    const url = `${NAME_ROOT}/abittooawesome4.eth`
+    const url = `${NAME_ROOT}/abittooawesome2.eth`
     cy.visit(url)
     const DEPRECATED_CONTENT_HASH = 'ipns://app.uniswap.org'
     cy.queryByText(DEPRECATED_CONTENT_HASH, { timeout: 10000 }).should('exist')
