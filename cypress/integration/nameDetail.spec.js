@@ -316,10 +316,6 @@ describe('Name detail view', () => {
   it('can change the record', () => {
     const url = `${NAME_ROOT}/abittooawesome.eth`
     cy.visit(url)
-    cy.getByTestId('account', { exact: false, timeout: 10000 }).should(
-      'have.text',
-      'abittooawesome.eth'
-    )
 
     const ADDRESS = '0x0000000000000000000000000000000000000007'
     const CONTENT =
@@ -361,11 +357,6 @@ describe('Name detail view', () => {
       OTHER_TEXT,
       OTHER_ADDRESS
     ])
-
-    cy.getByTestId('account', { exact: false, timeout: 10000 }).should(
-      'not.have.text',
-      'abittooawesome.eth'
-    )
   })
 
   it('cannot change deprecated ipns contenthash', () => {
