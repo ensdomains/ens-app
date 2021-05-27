@@ -197,7 +197,7 @@
     "step1": {
       "label": "Bước 1",
       "text": "Ví của bạn sẽ mở và bạn sẽ được yêu cầu xác nhận 2 giao dịch bắt buộc để đăng ký",
-      "text2": "If the second transaction is not processed within 24 hours of the first, you will need to start again from step 1.",
+      "text2": "If the second transaction is not processed within 7 days of the first, you will need to start again from step 1.",
       "title": "Yêu cầu đăng ký"
     },
     "step2": {

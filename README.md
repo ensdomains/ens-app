@@ -171,9 +171,9 @@ Currently we use `/public/locales/[language].json` for translation. Each propert
 
 To add a new language, copy the `public/locals/en.json` file, and name it [language].js and then you can begin to translate each label one by one.
 
-The other thing that needs to be changed is `LanguageSwitcher.js`, which has a list of currently supported languages. This will add the language to our dropdown menu.
+The other thing that needs to be changed is `LanguageSwitcher.js`, which has a list of currently supported languages, and the `i18n.js` init file. This will add the language to our dropdown menu.
 
-Once this has been done, please create a pull request for us to review and check it has been done correctl.y
+Once this has been done, please create a pull request for us to review and check it has been done correctly.
 
 ## End to end Testing
 
