@@ -119,7 +119,9 @@ function Favourites() {
   if (favourites.length > 0) {
     if (registrations && registrations.length > 0) {
       favouritesList = favourites.map(f => {
-        let r = registrations.filter(a => a.domain.name === f.name)[0]
+        let r = registrations.filter(
+          a => a.domain.id === getNamehash(f.name)
+        )[0]
         return {
           name: f.name,
           owner: r && r.domain.owner.id,
