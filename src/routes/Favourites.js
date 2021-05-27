@@ -117,20 +117,11 @@ function Favourites() {
   }
   let favouritesList = []
   if (favourites.length > 0) {
-    if (registrations && registrations.length === favourites.length) {
-      favouritesList = registrations.map((r, i) => {
-        return {
-          // registrations may not necessarily have decoded name so take the name from favourite
-          name: favourites[i].name,
-          owner: r.domain.owner.id,
-          available: getAvailable(r && r.expiryDate),
-          expiryDate: r.expiryDate
-        }
-      })
-    } else if (registrations && registrations.length > 0) {
-      // Fallback when subgraph is not returning result
+    if (registrations && registrations.length > 0) {
       favouritesList = favourites.map(f => {
-        let r = registrations.filter(a => a.domain.name === f.name)[0]
+        let r = registrations.filter(
+          a => a.domain.id === getNamehash(f.name)
+        )[0]
         return {
           name: f.name,
           owner: r && r.domain.owner.id,
