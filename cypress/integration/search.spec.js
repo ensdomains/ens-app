@@ -58,10 +58,6 @@ describe(
       cy.queryByText('Domain malformed. abc defg is not a valid domain.', {
         exact: false
       }).should('exist')
-      cy.queryByText('Owner', { exact: false, timeout: 1 }).should('not.exist')
-      cy.queryByText('Resolver', { exact: false, timeout: 1 }).should(
-        'not.exist'
-      )
     })
 
     it('cannot directly search too short name', () => {
