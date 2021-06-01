@@ -218,7 +218,7 @@ Subgraph is used to list subdomains and all the names you have registered.
 Get ens subgraph
 
 ```
-git clone https://github.com/graphprotocol/ens-subgraph
+git clone https://github.com/ensdomains/ens-subgraph
 cd ens-subgraph
 yarn
 ```
