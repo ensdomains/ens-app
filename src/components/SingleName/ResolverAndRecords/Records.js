@@ -69,8 +69,9 @@ const RECORDS = [
     value: 'textRecords'
   }
 ]
-// import TEXT_PLACEHOLDER_RECORDS from '../../../constants/textRecords'
+import TEXT_PLACEHOLDER_RECORDS from '../../../constants/textRecords'
 
+/*
 const TEXT_PLACEHOLDER_RECORDS = [
   'com.twitter',
   'com.github',
@@ -79,6 +80,7 @@ const TEXT_PLACEHOLDER_RECORDS = [
   'avatar',
   'notice'
 ]
+*/
 
 const COIN_PLACEHOLDER_RECORDS = ['ETH', ...COIN_LIST.slice(0, 3)]
 
