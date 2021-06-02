@@ -69,10 +69,11 @@ const RECORDS = [
     value: 'textRecords'
   }
 ]
+// import TEXT_PLACEHOLDER_RECORDS from '../../../constants/textRecords'
 
 const TEXT_PLACEHOLDER_RECORDS = [
-  'vnd.twitter',
-  'vnd.github',
+  'com.twitter',
+  'com.github',
   'url',
   'email',
   'avatar',
