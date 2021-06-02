@@ -17,11 +17,7 @@ import Favourites from './routes/Favourites'
 import Faq from './routes/Faq'
 import Address from './routes/AddressPage'
 import Renew from './routes/Renew'
-import Modal from './components/Modal/Modal'
-import Confirm from './components/SingleName/Confirm'
 import { NetworkError, Error404 } from './components/Error/Errors'
-import { CONFIRM } from './modals'
-import ExpiryNotificationModal from './components/ExpiryNotification/ExpiryNotificationModal'
 
 import DefaultLayout from './components/Layout/DefaultLayout'
 import { pageview, setup as setupAnalytics } from './utils/analytics'
@@ -30,6 +26,8 @@ import GlobalState from './globalState'
 import { ApolloProvider } from 'react-apollo'
 import { setupClient } from 'apolloClient'
 const errorHandler = new StackdriverErrorReporter()
+
+import Modal from './components/Modal/Modal'
 
 // If we are targeting an IPFS build we need to use HashRouter
 const Router =

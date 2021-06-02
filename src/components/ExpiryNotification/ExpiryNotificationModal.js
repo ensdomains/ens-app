@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import React, { useContext } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { EmailComponent } from '@buidlhub/buidlhub-ens-notifications'
 
@@ -8,9 +8,7 @@ import {
   getButtonDefaultStyles,
   getButtonStyles
 } from '../Forms/Button'
-import GlobalState from '../../globalState'
 import Loader from '../Loader'
-import Modal from '../Modal/Modal'
 import mq from 'mediaQuery'
 import { ReactComponent as Email } from '../Icons/Email.svg'
 import TruncatedAddress from './TruncatedAddress'
