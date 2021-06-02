@@ -5,6 +5,6 @@
   "description",
   "notice",
   "keywords",
-  "vnd.twitter",
-  "vnd.github"
+  "com.twitter",
+  "com.github"
 ]
