@@ -105,8 +105,7 @@ const App = ({ initialClient, initialNetworkId }) => {
                     <Route path="*" component={Error404} />
                   </Switch>
                 </Router>
-                <Modal name={CONFIRM} component={Confirm} />
-                <ExpiryNotificationModal />
+                {/*<Modal name={CONFIRM} component={Confirm} />*/}
               </>
             )
           }

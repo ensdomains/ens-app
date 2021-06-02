@@ -128,16 +128,12 @@ const SubmitComponent = styled(Button)`
     ${buttonStyles}
 `
 
-const ExpiryNotificationModal = () => {
-  const { toggleModal, currentModal } = useContext(GlobalState)
+const ExpiryNotificationModal = ({ address, onCancel }) => {
   const { t } = useTranslation()
-
-  const address = currentModal ? currentModal.address : null
 
   // Passing a references domain name may be useful for future capabilities, if a
   // user wants to monitor ENS names owned by others for upcoming expiration. This
   // feature would require additional planning / coordination between ENS <> BUIDLHub.
-
   // const domainName = currentModal ?
   //   currentModal.domainName :
   //   null;
@@ -151,25 +147,21 @@ const ExpiryNotificationModal = () => {
   }
 
   return (
-    <Modal name={EXPIRY_NOTIFICATION_MODAL_NAME}>
-      <EmailComponent
-        ActionsContainerComponent={ActionsContainerComponent}
-        cancelComponent={CancelComponent}
-        emailInputComponent={EmailInputComponent}
-        formComponent={FormComponent}
-        labelComponent={LabelComponent}
-        loadingComponent={LoadingComponent}
-        messageContainerComponent={MessageContainer}
-        name={INPUT_NAME}
-        onCancel={() => toggleModal({ name: EXPIRY_NOTIFICATION_MODAL_NAME })}
-        publicAddress={address}
-        submitComponent={SubmitComponent}
-        translation={translation}
-      />
-    </Modal>
+    <EmailComponent
+      ActionsContainerComponent={ActionsContainerComponent}
+      cancelComponent={CancelComponent}
+      emailInputComponent={EmailInputComponent}
+      formComponent={FormComponent}
+      labelComponent={LabelComponent}
+      loadingComponent={LoadingComponent}
+      messageContainerComponent={MessageContainer}
+      name={INPUT_NAME}
+      onCancel={onCancel}
+      publicAddress={address}
+      submitComponent={SubmitComponent}
+      translation={translation}
+    />
   )
 }
-
-export { EXPIRY_NOTIFICATION_MODAL_NAME }
 
 export default ExpiryNotificationModal
