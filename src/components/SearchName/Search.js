@@ -77,7 +77,12 @@ function Search({ history, className, style }) {
   let input
 
   const handleParse = e => {
-    setInputValue(e.target.value)
+    setInputValue(
+      e.target.value
+        .split('.')
+        .map(term => term.trim())
+        .join('.')
+    )
   }
   const hasSearch = inputValue && inputValue.length > 0
   return (
@@ -92,7 +97,8 @@ function Search({ history, className, style }) {
         const type = await parseSearchTerm(inputValue)
         let searchTerm
         if (input && input.value) {
-          searchTerm = input.value.toLowerCase()
+          // inputValue doesn't have potential whitespace
+          searchTerm = inputValue.toLowerCase()
         }
         if (!searchTerm || searchTerm.length < 1) {
           return

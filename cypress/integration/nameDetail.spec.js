@@ -316,6 +316,7 @@ describe('Name detail view', () => {
   it('can change the record', () => {
     const url = `${NAME_ROOT}/abittooawesome.eth`
     cy.visit(url)
+
     const ADDRESS = '0x0000000000000000000000000000000000000007'
     const CONTENT =
       'bzz://d1de9994b4d039f6548d191eb26786769f580809256b4685ef316805265ea162'
@@ -359,7 +360,7 @@ describe('Name detail view', () => {
   })
 
   it('cannot change deprecated ipns contenthash', () => {
-    const url = `${NAME_ROOT}/abittooawesome4.eth`
+    const url = `${NAME_ROOT}/abittooawesome2.eth`
     cy.visit(url)
     const DEPRECATED_CONTENT_HASH = 'ipns://app.uniswap.org'
     cy.queryByText(DEPRECATED_CONTENT_HASH, { timeout: 10000 }).should('exist')
