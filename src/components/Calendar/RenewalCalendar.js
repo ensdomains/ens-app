@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Calendar, { CalendarButton } from './Calendar'
 import EmailNotifyLink from '../ExpiryNotification/EmailNotifyLink'
 import moment from 'moment'
 import { useTranslation } from 'react-i18next'
+import Modal from '../Modal/Modal'
+import ExpiryNotificationModal from '../ExpiryNotification/ExpiryNotificationModal'
 
 function RenewalCalendarInvite({
   startDatetime,
@@ -11,6 +13,8 @@ function RenewalCalendarInvite({
   registrant,
   noMargin
 }) {
+  const [showModal, setShowModal] = useState(false)
+
   const { t } = useTranslation()
   const endDatetime = startDatetime.clone().add(2, 'hours')
   const duration = moment.duration(endDatetime.diff(startDatetime)).asHours()
@@ -23,18 +27,44 @@ function RenewalCalendarInvite({
     duration
   }
 
+  const handleEmailNotifyClick = () => {
+    setShowModal(true)
+  }
+
+  const handleCloseModal = () => {
+    setShowModal(false)
+  }
+
   // AddToCalendarHOC does not allow passing in additional arbitary links
   // to render in the dropdown list. Instead of refactoring the external
   // library, the Dropdown component was extend to support rendering
   // additional elements from appendChildren & prependChildren props.
   const dropDownLinks = [
-    <EmailNotifyLink key="email" domainName={name} address={registrant}>
+    <EmailNotifyLink
+      key="email"
+      domainName={name}
+      address={registrant}
+      onClick={handleEmailNotifyClick}
+    >
       {t('c.email')}
     </EmailNotifyLink>
   ]
 
   return (
-    <Calendar event={event} dropDownLinks={dropDownLinks} noMargin={noMargin} />
+    <>
+      {showModal && (
+        <Modal closeModal={handleCloseModal}>
+          <ExpiryNotificationModal
+            {...{ address: registrant, onCancel: handleCloseModal }}
+          />
+        </Modal>
+      )}
+      <Calendar
+        event={event}
+        dropDownLinks={dropDownLinks}
+        noMargin={noMargin}
+      />
+    </>
   )
 }
 
