@@ -177,6 +177,53 @@ Once this has been done, please create a pull request for us to review and check
 
 ## End to end Testing
 
+### Getting started with E2E testing
+
+In case you haven't already:
+
+- `git clone https://github.com/ensdomains/ens-app.git`
+- `git clone https://github.com/ensdomains/ens-subgraph`
+- `git clone https://github.com/graphprotocol/graph-node`
+
+You need to make sure these are all cloned into the same parent folder.
+
+Next in the ens-app folder run the following (will need multiple terminals open):
+
+```
+npx ganache-cli -b 1
+```
+
+Install Docker: https://www.docker.com/get-started
+
+Next in the /graph-node/docker folder:
+
+```
+rm -rf data
+docker-compose up
+```
+
+in the `ens-app` folder:
+
+```
+yarn preTest
+yarn subgraph
+```
+
+in the `ens-subgraph` folder:
+
+`yarn setup`
+
+in the `ens-app` folder:
+
+```
+yarn start:test
+yarn run cypress:open
+```
+
+This should open up cypress. To run the tests click on 'Run n integration tests'
+
+---
+
 The main package for the E2E tests is `ensdomains/mock`, which exposes a script that will prepopulate ganache with ENS so you have everything setup to run Cypress on.
 
 The ENS app has end to end tests with Cypress. To run them you need to start ganache, run the seed script, run the app and then run cypress. This should start chrome and the Cypress GUI. Each time the test run, the script needs to be re-run and the app restarted for it to work.
@@ -218,7 +265,7 @@ Subgraph is used to list subdomains and all the names you have registered.
 Get ens subgraph
 
 ```
-git clone https://github.com/graphprotocol/ens-subgraph
+git clone https://github.com/ensdomains/ens-subgraph
 cd ens-subgraph
 yarn
 ```
