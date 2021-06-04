@@ -63,10 +63,10 @@ const RecordLink = ({ textKey, value }) => {
     case 'url':
       url = `${value}`
       break
-    case 'vnd.twitter':
+    case 'com.twitter':
       url = `twitter.com/${value}`
       break
-    case 'vnd.github':
+    case 'com.github':
       url = `github.com/${value}`
       break
     default:
