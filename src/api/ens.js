@@ -17,7 +17,7 @@ export async function setup({
   ensAddress
 }) {
   let option = {
-    reloadOnAccountsChange,
+    reloadOnAccountsChange: true,
     enforceReadOnly,
     enforceReload,
     customProvider,
