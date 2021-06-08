@@ -340,7 +340,7 @@ describe('Name detail view', () => {
         .clear({ force: true })
         .type(TEXT, { force: true })
         // Other Text
-        .getByTestId('vnd.twitter-record-input')
+        .getByTestId('com.twitter-record-input')
         .clear({ force: true })
         .type(OTHER_TEXT, { force: true })
         // Other Address

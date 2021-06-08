@@ -1,7 +1,9 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import GlobalState from '../../globalState'
 
-import { EXPIRY_NOTIFICATION_MODAL_NAME } from './ExpiryNotificationModal'
+import Modal from '../Modal/Modal'
+
+import ExpiryNotificationModal from './ExpiryNotificationModal'
 
 // If react-add-to-calendar-hoc is replaced, it may be useful
 // to switch to a button element for a11y purposes.
@@ -20,22 +22,13 @@ import { EXPIRY_NOTIFICATION_MODAL_NAME } from './ExpiryNotificationModal'
 //   margin: 0;
 // `;
 
-const EmailNotifyLink = ({ address, domainName, children, onClick = null }) => {
-  const { toggleModal } = useContext(GlobalState)
-
+const EmailNotifyLink = ({ children, onClick = null }) => {
   const handleClick = e => {
+    e.preventDefault()
+
     if (onClick) {
       onClick(e)
     }
-
-    toggleModal({
-      name: EXPIRY_NOTIFICATION_MODAL_NAME,
-      cancel: () => {
-        toggleModal({ name: EXPIRY_NOTIFICATION_MODAL_NAME })
-      },
-      address,
-      domainName
-    })
   }
 
   return (
@@ -43,10 +36,12 @@ const EmailNotifyLink = ({ address, domainName, children, onClick = null }) => {
     // global CSS and other parts of the site.
     // See: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md#case-i-want-navigable-links
 
+    <>
+      <a href="#" onClick={handleClick}>
+        {children}
+      </a>
+    </>
     // eslint-disable-next-line
-    <a href="#" onClick={handleClick}>
-      {children}
-    </a>
   )
 }
 

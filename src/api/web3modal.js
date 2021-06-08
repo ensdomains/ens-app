@@ -50,6 +50,11 @@ export const connect = async () => {
   try {
     web3Modal = new Web3Modal(option)
     provider = await web3Modal.connect()
+
+    provider.on('accountsChanged', accounts => {
+      window.location.reload()
+    })
+
     await setupENS({
       customProvider: provider,
       reloadOnAccountsChange: true,
