@@ -11,7 +11,7 @@ import { handleNetworkChange } from './utils/utils'
 window.addEventListener('load', async () => {
   const { client, networkId } = await handleNetworkChange()
   ReactDOM.render(
-    <Suspense fallback={null}>
+    <Suspense fallback={<div>loading</div>}>
       <GlobalStateProvider>
         <App initialClient={client} initialNetworkId={networkId} />
       </GlobalStateProvider>

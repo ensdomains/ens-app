@@ -29,16 +29,18 @@ const H2 = styled('h2')`
 
 const Message = styled('div')``
 
-export const NetworkError = ({ message }) => (
-  <ErrorContainer>
-    <Message>
-      <Warning src={warningImage} />
-      <H2>{message}</H2>
-      <br />
-      Please change your dapp browser to Mainnet, Ropsten, Rinkeby or Goerli
-    </Message>
-  </ErrorContainer>
-)
+export const NetworkError = () => <div>probe</div>
+
+// export const NetworkError = ({ message }) => (
+//   <ErrorContainer>
+//     <Message>
+//       <Warning src={warningImage} />
+//       <H2>{message}</H2>
+//       <br />
+//       Please change your dapp browser to Mainnet, Ropsten, Rinkeby or Goerli
+//     </Message>
+//   </ErrorContainer>
+// )
 
 export const Error404 = () => (
   <ErrorContainer>

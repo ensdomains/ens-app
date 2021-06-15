@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect, useState } from 'react'
+import React, { Fragment, useContext, useEffect, useState, lazy } from 'react'
 import {
   HashRouter,
   BrowserRouter,
@@ -9,15 +9,17 @@ import { Query } from 'react-apollo'
 
 import { GET_ERRORS } from './graphql/queries'
 
-import TestRegistrar from './routes/TestRegistrar'
-import Home from './routes/Home'
-import SearchResults from './routes/SearchResults'
-import SingleName from './routes/SingleName'
-import Favourites from './routes/Favourites'
-import Faq from './routes/Faq'
-import Address from './routes/AddressPage'
-import Renew from './routes/Renew'
-import { NetworkError, Error404 } from './components/Error/Errors'
+const TestRegistrar = lazy(() => import('./routes/TestRegistrar'))
+const Home = lazy(() => import('./routes/Home'))
+const SearchResults = lazy(() => import('./routes/SearchResults'))
+const SingleName = lazy(() => import('./routes/SingleName'))
+const Favourites = lazy(() => import('./routes/Favourites'))
+const Faq = lazy(() => import('./routes/Faq'))
+const Address = lazy(() => import('./routes/AddressPage'))
+const Renew = lazy(() => import('./routes/Renew'))
+const { NetworkError, Error404 } = lazy(() =>
+  import('./components/Error/Errors')
+)
 
 import DefaultLayout from './components/Layout/DefaultLayout'
 import { pageview, setup as setupAnalytics } from './utils/analytics'
@@ -68,6 +70,8 @@ const App = ({ initialClient, initialNetworkId }) => {
             key: 'AIzaSyDW3loXBr_2e-Q2f8ZXdD0UAvMzaodBBNg',
             projectId: 'idyllic-ethos-235310'
           })
+
+          console.log('data: ', data)
 
           if (data && data.error && data.error.message) {
             return <NetworkError message={data.error.message} />

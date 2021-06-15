@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import styled from '@emotion/styled/macro'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
-import warning from '../assets/whiteWarning.svg'
 import {
   GET_REVERSE_RECORD,
   GET_META_BLOCK_NUMBER_FROM_GRAPH

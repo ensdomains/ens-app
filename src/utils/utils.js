@@ -1,12 +1,13 @@
+import { getNetworkId } from '@ensdomains/ui/src/web3'
 import {
-  getNetworkId,
+  emptyAddress as _emptyAddress,
   validateName as _validateName,
   parseSearchTerm as _parseSearchTerm,
   getEnsStartBlock as _ensStartBlock,
   isLabelValid as _isLabelValid,
-  isEncodedLabelhash,
-  emptyAddress as _emptyAddress
-} from '@ensdomains/ui'
+  isEncodedLabelhash
+} from '@ensdomains/ui/src/utils/index'
+
 import getENS from '../api/ens'
 import * as jsSHA3 from 'js-sha3'
 import { saveName } from '../api/labels'
