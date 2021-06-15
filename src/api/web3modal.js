@@ -1,9 +1,3 @@
-import WalletConnectProvider from '@walletconnect/web3-provider'
-// import Authereum from 'authereum'
-// import MewConnect from '@myetherwallet/mewconnect-web-client'
-// import Torus from '@toruslabs/torus-embed'
-// import Portis from '@portis/web3'
-
 import Web3Modal from 'web3modal'
 import { setup as setupENS } from '../api/ens'
 import { getNetwork } from '@ensdomains/ui'
@@ -19,18 +13,20 @@ const option = {
   cacheProvider: true, // optional
   providerOptions: {
     walletconnect: {
-      package: WalletConnectProvider,
-      // package: () => import('@walletconnect/web3-provider'),
+      package: () => import('@walletconnect/web3-provider'),
+      packageFactory: true,
       options: {
         infuraId: INFURA_ID
       }
     },
     //Alphabetical order from now on.
     authereum: {
-      package: () => import('authereum')
+      package: () => import('authereum'),
+      packageFactory: true
     },
     mewconnect: {
       package: () => import('@myetherwallet/mewconnect-web-client'),
+      packageFactory: true,
       options: {
         infuraId: INFURA_ID,
         description: ' '
@@ -38,19 +34,20 @@ const option = {
     },
     portis: {
       package: () => import('@portis/web3'),
+      packageFactory: true,
       options: {
         id: PORTIS_ID
       }
     },
     torus: {
-      package: () => import('@toruslabs/torus-embed')
+      package: () => import('@toruslabs/torus-embed'),
+      packageFactory: true
     }
   }
 }
 let web3Modal
 export const connect = async () => {
   try {
-    debugger
     web3Modal = new Web3Modal(option)
     provider = await web3Modal.connect()
     provider.on('accountsChanged', accounts => {
@@ -65,6 +62,7 @@ export const connect = async () => {
     return await getNetwork()
   } catch (e) {
     if (e !== 'Modal closed by user') {
+      console.log('e: ', e)
       debugger
       throw e
     }

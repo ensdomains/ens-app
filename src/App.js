@@ -17,10 +17,8 @@ const Favourites = lazy(() => import('./routes/Favourites'))
 const Faq = lazy(() => import('./routes/Faq'))
 const Address = lazy(() => import('./routes/AddressPage'))
 const Renew = lazy(() => import('./routes/Renew'))
-const { NetworkError, Error404 } = lazy(() =>
-  import('./components/Error/Errors')
-)
 
+import { NetworkError, Error404 } from './components/Error/Errors'
 import DefaultLayout from './components/Layout/DefaultLayout'
 import { pageview, setup as setupAnalytics } from './utils/analytics'
 import StackdriverErrorReporter from 'stackdriver-errors-js'
@@ -61,6 +59,7 @@ const App = ({ initialClient, initialNetworkId }) => {
       setupClient(currentNetwork).then(client => setCurrentClient(client))
     }
   }, [currentNetwork])
+
   return (
     <ApolloProvider client={currentClient}>
       <Query query={GET_ERRORS}>
