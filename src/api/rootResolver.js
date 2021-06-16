@@ -5,6 +5,7 @@ import {
   isReadOnly,
   emptyAddress
 } from '@ensdomains/ui'
+
 import getENS from 'api/ens'
 import merge from 'lodash/merge'
 import { isRunningAsSafeApp } from 'utils/safeApps'
