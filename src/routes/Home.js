@@ -418,14 +418,6 @@ export default ({ match }) => {
           </>
         </SearchContainer>
       </Hero>
-      <Announcement>
-        <p>
-          <a href="https://medium.com/the-ethereum-name-service/celebrating-enss-4th-anniversary-with-an-original-pplpleasr-nft-giveaway-4fa1dd29de29">
-            🎉Celebrating ENS's 4th Anniversary with an Original Pplpleasr
-            NFT Giveaway
-          </a>
-        </p>
-      </Announcement>
       <Explanation>
         <WhatItIs>
           <Inner>
