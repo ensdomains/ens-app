@@ -1,6 +1,4 @@
-import Web3Modal from 'web3modal'
 import { setup as setupENS } from '../api/ens'
-import { getNetwork } from '@ensdomains/ui'
 
 const INFURA_ID =
   window.location.host === 'app.ens.domains'
@@ -48,6 +46,9 @@ const option = {
 let web3Modal
 export const connect = async () => {
   try {
+    const Web3Modal = (await import('web3modal-dynamic-import')).default
+    const { getNetwork } = await import('@ensdomains/ui')
+
     web3Modal = new Web3Modal(option)
     provider = await web3Modal.connect()
     provider.on('accountsChanged', accounts => {
@@ -62,8 +63,6 @@ export const connect = async () => {
     return await getNetwork()
   } catch (e) {
     if (e !== 'Modal closed by user') {
-      console.log('e: ', e)
-      debugger
       throw e
     }
   }

@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom'
-import 'core-js/es/object'
+// import 'core-js/es/object'
 import App from 'App'
 
 import { GlobalStateProvider } from 'globalState'
@@ -11,7 +11,7 @@ import { handleNetworkChange } from './utils/utils'
 window.addEventListener('load', async () => {
   const { client, networkId } = await handleNetworkChange()
   ReactDOM.render(
-    <Suspense fallback={<div>loading</div>}>
+    <Suspense fallback={null}>
       <GlobalStateProvider>
         <App initialClient={client} initialNetworkId={networkId} />
       </GlobalStateProvider>
