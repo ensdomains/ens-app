@@ -349,7 +349,7 @@ export default ({ match }) => {
     try {
       network = await connect()
     } catch (e) {
-      setError({ variables: { message: e && e.message } })
+      setError({ variables: { message: e?.message } })
     }
     if (network) {
       switchNetwork(network.chainId)
