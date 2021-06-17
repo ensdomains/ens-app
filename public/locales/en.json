@@ -328,7 +328,8 @@
         "notSet": "Reverse record: not set",
         "selectPlaceholder": "Select your ENS name",
         "setTo": "Reverse record: Set to ",
-        "setToDifferent": "Reverse record: Set to a different name:"
+        "setToDifferent": "Reverse record: Set to a different name:",
+        "reverseRecordRemoval": "Are you sure you want to delete the reverse record?"
       },
       "openEdit": "Add/Edit Records",
       "title": "Records"
