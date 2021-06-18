@@ -17,6 +17,14 @@ const option = {
         infuraId: INFURA_ID
       }
     },
+    walletlink: {
+      package: () => import('walletlink'),
+      packageFactory: true,
+      options: {
+        appName: 'Ethereum name service',
+        jsonRpcUrl: `https://mainnet.infura.io/v3/${INFURA_ID}`
+      }
+    },
     //Alphabetical order from now on.
     authereum: {
       package: () => import('authereum'),
