@@ -4,6 +4,8 @@ import { useQuery, useMutation } from 'react-apollo'
 import styled from '@emotion/styled/macro'
 import { useTranslation, Trans } from 'react-i18next'
 
+import { emptyAddress } from '../utils/utils'
+
 import { SET_NAME } from 'graphql/mutations'
 import mq from 'mediaQuery'
 import { useEditable } from './hooks'
@@ -108,6 +110,9 @@ const ButtonsContainer = styled('div')`
   align-items: center;
 `
 
+const isReverseRecordSet = getReverseRecord =>
+  getReverseRecord && getReverseRecord.name !== emptyAddress
+
 function AddReverseRecord({ account, currentAddress }) {
   const { t } = useTranslation()
   const { state, actions } = useEditable()
@@ -185,7 +190,7 @@ function AddReverseRecord({ account, currentAddress }) {
     return (
       <>
         <Message onClick={editing ? stopEditing : startEditing}>
-          {getReverseRecord && getReverseRecord.name !== null ? (
+          {isReverseRecordSet(getReverseRecord) ? (
             <MessageContent data-testid="editable-reverse-record-set">
               <Check />
               {t('singleName.record.messages.setTo') + getReverseRecord.name}
@@ -242,13 +247,12 @@ function AddReverseRecord({ account, currentAddress }) {
             <ButtonsContainer>
               <SaveCancel
                 mutation={() => {
-                  debugger
                   setName({ variables: { name: newName?.value } })
                 }}
                 stopEditing={stopEditing}
                 isValid={!!newName}
               />
-              {getReverseRecord && getReverseRecord.name !== null && (
+              {isReverseRecordSet(getReverseRecord) && (
                 <>
                   <Bin onClick={() => setIsDeleteModalOpen(true)} />
                   {isDeleteModalOpen && (
@@ -257,11 +261,12 @@ function AddReverseRecord({ account, currentAddress }) {
                       <Gap size={5} />
                       <SaveCancel
                         mutation={() => {
+                          setName({ variables: { name: emptyAddress } })
                           setIsDeleteModalOpen(false)
-                          setName({ variables: { name: '0x0000000000000000' } })
                         }}
                         stopEditing={e => {
                           stopEditing(e)
+                          setIsDeleteModalOpen(false)
                         }}
                         isValid
                       />
@@ -286,7 +291,7 @@ function AddReverseRecord({ account, currentAddress }) {
             <ReverseRecordEditor />
           ) : (
             <ReadOnlyMessage>
-              {getReverseRecord && getReverseRecord.name !== null ? (
+              {isReverseRecordSet(getReverseRecord) ? (
                 <MessageContent data-testid="readonly-reverse-record-set">
                   {t('singleName.record.messages.setTo') +
                     getReverseRecord.name}
