@@ -30,7 +30,7 @@
     "emotion": "^10.0.9",
     "esm": "^3.2.22",
     "eth-ens-namehash": "^2.0.8",
-    "ethers": "^5.0.31",
+    "ethers": "5.0.31",
     "ethjs-unit": "^0.1.6",
     "ethval": "^1.3.0",
     "framer-motion": "^1.9.1",
@@ -60,7 +60,7 @@
     "slugify": "^1.4.6",
     "stackdriver-errors-js": "^0.8.0",
     "web3": "^1.3.0",
-    "web3modal": "^1.9.1"
+    "web3modal-dynamic-import": "1.10.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -90,7 +90,8 @@
     "deploy:dev": "npm run build && npm run postbuild && surge build ensappdev.surge.sh",
     "deploy": "npm run build && npm run postbuild && surge build app.ens.domains",
     "i18n": "sync-i18n --files 'public/locales/*.json' --primary en --languages cn --space 2",
-    "check-i18n": "npm run i18n -- --check"
+    "check-i18n": "npm run i18n -- --check",
+    "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "prettier": {
     "semi": false,
@@ -119,7 +120,8 @@
     "react-testing-library": "^3.0.2",
     "solc": "^0.4.23",
     "start-server-and-test": "^1.10.0",
-    "surge": "^0.20.1"
+    "surge": "^0.20.1",
+    "source-map-explorer": "2.5.2"
   },
   "browserslist": {
     "development": [

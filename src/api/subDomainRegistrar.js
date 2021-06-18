@@ -2,6 +2,7 @@ import subDomainRegistrarContract from './contracts/subDomainRegistrarContract.j
 import { getProvider } from '@ensdomains/ui'
 import { Contract, utils } from 'ethers'
 import domains from '../constants/domains.json'
+
 let subDomainRegistrars = {}
 
 const defaultAddress = '0x0b07463b30b302a98407d3e3df85ebc073b0dbd1'
