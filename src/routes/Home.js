@@ -148,9 +148,9 @@ const Hero = styled('section')`
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
   ${mq.medium`
     padding: 0 20px 0;
-    height: 600px;
   `}
 `
 
@@ -417,36 +417,36 @@ export default ({ match }) => {
           </>
         </SearchContainer>
       </Hero>
-      <Explanation>
-        <WhatItIs>
-          <Inner>
-            <H2>
-              <TextBubble color="#2B2B2B" />
-              {t('home.whatisens.title')}
-            </H2>
-            <p>{t('home.whatisens.body')}</p>
-            <ExternalButtonLink href={aboutPageURL()}>
-              {t('c.learnmore')}
-            </ExternalButtonLink>
-          </Inner>
-        </WhatItIs>
-        <NameAnimation>
-          <Alice />
-        </NameAnimation>
-        <HowToUse />
-        <HowItWorks>
-          <Inner>
-            <H2>
-              <QuestionMark color="#2B2B2B" />
-              {t('home.howtouse.title')}
-            </H2>
-            <p>{t('home.howtouse.body')}</p>
-            <ExternalButtonLink href={aboutPageURL()}>
-              {t('c.learnmore')}
-            </ExternalButtonLink>
-          </Inner>
-        </HowItWorks>
-      </Explanation>
+      {/*<Explanation>*/}
+      {/*  <WhatItIs>*/}
+      {/*    <Inner>*/}
+      {/*      <H2>*/}
+      {/*        <TextBubble color="#2B2B2B" />*/}
+      {/*        {t('home.whatisens.title')}*/}
+      {/*      </H2>*/}
+      {/*      <p>{t('home.whatisens.body')}</p>*/}
+      {/*      <ExternalButtonLink href={aboutPageURL()}>*/}
+      {/*        {t('c.learnmore')}*/}
+      {/*      </ExternalButtonLink>*/}
+      {/*    </Inner>*/}
+      {/*  </WhatItIs>*/}
+      {/*  <NameAnimation>*/}
+      {/*    <Alice />*/}
+      {/*  </NameAnimation>*/}
+      {/*  <HowToUse />*/}
+      {/*  <HowItWorks>*/}
+      {/*    <Inner>*/}
+      {/*      <H2>*/}
+      {/*        <QuestionMark color="#2B2B2B" />*/}
+      {/*        {t('home.howtouse.title')}*/}
+      {/*      </H2>*/}
+      {/*      <p>{t('home.howtouse.body')}</p>*/}
+      {/*      <ExternalButtonLink href={aboutPageURL()}>*/}
+      {/*        {t('c.learnmore')}*/}
+      {/*      </ExternalButtonLink>*/}
+      {/*    </Inner>*/}
+      {/*  </HowItWorks>*/}
+      {/*</Explanation>*/}
     </>
   )
 }
