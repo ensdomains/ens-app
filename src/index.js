@@ -1,6 +1,5 @@
 import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom'
-// import 'core-js/es/object'
 import App from 'App'
 
 import { GlobalStateProvider } from 'globalState'
