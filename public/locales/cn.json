@@ -322,6 +322,7 @@
         "explanation2": "您只能选择已经解析至这个以太坊地址的域名。",
         "noForwardRecordAavilable": "You either do not own any ENS names, or your ENS names have no ETH records set to this address.",
         "notSet": "反向记录：未设置",
+        "reverseRecordRemoval": "Are you sure you want to delete the reverse record?",
         "selectPlaceholder": "选择您的 ENS 域名",
         "setTo": "反向记录：解析至 ",
         "setToDifferent": "反向记录：已解析至另一个域名："

@@ -326,6 +326,7 @@
         "explanation2": "You can only select names you set this Ethereum Address as.",
         "noForwardRecordAavilable": "You either do not own any ENS names, or your ENS names have no ETH records set to this address.",
         "notSet": "Enregistrement inverse : non définit",
+        "reverseRecordRemoval": "Are you sure you want to delete the reverse record?",
         "selectPlaceholder": "Select your ENS name",
         "setTo": "Enregistrement inverse : Définir à",
         "setToDifferent": "Enregistrement inverse : Définir à un nom différent"
