@@ -237,3 +237,6 @@ export async function handleNetworkChange() {
   }
   return { client, networkId }
 }
+
+export const hasValidReverseRecord = getReverseRecord =>
+  getReverseRecord?.name && getReverseRecord.name !== emptyAddress

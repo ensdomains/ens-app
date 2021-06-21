@@ -4,7 +4,7 @@ import { useQuery, useMutation } from 'react-apollo'
 import styled from '@emotion/styled/macro'
 import { useTranslation, Trans } from 'react-i18next'
 
-import { emptyAddress } from '../utils/utils'
+import { emptyAddress, hasValidReverseRecord } from '../utils/utils'
 
 import { SET_NAME } from 'graphql/mutations'
 import mq from 'mediaQuery'
@@ -110,9 +110,6 @@ const ButtonsContainer = styled('div')`
   align-items: center;
 `
 
-const isReverseRecordSet = getReverseRecord =>
-  getReverseRecord && getReverseRecord.name !== emptyAddress
-
 function AddReverseRecord({ account, currentAddress }) {
   const { t } = useTranslation()
   const { state, actions } = useEditable()
@@ -190,7 +187,7 @@ function AddReverseRecord({ account, currentAddress }) {
     return (
       <>
         <Message onClick={editing ? stopEditing : startEditing}>
-          {isReverseRecordSet(getReverseRecord) ? (
+          {hasValidReverseRecord(getReverseRecord) ? (
             <MessageContent data-testid="editable-reverse-record-set">
               <Check />
               {t('singleName.record.messages.setTo') + getReverseRecord.name}
@@ -218,10 +215,15 @@ function AddReverseRecord({ account, currentAddress }) {
               <Trans i18nKey="singleName.record.messages.explanation">
                 The Reverse Resolution translates an address into a name. It
                 allows Dapps to show in their interfaces '
-                {{ name: getReverseRecord?.name || 'example.eth' }}' rather than
-                the long address '{{ account }}'. If you would like to set up
-                your reverse for a different account, please switch accounts in
-                your dapp browser.
+                {{
+                  name:
+                    (hasValidReverseRecord(getReverseRecord) &&
+                      getReverseRecord.name) ||
+                    'example.eth'
+                }}
+                ' rather than the long address '{{ account }}'. If you would
+                like to set up your reverse for a different account, please
+                switch accounts in your dapp browser.
               </Trans>
             </Explanation>
             {options?.length > 0 ? (
@@ -252,7 +254,7 @@ function AddReverseRecord({ account, currentAddress }) {
                 stopEditing={stopEditing}
                 isValid={!!newName}
               />
-              {isReverseRecordSet(getReverseRecord) && (
+              {hasValidReverseRecord(getReverseRecord) && (
                 <>
                   <Bin onClick={() => setIsDeleteModalOpen(true)} />
                   {isDeleteModalOpen && (
@@ -291,7 +293,7 @@ function AddReverseRecord({ account, currentAddress }) {
             <ReverseRecordEditor />
           ) : (
             <ReadOnlyMessage>
-              {isReverseRecordSet(getReverseRecord) ? (
+              {hasValidReverseRecord(getReverseRecord) ? (
                 <MessageContent data-testid="readonly-reverse-record-set">
                   {t('singleName.record.messages.setTo') +
                     getReverseRecord.name}
