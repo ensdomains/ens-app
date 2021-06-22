@@ -374,6 +374,7 @@ const resolvers = {
         )
         DEPRECATED_RESOLVERS = [...DEPRECATED_RESOLVERS, ...localResolvers]
       }
+
       /* Deprecated resolvers are using the new registry and can be continued to be used*/
 
       function calculateIsDeprecatedResolver(address) {
@@ -616,6 +617,7 @@ const resolvers = {
     },
     addMultiRecords: async (_, { name, records }, { cache }) => {
       const ens = getENS()
+
       function setupTransactions({ name, records, resolverInstance }) {
         try {
           const resolver = resolverInstance.interface
@@ -700,11 +702,61 @@ const resolvers = {
 
       const signer = await getSigner()
       const resolverInstance = resolverInstanceWithoutSigner.connect(signer)
+
+      const isSingleTransaction = Object.values(records)
+        ?.flat()
+        ?.filter(x => x)?.length
+      if (isSingleTransaction) {
+        console.log('single transaction')
+        const namehash = getNamehash(name)
+
+        debugger
+
+        if (records.content) {
+          const contentTx = await resolverInstance.setContenthash(
+            namehash,
+            encodeContenthash(records.content)?.encoded
+          )
+          return sendHelper(contentTx)
+        } else if (records.textRecords.length === 1) {
+          const textRecord = records.textRecords[0]
+          const textRecordTx = await resolverInstance.setText(
+            namehash,
+            textRecord.key,
+            textRecord.value
+          )
+          return sendHelper(textRecordTx)
+        } else if (records.coins.length === 1) {
+          const coinRecord = records.coins[0]
+          const { decoder, coinType } = formatsByName[coinRecord.key]
+          let addressAsBytes
+          // use 0x00... for ETH because an empty string throws
+          if (coinRecord.key === 'ETH' && coinRecord.value === '') {
+            coinRecord.value = emptyAddress
+          }
+          if (!coinRecord.value || coinRecord.value === '') {
+            addressAsBytes = Buffer.from('')
+          } else {
+            addressAsBytes = decoder(coinRecord.value)
+          }
+          console.log('resolverInstance: ', resolverInstance)
+          debugger
+          const coinRecordTx = await resolverInstance[
+            'setAddr(bytes32,uint256,bytes)'
+          ](namehash, coinType, addressAsBytes)
+          return sendHelper(coinRecordTx)
+        } else {
+          console.warn('Not actually a single transaction')
+        }
+      }
+
       const transactionArray = setupTransactions({
         name,
         records: recordsArray,
         resolverInstance
       })
+
+      debugger
 
       //add them all together into one transaction
       const tx1 = await resolverInstance.multicall(transactionArray)
