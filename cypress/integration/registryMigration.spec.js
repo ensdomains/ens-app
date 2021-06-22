@@ -46,7 +46,7 @@ describe('Migrate a subdomain to new registry', () => {
 
   it('can visit an unmigrated name and cannot set the controller', () => {
     cy.visit(`${ROOT}/name/sub2.testing.eth`)
-    cy.queryByText('You must first migrate the parent domain', {
+    cy.queryByText('This name needs to be migrated to the new Registry', {
       timeout: 5000,
       exact: false
     }).should('exist')

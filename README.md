@@ -177,6 +177,53 @@ Once this has been done, please create a pull request for us to review and check
 
 ## End to end Testing
 
+### Getting started with E2E testing
+
+In case you haven't already:
+
+- `git clone https://github.com/ensdomains/ens-app.git`
+- `git clone https://github.com/ensdomains/ens-subgraph`
+- `git clone https://github.com/graphprotocol/graph-node`
+
+You need to make sure these are all cloned into the same parent folder.
+
+Next in the ens-app folder run the following (will need multiple terminals open):
+
+```
+npx ganache-cli -b 1
+```
+
+Install Docker: https://www.docker.com/get-started
+
+Next in the /graph-node/docker folder:
+
+```
+rm -rf data
+docker-compose up
+```
+
+in the `ens-app` folder:
+
+```
+yarn preTest
+yarn subgraph
+```
+
+in the `ens-subgraph` folder:
+
+`yarn setup`
+
+in the `ens-app` folder:
+
+```
+yarn start:test
+yarn run cypress:open
+```
+
+This should open up cypress. To run the tests click on 'Run n integration tests'
+
+---
+
 The main package for the E2E tests is `ensdomains/mock`, which exposes a script that will prepopulate ganache with ENS so you have everything setup to run Cypress on.
 
 The ENS app has end to end tests with Cypress. To run them you need to start ganache, run the seed script, run the app and then run cypress. This should start chrome and the Cypress GUI. Each time the test run, the script needs to be re-run and the app restarted for it to work.
@@ -282,3 +329,23 @@ NOTE: If it raises error, try to delete `graph-node/docker/data` and startup the
 #### Confirm that you can query from browser
 
 <img width="1000" alt="Screenshot 2019-07-17 at 11 34 59" src="https://user-images.githubusercontent.com/2630/61370435-4fd7b280-a88a-11e9-80e6-ba6d5e13d0ee.png">
+
+## Bundle size
+
+If you add a new package or make a change to the way files are being imported
+(e.g. adding an import statement to a file), you should run `yarn build` before and
+after the changes and you will see how your changes have impacted the bundle sizes on the
+second run.
+
+if the bundle size has changed significantly (100kb+) you probably want to consider taking
+steps to mitigate this:
+
+- Code splitting: https://reactjs.org/docs/code-splitting.html
+
+- Dynamic imports: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import
+
+- Importing only what you need: If you can only import the exact files you need from a module, you
+  can avoid bundling the whole modlue which can be quite large. Typically you can do this by going into
+  the library in your `node_modules` folder and finding the file exact file you need. For example
+  if you find the file you need is at `node_modules/@module/src/helpers/index.js` you can do
+  `import helper from '@module/src/helpers/index'`.

@@ -1,32 +1,8 @@
 import React, { useContext } from 'react'
+import ReactDOM from 'react-dom'
 import styled from '@emotion/styled/macro'
 import GlobalState from '../../globalState'
 import mq from 'mediaQuery'
-
-function Modal({ small, name, children, component: Component }) {
-  const { currentModal, toggleModal } = useContext(GlobalState)
-  if (!currentModal || name !== currentModal.name) {
-    return null
-  }
-  return (
-    <ModalContainer
-      show={name === currentModal.name}
-      onClick={event => {
-        event.stopPropagation()
-        toggleModal({ name })
-      }}
-    >
-      <ModalContent onClick={event => event.stopPropagation()} small={small}>
-        {Component ? (
-          <Component {...currentModal} />
-        ) : currentModal.render ? (
-          currentModal.render({ ...this.props, toggleModal })
-        ) : null}
-        {children}
-      </ModalContent>
-    </ModalContainer>
-  )
-}
 
 const ModalContainer = styled('div')`
   position: fixed;
@@ -67,5 +43,17 @@ const ModalContent = styled('div')`
   `
       : null};
 `
+
+function Modal({ small, children, closeModal }) {
+  const modalRoot = document.getElementById('modal-root')
+  return ReactDOM.createPortal(
+    <ModalContainer show onClick={closeModal}>
+      <ModalContent onClick={event => event.stopPropagation()} small={small}>
+        {children}
+      </ModalContent>
+    </ModalContainer>,
+    modalRoot
+  )
+}
 
 export default Modal

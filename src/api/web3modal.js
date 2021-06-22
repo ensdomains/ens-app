@@ -1,11 +1,4 @@
-import Web3Modal from 'web3modal'
-import WalletConnectProvider from '@walletconnect/web3-provider'
 import { setup as setupENS } from '../api/ens'
-import Authereum from 'authereum'
-import MewConnect from '@myetherwallet/mewconnect-web-client'
-import Torus from '@toruslabs/torus-embed'
-import Portis from '@portis/web3'
-import { getNetwork } from '@ensdomains/ui'
 
 const INFURA_ID =
   window.location.host === 'app.ens.domains'
@@ -18,38 +11,50 @@ const option = {
   cacheProvider: true, // optional
   providerOptions: {
     walletconnect: {
-      package: WalletConnectProvider,
+      package: () => import('@walletconnect/web3-provider'),
+      packageFactory: true,
       options: {
         infuraId: INFURA_ID
       }
     },
-    // Alphabetical order from now on.
+    //Alphabetical order from now on.
     authereum: {
-      package: Authereum
+      package: () => import('authereum'),
+      packageFactory: true
     },
     mewconnect: {
-      package: MewConnect,
+      package: () => import('@myetherwallet/mewconnect-web-client'),
+      packageFactory: true,
       options: {
         infuraId: INFURA_ID,
         description: ' '
       }
     },
     portis: {
-      package: Portis,
+      package: () => import('@portis/web3'),
+      packageFactory: true,
       options: {
         id: PORTIS_ID
       }
     },
     torus: {
-      package: Torus
+      package: () => import('@toruslabs/torus-embed'),
+      packageFactory: true
     }
   }
 }
 let web3Modal
 export const connect = async () => {
   try {
+    const Web3Modal = (await import('web3modal-dynamic-import')).default
+    const { getNetwork } = await import('@ensdomains/ui')
+
     web3Modal = new Web3Modal(option)
     provider = await web3Modal.connect()
+    provider.on('accountsChanged', accounts => {
+      window.location.reload()
+    })
+
     await setupENS({
       customProvider: provider,
       reloadOnAccountsChange: true,

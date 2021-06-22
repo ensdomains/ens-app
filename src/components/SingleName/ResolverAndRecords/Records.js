@@ -69,15 +69,18 @@ const RECORDS = [
     value: 'textRecords'
   }
 ]
+import TEXT_PLACEHOLDER_RECORDS from '../../../constants/textRecords'
 
+/*
 const TEXT_PLACEHOLDER_RECORDS = [
-  'vnd.twitter',
-  'vnd.github',
+  'com.twitter',
+  'com.github',
   'url',
   'email',
   'avatar',
   'notice'
 ]
+*/
 
 const COIN_PLACEHOLDER_RECORDS = ['ETH', ...COIN_LIST.slice(0, 3)]
 

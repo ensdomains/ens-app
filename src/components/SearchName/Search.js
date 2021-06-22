@@ -8,6 +8,7 @@ import { withRouter } from 'react-router'
 import searchIcon from '../../assets/search.svg'
 import mq from 'mediaQuery'
 import LanguageSwitcher from '../LanguageSwitcher'
+
 // import Caret from './Caret'
 // import Filters from './Filters'
 

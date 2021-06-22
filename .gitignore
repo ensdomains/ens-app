@@ -31,3 +31,8 @@ ganache.log
 
 ens-app.code-workspace
 data
+package-lock.json
+
+#IDE
+
+.idea

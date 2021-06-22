@@ -1,9 +1,12 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from '@emotion/styled/macro'
 import Button from '../Forms/Button'
 import GlobalState from '../../globalState'
 import mq from 'mediaQuery'
+import Modal from '../Modal/Modal'
+import Confirm from '../SingleName/Confirm'
+import ExpiryNotificationModal from '../ExpiryNotification/ExpiryNotificationModal'
 
 const SaveCancelSwitchContainer = styled('div')`
   display: flex;
@@ -55,7 +58,16 @@ const ActionButton = ({
   isValid
 }) => {
   const { t } = useTranslation()
-  const { toggleModal } = useContext(GlobalState)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+  }
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true)
+  }
+
   // Ignore isValid == undefined
   if (disabled || isValid === false) {
     return (
@@ -66,24 +78,26 @@ const ActionButton = ({
   }
   if (confirm) {
     return (
-      <Button
-        data-testid="action"
-        onClick={() =>
-          toggleModal({
-            name: 'confirm',
-            mutation: mutation,
-            mutationButton: mutationButton,
-            value: value,
-            newValue: newValue,
-            extraDataComponent,
-            cancel: () => {
-              toggleModal({ name: 'confirm' })
-            }
-          })
-        }
-      >
-        {mutationButton}
-      </Button>
+      <>
+        <Button data-testid="action" onClick={handleOpenModal}>
+          {mutationButton}
+        </Button>
+        {isModalOpen && (
+          <Modal closeModal={handleCloseModal}>
+            <Confirm
+              {...{
+                name: 'confirm',
+                mutation: mutation,
+                mutationButton: mutationButton,
+                value: value,
+                newValue: newValue,
+                extraDataComponent,
+                cancel: handleCloseModal
+              }}
+            />
+          </Modal>
+        )}
+      </>
     )
   }
   return (
