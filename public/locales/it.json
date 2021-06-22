@@ -326,6 +326,7 @@
         "explanation2": "Puoi selezionare solo i nomi con cui hai impostato questo Indirizzo Ethereum.",
         "noForwardRecordAavilable": "Non possiedi alcun nome ENS oppure i tuoi domini ENS non hanno record ETH impostati su questo indirizzo.",
         "notSet": "Record risoluzione: non impostato",
+        "reverseRecordRemoval": "Are you sure you want to delete the reverse record?",
         "selectPlaceholder": "Seleziona il tuo dominio ENS",
         "setTo": "Record risoluzione: Impostato su ",
         "setToDifferent": "Record risoluzione: Imposta su nome differente:"
