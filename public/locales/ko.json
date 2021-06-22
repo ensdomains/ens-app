@@ -324,6 +324,7 @@
         "explanation2": "You can only select names you set this Ethereum Address as.",
         "noForwardRecordAavilable": "You either do not own any ENS names, or your ENS names have no ETH records set to this address.",
         "notSet": "리버스 레코드: 설정되지 않음",
+        "reverseRecordRemoval": "Are you sure you want to delete the reverse record?",
         "selectPlaceholder": "Select your ENS name",
         "setTo": "리버스 레코드: 다음으로 설정",
         "setToDifferent": "리버스 레코드: 다른 이름으로 설정"

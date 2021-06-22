@@ -12,6 +12,7 @@ import { useQuery, useMutation } from 'react-apollo'
 import { GET_REVERSE_RECORD } from '../../graphql/queries'
 import { SET_ERROR } from '../../graphql/mutations'
 import { connect, disconnect } from '../../api/web3modal'
+import { hasValidReverseRecord } from '../../utils/utils'
 
 const NetworkInformationContainer = styled('div')`
   position: relative;
@@ -132,8 +133,9 @@ function NetworkInformation() {
   })
   const { switchNetwork, currentNetwork } = useContext(GlobalState)
 
-  const displayName =
-    getReverseRecord && getReverseRecord.name ? getReverseRecord.name : address
+  const displayName = hasValidReverseRecord(getReverseRecord)
+    ? getReverseRecord.name
+    : address
 
   const [setError] = useMutation(SET_ERROR)
   const handleConnect = async () => {
