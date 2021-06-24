@@ -244,9 +244,9 @@ const getInitialRecords = (domain, dataAddresses, dataTextRecords) => {
 }
 
 const getCoins = updatedRecords =>
-  updatedRecords.filter(
-    record => record.contractFn === 'setAddr(bytes32,address)'
-  )
+  updatedRecords
+    .filter(record => record.contractFn === 'setAddr(bytes32,address)')
+    .sort(record => (record.key === 'ETH' ? -1 : 1))
 
 const updateRecord = setUpdatedRecords => updatedRecord => {
   setUpdatedRecords(updatedRecords =>
@@ -389,9 +389,7 @@ export default function Records({
       <Coins
         canEdit={true}
         editing={true}
-        domain={domain}
-        addresses={getCoins(updatedRecords)}
-        loading={recordsLoading}
+        records={getCoins(updatedRecords)}
         title={t('c.addresses')}
         updateRecord={updateRecord(setUpdatedRecords)}
         changedRecords={changedRecords}
