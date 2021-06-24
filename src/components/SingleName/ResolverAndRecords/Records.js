@@ -119,33 +119,24 @@ function calculateShouldShowRecords(isOwner, hasResolver, hasRecords) {
   return false
 }
 
-function getChangedRecords(initialRecords, updatedRecords) {
-  if (initialRecords.loading)
-    return {
-      textRecords: [],
-      coins: []
-    }
+function getChangedRecords(initialRecords, updatedRecords, recordsLoading) {
+  if (recordsLoading) return []
 
-  const textRecords = differenceWith(
-    updatedRecords.textRecords,
-    initialRecords.textRecords,
-    isEqual
-  )
-  const coins = differenceWith(
-    updatedRecords.coins,
-    initialRecords.coins,
-    isEqual
-  )
+  // const textRecords = differenceWith(
+  //   updatedRecords.textRecords,
+  //   initialRecords.textRecords,
+  //   isEqual
+  // )
 
-  const content = !isEqual(updatedRecords.content, initialRecords.content)
-    ? updatedRecords.content
-    : undefined
+  // const coins = differenceWith(
+  //   updatedRecords.coins,
+  //   initialRecords.coins,
+  //   isEqual
+  // )
 
-  return {
-    textRecords,
-    coins,
-    ...(content !== undefined && { content })
-  }
+  const changedRecords = differenceWith(initialRecords, updatedRecords, isEqual)
+
+  return changedRecords
 }
 
 function checkRecordsHaveChanged(changedRecords) {
@@ -173,6 +164,102 @@ function isContentHashEmpty(hash) {
   return hash?.startsWith('undefined') || parseInt(hash, 16) === 0
 }
 
+const useGetRecords = (domain, coinList, resolver, dataResolver) => {
+  const { loading: addressesLoading, data: dataAddresses } = useQuery(
+    GET_ADDRESSES,
+    {
+      variables: { name: domain.name, keys: coinList },
+      skip: !coinList
+    }
+  )
+
+  const { loading: textRecordsLoading, data: dataTextRecords } = useQuery(
+    GET_TEXT_RECORDS,
+    {
+      variables: {
+        name: domain.name,
+        keys: resolver && resolver.texts
+      },
+      skip: !dataResolver
+    }
+  )
+
+  return {
+    dataAddresses,
+    dataTextRecords,
+    recordsLoading: addressesLoading || textRecordsLoading
+  }
+}
+
+const processRecords = (records, placeholder) => {
+  const nonDuplicatePlaceholderRecords = placeholder.filter(
+    record => !records.find(r => record === r.key)
+  )
+  return [
+    ...records,
+    ...nonDuplicatePlaceholderRecords.map(record => ({
+      key: record,
+      value: ''
+    }))
+  ]
+}
+
+const getInitialContent = domain => {
+  return {
+    contractFn: 'setContenthash',
+    content: isContentHashEmpty(domain.content) ? '' : domain.content
+  }
+}
+
+const getInitialCoins = dataAddresses => {
+  const addresses =
+    dataAddresses && dataAddresses.getAddresses
+      ? processRecords(dataAddresses.getAddresses, COIN_PLACEHOLDER_RECORDS)
+      : processRecords([], COIN_PLACEHOLDER_RECORDS)
+
+  return addresses?.map(address => ({
+    contractFn: 'setAddr(bytes32,address)',
+    ...address
+  }))
+}
+
+const getInitialTextRecords = dataTextRecords => {
+  const textRecords =
+    dataTextRecords && dataTextRecords.getTextRecords
+      ? processRecords(dataTextRecords.getTextRecords, TEXT_PLACEHOLDER_RECORDS)
+      : processRecords([], TEXT_PLACEHOLDER_RECORDS)
+
+  return textRecords?.map(textRecord => ({
+    contractFn: 'setText',
+    ...textRecord
+  }))
+}
+
+const getInitialRecords = (domain, dataAddresses, dataTextRecords) => {
+  const initialTextRecords = getInitialTextRecords(dataTextRecords)
+  const initialCoins = getInitialCoins(dataAddresses)
+  const initialContent = getInitialContent(domain)
+
+  return [...initialTextRecords, ...initialCoins, initialContent]
+}
+
+const getCoins = updatedRecords =>
+  updatedRecords.filter(
+    record => record.contractFn === 'setAddr(bytes32,address)'
+  )
+
+const updateRecord = setUpdatedRecords => updatedRecord => {
+  setUpdatedRecords(updatedRecords =>
+    updatedRecords?.reduce((acc, currentVal) => {
+      debugger
+      if (currentVal.key === updatedRecord.key) {
+        return [...acc, updatedRecord]
+      }
+      return [...acc, currentVal]
+    }, [])
+  )
+}
+
 // graphql data in resolver and records to check current records
 // state in resolver and records to record new edit changes
 // check old and new to see if any have changed
@@ -194,13 +281,12 @@ export default function Records({
       startPending(Object.values(data)[0])
     }
   })
-  const [updatedRecords, setUpdatedRecords] = useState({
-    content: undefined,
-    coins: [],
-    textRecords: []
-  })
+  const [updatedRecords, setUpdatedRecords] = useState([])
+  const [changedRecords, setChangedRecords] = useState([])
   const { actions, state } = useEditable()
   const { pending, confirmed, editing, txHash } = state
+
+  console.log('updateRecords: ', updatedRecords)
 
   const {
     startPending,
@@ -224,59 +310,32 @@ export default function Records({
     resolver.coinTypes &&
     resolver.coinTypes.map(c => formatsByCoinType[c].name)
 
-  const { loading: addressesLoading, data: dataAddresses } = useQuery(
-    GET_ADDRESSES,
-    {
-      variables: { name: domain.name, keys: coinList },
-      skip: !coinList
-    }
+  const { dataAddresses, dataTextRecords, recordsLoading } = useGetRecords(
+    domain,
+    coinList,
+    resolver,
+    dataResolver
   )
 
-  const { loading: textRecordsLoading, data: dataTextRecords } = useQuery(
-    GET_TEXT_RECORDS,
-    {
-      variables: {
-        name: domain.name,
-        keys: resolver && resolver.texts
-      },
-      skip: !dataResolver
-    }
+  const initialRecords = getInitialRecords(
+    domain,
+    dataAddresses,
+    dataTextRecords
   )
-
-  function processRecords(records, placeholder) {
-    const nonDuplicatePlaceholderRecords = placeholder.filter(
-      record => !records.find(r => record === r.key)
-    )
-    return [
-      ...records,
-      ...nonDuplicatePlaceholderRecords.map(record => ({
-        key: record,
-        value: ''
-      }))
-    ]
-  }
-
-  const initialRecords = {
-    textRecords:
-      dataTextRecords && dataTextRecords.getTextRecords
-        ? processRecords(
-            dataTextRecords.getTextRecords,
-            TEXT_PLACEHOLDER_RECORDS
-          )
-        : processRecords([], TEXT_PLACEHOLDER_RECORDS),
-    coins:
-      dataAddresses && dataAddresses.getAddresses
-        ? processRecords(dataAddresses.getAddresses, COIN_PLACEHOLDER_RECORDS)
-        : processRecords([], COIN_PLACEHOLDER_RECORDS),
-    content: isContentHashEmpty(domain.content) ? '' : domain.content,
-    loading: textRecordsLoading || addressesLoading
-  }
 
   useEffect(() => {
-    if (textRecordsLoading === false && addressesLoading === false) {
+    if (!recordsLoading) {
       setUpdatedRecords(initialRecords)
     }
-  }, [textRecordsLoading, addressesLoading, dataAddresses, dataTextRecords])
+  }, [recordsLoading, dataAddresses, dataTextRecords])
+
+  useEffect(() => {
+    if (!recordsLoading) {
+      setChangedRecords(
+        getChangedRecords(initialRecords, updatedRecords, recordsLoading)
+      )
+    }
+  }, [updatedRecords, recordsLoading])
 
   const emptyRecords = RECORDS.filter(record => {
     // Always display all options for consistency now that both Addess and text almost always have empty record
@@ -285,118 +344,132 @@ export default function Records({
 
   const hasRecords = hasAnyRecord(domain)
 
-  const changedRecords = getChangedRecords(initialRecords, updatedRecords)
-  const contentCreatedFirstTime =
-    !initialRecords.content && !!updatedRecords.content
+  console.log('changedRecords: ', changedRecords)
+  // const contentCreatedFirstTime =
+  //   !initialRecords.content && !!updatedRecords.content
+
   const shouldShowRecords = calculateShouldShowRecords(
     isOwner,
     hasResolver,
     hasRecords
   )
-  const canEditRecords =
-    !isOldPublicResolver && !isDeprecatedResolver && isOwner
-
   if (!shouldShowRecords) {
     return null
   }
 
-  const haveRecordsChanged = checkRecordsHaveChanged(changedRecords)
-  const areRecordsValid = checkRecordsAreValid(changedRecords)
+  const canEditRecords =
+    !isOldPublicResolver && !isDeprecatedResolver && isOwner
+
+  // const haveRecordsChanged = checkRecordsHaveChanged(changedRecords)
+  // const areRecordsValid = checkRecordsAreValid(changedRecords)
+
+  // shouldShowRecords={shouldShowRecords}
+  // needsToBeMigrated={needsToBeMigrated}
+
+  console.log('addresses: ', getCoins(updatedRecords))
 
   return (
-    <RecordsWrapper
-      shouldShowRecords={shouldShowRecords}
-      needsToBeMigrated={needsToBeMigrated}
-    >
-      {!canEditRecords && isOwner ? (
-        <CantEdit>{t('singleName.record.cantEdit')}</CantEdit>
-      ) : (
-        <AddRecord
-          domain={domain}
-          canEdit={canEditRecords}
-          editing={editing}
-          startEditing={startEditing}
-          stopEditing={stopEditing}
-          initialRecords={initialRecords}
-          updatedRecords={updatedRecords}
-          setUpdatedRecords={setUpdatedRecords}
-          emptyRecords={emptyRecords}
-        />
-      )}
+    <RecordsWrapper shouldShowRecords={true} needsToBeMigrated={false}>
+      {/*{!canEditRecords && isOwner ? (*/}
+      {/*  <CantEdit>{t('singleName.record.cantEdit')}</CantEdit>*/}
+      {/*) : (*/}
+      {/*  <AddRecord*/}
+      {/*    domain={domain}*/}
+      {/*    canEdit={canEditRecords}*/}
+      {/*    editing={editing}*/}
+      {/*    startEditing={startEditing}*/}
+      {/*    stopEditing={stopEditing}*/}
+      {/*    initialRecords={initialRecords}*/}
+      {/*    updatedRecords={updatedRecords}*/}
+      {/*    setUpdatedRecords={setUpdatedRecords}*/}
+      {/*    emptyRecords={emptyRecords}*/}
+      {/*  />*/}
+      {/*)}*/}
+
       <Coins
-        canEdit={canEditRecords}
-        editing={editing}
+        canEdit={true}
+        editing={true}
         domain={domain}
-        addresses={updatedRecords.coins}
-        loading={addressesLoading}
+        addresses={getCoins(updatedRecords)}
+        loading={recordsLoading}
         title={t('c.addresses')}
-        updatedRecords={updatedRecords}
-        setUpdatedRecords={setUpdatedRecords}
+        updateRecord={updateRecord(setUpdatedRecords)}
         changedRecords={changedRecords}
       />
-      <ContentHash
-        canEdit={canEditRecords}
-        editing={editing}
-        domain={domain}
-        keyName="Content"
-        type="content"
-        value={updatedRecords.content}
-        refetch={refetch}
-        changedRecords={changedRecords}
-        updatedRecords={updatedRecords}
-        setUpdatedRecords={setUpdatedRecords}
-      />
-      <TextRecord
-        canEdit={canEditRecords}
-        editing={editing}
-        domain={domain}
-        textRecords={dataTextRecords && dataTextRecords.getTextRecords}
-        loading={textRecordsLoading}
-        title={t('c.textrecord')}
-        updatedRecords={updatedRecords}
-        placeholderRecords={TEXT_PLACEHOLDER_RECORDS}
-        setUpdatedRecords={setUpdatedRecords}
-        changedRecords={changedRecords}
-      />
-      {pending && !confirmed && txHash && (
-        <ConfirmBox pending={pending}>
-          <PendingTx
-            txHash={txHash}
-            onConfirmed={() => {
-              setConfirmed()
-              resetPending()
-            }}
-          />
-        </ConfirmBox>
-      )}
-      {editing && !txHash && (
-        <ConfirmBox>
-          <p>
-            Add, delete, or edit one or multiple records. Confirm in one
-            transaction.
-          </p>
-          <SaveCancel
-            mutation={() => {
-              addMultiRecords({
-                variables: { name: domain.name, records: changedRecords }
-              })
-            }}
-            mutationButton="Confirm"
-            stopEditing={stopEditing}
-            disabled={false}
-            confirm={true}
-            extraDataComponent={
-              <RecordsCheck
-                changedRecords={changedRecords}
-                contentCreatedFirstTime={contentCreatedFirstTime}
-                parentName={domain.parent}
-                name={domain.name}
-              />
-            }
-            isValid={haveRecordsChanged && areRecordsValid}
-          />
-        </ConfirmBox>
-      )}
+      {/*<Coins*/}
+      {/*  canEdit={canEditRecords}*/}
+      {/*  editing={editing}*/}
+      {/*  domain={domain}*/}
+      {/*  addresses={updatedRecords.coins}*/}
+      {/*  loading={addressesLoading}*/}
+      {/*  title={t('c.addresses')}*/}
+      {/*  updatedRecords={updatedRecords}*/}
+      {/*  setUpdatedRecords={setUpdatedRecords}*/}
+      {/*  changedRecords={changedRecords}*/}
+      {/*/>*/}
+      {/*<ContentHash*/}
+      {/*  canEdit={canEditRecords}*/}
+      {/*  editing={editing}*/}
+      {/*  domain={domain}*/}
+      {/*  keyName="Content"*/}
+      {/*  type="content"*/}
+      {/*  value={updatedRecords.content}*/}
+      {/*  refetch={refetch}*/}
+      {/*  changedRecords={changedRecords}*/}
+      {/*  updatedRecords={updatedRecords}*/}
+      {/*  setUpdatedRecords={setUpdatedRecords}*/}
+      {/*/>*/}
+      {/*<TextRecord*/}
+      {/*  canEdit={canEditRecords}*/}
+      {/*  editing={editing}*/}
+      {/*  domain={domain}*/}
+      {/*  textRecords={dataTextRecords && dataTextRecords.getTextRecords}*/}
+      {/*  loading={textRecordsLoading}*/}
+      {/*  title={t('c.textrecord')}*/}
+      {/*  updatedRecords={updatedRecords}*/}
+      {/*  placeholderRecords={TEXT_PLACEHOLDER_RECORDS}*/}
+      {/*  setUpdatedRecords={setUpdatedRecords}*/}
+      {/*  changedRecords={changedRecords}*/}
+      {/*/>*/}
+      {/*{pending && !confirmed && txHash && (*/}
+      {/*  <ConfirmBox pending={pending}>*/}
+      {/*    <PendingTx*/}
+      {/*      txHash={txHash}*/}
+      {/*      onConfirmed={() => {*/}
+      {/*        setConfirmed()*/}
+      {/*        resetPending()*/}
+      {/*      }}*/}
+      {/*    />*/}
+      {/*  </ConfirmBox>*/}
+      {/*)}*/}
+      {/*{editing && !txHash && (*/}
+      {/*  <ConfirmBox>*/}
+      {/*    <p>*/}
+      {/*      Add, delete, or edit one or multiple records. Confirm in one*/}
+      {/*      transaction.*/}
+      {/*    </p>*/}
+      {/*    <SaveCancel*/}
+      {/*      mutation={() => {*/}
+      {/*        addMultiRecords({*/}
+      {/*          variables: { name: domain.name, records: changedRecords }*/}
+      {/*        })*/}
+      {/*      }}*/}
+      {/*      mutationButton="Confirm"*/}
+      {/*      stopEditing={stopEditing}*/}
+      {/*      disabled={false}*/}
+      {/*      confirm={true}*/}
+      {/*      extraDataComponent={*/}
+      {/*        <RecordsCheck*/}
+      {/*          changedRecords={changedRecords}*/}
+      {/*          contentCreatedFirstTime={contentCreatedFirstTime}*/}
+      {/*          parentName={domain.parent}*/}
+      {/*          name={domain.name}*/}
+      {/*        />*/}
+      {/*      }*/}
+      {/*      isValid={haveRecordsChanged && areRecordsValid}*/}
+      {/*    />*/}
+      {/*  </ConfirmBox>*/}
+      {/*)}*/}
     </RecordsWrapper>
   )
 }

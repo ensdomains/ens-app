@@ -21,15 +21,12 @@ export default function Coins(props) {
     <KeyValueRecord
       {...props}
       records={
-        props.updatedRecords.coins &&
-        props.updatedRecords.coins.sort(record =>
-          record.key === 'ETH' ? -1 : 1
-        )
+        props.addresses &&
+        props.addresses.sort(record => (record.key === 'ETH' ? -1 : 1))
       }
       placeholderRecords={PLACEHOLDER_RECORDS}
       validator={validator}
       getPlaceholder={getPlaceholder}
-      setUpdatedRecords={props.setUpdatedRecords}
       recordType="coins"
     />
   )

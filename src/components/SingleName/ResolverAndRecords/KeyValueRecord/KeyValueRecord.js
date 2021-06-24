@@ -98,27 +98,30 @@ const Editable = ({
   value,
   setUpdatedRecords,
   recordType,
-  changedRecords
+  changedRecords,
+  updateRecord,
+  record
 }) => {
-  const hasBeenUpdated = changedRecords[recordType].find(
-    record => record.key === textKey
-  )
-    ? true
-    : false
+  const hasBeenUpdated = false
+  // const hasBeenUpdated = changedRecords[recordType].find(
+  //   record => record.key === textKey
+  // )
+  //   ? true
+  //   : false
 
   let isValid = true
   let isInvalid = false
 
-  if (validator) {
-    if (value === emptyAddress || value === '') {
-      isValid = true
-    } else {
-      isValid = validator(textKey, value)
-    }
-    isInvalid = !isValid
-  } else {
-    isValid = true
-  }
+  // if (validator) {
+  //   if (value === emptyAddress || value === '') {
+  //     isValid = true
+  //   } else {
+  //     isValid = validator(textKey, value)
+  //   }
+  //   isInvalid = !isValid
+  // } else {
+  //   isValid = true
+  // }
 
   return (
     <KeyValueItem editing={editing} hasRecord={true} noBorder>
@@ -132,38 +135,27 @@ const Editable = ({
             isValid={isValid}
             isInvalid={isInvalid}
             onChange={event => {
-              const value = event.target.value
-              setUpdatedRecords(state => ({
-                ...state,
-                [recordType]: state[recordType].map(record =>
-                  record.key === textKey
-                    ? {
-                        ...record,
-                        value,
-                        isValid: validator ? validator(textKey, value) : true
-                      }
-                    : record
-                )
-              }))
+              updateRecord({ ...record, value: event.target.value })
             }}
             value={value === emptyAddress ? '' : value}
           />
 
           <Bin
             data-testid={`${textKey}-record-delete`}
-            onClick={() =>
-              setUpdatedRecords(state => ({
-                ...state,
-                [recordType]: state[recordType].map(record =>
-                  record.key === textKey
-                    ? {
-                        ...record,
-                        value: '',
-                        isValid: validator ? validator(textKey, value) : true
-                      }
-                    : record
-                )
-              }))
+            onClick={
+              () => {}
+              // setUpdatedRecords(state => ({
+              //   ...state,
+              //   [recordType]: state[recordType].map(record =>
+              //     record.key === textKey
+              //       ? {
+              //           ...record,
+              //           value: '',
+              //           isValid: validator ? validator(textKey, value) : true
+              //         }
+              //       : record
+              //   )
+              // }))
             }
           />
         </KeyValuesContent>
@@ -189,7 +181,9 @@ function Record(props) {
     editing,
     setUpdatedRecords,
     recordType,
-    changedRecords
+    changedRecords,
+    updateRecord,
+    record
   } = props
 
   useEffect(() => {
@@ -208,6 +202,7 @@ function Record(props) {
       setUpdatedRecords={setUpdatedRecords}
       changedRecords={changedRecords}
       recordType={recordType}
+      {...{ updateRecord, record }}
     />
   ) : (
     <ViewOnly textKey={textKey} value={dataValue} />
@@ -239,7 +234,8 @@ function Records({
   setUpdatedRecords,
   updatedRecords,
   changedRecords,
-  recordType
+  recordType,
+  updateRecord
 }) {
   const [hasRecord, setHasRecord] = useState(false)
   return (
@@ -247,26 +243,26 @@ function Records({
       <Key>{title}</Key>
       <KeyValuesList>
         {records &&
-          records.map(({ key, value }) => {
-            if (
-              // Value empty
-              (value === emptyAddress || value === '') &&
-              // Value has not been changed
-              !changedRecords[recordType].find(record => record.key === key) &&
-              // Value is not a placeholder
-              !placeholderRecords.includes(key)
-            ) {
-              return null
-            }
+          records.map(record => {
+            // if (
+            //   // Value empty
+            //   (value === emptyAddress || value === '') &&
+            //   // Value has not been changed
+            //   !changedRecords[recordType].find(record => record.key === key) &&
+            //   // Value is not a placeholder
+            //   !placeholderRecords.includes(key)
+            // ) {
+            //   return null
+            // }
 
             return (
               <Record
                 editing={editing}
-                key={key}
-                dataValue={value}
+                key={record.key}
+                dataValue={record.value}
                 validator={validator}
                 getPlaceholder={getPlaceholder}
-                textKey={key}
+                textKey={record.key}
                 domain={domain}
                 name={domain.name}
                 setHasRecord={setHasRecord}
@@ -275,6 +271,10 @@ function Records({
                 setUpdatedRecords={setUpdatedRecords}
                 changedRecords={changedRecords}
                 recordType={recordType}
+                {...{
+                  updateRecord,
+                  record
+                }}
               />
             )
           })}
