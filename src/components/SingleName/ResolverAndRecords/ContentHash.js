@@ -254,66 +254,6 @@ const ContentHashEditable = ({
                   isValid={isValid}
                   isInvalid={isInvalid}
                 />
-                {/* 
-                <Uploadable
-                  startUploading={startUploading}
-                  keyName={keyName}
-                  value={value}
-                />
-                {uploading && !authorized && (
-                  <IpfsLogin startAuthorizing={startAuthorizing} />
-                )}
-
-                {uploading && authorized && (
-                  <>
-                    <Upload
-                      updateValue={value => {
-                        updateValue(value)
-                        setUpdatedRecords(records => {
-                          return {
-                            ...records,
-                            content: value
-                          }
-                        })
-                      }}
-                      newValue={newValue}
-                    />
-                    {value !== '' ? (
-                      <NewRecordsContainer>
-                        <RecordsKey>New IPFS Hash:</RecordsKey>
-                        <ContentHashLink
-                          value={value}
-                          contentType={domain.contentType}
-                        />
-                      </NewRecordsContainer>
-                    ) : (
-                      <NotSet>Not set</NotSet>
-                    )}
-                    {value !== '' && (
-                      <Switch
-                        data-testid="reset"
-                        type="hollow"
-                        onClick={startUploading}
-                      >
-                        New Upload
-                      </Switch>
-                    )}
-                    <Switch
-                      data-testid="switch"
-                      type="hollow"
-                      onClick={stopAuthorizing}
-                    >
-                      Logout
-                    </Switch>
-                    <Switch
-                      data-testid="cancel"
-                      type="hollow"
-                      onClick={stopUploading}
-                    >
-                      Cancel
-                    </Switch>
-                  </>
-                )} */}
               </EditRecord>
             </>
           ) : null}

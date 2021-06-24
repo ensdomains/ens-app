@@ -70,6 +70,7 @@ const RECORDS = [
   }
 ]
 import TEXT_PLACEHOLDER_RECORDS from '../../../constants/textRecords'
+import { validateRecord } from '../../../utils/records'
 
 /*
 const TEXT_PLACEHOLDER_RECORDS = [
@@ -207,6 +208,7 @@ const processRecords = (records, placeholder) => {
 const getInitialContent = domain => {
   return {
     contractFn: 'setContenthash',
+    key: 'CONTENT',
     content: isContentHashEmpty(domain.content) ? '' : domain.content
   }
 }
@@ -248,10 +250,28 @@ const getCoins = updatedRecords =>
     .filter(record => record.contractFn === 'setAddr(bytes32,address)')
     .sort(record => (record.key === 'ETH' ? -1 : 1))
 
+const getContent = updatedRecords => {
+  const content = updatedRecords.filter(
+    record => record.contractFn === 'setContenthash'
+  )[0]
+
+  if (!content) return []
+
+  return [
+    {
+      key: content.key,
+      value: content.content,
+      contractFn: content.contractFn
+    }
+  ]
+}
+
+const getTextRecords = updatedRecords =>
+  updatedRecords.filter(record => record.contractFn === 'setText')
+
 const updateRecord = setUpdatedRecords => updatedRecord => {
   setUpdatedRecords(updatedRecords =>
     updatedRecords?.reduce((acc, currentVal) => {
-      debugger
       if (currentVal.key === updatedRecord.key) {
         return [...acc, updatedRecord]
       }
@@ -260,12 +280,26 @@ const updateRecord = setUpdatedRecords => updatedRecord => {
   )
 }
 
+const coinsValidator = (key, value) => {
+  return validateRecord({
+    type: 'coins',
+    selectedKey: key,
+    value
+  })
+}
+
+const contentValidator = (key, value) => {
+  return validateRecord({
+    type: 'content',
+    value
+  })
+}
+
 // graphql data in resolver and records to check current records
 // state in resolver and records to record new edit changes
 // check old and new to see if any have changed
 // abstract build tx data into function and use it here
 //
-
 export default function Records({
   domain,
   isOwner,
@@ -344,7 +378,10 @@ export default function Records({
 
   const hasRecords = hasAnyRecord(domain)
 
-  console.log('changedRecords: ', changedRecords)
+  console.log(
+    'changedRecords: ',
+    updatedRecords.filter(record => record.contractFn === 'setContenthash')[0]
+  )
   // const contentCreatedFirstTime =
   //   !initialRecords.content && !!updatedRecords.content
 
@@ -366,7 +403,7 @@ export default function Records({
   // shouldShowRecords={shouldShowRecords}
   // needsToBeMigrated={needsToBeMigrated}
 
-  console.log('addresses: ', getCoins(updatedRecords))
+  console.log('addresses: ', getContent(updatedRecords))
 
   return (
     <RecordsWrapper shouldShowRecords={true} needsToBeMigrated={false}>
@@ -385,7 +422,6 @@ export default function Records({
       {/*    emptyRecords={emptyRecords}*/}
       {/*  />*/}
       {/*)}*/}
-
       <Coins
         canEdit={true}
         editing={true}
@@ -393,6 +429,25 @@ export default function Records({
         title={t('c.addresses')}
         updateRecord={updateRecord(setUpdatedRecords)}
         changedRecords={changedRecords}
+        validator={coinsValidator}
+      />
+      <Coins
+        canEdit={true}
+        editing={true}
+        records={getContent(updatedRecords)}
+        title={t('c.addresses')}
+        updateRecord={updateRecord(setUpdatedRecords)}
+        changedRecords={changedRecords}
+        validator={contentValidator}
+      />
+      <Coins
+        canEdit={true}
+        editing={true}
+        records={getTextRecords(updatedRecords)}
+        title={t('c.addresses')}
+        updateRecord={updateRecord(setUpdatedRecords)}
+        changedRecords={changedRecords}
+        validator={coinsValidator}
       />
       {/*<Coins*/}
       {/*  canEdit={canEditRecords}*/}
@@ -403,6 +458,17 @@ export default function Records({
       {/*  title={t('c.addresses')}*/}
       {/*  updatedRecords={updatedRecords}*/}
       {/*  setUpdatedRecords={setUpdatedRecords}*/}
+      {/*  changedRecords={changedRecords}*/}
+      {/*/>*/}
+      {/*<ContentHash*/}
+      {/*  canEdit={true}*/}
+      {/*  editing={true}*/}
+      {/*  domain={domain}*/}
+      {/*  keyName="Content"*/}
+      {/*  type="content"*/}
+      {/*  value={getContent(updatedRecords)}*/}
+      {/*  refetch={refetch}*/}
+      {/*  updateRecord={updateRecord(setUpdatedRecords)}*/}
       {/*  changedRecords={changedRecords}*/}
       {/*/>*/}
       {/*<ContentHash*/}
