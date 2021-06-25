@@ -59,15 +59,18 @@ const ConfirmBox = styled('div')`
 const RECORDS = [
   {
     label: 'Addresses',
-    value: 'coins'
+    value: 'coins',
+    contractFn: 'setAddr(bytes32,address)'
   },
   {
     label: 'Content',
-    value: 'content'
+    value: 'content',
+    contractFn: 'setContenthash'
   },
   {
     label: 'Text',
-    value: 'textRecords'
+    value: 'textRecords',
+    contractFn: 'setText'
   }
 ]
 import TEXT_PLACEHOLDER_RECORDS from '../../../constants/textRecords'
@@ -85,6 +88,10 @@ const TEXT_PLACEHOLDER_RECORDS = [
 */
 
 const COIN_PLACEHOLDER_RECORDS = ['ETH', ...COIN_LIST.slice(0, 3)]
+
+// const KeyToContractFunction = {
+//   ''
+// };
 
 function isEmpty(record) {
   if (parseInt(record, 16) === 0) {
@@ -272,16 +279,29 @@ const getTextRecords = updatedRecords =>
 
 const updateRecord = setUpdatedRecords => updatedRecord => {
   setUpdatedRecords(updatedRecords => {
-    console.log('updatedRecords: ', updatedRecords)
-
     return updatedRecords?.reduce((acc, currentVal) => {
-      debugger
       if (currentVal.key === updatedRecord.key) {
         return [...acc, updatedRecord]
       }
       return [...acc, currentVal]
     }, [])
   })
+}
+
+const addRecord = setUpdatedRecords => newRecord => {
+  setUpdatedRecords(updatedRecords => [...updatedRecords, newRecord])
+}
+
+const hasRecord = (record, records) => {
+  return !!records.find(el => el.key === record.key)
+}
+
+const addOrUpdateRecord = (updateFn, addFn, updatedRecords) => record => {
+  if (hasRecord(record, updatedRecords)) {
+    updateFn(record)
+    return
+  }
+  addFn(record)
 }
 
 const coinsValidator = (key, value) => {
@@ -331,7 +351,7 @@ export default function Records({
   const { actions, state } = useEditable()
   const { pending, confirmed, editing, txHash } = state
 
-  console.log('updateRecords: ', updatedRecords)
+  console.log('updatedREcords: ', updatedRecords)
 
   const {
     startPending,
@@ -389,10 +409,6 @@ export default function Records({
 
   const hasRecords = hasAnyRecord(domain)
 
-  console.log(
-    'changedRecords: ',
-    updatedRecords.filter(record => record.contractFn === 'setContenthash')[0]
-  )
   // const contentCreatedFirstTime =
   //   !initialRecords.content && !!updatedRecords.content
 
@@ -431,6 +447,11 @@ export default function Records({
           updatedRecords={updatedRecords}
           setUpdatedRecords={setUpdatedRecords}
           emptyRecords={emptyRecords}
+          updateRecord={addOrUpdateRecord(
+            updateRecord(setUpdatedRecords),
+            addRecord(setUpdatedRecords),
+            updatedRecords
+          )}
         />
       )}
       <KeyValueRecord

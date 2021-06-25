@@ -3,7 +3,7 @@ import styled from '@emotion/styled/macro'
 import mq from 'mediaQuery'
 import { useTranslation } from 'react-i18next'
 
-import { validateRecord } from '../../../utils/records'
+import { validateRecord, createRecord } from '../../../utils/records'
 import { useEditable } from '../../hooks'
 import { getOldContentWarning } from './warnings'
 import TEXT_RECORD_KEYS from 'constants/textRecords'
@@ -207,7 +207,9 @@ function Editable({
   startEditing,
   stopEditing,
   updatedRecords,
-  setUpdatedRecords
+  setUpdatedRecords,
+  addRecord,
+  updateRecord
 }) {
   const [selectedRecord, selectRecord] = useState(null)
   const [selectedKey, setSelectedKey] = useState(null)
@@ -238,60 +240,75 @@ function Editable({
     selectedKey: selectedKey && selectedKey.value
   }
 
-  const isValid =
-    selectedRecord && selectedRecord.value ? validateRecord(args) : false
+  // const isValid =
+  //   selectedRecord && selectedRecord.value ? validateRecord(args) : false
 
   function saveRecord(selectedRecord, selectedKey, newValue) {
-    function createRecordObj({
-      selectedRecord,
-      selectedKey,
-      newValue,
-      records
-    }) {
-      console.log({
-        selectedRecord,
-        selectedKey,
-        newValue,
-        records
-      })
-      if (selectedRecord.value === 'content') {
-        return newValue
-      } else {
-        const exists = records[selectedRecord.value].find(
-          record => record.key === selectedKey.value
-        )
-
-        if (exists) {
-          return records[selectedRecord.value].map(record =>
-            record.key === selectedKey.value
-              ? { ...record, value: newValue }
-              : record
-          )
-        } else {
-          return [
-            ...records[selectedRecord.value],
-            { key: selectedKey.value, value: newValue }
-          ]
-        }
-      }
+    if (selectedRecord.value === 'content') {
+      updateRecord(createRecord(selectedRecord.contractFn, 'CONTENT', newValue))
+      return
     }
-
-    setUpdatedRecords(records => {
-      const newRecord = createRecordObj({
-        selectedRecord,
-        selectedKey,
-        newValue,
-        records
-      })
-      return { ...records, [selectedRecord.value]: newRecord }
-    })
-    setSelectedKey(null)
-    selectRecord(null)
-    updateValue('')
+    // if(selectedRecord.value === 'textRecords') {
+    //   updateRecord(createRecord(selectedRecord.contractFn, selectedKey.value, newValue))
+    //   return;
+    // }
+    updateRecord(
+      createRecord(selectedRecord.contractFn, selectedKey.value, newValue)
+    )
+    // function createRecordObj({
+    //   selectedRecord,
+    //   selectedKey,
+    //   newValue,
+    //   records
+    // }) {
+    //   console.log({
+    //     selectedRecord,
+    //     selectedKey,
+    //     newValue,
+    //     records
+    //   })
+    //   if (selectedRecord.value === 'content') {
+    //     return newValue
+    //   } else {
+    //     const exists = records[selectedRecord.value].find(
+    //       record => record.key === selectedKey.value
+    //     )
+    //
+    //     if (exists) {
+    //       return records[selectedRecord.value].map(record =>
+    //         record.key === selectedKey.value
+    //           ? { ...record, value: newValue }
+    //           : record
+    //       )
+    //     } else {
+    //       return [
+    //         ...records[selectedRecord.value],
+    //         { key: selectedKey.value, value: newValue }
+    //       ]
+    //     }
+    //   }
+    // }
+    //
+    // setUpdatedRecords(records => {
+    //   const newRecord = createRecordObj({
+    //     selectedRecord,
+    //     selectedKey,
+    //     newValue,
+    //     records
+    //   })
+    //   return { ...records, [selectedRecord.value]: newRecord }
+    // })
+    // setSelectedKey(null)
+    // selectRecord(null)
+    // updateValue('')
   }
 
   const { t } = useTranslation()
-  const isInvalid = newValue !== '' && !isValid
+  // const isInvalid = newValue !== '' && !isValid
+
+  const isValid = true
+  const isInvalid = false
+
   return (
     <>
       <RecordsTitle>
@@ -413,7 +430,6 @@ function Editable({
                   <Button
                     data-testid="save-record"
                     onClick={() => {
-                      console.log(isValid, 'inside save button')
                       if (isValid) {
                         saveRecord(selectedRecord, selectedKey, newValue)
                       }
