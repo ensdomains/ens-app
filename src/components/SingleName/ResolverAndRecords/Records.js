@@ -26,6 +26,7 @@ import TextRecord from './TextRecord'
 import Coins from './Coins'
 import DefaultSaveCancel from '../SaveCancel'
 import RecordsCheck from './RecordsCheck'
+import KeyValueRecord from './KeyValueRecord/KeyValueRecord'
 
 const RecordsWrapper = styled('div')`
   border-radius: 6px;
@@ -209,7 +210,7 @@ const getInitialContent = domain => {
   return {
     contractFn: 'setContenthash',
     key: 'CONTENT',
-    content: isContentHashEmpty(domain.content) ? '' : domain.content
+    value: isContentHashEmpty(domain.content) ? '' : domain.content
   }
 }
 
@@ -260,7 +261,7 @@ const getContent = updatedRecords => {
   return [
     {
       key: content.key,
-      value: content.content,
+      value: content.value,
       contractFn: content.contractFn
     }
   ]
@@ -270,14 +271,17 @@ const getTextRecords = updatedRecords =>
   updatedRecords.filter(record => record.contractFn === 'setText')
 
 const updateRecord = setUpdatedRecords => updatedRecord => {
-  setUpdatedRecords(updatedRecords =>
-    updatedRecords?.reduce((acc, currentVal) => {
+  setUpdatedRecords(updatedRecords => {
+    console.log('updatedRecords: ', updatedRecords)
+
+    return updatedRecords?.reduce((acc, currentVal) => {
+      debugger
       if (currentVal.key === updatedRecord.key) {
         return [...acc, updatedRecord]
       }
       return [...acc, currentVal]
     }, [])
-  )
+  })
 }
 
 const coinsValidator = (key, value) => {
@@ -291,6 +295,13 @@ const coinsValidator = (key, value) => {
 const contentValidator = (key, value) => {
   return validateRecord({
     type: 'content',
+    value
+  })
+}
+
+const textRecordValidator = (key, value) => {
+  return validateRecord({
+    type: 'textRecords',
     value
   })
 }
@@ -407,22 +418,22 @@ export default function Records({
 
   return (
     <RecordsWrapper shouldShowRecords={true} needsToBeMigrated={false}>
-      {/*{!canEditRecords && isOwner ? (*/}
-      {/*  <CantEdit>{t('singleName.record.cantEdit')}</CantEdit>*/}
-      {/*) : (*/}
-      {/*  <AddRecord*/}
-      {/*    domain={domain}*/}
-      {/*    canEdit={canEditRecords}*/}
-      {/*    editing={editing}*/}
-      {/*    startEditing={startEditing}*/}
-      {/*    stopEditing={stopEditing}*/}
-      {/*    initialRecords={initialRecords}*/}
-      {/*    updatedRecords={updatedRecords}*/}
-      {/*    setUpdatedRecords={setUpdatedRecords}*/}
-      {/*    emptyRecords={emptyRecords}*/}
-      {/*  />*/}
-      {/*)}*/}
-      <Coins
+      {!canEditRecords && isOwner ? (
+        <CantEdit>{t('singleName.record.cantEdit')}</CantEdit>
+      ) : (
+        <AddRecord
+          domain={domain}
+          canEdit={canEditRecords}
+          editing={editing}
+          startEditing={startEditing}
+          stopEditing={stopEditing}
+          initialRecords={initialRecords}
+          updatedRecords={updatedRecords}
+          setUpdatedRecords={setUpdatedRecords}
+          emptyRecords={emptyRecords}
+        />
+      )}
+      <KeyValueRecord
         canEdit={true}
         editing={true}
         records={getCoins(updatedRecords)}
@@ -431,7 +442,7 @@ export default function Records({
         changedRecords={changedRecords}
         validator={coinsValidator}
       />
-      <Coins
+      <KeyValueRecord
         canEdit={true}
         editing={true}
         records={getContent(updatedRecords)}
@@ -440,61 +451,15 @@ export default function Records({
         changedRecords={changedRecords}
         validator={contentValidator}
       />
-      <Coins
+      <KeyValueRecord
         canEdit={true}
         editing={true}
         records={getTextRecords(updatedRecords)}
         title={t('c.addresses')}
         updateRecord={updateRecord(setUpdatedRecords)}
         changedRecords={changedRecords}
-        validator={coinsValidator}
+        validator={textRecordValidator}
       />
-      {/*<Coins*/}
-      {/*  canEdit={canEditRecords}*/}
-      {/*  editing={editing}*/}
-      {/*  domain={domain}*/}
-      {/*  addresses={updatedRecords.coins}*/}
-      {/*  loading={addressesLoading}*/}
-      {/*  title={t('c.addresses')}*/}
-      {/*  updatedRecords={updatedRecords}*/}
-      {/*  setUpdatedRecords={setUpdatedRecords}*/}
-      {/*  changedRecords={changedRecords}*/}
-      {/*/>*/}
-      {/*<ContentHash*/}
-      {/*  canEdit={true}*/}
-      {/*  editing={true}*/}
-      {/*  domain={domain}*/}
-      {/*  keyName="Content"*/}
-      {/*  type="content"*/}
-      {/*  value={getContent(updatedRecords)}*/}
-      {/*  refetch={refetch}*/}
-      {/*  updateRecord={updateRecord(setUpdatedRecords)}*/}
-      {/*  changedRecords={changedRecords}*/}
-      {/*/>*/}
-      {/*<ContentHash*/}
-      {/*  canEdit={canEditRecords}*/}
-      {/*  editing={editing}*/}
-      {/*  domain={domain}*/}
-      {/*  keyName="Content"*/}
-      {/*  type="content"*/}
-      {/*  value={updatedRecords.content}*/}
-      {/*  refetch={refetch}*/}
-      {/*  changedRecords={changedRecords}*/}
-      {/*  updatedRecords={updatedRecords}*/}
-      {/*  setUpdatedRecords={setUpdatedRecords}*/}
-      {/*/>*/}
-      {/*<TextRecord*/}
-      {/*  canEdit={canEditRecords}*/}
-      {/*  editing={editing}*/}
-      {/*  domain={domain}*/}
-      {/*  textRecords={dataTextRecords && dataTextRecords.getTextRecords}*/}
-      {/*  loading={textRecordsLoading}*/}
-      {/*  title={t('c.textrecord')}*/}
-      {/*  updatedRecords={updatedRecords}*/}
-      {/*  placeholderRecords={TEXT_PLACEHOLDER_RECORDS}*/}
-      {/*  setUpdatedRecords={setUpdatedRecords}*/}
-      {/*  changedRecords={changedRecords}*/}
-      {/*/>*/}
       {/*{pending && !confirmed && txHash && (*/}
       {/*  <ConfirmBox pending={pending}>*/}
       {/*    <PendingTx*/}

@@ -9,14 +9,13 @@ const getPlaceholder = symbol => {
 }
 
 export default function Coins(props) {
-  return (
-    <KeyValueRecord
-      {...props}
-      {...{
+  return <KeyValueRecord {...props} />
+}
+
+/*
+placeholderRecords={PLACEHOLDER_RECORDS}
+      recordType="coins"
+        {...{
         getPlaceholder
       }}
-      placeholderRecords={PLACEHOLDER_RECORDS}
-      recordType="coins"
-    />
-  )
-}
+ */
