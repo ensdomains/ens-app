@@ -2,18 +2,19 @@ import { encodeContenthash, isValidContenthash } from '@ensdomains/ui'
 import { addressUtils } from 'utils/utils'
 import { formatsByName } from '@ensdomains/address-encoder'
 
-export function validateRecord({ type, value, contentType, selectedKey }) {
-  if (!type) return false
-  if (!value) return false
-  if (type === 'content' && contentType === 'oldcontent') {
-    return value.length > 32
-  }
-
-  switch (type) {
+export function validateRecord({
+  key,
+  value,
+  contentType,
+  selectedKey,
+  contractFn
+}) {
+  if (!value) return true
+  switch (contractFn) {
     case 'address':
       const isAddress = addressUtils.isAddress(value)
       return isAddress
-    case 'content':
+    case 'setContenthash':
       if (value === EMPTY_ADDRESS) return true // delete record
       const { encoded, error: encodeError } = encodeContenthash(value)
       if (!encodeError && encoded) {
@@ -23,15 +24,15 @@ export function validateRecord({ type, value, contentType, selectedKey }) {
       } else {
         return false
       }
-    case 'textRecords':
+    case 'setText':
       return true
-    case 'coins':
+    case 'setAddr(bytes32,address)':
       if (value === '') return false
-      if (selectedKey === 'ETH') {
+      if (key === 'ETH') {
         return addressUtils.isAddress(value)
       }
       try {
-        formatsByName[selectedKey].decoder(value)
+        formatsByName[key].decoder(value)
         return true
       } catch {
         return false

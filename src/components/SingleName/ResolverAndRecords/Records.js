@@ -130,22 +130,7 @@ function calculateShouldShowRecords(isOwner, hasResolver, hasRecords) {
 
 function getChangedRecords(initialRecords, updatedRecords, recordsLoading) {
   if (recordsLoading) return []
-
-  // const textRecords = differenceWith(
-  //   updatedRecords.textRecords,
-  //   initialRecords.textRecords,
-  //   isEqual
-  // )
-
-  // const coins = differenceWith(
-  //   updatedRecords.coins,
-  //   initialRecords.coins,
-  //   isEqual
-  // )
-
-  const changedRecords = differenceWith(initialRecords, updatedRecords, isEqual)
-
-  return changedRecords
+  return differenceWith(initialRecords, updatedRecords, isEqual)
 }
 
 function checkRecordsHaveChanged(changedRecords) {
@@ -304,26 +289,14 @@ const addOrUpdateRecord = (updateFn, addFn, updatedRecords) => record => {
   addFn(record)
 }
 
-const coinsValidator = (key, value) => {
-  return validateRecord({
-    type: 'coins',
-    selectedKey: key,
-    value
-  })
-}
+const validateAllRecords = (updatedRecords, validRecords) =>
+  updatedRecords.length === validRecords.length
 
-const contentValidator = (key, value) => {
-  return validateRecord({
-    type: 'content',
-    value
-  })
-}
+const singleValidator = validRecords => record =>
+  validRecords.some(el => el.key === record.key && el.val === record.val)
 
-const textRecordValidator = (key, value) => {
-  return validateRecord({
-    type: 'textRecords',
-    value
-  })
+const getValidRecords = (records, validator) => {
+  return records.filter(record => validator(record))
 }
 
 // graphql data in resolver and records to check current records
@@ -348,10 +321,14 @@ export default function Records({
   })
   const [updatedRecords, setUpdatedRecords] = useState([])
   const [changedRecords, setChangedRecords] = useState([])
+  const [validRecords, setValidRecords] = useState([])
+
   const { actions, state } = useEditable()
   const { pending, confirmed, editing, txHash } = state
 
   console.log('updatedREcords: ', updatedRecords)
+  console.log('chagnedRecords: ', changedRecords)
+  console.log('validRecords: ', validRecords)
 
   const {
     startPending,
@@ -399,6 +376,7 @@ export default function Records({
       setChangedRecords(
         getChangedRecords(initialRecords, updatedRecords, recordsLoading)
       )
+      setValidRecords(getValidRecords(updatedRecords, validateRecord))
     }
   }, [updatedRecords, recordsLoading])
 
@@ -424,16 +402,11 @@ export default function Records({
   const canEditRecords =
     !isOldPublicResolver && !isDeprecatedResolver && isOwner
 
-  // const haveRecordsChanged = checkRecordsHaveChanged(changedRecords)
-  // const areRecordsValid = checkRecordsAreValid(changedRecords)
-
-  // shouldShowRecords={shouldShowRecords}
-  // needsToBeMigrated={needsToBeMigrated}
-
-  console.log('addresses: ', getContent(updatedRecords))
-
   return (
-    <RecordsWrapper shouldShowRecords={true} needsToBeMigrated={false}>
+    <RecordsWrapper
+      shouldShowRecords={shouldShowRecords}
+      needsToBeMigrated={needsToBeMigrated}
+    >
       {!canEditRecords && isOwner ? (
         <CantEdit>{t('singleName.record.cantEdit')}</CantEdit>
       ) : (
@@ -455,71 +428,74 @@ export default function Records({
         />
       )}
       <KeyValueRecord
-        canEdit={true}
-        editing={true}
+        canEdit={canEditRecords}
+        editing={editing}
         records={getCoins(updatedRecords)}
         title={t('c.addresses')}
         updateRecord={updateRecord(setUpdatedRecords)}
         changedRecords={changedRecords}
-        validator={coinsValidator}
+        validator={singleValidator(validRecords)}
       />
       <KeyValueRecord
-        canEdit={true}
-        editing={true}
+        canEdit={canEditRecords}
+        editing={editing}
         records={getContent(updatedRecords)}
         title={t('c.addresses')}
         updateRecord={updateRecord(setUpdatedRecords)}
         changedRecords={changedRecords}
-        validator={contentValidator}
+        validator={singleValidator(validRecords)}
       />
       <KeyValueRecord
-        canEdit={true}
-        editing={true}
+        canEdit={canEditRecords}
+        editing={editing}
         records={getTextRecords(updatedRecords)}
         title={t('c.addresses')}
         updateRecord={updateRecord(setUpdatedRecords)}
         changedRecords={changedRecords}
-        validator={textRecordValidator}
+        validator={singleValidator(validRecords)}
       />
-      {/*{pending && !confirmed && txHash && (*/}
-      {/*  <ConfirmBox pending={pending}>*/}
-      {/*    <PendingTx*/}
-      {/*      txHash={txHash}*/}
-      {/*      onConfirmed={() => {*/}
-      {/*        setConfirmed()*/}
-      {/*        resetPending()*/}
-      {/*      }}*/}
-      {/*    />*/}
-      {/*  </ConfirmBox>*/}
-      {/*)}*/}
-      {/*{editing && !txHash && (*/}
-      {/*  <ConfirmBox>*/}
-      {/*    <p>*/}
-      {/*      Add, delete, or edit one or multiple records. Confirm in one*/}
-      {/*      transaction.*/}
-      {/*    </p>*/}
-      {/*    <SaveCancel*/}
-      {/*      mutation={() => {*/}
-      {/*        addMultiRecords({*/}
-      {/*          variables: { name: domain.name, records: changedRecords }*/}
-      {/*        })*/}
-      {/*      }}*/}
-      {/*      mutationButton="Confirm"*/}
-      {/*      stopEditing={stopEditing}*/}
-      {/*      disabled={false}*/}
-      {/*      confirm={true}*/}
-      {/*      extraDataComponent={*/}
-      {/*        <RecordsCheck*/}
-      {/*          changedRecords={changedRecords}*/}
-      {/*          contentCreatedFirstTime={contentCreatedFirstTime}*/}
-      {/*          parentName={domain.parent}*/}
-      {/*          name={domain.name}*/}
-      {/*        />*/}
-      {/*      }*/}
-      {/*      isValid={haveRecordsChanged && areRecordsValid}*/}
-      {/*    />*/}
-      {/*  </ConfirmBox>*/}
-      {/*)}*/}
+      {pending && !confirmed && txHash && (
+        <ConfirmBox pending={pending}>
+          <PendingTx
+            txHash={txHash}
+            onConfirmed={() => {
+              setConfirmed()
+              resetPending()
+            }}
+          />
+        </ConfirmBox>
+      )}
+      {editing && !txHash && (
+        <ConfirmBox>
+          <p>
+            Add, delete, or edit one or multiple records. Confirm in one
+            transaction.
+          </p>
+          <SaveCancel
+            mutation={() => {
+              addMultiRecords({
+                variables: { name: domain.name, records: changedRecords }
+              })
+            }}
+            mutationButton="Confirm"
+            stopEditing={stopEditing}
+            disabled={false}
+            confirm={true}
+            extraDataComponent={
+              <RecordsCheck
+                changedRecords={changedRecords}
+                contentCreatedFirstTime={true}
+                parentName={domain.parent}
+                name={domain.name}
+              />
+            }
+            isValid={
+              !!changedRecords.length &&
+              validateAllRecords(updatedRecords, validRecords)
+            }
+          />
+        </ConfirmBox>
+      )}
     </RecordsWrapper>
   )
 }

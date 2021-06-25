@@ -89,16 +89,20 @@ const DeleteRecord = styled('span')`
   color: red;
 `
 
-const validate = (validator, record) => {
-  const { key, value } = record
-  if (validator) {
-    if (value === emptyAddress || value === '') {
-      return true
-    } else {
-      return validator(key, value)
-    }
-  }
-  return true
+// const validate = (validator, record) => {
+//   const { key, value } = record
+//   if (validator) {
+//     if (value === emptyAddress || value === '') {
+//       return true
+//     } else {
+//       return validator(key, value)
+//     }
+//   }
+//   return true
+// }
+
+const hasChange = (changedRecords, key) => {
+  return !!changedRecords.find(el => el.key === key)
 }
 
 const Editable = ({
@@ -113,16 +117,7 @@ const Editable = ({
   record
 }) => {
   const { key, value } = record
-  const hasBeenUpdated = false
-  // const hasBeenUpdated = changedRecords[recordType].find(
-  //   record => record.key === textKey
-  // )
-  //   ? true
-  //   : false
-
-  const isValid = validate(validator, record)
-
-  console.log('isValid: ', isValid)
+  const isValid = validator(record)
 
   return (
     <KeyValueItem editing={editing} hasRecord={true} noBorder>
@@ -131,7 +126,7 @@ const Editable = ({
           <RecordsSubKey>{key}</RecordsSubKey>
           <RecordInput
             testId={`${key}-record-input`}
-            hasBeenUpdated={hasBeenUpdated}
+            hasBeenUpdated={hasChange(changedRecords, key)}
             type="text"
             isValid={isValid}
             isInvalid={!isValid}
@@ -150,8 +145,8 @@ const Editable = ({
         </KeyValuesContent>
       ) : (
         <KeyValuesContent>
-          <RecordsSubKey>{textKey}</RecordsSubKey>
-          <RecordLink textKey={textKey} value={value} />
+          <RecordsSubKey>{key}</RecordsSubKey>
+          <RecordLink textKey={key} value={value} />
         </KeyValuesContent>
       )}
     </KeyValueItem>
@@ -195,7 +190,7 @@ function Record(props) {
       {...{ updateRecord, record }}
     />
   ) : (
-    <ViewOnly textKey={textKey} value={dataValue} />
+    <ViewOnly textKey={key} value={dataValue} />
   )
 }
 

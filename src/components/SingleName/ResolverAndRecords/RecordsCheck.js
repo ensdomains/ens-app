@@ -46,55 +46,72 @@ export default function MultipleRecordsCheck({
   }
   return (
     <div>
-      {changedRecords.coins.length > 0 && (
-        <KeyValueContainer>
-          <Key>Addresses</Key>
-          <KeyValuesList>
-            {changedRecords.coins.map(record =>
-              record.value === '' ? (
-                <KeyValueViewOnly
-                  textKey={record.key}
-                  value={record.value}
-                  remove={true}
-                />
-              ) : (
-                <KeyValueViewOnly textKey={record.key} value={record.value} />
-              )
-            )}
-          </KeyValuesList>
-        </KeyValueContainer>
-      )}
-
-      {changedRecords.content !== undefined && (
-        <Contenthash>
-          <Key>Content Hash</Key>
-          <RecordsValue>
-            {isRecordEmpty(changedRecords.content) ? (
-              <Delete>Delete Record</Delete>
+      <KeyValueContainer>
+        <KeyValuesList>
+          {changedRecords.map(record =>
+            record.value === '' ? (
+              <KeyValueViewOnly
+                textKey={record.key}
+                value={record.value}
+                remove={true}
+              />
             ) : (
-              changedRecords.content
-            )}
-          </RecordsValue>
-        </Contenthash>
-      )}
-      {changedRecords.textRecords.length > 0 && (
-        <KeyValueContainer>
-          <Key>Text Records</Key>
-          <KeyValuesList>
-            {changedRecords.textRecords.map(record =>
-              record.value === '' ? (
-                <KeyValueViewOnly
-                  textKey={record.key}
-                  value={record.value}
-                  remove={true}
-                />
-              ) : (
-                <KeyValueViewOnly textKey={record.key} value={record.value} />
-              )
-            )}
-          </KeyValuesList>
-        </KeyValueContainer>
-      )}
+              <KeyValueViewOnly textKey={record.key} value={record.value} />
+            )
+          )}
+        </KeyValuesList>
+      </KeyValueContainer>
+
+      {/*{changedRecords.coins.length > 0 && (*/}
+      {/*  <KeyValueContainer>*/}
+      {/*    <Key>Addresses</Key>*/}
+      {/*    <KeyValuesList>*/}
+      {/*      {changedRecords.coins.map(record =>*/}
+      {/*        record.value === '' ? (*/}
+      {/*          <KeyValueViewOnly*/}
+      {/*            textKey={record.key}*/}
+      {/*            value={record.value}*/}
+      {/*            remove={true}*/}
+      {/*          />*/}
+      {/*        ) : (*/}
+      {/*          <KeyValueViewOnly textKey={record.key} value={record.value} />*/}
+      {/*        )*/}
+      {/*      )}*/}
+      {/*    </KeyValuesList>*/}
+      {/*  </KeyValueContainer>*/}
+      {/*)}*/}
+
+      {/*{changedRecords.content !== undefined && (*/}
+      {/*  <Contenthash>*/}
+      {/*    <Key>Content Hash</Key>*/}
+      {/*    <RecordsValue>*/}
+      {/*      {isRecordEmpty(changedRecords.content) ? (*/}
+      {/*        <Delete>Delete Record</Delete>*/}
+      {/*      ) : (*/}
+      {/*        changedRecords.content*/}
+      {/*      )}*/}
+      {/*    </RecordsValue>*/}
+      {/*  </Contenthash>*/}
+      {/*)}*/}
+
+      {/*{changedRecords.textRecords.length > 0 && (*/}
+      {/*  <KeyValueContainer>*/}
+      {/*    <Key>Text Records</Key>*/}
+      {/*    <KeyValuesList>*/}
+      {/*      {changedRecords.textRecords.map(record =>*/}
+      {/*        record.value === '' ? (*/}
+      {/*          <KeyValueViewOnly*/}
+      {/*            textKey={record.key}*/}
+      {/*            value={record.value}*/}
+      {/*            remove={true}*/}
+      {/*          />*/}
+      {/*        ) : (*/}
+      {/*          <KeyValueViewOnly textKey={record.key} value={record.value} />*/}
+      {/*        )*/}
+      {/*      )}*/}
+      {/*    </KeyValuesList>*/}
+      {/*  </KeyValueContainer>*/}
+      {/*)}*/}
     </div>
   )
 }
