@@ -89,18 +89,6 @@ const DeleteRecord = styled('span')`
   color: red;
 `
 
-// const validate = (validator, record) => {
-//   const { key, value } = record
-//   if (validator) {
-//     if (value === emptyAddress || value === '') {
-//       return true
-//     } else {
-//       return validator(key, value)
-//     }
-//   }
-//   return true
-// }
-
 const hasChange = (changedRecords, key) => {
   return !!changedRecords.find(el => el.key === key)
 }
@@ -109,12 +97,12 @@ const Editable = ({
   editing,
   domain,
   validator,
-  getPlaceholder,
   setUpdatedRecords,
   recordType,
   changedRecords,
   updateRecord,
-  record
+  record,
+  placeholder
 }) => {
   const { key, value } = record
   const isValid = validator(record)
@@ -128,12 +116,12 @@ const Editable = ({
             testId={`${key}-record-input`}
             hasBeenUpdated={hasChange(changedRecords, key)}
             type="text"
-            isValid={isValid}
             isInvalid={!isValid}
             onChange={event => {
               updateRecord({ ...record, value: event.target.value })
             }}
             value={value === emptyAddress ? '' : value}
+            {...{ placeholder, isValid }}
           />
 
           <Bin
@@ -158,7 +146,6 @@ function Record(props) {
     textKey,
     dataValue,
     validator,
-    getPlaceholder,
     setHasRecord,
     hasRecord,
     canEdit,
@@ -182,7 +169,6 @@ function Record(props) {
     <Editable
       {...props}
       validator={validator}
-      getPlaceholder={getPlaceholder}
       editing={editing}
       setUpdatedRecords={setUpdatedRecords}
       changedRecords={changedRecords}
@@ -212,7 +198,6 @@ function Records({
   canEdit,
   records,
   validator,
-  getPlaceholder,
   title,
   placeholderRecords,
   setUpdatedRecords,
@@ -227,22 +212,10 @@ function Records({
       <Key>{title}</Key>
       <KeyValuesList>
         {records?.map(record => {
-          // if (
-          //   // Value empty
-          //   (value === emptyAddress || value === '') &&
-          //   // Value has not been changed
-          //   !changedRecords[recordType].find(record => record.key === key) &&
-          //   // Value is not a placeholder
-          //   !placeholderRecords.includes(key)
-          // ) {
-          //   return null
-          // }
-
           return (
             <Record
               editing={editing}
               validator={validator}
-              getPlaceholder={getPlaceholder}
               setHasRecord={setHasRecord}
               hasRecord={hasRecord}
               canEdit={canEdit}

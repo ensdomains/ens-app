@@ -34,7 +34,7 @@ const RecordInput = ({
       valid={isValid && hasBeenUpdated}
       value={value}
       invalid={isInvalid}
-      placeholder={placeholder || getPlaceholder(dataType, contentType)}
+      placeholder={placeholder}
       onChange={onChange}
       testId={testId}
     />

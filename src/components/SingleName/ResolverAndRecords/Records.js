@@ -89,9 +89,8 @@ const TEXT_PLACEHOLDER_RECORDS = [
 
 const COIN_PLACEHOLDER_RECORDS = ['ETH', ...COIN_LIST.slice(0, 3)]
 
-// const KeyToContractFunction = {
-//   ''
-// };
+const CONTENT_PLACEHOLDER =
+  'Enter a content hash (eg: /ipfs/..., ipfs://..., /ipns/..., ipns://..., bzz://..., onion://..., onion3://..., sia://...)'
 
 function isEmpty(record) {
   if (parseInt(record, 16) === 0) {
@@ -440,16 +439,17 @@ export default function Records({
         canEdit={canEditRecords}
         editing={editing}
         records={getContent(updatedRecords)}
-        title={t('c.addresses')}
+        title={t('c.Content')}
         updateRecord={updateRecord(setUpdatedRecords)}
         changedRecords={changedRecords}
         validator={singleValidator(validRecords)}
+        placeholder={CONTENT_PLACEHOLDER}
       />
       <KeyValueRecord
         canEdit={canEditRecords}
         editing={editing}
         records={getTextRecords(updatedRecords)}
-        title={t('c.addresses')}
+        title={t('c.textrecord')}
         updateRecord={updateRecord(setUpdatedRecords)}
         changedRecords={changedRecords}
         validator={singleValidator(validRecords)}
