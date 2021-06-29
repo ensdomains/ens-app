@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useMutation } from 'react-apollo'
 import styled from '@emotion/styled/macro'
 import isEqual from 'lodash/isEqual'
@@ -11,7 +11,6 @@ import { useEditable } from '../../hooks'
 import { ADD_MULTI_RECORDS } from '../../../graphql/mutations'
 import COIN_LIST from 'constants/coinList'
 import PendingTx from '../../PendingTx'
-import { emptyAddress } from '../../../utils/utils'
 import { formatsByCoinType } from '@ensdomains/address-encoder'
 
 import {
@@ -21,12 +20,22 @@ import {
 } from 'graphql/queries'
 
 import AddRecord from './AddRecord'
-import ContentHash from './ContentHash'
-import TextRecord from './TextRecord'
-import Coins from './Coins'
 import DefaultSaveCancel from '../SaveCancel'
 import RecordsCheck from './RecordsCheck'
 import KeyValueRecord from './KeyValueRecord/KeyValueRecord'
+
+// Hook
+function usePrevious(value) {
+  // The ref object is a generic container whose current property is mutable ...
+  // ... and can hold any value, similar to an instance property on a class
+  const ref = useRef()
+  // Store current value in ref
+  useEffect(() => {
+    ref.current = value
+  }, [value]) // Only re-run if value changes
+  // Return previous value (happens before update in useEffect above)
+  return ref.current
+}
 
 const RecordsWrapper = styled('div')`
   border-radius: 6px;
@@ -129,7 +138,7 @@ function calculateShouldShowRecords(isOwner, hasResolver, hasRecords) {
 
 function getChangedRecords(initialRecords, updatedRecords, recordsLoading) {
   if (recordsLoading) return []
-  return differenceWith(initialRecords, updatedRecords, isEqual)
+  return differenceWith(updatedRecords, initialRecords, isEqual)
 }
 
 function checkRecordsHaveChanged(changedRecords) {
@@ -157,7 +166,21 @@ function isContentHashEmpty(hash) {
   return hash?.startsWith('undefined') || parseInt(hash, 16) === 0
 }
 
-const useGetRecords = (domain, coinList, resolver, dataResolver) => {
+const useGetRecords = domain => {
+  const { data: dataResolver } = useQuery(GET_RESOLVER_FROM_SUBGRAPH, {
+    variables: {
+      id: getNamehash(domain.name)
+    }
+  })
+
+  const resolver =
+    dataResolver && dataResolver.domain && dataResolver.domain.resolver
+
+  const coinList =
+    resolver &&
+    resolver.coinTypes &&
+    resolver.coinTypes.map(c => formatsByCoinType[c].name)
+
   const { loading: addressesLoading, data: dataAddresses } = useQuery(
     GET_ADDRESSES,
     {
@@ -212,7 +235,7 @@ const getInitialCoins = dataAddresses => {
       : processRecords([], COIN_PLACEHOLDER_RECORDS)
 
   return addresses?.map(address => ({
-    contractFn: 'setAddr(bytes32,address)',
+    contractFn: 'setAddr(bytes32,uint256,bytes)',
     ...address
   }))
 }
@@ -239,7 +262,7 @@ const getInitialRecords = (domain, dataAddresses, dataTextRecords) => {
 
 const getCoins = updatedRecords =>
   updatedRecords
-    .filter(record => record.contractFn === 'setAddr(bytes32,address)')
+    .filter(record => record.contractFn === 'setAddr(bytes32,uint256,bytes)')
     .sort(record => (record.key === 'ETH' ? -1 : 1))
 
 const getContent = updatedRecords => {
@@ -298,15 +321,50 @@ const getValidRecords = (records, validator) => {
   return records.filter(record => validator(record))
 }
 
-// graphql data in resolver and records to check current records
-// state in resolver and records to record new edit changes
-// check old and new to see if any have changed
-// abstract build tx data into function and use it here
-//
+const useInitRecords = (
+  domain,
+  dataAddresses,
+  dataTextRecords,
+  setInitialRecords
+) => {
+  useEffect(() => {
+    setInitialRecords(getInitialRecords(domain, dataAddresses, dataTextRecords))
+  }, [domain, dataAddresses, dataTextRecords])
+}
+
+const useUpdatedRecords = (
+  recordsLoading,
+  initialRecords,
+  setUpdatedRecords
+) => {
+  const prevInitialRecords = usePrevious(initialRecords)
+  useEffect(() => {
+    if (!recordsLoading || prevInitialRecords !== initialRecords) {
+      setUpdatedRecords(initialRecords)
+    }
+  }, [recordsLoading, initialRecords, prevInitialRecords])
+}
+
+const useChangedValidRecords = (
+  recordsLoading,
+  setChangedRecords,
+  setValidRecords,
+  initialRecords,
+  updatedRecords
+) => {
+  useEffect(() => {
+    if (!recordsLoading) {
+      setChangedRecords(
+        getChangedRecords(initialRecords, updatedRecords, recordsLoading)
+      )
+      setValidRecords(getValidRecords(updatedRecords, validateRecord))
+    }
+  }, [updatedRecords, recordsLoading, initialRecords])
+}
+
 export default function Records({
   domain,
   isOwner,
-  refetch,
   hasResolver,
   isOldPublicResolver,
   isDeprecatedResolver,
@@ -337,54 +395,21 @@ export default function Records({
     resetPending
   } = actions
 
-  const { data: dataResolver } = useQuery(GET_RESOLVER_FROM_SUBGRAPH, {
-    variables: {
-      id: getNamehash(domain.name)
-    }
-  })
-
-  const resolver =
-    dataResolver && dataResolver.domain && dataResolver.domain.resolver
-
-  const coinList =
-    resolver &&
-    resolver.coinTypes &&
-    resolver.coinTypes.map(c => formatsByCoinType[c].name)
-
   const { dataAddresses, dataTextRecords, recordsLoading } = useGetRecords(
-    domain,
-    coinList,
-    resolver,
-    dataResolver
+    domain
   )
 
-  const initialRecords = getInitialRecords(
-    domain,
-    dataAddresses,
-    dataTextRecords
+  const [initialRecords, setInitialRecords] = useState([])
+
+  useInitRecords(domain, dataAddresses, dataTextRecords, setInitialRecords)
+  useUpdatedRecords(recordsLoading, initialRecords, setUpdatedRecords)
+  useChangedValidRecords(
+    recordsLoading,
+    setChangedRecords,
+    setValidRecords,
+    initialRecords,
+    updatedRecords
   )
-
-  useEffect(() => {
-    if (!recordsLoading) {
-      setUpdatedRecords(initialRecords)
-    }
-  }, [recordsLoading, dataAddresses, dataTextRecords])
-
-  useEffect(() => {
-    if (!recordsLoading) {
-      setChangedRecords(
-        getChangedRecords(initialRecords, updatedRecords, recordsLoading)
-      )
-      setValidRecords(getValidRecords(updatedRecords, validateRecord))
-    }
-  }, [updatedRecords, recordsLoading])
-
-  const emptyRecords = RECORDS.filter(record => {
-    // Always display all options for consistency now that both Addess and text almost always have empty record
-    return true
-  })
-
-  const hasRecords = hasAnyRecord(domain)
 
   // const contentCreatedFirstTime =
   //   !initialRecords.content && !!updatedRecords.content
@@ -392,7 +417,7 @@ export default function Records({
   const shouldShowRecords = calculateShouldShowRecords(
     isOwner,
     hasResolver,
-    hasRecords
+    hasAnyRecord(domain)
   )
   if (!shouldShowRecords) {
     return null
@@ -418,7 +443,7 @@ export default function Records({
           initialRecords={initialRecords}
           updatedRecords={updatedRecords}
           setUpdatedRecords={setUpdatedRecords}
-          emptyRecords={emptyRecords}
+          emptyRecords={RECORDS}
           updateRecord={addOrUpdateRecord(
             updateRecord(setUpdatedRecords),
             addRecord(setUpdatedRecords),
@@ -461,6 +486,7 @@ export default function Records({
             onConfirmed={() => {
               setConfirmed()
               resetPending()
+              setInitialRecords(updatedRecords)
             }}
           />
         </ConfirmBox>

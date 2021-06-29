@@ -9,8 +9,6 @@ import {
 
 import mq from 'mediaQuery'
 
-import { RecordsValue } from './ContentHash.js'
-import { isRecordEmpty } from '../../../utils/utils'
 import 'cross-fetch/polyfill'
 import { requestCertificate, isEthSubdomain } from './Certificate.js'
 const Key = styled(DefaultKey)`
@@ -44,6 +42,7 @@ export default function MultipleRecordsCheck({
   if (contentCreatedFirstTime && isEthSubdomain(parentName)) {
     requestCertificate(name)
   }
+
   return (
     <div>
       <KeyValueContainer>
@@ -61,57 +60,6 @@ export default function MultipleRecordsCheck({
           )}
         </KeyValuesList>
       </KeyValueContainer>
-
-      {/*{changedRecords.coins.length > 0 && (*/}
-      {/*  <KeyValueContainer>*/}
-      {/*    <Key>Addresses</Key>*/}
-      {/*    <KeyValuesList>*/}
-      {/*      {changedRecords.coins.map(record =>*/}
-      {/*        record.value === '' ? (*/}
-      {/*          <KeyValueViewOnly*/}
-      {/*            textKey={record.key}*/}
-      {/*            value={record.value}*/}
-      {/*            remove={true}*/}
-      {/*          />*/}
-      {/*        ) : (*/}
-      {/*          <KeyValueViewOnly textKey={record.key} value={record.value} />*/}
-      {/*        )*/}
-      {/*      )}*/}
-      {/*    </KeyValuesList>*/}
-      {/*  </KeyValueContainer>*/}
-      {/*)}*/}
-
-      {/*{changedRecords.content !== undefined && (*/}
-      {/*  <Contenthash>*/}
-      {/*    <Key>Content Hash</Key>*/}
-      {/*    <RecordsValue>*/}
-      {/*      {isRecordEmpty(changedRecords.content) ? (*/}
-      {/*        <Delete>Delete Record</Delete>*/}
-      {/*      ) : (*/}
-      {/*        changedRecords.content*/}
-      {/*      )}*/}
-      {/*    </RecordsValue>*/}
-      {/*  </Contenthash>*/}
-      {/*)}*/}
-
-      {/*{changedRecords.textRecords.length > 0 && (*/}
-      {/*  <KeyValueContainer>*/}
-      {/*    <Key>Text Records</Key>*/}
-      {/*    <KeyValuesList>*/}
-      {/*      {changedRecords.textRecords.map(record =>*/}
-      {/*        record.value === '' ? (*/}
-      {/*          <KeyValueViewOnly*/}
-      {/*            textKey={record.key}*/}
-      {/*            value={record.value}*/}
-      {/*            remove={true}*/}
-      {/*          />*/}
-      {/*        ) : (*/}
-      {/*          <KeyValueViewOnly textKey={record.key} value={record.value} />*/}
-      {/*        )*/}
-      {/*      )}*/}
-      {/*    </KeyValuesList>*/}
-      {/*  </KeyValueContainer>*/}
-      {/*)}*/}
     </div>
   )
 }

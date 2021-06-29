@@ -26,7 +26,7 @@ export function validateRecord({
       }
     case 'setText':
       return true
-    case 'setAddr(bytes32,address)':
+    case 'setAddr(bytes32,uint256,bytes)':
       if (value === '') return false
       if (key === 'ETH') {
         return addressUtils.isAddress(value)
