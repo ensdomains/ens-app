@@ -2,24 +2,13 @@ import { encodeContenthash, isValidContenthash } from '@ensdomains/ui'
 import { addressUtils } from 'utils/utils'
 import { formatsByName } from '@ensdomains/address-encoder'
 
-export function validateRecord({
-  key,
-  value,
-  contentType,
-  selectedKey,
-  contractFn
-}) {
+export function validateRecord({ key, value, contractFn }) {
   if (!value) return true
   switch (contractFn) {
-    case 'address':
-      const isAddress = addressUtils.isAddress(value)
-      return isAddress
     case 'setContenthash':
       if (value === EMPTY_ADDRESS) return true // delete record
       const { encoded, error: encodeError } = encodeContenthash(value)
       if (!encodeError && encoded) {
-        const test = isValidContenthash(encoded)
-        console.log('test: ', test)
         return isValidContenthash(encoded)
       } else {
         return false
@@ -44,14 +33,10 @@ export function validateRecord({
 
 export function getPlaceholder(recordType, contentType) {
   switch (recordType) {
-    case 'address':
+    case 'setAddr(bytes32,uint256,bytes)':
       return 'Enter an Ethereum address'
-    case 'content':
-      if (contentType === 'contenthash') {
-        return 'Enter a content hash (eg: /ipfs/..., ipfs://..., /ipns/..., ipns://..., bzz://..., onion://..., onion3://..., sia://...)'
-      } else {
-        return 'Enter a content'
-      }
+    case 'setContenthash':
+      return 'Enter a content hash (eg: /ipfs/..., ipfs://..., /ipns/..., ipns://..., bzz://..., onion://..., onion3://..., sia://...)'
     default:
       return ''
   }

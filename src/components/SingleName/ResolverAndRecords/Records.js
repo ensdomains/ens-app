@@ -69,7 +69,7 @@ const RECORDS = [
   {
     label: 'Addresses',
     value: 'coins',
-    contractFn: 'setAddr(bytes32,address)'
+    contractFn: 'setAddr(bytes32,uint256,bytes)'
   },
   {
     label: 'Content',
@@ -400,6 +400,8 @@ export default function Records({
   )
 
   const [initialRecords, setInitialRecords] = useState([])
+
+  console.log('initialRecords: ', initialRecords)
 
   useInitRecords(domain, dataAddresses, dataTextRecords, setInitialRecords)
   useUpdatedRecords(recordsLoading, initialRecords, setUpdatedRecords)
