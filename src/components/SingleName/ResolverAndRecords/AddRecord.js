@@ -39,6 +39,17 @@ const ToggleAddRecord = styled('span')`
   &:hover {
     cursor: pointer;
   }
+
+  ${p =>
+    p.pending &&
+    `
+    color: #cccccc;
+    pointer-events: none;
+    
+    &:hover {
+      cursor: initial;
+    }
+  `}
 `
 
 const Select = styled(DefaultSelect)`
@@ -171,7 +182,8 @@ function Editable({
   updatedRecords,
   setUpdatedRecords,
   addRecord,
-  updateRecord
+  updateRecord,
+  pending
 }) {
   const { t } = useTranslation()
   const { state, actions } = useEditable()
@@ -219,11 +231,11 @@ function Editable({
       <RecordsTitle>
         {t('singleName.record.title')}
         {editing ? (
-          <ToggleAddRecord onClick={stopEditing}>
+          <ToggleAddRecord onClick={stopEditing} pending={pending}>
             Close Add/Edit Record
           </ToggleAddRecord>
         ) : (
-          <ToggleAddRecord onClick={startEditing}>
+          <ToggleAddRecord onClick={startEditing} pending={pending}>
             Add/Edit Record
           </ToggleAddRecord>
         )}

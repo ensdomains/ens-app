@@ -437,20 +437,23 @@ export default function Records({
         <CantEdit>{t('singleName.record.cantEdit')}</CantEdit>
       ) : (
         <AddRecord
-          domain={domain}
           canEdit={canEditRecords}
-          editing={editing}
-          startEditing={startEditing}
-          stopEditing={stopEditing}
-          initialRecords={initialRecords}
-          updatedRecords={updatedRecords}
-          setUpdatedRecords={setUpdatedRecords}
           emptyRecords={RECORDS}
           updateRecord={addOrUpdateRecord(
             updateRecord(setUpdatedRecords),
             addRecord(setUpdatedRecords),
             updatedRecords
           )}
+          {...{
+            pending,
+            domain,
+            editing,
+            startEditing,
+            stopEditing,
+            initialRecords,
+            updatedRecords,
+            setUpdatedRecords
+          }}
         />
       )}
       <KeyValueRecord
