@@ -465,16 +465,28 @@ export default function Records({
         changedRecords={changedRecords}
         validator={singleValidator(validRecords)}
       />
-      <KeyValueRecord
-        canEdit={canEditRecords}
-        editing={editing}
-        records={getContent(updatedRecords)}
-        title={t('c.Content')}
-        updateRecord={updateRecord(setUpdatedRecords)}
-        changedRecords={changedRecords}
-        validator={singleValidator(validRecords)}
-        placeholder={CONTENT_PLACEHOLDER}
-      />
+      {/*<ContentHash*/}
+      {/*  canEdit={canEditRecords}*/}
+      {/*  editing={editing}*/}
+      {/*  domain={domain}*/}
+      {/*  keyName="Content"*/}
+      {/*  type="content"*/}
+      {/*  value={updatedRecords.content}*/}
+      {/*  refetch={refetch}*/}
+      {/*  changedRecords={changedRecords}*/}
+      {/*  updatedRecords={updatedRecords}*/}
+      {/*  setUpdatedRecords={setUpdatedRecords}*/}
+      {/*/>*/}
+      {/*<KeyValueRecord*/}
+      {/*  canEdit={canEditRecords}*/}
+      {/*  editing={editing}*/}
+      {/*  records={getContent(updatedRecords)}*/}
+      {/*  title={t('c.Content')}*/}
+      {/*  updateRecord={updateRecord(setUpdatedRecords)}*/}
+      {/*  changedRecords={changedRecords}*/}
+      {/*  validator={singleValidator(validRecords)}*/}
+      {/*  placeholder={CONTENT_PLACEHOLDER}*/}
+      {/*/>*/}
       <KeyValueRecord
         canEdit={canEditRecords}
         editing={editing}

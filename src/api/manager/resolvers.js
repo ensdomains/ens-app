@@ -229,7 +229,7 @@ const handleSingleTransaction = async (name, record, resolverInstance) => {
   const namehash = getNamehash(name)
 
   if (record.contractFn === 'setContenthash') {
-    const contentTx = await resolverInstance.setContenthash(
+    const contentTx = await resolverInstance[record.contractFn](
       namehash,
       encodeContenthash(record.value || emptyAddress)?.encoded
     )
@@ -237,7 +237,7 @@ const handleSingleTransaction = async (name, record, resolverInstance) => {
   }
 
   if (record.contractFn === 'setText') {
-    const textRecordTx = await resolverInstance.setText(
+    const textRecordTx = await resolverInstance[record.contractFn](
       namehash,
       record.key,
       record.value
@@ -261,9 +261,11 @@ const handleSingleTransaction = async (name, record, resolverInstance) => {
       addressAsBytes = decoder(coinRecord.value)
     }
 
-    const coinRecordTx = await resolverInstance[
-      'setAddr(bytes32,uint256,bytes)'
-    ](namehash, coinType, addressAsBytes)
+    const coinRecordTx = await resolverInstance[record.contractFn](
+      namehash,
+      coinType,
+      addressAsBytes
+    )
 
     return sendHelper(coinRecordTx)
   }
@@ -279,14 +281,14 @@ const handleMultipleTransactions = async (name, records, resolverInstance) => {
     const transactionArray = records.map(record => {
       if (record.contractFn === 'setContenthash') {
         const encodedContenthash = record
-        return resolver.encodeFunctionData('setContenthash', [
+        return resolver.encodeFunctionData(record.contractFn, [
           namehash,
           encodedContenthash
         ])
       }
 
       if (record.contractFn === 'setText') {
-        return resolver.encodeFunctionData('setText', [
+        return resolver.encodeFunctionData(record.contractFn, [
           namehash,
           record.key,
           record.value
@@ -305,7 +307,7 @@ const handleMultipleTransactions = async (name, records, resolverInstance) => {
         } else {
           addressAsBytes = decoder(record.value)
         }
-        return resolver.encodeFunctionData('setAddr(bytes32,uint256,bytes)', [
+        return resolver.encodeFunctionData(record.contractFn, [
           namehash,
           coinType,
           addressAsBytes
