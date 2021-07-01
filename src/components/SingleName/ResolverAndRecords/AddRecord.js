@@ -280,6 +280,7 @@ function Editable({
             <Button
               data-testid="save-record"
               type={isValid ? 'primary' : 'disabled'}
+              disabled={!isValid}
               onClick={() => {
                 updateRecord({
                   key: selectedKey?.value,

@@ -180,11 +180,8 @@ describe('Name detail view', () => {
       }).should(elem => {
         expect(elem.val()).to.equal('blah')
       })
-      cy.queryByTestId('save-record', { exact: false }).should(
-        'have.css',
-        'background-color',
-        DISABLED_COLOUR
-      )
+      cy.queryByTestId('save-record', { exact: false }).should('be.disabled')
+
       //force click like a real user
       cy.getByTestId('save-record', { exact: false }).click({ force: true })
 
