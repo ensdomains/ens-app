@@ -170,16 +170,16 @@ describe('Name detail view', () => {
       cy.getByText('ETH', { timeout: 10000 }).click({
         force: true
       })
-      cy.getByPlaceholderText('Enter a Eth Address', {
+      cy.getByPlaceholderText('Enter an Ethereum Address', {
         timeout: 10000,
         exact: false
       }).type('blah', { force: true, timeout: 10000 })
 
-      cy.getByPlaceholderText('Enter a Eth Address', { exact: false }).should(
-        elem => {
-          expect(elem.val()).to.equal('blah')
-        }
-      )
+      cy.getByPlaceholderText('Enter an Ethereum Address', {
+        exact: false
+      }).should(elem => {
+        expect(elem.val()).to.equal('blah')
+      })
       cy.queryByTestId('save-record', { exact: false }).should(
         'have.css',
         'background-color',
@@ -188,11 +188,11 @@ describe('Name detail view', () => {
       //force click like a real user
       cy.getByTestId('save-record', { exact: false }).click({ force: true })
 
-      cy.getByPlaceholderText('Enter a Eth Address', { exact: false }).should(
-        elem => {
-          expect(elem.val()).to.equal('blah')
-        }
-      )
+      cy.getByPlaceholderText('Enter an Ethereum Address', {
+        exact: false
+      }).should(elem => {
+        expect(elem.val()).to.equal('blah')
+      })
 
       // Form was not closed and nothing happened
       // This query seems flakey
@@ -224,7 +224,7 @@ describe('Name detail view', () => {
         .click({
           force: true
         })
-        .getByPlaceholderText('Enter a Eth Address', {
+        .getByPlaceholderText('Enter an Ethereum Address', {
           timeout: 10000,
           exact: false
         })

@@ -5,7 +5,7 @@ import isEqual from 'lodash/isEqual'
 import differenceWith from 'lodash/differenceWith'
 import { useQuery } from 'react-apollo'
 import { useTranslation } from 'react-i18next'
-import { getNamehash } from '@ensdomains/ui'
+import { getNamehash, emptyAddress } from '@ensdomains/ui'
 
 import { useEditable } from '../../hooks'
 import { ADD_MULTI_RECORDS } from '../../../graphql/mutations'
@@ -214,8 +214,16 @@ const processRecords = (records, placeholder) => {
   const nonDuplicatePlaceholderRecords = placeholder.filter(
     record => !records.find(r => record === r.key)
   )
+
+  const recordsSansEmpty = records.map(record => {
+    if (record.value === emptyAddress) {
+      return { ...record, value: '' }
+    }
+    return record
+  })
+
   return [
-    ...records,
+    ...recordsSansEmpty,
     ...nonDuplicatePlaceholderRecords.map(record => ({
       key: record,
       value: ''
@@ -416,9 +424,6 @@ export default function Records({
     updatedRecords
   )
 
-  // const contentCreatedFirstTime =
-  //   !initialRecords.content && !!updatedRecords.content
-
   const shouldShowRecords = calculateShouldShowRecords(
     isOwner,
     hasResolver,
@@ -497,7 +502,7 @@ export default function Records({
               setConfirmed()
               resetPending()
               setInitialRecords(updatedRecords)
-              if (contentCreatedFirstTime && isEthSubdomain(domain.parent)) {
+              if (isEthSubdomain(domain.parent)) {
                 requestCertificate(domain.name)
               }
             }}
