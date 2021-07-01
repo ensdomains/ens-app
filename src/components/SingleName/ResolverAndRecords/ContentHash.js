@@ -153,68 +153,34 @@ const LinkContainer = styled('a')`
   }
 `
 
-const Uploadable = ({ startUploading, keyName, value }) => {
-  if (value && !value.error) {
-    return (
-      <SecondaryAction>
-        <StyledUpload
-          onClick={startUploading}
-          data-testid={`edit-upload-temporal`}
-        />
-      </SecondaryAction>
-    )
-  }
-  return null
+const hasChange = (changedRecords, key) => {
+  return !!changedRecords.find(el => el.key === key)
 }
-
-const Switch = styled(Button)`
-  margin-bottom: 5px;
-  ${mq.small`
-    margin-right: 20px;
-    margin-bottom: 0px; 
-  `}
-`
 
 const ContentHashEditable = ({
   domain,
-  keyName,
-  value,
+  key,
   type,
-
+  records,
   changedRecords,
-  variableName,
-  account,
   editing,
-  updatedRecords,
-  setUpdatedRecords
+  updateRecord,
+  validator
 }) => {
   const { t } = useTranslation()
-  const { state, actions } = useEditable()
   const { contentType } = domain
-  const { authorized, uploading, newValue } = state
 
-  const {
-    startUploading,
-    stopUploading,
-    startAuthorizing,
-    stopAuthorizing,
-    updateValue
-  } = actions
-
-  const isValid = validateRecord({
-    type,
-    value,
-    contentType: domain.contentType
-  })
-
+  const record = records[0]
+  const value = record?.value
+  const isValid = validator(record)
   const isInvalid = value !== '' && !isValid
-  const hasBeenUpdated = changedRecords.hasOwnProperty('content')
 
   return (
     <>
       <RecordsItem editing={editing} hasRecord={true}>
         <RecordsContent editing={editing}>
-          <RecordsKey>{t(`c.${keyName}`)}</RecordsKey>
+          <RecordsKey>{t(`c.Content`)}</RecordsKey>
+
           {!editing && (
             <RecordsValue editableSmall>
               {value === '' ||
@@ -232,19 +198,15 @@ const ContentHashEditable = ({
             </RecordsValue>
           )}
 
-          {editing ? (
+          {editing && (
             <>
               <EditRecord>
                 <RecordInput
                   testId={`content-record-input${isInvalid ? '-invalid' : ''}`}
                   onChange={event => {
-                    const value = event.target.value
-                    setUpdatedRecords(records => ({
-                      ...records,
-                      content: value
-                    }))
+                    updateRecord({ ...record, value: event.target.value })
                   }}
-                  hasBeenUpdated={hasBeenUpdated}
+                  hasBeenUpdated={hasChange(changedRecords, key)}
                   value={value}
                   dataType={type}
                   contentType={domain.contentType}
@@ -252,24 +214,18 @@ const ContentHashEditable = ({
                   isInvalid={isInvalid}
                 />
               </EditRecord>
+              <Action>
+                <Bin
+                  data-testid={`delete-${type.toLowerCase()}`}
+                  onClick={e => {
+                    e.preventDefault()
+                    updateRecord({ ...record, value: '' })
+                  }}
+                />
+              </Action>
             </>
-          ) : null}
-          {editing && (
-            <Action>
-              <Bin
-                data-testid={`delete-${type.toLowerCase()}`}
-                onClick={e => {
-                  e.preventDefault()
-                  setUpdatedRecords(records => {
-                    return {
-                      ...records,
-                      content: ''
-                    }
-                  })
-                }}
-              />
-            </Action>
           )}
+
           {!editing && <RequestCertificate domain={domain} />}
         </RecordsContent>
       </RecordsItem>
@@ -310,22 +266,18 @@ function ContentHashLinkWithEthLink({ value, contentType, domain }) {
   )
 }
 
-function ContentHashViewOnly({ keyName, value, type, domain, account }) {
-  const { name, contentType } = domain
-  const { t } = useTranslation()
-  return keyName !== 'Address' && contentType === 'error' ? (
-    ''
-  ) : (
+function ContentHashViewOnly({ domain, account, records }) {
+  const { value } = records[0]
+  const { contentType } = domain
+
+  if (contentType === 'error') return ''
+
+  return (
     <RecordsItem>
       <RecordsContent>
-        <RecordsKey>{t(`c.${keyName}`)}</RecordsKey>
         <RecordsValue>
           {value !== '' ? (
-            <ContentHashLinkWithEthLink
-              value={value}
-              contentType={contentType}
-              domain={domain}
-            />
+            <ContentHashLinkWithEthLink {...{ value, contentType, domain }} />
           ) : (
             <NotSet>Not set</NotSet>
           )}
@@ -341,17 +293,6 @@ function ContentHash(props) {
   if (canEdit) return <ContentHashEditable {...props} />
 
   return <ContentHashViewOnly {...props} />
-}
-
-ContentHash.propTypes = {
-  keyName: PropTypes.string.isRequired, // key of the record
-  value: PropTypes.string.isRequired, // value of the record (normally hex address)
-  type: PropTypes.string, // type of value. Defaults to address
-  editButton: PropTypes.string, //Edit button text
-  domain: PropTypes.object.isRequired,
-  variableName: PropTypes.string, //can change the variable name for mutation
-  account: PropTypes.string,
-  changedRecords: PropTypes.array
 }
 
 export default ContentHash

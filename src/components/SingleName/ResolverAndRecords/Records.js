@@ -24,6 +24,8 @@ import DefaultSaveCancel from '../SaveCancel'
 import RecordsCheck from './RecordsCheck'
 import KeyValueRecord from './KeyValueRecord/KeyValueRecord'
 
+import ContentHash from './ContentHash'
+
 // Hook
 function usePrevious(value) {
   // The ref object is a generic container whose current property is mutable ...
@@ -465,28 +467,18 @@ export default function Records({
         changedRecords={changedRecords}
         validator={singleValidator(validRecords)}
       />
-      {/*<ContentHash*/}
-      {/*  canEdit={canEditRecords}*/}
-      {/*  editing={editing}*/}
-      {/*  domain={domain}*/}
-      {/*  keyName="Content"*/}
-      {/*  type="content"*/}
-      {/*  value={updatedRecords.content}*/}
-      {/*  refetch={refetch}*/}
-      {/*  changedRecords={changedRecords}*/}
-      {/*  updatedRecords={updatedRecords}*/}
-      {/*  setUpdatedRecords={setUpdatedRecords}*/}
-      {/*/>*/}
-      {/*<KeyValueRecord*/}
-      {/*  canEdit={canEditRecords}*/}
-      {/*  editing={editing}*/}
-      {/*  records={getContent(updatedRecords)}*/}
-      {/*  title={t('c.Content')}*/}
-      {/*  updateRecord={updateRecord(setUpdatedRecords)}*/}
-      {/*  changedRecords={changedRecords}*/}
-      {/*  validator={singleValidator(validRecords)}*/}
-      {/*  placeholder={CONTENT_PLACEHOLDER}*/}
-      {/*/>*/}
+      <ContentHash
+        canEdit={canEditRecords}
+        editing={editing}
+        domain={domain}
+        keyName="Content"
+        type="content"
+        records={getContent(updatedRecords)}
+        changedRecords={changedRecords}
+        updatedRecords={updatedRecords}
+        updateRecord={updateRecord(setUpdatedRecords)}
+        validator={singleValidator(validRecords)}
+      />
       <KeyValueRecord
         canEdit={canEditRecords}
         editing={editing}
