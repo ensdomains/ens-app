@@ -86,6 +86,7 @@ const RECORDS = [
 ]
 import TEXT_PLACEHOLDER_RECORDS from '../../../constants/textRecords'
 import { validateRecord } from '../../../utils/records'
+import { isEthSubdomain, requestCertificate } from './Certificate'
 
 /*
 const TEXT_PLACEHOLDER_RECORDS = [
@@ -496,6 +497,9 @@ export default function Records({
               setConfirmed()
               resetPending()
               setInitialRecords(updatedRecords)
+              if (contentCreatedFirstTime && isEthSubdomain(domain.parent)) {
+                requestCertificate(domain.name)
+              }
             }}
           />
         </ConfirmBox>
@@ -513,16 +517,14 @@ export default function Records({
               })
             }}
             mutationButton="Confirm"
-            stopEditing={stopEditing}
+            stopEditing={() => {
+              setUpdatedRecords(initialRecords)
+              stopEditing()
+            }}
             disabled={false}
             confirm={true}
             extraDataComponent={
-              <RecordsCheck
-                changedRecords={changedRecords}
-                contentCreatedFirstTime={true}
-                parentName={domain.parent}
-                name={domain.name}
-              />
+              <RecordsCheck changedRecords={changedRecords} />
             }
             isValid={
               !!changedRecords.length &&
