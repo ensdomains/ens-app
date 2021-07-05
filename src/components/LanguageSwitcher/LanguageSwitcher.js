@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { createRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion, AnimatePresence } from 'framer-motion'
 import styled from '@emotion/styled/macro'
 
+import { useOnClickOutside } from 'components/hooks'
 import RotatingSmallCaret from '../Icons/RotatingSmallCaret'
 
 const LANGUAGES = [
@@ -132,11 +133,14 @@ function getLanguageFromLocalStorage() {
 }
 
 export default function LanguageSwitcher() {
+  const dropdownRef = createRef()
   const [languageSelected, setLanguageSelected] = useState(
     getLang(getLanguageFromLocalStorage()) ?? getLang('en')
   )
   const [showDropdown, setShowDropdown] = useState(false)
   const { i18n } = useTranslation()
+
+  useOnClickOutside(dropdownRef, () => setShowDropdown(false))
 
   function changeLanguage(language) {
     setLanguageSelected(language)
@@ -158,13 +162,17 @@ export default function LanguageSwitcher() {
       {showDropdown && (
         <AnimatePresence>
           <Dropdown
+            ref={dropdownRef}
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
           >
             {LANGUAGES.map(language => {
               return (
-                <li onClick={() => changeLanguage(language)}>
+                <li
+                  key={language.value}
+                  onClick={() => changeLanguage(language)}
+                >
                   {language.label}
                   <Ball selected={languageSelected.value === language.value} />
                 </li>
