@@ -25,11 +25,6 @@ const option = {
         jsonRpcUrl: `https://mainnet.infura.io/v3/${INFURA_ID}`
       }
     },
-    //Alphabetical order from now on.
-    authereum: {
-      package: () => import('authereum'),
-      packageFactory: true
-    },
     mewconnect: {
       package: () => import('@myetherwallet/mewconnect-web-client'),
       packageFactory: true,
@@ -48,17 +43,6 @@ const option = {
     torus: {
       package: () => import('@toruslabs/torus-embed'),
       packageFactory: true
-    },
-    frame: {
-      package: () => import('eth-provider'),
-      packageFactory: true
-    },
-    burnerconnect: {
-      package: () => import('@burner-wallet/burner-connect-provider'),
-      packageFactory: true,
-      options: {
-        defaultNetwork: '1'
-      }
     }
   }
 }

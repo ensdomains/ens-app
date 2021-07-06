@@ -25,8 +25,6 @@ import StackdriverErrorReporter from 'stackdriver-errors-js'
 import GlobalState from './globalState'
 import { ApolloProvider } from 'react-apollo'
 import { setupClient } from 'apolloClient'
-import Banner from './components/Banner'
-import close from './assets/close.svg'
 const errorHandler = new StackdriverErrorReporter()
 
 // If we are targeting an IPFS build we need to use HashRouter
