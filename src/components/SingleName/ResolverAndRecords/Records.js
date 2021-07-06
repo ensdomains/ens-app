@@ -88,21 +88,7 @@ import TEXT_PLACEHOLDER_RECORDS from '../../../constants/textRecords'
 import { validateRecord } from '../../../utils/records'
 import { isEthSubdomain, requestCertificate } from './Certificate'
 
-/*
-const TEXT_PLACEHOLDER_RECORDS = [
-  'com.twitter',
-  'com.github',
-  'url',
-  'email',
-  'avatar',
-  'notice'
-]
-*/
-
 const COIN_PLACEHOLDER_RECORDS = ['ETH', ...COIN_LIST.slice(0, 3)]
-
-const CONTENT_PLACEHOLDER =
-  'Enter a content hash (eg: /ipfs/..., ipfs://..., /ipns/..., ipns://..., bzz://..., onion://..., onion3://..., sia://...)'
 
 function isEmpty(record) {
   if (parseInt(record, 16) === 0) {
@@ -282,7 +268,6 @@ const getContent = updatedRecords => {
   )[0]
 
   if (!content) return []
-
   return [
     {
       key: content.key,
@@ -517,6 +502,7 @@ export default function Records({
           </p>
           <SaveCancel
             mutation={() => {
+              debugger
               addMultiRecords({
                 variables: { name: domain.name, records: changedRecords }
               })

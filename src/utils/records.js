@@ -34,9 +34,11 @@ export function validateRecord({ key, value, contractFn }) {
 export function getPlaceholder(recordType, contentType) {
   switch (recordType) {
     case 'setAddr(bytes32,uint256,bytes)':
-      return 'Enter an Ethereum address'
+      return `Enter a ${contentType} address`
     case 'setContenthash':
       return 'Enter a content hash (eg: /ipfs/..., ipfs://..., /ipns/..., ipns://..., bzz://..., onion://..., onion3://..., sia://...)'
+    case 'setText':
+      return `Enter ${contentType}`
     default:
       return ''
   }

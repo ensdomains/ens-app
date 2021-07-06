@@ -261,8 +261,9 @@ function Editable({
               <Select
                 selectedRecord={selectedKey}
                 handleChange={setSelectedKey}
-                placeholder="Text"
+                placeholder="Key"
                 options={textRecordOptions}
+                addNewKey
               />
             )}
             {selectedRecord?.value && (
@@ -272,7 +273,10 @@ function Editable({
                 updateValue={updateValue}
                 isValid
                 isInvalid={!isValid}
-                placeholder={getPlaceholder(selectedRecord.contractFn)}
+                placeholder={getPlaceholder(
+                  selectedRecord.contractFn,
+                  selectedKey?.label
+                )}
               />
             )}
           </Row>
@@ -283,7 +287,7 @@ function Editable({
               disabled={!isValid}
               onClick={() => {
                 updateRecord({
-                  key: selectedKey?.value,
+                  key: selectedKey?.value || 'CONTENT',
                   value: newValue,
                   contractFn: selectedRecord?.contractFn
                 })

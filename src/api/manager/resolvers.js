@@ -280,7 +280,7 @@ const handleMultipleTransactions = async (name, records, resolverInstance) => {
 
     const transactionArray = records.map(record => {
       if (record.contractFn === 'setContenthash') {
-        const encodedContenthash = record
+        const encodedContenthash = encodeContenthash(record.value)?.encoded
         return resolver.encodeFunctionData(record.contractFn, [
           namehash,
           encodedContenthash
@@ -317,7 +317,6 @@ const handleMultipleTransactions = async (name, records, resolverInstance) => {
 
     // flatten textrecords and addresses and remove undefined
     //transactionArray.flat().filter(bytes => bytes)
-
     //add them all together into one transaction
     const tx1 = await resolverInstance.multicall(transactionArray)
     return sendHelper(tx1)
@@ -731,6 +730,7 @@ const resolvers = {
       if (records.length === 1) {
         return await handleSingleTransaction(name, records[0], resolverInstance)
       }
+      debugger
       return await handleMultipleTransactions(name, records, resolverInstance)
     },
     migrateResolver: async (_, { name }, { cache }) => {
