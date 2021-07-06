@@ -21,10 +21,11 @@ import QuestionMarkDefault from '../components/Icons/QuestionMark'
 import HowToUseDefault from '../components/HowToUse/HowToUse'
 import Alice from '../components/HomePage/Alice'
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
-import { aboutPageURL } from '../utils/utils'
+import { aboutPageURL, hasValidReverseRecord } from '../utils/utils'
 import { connect, disconnect } from '../api/web3modal'
 import { useBlock } from '../components/hooks'
 import { getBlock } from '@ensdomains/ui'
+import { emptyAddress } from '../utils/utils'
 import moment from 'moment'
 
 const HeroTop = styled('div')`
@@ -327,10 +328,9 @@ export default ({ match }) => {
       address
     }
   })
-  const displayName =
-    getReverseRecord && getReverseRecord.name
-      ? getReverseRecord.name
-      : address && `${address.slice(0, 10)}...`
+  const displayName = hasValidReverseRecord(getReverseRecord)
+    ? getReverseRecord.name
+    : address && `${address.slice(0, 10)}...`
 
   const animation = {
     initial: {

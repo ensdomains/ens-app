@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
-import { useQuery } from 'react-apollo'
+import { useQuery, useMutation } from 'react-apollo'
 import styled from '@emotion/styled/macro'
-import { Mutation } from 'react-apollo'
 import { useTranslation, Trans } from 'react-i18next'
-//import { getAddress } from '@ensdomains/ui'
-import getENS from 'api/ens'
+
+import { emptyAddress, hasValidReverseRecord } from '../utils/utils'
 
 import { SET_NAME } from 'graphql/mutations'
 import mq from 'mediaQuery'
@@ -15,13 +14,14 @@ import { GET_REVERSE_RECORD, GET_NAMES_FROM_SUBGRAPH } from 'graphql/queries'
 
 import SaveCancel from './SingleName/SaveCancel'
 import PendingTx from './PendingTx'
-import DefaultInput from './Forms/Input'
 
 import { ReactComponent as DefaultCheck } from './Icons/Check.svg'
-import { ReactComponent as DefaultBlueWarning } from './Icons/BlueWarning.svg'
 import RotatingSmallCaret from './Icons/RotatingSmallCaret'
 import { decryptName, checkIsDecrypted } from '../api/labels'
 import Select from 'react-select'
+import Modal from './Modal/Modal'
+import Bin from '../components/Forms/Bin'
+import Gap from '../components/Utils/Gap'
 
 const Loading = styled('span')`
   color: #adbbcd;
@@ -102,12 +102,19 @@ const Explanation = styled('div')`
 const EditableNotSet = styled('div')`
   color: #5384fe;
 `
+
+const ButtonsContainer = styled('div')`
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+`
+
 function AddReverseRecord({ account, currentAddress }) {
   const { t } = useTranslation()
   const { state, actions } = useEditable()
   const [newName, setNewName] = useState('')
-  const [isValid, setIsValid] = useState(null)
-  const [address, setAddress] = useState(null)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
   const { editing, txHash, pending, confirmed } = state
 
@@ -122,6 +129,12 @@ function AddReverseRecord({ account, currentAddress }) {
       }
     }
   )
+
+  const [setName, { data }] = useMutation(SET_NAME, {
+    onCompleted: data => {
+      startPending(Object.values(data)[0])
+    }
+  })
 
   useEffect(() => {
     if (account && !getReverseRecord) {
@@ -174,7 +187,7 @@ function AddReverseRecord({ account, currentAddress }) {
     return (
       <>
         <Message onClick={editing ? stopEditing : startEditing}>
-          {getReverseRecord && getReverseRecord.name !== null ? (
+          {hasValidReverseRecord(getReverseRecord) ? (
             <MessageContent data-testid="editable-reverse-record-set">
               <Check />
               {t('singleName.record.messages.setTo') + getReverseRecord.name}
@@ -202,10 +215,15 @@ function AddReverseRecord({ account, currentAddress }) {
               <Trans i18nKey="singleName.record.messages.explanation">
                 The Reverse Resolution translates an address into a name. It
                 allows Dapps to show in their interfaces '
-                {{ name: getReverseRecord?.name || 'example.eth' }}' rather than
-                the long address '{{ account }}'. If you would like to set up
-                your reverse for a different account, please switch accounts in
-                your dapp browser.
+                {{
+                  name:
+                    (hasValidReverseRecord(getReverseRecord) &&
+                      getReverseRecord.name) ||
+                    'example.eth'
+                }}
+                ' rather than the long address '{{ account }}'. If you would
+                like to set up your reverse for a different account, please
+                switch accounts in your dapp browser.
               </Trans>
             </Explanation>
             {options?.length > 0 ? (
@@ -228,23 +246,37 @@ function AddReverseRecord({ account, currentAddress }) {
                 </Trans>
               </p>
             </Explanation>
-            <Mutation
-              mutation={SET_NAME}
-              variables={{
-                name: newName?.value
-              }}
-              onCompleted={data => {
-                startPending(Object.values(data)[0])
-              }}
-            >
-              {mutation => (
-                <SaveCancel
-                  mutation={mutation}
-                  stopEditing={stopEditing}
-                  isValid={!!newName}
-                />
+            <ButtonsContainer>
+              <SaveCancel
+                mutation={() => {
+                  setName({ variables: { name: newName?.value } })
+                }}
+                stopEditing={stopEditing}
+                isValid={!!newName}
+              />
+              {hasValidReverseRecord(getReverseRecord) && (
+                <>
+                  <Bin onClick={() => setIsDeleteModalOpen(true)} />
+                  {isDeleteModalOpen && (
+                    <Modal closeModal={() => setIsDeleteModalOpen(false)}>
+                      {t('singleName.record.messages.reverseRecordRemoval')}
+                      <Gap size={5} />
+                      <SaveCancel
+                        mutation={() => {
+                          setName({ variables: { name: emptyAddress } })
+                          setIsDeleteModalOpen(false)
+                        }}
+                        stopEditing={e => {
+                          stopEditing(e)
+                          setIsDeleteModalOpen(false)
+                        }}
+                        isValid
+                      />
+                    </Modal>
+                  )}
+                </>
               )}
-            </Mutation>
+            </ButtonsContainer>
           </SetReverseContainer>
         )}
       </>
@@ -261,7 +293,7 @@ function AddReverseRecord({ account, currentAddress }) {
             <ReverseRecordEditor />
           ) : (
             <ReadOnlyMessage>
-              {getReverseRecord && getReverseRecord.name !== null ? (
+              {hasValidReverseRecord(getReverseRecord) ? (
                 <MessageContent data-testid="readonly-reverse-record-set">
                   {t('singleName.record.messages.setTo') +
                     getReverseRecord.name}
