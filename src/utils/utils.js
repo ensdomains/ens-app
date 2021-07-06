@@ -240,3 +240,9 @@ export async function handleNetworkChange() {
 
 export const hasValidReverseRecord = getReverseRecord =>
   getReverseRecord?.name && getReverseRecord.name !== emptyAddress
+
+export const hasNonAscii = () => {
+  var ascii = /^[ -~]+$/
+  const str = window.location.href
+  return !ascii.test(decodeURI(str))
+}
