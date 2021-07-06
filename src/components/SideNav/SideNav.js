@@ -6,7 +6,7 @@ import NetworkInformation from '../NetworkInformation/NetworkInformation'
 import useNetworkInfo from '../NetworkInformation/useNetworkInfo'
 import Heart from '../Icons/Heart'
 import File from '../Icons/File'
-import { aboutPageURL } from '../../utils/utils'
+import { aboutPageURL, hasNonAscii } from '../../utils/utils'
 import SpeechBubble from '../Icons/SpeechBubble'
 
 import mq from 'mediaQuery'
@@ -21,7 +21,6 @@ const SideNavContainer = styled('nav')`
   `}
 
   left: 0;
-  top: 50px;
   height: auto;
   background: #121d46;
   width: 100%;
@@ -29,7 +28,6 @@ const SideNavContainer = styled('nav')`
   ${mq.medium`
     padding: 0;
     left: 35px;
-    top: 100px;
     margin-top: 50px;
     height: auto;
     background: transparent;
@@ -44,6 +42,17 @@ const SideNavContainer = styled('nav')`
   li {
     list-style: none;
   }
+
+  ${p =>
+    p.hasNonAscii
+      ? `
+      top: 200px;
+      ${mq.medium`top: 200px`}
+    `
+      : `
+      top: 100px;
+      ${mq.medium`top: 100px`}
+    `}
 `
 
 const NavLink = styled(Link)`
@@ -127,7 +136,7 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
   const { t } = useTranslation()
   const { accounts } = useNetworkInfo()
   return (
-    <SideNavContainer isMenuOpen={isMenuOpen}>
+    <SideNavContainer isMenuOpen={isMenuOpen} hasNonAscii={hasNonAscii()}>
       <NetworkInformation />
       <ul data-testid="sitenav">
         {accounts && accounts.length > 0 ? (
