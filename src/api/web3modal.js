@@ -48,9 +48,21 @@ const option = {
     torus: {
       package: () => import('@toruslabs/torus-embed'),
       packageFactory: true
+    },
+    frame: {
+      package: () => import('eth-provider'),
+      packageFactory: true
+    },
+    burnerconnect: {
+      package: () => import('@burner-wallet/burner-connect-provider'),
+      packageFactory: true,
+      options: {
+        defaultNetwork: '1'
+      }
     }
   }
 }
+
 let web3Modal
 export const connect = async () => {
   try {
