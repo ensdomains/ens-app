@@ -21,10 +21,11 @@ import QuestionMarkDefault from '../components/Icons/QuestionMark'
 import HowToUseDefault from '../components/HowToUse/HowToUse'
 import Alice from '../components/HomePage/Alice'
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
-import { aboutPageURL } from '../utils/utils'
+import { aboutPageURL, hasValidReverseRecord } from '../utils/utils'
 import { connect, disconnect } from '../api/web3modal'
 import { useBlock } from '../components/hooks'
 import { getBlock } from '@ensdomains/ui'
+import { emptyAddress } from '../utils/utils'
 import moment from 'moment'
 
 const HeroTop = styled('div')`
@@ -148,9 +149,9 @@ const Hero = styled('section')`
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
   ${mq.medium`
     padding: 0 20px 0;
-    height: 600px;
   `}
 `
 
@@ -327,10 +328,9 @@ export default ({ match }) => {
       address
     }
   })
-  const displayName =
-    getReverseRecord && getReverseRecord.name
-      ? getReverseRecord.name
-      : address && `${address.slice(0, 10)}...`
+  const displayName = hasValidReverseRecord(getReverseRecord)
+    ? getReverseRecord.name
+    : address && `${address.slice(0, 10)}...`
 
   const animation = {
     initial: {
@@ -417,36 +417,6 @@ export default ({ match }) => {
           </>
         </SearchContainer>
       </Hero>
-      <Explanation>
-        <WhatItIs>
-          <Inner>
-            <H2>
-              <TextBubble color="#2B2B2B" />
-              {t('home.whatisens.title')}
-            </H2>
-            <p>{t('home.whatisens.body')}</p>
-            <ExternalButtonLink href={aboutPageURL()}>
-              {t('c.learnmore')}
-            </ExternalButtonLink>
-          </Inner>
-        </WhatItIs>
-        <NameAnimation>
-          <Alice />
-        </NameAnimation>
-        <HowToUse />
-        <HowItWorks>
-          <Inner>
-            <H2>
-              <QuestionMark color="#2B2B2B" />
-              {t('home.howtouse.title')}
-            </H2>
-            <p>{t('home.howtouse.body')}</p>
-            <ExternalButtonLink href={aboutPageURL()}>
-              {t('c.learnmore')}
-            </ExternalButtonLink>
-          </Inner>
-        </HowItWorks>
-      </Explanation>
     </>
   )
 }

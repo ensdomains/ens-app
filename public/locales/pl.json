@@ -328,6 +328,7 @@
         "explanation2": "You can only select names you set this Ethereum Address as.",
         "noForwardRecordAavilable": "You either do not own any ENS names, or your ENS names have no ETH records set to this address.",
         "notSet": "Rekord Reverse: nie ustawiono",
+        "reverseRecordRemoval": "Are you sure you want to delete the reverse record?",
         "selectPlaceholder": "Select your ENS name",
         "setTo": "Rekord Reverse: Ustaw na",
         "setToDifferent": "Rekord Reverse: Ustaw na inną nazwę:"
@@ -366,6 +367,13 @@
         "default": "Możesz dokonać zmian tylko, jeśli jesteś kontrolerem i jesteś zalogowany w swoim portfelu",
         "registrant": "Rejestrującego możesz przenieść tylko wtedy, gdy jesteś rejestrującym i jesteś zalogowany w swoim portfelu",
         "registrantExpired": "Nie możesz przenieść tej domeny, gdy wygasła. Najpierw ją odnów."
+      }
+    },
+    "warnings": {
+      "homoglyph": {
+        "content": "This name contains non-ASCII characters. Please be aware that there are characters that look identical or very similar to English letters, especially characters from Cyrillic and Greek. Also, traditional Chinese characters can look identical or very similar to simplified variants. For more information, please see this",
+        "link": "Wikipedia article",
+        "title": "ATTENTION"
       }
     }
   }

@@ -326,6 +326,7 @@
         "explanation2": "You can only select names you set this Ethereum Address as.",
         "noForwardRecordAavilable": "You either do not own any ENS names, or your ENS names have no ETH records set to this address.",
         "notSet": "Registro reverso: no configurado.",
+        "reverseRecordRemoval": "Are you sure you want to delete the reverse record?",
         "selectPlaceholder": "Select your ENS name",
         "setTo": "Registro reverso: Configurado a",
         "setToDifferent": "Registro reverso: Configurar a otro nombre:"
@@ -364,6 +365,13 @@
         "default": "Sólo puedes hacer cambios si eres el controlador y estás registrado en tu billetera",
         "registrant": "Sólo puedes transferir al registrante  si eres el registrante y estás registrado en tu billetera",
         "registrantExpired": "No puedes transferir este dominio si ha caducado. Por favor, renuévalo primero."
+      }
+    },
+    "warnings": {
+      "homoglyph": {
+        "content": "This name contains non-ASCII characters. Please be aware that there are characters that look identical or very similar to English letters, especially characters from Cyrillic and Greek. Also, traditional Chinese characters can look identical or very similar to simplified variants. For more information, please see this",
+        "link": "Wikipedia article",
+        "title": "ATTENTION"
       }
     }
   }

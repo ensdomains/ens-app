@@ -324,6 +324,7 @@
         "explanation2": "You can only select names you set this Ethereum Address as.",
         "noForwardRecordAavilable": "You either do not own any ENS names, or your ENS names have no ETH records set to this address.",
         "notSet": "Bản ghi đảo chiều: chưa ấn định",
+        "reverseRecordRemoval": "Are you sure you want to delete the reverse record?",
         "selectPlaceholder": "Select your ENS name",
         "setTo": "Bản ghi đảo chiều: ấn định cho",
         "setToDifferent": "Bản ghi đảo chiều: Ấn định cho tên miền khác"
@@ -362,6 +363,13 @@
         "default": "Bạn chỉ có thể thay đổi nếu bạn là người điều khiển và đã đăng nhập vào ví của mình",
         "registrant": "Bạn chỉ có thể chuyển đổi người đăng ký nếu bạn là người đăng kí và đã đăng nhập vào ví của mình",
         "registrantExpired": "Bạn không thể giao dịch tên miền này khi nó hết hạn. Hãy gia hạn trước tiên"
+      }
+    },
+    "warnings": {
+      "homoglyph": {
+        "content": "This name contains non-ASCII characters. Please be aware that there are characters that look identical or very similar to English letters, especially characters from Cyrillic and Greek. Also, traditional Chinese characters can look identical or very similar to simplified variants. For more information, please see this",
+        "link": "Wikipedia article",
+        "title": "ATTENTION"
       }
     }
   }

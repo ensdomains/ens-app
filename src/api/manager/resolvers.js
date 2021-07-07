@@ -528,9 +528,10 @@ const resolvers = {
       }
     },
     getReverseRecord: async (_, { address }, { cache }) => {
-      let name
+      let name = emptyAddress
       const ens = getENS()
       const obj = {
+        name,
         address,
         __typename: 'ReverseRecord'
       }

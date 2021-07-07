@@ -17,10 +17,13 @@ const option = {
         infuraId: INFURA_ID
       }
     },
-    //Alphabetical order from now on.
-    authereum: {
-      package: () => import('authereum'),
-      packageFactory: true
+    walletlink: {
+      package: () => import('walletlink'),
+      packageFactory: true,
+      options: {
+        appName: 'Ethereum name service',
+        jsonRpcUrl: `https://mainnet.infura.io/v3/${INFURA_ID}`
+      }
     },
     mewconnect: {
       package: () => import('@myetherwallet/mewconnect-web-client'),
@@ -43,6 +46,7 @@ const option = {
     }
   }
 }
+
 let web3Modal
 export const connect = async () => {
   try {

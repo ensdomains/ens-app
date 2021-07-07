@@ -320,8 +320,9 @@
       "messages": {
         "explanation": "反向解析将地址转换为域名。它能让 dapp 在其界面上显示 “{{name}}”，而不是 “{{account}}” 这个冗长的地址。如果您想为另一个账户设置反向解析，请先在 dapp 浏览器中切换帐户。",
         "explanation2": "您只能选择已经解析至这个以太坊地址的域名。",
-        "noForwardRecordAavilable": "You either do not own any ENS names, or your ENS names have no ETH records set to this address.",
+        "noForwardRecordAavilable": "您尚未拥有 ENS 域名，或者您 ENS 域名的 ETH 记录没有设置为此地址。",
         "notSet": "反向记录：未设置",
+        "reverseRecordRemoval": "Are you sure you want to delete the reverse record?",
         "selectPlaceholder": "选择您的 ENS 域名",
         "setTo": "反向记录：解析至 ",
         "setToDifferent": "反向记录：已解析至另一个域名："
@@ -360,6 +361,13 @@
         "default": "只有当钱包中使用的账户是域名的管理员账户时，你才能更改该域名的相关信息。",
         "registrant": "如果要转让域名的注册人，请先确定你登录的是该域名当前的注册人账户。",
         "registrantExpired": "该域名已经过期，无法转让，请先为其续费再进行操作。"
+      }
+    },
+    "warnings": {
+      "homoglyph": {
+        "content": "This name contains non-ASCII characters. Please be aware that there are characters that look identical or very similar to English letters, especially characters from Cyrillic and Greek. Also, traditional Chinese characters can look identical or very similar to simplified variants. For more information, please see this",
+        "link": "Wikipedia article",
+        "title": "ATTENTION"
       }
     }
   }

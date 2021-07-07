@@ -328,6 +328,7 @@
         "explanation2": "You can only select names you set this Ethereum Address as.",
         "noForwardRecordAavilable": "You either do not own any ENS names, or your ENS names have no ETH records set to this address.",
         "notSet": "Обратная запись: не установлена",
+        "reverseRecordRemoval": "Are you sure you want to delete the reverse record?",
         "selectPlaceholder": "Select your ENS name",
         "setTo": "Обратная запись: Установлена на",
         "setToDifferent": "Обратная запись: Установлена на другое имя:"
@@ -366,6 +367,13 @@
         "default": "Вы можете вносить изменения только если вы контроллер и залогинены в ваш кошелек.",
         "registrant": "Вы можете перенести регистратор только если вы сами являетесь регистратором и залогинены в ваш кошелек.",
         "registrantExpired": "Вы не можете перенести этот домен пока он просрочен. Пожалуйста, сначала обновите его."
+      }
+    },
+    "warnings": {
+      "homoglyph": {
+        "content": "This name contains non-ASCII characters. Please be aware that there are characters that look identical or very similar to English letters, especially characters from Cyrillic and Greek. Also, traditional Chinese characters can look identical or very similar to simplified variants. For more information, please see this",
+        "link": "Wikipedia article",
+        "title": "ATTENTION"
       }
     }
   }

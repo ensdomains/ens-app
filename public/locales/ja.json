@@ -324,6 +324,7 @@
         "explanation2": "You can only select names you set this Ethereum Address as.",
         "noForwardRecordAavilable": "You either do not own any ENS names, or your ENS names have no ETH records set to this address.",
         "notSet": "Reverse record: not set",
+        "reverseRecordRemoval": "Are you sure you want to delete the reverse record?",
         "selectPlaceholder": "Select your ENS name",
         "setTo": "Reverse record: Set to ",
         "setToDifferent": "Reverse record: Set to a different name:"
@@ -362,6 +363,13 @@
         "default": "あなたがコントローラーであり、ウォレットにログインしている場合に限り、この名前に変更を行えます。",
         "registrant": "あなたが登録者であり、ウォレットにログインしている場合に限り、登録者権限を譲渡することができます。",
         "registrantExpired": "有効期限が切れている間は、このドメインを譲渡することはできません。まずは更新をお願いします。"
+      }
+    },
+    "warnings": {
+      "homoglyph": {
+        "content": "This name contains non-ASCII characters. Please be aware that there are characters that look identical or very similar to English letters, especially characters from Cyrillic and Greek. Also, traditional Chinese characters can look identical or very similar to simplified variants. For more information, please see this",
+        "link": "Wikipedia article",
+        "title": "ATTENTION"
       }
     }
   }
