@@ -10,7 +10,10 @@ import { SET_NAME } from 'graphql/mutations'
 import mq from 'mediaQuery'
 import { useEditable } from './hooks'
 
-import { GET_REVERSE_RECORD, GET_NAMES_FROM_SUBGRAPH } from 'graphql/queries'
+import {
+  GET_REVERSE_RECORD,
+  GET_ETH_RECORD_AVAILABLE_NAMES_FROM_SUBGRAPH
+} from 'graphql/queries'
 
 import SaveCancel from './SingleName/SaveCancel'
 import PendingTx from './PendingTx'
@@ -141,25 +144,28 @@ function AddReverseRecord({ account, currentAddress }) {
       startEditing()
     }
   }, [getReverseRecord, account])
-  const { data: { resolvers } = {} } = useQuery(GET_NAMES_FROM_SUBGRAPH, {
-    variables: {
-      address: currentAddress
+  const { data: { domains } = {} } = useQuery(
+    GET_ETH_RECORD_AVAILABLE_NAMES_FROM_SUBGRAPH,
+    {
+      variables: {
+        address: currentAddress
+      }
     }
-  })
+  )
 
   const isAccountMatched =
     account &&
     currentAddress &&
     account.toLowerCase() === currentAddress.toLowerCase()
 
-  if (resolvers) {
+  if (domains) {
     options = _.uniq(
-      resolvers
-        .map(r => {
-          if (checkIsDecrypted(r?.domain?.name)) {
-            return r?.domain?.name
+      domains
+        .map(domain => {
+          if (checkIsDecrypted(domain?.name)) {
+            return domain?.name
           } else {
-            let decrypted = decryptName(r.domain.name)
+            let decrypted = decryptName(domain?.name)
             // Ignore if label is not found
             if (checkIsDecrypted(decrypted)) {
               return decrypted
@@ -168,10 +174,10 @@ function AddReverseRecord({ account, currentAddress }) {
             }
           }
         })
-        .filter(r => !!r)
+        .filter(d => !!d)
         .sort()
-    ).map(r => {
-      return { value: r, label: r }
+    ).map(d => {
+      return { value: d, label: d }
     })
   }
 

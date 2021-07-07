@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from '@emotion/styled/macro'
 
 import mq, { useMediaMin, useMediaMax } from 'mediaQuery'
@@ -7,6 +8,30 @@ import DefaultLogo from '../Logo'
 import Search from '../SearchName/Search'
 import Hamburger from './Hamburger'
 import SideNav from '../SideNav/SideNav'
+import Banner from '../Banner'
+
+import { hasNonAscii } from '../../utils/utils'
+
+const StyledBanner = styled(Banner)`
+  margin-bottom: 0;
+  text-align: center;
+  z-index: 1;
+  margin-top: 50px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  ${mq.medium`
+    top: 90px;
+    position: fixed;
+    margin-top: 0;
+  `}
+`
+
+const StyledBannerInner = styled('div')`
+  max-width: 720px;
+`
 
 const Header = styled('header')`
   ${p =>
@@ -72,6 +97,7 @@ function HeaderContainer() {
   const mediumBP = useMediaMin('medium')
   const mediumBPMax = useMediaMax('medium')
   const toggleMenu = () => setMenuOpen(!isMenuOpen)
+  const { t } = useTranslation()
 
   return (
     <>
@@ -83,6 +109,24 @@ function HeaderContainer() {
           <Hamburger isMenuOpen={isMenuOpen} openMenu={toggleMenu} />
         )}
       </Header>
+      {hasNonAscii() && (
+        <StyledBanner>
+          {/*{t('address.transactionBanner')}*/}
+          <StyledBannerInner>
+            <p>
+              ⚠️ <strong>{t('warnings.homoglyph.title')}</strong>:{' '}
+              {t('warnings.homoglyph.content')}{' '}
+              <a
+                target="_blank"
+                href="https://en.wikipedia.org/wiki/IDN_homograph_attack"
+              >
+                {t('warnings.homoglyph.link')}
+              </a>
+              .
+            </p>
+          </StyledBannerInner>
+        </StyledBanner>
+      )}
       {mediumBPMax && (
         <>
           <SideNav isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />

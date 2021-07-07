@@ -25,11 +25,6 @@ const option = {
         jsonRpcUrl: `https://mainnet.infura.io/v3/${INFURA_ID}`
       }
     },
-    //Alphabetical order from now on.
-    authereum: {
-      package: () => import('authereum'),
-      packageFactory: true
-    },
     mewconnect: {
       package: () => import('@myetherwallet/mewconnect-web-client'),
       packageFactory: true,
@@ -51,6 +46,7 @@ const option = {
     }
   }
 }
+
 let web3Modal
 export const connect = async () => {
   try {
