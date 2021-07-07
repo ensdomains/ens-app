@@ -262,16 +262,18 @@ function ContentHashLinkWithEthLink({ value, contentType, domain }) {
 }
 
 function ContentHashViewOnly({ domain, account, records }) {
-  const { value } = records[0]
+  const value = records?.length && records[0]
   const { contentType } = domain
 
   if (contentType === 'error') return ''
+
+  console.log('value: ', !!value)
 
   return (
     <RecordsItem>
       <RecordsContent>
         <RecordsValue>
-          {value !== '' ? (
+          {!!value && value !== '' ? (
             <ContentHashLinkWithEthLink {...{ value, contentType, domain }} />
           ) : (
             <NotSet>Not set</NotSet>
