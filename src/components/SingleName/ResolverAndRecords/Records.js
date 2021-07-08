@@ -462,7 +462,7 @@ export default function Records({
         canEdit={canEditRecords}
         editing={editing}
         domain={domain}
-        keyName="Content"
+        keyName="CONTENT"
         type="content"
         records={getContent(updatedRecords)}
         changedRecords={changedRecords}

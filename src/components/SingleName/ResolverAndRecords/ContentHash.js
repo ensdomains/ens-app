@@ -154,7 +154,7 @@ const hasChange = (changedRecords, key) => {
 
 const ContentHashEditable = ({
   domain,
-  key,
+  keyName,
   type,
   records,
   changedRecords,
@@ -169,6 +169,9 @@ const ContentHashEditable = ({
   const value = record?.value
   const isValid = validator(record)
   const isInvalid = value !== '' && !isValid
+
+  console.log('changedRecords*: ', changedRecords)
+  console.log('key*: ', keyName)
 
   return (
     <>
@@ -201,7 +204,7 @@ const ContentHashEditable = ({
                   onChange={event => {
                     updateRecord({ ...record, value: event.target.value })
                   }}
-                  hasBeenUpdated={hasChange(changedRecords, key)}
+                  hasBeenUpdated={hasChange(changedRecords, keyName)}
                   value={value}
                   dataType={type}
                   contentType={domain.contentType}
@@ -267,14 +270,14 @@ function ContentHashViewOnly({ domain, account, records }) {
 
   if (contentType === 'error') return ''
 
-  console.log('value: ', !!value)
-
   return (
     <RecordsItem>
       <RecordsContent>
         <RecordsValue>
           {!!value && value !== '' ? (
-            <ContentHashLinkWithEthLink {...{ value, contentType, domain }} />
+            <ContentHashLinkWithEthLink
+              {...{ value: value?.value, contentType, domain }}
+            />
           ) : (
             <NotSet>Not set</NotSet>
           )}
@@ -287,6 +290,7 @@ function ContentHashViewOnly({ domain, account, records }) {
 
 function ContentHash(props) {
   const { canEdit } = props
+  console.log('props*: ', props)
   if (canEdit) return <ContentHashEditable {...props} />
 
   return <ContentHashViewOnly {...props} />
