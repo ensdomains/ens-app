@@ -7,6 +7,8 @@ import {
   isLabelValid as _isLabelValid,
   isEncodedLabelhash
 } from '@ensdomains/ui/src/utils/index'
+import validate from 'ens-validation/dist/ens-validation.es6.js'
+//import validate from 'ens-validation/src/index'
 
 import getENS from '../api/ens'
 import * as jsSHA3 from 'js-sha3'
@@ -244,5 +246,5 @@ export const hasValidReverseRecord = getReverseRecord =>
 export const hasNonAscii = () => {
   var ascii = /^[ -~]+$/
   const str = window.location.href
-  return !ascii.test(decodeURI(str))
+  return decodeURI(str)
 }

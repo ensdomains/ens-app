@@ -28,6 +28,7 @@
     "core-js": "^3.1.4",
     "cross-fetch": "^2.2.3",
     "emotion": "^10.0.9",
+    "ens-validation": "0.0.1",
     "esm": "^3.2.22",
     "eth-ens-namehash": "^2.0.8",
     "ethers": "5.0.31",
@@ -64,7 +65,7 @@
     "web3modal-dynamic-import": "1.11.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node --max_old_space_size=16384 node_modules/.bin/react-scripts start",
     "start:ipfs": "REACT_APP_IPFS=True PUBLIC_URL='.' yarn start",
     "start:test": "REACT_APP_STAGE=local yarn start",
     "start:test:ipfs": "REACT_APP_STAGE=local yarn start:ipfs",
