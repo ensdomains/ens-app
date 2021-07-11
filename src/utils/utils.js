@@ -7,8 +7,7 @@ import {
   isLabelValid as _isLabelValid,
   isEncodedLabelhash
 } from '@ensdomains/ui/src/utils/index'
-import validate from 'ens-validation/dist/ens-validation.es6.js'
-//import validate from 'ens-validation/src/index'
+import { validate } from '@ensdomains/ens-validation'
 
 import getENS from '../api/ens'
 import * as jsSHA3 from 'js-sha3'
@@ -244,7 +243,11 @@ export const hasValidReverseRecord = getReverseRecord =>
   getReverseRecord?.name && getReverseRecord.name !== emptyAddress
 
 export const hasNonAscii = () => {
-  var ascii = /^[ -~]+$/
-  const str = window.location.href
-  return decodeURI(str)
+  const strs = window.location.pathname.split('/')
+  const rslt = strs.reduce((accum, next) => {
+    if (accum) return true
+    if (!validate(next)) return true
+    return accum
+  }, false)
+  return rslt
 }

@@ -1488,6 +1488,11 @@
     "@openzeppelin/contracts" "^4.1.0"
     dns-packet "^5.2.4"
 
+"@ensdomains/ens-validation@0.0.0":
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ens-validation/-/ens-validation-0.0.0.tgz#6f29e0ec19d1052b79b7217e9b4b0f385ecb921c"
+  integrity sha512-hN/FjYTcthuE0ASdcECOLqjE7z9xYM591JMajwDxHfHHOwx2SO1OflziCS7koPxpxVk7WSPLCCVgtTYa1tBZ2w==
+
 "@ensdomains/mock@^2.0.34":
   version "2.0.34"
   resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.0.34.tgz#a9426a397c2ea43afbbedda4ffc5c81c6acbd0c2"
@@ -8347,11 +8352,6 @@ enquirer@^2.3.5:
   integrity sha512-yjNnPr315/FjS4zIsUxYguYUPP2e1NK4d7E7ZOLiyYCcbFBiTMyID+2wvm2w6+pZ/odMA7cRkjhsPbltwBOrLg==
   dependencies:
     ansi-colors "^4.1.1"
-
-ens-validation@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/ens-validation/-/ens-validation-0.0.1.tgz#c73e94188fee0c5930e74498100d5a599152f0c5"
-  integrity sha512-F+mAnAIQ+ab1Vq6ZLF0aLosnKbjRyP2JFteZukiE4OKmEZqGoiAgu7iMreNWlQ3lhUGTm1sAYBeVah3g9eXj3Q==
 
 entities@^1.1.1:
   version "1.1.2"
