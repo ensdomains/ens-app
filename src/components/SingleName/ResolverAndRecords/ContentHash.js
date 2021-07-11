@@ -170,9 +170,6 @@ const ContentHashEditable = ({
   const isValid = validator(record)
   const isInvalid = value !== '' && !isValid
 
-  console.log('changedRecords*: ', changedRecords)
-  console.log('key*: ', keyName)
-
   return (
     <>
       <RecordsItem editing={editing} hasRecord={true}>
@@ -224,7 +221,7 @@ const ContentHashEditable = ({
             </>
           )}
 
-          {!editing && <RequestCertificate domain={domain} />}
+          {!editing && <RequestCertificate {...{ domain, value }} />}
         </RecordsContent>
       </RecordsItem>
     </>
@@ -282,7 +279,6 @@ function ContentHashViewOnly({ domain, account, records }) {
             <NotSet>Not set</NotSet>
           )}
         </RecordsValue>
-        <RequestCertificate domain={domain} />
       </RecordsContent>
     </RecordsItem>
   )
@@ -290,7 +286,6 @@ function ContentHashViewOnly({ domain, account, records }) {
 
 function ContentHash(props) {
   const { canEdit } = props
-  console.log('props*: ', props)
   if (canEdit) return <ContentHashEditable {...props} />
 
   return <ContentHashViewOnly {...props} />

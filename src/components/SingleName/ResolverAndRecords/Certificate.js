@@ -26,7 +26,7 @@ export function requestCertificate(name) {
 }
 
 export function checkCertificate(name) {
-  if (!whitelisted()) return Promise.resolve({ status: null })
+  //if (!whitelisted()) return Promise.resolve({ status: null })
   return fetch(createFetchUrl(name))
 }
 

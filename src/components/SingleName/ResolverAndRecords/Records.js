@@ -488,7 +488,7 @@ export default function Records({
               resetPending()
               setInitialRecords(updatedRecords)
               if (isEthSubdomain(domain.parent)) {
-                requestCertificate(domain.name)
+                //requestCertificate(domain.name)
               }
             }}
           />
