@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled/macro'
-import { getPlaceholder } from '../../utils/records'
+
+import { emptyAddress } from '../../utils/utils'
 import DefaultInput from '../Forms/Input'
 
 const Input = styled(DefaultInput)`
@@ -32,7 +33,7 @@ const RecordInput = ({
       hasBeenUpdated={hasBeenUpdated}
       warning={dataType === 'content' && contentType === 'oldcontent'}
       valid={isValid && hasBeenUpdated}
-      value={value}
+      value={value == emptyAddress ? '' : value}
       invalid={isInvalid}
       placeholder={placeholder}
       onChange={onChange}
