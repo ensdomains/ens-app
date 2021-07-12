@@ -34,7 +34,7 @@ export default function RequestCertificate({ domain, value }) {
   const [timerRunning, setTimerRunning] = useState(false)
   const { t } = useTranslation()
   const handleRequestCertificate = () => {
-    //requestCertificate(domain.name)
+    requestCertificate(domain.name)
     setTimerRunning(true)
   }
   useInterval(
@@ -62,11 +62,10 @@ export default function RequestCertificate({ domain, value }) {
       (value?.includes('ipfs') || value?.includes('ipns'))
     ) {
       checkCertificate(domain.name).then(({ status }) => {
-        console.log('useEffect check: ', status)
         setRequireCertificate(status === 404)
       })
     }
-  }, [])
+  }, [domain, value])
 
   if (requireCertificate) {
     if (timerRunning) {
