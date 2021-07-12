@@ -214,7 +214,7 @@ const ContentHashEditable = ({
                   data-testid={`delete-${type.toLowerCase()}`}
                   onClick={e => {
                     e.preventDefault()
-                    updateRecord({ ...record, value: '' })
+                    updateRecord({ ...record, value: emptyAddress })
                   }}
                 />
               </Action>

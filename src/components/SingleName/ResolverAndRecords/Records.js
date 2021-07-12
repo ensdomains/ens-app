@@ -379,10 +379,6 @@ export default function Records({
   const { actions, state } = useEditable()
   const { pending, confirmed, editing, txHash } = state
 
-  console.log('updatedREcords: ', updatedRecords)
-  console.log('chagnedRecords: ', changedRecords)
-  console.log('validRecords: ', validRecords)
-
   const {
     startPending,
     setConfirmed,
@@ -396,8 +392,6 @@ export default function Records({
   )
 
   const [initialRecords, setInitialRecords] = useState([])
-
-  console.log('initialRecords: ', initialRecords)
 
   useInitRecords(domain, dataAddresses, dataTextRecords, setInitialRecords)
   useUpdatedRecords(recordsLoading, initialRecords, setUpdatedRecords)
@@ -488,7 +482,7 @@ export default function Records({
               resetPending()
               setInitialRecords(updatedRecords)
               if (isEthSubdomain(domain.parent)) {
-                //requestCertificate(domain.name)
+                requestCertificate(domain.name)
               }
             }}
           />
@@ -502,7 +496,6 @@ export default function Records({
           </p>
           <SaveCancel
             mutation={() => {
-              debugger
               addMultiRecords({
                 variables: { name: domain.name, records: changedRecords }
               })

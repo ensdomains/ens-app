@@ -137,7 +137,6 @@ const Confirm = ({
             <Action
               data-testid="send-transaction"
               onClick={() => {
-                debugger
                 mutation()
                 cancel()
               }}
