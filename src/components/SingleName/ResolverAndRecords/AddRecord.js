@@ -3,24 +3,14 @@ import styled from '@emotion/styled/macro'
 import mq from 'mediaQuery'
 import { useTranslation } from 'react-i18next'
 
-import {
-  validateRecord,
-  createRecord,
-  getPlaceholder
-} from '../../../utils/records'
+import { validateRecord, getPlaceholder } from '../../../utils/records'
 import { useEditable } from '../../hooks'
-import { getOldContentWarning } from './warnings'
 import TEXT_RECORD_KEYS from 'constants/textRecords'
 import COIN_LIST from 'constants/coinList'
-import { getEnsAddress } from '../../../api/ens'
 
-import Upload from '../../IPFS/Upload'
-import IpfsLogin from '../../IPFS/Login'
 import Button from '../../Forms/Button'
-import ContentHashLink from '../../Links/ContentHashLink'
 import { DetailsKey } from '../DetailsItem'
 import DetailsItemInput from '../DetailsItemInput'
-import { SaveCancel, SaveCancelSwitch } from '../SaveCancel'
 import DefaultSelect from '../../Forms/Select'
 import DefaultAddressInput from '@ensdomains/react-ens-address'
 
@@ -160,7 +150,6 @@ const clearInput = (setSelectedRecord, setSelectedKey, updateValue) => {
 }
 
 const validate = (selectedKey, newValue, selectedRecord) => {
-  console.log('probe: ', !selectedKey)
   if (!selectedKey) return false
 
   return validateRecord({
@@ -173,28 +162,16 @@ const validate = (selectedKey, newValue, selectedRecord) => {
 function Editable({
   domain,
   emptyRecords,
-  refetch,
-  setRecordAdded,
-  canEdit,
   editing,
   startEditing,
   stopEditing,
-  updatedRecords,
-  setUpdatedRecords,
-  addRecord,
   updateRecord,
   pending
 }) {
   const { t } = useTranslation()
   const { state, actions } = useEditable()
-  const { uploading, authorized, newValue } = state
-  const {
-    startUploading,
-    stopUploading,
-    startAuthorizing,
-    stopAuthorizing,
-    updateValue
-  } = actions
+  const { newValue } = state
+  const { updateValue } = actions
 
   const [selectedRecord, setSelectedRecord] = useState(null)
   const [selectedKey, setSelectedKey] = useState(null)
@@ -220,11 +197,6 @@ function Editable({
   }
 
   const isValid = validate(selectedKey, newValue, selectedRecord)
-
-  console.log('selectedRecord: ', selectedRecord)
-  console.log('selectedKey: ', selectedKey)
-  console.log('newValue: ', newValue)
-  console.log('isValid: ', isValid)
 
   return (
     <>

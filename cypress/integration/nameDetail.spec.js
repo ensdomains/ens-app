@@ -17,7 +17,7 @@ function waitUntilTextDoesNotExist(text) {
 
 function confirmRecordUpdate() {
   cy.getByTestId('action').click({ force: true })
-  cy.wait(10000)
+  cy.wait(1000)
   cy.getByTestId('send-transaction').click({
     force: true
   })
@@ -26,7 +26,7 @@ function confirmRecordUpdate() {
 
 function refreshAndCheckText(url, textOrArrayOfText) {
   cy.visit(url)
-  cy.wait(10000)
+  cy.wait(1000)
   if (typeof textOrArrayOfText === 'string') {
     cy.queryByText(textOrArrayOfText, { timeout: 20000 }).should('exist')
   } else {
@@ -399,7 +399,7 @@ describe('Name detail view', () => {
       })
     })
 
-    //confirmRecordUpdate()
+    confirmRecordUpdate()
   })
 
   it('can navigate to a subdomain', () => {

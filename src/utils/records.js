@@ -34,11 +34,13 @@ export function validateRecord({ key, value, contractFn }) {
 export function getPlaceholder(recordType, contentType) {
   switch (recordType) {
     case 'setAddr(bytes32,uint256,bytes)':
-      return `Enter a ${contentType} address`
+      return contentType
+        ? `Enter a ${contentType} address`
+        : 'Please select a coin'
     case 'setContenthash':
       return 'Enter a content hash (eg: /ipfs/..., ipfs://..., /ipns/..., ipns://..., bzz://..., onion://..., onion3://..., sia://...)'
     case 'setText':
-      return `Enter ${contentType}`
+      return contentType ? `Enter ${contentType}` : 'Please select a key'
     default:
       return ''
   }

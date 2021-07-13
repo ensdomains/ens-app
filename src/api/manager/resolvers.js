@@ -731,7 +731,6 @@ const resolvers = {
       if (records.length === 1) {
         return await handleSingleTransaction(name, records[0], resolverInstance)
       }
-      debugger
       return await handleMultipleTransactions(name, records, resolverInstance)
     },
     migrateResolver: async (_, { name }, { cache }) => {

@@ -16,6 +16,7 @@ import { SET_ERROR } from 'graphql/mutations'
 import { setupClient } from 'apolloClient'
 import { connect } from '../api/web3modal'
 import { safeInfo, setupSafeApp } from './safeApps'
+import { useEffect, useRef } from 'react'
 
 // From https://github.com/0xProject/0x-monorepo/blob/development/packages/utils/src/address_utils.ts
 
@@ -245,4 +246,16 @@ export const hasNonAscii = () => {
   var ascii = /^[ -~]+$/
   const str = window.location.href
   return !ascii.test(decodeURI(str))
+}
+
+export function usePrevious(value) {
+  // The ref object is a generic container whose current property is mutable ...
+  // ... and can hold any value, similar to an instance property on a class
+  const ref = useRef()
+  // Store current value in ref
+  useEffect(() => {
+    ref.current = value
+  }, [value]) // Only re-run if value changes
+  // Return previous value (happens before update in useEffect above)
+  return ref.current
 }

@@ -5,8 +5,9 @@ import isEqual from 'lodash/isEqual'
 import differenceWith from 'lodash/differenceWith'
 import { useQuery } from 'react-apollo'
 import { useTranslation } from 'react-i18next'
-import { getNamehash, emptyAddress } from '@ensdomains/ui'
+import { throttle } from 'lodash'
 
+import { getNamehash, emptyAddress } from '@ensdomains/ui'
 import { useEditable } from '../../hooks'
 import { ADD_MULTI_RECORDS } from '../../../graphql/mutations'
 import COIN_LIST from 'constants/coinList'
@@ -25,19 +26,6 @@ import RecordsCheck from './RecordsCheck'
 import KeyValueRecord from './KeyValueRecord/KeyValueRecord'
 
 import ContentHash from './ContentHash'
-
-// Hook
-function usePrevious(value) {
-  // The ref object is a generic container whose current property is mutable ...
-  // ... and can hold any value, similar to an instance property on a class
-  const ref = useRef()
-  // Store current value in ref
-  useEffect(() => {
-    ref.current = value
-  }, [value]) // Only re-run if value changes
-  // Return previous value (happens before update in useEffect above)
-  return ref.current
-}
 
 const RecordsWrapper = styled('div')`
   border-radius: 6px;
@@ -86,6 +74,7 @@ const RECORDS = [
 ]
 import TEXT_PLACEHOLDER_RECORDS from '../../../constants/textRecords'
 import { validateRecord } from '../../../utils/records'
+import { usePrevious } from '../../../utils/utils'
 import { isEthSubdomain, requestCertificate } from './Certificate'
 
 const COIN_PLACEHOLDER_RECORDS = ['ETH', ...COIN_LIST.slice(0, 3)]
@@ -125,8 +114,7 @@ function calculateShouldShowRecords(isOwner, hasResolver, hasRecords) {
   return false
 }
 
-function getChangedRecords(initialRecords, updatedRecords, recordsLoading) {
-  if (recordsLoading) return []
+function getChangedRecords(initialRecords, updatedRecords) {
   return differenceWith(updatedRecords, initialRecords, isEqual)
 }
 
@@ -341,6 +329,14 @@ const useUpdatedRecords = (
   }, [recordsLoading, initialRecords, prevInitialRecords])
 }
 
+const throttledUpdate = throttle(
+  (setChangedRecords, setValidRecords, initialRecords, updatedRecords) => {
+    setChangedRecords(getChangedRecords(initialRecords, updatedRecords))
+    setValidRecords(getValidRecords(updatedRecords, validateRecord))
+  },
+  500
+)
+
 const useChangedValidRecords = (
   recordsLoading,
   setChangedRecords,
@@ -350,10 +346,12 @@ const useChangedValidRecords = (
 ) => {
   useEffect(() => {
     if (!recordsLoading) {
-      setChangedRecords(
-        getChangedRecords(initialRecords, updatedRecords, recordsLoading)
+      throttledUpdate(
+        setChangedRecords,
+        setValidRecords,
+        initialRecords,
+        updatedRecords
       )
-      setValidRecords(getValidRecords(updatedRecords, validateRecord))
     }
   }, [updatedRecords, recordsLoading, initialRecords])
 }
