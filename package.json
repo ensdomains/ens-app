@@ -65,7 +65,8 @@
     "web3modal-dynamic-import": "1.11.1"
   },
   "scripts": {
-    "start": "node --max_old_space_size=16384 node_modules/.bin/react-scripts start",
+    "start": "react-scripts start",
+    "start:heap": "node --max_old_space_size=16384 node_modules/.bin/react-scripts start",
     "start:ipfs": "REACT_APP_IPFS=True PUBLIC_URL='.' yarn start",
     "start:test": "REACT_APP_STAGE=local yarn start",
     "start:test:ipfs": "REACT_APP_STAGE=local yarn start:ipfs",
