@@ -16,6 +16,7 @@ function waitUntilTextDoesNotExist(text) {
 }
 
 function confirmRecordUpdate() {
+  cy.wait(1000)
   cy.getByTestId('action').click({ force: true })
   cy.wait(1000)
   cy.getByTestId('send-transaction').click({
@@ -26,7 +27,7 @@ function confirmRecordUpdate() {
 
 function refreshAndCheckText(url, textOrArrayOfText) {
   cy.visit(url)
-  cy.wait(1000)
+  cy.wait(10000)
   if (typeof textOrArrayOfText === 'string') {
     cy.queryByText(textOrArrayOfText, { timeout: 20000 }).should('exist')
   } else {
@@ -372,7 +373,7 @@ describe('Name detail view', () => {
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
     cy.getByTestId('name-details').within(container => {
       cy.getByText('Add/Edit Record').click({ force: true })
-
+      cy.wait(5000)
       cy.getByTestId('ETH-record-delete', {
         exact: false,
         timeout: 10000
