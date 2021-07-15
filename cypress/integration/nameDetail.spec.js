@@ -16,7 +16,9 @@ function waitUntilTextDoesNotExist(text) {
 }
 
 function confirmRecordUpdate() {
+  cy.wait(1000)
   cy.getByTestId('action').click({ force: true })
+  cy.wait(1000)
   cy.getByTestId('send-transaction').click({
     force: true
   })
@@ -25,6 +27,7 @@ function confirmRecordUpdate() {
 
 function refreshAndCheckText(url, textOrArrayOfText) {
   cy.visit(url)
+  cy.wait(10000)
   if (typeof textOrArrayOfText === 'string') {
     cy.queryByText(textOrArrayOfText, { timeout: 20000 }).should('exist')
   } else {
@@ -170,29 +173,26 @@ describe('Name detail view', () => {
       cy.getByText('ETH', { timeout: 10000 }).click({
         force: true
       })
-      cy.getByPlaceholderText('Enter a Eth Address', {
+      cy.getByPlaceholderText('Enter a ETH Address', {
         timeout: 10000,
         exact: false
       }).type('blah', { force: true, timeout: 10000 })
 
-      cy.getByPlaceholderText('Enter a Eth Address', { exact: false }).should(
-        elem => {
-          expect(elem.val()).to.equal('blah')
-        }
-      )
-      cy.queryByTestId('save-record', { exact: false }).should(
-        'have.css',
-        'background-color',
-        DISABLED_COLOUR
-      )
+      cy.getByPlaceholderText('Enter a ETH Address', {
+        exact: false
+      }).should(elem => {
+        expect(elem.val()).to.equal('blah')
+      })
+      cy.queryByTestId('save-record', { exact: false }).should('be.disabled')
+
       //force click like a real user
       cy.getByTestId('save-record', { exact: false }).click({ force: true })
 
-      cy.getByPlaceholderText('Enter a Eth Address', { exact: false }).should(
-        elem => {
-          expect(elem.val()).to.equal('blah')
-        }
-      )
+      cy.getByPlaceholderText('Enter a ETH Address', {
+        exact: false
+      }).should(elem => {
+        expect(elem.val()).to.equal('blah')
+      })
 
       // Form was not closed and nothing happened
       // This query seems flakey
@@ -224,7 +224,7 @@ describe('Name detail view', () => {
         .click({
           force: true
         })
-        .getByPlaceholderText('Enter a Eth Address', {
+        .getByPlaceholderText('Enter a ETH Address', {
           timeout: 10000,
           exact: false
         })
@@ -237,10 +237,9 @@ describe('Name detail view', () => {
           cy.getByText('Save').click({ force: true })
         })
       // Content
-      cy.getByText('Addresses')
+      cy.getByText('Add record')
         .click({ force: true })
-        .get('#react-select-2-option-1', { timeout: 10000 })
-        .contains('Content')
+        .getByText('Content', { timeout: 10000 })
         .click({ force: true })
         .getByPlaceholderText('Enter a content hash', {
           exact: false
@@ -250,11 +249,11 @@ describe('Name detail view', () => {
         .then(() => {
           cy.getByText('Save').click({ force: true })
         })
+
       // Other Address
-      cy.getByText('Content')
+      cy.getByText('Add record')
         .click({ force: true })
-        .get('#react-select-2-option-0', { timeout: 10000 })
-        .contains('Address')
+        .getByText('Addresses', { timeout: 10000 })
         .click({ force: true })
         .getByText('Coin', { exact: false })
         .click({ force: true })
@@ -270,10 +269,9 @@ describe('Name detail view', () => {
           cy.getByText('Save').click({ force: true, timeout: 5000 })
         })
       // Text
-      cy.getByText('Addresses')
+      cy.getByText('Add record')
         .click({ force: true })
-        .get('#react-select-2-option-2', { timeout: 10000 })
-        .contains('Text')
+        .getByText('Text', { timeout: 10000 })
         .click({ force: true })
         .getByText('Key', { exact: false })
         .click({ force: true })
@@ -286,10 +284,9 @@ describe('Name detail view', () => {
           cy.getByText('Save').click({ force: true })
         })
       // Other Text
-      cy.getByText('Text')
+      cy.getByText('Add record')
         .click({ force: true })
-        .get('#react-select-2-option-2', { timeout: 10000 })
-        .contains('Text')
+        .getByText('Text', { timeout: 10000 })
         .click({ force: true })
         .getByText('Key', { exact: false })
         .click({ force: true })
@@ -376,7 +373,7 @@ describe('Name detail view', () => {
     cy.visit(`${NAME_ROOT}/notsoawesome.eth`)
     cy.getByTestId('name-details').within(container => {
       cy.getByText('Add/Edit Record').click({ force: true })
-
+      cy.wait(5000)
       cy.getByTestId('ETH-record-delete', {
         exact: false,
         timeout: 10000
