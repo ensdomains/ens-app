@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import { css } from 'emotion'
 
 const dropdownStyles = css`
@@ -16,12 +16,18 @@ const dropdownStyles = css`
   flex-direction: column;
 `
 
-export default function Dropdown(props) {
+function Dropdown(props, ref) {
   const prependChildren = props.prependChildren || []
   const children = props.children || []
   const appendChildren = props.appendChildren || []
 
   const allChildren = prependChildren.concat(children).concat(appendChildren)
 
-  return <div className={dropdownStyles}>{allChildren}</div>
+  return (
+    <div ref={ref} className={dropdownStyles}>
+      {allChildren}
+    </div>
+  )
 }
+
+export default forwardRef(Dropdown)
