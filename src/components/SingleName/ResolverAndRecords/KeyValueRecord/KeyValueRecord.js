@@ -213,6 +213,7 @@ function Records({
           return (
             <Record
               editing={editing}
+              dataValue={record.value}
               validator={validator}
               setHasRecord={setHasRecord}
               hasRecord={hasRecord}
