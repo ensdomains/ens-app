@@ -24,7 +24,7 @@ import { pageview, setup as setupAnalytics } from './utils/analytics'
 import StackdriverErrorReporter from 'stackdriver-errors-js'
 import GlobalState from './globalState'
 import { ApolloProvider } from 'react-apollo'
-import { setupClient } from 'apolloClient'
+import { setupClient } from './apollo/apolloClient'
 const errorHandler = new StackdriverErrorReporter()
 
 // If we are targeting an IPFS build we need to use HashRouter
@@ -51,6 +51,7 @@ const Route = ({
   )
 }
 
+//get client and networkid
 const App = ({ initialClient, initialNetworkId }) => {
   const { currentNetwork } = useContext(GlobalState)
   let [currentClient, setCurrentClient] = useState(initialClient)

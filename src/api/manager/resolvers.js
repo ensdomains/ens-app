@@ -25,7 +25,7 @@ import {
   GET_ALL_NODES,
   GET_REGISTRANT_FROM_SUBGRAPH
 } from '../../graphql/queries'
-import getClient from '../../apolloClient'
+import getClient from '../../apollo/apolloClient'
 import getENS, { getRegistrar } from 'api/ens'
 import { normalize } from 'eth-ens-namehash'
 

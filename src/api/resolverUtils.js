@@ -1,5 +1,5 @@
 import { GET_TRANSACTION_HISTORY } from '../graphql/queries'
-import getClient from '../apolloClient'
+import getClient from '../apollo/apolloClient'
 
 async function addTransaction({ txHash, txState }) {
   const client = getClient()

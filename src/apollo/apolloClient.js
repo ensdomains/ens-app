@@ -4,13 +4,15 @@ import { withClientState } from 'apollo-link-state'
 import { ApolloLink } from 'apollo-link'
 import { HttpLink } from 'apollo-link-http'
 
-import resolvers, { defaults } from './api/rootResolver'
-import typeDefs from './api/schema'
+import resolvers, { defaults } from '../api/rootResolver'
+import typeDefs from '../api/schema'
+import typePolicies from './typePolicies'
 
 let client
 
 const cache = new InMemoryCache({
-  addTypename: true
+  addTypename: true,
+  typePolicies
 })
 
 const endpoints = {

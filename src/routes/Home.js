@@ -27,6 +27,7 @@ import { useBlock } from '../components/hooks'
 import { getBlock } from '@ensdomains/ui'
 import { emptyAddress } from '../utils/utils'
 import moment from 'moment'
+import gql from 'graphql-tag'
 
 const HeroTop = styled('div')`
   display: grid;
@@ -286,7 +287,15 @@ const ReadOnly = styled('span')`
   margin-left: 1em;
 `
 
+export const GET_WEB3 = gql`
+  query GetCartItems {
+    cartItems @local
+  }
+`
+
 export default ({ match }) => {
+  const data = useQuery(GET_WEB3)
+  console.log('data: ', data)
   const { url } = match
   const { t } = useTranslation()
   const { switchNetwork, currentNetwork } = useContext(GlobalState)

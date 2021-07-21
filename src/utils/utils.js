@@ -14,7 +14,7 @@ import * as jsSHA3 from 'js-sha3'
 import { saveName } from '../api/labels'
 import { setup } from '../api/ens'
 import { SET_ERROR } from 'graphql/mutations'
-import { setupClient } from 'apolloClient'
+import { setupClient } from '../apollo/apolloClient'
 import { connect } from '../api/web3modal'
 import { safeInfo, setupSafeApp } from './safeApps'
 import { useEffect, useRef } from 'react'
@@ -194,39 +194,43 @@ export function isRecordEmpty(value) {
 export async function handleNetworkChange() {
   let client, networkId
   try {
-    if (
-      process.env.REACT_APP_STAGE === 'local' &&
-      process.env.REACT_APP_ENS_ADDRESS
-    ) {
-      await setup({
-        reloadOnAccountsChange: true,
-        customProvider: 'http://localhost:8545',
-        ensAddress: process.env.REACT_APP_ENS_ADDRESS
-      })
-      let labels = window.localStorage['labels']
-        ? JSON.parse(window.localStorage['labels'])
-        : {}
-      window.localStorage.setItem(
-        'labels',
-        JSON.stringify({
-          ...labels,
-          ...JSON.parse(process.env.REACT_APP_LABELS)
-        })
-      )
+    // if (
+    //   //pointing network to ganache
+    //   process.env.REACT_APP_STAGE === 'local' &&
+    //   process.env.REACT_APP_ENS_ADDRESS
+    // ) {
+    //   await setup({
+    //     reloadOnAccountsChange: true,
+    //     customProvider: 'http://localhost:8545',
+    //     ensAddress: process.env.REACT_APP_ENS_ADDRESS
+    //   })
+    //
+    //   let labels = window.localStorage['labels']
+    //     ? JSON.parse(window.localStorage['labels'])
+    //     : {}
+    //   window.localStorage.setItem(
+    //     'labels',
+    //     JSON.stringify({
+    //       ...labels,
+    //       ...JSON.parse(process.env.REACT_APP_LABELS)
+    //     })
+    //   )
+    // } else {
+    // need to keep this for gnosis safe
+    const safe = await safeInfo()
+
+    if (safe) {
+      const network = await setupSafeApp(safe)
+    } else if (window.localStorage.getItem('WEB3_CONNECT_CACHED_PROVIDER')) {
+      const network = await connect()
     } else {
-      const safe = await safeInfo()
-      if (safe) {
-        const network = await setupSafeApp(safe)
-      } else if (window.localStorage.getItem('WEB3_CONNECT_CACHED_PROVIDER')) {
-        const network = await connect()
-      } else {
-        await setup({
-          reloadOnAccountsChange: false,
-          enforceReadOnly: true,
-          enforceReload: true
-        })
-      }
+      await setup({
+        reloadOnAccountsChange: false,
+        enforceReadOnly: true,
+        enforceReload: true
+      })
     }
+    // }
     networkId = await getNetworkId()
     client = await setupClient(networkId)
   } catch (e) {
