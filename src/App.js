@@ -5,7 +5,7 @@ import {
   Route as DefaultRoute,
   Switch
 } from 'react-router-dom'
-import { Query } from '@apollo/client/react/components'
+import { useQuery } from '@apollo/client'
 
 import { GET_ERRORS } from './graphql/queries'
 
@@ -23,7 +23,6 @@ import DefaultLayout from './components/Layout/DefaultLayout'
 import { pageview, setup as setupAnalytics } from './utils/analytics'
 import StackdriverErrorReporter from 'stackdriver-errors-js'
 import GlobalState from './globalState'
-import { ApolloProvider } from '@apollo/client'
 import { setupClient } from 'apolloClient'
 const errorHandler = new StackdriverErrorReporter()
 
@@ -52,62 +51,47 @@ const Route = ({
 }
 
 const App = ({ initialClient, initialNetworkId }) => {
-  const { currentNetwork } = useContext(GlobalState)
-  let [currentClient, setCurrentClient] = useState(initialClient)
+  // const { currentNetwork } = useContext(GlobalState)
+  // const { data, loading , error } = useQuery(GET_ERRORS)
+  let data = {}
+  // let [currentClient, setCurrentClient] = useState(initialClient)
+  // useEffect(() => {
+  //   if (currentNetwork) {
+  //     setupClient(currentNetwork).then(client => setCurrentClient(client))
+  //   }
+  // }, [currentNetwork])
+
   useEffect(() => {
-    if (currentNetwork) {
-      setupClient(currentNetwork).then(client => setCurrentClient(client))
-    }
-  }, [currentNetwork])
+    setupAnalytics()
+    errorHandler.start({
+      key: 'AIzaSyDW3loXBr_2e-Q2f8ZXdD0UAvMzaodBBNg',
+      projectId: 'idyllic-ethos-235310'
+    })
+  }, [])
+
+  if (data && data.error && data.error.message) {
+    return <NetworkError message={data.error.message} />
+  }
 
   return (
-    <ApolloProvider client={currentClient}>
-      <Query query={GET_ERRORS}>
-        {({ data }) => {
-          setupAnalytics()
-          errorHandler.start({
-            key: 'AIzaSyDW3loXBr_2e-Q2f8ZXdD0UAvMzaodBBNg',
-            projectId: 'idyllic-ethos-235310'
-          })
-
-          if (data && data.error && data.error.message) {
-            return <NetworkError message={data.error.message} />
-          } else {
-            return (
-              <>
-                <Router>
-                  <Switch>
-                    <Route
-                      exact
-                      path="/"
-                      component={Home}
-                      layout={HomePageLayout}
-                    />
-                    <Route path="/test-registrar" component={TestRegistrar} />
-                    <Route path="/favourites" component={Favourites} />
-                    <Route path="/faq" component={Faq} />
-                    <Route path="/my-bids" component={SearchResults} />
-                    <Route path="/how-it-works" component={SearchResults} />
-                    <Route
-                      path="/search/:searchTerm"
-                      component={SearchResults}
-                    />
-                    <Route path="/name/:name" component={SingleName} />
-                    <Route
-                      path="/address/:address/:domainType"
-                      component={Address}
-                    />
-                    <Route path="/address/:address" component={Address} />
-                    <Route path="/renew" component={Renew} />
-                    <Route path="*" component={Error404} />
-                  </Switch>
-                </Router>
-              </>
-            )
-          }
-        }}
-      </Query>
-    </ApolloProvider>
+    <>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={Home} layout={HomePageLayout} />
+          <Route path="/test-registrar" component={TestRegistrar} />
+          <Route path="/favourites" component={Favourites} />
+          <Route path="/faq" component={Faq} />
+          <Route path="/my-bids" component={SearchResults} />
+          <Route path="/how-it-works" component={SearchResults} />
+          <Route path="/search/:searchTerm" component={SearchResults} />
+          <Route path="/name/:name" component={SingleName} />
+          <Route path="/address/:address/:domainType" component={Address} />
+          <Route path="/address/:address" component={Address} />
+          <Route path="/renew" component={Renew} />
+          <Route path="*" component={Error404} />
+        </Switch>
+      </Router>
+    </>
   )
 }
 export default App

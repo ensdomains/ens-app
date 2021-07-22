@@ -116,7 +116,6 @@ const defaults = merge(
 )
 
 export default merge(
-  resolvers,
   managerResolvers,
   auctionRegistrarResolvers,
   subDomainRegistrarResolvers
