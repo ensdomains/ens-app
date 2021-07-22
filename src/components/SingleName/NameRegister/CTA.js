@@ -4,7 +4,7 @@ import styled from '@emotion/styled/macro'
 import moment from 'moment'
 import { css } from 'emotion'
 import { useHistory } from 'react-router-dom'
-import { Mutation } from 'react-apollo'
+import { Mutation } from '@apollo/client/react/components'
 import { useTranslation } from 'react-i18next'
 import EthVal from 'ethval'
 

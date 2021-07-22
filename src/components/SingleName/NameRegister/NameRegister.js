@@ -1,7 +1,8 @@
 import React, { useState, useReducer } from 'react'
 import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
-import { Query, useQuery } from 'react-apollo'
+import { Query } from '@apollo/client/react/components'
+import { useQuery } from '@apollo/client'
 import moment from 'moment'
 import {
   CHECK_COMMITMENT,

@@ -5,7 +5,7 @@ import {
   Route as DefaultRoute,
   Switch
 } from 'react-router-dom'
-import { Query } from 'react-apollo'
+import { Query } from '@apollo/client/react/components'
 
 import { GET_ERRORS } from './graphql/queries'
 
@@ -23,7 +23,7 @@ import DefaultLayout from './components/Layout/DefaultLayout'
 import { pageview, setup as setupAnalytics } from './utils/analytics'
 import StackdriverErrorReporter from 'stackdriver-errors-js'
 import GlobalState from './globalState'
-import { ApolloProvider } from 'react-apollo'
+import { ApolloProvider } from '@apollo/client'
 import { setupClient } from 'apolloClient'
 const errorHandler = new StackdriverErrorReporter()
 

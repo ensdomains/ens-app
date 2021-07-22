@@ -3,7 +3,7 @@ import styled from '@emotion/styled/macro'
 
 import InActiveHeartDefault from '../Icons/InActiveHeart'
 import ActiveHeartDefault from '../Icons/ActiveHeart'
-import { Mutation } from 'react-apollo'
+import { Mutation } from '@apollo/client/react/components'
 import gql from 'graphql-tag'
 
 const ActiveHeart = styled(ActiveHeartDefault)`

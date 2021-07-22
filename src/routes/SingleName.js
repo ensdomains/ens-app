@@ -3,7 +3,7 @@ import { validateName, parseSearchTerm } from '../utils/utils'
 import { useScrollTo } from '../components/hooks'
 
 import { GET_SINGLE_NAME } from '../graphql/queries'
-import { Query } from 'react-apollo'
+import { Query } from '@apollo/client/react/components'
 import Loader from '../components/Loader'
 import SearchErrors from '../components/SearchErrors/SearchErrors'
 

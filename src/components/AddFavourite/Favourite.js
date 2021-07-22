@@ -1,6 +1,6 @@
 import React from 'react'
 import { GET_FAVOURITES, GET_SUBDOMAIN_FAVOURITES } from '../../graphql/queries'
-import { Query } from 'react-apollo'
+import { Query } from '@apollo/client/react/components'
 import AddFavourite from './AddFavourite'
 
 const getFavouritesQuery = nameArray =>

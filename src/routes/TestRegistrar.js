@@ -1,5 +1,5 @@
 import React, { Fragment, Component } from 'react'
-import { Query, Mutation } from 'react-apollo'
+import { Query, Mutation } from '@apollo/client/react/components'
 import gql from 'graphql-tag'
 import { GET_WEB3 } from '../graphql/queries'
 
