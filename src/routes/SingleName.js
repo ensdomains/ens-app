@@ -51,6 +51,7 @@ function SingleName({
     return (
       <Query query={GET_SINGLE_NAME} variables={{ name }}>
         {({ loading, error, data, refetch }) => {
+          console.log('data: ', data)
           if (loading) return <Loader large center />
           if (error)
             return <div>{(console.log(error), JSON.stringify(error))}</div>
