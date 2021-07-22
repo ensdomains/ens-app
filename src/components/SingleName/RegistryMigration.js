@@ -1,5 +1,5 @@
 import React from 'react'
-import { useMutation, useQuery } from 'react-apollo'
+import { useMutation, useQuery } from '@apollo/client'
 import { useTranslation, Trans } from 'react-i18next'
 
 import { MIGRATE_REGISTRY } from 'graphql/mutations'

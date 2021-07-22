@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useMutation, useQuery } from 'react-apollo'
+import { useMutation, useQuery } from '@apollo/client'
 import { motion, AnimatePresence } from 'framer-motion'
 import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'

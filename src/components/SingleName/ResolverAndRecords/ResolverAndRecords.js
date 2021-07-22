@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled/macro'
-import { useQuery } from 'react-apollo'
+import { useQuery } from '@apollo/client'
 import { useTranslation } from 'react-i18next'
 import Records from './Records'
 

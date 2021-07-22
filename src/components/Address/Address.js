@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
-import { useQuery } from 'react-apollo'
+import { useQuery } from '@apollo/client'
 import { useLocation } from 'react-router-dom'
 import { useTranslation, Trans } from 'react-i18next'
 import moment from 'moment'

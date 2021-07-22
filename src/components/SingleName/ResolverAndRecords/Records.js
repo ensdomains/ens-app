@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { useMutation } from 'react-apollo'
+import { useMutation, useQuery } from '@apollo/client'
 import styled from '@emotion/styled/macro'
 import isEqual from 'lodash/isEqual'
 import differenceWith from 'lodash/differenceWith'
-import { useQuery } from 'react-apollo'
 import { useTranslation } from 'react-i18next'
 import { throttle } from 'lodash'
 

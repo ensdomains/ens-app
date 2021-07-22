@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from '@emotion/styled/macro'
-import { Query } from 'react-apollo'
+import { Query } from '@apollo/client/react/components'
 import DomainItem from '../components/DomainItem/DomainItem'
 import { getNamehash } from '@ensdomains/ui'
-import { useQuery } from 'react-apollo'
+import { useQuery } from '@apollo/client'
 import {
   GET_FAVOURITES,
   GET_SUBDOMAIN_FAVOURITES,
