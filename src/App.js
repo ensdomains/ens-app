@@ -23,7 +23,8 @@ import DefaultLayout from './components/Layout/DefaultLayout'
 import { pageview, setup as setupAnalytics } from './utils/analytics'
 import StackdriverErrorReporter from 'stackdriver-errors-js'
 import GlobalState from './globalState'
-import { setupClient } from 'apolloClient'
+import { setupClient } from 'apollo/apolloClient'
+import gql from 'graphql-tag'
 const errorHandler = new StackdriverErrorReporter()
 
 // If we are targeting an IPFS build we need to use HashRouter
@@ -50,10 +51,19 @@ const Route = ({
   )
 }
 
+export const APP_DATA = gql`
+  query getAppData {
+    networkId @client
+  }
+`
+
 const App = ({ initialClient, initialNetworkId }) => {
   // const { currentNetwork } = useContext(GlobalState)
+  const appData = useQuery(APP_DATA)
+  console.log('appData: ', appData)
   // const { data, loading , error } = useQuery(GET_ERRORS)
   let data = {}
+
   // let [currentClient, setCurrentClient] = useState(initialClient)
   // useEffect(() => {
   //   if (currentNetwork) {

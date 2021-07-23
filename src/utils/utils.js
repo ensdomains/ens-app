@@ -12,9 +12,8 @@ import { validate } from '@ensdomains/ens-validation'
 import getENS from '../api/ens'
 import * as jsSHA3 from 'js-sha3'
 import { saveName } from '../api/labels'
-import { setup } from '../api/ens'
 import { SET_ERROR } from 'graphql/mutations'
-import { setupClient } from 'apolloClient'
+import { setupClient } from 'apollo/apolloClient'
 import { connect } from '../api/web3modal'
 import { safeInfo, setupSafeApp } from './safeApps'
 import { useEffect, useRef } from 'react'
@@ -227,15 +226,15 @@ export async function handleNetworkChange() {
     //     })
     //   }
     // }
-    await setup({
-      reloadOnAccountsChange: false,
-      enforceReadOnly: true,
-      enforceReload: true
-    })
-    await connect()
-    networkId = await getNetworkId()
-    networkId = 1
-    client = await setupClient(networkId)
+    // await setup({
+    //   reloadOnAccountsChange: false,
+    //   enforceReadOnly: true,
+    //   enforceReload: true
+    // })
+    // await connect()
+    // networkId = await getNetworkId()
+    // networkId = 1
+    // client = await setupClient(networkId)
   } catch (e) {
     networkId = networkId || 1 // Readonly to Mainnet
     client = await setupClient()

@@ -7,16 +7,17 @@ import App from 'App'
 import 'globalStyles'
 import './i18n'
 import { handleNetworkChange } from './utils/utils'
+import setup from './setup'
+import { clientReactive, networkIdReactive } from './apollo/reactiveVars'
+import { setupClient } from './apollo/apolloClient'
 
-const setup = async () => {}
 setup()
-
 window.addEventListener('load', async () => {
-  const { client, networkId } = await handleNetworkChange()
+  const client = clientReactive(setupClient(networkIdReactive()))
   ReactDOM.render(
     <Suspense fallback={null}>
       <ApolloProvider {...{ client }}>
-        <App initialClient={client} initialNetworkId={networkId} />
+        <App />
       </ApolloProvider>
     </Suspense>,
     document.getElementById('root')

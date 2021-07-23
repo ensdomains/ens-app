@@ -24,6 +24,7 @@ import { connect, disconnect } from '../api/web3modal'
 import { useBlock } from '../components/hooks'
 import { getBlock } from '@ensdomains/ui'
 import moment from 'moment'
+import gql from 'graphql-tag'
 
 const HeroTop = styled('div')`
   display: grid;
@@ -283,22 +284,31 @@ const ReadOnly = styled('span')`
   margin-left: 1em;
 `
 
+export const HOME_DATA = gql`
+  query getHomeData @client {
+    network
+    displayName(address: $address)
+  }
+`
+
 export default ({ match }) => {
   const { url } = match
+
   const { t } = useTranslation()
   const { switchNetwork, currentNetwork } = useContext(GlobalState)
-  const {
-    accounts,
-    network,
-    loading,
-    refetch,
-    isReadOnly,
-    isSafeApp
-  } = useNetworkInfo()
+  const { accounts, loading, refetch, isReadOnly, isSafeApp } = useNetworkInfo()
   const [graphBlock, setGraphBlock] = useState()
   const address = accounts && accounts[0]
   const { data: metaBlock } = useQuery(GET_META_BLOCK_NUMBER_FROM_GRAPH)
   const graphBlockNumber = metaBlock?._meta?.block?.number
+
+  const {
+    data: { network, displayName }
+  } = useQuery(HOME_DATA, {
+    variables: {
+      address: 'asdfafds'
+    }
+  })
 
   const { block } = useBlock()
 
@@ -325,9 +335,9 @@ export default ({ match }) => {
       address
     }
   })
-  const displayName = hasValidReverseRecord(getReverseRecord)
-    ? getReverseRecord.name
-    : address && `${address.slice(0, 10)}...`
+  // const displayName = hasValidReverseRecord(getReverseRecord)
+  //   ? getReverseRecord.name
+  //   : address && `${address.slice(0, 10)}...`
 
   const animation = {
     initial: {

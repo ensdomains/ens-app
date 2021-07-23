@@ -1,13 +1,20 @@
-import { ApolloClient, ApolloLink, HttpLink } from '@apollo/client'
-import { InMemoryCache } from 'apollo-cache-inmemory'
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache
+} from '@apollo/client'
+// import { InMemoryCache } from 'apollo-cache-inmemory'
 import { withClientState } from 'apollo-link-state'
 
-import resolvers, { defaults } from './api/rootResolver'
-import typeDefs from './api/schema'
+import resolvers, { defaults } from '../api/rootResolver'
+import typeDefs from '../api/schema'
+import typePolicies from './typePolicies'
 
 let client
 
 const cache = new InMemoryCache({
+  typePolicies,
   addTypename: true
 })
 
@@ -30,14 +37,14 @@ function getGraphQLAPI(network) {
   return endpoints['1']
 }
 
-const stateLink = withClientState({
-  resolvers,
-  cache,
-  defaults,
-  typeDefs
-})
+// const stateLink = withClientState({
+//   resolvers,
+//   cache,
+//   defaults,
+//   typeDefs
+// })
 
-export async function setupClient(network) {
+export function setupClient(network) {
   const httpLink = new HttpLink({
     uri: getGraphQLAPI(network)
   })
@@ -47,7 +54,7 @@ export async function setupClient(network) {
     },
     cache,
     addTypename: true,
-    link: ApolloLink.from([stateLink, httpLink], cache)
+    link: ApolloLink.from([httpLink], cache)
   }
 
   client = new ApolloClient(option)
