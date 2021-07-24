@@ -1,6 +1,12 @@
 import { setup } from './api/ens'
 import { connect } from './api/web3modal'
-import { getWeb3, getNetworkId, getNetwork, getAccounts } from '@ensdomains/ui'
+import {
+  getWeb3,
+  getNetworkId,
+  getNetwork,
+  getAccounts,
+  isReadOnly
+} from '@ensdomains/ui'
 import { setupClient } from './apollo/apolloClient'
 import {
   networkIdReactive,
@@ -31,12 +37,17 @@ const setupAccounts = async () => {
   return accounts
 }
 
+const setupIsReadOnly = async () => {
+  isReadOnly(await isReadOnly())
+}
+
 export default async () => {
   await setup({
     reloadOnAccountsChange: false,
     enforceReadOnly: true,
     enforceReload: true
   })
+  setupIsReadOnly()
   setupWeb3()
   setupNetwork()
   setupReverseRecord()

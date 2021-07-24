@@ -11,5 +11,6 @@ export const networkReactive = makeVar(null)
 export const reverseRecordReactive = makeVar(null)
 
 export const accountsReactive = makeVar(null)
-
 accountsReactive.onNextChange(e => console.log('IIIII', e))
+
+export const isReadOnly = makeVar(false)

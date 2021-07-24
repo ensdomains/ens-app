@@ -4,7 +4,8 @@ import {
   clientReactive,
   web3Reactive,
   reverseRecordReactive,
-  accountsReactive
+  accountsReactive,
+  isReadOnly
 } from './reactiveVars'
 import { hasValidReverseRecord } from '../utils/utils'
 
@@ -39,6 +40,11 @@ export default {
           return hasValidReverseRecord(reverseRecordReactive())
             ? reverseRecordReactive().name
             : `${address?.slice(0, 10)}...`
+        }
+      },
+      isReadOnly: {
+        read() {
+          return isReadOnly()
         }
       }
     }

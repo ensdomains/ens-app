@@ -288,6 +288,7 @@ const HOME_DATA = gql`
   query getHomeData @client {
     network
     displayName(address: $address)
+    isReadOnly
   }
 `
 
@@ -299,23 +300,22 @@ const GET_ACCOUNT = gql`
 
 export default ({ match }) => {
   const { url } = match
-
   const { t } = useTranslation()
-  const { switchNetwork, currentNetwork } = useContext(GlobalState)
-  const { loading, refetch, isReadOnly, isSafeApp } = useNetworkInfo()
-  const [graphBlock, setGraphBlock] = useState()
-  const { data: metaBlock } = useQuery(GET_META_BLOCK_NUMBER_FROM_GRAPH)
-  const graphBlockNumber = metaBlock?._meta?.block?.number
 
   const accountsData = useQuery(GET_ACCOUNT)
-  console.log('accounts: ', accountsData)
   const {
-    data: { network, displayName }
+    data: { network, displayName, isReadOnly }
   } = useQuery(HOME_DATA, {
     variables: {
       address: accountsData.data?.accounts?.[0]
     }
   })
+
+  const { switchNetwork, currentNetwork } = useContext(GlobalState)
+  const { loading, refetch, isSafeApp } = useNetworkInfo()
+  const [graphBlock, setGraphBlock] = useState()
+  const { data: metaBlock } = useQuery(GET_META_BLOCK_NUMBER_FROM_GRAPH)
+  const graphBlockNumber = metaBlock?._meta?.block?.number
 
   const { block } = useBlock()
 
@@ -333,18 +333,6 @@ export default ({ match }) => {
       })
     }
   }, [graphBlockNumber])
-
-  // const {
-  //   data: { getReverseRecord } = {},
-  //   loading: reverseRecordLoading
-  // } = useQuery(GET_REVERSE_RECORD, {
-  //   variables: {
-  //     address
-  //   }
-  // })
-  // const displayName = hasValidReverseRecord(getReverseRecord)
-  //   ? getReverseRecord.name
-  //   : address && `${address.slice(0, 10)}...`
 
   const animation = {
     initial: {
