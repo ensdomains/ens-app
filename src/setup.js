@@ -1,13 +1,14 @@
 import { setup } from './api/ens'
 import { connect } from './api/web3modal'
-import { getWeb3, getNetworkId, getNetwork } from '@ensdomains/ui'
+import { getWeb3, getNetworkId, getNetwork, getAccounts } from '@ensdomains/ui'
 import { setupClient } from './apollo/apolloClient'
 import {
   networkIdReactive,
   clientReactive,
   web3Reactive,
   networkReactive,
-  reverseRecordReactive
+  reverseRecordReactive,
+  accountsReactive
 } from './apollo/reactiveVars'
 import { getReverseRecord } from './apollo/sideEffects'
 
@@ -19,12 +20,15 @@ const setupNetwork = async () => {
   networkReactive(await getNetwork())
 }
 
-const setupReverseRecord = async () => {
-  const result = await getReverseRecord(
-    '0x4e72EAF9C1EDbCcbc1499a565e1803Edfda6512A'
-  )
-  console.log('result: ', result)
+const setupReverseRecord = async address => {
+  const result = await getReverseRecord(address)
   reverseRecordReactive(result)
+}
+
+const setupAccounts = async () => {
+  const accounts = await getAccounts()
+  accountsReactive(accounts)
+  return accounts
 }
 
 export default async () => {
@@ -36,6 +40,8 @@ export default async () => {
   setupWeb3()
   setupNetwork()
   setupReverseRecord()
+  const accounts = await setupAccounts()
+  setupReverseRecord(accounts?.[0])
   await connect()
   networkIdReactive(await getNetworkId())
 }

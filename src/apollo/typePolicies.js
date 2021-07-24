@@ -3,7 +3,8 @@ import {
   networkReactive,
   clientReactive,
   web3Reactive,
-  reverseRecordReactive
+  reverseRecordReactive,
+  accountsReactive
 } from './reactiveVars'
 import { hasValidReverseRecord } from '../utils/utils'
 
@@ -21,6 +22,11 @@ export default {
           const networkName = network?.name
           if (!networkName) return 'Loading'
           return networkName === 'homestead' ? 'Main' : networkName
+        }
+      },
+      accounts: {
+        read() {
+          return accountsReactive()
         }
       },
       displayName: {

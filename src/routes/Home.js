@@ -284,10 +284,16 @@ const ReadOnly = styled('span')`
   margin-left: 1em;
 `
 
-export const HOME_DATA = gql`
+const HOME_DATA = gql`
   query getHomeData @client {
     network
     displayName(address: $address)
+  }
+`
+
+const GET_ACCOUNT = gql`
+  query getAccounts @client {
+    accounts
   }
 `
 
@@ -296,17 +302,18 @@ export default ({ match }) => {
 
   const { t } = useTranslation()
   const { switchNetwork, currentNetwork } = useContext(GlobalState)
-  const { accounts, loading, refetch, isReadOnly, isSafeApp } = useNetworkInfo()
+  const { loading, refetch, isReadOnly, isSafeApp } = useNetworkInfo()
   const [graphBlock, setGraphBlock] = useState()
-  const address = accounts && accounts[0]
   const { data: metaBlock } = useQuery(GET_META_BLOCK_NUMBER_FROM_GRAPH)
   const graphBlockNumber = metaBlock?._meta?.block?.number
 
+  const accountsData = useQuery(GET_ACCOUNT)
+  console.log('accounts: ', accountsData)
   const {
     data: { network, displayName }
   } = useQuery(HOME_DATA, {
     variables: {
-      address: 'asdfafds'
+      address: accountsData.data?.accounts?.[0]
     }
   })
 
@@ -327,14 +334,14 @@ export default ({ match }) => {
     }
   }, [graphBlockNumber])
 
-  const {
-    data: { getReverseRecord } = {},
-    loading: reverseRecordLoading
-  } = useQuery(GET_REVERSE_RECORD, {
-    variables: {
-      address
-    }
-  })
+  // const {
+  //   data: { getReverseRecord } = {},
+  //   loading: reverseRecordLoading
+  // } = useQuery(GET_REVERSE_RECORD, {
+  //   variables: {
+  //     address
+  //   }
+  // })
   // const displayName = hasValidReverseRecord(getReverseRecord)
   //   ? getReverseRecord.name
   //   : address && `${address.slice(0, 10)}...`
@@ -396,18 +403,18 @@ export default ({ match }) => {
               </NetworkStatus>
             </>
           )}
-          <Nav>
-            {accounts?.length > 0 && (
-              <NavLink
-                active={url === '/address/' + accounts[0]}
-                to={'/address/' + accounts[0]}
-              >
-                {t('c.mynames')}
-              </NavLink>
-            )}
-            <NavLink to="/favourites">{t('c.favourites')}</NavLink>
-            <ExternalLink href={aboutPageURL()}>{t('c.about')}</ExternalLink>
-          </Nav>
+          {/*<Nav>*/}
+          {/*  {accounts?.length > 0 && (*/}
+          {/*    <NavLink*/}
+          {/*      active={url === '/address/' + accounts[0]}*/}
+          {/*      to={'/address/' + accounts[0]}*/}
+          {/*    >*/}
+          {/*      {t('c.mynames')}*/}
+          {/*    </NavLink>*/}
+          {/*  )}*/}
+          {/*  <NavLink to="/favourites">{t('c.favourites')}</NavLink>*/}
+          {/*  <ExternalLink href={aboutPageURL()}>{t('c.about')}</ExternalLink>*/}
+          {/*</Nav>*/}
         </HeroTop>
         <SearchContainer>
           <>
