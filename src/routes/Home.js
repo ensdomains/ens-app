@@ -22,9 +22,11 @@ import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
 import { aboutPageURL, hasValidReverseRecord } from '../utils/utils'
 import { connect, disconnect } from '../api/web3modal'
 import { useBlock } from '../components/hooks'
-import { getBlock } from '@ensdomains/ui'
+import { getBlock, getNetworkId } from '@ensdomains/ui'
 import moment from 'moment'
 import gql from 'graphql-tag'
+
+import { connectMutation, disconnectMutation } from '../apollo/mutations'
 
 const HeroTop = styled('div')`
   display: grid;
@@ -298,21 +300,30 @@ const GET_ACCOUNT = gql`
   }
 `
 
+const handleConnect = () => {
+  connectMutation()
+}
+
+const handleDisconnect = () => {
+  disconnectMutation()
+}
+
 export default ({ match }) => {
   const { url } = match
   const { t } = useTranslation()
 
-  const accountsData = useQuery(GET_ACCOUNT)
+  const {
+    data: { accounts }
+  } = useQuery(GET_ACCOUNT)
   const {
     data: { network, displayName, isReadOnly }
   } = useQuery(HOME_DATA, {
     variables: {
-      address: accountsData.data?.accounts?.[0]
+      address: accounts?.[0]
     }
   })
 
-  const { switchNetwork, currentNetwork } = useContext(GlobalState)
-  const { loading, refetch, isSafeApp } = useNetworkInfo()
+  const { loading, isSafeApp } = useNetworkInfo()
   const [graphBlock, setGraphBlock] = useState()
   const { data: metaBlock } = useQuery(GET_META_BLOCK_NUMBER_FROM_GRAPH)
   const graphBlockNumber = metaBlock?._meta?.block?.number
@@ -345,25 +356,8 @@ export default ({ match }) => {
     }
   }
 
-  const [setError] = useMutation(SET_ERROR)
-  const handleConnect = async () => {
-    let network
-    try {
-      network = await connect()
-    } catch (e) {
-      setError({ variables: { message: e?.message } })
-    }
-    if (network) {
-      switchNetwork(network.chainId)
-    }
-    location.reload()
-  }
+  //const [setError] = useMutation(SET_ERROR)
 
-  const handleDisconnect = async () => {
-    await disconnect()
-    switchNetwork(1)
-    location.reload()
-  }
   return (
     <>
       {delayInMin >= 0 && (

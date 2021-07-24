@@ -14,8 +14,7 @@ import typePolicies from './typePolicies'
 let client
 
 const cache = new InMemoryCache({
-  typePolicies,
-  addTypename: true
+  typePolicies
 })
 
 const endpoints = {
@@ -49,15 +48,19 @@ export function setupClient(network) {
     uri: getGraphQLAPI(network)
   })
   const option = {
-    fetchOptions: {
-      mode: 'no-cors'
-    },
     cache,
-    addTypename: true,
     link: ApolloLink.from([httpLink], cache)
   }
 
   client = new ApolloClient(option)
+  client.addResolvers({
+    Mutation: {
+      foo: (...args) => {
+        console.log('resolver mut', ...args)
+        return 1
+      }
+    }
+  })
   return client
 }
 
