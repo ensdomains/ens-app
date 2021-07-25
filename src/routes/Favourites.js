@@ -93,13 +93,14 @@ function getDomainState(owner, available) {
 
 function Favourites() {
   const { t } = useTranslation()
+  useEffect(() => {
+    document.title = 'ENS Favourites'
+  }, [])
+
   let [years, setYears] = useState(1)
   let [checkedBoxes, setCheckedBoxes] = useState({})
   const [selectAll, setSelectAll] = useState(false)
 
-  useEffect(() => {
-    document.title = 'ENS Favourites'
-  }, [])
   const { data: { favourites } = [] } = useQuery(GET_FAVOURITES)
   const { data: { subDomainFavourites } = [] } = useQuery(
     GET_SUBDOMAIN_FAVOURITES

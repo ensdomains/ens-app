@@ -26,8 +26,9 @@ import {
   GET_REGISTRANT_FROM_SUBGRAPH
 } from '../../graphql/queries'
 import getClient from '../../apollo/apolloClient'
-import getENS, { getRegistrar } from 'api/ens'
+import getENS, { getRegistrar } from 'apollo/mutations/ens'
 import { normalize } from 'eth-ens-namehash'
+import { detailedNodeReactive } from '../../apollo/reactiveVars'
 
 let savedFavourites =
   JSON.parse(window.localStorage.getItem('ensFavourites')) || []
@@ -42,136 +43,6 @@ const defaults = {
 
 async function delay(ms) {
   return await new Promise(resolve => setTimeout(resolve, ms))
-}
-
-async function getParent(name) {
-  const ens = getENS()
-  const nameArray = name.split('.')
-  if (nameArray.length < 1) {
-    return [null, null]
-  }
-  nameArray.shift()
-  const parent = nameArray.join('.')
-  const parentOwner = await ens.getOwner(parent)
-  return [parent, parentOwner]
-}
-
-async function getRegistrarEntry(name) {
-  const registrar = getRegistrar()
-  const nameArray = name.split('.')
-  if (nameArray.length > 3 || nameArray[1] !== 'eth') {
-    return {}
-  }
-
-  const entry = await registrar.getEntry(nameArray[0])
-  const {
-    registrant,
-    deedOwner,
-    state,
-    registrationDate,
-    migrationStartDate,
-    currentBlockDate,
-    transferEndDate,
-    gracePeriodEndDate,
-    revealDate,
-    value,
-    highestBid,
-    expiryTime,
-    isNewRegistrar,
-    available
-  } = entry
-
-  const node = {
-    name: `${name}`,
-    state: modeNames[state],
-    stateError: null, // This is only used for dnssec errors
-    registrationDate,
-    gracePeriodEndDate: gracePeriodEndDate || null,
-    migrationStartDate: migrationStartDate || null,
-    currentBlockDate: currentBlockDate || null,
-    transferEndDate: transferEndDate || null,
-    revealDate,
-    value,
-    highestBid,
-    registrant,
-    deedOwner,
-    isNewRegistrar: !!isNewRegistrar,
-    available,
-    expiryTime: expiryTime || null
-  }
-
-  return node
-}
-
-async function getDNSEntryDetails(name) {
-  const ens = getENS()
-  const registrar = getRegistrar()
-  const nameArray = name.split('.')
-  const networkId = await getNetworkId()
-  if (nameArray.length !== 2 || nameArray[1] === 'eth') return {}
-
-  let tld = nameArray[1]
-  let owner
-  let tldowner
-  tldowner = (await ens.getOwner(tld)).toLocaleLowerCase()
-  if (parseInt(tldowner) === 0 && networkId === 3) {
-    tldowner = ROPSTEN_DNSREGISTRAR_ADDRESS
-  }
-
-  try {
-    owner = (await ens.getOwner(name)).toLocaleLowerCase()
-  } catch {
-    return {}
-  }
-
-  let isDNSRegistrarSupported = await registrar.isDNSRegistrar(tldowner)
-  if (isDNSRegistrarSupported && tldowner !== emptyAddress) {
-    const dnsEntry = await registrar.getDNSEntry(name, tldowner, owner)
-    const node = {
-      isDNSRegistrar: true,
-      dnsOwner: dnsEntry.claim?.result
-        ? dnsEntry.claim.getOwner()
-        : emptyAddress,
-      state: dnsEntry.state,
-      stateError: dnsEntry.stateError,
-      parentOwner: tldowner
-    }
-
-    return node
-  }
-}
-
-async function getTestEntry(name) {
-  const registrar = getRegistrar()
-  const nameArray = name.split('.')
-  if (nameArray.length < 3 && nameArray[1] === 'test') {
-    const expiryTime = await registrar.expiryTimes(nameArray[0])
-    if (expiryTime) return { expiryTime }
-  }
-  return {}
-}
-
-async function getRegistrant(name) {
-  const client = getClient()
-  try {
-    const { data, error } = await client.query({
-      query: GET_REGISTRANT_FROM_SUBGRAPH,
-      fetchPolicy: 'network-only',
-      variables: { id: labelhash(name.split('.')[0]) }
-    })
-    if (!data || !data.registration) {
-      return null
-    }
-    if (error) {
-      console.log('Error getting registrant from subgraph', error)
-      return null
-    }
-
-    return utils.getAddress(data.registration.registrant.id)
-  } catch (e) {
-    console.log('GraphQL error from getRegistrant', e)
-    return null
-  }
 }
 
 function adjustForShortNames(node) {
@@ -337,33 +208,7 @@ const resolvers = {
       try {
         const ens = getENS()
         const decrypted = isDecrypted(name)
-        let node = {
-          name: null,
-          revealDate: null,
-          registrationDate: null,
-          migrationStartDate: null,
-          currentBlockDate: null,
-          transferEndDate: null,
-          gracePeriodEndDate: null,
-          value: null,
-          highestBid: null,
-          state: null,
-          stateError: null,
-          label: null,
-          decrypted,
-          price: null,
-          rent: null,
-          referralFeePPM: null,
-          available: null,
-          contentType: null,
-          expiryTime: null,
-          isNewRegistrar: null,
-          isDNSRegistrar: null,
-          dnsOwner: null,
-          deedOwner: null,
-          registrant: null,
-          auctionEnds: null // remove when auction is over
-        }
+        let node = { ...detailedNodeReactive(), decrypted }
         const dataSources = [
           getRegistrarEntry(name),
           ens.getDomainDetails(name),

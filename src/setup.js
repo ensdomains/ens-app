@@ -1,4 +1,4 @@
-import { setup } from './api/ens'
+import { setup } from './apollo/mutations/ens'
 import { connect } from './api/web3modal'
 import {
   web3Mutation,
@@ -8,7 +8,7 @@ import {
   networkIdMutation,
   isReadOnlyMutation,
   isRunningAsSafeAppMutation
-} from './apollo/mutations'
+} from './apollo/mutations/mutations'
 
 export default async () => {
   try {

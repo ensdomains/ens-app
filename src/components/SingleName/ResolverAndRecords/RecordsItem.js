@@ -11,7 +11,7 @@ import { validateRecord } from 'utils/records'
 import { emptyAddress } from 'utils/utils'
 import mq from 'mediaQuery'
 import { getOldContentWarning } from './warnings'
-import { getEnsAddress } from '../../../api/ens'
+import { getEnsAddress } from '../../../apollo/mutations/ens'
 
 import { DetailsItem, DetailsKey, DetailsValue } from '../DetailsItem'
 import Upload from '../../IPFS/Upload'

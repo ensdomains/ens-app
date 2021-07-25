@@ -1,5 +1,5 @@
 import { emptyAddress } from '../utils/utils'
-import getENS from '../api/ens'
+import getENS from './mutations/ens'
 import { normalize } from 'eth-ens-namehash'
 
 export const refreshWeb3 = () => {}

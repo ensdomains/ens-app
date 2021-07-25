@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import styled from '@emotion/styled/macro'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
-import { SET_ERROR } from 'graphql/mutations'
 import mq from 'mediaQuery'
 import SearchDefault from '../components/SearchName/Search'
 import NoAccountsDefault from '../components/NoAccounts/NoAccountsModal'
@@ -13,10 +12,13 @@ import TextBubbleDefault from '../components/Icons/TextBubble'
 import QuestionMarkDefault from '../components/Icons/QuestionMark'
 import HowToUseDefault from '../components/HowToUse/HowToUse'
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
-import { aboutPageURL, hasValidReverseRecord } from '../utils/utils'
+import { aboutPageURL } from '../utils/utils'
 import gql from 'graphql-tag'
 
-import { connectMutation, disconnectMutation } from '../apollo/mutations'
+import {
+  connectMutation,
+  disconnectMutation
+} from '../apollo/mutations/mutations'
 
 const HeroTop = styled('div')`
   display: grid;

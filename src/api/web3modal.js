@@ -1,4 +1,4 @@
-import { setup as setupENS } from '../api/ens'
+import { setup as setupENS } from '../apollo/mutations/ens'
 
 const INFURA_ID =
   window.location.host === 'app.ens.domains'

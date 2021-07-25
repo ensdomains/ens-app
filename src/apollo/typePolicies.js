@@ -6,7 +6,9 @@ import {
   reverseRecordReactive,
   accountsReactive,
   isReadOnlyReactive,
-  isRunningAsSafeAppReactive
+  isRunningAsSafeAppReactive,
+  detailedNodeReactive,
+  isENSReady
 } from './reactiveVars'
 import { hasValidReverseRecord } from '../utils/utils'
 
@@ -51,6 +53,16 @@ export default {
       isSafeApp: {
         read() {
           return isRunningAsSafeAppReactive()
+        }
+      },
+      singleName: {
+        read() {
+          return detailedNodeReactive()
+        }
+      },
+      isENSReady: {
+        read() {
+          return isENSReady()
         }
       }
     }

@@ -1,6 +1,6 @@
 import { queryAll } from '../subDomainRegistrar'
 import { fromWei } from 'ethjs-unit'
-import getENS from 'api/ens'
+import getENS from 'apollo/mutations/ens'
 
 const defaults = {
   subDomainState: []

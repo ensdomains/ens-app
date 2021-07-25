@@ -1,4 +1,5 @@
 import { setupENS } from '@ensdomains/ui'
+import { isENSReady } from '../reactiveVars'
 
 const INFURA_ID =
   window.location.host === 'app.ens.domains'
@@ -32,6 +33,7 @@ export async function setup({
   ens = ensInstance
   registrar = registrarInstance
   ensRegistryAddress = ensAddress
+  isENSReady(true)
   return { ens, registrar }
 }
 

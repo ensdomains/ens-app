@@ -1,6 +1,6 @@
 import { isShortName } from '../../utils/utils'
 
-import getENS, { getRegistrar } from 'api/ens'
+import getENS, { getRegistrar } from 'apollo/mutations/ens'
 
 import modeNames from '../modes'
 import { sendHelper } from '../resolverUtils'

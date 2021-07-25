@@ -6,7 +6,7 @@ import {
   emptyAddress
 } from '@ensdomains/ui'
 
-import getENS from 'api/ens'
+import getENS from 'apollo/mutations/ens'
 import merge from 'lodash/merge'
 import { isRunningAsSafeApp } from 'utils/safeApps'
 import managerResolvers, {

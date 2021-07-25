@@ -1,4 +1,4 @@
-import { setup as setupENS } from '../api/ens'
+import { setup as setupENS } from '../apollo/mutations/ens'
 import SafeAppSDK from '@gnosis.pm/safe-apps-sdk'
 import { SafeAppProvider } from '@gnosis.pm/safe-apps-provider'
 import { getNetwork } from '@ensdomains/ui'

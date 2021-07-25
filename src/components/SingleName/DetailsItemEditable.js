@@ -24,7 +24,7 @@ import { addressUtils, emptyAddress } from 'utils/utils'
 import { refetchTilUpdatedSingle } from 'utils/graphql'
 import Bin from '../Forms/Bin'
 import { useAccount } from '../QueryAccount'
-import { getEnsAddress } from '../../api/ens'
+import { getEnsAddress } from '../../apollo/mutations/ens'
 
 import AddToCalendar from '../Calendar/RenewalCalendar'
 import Tooltip from '../Tooltip/Tooltip'

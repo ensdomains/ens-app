@@ -9,7 +9,7 @@ import {
 } from '@ensdomains/ui/src/utils/index'
 import { validate } from '@ensdomains/ens-validation'
 
-import getENS from '../api/ens'
+import getENS from '../apollo/mutations/ens'
 import * as jsSHA3 from 'js-sha3'
 import { saveName } from '../api/labels'
 import { SET_ERROR } from 'graphql/mutations'
