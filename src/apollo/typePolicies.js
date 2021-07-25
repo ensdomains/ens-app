@@ -5,7 +5,7 @@ import {
   web3Reactive,
   reverseRecordReactive,
   accountsReactive,
-  isReadOnly
+  isReadOnlyReactive
 } from './reactiveVars'
 import { hasValidReverseRecord } from '../utils/utils'
 
@@ -44,7 +44,7 @@ export default {
       },
       isReadOnly: {
         read() {
-          return isReadOnly()
+          return isReadOnlyReactive()
         }
       }
     }

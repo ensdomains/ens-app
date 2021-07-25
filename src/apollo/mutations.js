@@ -3,7 +3,8 @@ import {
   networkIdReactive,
   networkReactive,
   reverseRecordReactive,
-  web3Reactive
+  web3Reactive,
+  isReadOnlyReactive
 } from './reactiveVars'
 import {
   getAccounts,
@@ -50,7 +51,7 @@ export const accountsMutation = async () => {
 }
 
 export const isReadOnlyMutation = async () => {
-  //isReadOnly(await isReadOnly())
+  isReadOnlyReactive(await isReadOnly())
 }
 
 export const networkIdMutation = async () => {
