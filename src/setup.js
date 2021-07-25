@@ -11,17 +11,21 @@ import {
 } from './apollo/mutations'
 
 export default async () => {
-  await setup({
-    reloadOnAccountsChange: false,
-    enforceReadOnly: true,
-    enforceReload: true
-  })
-  web3Mutation()
-  networkMutation()
-  const accounts = await accountsMutation()
-  reverseRecordMutation(accounts?.[0])
-  await connect()
-  networkIdMutation()
-  isReadOnlyMutation()
-  isRunningAsSafeAppMutation()
+  try {
+    await setup({
+      reloadOnAccountsChange: false,
+      enforceReadOnly: true,
+      enforceReload: true
+    })
+    web3Mutation()
+    networkMutation()
+    const accounts = await accountsMutation()
+    reverseRecordMutation(accounts?.[0])
+    await connect()
+    networkIdMutation()
+    isReadOnlyMutation()
+    isRunningAsSafeAppMutation()
+  } catch (e) {
+    console.log('setup error: ', e)
+  }
 }

@@ -283,11 +283,13 @@ const GET_ACCOUNT = gql`
   }
 `
 
-const handleConnect = () => {
-  connectMutation()
+const handleConnect = address => () => {
+  console.log('handleconnect')
+  connectMutation(address)
 }
 
 const handleDisconnect = () => {
+  console.log('handledisconnect')
   disconnectMutation()
 }
 
@@ -326,7 +328,9 @@ export default ({ match }) => {
           </Network>
           {!isSafeApp && (
             <NoAccounts
-              onClick={isReadOnly ? handleConnect : handleDisconnect}
+              onClick={
+                isReadOnly ? handleConnect(accounts?.[0]) : handleDisconnect
+              }
               buttonText={isReadOnly ? t('c.connect') : t('c.disconnect')}
             />
           )}

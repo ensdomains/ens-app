@@ -14,27 +14,9 @@ import {
   getWeb3,
   isReadOnly
 } from '@ensdomains/ui'
-import { disconnect } from '../api/web3modal'
+import { disconnect, connect } from '../api/web3modal'
 import { getReverseRecord } from './sideEffects'
 import { isRunningAsSafeApp } from 'utils/safeApps'
-
-export const connectMutation = async () => {
-  let network
-  try {
-    network = await connect()
-  } catch (e) {
-    console.error('connect mutation error')
-    //setError({ variables: { message: e?.message } })
-  }
-  if (network) {
-    networkIdReactive(await getNetworkId())
-  }
-}
-
-export const disconnectMutation = async () => {
-  await disconnect()
-  return networkIdReactive(1)
-}
 
 export const web3Mutation = async () => {
   return web3Reactive(await getWeb3())
@@ -45,15 +27,18 @@ export const networkMutation = async () => {
 }
 
 export const reverseRecordMutation = async address => {
-  return reverseRecordReactive(await getReverseRecord(address))
+  if (address) {
+    reverseRecordReactive(await getReverseRecord(address))
+  }
 }
 
 export const accountsMutation = async () => {
   return accountsReactive(await getAccounts())
 }
 
-export const isReadOnlyMutation = async () => {
-  isReadOnlyReactive(await isReadOnly())
+export const isReadOnlyMutation = () => {
+  console.log('isReadOnly: ', isReadOnly)
+  isReadOnlyReactive(isReadOnly())
 }
 
 export const networkIdMutation = async () => {
@@ -62,4 +47,27 @@ export const networkIdMutation = async () => {
 
 export const isRunningAsSafeAppMutation = async () => {
   return isRunningAsSafeAppReactive(isRunningAsSafeApp())
+}
+
+export const connectMutation = async address => {
+  let network
+  try {
+    network = await connect()
+  } catch (e) {
+    console.error('connect mutation error: ', e)
+    //setError({ variables: { message: e?.message } })
+  }
+  if (network) {
+    console.log('network: ', network)
+    networkIdReactive(await getNetworkId())
+    isReadOnlyMutation()
+    reverseRecordMutation(address)
+  }
+}
+
+export const disconnectMutation = async () => {
+  reverseRecordReactive(null)
+  networkIdReactive(1)
+  isReadOnlyReactive(true)
+  await disconnect()
 }

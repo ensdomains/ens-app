@@ -13,6 +13,6 @@ export const reverseRecordReactive = makeVar(null)
 export const accountsReactive = makeVar(null)
 accountsReactive.onNextChange(e => console.log('IIIII', e))
 
-export const isReadOnlyReactive = makeVar(false)
+export const isReadOnlyReactive = makeVar(true)
 
 export const isRunningAsSafeAppReactive = makeVar(false)
