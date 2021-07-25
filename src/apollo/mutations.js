@@ -4,7 +4,8 @@ import {
   networkReactive,
   reverseRecordReactive,
   web3Reactive,
-  isReadOnlyReactive
+  isReadOnlyReactive,
+  isRunningAsSafeAppReactive
 } from './reactiveVars'
 import {
   getAccounts,
@@ -15,6 +16,7 @@ import {
 } from '@ensdomains/ui'
 import { disconnect } from '../api/web3modal'
 import { getReverseRecord } from './sideEffects'
+import { isRunningAsSafeApp } from 'utils/safeApps'
 
 export const connectMutation = async () => {
   let network
@@ -56,4 +58,8 @@ export const isReadOnlyMutation = async () => {
 
 export const networkIdMutation = async () => {
   return networkIdReactive(await getNetworkId())
+}
+
+export const isRunningAsSafeAppMutation = async () => {
+  return isRunningAsSafeAppReactive(isRunningAsSafeApp())
 }

@@ -6,7 +6,8 @@ import {
   reverseRecordMutation,
   accountsMutation,
   networkIdMutation,
-  isReadOnlyMutation
+  isReadOnlyMutation,
+  isRunningAsSafeAppMutation
 } from './apollo/mutations'
 
 export default async () => {
@@ -22,4 +23,5 @@ export default async () => {
   await connect()
   networkIdMutation()
   isReadOnlyMutation()
+  isRunningAsSafeAppMutation()
 }

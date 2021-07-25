@@ -14,3 +14,5 @@ export const accountsReactive = makeVar(null)
 accountsReactive.onNextChange(e => console.log('IIIII', e))
 
 export const isReadOnlyReactive = makeVar(false)
+
+export const isRunningAsSafeAppReactive = makeVar(false)
