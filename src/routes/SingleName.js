@@ -64,28 +64,19 @@ function SingleName({
     }
   }, [searchTerm, isENSReady])
 
+  if (valid) {
+    return (
+      <Name
+        details={data.singleName}
+        name={name}
+        pathname={pathname}
+        type={type}
+      />
+    )
+  }
+
   return <div>hi there</div>
 
-  // if (valid) {
-  //   return (
-  //     <Query query={GET_SINGLE_NAME} variables={{ name }}>
-  //       {({ loading, error, data, refetch }) => {
-  //         console.log('data****: ', data)
-  //         if (loading) return <Loader large center />
-  //         if (error)
-  //           return <div>{(console.log(error), JSON.stringify(error))}</div>
-  //         return (
-  //           <Name
-  //             details={data.singleName}
-  //             name={name}
-  //             pathname={pathname}
-  //             type={type}
-  //             refetch={refetch}
-  //           />
-  //         )
-  //       }}
-  //     </Query>
-  //   )
   // } else if (valid === false) {
   //   if (type === 'invalid') {
   //     errorMessage = 'domainMalformed'

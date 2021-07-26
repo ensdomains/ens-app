@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
+import gql from 'graphql-tag'
+import { useQuery } from '@apollo/client'
 
 import { useMediaMin } from 'mediaQuery'
 import { EMPTY_ADDRESS } from '../../utils/records'
@@ -32,8 +34,8 @@ function isRegistrationOpen(available, parent, isDeedOwner) {
 }
 
 function isDNSRegistrationOpen(domain) {
-  const nameArray = domain.name.split('.')
-  if (nameArray.length !== 2 || nameArray[1] === 'eth') {
+  const nameArray = domain.name?.split('.')
+  if (nameArray?.length !== 2 || nameArray?.[1] === 'eth') {
     return false
   }
   return domain.isDNSRegistrar && domain.owner === EMPTY_ADDRESS
@@ -41,27 +43,38 @@ function isDNSRegistrationOpen(domain) {
 
 function isOwnerOfDomain(domain, account) {
   if (domain.owner !== EMPTY_ADDRESS && !domain.available) {
-    return domain.owner.toLowerCase() === account.toLowerCase()
+    return domain.owner?.toLowerCase() === account.toLowerCase()
   }
   return false
 }
 
 function isOwnerOfParentDomain(domain, account) {
   if (domain.parentOwner !== EMPTY_ADDRESS) {
-    return domain.parentOwner.toLowerCase() === account.toLowerCase()
+    return domain.parentOwner?.toLowerCase() === account.toLowerCase()
   }
   return false
 }
+
+const NAME_QUERY = gql`
+  query nameQuery {
+    accounts @client
+  }
+`
 
 function Name({ details: domain, name, pathname, type, refetch }) {
   const { t } = useTranslation()
   const smallBP = useMediaMin('small')
   const percentDone = 0
-  const account = useAccount()
+
+  const {
+    data: { accounts }
+  } = useQuery(NAME_QUERY)
+  const account = accounts?.[0]
   const isOwner = isOwnerOfDomain(domain, account)
   const isOwnerOfParent = isOwnerOfParentDomain(domain, account)
   const isDeedOwner = domain.deedOwner === account
   const isRegistrant = !domain.available && domain.registrant === account
+
   const registrationOpen = isRegistrationOpen(
     domain.available,
     domain.parent,
@@ -82,24 +95,29 @@ function Name({ details: domain, name, pathname, type, refetch }) {
   } else {
     containerState = isOwner ? 'Yours' : domain.state
   }
+
+  console.log('name: ', isOwner)
+
+  // return <div>name</div>
+
   return (
     <>
       <NameContainer state={containerState}>
         <TopBar percentDone={percentDone}>
           <Title>
-            {domain.decrypted
+            {domain?.decrypted
               ? name
               : '[unknown' +
-                domain.name.split('.')[0].slice(1, 11) +
+                domain.name?.split('.')[0].slice(1, 11) +
                 ']' +
                 '.' +
                 domain.parent}
             <Copy
               value={
-                domain.decrypted
+                domain?.decrypted
                   ? name
                   : '[unknown' +
-                    domain.name.split('.')[0].slice(1, 11) +
+                    domain.name?.split('.')[0].slice(1, 11) +
                     ']' +
                     '.' +
                     domain.parent
