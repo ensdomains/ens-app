@@ -30,14 +30,8 @@ import getENS, { getRegistrar } from 'apollo/mutations/ens'
 import { normalize } from 'eth-ens-namehash'
 import { detailedNodeReactive } from '../../apollo/reactiveVars'
 
-let savedFavourites =
-  JSON.parse(window.localStorage.getItem('ensFavourites')) || []
-let savedSubDomainFavourites =
-  JSON.parse(window.localStorage.getItem('ensSubDomainFavourites')) || []
 const defaults = {
   names: [],
-  favourites: savedFavourites,
-  subDomainFavourites: savedSubDomainFavourites,
   transactionHistory: []
 }
 
@@ -814,74 +808,6 @@ const resolvers = {
       } catch (e) {
         console.log(e)
       }
-    },
-    addFavourite: async (_, { domain }, { cache }) => {
-      const newFavourite = {
-        ...domain,
-        __typename: 'Domain'
-      }
-
-      const previous = cache.readQuery({ query: GET_FAVOURITES })
-
-      const data = {
-        favourites: [...previous.favourites, newFavourite]
-      }
-      cache.writeData({ data })
-      window.localStorage.setItem(
-        'ensFavourites',
-        JSON.stringify(data.favourites)
-      )
-      return data
-    },
-    deleteFavourite: async (_, { domain }, { cache }) => {
-      const previous = cache.readQuery({ query: GET_FAVOURITES })
-
-      const data = {
-        favourites: previous.favourites.filter(
-          previousDomain => previousDomain.name !== domain.name
-        )
-      }
-
-      cache.writeData({ data })
-      window.localStorage.setItem(
-        'ensFavourites',
-        JSON.stringify(data.favourites)
-      )
-      return data
-    },
-    addSubDomainFavourite: async (_, { domain }, { cache }) => {
-      const previous = cache.readQuery({ query: GET_SUBDOMAIN_FAVOURITES })
-
-      const newFavourite = {
-        ...domain,
-        __typename: 'SubDomain'
-      }
-
-      const data = {
-        subDomainFavourites: [...previous.subDomainFavourites, newFavourite]
-      }
-      cache.writeData({ data })
-      window.localStorage.setItem(
-        'ensSubDomainFavourites',
-        JSON.stringify(data.subDomainFavourites)
-      )
-      return data
-    },
-    deleteSubDomainFavourite: async (_, { domain }, { cache }) => {
-      const previous = cache.readQuery({ query: GET_SUBDOMAIN_FAVOURITES })
-
-      const data = {
-        subDomainFavourites: previous.subDomainFavourites.filter(
-          previousDomain => previousDomain.name !== domain.name
-        )
-      }
-
-      cache.writeData({ data })
-      window.localStorage.setItem(
-        'ensSubDomainFavourites',
-        JSON.stringify(data.subDomainFavourites)
-      )
-      return data
     }
   }
 }

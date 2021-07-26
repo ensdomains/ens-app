@@ -8,7 +8,8 @@ import {
   isReadOnlyReactive,
   isRunningAsSafeAppReactive,
   detailedNodeReactive,
-  isENSReady
+  isENSReady,
+  favouritesReactive
 } from './reactiveVars'
 import { hasValidReverseRecord } from '../utils/utils'
 
@@ -63,6 +64,11 @@ export default {
       isENSReady: {
         read() {
           return isENSReady()
+        }
+      },
+      favourites: {
+        read() {
+          return favouritesReactive()
         }
       }
     }

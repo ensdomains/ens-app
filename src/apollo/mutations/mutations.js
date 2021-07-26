@@ -7,7 +7,9 @@ import {
   isReadOnlyReactive,
   isRunningAsSafeAppReactive,
   detailedNodeReactive,
-  isENSReady
+  isENSReady,
+  favouritesReactive,
+  subDomainFavouritesReactive
 } from '../reactiveVars'
 import {
   getAccounts,
@@ -333,4 +335,51 @@ export const singleNameMutation = async name => {
     console.log('Error in Single Name', e)
     throw e
   }
+}
+
+export const favouritesMutation = () => {
+  favouritesReactive(
+    JSON.parse(window.localStorage.getItem('ensFavourites')) || []
+  )
+}
+
+export const subDomainFavouritesMutation = () => {
+  subDomainFavouritesReactive(
+    JSON.parse(window.localStorage.getItem('ensSubDomainFavourites')) || []
+  )
+}
+
+export const addFavouriteMutation = domain => {
+  const favourites = [...favouritesReactive(), domain]
+  window.localStorage.setItem('ensFavourites', JSON.stringify(favourites))
+  return favouritesReactive(favourites)
+}
+
+export const deleteFavouriteMutation = domain => {
+  const previous = favouritesReactive()
+  const favourites = previous.filter(
+    previousDomain => previousDomain.name !== domain.name
+  )
+  window.localStorage.setItem('ensFavourites', JSON.stringify(favourites))
+  return favouritesReactive(favourites)
+}
+
+export const addSubDomainFavouriteMutation = domain => {
+  const subDomainFavourites = [...subDomainFavouritesReactive(), domain]
+  window.localStorage.setItem(
+    'ensSubDomainFavourites',
+    JSON.stringify(subDomainFavourites)
+  )
+  return subDomainFavouritesReactive(subDomainFavourites)
+}
+
+export const deleteSubDomainFavouriteMutation = domain => {
+  const subDomainFavourites = subDomainFavouritesReactive().filter(
+    previousDomain => previousDomain.name !== domain.name
+  )
+  window.localStorage.setItem(
+    'ensSubDomainFavourites',
+    JSON.stringify(subDomainFavourites)
+  )
+  return subDomainFavourites
 }

@@ -1,10 +1,15 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from '@emotion/styled/macro'
+
+import {
+  addFavouriteMutation,
+  deleteFavouriteMutation,
+  addSubDomainFavouriteMutation,
+  deleteSubDomainFavouriteMutation
+} from '../../apollo/mutations/mutations'
 
 import InActiveHeartDefault from '../Icons/InActiveHeart'
 import ActiveHeartDefault from '../Icons/ActiveHeart'
-import { Mutation } from '@apollo/client/react/components'
-import gql from 'graphql-tag'
 
 const ActiveHeart = styled(ActiveHeartDefault)`
   &:hover {
@@ -18,83 +23,37 @@ const InActiveHeart = styled(InActiveHeartDefault)`
   }
 `
 
-const ADD_FAVOURITE = gql`
-  mutation AddFavouriteMutation($domain: Domain) {
-    addFavourite(domain: $domain) @client
-  }
-`
-const ADD_SUBDOMAIN_FAVOURITE = gql`
-  mutation AddSubDomainFavourite($domain: Domain) {
-    addSubDomainFavourite(domain: $domain) @client
-  }
-`
-
-const DELETE_FAVOURITE = gql`
-  mutation DeleteFavouriteMutation($domain: Domain) {
-    deleteFavourite(domain: $domain) @client
-  }
-`
-const DELETE_SUBDOMAIN_FAVOURITE = gql`
-  mutation DeleteSubDomainFavourite($domain: Domain) {
-    deleteSubDomainFavourite(domain: $domain) @client
-  }
-`
-
-class AddFavourite extends Component {
-  render() {
-    const { domain } = this.props
-    if (this.props.isSubDomain) {
-      return (
-        <Mutation
-          mutation={
-            this.props.isFavourite
-              ? DELETE_SUBDOMAIN_FAVOURITE
-              : ADD_SUBDOMAIN_FAVOURITE
-          }
-          variables={{
-            domain: {
-              name: domain.name
-            }
-          }}
-        >
-          {favouriteMutation => (
-            <AddFavouriteContainer
-              data-testid="add-favorite"
-              onClick={e => {
-                e.preventDefault()
-                favouriteMutation()
-              }}
-            >
-              {this.props.isFavourite ? <ActiveHeart /> : <InActiveHeart />}
-            </AddFavouriteContainer>
-          )}
-        </Mutation>
-      )
-    }
-
+const AddFavourite = ({ domain, isFavourite, isSubDomain }) => {
+  if (isSubDomain) {
     return (
-      <Mutation
-        mutation={this.props.isFavourite ? DELETE_FAVOURITE : ADD_FAVOURITE}
-        variables={{
-          domain: {
-            name: domain.name
-          }
+      <AddFavouriteContainer
+        data-testid="add-favorite"
+        onClick={e => {
+          e.preventDefault()
+          isFavourite
+            ? deleteSubDomainFavouriteMutation(domain)
+            : addSubDomainFavouriteMutation(domain)
+          favouriteMutation()
         }}
       >
-        {favouriteMutation => (
-          <AddFavouriteContainer
-            data-testid="add-favorite"
-            onClick={e => {
-              e.preventDefault()
-              favouriteMutation()
-            }}
-          >
-            {this.props.isFavourite ? <ActiveHeart /> : <InActiveHeart />}
-          </AddFavouriteContainer>
-        )}
-      </Mutation>
+        {isFavourite ? <ActiveHeart /> : <InActiveHeart />}
+      </AddFavouriteContainer>
     )
   }
+
+  return (
+    <AddFavouriteContainer
+      data-testid="add-favorite"
+      onClick={e => {
+        e.preventDefault()
+        isFavourite
+          ? deleteFavouriteMutation(domain)
+          : addFavouriteMutation(domain)
+      }}
+    >
+      {isFavourite ? <ActiveHeart /> : <InActiveHeart />}
+    </AddFavouriteContainer>
+  )
 }
 
 const AddFavouriteContainer = styled('div')`

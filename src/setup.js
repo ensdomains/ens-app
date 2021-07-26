@@ -7,11 +7,15 @@ import {
   accountsMutation,
   networkIdMutation,
   isReadOnlyMutation,
-  isRunningAsSafeAppMutation
+  isRunningAsSafeAppMutation,
+  favouritesMutation,
+  subDomainFavouritesMutation
 } from './apollo/mutations/mutations'
 
 export default async () => {
   try {
+    favouritesMutation()
+    subDomainFavouritesMutation()
     await setup({
       reloadOnAccountsChange: false,
       enforceReadOnly: true,

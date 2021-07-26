@@ -183,7 +183,7 @@ const GracePeriodWarning = ({ date, expiryTime }) => {
 }
 
 function canClaim(domain) {
-  if (!domain.name.match(/\.test$/)) return false
+  if (!domain.name?.match(/\.test$/)) return false
   return parseInt(domain.owner) === 0 || domain.expiryTime < new Date()
 }
 
@@ -218,7 +218,7 @@ function DetailsContainer({
   const domainParent =
     domain.name === '[root]' ? null : domain.parent ? domain.parent : '[root]'
 
-  const is2ld = domain.name.split('.').length === 2
+  const is2ld = domain.name?.split('.').length === 2
   const showUnclaimableWarning =
     is2ld &&
     parseInt(domain.owner) === 0 &&

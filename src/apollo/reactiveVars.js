@@ -46,3 +46,7 @@ export const detailedNodeReactive = makeVar({
 })
 
 export const isENSReady = makeVar(false)
+
+export const favouritesReactive = makeVar([])
+
+export const subDomainFavouritesReactive = makeVar([])
