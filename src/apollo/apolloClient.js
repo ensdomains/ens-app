@@ -2,12 +2,12 @@ import {
   ApolloClient,
   ApolloLink,
   HttpLink,
-  InMemoryCache
+  InMemoryCache,
+  split
 } from '@apollo/client'
-// import { InMemoryCache } from 'apollo-cache-inmemory'
-import { withClientState } from 'apollo-link-state'
+import Observable from 'zen-observable'
 
-import resolvers, { defaults } from '../api/rootResolver'
+import resolvers from '../api/rootResolver'
 import typeDefs from '../api/schema'
 import typePolicies from './typePolicies'
 
@@ -36,31 +36,48 @@ function getGraphQLAPI(network) {
   return endpoints['1']
 }
 
-// const stateLink = withClientState({
-//   resolvers,
-//   cache,
-//   defaults,
-//   typeDefs
-// })
+function fromPromise(promise, operation) {
+  return new Observable(observer => {
+    promise
+      .then(value => {
+        operation.setContext({ response: value })
+        observer.next({
+          data: { [operation.operationName]: value },
+          errors: []
+        })
+        observer.complete()
+        console.log('observer: ', observer)
+        console.log('value: ', value)
+      })
+      .catch(observer.error.bind(observer))
+  })
+}
 
 export function setupClient(network) {
   const httpLink = new HttpLink({
     uri: getGraphQLAPI(network)
   })
+  const web3Link = new ApolloLink(operation => {
+    const { variables, operationName } = operation
+    return fromPromise(
+      resolvers.Query[operationName]?.apply(null, [null, variables]),
+      operation
+    )
+  })
+  const splitLink = split(
+    ({ operationName }) => {
+      return resolvers.Query[operationName] || resolvers.Mutation[operationName]
+    },
+    web3Link,
+    httpLink
+  )
+
   const option = {
     cache,
-    link: ApolloLink.from([httpLink], cache)
+    link: splitLink
   }
 
   client = new ApolloClient(option)
-  client.addResolvers({
-    Mutation: {
-      foo: (...args) => {
-        console.log('resolver mut', ...args)
-        return 1
-      }
-    }
-  })
   return client
 }
 

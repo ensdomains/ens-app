@@ -59,13 +59,13 @@ export const GET_ADDR = gql`
 
 export const GET_ADDRESSES = gql`
   query getAddresses($name: String, $keys: [String]) {
-    getAddresses(name: $name, keys: $keys) @client
+    getAddresses(name: $name, keys: $keys)
   }
 `
 
 export const GET_TEXT_RECORDS = gql`
   query getTextRecords($name: String, $keys: [String]) {
-    getTextRecords(name: $name, keys: $keys) @client
+    getTextRecords(name: $name, keys: $keys)
   }
 `
 

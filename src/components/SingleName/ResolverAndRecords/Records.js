@@ -161,7 +161,8 @@ const useGetRecords = domain => {
     GET_ADDRESSES,
     {
       variables: { name: domain.name, keys: coinList },
-      skip: !coinList
+      skip: !coinList,
+      fetchPolicy: 'network-only'
     }
   )
 
@@ -172,8 +173,16 @@ const useGetRecords = domain => {
         name: domain.name,
         keys: resolver && resolver.texts
       },
-      skip: !dataResolver
+      skip: !dataResolver,
+      fetchPolicy: 'network-only'
     }
+  )
+
+  console.log(
+    dataAddresses,
+    dataTextRecords,
+    addressesLoading,
+    textRecordsLoading
   )
 
   return {

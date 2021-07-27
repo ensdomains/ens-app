@@ -434,14 +434,15 @@ const resolvers = {
       const addresses = keys.map(key =>
         ens.getAddr(name, key).then(addr => ({ key, value: addr }))
       )
-      return Promise.all(addresses)
+      const test = await Promise.all(addresses)
+      return test
     },
     getTextRecords: async (_, { name, keys }) => {
       const ens = getENS()
       const textRecords = keys.map(key =>
         ens.getText(name, key).then(addr => ({ key, value: addr }))
       )
-      return Promise.all(textRecords)
+      return await Promise.all(textRecords)
     },
     waitBlockTimestamp: async (_, { waitUntil }) => {
       if (waitUntil) {
