@@ -54,7 +54,6 @@ export default async () => {
     getWeb3Mutation()
     getNetworkMutation()
     const accounts = await getAccountsMutation()
-    console.log('accounts: ', accounts)
     getReverseRecordMutation(accounts?.[0])
     getNetworkIdMutation()
     getIsReadOnlyMutation()
