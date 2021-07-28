@@ -8,7 +8,6 @@ import {
 import Observable from 'zen-observable'
 
 import resolvers from '../api/rootResolver'
-import typeDefs from '../api/schema'
 import typePolicies from './typePolicies'
 
 let client

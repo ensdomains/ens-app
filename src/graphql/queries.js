@@ -3,7 +3,7 @@ import { NodeFields, SubDomainStateFields } from './fragments'
 
 export const GET_WEB3 = gql`
   query web3 {
-    web3 @client {
+    web3 {
       accounts
       isReadOnly
     }
@@ -12,15 +12,15 @@ export const GET_WEB3 = gql`
 
 export const GET_PUBLIC_RESOLVER = gql`
   query getPublicResolver {
-    publicResolver @client {
+    publicResolver {
       address
     }
   }
 `
 
 export const GET_REVERSE_RECORD = gql`
-  query getReverseRecord($address: String) @client {
-    getReverseRecord(address: $address) @client {
+  query getReverseRecord($address: String) {
+    getReverseRecord(address: $address) {
       name
       address
       avatar
@@ -31,7 +31,7 @@ export const GET_REVERSE_RECORD = gql`
 
 export const GET_ALL_NODES = gql`
   query names {
-    names @client {
+    names {
       ...NodeFields
     }
   }
@@ -41,19 +41,13 @@ export const GET_ALL_NODES = gql`
 
 export const GET_OWNER = gql`
   query getOwner($name: String) {
-    getOwner(name: $name) @client
+    getOwner(name: $name)
   }
 `
 
 export const GET_TEXT = gql`
   query getText($name: String, $key: String) {
-    getText(name: $name, key: $key) @client
-  }
-`
-
-export const GET_ADDR = gql`
-  query getAddr($name: String, $key: String) {
-    getAddr(name: $name, key: $key) @client
+    getText(name: $name, key: $key)
   }
 `
 
@@ -71,7 +65,7 @@ export const GET_TEXT_RECORDS = gql`
 
 export const GET_SINGLE_NAME = gql`
   query singleName($name: String) {
-    singleName(name: $name) @client {
+    singleName(name: $name) {
       ...NodeFields
       revealDate
       registrationDate
@@ -101,7 +95,7 @@ export const GET_SINGLE_NAME = gql`
 
 export const GET_RESOLVER_MIGRATION_INFO = gql`
   query getResolverMigrationInfo($name: String, $resolver: String) {
-    getResolverMigrationInfo(name: $name, resolver: $resolver) @client {
+    getResolverMigrationInfo(name: $name, resolver: $resolver) {
       name
       isDeprecatedResolver
       isOldPublicResolver
@@ -111,8 +105,8 @@ export const GET_RESOLVER_MIGRATION_INFO = gql`
 `
 
 export const GET_SUBDOMAINS = gql`
-  query getSubDomains($name: String!) @client {
-    getSubDomains(name: $name) @client {
+  query getSubDomains($name: String!) {
+    getSubDomains(name: $name) {
       subDomains
     }
   }
@@ -184,7 +178,7 @@ export const GET_ETH_RECORD_AVAILABLE_NAMES_FROM_SUBGRAPH = gql`
 
 export const GET_TRANSACTION_HISTORY = gql`
   query getTransactionHistory {
-    transactionHistory @client {
+    transactionHistory {
       txHash
       txState
       createdAt
@@ -194,19 +188,19 @@ export const GET_TRANSACTION_HISTORY = gql`
 
 export const WAIT_BLOCK_TIMESTAMP = gql`
   query waitBlockTimestamp($waitUntil: Int) {
-    waitBlockTimestamp(waitUntil: $waitUntil) @client
+    waitBlockTimestamp(waitUntil: $waitUntil)
   }
 `
 
 export const GET_BALANCE = gql`
   query getBalance($address: String) {
-    getBalance(address: $address) @client
+    getBalance(address: $address)
   }
 `
 
 export const GET_FAVOURITES = gql`
   query getFavourites {
-    favourites @client {
+    favourites {
       name
     }
   }
@@ -214,7 +208,7 @@ export const GET_FAVOURITES = gql`
 
 export const GET_SUBDOMAIN_FAVOURITES = gql`
   query getSubDomainFavourites {
-    subDomainFavourites @client {
+    subDomainFavourites {
       name
     }
   }
@@ -223,7 +217,7 @@ export const GET_SUBDOMAIN_FAVOURITES = gql`
 `
 
 export const GET_ERRORS = gql`
-  query getErrors @client {
+  query getErrors {
     error {
       message
     }
@@ -304,37 +298,37 @@ export const GET_DOMAINS_SUBGRAPH = gql`
 
 export const GET_RENT_PRICE = gql`
   query getRentPrice($label: String, $duration: Number) {
-    getRentPrice(label: $label, duration: $duration) @client
+    getRentPrice(label: $label, duration: $duration)
   }
 `
 
 export const GET_RENT_PRICES = gql`
   query getRentPrices($labels: String, $duration: Number) {
-    getRentPrices(labels: $labels, duration: $duration) @client
+    getRentPrices(labels: $labels, duration: $duration)
   }
 `
 
 export const GET_PREMIUM = gql`
   query getPremium($name: String, $expires: Number, $duration: Number) {
-    getPremium(name: $name, expires: $expires, duration: $duration) @client
+    getPremium(name: $name, expires: $expires, duration: $duration)
   }
 `
 
 export const GET_TIME_UNTIL_PREMIUM = gql`
   query getTimeUntilPremium($expires: Number, $amount: Number) {
-    getTimeUntilPremium(expires: $expires, amount: $amount) @client
+    getTimeUntilPremium(expires: $expires, amount: $amount)
   }
 `
 
 export const GET_MINIMUM_COMMITMENT_AGE = gql`
   query getMinimumCommitmentAge {
-    getMinimumCommitmentAge @client
+    getMinimumCommitmentAge
   }
 `
 
 export const GET_MAXIMUM_COMMITMENT_AGE = gql`
   query getMaximumCommitmentAge {
-    getMaximumCommitmentAge @client
+    getMaximumCommitmentAge
   }
 `
 
@@ -348,7 +342,7 @@ export const CHECK_COMMITMENT = gql`
       label: $label
       secret: $secret
       commitmentTimerRunning: $commitmentTimerRunning
-    ) @client
+    )
   }
 `
 
@@ -356,18 +350,18 @@ export const CHECK_COMMITMENT = gql`
 
 export const CAN_WRITE = gql`
   query canWrite($name: String, $account: String) {
-    canWrite(name: $name, account: $account) @client
+    canWrite(name: $name, account: $account)
   }
 `
 
 export const IS_MIGRATED = gql`
   query isMigrated($name: String) {
-    isMigrated(name: $name) @client
+    isMigrated(name: $name)
   }
 `
 
 export const IS_CONTRACT_CONTROLLER = gql`
   query isContractController($address: String) {
-    isContractController(address: $address) @client
+    isContractController(address: $address)
   }
 `

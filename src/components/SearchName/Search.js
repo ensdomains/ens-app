@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
+import gql from 'graphql-tag'
+import { useQuery } from '@apollo/client'
 
 import { parseSearchTerm } from '../../utils/utils'
 import '../../api/subDomainRegistrar'
@@ -68,9 +70,18 @@ const SearchForm = styled('form')`
   }
 `
 
+const SEARCH_QUERY = gql`
+  query searchQuery {
+    isENSReady @client
+  }
+`
+
 function Search({ history, className, style }) {
   const { t } = useTranslation()
   const [inputValue, setInputValue] = useState(null)
+  const {
+    data: { isENSReady }
+  } = useQuery(SEARCH_QUERY)
   let input
 
   const handleParse = e => {
@@ -81,7 +92,7 @@ function Search({ history, className, style }) {
         .join('.')
     )
   }
-  const hasSearch = inputValue && inputValue.length > 0
+  const hasSearch = inputValue && inputValue.length > 0 && isENSReady
   return (
     <SearchForm
       className={className}

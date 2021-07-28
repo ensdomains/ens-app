@@ -74,22 +74,20 @@ function SingleName({
     )
   }
 
-  return <div>hi there</div>
-
-  // } else if (valid === false) {
-  //   if (type === 'invalid') {
-  //     errorMessage = 'domainMalformed'
-  //   } else if (type === 'short') {
-  //     errorMessage = 'tooShort'
-  //   } else {
-  //     errorMessage = type
-  //   }
-  //   return (
-  //     <SearchErrors errors={[errorMessage]} searchTerm={name || searchTerm} />
-  //   )
-  // } else {
-  //   return <Loader large center />
-  // }
+  if (valid === false) {
+    if (type === 'invalid') {
+      errorMessage = 'domainMalformed'
+    } else if (type === 'short') {
+      errorMessage = 'tooShort'
+    } else {
+      errorMessage = type
+    }
+    return (
+      <SearchErrors errors={[errorMessage]} searchTerm={name || searchTerm} />
+    )
+  } else {
+    return <Loader large center />
+  }
 }
 
 export default SingleName
