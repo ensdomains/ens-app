@@ -33,34 +33,33 @@ import getClient from '../apolloClient'
 import modeNames from '../../api/modes'
 import { emptyAddress, ROPSTEN_DNSREGISTRAR_ADDRESS } from '../../utils/utils'
 
-export const web3Mutation = async () => {
+export const getWeb3Mutation = async () => {
   return web3Reactive(await getWeb3())
 }
 
-export const networkMutation = async () => {
+export const getNetworkMutation = async () => {
   return networkReactive(await getNetwork())
 }
 
-export const reverseRecordMutation = async address => {
+export const getReverseRecordMutation = async address => {
   if (address) {
     reverseRecordReactive(await getReverseRecord(address))
   }
 }
 
-export const accountsMutation = async () => {
+export const getAccountsMutation = async () => {
   return accountsReactive(await getAccounts())
 }
 
-export const isReadOnlyMutation = () => {
-  console.log('isReadOnly: ', isReadOnly)
+export const getIsReadOnlyMutation = () => {
   isReadOnlyReactive(isReadOnly())
 }
 
-export const networkIdMutation = async () => {
+export const getNetworkIdMutation = async () => {
   return networkIdReactive(await getNetworkId())
 }
 
-export const isRunningAsSafeAppMutation = async () => {
+export const getIsRunningAsSafeAppMutation = async () => {
   return isRunningAsSafeAppReactive(isRunningAsSafeApp())
 }
 
@@ -337,13 +336,13 @@ export const singleNameMutation = async name => {
   }
 }
 
-export const favouritesMutation = () => {
+export const getFavouritesMutation = () => {
   favouritesReactive(
     JSON.parse(window.localStorage.getItem('ensFavourites')) || []
   )
 }
 
-export const subDomainFavouritesMutation = () => {
+export const getSubDomainFavouritesMutation = () => {
   subDomainFavouritesReactive(
     JSON.parse(window.localStorage.getItem('ensSubDomainFavourites')) || []
   )

@@ -7,6 +7,7 @@ describe('/address', () => {
   it('contains the list of names owened by the user', () => {
     cy.visit(ROOT)
     cy.getByPlaceholderText('Search', { exact: false }).type('resolver.eth')
+    cy.wait(1000)
     cy.get('button')
       .contains('Search')
       .click({ force: true })

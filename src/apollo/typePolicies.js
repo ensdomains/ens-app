@@ -41,9 +41,15 @@ export default {
             args: { address }
           }
         ) {
+          if (!address) return ''
           return hasValidReverseRecord(reverseRecordReactive())
             ? reverseRecordReactive().name
             : `${address?.slice(0, 10)}...`
+        }
+      },
+      avatar: {
+        read() {
+          return reverseRecordReactive()?.avatar || ''
         }
       },
       isReadOnly: {

@@ -58,11 +58,20 @@ export function setupClient(network) {
   })
   const web3Link = new ApolloLink(operation => {
     const { variables, operationName } = operation
+
+    if (resolvers.Query[operationName]) {
+      return fromPromise(
+        resolvers.Query[operationName]?.apply(null, [null, variables]),
+        operation
+      )
+    }
+
     return fromPromise(
-      resolvers.Query[operationName]?.apply(null, [null, variables]),
+      resolvers.Mutation[operationName]?.apply(null, [null, variables]),
       operation
     )
   })
+
   const splitLink = split(
     ({ operationName }) => {
       return resolvers.Query[operationName] || resolvers.Mutation[operationName]

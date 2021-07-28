@@ -13,6 +13,7 @@ import { GET_REVERSE_RECORD } from '../../graphql/queries'
 import { SET_ERROR } from '../../graphql/mutations'
 import { connect, disconnect } from '../../api/web3modal'
 import { hasValidReverseRecord } from '../../utils/utils'
+import gql from 'graphql-tag'
 
 const NetworkInformationContainer = styled('div')`
   position: relative;
@@ -111,33 +112,39 @@ const WaitingText = styled('span')`
   margin-right: 5px;
 `
 
+const NETWORK_INFORMATION_QUERY = gql`
+  query getNetworkInfo @client {
+    accounts
+    isReadOnly
+    isSafeApp
+    avatar
+    network
+  }
+`
+
+const DISPLAY_NAME = gql`
+  query getDisplayName($address: String) {
+    displayName(address: $address)
+  }
+`
 function NetworkInformation() {
   const { t } = useTranslation()
   const {
-    accounts,
-    network,
-    loading,
-    error,
-    refetch,
-    isReadOnly,
-    isSafeApp
-  } = useNetworkInfo()
-  const address = accounts && accounts[0]
+    data: { accounts, isReadOnly, isSafeApp, avatar, network }
+  } = useQuery(NETWORK_INFORMATION_QUERY)
+  const address = accounts?.[0]
   const {
-    data: { getReverseRecord } = {},
-    loading: reverseRecordLoading
-  } = useQuery(GET_REVERSE_RECORD, {
+    data: { displayName }
+  } = useQuery(DISPLAY_NAME, {
     variables: {
       address
     }
   })
+
   const { switchNetwork, currentNetwork } = useContext(GlobalState)
 
-  const displayName = hasValidReverseRecord(getReverseRecord)
-    ? getReverseRecord.name
-    : address
-
   const [setError] = useMutation(SET_ERROR)
+
   const handleConnect = async () => {
     let network
     try {
@@ -157,29 +164,28 @@ function NetworkInformation() {
     location.reload()
   }
 
-  if (loading) {
-    return (
-      <Waiting>
-        <WaitingText>Waiting for accounts</WaitingText> <Loader />
-      </Waiting>
-    )
-  }
+  // if (loading) {
+  //   return (
+  //     <Waiting>
+  //       <WaitingText>Waiting for accounts</WaitingText> <Loader />
+  //     </Waiting>
+  //   )
+  // }
+  //
+  // if (error) {
+  //   return (
+  //     <Waiting>
+  //       <WaitingText>Error getting accounts</WaitingText>
+  //     </Waiting>
+  //   )
+  // }
 
-  if (error) {
-    return (
-      <Waiting>
-        <WaitingText>Error getting accounts</WaitingText>
-      </Waiting>
-    )
-  }
   return (
     <NetworkInformationContainer hasAccount={accounts && accounts.length > 0}>
       {accounts && accounts.length > 0 ? (
         <AccountContainer>
-          {!reverseRecordLoading &&
-          getReverseRecord &&
-          getReverseRecord.avatar ? (
-            <Avatar src={getReverseRecord.avatar} />
+          {avatar ? (
+            <Avatar src={avatar} />
           ) : (
             <Blockies address={accounts[0]} imageSize={47} />
           )}
