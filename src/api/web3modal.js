@@ -55,9 +55,18 @@ export const connect = async () => {
 
     web3Modal = new Web3Modal(option)
     provider = await web3Modal.connect()
-    provider.on('accountsChanged', accounts => {
-      window.location.reload()
-    })
+
+    //TODO:
+    // If you:
+    // 1. Load the app while connected with account 1
+    // 2. Change the wallet to account 2
+    // 3. Try and register a name
+    //
+    // The name will be registered with account 1 as the owner and target address, but using account 2 to send the TX
+
+    // provider.on('accountsChanged', accounts => {
+    //   window.location.reload()
+    // })
 
     await setupENS({
       customProvider: provider,

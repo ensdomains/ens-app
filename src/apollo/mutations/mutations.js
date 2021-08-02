@@ -3,13 +3,14 @@ import {
   networkIdReactive,
   networkReactive,
   reverseRecordReactive,
-  web3Reactive,
+  web3ProviderReactive,
   isReadOnlyReactive,
   isRunningAsSafeAppReactive,
   detailedNodeReactive,
   isENSReady,
   favouritesReactive,
-  subDomainFavouritesReactive
+  subDomainFavouritesReactive,
+  isAppReadyReactive
 } from '../reactiveVars'
 import {
   getAccounts,
@@ -33,8 +34,30 @@ import getClient from '../apolloClient'
 import modeNames from '../../api/modes'
 import { emptyAddress, ROPSTEN_DNSREGISTRAR_ADDRESS } from '../../utils/utils'
 
-export const getWeb3Mutation = async () => {
-  return web3Reactive(await getWeb3())
+export const setWeb3ProviderLocalMutation = async () => {
+  const provider = await getWeb3()?.provider
+  //const web3 =  web3Reactive(await getWeb3())
+  console.log('web3 set: ', web3)
+  console.log('check: ', provider === window.ethereum)
+
+  if (provider) {
+    setNetworkIdLocalMutation(parseInt(provider._chainId))
+    setAccountsLocalMutation(await provider.request({ method: 'eth_accounts' }))
+  }
+
+  if (!provider._events.chainChanged) {
+    provider.on('chainChanged', _chainId => {
+      setNetworkIdLocalMutation(parseInt(_chainId))
+    })
+  }
+
+  if (!provider._events.accountsChanged) {
+    provider.on('accountsChanged', accounts => {
+      setAccountsLocalMutation(accounts)
+    })
+  }
+
+  return provider
 }
 
 export const getNetworkMutation = async () => {
@@ -47,16 +70,16 @@ export const getReverseRecordMutation = async address => {
   }
 }
 
-export const getAccountsMutation = async () => {
-  return accountsReactive(await getAccounts())
+export const setAccountsLocalMutation = accounts => {
+  return accountsReactive(accounts)
 }
 
 export const getIsReadOnlyMutation = () => {
   isReadOnlyReactive(isReadOnly())
 }
 
-export const getNetworkIdMutation = async () => {
-  return networkIdReactive(await getNetworkId())
+export const setNetworkIdLocalMutation = networkId => {
+  return networkIdReactive(networkId)
 }
 
 export const getIsRunningAsSafeAppMutation = async () => {
@@ -74,8 +97,8 @@ export const connectMutation = async address => {
   if (network) {
     console.log('network: ', network)
     networkIdReactive(await getNetworkId())
-    isReadOnlyMutation()
-    reverseRecordMutation(address)
+    //isReadOnlyMutation()
+    //reverseRecordMutation(address)
   }
 }
 
@@ -381,4 +404,8 @@ export const deleteSubDomainFavouriteMutation = domain => {
     JSON.stringify(subDomainFavourites)
   )
   return subDomainFavourites
+}
+
+export const setIsAppReady = isAppReady => {
+  return isAppReadyReactive(isAppReady)
 }

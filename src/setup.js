@@ -1,7 +1,7 @@
 import { setup } from './apollo/mutations/ens'
 import { connect } from './api/web3modal'
 import {
-  getWeb3Mutation,
+  setWeb3ProviderLocalMutation,
   getNetworkMutation,
   getReverseRecordMutation,
   getAccountsMutation,
@@ -9,8 +9,11 @@ import {
   getIsReadOnlyMutation,
   getIsRunningAsSafeAppMutation,
   getFavouritesMutation,
-  getSubDomainFavouritesMutation
+  getSubDomainFavouritesMutation,
+  setIsAppReady
 } from './apollo/mutations/mutations'
+import { accountsReactive } from './apollo/reactiveVars'
+import { setup as setupAnalytics } from './utils/analytics'
 
 export default async () => {
   try {
@@ -51,14 +54,21 @@ export default async () => {
       }
     }
 
-    getWeb3Mutation()
+    const provider = await setWeb3ProviderLocalMutation()
+    if (!provider) throw 'Please install metamask'
     getNetworkMutation()
-    const accounts = await getAccountsMutation()
-    getReverseRecordMutation(accounts?.[0])
-    getNetworkIdMutation()
+    getReverseRecordMutation(accountsReactive()?.[0])
     getIsReadOnlyMutation()
     getIsRunningAsSafeAppMutation()
+
+    setupAnalytics()
+    errorHandler.start({
+      key: 'AIzaSyDW3loXBr_2e-Q2f8ZXdD0UAvMzaodBBNg',
+      projectId: 'idyllic-ethos-235310'
+    })
+
+    setIsAppReady(true)
   } catch (e) {
-    console.log('setup error: ', e)
+    console.error('setup error: ', e)
   }
 }

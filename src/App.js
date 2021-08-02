@@ -7,8 +7,6 @@ import {
 } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
 
-import { GET_ERRORS } from './graphql/queries'
-
 const TestRegistrar = lazy(() => import('./routes/TestRegistrar'))
 const Home = lazy(() => import('./routes/Home'))
 const SearchResults = lazy(() => import('./routes/SearchResults'))
@@ -58,26 +56,8 @@ export const APP_DATA = gql`
 `
 
 const App = ({ initialClient, initialNetworkId }) => {
-  // const { currentNetwork } = useContext(GlobalState)
+  useReactVarListeners()
   const appData = useQuery(APP_DATA)
-  console.log('appData: ', appData)
-  // const { data, loading , error } = useQuery(GET_ERRORS)
-  let data = {}
-
-  // let [currentClient, setCurrentClient] = useState(initialClient)
-  // useEffect(() => {
-  //   if (currentNetwork) {
-  //     setupClient(currentNetwork).then(client => setCurrentClient(client))
-  //   }
-  // }, [currentNetwork])
-
-  useEffect(() => {
-    setupAnalytics()
-    errorHandler.start({
-      key: 'AIzaSyDW3loXBr_2e-Q2f8ZXdD0UAvMzaodBBNg',
-      projectId: 'idyllic-ethos-235310'
-    })
-  }, [])
 
   if (data && data.error && data.error.message) {
     return <NetworkError message={data.error.message} />

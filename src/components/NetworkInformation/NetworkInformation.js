@@ -132,6 +132,7 @@ function NetworkInformation() {
   const {
     data: { accounts, isReadOnly, isSafeApp, avatar, network }
   } = useQuery(NETWORK_INFORMATION_QUERY)
+
   const address = accounts?.[0]
   const {
     data: { displayName }

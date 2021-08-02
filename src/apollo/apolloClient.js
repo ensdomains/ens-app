@@ -9,6 +9,7 @@ import Observable from 'zen-observable'
 
 import resolvers from '../api/rootResolver'
 import typePolicies from './typePolicies'
+import { networkIdReactive } from './reactiveVars'
 
 let client
 
@@ -23,7 +24,11 @@ const endpoints = {
   '5': 'https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli'
 }
 
-function getGraphQLAPI(network) {
+function getGraphQLAPI() {
+  const network = networkIdReactive()
+  console.log('>>>: ', process.env.REACT_APP_GRAPH_NODE_URI)
+  console.log('network: ', network)
+
   if (network > 100 && process.env.REACT_APP_GRAPH_NODE_URI) {
     return process.env.REACT_APP_GRAPH_NODE_URI
   }
@@ -56,6 +61,7 @@ export function setupClient(network) {
   const httpLink = new HttpLink({
     uri: getGraphQLAPI(network)
   })
+
   const web3Link = new ApolloLink(operation => {
     const { variables, operationName } = operation
 
@@ -74,6 +80,7 @@ export function setupClient(network) {
 
   const splitLink = split(
     ({ operationName }) => {
+      console.log('web3link, ', operationName)
       return resolvers.Query[operationName] || resolvers.Mutation[operationName]
     },
     web3Link,

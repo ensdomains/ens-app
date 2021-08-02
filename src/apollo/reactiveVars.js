@@ -1,17 +1,25 @@
 import { makeVar } from '@apollo/client'
 
-export const networkIdReactive = makeVar(1)
-
 export const clientReactive = makeVar(null)
 
-export const web3Reactive = makeVar(null)
+export const networkIdReactive = makeVar(1)
+networkIdReactive.onNextChange(nextVal => {
+  console.log('networkIdReactive: ', nextVal)
+  //clientReactive().resetStore()
+})
+
+export const web3ProviderReactive = makeVar(null)
 
 export const networkReactive = makeVar(null)
+networkReactive.onNextChange(e => console.log('networkReactive: ', e))
 
 export const reverseRecordReactive = makeVar(null)
 
 export const accountsReactive = makeVar(null)
-accountsReactive.onNextChange(e => console.log('IIIII', e))
+accountsReactive.onNextChange(nextVal => {
+  console.log('accountsReactive: ', nextVal)
+  //clientReactive().resetStore()
+})
 
 export const isReadOnlyReactive = makeVar(true)
 
@@ -50,3 +58,5 @@ export const isENSReady = makeVar(false)
 export const favouritesReactive = makeVar([])
 
 export const subDomainFavouritesReactive = makeVar([])
+
+export const isAppReadyReactive = makeVar(false)
