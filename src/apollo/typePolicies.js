@@ -9,7 +9,8 @@ import {
   isRunningAsSafeAppReactive,
   detailedNodeReactive,
   isENSReady,
-  favouritesReactive
+  favouritesReactive,
+  globalErrorReactive
 } from './reactiveVars'
 import { hasValidReverseRecord } from '../utils/utils'
 
@@ -75,6 +76,11 @@ export default {
       favourites: {
         read() {
           return favouritesReactive()
+        }
+      },
+      globalError: {
+        read() {
+          return globalErrorReactive() || false
         }
       }
     }

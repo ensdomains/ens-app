@@ -1,13 +1,14 @@
+import { useEffect } from 'react'
 import { useQuery } from '@apollo/client'
 import gql from 'graphql-tag'
 
 const REACT_VAR_LISTENERS = gql`
-  query reactiveVarListeneers @client {
+  query reactiveVarListeners @client {
     accounts
   }
 `
 
-const useReactVarListeners = () => {
+export default () => {
   const { accounts } = useQuery(REACT_VAR_LISTENERS)
 
   useEffect(() => {}, [accounts])

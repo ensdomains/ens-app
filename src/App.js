@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect, useState, lazy } from 'react'
+import React, { Fragment, lazy } from 'react'
 import {
   HashRouter,
   BrowserRouter,
@@ -20,10 +20,9 @@ import { NetworkError, Error404 } from './components/Error/Errors'
 import DefaultLayout from './components/Layout/DefaultLayout'
 import { pageview, setup as setupAnalytics } from './utils/analytics'
 import StackdriverErrorReporter from 'stackdriver-errors-js'
-import GlobalState from './globalState'
-import { setupClient } from 'apollo/apolloClient'
 import gql from 'graphql-tag'
 const errorHandler = new StackdriverErrorReporter()
+import useReactiveVarListeners from './hooks/useReactiveVarListeners'
 
 // If we are targeting an IPFS build we need to use HashRouter
 const Router =
@@ -50,17 +49,17 @@ const Route = ({
 }
 
 export const APP_DATA = gql`
-  query getAppData {
-    networkId @client
+  query getAppData @client {
+    globalError
   }
 `
 
-const App = ({ initialClient, initialNetworkId }) => {
-  useReactVarListeners()
-  const appData = useQuery(APP_DATA)
+const App = () => {
+  useReactiveVarListeners()
+  const { globalError } = useQuery(APP_DATA)
 
-  if (data && data.error && data.error.message) {
-    return <NetworkError message={data.error.message} />
+  if (globalError) {
+    return <NetworkError message={globalError} />
   }
 
   return (
