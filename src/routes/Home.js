@@ -19,6 +19,7 @@ import {
   connectMutation,
   disconnectMutation
 } from '../apollo/mutations/mutations'
+import setup from '../setup'
 
 const HeroTop = styled('div')`
   display: grid;
@@ -287,7 +288,8 @@ const GET_ACCOUNT = gql`
 
 const handleConnect = address => () => {
   console.log('handleconnect')
-  connectMutation(address)
+  setup()
+  // connectMutation(address)
 }
 
 const handleDisconnect = () => {

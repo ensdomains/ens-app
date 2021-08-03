@@ -68,6 +68,8 @@ export const connect = async () => {
     //   window.location.reload()
     // })
 
+    console.log('provider*: ', provider)
+
     await setupENS({
       customProvider: provider,
       reloadOnAccountsChange: true,

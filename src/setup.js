@@ -22,7 +22,6 @@ export default async () => {
   try {
     getFavouritesMutation()
     getSubDomainFavouritesMutation()
-
     if (
       process.env.REACT_APP_STAGE === 'local' &&
       process.env.REACT_APP_ENS_ADDRESS
@@ -50,11 +49,12 @@ export default async () => {
       } else if (window.localStorage.getItem('WEB3_CONNECT_CACHED_PROVIDER')) {
         const network = await connect()
       } else {
-        await setup({
-          reloadOnAccountsChange: false,
-          enforceReadOnly: true,
-          enforceReload: true
-        })
+        const network = await connect()
+        // await setup({
+        //   reloadOnAccountsChange: false,
+        //   enforceReadOnly: true,
+        //   enforceReload: true
+        // })
       }
     }
 

@@ -35,6 +35,7 @@ import { emptyAddress, ROPSTEN_DNSREGISTRAR_ADDRESS } from '../../utils/utils'
 
 export const setWeb3ProviderLocalMutation = async () => {
   const web3 = await getWeb3()
+  console.log('web3: ', web3)
   const provider = web3?.provider
 
   console.log('provider: ', provider)
