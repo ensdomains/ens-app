@@ -142,7 +142,7 @@ function NetworkInformation() {
     }
   })
 
-  const { switchNetwork, currentNetwork } = useContext(GlobalState)
+  console.log('accounts: ', accounts)
 
   const [setError] = useMutation(SET_ERROR)
 

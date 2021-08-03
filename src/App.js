@@ -19,9 +19,7 @@ const Renew = lazy(() => import('./routes/Renew'))
 import { NetworkError, Error404 } from './components/Error/Errors'
 import DefaultLayout from './components/Layout/DefaultLayout'
 import { pageview, setup as setupAnalytics } from './utils/analytics'
-import StackdriverErrorReporter from 'stackdriver-errors-js'
 import gql from 'graphql-tag'
-const errorHandler = new StackdriverErrorReporter()
 import useReactiveVarListeners from './hooks/useReactiveVarListeners'
 
 // If we are targeting an IPFS build we need to use HashRouter

@@ -42,10 +42,12 @@ export default {
             args: { address }
           }
         ) {
-          if (!address) return ''
+          console.log('displayName')
+          const addresss = accountsReactive()?.[0]
+          if (!addresss) return ''
           return hasValidReverseRecord(reverseRecordReactive())
             ? reverseRecordReactive().name
-            : `${address?.slice(0, 10)}...`
+            : `${addresss?.slice(0, 10)}...`
         }
       },
       avatar: {

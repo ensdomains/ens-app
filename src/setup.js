@@ -1,3 +1,5 @@
+import StackdriverErrorReporter from 'stackdriver-errors-js'
+
 import { setup } from './apollo/mutations/ens'
 import { connect } from './api/web3modal'
 import {
@@ -14,6 +16,7 @@ import {
 } from './apollo/mutations/mutations'
 import { accountsReactive } from './apollo/reactiveVars'
 import { setup as setupAnalytics } from './utils/analytics'
+import { safeInfo } from './utils/safeApps'
 
 export default async () => {
   try {
@@ -40,7 +43,8 @@ export default async () => {
         })
       )
     } else {
-      const safe = await safeInfo()
+      //const safe = await safeInfo()
+      const safe = false
       if (safe) {
         const network = await setupSafeApp(safe)
       } else if (window.localStorage.getItem('WEB3_CONNECT_CACHED_PROVIDER')) {
@@ -62,6 +66,7 @@ export default async () => {
     getIsRunningAsSafeAppMutation()
 
     setupAnalytics()
+    const errorHandler = new StackdriverErrorReporter()
     errorHandler.start({
       key: 'AIzaSyDW3loXBr_2e-Q2f8ZXdD0UAvMzaodBBNg',
       projectId: 'idyllic-ethos-235310'
