@@ -6,11 +6,15 @@ ENS Application
 
 ### Manual
 
+Enter these commands into a command line interface.
+
+Make sure your version of Node is up to date or you are using an NVM program.
+
 ```shell
-$> git clone https://github.com/ensdomains/ens-app.git
-$> cd ens-app
-$> yarn install
-$> yarn start
+> git clone https://github.com/ensdomains/ens-app.git
+> cd ens-app
+> yarn install
+> yarn start
 ```
 
 Open your browser at localhost:3000 and open metamask.
