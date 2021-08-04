@@ -27,14 +27,16 @@ export async function setup({
   if (enforceReadOnly) {
     option.infura = INFURA_ID
   }
-  const { ens: ensInstance, registrar: registrarInstance } = await setupENS(
-    option
-  )
+  const {
+    ens: ensInstance,
+    registrar: registrarInstance,
+    providerObject
+  } = await setupENS(option)
   ens = ensInstance
   registrar = registrarInstance
   ensRegistryAddress = ensAddress
   isENSReady(true)
-  return { ens, registrar }
+  return { ens, registrar, providerObject }
 }
 
 export function getRegistrar() {

@@ -75,7 +75,7 @@ export const connect = async () => {
       reloadOnAccountsChange: true,
       enforceReload: true
     })
-    return await getNetwork()
+    return provider
   } catch (e) {
     if (e !== 'Modal closed by user') {
       throw e

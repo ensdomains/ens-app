@@ -33,17 +33,21 @@ import getClient from '../apolloClient'
 import modeNames from '../../api/modes'
 import { emptyAddress, ROPSTEN_DNSREGISTRAR_ADDRESS } from '../../utils/utils'
 
-export const setWeb3ProviderLocalMutation = async () => {
-  const web3 = await getWeb3()
-  console.log('web3: ', web3)
-  const provider = web3?.provider
+export const setWeb3ProviderLocalMutation = async provider => {
+  // const web3 = await getWeb3()
+  // console.log('web3: ', web3)
+  // const provider = web3?.provider
 
-  console.log('provider: ', provider)
+  const accounts = await provider.listAccounts()
+
+  console.log('provider: ', accounts)
+
+  //await provider.request({ method: 'eth_accounts' })
 
   if (provider) {
     provider.removeAllListeners()
     setNetworkIdLocalMutation(parseInt(provider._chainId))
-    setAccountsLocalMutation(await provider.request({ method: 'eth_accounts' }))
+    setAccountsLocalMutation(accounts)
   }
 
   provider?.on('chainChanged', _chainId => {

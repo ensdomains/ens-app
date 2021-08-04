@@ -33,7 +33,6 @@ function SingleName({
     data: { isENSReady }
   } = useQuery(SINGLE_NAME)
   const { data } = useQuery(GET_SINGLE_NAME, { variables: { name } })
-  console.log('data!!!!: ', data)
 
   useEffect(() => {
     let normalisedName

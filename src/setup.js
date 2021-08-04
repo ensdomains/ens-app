@@ -19,6 +19,7 @@ import { setup as setupAnalytics } from './utils/analytics'
 import { safeInfo } from './utils/safeApps'
 
 export default async () => {
+  let provider
   try {
     getFavouritesMutation()
     getSubDomainFavouritesMutation()
@@ -26,11 +27,13 @@ export default async () => {
       process.env.REACT_APP_STAGE === 'local' &&
       process.env.REACT_APP_ENS_ADDRESS
     ) {
-      await setup({
+      const { providerObject } = await setup({
         reloadOnAccountsChange: true,
         customProvider: 'http://localhost:8545',
         ensAddress: process.env.REACT_APP_ENS_ADDRESS
       })
+      console.log('providerObject: ', providerObject)
+      provider = providerObject
       let labels = window.localStorage['labels']
         ? JSON.parse(window.localStorage['labels'])
         : {}
@@ -47,19 +50,22 @@ export default async () => {
       if (safe) {
         const network = await setupSafeApp(safe)
       } else if (window.localStorage.getItem('WEB3_CONNECT_CACHED_PROVIDER')) {
-        const network = await connect()
+        provider = await connect()
       } else {
-        const network = await connect()
-        // await setup({
-        //   reloadOnAccountsChange: false,
-        //   enforceReadOnly: true,
-        //   enforceReload: true
-        // })
+        //const network = await connect()
+        const { providerObject } = await setup({
+          reloadOnAccountsChange: false,
+          enforceReadOnly: true,
+          enforceReload: true
+        })
+        provider = providerObject
       }
     }
 
-    const provider = await setWeb3ProviderLocalMutation()
     if (!provider) throw 'Please install metamask'
+
+    await setWeb3ProviderLocalMutation(provider)
+
     getNetworkMutation()
     getReverseRecordMutation(accountsReactive()?.[0])
     getIsReadOnlyMutation()

@@ -43,7 +43,7 @@ function isDNSRegistrationOpen(domain) {
 
 function isOwnerOfDomain(domain, account) {
   if (domain.owner !== EMPTY_ADDRESS && !domain.available) {
-    return domain.owner?.toLowerCase() === account.toLowerCase()
+    return domain.owner?.toLowerCase() === account?.toLowerCase()
   }
   return false
 }
@@ -66,9 +66,14 @@ function Name({ details: domain, name, pathname, type, refetch }) {
   const smallBP = useMediaMin('small')
   const percentDone = 0
 
+  console.log('Name: ', domain, name, pathname, type, refetch)
+
   const {
     data: { accounts }
   } = useQuery(NAME_QUERY)
+
+  // return <div>name</div>
+
   const account = accounts?.[0]
   const isOwner = isOwnerOfDomain(domain, account)
   const isOwnerOfParent = isOwnerOfParentDomain(domain, account)
@@ -95,10 +100,6 @@ function Name({ details: domain, name, pathname, type, refetch }) {
   } else {
     containerState = isOwner ? 'Yours' : domain.state
   }
-
-  console.log('name: ', isOwner)
-
-  // return <div>name</div>
 
   return (
     <>
