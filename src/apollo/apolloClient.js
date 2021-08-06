@@ -26,6 +26,7 @@ const endpoints = {
 
 function getGraphQLAPI() {
   const network = networkIdReactive()
+  // const network = 200;
   console.log('>>>: ', process.env.REACT_APP_GRAPH_NODE_URI)
   console.log('network: ', network)
 
@@ -59,11 +60,12 @@ function fromPromise(promise, operation) {
 
 export function setupClient(network) {
   const httpLink = new HttpLink({
-    uri: getGraphQLAPI(network)
+    uri: () => getGraphQLAPI()
   })
 
   const web3Link = new ApolloLink(operation => {
     const { variables, operationName } = operation
+    console.log('operationname: ', operationName)
 
     if (resolvers.Query[operationName]) {
       return fromPromise(
@@ -80,7 +82,11 @@ export function setupClient(network) {
 
   const splitLink = split(
     ({ operationName }) => {
-      console.log('web3link, ', operationName)
+      console.log(
+        'web3link, ',
+        operationName,
+        resolvers.Query[operationName] || resolvers.Mutation[operationName]
+      )
       return resolvers.Query[operationName] || resolvers.Mutation[operationName]
     },
     web3Link,
