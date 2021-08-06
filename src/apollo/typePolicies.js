@@ -10,13 +10,19 @@ import {
   detailedNodeReactive,
   isENSReady,
   favouritesReactive,
-  globalErrorReactive
+  globalErrorReactive,
+  transactionHistoryReactive
 } from './reactiveVars'
 import { hasValidReverseRecord } from '../utils/utils'
 
 export default {
   Query: {
     fields: {
+      transactionHistory: {
+        read() {
+          return transactionHistoryReactive()?.transactionHistory
+        }
+      },
       networkId: {
         read() {
           return networkIdReactive()

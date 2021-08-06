@@ -184,12 +184,8 @@ export const GET_ETH_RECORD_AVAILABLE_NAMES_FROM_SUBGRAPH = gql`
 `
 
 export const GET_TRANSACTION_HISTORY = gql`
-  query getTransactionHistory {
-    transactionHistory {
-      txHash
-      txState
-      createdAt
-    }
+  query getTransactionHistory @client {
+    transactionHistory
   }
 `
 

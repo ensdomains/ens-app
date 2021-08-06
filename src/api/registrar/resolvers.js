@@ -141,7 +141,6 @@ const resolvers = {
     async renewDomains(_, { labels, duration }) {
       const registrar = getRegistrar()
       const tx = await registrar.renewAll(labels, duration)
-      debugger
       return sendHelper(tx)
     }
   }
