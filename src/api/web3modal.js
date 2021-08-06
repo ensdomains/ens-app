@@ -50,7 +50,7 @@ const option = {
 let web3Modal
 export const connect = async () => {
   try {
-    const Web3Modal = (await import('web3modal-dynamic-import')).default
+    const Web3Modal = (await import('@ensdomains/web3modal')).default
     const { getNetwork } = await import('@ensdomains/ui')
 
     web3Modal = new Web3Modal(option)

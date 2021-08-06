@@ -22,6 +22,8 @@ async function init() {
   const ENV = process.argv[2]
   const dnssec = process.argv[3] === 'dnssec'
 
+  console.log('process: ', process.argv)
+
   switch (ENV) {
     case 'GANACHE_GUI':
       var provider = new Web3.providers.HttpProvider('http://localhost:7545')

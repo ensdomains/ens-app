@@ -24,12 +24,12 @@ export default async () => {
     getFavouritesMutation()
     getSubDomainFavouritesMutation()
     if (
-      process.env.REACT_APP_STAGE === 'local' &&
+      //process.env.REACT_APP_STAGE === 'local' &&
       process.env.REACT_APP_ENS_ADDRESS
     ) {
       const { providerObject } = await setup({
         reloadOnAccountsChange: true,
-        customProvider: 'http://localhost:8545',
+        customProvider: 'http://localhost:7545',
         ensAddress: process.env.REACT_APP_ENS_ADDRESS
       })
       console.log('providerObject: ', providerObject)

@@ -140,7 +140,8 @@ function useDomains({
       orderDirection: sort.direction,
       expiryDate
     },
-    skip: domainType !== 'registrant'
+    skip: domainType !== 'registrant',
+    fetchPolicy: 'no-cache'
   })
 
   const controllersQuery = useQuery(GET_DOMAINS_SUBGRAPH, {
@@ -149,8 +150,11 @@ function useDomains({
       first: resultsPerPage,
       skip
     },
-    skip: domainType !== 'controller'
+    skip: domainType !== 'controller',
+    fetchPolicy: 'no-cache'
   })
+
+  console.log('registrationQuery: ', registrationsQuery)
 
   if (domainType === 'registrant') {
     return registrationsQuery
@@ -204,6 +208,8 @@ export default function Address({
     page,
     expiryDate
   })
+
+  // return <div>hi there</div>
 
   const { data: { favourites } = [] } = useQuery(GET_FAVOURITES)
   useEffect(() => {

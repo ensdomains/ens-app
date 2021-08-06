@@ -6,6 +6,7 @@ import {
   split
 } from '@apollo/client'
 import Observable from 'zen-observable'
+import gql from 'graphql-tag'
 
 import resolvers from '../api/rootResolver'
 import typePolicies from './typePolicies'
@@ -87,11 +88,19 @@ export function setupClient(network) {
         operationName,
         resolvers.Query[operationName] || resolvers.Mutation[operationName]
       )
+      console.log('resolvers: ', resolvers)
       return resolvers.Query[operationName] || resolvers.Mutation[operationName]
     },
     web3Link,
     httpLink
   )
+
+  const typeDefs = gql`
+    extend type Query {
+      networkId: String! @client
+      web3: String @client
+    }
+  `
 
   const option = {
     cache,

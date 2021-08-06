@@ -72,8 +72,6 @@ function Name({ details: domain, name, pathname, type, refetch }) {
     data: { accounts }
   } = useQuery(NAME_QUERY)
 
-  // return <div>name</div>
-
   const account = accounts?.[0]
   const isOwner = isOwnerOfDomain(domain, account)
   const isOwnerOfParent = isOwnerOfParentDomain(domain, account)
