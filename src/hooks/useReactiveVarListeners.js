@@ -31,17 +31,7 @@ export default () => {
   useEffect(() => {
     console.log('previousNetworkId: ', previousNetworkId)
     if (previousNetworkId !== networkId && previousNetworkId !== undefined) {
-      // console.log('networkId changed: ', networkId)
-      //console.log('client: ', getClient())
       const client = getClient()
-      // console.log('observableQueries: ', client.getObservableQueries("reactiveVarListeners"))
-      // const observableQueries = client.getObservableQueries("active");
-      // const queries = []
-      // for (var x of observableQueries) {
-      //   console.log(x)
-      //   queries.push(x[0])
-      // }
-      // console.log('queries: ', queries)
       client
         .refetchQueries({
           include: ['getRegistrations']

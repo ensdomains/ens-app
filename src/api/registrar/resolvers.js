@@ -9,19 +9,19 @@ const defaults = {}
 
 const resolvers = {
   Query: {
-    async getRentPrice(_, { label, duration }, { cache }) {
+    async getRentPrice(_, { label, duration }) {
       const registrar = getRegistrar()
       return registrar.getRentPrice(label, duration)
     },
-    async getRentPrices(_, { labels, duration }, { cache }) {
+    async getRentPrices(_, { labels, duration }) {
       const registrar = getRegistrar()
-      return registrar.getRentPrices(labels, duration)
+      return labels.length && registrar.getRentPrices(labels, duration)
     },
-    async getPremium(_, { name, expires, duration }, { cache }) {
+    async getPremium(_, { name, expires, duration }) {
       const registrar = getRegistrar()
       return registrar.getPremium(name, expires, duration)
     },
-    async getTimeUntilPremium(_, { expires, amount }, { cache }) {
+    async getTimeUntilPremium(_, { expires, amount }) {
       const registrar = getRegistrar()
       return registrar.getTimeUntilPremium(expires, amount)
     },
@@ -59,7 +59,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    async commit(_, { label, secret }, { cache }) {
+    async commit(_, { label, secret }) {
       const registrar = getRegistrar()
       const tx = await registrar.commit(label, secret)
       return sendHelper(tx)
@@ -80,7 +80,7 @@ const resolvers = {
       const tx = await registrar.renew(label, duration)
       return sendHelper(tx)
     },
-    async getDomainAvailability(_, { name }, { cache }) {
+    async getDomainAvailability(_, { name }) {
       const registrar = getRegistrar()
       const ens = getENS()
       try {
@@ -141,6 +141,7 @@ const resolvers = {
     async renewDomains(_, { labels, duration }) {
       const registrar = getRegistrar()
       const tx = await registrar.renewAll(labels, duration)
+      debugger
       return sendHelper(tx)
     }
   }

@@ -366,7 +366,7 @@ const resolvers = {
         __typename: 'SubDomains'
       }
     },
-    getReverseRecord: async (_, { address }, { cache }) => {
+    getReverseRecord: async (_, { address }) => {
       let name = emptyAddress
       const ens = getENS()
       const obj = {

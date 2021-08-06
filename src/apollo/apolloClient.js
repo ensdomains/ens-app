@@ -55,7 +55,10 @@ function fromPromise(promise, operation) {
         console.log('observer: ', observer)
         console.log('value: ', value)
       })
-      .catch(observer.error.bind(observer))
+      .catch(e => {
+        console.error('fromPromise error: ', e)
+        observer.error.bind(observer)
+      })
   })
 }
 
@@ -69,6 +72,7 @@ export function setupClient(network) {
     console.log('operationname: ', operationName)
 
     if (resolvers.Query[operationName]) {
+      console.log('web3resolver called: ', resolvers.Query[operationName])
       return fromPromise(
         resolvers.Query[operationName]?.apply(null, [null, variables]),
         operation
@@ -88,7 +92,6 @@ export function setupClient(network) {
         operationName,
         resolvers.Query[operationName] || resolvers.Mutation[operationName]
       )
-      console.log('resolvers: ', resolvers)
       return resolvers.Query[operationName] || resolvers.Mutation[operationName]
     },
     web3Link,

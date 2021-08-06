@@ -37,12 +37,12 @@ export async function sendHelper(txObj) {
   return new Promise(async (resolve, reject) => {
     resolve(txObj.hash)
     let txState = 'Pending'
-    addTransaction({ txHash: txObj.hash, txState })
+    // addTransaction({ txHash: txObj.hash, txState })
 
     const receipt = await txObj.wait()
     const txHash = receipt.transactionHash
     txState = 'Confirmed'
-    addTransaction({ txHash, txState })
+    // addTransaction({ txHash, txState })
   })
 }
 
