@@ -61,12 +61,6 @@ function fromPromise(promise, operation) {
   })
 }
 
-const urlLink = new ApolloLink((operation, forward) => {
-  console.log('urlLInk: ', getGraphQLAPI())
-  operation.setContext({ uri: getGraphQLAPI() })
-  return forward(operation)
-})
-
 export function setupClient(network) {
   const httpLink = new HttpLink({
     uri: () => getGraphQLAPI()
@@ -100,7 +94,7 @@ export function setupClient(network) {
       return resolvers.Query[operationName] || resolvers.Mutation[operationName]
     },
     web3Link,
-    from([httpLink])
+    httpLink
   )
 
   const option = {
