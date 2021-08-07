@@ -28,11 +28,10 @@ import {
 import getClient from '../../apollo/apolloClient'
 import getENS, { getRegistrar } from 'apollo/mutations/ens'
 import { normalize } from 'eth-ens-namehash'
-import { detailedNodeReactive } from '../../apollo/reactiveVars'
+import { detailedNodeReactive, namesReactive } from '../../apollo/reactiveVars'
 
 const defaults = {
-  names: [],
-  transactionHistory: []
+  names: []
 }
 
 async function delay(ms) {
@@ -192,17 +191,45 @@ const handleMultipleTransactions = async (name, records, resolverInstance) => {
 
 const resolvers = {
   Query: {
-    getOwner: async (_, { name }, { cache }) => {
+    getOwner: async (_, { name }) => {
       const ens = getENS()
       const owner = await ens.getOwner(name)
       return owner
     },
 
-    singleName: async (_, { name }, { cache }) => {
+    singleName: async (_, { name }) => {
       try {
         const ens = getENS()
         const decrypted = isDecrypted(name)
-        let node = { ...detailedNodeReactive(), decrypted }
+
+        let node = {
+          name: null,
+          revealDate: null,
+          registrationDate: null,
+          migrationStartDate: null,
+          currentBlockDate: null,
+          transferEndDate: null,
+          gracePeriodEndDate: null,
+          value: null,
+          highestBid: null,
+          state: null,
+          stateError: null,
+          label: null,
+          decrypted,
+          price: null,
+          rent: null,
+          referralFeePPM: null,
+          available: null,
+          contentType: null,
+          expiryTime: null,
+          isNewRegistrar: null,
+          isDNSRegistrar: null,
+          dnsOwner: null,
+          deedOwner: null,
+          registrant: null,
+          auctionEnds: null // remove when auction is over
+        }
+
         const dataSources = [
           getRegistrarEntry(name),
           ens.getDomainDetails(name),
@@ -221,7 +248,8 @@ const resolvers = {
           registrant
         ] = await Promise.all(dataSources)
 
-        const { names } = cache.readQuery({ query: GET_ALL_NODES })
+        // const { names } = cache.readQuery({ query: GET_ALL_NODES })
+        const names = namesReactive()
 
         let detailedNode = adjustForShortNames({
           ...node,
@@ -253,7 +281,8 @@ const resolvers = {
           names: [...names, detailedNode]
         }
 
-        cache.writeData({ data })
+        // cache.writeData({ data })
+        namesReactive([...names, detailedNode])
 
         return detailedNode
       } catch (e) {
@@ -261,7 +290,7 @@ const resolvers = {
         throw e
       }
     },
-    getResolverMigrationInfo: async (_, { name, resolver }, { cache }) => {
+    getResolverMigrationInfo: async (_, { name, resolver }) => {
       /* TODO add hardcoded resolver addresses */
       const ens = getENS()
       const networkId = await getNetworkId()
@@ -347,17 +376,17 @@ const resolvers = {
       }
       return resolverMigrationInfo
     },
-    isMigrated: async (_, { name }, { cache }) => {
+    isMigrated: async (_, { name }) => {
       const ens = getENS()
       let result = await ens.isMigrated(name)
       return result
     },
-    isContractController: async (_, { address }, { cache }) => {
+    isContractController: async (_, { address }) => {
       let provider = await getWeb3()
       const bytecode = await provider.getCode(address)
       return bytecode !== '0x'
     },
-    getSubDomains: async (_, { name }, { cache }) => {
+    getSubDomains: async (_, { name }) => {
       const ens = getENS()
       const rawSubDomains = await ens.getSubdomains(name)
 
@@ -484,7 +513,7 @@ const resolvers = {
         console.log(e)
       }
     },
-    setOwner: async (_, { name, address }, { cache }) => {
+    setOwner: async (_, { name, address }) => {
       try {
         const ens = getENS()
         const tx = await ens.setOwner(name, address)
@@ -493,7 +522,7 @@ const resolvers = {
         console.log(e)
       }
     },
-    setSubnodeOwner: async (_, { name, address }, { cache }) => {
+    setSubnodeOwner: async (_, { name, address }) => {
       try {
         const ens = getENS()
         const tx = await ens.setSubnodeOwner(name, address)
@@ -502,7 +531,7 @@ const resolvers = {
         console.log(e)
       }
     },
-    setResolver: async (_, { name, address }, { cache }) => {
+    setResolver: async (_, { name, address }) => {
       try {
         const ens = getENS()
         const tx = await ens.setResolver(name, address)
@@ -511,7 +540,7 @@ const resolvers = {
         console.log(e)
       }
     },
-    setAddress: async (_, { name, recordValue }, { cache }) => {
+    setAddress: async (_, { name, recordValue }) => {
       try {
         const ens = getENS()
         const tx = await ens.setAddress(name, recordValue)
@@ -520,7 +549,7 @@ const resolvers = {
         console.log(e)
       }
     },
-    setAddr: async (_, { name, key, recordValue }, { cache }) => {
+    setAddr: async (_, { name, key, recordValue }) => {
       try {
         const ens = getENS()
         const tx = await ens.setAddr(name, key, recordValue)
@@ -529,7 +558,7 @@ const resolvers = {
         console.log(e)
       }
     },
-    setContent: async (_, { name, recordValue }, { cache }) => {
+    setContent: async (_, { name, recordValue }) => {
       try {
         const ens = getENS()
         const tx = await ens.setContent(name, recordValue)
@@ -538,7 +567,7 @@ const resolvers = {
         console.log(e)
       }
     },
-    setContenthash: async (_, { name, recordValue }, { cache }) => {
+    setContenthash: async (_, { name, recordValue }) => {
       try {
         const ens = getENS()
         const tx = await ens.setContenthash(name, recordValue)
@@ -547,7 +576,7 @@ const resolvers = {
         console.log(e)
       }
     },
-    setText: async (_, { name, key, recordValue }, { cache }) => {
+    setText: async (_, { name, key, recordValue }) => {
       try {
         const ens = getENS()
         const tx = await ens.setText(name, key, recordValue)
@@ -556,7 +585,7 @@ const resolvers = {
         console.log(e)
       }
     },
-    addMultiRecords: async (_, { name, records }, { cache }) => {
+    addMultiRecords: async (_, { name, records }) => {
       const ens = getENS()
 
       const provider = await getProvider()
@@ -573,7 +602,7 @@ const resolvers = {
       }
       return await handleMultipleTransactions(name, records, resolverInstance)
     },
-    migrateResolver: async (_, { name }, { cache }) => {
+    migrateResolver: async (_, { name }) => {
       const ens = getENS()
       const provider = await getProvider()
 
@@ -782,7 +811,7 @@ const resolvers = {
         throw e
       }
     },
-    migrateRegistry: async (_, { name, address }, { cache }) => {
+    migrateRegistry: async (_, { name, address }) => {
       try {
         const ens = getENS()
         const resolver = await ens.getResolver(name)
@@ -792,7 +821,7 @@ const resolvers = {
         console.log(e)
       }
     },
-    createSubdomain: async (_, { name }, { cache }) => {
+    createSubdomain: async (_, { name }) => {
       try {
         const ens = getENS()
         const tx = await ens.createSubdomain(name)
@@ -801,7 +830,7 @@ const resolvers = {
         console.log(e)
       }
     },
-    deleteSubdomain: async (_, { name }, { cache }) => {
+    deleteSubdomain: async (_, { name }) => {
       try {
         const ens = getENS()
         const tx = await ens.deleteSubdomain(name)

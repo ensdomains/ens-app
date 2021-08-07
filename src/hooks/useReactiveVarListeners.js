@@ -5,7 +5,10 @@ import gql from 'graphql-tag'
 import { usePrevious } from '../utils/utils'
 import { getReverseRecordMutation } from '../apollo/mutations/mutations'
 import getClient from '../apollo/apolloClient'
-import { GET_REGISTRATIONS_SUBGRAPH } from '../graphql/queries'
+import {
+  GET_REGISTRATIONS_SUBGRAPH,
+  GET_REGISTRATIONS_BY_IDS_SUBGRAPH
+} from '../graphql/queries'
 import typePolicies from '../apollo/typePolicies'
 
 import resolvers from '../api/rootResolver'
@@ -29,14 +32,19 @@ export default () => {
   }, [accounts])
 
   useEffect(() => {
-    console.log('previousNetworkId: ', previousNetworkId)
     if (previousNetworkId !== networkId && previousNetworkId !== undefined) {
       const client = getClient()
+
       client
         .refetchQueries({
-          include: ['getRegistrations']
+          include: ['getRegistrations', 'getRegistrationsById'],
+          onQueryUpdated(observableQuery, diff, lastDiff) {
+            return true
+          }
         })
-        .then(x => console.log('refetch: ', x))
+        .catch(e => console.error('refetch error: ', e))
     }
   }, [networkId])
 }
+
+//'getRegistrations',

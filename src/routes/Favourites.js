@@ -109,9 +109,17 @@ function Favourites() {
   const { data: { registrations } = [], refetch } = useQuery(
     GET_REGISTRATIONS_BY_IDS_SUBGRAPH,
     {
-      variables: { ids }
+      variables: { ids },
+      fetchPolicy: 'no-cache',
+      nextFetchPolicy: 'no-cache',
+      context: {
+        queryDeduplication: false
+      }
     }
   )
+
+  console.log('ids: ', ids)
+  console.log('registrations: ', registrations)
 
   if (!favourites || (favourites.length === 0 && !registrations)) {
     return <NoDomains />

@@ -209,8 +209,6 @@ export default function Address({
     expiryDate
   })
 
-  // return <div>hi there</div>
-
   const { data: { favourites } = [] } = useQuery(GET_FAVOURITES)
   useEffect(() => {
     getEtherScanAddr().then(setEtherScanAddr)

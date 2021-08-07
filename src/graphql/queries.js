@@ -37,7 +37,7 @@ export const GET_REVERSE_RECORD = gql`
 `
 
 export const GET_ALL_NODES = gql`
-  query names {
+  query names @client {
     names {
       ...NodeFields
     }
@@ -203,7 +203,7 @@ export const GET_BALANCE = gql`
 
 export const GET_FAVOURITES = gql`
   query getFavourites {
-    favourites {
+    favourites @client {
       name
     }
   }
@@ -211,7 +211,7 @@ export const GET_FAVOURITES = gql`
 
 export const GET_SUBDOMAIN_FAVOURITES = gql`
   query getSubDomainFavourites {
-    subDomainFavourites {
+    subDomainFavourites @client {
       name
     }
   }
@@ -262,7 +262,7 @@ export const GET_REGISTRATIONS_SUBGRAPH = gql`
 `
 
 export const GET_REGISTRATIONS_BY_IDS_SUBGRAPH = gql`
-  query getRegistrations($ids: [ID]) {
+  query getRegistrationsById($ids: [ID]) {
     registrations(first: 1000, where: { domain_in: $ids }) {
       expiryDate
       domain {

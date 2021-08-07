@@ -166,6 +166,8 @@ const useGetRecords = domain => {
     }
   )
 
+  console.log('resolver: ', resolver)
+
   const { loading: textRecordsLoading, data: dataTextRecords } = useQuery(
     GET_TEXT_RECORDS,
     {

@@ -55,3 +55,5 @@ export const isAppReadyReactive = makeVar(false)
 export const globalErrorReactive = makeVar(null)
 
 export const transactionHistoryReactive = makeVar({ transactionHistory: [] })
+
+export const namesReactive = makeVar([])

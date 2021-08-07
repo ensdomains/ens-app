@@ -11,13 +11,19 @@ import {
   isENSReady,
   favouritesReactive,
   globalErrorReactive,
-  transactionHistoryReactive
+  transactionHistoryReactive,
+  namesReactive
 } from './reactiveVars'
 import { hasValidReverseRecord } from '../utils/utils'
 
 export default {
   Query: {
     fields: {
+      names: {
+        read() {
+          return namesReactive()
+        }
+      },
       transactionHistory: {
         read() {
           return transactionHistoryReactive()?.transactionHistory

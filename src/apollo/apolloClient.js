@@ -3,7 +3,8 @@ import {
   ApolloLink,
   HttpLink,
   InMemoryCache,
-  split
+  split,
+  from
 } from '@apollo/client'
 import Observable from 'zen-observable'
 import gql from 'graphql-tag'
@@ -27,8 +28,6 @@ const endpoints = {
 
 function getGraphQLAPI() {
   const network = networkIdReactive()
-  // const network = 200;
-  console.log('>>>: ', process.env.REACT_APP_GRAPH_NODE_URI)
   console.log('network: ', network)
 
   if (network > 100 && process.env.REACT_APP_GRAPH_NODE_URI) {
@@ -61,6 +60,12 @@ function fromPromise(promise, operation) {
       })
   })
 }
+
+const urlLink = new ApolloLink((operation, forward) => {
+  console.log('urlLInk: ', getGraphQLAPI())
+  operation.setContext({ uri: getGraphQLAPI() })
+  return forward(operation)
+})
 
 export function setupClient(network) {
   const httpLink = new HttpLink({
@@ -95,15 +100,8 @@ export function setupClient(network) {
       return resolvers.Query[operationName] || resolvers.Mutation[operationName]
     },
     web3Link,
-    httpLink
+    from([httpLink])
   )
-
-  const typeDefs = gql`
-    extend type Query {
-      networkId: String! @client
-      web3: String @client
-    }
-  `
 
   const option = {
     cache,
