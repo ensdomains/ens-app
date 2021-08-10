@@ -10,7 +10,8 @@ import Tooltip from '../Tooltip/Tooltip'
 import QuestionMark from '../Icons/QuestionMark'
 import { checkIsDecrypted, truncateUndecryptedName } from '../../api/labels'
 import ExpiryDate from './ExpiryDate'
-import { Mutation } from 'react-apollo'
+//import { Mutation } from 'react-apollo'
+import { useMutation } from '@apollo/client'
 import Bin from '../Forms/Bin'
 import { useEditable } from '../hooks'
 import PendingTx from '../PendingTx'
@@ -85,6 +86,15 @@ export default function ChildDomainItem({
   let label = isDecrypted ? `${name}` : truncateUndecryptedName(name)
   if (isMigrated === false)
     label = label + ` (${t('childDomainItem.notmigrated')})`
+  const [mutate] = useMutation(DELETE_SUBDOMAIN, {
+    onCompleted: data => {
+      startPending(Object.values(data)[0])
+    },
+    variables: {
+      name: name
+    }
+  })
+
   return (
     <DomainLink
       showBlockies={showBlockies}
@@ -106,25 +116,13 @@ export default function ChildDomainItem({
             }}
           />
         ) : (
-          <Mutation
-            mutation={DELETE_SUBDOMAIN}
-            variables={{
-              name: name
+          <Bin
+            data-testid={'delete-name'}
+            onClick={e => {
+              e.preventDefault()
+              mutate()
             }}
-            onCompleted={data => {
-              startPending(Object.values(data)[0])
-            }}
-          >
-            {mutate => (
-              <Bin
-                data-testid={'delete-name'}
-                onClick={e => {
-                  e.preventDefault()
-                  mutate()
-                }}
-              />
-            )}
-          </Mutation>
+          />
         )
       ) : (
         <>

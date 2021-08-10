@@ -1,5 +1,5 @@
 import React from 'react'
-import { useMutation } from 'react-apollo'
+import { useMutation } from '@apollo/client'
 import { RELEASE_DEED } from 'graphql/mutations'
 import styled from '@emotion/styled/macro'
 import PendingTx from '../PendingTx'

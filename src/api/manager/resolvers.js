@@ -191,6 +191,18 @@ const handleMultipleTransactions = async (name, records, resolverInstance) => {
 
 const resolvers = {
   Query: {
+    publicResolver: async () => {
+      try {
+        const ens = getENS()
+        const resolver = await ens.getAddress('resolver.eth')
+        return {
+          address: resolver,
+          __typename: 'Resolver'
+        }
+      } catch (e) {
+        console.log('error getting public resolver', e)
+      }
+    },
     getOwner: async (_, { name }) => {
       const ens = getENS()
       const owner = await ens.getOwner(name)

@@ -40,12 +40,13 @@ function refreshAndCheckText(url, textOrArrayOfText) {
 describe('Name detail view', () => {
   it('can see list of top level domains from [root]', () => {
     cy.visit(`${NAME_ROOT}/[root]/subdomains`)
-    cy.queryByTestId('eth', { timeout: 10000 }).should('exist')
-    cy.queryByTestId('reverse', { timeout: 10000 }).should('exist')
+    cy.queryByTestId('eth', { timeout: 30000 }).should('exist')
+    cy.queryByTestId('reverse', { timeout: 1000 }).should('exist')
     cy.url().should('eq', `${NAME_ROOT}/[root]/subdomains`)
   })
   it('cannot transfer ownership to a non-ethereum address', () => {
     cy.visit(`${NAME_ROOT}/awesome.eth`)
+    cy.wait(10000)
     cy.getByText('Transfer')
       .scrollIntoView()
       .click({ force: true })
@@ -69,6 +70,7 @@ describe('Name detail view', () => {
 
   it('can transfer ownership', () => {
     cy.visit(`${NAME_ROOT}/awesome.eth`)
+    cy.wait(5000)
     cy.getByText('Transfer').click({ force: true })
 
     cy.getByTestId('name-details').within(container => {

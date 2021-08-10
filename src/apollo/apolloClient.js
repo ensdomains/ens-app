@@ -68,10 +68,8 @@ export function setupClient(network) {
 
   const web3Link = new ApolloLink(operation => {
     const { variables, operationName } = operation
-    console.log('operationname: ', operationName)
 
     if (resolvers.Query[operationName]) {
-      console.log('web3resolver called: ', resolvers.Query[operationName])
       return fromPromise(
         resolvers.Query[operationName]?.apply(null, [null, variables]),
         operation
@@ -86,11 +84,11 @@ export function setupClient(network) {
 
   const splitLink = split(
     ({ operationName }) => {
-      console.log(
-        'web3link, ',
-        operationName,
-        resolvers.Query[operationName] || resolvers.Mutation[operationName]
-      )
+      // console.log(
+      //   'web3link, ',
+      //   operationName,
+      //   resolvers.Query[operationName] || resolvers.Mutation[operationName]
+      // )
       return resolvers.Query[operationName] || resolvers.Mutation[operationName]
     },
     web3Link,

@@ -35,31 +35,21 @@ import modeNames from '../../api/modes'
 import { emptyAddress, ROPSTEN_DNSREGISTRAR_ADDRESS } from '../../utils/utils'
 
 export const setWeb3ProviderLocalMutation = async provider => {
-  // const web3 = await getWeb3()
-  // console.log('web3: ', web3)
-  // const provider = web3?.provider
   web3ProviderReactive(provider)
 
   const accounts = await provider.listAccounts()
 
-  console.log('provider: ', provider)
-  console.log('chainId: ', provider.network.chainId)
-
-  //await provider.request({ method: 'eth_accounts' })
-
   if (provider) {
     provider.removeAllListeners()
-    setNetworkIdLocalMutation(provider.network.chainId)
+    // setNetworkIdLocalMutation(provider.network.chainId)
     setAccountsLocalMutation(accounts)
   }
 
   provider?.on('chainChanged', _chainId => {
-    console.log('chainChanged')
     setNetworkIdLocalMutation(parseInt(_chainId))
   })
 
   provider?.on('accountsChanged', accounts => {
-    console.log('accountsChanged')
     setAccountsLocalMutation(accounts)
   })
 

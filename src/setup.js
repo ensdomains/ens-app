@@ -14,7 +14,7 @@ import {
   getSubDomainFavouritesMutation,
   setIsAppReady
 } from './apollo/mutations/mutations'
-import { accountsReactive } from './apollo/reactiveVars'
+import { accountsReactive, networkIdReactive } from './apollo/reactiveVars'
 import { setup as setupAnalytics } from './utils/analytics'
 import { safeInfo } from './utils/safeApps'
 
@@ -32,7 +32,6 @@ export default async () => {
         customProvider: 'http://localhost:8545',
         ensAddress: process.env.REACT_APP_ENS_ADDRESS
       })
-      console.log('providerObject: ', providerObject)
       provider = providerObject
       let labels = window.localStorage['labels']
         ? JSON.parse(window.localStorage['labels'])
@@ -64,6 +63,7 @@ export default async () => {
 
     if (!provider) throw 'Please install metamask'
 
+    networkIdReactive(provider.network.chainId)
     await setWeb3ProviderLocalMutation(provider)
 
     getNetworkMutation()
