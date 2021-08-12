@@ -84,11 +84,11 @@ export function setupClient(network) {
 
   const splitLink = split(
     ({ operationName }) => {
-      // console.log(
-      //   'web3link, ',
-      //   operationName,
-      //   resolvers.Query[operationName] || resolvers.Mutation[operationName]
-      // )
+      console.log(
+        'web3link, ',
+        operationName,
+        resolvers.Query[operationName] || resolvers.Mutation[operationName]
+      )
       return resolvers.Query[operationName] || resolvers.Mutation[operationName]
     },
     web3Link,

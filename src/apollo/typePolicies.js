@@ -1,13 +1,10 @@
 import {
   networkIdReactive,
   networkReactive,
-  clientReactive,
-  web3Reactive,
   reverseRecordReactive,
   accountsReactive,
   isReadOnlyReactive,
   isRunningAsSafeAppReactive,
-  detailedNodeReactive,
   isENSReady,
   favouritesReactive,
   globalErrorReactive,
@@ -75,11 +72,6 @@ export default {
       isSafeApp: {
         read() {
           return isRunningAsSafeAppReactive()
-        }
-      },
-      singleName: {
-        read() {
-          return detailedNodeReactive()
         }
       },
       isENSReady: {

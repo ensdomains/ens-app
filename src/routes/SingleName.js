@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useQuery } from '@apollo/client'
+import { useQuery, useLazyQuery } from '@apollo/client'
 import gql from 'graphql-tag'
 
 import { validateName, parseSearchTerm } from '../utils/utils'
@@ -8,11 +8,11 @@ import { GET_SINGLE_NAME } from '../graphql/queries'
 import Loader from '../components/Loader'
 import SearchErrors from '../components/SearchErrors/SearchErrors'
 import Name from '../components/SingleName/Name'
-import { singleNameMutation } from '../apollo/mutations/mutations'
 
 const SINGLE_NAME = gql`
-  query singleName {
+  query singleName @client {
     isENSReady
+    networkId
   }
 `
 
@@ -27,12 +27,23 @@ function SingleName({
   //document.body.style.zoom = window.innerWidth / window.outerWidth
   const [valid, setValid] = useState(undefined)
   const [type, setType] = useState(undefined)
+  const [name, setNormalisedName] = useState('')
   let errorMessage
 
   const {
-    data: { isENSReady }
+    data: { isENSReady, networkId }
   } = useQuery(SINGLE_NAME)
-  const { data } = useQuery(GET_SINGLE_NAME, { variables: { name } })
+  const [getSingleName, { data, loading, error, refetch }] = useLazyQuery(
+    GET_SINGLE_NAME
+  )
+
+  useEffect(() => {
+    if (isENSReady) {
+      getSingleName({
+        variables: { name }
+      })
+    }
+  }, [name, networkId, isENSReady])
 
   useEffect(() => {
     let normalisedName
@@ -40,8 +51,8 @@ function SingleName({
       try {
         // This is under the assumption that validateName never returns false
         normalisedName = validateName(searchTerm)
+        setNormalisedName(normalisedName)
         document.title = searchTerm
-        singleNameMutation(normalisedName)
       } catch {
         document.title = 'Error finding name'
       } finally {
@@ -63,14 +74,18 @@ function SingleName({
   }, [searchTerm, isENSReady])
 
   if (valid) {
-    return (
-      <Name
-        details={data.singleName}
-        name={name}
-        pathname={pathname}
-        type={type}
-      />
-    )
+    if (loading) return <Loader large center />
+    if (error) return <div>{(console.log(error), JSON.stringify(error))}</div>
+    if (data?.singleName)
+      return (
+        <Name
+          details={data.singleName}
+          name={name}
+          pathname={pathname}
+          type={type}
+          refetch={refetch}
+        />
+      )
   }
 
   if (valid === false) {

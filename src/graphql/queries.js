@@ -18,7 +18,7 @@ export const GET_WEB3 = gql`
 `
 
 export const GET_PUBLIC_RESOLVER = gql`
-  query getPublicResolver {
+  query publicResolver {
     publicResolver {
       address
     }

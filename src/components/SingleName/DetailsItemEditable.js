@@ -440,7 +440,9 @@ const Editable = ({
     }
   )
 
-  const { data, loading } = useQuery(GET_PUBLIC_RESOLVER)
+  const { data, loading } = useQuery(GET_PUBLIC_RESOLVER, {
+    fetchPolicy: 'network-only'
+  })
 
   return (
     <DetailsEditableContainer
@@ -559,7 +561,7 @@ const Editable = ({
         )}
         {editing &&
         canDelete &&
-        (recordType === 'Contsroller' || recordType === 'Resolver') ? (
+        (keyName === 'Controller' || keyName === 'Resolver') ? (
           <Action>
             <Bin
               data-testid={`delete-${type.toLowerCase()}`}

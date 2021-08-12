@@ -140,7 +140,7 @@ export default function ResolverAndRecords({
         )}
       </ResolverWrapper>
 
-      {hasResolver && (
+      {hasResolver && Object.values(domain).filter(x => x).length && (
         <Records
           domain={domain}
           refetch={refetch}

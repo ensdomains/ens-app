@@ -166,8 +166,6 @@ const useGetRecords = domain => {
     }
   )
 
-  console.log('resolver: ', resolver)
-
   const { loading: textRecordsLoading, data: dataTextRecords } = useQuery(
     GET_TEXT_RECORDS,
     {
@@ -178,13 +176,6 @@ const useGetRecords = domain => {
       skip: !dataResolver,
       fetchPolicy: 'network-only'
     }
-  )
-
-  console.log(
-    dataAddresses,
-    dataTextRecords,
-    addressesLoading,
-    textRecordsLoading
   )
 
   return {
