@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
-import { Mutation } from 'react-apollo'
+import { useMutation } from '@apollo/client'
 
 import { isLabelValid } from '../../utils/utils'
 import { CREATE_SUBDOMAIN } from '../../graphql/mutations'
@@ -51,6 +51,11 @@ function AddSubdomain({ domain, refetch }) {
 
   const isValid = newValue.length > 0 && isLabelValid(newValue)
   const isInvalid = !isValid && newValue.length > 0
+  const [mutation] = useMutation(CREATE_SUBDOMAIN, {
+    onCompleted: data => {
+      startPending(Object.values(data)[0])
+    }
+  })
 
   return (
     <AddSubdomainContainer>
@@ -81,28 +86,19 @@ function AddSubdomain({ domain, refetch }) {
               large
             />
             {isValid ? (
-              <Mutation
-                mutation={CREATE_SUBDOMAIN}
-                onCompleted={data => {
-                  startPending(Object.values(data)[0])
+              <SaveCancel
+                stopEditing={stopEditing}
+                isValid={isValid}
+                mutation={() => {
+                  mutation({
+                    variables: {
+                      name: `${newValue}.${domain.name}`
+                    }
+                  }).then(() => {
+                    refetch()
+                  })
                 }}
-              >
-                {mutation => (
-                  <SaveCancel
-                    stopEditing={stopEditing}
-                    isValid={isValid}
-                    mutation={() => {
-                      mutation({
-                        variables: {
-                          name: `${newValue}.${domain.name}`
-                        }
-                      }).then(() => {
-                        refetch()
-                      })
-                    }}
-                  />
-                )}
-              </Mutation>
+              />
             ) : (
               <SaveCancel stopEditing={stopEditing} disabled />
             )}
