@@ -543,12 +543,16 @@ const resolvers = {
       return bytecode !== '0x'
     },
     getSubDomains: async (_, { name }) => {
-      const ens = getENS()
-      const rawSubDomains = await ens.getSubdomains(name)
+      try {
+        const ens = getENS()
+        const rawSubDomains = await ens.getSubdomains(name)
 
-      return {
-        subDomains: rawSubDomains,
-        __typename: 'SubDomains'
+        return {
+          subDomains: rawSubDomains,
+          __typename: 'SubDomains'
+        }
+      } catch (e) {
+        console.log('getSubDomains error: ', e)
       }
     },
     getReverseRecord: async (_, { address }) => {
