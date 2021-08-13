@@ -51,7 +51,6 @@ export default {
             args: { address }
           }
         ) {
-          console.log('displayName')
           const addresss = accountsReactive()?.[0]
           if (!addresss) return ''
           return hasValidReverseRecord(reverseRecordReactive())

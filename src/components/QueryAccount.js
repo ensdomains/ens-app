@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Query } from '@apollo/client/react/components'
 import { useQuery } from '@apollo/client'
 import gql from 'graphql-tag'
 
@@ -29,11 +28,12 @@ class GetAccount extends Component {
 }
 
 export function useAccount() {
-  const { loading, error, data } = useQuery(GET_ACCOUNTS)
-  if (loading || !data || !data.web3) {
+  const {
+    data: { accounts }
+  } = useQuery(GET_ACCOUNTS)
+  if (!accounts) {
     return '0x0000000000000000000000000000000000000000'
   }
-  const { web3: { accounts } = { accounts: [] } } = data
   return accounts[0]
 }
 

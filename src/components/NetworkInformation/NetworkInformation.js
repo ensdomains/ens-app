@@ -142,8 +142,6 @@ function NetworkInformation() {
     }
   })
 
-  console.log('accounts: ', accounts)
-
   const [setError] = useMutation(SET_ERROR)
 
   const handleConnect = async () => {
