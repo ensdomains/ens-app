@@ -76,6 +76,7 @@
     "postbuild": "cp build/index.html build/200.html && echo '*' > build/CORS",
     "test": "react-scripts test --env=jsdom",
     "test:coverage": "npm test -- --coverage",
+    "test:watch": "npm test -- --watch",
     "eject": "react-scripts eject",
     "preTest": "node -r esm src/testing-utils/preTest.js",
     "preTest:dnssec": "node -r esm src/testing-utils/preTest.js default dnssec",

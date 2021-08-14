@@ -63,7 +63,7 @@ export default async () => {
 
     if (!provider) throw 'Please install metamask'
 
-    networkIdReactive(provider.network.chainId)
+    networkIdReactive(provider.network?.chainId || provider.network)
     await setWeb3ProviderLocalMutation(provider)
 
     getNetworkMutation()
