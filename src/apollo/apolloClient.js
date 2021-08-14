@@ -28,7 +28,6 @@ const endpoints = {
 
 function getGraphQLAPI() {
   const network = networkIdReactive()
-  console.log('network: ', network)
 
   if (network > 100 && process.env.REACT_APP_GRAPH_NODE_URI) {
     return process.env.REACT_APP_GRAPH_NODE_URI
@@ -84,11 +83,11 @@ export function setupClient(network) {
 
   const splitLink = split(
     ({ operationName }) => {
-      console.log(
-        'web3link, ',
-        operationName,
-        resolvers.Query[operationName] || resolvers.Mutation[operationName]
-      )
+      // console.log(
+      //   'web3link, ',
+      //   operationName,
+      //   resolvers.Query[operationName] || resolvers.Mutation[operationName]
+      // )
       return resolvers.Query[operationName] || resolvers.Mutation[operationName]
     },
     web3Link,

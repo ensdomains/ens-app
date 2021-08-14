@@ -5,8 +5,6 @@ import {
   reverseRecordReactive,
   isReadOnlyReactive,
   isRunningAsSafeAppReactive,
-  detailedNodeReactive,
-  isENSReady,
   favouritesReactive,
   subDomainFavouritesReactive,
   isAppReadyReactive,
@@ -37,7 +35,7 @@ import { emptyAddress, ROPSTEN_DNSREGISTRAR_ADDRESS } from '../../utils/utils'
 export const setWeb3ProviderLocalMutation = async provider => {
   web3ProviderReactive(provider)
 
-  const accounts = await provider.listAccounts()
+  const accounts = await getAccounts()
 
   if (provider) {
     provider.removeAllListeners()
@@ -46,11 +44,14 @@ export const setWeb3ProviderLocalMutation = async provider => {
   }
 
   provider?.on('chainChanged', _chainId => {
+    console.log('chain changed: ', _chainId)
     setNetworkIdLocalMutation(parseInt(_chainId))
+    // getNetworkMutation()
   })
 
   provider?.on('accountsChanged', accounts => {
-    setAccountsLocalMutation(accounts)
+    console.log('accounts changed')
+    // setAccountsLocalMutation(accounts)
   })
 
   return provider
@@ -60,19 +61,11 @@ export const getNetworkMutation = async () => {
   return networkReactive(await getNetwork())
 }
 
-export const getReverseRecordMutation = async address => {
-  if (address) {
-    reverseRecordReactive(await getReverseRecord(address))
-  }
-}
-
 export const setAccountsLocalMutation = accounts => {
   return accountsReactive(accounts)
 }
 
-export const getIsReadOnlyMutation = () => {
-  isReadOnlyReactive(isReadOnly())
-}
+export const getIsReadOnlyMutation = () => {}
 
 export const setNetworkIdLocalMutation = networkId => {
   return networkIdReactive(networkId)
@@ -91,30 +84,18 @@ export const connectMutation = async address => {
     //setError({ variables: { message: e?.message } })
   }
   if (network) {
-    console.log('network: ', network)
     networkIdReactive(await getNetworkId())
-    //isReadOnlyMutation()
-    //reverseRecordMutation(address)
+    isReadOnlyReactive(false)
+    reverseRecordReactive(await getReverseRecord(address))
   }
 }
 
 export const disconnectMutation = async () => {
-  reverseRecordReactive(null)
   networkIdReactive(1)
+  networkReactive(null)
   isReadOnlyReactive(true)
+  reverseRecordReactive(null)
   await disconnect()
-}
-
-export const getFavouritesMutation = () => {
-  favouritesReactive(
-    JSON.parse(window.localStorage.getItem('ensFavourites')) || []
-  )
-}
-
-export const getSubDomainFavouritesMutation = () => {
-  subDomainFavouritesReactive(
-    JSON.parse(window.localStorage.getItem('ensSubDomainFavourites')) || []
-  )
 }
 
 export const addFavouriteMutation = domain => {
@@ -153,5 +134,5 @@ export const deleteSubDomainFavouriteMutation = domain => {
 }
 
 export const setIsAppReady = isAppReady => {
-  return isAppReadyReactive(isAppReady)
+  return
 }

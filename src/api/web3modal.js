@@ -1,4 +1,11 @@
 import { setup as setupENS } from '../apollo/mutations/ens'
+import {
+  isReadOnlyReactive,
+  networkIdReactive,
+  networkReactive,
+  web3ProviderReactive
+} from '../apollo/reactiveVars'
+import { getNetwork, getNetworkId, isReadOnly } from '@ensdomains/ui'
 
 const INFURA_ID =
   window.location.host === 'app.ens.domains'
@@ -91,6 +98,12 @@ export const disconnect = async function() {
     enforceReadOnly: true,
     enforceReload: true
   })
+
+  isReadOnlyReactive(isReadOnly())
+  web3ProviderReactive(null)
+  networkIdReactive(await getNetworkId())
+  networkReactive(await getNetwork())
+
   if (web3Modal) {
     await web3Modal.clearCachedProvider()
   }

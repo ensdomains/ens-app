@@ -288,7 +288,7 @@ const GET_ACCOUNT = gql`
 
 const handleConnect = address => () => {
   console.log('handleconnect')
-  setup()
+  setup(true)
   // connectMutation(address)
 }
 
