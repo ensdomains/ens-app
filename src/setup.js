@@ -22,7 +22,9 @@ import {
   getIsRunningAsSafeAppMutation,
   getFavouritesMutation,
   getSubDomainFavouritesMutation,
-  setIsAppReady
+  setIsAppReady,
+  setAccountsLocalMutation,
+  setNetworkIdLocalMutation
 } from './apollo/mutations/mutations'
 import {
   accountsReactive,
@@ -32,7 +34,8 @@ import {
   networkIdReactive,
   networkReactive,
   reverseRecordReactive,
-  subDomainFavouritesReactive
+  subDomainFavouritesReactive,
+  web3ProviderReactive
 } from './apollo/reactiveVars'
 import { setup as setupAnalytics } from './utils/analytics'
 import { safeInfo } from './utils/safeApps'
@@ -100,6 +103,30 @@ export const getProvider = async reconnect => {
   return provider
 }
 
+export const setWeb3Provider = async provider => {
+  web3ProviderReactive(provider)
+
+  const accounts = await getAccounts()
+
+  if (provider) {
+    provider.removeAllListeners()
+    accountsReactive(accounts)
+  }
+
+  provider?.on('chainChanged', async _chainId => {
+    const networkId = await getNetworkId()
+    console.log('chain changed: ', networkId)
+    networkIdReactive(networkId)
+  })
+
+  provider?.on('accountsChanged', async accounts => {
+    console.log('accounts changed')
+    accountsReactive(accounts)
+  })
+
+  return provider
+}
+
 export default async reconnect => {
   try {
     setFavourites()
@@ -109,7 +136,7 @@ export default async reconnect => {
     if (!provider) throw 'Please install metamask'
 
     networkIdReactive(await getNetworkId())
-    await setWeb3ProviderLocalMutation(provider)
+    await setWeb3Provider(provider)
     networkReactive(await getNetwork())
 
     if (accountsReactive?.[0]) {

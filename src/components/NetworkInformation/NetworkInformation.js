@@ -1,19 +1,14 @@
-import React, { useState, useContext } from 'react'
+import React from 'react'
 import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
-
+import gql from 'graphql-tag'
 import mq from 'mediaQuery'
-import GlobalState from '../../globalState'
+import { useQuery, useMutation } from '@apollo/client'
+
 import UnstyledBlockies from '../Blockies'
 import NoAccountsModal from '../NoAccounts/NoAccountsModal'
-import Loader from 'components/Loader'
-import useNetworkInfo from './useNetworkInfo'
-import { useQuery, useMutation } from '@apollo/client'
-import { GET_REVERSE_RECORD } from '../../graphql/queries'
 import { SET_ERROR } from '../../graphql/mutations'
-import { connect, disconnect } from '../../api/web3modal'
-import { hasValidReverseRecord } from '../../utils/utils'
-import gql from 'graphql-tag'
+import { connectProvider, disconnectProvider } from '../../utils/providerUtils'
 
 const NetworkInformationContainer = styled('div')`
   position: relative;
@@ -119,6 +114,7 @@ const NETWORK_INFORMATION_QUERY = gql`
     isSafeApp
     avatar
     network
+    displayName
   }
 `
 
@@ -130,38 +126,19 @@ const DISPLAY_NAME = gql`
 function NetworkInformation() {
   const { t } = useTranslation()
   const {
-    data: { accounts, isReadOnly, isSafeApp, avatar, network }
+    data: { accounts, isReadOnly, isSafeApp, avatar, network, displayName }
   } = useQuery(NETWORK_INFORMATION_QUERY)
 
-  const address = accounts?.[0]
-  const {
-    data: { displayName }
-  } = useQuery(DISPLAY_NAME, {
-    variables: {
-      address
-    }
-  })
+  // const address = accounts?.[0]
+  // const {
+  //   data: { displayName }
+  // } = useQuery(DISPLAY_NAME, {
+  //   variables: {
+  //     address
+  //   }
+  // })
 
   const [setError] = useMutation(SET_ERROR)
-
-  const handleConnect = async () => {
-    let network
-    try {
-      network = await connect()
-    } catch (e) {
-      setError({ variables: { message: e.message } })
-    }
-    if (network) {
-      switchNetwork(network.chainId)
-      location.reload()
-    }
-  }
-
-  const handleDisconnect = async () => {
-    await disconnect()
-    switchNetwork(1)
-    location.reload()
-  }
 
   // if (loading) {
   //   return (
@@ -196,7 +173,7 @@ function NetworkInformation() {
           </NetworkStatus>
           {!isSafeApp && (
             <NoAccountsModal
-              onClick={handleDisconnect}
+              onClick={disconnectProvider}
               buttonText={t('c.disconnect')}
               colour={'#F5A623'}
             />
@@ -211,7 +188,7 @@ function NetworkInformation() {
             {network} {t('c.network')}
           </NetworkStatus>
           <NoAccountsModal
-            onClick={handleConnect}
+            onClick={connectProvider}
             colour={'#F5A623'}
             buttonText={t('c.connect')}
           />

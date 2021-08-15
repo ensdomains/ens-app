@@ -24,3 +24,9 @@ describe('getProvider', () => {
     it.todo('should call setup')
   })
 })
+
+describe('setWeb3Provider', () => {
+  it.todo('should update network id when network id changes')
+  it.todo('should update accounts when accounts change')
+  it.todo('should remove listeners on the provider if they already exist')
+})

@@ -1,7 +1,20 @@
-export const getNetworkId = provider =>
-  provider.network?.chainId || provider.network || provider.networkVersion
+import setup from '../setup'
+import {
+  isReadOnlyReactive,
+  networkIdReactive,
+  networkReactive,
+  reverseRecordReactive
+} from '../apollo/reactiveVars'
+import { disconnect } from '../api/web3modal'
 
-export const getAccounts = async provider => {
-  if (provider.selectedAddress) return [provider.selectedAddress]
-  return await provider.listAccounts()
+export const connectProvider = () => {
+  setup(true)
+}
+
+export const disconnectProvider = () => {
+  disconnect()
+  networkIdReactive(1)
+  networkReactive(null)
+  isReadOnlyReactive(true)
+  reverseRecordReactive(null)
 }

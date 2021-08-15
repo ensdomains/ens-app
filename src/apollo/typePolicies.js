@@ -45,12 +45,7 @@ export default {
         }
       },
       displayName: {
-        read(
-          _,
-          {
-            args: { address }
-          }
-        ) {
+        read() {
           const addresss = accountsReactive()?.[0]
           if (!addresss) return ''
           return hasValidReverseRecord(reverseRecordReactive())

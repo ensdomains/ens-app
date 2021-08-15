@@ -5,6 +5,7 @@ import styled from '@emotion/styled/macro'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import mq from 'mediaQuery'
+
 import SearchDefault from '../components/SearchName/Search'
 import NoAccountsDefault from '../components/NoAccounts/NoAccountsModal'
 import bg from '../assets/heroBG.jpg'
@@ -13,13 +14,14 @@ import QuestionMarkDefault from '../components/Icons/QuestionMark'
 import HowToUseDefault from '../components/HowToUse/HowToUse'
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
 import { aboutPageURL } from '../utils/utils'
+import { connectProvider, disconnectProvider } from '../utils/providerUtils'
 import gql from 'graphql-tag'
-
 import {
-  connectMutation,
-  disconnectMutation
-} from '../apollo/mutations/mutations'
-import setup from '../setup'
+  isReadOnlyReactive,
+  networkIdReactive,
+  networkReactive,
+  reverseRecordReactive
+} from '../apollo/reactiveVars'
 
 const HeroTop = styled('div')`
   display: grid;
@@ -286,17 +288,6 @@ const GET_ACCOUNT = gql`
   }
 `
 
-const handleConnect = address => () => {
-  console.log('handleconnect')
-  setup(true)
-  // connectMutation(address)
-}
-
-const handleDisconnect = () => {
-  console.log('handledisconnect')
-  disconnectMutation()
-}
-
 const animation = {
   initial: {
     scale: 0,
@@ -315,7 +306,6 @@ export default ({ match }) => {
   const {
     data: { accounts }
   } = useQuery(GET_ACCOUNT)
-  console.log('accounts: ', accounts)
 
   const {
     data: { network, displayName, isReadOnly, isSafeApp }
@@ -334,9 +324,7 @@ export default ({ match }) => {
           </Network>
           {!isSafeApp && (
             <NoAccounts
-              onClick={
-                isReadOnly ? handleConnect(accounts?.[0]) : handleDisconnect
-              }
+              onClick={isReadOnly ? connectProvider : disconnectProvider}
               buttonText={isReadOnly ? t('c.connect') : t('c.disconnect')}
             />
           )}

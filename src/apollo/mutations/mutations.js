@@ -49,7 +49,7 @@ export const setWeb3ProviderLocalMutation = async provider => {
     // getNetworkMutation()
   })
 
-  provider?.on('accountsChanged', accounts => {
+  provider?.on('accountsChanged', async accounts => {
     console.log('accounts changed')
     // setAccountsLocalMutation(accounts)
   })
@@ -88,14 +88,6 @@ export const connectMutation = async address => {
     isReadOnlyReactive(false)
     reverseRecordReactive(await getReverseRecord(address))
   }
-}
-
-export const disconnectMutation = async () => {
-  networkIdReactive(1)
-  networkReactive(null)
-  isReadOnlyReactive(true)
-  reverseRecordReactive(null)
-  await disconnect()
 }
 
 export const addFavouriteMutation = domain => {
