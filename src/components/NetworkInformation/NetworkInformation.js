@@ -126,7 +126,7 @@ const DISPLAY_NAME = gql`
 function NetworkInformation() {
   const { t } = useTranslation()
   const {
-    data: { accounts, isReadOnly, isSafeApp, avatar, network, displayName }
+    data: { accounts, isSafeApp, avatar, network, displayName }
   } = useQuery(NETWORK_INFORMATION_QUERY)
 
   // const address = accounts?.[0]

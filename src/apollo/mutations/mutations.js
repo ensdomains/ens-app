@@ -7,30 +7,12 @@ import {
   isRunningAsSafeAppReactive,
   favouritesReactive,
   subDomainFavouritesReactive,
-  isAppReadyReactive,
   web3ProviderReactive
 } from '../reactiveVars'
-import {
-  getAccounts,
-  getNetwork,
-  getNetworkId,
-  getWeb3,
-  isDecrypted,
-  isReadOnly,
-  labelhash,
-  utils
-} from '@ensdomains/ui'
+import { getAccounts, getNetwork, getNetworkId } from '@ensdomains/ui'
 import { disconnect, connect } from '../../api/web3modal'
 import { getReverseRecord } from '../sideEffects'
 import { isRunningAsSafeApp } from 'utils/safeApps'
-import getENS, { getRegistrar } from './ens'
-import {
-  GET_ALL_NODES,
-  GET_REGISTRANT_FROM_SUBGRAPH
-} from '../../graphql/queries'
-import getClient from '../apolloClient'
-import modeNames from '../../api/modes'
-import { emptyAddress, ROPSTEN_DNSREGISTRAR_ADDRESS } from '../../utils/utils'
 
 export const setWeb3ProviderLocalMutation = async provider => {
   web3ProviderReactive(provider)

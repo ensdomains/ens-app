@@ -1,5 +1,6 @@
 import setup from '../setup'
 import {
+  accountsReactive,
   isReadOnlyReactive,
   networkIdReactive,
   networkReactive,
@@ -17,4 +18,5 @@ export const disconnectProvider = () => {
   networkReactive(null)
   isReadOnlyReactive(true)
   reverseRecordReactive(null)
+  accountsReactive(null)
 }

@@ -5,6 +5,7 @@ import gql from 'graphql-tag'
 import { reverseRecordReactive } from '../apollo/reactiveVars'
 import { usePrevious } from '../utils/utils'
 import getClient from '../apollo/apolloClient'
+import { getReverseRecord } from '../apollo/sideEffects'
 
 const REACT_VAR_LISTENERS = gql`
   query reactiveVarListeners @client {
@@ -21,7 +22,10 @@ export default () => {
   const previousNetworkId = usePrevious(networkId)
 
   useEffect(() => {
-    reverseRecordReactive(accounts?.[0])
+    const run = async () => {
+      reverseRecordReactive(await getReverseRecord(accounts?.[0]))
+    }
+    run()
   }, [accounts])
 
   useEffect(() => {
