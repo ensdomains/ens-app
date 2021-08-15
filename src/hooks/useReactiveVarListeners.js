@@ -11,12 +11,13 @@ const REACT_VAR_LISTENERS = gql`
   query reactiveVarListeners @client {
     accounts
     networkId
+    isENSReady
   }
 `
 
 export default () => {
   const {
-    data: { accounts, networkId }
+    data: { accounts, networkId, isENSReady }
   } = useQuery(REACT_VAR_LISTENERS)
 
   const previousNetworkId = usePrevious(networkId)
@@ -25,8 +26,10 @@ export default () => {
     const run = async () => {
       reverseRecordReactive(await getReverseRecord(accounts?.[0]))
     }
-    run()
-  }, [accounts])
+    if (isENSReady) {
+      run()
+    }
+  }, [accounts, isENSReady])
 
   useEffect(() => {
     if (previousNetworkId !== networkId && previousNetworkId !== undefined) {

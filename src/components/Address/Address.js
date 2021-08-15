@@ -154,7 +154,7 @@ function useDomains({
     fetchPolicy: 'no-cache'
   })
 
-  console.log('registrationQuery: ', registrationsQuery)
+  console.log('controllersQuery: ', controllersQuery)
 
   if (domainType === 'registrant') {
     return registrationsQuery

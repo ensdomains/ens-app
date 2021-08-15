@@ -1,13 +1,20 @@
-import { emptyAddress } from '../utils/utils'
-import getENS from './mutations/ens'
 import { normalize } from 'eth-ens-namehash'
-import { isENSReady } from './reactiveVars'
 
-export const getReverseRecord = async address => {
-  if (!isENSReady() || !address) return { name: null, match: false }
+import { emptyAddress } from '../../utils/utils'
+import getENS from '../../apollo/mutations/ens'
+import { isENSReady } from '../../apollo/reactiveVars'
 
+export default async (_, { address }) => {
   let name = emptyAddress
   const ens = getENS()
+  const obj = {
+    name,
+    address,
+    avatar: '',
+    match: false,
+    __typename: 'ReverseRecord'
+  }
+  if (!address || !isENSReady()) return obj
 
   try {
     const { name: reverseName } = await ens.getName(address)
@@ -22,6 +29,7 @@ export const getReverseRecord = async address => {
     if (name !== null) {
       const avatar = await ens.getText(name, 'avatar')
       return {
+        ...obj,
         name,
         addr: reverseAddress,
         avatar,
@@ -29,6 +37,7 @@ export const getReverseRecord = async address => {
       }
     } else {
       return {
+        ...obj,
         name: null,
         match: false
       }
@@ -36,6 +45,7 @@ export const getReverseRecord = async address => {
   } catch (e) {
     console.log(e)
     return {
+      ...obj,
       name: null,
       match: false
     }

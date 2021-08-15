@@ -29,6 +29,7 @@ import getClient from '../../apollo/apolloClient'
 import getENS, { getRegistrar } from 'apollo/mutations/ens'
 import { normalize } from 'eth-ens-namehash'
 import { detailedNodeReactive, namesReactive } from '../../apollo/reactiveVars'
+import getReverseRecord from './getReverseRecord'
 
 const defaults = {
   names: []
@@ -555,51 +556,7 @@ const resolvers = {
         console.log('getSubDomains error: ', e)
       }
     },
-    getReverseRecord: async (_, { address }) => {
-      let name = emptyAddress
-      const ens = getENS()
-      const obj = {
-        name,
-        address,
-        __typename: 'ReverseRecord'
-      }
-      if (!address) return obj
-
-      try {
-        const { name: reverseName } = await ens.getName(address)
-        const reverseAddress = await ens.getAddress(reverseName)
-        const normalisedName = normalize(reverseName)
-        if (
-          parseInt(address) === parseInt(reverseAddress) &&
-          reverseName === normalisedName
-        ) {
-          name = reverseName
-        }
-        if (name !== null) {
-          const avatar = await ens.getText(name, 'avatar')
-          return {
-            ...obj,
-            name,
-            addr: reverseAddress,
-            avatar,
-            match: false
-          }
-        } else {
-          return {
-            ...obj,
-            name: null,
-            match: false
-          }
-        }
-      } catch (e) {
-        console.log(e)
-        return {
-          ...obj,
-          name: null,
-          match: false
-        }
-      }
-    },
+    getReverseRecord,
     getText: async (_, { name, key }) => {
       const ens = getENS()
       const text = await ens.getText(name, key)
