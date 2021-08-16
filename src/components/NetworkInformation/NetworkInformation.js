@@ -118,25 +118,11 @@ const NETWORK_INFORMATION_QUERY = gql`
   }
 `
 
-const DISPLAY_NAME = gql`
-  query getDisplayName($address: String) {
-    displayName(address: $address)
-  }
-`
 function NetworkInformation() {
   const { t } = useTranslation()
   const {
-    data: { accounts, isSafeApp, avatar, network, displayName }
+    data: { accounts, isSafeApp, avatar, network, displayName, isReadOnly }
   } = useQuery(NETWORK_INFORMATION_QUERY)
-
-  // const address = accounts?.[0]
-  // const {
-  //   data: { displayName }
-  // } = useQuery(DISPLAY_NAME, {
-  //   variables: {
-  //     address
-  //   }
-  // })
 
   const [setError] = useMutation(SET_ERROR)
 

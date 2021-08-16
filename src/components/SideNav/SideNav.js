@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { useQuery } from '@apollo/client'
 
 import NetworkInformation from '../NetworkInformation/NetworkInformation'
-import useNetworkInfo from '../NetworkInformation/useNetworkInfo'
 import Heart from '../Icons/Heart'
 import File from '../Icons/File'
 import { aboutPageURL, hasNonAscii } from '../../utils/utils'

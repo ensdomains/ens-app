@@ -48,7 +48,8 @@ function isOwnerOfDomain(domain, account) {
   return false
 }
 
-function isOwnerOfParentDomain(domain, account) {
+export function isOwnerOfParentDomain(domain, account) {
+  if (!account) return false
   if (domain.parentOwner !== EMPTY_ADDRESS) {
     return domain.parentOwner?.toLowerCase() === account.toLowerCase()
   }
@@ -65,8 +66,6 @@ function Name({ details: domain, name, pathname, type, refetch }) {
   const { t } = useTranslation()
   const smallBP = useMediaMin('small')
   const percentDone = 0
-
-  console.log('Name: ', domain, name, pathname, type, refetch)
 
   const {
     data: { accounts }
