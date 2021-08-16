@@ -116,7 +116,9 @@ const RecordLink = ({ textKey, value }) => {
         <NotSet>Not set</NotSet>
       ) : (
         <>
-          <UnlinkedValue>{value}</UnlinkedValue>
+          <UnlinkedValue data-testid={`unlinked-value-${textKey}`}>
+            {value}
+          </UnlinkedValue>
           <CopyToClipboard value={value} />
         </>
       )}
