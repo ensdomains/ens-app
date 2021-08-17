@@ -28,7 +28,11 @@ import {
 import getClient from '../../apollo/apolloClient'
 import getENS, { getRegistrar } from 'apollo/mutations/ens'
 import { normalize } from 'eth-ens-namehash'
-import { detailedNodeReactive, namesReactive } from '../../apollo/reactiveVars'
+import {
+  detailedNodeReactive,
+  isENSReady,
+  namesReactive
+} from '../../apollo/reactiveVars'
 import getReverseRecord from './getReverseRecord'
 
 const defaults = {
@@ -220,7 +224,10 @@ async function getRegistrant(name) {
     const { data, error } = await client.query({
       query: GET_REGISTRANT_FROM_SUBGRAPH,
       fetchPolicy: 'network-only',
-      variables: { id: labelhash(name.split('.')[0]) }
+      variables: { id: labelhash(name.split('.')[0]) },
+      context: {
+        queryDeduplication: false
+      }
     })
     if (!data || !data.registration) {
       return null
@@ -356,6 +363,35 @@ const resolvers = {
 
     singleName: async (_, { name }) => {
       try {
+        if (!isENSReady() || !name)
+          return {
+            name: null,
+            revealDate: null,
+            registrationDate: null,
+            migrationStartDate: null,
+            currentBlockDate: null,
+            transferEndDate: null,
+            gracePeriodEndDate: null,
+            value: null,
+            highestBid: null,
+            state: null,
+            stateError: null,
+            label: null,
+            decrypted: false,
+            price: null,
+            rent: null,
+            referralFeePPM: null,
+            available: null,
+            contentType: null,
+            expiryTime: null,
+            isNewRegistrar: null,
+            isDNSRegistrar: null,
+            dnsOwner: null,
+            deedOwner: null,
+            registrant: null,
+            auctionEnds: null
+          }
+
         const ens = getENS()
         const decrypted = isDecrypted(name)
 

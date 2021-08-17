@@ -17,6 +17,7 @@ import { setupClient } from 'apollo/apolloClient'
 import { connect } from '../api/web3modal'
 import { safeInfo, setupSafeApp } from './safeApps'
 import { useEffect, useRef } from 'react'
+import { EMPTY_ADDRESS } from './records'
 
 // From https://github.com/0xProject/0x-monorepo/blob/development/packages/utils/src/address_utils.ts
 
@@ -269,4 +270,12 @@ export function usePrevious(value) {
   }, [value]) // Only re-run if value changes
   // Return previous value (happens before update in useEffect above)
   return ref.current
+}
+
+export function isOwnerOfParentDomain(domain, account) {
+  if (!account) return false
+  if (domain.parentOwner !== EMPTY_ADDRESS) {
+    return domain.parentOwner?.toLowerCase() === account.toLowerCase()
+  }
+  return false
 }

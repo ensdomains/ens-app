@@ -16,6 +16,7 @@ import Tabs from './Tabs'
 import { useAccount } from '../QueryAccount'
 import NameContainer from '../Basic/MainContainer'
 import Copy from '../CopyToClipboard/'
+import { isOwnerOfParentDomain } from '../../utils/utils'
 
 const Owner = styled('div')`
   color: #ccd4da;
@@ -44,14 +45,6 @@ function isDNSRegistrationOpen(domain) {
 function isOwnerOfDomain(domain, account) {
   if (domain.owner !== EMPTY_ADDRESS && !domain.available) {
     return domain.owner?.toLowerCase() === account?.toLowerCase()
-  }
-  return false
-}
-
-export function isOwnerOfParentDomain(domain, account) {
-  if (!account) return false
-  if (domain.parentOwner !== EMPTY_ADDRESS) {
-    return domain.parentOwner?.toLowerCase() === account.toLowerCase()
   }
   return false
 }

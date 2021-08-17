@@ -3,29 +3,12 @@ import {
   getAccounts,
   getNetwork,
   getNetworkId,
-  getWeb3,
-  isDecrypted,
   isReadOnly,
-  labelhash,
   utils
 } from '@ensdomains/ui'
 
 import { setup } from './apollo/mutations/ens'
 import { connect } from './api/web3modal'
-import {
-  setWeb3ProviderLocalMutation,
-  getNetworkMutation,
-  getReverseRecordMutation,
-  getAccountsMutation,
-  getNetworkIdMutation,
-  getIsReadOnlyMutation,
-  getIsRunningAsSafeAppMutation,
-  getFavouritesMutation,
-  getSubDomainFavouritesMutation,
-  setIsAppReady,
-  setAccountsLocalMutation,
-  setNetworkIdLocalMutation
-} from './apollo/mutations/mutations'
 import {
   accountsReactive,
   favouritesReactive,
@@ -133,7 +116,7 @@ export default async reconnect => {
     setSubDomainFavourites()
     const provider = await getProvider(reconnect)
 
-    if (!provider) throw 'Please install metamask'
+    if (!provider) throw 'Please install a wallet'
 
     networkIdReactive(await getNetworkId())
     await setWeb3Provider(provider)

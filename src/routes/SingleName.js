@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useQuery, useLazyQuery } from '@apollo/client'
 import gql from 'graphql-tag'
 
-import { validateName, parseSearchTerm } from '../utils/utils'
+import { validateName, parseSearchTerm, usePrevious } from '../utils/utils'
 import { useScrollTo } from '../components/hooks'
 import { GET_SINGLE_NAME } from '../graphql/queries'
 import Loader from '../components/Loader'
@@ -10,7 +10,7 @@ import SearchErrors from '../components/SearchErrors/SearchErrors'
 import Name from '../components/SingleName/Name'
 
 const SINGLE_NAME = gql`
-  query singleName @client {
+  query singleNameQuery @client {
     isENSReady
     networkId
   }
@@ -31,19 +31,14 @@ function SingleName({
   let errorMessage
 
   const {
-    data: { isENSReady, networkId }
+    data: { isENSReady }
   } = useQuery(SINGLE_NAME)
-  const [getSingleName, { data, loading, error, refetch }] = useLazyQuery(
-    GET_SINGLE_NAME
-  )
-
-  useEffect(() => {
-    if (isENSReady) {
-      getSingleName({
-        variables: { name }
-      })
+  const { data, loading, error, refetch } = useQuery(GET_SINGLE_NAME, {
+    variables: { name },
+    context: {
+      queryDeduplication: false
     }
-  }, [name, networkId, isENSReady])
+  })
 
   useEffect(() => {
     let normalisedName

@@ -37,7 +37,7 @@ export default () => {
 
       client
         .refetchQueries({
-          include: ['getRegistrations', 'getRegistrationsById'],
+          include: ['getRegistrations', 'getRegistrationsById', 'singleName'],
           onQueryUpdated(observableQuery, diff, lastDiff) {
             return true
           }

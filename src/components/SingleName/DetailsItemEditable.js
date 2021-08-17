@@ -4,7 +4,6 @@ import moment from 'moment'
 import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
 import { useQuery, useMutation } from '@apollo/client'
-import PropTypes from 'prop-types'
 import { motion, AnimatePresence } from 'framer-motion'
 import EthVal from 'ethval'
 
@@ -44,6 +43,7 @@ import DefaultPendingTx from '../PendingTx'
 import DefaultPricer from './Pricer'
 import DefaultAddressInput from '@ensdomains/react-ens-address'
 import CopyToClipboard from '../CopyToClipboard/'
+import { isOwnerOfParentDomain } from '../../utils/utils'
 
 const AddressInput = styled(DefaultAddressInput)`
   margin-bottom: 10px;
@@ -212,13 +212,6 @@ function getToolTipMessage({ keyName, t, isExpiredRegistrant }) {
     default:
       return 'You can only make changes if you are the controller and are logged into your wallet'
   }
-}
-
-function isOwnerOfParentDomain(domain, account) {
-  if (domain.parentOwner !== emptyAddress) {
-    return domain.parentOwner.toLowerCase() === account.toLowerCase()
-  }
-  return false
 }
 
 function chooseMutation(recordType, isOwnerOfParent) {
@@ -774,22 +767,5 @@ function ViewOnly({
 function DetailsEditable(props) {
   return props.canEdit ? <Editable {...props} /> : <ViewOnly {...props} />
 }
-
-// DetailsEditable.propTypes = {
-//   showLabel: PropTypes.string, // defaults to true, shows label
-//   keyName: PropTypes.string.isRequired, // key of the record
-//   value: PropTypes.string.isRequired, // value of the record (normally hex address)
-//   type: PropTypes.string, // type of value. Defaults to address
-//   mutation: PropTypes.object.isRequired, //graphql mutation string for masking tx
-//   onCompleted: PropTypes.func, // function to be called on the onCompleted
-//   mutationButton: PropTypes.string, // Mutation button text
-//   editButton: PropTypes.string, //Edit button text
-//   buttonType: PropTypes.string, // style of the edit button
-//   canEdit: PropTypes.bool,
-//   domain: PropTypes.object.isRequired,
-//   variableName: PropTypes.string, //can change the variable name for mutation
-//   refetch: PropTypes.func.isRequired,
-//   copyToClipboard: PropTypes.bool
-// }
 
 export default DetailsEditable
