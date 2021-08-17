@@ -5,6 +5,7 @@ import isEqual from 'lodash/isEqual'
 import differenceWith from 'lodash/differenceWith'
 import { useTranslation } from 'react-i18next'
 import { throttle } from 'lodash'
+import gql from 'graphql-tag'
 
 import { getNamehash, emptyAddress } from '@ensdomains/ui'
 import { useEditable } from '../../hooks'
@@ -357,6 +358,24 @@ const useChangedValidRecords = (
   }, [updatedRecords, recordsLoading, initialRecords])
 }
 
+const RECORDS_QUERY = gql`
+  query recordsQuery @client {
+    accounts
+  }
+`
+
+export const useResetFormOnNetworkChange = (
+  account,
+  initialRecords,
+  setUpdatedRecords,
+  stopEditing
+) => {
+  useEffect(() => {
+    setUpdatedRecords(initialRecords)
+    stopEditing()
+  }, [account])
+}
+
 export default function Records({
   domain,
   isOwner,
@@ -366,6 +385,11 @@ export default function Records({
   needsToBeMigrated
 }) {
   const { t } = useTranslation()
+  const {
+    data: { accounts }
+  } = useQuery(RECORDS_QUERY)
+  console.log('accounts: ', accounts?.[0])
+
   const [addMultiRecords] = useMutation(ADD_MULTI_RECORDS, {
     onCompleted: data => {
       startPending(Object.values(data)[0])
@@ -400,6 +424,12 @@ export default function Records({
     setValidRecords,
     initialRecords,
     updatedRecords
+  )
+  useResetFormOnNetworkChange(
+    accounts?.[0],
+    initialRecords,
+    setUpdatedRecords,
+    stopEditing
   )
 
   const shouldShowRecords = calculateShouldShowRecords(
