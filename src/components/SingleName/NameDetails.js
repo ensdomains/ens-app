@@ -570,6 +570,7 @@ function DetailsContainer({
     </Details>
   )
 }
+
 function NameDetails({
   domain,
   isOwner,
