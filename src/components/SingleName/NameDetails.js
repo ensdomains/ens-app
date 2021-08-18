@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useQuery } from '@apollo/client'
 import { useTranslation, Trans } from 'react-i18next'
 import styled from '@emotion/styled'
-import { Link, Route } from 'react-router-dom'
+import { Link, Route, Redirect } from 'react-router-dom'
 import mq from 'mediaQuery'
 
 import {
@@ -625,68 +625,16 @@ function NameDetails({
   const isAnAbsolutePath = pathname.split('/').length > 3
 
   if (domain.parent === 'eth' && tab === 'register' && !isAnAbsolutePath) {
-    return (
-      <NameRegister
-        registrationOpen={registrationOpen}
-        domain={domain}
-        refetch={refetch}
-        refetchIsMigrated={refetchIsMigrated}
-        readOnly={isEmptyAddress(account)}
-      />
-    )
+    return <Redirect to={`${pathname}/register`} />
   } else if (
     domain.parent === 'eth' &&
     tab === 'details' &&
     !isAnAbsolutePath
   ) {
-    return (
-      <DetailsContainer
-        isMigratedToNewRegistry={isMigratedToNewRegistry}
-        loadingIsMigrated={loadingIsMigrated}
-        refetchIsMigrated={refetchIsMigrated}
-        isParentMigratedToNewRegistry={isParentMigratedToNewRegistry}
-        loadingIsParentMigrated={loadingIsParentMigrated}
-        isDeedOwner={isDeedOwner}
-        isRegistrant={isRegistrant}
-        showExplainer={showExplainer}
-        canSubmit={canSubmit}
-        outOfSync={outOfSync}
-        releaseDeed={releaseDeed}
-        loading={loading}
-        setLoading={setLoading}
-        isOwnerOfParent={isOwnerOfParent}
-        isOwner={isOwner}
-        refetch={refetch}
-        domain={domain}
-        dnssecmode={dnssecmode}
-        account={account}
-      />
-    )
+    return <Redirect to={`${pathname}/details`} />
   } else if (domain.parent !== 'eth' && !isAnAbsolutePath) {
     //subdomain or dns
-    return (
-      <DetailsContainer
-        isMigratedToNewRegistry={isMigratedToNewRegistry}
-        loadingIsMigrated={loadingIsMigrated}
-        refetchIsMigrated={refetchIsMigrated}
-        isParentMigratedToNewRegistry={isParentMigratedToNewRegistry}
-        loadingIsParentMigrated={loadingIsParentMigrated}
-        isDeedOwner={isDeedOwner}
-        isRegistrant={isRegistrant}
-        showExplainer={showExplainer}
-        canSubmit={canSubmit}
-        outOfSync={outOfSync}
-        releaseDeed={releaseDeed}
-        loading={loading}
-        setLoading={setLoading}
-        isOwnerOfParent={isOwnerOfParent}
-        isOwner={isOwner}
-        refetch={refetch}
-        domain={domain}
-        dnssecmode={dnssecmode}
-        account={account}
-      />
-    )
+    return <Redirect to={`${pathname}/subdomains`} />
   }
 
   return (
