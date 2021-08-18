@@ -143,8 +143,6 @@ const Editable = ({
 
 function Record(props) {
   const {
-    textKey,
-    dataValue,
     validator,
     setHasRecord,
     hasRecord,
@@ -176,7 +174,7 @@ function Record(props) {
       {...{ updateRecord, record }}
     />
   ) : (
-    <ViewOnly textKey={key} value={dataValue} />
+    <ViewOnly textKey={key} value={record?.value} />
   )
 }
 
