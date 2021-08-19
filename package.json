@@ -11,7 +11,7 @@
     "@ensdomains/address-encoder": "^0.2.6",
     "@ensdomains/mock": "^2.1.40",
     "@ensdomains/react-ens-address": "^0.0.27",
-    "@ensdomains/ui": "^3.0.82",
+    "@ensdomains/ui": "^3.2.0",
     "@ensdomains/ens-validation": "0.0.0",
     "@gnosis.pm/safe-apps-provider": "^0.2.2",
     "@myetherwallet/mewconnect-web-client": "^2.1.11",
