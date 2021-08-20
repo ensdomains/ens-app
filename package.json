@@ -116,7 +116,7 @@
     "cypress-pipe": "^1.5.0",
     "cypress-testing-library": "^2.3.4",
     "cypress-wait-until": "^1.3.0",
-    "ganache-cli": "6.10.0-internal.1",
+    "ganache-cli": "6.12.2",
     "husky": "^2.2.0",
     "i18next-json-sync": "^2.3.1",
     "jest-localstorage-mock": "^2.4.0",

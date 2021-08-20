@@ -197,7 +197,7 @@ export function useGasPrice(enabled = true) {
           )
           const price = {
             slow: baseFeeWei + 2 * Math.pow(10, 9),
-            fast: baseFeeWei * 2 + 2 * Math.pow(10, 9)
+            fast: baseFeeWei * 1.5 + 2 * Math.pow(10, 9)
           }
           setPrice(price)
           setLoading(false)
