@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
 import gql from 'graphql-tag'
@@ -49,6 +49,25 @@ function isOwnerOfDomain(domain, account) {
   return false
 }
 
+const NAME_REGISTER_DATA_WRAPPER = gql`
+  query nameRegisterDataWrapper @client {
+    accounts
+    networkId
+  }
+`
+
+const useRefreshComponent = () => {
+  const [key, setKey] = useState(1)
+  const {
+    data: { accounts, networkId }
+  } = useQuery(NAME_REGISTER_DATA_WRAPPER)
+  const mainAccount = accounts?.[0]
+  useEffect(() => {
+    setKey(x => x + 1)
+  }, [mainAccount, networkId])
+  return key
+}
+
 const NAME_QUERY = gql`
   query nameQuery {
     accounts @client
@@ -91,83 +110,83 @@ function Name({ details: domain, name, pathname, type, refetch }) {
     containerState = isOwner ? 'Yours' : domain.state
   }
 
+  const key = useRefreshComponent()
+
   return (
-    <>
-      <NameContainer state={containerState}>
-        <TopBar percentDone={percentDone}>
-          <Title>
-            {domain?.decrypted
-              ? name
-              : '[unknown' +
-                domain.name?.split('.')[0].slice(1, 11) +
-                ']' +
-                '.' +
-                domain.parent}
-            <Copy
-              value={
-                domain?.decrypted
-                  ? name
-                  : '[unknown' +
-                    domain.name?.split('.')[0].slice(1, 11) +
-                    ']' +
-                    '.' +
-                    domain.parent
-              }
+    <NameContainer state={containerState} key={key}>
+      <TopBar percentDone={percentDone}>
+        <Title>
+          {domain?.decrypted
+            ? name
+            : '[unknown' +
+              domain.name?.split('.')[0].slice(1, 11) +
+              ']' +
+              '.' +
+              domain.parent}
+          <Copy
+            value={
+              domain?.decrypted
+                ? name
+                : '[unknown' +
+                  domain.name?.split('.')[0].slice(1, 11) +
+                  ']' +
+                  '.' +
+                  domain.parent
+            }
+          />
+        </Title>
+        <RightBar>
+          {!!ownerType && (
+            <Owner data-testid="owner-type">
+              {ownerType === 'Registrant'
+                ? t('c.registrant')
+                : t('c.Controller')}
+            </Owner>
+          )}
+          <Favourite domain={domain} />
+          {smallBP && (
+            <Tabs
+              pathname={pathname}
+              tab={preferredTab}
+              domain={domain}
+              parent={domain.parent}
             />
-          </Title>
-          <RightBar>
-            {!!ownerType && (
-              <Owner data-testid="owner-type">
-                {ownerType === 'Registrant'
-                  ? t('c.registrant')
-                  : t('c.Controller')}
-              </Owner>
-            )}
-            <Favourite domain={domain} />
-            {smallBP && (
-              <Tabs
-                pathname={pathname}
-                tab={preferredTab}
-                domain={domain}
-                parent={domain.parent}
-              />
-            )}
-          </RightBar>
-        </TopBar>
-        {!smallBP && (
-          <Tabs
-            pathname={pathname}
-            tab={preferredTab}
-            domain={domain}
-            parent={domain.parent}
-          />
-        )}
-        {isDNSRegistrationOpen(domain) ? (
-          <DNSNameRegister
-            domain={domain}
-            registrarAddress={registrarAddress}
-            pathname={pathname}
-            refetch={refetch}
-            account={account}
-            readOnly={account === EMPTY_ADDRESS}
-          />
-        ) : type === 'short' && domain.owner === EMPTY_ADDRESS ? ( // check it's short and hasn't been claimed already
-          <ShortName name={name} />
-        ) : (
-          <NameDetails
-            tab={preferredTab}
-            domain={domain}
-            pathname={pathname}
-            name={name}
-            isOwner={isOwner}
-            isOwnerOfParent={isOwnerOfParent}
-            refetch={refetch}
-            account={account}
-            registrationOpen={registrationOpen}
-          />
-        )}
-      </NameContainer>
-    </>
+          )}
+        </RightBar>
+      </TopBar>
+      {!smallBP && (
+        <Tabs
+          pathname={pathname}
+          tab={preferredTab}
+          domain={domain}
+          parent={domain.parent}
+        />
+      )}
+      {isDNSRegistrationOpen(domain) ? (
+        <DNSNameRegister
+          domain={domain}
+          registrarAddress={registrarAddress}
+          pathname={pathname}
+          refetch={refetch}
+          account={account}
+          readOnly={account === EMPTY_ADDRESS}
+        />
+      ) : type === 'short' && domain.owner === EMPTY_ADDRESS ? ( // check it's short and hasn't been claimed already
+        <ShortName name={name} />
+      ) : (
+        <NameDetails
+          tab={preferredTab}
+          domain={domain}
+          pathname={pathname}
+          name={name}
+          isOwner={isOwner}
+          isOwnerOfParent={isOwnerOfParent}
+          refetch={refetch}
+          account={account}
+          registrationOpen={registrationOpen}
+        />
+      )}
+    </NameContainer>
   )
 }
 
