@@ -5,6 +5,8 @@ import { Query } from '@apollo/client/react/components'
 import DomainItem from '../components/DomainItem/DomainItem'
 import { getNamehash } from '@ensdomains/ui'
 import { useQuery } from '@apollo/client'
+import gql from 'graphql-tag'
+
 import {
   GET_FAVOURITES,
   GET_SUBDOMAIN_FAVOURITES,
@@ -91,6 +93,23 @@ function getDomainState(owner, available) {
   return parseInt(owner, 16) === 0 ? 'Open' : 'Owned'
 }
 
+const RESET_STATE_QUERY = gql`
+  query resetStateQuery @client {
+    networkId
+  }
+`
+
+export const useResetState = (setYears, setCheckedBoxes, setSelectAll) => {
+  const {
+    data: { networkId }
+  } = useQuery(RESET_STATE_QUERY)
+  useEffect(() => {
+    setYears(1)
+    setCheckedBoxes({})
+    setSelectAll(null)
+  }, [networkId])
+}
+
 function Favourites() {
   const { t } = useTranslation()
   useEffect(() => {
@@ -100,6 +119,8 @@ function Favourites() {
   let [years, setYears] = useState(1)
   let [checkedBoxes, setCheckedBoxes] = useState({})
   const [selectAll, setSelectAll] = useState(false)
+
+  useResetState(setYears, setCheckedBoxes, setSelectAll)
 
   const { data: { favourites } = [] } = useQuery(GET_FAVOURITES)
   const { data: { subDomainFavourites } = [] } = useQuery(
@@ -117,9 +138,6 @@ function Favourites() {
       }
     }
   )
-
-  console.log('ids: ', ids)
-  console.log('registrations: ', registrations)
 
   if (!favourites || (favourites.length === 0 && !registrations)) {
     return <NoDomains />
