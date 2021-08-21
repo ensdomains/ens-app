@@ -361,6 +361,7 @@ const useChangedValidRecords = (
 const RECORDS_QUERY = gql`
   query recordsQuery @client {
     accounts
+    isReadOnly
   }
 `
 
@@ -386,9 +387,8 @@ export default function Records({
 }) {
   const { t } = useTranslation()
   const {
-    data: { accounts }
+    data: { accounts, isReadOnly }
   } = useQuery(RECORDS_QUERY)
-  console.log('accounts: ', accounts?.[0])
 
   const [addMultiRecords] = useMutation(ADD_MULTI_RECORDS, {
     onCompleted: data => {
@@ -442,7 +442,7 @@ export default function Records({
   }
 
   const canEditRecords =
-    !isOldPublicResolver && !isDeprecatedResolver && isOwner
+    !isOldPublicResolver && !isDeprecatedResolver && isOwner && !isReadOnly
 
   return (
     <RecordsWrapper

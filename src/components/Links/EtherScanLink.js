@@ -24,7 +24,7 @@ const EtherScanLinkContainer = styled('a')`
 `
 
 const GET_ETHER_SCAN_LINK = gql`
-  query getEtherScanLink {
+  query getEtherScanLink @client {
     network
   }
 `
@@ -33,7 +33,7 @@ const EtherScanLink = ({ children, address, className }) => {
   const {
     data: { network }
   } = useQuery(GET_ETHER_SCAN_LINK)
-  const subdomain = network === 'main' ? '' : `${network}.`
+  const subdomain = network?.toLowerCase() === 'main' ? '' : `${network}.`
   return (
     <EtherScanLinkContainer
       target="_blank"
