@@ -71,10 +71,6 @@ export const connect = async () => {
     //
     // The name will be registered with account 1 as the owner and target address, but using account 2 to send the TX
 
-    // provider.on('accountsChanged', accounts => {
-    //   window.location.reload()
-    // })
-
     await setupENS({
       customProvider: provider,
       reloadOnAccountsChange: true,
@@ -94,9 +90,9 @@ export const disconnect = async function() {
     provider.disconnect()
   }
   await setupENS({
-    reloadOnAccountsChange: true,
+    reloadOnAccountsChange: false,
     enforceReadOnly: true,
-    enforceReload: true
+    enforceReload: false
   })
 
   isReadOnlyReactive(isReadOnly())

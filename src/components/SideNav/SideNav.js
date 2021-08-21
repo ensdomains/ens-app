@@ -12,6 +12,7 @@ import SpeechBubble from '../Icons/SpeechBubble'
 import mq from 'mediaQuery'
 import { Link, withRouter } from 'react-router-dom'
 import gql from 'graphql-tag'
+import { isENSReady } from '../../apollo/reactiveVars'
 
 const SideNavContainer = styled('nav')`
   display: ${p => (p.isMenuOpen ? 'block' : 'none')};
@@ -135,6 +136,7 @@ const ThirdPartyLink = styled('a')`
 const SIDENAV_QUERY = gql`
   query getSideNavData {
     accounts
+    isReadOnly
   }
 `
 
@@ -142,13 +144,13 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
   const { url } = match
   const { t } = useTranslation()
   const {
-    data: { accounts }
+    data: { accounts, isReadOnly }
   } = useQuery(SIDENAV_QUERY)
   return (
     <SideNavContainer isMenuOpen={isMenuOpen} hasNonAscii={hasNonAscii()}>
       <NetworkInformation />
       <ul data-testid="sitenav">
-        {accounts && accounts.length > 0 ? (
+        {accounts?.length > 0 && !isReadOnly ? (
           <li>
             <NavLink
               onClick={toggleMenu}

@@ -144,7 +144,7 @@ function NetworkInformation() {
 
   return (
     <NetworkInformationContainer hasAccount={accounts && accounts.length > 0}>
-      {accounts && accounts.length > 0 ? (
+      {!isReadOnly ? (
         <AccountContainer>
           {avatar ? (
             <Avatar src={avatar} />

@@ -9,7 +9,7 @@ import setup from './setup'
 import { clientReactive, networkIdReactive } from './apollo/reactiveVars'
 import { setupClient } from './apollo/apolloClient'
 
-setup()
+setup(false)
 window.addEventListener('load', async () => {
   const client = clientReactive(setupClient(networkIdReactive()))
   ReactDOM.render(

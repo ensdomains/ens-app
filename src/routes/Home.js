@@ -16,12 +16,6 @@ import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
 import { aboutPageURL } from '../utils/utils'
 import { connectProvider, disconnectProvider } from '../utils/providerUtils'
 import gql from 'graphql-tag'
-import {
-  isReadOnlyReactive,
-  networkIdReactive,
-  networkReactive,
-  reverseRecordReactive
-} from '../apollo/reactiveVars'
 
 const HeroTop = styled('div')`
   display: grid;
@@ -330,7 +324,7 @@ export default ({ match }) => {
           )}
         </NetworkStatus>
         <Nav>
-          {accounts?.length > 0 && (
+          {accounts?.length > 0 && !isReadOnly && (
             <NavLink
               active={url === '/address/' + accounts[0]}
               to={'/address/' + accounts[0]}

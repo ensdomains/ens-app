@@ -22,6 +22,8 @@ export default () => {
 
   const previousNetworkId = usePrevious(networkId)
 
+  console.log('accounts: ', accounts)
+
   useEffect(() => {
     const run = async () => {
       reverseRecordReactive(await getReverseRecord(accounts?.[0]))
