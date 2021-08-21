@@ -100,6 +100,7 @@ export const setWeb3Provider = async provider => {
     const networkId = await getNetworkId()
     console.log('chain changed: ', networkId)
     networkIdReactive(networkId)
+    networkReactive(await getNetwork())
   })
 
   provider?.on('accountsChanged', async accounts => {
