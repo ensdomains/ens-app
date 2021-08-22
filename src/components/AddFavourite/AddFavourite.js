@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled/macro'
+import { useMutation } from '@apollo/client'
+import gql from 'graphql-tag'
 
 import {
   addFavouriteMutation,
@@ -23,7 +25,51 @@ const InActiveHeart = styled(InActiveHeartDefault)`
   }
 `
 
+const ADD_FAVOURITE = gql`
+  mutation AddFavouriteMutation($domain: Domain) {
+    addFavourite(domain: $domain) @client
+  }
+`
+const ADD_SUBDOMAIN_FAVOURITE = gql`
+  mutation AddSubDomainFavourite($domain: Domain) {
+    addSubDomainFavourite(domain: $domain) @client
+  }
+`
+
+const DELETE_FAVOURITE = gql`
+  mutation DeleteFavouriteMutation($domain: Domain) {
+    deleteFavourite(domain: $domain) @client
+  }
+`
+const DELETE_SUBDOMAIN_FAVOURITE = gql`
+  mutation DeleteSubDomainFavourite($domain: Domain) {
+    deleteSubDomainFavourite(domain: $domain) @client
+  }
+`
+
 const AddFavourite = ({ domain, isFavourite, isSubDomain }) => {
+  const [subDomainFavouriteMutation] = useMutation(
+    isFavourite ? DELETE_SUBDOMAIN_FAVOURITE : ADD_SUBDOMAIN_FAVOURITE,
+    {
+      variables: {
+        domain: {
+          name: domain.name
+        }
+      }
+    }
+  )
+
+  const [favouriteMutation] = useMutation(
+    isFavourite ? DELETE_FAVOURITE : ADD_FAVOURITE,
+    {
+      variables: {
+        domain: {
+          name: domain.name
+        }
+      }
+    }
+  )
+
   if (isSubDomain) {
     return (
       <AddFavouriteContainer
@@ -33,7 +79,7 @@ const AddFavourite = ({ domain, isFavourite, isSubDomain }) => {
           isFavourite
             ? deleteSubDomainFavouriteMutation(domain)
             : addSubDomainFavouriteMutation(domain)
-          favouriteMutation()
+          subDomainFavouriteMutation()
         }}
       >
         {isFavourite ? <ActiveHeart /> : <InActiveHeart />}
@@ -49,6 +95,7 @@ const AddFavourite = ({ domain, isFavourite, isSubDomain }) => {
         isFavourite
           ? deleteFavouriteMutation(domain)
           : addFavouriteMutation(domain)
+        favouriteMutation()
       }}
     >
       {isFavourite ? <ActiveHeart /> : <InActiveHeart />}

@@ -35,6 +35,7 @@ import AddReverseRecord from '../AddReverseRecord'
 import warning from '../../assets/yellowwarning.svg'
 import close from '../../assets/close.svg'
 import { useBlock } from '../hooks'
+import gql from 'graphql-tag'
 
 const DEFAULT_RESULTS_PER_PAGE = 25
 
@@ -154,8 +155,6 @@ function useDomains({
     fetchPolicy: 'no-cache'
   })
 
-  console.log('controllersQuery: ', controllersQuery)
-
   if (domainType === 'registrant') {
     return registrationsQuery
   } else if (domainType === 'controller') {
@@ -163,6 +162,22 @@ function useDomains({
   } else {
     throw new Error('Unrecognised domainType')
   }
+}
+
+const RESET_STATE_QUERY = gql`
+  query resetStateQuery @client {
+    networkId
+  }
+`
+export const useResetState = (setYears, setCheckedBoxes, setSelectAll) => {
+  const {
+    data: { networkId }
+  } = useQuery(RESET_STATE_QUERY)
+  useEffect(() => {
+    setYears(1)
+    setCheckedBoxes({})
+    setSelectAll(null)
+  }, [networkId])
 }
 
 export default function Address({
@@ -188,6 +203,8 @@ export default function Address({
   let [checkedBoxes, setCheckedBoxes] = useState({})
   let [years, setYears] = useState(1)
   const [selectAll, setSelectAll] = useState(false)
+  useResetState(setYears, setCheckedBoxes, setSelectAll)
+
   let currentDate, expiryDate
   if (process.env.REACT_APP_STAGE === 'local') {
     if (block) {

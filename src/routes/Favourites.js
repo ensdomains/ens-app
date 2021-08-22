@@ -98,7 +98,6 @@ const RESET_STATE_QUERY = gql`
     networkId
   }
 `
-
 export const useResetState = (setYears, setCheckedBoxes, setSelectAll) => {
   const {
     data: { networkId }

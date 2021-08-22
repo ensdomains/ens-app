@@ -18,8 +18,6 @@ const Favourite = ({ domain }) => {
   const favourites =
     nameArray?.length < 3 ? data?.favourites : data?.subDomainFavourites
 
-  console.log('favourites: ', favourites)
-
   return (
     <AddFavourite
       domain={domain}
