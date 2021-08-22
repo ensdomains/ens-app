@@ -85,6 +85,10 @@ export const connect = async () => {
 }
 
 export const disconnect = async function() {
+  if (web3Modal) {
+    await web3Modal.clearCachedProvider()
+  }
+
   // Disconnect wallet connect provider
   if (provider && provider.disconnect) {
     provider.disconnect()
@@ -99,8 +103,4 @@ export const disconnect = async function() {
   web3ProviderReactive(null)
   networkIdReactive(await getNetworkId())
   networkReactive(await getNetwork())
-
-  if (web3Modal) {
-    await web3Modal.clearCachedProvider()
-  }
 }

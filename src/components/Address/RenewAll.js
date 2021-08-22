@@ -92,8 +92,6 @@ export default function Renew({
   selectedNames,
   address,
   allNames,
-  selectAllNames,
-  removeAllNames,
   setCheckedBoxes,
   setSelectAll,
   refetch,
