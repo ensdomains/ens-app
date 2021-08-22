@@ -35,6 +35,7 @@ function SingleName({
   } = useQuery(SINGLE_NAME)
   const { data, loading, error, refetch } = useQuery(GET_SINGLE_NAME, {
     variables: { name },
+    fetchPolicy: 'no-cache',
     context: {
       queryDeduplication: false
     }
