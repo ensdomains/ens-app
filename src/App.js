@@ -1,4 +1,4 @@
-import React, { Fragment, lazy } from 'react'
+import React, { Fragment, lazy, Suspense } from 'react'
 import {
   HashRouter,
   BrowserRouter,
@@ -22,7 +22,7 @@ import { pageview, setup as setupAnalytics } from './utils/analytics'
 import gql from 'graphql-tag'
 import useReactiveVarListeners from './hooks/useReactiveVarListeners'
 
-// If we are targeting an IPFS build we need to use HashRouter
+//If we are targeting an IPFS build we need to use HashRouter
 const Router =
   process.env.REACT_APP_IPFS === 'True' ? HashRouter : BrowserRouter
 
@@ -61,8 +61,8 @@ const App = () => {
   }
 
   return (
-    <>
-      <Router>
+    <Router>
+      <Suspense fallback={<div>Loading...</div>}>
         <Switch>
           <Route exact path="/" component={Home} layout={HomePageLayout} />
           <Route path="/test-registrar" component={TestRegistrar} />
@@ -77,8 +77,8 @@ const App = () => {
           <Route path="/renew" component={Renew} />
           <Route path="*" component={Error404} />
         </Switch>
-      </Router>
-    </>
+      </Suspense>
+    </Router>
   )
 }
 export default App

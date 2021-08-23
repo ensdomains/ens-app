@@ -1,4 +1,4 @@
-import { getNetworkId } from '@ensdomains/ui/dist/web3'
+import { getNetworkId } from '@ensdomains/ui/src/web3'
 import {
   emptyAddress as _emptyAddress,
   validateName as _validateName,
@@ -12,10 +12,6 @@ import { validate } from '@ensdomains/ens-validation'
 import getENS from '../apollo/mutations/ens'
 import * as jsSHA3 from 'js-sha3'
 import { saveName } from '../api/labels'
-import { SET_ERROR } from 'graphql/mutations'
-import { setupClient } from 'apollo/apolloClient'
-import { connect } from '../api/web3modal'
-import { safeInfo, setupSafeApp } from './safeApps'
 import { useEffect, useRef } from 'react'
 import { EMPTY_ADDRESS } from './records'
 
@@ -189,62 +185,6 @@ export const aboutPageURL = () => {
 
 export function isRecordEmpty(value) {
   return value === emptyAddress || value === ''
-}
-
-export async function handleNetworkChange() {
-  let client, networkId
-  try {
-    // if (
-    //   process.env.REACT_APP_STAGE === 'local' &&
-    //   process.env.REACT_APP_ENS_ADDRESS
-    // ) {
-    //   await setup({
-    //     reloadOnAccountsChange: true,
-    //     customProvider: 'http://localhost:8545',
-    //     ensAddress: process.env.REACT_APP_ENS_ADDRESS
-    //   })
-    //   let labels = window.localStorage['labels']
-    //     ? JSON.parse(window.localStorage['labels'])
-    //     : {}
-    //   window.localStorage.setItem(
-    //     'labels',
-    //     JSON.stringify({
-    //       ...labels,
-    //       ...JSON.parse(process.env.REACT_APP_LABELS)
-    //     })
-    //   )
-    // } else {
-    //   const safe = await safeInfo()
-    //   if (safe) {
-    //     const network = await setupSafeApp(safe)
-    //   } else if (window.localStorage.getItem('WEB3_CONNECT_CACHED_PROVIDER')) {
-    //     const network = await connect()
-    //   } else {
-    //     await setup({
-    //       reloadOnAccountsChange: false,
-    //       enforceReadOnly: true,
-    //       enforceReload: true
-    //     })
-    //   }
-    // }
-    // await setup({
-    //   reloadOnAccountsChange: false,
-    //   enforceReadOnly: true,
-    //   enforceReload: true
-    // })
-    // await connect()
-    // networkId = await getNetworkId()
-    // networkId = 1
-    // client = await setupClient(networkId)
-  } catch (e) {
-    networkId = networkId || 1 // Readonly to Mainnet
-    client = await setupClient()
-    await client.mutate({
-      mutation: SET_ERROR,
-      variables: { message: e && e.message }
-    })
-  }
-  return { client, networkId }
 }
 
 export const hasValidReverseRecord = getReverseRecord =>

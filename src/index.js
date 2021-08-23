@@ -13,11 +13,9 @@ setup(false)
 window.addEventListener('load', async () => {
   const client = clientReactive(setupClient(networkIdReactive()))
   ReactDOM.render(
-    <Suspense fallback={null}>
-      <ApolloProvider {...{ client }}>
-        <App />
-      </ApolloProvider>
-    </Suspense>,
+    <ApolloProvider {...{ client }}>
+      <App />
+    </ApolloProvider>,
     document.getElementById('root')
   )
 })

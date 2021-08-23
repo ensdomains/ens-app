@@ -3,11 +3,9 @@ import {
   ApolloLink,
   HttpLink,
   InMemoryCache,
-  split,
-  from
+  split
 } from '@apollo/client'
 import Observable from 'zen-observable'
-import gql from 'graphql-tag'
 
 import resolvers from '../api/rootResolver'
 import typePolicies from './typePolicies'
