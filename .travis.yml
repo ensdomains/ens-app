@@ -55,6 +55,9 @@ jobs:
     - stage: deploy
       name: 'Deploy to live'
       script: yarn deploy
+    - stage: pr
+      name: 'Pull request build'
+      script: yarn deploy:dev
 
 stages:
   - name: test
