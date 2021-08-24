@@ -62,6 +62,8 @@ jobs:
 stages:
   - name: test
     if: branch != master
+  - name: pr
+    if: branch != master
   - name: deploy
     if: branch = master
 
