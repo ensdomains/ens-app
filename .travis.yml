@@ -67,6 +67,7 @@ jobs:
       name: 'staging'
       script:
         - echo "$TRAVIS_BRANCH"
+        - echo "$TRAVIS_COMMIT"
         - surge list
 
 stages:
