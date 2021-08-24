@@ -59,7 +59,10 @@ jobs:
       name: 'Pull request build'
       install:
         - yarn
-      script: yarn deploy:dev
+      script:
+        - npm run build
+        - npm run postbuild
+        - surge build "$TRAVIS_BUILD_ID".surge.sh
 
 stages:
   - name: test
