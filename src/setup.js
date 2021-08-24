@@ -1,11 +1,7 @@
 import StackdriverErrorReporter from 'stackdriver-errors-js'
-import {
-  getAccounts,
-  getNetwork,
-  getNetworkId,
-  isReadOnly,
-  utils
-} from '@ensdomains/ui'
+import { getAccounts, getNetwork, getNetworkId, utils } from '@ensdomains/ui'
+
+import { isReadOnly } from '@ensdomains/ui/dist/web3'
 
 import { setup } from './apollo/mutations/ens'
 import { connect } from './api/web3modal'
@@ -127,6 +123,7 @@ export default async reconnect => {
       reverseRecordReactive(await getReverseRecord(address))
     }
 
+    console.log('isReadOnly: ', isReadOnly())
     isReadOnlyReactive(isReadOnly())
 
     setupAnalytics()

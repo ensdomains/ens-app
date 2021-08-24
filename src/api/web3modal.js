@@ -58,22 +58,13 @@ let web3Modal
 export const connect = async () => {
   try {
     const Web3Modal = (await import('@ensdomains/web3modal')).default
-    const { getNetwork } = await import('@ensdomains/ui')
 
     web3Modal = new Web3Modal(option)
     provider = await web3Modal.connect()
 
-    //TODO:
-    // If you:
-    // 1. Load the app while connected with account 1
-    // 2. Change the wallet to account 2
-    // 3. Try and register a name
-    //
-    // The name will be registered with account 1 as the owner and target address, but using account 2 to send the TX
-
     await setupENS({
       customProvider: provider,
-      reloadOnAccountsChange: true,
+      reloadOnAccountsChange: false,
       enforceReload: true
     })
     return provider

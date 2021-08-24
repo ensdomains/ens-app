@@ -1,29 +1,8 @@
 import {
-  getStates,
   hasReachedState,
   registerMachine,
   registerReducer
 } from './registerReducer'
-
-test('getStates returns the correct states in order', () => {
-  expect(
-    getStates(
-      {
-        blah: {
-          on: {
-            NEXT: 'blah2'
-          }
-        },
-        blah2: {
-          on: {
-            NEXT: 'blah2'
-          }
-        }
-      },
-      'blah'
-    )
-  ).toEqual(['blah', 'blah2'])
-})
 
 describe('hasReachedState', () => {
   it('returns true when it has passed ', () => {

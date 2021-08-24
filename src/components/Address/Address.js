@@ -167,12 +167,15 @@ function useDomains({
 const RESET_STATE_QUERY = gql`
   query resetStateQuery @client {
     networkId
+    isENSReady
   }
 `
-export const useResetState = (setYears, setCheckedBoxes, setSelectAll) => {
-  const {
-    data: { networkId }
-  } = useQuery(RESET_STATE_QUERY)
+export const useResetState = (
+  setYears,
+  setCheckedBoxes,
+  setSelectAll,
+  networkId
+) => {
   useEffect(() => {
     setYears(1)
     setCheckedBoxes({})
@@ -186,6 +189,9 @@ export default function Address({
   showOriginBanner,
   domainType = 'registrant'
 }) {
+  const {
+    data: { networkId, isENSReady }
+  } = useQuery(RESET_STATE_QUERY)
   const normalisedAddress = normaliseAddress(address)
   const { search } = useLocation()
   const account = useAccount()
@@ -203,7 +209,7 @@ export default function Address({
   let [checkedBoxes, setCheckedBoxes] = useState({})
   let [years, setYears] = useState(1)
   const [selectAll, setSelectAll] = useState(false)
-  useResetState(setYears, setCheckedBoxes, setSelectAll)
+  useResetState(setYears, setCheckedBoxes, setSelectAll, networkId)
 
   let currentDate, expiryDate
   if (process.env.REACT_APP_STAGE === 'local') {
@@ -228,8 +234,10 @@ export default function Address({
 
   const { data: { favourites } = [] } = useQuery(GET_FAVOURITES)
   useEffect(() => {
-    getEtherScanAddr().then(setEtherScanAddr)
-  }, [])
+    if (isENSReady) {
+      getEtherScanAddr().then(setEtherScanAddr)
+    }
+  }, [isENSReady])
 
   if (error) {
     console.log(error)

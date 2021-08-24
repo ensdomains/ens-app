@@ -365,7 +365,7 @@ const RECORDS_QUERY = gql`
   }
 `
 
-export const useResetFormOnNetworkChange = (
+export const useResetFormOnAccountChange = (
   account,
   initialRecords,
   setUpdatedRecords,
@@ -425,7 +425,7 @@ export default function Records({
     initialRecords,
     updatedRecords
   )
-  useResetFormOnNetworkChange(
+  useResetFormOnAccountChange(
     accounts?.[0],
     initialRecords,
     setUpdatedRecords,

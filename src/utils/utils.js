@@ -1,4 +1,4 @@
-import { getNetworkId } from '@ensdomains/ui/src/web3'
+import { getNetworkId } from '@ensdomains/ui/dist/web3'
 import {
   emptyAddress as _emptyAddress,
   validateName as _validateName,
@@ -6,7 +6,7 @@ import {
   getEnsStartBlock as _ensStartBlock,
   isLabelValid as _isLabelValid,
   isEncodedLabelhash
-} from '@ensdomains/ui/src/utils/index'
+} from '@ensdomains/ui/dist/utils/index'
 import { validate } from '@ensdomains/ens-validation'
 
 import getENS from '../apollo/mutations/ens'
