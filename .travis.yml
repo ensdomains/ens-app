@@ -62,15 +62,22 @@ jobs:
       script:
         - npm run build
         - npm run postbuild
-        - surge build "$TRAVIS_BUILD_ID".surge.sh
+        - surge build "$TRAVIS_BUILD_ID"-ensappdev.surge.sh
+    - stage: staging
+      name: 'staging'
+      script:
+        - echo "$TRAVIS_BRANCH"
+        - echo "$TRAVIS_COMMIT"
+        - surge list
 
 stages:
   - name: test
     if: branch = master
-  - name: pr
-    if: branch != master
+  - name: staging
+    if: branch != master && branch != dev
   - name: deploy
     if: branch = master
-
+  - name: staging
+    if: branch = dev
 notifications:
   email: false
