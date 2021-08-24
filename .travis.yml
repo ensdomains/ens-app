@@ -55,12 +55,28 @@ jobs:
     - stage: deploy
       name: 'Deploy to live'
       script: yarn deploy
+    - stage: pr
+      name: 'Pull request build'
+      install:
+        - yarn
+      script:
+        - npm run build
+        - npm run postbuild
+        - surge build "$TRAVIS_BUILD_ID"-ensappdev.surge.sh
+    - stage: staging
+      name: 'staging'
+      script:
+        - echo "$TRAVIS_BRANCH"
+        - surge list
 
 stages:
   - name: test
-    if: branch != master
+    if: branch = master
+  - name: staging
+    if: branch != master && branch != dev
   - name: deploy
     if: branch = master
-
+  - name: staging
+    if: branch = dev
 notifications:
   email: false
