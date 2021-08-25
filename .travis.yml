@@ -77,5 +77,6 @@ stages:
     if: branch != master
   - name: deploy
     if: branch = master
+
 notifications:
   email: false
