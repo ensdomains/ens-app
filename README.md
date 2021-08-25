@@ -1,6 +1,6 @@
 # ENS Application
 
-ENS Application
+ENS(Ethereum Name Service) Application
 
 ## Installation
 
