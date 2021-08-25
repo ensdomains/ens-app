@@ -204,7 +204,8 @@ export function useGasPrice(enabled = true) {
         } else {
           const gasApi = 'https://www.gasnow.org/api/v3/gas/price'
           const result = await fetch(gasApi)
-          if (!result.ok) throw 'Failed to get gas estimate'
+          if (!result.ok)
+            throw `Failed to get gas estimate: ${result.statusText}`
           const data = await result.json()
           setPrice(data?.data)
           setLoading(false)
