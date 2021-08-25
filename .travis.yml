@@ -20,7 +20,7 @@ matrix:
 jobs:
   include:
     - stage: test
-      name: 'Test'
+      name: 'Cypress Tests'
       install:
         - yarn
         - yarn global add cypress@5.6.0
@@ -52,32 +52,30 @@ jobs:
         - pwd
         - ls
         - cd ens-app && yarn cypress:ci && cd ../
-    - stage: deploy
-      name: 'Deploy to live'
-      script: yarn deploy
-    - stage: pr
-      name: 'Pull request build'
+    - stage: test
+      name: 'Branch Preview'
       install:
-        - yarn
+        - yarn install
       script:
         - npm run build
         - npm run postbuild
-        - surge build "$TRAVIS_BUILD_ID"-ensappdev.surge.sh
-    - stage: staging
-      name: 'staging'
+        - pwd
+        - ls
+        - surge build "$TRAVIS_BRANCH"-ensdev.surge.sh
+    - stage: test
+      name: 'Cleanup Previews'
+      install:
+        - yarn install
       script:
-        - echo "$TRAVIS_BRANCH"
-        - echo "$TRAVIS_COMMIT"
-        - surge list | awk '{print $4}'
+        - ./surgeGarbageCollect.js
+    - stage: deploy
+      name: 'Deploy to live'
+      script: yarn deploy
 
 stages:
   - name: test
-    if: branch = master
-  - name: staging
-    if: branch != master && branch != dev
+    if: branch != master
   - name: deploy
     if: branch = master
-  - name: staging
-    if: branch = dev
 notifications:
   email: false

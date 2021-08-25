@@ -3,15 +3,48 @@
 const util = require('util')
 const exec = util.promisify(require('child_process').exec)
 
-const whitelist = []
+const whitelist = [
+  'app.ens.domains',
+  'ensdomains.surge.sh',
+  'ensdomains-v2.surge.sh',
+  'jefflau.dev',
+  'jefflau.surge.sh',
+  'impulseroutesetting.com',
+  'noxious-loss.surge.sh',
+  'manager.ens.domains',
+  'manager-beta.ens.domains',
+  'ensappdev3.surge.sh',
+  'silent-geese.surge.sh',
+  'hackathons.ens.domains',
+  'ens-hackathons-dev.surge.sh',
+  'ethparis.ens.domains',
+  'learn-more-ens.surge.sh',
+  'jefflau.net',
+  'ensropsten.surge.sh',
+  'ensdomains2.surge.sh',
+  'enstestregistrar.surge.sh',
+  'frontendmentor.surge.sh',
+  'animedrop.surge.sh',
+  'ensmanager.surge.sh',
+  'animedrop.com',
+  'djweddingphuket.com'
+]
 
 const removeSurgeDomain = domain => {
-  if (domain.includes('app')) {
-    console.warn(`Not removing domain ${domain} as it contains 'app'`)
+  const domainToRemove = domain
+  console.log('domain to remove: ', domainToRemove)
+  if (domainToRemove.includes('app')) {
+    console.warn(`Not removing domain ${domainToRemove} as it contains 'app'`)
     return
   }
-  console.log(`Removing domain: ${domain}`)
-  exec(`surge teardown ${domain}.surge.sh`)
+  if (whitelist.includes(domainToRemove)) {
+    console.warn(
+      `Not removing domain ${domainToRemove} as it is on the whitelist`
+    )
+    return
+  }
+  console.log(`Removing domain: ${domainToRemove}`)
+  exec(`surge teardown ${domainToRemove}`)
 }
 
 const run = async () => {
@@ -27,13 +60,18 @@ const run = async () => {
   const trimStartBranches = filterEmptyBranches.map(x => x.slice(2))
 
   let domainsToRemove = []
-  for (domain of subDomains) {
+  for (domain of cleanDomains) {
     const result = trimStartBranches.filter(branch => {
       return domain.includes(branch)
     })
     if (!result.length) {
       domainsToRemove = [...domainsToRemove, domain]
     }
+  }
+
+  if (!domainsToRemove.length) {
+    console.log('Not removing any domains')
+    return
   }
 
   for (domain of domainsToRemove) {
