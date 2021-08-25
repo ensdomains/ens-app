@@ -9,14 +9,26 @@ import { Query } from 'react-apollo'
 
 import { GET_ERRORS } from './graphql/queries'
 
-const TestRegistrar = lazy(() => import('./routes/TestRegistrar'))
-const Home = lazy(() => import('./routes/Home'))
-const SearchResults = lazy(() => import('./routes/SearchResults'))
-const SingleName = lazy(() => import('./routes/SingleName'))
-const Favourites = lazy(() => import('./routes/Favourites'))
-const Faq = lazy(() => import('./routes/Faq'))
-const Address = lazy(() => import('./routes/AddressPage'))
-const Renew = lazy(() => import('./routes/Renew'))
+const TestRegistrar = lazy(() =>
+  import(/* webpackChunkName: "TestRegistrar" */ './routes/TestRegistrar')
+)
+const Home = lazy(() => import(/* webpackChunkName: "Home" */ './routes/Home'))
+const SearchResults = lazy(() =>
+  import(/* webpackChunkName: "SearchResults" */ './routes/SearchResults')
+)
+const SingleName = lazy(() =>
+  import(/* webpackChunkName: "SingleName" */ './routes/SingleName')
+)
+const Favourites = lazy(() =>
+  import(/* webpackChunkName: "Favourites" */ './routes/Favourites')
+)
+const Faq = lazy(() => import(/* webpackChunkName: "Faq" */ './routes/Faq'))
+const Address = lazy(() =>
+  import(/* webpackChunkName: "Address" */ './routes/AddressPage')
+)
+const Renew = lazy(() =>
+  import(/* webpackChunkName: "Renew" */ './routes/Renew')
+)
 
 import { NetworkError, Error404 } from './components/Error/Errors'
 import DefaultLayout from './components/Layout/DefaultLayout'
