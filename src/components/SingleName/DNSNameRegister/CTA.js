@@ -67,7 +67,8 @@ function CallToAction({
   setTxHash,
   refetch,
   loading,
-  setLoading
+  setLoading,
+  readOnly
 }) {
   const { t } = useTranslation()
   const RefreshButton = number => {
@@ -110,7 +111,7 @@ function CallToAction({
             onClick={() => {
               mutate({ variables: { name, parentOwner } })
             }}
-            type="primary"
+            type={readOnly ? 'disabled' : 'primary'}
           >
             {t('c.register')}
           </Button>
@@ -135,7 +136,15 @@ function CallToAction({
   return CTAs[step]
 }
 
-const CTA = ({ name, parentOwner, step, incrementStep, refetch, error }) => {
+const CTA = ({
+  name,
+  parentOwner,
+  step,
+  incrementStep,
+  refetch,
+  error,
+  readOnly
+}) => {
   const { t } = useTranslation()
   const [txHash, setTxHash] = useState(undefined)
   const [loading, setLoading] = useState(undefined)
@@ -167,6 +176,7 @@ const CTA = ({ name, parentOwner, step, incrementStep, refetch, error }) => {
         refetch={refetch}
         loading={loading}
         setLoading={setLoading}
+        readOnly={readOnly}
       />
     </CTAContainer>
   )
