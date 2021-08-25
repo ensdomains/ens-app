@@ -68,6 +68,7 @@ function PricerInner({
         <Chain />
         <Price
           price={price}
+          gasPrice={gasPrice}
           loading={loading}
           ethUsdPriceLoading={ethUsdPriceLoading}
           ethUsdPrice={ethUsdPrice}

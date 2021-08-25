@@ -75,7 +75,7 @@ const NameRegister = ({
     false
   )
   const { loading: ethUsdPriceLoading, price: ethUsdPrice } = useEthPrice()
-  // const { loading: gasPriceLoading, price: gasPrice } = useGasPrice()
+  const { loading: gasPriceLoading, price: gasPrice } = useGasPrice()
   const { block } = useBlock()
   const [invalid, setInvalid] = useState(false)
   const { data: { waitBlockTimestamp } = {} } = useQuery(WAIT_BLOCK_TIMESTAMP, {
@@ -227,7 +227,7 @@ const NameRegister = ({
   const diff = zeroPremiumDate.diff(releasedDate)
   const rate = 2000 / diff
   if (!registrationOpen) return <NotAvailable domain={domain} />
-  if (ethUsdPriceLoading) return <></>
+  if (ethUsdPriceLoading || gasPriceLoading) return <></>
 
   const getTargetAmountByDate = date => {
     return zeroPremiumDate.diff(date) * rate
@@ -283,6 +283,7 @@ const NameRegister = ({
           ethUsdPriceLoading={ethUsdPriceLoading}
           ethUsdPremiumPrice={currentPremium}
           ethUsdPrice={ethUsdPrice}
+          gasPrice={gasPrice}
           loading={rentPriceLoading}
           price={getRentPrice}
           underPremium={underPremium}

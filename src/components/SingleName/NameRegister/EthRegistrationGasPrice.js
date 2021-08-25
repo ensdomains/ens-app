@@ -73,8 +73,8 @@ const EthRegistrationGasPrice = ({ price, ethUsdPrice, gasPrice }) => {
   return (
     <PriceContainer>
       <TotalValue>
-        {ethVal.toFixed(3)} ETH + at least {registerGasFast.toFixed(3)} ETH gas
-        fee = at least {totalFast.toFixed(3)} ETH
+        {ethVal.toFixed(3)} ETH + at most {registerGasFast.toFixed(3)} ETH gas
+        fee = at most {totalFast.toFixed(3)} ETH
         {ethVal && ethUsdPrice && (
           <USD>
             {' '}
@@ -83,12 +83,12 @@ const EthRegistrationGasPrice = ({ price, ethUsdPrice, gasPrice }) => {
           </USD>
         )}
       </TotalValue>
-      {/*<Description>*/}
-      {/*  {t('pricer.totalDescription', {*/}
-      {/*    gasPriceToGweiSlow: gasPriceToGweiSlow.toFixed(0),*/}
-      {/*    gasPriceToGweiFast: gasPriceToGweiFast.toFixed(0)*/}
-      {/*  })}*/}
-      {/*</Description>*/}
+      <Description>
+        {t('pricer.totalDescription', {
+          gasPriceToGweiSlow: gasPriceToGweiSlow.toFixed(0),
+          gasPriceToGweiFast: gasPriceToGweiFast.toFixed(0)
+        })}
+      </Description>
     </PriceContainer>
   )
 }

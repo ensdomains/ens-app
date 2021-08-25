@@ -20,7 +20,7 @@ matrix:
 jobs:
   include:
     - stage: test
-      name: 'Test'
+      name: 'Cypress Tests'
       install:
         - yarn
         - yarn global add cypress@5.6.0
@@ -52,6 +52,22 @@ jobs:
         - pwd
         - ls
         - cd ens-app && yarn cypress:ci && cd ../
+    - stage: test
+      name: 'Branch Preview'
+      install:
+        - yarn install
+      script:
+        - npm run build
+        - npm run postbuild
+        - pwd
+        - ls
+        - surge build "$TRAVIS_BRANCH"-ensdev.surge.sh
+    - stage: test
+      name: 'Cleanup Previews'
+      install:
+        - yarn install
+      script:
+        - ./surgeGarbageCollect.js
     - stage: deploy
       name: 'Deploy to live'
       script: yarn deploy

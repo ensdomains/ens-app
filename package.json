@@ -9,10 +9,10 @@
     "@emotion/core": "^10.0.9",
     "@emotion/styled": "^10.0.9",
     "@ensdomains/address-encoder": "^0.2.6",
+    "@ensdomains/ens-validation": "0.0.0",
     "@ensdomains/mock": "^2.1.40",
     "@ensdomains/react-ens-address": "^0.0.27",
-    "@ensdomains/ui": "^3.0.82",
-    "@ensdomains/ens-validation": "0.0.0",
+    "@ensdomains/ui": "^3.2.0",
     "@gnosis.pm/safe-apps-provider": "^0.2.2",
     "@myetherwallet/mewconnect-web-client": "^2.1.11",
     "@portis/web3": "^2.0.0-beta.59",
@@ -95,7 +95,8 @@
     "deploy": "npm run build && npm run postbuild && surge build app.ens.domains",
     "i18n": "sync-i18n --files 'public/locales/*.json' --primary en --languages cn --space 2",
     "check-i18n": "npm run i18n -- --check",
-    "analyze": "source-map-explorer 'build/static/js/*.js'"
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "ganache": "ganache-cli -b 1"
   },
   "prettier": {
     "semi": false,
@@ -115,7 +116,7 @@
     "cypress-pipe": "^1.5.0",
     "cypress-testing-library": "^2.3.4",
     "cypress-wait-until": "^1.3.0",
-    "ganache-cli": "^6.9.1",
+    "ganache-cli": "^6.12.2",
     "husky": "^2.2.0",
     "i18next-json-sync": "^2.3.1",
     "jest-localstorage-mock": "^2.4.0",
