@@ -3,7 +3,7 @@ import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
 
 import { useMediaMin } from 'mediaQuery'
-import { EMPTY_ADDRESS } from '../../utils/records'
+import { EMPTY_ADDRESS, isEmptyAddress } from '../../utils/records'
 import { Title } from '../Typography/Basic'
 import TopBar from '../Basic/TopBar'
 import DefaultFavourite from '../AddFavourite/Favourite'
@@ -140,7 +140,7 @@ function Name({ details: domain, name, pathname, type, refetch }) {
             pathname={pathname}
             refetch={refetch}
             account={account}
-            readOnly={account === EMPTY_ADDRESS}
+            readOnly={isEmptyAddress(account)}
           />
         ) : type === 'short' && domain.owner === EMPTY_ADDRESS ? ( // check it's short and hasn't been claimed already
           <ShortName name={name} />
