@@ -59,6 +59,8 @@ const run = async () => {
   const filterEmptyBranches = branchesList.filter(x => x)
   const trimStartBranches = filterEmptyBranches.map(x => x.slice(2))
 
+  console.log('branches: ', trimStartBranches)
+
   let domainsToRemove = []
   for (domain of cleanDomains) {
     const result = trimStartBranches.filter(branch => {
