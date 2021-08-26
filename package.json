@@ -13,7 +13,7 @@
     "@ensdomains/ens-validation": "0.0.0",
     "@ensdomains/mock": "^2.0.42",
     "@ensdomains/react-ens-address": "^0.0.27",
-    "@ensdomains/ui": "^3.0.82",
+    "@ensdomains/ui": "^3.2.0",
     "@ensdomains/web3modal": "1.9.4",
     "@gnosis.pm/safe-apps-provider": "^0.2.2",
     "@myetherwallet/mewconnect-web-client": "^2.1.11",
@@ -75,7 +75,7 @@
     "build": "CI=false react-scripts --max_old_space_size=4096 build",
     "build:ipfs": "REACT_APP_IPFS=True PUBLIC_URL='.' yarn build",
     "postbuild": "cp build/index.html build/200.html && echo '*' > build/CORS",
-    "test": "react-scripts test --env=jsdom --transformIgnorePatterns \"node_modules/(?!@ensdomains)/\"",
+    "test": "react-scripts test --env=./custom-test-env.js --transformIgnorePatterns \"node_modules/(?!@ensdomains)/\"",
     "test:coverage": "npm test -- --coverage",
     "test:watch": "npm test -- --watch",
     "eject": "react-scripts eject",
@@ -136,7 +136,8 @@
     "solc": "^0.4.23",
     "source-map-explorer": "2.5.2",
     "start-server-and-test": "^1.10.0",
-    "surge": "^0.20.1"
+    "surge": "^0.20.1",
+    "web-encoding": "1.1.5"
   },
   "browserslist": {
     "development": [
