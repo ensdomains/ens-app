@@ -56,8 +56,8 @@ const NAME_REGISTER_DATA_WRAPPER = gql`
   }
 `
 
-const useRefreshComponent = () => {
-  const [key, setKey] = useState(1)
+export const useRefreshComponent = () => {
+  const [key, setKey] = useState(0)
   const {
     data: { accounts, networkId }
   } = useQuery(NAME_REGISTER_DATA_WRAPPER)
