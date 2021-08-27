@@ -8,7 +8,6 @@ import { withRouter } from 'react-router'
 import searchIcon from '../../assets/search.svg'
 import mq from 'mediaQuery'
 import LanguageSwitcher from '../LanguageSwitcher'
-import { normalize } from 'eth-ens-namehash'
 
 const SearchForm = styled('form')`
   display: flex;
@@ -95,7 +94,7 @@ function Search({ history, className, style }) {
         const type = await parseSearchTerm(inputValue)
         let searchTerm
         if (input && input.value) {
-          searchTerm = normalize(inputValue)
+          searchTerm = inputValue.toLowerCase()
         }
         if (!searchTerm || searchTerm.length < 1) {
           return
