@@ -94,6 +94,7 @@ function Search({ history, className, style }) {
         const type = await parseSearchTerm(inputValue)
         let searchTerm
         if (input && input.value) {
+          // inputValue doesn't have potential whitespace
           searchTerm = inputValue.toLowerCase()
         }
         if (!searchTerm || searchTerm.length < 1) {
