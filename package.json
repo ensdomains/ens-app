@@ -77,7 +77,7 @@
     "postbuild": "cp build/index.html build/200.html && echo '*' > build/CORS",
     "test": "react-scripts test --env=./custom-test-env.js --transformIgnorePatterns \"node_modules/(?!@ensdomains)/\"",
     "test:coverage": "npm test -- --coverage",
-    "test:watch": "npm test -- --watch",
+    "test:watch": "npm test -- --watchAll",
     "eject": "react-scripts eject",
     "preTest": "node -r esm src/testing-utils/preTest.js",
     "preTest:dnssec": "node -r esm src/testing-utils/preTest.js default dnssec",
@@ -154,5 +154,8 @@
   },
   "engines": {
     "node": "v14"
+  },
+  "jest": {
+    "resetMocks": false
   }
 }

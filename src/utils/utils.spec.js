@@ -1,5 +1,4 @@
-import { isOwnerOfParentDpomain } from './utils'
-import { isOwnerOfParentDomain } from '../components/SingleName/Name'
+import { isOwnerOfParentDomain } from './utils'
 
 describe('isOwnerOfParentDomain', () => {
   it('should return false if address is not provided', () => {
