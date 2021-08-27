@@ -266,3 +266,19 @@ export function usePrevious(value) {
   // Return previous value (happens before update in useEffect above)
   return ref.current
 }
+
+export function prependUrl(url) {
+  if (url && !url.match(/http[s]?:\/\//)) {
+    return 'https://' + url
+  } else {
+    return url
+  }
+}
+
+export function imageUrl(url, name, network) {
+  if (name && network === 'rinkeby' && url.match(/^eip/)) {
+    return `https://ens-metadata-service.appspot.com/avatar/${name}`
+  } else {
+    return prependUrl(url)
+  }
+}
