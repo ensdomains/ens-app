@@ -6,10 +6,10 @@ import { isENSReady } from './reactiveVars'
 export const getReverseRecord = async address => {
   if (!isENSReady() || !address) return { name: null, match: false }
 
-  let name = emptyAddress
-  const ens = getENS()
-
   try {
+    let name = emptyAddress
+    const ens = getENS()
+
     const { name: reverseName } = await ens.getName(address)
     const reverseAddress = await ens.getAddress(reverseName)
     const normalisedName = normalize(reverseName)
@@ -34,7 +34,7 @@ export const getReverseRecord = async address => {
       }
     }
   } catch (e) {
-    console.log(e)
+    console.error(e)
     return {
       name: null,
       match: false
