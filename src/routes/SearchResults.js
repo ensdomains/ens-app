@@ -8,6 +8,8 @@ import DomainInfo from '../components/SearchName/DomainInfo'
 import { SubDomainStateFields } from '../graphql/fragments'
 import { validateName, parseSearchTerm } from '../utils/utils'
 import SearchErrors from '../components/SearchErrors/SearchErrors'
+import { normalize } from 'eth-ens-namehash'
+import { useHistory } from 'react-router-dom'
 
 const GET_SUBDOMAIN_AVAILABILITY = gql`
   mutation getSubDomainAvailability($name: String) {
@@ -108,6 +110,13 @@ class Results extends React.Component {
 }
 
 const ResultsContainer = ({ searchDomain, match }) => {
+  const searchTerm = match.params.searchTerm
+  const history = useHistory()
+  const normalised = normalize(searchTerm)
+  if (history && normalised !== searchTerm) {
+    history.push(`/search/${normalised}`)
+  }
+
   return (
     <Mutation
       mutation={GET_SUBDOMAIN_AVAILABILITY}
@@ -115,7 +124,7 @@ const ResultsContainer = ({ searchDomain, match }) => {
     >
       {getSubDomainAvailability => (
         <Results
-          searchTerm={match.params.searchTerm}
+          searchTerm={searchTerm}
           getSubDomainAvailability={getSubDomainAvailability}
           searchDomain={searchDomain}
         />
