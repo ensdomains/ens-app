@@ -267,7 +267,7 @@ const ReadOnly = styled('span')`
   margin-left: 1em;
 `
 
-const HOME_DATA = gql`
+export const HOME_DATA = gql`
   query getHomeData($address: string) @client {
     network
     displayName(address: $address)
@@ -276,7 +276,7 @@ const HOME_DATA = gql`
   }
 `
 
-const GET_ACCOUNT = gql`
+export const GET_ACCOUNT = gql`
   query getAccounts @client {
     accounts
   }
@@ -314,7 +314,9 @@ export default ({ match }) => {
           <Network>
             {`${network} ${t('c.network')}`}
             {isReadOnly && <ReadOnly>({t('c.readonly')})</ReadOnly>}
-            {!isReadOnly && displayName && <Name>({displayName})</Name>}
+            {!isReadOnly && displayName && (
+              <Name data-testid="display-name">({displayName})</Name>
+            )}
           </Network>
           {!isSafeApp && (
             <NoAccounts
