@@ -16,16 +16,6 @@ import { renderHook } from '@testing-library/react-hooks'
 import useReactiveVarListeners from './useReactiveVarListeners'
 
 describe('useReactiveVarListeners', () => {
-  it('should rerun reverse record lookup when account changes', () => {
-    useQuery.mockImplementation(() => ({
-      data: { networkId: 1, accounts: ['0xaddr1'], isENSReady: true }
-    }))
-
-    const { rerender } = renderHook(() => useReactiveVarListeners())
-
-    rerender()
-    expect(getReverseRecord).toBeCalledTimes(2)
-  })
   it('should not lookup reverse record if ens is not ready', () => {
     useQuery.mockImplementation(() => ({
       data: { networkId: 1, accounts: ['0xaddr1'], isENSReady: false }
@@ -35,5 +25,15 @@ describe('useReactiveVarListeners', () => {
 
     rerender()
     expect(getReverseRecord).toBeCalledTimes(0)
+  })
+  it('should rerun reverse record lookup when account changes', () => {
+    useQuery.mockImplementation(() => ({
+      data: { networkId: 1, accounts: ['0xaddr1'], isENSReady: true }
+    }))
+
+    const { rerender } = renderHook(() => useReactiveVarListeners())
+
+    rerender()
+    expect(getReverseRecord).toBeCalledTimes(2)
   })
 })

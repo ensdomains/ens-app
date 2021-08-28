@@ -4,6 +4,7 @@ jest.mock('./reactiveVars', () => ({
 import { isENSReady } from './reactiveVars'
 
 jest.mock('./mutations/ens', () => ({
+  __esModule: true,
   default: jest.fn()
 }))
 import getENS from './mutations/ens'
@@ -25,7 +26,7 @@ describe('getReverseRecord', () => {
   })
 
   it('should return the default object when there is an error', async () => {
-    getENS.default.mockImplementation(() => undefined)
+    getENS.mockImplementation(() => undefined)
     isENSReady.mockImplementation(() => true)
     expect(await getReverseRecord('0xasdfasd')).toEqual({
       name: null,
