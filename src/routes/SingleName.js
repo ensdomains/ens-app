@@ -8,6 +8,7 @@ import Loader from '../components/Loader'
 import SearchErrors from '../components/SearchErrors/SearchErrors'
 
 import Name from '../components/SingleName/Name'
+import { useHistory } from 'react-router-dom'
 
 function SingleName({
   match: {
@@ -20,6 +21,7 @@ function SingleName({
   const [valid, setValid] = useState(undefined)
   const [type, setType] = useState(undefined)
   const [name, setNormalisedName] = useState('')
+  const history = useHistory()
   let errorMessage
 
   useEffect(() => {
@@ -27,6 +29,10 @@ function SingleName({
     try {
       // This is under the assumption that validateName never returns false
       normalisedName = validateName(searchTerm)
+      if (history && normalisedName !== searchTerm) {
+        history.push(`/name/${normalisedName}`)
+      }
+
       setNormalisedName(normalisedName)
       document.title = searchTerm
     } catch {
