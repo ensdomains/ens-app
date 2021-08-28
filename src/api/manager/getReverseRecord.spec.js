@@ -1,3 +1,27 @@
+import getReverseRecord from './getReverseRecord'
+
+jest.mock('../../apollo/mutations/ens', () => ({
+  __esModule: true,
+  default: jest.fn()
+}))
+import getENS from '../../apollo/mutations/ens'
+
+jest.mock('../../apollo/reactiveVars', () => ({
+  __esModule: true,
+  isENSReady: jest.fn()
+}))
+import { isENSReady } from '../../apollo/reactiveVars'
+import { emptyAddress } from '../../utils/utils'
+
 describe('getReverseRecord', () => {
-  it.todo('should return a default object if ens has not been initied yet')
+  it('should return a default object if ens has not been initied yet', async () => {
+    const result = await getReverseRecord(null, { address: '0xaddr1' })
+    expect(result).toEqual({
+      name: emptyAddress,
+      address: '0xaddr1',
+      avatar: '',
+      match: false,
+      __typename: 'ReverseRecord'
+    })
+  })
 })
