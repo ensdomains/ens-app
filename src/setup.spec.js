@@ -29,6 +29,12 @@ jest.mock('@ensdomains/ui', () => ({
 }))
 import { getNetworkId, getNetwork } from '@ensdomains/ui'
 
+jest.mock('./apollo/sideEffects', () => ({
+  ...jest.requireActual('./apollo/sideEffects'),
+  getReverseRecord: jest.fn()
+}))
+import { getReverseRecord } from './apollo/sideEffects'
+
 describe('getProvider', () => {
   describe('local blockchain', () => {
     let originalReactAppStage
@@ -58,6 +64,9 @@ describe('getProvider', () => {
   })
 
   describe('web3 cached provider', () => {
+    afterAll(() => {
+      window.localStorage.clear()
+    })
     it('should call connect if there is a cached provider', async () => {
       expect.assertions(1)
       window.localStorage.setItem('WEB3_CONNECT_CACHED_PROVIDER', 'injected')
@@ -73,15 +82,14 @@ describe('getProvider', () => {
 
   describe('no cached provider', () => {
     it('should call setup', async () => {
-      setup.mockImplementation(
-        () =>
-          new Promise(resolve => {
-            resolve({ provierObject: {} })
-          })
-      )
+      setup.mockImplementation(() => {
+        return new Promise(resolve => {
+          resolve({ provierObject: {} })
+        })
+      })
       const provider = await getProvider(false)
       expect(setup).toHaveBeenCalled()
-    })
+    }, 10000)
   })
 
   describe('reconnect == true', () => {

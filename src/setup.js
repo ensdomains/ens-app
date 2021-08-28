@@ -17,7 +17,7 @@ import {
   web3ProviderReactive
 } from './apollo/reactiveVars'
 import { setup as setupAnalytics } from './utils/analytics'
-import { safeInfo } from './utils/safeApps'
+// import { safeInfo } from './utils/safeApps'
 import { getReverseRecord } from './apollo/sideEffects'
 
 export const setFavourites = () => {
@@ -33,53 +33,56 @@ export const setSubDomainFavourites = () => {
 }
 
 export const getProvider = async reconnect => {
-  let provider
-  if (
-    process.env.REACT_APP_STAGE === 'local' &&
-    process.env.REACT_APP_ENS_ADDRESS
-  ) {
+  try {
+    let provider
+    if (
+      process.env.REACT_APP_STAGE === 'local' &&
+      process.env.REACT_APP_ENS_ADDRESS
+    ) {
+      const { providerObject } = await setup({
+        reloadOnAccountsChange: false,
+        customProvider: 'http://localhost:8545',
+        ensAddress: process.env.REACT_APP_ENS_ADDRESS
+      })
+      provider = providerObject
+      let labels = window.localStorage['labels']
+        ? JSON.parse(window.localStorage['labels'])
+        : {}
+      window.localStorage.setItem(
+        'labels',
+        JSON.stringify({
+          ...labels,
+          ...JSON.parse(process.env.REACT_APP_LABELS)
+        })
+      )
+      return provider
+    }
+
+    // const safe = await safeInfo()
+    const safe = false
+    if (safe) {
+      const provider = await setupSafeApp(safe)
+      return provider
+    }
+
+    if (
+      window.localStorage.getItem('WEB3_CONNECT_CACHED_PROVIDER') ||
+      reconnect
+    ) {
+      provider = await connect()
+      return provider
+    }
+
     const { providerObject } = await setup({
       reloadOnAccountsChange: false,
-      customProvider: 'http://localhost:8545',
-      ensAddress: process.env.REACT_APP_ENS_ADDRESS
+      enforceReadOnly: true,
+      enforceReload: false
     })
     provider = providerObject
-    let labels = window.localStorage['labels']
-      ? JSON.parse(window.localStorage['labels'])
-      : {}
-    window.localStorage.setItem(
-      'labels',
-      JSON.stringify({
-        ...labels,
-        ...JSON.parse(process.env.REACT_APP_LABELS)
-      })
-    )
     return provider
+  } catch (e) {
+    console.error('getProvider error: ', e)
   }
-
-  //const safe = await safeInfo()
-  const safe = false
-  if (safe) {
-    const provider = await setupSafeApp(safe)
-    return provider
-  }
-
-  if (
-    window.localStorage.getItem('WEB3_CONNECT_CACHED_PROVIDER') ||
-    reconnect
-  ) {
-    provider = await connect()
-    return provider
-  }
-
-  //provider = await connect()
-  const { providerObject } = await setup({
-    reloadOnAccountsChange: false,
-    enforceReadOnly: true,
-    enforceReload: false
-  })
-  provider = providerObject
-  return provider
 }
 
 export const setWeb3Provider = async provider => {
