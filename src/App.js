@@ -7,14 +7,61 @@ import {
 } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
 
-const TestRegistrar = lazy(() => import('./routes/TestRegistrar'))
-const Home = lazy(() => import('./routes/Home'))
-const SearchResults = lazy(() => import('./routes/SearchResults'))
-const SingleName = lazy(() => import('./routes/SingleName'))
-const Favourites = lazy(() => import('./routes/Favourites'))
-const Faq = lazy(() => import('./routes/Faq'))
-const Address = lazy(() => import('./routes/AddressPage'))
-const Renew = lazy(() => import('./routes/Renew'))
+const TestRegistrar = lazy(() =>
+  import(
+    /* webpackChunkName: "TestRegistrar", webpackPrefetch:true */
+    './routes/TestRegistrar'
+  )
+)
+
+const Home = lazy(() =>
+  import(
+    /* webpackChunkName: "Home", webpackPrefetch:true */
+    './routes/Home'
+  )
+)
+
+const SearchResults = lazy(() =>
+  import(
+    /* webpackChunkName: "SearchResults", webpackPrefetch:true */
+    './routes/SearchResults'
+  )
+)
+
+const SingleName = lazy(() =>
+  import(
+    /* webpackChunkName: "SingleName", webpackPrefetch:true */
+    './routes/SingleName'
+  )
+)
+
+const Favourites = lazy(() =>
+  import(
+    /* webpackChunkName: "Favourites", webpackPrefetch:true */
+    './routes/Favourites'
+  )
+)
+
+const Faq = lazy(() =>
+  import(
+    /* webpackChunkName: "Faq", webpackPrefetch:true */
+    './routes/Faq'
+  )
+)
+
+const Address = lazy(() =>
+  import(
+    /* webpackChunkName: "Address", webpackPrefetch:true */
+    './routes/AddressPage'
+  )
+)
+
+const Renew = lazy(() =>
+  import(
+    /* webpackChunkName: "Renew", webpackPrefetch:true */
+    './routes/Renew'
+  )
+)
 
 import { NetworkError, Error404 } from './components/Error/Errors'
 import DefaultLayout from './components/Layout/DefaultLayout'

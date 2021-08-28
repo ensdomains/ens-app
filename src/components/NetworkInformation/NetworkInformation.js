@@ -8,7 +8,9 @@ import { useQuery, useMutation } from '@apollo/client'
 import UnstyledBlockies from '../Blockies'
 import NoAccountsModal from '../NoAccounts/NoAccountsModal'
 import { SET_ERROR } from '../../graphql/mutations'
+import { GET_REVERSE_RECORD } from '../../graphql/queries'
 import { connectProvider, disconnectProvider } from '../../utils/providerUtils'
+import { hasValidReverseRecord, imageUrl } from '../../utils/utils'
 
 const NetworkInformationContainer = styled('div')`
   position: relative;
@@ -124,6 +126,15 @@ function NetworkInformation() {
     data: { accounts, isSafeApp, avatar, network, displayName, isReadOnly }
   } = useQuery(NETWORK_INFORMATION_QUERY)
 
+  const {
+    data: { getReverseRecord } = {},
+    loading: reverseRecordLoading
+  } = useQuery(GET_REVERSE_RECORD, {
+    variables: {
+      address: accounts?.[0]
+    }
+  })
+
   const [setError] = useMutation(SET_ERROR)
 
   // if (loading) {
@@ -146,8 +157,12 @@ function NetworkInformation() {
     <NetworkInformationContainer hasAccount={accounts && accounts.length > 0}>
       {!isReadOnly ? (
         <AccountContainer>
-          {avatar ? (
-            <Avatar src={avatar} />
+          {!reverseRecordLoading &&
+          getReverseRecord &&
+          getReverseRecord.avatar ? (
+            <Avatar
+              src={imageUrl(getReverseRecord.avatar, displayName, network)}
+            />
           ) : (
             <Blockies address={accounts[0]} imageSize={47} />
           )}

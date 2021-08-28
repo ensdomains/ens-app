@@ -89,7 +89,7 @@ export default function MigrateResolver({ value, name, refetch, isOwner }) {
         </SVG>
         {t('c.Resolver')}
       </MigrateKey>
-      <MigrateValue editable>
+      <MigrateValue editable data-testid={'migrate-value'}>
         {value}
         <CopyToClipBoard iconColour="#f5a623" />
       </MigrateValue>

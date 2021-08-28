@@ -5,7 +5,7 @@ import gql from 'graphql-tag'
 import { useQuery } from '@apollo/client'
 
 import { useMediaMin } from 'mediaQuery'
-import { EMPTY_ADDRESS } from '../../utils/records'
+import { EMPTY_ADDRESS, isEmptyAddress } from '../../utils/records'
 import { Title } from '../Typography/Basic'
 import TopBar from '../Basic/TopBar'
 import DefaultFavourite from '../AddFavourite/Favourite'

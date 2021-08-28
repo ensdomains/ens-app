@@ -106,7 +106,6 @@ const Editable = ({
 }) => {
   const { key, value } = record
   const isValid = validator(record)
-
   return (
     <KeyValueItem editing={editing} hasRecord={true} noBorder>
       {editing ? (
@@ -134,7 +133,7 @@ const Editable = ({
       ) : (
         <KeyValuesContent>
           <RecordsSubKey>{key}</RecordsSubKey>
-          <RecordLink textKey={key} value={value} />
+          <RecordLink textKey={key} value={value} name={domain?.name} />
         </KeyValuesContent>
       )}
     </KeyValueItem>
@@ -143,8 +142,6 @@ const Editable = ({
 
 function Record(props) {
   const {
-    textKey,
-    dataValue,
     validator,
     setHasRecord,
     hasRecord,
@@ -154,7 +151,8 @@ function Record(props) {
     recordType,
     changedRecords,
     updateRecord,
-    record
+    record,
+    domain
   } = props
 
   const { key, value } = record
@@ -173,21 +171,22 @@ function Record(props) {
       setUpdatedRecords={setUpdatedRecords}
       changedRecords={changedRecords}
       recordType={recordType}
+      domain={domain}
       {...{ updateRecord, record }}
     />
   ) : (
-    <ViewOnly textKey={key} value={dataValue} />
+    <ViewOnly textKey={key} value={record?.value} domain={domain} />
   )
 }
 
-function ViewOnly({ textKey, value, remove }) {
+function ViewOnly({ textKey, value, remove, domain }) {
   return (
     <RecordsListItem>
       <RecordsSubKey>{textKey}</RecordsSubKey>
       {remove ? (
         <DeleteRecord>Delete Record</DeleteRecord>
       ) : (
-        <RecordLink textKey={textKey} value={value} />
+        <RecordLink textKey={textKey} value={value} name={domain?.name} />
       )}
     </RecordsListItem>
   )
@@ -204,7 +203,8 @@ function Records({
   updatedRecords,
   changedRecords,
   recordType,
-  updateRecord
+  updateRecord,
+  domain
 }) {
   const [hasRecord, setHasRecord] = useState(false)
   return (
@@ -223,6 +223,7 @@ function Records({
               setUpdatedRecords={setUpdatedRecords}
               changedRecords={changedRecords}
               recordType={recordType}
+              domain={domain}
               {...{
                 updateRecord,
                 record

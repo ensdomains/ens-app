@@ -438,4 +438,15 @@ describe('Name detail view', () => {
       'exist'
     )
   })
+
+  it('can view records that the user does now own', () => {
+    cy.visit(`${NAME_ROOT}/otherowner.eth`, { timeout: 10000 })
+    cy.getByTestId('migrate-value').should($div => {
+      const text = $div.text()
+      cy.getByTestId('unlinked-value-ETH').contains(text)
+    })
+    cy.getByText(
+      'ipfs://bafybeico3uuyj3vphxpvbowchdwjlrlrh62awxscrnii7w7flu5z6fk77y'
+    ).should('exist')
+  })
 })

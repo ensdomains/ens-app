@@ -1,8 +1,9 @@
 import { useEffect, useReducer, useRef, useState } from 'react'
+import { utils } from 'ethers'
 import getEtherPrice from 'api/price'
 import { useLocation } from 'react-router-dom'
 import { loggedIn, logout } from './IPFS/auth'
-import { getBlock } from '@ensdomains/ui'
+import { getBlock, getProvider } from '@ensdomains/ui'
 
 export function useDocumentTitle(title) {
   useEffect(() => {
@@ -184,18 +185,38 @@ export function useGasPrice(enabled = true) {
   const [loading, setLoading] = useState(true)
   const [price, setPrice] = useState({})
 
-  const gasApi = 'https://www.gasnow.org/api/v3/gas/price'
   useEffect(() => {
-    fetch(gasApi)
-      .then(res => {
-        return res.json()
-      })
-      .then(({ data }) => {
-        setPrice(data)
-        setLoading(false)
-      })
-      .catch(() => '') // ignore error
+    try {
+      const run = async () => {
+        const provider = await getProvider()
+        const blockDetails = await provider.getBlock('latest')
+        if (blockDetails.baseFeePerGas) {
+          const baseFeeWei = utils.formatUnits(
+            blockDetails.baseFeePerGas,
+            'wei'
+          )
+          const price = {
+            slow: baseFeeWei + 2 * Math.pow(10, 9),
+            fast: baseFeeWei * 1.5 + 2 * Math.pow(10, 9)
+          }
+          setPrice(price)
+          setLoading(false)
+        } else {
+          const gasApi = 'https://www.gasnow.org/api/v3/gas/price'
+          const result = await fetch(gasApi)
+          if (!result.ok)
+            throw `Failed to get gas estimate: ${result.statusText}`
+          const data = await result.json()
+          setPrice(data?.data)
+          setLoading(false)
+        }
+      }
+      run()
+    } catch (e) {
+      console.error('useGasPrice error: ', e)
+    }
   }, [enabled])
+
   return {
     loading,
     price
