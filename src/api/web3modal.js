@@ -95,3 +95,7 @@ export const disconnect = async function() {
   networkIdReactive(await getNetworkId())
   networkReactive(await getNetwork())
 }
+
+export const setWeb3Modal = x => {
+  web3Modal = x
+}
