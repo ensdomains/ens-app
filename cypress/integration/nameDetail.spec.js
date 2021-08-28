@@ -417,8 +417,8 @@ describe('Name detail view', () => {
     cy.visit(`${NAME_ROOT}/subdomaindummy.eth/subdomains`, { timeout: 10000 })
 
     cy.getByTestId('subdomains').within(() => {
-      cy.wait(1000)
-      cy.getByText('add', { exact: false, timeout: 10000 }).click({
+      cy.wait(5000)
+      cy.getByText('Add Subdomain', { exact: false, timeout: 10000 }).click({
         force: true
       })
       cy.getByPlaceholderText('Type in a label', {

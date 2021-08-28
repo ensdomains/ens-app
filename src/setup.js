@@ -17,7 +17,7 @@ import {
   web3ProviderReactive
 } from './apollo/reactiveVars'
 import { setup as setupAnalytics } from './utils/analytics'
-// import { safeInfo } from './utils/safeApps'
+import { safeInfo } from './utils/safeApps'
 import { getReverseRecord } from './apollo/sideEffects'
 
 export const setFavourites = () => {
@@ -58,8 +58,8 @@ export const getProvider = async reconnect => {
       return provider
     }
 
-    // const safe = await safeInfo()
-    const safe = false
+    const safe = await safeInfo()
+    // const safe = false
     if (safe) {
       const provider = await setupSafeApp(safe)
       return provider
