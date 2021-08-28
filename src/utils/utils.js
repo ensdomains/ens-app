@@ -274,3 +274,19 @@ export function filterNormalised(data, name, nested = false) {
     return domain[name] === normalize(domain[name])
   })
 }
+
+export function prependUrl(url) {
+  if (url && !url.match(/http[s]?:\/\//)) {
+    return 'https://' + url
+  } else {
+    return url
+  }
+}
+
+export function imageUrl(url, name, network) {
+  if (name && network === 'rinkeby' && url.match(/^eip/)) {
+    return `https://ens-metadata-service.appspot.com/avatar/${name}`
+  } else {
+    return prependUrl(url)
+  }
+}

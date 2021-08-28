@@ -465,6 +465,7 @@ export default function Records({
       <KeyValueRecord
         canEdit={canEditRecords}
         editing={editing}
+        domain={domain}
         records={getTextRecords(updatedRecords)}
         title={t('c.textrecord')}
         updateRecord={updateRecord(setUpdatedRecords)}
