@@ -418,7 +418,7 @@ describe('Name detail view', () => {
 
     cy.getByTestId('subdomains').within(() => {
       cy.wait(5000)
-      cy.getByText('Add Subdomain', { exact: false, timeout: 10000 }).click({
+      cy.getByTestId('add-subdomain', { exact: false, timeout: 10000 }).click({
         force: true
       })
       cy.getByPlaceholderText('Type in a label', {

@@ -70,7 +70,7 @@ function AddSubdomain({ domain, refetch }) {
               }}
             />
           ) : (
-            <Button onClick={startEditing}>
+            <Button onClick={startEditing} data-testid="add-subdomain">
               + {t('singleName.subdomains.add')}
             </Button>
           )
