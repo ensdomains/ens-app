@@ -12,7 +12,7 @@ import { useQuery, useMutation } from 'react-apollo'
 import { GET_REVERSE_RECORD } from '../../graphql/queries'
 import { SET_ERROR } from '../../graphql/mutations'
 import { connect, disconnect } from '../../api/web3modal'
-import { hasValidReverseRecord } from '../../utils/utils'
+import { hasValidReverseRecord, imageUrl } from '../../utils/utils'
 
 const NetworkInformationContainer = styled('div')`
   position: relative;
@@ -179,7 +179,9 @@ function NetworkInformation() {
           {!reverseRecordLoading &&
           getReverseRecord &&
           getReverseRecord.avatar ? (
-            <Avatar src={getReverseRecord.avatar} />
+            <Avatar
+              src={imageUrl(getReverseRecord.avatar, displayName, network)}
+            />
           ) : (
             <Blockies address={accounts[0]} imageSize={47} />
           )}

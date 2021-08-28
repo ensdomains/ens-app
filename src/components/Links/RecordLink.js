@@ -2,7 +2,8 @@ import React from 'react'
 import styled from '@emotion/styled/macro'
 import externalLinkSvg from '../Icons/externalLink.svg'
 import CopyToClipboard from '../CopyToClipboard/'
-import { isRecordEmpty } from '../../utils/utils'
+import { isRecordEmpty, prependUrl, imageUrl } from '../../utils/utils'
+import useNetworkInfo from '../NetworkInformation/useNetworkInfo'
 
 const LinkContainer = styled('div')`
   display: block;
@@ -49,16 +50,10 @@ const AvatarImage = styled('img')`
   margin: 1em 0;
 `
 
-const prependUrl = url => {
-  if (url && !url.match(/http[s]?:\/\//)) {
-    return 'https://' + url
-  } else {
-    return url
-  }
-}
-
-const RecordLink = ({ textKey, value }) => {
+const RecordLink = ({ textKey, value, name }) => {
   let url, avatar
+  const { network } = useNetworkInfo()
+
   switch (textKey) {
     case 'url':
       url = `${value}`
@@ -77,9 +72,8 @@ const RecordLink = ({ textKey, value }) => {
     url = `mailto:${value}`
   }
   if (textKey === 'avatar') {
-    avatar = prependUrl(value)
+    avatar = imageUrl(value, name, network)
   }
-
   const isEmpty = isRecordEmpty(value)
 
   return url && !isEmpty ? (
@@ -108,7 +102,7 @@ const RecordLink = ({ textKey, value }) => {
 
         <CopyToClipboard value={value} />
       </LinkContainer>
-      <AvatarImage src={value} alt="avatar" />
+      <AvatarImage src={avatar} alt="avatar" />
     </div>
   ) : (
     <UnlinkedValueContainer>
