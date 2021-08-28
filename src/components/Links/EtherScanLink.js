@@ -23,7 +23,7 @@ const EtherScanLinkContainer = styled('a')`
   }
 `
 
-const GET_ETHER_SCAN_LINK = gql`
+export const GET_ETHER_SCAN_LINK = gql`
   query getEtherScanLink @client {
     network
   }
@@ -36,6 +36,7 @@ const EtherScanLink = ({ children, address, className }) => {
   const subdomain = network?.toLowerCase() === 'main' ? '' : `${network}.`
   return (
     <EtherScanLinkContainer
+      data-testid="ether-scan-link-container"
       target="_blank"
       rel="noopener"
       href={`https://${subdomain}etherscan.io/address/${address}`}

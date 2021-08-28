@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { useQuery, useLazyQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import gql from 'graphql-tag'
 
-import { validateName, parseSearchTerm, usePrevious } from '../utils/utils'
+import { validateName, parseSearchTerm } from '../utils/utils'
 import { useScrollTo } from '../components/hooks'
 import { GET_SINGLE_NAME } from '../graphql/queries'
 import Loader from '../components/Loader'

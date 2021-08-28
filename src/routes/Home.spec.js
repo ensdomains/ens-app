@@ -11,11 +11,9 @@ jest.mock('../components/SearchName/Search', () => ({
 }))
 import SearchDefault from '../components/SearchName/Search'
 
-import { render, waitFor, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { MockedProvider } from '@apollo/client/testing'
-import { Router, StaticRouter } from 'react-router-dom'
-import { createMemoryHistory } from 'history'
+import { StaticRouter } from 'react-router-dom'
 
 import Home, { HOME_DATA, GET_ACCOUNT } from './Home'
 
