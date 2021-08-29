@@ -225,6 +225,10 @@ function DetailsContainer({
     domain.parent !== 'eth' &&
     !domain.isDNSRegistrar
 
+  //TODO: replace when we have an example wrapped name
+  //const isWrappedName = isWrapped(domainOwner)
+  const isWrappedName = isWrapped('0x475e527d54b91b0b011DA573C69Ac54B2eC269ea')
+
   return (
     <Details data-testid="name-details">
       {isOwner && <SetupName initialState={showExplainer} />}

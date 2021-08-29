@@ -25,6 +25,8 @@ export const MAINNET_DNSREGISTRAR_ADDRESS =
 export const ROPSTEN_DNSREGISTRAR_ADDRESS =
   '0xdB328BA5FEcb432AF325Ca59E3778441eF5aa14F'
 
+export const NAME_WRAPPER_ADDRESS = '0x475e527d54b91b0b011DA573C69Ac54B2eC269ea'
+
 export const addressUtils = {
   isChecksumAddress(address) {
     // Check each case
@@ -236,4 +238,8 @@ export function imageUrl(url, name, network) {
   } else {
     return prependUrl(url)
   }
+}
+
+export const isWrapped = controllerAddr => {
+  return controllerAddr == NAME_WRAPPER_ADDRESS
 }
