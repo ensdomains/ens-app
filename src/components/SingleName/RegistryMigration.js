@@ -90,8 +90,6 @@ export default function RegistryMigration({
   )
   const dnssecMigrateMessage = t('registrymigration.messages.dnssec')
 
-  console.log('refetchIsMigrated: ', refetchIsMigrated)
-
   return (
     <WarningBox>
       <WarningContent>

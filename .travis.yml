@@ -53,6 +53,12 @@ jobs:
         - ls
         - cd ens-app && yarn cypress:ci && cd ../
     - stage: test
+      name: 'Unit Tests'
+      install:
+        - yarn --frozen-lockfile
+      script:
+        - yarn test:coverage
+    - stage: test
       name: 'Branch Preview'
       install:
         - yarn install
