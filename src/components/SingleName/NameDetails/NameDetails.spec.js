@@ -68,6 +68,8 @@ describe('NameDetails', () => {
   })
 
   it('should show a warning/message that this name is wrapped IF wrapped', () => {})
+})
 
-  it.todo('should link to more information about name wrapping')
+describe('Details', () => {
+  it.todo('should make space for name wrapper warning when name wrapper')
 })

@@ -9,3 +9,7 @@ describe('isOwnerOfParentDomain', () => {
   })
   it.todo('should return true if the name is wrapped, false otherwise')
 })
+
+describe('isWrapped', () => {
+  it.todo('should be case insensitive')
+})

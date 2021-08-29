@@ -11,35 +11,37 @@ import {
   SET_REGISTRANT,
   RECLAIM,
   RENEW
-} from '../../graphql/mutations'
-import { IS_MIGRATED } from '../../graphql/queries'
+} from '../../../graphql/mutations'
+import { IS_MIGRATED } from '../../../graphql/queries'
 
-import { formatDate } from '../../utils/dates'
-import { isEmptyAddress } from '../../utils/records'
+import { formatDate } from '../../../utils/dates'
+import { isEmptyAddress } from '../../../utils/records'
 
-import NameRegister from './NameRegister'
-import SubmitProof from './SubmitProof'
-import Tooltip from '../Tooltip/Tooltip'
-import { HR } from '../Typography/Basic'
-import DefaultButton from '../Forms/Button'
-import SubDomains from './SubDomains'
-import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
-import DetailsItemEditable from './DetailsItemEditable'
-import SetupName from '../SetupName/SetupName'
-import { SingleNameBlockies } from '../Blockies'
-import { ReactComponent as ExternalLinkIcon } from '../Icons/externalLink.svg'
-import DefaultLoader from '../Loader'
-import You from '../Icons/You'
-import dnssecmodes from '../../api/dnssecmodes'
-import { ReactComponent as DefaultOrangeExclamation } from '../Icons/OrangeExclamation.svg'
-import DefaultAddressLink from '../Links/AddressLink'
-import ResolverAndRecords from './ResolverAndRecords'
-import NameClaimTestDomain from './NameClaimTestDomain'
-import RegistryMigration from './RegistryMigration'
-import ReleaseDeed from './ReleaseDeed'
+import { NameWrapperWarning } from './NameWrapperWarning'
+import NameRegister from '../NameRegister'
+import SubmitProof from '../SubmitProof'
+import Tooltip from '../../Tooltip/Tooltip'
+import { HR } from '../../Typography/Basic'
+import DefaultButton from '../../Forms/Button'
+import SubDomains from '../SubDomains'
+import { DetailsItem, DetailsKey, DetailsValue } from '../DetailsItem'
+import DetailsItemEditable from '../DetailsItemEditable'
+import SetupName from '../../SetupName/SetupName'
+import { SingleNameBlockies } from '../../Blockies'
+import { ReactComponent as ExternalLinkIcon } from '../../Icons/externalLink.svg'
+import DefaultLoader from '../../Loader'
+import You from '../../Icons/You'
+import dnssecmodes from '../../../api/dnssecmodes'
+import { ReactComponent as DefaultOrangeExclamation } from '../../Icons/OrangeExclamation.svg'
+import DefaultAddressLink from '../../Links/AddressLink'
+import ResolverAndRecords from '../ResolverAndRecords'
+import NameClaimTestDomain from '../NameClaimTestDomain'
+import RegistryMigration from '../RegistryMigration'
+import ReleaseDeed from '../ReleaseDeed'
+import { isWrapped } from '../../../utils/utils'
 
 const Details = styled('section')`
-  padding: 20px;
+  padding: ${p => (p.isWrappedName ? '40' : '20')}px;
   transition: 0.4s;
   ${mq.small`
     padding: 40px;
@@ -227,10 +229,12 @@ function DetailsContainer({
 
   //TODO: replace when we have an example wrapped name
   //const isWrappedName = isWrapped(domainOwner)
-  const isWrappedName = isWrapped('0x475e527d54b91b0b011DA573C69Ac54B2eC269ea')
+  console.log('domainOwner: ', domainOwner)
+  const isWrappedName = isWrapped(domainOwner)
 
   return (
-    <Details data-testid="name-details">
+    <Details data-testid="name-details" isWrappedName={isWrappedName}>
+      {isWrappedName && <NameWrapperWarning />}
       {isOwner && <SetupName initialState={showExplainer} />}
       {isMigratedToNewRegistry && releaseDeed && (
         <ReleaseDeed domain={domain} isDeedOwner={isDeedOwner} />
