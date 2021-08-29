@@ -66,4 +66,8 @@ describe('NameDetails', () => {
     )
     expect(context.url).toEqual('/subdomains')
   })
+
+  it('should show a warning/message that this name is wrapped IF wrapped', () => {})
+
+  it.todo('should link to more information about name wrapping')
 })

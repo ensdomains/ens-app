@@ -7,4 +7,5 @@ describe('isOwnerOfParentDomain', () => {
     }
     expect(isOwnerOfParentDomain(mockDomain, null)).toBeFalsy()
   })
+  it.todo('should return true if the name is wrapped, false otherwise')
 })
