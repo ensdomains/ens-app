@@ -134,12 +134,12 @@ function SubDomains({
               )
 
               return (
-                <div>subdomain web3</div>
-                // <SubDomainsFromWeb3
-                //   domain={domain}
-                //   isOwner={isOwner}
-                //   canAddSubdomain={canAddSubdomain}
-                // />
+                // <div>subdomain web3</div>
+                <SubDomainsFromWeb3
+                  domain={domain}
+                  isOwner={isOwner}
+                  canAddSubdomain={canAddSubdomain}
+                />
               )
             }
             if (loading)

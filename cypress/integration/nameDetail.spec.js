@@ -296,9 +296,10 @@ describe('Name detail view', () => {
         .type('FOOOOOOOO{enter}')
         .getByPlaceholderText('FOOOOOOOO', { exact: false })
         .type('Bar', { force: true, delay: 0 })
-      waitUntilInputResolves('Save').then(() => {
-        cy.getByText('Save').click({ force: true })
-      })
+      // waitUntilInputResolves('Save').then(() => {
+      //   cy.getByText('Save').click({ force: true })
+      // })
+      cy.getByText('Save').click({ force: true })
     })
     confirmRecordUpdate()
 
@@ -416,19 +417,17 @@ describe('Name detail view', () => {
     const LABEL = 'sub1' // using the same subdomain label which is used at sub1.testing.eth
     cy.visit(`${NAME_ROOT}/subdomaindummy.eth/subdomains`, { timeout: 10000 })
 
-    cy.getByTestId('subdomains').within(() => {
-      cy.wait(5000)
-      cy.getByTestId('add-subdomain', { exact: false, timeout: 10000 }).click({
-        force: true
-      })
-      cy.getByPlaceholderText('Type in a label', {
-        exact: false,
-        timeout: 10000
-      }).type(LABEL, {
-        force: true
-      })
-      cy.getByText('save', { exact: false }).click({ force: true })
+    cy.getByTestId('addsubdomain', { exact: false, timeout: 10000 }).click({
+      force: true
     })
+    cy.getByPlaceholderText('Type in a label', {
+      exact: false,
+      timeout: 10000
+    }).type(LABEL, {
+      force: true
+    })
+    cy.getByText('save', { exact: false }).click({ force: true })
+
     cy.wait(1000)
     cy.visit(`${NAME_ROOT}/subdomaindummy.eth/subdomains`)
       .getByText('subdomains', { exact: false, timeout: 10000 })
