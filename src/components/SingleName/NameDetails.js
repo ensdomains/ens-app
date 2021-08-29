@@ -661,6 +661,7 @@ function NameDetails({
               domain={domain}
               dnssecmode={dnssecmode}
               account={account}
+              refetchIsMigrated={refetchIsMigrated}
             />
           )
         }}

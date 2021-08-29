@@ -264,6 +264,8 @@ const CTA = ({
     }
   }, [step])
 
+  console.log('refetchIsMigrated: ', refetchIsMigrated)
+
   return (
     <CTAContainer>
       {getCTA({
