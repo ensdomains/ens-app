@@ -17,6 +17,7 @@ import { useAccount } from '../QueryAccount'
 import NameContainer from '../Basic/MainContainer'
 import Copy from '../CopyToClipboard/'
 import { isOwnerOfParentDomain } from '../../utils/utils'
+import { isWrapped } from '../../utils/nameWrapperUtils'
 
 const Owner = styled('div')`
   color: #ccd4da;
@@ -68,6 +69,67 @@ export const useRefreshComponent = () => {
   return key
 }
 
+const useNameOwner = (domain, address) => {
+  const GET_NAME_WRAPPER_OWNER = gql`
+    query getNameWrapperOwner($name: string) {
+      getNameWrapperOwner(name: $name) {
+        ownerAddr
+        canTransfer
+      }
+    }
+  `
+
+  const { data, loading } = useQuery(GET_NAME_WRAPPER_OWNER, {
+    variables: {
+      name: domain.name
+    }
+  })
+
+  const [isWrappedName, setIsWrappedName] = useState(false)
+  const [isOwner, setIsOwner] = useState(null)
+  const [canTransferWrappedName, setCanTransferWrappedName] = useState(false)
+  const [wrapperOwner, setWrapperOwner] = useState(null)
+
+  useEffect(() => {
+    // if (domain.available || domain.owner === '0x0') {
+    //   setIsWrappedName(false)
+    //   setDomainOwner(null)
+    //   return
+    // }
+
+    // if (domain.owner) {
+    //   const ownerAddr = domain.owner
+    //   const isWrappedNameLocal = isWrapped(ownerAddr)
+    //
+    //   if (!isWrappedNameLocal) {
+    //     setIsWrappedName(false)
+    //     setDomainOwner(ownerAddr)
+    //     return
+    //   }
+    //
+    //   const ownerAddress =
+    //
+    //     setIsWrappedName(true)
+    //   setDomainOwner(data?.getNameWrapperOwner.ownerAddr || null)
+    //   setCanTransfer()
+    // }
+
+    const isWrappedLocal = isWrappedName(address)
+
+    if (!isWrappedLocal) {
+      setIsOwner(isOwnerOfDomain(domain, account))
+      setIsWrappedName(false)
+      setCanTransfer(false)
+      setWrapperOwner(null)
+      return
+    }
+
+    setIsOwner(data?.getNameWrapperOwner.ownerAddr === address)
+  }, [domain, data, loading])
+
+  return { isWrappedName, isOwner, canTransferWrappedName, wrapperOwner }
+}
+
 const NAME_QUERY = gql`
   query nameQuery {
     accounts @client
@@ -84,7 +146,10 @@ function Name({ details: domain, name, pathname, type, refetch }) {
   } = useQuery(NAME_QUERY)
 
   const account = accounts?.[0]
-  const isOwner = isOwnerOfDomain(domain, account)
+  const { isWrappedName, isOwner, canTransfer, wrapperOwner } = useNameOwner(
+    domain,
+    account
+  )
   const isOwnerOfParent = isOwnerOfParentDomain(domain, account)
   const isDeedOwner = domain.deedOwner === account
   const isRegistrant = !domain.available && domain.registrant === account
@@ -176,14 +241,19 @@ function Name({ details: domain, name, pathname, type, refetch }) {
       ) : (
         <NameDetails
           tab={preferredTab}
-          domain={domain}
-          pathname={pathname}
-          name={name}
-          isOwner={isOwner}
-          isOwnerOfParent={isOwnerOfParent}
-          refetch={refetch}
-          account={account}
-          registrationOpen={registrationOpen}
+          {...{
+            domain,
+            pathname,
+            name,
+            isOwner,
+            isOwnerOfParent,
+            refetch,
+            account,
+            registrationOpen,
+            isWrappedName,
+            canTransfer,
+            wrapperOwner
+          }}
         />
       )}
     </NameContainer>

@@ -68,6 +68,14 @@ describe('NameDetails', () => {
   })
 
   it('should show a warning/message that this name is wrapped IF wrapped', () => {})
+  it.todo(
+    'should use the name wrapper owner as the controller address if it is a wrapped name'
+  )
+  it.todo('should hide registrant if it is wrapped and is a .eth name')
+  it.todo('should not allow user to transfer if that fuse is set')
+  it.todo(
+    'should not allow user to transfer if that fuse is not set and is a wrapped name'
+  )
 })
 
 describe('Details', () => {

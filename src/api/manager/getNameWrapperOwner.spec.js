@@ -1,0 +1,10 @@
+describe('getNameWrapperOwner', () => {
+  it.todo('should return null if no name is provided provided')
+  it.todo('should return owner addr if owner exists')
+  it.todo("should return null if owner can't be found")
+  it.todo('should return null if an error occurs')
+  it.todo('should return null if ENS is not ready')
+  it.todo('should return canTransfer == false by default')
+  it.todo('should return canTransfer == false if hasCannotTransfer == true')
+  it.todo('should return canTransfer == true if hasCannotTransfer == false')
+})

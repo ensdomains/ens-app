@@ -24,8 +24,7 @@ export const MAINNET_DNSREGISTRAR_ADDRESS =
   '0x58774Bb8acD458A640aF0B88238369A167546ef2'
 export const ROPSTEN_DNSREGISTRAR_ADDRESS =
   '0xdB328BA5FEcb432AF325Ca59E3778441eF5aa14F'
-
-export const NAME_WRAPPER_ADDRESS = '0x9029c1574f91696026358d4edb0de773d0e04aed'
+import { NAME_WRAPPER_ADDRESS } from '@ensdomains/ui/src/constants/interfaces'
 
 export const addressUtils = {
   isChecksumAddress(address) {
@@ -238,8 +237,4 @@ export function imageUrl(url, name, network) {
   } else {
     return prependUrl(url)
   }
-}
-
-export const isWrapped = controllerAddr => {
-  return controllerAddr?.toLowerCase() == NAME_WRAPPER_ADDRESS
 }

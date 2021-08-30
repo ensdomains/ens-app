@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useQuery } from '@apollo/client'
 import { useTranslation, Trans } from 'react-i18next'
 import styled from '@emotion/styled'
@@ -38,7 +38,8 @@ import ResolverAndRecords from '../ResolverAndRecords'
 import NameClaimTestDomain from '../NameClaimTestDomain'
 import RegistryMigration from '../RegistryMigration'
 import ReleaseDeed from '../ReleaseDeed'
-import { isWrapped } from '../../../utils/utils'
+import { isWrapped } from '../../../utils/nameWrapperUtils'
+import gql from 'graphql-tag'
 
 const Details = styled('section')`
   padding: ${p => (p.isWrappedName ? '40' : '20')}px;
@@ -211,9 +212,12 @@ function DetailsContainer({
   loadingIsParentMigrated
 }) {
   const { t } = useTranslation()
+
   const isExpired = domain.expiryTime < new Date()
+
   const domainOwner =
     domain.available || domain.owner === '0x0' ? null : domain.owner
+
   const registrant =
     domain.available || domain.registrant === '0x0' ? null : domain.registrant
 
@@ -226,11 +230,6 @@ function DetailsContainer({
     parseInt(domain.owner) === 0 &&
     domain.parent !== 'eth' &&
     !domain.isDNSRegistrar
-
-  //TODO: replace when we have an example wrapped name
-  //const isWrappedName = isWrapped(domainOwner)
-  console.log('domainOwner: ', domainOwner)
-  const isWrappedName = isWrapped(domainOwner)
 
   return (
     <Details data-testid="name-details" isWrappedName={isWrappedName}>
@@ -280,25 +279,31 @@ function DetailsContainer({
       <OwnerFields outOfSync={outOfSync}>
         {domain.parent === 'eth' && domain.isNewRegistrar ? (
           <>
-            <DetailsItemEditable
-              domain={domain}
-              keyName="registrant"
-              value={registrant}
-              canEdit={isRegistrant && !isExpired}
-              isExpiredRegistrant={isRegistrant && isExpired}
-              type="address"
-              editButton={t('c.transfer')}
-              mutationButton={t('c.transfer')}
-              mutation={SET_REGISTRANT}
-              refetch={refetch}
-              confirm={true}
-              copyToClipboard={true}
-            />
+            {!isWrappedName && (
+              <DetailsItemEditable
+                domain={domain}
+                keyName="registrant"
+                value={registrant}
+                canEdit={isRegistrant && !isExpired}
+                isExpiredRegistrant={isRegistrant && isExpired}
+                type="address"
+                editButton={t('c.transfer')}
+                mutationButton={t('c.transfer')}
+                mutation={SET_REGISTRANT}
+                refetch={refetch}
+                confirm={true}
+                copyToClipboard={true}
+              />
+            )}
             <DetailsItemEditable
               domain={domain}
               keyName="Controller"
               value={domainOwner}
-              canEdit={isRegistrant || (isOwner && isMigratedToNewRegistry)}
+              canEdit={
+                isRegistrant ||
+                (isOwner && isMigratedToNewRegistry) ||
+                canTransfer
+              }
               deedOwner={domain.deedOwner}
               isDeedOwner={isDeedOwner}
               type="address"

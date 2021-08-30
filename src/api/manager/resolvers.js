@@ -12,6 +12,7 @@ import {
   labelhash,
   utils
 } from '@ensdomains/ui'
+
 import { formatsByName } from '@ensdomains/address-encoder'
 import isEqual from 'lodash/isEqual'
 import modeNames from '../modes'
@@ -23,21 +24,12 @@ import {
 } from '../../utils/utils'
 import TEXT_RECORD_KEYS from 'constants/textRecords'
 import COIN_LIST_KEYS from 'constants/coinList'
-import {
-  GET_FAVOURITES,
-  GET_SUBDOMAIN_FAVOURITES,
-  GET_ALL_NODES,
-  GET_REGISTRANT_FROM_SUBGRAPH
-} from '../../graphql/queries'
+import { GET_REGISTRANT_FROM_SUBGRAPH } from '../../graphql/queries'
 import getClient from '../../apollo/apolloClient'
 import getENS, { getRegistrar } from 'apollo/mutations/ens'
-import { normalize } from 'eth-ens-namehash'
-import {
-  detailedNodeReactive,
-  isENSReady,
-  namesReactive
-} from '../../apollo/reactiveVars'
+import { isENSReady, namesReactive } from '../../apollo/reactiveVars'
 import getReverseRecord from './getReverseRecord'
+import getNameWrapperOwner from './getNameWrapperOwner'
 
 const defaults = {
   names: []
@@ -355,6 +347,7 @@ function adjustForShortNames(node) {
 
 const resolvers = {
   Query: {
+    getNameWrapperOwner,
     publicResolver: async () => {
       try {
         const ens = getENS()
