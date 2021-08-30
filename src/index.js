@@ -8,14 +8,17 @@ import './i18n'
 import setup from './setup'
 import { clientReactive, networkIdReactive } from './apollo/reactiveVars'
 import { setupClient } from './apollo/apolloClient'
+import Loader from './components/Loader'
 
 setup(false)
 window.addEventListener('load', async () => {
   const client = clientReactive(setupClient(networkIdReactive()))
   ReactDOM.render(
-    <ApolloProvider {...{ client }}>
-      <App />
-    </ApolloProvider>,
+    <Suspense fallback={<Loader withWrap large />}>
+      <ApolloProvider {...{ client }}>
+        <App />
+      </ApolloProvider>
+    </Suspense>,
     document.getElementById('root')
   )
 })

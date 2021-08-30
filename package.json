@@ -14,7 +14,7 @@
     "@ensdomains/web3modal": "1.9.4",
     "@ensdomains/mock": "^2.1.40",
     "@ensdomains/react-ens-address": "^0.0.29",
-    "@ensdomains/ui": "^3.2.3",
+    "@ensdomains/ui": "^3.3.0",
     "@gnosis.pm/safe-apps-provider": "^0.2.2",
     "@myetherwallet/mewconnect-web-client": "^2.1.11",
     "@portis/web3": "^2.0.0-beta.59",

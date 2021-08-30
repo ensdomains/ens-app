@@ -17,7 +17,7 @@ describe(
         timeout: 10000
       }).should('exist')
 
-      cy.getByTestId('account', { exact: false, timeout: 10000 }).should(
+      cy.getByTestId('account', { exact: false, timeout: 20000 }).should(
         'have.text',
         `${ADDRESS.slice(0, 10)}...`
       )
