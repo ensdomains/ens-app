@@ -18,6 +18,7 @@ import { setupClient } from 'apolloClient'
 import { connect } from '../api/web3modal'
 import { safeInfo, setupSafeApp } from './safeApps'
 import { useEffect, useRef } from 'react'
+import { normalize } from 'eth-ens-namehash'
 
 // From https://github.com/0xProject/0x-monorepo/blob/development/packages/utils/src/address_utils.ts
 
@@ -265,4 +266,27 @@ export function usePrevious(value) {
   }, [value]) // Only re-run if value changes
   // Return previous value (happens before update in useEffect above)
   return ref.current
+}
+
+export function filterNormalised(data, name, nested = false) {
+  return data.filter(data => {
+    const domain = nested ? data.domain : data
+    return domain[name] === normalize(domain[name])
+  })
+}
+
+export function prependUrl(url) {
+  if (url && !url.match(/http[s]?:\/\//)) {
+    return 'https://' + url
+  } else {
+    return url
+  }
+}
+
+export function imageUrl(url, name, network) {
+  if (name && network === 'rinkeby' && url.match(/^eip/)) {
+    return `https://ens-metadata-service.appspot.com/avatar/${name}`
+  } else {
+    return prependUrl(url)
+  }
 }
