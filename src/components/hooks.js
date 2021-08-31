@@ -4,7 +4,7 @@ import getEtherPrice from 'api/price'
 import { useLocation } from 'react-router-dom'
 import { loggedIn, logout } from './IPFS/auth'
 import { getBlock, getProvider } from '@ensdomains/ui'
-
+import { prependUrl } from '../utils/utils'
 export function useDocumentTitle(title) {
   useEffect(() => {
     document.title = title
@@ -220,6 +220,50 @@ export function useGasPrice(enabled = true) {
   return {
     loading,
     price
+  }
+}
+
+export function useAvatar(name, network, uri) {
+  // mock data
+  if (name && network === 'rinkeby' && uri?.match(/^eip/)) {
+    // result = fetch(`https://ens-metadata-service.appspot.com/avatar/${name}/metadata`)
+    return {
+      chainID: '1',
+      contractAddress: '0x495f947276749ce646f68ac8c248420045cb7b5e',
+      namespace: 'erc1155',
+      tokenID:
+        '8112316025873927737505937898915153732580103913704334048512380490797008551937',
+      isOwner: true,
+      referenceUrl:
+        'https://opensea.io/assets/0x495f947276749ce646f68ac8c248420045cb7b5e/8112316025873927737505937898915153732580103913704334048512380490797008551937',
+      imageUrl:
+        'https://lh3.googleusercontent.com/hKHZTZSTmcznonu8I6xcVZio1IF76fq0XmcxnvUykC-FGuVJ75UPdLDlKJsfgVXH9wOSmkyHw0C39VAYtsGyxT7WNybjQ6s3fM3macE',
+      metadata: {
+        name: 'Nick Johnson',
+        description: null,
+        external_link: null,
+        image:
+          'https://lh3.googleusercontent.com/hKHZTZSTmcznonu8I6xcVZio1IF76fq0XmcxnvUykC-FGuVJ75UPdLDlKJsfgVXH9wOSmkyHw0C39VAYtsGyxT7WNybjQ6s3fM3macE',
+        animation_url: null
+      }
+    }
+  } else {
+    let imageUrl
+    if (uri.startsWith('ipfs://')) {
+      imageUrl = uri.replace('ipfs://', 'https://ipfs.io/ipfs/')
+    } else {
+      if (uri.startsWith('http')) {
+        imageUrl = prependUrl(uri)
+      } else {
+        // for data
+        imageUrl = uri
+      }
+    }
+    const referenceUrl = imageUrl
+    return {
+      imageUrl,
+      referenceUrl
+    }
   }
 }
 
