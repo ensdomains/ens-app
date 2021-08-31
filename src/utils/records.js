@@ -38,7 +38,7 @@ export function getPlaceholder(recordType, contentType) {
         ? `Enter a ${contentType} address`
         : 'Please select a coin'
     case 'setContenthash':
-      return 'Enter a content hash (eg: /ipfs/..., ipfs://..., /ipns/..., ipns://..., bzz://..., onion://..., onion3://..., sia://...)'
+      return 'Enter a content hash (eg: /ipfs/..., ipfs://..., /ipns/..., ipns://..., bzz://..., onion://..., onion3://..., sia://..., arweave://...)'
     case 'setText':
       return contentType ? `Enter ${contentType}` : 'Please select a key'
     default:
