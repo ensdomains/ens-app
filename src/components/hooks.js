@@ -259,10 +259,9 @@ export function useAvatar(name, network, uri) {
         imageUrl = uri
       }
     }
-    const referenceUrl = imageUrl
     return {
       imageUrl,
-      referenceUrl
+      referenceUrl: imageUrl
     }
   }
 }
