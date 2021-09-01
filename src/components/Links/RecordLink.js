@@ -60,7 +60,7 @@ const OwnerLabel = styled('span')`
 `
 
 const RecordLink = ({ textKey, value, name }) => {
-  let url, avatar, isOwner, referenceUrl, imageUrl
+  let url
   const { network } = useNetworkInfo()
   switch (textKey) {
     case 'url':
@@ -79,9 +79,12 @@ const RecordLink = ({ textKey, value, name }) => {
   if (textKey === 'email') {
     url = `mailto:${value}`
   }
-  if (textKey === 'avatar') {
-    ;({ isOwner, referenceUrl, imageUrl } = useAvatar(name, network, value))
-  }
+  const { isOwner, referenceUrl, image: imageUrl } = useAvatar(
+    textKey,
+    name,
+    network,
+    value
+  )
   const isEmpty = isRecordEmpty(value)
 
   return url && !isEmpty ? (

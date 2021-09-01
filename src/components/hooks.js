@@ -223,47 +223,31 @@ export function useGasPrice(enabled = true) {
   }
 }
 
-export function useAvatar(name, network, uri) {
-  // mock data
-  if (name && network === 'rinkeby' && uri?.match(/^eip/)) {
-    // result = fetch(`https://ens-metadata-service.appspot.com/avatar/${name}/metadata`)
-    return {
-      chainID: '1',
-      contractAddress: '0x495f947276749ce646f68ac8c248420045cb7b5e',
-      namespace: 'erc1155',
-      tokenID:
-        '8112316025873927737505937898915153732580103913704334048512380490797008551937',
-      isOwner: true,
-      referenceUrl:
-        'https://opensea.io/assets/0x495f947276749ce646f68ac8c248420045cb7b5e/8112316025873927737505937898915153732580103913704334048512380490797008551937',
-      imageUrl:
-        'https://lh3.googleusercontent.com/hKHZTZSTmcznonu8I6xcVZio1IF76fq0XmcxnvUykC-FGuVJ75UPdLDlKJsfgVXH9wOSmkyHw0C39VAYtsGyxT7WNybjQ6s3fM3macE',
-      metadata: {
-        name: 'Nick Johnson',
-        description: null,
-        external_link: null,
-        image:
-          'https://lh3.googleusercontent.com/hKHZTZSTmcznonu8I6xcVZio1IF76fq0XmcxnvUykC-FGuVJ75UPdLDlKJsfgVXH9wOSmkyHw0C39VAYtsGyxT7WNybjQ6s3fM3macE',
-        animation_url: null
+export function useAvatar(textKey, name, network, uri) {
+  const [avatar, setAvatar] = useState({})
+  useEffect(() => {
+    try {
+      const run = async () => {
+        const result = await fetch(
+          `https://metadata.ens.domains/avatar/${name}/meta`
+        )
+        const data = await result.json()
+        setAvatar(data)
       }
-    }
-  } else {
-    let imageUrl
-    if (uri.startsWith('ipfs://')) {
-      imageUrl = uri.replace('ipfs://', 'https://ipfs.io/ipfs/')
-    } else {
-      if (uri.startsWith('http')) {
-        imageUrl = prependUrl(uri)
-      } else {
-        // for data
-        imageUrl = uri
+      if (
+        name &&
+        network === 'rinkeby' &&
+        uri?.match(/^eip/) &&
+        textKey === 'avatar'
+      ) {
+        run()
       }
+    } catch (e) {
+      console.error('useAvatar error: ', e)
     }
-    return {
-      imageUrl,
-      referenceUrl: imageUrl
-    }
-  }
+  }, [textKey])
+
+  return avatar
 }
 
 export function useReferrer() {
