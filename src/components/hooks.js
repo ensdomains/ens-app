@@ -4,7 +4,7 @@ import getEtherPrice from 'api/price'
 import { useLocation } from 'react-router-dom'
 import { loggedIn, logout } from './IPFS/auth'
 import { getBlock, getProvider } from '@ensdomains/ui'
-
+import { prependUrl } from '../utils/utils'
 export function useDocumentTitle(title) {
   useEffect(() => {
     document.title = title
@@ -221,6 +221,33 @@ export function useGasPrice(enabled = true) {
     loading,
     price
   }
+}
+
+export function useAvatar(textKey, name, network, uri) {
+  const [avatar, setAvatar] = useState({})
+  useEffect(() => {
+    try {
+      const run = async () => {
+        const result = await fetch(
+          `https://metadata.ens.domains/avatar/${name}/meta`
+        )
+        const data = await result.json()
+        setAvatar(data)
+      }
+      if (
+        name &&
+        network === 'rinkeby' &&
+        uri?.match(/^eip/) &&
+        textKey === 'avatar'
+      ) {
+        run()
+      }
+    } catch (e) {
+      console.error('useAvatar error: ', e)
+    }
+  }, [textKey])
+
+  return avatar
 }
 
 export function useReferrer() {
