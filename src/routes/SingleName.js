@@ -8,6 +8,7 @@ import { GET_SINGLE_NAME } from '../graphql/queries'
 import Loader from '../components/Loader'
 import SearchErrors from '../components/SearchErrors/SearchErrors'
 import Name from '../components/SingleName/Name'
+import { useHistory } from 'react-router-dom'
 
 const SINGLE_NAME = gql`
   query singleNameQuery @client {
@@ -28,6 +29,7 @@ function SingleName({
   const [valid, setValid] = useState(undefined)
   const [type, setType] = useState(undefined)
   const [name, setNormalisedName] = useState('')
+  const history = useHistory()
   let errorMessage
 
   const {
@@ -55,6 +57,7 @@ function SingleName({
         parseSearchTerm(normalisedName || searchTerm).then(_type => {
           if (_type === 'supported' || _type === 'tld' || _type === 'search') {
             setValid(true)
+
             setType(_type)
           } else {
             if (_type === 'invalid') {
