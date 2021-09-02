@@ -54,7 +54,7 @@ describe(
       cy.get('button')
         .contains('Search')
         .click({ force: true })
-
+      cy.wait(5000)
       cy.queryByText('Domain malformed. abc defg is not a valid domain.', {
         exact: false
       }).should('exist')
