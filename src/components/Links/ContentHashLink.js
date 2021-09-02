@@ -48,6 +48,9 @@ const ContentHashLink = ({ value, contentType, domain }) => {
   } else if (protocolType === 'sia') {
     externalLink = `https://siasky.net/${decoded}`
     url = `sia://${decoded}`
+  } else if (protocolType === 'arweave') {
+    externalLink = `https://arweave.net/${decoded}`
+    url = `arweave://${decoded}`
   } else {
     console.warn(`Unsupported protocol ${protocolType}`)
   }
