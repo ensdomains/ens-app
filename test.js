@@ -17,7 +17,9 @@ const addErrorLogs = thing => {
 }
 
 const start = async () => {
-  const ganache = spawn('npx', ['ganache-cli', '-b 1'], { cwd: '.' })
+  const ganache = spawn('npx', ['ganache-cli', '-b 1'], {
+    cwd: '.'
+  })
   addErrorLogs(ganache)
 
   const rmdata = spawnSync('rm', ['-rf', 'data'], {

@@ -143,6 +143,7 @@ function AddReverseRecord({ account, currentAddress }) {
     if (account && !getReverseRecord) {
       startEditing()
     }
+    startEditing()
   }, [getReverseRecord, account])
   const { data: { domains } = {} } = useQuery(
     GET_ETH_RECORD_AVAILABLE_NAMES_FROM_SUBGRAPH,
