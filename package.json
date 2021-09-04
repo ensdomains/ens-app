@@ -70,7 +70,7 @@
     "start:ipfs": "REACT_APP_IPFS=True PUBLIC_URL='.' yarn start",
     "start:test": "REACT_APP_STAGE=local yarn start",
     "start:test:ipfs": "REACT_APP_STAGE=local yarn start:ipfs",
-    "build": "CI=false react-scripts --max_old_space_size=4096 build",
+    "build": "CI=false react-scripts --max_old_space_size=4096 build && yarn cacheBust",
     "build:ipfs": "REACT_APP_IPFS=True PUBLIC_URL='.' yarn build",
     "postbuild": "cp build/index.html build/200.html && echo '*' > build/CORS",
     "test": "react-scripts test --env=jsdom",
@@ -96,7 +96,7 @@
     "i18n": "sync-i18n --files 'public/locales/*.json' --primary en --languages cn --space 2",
     "check-i18n": "npm run i18n -- --check",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "ganache": "ganache-cli -b 1"
+    "cacheBust": "node cacheBust.js"
   },
   "prettier": {
     "semi": false,
@@ -123,10 +123,12 @@
     "prettier": "1.17.0",
     "pretty-quick": "^1.10.0",
     "react-testing-library": "^3.0.2",
+    "replace-in-file": "6.2.0",
     "solc": "^0.4.23",
     "source-map-explorer": "2.5.2",
     "start-server-and-test": "^1.10.0",
-    "surge": "^0.20.1"
+    "surge": "^0.20.1",
+    "uuid": "8.3.2"
   },
   "browserslist": {
     "development": [
