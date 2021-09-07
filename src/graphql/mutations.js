@@ -171,12 +171,6 @@ export const RENEW = gql`
   }
 `
 
-export const RELEASE_DEED = gql`
-  mutation releaseDeed($label: String) {
-    releaseDeed(label: $label) @client
-  }
-`
-
 export const SUBMIT_PROOF = gql`
   mutation submitProof($name: String, $parentOwner: String) {
     submitProof(name: $name, parentOwner: $parentOwner) @client
