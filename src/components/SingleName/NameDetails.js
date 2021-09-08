@@ -36,7 +36,6 @@ import DefaultAddressLink from '../Links/AddressLink'
 import ResolverAndRecords from './ResolverAndRecords'
 import NameClaimTestDomain from './NameClaimTestDomain'
 import RegistryMigration from './RegistryMigration'
-import ReleaseDeed from './ReleaseDeed'
 
 const Details = styled('section')`
   padding: 20px;
@@ -194,7 +193,6 @@ function DetailsContainer({
   showExplainer,
   canSubmit,
   outOfSync,
-  releaseDeed,
   loading,
   setLoading,
   isOwnerOfParent,
@@ -228,9 +226,6 @@ function DetailsContainer({
   return (
     <Details data-testid="name-details">
       {isOwner && <SetupName initialState={showExplainer} />}
-      {isMigratedToNewRegistry && releaseDeed && (
-        <ReleaseDeed domain={domain} isDeedOwner={isDeedOwner} />
-      )}
       {parseInt(domain.owner, 16) !== 0 &&
         !loadingIsMigrated &&
         !isMigratedToNewRegistry && (
@@ -621,7 +616,6 @@ function NameDetails({
   }
   const showExplainer = !parseInt(domain.resolver)
   const outOfSync = dnssecmode && dnssecmode.outOfSync
-  const releaseDeed = domain.deedOwner && parseInt(domain.deedOwner, 16) !== 0
   const isAnAbsolutePath = pathname.split('/').length > 3
 
   if (domain.parent === 'eth' && tab === 'register' && !isAnAbsolutePath) {
@@ -650,7 +644,6 @@ function NameDetails({
               showExplainer={showExplainer}
               canSubmit={canSubmit}
               outOfSync={outOfSync}
-              releaseDeed={releaseDeed}
               loading={loading}
               setLoading={setLoading}
               isOwnerOfParent={isOwnerOfParent}
@@ -671,14 +664,26 @@ function NameDetails({
         exact
         path="/name/:name/subdomains"
         render={() => (
-          <SubDomains
-            domain={domain}
-            isOwner={isOwner}
-            data-testid="subdomains"
+          <DetailsContainer
             isMigratedToNewRegistry={isMigratedToNewRegistry}
             loadingIsMigrated={loadingIsMigrated}
+            refetchIsMigrated={refetchIsMigrated}
             isParentMigratedToNewRegistry={isParentMigratedToNewRegistry}
             loadingIsParentMigrated={loadingIsParentMigrated}
+            isDeedOwner={isDeedOwner}
+            isRegistrant={isRegistrant}
+            showExplainer={showExplainer}
+            canSubmit={canSubmit}
+            outOfSync={outOfSync}
+            loading={loading}
+            setLoading={setLoading}
+            isOwnerOfParent={isOwnerOfParent}
+            isOwner={isOwner}
+            refetch={refetch}
+            domain={domain}
+            dnssecmode={dnssecmode}
+            account={account}
+            refetchIsMigrated={refetchIsMigrated}
           />
         )}
       />

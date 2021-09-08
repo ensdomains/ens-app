@@ -124,11 +124,6 @@ const resolvers = {
       const tx = await registrar.transferOwner(name, address)
       return sendHelper(tx)
     },
-    async releaseDeed(_, { label }) {
-      const registrar = getRegistrar()
-      const tx = await registrar.releaseDeed(label)
-      return sendHelper(tx)
-    },
     async submitProof(_, { name, parentOwner }) {
       const registrar = getRegistrar()
       const tx = await registrar.submitProof(name, parentOwner)
