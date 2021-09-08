@@ -15,7 +15,7 @@ describe(
       cy.queryByText(`everse record: not set`, {
         exact: false,
         timeout: 10000
-      }).click()
+      })
 
       cy.wait(10000)
 
@@ -26,10 +26,10 @@ describe(
 
       cy.getByText('Select your ENS name', { exact: false })
         .click({ force: true })
-        .get('#react-select-2-option-1', { timeout: 10000 })
+        .get('#react-select-3-option-1', { timeout: 10000 })
         .invoke('text')
         .then(name => {
-          cy.get('#react-select-2-option-1', { timeout: 10000 })
+          cy.get('#react-select-3-option-1', { timeout: 10000 })
             .click({ force: true })
             .getByText('Save', { timeout: 5000 })
             .click({ force: true })
