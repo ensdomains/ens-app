@@ -664,26 +664,14 @@ function NameDetails({
         exact
         path="/name/:name/subdomains"
         render={() => (
-          <DetailsContainer
+          <SubDomains
+            domain={domain}
+            isOwner={isOwner}
+            data-testid="subdomains"
             isMigratedToNewRegistry={isMigratedToNewRegistry}
             loadingIsMigrated={loadingIsMigrated}
-            refetchIsMigrated={refetchIsMigrated}
             isParentMigratedToNewRegistry={isParentMigratedToNewRegistry}
             loadingIsParentMigrated={loadingIsParentMigrated}
-            isDeedOwner={isDeedOwner}
-            isRegistrant={isRegistrant}
-            showExplainer={showExplainer}
-            canSubmit={canSubmit}
-            outOfSync={outOfSync}
-            loading={loading}
-            setLoading={setLoading}
-            isOwnerOfParent={isOwnerOfParent}
-            isOwner={isOwner}
-            refetch={refetch}
-            domain={domain}
-            dnssecmode={dnssecmode}
-            account={account}
-            refetchIsMigrated={refetchIsMigrated}
           />
         )}
       />

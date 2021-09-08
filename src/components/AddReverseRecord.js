@@ -4,7 +4,11 @@ import { useQuery, useMutation } from '@apollo/client'
 import styled from '@emotion/styled/macro'
 import { useTranslation, Trans } from 'react-i18next'
 
-import { emptyAddress, hasValidReverseRecord } from '../utils/utils'
+import {
+  emptyAddress,
+  hasValidReverseRecord,
+  usePrevious
+} from '../utils/utils'
 
 import { SET_NAME } from 'graphql/mutations'
 import mq from 'mediaQuery'
@@ -25,6 +29,7 @@ import Select from 'react-select'
 import Modal from './Modal/Modal'
 import Bin from '../components/Forms/Bin'
 import Gap from '../components/Utils/Gap'
+import gql from 'graphql-tag'
 
 const Loading = styled('span')`
   color: #adbbcd;
@@ -113,6 +118,13 @@ const ButtonsContainer = styled('div')`
   align-items: center;
 `
 
+const SINGLE_NAME = gql`
+  query singleNameQuery @client {
+    isENSReady
+    networkId
+  }
+`
+
 function AddReverseRecord({ account, currentAddress }) {
   const { t } = useTranslation()
   const { state, actions } = useEditable()
@@ -140,19 +152,28 @@ function AddReverseRecord({ account, currentAddress }) {
   })
 
   useEffect(() => {
-    if (account && !getReverseRecord) {
-      startEditing()
-    }
     startEditing()
   }, [getReverseRecord, account])
-  const { data: { domains } = {} } = useQuery(
+
+  const {
+    data: { networkId }
+  } = useQuery(SINGLE_NAME)
+
+  const { data: { domains } = {}, refetch: refetchNames } = useQuery(
     GET_ETH_RECORD_AVAILABLE_NAMES_FROM_SUBGRAPH,
     {
       variables: {
         address: currentAddress
+      },
+      fetchPolicy: 'no-cache',
+      context: {
+        queryDeduplication: false
       }
     }
   )
+  useEffect(() => {
+    refetchNames()
+  }, [account, currentAddress, networkId])
 
   const isAccountMatched =
     account &&
@@ -316,6 +337,38 @@ function AddReverseRecord({ account, currentAddress }) {
       )}
     </AddReverseRecordContainer>
   )
+}
+
+const AddReverseRecordTest = ({ account, currentAddress }) => {
+  const prevCurrentAddress = usePrevious(currentAddress)
+
+  const {
+    data: { networkId }
+  } = useQuery(SINGLE_NAME)
+
+  const prevNetworkId = usePrevious(networkId)
+
+  const { data, error, refetch } = useQuery(
+    GET_ETH_RECORD_AVAILABLE_NAMES_FROM_SUBGRAPH,
+    {
+      variables: {
+        address: currentAddress
+      },
+      fetchPolicy: 'no-cache',
+      context: {
+        queryDeduplication: false
+      }
+    }
+  )
+
+  useEffect(() => {
+    refetch()
+  }, [account, currentAddress, networkId])
+
+  console.log({ data })
+  console.log({ error })
+
+  return <div>hi there</div>
 }
 
 export default AddReverseRecord
