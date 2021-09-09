@@ -1670,6 +1670,14 @@
     testrpc "0.0.1"
     web3-utils "^1.0.0-beta.31"
 
+"@ensdomains/eth-ens-namehash@^2.0.11":
+  version "2.0.11"
+  resolved "https://registry.yarnpkg.com/@ensdomains/eth-ens-namehash/-/eth-ens-namehash-2.0.11.tgz#dda6c522e4bb608ac93f93a76bf9a8361ab09457"
+  integrity sha512-8TxVBwyuPKmQlx9rVPYxOQ+0fGwYigRVY02x6dQARp/CsmVd787qT8/biiW5c+R3pOWnQ6Pwa/vW7UQxkofOVg==
+  dependencies:
+    idna-uts46-hx "^3.4.0"
+    js-sha3 "^0.5.7"
+
 "@ensdomains/mock@^2.0.34", "@ensdomains/mock@^2.1.40":
   version "2.1.42"
   resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.1.42.tgz#3a2160092b20e0528f8c349c1da26315c854c3fa"
@@ -11778,6 +11786,13 @@ idna-uts46-hx@^2.3.1:
   integrity sha512-PWoF9Keq6laYdIRwwCdhTPl60xRqAloYNMQLiyUnG42VjT53oW07BXIRM+NK7eQjzXjAk2gUvX9caRxlnF9TAA==
   dependencies:
     punycode "2.1.0"
+
+idna-uts46-hx@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/idna-uts46-hx/-/idna-uts46-hx-3.4.0.tgz#aa380e7c04d6bce4f5e26da742c613ea2996f470"
+  integrity sha512-b1I4qYTcJcX1TANn8OhOGrQUIWOfZUWrLKWDeKbV6posVLjp7OTqFKX3N20efrIMzQM1KhiphOEazBEEUFR9bg==
+  dependencies:
+    punycode "^2.1.1"
 
 ieee754@^1.1.13, ieee754@^1.1.4, ieee754@^1.2.1:
   version "1.2.1"
