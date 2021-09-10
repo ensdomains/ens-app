@@ -11,31 +11,32 @@ import {
   SET_REGISTRANT,
   RECLAIM,
   RENEW
-} from '../../graphql/mutations'
-import { IS_MIGRATED } from '../../graphql/queries'
+} from '../../../graphql/mutations'
+import { IS_MIGRATED } from '../../../graphql/queries'
 
-import { formatDate } from '../../utils/dates'
-import { isEmptyAddress } from '../../utils/records'
+import { formatDate } from '../../../utils/dates'
+import { isEmptyAddress } from '../../../utils/records'
 
-import NameRegister from './NameRegister'
-import SubmitProof from './SubmitProof'
-import Tooltip from '../Tooltip/Tooltip'
-import { HR } from '../Typography/Basic'
-import DefaultButton from '../Forms/Button'
-import SubDomains from './SubDomains'
-import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
-import DetailsItemEditable from './DetailsItemEditable'
-import SetupName from '../SetupName/SetupName'
-import { SingleNameBlockies } from '../Blockies'
-import { ReactComponent as ExternalLinkIcon } from '../Icons/externalLink.svg'
-import DefaultLoader from '../Loader'
-import You from '../Icons/You'
-import dnssecmodes from '../../api/dnssecmodes'
-import { ReactComponent as DefaultOrangeExclamation } from '../Icons/OrangeExclamation.svg'
-import DefaultAddressLink from '../Links/AddressLink'
-import ResolverAndRecords from './ResolverAndRecords'
-import NameClaimTestDomain from './NameClaimTestDomain'
-import RegistryMigration from './RegistryMigration'
+import NameRegister from '../NameRegister'
+import SubmitProof from '../SubmitProof'
+import Tooltip from '../../Tooltip/Tooltip'
+import { HR } from '../../Typography/Basic'
+import DefaultButton from '../../Forms/Button'
+import SubDomains from '../SubDomains'
+import { DetailsItem, DetailsKey, DetailsValue } from '../DetailsItem'
+import DetailsItemEditable from '../DetailsItemEditable'
+import SetupName from '../../SetupName/SetupName'
+import { SingleNameBlockies } from '../../Blockies'
+import { ReactComponent as ExternalLinkIcon } from '../../Icons/externalLink.svg'
+import DefaultLoader from '../../Loader'
+import You from '../../Icons/You'
+import dnssecmodes from '../../../api/dnssecmodes'
+import { ReactComponent as DefaultOrangeExclamation } from '../../Icons/OrangeExclamation.svg'
+import DefaultAddressLink from '../../Links/AddressLink'
+import ResolverAndRecords from '../ResolverAndRecords'
+import NameClaimTestDomain from '../NameClaimTestDomain'
+import RegistryMigration from '../RegistryMigration'
+import NameWrapperWarning from './NameWrapperWarning'
 
 const Details = styled('section')`
   padding: ${p => (p.isWrappedName ? '40' : '20')}px;
@@ -204,7 +205,9 @@ function DetailsContainer({
   loadingIsMigrated,
   refetchIsMigrated,
   isParentMigratedToNewRegistry,
-  loadingIsParentMigrated
+  loadingIsParentMigrated,
+  isWrappedName,
+  canTransfer
 }) {
   const { t } = useTranslation()
 
@@ -271,10 +274,10 @@ function DetailsContainer({
       <OwnerFields outOfSync={outOfSync}>
         {domain.parent === 'eth' && domain.isNewRegistrar ? (
           <>
-            {!isWrappedName && (
+            {isWrappedName && (
               <DetailsItemEditable
                 domain={domain}
-                keyName="registrant"
+                keyName="owner"
                 value={registrant}
                 canEdit={isRegistrant && !isExpired}
                 isExpiredRegistrant={isRegistrant && isExpired}
@@ -287,6 +290,20 @@ function DetailsContainer({
                 copyToClipboard={true}
               />
             )}
+            <DetailsItemEditable
+              domain={domain}
+              keyName="registrant"
+              value={registrant}
+              canEdit={isRegistrant && !isExpired && !isWrappedName}
+              isExpiredRegistrant={isRegistrant && isExpired}
+              type="address"
+              editButton={t('c.transfer')}
+              mutationButton={t('c.transfer')}
+              mutation={SET_REGISTRANT}
+              refetch={refetch}
+              confirm={true}
+              copyToClipboard={true}
+            />
             <DetailsItemEditable
               domain={domain}
               keyName="Controller"
@@ -584,7 +601,8 @@ function NameDetails({
   account,
   registrationOpen,
   tab,
-  pathname
+  pathname,
+  isWrappedName
 }) {
   const [loading, setLoading] = useState(undefined)
   const {
@@ -665,6 +683,7 @@ function NameDetails({
               dnssecmode={dnssecmode}
               account={account}
               refetchIsMigrated={refetchIsMigrated}
+              {...{ isWrappedName }}
             />
           )
         }}

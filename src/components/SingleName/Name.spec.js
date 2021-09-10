@@ -35,13 +35,19 @@ describe('useRefreshComponent', () => {
 })
 
 describe('useNameOwner', () => {
+  it.todo('should reset if name wrapper data is loading')
+
   describe('name is NOT wrapped', () => {
-    it.todo('should return a variable indicated name is not wrapped')
+    it.todo('should return a variable indicating name is not wrapped')
     it.todo('should indicate that the wrapped name is not transferable')
     it.todo('should indicate there is no wrapper owner')
+
+    it.todo(
+      'should return the ordinary name owner if user is owner of unwrapped name'
+    )
   })
   describe('name IS wrapped', () => {
-    it.todo('')
+    it.todo('should indicate the name is wrapped')
   })
 
   it.todo(

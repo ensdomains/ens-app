@@ -88,46 +88,49 @@ const useNameOwner = (domain, address) => {
   const [isWrappedName, setIsWrappedName] = useState(false)
   const [isOwner, setIsOwner] = useState(null)
   const [canTransferWrappedName, setCanTransferWrappedName] = useState(false)
-  const [wrapperOwner, setWrapperOwner] = useState(null)
+  const [isOwnerInWrapper, setIsOwnerInWrapper] = useState(null)
 
   useEffect(() => {
-    // if (domain.available || domain.owner === '0x0') {
-    //   setIsWrappedName(false)
-    //   setDomainOwner(null)
-    //   return
-    // }
-
-    // if (domain.owner) {
-    //   const ownerAddr = domain.owner
-    //   const isWrappedNameLocal = isWrapped(ownerAddr)
-    //
-    //   if (!isWrappedNameLocal) {
-    //     setIsWrappedName(false)
-    //     setDomainOwner(ownerAddr)
-    //     return
-    //   }
-    //
-    //   const ownerAddress =
-    //
-    //     setIsWrappedName(true)
-    //   setDomainOwner(data?.getNameWrapperOwner.ownerAddr || null)
-    //   setCanTransfer()
-    // }
-
-    const isWrappedLocal = isWrappedName(address)
-
-    if (!isWrappedLocal) {
-      setIsOwner(isOwnerOfDomain(domain, account))
+    const reset = () => {
+      setIsOwner(false)
       setIsWrappedName(false)
-      setCanTransfer(false)
+      // setCanTransfer(false)
       setWrapperOwner(null)
+    }
+
+    if (domain.available || domain.owner === '0x0' || !data) {
+      reset()
       return
     }
 
-    setIsOwner(data?.getNameWrapperOwner.ownerAddr === address)
+    if (domain.owner) {
+      //now need to act depend on if name is wrapped or not
+      const ownerAddr = domain.owner
+
+      if (!data?.getNameWrapperOwner.ownerAddr) {
+        setIsWrappedName(false)
+        setDomainOwner(address)
+        setCanTransferWrappedName(false)
+        setWrapperOwner(false)
+        return
+      }
+
+      setIsWrappedName(true)
+      // setDomainOwner(data?.getNameWrapperOwner.ownerAddr || null)
+      setIsOwnerInWrapper(data?.getNameWrapperOwner.ownerAddr === address)
+      // setCanTransfer(true)
+      return
+    }
+
+    reset()
   }, [domain, data, loading])
 
-  return { isWrappedName, isOwner, canTransferWrappedName, wrapperOwner }
+  return {
+    isWrappedName,
+    isOwner,
+    canTransferWrappedName,
+    isOwnerInWrappedName
+  }
 }
 
 const NAME_QUERY = gql`
@@ -146,10 +149,12 @@ function Name({ details: domain, name, pathname, type, refetch }) {
   } = useQuery(NAME_QUERY)
 
   const account = accounts?.[0]
-  const { isWrappedName, isOwner, canTransfer, wrapperOwner } = useNameOwner(
-    domain,
-    account
-  )
+  const {
+    isWrappedName,
+    isOwner,
+    canTransfer,
+    isOwnerInWrappedName
+  } = useNameOwner(domain, account)
   const isOwnerOfParent = isOwnerOfParentDomain(domain, account)
   const isDeedOwner = domain.deedOwner === account
   const isRegistrant = !domain.available && domain.registrant === account
@@ -252,7 +257,7 @@ function Name({ details: domain, name, pathname, type, refetch }) {
             registrationOpen,
             isWrappedName,
             canTransfer,
-            wrapperOwner
+            isOwnerInWrappedName
           }}
         />
       )}
