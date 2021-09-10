@@ -1403,6 +1403,15 @@
     debug "^3.1.0"
     lodash.once "^4.1.1"
 
+"@davatar/react@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@davatar/react/-/react-1.0.0.tgz#3382b655bad05c8289d80494f4dd4666b904c473"
+  integrity sha512-qDNedpiII9poFOrHEV0guzRdqOyrpP9H18dm0yMo+piGvosJ0ZxW6TTIUXcLnp7orAWFXxkOCJaYVCVoLVw9Zg==
+  dependencies:
+    color "^3.2.1"
+    ethers "^5.4.6"
+    mersenne-twister "^1.1.0"
+
 "@emotion/cache@^10.0.27", "@emotion/cache@^10.0.9":
   version "10.0.29"
   resolved "https://registry.yarnpkg.com/@emotion/cache/-/cache-10.0.29.tgz#87e7e64f412c060102d589fe7c6dc042e6f9d1e0"
@@ -6981,7 +6990,7 @@ color-string@^1.6.0:
     color-name "^1.0.0"
     simple-swizzle "^0.2.2"
 
-color@^3.0.0:
+color@^3.0.0, color@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/color/-/color-3.2.1.tgz#3544dc198caf4490c3ecc9a790b54fe9ff45e164"
   integrity sha512-aBl7dZI9ENN6fUGC7mWpMTPNHmWUSNan9tuWN6ahh5ZLNk9baLJOnSMlrQkHcrfFgz2/RigjUVAjdx36VcemKA==
@@ -9771,7 +9780,7 @@ ethers@^4.0.0-beta.1, ethers@^4.0.32:
     uuid "2.0.1"
     xmlhttprequest "1.8.0"
 
-ethers@^5.0.0, ethers@^5.0.1, ethers@^5.0.17, ethers@^5.0.2, ethers@^5.0.30:
+ethers@^5.0.0, ethers@^5.0.1, ethers@^5.0.17, ethers@^5.0.2, ethers@^5.0.30, ethers@^5.4.6:
   version "5.4.6"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.4.6.tgz#fe0a023956b5502c947f58e82fbcf9a73e5e75b6"
   integrity sha512-F7LXARyB/Px3AQC6/QKedWZ8eqCkgOLORqL4B/F0Mag/K+qJSFGqsR36EaOZ6fKg3ZonI+pdbhb4A8Knt/43jQ==
@@ -14720,6 +14729,11 @@ merkle-patricia-tree@^4.2.0:
     readable-stream "^3.6.0"
     rlp "^2.2.4"
     semaphore-async-await "^1.5.1"
+
+mersenne-twister@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/mersenne-twister/-/mersenne-twister-1.1.0.tgz#f916618ee43d7179efcf641bec4531eb9670978a"
+  integrity sha1-+RZhjuQ9cXnvz2Qb7EUx65Zwl4o=
 
 methods@~1.1.2:
   version "1.1.2"

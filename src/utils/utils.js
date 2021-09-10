@@ -287,6 +287,6 @@ export function imageUrl(url, name, network) {
   if (name && network === 'rinkeby' && url.match(/^eip/)) {
     return `https://ens-metadata-service.appspot.com/avatar/${name}`
   } else {
-    return prependUrl(url)
+    return url
   }
 }

@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react'
 import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
+import { Image } from '@davatar/react'
 
 import mq from 'mediaQuery'
 import GlobalState from '../../globalState'
@@ -37,8 +38,10 @@ const Blockies = styled(UnstyledBlockies)`
   `}
 `
 
-const Avatar = styled('img')`
+const Avatar = styled('div')`
   width: 48px;
+  height: 48px;
+  border-radius: 48px;
   position: absolute;
   left: 10px;
   top: 10px;
@@ -179,9 +182,12 @@ function NetworkInformation() {
           {!reverseRecordLoading &&
           getReverseRecord &&
           getReverseRecord.avatar ? (
-            <Avatar
-              src={imageUrl(getReverseRecord.avatar, displayName, network)}
-            />
+            <Avatar>
+              <Image
+                size={48}
+                uri={imageUrl(getReverseRecord.avatar, displayName, network)}
+              />
+            </Avatar>
           ) : (
             <Blockies address={accounts[0]} imageSize={47} />
           )}
