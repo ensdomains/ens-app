@@ -127,7 +127,7 @@
     "solc": "^0.4.23",
     "source-map-explorer": "2.5.2",
     "start-server-and-test": "^1.10.0",
-    "surge": "^0.20.1",
+    "surge": "^0.23.0",
     "uuid": "8.3.2"
   },
   "browserslist": {
