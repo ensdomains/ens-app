@@ -20,6 +20,7 @@ import LargeHeart from '../components/Icons/LargeHeart'
 import RenewAll from '../components/Address/RenewAll'
 import Checkbox from '../components/Forms/Checkbox'
 import { useAccount } from '../components/QueryAccount'
+import { filterNormalised } from '../utils/utils'
 
 const SelectAll = styled('div')`
   grid-area: selectall;
@@ -100,10 +101,13 @@ function Favourites() {
   useEffect(() => {
     document.title = 'ENS Favourites'
   }, [])
-  const { data: { favourites } = [] } = useQuery(GET_FAVOURITES)
+  const { data: { favourites: favouritesWithUnnormalised } = [] } = useQuery(
+    GET_FAVOURITES
+  )
   const { data: { subDomainFavourites } = [] } = useQuery(
     GET_SUBDOMAIN_FAVOURITES
   )
+  const favourites = filterNormalised(favouritesWithUnnormalised, 'name')
   const ids = favourites && favourites.map(f => getNamehash(f.name))
   const { data: { registrations } = [], refetch } = useQuery(
     GET_REGISTRATIONS_BY_IDS_SUBGRAPH,

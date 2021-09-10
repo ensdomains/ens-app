@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { findDOMNode } from 'react-dom'
-import uuid from 'uuid'
+import { v4 } from 'uuid'
 import ReactTooltip from 'react-tooltip'
 import styled from '@emotion/styled/macro'
 import { useState, useEffect } from 'react'
@@ -24,7 +24,7 @@ const warningHtml = ({
 
 const TooltipContainer = props => {
   const { text, position, children, offset, warning } = props
-  const id = uuid()
+  const id = v4()
   const [show, setShow] = useState(false)
   const tooltipRef = React.createRef()
 

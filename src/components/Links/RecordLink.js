@@ -2,7 +2,9 @@ import React from 'react'
 import styled from '@emotion/styled/macro'
 import externalLinkSvg from '../Icons/externalLink.svg'
 import CopyToClipboard from '../CopyToClipboard/'
-import { isRecordEmpty } from '../../utils/utils'
+import { isRecordEmpty, prependUrl } from '../../utils/utils'
+import useNetworkInfo from '../NetworkInformation/useNetworkInfo'
+import { useAvatar } from '../hooks'
 
 const LinkContainer = styled('div')`
   display: block;
@@ -49,16 +51,17 @@ const AvatarImage = styled('img')`
   margin: 1em 0;
 `
 
-const prependUrl = url => {
-  if (url && !url.match(/http[s]?:\/\//)) {
-    return 'https://' + url
-  } else {
-    return url
-  }
-}
+const OwnerLabel = styled('span')`
+  background: rgb(66, 224, 104);
+  color: white;
+  border-radius: 5px;
+  padding: 0 5px;
+  margin-right: 5px;
+`
 
-const RecordLink = ({ textKey, value }) => {
-  let url, avatar
+const RecordLink = ({ textKey, value, name }) => {
+  let url
+  const { network } = useNetworkInfo()
   switch (textKey) {
     case 'url':
       url = `${value}`
@@ -76,10 +79,12 @@ const RecordLink = ({ textKey, value }) => {
   if (textKey === 'email') {
     url = `mailto:${value}`
   }
-  if (textKey === 'avatar') {
-    avatar = prependUrl(value)
-  }
-
+  const { isOwner, referenceUrl, image: imageUrl } = useAvatar(
+    textKey,
+    name,
+    network,
+    value
+  )
   const isEmpty = isRecordEmpty(value)
 
   return url && !isEmpty ? (
@@ -94,10 +99,11 @@ const RecordLink = ({ textKey, value }) => {
       </a>
       <CopyToClipboard value={value} />
     </LinkContainer>
-  ) : avatar && !isEmpty ? (
+  ) : imageUrl && !isEmpty ? (
     <div>
       <LinkContainer>
-        <a target="_blank" href={value} rel="noopener noreferrer">
+        {isOwner && <OwnerLabel>Owner</OwnerLabel>}
+        <a target="_blank" href={referenceUrl} rel="noopener noreferrer">
           {value}
           <img
             src={externalLinkSvg}
@@ -108,7 +114,7 @@ const RecordLink = ({ textKey, value }) => {
 
         <CopyToClipboard value={value} />
       </LinkContainer>
-      <AvatarImage src={value} alt="avatar" />
+      <AvatarImage src={imageUrl} alt="avatar" />
     </div>
   ) : (
     <UnlinkedValueContainer>
@@ -116,7 +122,9 @@ const RecordLink = ({ textKey, value }) => {
         <NotSet>Not set</NotSet>
       ) : (
         <>
-          <UnlinkedValue>{value}</UnlinkedValue>
+          <UnlinkedValue data-testid={`unlinked-value-${textKey}`}>
+            {value}
+          </UnlinkedValue>
           <CopyToClipboard value={value} />
         </>
       )}

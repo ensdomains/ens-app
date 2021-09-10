@@ -8,7 +8,7 @@ const getFavouritesQuery = nameArray =>
 
 class Favourite extends React.Component {
   isFavourite(favourites, name) {
-    return favourites.filter(domain => name === domain.name).length > 0
+    return favourites?.filter(domain => name === domain.name).length > 0
   }
 
   render() {
@@ -23,7 +23,7 @@ class Favourite extends React.Component {
             console.log(error)
           }
           const favourites =
-            nameArray.length < 3 ? data.favourites : data.subDomainFavourites
+            nameArray.length < 3 ? data?.favourites : data?.subDomainFavourites
 
           return (
             <AddFavourite

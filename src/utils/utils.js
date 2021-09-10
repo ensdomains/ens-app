@@ -18,6 +18,7 @@ import { setupClient } from 'apolloClient'
 import { connect } from '../api/web3modal'
 import { safeInfo, setupSafeApp } from './safeApps'
 import { useEffect, useRef } from 'react'
+import { normalize } from 'eth-ens-namehash'
 
 import { BigNumber, utils } from 'ethers'
 
@@ -26,8 +27,10 @@ import { BigNumber, utils } from 'ethers'
 const BASIC_ADDRESS_REGEX = /^(0x)?[0-9a-f]{40}$/i
 const SAME_CASE_ADDRESS_REGEX = /^(0x)?([0-9a-f]{40}|[0-9A-F]{40})$/
 const ADDRESS_LENGTH = 40
+export const MAINNET_DNSREGISTRAR_ADDRESS =
+  '0x58774Bb8acD458A640aF0B88238369A167546ef2'
 export const ROPSTEN_DNSREGISTRAR_ADDRESS =
-  '0x475e527d54b91b0b011DA573C69Ac54B2eC269ea'
+  '0xdB328BA5FEcb432AF325Ca59E3778441eF5aa14F'
 
 export const addressUtils = {
   isChecksumAddress(address) {
@@ -265,6 +268,29 @@ export function usePrevious(value) {
   }, [value]) // Only re-run if value changes
   // Return previous value (happens before update in useEffect above)
   return ref.current
+}
+
+export function filterNormalised(data, name, nested = false) {
+  return data.filter(data => {
+    const domain = nested ? data.domain : data
+    return domain[name] === normalize(domain[name])
+  })
+}
+
+export function prependUrl(url) {
+  if (url && !url.match(/http[s]?:\/\//)) {
+    return 'https://' + url
+  } else {
+    return url
+  }
+}
+
+export function imageUrl(url, name, network) {
+  if (name && network === 'rinkeby' && url.match(/^eip/)) {
+    return `https://ens-metadata-service.appspot.com/avatar/${name}`
+  } else {
+    return prependUrl(url)
+  }
 }
 
 export function getTokenIdFromName(name) {

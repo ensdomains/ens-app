@@ -2,9 +2,13 @@
 
 ENS Application
 
+
+
 ## Installation
 
 ### Manual
+
+Expects Node.js version >=14.17.0
 
 ```shell
 $> git clone https://github.com/ensdomains/ens-app.git
