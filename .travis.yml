@@ -9,6 +9,9 @@ language: node_js
 node_js:
   - 14
 
+git:
+  depth: false
+
 cache:
   yarn: true
   directories:
