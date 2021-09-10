@@ -2,6 +2,9 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from '@emotion/styled/macro'
 
+import DefaultOpenSeaLink from '../../Links/OpenSeaLink'
+import { getTokenIdFromName } from '../../../utils/utils'
+
 const NotAvailableContainer = styled('div')`
   padding: 30px 40px;
 `
@@ -14,12 +17,22 @@ const Message = styled('div')`
   font-weight: 300;
 `
 
+const OpenSeaLink = styled(DefaultOpenSeaLink)`
+  min-width: 165px;
+  margin-left: auto;
+`
+
 export default function NotAvailable({ domain }) {
   const { t } = useTranslation()
 
   return (
     <NotAvailableContainer>
-      <Message>{t('singleName.messages.alreadyregistered')}</Message>
+      <Message>
+        {t('singleName.messages.alreadyregistered')} <br />
+        <OpenSeaLink domainTokenId={getTokenIdFromName(domain.label)}>
+          View/Bid/Buy on Secondary Market
+        </OpenSeaLink>
+      </Message>
     </NotAvailableContainer>
   )
 }
