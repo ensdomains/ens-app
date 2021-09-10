@@ -207,7 +207,9 @@ function DetailsContainer({
   isParentMigratedToNewRegistry,
   loadingIsParentMigrated,
   isWrappedName,
-  canTransfer
+  canTransfer,
+  ownerInWrapper,
+  name
 }) {
   const { t } = useTranslation()
 
@@ -278,7 +280,7 @@ function DetailsContainer({
               <DetailsItemEditable
                 domain={domain}
                 keyName="owner"
-                value={registrant}
+                value={isOwner ? ownerInWrapper : registrant}
                 canEdit={isRegistrant && !isExpired}
                 isExpiredRegistrant={isRegistrant && isExpired}
                 type="address"
@@ -290,20 +292,22 @@ function DetailsContainer({
                 copyToClipboard={true}
               />
             )}
-            <DetailsItemEditable
-              domain={domain}
-              keyName="registrant"
-              value={registrant}
-              canEdit={isRegistrant && !isExpired && !isWrappedName}
-              isExpiredRegistrant={isRegistrant && isExpired}
-              type="address"
-              editButton={t('c.transfer')}
-              mutationButton={t('c.transfer')}
-              mutation={SET_REGISTRANT}
-              refetch={refetch}
-              confirm={true}
-              copyToClipboard={true}
-            />
+            {!(isWrappedName && domain.parent === 'eth') && (
+              <DetailsItemEditable
+                domain={domain}
+                keyName="registrant"
+                value={registrant}
+                canEdit={isRegistrant && !isExpired && !isWrappedName}
+                isExpiredRegistrant={isRegistrant && isExpired}
+                type="address"
+                editButton={t('c.transfer')}
+                mutationButton={t('c.transfer')}
+                mutation={SET_REGISTRANT}
+                refetch={refetch}
+                confirm={true}
+                copyToClipboard={true}
+              />
+            )}
             <DetailsItemEditable
               domain={domain}
               keyName="Controller"
@@ -602,7 +606,10 @@ function NameDetails({
   registrationOpen,
   tab,
   pathname,
-  isWrappedName
+  isOwnerInWrapper,
+  ownerInWrapper,
+  isWrappedName,
+  name
 }) {
   const [loading, setLoading] = useState(undefined)
   const {
@@ -683,7 +690,7 @@ function NameDetails({
               dnssecmode={dnssecmode}
               account={account}
               refetchIsMigrated={refetchIsMigrated}
-              {...{ isWrappedName }}
+              {...{ isWrappedName, ownerInWrapper, name }}
             />
           )
         }}

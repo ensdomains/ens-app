@@ -88,14 +88,14 @@ const useNameOwner = (domain, address) => {
   const [isWrappedName, setIsWrappedName] = useState(false)
   const [isOwner, setIsOwner] = useState(null)
   const [canTransferWrappedName, setCanTransferWrappedName] = useState(false)
-  const [isOwnerInWrapper, setIsOwnerInWrapper] = useState(null)
+  const [ownerInWrapper, setOwnerInWrapper] = useState(null)
 
   useEffect(() => {
     const reset = () => {
       setIsOwner(false)
       setIsWrappedName(false)
       // setCanTransfer(false)
-      setWrapperOwner(null)
+      //setWrapperOwner(null)
     }
 
     if (domain.available || domain.owner === '0x0' || !data) {
@@ -109,15 +109,17 @@ const useNameOwner = (domain, address) => {
 
       if (!data?.getNameWrapperOwner.ownerAddr) {
         setIsWrappedName(false)
-        setDomainOwner(address)
+        //setDomainOwner(address)
         setCanTransferWrappedName(false)
-        setWrapperOwner(false)
+        //setWrapperOwner(false)
         return
       }
 
       setIsWrappedName(true)
       // setDomainOwner(data?.getNameWrapperOwner.ownerAddr || null)
-      setIsOwnerInWrapper(data?.getNameWrapperOwner.ownerAddr === address)
+      //setOwnerInWrapper(data?.getNameWrapperOwner.ownerAddr === address)
+      setOwnerInWrapper(data?.getNameWrapperOwner.ownerAddr)
+      setIsOwner(true)
       // setCanTransfer(true)
       return
     }
@@ -129,7 +131,7 @@ const useNameOwner = (domain, address) => {
     isWrappedName,
     isOwner,
     canTransferWrappedName,
-    isOwnerInWrappedName
+    ownerInWrapper
   }
 }
 
@@ -153,7 +155,8 @@ function Name({ details: domain, name, pathname, type, refetch }) {
     isWrappedName,
     isOwner,
     canTransfer,
-    isOwnerInWrappedName
+    isOwnerInWrapper,
+    ownerInWrapper
   } = useNameOwner(domain, account)
   const isOwnerOfParent = isOwnerOfParentDomain(domain, account)
   const isDeedOwner = domain.deedOwner === account
@@ -257,7 +260,7 @@ function Name({ details: domain, name, pathname, type, refetch }) {
             registrationOpen,
             isWrappedName,
             canTransfer,
-            isOwnerInWrappedName
+            ownerInWrapper
           }}
         />
       )}
