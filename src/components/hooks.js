@@ -4,7 +4,6 @@ import getEtherPrice from 'api/price'
 import { useLocation } from 'react-router-dom'
 import { loggedIn, logout } from './IPFS/auth'
 import { getBlock, getProvider } from '@ensdomains/ui'
-import { prependUrl } from '../utils/utils'
 export function useDocumentTitle(title) {
   useEffect(() => {
     document.title = title
