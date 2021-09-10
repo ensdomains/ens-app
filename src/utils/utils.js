@@ -19,6 +19,8 @@ import { connect } from '../api/web3modal'
 import { safeInfo, setupSafeApp } from './safeApps'
 import { useEffect, useRef } from 'react'
 
+import { BigNumber, utils } from 'ethers'
+
 // From https://github.com/0xProject/0x-monorepo/blob/development/packages/utils/src/address_utils.ts
 
 const BASIC_ADDRESS_REGEX = /^(0x)?[0-9a-f]{40}$/i
@@ -263,4 +265,9 @@ export function usePrevious(value) {
   }, [value]) // Only re-run if value changes
   // Return previous value (happens before update in useEffect above)
   return ref.current
+}
+
+export function getTokenIdFromName(name) {
+  const labelHash = utils.keccak256(utils.toUtf8Bytes(name))
+  return BigNumber.from(labelHash).toString()
 }
