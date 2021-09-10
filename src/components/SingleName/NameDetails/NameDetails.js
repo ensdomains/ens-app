@@ -11,35 +11,31 @@ import {
   SET_REGISTRANT,
   RECLAIM,
   RENEW
-} from '../../../graphql/mutations'
-import { IS_MIGRATED } from '../../../graphql/queries'
+} from '../../graphql/mutations'
+import { IS_MIGRATED } from '../../graphql/queries'
 
-import { formatDate } from '../../../utils/dates'
-import { isEmptyAddress } from '../../../utils/records'
+import { formatDate } from '../../utils/dates'
+import { isEmptyAddress } from '../../utils/records'
 
-import { NameWrapperWarning } from './NameWrapperWarning'
-import NameRegister from '../NameRegister'
-import SubmitProof from '../SubmitProof'
-import Tooltip from '../../Tooltip/Tooltip'
-import { HR } from '../../Typography/Basic'
-import DefaultButton from '../../Forms/Button'
-import SubDomains from '../SubDomains'
-import { DetailsItem, DetailsKey, DetailsValue } from '../DetailsItem'
-import DetailsItemEditable from '../DetailsItemEditable'
-import SetupName from '../../SetupName/SetupName'
-import { SingleNameBlockies } from '../../Blockies'
-import { ReactComponent as ExternalLinkIcon } from '../../Icons/externalLink.svg'
-import DefaultLoader from '../../Loader'
-import You from '../../Icons/You'
-import dnssecmodes from '../../../api/dnssecmodes'
-import { ReactComponent as DefaultOrangeExclamation } from '../../Icons/OrangeExclamation.svg'
-import DefaultAddressLink from '../../Links/AddressLink'
-import ResolverAndRecords from '../ResolverAndRecords'
-import NameClaimTestDomain from '../NameClaimTestDomain'
-import RegistryMigration from '../RegistryMigration'
-import ReleaseDeed from '../ReleaseDeed'
-import { isWrapped } from '../../../utils/nameWrapperUtils'
-import gql from 'graphql-tag'
+import NameRegister from './NameRegister'
+import SubmitProof from './SubmitProof'
+import Tooltip from '../Tooltip/Tooltip'
+import { HR } from '../Typography/Basic'
+import DefaultButton from '../Forms/Button'
+import SubDomains from './SubDomains'
+import { DetailsItem, DetailsKey, DetailsValue } from './DetailsItem'
+import DetailsItemEditable from './DetailsItemEditable'
+import SetupName from '../SetupName/SetupName'
+import { SingleNameBlockies } from '../Blockies'
+import { ReactComponent as ExternalLinkIcon } from '../Icons/externalLink.svg'
+import DefaultLoader from '../Loader'
+import You from '../Icons/You'
+import dnssecmodes from '../../api/dnssecmodes'
+import { ReactComponent as DefaultOrangeExclamation } from '../Icons/OrangeExclamation.svg'
+import DefaultAddressLink from '../Links/AddressLink'
+import ResolverAndRecords from './ResolverAndRecords'
+import NameClaimTestDomain from './NameClaimTestDomain'
+import RegistryMigration from './RegistryMigration'
 
 const Details = styled('section')`
   padding: ${p => (p.isWrappedName ? '40' : '20')}px;
@@ -197,7 +193,6 @@ function DetailsContainer({
   showExplainer,
   canSubmit,
   outOfSync,
-  releaseDeed,
   loading,
   setLoading,
   isOwnerOfParent,
@@ -235,9 +230,6 @@ function DetailsContainer({
     <Details data-testid="name-details" isWrappedName={isWrappedName}>
       {isWrappedName && <NameWrapperWarning />}
       {isOwner && <SetupName initialState={showExplainer} />}
-      {isMigratedToNewRegistry && releaseDeed && (
-        <ReleaseDeed domain={domain} isDeedOwner={isDeedOwner} />
-      )}
       {parseInt(domain.owner, 16) !== 0 &&
         !loadingIsMigrated &&
         !isMigratedToNewRegistry && (
@@ -634,7 +626,6 @@ function NameDetails({
   }
   const showExplainer = !parseInt(domain.resolver)
   const outOfSync = dnssecmode && dnssecmode.outOfSync
-  const releaseDeed = domain.deedOwner && parseInt(domain.deedOwner, 16) !== 0
   const isAnAbsolutePath = pathname.split('/').length > 3
 
   if (domain.parent === 'eth' && tab === 'register' && !isAnAbsolutePath) {
@@ -663,7 +654,6 @@ function NameDetails({
               showExplainer={showExplainer}
               canSubmit={canSubmit}
               outOfSync={outOfSync}
-              releaseDeed={releaseDeed}
               loading={loading}
               setLoading={setLoading}
               isOwnerOfParent={isOwnerOfParent}

@@ -132,7 +132,11 @@ function Search({ history, className, style }) {
         onChange={handleParse}
       />
       <LanguageSwitcher />
-      <button disabled={!hasSearch} type="submit">
+      <button
+        disabled={!hasSearch}
+        type="submit"
+        data-testid={'home-search-button'}
+      >
         {t('search.button')}
       </button>
     </SearchForm>

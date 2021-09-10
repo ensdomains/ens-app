@@ -225,9 +225,6 @@
       "parentmigrate": "Trước tiên xin hãy chuyển đổi tên miền gốc phía dưới {{parent}} trước khi bạn có thể chuyển đổi tên miền phụ"
     }
   },
-  "releaseDeed": {
-    "returnDeposit": "There is still an unclaimed deposit on this name. To get the deposited eth back, Go to"
-  },
   "reminder": {
     "everywhere": "everywhere",
     "release": {

@@ -14,6 +14,7 @@ import * as jsSHA3 from 'js-sha3'
 import { saveName } from '../api/labels'
 import { useEffect, useRef } from 'react'
 import { EMPTY_ADDRESS } from './records'
+import { normalize } from 'eth-ens-namehash'
 
 // From https://github.com/0xProject/0x-monorepo/blob/development/packages/utils/src/address_utils.ts
 
@@ -221,6 +222,13 @@ export function isOwnerOfParentDomain(domain, account) {
     return domain.parentOwner?.toLowerCase() === account.toLowerCase()
   }
   return false
+}
+
+export function filterNormalised(data, name, nested = false) {
+  return data?.filter(data => {
+    const domain = nested ? data.domain : data
+    return domain[name] === normalize(domain[name])
+  })
 }
 
 export function prependUrl(url) {

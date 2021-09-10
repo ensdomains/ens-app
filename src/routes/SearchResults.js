@@ -8,6 +8,7 @@ import DomainInfo from '../components/SearchName/DomainInfo'
 import { SubDomainStateFields } from '../graphql/fragments'
 import { validateName, parseSearchTerm } from '../utils/utils'
 import SearchErrors from '../components/SearchErrors/SearchErrors'
+import { useHistory } from 'react-router-dom'
 
 const GET_SUBDOMAIN_AVAILABILITY = gql`
   query getSubDomainAvailability($name: String) {
@@ -120,6 +121,11 @@ const ResultsContainer = ({ searchDomain, match }) => {
     data: { isENSReady }
   } = useQuery(RESULTS_CONTAINER)
   const searchTerm = match.params.searchTerm
+  const history = useHistory()
+  const lowered = searchTerm.toLowerCase()
+  if (history && lowered !== searchTerm) {
+    history.push(`/search/${lowered}`)
+  }
 
   const { errors, parsed } = useCheckValidity(searchTerm, isENSReady)
 
@@ -131,8 +137,7 @@ const ResultsContainer = ({ searchDomain, match }) => {
     return (
       <>
         <SearchErrors errors={errors} searchTerm={searchTerm} />
-        {console.log('IN RESULTS', searchTerm)}
-        {/* <SubDomainResults searchTerm={searchTerm} /> */}
+        {/*<SubDomainResults searchTerm={searchTerm} />*/}
       </>
     )
   } else if (errors.length > 0) {
@@ -145,27 +150,12 @@ const ResultsContainer = ({ searchDomain, match }) => {
           <Trans i18nKey="singleName.search.title">Names</Trans>
         </H2>
         <DomainInfo searchTerm={parsed} />
-        {/* <SubDomainResults searchTerm={searchTerm} /> */}
+        {/*<SubDomainResults searchTerm={searchTerm} />*/}
       </>
     )
   } else {
     return ''
   }
-
-  // return (
-  //   <Results
-  //     searchTerm={match.params.searchTerm}
-  //     searchDomain={searchDomain}
-  //   />
-  //   <Mutation
-  //     mutation={GET_SUBDOMAIN_AVAILABILITY}
-  //     refetchQueries={['getSubDomainState']}
-  //   >
-  //     {getSubDomainAvailability => (
-  //
-  //     )}
-  //   </Mutation>
-  // )
 }
 
 export default ResultsContainer

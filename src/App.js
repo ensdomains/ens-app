@@ -7,61 +7,70 @@ import {
 } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
 
-const TestRegistrar = lazy(() =>
-  import(
-    /* webpackChunkName: "TestRegistrar", webpackPrefetch:true */
-    './routes/TestRegistrar'
-  )
-)
+// const TestRegistrar = lazy(() =>
+//   import(
+//     /* webpackChunkName: "TestRegistrar", webpackPrefetch:true */
+//     './routes/TestRegistrar'
+//   )
+// )
+//
+// const Home = lazy(() =>
+//   import(
+//     /* webpackChunkName: "Home", webpackPrefetch:true */
+//     './routes/Home'
+//   )
+// )
+//
+// const SearchResults = lazy(() =>
+//   import(
+//     /* webpackChunkName: "SearchResults", webpackPrefetch:true */
+//     './routes/SearchResults'
+//   )
+// )
+//
+// const SingleName = lazy(() =>
+//   import(
+//     /* webpackChunkName: "SingleName", webpackPrefetch:true */
+//     './routes/SingleName'
+//   )
+// )
+//
+// const Favourites = lazy(() =>
+//   import(
+//     /* webpackChunkName: "Favourites", webpackPrefetch:true */
+//     './routes/Favourites'
+//   )
+// )
+//
+// const Faq = lazy(() =>
+//   import(
+//     /* webpackChunkName: "Faq", webpackPrefetch:true */
+//     './routes/Faq'
+//   )
+// )
+//
+// const Address = lazy(() =>
+//   import(
+//     /* webpackChunkName: "Address", webpackPrefetch:true */
+//     './routes/AddressPage'
+//   )
+// )
+//
+// const Renew = lazy(() =>
+//   import(
+//     /* webpackChunkName: "Renew", webpackPrefetch:true */
+//     './routes/Renew'
+//   )
+// )
 
-const Home = lazy(() =>
-  import(
-    /* webpackChunkName: "Home", webpackPrefetch:true */
-    './routes/Home'
-  )
-)
-
-const SearchResults = lazy(() =>
-  import(
-    /* webpackChunkName: "SearchResults", webpackPrefetch:true */
-    './routes/SearchResults'
-  )
-)
-
-const SingleName = lazy(() =>
-  import(
-    /* webpackChunkName: "SingleName", webpackPrefetch:true */
-    './routes/SingleName'
-  )
-)
-
-const Favourites = lazy(() =>
-  import(
-    /* webpackChunkName: "Favourites", webpackPrefetch:true */
-    './routes/Favourites'
-  )
-)
-
-const Faq = lazy(() =>
-  import(
-    /* webpackChunkName: "Faq", webpackPrefetch:true */
-    './routes/Faq'
-  )
-)
-
-const Address = lazy(() =>
-  import(
-    /* webpackChunkName: "Address", webpackPrefetch:true */
-    './routes/AddressPage'
-  )
-)
-
-const Renew = lazy(() =>
-  import(
-    /* webpackChunkName: "Renew", webpackPrefetch:true */
-    './routes/Renew'
-  )
-)
+import TestRegistrar from './routes/TestRegistrar'
+import Home from './routes/Home'
+import SearchResults from './routes/SearchResults'
+import SingleName from './routes/SingleName'
+import Favourites from './routes/Favourites'
+import Faq from './routes/Faq'
+import Address from './routes/AddressPage'
+import Renew from './routes/Renew'
 
 import { NetworkError, Error404 } from './components/Error/Errors'
 import DefaultLayout from './components/Layout/DefaultLayout'
@@ -109,22 +118,20 @@ const App = () => {
 
   return (
     <Router>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Switch>
-          <Route exact path="/" component={Home} layout={HomePageLayout} />
-          <Route path="/test-registrar" component={TestRegistrar} />
-          <Route path="/favourites" component={Favourites} />
-          <Route path="/faq" component={Faq} />
-          <Route path="/my-bids" component={SearchResults} />
-          <Route path="/how-it-works" component={SearchResults} />
-          <Route path="/search/:searchTerm" component={SearchResults} />
-          <Route path="/name/:name" component={SingleName} />
-          <Route path="/address/:address/:domainType" component={Address} />
-          <Route path="/address/:address" component={Address} />
-          <Route path="/renew" component={Renew} />
-          <Route path="*" component={Error404} />
-        </Switch>
-      </Suspense>
+      <Switch>
+        <Route exact path="/" component={Home} layout={HomePageLayout} />
+        <Route path="/test-registrar" component={TestRegistrar} />
+        <Route path="/favourites" component={Favourites} />
+        <Route path="/faq" component={Faq} />
+        <Route path="/my-bids" component={SearchResults} />
+        <Route path="/how-it-works" component={SearchResults} />
+        <Route path="/search/:searchTerm" component={SearchResults} />
+        <Route path="/name/:name" component={SingleName} />
+        <Route path="/address/:address/:domainType" component={Address} />
+        <Route path="/address/:address" component={Address} />
+        <Route path="/renew" component={Renew} />
+        <Route path="*" component={Error404} />
+      </Switch>
     </Router>
   )
 }
