@@ -179,7 +179,8 @@
       "register": "Register",
       "request": "Request to register",
       "setreverserecord": "Set reverse record",
-      "warning": "Click register to move to the 3rd step"
+      "warning": "Click register to move to the 3rd step",
+      "secondarymarket": "View/Bid/Buy on Secondary Market"
     },
     "favourite": "* Favorite the name for easy access in case you close out of your browser.",
     "increaseRegistrationPeriod": "Increase registration period to avoid paying gas every year",

@@ -30,7 +30,7 @@ export default function NotAvailable({ domain }) {
       <Message>
         {t('singleName.messages.alreadyregistered')} <br />
         <OpenSeaLink domainTokenId={getTokenIdFromName(domain.label)}>
-          View/Bid/Buy on Secondary Market
+          {t('register.buttons.secondarymarket')}
         </OpenSeaLink>
       </Message>
     </NotAvailableContainer>
