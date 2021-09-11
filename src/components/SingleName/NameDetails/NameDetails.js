@@ -208,15 +208,11 @@ function DetailsContainer({
   loadingIsParentMigrated,
   isWrappedName,
   canTransfer,
-  ownerInWrapper,
-  name
+  domainOwner
 }) {
   const { t } = useTranslation()
 
   const isExpired = domain.expiryTime < new Date()
-
-  const domainOwner =
-    domain.available || domain.owner === '0x0' ? null : domain.owner
 
   const registrant =
     domain.available || domain.registrant === '0x0' ? null : domain.registrant
@@ -280,8 +276,8 @@ function DetailsContainer({
               <DetailsItemEditable
                 domain={domain}
                 keyName="owner"
-                value={isOwner ? ownerInWrapper : registrant}
-                canEdit={isRegistrant && !isExpired}
+                value={domainOwner}
+                canEdit={canTransfer}
                 isExpiredRegistrant={isRegistrant && isExpired}
                 type="address"
                 editButton={t('c.transfer')}
@@ -311,11 +307,10 @@ function DetailsContainer({
             <DetailsItemEditable
               domain={domain}
               keyName="Controller"
-              value={domainOwner}
+              value={domain.owner}
               canEdit={
-                isRegistrant ||
-                (isOwner && isMigratedToNewRegistry) ||
-                canTransfer
+                !isWrappedName &&
+                (isRegistrant || (isOwner && isMigratedToNewRegistry))
               }
               deedOwner={domain.deedOwner}
               isDeedOwner={isDeedOwner}
@@ -606,10 +601,10 @@ function NameDetails({
   registrationOpen,
   tab,
   pathname,
-  isOwnerInWrapper,
   ownerInWrapper,
   isWrappedName,
-  name
+  name,
+  domainOwner
 }) {
   const [loading, setLoading] = useState(undefined)
   const {
@@ -690,7 +685,7 @@ function NameDetails({
               dnssecmode={dnssecmode}
               account={account}
               refetchIsMigrated={refetchIsMigrated}
-              {...{ isWrappedName, ownerInWrapper, name }}
+              {...{ isWrappedName, ownerInWrapper, name, domainOwner }}
             />
           )
         }}

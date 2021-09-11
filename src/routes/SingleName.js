@@ -7,7 +7,7 @@ import { useScrollTo } from '../components/hooks'
 import { GET_SINGLE_NAME } from '../graphql/queries'
 import Loader from '../components/Loader'
 import SearchErrors from '../components/SearchErrors/SearchErrors'
-import Name from '../components/SingleName/Name'
+import Name from '../components/SingleName/Name/Name'
 import { useHistory } from 'react-router-dom'
 
 const SINGLE_NAME = gql`

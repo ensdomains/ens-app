@@ -5,19 +5,20 @@ import gql from 'graphql-tag'
 import { useQuery } from '@apollo/client'
 
 import { useMediaMin } from 'mediaQuery'
-import { EMPTY_ADDRESS, isEmptyAddress } from '../../utils/records'
-import { Title } from '../Typography/Basic'
-import TopBar from '../Basic/TopBar'
-import DefaultFavourite from '../AddFavourite/Favourite'
-import NameDetails from './NameDetails/NameDetails'
-import DNSNameRegister from './DNSNameRegister'
-import ShortName from './ShortName'
-import Tabs from './Tabs'
-import { useAccount } from '../QueryAccount'
-import NameContainer from '../Basic/MainContainer'
-import Copy from '../CopyToClipboard/'
-import { isOwnerOfParentDomain } from '../../utils/utils'
-import { isWrapped } from '../../utils/nameWrapperUtils'
+import { EMPTY_ADDRESS, isEmptyAddress } from '../../../utils/records'
+import { Title } from '../../Typography/Basic'
+import TopBar from '../../Basic/TopBar'
+import DefaultFavourite from '../../AddFavourite/Favourite'
+import NameDetails from '../NameDetails/NameDetails'
+import DNSNameRegister from '../DNSNameRegister'
+import ShortName from '../ShortName'
+import Tabs from '../Tabs'
+import { useAccount } from '../../QueryAccount'
+import NameContainer from '../../Basic/MainContainer'
+import Copy from '../../CopyToClipboard'
+import { isOwnerOfParentDomain } from '../../../utils/utils'
+import { isWrapped } from '../../../utils/nameWrapperUtils'
+import useNameOwner from './useNameOwner'
 
 const Owner = styled('div')`
   color: #ccd4da;
@@ -69,72 +70,6 @@ export const useRefreshComponent = () => {
   return key
 }
 
-const useNameOwner = (domain, address) => {
-  const GET_NAME_WRAPPER_OWNER = gql`
-    query getNameWrapperOwner($name: string) {
-      getNameWrapperOwner(name: $name) {
-        ownerAddr
-        canTransfer
-      }
-    }
-  `
-
-  const { data, loading } = useQuery(GET_NAME_WRAPPER_OWNER, {
-    variables: {
-      name: domain.name
-    }
-  })
-
-  const [isWrappedName, setIsWrappedName] = useState(false)
-  const [isOwner, setIsOwner] = useState(null)
-  const [canTransferWrappedName, setCanTransferWrappedName] = useState(false)
-  const [ownerInWrapper, setOwnerInWrapper] = useState(null)
-
-  useEffect(() => {
-    const reset = () => {
-      setIsOwner(false)
-      setIsWrappedName(false)
-      // setCanTransfer(false)
-      //setWrapperOwner(null)
-    }
-
-    if (domain.available || domain.owner === '0x0' || !data) {
-      reset()
-      return
-    }
-
-    if (domain.owner) {
-      //now need to act depend on if name is wrapped or not
-      const ownerAddr = domain.owner
-
-      if (!data?.getNameWrapperOwner.ownerAddr) {
-        setIsWrappedName(false)
-        //setDomainOwner(address)
-        setCanTransferWrappedName(false)
-        //setWrapperOwner(false)
-        return
-      }
-
-      setIsWrappedName(true)
-      // setDomainOwner(data?.getNameWrapperOwner.ownerAddr || null)
-      //setOwnerInWrapper(data?.getNameWrapperOwner.ownerAddr === address)
-      setOwnerInWrapper(data?.getNameWrapperOwner.ownerAddr)
-      setIsOwner(true)
-      // setCanTransfer(true)
-      return
-    }
-
-    reset()
-  }, [domain, data, loading])
-
-  return {
-    isWrappedName,
-    isOwner,
-    canTransferWrappedName,
-    ownerInWrapper
-  }
-}
-
 const NAME_QUERY = gql`
   query nameQuery {
     accounts @client
@@ -151,13 +86,13 @@ function Name({ details: domain, name, pathname, type, refetch }) {
   } = useQuery(NAME_QUERY)
 
   const account = accounts?.[0]
-  const {
-    isWrappedName,
-    isOwner,
-    canTransfer,
-    isOwnerInWrapper,
-    ownerInWrapper
-  } = useNameOwner(domain, account)
+  const { isWrappedName, domainOwner, canTransfer } = useNameOwner(
+    domain,
+    account
+  )
+
+  const isOwner = !!domainOwner
+
   const isOwnerOfParent = isOwnerOfParentDomain(domain, account)
   const isDeedOwner = domain.deedOwner === account
   const isRegistrant = !domain.available && domain.registrant === account
@@ -253,14 +188,14 @@ function Name({ details: domain, name, pathname, type, refetch }) {
             domain,
             pathname,
             name,
-            isOwner,
             isOwnerOfParent,
             refetch,
             account,
             registrationOpen,
             isWrappedName,
             canTransfer,
-            ownerInWrapper
+            domainOwner,
+            isOwner
           }}
         />
       )}

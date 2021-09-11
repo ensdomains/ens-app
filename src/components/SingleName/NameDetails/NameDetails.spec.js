@@ -75,6 +75,13 @@ describe('NameDetails', () => {
     'should not allow user to transfer if that fuse is not set and is a wrapped name'
   )
   it.todo('should hide transfer on reigstrant if is wrapped name')
+  it.todo('should hide transfer on controller if name is wrapped')
+  it.todo(
+    'should submit transfer transaction to namewrapper contract if name is wrapped'
+  )
+  it.todo(
+    'should show a specific tooltip for when the namewraper owner is not able to transfer ownership'
+  )
 })
 
 describe('Details', () => {

@@ -448,4 +448,6 @@ describe('Name detail view', () => {
       'ipfs://bafybeico3uuyj3vphxpvbowchdwjlrlrh62awxscrnii7w7flu5z6fk77y'
     ).should('exist')
   })
+
+  it.todo('Can transfer ownership of a wrapped name')
 })
