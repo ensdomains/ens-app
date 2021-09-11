@@ -225,9 +225,6 @@
       "parentmigrate": "이 서브도메인을 마이그레이션하기 전에 부모 도메인 {{parent}}을 먼저 마이그레이션해야 합니다."
     }
   },
-  "releaseDeed": {
-    "returnDeposit": "There is still an unclaimed deposit on this name. To get the deposited eth back, Go to"
-  },
   "reminder": {
     "everywhere": "everywhere",
     "release": {

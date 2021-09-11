@@ -160,6 +160,16 @@ function Faq() {
         complete within 24 hrs and you have to start from step 1 again.
       </Section>
 
+      <Section question="I cannot see the names I registered on OpenSea nor on my wallet">
+        This occasionally happens when OpenSea is under a heavy load. You may
+        also not find your name under the NFT section of your wallet, as many
+        wallets fetch metadata from OpenSea.
+        <br />
+        As long as you can see your registered name under "My Account" on our
+        site or your ETH address under the name section, your name is registered
+        successfully.
+      </Section>
+
       <H2>After you register</H2>
 
       <Section question="What is the difference between the Registrant and Controller?">
