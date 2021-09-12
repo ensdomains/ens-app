@@ -40,4 +40,6 @@ describe('useNameOwner', () => {
   it.todo(
     'should not be fooled into thinking a name cannot be transferred because of the case of the letters in the addresses'
   )
+
+  it.todo('should refetch name wrapper data if address or network changes')
 })

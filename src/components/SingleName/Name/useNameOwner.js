@@ -1,28 +1,45 @@
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/client'
 import { useEffect, useState } from 'react'
+import useReactiveVarListeners from '../../../hooks/useReactiveVarListeners'
 
 const canWrappedNameBeTransferred = () => {}
 
-const useNameOwner = (domain, address) => {
-  const GET_NAME_WRAPPER_OWNER = gql`
-    query getNameWrapperOwner($name: string) {
-      getNameWrapperOwner(name: $name) {
-        ownerAddr
-        canTransfer
-      }
+const GET_NAME_WRAPPER_OWNER = gql`
+  query getNameWrapperOwner($name: string) {
+    getNameWrapperOwner(name: $name) {
+      ownerAddr
+      canTransfer
     }
-  `
+  }
+`
 
-  const { data, loading } = useQuery(GET_NAME_WRAPPER_OWNER, {
+export const USE_NAME_OWNER_DATA = gql`
+  query useNameOwner @client {
+    network
+    accounts
+  }
+`
+
+const useNameOwner = (domain, address) => {
+  const { data, loading, refetch } = useQuery(GET_NAME_WRAPPER_OWNER, {
     variables: {
       name: domain.name
-    }
+    },
+    fetchPolicy: 'network-only'
   })
+
+  const {
+    data: { network, accounts }
+  } = useQuery(USE_NAME_OWNER_DATA)
 
   const [isWrappedName, setIsWrappedName] = useState(false)
   const [canTransfer, setCanTransfer] = useState(false)
   const [domainOwner, setDomainOwner] = useState(null)
+
+  useEffect(() => {
+    refetch()
+  }, [network, accounts])
 
   useEffect(() => {
     const reset = () => {
