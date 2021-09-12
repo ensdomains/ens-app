@@ -30,6 +30,7 @@ import getENS, { getRegistrar } from 'apollo/mutations/ens'
 import { isENSReady, namesReactive } from '../../apollo/reactiveVars'
 import getReverseRecord from './getReverseRecord'
 import getNameWrapperOwner from './getNameWrapperOwner'
+import setNameWrapperOwner from './setNameWrapperOwner'
 
 const defaults = {
   names: []
@@ -658,6 +659,7 @@ const resolvers = {
     }
   },
   Mutation: {
+    setNameWrapperOwner,
     registerTestdomain: async (_, { label }) => {
       const registrar = getRegistrar()
       const tx = await registrar.registerTestdomain(label)

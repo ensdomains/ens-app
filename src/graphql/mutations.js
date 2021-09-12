@@ -183,6 +183,12 @@ export const RENEW_DOMAINS = gql`
   }
 `
 
+export const SET_NAMEWRAPPER_OWNER = gql`
+  mutation setNameWrapperOwner($newOwner: String) {
+    setNameWrapperOwner(newOwner: $newOwner)
+  }
+`
+
 /* Registry Migration */
 
 export const MIGRATE_REGISTRY = gql`

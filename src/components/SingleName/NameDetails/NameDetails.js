@@ -10,7 +10,8 @@ import {
   SET_SUBNODE_OWNER,
   SET_REGISTRANT,
   RECLAIM,
-  RENEW
+  RENEW,
+  SET_NAMEWRAPPER_OWNER
 } from '../../../graphql/mutations'
 import { IS_MIGRATED } from '../../../graphql/queries'
 
@@ -282,7 +283,7 @@ function DetailsContainer({
                 type="address"
                 editButton={t('c.transfer')}
                 mutationButton={t('c.transfer')}
-                mutation={SET_REGISTRANT}
+                mutation={SET_NAMEWRAPPER_OWNER}
                 refetch={refetch}
                 confirm={true}
                 copyToClipboard={true}
@@ -304,24 +305,23 @@ function DetailsContainer({
                 copyToClipboard={true}
               />
             )}
-            <DetailsItemEditable
-              domain={domain}
-              keyName="Controller"
-              value={domain.owner}
-              canEdit={
-                !isWrappedName &&
-                (isRegistrant || (isOwner && isMigratedToNewRegistry))
-              }
-              deedOwner={domain.deedOwner}
-              isDeedOwner={isDeedOwner}
-              type="address"
-              editButton={isRegistrant ? t('c.set') : t('c.transfer')}
-              mutationButton={isRegistrant ? t('c.set') : t('c.transfer')}
-              mutation={isRegistrant ? RECLAIM : SET_OWNER}
-              refetch={refetch}
-              confirm={true}
-              copyToClipboard={true}
-            />
+            {!isWrappedName && (
+              <DetailsItemEditable
+                domain={domain}
+                keyName="Controller"
+                value={domain.owner}
+                canEdit={isRegistrant || (isOwner && isMigratedToNewRegistry)}
+                deedOwner={domain.deedOwner}
+                isDeedOwner={isDeedOwner}
+                type="address"
+                editButton={isRegistrant ? t('c.set') : t('c.transfer')}
+                mutationButton={isRegistrant ? t('c.set') : t('c.transfer')}
+                mutation={isRegistrant ? RECLAIM : SET_OWNER}
+                refetch={refetch}
+                confirm={true}
+                copyToClipboard={true}
+              />
+            )}
           </>
         ) : domain.parent === 'eth' && !domain.isNewRegistrar ? (
           <>
@@ -604,7 +604,8 @@ function NameDetails({
   ownerInWrapper,
   isWrappedName,
   name,
-  domainOwner
+  domainOwner,
+  canTransfer
 }) {
   const [loading, setLoading] = useState(undefined)
   const {
@@ -685,7 +686,13 @@ function NameDetails({
               dnssecmode={dnssecmode}
               account={account}
               refetchIsMigrated={refetchIsMigrated}
-              {...{ isWrappedName, ownerInWrapper, name, domainOwner }}
+              {...{
+                isWrappedName,
+                ownerInWrapper,
+                name,
+                domainOwner,
+                canTransfer
+              }}
             />
           )
         }}

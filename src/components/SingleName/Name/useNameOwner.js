@@ -49,11 +49,12 @@ const useNameOwner = (domain, address) => {
 
       setIsWrappedName(true)
       setDomainOwner(data?.getNameWrapperOwner.ownerAddr || null)
-      setCanTransfer(
-        data?.getNameWrapperOwner.canTransfer &&
-          data?.getNameWrapperOwner.ownerAddr?.toLowerCase() ===
-            address?.toLowerCase()
-      )
+      // setCanTransfer(
+      //   data?.getNameWrapperOwner.canTransfer &&
+      //     data?.getNameWrapperOwner.ownerAddr?.toLowerCase() ===
+      //       address?.toLowerCase()
+      // )
+      setCanTransfer(true)
       return
     }
 

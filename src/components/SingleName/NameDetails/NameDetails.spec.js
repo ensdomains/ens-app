@@ -82,6 +82,11 @@ describe('NameDetails', () => {
   it.todo(
     'should show a specific tooltip for when the namewraper owner is not able to transfer ownership'
   )
+  it.todo('should not show controller if name is wrapped')
+})
+
+describe('owner field', () => {
+  it.todo('Should display graphql errors')
 })
 
 describe('Details', () => {
