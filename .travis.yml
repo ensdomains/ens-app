@@ -9,8 +9,7 @@ language: node_js
 node_js:
   - 14
 
-git:
-  depth: false
+dist: focal
 
 cache:
   yarn: true
@@ -19,7 +18,7 @@ cache:
     - ~/.cache/Cypress
 matrix:
   allow_failures:
-    #
+  #
 jobs:
   include:
     - stage: test
@@ -37,7 +36,7 @@ jobs:
         - sleep 5
         - cd ../ && git clone https://github.com/ensdomains/ens-subgraph.git
         - cd ens-subgraph && yarn && cd ../
-        - git clone https://github.com/graphprotocol/graph-node
+        - git clone https://github.com/ensdomains/graph-node
         - pwd
         - ls graph-node/docker
         - cd graph-node/docker && ./setup.sh
