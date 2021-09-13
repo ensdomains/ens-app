@@ -16,6 +16,15 @@ export function useScrollTo(pos) {
   }, [pos])
 }
 
+const networkName = {
+  main: 'mainnet',
+  goerli: 'goerli',
+  kovan: 'kovan',
+  rinkeby: 'rinkeby',
+  ropsten: 'ropsten',
+  local: 'local'
+}
+
 export function useEditable(
   initialState = {
     editing: false,
@@ -228,17 +237,14 @@ export function useAvatar(textKey, name, network, uri) {
     try {
       const run = async () => {
         const result = await fetch(
-          `https://metadata.ens.domains/avatar/${name}/meta`
+          `https://metadata.ens.domains/${
+            networkName[network]
+          }/avatar/${name}/meta`
         )
         const data = await result.json()
         setAvatar(data)
       }
-      if (
-        name &&
-        network === 'rinkeby' &&
-        uri?.match(/^eip/) &&
-        textKey === 'avatar'
-      ) {
+      if (name && uri?.match(/^eip/) && textKey === 'avatar') {
         run()
       }
     } catch (e) {

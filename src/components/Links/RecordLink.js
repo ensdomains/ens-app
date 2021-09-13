@@ -79,11 +79,12 @@ const RecordLink = ({ textKey, value, name }) => {
   if (textKey === 'email') {
     url = `mailto:${value}`
   }
-  const {
-    is_owner,
-    host_meta: { reference_url },
-    image: imageUrl
-  } = useAvatar(textKey, name, network, value)
+  const { is_owner, host_meta, image: imageUrl } = useAvatar(
+    textKey,
+    name,
+    network,
+    value
+  )
   const isEmpty = isRecordEmpty(value)
 
   return url && !isEmpty ? (
@@ -102,7 +103,11 @@ const RecordLink = ({ textKey, value, name }) => {
     <div>
       <LinkContainer>
         {is_owner && <OwnerLabel>Owner</OwnerLabel>}
-        <a target="_blank" href={reference_url} rel="noopener noreferrer">
+        <a
+          target="_blank"
+          href={host_meta?.reference_url}
+          rel="noopener noreferrer"
+        >
           {value}
           <img
             src={externalLinkSvg}
