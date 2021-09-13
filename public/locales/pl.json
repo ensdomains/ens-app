@@ -229,9 +229,6 @@
       "parentmigrate": "Najpierw musisz przeprowadzić migrację domeny nadrzędnej {{parent}}, aby móc przenieść tę subdomenę"
     }
   },
-  "releaseDeed": {
-    "returnDeposit": "There is still an unclaimed deposit on this name. To get the deposited eth back, Go to"
-  },
   "reminder": {
     "everywhere": "everywhere",
     "release": {

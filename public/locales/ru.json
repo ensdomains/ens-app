@@ -229,9 +229,6 @@
       "parentmigrate": "Сначала вам необходимо перенести домен-родитель ({{ parent}})  до того, как вы сможете мигрировать этот поддомен."
     }
   },
-  "releaseDeed": {
-    "returnDeposit": "There is still an unclaimed deposit on this name. To get the deposited eth back, Go to"
-  },
   "reminder": {
     "everywhere": "everywhere",
     "release": {
