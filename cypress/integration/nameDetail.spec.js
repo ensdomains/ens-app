@@ -296,9 +296,6 @@ describe('Name detail view', () => {
         .type('FOOOOOOOO{enter}')
         .getByPlaceholderText('FOOOOOOOO', { exact: false })
         .type('Bar', { force: true, delay: 0 })
-      // waitUntilInputResolves('Save').then(() => {
-      //   cy.getByText('Save').click({ force: true })
-      // })
       cy.getByText('Save').click({ force: true })
     })
     confirmRecordUpdate()

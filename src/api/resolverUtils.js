@@ -1,4 +1,3 @@
-import { GET_TRANSACTION_HISTORY } from '../graphql/queries'
 import getClient from '../apollo/apolloClient'
 import { transactionHistoryReactive } from '../apollo/reactiveVars'
 

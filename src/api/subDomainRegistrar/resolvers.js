@@ -9,12 +9,6 @@ const defaults = {
 const resolvers = {
   Query: {
     async getSubDomainAvailability(_, { name }, { cache }) {
-      //clear old search results
-      // cache.writeData({
-      //   data: {
-      //     subDomainState: []
-      //   }
-      // })
       const nodes = await queryAll(name)
       const cachedNodes = []
 
@@ -42,8 +36,6 @@ const resolvers = {
             const data = {
               subDomainState: [...cachedNodes]
             }
-
-            // cache.writeData({ data })
           })
           .catch(e => console.log('ERROR in subdomain results', e))
       )

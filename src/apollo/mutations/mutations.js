@@ -21,19 +21,16 @@ export const setWeb3ProviderLocalMutation = async provider => {
 
   if (provider) {
     provider.removeAllListeners()
-    // setNetworkIdLocalMutation(provider.network.chainId)
     setAccountsLocalMutation(accounts)
   }
 
   provider?.on('chainChanged', _chainId => {
     console.log('chain changed: ', _chainId)
     setNetworkIdLocalMutation(parseInt(_chainId))
-    // getNetworkMutation()
   })
 
   provider?.on('accountsChanged', async accounts => {
     console.log('accounts changed')
-    // setAccountsLocalMutation(accounts)
   })
 
   return provider
