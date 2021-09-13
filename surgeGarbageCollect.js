@@ -38,6 +38,12 @@ const removeSurgeDomain = domain => {
     console.warn(`Not removing domain ${domainToRemove} as it contains 'app'`)
     return
   }
+  if (domainToRemove.includes('ensdomains')) {
+    console.warn(
+      `Not removing domain ${domainToRemove} as it contains 'ensdomains'`
+    )
+    return
+  }
   if (whitelist.includes(domainToRemove)) {
     console.warn(
       `Not removing domain ${domainToRemove} as it is on the whitelist`
@@ -55,12 +61,11 @@ const run = async () => {
   const cleanDomains = filterEmpty.map(x => x.replace('\x1B[39m', ''))
   const subDomains = cleanDomains.map(x => x.split('.')[0])
 
-  const branches = await exec('git branch')
-  const branchesList = branches.stdout.split(/\r?\n/)
+  const fetch = await exec('git fetch')
+  const branches = await exec('git branch -a')
+  const branchesList = branches.stdout.split(/\r?\n/).map(x => x.split('/')[2])
   const filterEmptyBranches = branchesList.filter(x => x)
-  const trimStartBranches = filterEmptyBranches.map(x => x.slice(2))
-
-  console.log('branches: ', trimStartBranches)
+  const trimStartBranches = filterEmptyBranches
 
   let domainsToRemove = []
   for (domain of cleanDomains) {
@@ -76,6 +81,8 @@ const run = async () => {
     console.log('Not removing any domains')
     return
   }
+
+  console.log('domains to remove: ', domainsToRemove)
 
   for (domain of domainsToRemove) {
     removeSurgeDomain(domain)
