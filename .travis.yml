@@ -63,7 +63,7 @@ jobs:
         - npm run postbuild
         - pwd
         - ls
-        - surge build apollo-upgrade-ensdev.surge.sh
+        - surge build "$TRAVIS_BRANCH"-ensdev.surge.sh
     - stage: test
       name: 'Cleanup Previews'
       install:
