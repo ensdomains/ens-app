@@ -19,11 +19,12 @@ export function useScrollTo(pos) {
 const networkName = {
   main: 'mainnet',
   goerli: 'goerli',
-  kovan: 'kovan',
   rinkeby: 'rinkeby',
   ropsten: 'ropsten',
   local: 'local'
 }
+
+const supportedAvatarProtocols = ['http://', 'ipfs://', 'eip155']
 
 export function useEditable(
   initialState = {
@@ -235,17 +236,26 @@ export function useAvatar(textKey, name, network, uri) {
   const [avatar, setAvatar] = useState({})
   useEffect(() => {
     try {
-      const run = async () => {
+      const _network = networkName[network]
+      const run = async protocol => {
         const result = await fetch(
-          `https://metadata.ens.domains/${
-            networkName[network]
-          }/avatar/${name}/meta`
+          `https://metadata.ens.domains/${_network}/avatar/${name}/meta`
         )
         const data = await result.json()
+        if ('image' in data && protocol === 'ipfs://') {
+          data.image = data.image.replace('ipfs://', 'https://ipfs.io/ipfs/')
+        }
         setAvatar(data)
       }
-      if (name && uri?.match(/^eip/) && textKey === 'avatar') {
-        run()
+      const _protocol = supportedAvatarProtocols.find(proto =>
+        uri.startsWith(proto)
+      )
+      // check if given uri is supported
+      // provided network name is valid,
+      // domain name is available
+      // text record key is 'avatar'
+      if (_protocol && _network && name && textKey === 'avatar') {
+        run(_protocol)
       }
     } catch (e) {
       console.error('useAvatar error: ', e)
