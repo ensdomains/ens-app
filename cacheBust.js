@@ -13,6 +13,8 @@ themselves in the same way.
 process.env.LC_CTYPE = 'C'
 process.env.LANG = 'C'
 
+const isDarwin = process.platform === 'darwin'
+
 const start = async () => {
   //fallback to random string
   const buildId = process.env.TRAVIS_BUILD_NUMBER || v4().substring(0, 5)
@@ -21,12 +23,12 @@ const start = async () => {
   const files = fs.readdirSync('./build/static/js/')
   const hashes = files.map(x => x.split('.')[1])
   const uniqueHashes = [...new Set(hashes)]
-
   //rename references to those hashes in built code
   for (hash of uniqueHashes) {
-    execSync(
-      `find ./build -type f -exec sed -i 's/${hash}/${hash}-${buildId}/g' {} \\;`
-    )
+    const replaceCommand = `find ./build -type f -exec sed -i ${
+      isDarwin ? "'' -e" : ''
+    } 's#${hash}#${hash}-${buildId}#g' {} \\;`
+    execSync(replaceCommand)
   }
 
   //rename the files themselves to match
@@ -34,15 +36,22 @@ const start = async () => {
     const explode = file.split('.')
     explode[1] = `${explode[1]}-${buildId}`
     const newName = explode.join('.')
-    const test = 1
     fs.rename(
       `./build/static/js/${file}`,
       `./build/static/js/${newName}`,
       err => {
-        console.error(err)
+        if (err) {
+          console.error('error', err)
+        }
       }
     )
   }
+  const replaceOptions = {
+    files: './build/index.html',
+    from: /\/static\/js\/[*].[*].chunk.js/g,
+    to: match => `/static/js/${match[0]}.${match[1]}-${buildId}.chunk.js`
+  }
+  replace.sync(replaceOptions)
 }
 
 start()
