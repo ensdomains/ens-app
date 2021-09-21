@@ -38,7 +38,12 @@ export const networkName = {
   local: 'local'
 }
 
-export const supportedAvatarProtocols = ['http://', 'ipfs://', 'eip155']
+export const supportedAvatarProtocols = [
+  'http://',
+  'https://',
+  'ipfs://',
+  'eip155'
+]
 
 export const addressUtils = {
   isChecksumAddress(address) {
