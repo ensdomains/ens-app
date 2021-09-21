@@ -4,6 +4,7 @@ import getEtherPrice from 'api/price'
 import { useLocation } from 'react-router-dom'
 import { loggedIn, logout } from './IPFS/auth'
 import { getBlock, getProvider } from '@ensdomains/ui'
+import { networkName, supportedAvatarProtocols } from 'utils/utils'
 export function useDocumentTitle(title) {
   useEffect(() => {
     document.title = title
@@ -15,16 +16,6 @@ export function useScrollTo(pos) {
     window.scrollTo(0, pos)
   }, [pos])
 }
-
-const networkName = {
-  main: 'mainnet',
-  goerli: 'goerli',
-  rinkeby: 'rinkeby',
-  ropsten: 'ropsten',
-  local: 'local'
-}
-
-const supportedAvatarProtocols = ['http://', 'ipfs://', 'eip155']
 
 export function useEditable(
   initialState = {
