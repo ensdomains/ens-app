@@ -31,7 +31,9 @@ i18n
       escapeValue: false // not needed for react as it escapes by default
     },
     backend: {
-      loadPath: '/locales/{{lng}}.json'
+      loadPath:
+        (process.env.REACT_APP_IPFS === 'True' ? '.' : '') +
+        '/locales/{{lng}}.json'
     }
   })
 
