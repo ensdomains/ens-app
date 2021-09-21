@@ -238,20 +238,21 @@ export function useAvatar(textKey, name, network, uri) {
         }
         setAvatar(data)
       }
-      const _protocol = supportedAvatarProtocols.find(proto =>
-        uri.startsWith(proto)
-      )
-      // check if given uri is supported
-      // provided network name is valid,
-      // domain name is available
-      // text record key is 'avatar'
-      if (_protocol && _network && name && textKey === 'avatar') {
-        run(_protocol)
+      if (textKey === 'avatar' && uri) {
+        const _protocol = supportedAvatarProtocols.find(proto =>
+          uri.startsWith(proto)
+        )
+        // check if given uri is supported
+        // provided network name is valid,
+        // domain name is available
+        if (_protocol && _network && name) {
+          run(_protocol)
+        }
       }
     } catch (e) {
       console.error('useAvatar error: ', e)
     }
-  }, [textKey])
+  }, [textKey, uri])
 
   return avatar
 }
