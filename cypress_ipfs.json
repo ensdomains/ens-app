@@ -1,8 +1,12 @@
 {
   "env": {
-    "ROOT": "http://localhost:3000/#",
+    "ROOT": "http://localhost:3000/#/",
     "TEST": "http://localhost:3000/#/Test",
-    "NAME_ROOT": "http://localhost:3000/#/name"
+    "NAME_ROOT": "http://localhost:3000/#/name",
+    "GRAPH_ROOT": "http://localhost:8000/subgraphs/name/graphprotocol/ens/graphql"
   },
-  "projectId": "rzedru"
+  "projectId": "rzedru",
+  "defaultCommandTimeout": 15000,
+  "viewportWidth": 1440,
+  "viewportHeight": 1600
 }

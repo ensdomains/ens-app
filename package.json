@@ -40,6 +40,7 @@
     "graphql-tools": "^2.23.1",
     "i18next": "^19.3.4",
     "i18next-xhr-backend": "^3.2.2",
+    "idempotent-babel-polyfill": "^7.4.4",
     "ipfs-http-client": "^40.1.0",
     "js-sha3": "^0.8.0",
     "lodash": "^4.17.21",

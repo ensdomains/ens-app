@@ -4,7 +4,7 @@ import getEtherPrice from 'api/price'
 import { useLocation } from 'react-router-dom'
 import { loggedIn, logout } from './IPFS/auth'
 import { getBlock, getProvider } from '@ensdomains/ui'
-import { prependUrl } from '../utils/utils'
+import { networkName, supportedAvatarProtocols } from 'utils/utils'
 export function useDocumentTitle(title) {
   useEffect(() => {
     document.title = title
@@ -227,25 +227,32 @@ export function useAvatar(textKey, name, network, uri) {
   const [avatar, setAvatar] = useState({})
   useEffect(() => {
     try {
-      const run = async () => {
+      const _network = networkName[network]
+      const run = async protocol => {
         const result = await fetch(
-          `https://metadata.ens.domains/avatar/${name}/meta`
+          `https://metadata.ens.domains/${_network}/avatar/${name}/meta`
         )
         const data = await result.json()
+        if ('image' in data && protocol === 'ipfs://') {
+          data.image = data.image.replace('ipfs://', 'https://ipfs.io/ipfs/')
+        }
         setAvatar(data)
       }
-      if (
-        name &&
-        network === 'rinkeby' &&
-        uri?.match(/^eip/) &&
-        textKey === 'avatar'
-      ) {
-        run()
+      if (textKey === 'avatar' && uri) {
+        const _protocol = supportedAvatarProtocols.find(proto =>
+          uri.startsWith(proto)
+        )
+        // check if given uri is supported
+        // provided network name is valid,
+        // domain name is available
+        if (_protocol && _network && name) {
+          run(_protocol)
+        }
       }
     } catch (e) {
       console.error('useAvatar error: ', e)
     }
-  }, [textKey])
+  }, [textKey, uri])
 
   return avatar
 }

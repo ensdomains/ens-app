@@ -81,7 +81,7 @@ describe(
       cy.get('button')
         .contains('Search')
         .click({ force: true })
-
+      cy.wait(1500)
       cy.queryByText('Names', { exact: false }).should('exist')
       cy.queryByText('notldispsecified.eth', { exact: false }).should('exist')
     })
