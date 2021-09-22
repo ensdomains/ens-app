@@ -16,7 +16,7 @@ export const isReadOnlyReactive = makeVar(true)
 
 export const isRunningAsSafeAppReactive = makeVar(false)
 
-export const isENSReady = makeVar(false)
+export const isENSReadyReactive = makeVar(false)
 
 export const favouritesReactive = makeVar([])
 

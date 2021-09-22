@@ -21,7 +21,6 @@ import {
 } from 'components/hooks'
 import { useAccount } from '../../QueryAccount'
 import { registerMachine, registerReducer } from './registerReducer'
-import { sendNotification } from './notification'
 import { calculateDuration, yearInSeconds } from 'utils/dates'
 
 import Loader from 'components/Loader'
