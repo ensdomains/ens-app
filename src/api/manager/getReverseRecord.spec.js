@@ -8,9 +8,9 @@ import getENS from '../../apollo/mutations/ens'
 
 jest.mock('../../apollo/reactiveVars', () => ({
   __esModule: true,
-  isENSReady: jest.fn()
+  isENSReadyReactive: jest.fn()
 }))
-import { isENSReady } from '../../apollo/reactiveVars'
+import { isENSReadyReactive } from '../../apollo/reactiveVars'
 import { emptyAddress } from '../../utils/utils'
 
 describe('getReverseRecord', () => {

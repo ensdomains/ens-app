@@ -10,12 +10,10 @@ import Tooltip from '../Tooltip/Tooltip'
 import QuestionMark from '../Icons/QuestionMark'
 import { checkIsDecrypted, truncateUndecryptedName } from '../../api/labels'
 import ExpiryDate from './ExpiryDate'
-//import { Mutation } from 'react-apollo'
 import { useMutation } from '@apollo/client'
 import Bin from '../Forms/Bin'
 import { useEditable } from '../hooks'
 import PendingTx from '../PendingTx'
-import { useAccount } from '../QueryAccount'
 import AddFavourite from '../AddFavourite/AddFavourite'
 
 const DomainLink = styled(Link)`

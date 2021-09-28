@@ -10,7 +10,7 @@ import NoAccountsModal from '../NoAccounts/NoAccountsModal'
 import { SET_ERROR } from '../../graphql/mutations'
 import { GET_REVERSE_RECORD } from '../../graphql/queries'
 import { connectProvider, disconnectProvider } from '../../utils/providerUtils'
-import { hasValidReverseRecord, imageUrl } from '../../utils/utils'
+import { imageUrl } from '../../utils/utils'
 
 const NetworkInformationContainer = styled('div')`
   position: relative;
@@ -97,18 +97,6 @@ const AccountContainer = styled('div')`
   `}
 `
 
-const Waiting = styled('div')`
-  color: #ccc;
-  display: flex;
-  font-size: 11px;
-  text-transform: uppercase;
-  font-weight: 700;
-`
-
-const WaitingText = styled('span')`
-  margin-right: 5px;
-`
-
 const NETWORK_INFORMATION_QUERY = gql`
   query getNetworkInfo @client {
     accounts
@@ -134,24 +122,6 @@ function NetworkInformation() {
       address: accounts?.[0]
     }
   })
-
-  const [setError] = useMutation(SET_ERROR)
-
-  // if (loading) {
-  //   return (
-  //     <Waiting>
-  //       <WaitingText>Waiting for accounts</WaitingText> <Loader />
-  //     </Waiting>
-  //   )
-  // }
-  //
-  // if (error) {
-  //   return (
-  //     <Waiting>
-  //       <WaitingText>Error getting accounts</WaitingText>
-  //     </Waiting>
-  //   )
-  // }
 
   return (
     <NetworkInformationContainer hasAccount={accounts && accounts.length > 0}>

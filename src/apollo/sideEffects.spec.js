@@ -1,7 +1,7 @@
 jest.mock('./reactiveVars', () => ({
-  isENSReady: jest.fn()
+  isENSReadyReactive: jest.fn()
 }))
-import { isENSReady } from './reactiveVars'
+import { isENSReadyReactive } from './reactiveVars'
 
 jest.mock('./mutations/ens', () => ({
   __esModule: true,
@@ -13,7 +13,7 @@ import { getReverseRecord } from './sideEffects'
 
 describe('getReverseRecord', () => {
   it('should return the default object if ens is not ready', async () => {
-    isENSReady.mockImplementation(() => false)
+    isENSReadyReactive.mockImplementation(() => false)
     expect(await getReverseRecord('0xaddress')).toEqual({
       name: null,
       match: false
@@ -21,16 +21,20 @@ describe('getReverseRecord', () => {
   })
 
   it('should return the default object if no address is given', async () => {
-    isENSReady.mockImplementation(() => true)
+    isENSReadyReactive.mockImplementation(() => true)
     expect(await getReverseRecord()).toEqual({ name: null, match: false })
   })
 
   it('should return the default object when there is an error', async () => {
     getENS.mockImplementation(() => undefined)
-    isENSReady.mockImplementation(() => true)
+    isENSReadyReactive.mockImplementation(() => true)
     expect(await getReverseRecord('0xasdfasd')).toEqual({
       name: null,
       match: false
     })
   })
+
+  it.todo(
+    'should return reverse record if ens is ready and address has a reverse record'
+  )
 })

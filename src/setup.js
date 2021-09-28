@@ -17,7 +17,7 @@ import {
 } from './apollo/reactiveVars'
 import { setup as setupAnalytics } from './utils/analytics'
 import { getReverseRecord } from './apollo/sideEffects'
-import { setupSafeApp } from './utils/safeApps'
+import { safeInfo, setupSafeApp } from './utils/safeApps'
 
 export const setFavourites = () => {
   favouritesReactive(
@@ -57,8 +57,7 @@ export const getProvider = async reconnect => {
       return provider
     }
 
-    // const safe = await safeInfo()
-    const safe = false
+    const safe = await safeInfo()
     if (safe) {
       const provider = await setupSafeApp(safe)
       return provider

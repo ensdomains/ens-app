@@ -134,7 +134,6 @@ function SubDomains({
               )
 
               return (
-                // <div>subdomain web3</div>
                 <SubDomainsFromWeb3
                   domain={domain}
                   isOwner={isOwner}

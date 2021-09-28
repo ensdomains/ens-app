@@ -4,11 +4,7 @@ import { useQuery, useMutation } from '@apollo/client'
 import styled from '@emotion/styled/macro'
 import { useTranslation, Trans } from 'react-i18next'
 
-import {
-  emptyAddress,
-  hasValidReverseRecord,
-  usePrevious
-} from '../utils/utils'
+import { emptyAddress, hasValidReverseRecord } from '../utils/utils'
 
 import { SET_NAME } from 'graphql/mutations'
 import mq from 'mediaQuery'
@@ -54,11 +50,6 @@ const AddReverseRecordContainer = styled('div')`
 const SetReverseContainer = styled('div')`
   margin-top: 15px;
   padding: 10px;
-`
-
-const ErrorMessage = styled('div')`
-  font-weight: 300;
-  font-size: 14px;
 `
 
 const Message = styled('div')`
@@ -145,7 +136,7 @@ function AddReverseRecord({ account, currentAddress }) {
     }
   )
 
-  const [setName, { data }] = useMutation(SET_NAME, {
+  const [setName] = useMutation(SET_NAME, {
     onCompleted: data => {
       startPending(Object.values(data)[0])
     }
@@ -337,38 +328,6 @@ function AddReverseRecord({ account, currentAddress }) {
       )}
     </AddReverseRecordContainer>
   )
-}
-
-const AddReverseRecordTest = ({ account, currentAddress }) => {
-  const prevCurrentAddress = usePrevious(currentAddress)
-
-  const {
-    data: { networkId }
-  } = useQuery(SINGLE_NAME)
-
-  const prevNetworkId = usePrevious(networkId)
-
-  const { data, error, refetch } = useQuery(
-    GET_ETH_RECORD_AVAILABLE_NAMES_FROM_SUBGRAPH,
-    {
-      variables: {
-        address: currentAddress
-      },
-      fetchPolicy: 'no-cache',
-      context: {
-        queryDeduplication: false
-      }
-    }
-  )
-
-  useEffect(() => {
-    refetch()
-  }, [account, currentAddress, networkId])
-
-  console.log({ data })
-  console.log({ error })
-
-  return <div>hi there</div>
 }
 
 export default AddReverseRecord
