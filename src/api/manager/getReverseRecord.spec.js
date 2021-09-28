@@ -4,13 +4,11 @@ jest.mock('../../apollo/mutations/ens', () => ({
   __esModule: true,
   default: jest.fn()
 }))
-import getENS from '../../apollo/mutations/ens'
 
 jest.mock('../../apollo/reactiveVars', () => ({
   __esModule: true,
   isENSReadyReactive: jest.fn()
 }))
-import { isENSReadyReactive } from '../../apollo/reactiveVars'
 import { emptyAddress } from '../../utils/utils'
 
 describe('getReverseRecord', () => {

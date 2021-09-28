@@ -33,6 +33,7 @@ import LineGraph from './LineGraph'
 import Premium from './Premium'
 import ProgressRecorder from './ProgressRecorder'
 import useNetworkInfo from '../../NetworkInformation/useNetworkInfo'
+import { sendNotification } from './notification'
 
 const NameRegisterContainer = styled('div')`
   padding: 20px 40px;

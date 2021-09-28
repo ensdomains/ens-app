@@ -1,4 +1,4 @@
-import { getStates, hasReachedState } from './registerReducer'
+import { hasReachedState } from './registerReducer'
 
 describe('hasReachedState', () => {
   it('returns true when it has passed ', () => {
