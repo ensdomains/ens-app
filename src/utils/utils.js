@@ -8,6 +8,7 @@ import {
   isEncodedLabelhash
 } from '@ensdomains/ui/src/utils/index'
 import { validate } from '@ensdomains/ens-validation'
+import { normalize } from '@ensdomains/eth-ens-namehash'
 
 import getENS from '../api/ens'
 import * as jsSHA3 from 'js-sha3'
@@ -18,7 +19,6 @@ import { setupClient } from 'apolloClient'
 import { connect } from '../api/web3modal'
 import { safeInfo, setupSafeApp } from './safeApps'
 import { useEffect, useRef } from 'react'
-import { normalize } from 'eth-ens-namehash'
 
 // From https://github.com/0xProject/0x-monorepo/blob/development/packages/utils/src/address_utils.ts
 

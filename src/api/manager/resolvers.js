@@ -13,6 +13,7 @@ import {
   utils
 } from '@ensdomains/ui'
 import { formatsByName } from '@ensdomains/address-encoder'
+import { normalize } from '@ensdomains/eth-ens-namehash'
 import isEqual from 'lodash/isEqual'
 import modeNames from '../modes'
 import { sendHelper, sendHelperArray } from '../resolverUtils'
@@ -31,7 +32,6 @@ import {
 } from '../../graphql/queries'
 import getClient from '../../apolloClient'
 import getENS, { getRegistrar } from 'api/ens'
-import { normalize } from 'eth-ens-namehash'
 
 let savedFavourites =
   JSON.parse(window.localStorage.getItem('ensFavourites')) || []
