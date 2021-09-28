@@ -26,6 +26,21 @@ export const MAINNET_DNSREGISTRAR_ADDRESS =
 export const ROPSTEN_DNSREGISTRAR_ADDRESS =
   '0xdB328BA5FEcb432AF325Ca59E3778441eF5aa14F'
 
+export const networkName = {
+  main: 'mainnet',
+  goerli: 'goerli',
+  rinkeby: 'rinkeby',
+  ropsten: 'ropsten',
+  local: 'local'
+}
+
+export const supportedAvatarProtocols = [
+  'http://',
+  'https://',
+  'ipfs://',
+  'eip155'
+]
+
 export const addressUtils = {
   isChecksumAddress(address) {
     // Check each case
@@ -239,9 +254,15 @@ export function prependUrl(url) {
 }
 
 export function imageUrl(url, name, network) {
-  if (name && network === 'rinkeby' && url.match(/^eip/)) {
-    return `https://ens-metadata-service.appspot.com/avatar/${name}`
-  } else {
-    return prependUrl(url)
+  const _network = networkName[network]
+  const _protocol = supportedAvatarProtocols.find(proto =>
+    url.startsWith(proto)
+  )
+  // check if given uri is supported
+  // provided network name is valid,
+  // domain name is available
+  if (_protocol && _network && name) {
+    return `https://metadata.ens.domains/${_network}/avatar/${name}`
   }
+  console.warn('Unsupported avatar', network, name, url)
 }
