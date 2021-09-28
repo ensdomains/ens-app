@@ -1,3 +1,4 @@
+import React from 'react'
 import { render } from '@testing-library/react'
 
 jest.mock('@apollo/client', () => ({
@@ -20,7 +21,7 @@ describe('EtherScanLink', () => {
     }
 
     const context = {}
-    const { debug, getByTestId } = render(
+    const { getByTestId } = render(
       <StaticRouter location={'/'} context={context}>
         <EtherScanLink {...mockProps} />
       </StaticRouter>
@@ -40,7 +41,7 @@ describe('EtherScanLink', () => {
     }
 
     const context = {}
-    const { debug, getByTestId } = render(
+    const { getByTestId } = render(
       <StaticRouter location={'/'} context={context}>
         <EtherScanLink {...mockProps} />
       </StaticRouter>

@@ -1,10 +1,10 @@
 import { emptyAddress } from '../utils/utils'
 import getENS from './mutations/ens'
 import { normalize } from 'eth-ens-namehash'
-import { isENSReady } from './reactiveVars'
+import { isENSReadyReactive } from './reactiveVars'
 
 export const getReverseRecord = async address => {
-  if (!isENSReady() || !address) return { name: null, match: false }
+  if (!isENSReadyReactive() || !address) return { name: null, match: false }
 
   try {
     let name = emptyAddress

@@ -5,7 +5,7 @@ import {
   accountsReactive,
   isReadOnlyReactive,
   isRunningAsSafeAppReactive,
-  isENSReady,
+  isENSReadyReactive,
   favouritesReactive,
   globalErrorReactive,
   transactionHistoryReactive,
@@ -70,7 +70,7 @@ export default {
       },
       isENSReady: {
         read() {
-          return isENSReady()
+          return isENSReadyReactive()
         }
       },
       favourites: {

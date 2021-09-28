@@ -14,6 +14,8 @@ export const DomainInfo = ({ domainState, isFavourite, loading }) => {
   )
 }
 
+//TODO: create a file for shared client queries
+
 const DomainItemContainer = ({ singleName, searchTerm }) => {
   const {
     data: { favourites },

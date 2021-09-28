@@ -91,7 +91,7 @@ const DetailsEditableContainer = styled(DetailsItem)`
     }
   }};
   padding: ${({ editing }) => (editing ? '20px' : '0')};
-  ${({ editing }) => (editing ? `margin-bottom: 20px;` : '')}
+  ${({ editing }) => (editing ? 'margin-bottom: 20px;' : '')}
   transition: 0.3s;
 
   ${({ editing }) => editing && mq.small` flex-direction: column;`};

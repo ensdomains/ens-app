@@ -1,7 +1,7 @@
 import React, { Fragment, Component } from 'react'
 import { Query, Mutation } from '@apollo/client/react/components'
 import gql from 'graphql-tag'
-import { GET_WEB3 } from '../graphql/queries'
+import { GET_WEB3 } from '../graphql/localQueries'
 
 const GET_PENDING_TRANSACTIONS = gql`
   query getPendingTransations {

@@ -160,7 +160,7 @@ const IpfsLogin = props => {
 
   const handleChange = evt => {
     const { name, value } = evt.target
-    name === `username`
+    name === 'username'
       ? setUsername(value)
       : name === 'email'
       ? setEmail(value)

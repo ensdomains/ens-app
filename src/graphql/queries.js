@@ -1,22 +1,6 @@
 import gql from 'graphql-tag'
 import { NodeFields, SubDomainStateFields } from './fragments'
 
-// export const GET_WEB3 = gql`
-//   query web3 {
-//     web3 {
-//       accounts
-//       isReadOnly
-//     }
-//   }
-// `
-
-export const GET_WEB3 = gql`
-  query getweb3 @client {
-    accounts
-    isReadOnly
-  }
-`
-
 export const GET_PUBLIC_RESOLVER = gql`
   query publicResolver {
     publicResolver {

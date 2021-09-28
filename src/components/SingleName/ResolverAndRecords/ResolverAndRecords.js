@@ -103,8 +103,8 @@ export default function ResolverAndRecords({
             value={domain.resolver}
             canEdit={isOwner && isMigratedToNewRegistry}
             domain={domain}
-            editButton={t(`c.set`)}
-            mutationButton={t(`c.save`)}
+            editButton={t('c.set')}
+            mutationButton={t('c.save')}
             mutation={SET_RESOLVER}
             refetch={refetch}
             account={account}

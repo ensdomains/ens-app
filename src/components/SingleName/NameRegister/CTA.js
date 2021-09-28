@@ -53,10 +53,8 @@ function getCTA({
   hasSufficientBalance,
   txHash,
   setTxHash,
-  setTimerRunning,
   setCommitmentTimerRunning,
   commitmentTimerRunning,
-  setBlockCreatedAt,
   isAboveMinDuration,
   refetch,
   refetchIsMigrated,
@@ -105,7 +103,7 @@ function getCTA({
               border={true}
               offset={{ left: -30, top: 10 }}
             >
-              {({ tooltipElement, showTooltip, hideTooltip }) => {
+              {({ showTooltip, hideTooltip }) => {
                 return (
                   <Button
                     data-testid="request-register-button"
@@ -263,8 +261,6 @@ const CTA = ({
       }
     }
   }, [step])
-
-  console.log('refetchIsMigrated: ', refetchIsMigrated)
 
   return (
     <CTAContainer>

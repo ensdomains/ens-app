@@ -1,14 +1,14 @@
 import {
-  isDecrypted,
-  getBlock,
-  getWeb3,
-  getNetworkId,
-  getNamehash,
-  getSigner,
-  getResolverContract,
-  getOldResolverContract,
   encodeContenthash,
+  getBlock,
+  getNamehash,
+  getNetworkId,
+  getOldResolverContract,
   getProvider,
+  getResolverContract,
+  getSigner,
+  getWeb3,
+  isDecrypted,
   labelhash,
   utils
 } from '@ensdomains/ui'
@@ -23,20 +23,10 @@ import {
 } from '../../utils/utils'
 import TEXT_RECORD_KEYS from 'constants/textRecords'
 import COIN_LIST_KEYS from 'constants/coinList'
-import {
-  GET_FAVOURITES,
-  GET_SUBDOMAIN_FAVOURITES,
-  GET_ALL_NODES,
-  GET_REGISTRANT_FROM_SUBGRAPH
-} from '../../graphql/queries'
+import { GET_REGISTRANT_FROM_SUBGRAPH } from '../../graphql/queries'
 import getClient from '../../apollo/apolloClient'
 import getENS, { getRegistrar } from 'apollo/mutations/ens'
-import { normalize } from 'eth-ens-namehash'
-import {
-  detailedNodeReactive,
-  isENSReady,
-  namesReactive
-} from '../../apollo/reactiveVars'
+import { isENSReadyReactive, namesReactive } from '../../apollo/reactiveVars'
 import getReverseRecord from './getReverseRecord'
 
 const defaults = {
@@ -188,7 +178,7 @@ async function getRegistrarEntry(name) {
     available
   } = entry
 
-  const node = {
+  return {
     name: `${name}`,
     state: modeNames[state],
     stateError: null, // This is only used for dnssec errors
@@ -206,8 +196,6 @@ async function getRegistrarEntry(name) {
     available,
     expiryTime: expiryTime || null
   }
-
-  return node
 }
 
 async function getParent(name) {
@@ -280,7 +268,7 @@ async function getDNSEntryDetails(name) {
   let isDNSRegistrarSupported = await registrar.isDNSRegistrar(tldowner)
   if (isDNSRegistrarSupported && tldowner !== emptyAddress) {
     const dnsEntry = await registrar.getDNSEntry(name, tldowner, owner)
-    const node = {
+    return {
       isDNSRegistrar: true,
       dnsOwner: dnsEntry.claim?.result
         ? dnsEntry.claim.getOwner()
@@ -289,8 +277,6 @@ async function getDNSEntryDetails(name) {
       stateError: dnsEntry.stateError,
       parentOwner: tldowner
     }
-
-    return node
   }
 }
 
@@ -303,20 +289,6 @@ async function getTestEntry(name) {
   }
   return {}
 }
-
-const waitForReactiveVar = varReactive =>
-  new Promise((resolve, reject) => {
-    let count = 0
-    const interval = setInterval(() => {
-      if (count === 5) {
-        reject('too many retries')
-      }
-      if (varReactive()) {
-        resolve(varReactive())
-      }
-      count++
-    }, 1000)
-  })
 
 function adjustForShortNames(node) {
   const nameArray = node.name.split('.')
@@ -367,15 +339,14 @@ const resolvers = {
         console.log('error getting public resolver', e)
       }
     },
-    getOwner: async (_, { name }) => {
+    getOwner: (_, { name }) => {
       const ens = getENS()
-      const owner = await ens.getOwner(name)
-      return owner
+      return ens.getOwner(name)
     },
 
     singleName: async (_, { name }) => {
       try {
-        if (!isENSReady() || !name)
+        if (!isENSReadyReactive() || !name)
           return {
             name: null,
             revealDate: null,
@@ -453,7 +424,6 @@ const resolvers = {
           registrant
         ] = await Promise.all(dataSources)
 
-        // const { names } = cache.readQuery({ query: GET_ALL_NODES })
         const names = namesReactive()
 
         let detailedNode = adjustForShortNames({
@@ -482,11 +452,7 @@ const resolvers = {
         ) {
           detailedNode.parentOwner = dnsEntry.parentOwner
         }
-        const data = {
-          names: [...names, detailedNode]
-        }
 
-        // cache.writeData({ data })
         namesReactive([...names, detailedNode])
 
         return detailedNode
@@ -572,19 +538,17 @@ const resolvers = {
       let isDeprecatedResolver = calculateIsDeprecatedResolver(resolver)
       let isOldPublicResolver = calculateIsOldPublicResolver(resolver)
       let isPublicResolverReady = await calculateIsPublicResolverReady()
-      const resolverMigrationInfo = {
+      return {
         name,
         isDeprecatedResolver,
         isOldPublicResolver,
         isPublicResolverReady,
         __typename: 'ResolverMigration'
       }
-      return resolverMigrationInfo
     },
-    isMigrated: async (_, { name }) => {
+    isMigrated: (_, { name }) => {
       const ens = getENS()
-      let result = await ens.isMigrated(name)
-      return result
+      return ens.isMigrated(name)
     },
     isContractController: async (_, { address }) => {
       let provider = await getWeb3()
@@ -623,13 +587,12 @@ const resolvers = {
 
       return address
     },
-    getAddresses: async (_, { name, keys }) => {
+    getAddresses: (_, { name, keys }) => {
       const ens = getENS()
       const addresses = keys.map(key =>
         ens.getAddr(name, key).then(addr => ({ key, value: addr }))
       )
-      const test = await Promise.all(addresses)
-      return test
+      return Promise.all(addresses)
     },
     getTextRecords: async (_, { name, keys }) => {
       if (!name || !keys) return []
@@ -748,7 +711,7 @@ const resolvers = {
         const tx = await ens.setText(name, key, recordValue)
         return sendHelper(tx)
       } catch (e) {
-        console.log(e)
+        console.error(e)
       }
     },
     addMultiRecords: async (_, { name, records }) => {
@@ -780,17 +743,15 @@ const resolvers = {
             switch (i) {
               case 0:
                 if (parseInt(record, 16) === 0) return undefined
-                let encoded = resolver.encodeFunctionData(
-                  'setAddr(bytes32,address)',
-                  [namehash, record]
-                )
-                return encoded
+                return resolver.encodeFunctionData('setAddr(bytes32,address)', [
+                  namehash,
+                  record
+                ])
               case 1:
                 if (!record || parseInt(record, 16) === 0) return undefined
-                const encodedContenthash = record
                 return resolver.encodeFunctionData('setContenthash', [
                   namehash,
-                  encodedContenthash
+                  record
                 ])
               case 2:
                 return record.map(textRecord => {
@@ -905,10 +866,7 @@ const resolvers = {
           address: resolver,
           provider
         })
-        const contentHash = await resolverInstanceWithoutSigner.contenthash(
-          namehash
-        )
-        return contentHash
+        return await resolverInstanceWithoutSigner.contenthash(namehash)
       }
 
       async function getAllRecords(name, isOldContentResolver) {

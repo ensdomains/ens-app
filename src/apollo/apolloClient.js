@@ -58,7 +58,7 @@ function fromPromise(promise, operation) {
   })
 }
 
-export function setupClient(network) {
+export function setupClient() {
   const httpLink = new HttpLink({
     uri: () => getGraphQLAPI()
   })

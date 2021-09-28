@@ -138,7 +138,7 @@ const OwnerFields = styled('div')`
   margin-bottom: ${props => (props.outOfSync ? '1.5em' : '0')};
 `
 
-const DomainOwnerAddress = styled(`span`)`
+const DomainOwnerAddress = styled('span')`
   color: ${props => (props.outOfSync ? '#CACACA' : '')};
 `
 

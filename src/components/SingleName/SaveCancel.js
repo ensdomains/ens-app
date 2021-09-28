@@ -129,7 +129,7 @@ export const SaveCancel = React.forwardRef(
       <SaveCancelContainer className={className} ref={ref}>
         {warningMessage ? <Warning>{warningMessage}</Warning> : null}
         <Cancel data-testid="cancel" type="hollow" onClick={stopEditing}>
-          {t(`c.cancel`)}
+          {t('c.cancel')}
         </Cancel>
         <ActionButton
           disabled={disabled}

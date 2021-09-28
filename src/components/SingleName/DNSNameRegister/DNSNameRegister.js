@@ -88,7 +88,7 @@ const Number = ({ number, currentNumber, text }) => {
     <>
       <NumberContainer>
         <svg width="12px" height="12px" viewBox="0 0 12 12" version="1.1">
-          <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+          <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
             <g transform="translate(-694.000000, -314.000000)">
               <g transform="translate(404.000000, 183.000000)">
                 <g transform="translate(37.000000, 119.000000)">
@@ -96,10 +96,10 @@ const Number = ({ number, currentNumber, text }) => {
                     <g transform="translate(0.000000, 2.000000)">
                       <circle fill={color} cx="6" cy="7" r="6" />
                       <text
-                        font-family="Helvetica"
-                        font-size="10"
-                        font-weight="normal"
-                        letter-spacing="0.3125"
+                        fontFamily="Helvetica"
+                        fontSize="10"
+                        fontWeight="normal"
+                        letterSpacing="0.3125"
                         fill="#F0F6FA"
                       >
                         <tspan x="2.8" y="10">

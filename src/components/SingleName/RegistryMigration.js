@@ -67,7 +67,7 @@ export default function RegistryMigration({
   // isContractController query takes a while which causes CI to fail.
   // Make it migratable while isContractController is undefined
   // and make it un migratable only if it ended up being smart contract.
-  if (!!isContractController) {
+  if (isContractController) {
     canMigrate = false
   } else {
     canMigrate =

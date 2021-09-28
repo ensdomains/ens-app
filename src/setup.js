@@ -1,5 +1,4 @@
-import StackdriverErrorReporter from 'stackdriver-errors-js'
-import { getAccounts, getNetwork, getNetworkId, utils } from '@ensdomains/ui'
+import { getAccounts, getNetwork, getNetworkId } from '@ensdomains/ui'
 
 import { isReadOnly } from '@ensdomains/ui/src/web3'
 
@@ -17,8 +16,8 @@ import {
   web3ProviderReactive
 } from './apollo/reactiveVars'
 import { setup as setupAnalytics } from './utils/analytics'
-import { safeInfo } from './utils/safeApps'
 import { getReverseRecord } from './apollo/sideEffects'
+import { setupSafeApp } from './utils/safeApps'
 
 export const setFavourites = () => {
   favouritesReactive(
@@ -119,22 +118,17 @@ export default async reconnect => {
     if (!provider) throw 'Please install a wallet'
 
     networkIdReactive(await getNetworkId())
-    await setWeb3Provider(provider)
     networkReactive(await getNetwork())
 
+    await setWeb3Provider(provider)
+
     if (accountsReactive?.[0]) {
-      reverseRecordReactive(await getReverseRecord(address))
+      reverseRecordReactive(await getReverseRecord(accountsReactive?.[0]))
     }
 
-    console.log('isReadOnly: ', isReadOnly())
     isReadOnlyReactive(isReadOnly())
 
     setupAnalytics()
-    const errorHandler = new StackdriverErrorReporter()
-    errorHandler.start({
-      key: 'AIzaSyDW3loXBr_2e-Q2f8ZXdD0UAvMzaodBBNg',
-      projectId: 'idyllic-ethos-235310'
-    })
 
     isAppReadyReactive(true)
   } catch (e) {

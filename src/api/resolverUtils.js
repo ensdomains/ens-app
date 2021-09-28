@@ -1,8 +1,6 @@
-import getClient from '../apollo/apolloClient'
 import { transactionHistoryReactive } from '../apollo/reactiveVars'
 
 async function addTransaction({ txHash, txState }) {
-  const client = getClient()
   const newTransaction = {
     txHash,
     txState,
@@ -34,7 +32,7 @@ async function addTransaction({ txHash, txState }) {
 }
 
 export async function sendHelper(txObj) {
-  return new Promise(async (resolve, reject) => {
+  return new Promise(async resolve => {
     resolve(txObj.hash)
     let txState = 'Pending'
     addTransaction({ txHash: txObj.hash, txState })

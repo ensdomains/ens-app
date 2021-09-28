@@ -35,7 +35,7 @@ const Loading = styled('span')`
   color: #adbbcd;
 `
 
-const Warning = styled(`div`)`
+const Warning = styled('div')`
   color: #f5a623;
 `
 

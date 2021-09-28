@@ -2,7 +2,7 @@ import { normalize } from 'eth-ens-namehash'
 
 import { emptyAddress } from '../../utils/utils'
 import getENS from '../../apollo/mutations/ens'
-import { isENSReady } from '../../apollo/reactiveVars'
+import { isENSReadyReactive } from '../../apollo/reactiveVars'
 
 export default async (_, { address }) => {
   let name = emptyAddress
@@ -14,7 +14,7 @@ export default async (_, { address }) => {
     match: false,
     __typename: 'ReverseRecord'
   }
-  if (!address || !isENSReady()) return obj
+  if (!address || !isENSReadyReactive()) return obj
 
   try {
     const { name: reverseName } = await ens.getName(address)

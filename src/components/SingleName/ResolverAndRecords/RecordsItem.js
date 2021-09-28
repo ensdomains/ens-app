@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled/macro'
-//import { Mutation } from 'react-apollo'
 import { useMutation } from '@apollo/client'
 import { useTranslation } from 'react-i18next'
 import DefaultAddressInput from '@ensdomains/react-ens-address'
@@ -178,7 +177,7 @@ const Uploadable = ({ startUploading, keyName, value }) => {
       <SecondaryAction>
         <StyledUpload
           onClick={startUploading}
-          data-testid={`edit-upload-temporal`}
+          data-testid={'edit-upload-temporal'}
         />
       </SecondaryAction>
     )
@@ -416,8 +415,8 @@ const RecordItemEditable = ({
   )
 }
 
-function RecordItemViewOnly({ keyName, value, type, domain, account }) {
-  const { name, contentType } = domain
+function RecordItemViewOnly({ keyName, value, type, domain }) {
+  const { contentType } = domain
   const { t } = useTranslation()
   return keyName !== 'Address' && contentType === 'error' ? (
     ''

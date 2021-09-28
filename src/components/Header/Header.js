@@ -75,7 +75,7 @@ const Logo = styled(DefaultLogo)`
       ? `
     opacity: 0;
   `
-      : ``}
+      : ''}
 
   ${mq.medium`
     opacity: 1;
@@ -118,6 +118,7 @@ function HeaderContainer() {
               <a
                 target="_blank"
                 href="https://en.wikipedia.org/wiki/IDN_homograph_attack"
+                rel="noreferrer"
               >
                 {t('warnings.homoglyph.link')}
               </a>
