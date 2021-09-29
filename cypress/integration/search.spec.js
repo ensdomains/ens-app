@@ -50,11 +50,9 @@ describe(
     it('can not search names with invalid format', () => {
       cy.visit(ROOT)
       cy.getByPlaceholderText('Search', { exact: false }).type('abc defg')
-      cy.wait(500)
-      cy.get('button')
-        .contains('Search')
-        .click({ force: true })
-
+      cy.wait(10000)
+      cy.getByTestId('home-search-button').click({ force: true })
+      cy.wait(10000)
       cy.queryByText('Domain malformed. abc defg is not a valid domain.', {
         exact: false
       }).should('exist')
@@ -77,11 +75,11 @@ describe(
       cy.getByPlaceholderText('Search', { exact: false }).type(
         'notldispsecified'
       )
-      cy.wait(500)
+      cy.wait(10000)
       cy.get('button')
         .contains('Search')
         .click({ force: true })
-      cy.wait(1500)
+      cy.wait(10000)
       cy.queryByText('Names', { exact: false }).should('exist')
       cy.queryByText('notldispsecified.eth', { exact: false }).should('exist')
     })

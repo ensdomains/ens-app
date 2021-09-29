@@ -174,7 +174,7 @@ const ContentHashEditable = ({
     <>
       <RecordsItem editing={editing} hasRecord={true}>
         <RecordsContent editing={editing}>
-          <RecordsKey>{t(`c.Content`)}</RecordsKey>
+          <RecordsKey>{t('c.Content')}</RecordsKey>
 
           {!editing && (
             <RecordsValue editableSmall>

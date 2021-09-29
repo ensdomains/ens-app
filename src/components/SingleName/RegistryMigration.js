@@ -1,5 +1,5 @@
 import React from 'react'
-import { useMutation, useQuery } from 'react-apollo'
+import { useMutation, useQuery } from '@apollo/client'
 import { useTranslation, Trans } from 'react-i18next'
 
 import { MIGRATE_REGISTRY } from 'graphql/mutations'
@@ -67,7 +67,7 @@ export default function RegistryMigration({
   // isContractController query takes a while which causes CI to fail.
   // Make it migratable while isContractController is undefined
   // and make it un migratable only if it ended up being smart contract.
-  if (!!isContractController) {
+  if (isContractController) {
     canMigrate = false
   } else {
     canMigrate =
@@ -89,6 +89,7 @@ export default function RegistryMigration({
     />
   )
   const dnssecMigrateMessage = t('registrymigration.messages.dnssec')
+
   return (
     <WarningBox>
       <WarningContent>

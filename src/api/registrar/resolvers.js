@@ -1,6 +1,6 @@
 import { isShortName } from '../../utils/utils'
 
-import getENS, { getRegistrar } from 'api/ens'
+import getENS, { getRegistrar } from 'apollo/mutations/ens'
 
 import modeNames from '../modes'
 import { sendHelper } from '../resolverUtils'
@@ -9,19 +9,19 @@ const defaults = {}
 
 const resolvers = {
   Query: {
-    async getRentPrice(_, { label, duration }, { cache }) {
+    async getRentPrice(_, { label, duration }) {
       const registrar = getRegistrar()
       return registrar.getRentPrice(label, duration)
     },
-    async getRentPrices(_, { labels, duration }, { cache }) {
+    async getRentPrices(_, { labels, duration }) {
       const registrar = getRegistrar()
-      return registrar.getRentPrices(labels, duration)
+      return labels.length && registrar.getRentPrices(labels, duration)
     },
-    async getPremium(_, { name, expires, duration }, { cache }) {
+    async getPremium(_, { name, expires, duration }) {
       const registrar = getRegistrar()
       return registrar.getPremium(name, expires, duration)
     },
-    async getTimeUntilPremium(_, { expires, amount }, { cache }) {
+    async getTimeUntilPremium(_, { expires, amount }) {
       const registrar = getRegistrar()
       return registrar.getTimeUntilPremium(expires, amount)
     },
@@ -44,11 +44,7 @@ const resolvers = {
         console.log(e)
       }
     },
-    async checkCommitment(
-      _,
-      { label, secret, commitmentTimerRunning },
-      { cache }
-    ) {
+    async checkCommitment(_, { label, secret }) {
       try {
         const registrar = getRegistrar()
         const commitment = await registrar.checkCommitment(label, secret)
@@ -59,7 +55,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    async commit(_, { label, secret }, { cache }) {
+    async commit(_, { label, secret }) {
       const registrar = getRegistrar()
       const tx = await registrar.commit(label, secret)
       return sendHelper(tx)
@@ -80,7 +76,7 @@ const resolvers = {
       const tx = await registrar.renew(label, duration)
       return sendHelper(tx)
     },
-    async getDomainAvailability(_, { name }, { cache }) {
+    async getDomainAvailability(_, { name }) {
       const registrar = getRegistrar()
       const ens = getENS()
       try {

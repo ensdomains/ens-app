@@ -38,12 +38,12 @@ const mine = util.promisify(function(web3, done) {
 async function init() {
   let provider = new Web3.providers.HttpProvider('http://localhost:8545')
   let { web3 } = await setupWeb3(provider)
-  let current = await web3.eth.getBlock('latest');
+  let current = await web3.eth.getBlock('latest')
   console.log(`The current time is ${new Date(current.timestamp * 1000)}`)
 
   await advanceTime(web3, DAYS * 365)
   await mine(web3)
-  current = await web3.eth.getBlock('latest');
+  current = await web3.eth.getBlock('latest')
   console.log(`The current time is ${new Date(current.timestamp * 1000)}`)
 }
 

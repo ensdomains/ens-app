@@ -39,7 +39,7 @@ const RecordsTitle = styled('h3')`
 `
 
 function isArt(name) {
-  return !!name.match(/\.art$/)
+  return !!name?.match(/\.art$/)
 }
 
 function getArtRecordLabel(key) {

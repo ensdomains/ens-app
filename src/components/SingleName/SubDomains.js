@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
-import { Query } from 'react-apollo'
+import { Query } from '@apollo/client/react/components'
 import {
   GET_SUBDOMAINS_FROM_SUBGRAPH,
   GET_SUBDOMAINS

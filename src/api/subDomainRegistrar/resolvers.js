@@ -1,20 +1,14 @@
 import { queryAll } from '../subDomainRegistrar'
 import { fromWei } from 'ethjs-unit'
-import getENS from 'api/ens'
+import getENS from 'apollo/mutations/ens'
 
 const defaults = {
   subDomainState: []
 }
 
 const resolvers = {
-  Mutation: {
-    async getSubDomainAvailability(_, { name }, { cache }) {
-      //clear old search results
-      cache.writeData({
-        data: {
-          subDomainState: []
-        }
-      })
+  Query: {
+    async getSubDomainAvailability(_, { name }) {
       const nodes = await queryAll(name)
       const cachedNodes = []
 
@@ -38,12 +32,6 @@ const resolvers = {
             }
 
             cachedNodes.push(newNode)
-
-            const data = {
-              subDomainState: [...cachedNodes]
-            }
-
-            cache.writeData({ data })
           })
           .catch(e => console.log('ERROR in subdomain results', e))
       )
