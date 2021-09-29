@@ -83,7 +83,7 @@ const Dropzone = props => {
           webkitdirectory="webkitdirectory"
           multiple="multiple"
           ref={folderInputRef}
-          style={{ display: `none` }}
+          style={{ display: 'none' }}
           onChange={onFilesAdded}
         />
       </FileUpload>
@@ -95,7 +95,7 @@ const Dropzone = props => {
         <input
           type="file"
           ref={fileInputRef}
-          style={{ display: `none` }}
+          style={{ display: 'none' }}
           onChange={onFilesAdded}
         />
       </FileUpload>

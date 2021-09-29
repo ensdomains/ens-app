@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { useMutation } from 'react-apollo'
+import { useMutation, useQuery } from '@apollo/client'
 import styled from '@emotion/styled/macro'
 import isEqual from 'lodash/isEqual'
 import differenceWith from 'lodash/differenceWith'
-import { useQuery } from 'react-apollo'
 import { useTranslation } from 'react-i18next'
 import { throttle } from 'lodash'
+import gql from 'graphql-tag'
 
 import { getNamehash, emptyAddress } from '@ensdomains/ui'
 import { useEditable } from '../../hooks'
@@ -162,7 +162,8 @@ const useGetRecords = domain => {
     GET_ADDRESSES,
     {
       variables: { name: domain.name, keys: coinList },
-      skip: !coinList
+      skip: !coinList,
+      fetchPolicy: 'network-only'
     }
   )
 
@@ -173,7 +174,8 @@ const useGetRecords = domain => {
         name: domain.name,
         keys: resolver && resolver.texts
       },
-      skip: !dataResolver
+      skip: !dataResolver,
+      fetchPolicy: 'network-only'
     }
   )
 
@@ -356,6 +358,25 @@ const useChangedValidRecords = (
   }, [updatedRecords, recordsLoading, initialRecords])
 }
 
+const RECORDS_QUERY = gql`
+  query recordsQuery @client {
+    accounts
+    isReadOnly
+  }
+`
+
+export const useResetFormOnAccountChange = (
+  account,
+  initialRecords,
+  setUpdatedRecords,
+  stopEditing
+) => {
+  useEffect(() => {
+    setUpdatedRecords(initialRecords)
+    stopEditing()
+  }, [account])
+}
+
 export default function Records({
   domain,
   isOwner,
@@ -365,6 +386,10 @@ export default function Records({
   needsToBeMigrated
 }) {
   const { t } = useTranslation()
+  const {
+    data: { accounts, isReadOnly }
+  } = useQuery(RECORDS_QUERY)
+
   const [addMultiRecords] = useMutation(ADD_MULTI_RECORDS, {
     onCompleted: data => {
       startPending(Object.values(data)[0])
@@ -400,6 +425,12 @@ export default function Records({
     initialRecords,
     updatedRecords
   )
+  useResetFormOnAccountChange(
+    accounts?.[0],
+    initialRecords,
+    setUpdatedRecords,
+    stopEditing
+  )
 
   const shouldShowRecords = calculateShouldShowRecords(
     isOwner,
@@ -411,7 +442,7 @@ export default function Records({
   }
 
   const canEditRecords =
-    !isOldPublicResolver && !isDeprecatedResolver && isOwner
+    !isOldPublicResolver && !isDeprecatedResolver && isOwner && !isReadOnly
 
   return (
     <RecordsWrapper

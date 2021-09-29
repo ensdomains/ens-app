@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import styled from '@emotion/styled/macro'
 import moment from 'moment'
 import { css } from 'emotion'
 import { useHistory } from 'react-router-dom'
-import { Mutation } from 'react-apollo'
+import { Mutation } from '@apollo/client/react/components'
 import { useTranslation } from 'react-i18next'
 import EthVal from 'ethval'
 
@@ -53,10 +53,8 @@ function getCTA({
   hasSufficientBalance,
   txHash,
   setTxHash,
-  setTimerRunning,
   setCommitmentTimerRunning,
   commitmentTimerRunning,
-  setBlockCreatedAt,
   isAboveMinDuration,
   refetch,
   refetchIsMigrated,
@@ -105,7 +103,7 @@ function getCTA({
               border={true}
               offset={{ left: -30, top: 10 }}
             >
-              {({ tooltipElement, showTooltip, hideTooltip }) => {
+              {({ showTooltip, hideTooltip }) => {
                 return (
                   <Button
                     data-testid="request-register-button"
@@ -218,7 +216,7 @@ function getCTA({
         </LeftLink>
         <Button
           onClick={async () => {
-            await Promise.all([refetch(), refetchIsMigrated()])
+            await Promise.all([refetchIsMigrated()])
             history.push(`/address/${account}`)
           }}
         >
@@ -255,6 +253,15 @@ const CTA = ({
   const history = useHistory()
   const account = useAccount()
   const [txHash, setTxHash] = useState(undefined)
+
+  useEffect(() => {
+    return () => {
+      if (step === 'REVEAL_CONFIRMED') {
+        refetch()
+      }
+    }
+  }, [step])
+
   return (
     <CTAContainer>
       {getCTA({

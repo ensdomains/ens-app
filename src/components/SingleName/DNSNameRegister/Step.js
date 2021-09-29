@@ -70,7 +70,7 @@ const Step = ({ number, text, title, progress = 100 }) => (
           cx="30"
           cy="30"
           r="28"
-          stroke-width="2"
+          strokeWidth="2"
           stroke="#42E068"
           fill="none"
           className="progress"

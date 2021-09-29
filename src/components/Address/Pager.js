@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import getClient from '../../apolloClient'
+import getClient from '../../apollo/apolloClient'
 import styled from '@emotion/styled/macro'
 import { Link } from 'react-router-dom'
 import mq from 'mediaQuery'

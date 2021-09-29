@@ -14,7 +14,7 @@ const Input = styled(DefaultInput)`
     }
     
   `
-      : ``}
+      : ''}
 `
 
 const RecordInput = ({

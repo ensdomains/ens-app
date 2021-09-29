@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from '@emotion/styled/macro'
-import { Query } from 'react-apollo'
+import { Query } from '@apollo/client/react/components'
 import DomainItem from '../components/DomainItem/DomainItem'
 import { getNamehash } from '@ensdomains/ui'
-import { useQuery } from 'react-apollo'
+import { useQuery } from '@apollo/client'
+import gql from 'graphql-tag'
+
 import {
   GET_FAVOURITES,
   GET_SUBDOMAIN_FAVOURITES,
@@ -92,18 +94,41 @@ function getDomainState(owner, available) {
   return parseInt(owner, 16) === 0 ? 'Open' : 'Owned'
 }
 
+const RESET_STATE_QUERY = gql`
+  query resetStateQuery @client {
+    networkId
+  }
+`
+export const useResetState = (setYears, setCheckedBoxes, setSelectAll) => {
+  const {
+    data: { networkId }
+  } = useQuery(RESET_STATE_QUERY)
+  useEffect(() => {
+    setYears(1)
+    setCheckedBoxes({})
+    setSelectAll(null)
+  }, [networkId])
+}
+
 function Favourites() {
   const { t } = useTranslation()
+  useEffect(() => {
+    document.title = 'ENS Favourites'
+  }, [])
+
   let [years, setYears] = useState(1)
   let [checkedBoxes, setCheckedBoxes] = useState({})
   const [selectAll, setSelectAll] = useState(false)
 
-  useEffect(() => {
-    document.title = 'ENS Favourites'
-  }, [])
+  useResetState(setYears, setCheckedBoxes, setSelectAll)
+
   const { data: { favourites: favouritesWithUnnormalised } = [] } = useQuery(
     GET_FAVOURITES
   )
+  useEffect(() => {
+    document.title = 'ENS Favourites'
+  }, [])
+
   const { data: { subDomainFavourites } = [] } = useQuery(
     GET_SUBDOMAIN_FAVOURITES
   )
@@ -112,7 +137,12 @@ function Favourites() {
   const { data: { registrations } = [], refetch } = useQuery(
     GET_REGISTRATIONS_BY_IDS_SUBGRAPH,
     {
-      variables: { ids }
+      variables: { ids },
+      fetchPolicy: 'no-cache',
+      nextFetchPolicy: 'no-cache',
+      context: {
+        queryDeduplication: false
+      }
     }
   )
 

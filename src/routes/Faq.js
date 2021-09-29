@@ -24,7 +24,7 @@ const Question = styled('h3')`
 
 const Answer = styled('p')``
 
-const AnchorContainer = styled(`a`)``
+const AnchorContainer = styled('a')``
 
 const ImageContainer = styled('div')`
   margin: 2em;

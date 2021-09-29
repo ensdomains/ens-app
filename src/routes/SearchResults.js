@@ -1,114 +1,62 @@
-import React from 'react'
-import { Mutation } from 'react-apollo'
+import React, { useState, useEffect } from 'react'
+import { useQuery } from '@apollo/client'
 import gql from 'graphql-tag'
 import { Trans } from 'react-i18next'
 
 import { H2 } from '../components/Typography/Basic'
 import DomainInfo from '../components/SearchName/DomainInfo'
-import { SubDomainStateFields } from '../graphql/fragments'
 import { validateName, parseSearchTerm } from '../utils/utils'
 import SearchErrors from '../components/SearchErrors/SearchErrors'
 import { useHistory } from 'react-router-dom'
 
-const GET_SUBDOMAIN_AVAILABILITY = gql`
-  mutation getSubDomainAvailability($name: String) {
-    getSubDomainAvailability(name: $name) @client {
-      ...SubDomainStateFields
-    }
+const RESULTS_CONTAINER = gql`
+  query getResultsContainer {
+    isENSReady @client
   }
-
-  ${SubDomainStateFields}
 `
 
-class Results extends React.Component {
-  state = {
-    errors: [],
-    errorType: '',
-    parsed: null
-  }
-  checkValidity = async () => {
-    const { searchTerm: _searchTerm } = this.props
-    let parsed, searchTerm
-    this.setState({
-      errors: []
-    })
-    if (_searchTerm.split('.').length === 1) {
-      searchTerm = _searchTerm + '.eth'
-    } else {
-      searchTerm = _searchTerm
-    }
-    const type = await parseSearchTerm(searchTerm)
-    if (!['unsupported', 'invalid', 'short'].includes(type)) {
-      parsed = validateName(searchTerm)
-      this.setState({
-        parsed
-      })
-    }
-    document.title = `ENS Search: ${searchTerm}`
+const useCheckValidity = (_searchTerm, isENSReady) => {
+  const [errors, setErrors] = useState([])
+  const [parsed, setParsed] = useState(null)
 
-    if (type === 'unsupported') {
-      this.setState({
-        errors: ['unsupported']
-      })
-    } else if (type === 'short') {
-      this.setState({
-        errors: ['tooShort']
-      })
-    } else if (type === 'invalid') {
-      this.setState({
-        errors: ['domainMalformed']
-      })
-    } else {
-      //getSubDomainAvailability({ variables: { name: searchTerm } })
-    }
-  }
-  async componentDidMount() {
-    await this.checkValidity()
-  }
+  useEffect(() => {
+    const checkValidity = async () => {
+      let _parsed, searchTerm
+      setErrors([])
 
-  async componentDidUpdate(prevProps) {
-    if (prevProps.searchTerm !== this.props.searchTerm) {
-      await this.checkValidity()
+      if (_searchTerm.split('.').length === 1) {
+        searchTerm = _searchTerm + '.eth'
+      } else {
+        searchTerm = _searchTerm
+      }
+
+      const type = await parseSearchTerm(searchTerm)
+      if (!['unsupported', 'invalid', 'short'].includes(type)) {
+        _parsed = validateName(searchTerm)
+        setParsed(_parsed)
+      }
+      document.title = `ENS Search: ${searchTerm}`
+
+      if (type === 'unsupported') {
+        setErrors(['unsupported'])
+      } else if (type === 'short') {
+        setErrors(['tooShort'])
+      } else if (type === 'invalid') {
+        setErrors(['domainMalformed'])
+      }
     }
-  }
-  render() {
-    const { searchTerm } = this.props
-    if (this.state.errors[0] === 'tooShort') {
-      return (
-        <>
-          <SearchErrors
-            errors={this.state.errors}
-            searchTerm={this.props.searchTerm}
-          />
-          {console.log('IN RESULTS', searchTerm)}
-          {/* <SubDomainResults searchTerm={searchTerm} /> */}
-        </>
-      )
-    } else if (this.state.errors.length > 0) {
-      return (
-        <SearchErrors
-          errors={this.state.errors}
-          searchTerm={this.props.searchTerm}
-        />
-      )
+    if (isENSReady) {
+      checkValidity()
     }
-    if (this.state.parsed) {
-      return (
-        <>
-          <H2>
-            <Trans i18nKey="singleName.search.title">Names</Trans>
-          </H2>
-          <DomainInfo searchTerm={this.state.parsed} />
-          {/* <SubDomainResults searchTerm={searchTerm} /> */}
-        </>
-      )
-    } else {
-      return ''
-    }
-  }
+  }, [_searchTerm, isENSReady])
+
+  return { errors, parsed }
 }
 
 const ResultsContainer = ({ searchDomain, match }) => {
+  const {
+    data: { isENSReady }
+  } = useQuery(RESULTS_CONTAINER)
   const searchTerm = match.params.searchTerm
   const history = useHistory()
   const lowered = searchTerm.toLowerCase()
@@ -116,20 +64,33 @@ const ResultsContainer = ({ searchDomain, match }) => {
     history.push(`/search/${lowered}`)
   }
 
-  return (
-    <Mutation
-      mutation={GET_SUBDOMAIN_AVAILABILITY}
-      refetchQueries={['getSubDomainState']}
-    >
-      {getSubDomainAvailability => (
-        <Results
-          searchTerm={searchTerm}
-          getSubDomainAvailability={getSubDomainAvailability}
-          searchDomain={searchDomain}
-        />
-      )}
-    </Mutation>
-  )
+  const { errors, parsed } = useCheckValidity(searchTerm, isENSReady)
+
+  if (!isENSReady) {
+    return <div>Loading</div>
+  }
+
+  if (errors[0] === 'tooShort') {
+    return (
+      <>
+        <SearchErrors errors={errors} searchTerm={searchTerm} />
+      </>
+    )
+  } else if (errors.length > 0) {
+    return <SearchErrors errors={errors} searchTerm={searchTerm} />
+  }
+  if (parsed) {
+    return (
+      <>
+        <H2>
+          <Trans i18nKey="singleName.search.title">Names</Trans>
+        </H2>
+        <DomainInfo searchTerm={parsed} />
+      </>
+    )
+  } else {
+    return ''
+  }
 }
 
 export default ResultsContainer

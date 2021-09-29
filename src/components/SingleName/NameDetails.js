@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { useQuery } from 'react-apollo'
+import { useQuery } from '@apollo/client'
 import { useTranslation, Trans } from 'react-i18next'
 import styled from '@emotion/styled'
-import { Link, Route } from 'react-router-dom'
+import { Link, Route, Redirect } from 'react-router-dom'
 import mq from 'mediaQuery'
 
 import {
@@ -138,7 +138,7 @@ const OwnerFields = styled('div')`
   margin-bottom: ${props => (props.outOfSync ? '1.5em' : '0')};
 `
 
-const DomainOwnerAddress = styled(`span`)`
+const DomainOwnerAddress = styled('span')`
   color: ${props => (props.outOfSync ? '#CACACA' : '')};
 `
 
@@ -182,7 +182,7 @@ const GracePeriodWarning = ({ date, expiryTime }) => {
 }
 
 function canClaim(domain) {
-  if (!domain.name.match(/\.test$/)) return false
+  if (!domain.name?.match(/\.test$/)) return false
   return parseInt(domain.owner) === 0 || domain.expiryTime < new Date()
 }
 
@@ -216,7 +216,7 @@ function DetailsContainer({
   const domainParent =
     domain.name === '[root]' ? null : domain.parent ? domain.parent : '[root]'
 
-  const is2ld = domain.name.split('.').length === 2
+  const is2ld = domain.name?.split('.').length === 2
   const showUnclaimableWarning =
     is2ld &&
     parseInt(domain.owner) === 0 &&
@@ -565,6 +565,7 @@ function DetailsContainer({
     </Details>
   )
 }
+
 function NameDetails({
   domain,
   isOwner,
@@ -618,66 +619,16 @@ function NameDetails({
   const isAnAbsolutePath = pathname.split('/').length > 3
 
   if (domain.parent === 'eth' && tab === 'register' && !isAnAbsolutePath) {
-    return (
-      <NameRegister
-        registrationOpen={registrationOpen}
-        domain={domain}
-        refetch={refetch}
-        refetchIsMigrated={refetchIsMigrated}
-        readOnly={isEmptyAddress(account)}
-      />
-    )
+    return <Redirect to={`${pathname}/register`} />
   } else if (
     domain.parent === 'eth' &&
     tab === 'details' &&
     !isAnAbsolutePath
   ) {
-    return (
-      <DetailsContainer
-        isMigratedToNewRegistry={isMigratedToNewRegistry}
-        loadingIsMigrated={loadingIsMigrated}
-        refetchIsMigrated={refetchIsMigrated}
-        isParentMigratedToNewRegistry={isParentMigratedToNewRegistry}
-        loadingIsParentMigrated={loadingIsParentMigrated}
-        isDeedOwner={isDeedOwner}
-        isRegistrant={isRegistrant}
-        showExplainer={showExplainer}
-        canSubmit={canSubmit}
-        outOfSync={outOfSync}
-        loading={loading}
-        setLoading={setLoading}
-        isOwnerOfParent={isOwnerOfParent}
-        isOwner={isOwner}
-        refetch={refetch}
-        domain={domain}
-        dnssecmode={dnssecmode}
-        account={account}
-      />
-    )
+    return <Redirect to={`${pathname}/details`} />
   } else if (domain.parent !== 'eth' && !isAnAbsolutePath) {
     //subdomain or dns
-    return (
-      <DetailsContainer
-        isMigratedToNewRegistry={isMigratedToNewRegistry}
-        loadingIsMigrated={loadingIsMigrated}
-        refetchIsMigrated={refetchIsMigrated}
-        isParentMigratedToNewRegistry={isParentMigratedToNewRegistry}
-        loadingIsParentMigrated={loadingIsParentMigrated}
-        isDeedOwner={isDeedOwner}
-        isRegistrant={isRegistrant}
-        showExplainer={showExplainer}
-        canSubmit={canSubmit}
-        outOfSync={outOfSync}
-        loading={loading}
-        setLoading={setLoading}
-        isOwnerOfParent={isOwnerOfParent}
-        isOwner={isOwner}
-        refetch={refetch}
-        domain={domain}
-        dnssecmode={dnssecmode}
-        account={account}
-      />
-    )
+    return <Redirect to={`${pathname}/subdomains`} />
   }
 
   return (
@@ -703,6 +654,7 @@ function NameDetails({
               domain={domain}
               dnssecmode={dnssecmode}
               account={account}
+              refetchIsMigrated={refetchIsMigrated}
             />
           )
         }}

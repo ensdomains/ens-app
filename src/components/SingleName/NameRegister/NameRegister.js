@@ -1,8 +1,10 @@
-import React, { useState, useReducer } from 'react'
+import React, { useState, useReducer, useEffect } from 'react'
 import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
-import { Query, useQuery } from 'react-apollo'
+import { useQuery } from '@apollo/client'
 import moment from 'moment'
+import gql from 'graphql-tag'
+
 import {
   CHECK_COMMITMENT,
   GET_MINIMUM_COMMITMENT_AGE,
@@ -19,7 +21,6 @@ import {
 } from 'components/hooks'
 import { useAccount } from '../../QueryAccount'
 import { registerMachine, registerReducer } from './registerReducer'
-import { sendNotification } from './notification'
 import { calculateDuration, yearInSeconds } from 'utils/dates'
 
 import Loader from 'components/Loader'
@@ -32,6 +33,7 @@ import LineGraph from './LineGraph'
 import Premium from './Premium'
 import ProgressRecorder from './ProgressRecorder'
 import useNetworkInfo from '../../NetworkInformation/useNetworkInfo'
+import { sendNotification } from './notification'
 
 const NameRegisterContainer = styled('div')`
   padding: 20px 40px;
@@ -65,7 +67,6 @@ const NameRegister = ({
   const [years, setYears] = useState(false)
   const [secondsPassed, setSecondsPassed] = useState(0)
   const [timerRunning, setTimerRunning] = useState(false)
-  const [optimizeTimerRunning, setOptimizeTimerRunning] = useState(true)
   const [commitmentTimerRunning, setCommitmentTimerRunning] = useState(false)
   const [blockCreatedAt, setBlockCreatedAt] = useState(null)
   const [waitUntil, setWaitUntil] = useState(null)
@@ -81,15 +82,20 @@ const NameRegister = ({
   const { data: { waitBlockTimestamp } = {} } = useQuery(WAIT_BLOCK_TIMESTAMP, {
     variables: {
       waitUntil
-    }
+    },
+    fetchPolicy: 'no-cache'
   })
   const account = useAccount()
   const { data: { getBalance } = {} } = useQuery(GET_BALANCE, {
-    variables: { address: account }
+    variables: { address: account },
+    fetchPolicy: 'no-cache'
   })
 
   const { data: { getMaximumCommitmentAge } = {} } = useQuery(
-    GET_MAXIMUM_COMMITMENT_AGE
+    GET_MAXIMUM_COMMITMENT_AGE,
+    {
+      fetchPolicy: 'no-cache'
+    }
   )
   if (block) {
     now = moment(block.timestamp * 1000)
@@ -107,38 +113,11 @@ const NameRegister = ({
         secret,
         // Add this varialbe so that it keeps polling only during the timer is on
         commitmentTimerRunning
-      }
+      },
+      fetchPolicy: 'no-cache'
     }
   )
   let i = 0
-  // TODO: Should move this to ProgressRecorder
-  // useInterval(
-  //   () => {
-  //     // A B testing number of years via https://optimize.google.com
-  //     // Original = 90 % weight = 1 year
-  //     // 1        =  5 % weight = 0 year
-  //     // 2        =  5 % weight = 5 year2
-
-  //     let google_optimize = window.google_optimize?.get(
-  //       'wDWM_d4iSx6na454HBL9qw'
-  //     )
-  //     console.log('A B testing number of years', {
-  //       google_optimize,
-  //       i
-  //     })
-  //     // Timeout if the optimizer is not loaded within 2 sec
-  //     if (google_optimize || i >= 20) {
-  //       if (google_optimize === '1') {
-  //         setYears(0)
-  //       } else if (google_optimize === '2') {
-  //         setYears(5)
-  //       }
-  //       setOptimizeTimerRunning(false)
-  //     }
-  //     i++
-  //   },
-  //   optimizeTimerRunning ? 100 : null
-  // )
 
   ProgressRecorder({
     checkCommitment,
@@ -351,18 +330,14 @@ const NameRegister = ({
 }
 
 const NameRegisterDataWrapper = props => {
-  return (
-    <Query query={GET_MINIMUM_COMMITMENT_AGE}>
-      {({ data, loading, error }) => {
-        if (loading) return <Loader withWrap={true} large />
-        if (error) {
-          console.log(error)
-        }
-        const { getMinimumCommitmentAge } = data
-        return <NameRegister waitTime={getMinimumCommitmentAge} {...props} />
-      }}
-    </Query>
-  )
+  const { data, loading, error } = useQuery(GET_MINIMUM_COMMITMENT_AGE)
+
+  if (loading) return <Loader withWrap={true} large />
+  if (error) {
+    console.log(error)
+  }
+  const { getMinimumCommitmentAge } = data
+  return <NameRegister waitTime={getMinimumCommitmentAge} {...props} />
 }
 
 export default NameRegisterDataWrapper

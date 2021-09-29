@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled/macro'
-import { Mutation } from 'react-apollo'
+import { useMutation } from '@apollo/client'
 import { useTranslation } from 'react-i18next'
 import DefaultAddressInput from '@ensdomains/react-ens-address'
 
@@ -11,7 +11,7 @@ import { validateRecord } from 'utils/records'
 import { emptyAddress } from 'utils/utils'
 import mq from 'mediaQuery'
 import { getOldContentWarning } from './warnings'
-import { getEnsAddress } from '../../../api/ens'
+import { getEnsAddress } from '../../../apollo/mutations/ens'
 
 import { DetailsItem, DetailsKey, DetailsValue } from '../DetailsItem'
 import Upload from '../../IPFS/Upload'
@@ -177,7 +177,7 @@ const Uploadable = ({ startUploading, keyName, value }) => {
       <SecondaryAction>
         <StyledUpload
           onClick={startUploading}
-          data-testid={`edit-upload-temporal`}
+          data-testid={'edit-upload-temporal'}
         />
       </SecondaryAction>
     )
@@ -226,208 +226,197 @@ const RecordItemEditable = ({
   })
 
   const isInvalid = newValue !== '' && !isValid
+  const [executeMutation] = useMutation(mutation, {
+    onCompleted: data => {
+      startPending(Object.values(data)[0])
+    }
+  })
 
   return (
     <>
-      <Mutation
-        mutation={mutation}
-        onCompleted={data => {
-          startPending(Object.values(data)[0])
-        }}
-      >
-        {mutation => (
-          <RecordsItem editing={editing} hasRecord={true}>
-            <RecordsContent editing={editing}>
-              <RecordsKey>{t(`c.${keyName}`)}</RecordsKey>
-              <RecordsValue editableSmall>
-                {type === 'address' ? (
-                  <AddressLink address={value}>{value}</AddressLink>
-                ) : (
-                  <ContentHashLink
+      <RecordsItem editing={editing} hasRecord={true}>
+        <RecordsContent editing={editing}>
+          <RecordsKey>{t(`c.${keyName}`)}</RecordsKey>
+          <RecordsValue editableSmall>
+            {type === 'address' ? (
+              <AddressLink address={value}>{value}</AddressLink>
+            ) : (
+              <ContentHashLink
+                value={value}
+                contentType={domain.contentType}
+                domain={domain}
+              />
+            )}
+            <CopyToClipBoard value={value} />
+          </RecordsValue>
+
+          {pending && !confirmed && txHash ? (
+            <PendingTx
+              txHash={txHash}
+              onConfirmed={() => {
+                setConfirmed()
+                refetch()
+              }}
+            />
+          ) : editing || uploading ? (
+            <Action>
+              {() => {
+                const [mutate] = useMutation(
+                  chooseMutation(keyName, domain.contentType),
+                  {
+                    onCompleted: data => {
+                      startPending(Object.values(data)[0])
+                    }
+                  }
+                )
+                return (
+                  <Bin
+                    data-testid={`delete-${type.toLowerCase()}`}
+                    onClick={e => {
+                      e.preventDefault()
+                      mutate({
+                        variables: {
+                          name: domain.name,
+                          recordValue: emptyAddress
+                        }
+                      })
+                    }}
+                  />
+                )
+              }}
+            </Action>
+          ) : (
+            <ActionContainer>
+              {type === 'address' ? (
+                <Actionable
+                  startEditing={startEditing}
+                  keyName={keyName}
+                  value={value}
+                />
+              ) : (
+                <>
+                  <Uploadable
+                    startUploading={startUploading}
+                    keyName={keyName}
                     value={value}
+                  />
+                  <Actionable
+                    startEditing={startEditing}
+                    keyName={keyName}
+                    value={value}
+                  />
+                </>
+              )}
+            </ActionContainer>
+          )}
+        </RecordsContent>
+        {editing ? (
+          <>
+            <EditRecord>
+              {type === 'address' ? (
+                <AddressInput
+                  provider={
+                    window.ethereum || window.web3 || 'http://localhost:8545'
+                  }
+                  onResolve={({ address }) => {
+                    if (address) {
+                      updateValue(address)
+                    } else {
+                      updateValue('')
+                    }
+                  }}
+                  ensAddress={getEnsAddress()}
+                />
+              ) : (
+                <DetailsItemInput
+                  newValue={newValue}
+                  dataType={type}
+                  contentType={domain.contentType}
+                  updateValue={updateValue}
+                  isValid={isValid}
+                  isInvalid={isInvalid}
+                />
+              )}
+            </EditRecord>
+            <SaveCancel
+              warningMessage={getOldContentWarning(type, domain.contentType)}
+              mutation={e => {
+                e.preventDefault()
+                const variables = {
+                  name: domain.name,
+                  [variableName ? variableName : 'recordValue']: newValue
+                }
+                executeMutation({
+                  variables
+                })
+              }}
+              isValid={isValid}
+              stopEditing={stopEditing}
+            />
+          </>
+        ) : uploading && authorized ? (
+          <>
+            <EditRecord>
+              <Upload updateValue={updateValue} newValue={newValue} />
+              {newValue !== '' && (
+                <NewRecordsContainer>
+                  <RecordsKey>New IPFS Hash:</RecordsKey>
+                  <ContentHashLink
+                    value={newValue}
                     contentType={domain.contentType}
                     domain={domain}
                   />
-                )}
-                <CopyToClipBoard value={value} />
-              </RecordsValue>
-
-              {pending && !confirmed && txHash ? (
-                <PendingTx
-                  txHash={txHash}
-                  onConfirmed={() => {
-                    setConfirmed()
-                    refetch()
-                  }}
-                />
-              ) : editing || uploading ? (
-                <Action>
-                  <Mutation
-                    mutation={chooseMutation(keyName, domain.contentType)}
-                    variables={{
-                      name: domain.name,
-                      recordValue: emptyAddress
-                    }}
-                    onCompleted={data => {
-                      startPending(Object.values(data)[0])
-                    }}
-                  >
-                    {mutate => (
-                      <Bin
-                        data-testid={`delete-${type.toLowerCase()}`}
-                        onClick={e => {
-                          e.preventDefault()
-                          mutate()
-                        }}
-                      />
-                    )}
-                  </Mutation>
-                </Action>
-              ) : (
-                <ActionContainer>
-                  {type === 'address' ? (
-                    <Actionable
-                      startEditing={startEditing}
-                      keyName={keyName}
-                      value={value}
-                    />
-                  ) : (
-                    <>
-                      <Uploadable
-                        startUploading={startUploading}
-                        keyName={keyName}
-                        value={value}
-                      />
-                      <Actionable
-                        startEditing={startEditing}
-                        keyName={keyName}
-                        value={value}
-                      />
-                    </>
-                  )}
-                </ActionContainer>
+                </NewRecordsContainer>
               )}
-            </RecordsContent>
-            {editing ? (
-              <>
-                <EditRecord>
-                  {type === 'address' ? (
-                    <AddressInput
-                      provider={
-                        window.ethereum ||
-                        window.web3 ||
-                        'http://localhost:8545'
-                      }
-                      onResolve={({ address }) => {
-                        if (address) {
-                          updateValue(address)
-                        } else {
-                          updateValue('')
-                        }
-                      }}
-                      ensAddress={getEnsAddress()}
-                    />
-                  ) : (
-                    <DetailsItemInput
-                      newValue={newValue}
-                      dataType={type}
-                      contentType={domain.contentType}
-                      updateValue={updateValue}
-                      isValid={isValid}
-                      isInvalid={isInvalid}
-                    />
-                  )}
-                </EditRecord>
-                <SaveCancel
-                  warningMessage={getOldContentWarning(
-                    type,
-                    domain.contentType
-                  )}
-                  mutation={e => {
-                    e.preventDefault()
-                    const variables = {
-                      name: domain.name,
-                      [variableName ? variableName : 'recordValue']: newValue
-                    }
-                    mutation({
-                      variables
-                    })
-                  }}
-                  isValid={isValid}
-                  stopEditing={stopEditing}
-                />
-              </>
-            ) : uploading && authorized ? (
-              <>
-                <EditRecord>
-                  <Upload updateValue={updateValue} newValue={newValue} />
-                  {newValue !== '' && (
-                    <NewRecordsContainer>
-                      <RecordsKey>New IPFS Hash:</RecordsKey>
-                      <ContentHashLink
-                        value={newValue}
-                        contentType={domain.contentType}
-                        domain={domain}
-                      />
-                    </NewRecordsContainer>
-                  )}
-                </EditRecord>
-                <SaveCancelSwitch
-                  warningMessage={getOldContentWarning(
-                    type,
-                    domain.contentType
-                  )}
-                  mutation={e => {
-                    e.preventDefault()
-                    const variables = {
-                      name: domain.name,
-                      [variableName ? variableName : 'recordValue']: newValue
-                    }
-                    mutation({
-                      variables
-                    })
-                  }}
-                  isValid={isValid}
-                  newValue={newValue}
-                  startUploading={startUploading}
-                  stopUploading={stopUploading}
-                  stopAuthorizing={stopAuthorizing}
-                />
-              </>
-            ) : uploading && !authorized ? (
-              <>
-                <IpfsLogin startAuthorizing={startAuthorizing} />
-                <SaveCancel
-                  warningMessage={getOldContentWarning(
-                    type,
-                    domain.contentType
-                  )}
-                  mutation={e => {
-                    e.preventDefault()
-                    const variables = {
-                      name: domain.name,
-                      [variableName ? variableName : 'recordValue']: newValue
-                    }
-                    mutation({
-                      variables
-                    })
-                  }}
-                  isValid={isValid}
-                  stopEditing={stopUploading}
-                />
-              </>
-            ) : (
-              ''
-            )}
-          </RecordsItem>
+            </EditRecord>
+            <SaveCancelSwitch
+              warningMessage={getOldContentWarning(type, domain.contentType)}
+              mutation={e => {
+                e.preventDefault()
+                const variables = {
+                  name: domain.name,
+                  [variableName ? variableName : 'recordValue']: newValue
+                }
+                executeMutation({
+                  variables
+                })
+              }}
+              isValid={isValid}
+              newValue={newValue}
+              startUploading={startUploading}
+              stopUploading={stopUploading}
+              stopAuthorizing={stopAuthorizing}
+            />
+          </>
+        ) : uploading && !authorized ? (
+          <>
+            <IpfsLogin startAuthorizing={startAuthorizing} />
+            <SaveCancel
+              warningMessage={getOldContentWarning(type, domain.contentType)}
+              mutation={e => {
+                e.preventDefault()
+                const variables = {
+                  name: domain.name,
+                  [variableName ? variableName : 'recordValue']: newValue
+                }
+                executeMutation({
+                  variables
+                })
+              }}
+              isValid={isValid}
+              stopEditing={stopUploading}
+            />
+          </>
+        ) : (
+          ''
         )}
-      </Mutation>
+      </RecordsItem>
     </>
   )
 }
 
-function RecordItemViewOnly({ keyName, value, type, domain, account }) {
-  const { name, contentType } = domain
+function RecordItemViewOnly({ keyName, value, type, domain }) {
+  const { contentType } = domain
   const { t } = useTranslation()
   return keyName !== 'Address' && contentType === 'error' ? (
     ''

@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from '@emotion/styled/macro'
-import useNetworkInfo from '../NetworkInformation/useNetworkInfo'
 import { ReactComponent as ExternalLinkIcon } from '../Icons/externalLink.svg'
+import gql from 'graphql-tag'
+import { useQuery } from '@apollo/client'
 
 const EtherScanLinkContainer = styled('a')`
   display: inline-block;
@@ -22,11 +23,20 @@ const EtherScanLinkContainer = styled('a')`
   }
 `
 
+export const GET_ETHER_SCAN_LINK = gql`
+  query getEtherScanLink @client {
+    network
+  }
+`
+
 const EtherScanLink = ({ children, address, className }) => {
-  const { network } = useNetworkInfo()
-  const subdomain = network === 'main' ? '' : `${network}.`
+  const {
+    data: { network }
+  } = useQuery(GET_ETHER_SCAN_LINK)
+  const subdomain = network?.toLowerCase() === 'main' ? '' : `${network}.`
   return (
     <EtherScanLinkContainer
+      data-testid="ether-scan-link-container"
       target="_blank"
       rel="noopener"
       href={`https://${subdomain}etherscan.io/address/${address}`}

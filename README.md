@@ -2,8 +2,6 @@
 
 ENS Application
 
-
-
 ## Installation
 
 ### Manual

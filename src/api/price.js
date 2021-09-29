@@ -1,5 +1,5 @@
 import { ethers, getNetworkId, getNetworkProviderUrl } from '@ensdomains/ui'
-import getENS, { getRegistrar } from 'api/ens'
+import getENS, { getRegistrar } from 'apollo/mutations/ens'
 
 const ChainLinkABI = [
   {

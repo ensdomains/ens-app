@@ -9,15 +9,11 @@ import {
 } from '@ensdomains/ui/src/utils/index'
 import { validate } from '@ensdomains/ens-validation'
 
-import getENS from '../api/ens'
+import getENS from '../apollo/mutations/ens'
 import * as jsSHA3 from 'js-sha3'
 import { saveName } from '../api/labels'
-import { setup } from '../api/ens'
-import { SET_ERROR } from 'graphql/mutations'
-import { setupClient } from 'apolloClient'
-import { connect } from '../api/web3modal'
-import { safeInfo, setupSafeApp } from './safeApps'
 import { useEffect, useRef } from 'react'
+import { EMPTY_ADDRESS } from './records'
 import { normalize } from 'eth-ens-namehash'
 
 // From https://github.com/0xProject/0x-monorepo/blob/development/packages/utils/src/address_utils.ts
@@ -209,55 +205,6 @@ export function isRecordEmpty(value) {
   return value === emptyAddress || value === ''
 }
 
-export async function handleNetworkChange() {
-  let client, networkId
-  try {
-    if (
-      process.env.REACT_APP_STAGE === 'local' &&
-      process.env.REACT_APP_ENS_ADDRESS
-    ) {
-      await setup({
-        reloadOnAccountsChange: true,
-        customProvider: 'http://localhost:8545',
-        ensAddress: process.env.REACT_APP_ENS_ADDRESS
-      })
-      let labels = window.localStorage['labels']
-        ? JSON.parse(window.localStorage['labels'])
-        : {}
-      window.localStorage.setItem(
-        'labels',
-        JSON.stringify({
-          ...labels,
-          ...JSON.parse(process.env.REACT_APP_LABELS)
-        })
-      )
-    } else {
-      const safe = await safeInfo()
-      if (safe) {
-        const network = await setupSafeApp(safe)
-      } else if (window.localStorage.getItem('WEB3_CONNECT_CACHED_PROVIDER')) {
-        const network = await connect()
-      } else {
-        await setup({
-          reloadOnAccountsChange: false,
-          enforceReadOnly: true,
-          enforceReload: true
-        })
-      }
-    }
-    networkId = await getNetworkId()
-    client = await setupClient(networkId)
-  } catch (e) {
-    networkId = networkId || 1 // Readonly to Mainnet
-    client = await setupClient()
-    await client.mutate({
-      mutation: SET_ERROR,
-      variables: { message: e && e.message }
-    })
-  }
-  return { client, networkId }
-}
-
 export const hasValidReverseRecord = getReverseRecord =>
   getReverseRecord?.name && getReverseRecord.name !== emptyAddress
 
@@ -283,8 +230,16 @@ export function usePrevious(value) {
   return ref.current
 }
 
+export function isOwnerOfParentDomain(domain, account) {
+  if (!account) return false
+  if (domain.parentOwner !== EMPTY_ADDRESS) {
+    return domain.parentOwner?.toLowerCase() === account.toLowerCase()
+  }
+  return false
+}
+
 export function filterNormalised(data, name, nested = false) {
-  return data.filter(data => {
+  return data?.filter(data => {
     const domain = nested ? data.domain : data
     return domain[name] === normalize(domain[name])
   })

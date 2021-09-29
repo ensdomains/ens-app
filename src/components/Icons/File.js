@@ -12,7 +12,7 @@ const File = ({ active, className }) => (
     active={active}
     className={className}
   >
-    <g fill-rule="evenodd">
+    <g fillRule="evenodd">
       <rect width="18" height="5" rx="2.5" />
       <rect y="14" width="14" height="5" rx="2.5" />
       <rect y="7" width="21" height="5" rx="2.5" />

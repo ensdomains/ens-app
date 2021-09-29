@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation, Trans } from 'react-i18next'
 import styled from '@emotion/styled/macro'
 import { REGISTER_TESTDOMAIN } from '../../graphql/mutations'
-import { Mutation } from 'react-apollo'
+import { useMutation } from '@apollo/client'
 import Button from '../Forms/Button'
 import { useEditable } from '../hooks'
 import PendingTx from '../PendingTx'
@@ -39,6 +39,12 @@ function NameClaimTestDomain({ domain, refetch }) {
   const { txHash, pending, confirmed } = state
 
   const { startPending, setConfirmed } = actions
+  const [mutation] = useMutation(REGISTER_TESTDOMAIN, {
+    onCompleted: data => {
+      startPending(Object.values(data)[0])
+      refetch()
+    }
+  })
 
   return (
     <NameClaimTestDomainContainer>
@@ -51,27 +57,17 @@ function NameClaimTestDomain({ domain, refetch }) {
           }}
         />
       ) : (
-        <Mutation
-          mutation={REGISTER_TESTDOMAIN}
-          onCompleted={data => {
-            startPending(Object.values(data)[0])
-            refetch()
+        <ClaimButton
+          onClick={() => {
+            mutation({
+              variables: {
+                label: domain.label
+              }
+            })
           }}
         >
-          {mutation => (
-            <ClaimButton
-              onClick={() => {
-                mutation({
-                  variables: {
-                    label: domain.label
-                  }
-                })
-              }}
-            >
-              {t('c.claim')}
-            </ClaimButton>
-          )}
-        </Mutation>
+          {t('c.claim')}
+        </ClaimButton>
       )}
       <Note>
         <Trans i18nKey="singleName.test.note">
@@ -82,4 +78,5 @@ function NameClaimTestDomain({ domain, refetch }) {
     </NameClaimTestDomainContainer>
   )
 }
+
 export default NameClaimTestDomain

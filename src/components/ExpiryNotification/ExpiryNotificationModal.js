@@ -137,9 +137,9 @@ const ExpiryNotificationModal = ({ address, onCancel }) => {
   //   null;
 
   const translation = {
-    cancel: t(`c.cancel`),
-    submit: t(`c.save`),
-    placeholder: t(`expiryNotification.placeholder`),
+    cancel: t('c.cancel'),
+    submit: t('c.save'),
+    placeholder: t('expiryNotification.placeholder'),
     registerSuccess:
       'Please check your inbox to verify your email address. You will be redirected to BUIDLHub to manage your email notifications.'
   }
