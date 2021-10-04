@@ -227,9 +227,6 @@
       "parentmigrate": "Devi prima migrare il dominio principale {{ parent}} per poter migrare questo sottodominio"
     }
   },
-  "releaseDeed": {
-    "returnDeposit": "C'è ancora un deposito non riscattato su questo nome dominio. Per avere indietro gli eth depositati, Vai a"
-  },
   "reminder": {
     "everywhere": "ovunque",
     "release": {

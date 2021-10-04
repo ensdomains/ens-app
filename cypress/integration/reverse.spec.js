@@ -24,7 +24,7 @@ describe(
         `${ADDRESS.slice(0, 10)}...`
       )
 
-      cy.getByText('Select your ENS name', { exact: false }).click({
+      cy.getByText('Select one of your ENS names', { exact: false }).click({
         force: true
       })
 
