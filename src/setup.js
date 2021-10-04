@@ -7,6 +7,7 @@ import { connect } from './api/web3modal'
 import {
   accountsReactive,
   favouritesReactive,
+  globalErrorReactive,
   isAppReadyReactive,
   isReadOnlyReactive,
   networkIdReactive,
@@ -116,6 +117,15 @@ export default async reconnect => {
 
     if (!provider) throw 'Please install a wallet'
 
+    const networkId = await getNetworkId()
+
+    if (!isSupoportedNetwork(networkId)) {
+      globalErrorReactive('Unsupported Network')
+      return
+    }
+
+    console.log('networkId: ', networkId)
+
     networkIdReactive(await getNetworkId())
     networkReactive(await getNetwork())
 
@@ -131,6 +141,7 @@ export default async reconnect => {
 
     isAppReadyReactive(true)
   } catch (e) {
+    globalErrorReactive('Unsupported Network')
     console.error('setup error: ', e)
   }
 }

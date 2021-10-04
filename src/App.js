@@ -110,7 +110,10 @@ export const APP_DATA = gql`
 
 const App = () => {
   useReactiveVarListeners()
-  const { globalError } = useQuery(APP_DATA)
+  const {
+    data: { globalError }
+  } = useQuery(APP_DATA)
+  console.log('globalError ', globalError)
 
   useEffect(() => {
     setupAnalytics()

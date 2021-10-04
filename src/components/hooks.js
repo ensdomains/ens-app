@@ -257,12 +257,6 @@ export function useAvatar(textKey, name, network, uri) {
   return avatar
 }
 
-export function useReferrer() {
-  let location = useLocation()
-  const queryParams = new URLSearchParams(location.search)
-  return queryParams.get('utm_source')
-}
-
 export function useBlock() {
   const [loading, setLoading] = useState(true)
   const [block, setBlock] = useState(undefined)
