@@ -14,7 +14,7 @@ describe(
       cy.visit(url)
       cy.wait(5000)
 
-      cy.queryByText(`everse record: not set`, {
+      cy.queryByText(`Primary ENS Name (reverse record)`, {
         exact: false,
         timeout: 10000
       })
@@ -34,7 +34,7 @@ describe(
 
       cy.getByText('Save', { timeout: 5000 }).click({ force: true })
 
-      cy.queryByText(`Reverse record: Set to`, {
+      cy.queryByText(`Primary ENS Name (reverse record): sub1.otherowner.eth`, {
         exact: false,
         timeout: 10000
       }).should('exist')
