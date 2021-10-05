@@ -225,9 +225,6 @@
       "parentmigrate": "このサブドメインを移行する前に、まずはペアレントドメイン{{parent}}を移行する必要があります。"
     }
   },
-  "releaseDeed": {
-    "returnDeposit": "このドメインにはまだデポジットが残っています。次のサイトより返却手続きを行ってください"
-  },
   "reminder": {
     "everywhere": "everywhere",
     "release": {

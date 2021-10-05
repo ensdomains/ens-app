@@ -54,10 +54,10 @@ describe('/address', () => {
   it('cannot renew if no names selected', () => {
     cy.visit(ROOT)
     cy.getByText('My Account').click({ force: true })
-    cy.getByText('Renew', { exact: false, timeout: 10000 }).click({
+    cy.getByText('Extend', { exact: false, timeout: 10000 }).click({
       force: true
     })
-    cy.queryByText('Renew', { exact: false }).should(
+    cy.queryByText('Extend', { exact: false }).should(
       'have.css',
       'background-color',
       'rgb(223, 223, 223)'
@@ -81,9 +81,9 @@ describe('/address', () => {
         cy.get(`[data-testid="checkbox-${name}"] div`, {
           timeout: 10000
         }).should('have.css', 'border-top-color', ENABLED_COLOUR)
-        cy.getByText('Renew Selected', { exact: false }).click({ force: true })
+        cy.getByText('Extend Selected', { exact: false }).click({ force: true })
         cy.queryByText('Registration Period', { exact: false }).should('exist')
-        cy.getByText('Renew', { exact: false }).click({ force: true })
+        cy.getByText('Extend', { exact: false }).click({ force: true })
         cy.getByText('Confirm', { exact: true }).click({ force: true })
         cy.get(`[data-testid="expiry-date-${name}"]`, {
           timeout: 10000
@@ -112,9 +112,9 @@ describe('/address', () => {
         cy.get(`[data-testid="checkbox-${name}"] div`, {
           timeout: 10000
         }).should('have.css', 'border-top-color', ENABLED_COLOUR)
-        cy.getByText('Renew Selected', { exact: false }).click()
+        cy.getByText('Extend Selected', { exact: false }).click()
         cy.queryByText('Registration Period', { exact: false }).should('exist')
-        cy.getByText('Renew', { exact: false }).click()
+        cy.getByText('Extend', { exact: false }).click()
         cy.getByText('Confirm', { exact: true }).click()
         cy.get(`[data-testid="expiry-date-${name}"]`, {
           timeout: 10000
