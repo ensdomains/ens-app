@@ -7,6 +7,7 @@ import { connect } from './api/web3modal'
 import {
   accountsReactive,
   favouritesReactive,
+  globalErrorReactive,
   isAppReadyReactive,
   isReadOnlyReactive,
   networkIdReactive,
@@ -15,7 +16,7 @@ import {
   subDomainFavouritesReactive,
   web3ProviderReactive
 } from './apollo/reactiveVars'
-import { setup as setupAnalytics } from './utils/analytics'
+import { setupAnalytics } from './utils/analytics'
 import { getReverseRecord } from './apollo/sideEffects'
 import { safeInfo, setupSafeApp } from './utils/safeApps'
 
@@ -29,6 +30,19 @@ export const setSubDomainFavourites = () => {
   subDomainFavouritesReactive(
     JSON.parse(window.localStorage.getItem('ensSubDomainFavourites')) || []
   )
+}
+
+export const isSupportedNetwork = networkId => {
+  switch (networkId) {
+    case 1:
+    case 3:
+    case 4:
+    case 5:
+    case 1337:
+      return true
+    default:
+      return false
+  }
 }
 
 export const getProvider = async reconnect => {
@@ -95,13 +109,15 @@ export const setWeb3Provider = async provider => {
 
   provider?.on('chainChanged', async _chainId => {
     const networkId = await getNetworkId()
-    console.log('chain changed: ', networkId)
+    if (!isSupportedNetwork(networkId)) {
+      globalErrorReactive('Unsupported Network')
+      return
+    }
     networkIdReactive(networkId)
     networkReactive(await getNetwork())
   })
 
   provider?.on('accountsChanged', async accounts => {
-    console.log('accounts changed')
     accountsReactive(accounts)
   })
 
@@ -115,6 +131,13 @@ export default async reconnect => {
     const provider = await getProvider(reconnect)
 
     if (!provider) throw 'Please install a wallet'
+
+    const networkId = await getNetworkId()
+
+    if (!isSupportedNetwork(networkId)) {
+      globalErrorReactive('Unsupported Network')
+      return
+    }
 
     networkIdReactive(await getNetworkId())
     networkReactive(await getNetwork())
@@ -131,6 +154,7 @@ export default async reconnect => {
 
     isAppReadyReactive(true)
   } catch (e) {
+    globalErrorReactive('Unsupported Network')
     console.error('setup error: ', e)
   }
 }

@@ -31,7 +31,7 @@ export function getUtm() {
   return window.sessionStorage.getItem('utmSource')
 }
 
-export const setup = () => {
+export const setupAnalytics = () => {
   if (isProduction()) {
     ReactGA.initialize(TrackingID.live)
     ReactGA.plugin.require('ecommerce')
