@@ -1,4 +1,13 @@
-import { getProvider, setWeb3Provider } from './setup'
+import defaultSetup, {
+  getProvider,
+  setWeb3Provider,
+  isSupportedNetwork
+} from './setup'
+
+jest.mock('./utils/analytics', () => ({
+  setupAnalytics: jest.fn()
+}))
+import { setupAnalytics } from './utils/analytics'
 
 jest.mock('./apollo/mutations/ens', () => ({
   setup: jest.fn()
@@ -14,10 +23,14 @@ jest.mock('./apollo/reactiveVars', () => ({
   ...jest.requireActual('./apollo/reactiveVars'),
   networkIdReactive: jest.fn(),
   networkReactive: jest.fn(),
-  accountsReactive: jest.fn()
+  accountsReactive: jest.fn(),
+  globalErrorReactive: jest.fn(),
+  isAppReadyReactive: jest.fn()
 }))
 import {
   accountsReactive,
+  globalErrorReactive,
+  isAppReadyReactive,
   networkIdReactive,
   networkReactive
 } from './apollo/reactiveVars'
@@ -153,7 +166,7 @@ describe('setWeb3Provider', () => {
   })
   it('should remove listeners on the provider if they already exist', async () => {
     expect.assertions(1)
-    getNetworkId.mockImplementation(() => '2')
+    getNetworkId.mockImplementation(() => 2)
     getNetwork.mockImplementation(() => 'Main')
     const mockRemoveAllListeners = jest.fn()
     const mockProvider = {
@@ -165,7 +178,7 @@ describe('setWeb3Provider', () => {
   })
   it('should update network when network changes', async () => {
     expect.assertions(1)
-    getNetworkId.mockImplementation(() => '2')
+    getNetworkId.mockImplementation(() => 2)
     getNetwork.mockImplementation(() => 'Main')
     const mockProvider = {
       on: (event, callback) => {
@@ -184,5 +197,80 @@ describe('setWeb3Provider', () => {
       removeAllListeners: () => null
     }
     await setWeb3Provider(mockProvider)
+  })
+  it('should set global error if chain is changed to an unsupported network', async () => {
+    expect.assertions(2)
+    getNetworkId.mockImplementation(() => 2)
+    getNetwork.mockImplementation(() => 'Main')
+    const mockProvider = {
+      on: (event, callback) => {
+        const cb = async () => {
+          try {
+            await callback(1314)
+            expect(globalErrorReactive).toHaveBeenCalled()
+            expect(networkReactive).not.toHaveBeenCalled()
+          } catch (e) {
+            console.error(e)
+          }
+        }
+        if (event === 'chainChanged') {
+          cb()
+        }
+      },
+      removeAllListeners: () => null
+    }
+    await setWeb3Provider(mockProvider)
+  })
+})
+
+describe('isSupportedNetwork', () => {
+  it('should return true if network is supported', () => {
+    expect(isSupportedNetwork(3)).toBeTruthy()
+  })
+  it('should return false if network is not supported', () => {
+    expect(isSupportedNetwork(22222)).toBeFalsy()
+  })
+})
+
+describe('setup', () => {
+  let originalReactAppStage
+  let originalReactAppEnsAddress
+  let originalReactAppLabels
+  beforeAll(() => {
+    originalReactAppStage = process.env.REACT_APP_STAGE
+    originalReactAppEnsAddress = process.env.REACT_APP_ENS_ADDRESS
+    originalReactAppLabels = process.env.REACT_APP_LABELS
+    process.env.REACT_APP_STAGE = 'local'
+    process.env.REACT_APP_ENS_ADDRESS = '0xaddress'
+    process.env.REACT_APP_LABELS = '{}'
+  })
+  afterAll(() => {
+    process.env.REACT_APP_STAGE = originalReactAppStage
+    process.env.REACT_APP_ENS_ADDRESS = originalReactAppEnsAddress
+    process.env.REACT_APP_LABELS = originalReactAppLabels
+  })
+  it('should set global error if network is unsupported', async () => {
+    setup.mockImplementation(() => ({
+      providerObject: { localProvider: true }
+    }))
+    await getProvider(false)
+    getNetworkId.mockImplementation(() => 222)
+    await defaultSetup(false)
+    expect(globalErrorReactive).toHaveBeenCalled()
+  })
+  it('should allow setup to continue if network is supported', async () => {
+    const mockProvider = {
+      on: (event, callback) => {},
+      removeAllListeners: () => null
+    }
+    getNetworkId.mockImplementation(() => 1)
+    getNetwork.mockImplementation(() => 'Main')
+    setup.mockImplementation(() => ({
+      providerObject: mockProvider
+    }))
+    await getProvider(false)
+    getNetworkId.mockImplementation(() => 1)
+    await defaultSetup(false)
+    expect(isAppReadyReactive).toHaveBeenCalled()
   })
 })

@@ -74,7 +74,7 @@ const Renew = lazy(() =>
 
 import { NetworkError, Error404 } from './components/Error/Errors'
 import DefaultLayout from './components/Layout/DefaultLayout'
-import { pageview, setup as setupAnalytics } from './utils/analytics'
+import { pageview, setupAnalytics } from './utils/analytics'
 import gql from 'graphql-tag'
 import useReactiveVarListeners from './hooks/useReactiveVarListeners'
 
@@ -113,7 +113,6 @@ const App = () => {
   const {
     data: { globalError }
   } = useQuery(APP_DATA)
-  console.log('globalError ', globalError)
 
   useEffect(() => {
     setupAnalytics()
