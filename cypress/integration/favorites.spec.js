@@ -61,13 +61,13 @@ describe('Favorites', () => {
         cy.getByTestId(`checkbox-renewall`, { timeout: 10000 }).click({
           force: true
         })
-        cy.getByText('Renew Selected', { exact: false }).click({ force: true })
+        cy.getByText('Extend Selected', { exact: false }).click({ force: true })
         cy.queryByText('Registration Period', { exact: false }).should('exist')
         cy.queryByText(
-          'Renewing a name you do not own does not give you ownership of it',
+          'Extending the registration of a name you do not own does not give you ownership of it.',
           { exact: false }
         ).should('exist')
-        cy.getByText('Renew', { exact: true }).click({ force: true })
+        cy.getByText('Extend', { exact: true }).click({ force: true })
         cy.getByText('Confirm', { exact: true }).click({ force: true })
         cy.wait(3000)
         cy.visit(`${ROOT}/favourites`)

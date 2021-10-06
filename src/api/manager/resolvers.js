@@ -13,6 +13,7 @@ import {
   utils
 } from '@ensdomains/ui'
 import { formatsByName } from '@ensdomains/address-encoder'
+import { normalize } from '@ensdomains/eth-ens-namehash'
 import isEqual from 'lodash/isEqual'
 import modeNames from '../modes'
 import { sendHelper, sendHelperArray } from '../resolverUtils'

@@ -8,13 +8,13 @@ import {
   isEncodedLabelhash
 } from '@ensdomains/ui/src/utils/index'
 import { validate } from '@ensdomains/ens-validation'
+import { normalize } from '@ensdomains/eth-ens-namehash'
 
 import getENS from '../apollo/mutations/ens'
 import * as jsSHA3 from 'js-sha3'
 import { saveName } from '../api/labels'
 import { useEffect, useRef } from 'react'
 import { EMPTY_ADDRESS } from './records'
-import { normalize } from 'eth-ens-namehash'
 
 // From https://github.com/0xProject/0x-monorepo/blob/development/packages/utils/src/address_utils.ts
 
