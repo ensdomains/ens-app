@@ -49,6 +49,15 @@ jest.mock('./apollo/sideEffects', () => ({
 import { getReverseRecord } from './apollo/sideEffects'
 
 describe('getProvider', () => {
+  it('should return readOnly provider if connect() fails', async () => {
+    connect.mockImplementation(() => undefined.bla)
+    setup.mockImplementation(() => ({
+      providerObject: { readOnlyProvider: true }
+    }))
+    const provider = await getProvider(false)
+    expect(provider.readOnlyProvider).toBeTruthy()
+  })
+
   describe('local blockchain', () => {
     let originalReactAppStage
     let originalReactAppEnsAddress

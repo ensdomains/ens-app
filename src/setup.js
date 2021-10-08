@@ -95,6 +95,18 @@ export const getProvider = async reconnect => {
   } catch (e) {
     console.error('getProvider error: ', e)
   }
+
+  try {
+    const { providerObject } = await setup({
+      reloadOnAccountsChange: false,
+      enforceReadOnly: true,
+      enforceReload: false
+    })
+    provider = providerObject
+    return provider
+  } catch (e) {
+    console.error('getProvider readOnly error: ', e)
+  }
 }
 
 export const setWeb3Provider = async provider => {
@@ -154,7 +166,6 @@ export default async reconnect => {
 
     isAppReadyReactive(true)
   } catch (e) {
-    globalErrorReactive('Unsupported Network')
     console.error('setup error: ', e)
   }
 }
