@@ -133,7 +133,8 @@ function AddReverseRecord({ account, currentAddress }) {
       variables: {
         address: currentAddress
       },
-      skip: !currentAddress
+      skip: !currentAddress,
+      fetchPolicy: 'no-cache'
     }
   )
 
