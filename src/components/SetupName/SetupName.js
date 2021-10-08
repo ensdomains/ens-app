@@ -75,7 +75,7 @@ function SetupName({ initialState = false }) {
       <Header onClick={toggleOpen}>
         <BookPen />
         <H2>{t('singleName.learnmore.title')}</H2>
-        <RotatingSmallCaret rotated={open} />
+        <RotatingSmallCaret rotated={open ? 1 : 0} />
       </Header>
       <Content open={open}>
         <Block>

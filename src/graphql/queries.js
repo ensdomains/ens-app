@@ -20,16 +20,6 @@ export const GET_REVERSE_RECORD = gql`
   }
 `
 
-export const GET_ALL_NODES = gql`
-  query names @client {
-    names {
-      ...NodeFields
-    }
-  }
-
-  ${NodeFields}
-`
-
 export const GET_OWNER = gql`
   query getOwner($name: String) {
     getOwner(name: $name)
