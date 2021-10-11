@@ -4,11 +4,6 @@ import defaultSetup, {
   isSupportedNetwork
 } from './setup'
 
-jest.mock('./utils/analytics', () => ({
-  setupAnalytics: jest.fn()
-}))
-import { setupAnalytics } from './utils/analytics'
-
 jest.mock('./apollo/mutations/ens', () => ({
   setup: jest.fn()
 }))
@@ -47,6 +42,12 @@ jest.mock('./apollo/sideEffects', () => ({
   getReverseRecord: jest.fn()
 }))
 import { getReverseRecord } from './apollo/sideEffects'
+
+jest.mock('./utils/analytics', () => ({
+  ...jest.requireActual('./utils/analytics'),
+  setupAnalytics: jest.fn()
+}))
+import { setupAnalytics } from './utils/analytics'
 
 describe('getProvider', () => {
   it('should return readOnly provider if connect() fails', async () => {

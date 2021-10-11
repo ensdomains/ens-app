@@ -13,7 +13,6 @@ import {
   utils
 } from '@ensdomains/ui'
 import { formatsByName } from '@ensdomains/address-encoder'
-import { normalize } from '@ensdomains/eth-ens-namehash'
 import isEqual from 'lodash/isEqual'
 import modeNames from '../modes'
 import { sendHelper, sendHelperArray } from '../resolverUtils'
@@ -29,6 +28,7 @@ import getClient from '../../apollo/apolloClient'
 import getENS, { getRegistrar } from 'apollo/mutations/ens'
 import { isENSReadyReactive, namesReactive } from '../../apollo/reactiveVars'
 import getReverseRecord from './getReverseRecord'
+import { isEmptyAddress } from '../../utils/records'
 
 const defaults = {
   names: []
@@ -54,14 +54,22 @@ function setState(node) {
   }
 }
 
-const handleSingleTransaction = async (name, record, resolverInstance) => {
+export const handleSingleTransaction = async (
+  name,
+  record,
+  resolverInstance
+) => {
   const namehash = getNamehash(name)
 
   if (record.contractFn === 'setContenthash') {
-    const contentTx = await resolverInstance[record.contractFn](
-      namehash,
-      encodeContenthash(record.value || emptyAddress)?.encoded
-    )
+    let value
+    if (isEmptyAddress(record.value)) {
+      value = emptyAddress
+    } else {
+      value = encodeContenthash(record.value)?.encoded
+    }
+
+    const contentTx = await resolverInstance[record.contractFn](namehash, value)
     return sendHelper(contentTx)
   }
 
@@ -102,18 +110,24 @@ const handleSingleTransaction = async (name, record, resolverInstance) => {
   console.error('Single transaction error')
 }
 
-const handleMultipleTransactions = async (name, records, resolverInstance) => {
+export const handleMultipleTransactions = async (
+  name,
+  records,
+  resolverInstance
+) => {
   try {
     const resolver = resolverInstance.interface
     const namehash = getNamehash(name)
 
     const transactionArray = records.map(record => {
       if (record.contractFn === 'setContenthash') {
-        const encodedContenthash = encodeContenthash(record.value)?.encoded
-        return resolver.encodeFunctionData(record.contractFn, [
-          namehash,
-          encodedContenthash
-        ])
+        let value
+        if (isEmptyAddress(record.value)) {
+          value = emptyAddress
+        } else {
+          value = encodeContenthash(record.value)?.encoded
+        }
+        return resolver.encodeFunctionData(record.contractFn, [namehash, value])
       }
 
       if (record.contractFn === 'setText') {

@@ -118,27 +118,6 @@ function getChangedRecords(initialRecords, updatedRecords) {
   return differenceWith(updatedRecords, initialRecords, isEqual)
 }
 
-function checkRecordsHaveChanged(changedRecords) {
-  return (
-    changedRecords.textRecords.length > 0 ||
-    changedRecords.coins.length > 0 ||
-    changedRecords.content
-  )
-}
-
-function checkRecordsAreValid(changedRecords) {
-  const textRecordsValid = !(
-    changedRecords.textRecords.filter(record => record.isValid === false)
-      .length > 0
-  )
-
-  const coinsValid = !(
-    changedRecords.coins.filter(record => record.isValid === false).length > 0
-  )
-
-  return textRecordsValid && coinsValid
-}
-
 function isContentHashEmpty(hash) {
   return hash?.startsWith('undefined') || parseInt(hash, 16) === 0
 }
