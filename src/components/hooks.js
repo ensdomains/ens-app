@@ -1,7 +1,6 @@
 import { useEffect, useReducer, useRef, useState } from 'react'
 import { utils } from 'ethers'
 import getEtherPrice from 'api/price'
-import { useLocation } from 'react-router-dom'
 import { loggedIn, logout } from './IPFS/auth'
 import { getBlock, getProvider } from '@ensdomains/ui'
 import { networkName, supportedAvatarProtocols } from 'utils/utils'
@@ -227,7 +226,7 @@ export function useAvatar(textKey, name, network, uri) {
   const [avatar, setAvatar] = useState({})
   useEffect(() => {
     try {
-      const _network = networkName[network]
+      const _network = networkName[network?.toLowerCase()]
       const run = async protocol => {
         const result = await fetch(
           `https://metadata.ens.domains/${_network}/avatar/${name}/meta`
