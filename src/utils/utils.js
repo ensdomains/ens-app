@@ -254,7 +254,7 @@ export function prependUrl(url) {
 }
 
 export function imageUrl(url, name, network) {
-  const _network = networkName[network]
+  const _network = networkName[network?.toLowerCase()]
   const _protocol = supportedAvatarProtocols.find(proto =>
     url.startsWith(proto)
   )

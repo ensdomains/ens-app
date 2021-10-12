@@ -1,6 +1,7 @@
 import { useEffect, useReducer, useRef, useState } from 'react'
 import { utils } from 'ethers'
 import getEtherPrice from 'api/price'
+import { cid as isCID } from 'is-ipfs'
 import { loggedIn, logout } from './IPFS/auth'
 import { getBlock, getProvider } from '@ensdomains/ui'
 import { networkName, supportedAvatarProtocols } from 'utils/utils'
@@ -232,8 +233,12 @@ export function useAvatar(textKey, name, network, uri) {
           `https://metadata.ens.domains/${_network}/avatar/${name}/meta`
         )
         const data = await result.json()
-        if ('image' in data && protocol === 'ipfs://') {
-          data.image = data.image.replace('ipfs://', 'https://ipfs.io/ipfs/')
+        if ('image' in data) {
+          if (protocol === 'ipfs://') {
+            data.image = data.image.replace('ipfs://', 'https://ipfs.io/ipfs/')
+          } else if (isCID(data.image)) {
+            data.image = `https://ipfs.io/ipfs/${data.image}`
+          }
         }
         setAvatar(data)
       }
