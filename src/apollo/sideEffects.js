@@ -1,6 +1,6 @@
 import { emptyAddress } from '../utils/utils'
 import getENS from './mutations/ens'
-import { normalize } from 'eth-ens-namehash'
+import { normalize } from '@ensdomains/eth-ens-namehash'
 import { isENSReadyReactive } from './reactiveVars'
 
 export const getReverseRecord = async address => {
