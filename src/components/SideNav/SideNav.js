@@ -154,7 +154,7 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
           <li>
             <NavLink
               onClick={toggleMenu}
-              active={url === '/address/' + accounts[0]}
+              active={url === '/address/' + accounts[0] ? 1 : 0}
               to={'/address/' + accounts[0]}
             >
               <File active={url === '/address/' + accounts[0]} />
@@ -165,7 +165,7 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
         <li>
           <NavLink
             onClick={toggleMenu}
-            active={url === '/favourites'}
+            active={url === '/favourites' ? 1 : 0}
             to="/favourites"
           >
             <Heart active={url === '/favourites'} />
@@ -173,7 +173,11 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
           </NavLink>
         </li>
         <li>
-          <NavLink onClick={toggleMenu} active={url === '/faq'} to="/faq">
+          <NavLink
+            onClick={toggleMenu}
+            active={url === '/faq' ? 1 : 0}
+            to="/faq"
+          >
             <SpeechBubble />
             <span>{t('c.faq')}</span>
           </NavLink>

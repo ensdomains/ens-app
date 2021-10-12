@@ -31,7 +31,7 @@ export default function RotatingSmallCaret({
   if (start === 'right') {
     return (
       <RotatingSmallCaretSide
-        rotated={rotated}
+        rotated={rotated ? 1 : 0}
         highlight={highlight}
         data-testid={testid}
       />
@@ -39,7 +39,7 @@ export default function RotatingSmallCaret({
   } else if (start === 'top') {
     return (
       <RotatingSmallCaretTop
-        rotated={rotated}
+        rotated={rotated ? 1 : 0}
         highlight={highlight}
         data-testid={testid}
       />

@@ -1,7 +1,6 @@
 import { useEffect, useReducer, useRef, useState } from 'react'
 import { utils } from 'ethers'
 import getEtherPrice from 'api/price'
-import { useLocation } from 'react-router-dom'
 import { cid as isCID } from 'is-ipfs'
 import { loggedIn, logout } from './IPFS/auth'
 import { getBlock, getProvider } from '@ensdomains/ui'
@@ -228,7 +227,7 @@ export function useAvatar(textKey, name, network, uri) {
   const [avatar, setAvatar] = useState({})
   useEffect(() => {
     try {
-      const _network = networkName[network]
+      const _network = networkName[network?.toLowerCase()]
       const run = async protocol => {
         const result = await fetch(
           `https://metadata.ens.domains/${_network}/avatar/${name}/meta`
@@ -260,12 +259,6 @@ export function useAvatar(textKey, name, network, uri) {
   }, [textKey, uri])
 
   return avatar
-}
-
-export function useReferrer() {
-  let location = useLocation()
-  const queryParams = new URLSearchParams(location.search)
-  return queryParams.get('utm_source')
 }
 
 export function useBlock() {

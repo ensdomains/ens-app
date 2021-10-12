@@ -109,7 +109,7 @@ const ButtonsContainer = styled('div')`
   align-items: center;
 `
 
-const SINGLE_NAME = gql`
+export const SINGLE_NAME = gql`
   query singleNameQuery @client {
     isENSReady
     networkId
@@ -132,7 +132,9 @@ function AddReverseRecord({ account, currentAddress }) {
     {
       variables: {
         address: currentAddress
-      }
+      },
+      skip: !currentAddress,
+      fetchPolicy: 'no-cache'
     }
   )
 
@@ -150,6 +152,8 @@ function AddReverseRecord({ account, currentAddress }) {
     data: { networkId }
   } = useQuery(SINGLE_NAME)
 
+  console.log('networkId: ', networkId)
+
   const { data: { domains } = {}, refetch: refetchNames } = useQuery(
     GET_ETH_RECORD_AVAILABLE_NAMES_FROM_SUBGRAPH,
     {
@@ -162,6 +166,7 @@ function AddReverseRecord({ account, currentAddress }) {
       }
     }
   )
+
   useEffect(() => {
     refetchNames()
   }, [account, currentAddress, networkId])
@@ -225,7 +230,10 @@ function AddReverseRecord({ account, currentAddress }) {
               }}
             />
           ) : (
-            <RotatingSmallCaret rotated={editing} testid="open-reverse" />
+            <RotatingSmallCaret
+              rotated={editing ? 1 : 0}
+              testid="open-reverse"
+            />
           )}
         </Message>
         {editing && (

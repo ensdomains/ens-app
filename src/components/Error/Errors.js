@@ -30,7 +30,7 @@ const H2 = styled('h2')`
 const Message = styled('div')``
 
 export const NetworkError = ({ message }) => (
-  <ErrorContainer>
+  <ErrorContainer data-testid="network-error">
     <Message>
       <Warning src={warningImage} />
       <H2>{message}</H2>

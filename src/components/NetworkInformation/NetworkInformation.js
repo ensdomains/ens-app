@@ -7,7 +7,6 @@ import { useQuery, useMutation } from '@apollo/client'
 
 import UnstyledBlockies from '../Blockies'
 import NoAccountsModal from '../NoAccounts/NoAccountsModal'
-import { SET_ERROR } from '../../graphql/mutations'
 import { GET_REVERSE_RECORD } from '../../graphql/queries'
 import { connectProvider, disconnectProvider } from '../../utils/providerUtils'
 import { imageUrl } from '../../utils/utils'
@@ -111,7 +110,7 @@ const NETWORK_INFORMATION_QUERY = gql`
 function NetworkInformation() {
   const { t } = useTranslation()
   const {
-    data: { accounts, isSafeApp, avatar, network, displayName, isReadOnly }
+    data: { accounts, isSafeApp, network, displayName, isReadOnly }
   } = useQuery(NETWORK_INFORMATION_QUERY)
 
   const {
@@ -120,7 +119,8 @@ function NetworkInformation() {
   } = useQuery(GET_REVERSE_RECORD, {
     variables: {
       address: accounts?.[0]
-    }
+    },
+    skip: !accounts?.length
   })
 
   return (

@@ -159,8 +159,8 @@ export default function LanguageSwitcher() {
         <span>{languageSelected.value}</span>
         <RotatingSmallCaret
           start="top"
-          rotated={showDropdown}
-          highlight={true}
+          rotated={showDropdown ? 1 : 0}
+          highlight={1}
         />
       </ActiveLanguage>
       {showDropdown && (
