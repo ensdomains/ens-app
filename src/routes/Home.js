@@ -1,32 +1,21 @@
-import React, { useState, useContext, useEffect } from 'react'
-import { useQuery, useMutation } from 'react-apollo'
+import React from 'react'
+import { useQuery } from '@apollo/client'
 import { Link } from 'react-router-dom'
 import styled from '@emotion/styled/macro'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
-import {
-  GET_REVERSE_RECORD,
-  GET_META_BLOCK_NUMBER_FROM_GRAPH
-} from 'graphql/queries'
-import { SET_ERROR } from 'graphql/mutations'
 import mq from 'mediaQuery'
-import GlobalState from '../globalState'
+
 import SearchDefault from '../components/SearchName/Search'
 import NoAccountsDefault from '../components/NoAccounts/NoAccountsModal'
 import bg from '../assets/heroBG.jpg'
-import useNetworkInfo from '../components/NetworkInformation/useNetworkInfo'
-import { ExternalButtonLink } from '../components/Forms/Button'
 import TextBubbleDefault from '../components/Icons/TextBubble'
 import QuestionMarkDefault from '../components/Icons/QuestionMark'
 import HowToUseDefault from '../components/HowToUse/HowToUse'
-import Alice from '../components/HomePage/Alice'
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
-import { aboutPageURL, hasValidReverseRecord } from '../utils/utils'
-import { connect, disconnect } from '../api/web3modal'
-import { useBlock } from '../components/hooks'
-import { getBlock } from '@ensdomains/ui'
-import { emptyAddress } from '../utils/utils'
-import moment from 'moment'
+import { aboutPageURL } from '../utils/utils'
+import { connectProvider, disconnectProvider } from '../utils/providerUtils'
+import gql from 'graphql-tag'
 
 const HeroTop = styled('div')`
   display: grid;
@@ -51,14 +40,6 @@ const Name = styled('span')`
   text-transform: none;
   display: inline-block;
   width: 100px;
-`
-
-const Warning = styled('div')`
-  text-align: center;
-  background: red;
-  width: 100%;
-  color: white;
-  padding: 1em;
 `
 
 const NetworkStatus = styled('div')`
@@ -286,137 +267,91 @@ const ReadOnly = styled('span')`
   margin-left: 1em;
 `
 
+export const HOME_DATA = gql`
+  query getHomeData($address: string) @client {
+    network
+    displayName(address: $address)
+    isReadOnly
+    isSafeApp
+  }
+`
+
+export const GET_ACCOUNT = gql`
+  query getAccounts @client {
+    accounts
+  }
+`
+
+const animation = {
+  initial: {
+    scale: 0,
+    opacity: 0
+  },
+  animate: {
+    opacity: 1,
+    scale: 1
+  }
+}
+
 export default ({ match }) => {
   const { url } = match
   const { t } = useTranslation()
-  const { switchNetwork, currentNetwork } = useContext(GlobalState)
-  const {
-    accounts,
-    network,
-    loading,
-    refetch,
-    isReadOnly,
-    isSafeApp
-  } = useNetworkInfo()
-  const [graphBlock, setGraphBlock] = useState()
-  const address = accounts && accounts[0]
-  const { data: metaBlock } = useQuery(GET_META_BLOCK_NUMBER_FROM_GRAPH)
-  const graphBlockNumber = metaBlock?._meta?.block?.number
-
-  const { block } = useBlock()
-
-  let subGraphLatency, delayInMin
-  if (block && graphBlock) {
-    moment
-      .unix(block.timestamp)
-      .diff(moment.unix(graphBlock.timestamp), 'minutes')
-  }
-
-  useEffect(() => {
-    if (graphBlockNumber) {
-      getBlock(graphBlockNumber).then(b => {
-        setGraphBlock(b)
-      })
-    }
-  }, [graphBlockNumber])
 
   const {
-    data: { getReverseRecord } = {},
-    loading: reverseRecordLoading
-  } = useQuery(GET_REVERSE_RECORD, {
-    variables: {
-      address
-    }
+    data: { accounts }
+  } = useQuery(GET_ACCOUNT)
+
+  const {
+    data: { network, displayName, isReadOnly, isSafeApp }
+  } = useQuery(HOME_DATA, {
+    variables: { address: accounts?.[0] }
   })
-  const displayName = hasValidReverseRecord(getReverseRecord)
-    ? getReverseRecord.name
-    : address && `${address.slice(0, 10)}...`
 
-  const animation = {
-    initial: {
-      scale: 0,
-      opacity: 0
-    },
-    animate: {
-      opacity: 1,
-      scale: 1
-    }
-  }
-
-  const [setError] = useMutation(SET_ERROR)
-  const handleConnect = async () => {
-    let network
-    try {
-      network = await connect()
-    } catch (e) {
-      setError({ variables: { message: e?.message } })
-    }
-    if (network) {
-      switchNetwork(network.chainId)
-    }
-    location.reload()
-  }
-
-  const handleDisconnect = async () => {
-    await disconnect()
-    switchNetwork(1)
-    location.reload()
-  }
   return (
-    <>
-      {delayInMin >= 0 && (
-        <Warning>
-          Warning: The data on this stie has only synced to Ethereum block{' '}
-          {graphBlockNumber} out of {block?.number}( {delayInMin} min delay)
-        </Warning>
-      )}
-      <Hero>
-        <HeroTop>
-          {!loading && (
-            <>
-              <NetworkStatus>
-                <Network>
-                  {`${network} ${t('c.network')}`}
-                  {isReadOnly && <ReadOnly>({t('c.readonly')})</ReadOnly>}
-                  {!isReadOnly && displayName && <Name>({displayName})</Name>}
-                </Network>
-                {!isSafeApp && (
-                  <NoAccounts
-                    onClick={isReadOnly ? handleConnect : handleDisconnect}
-                    buttonText={isReadOnly ? t('c.connect') : t('c.disconnect')}
-                  />
-                )}
-              </NetworkStatus>
-            </>
-          )}
-          <Nav>
-            {accounts?.length > 0 && (
-              <NavLink
-                active={url === '/address/' + accounts[0]}
-                to={'/address/' + accounts[0]}
-              >
-                {t('c.mynames')}
-              </NavLink>
+    <Hero>
+      <HeroTop>
+        <NetworkStatus>
+          <Network>
+            {`${network} ${t('c.network')}`}
+            {isReadOnly && <ReadOnly>({t('c.readonly')})</ReadOnly>}
+            {!isReadOnly && displayName && (
+              <Name data-testid="display-name">({displayName})</Name>
             )}
-            <NavLink to="/favourites">{t('c.favourites')}</NavLink>
-            <ExternalLink href={aboutPageURL()}>{t('c.about')}</ExternalLink>
-          </Nav>
-        </HeroTop>
-        <SearchContainer>
-          <>
-            <LogoLarge
-              initial={animation.initial}
-              animate={animation.animate}
-              src={ENSLogo}
+          </Network>
+          {!isSafeApp && (
+            <NoAccounts
+              onClick={isReadOnly ? connectProvider : disconnectProvider}
+              buttonText={isReadOnly ? t('c.connect') : t('c.disconnect')}
             />
-            <PermanentRegistrarLogo
-              initial={animation.initial}
-              animate={animation.animate}
-            />
-            <Search />
-          </>
-        </SearchContainer>
-      </Hero>
-    </>
+          )}
+        </NetworkStatus>
+        <Nav>
+          {accounts?.length > 0 && !isReadOnly && (
+            <NavLink
+              active={url === '/address/' + accounts[0]}
+              to={'/address/' + accounts[0]}
+            >
+              {t('c.mynames')}
+            </NavLink>
+          )}
+          <NavLink to="/favourites">{t('c.favourites')}</NavLink>
+          <ExternalLink href={aboutPageURL()}>{t('c.about')}</ExternalLink>
+        </Nav>
+      </HeroTop>
+      <SearchContainer>
+        <>
+          <LogoLarge
+            initial={animation.initial}
+            animate={animation.animate}
+            src={ENSLogo}
+          />
+          <PermanentRegistrarLogo
+            initial={animation.initial}
+            animate={animation.animate}
+          />
+          <Search />
+        </>
+      </SearchContainer>
+    </Hero>
   )
 }

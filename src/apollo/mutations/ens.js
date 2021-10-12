@@ -1,4 +1,5 @@
 import { setupENS } from '@ensdomains/ui'
+import { isENSReadyReactive } from '../reactiveVars'
 
 const INFURA_ID =
   window.location.host === 'app.ens.domains'
@@ -17,7 +18,7 @@ export async function setup({
   ensAddress
 }) {
   let option = {
-    reloadOnAccountsChange: true,
+    reloadOnAccountsChange: false,
     enforceReadOnly,
     enforceReload,
     customProvider,
@@ -26,13 +27,16 @@ export async function setup({
   if (enforceReadOnly) {
     option.infura = INFURA_ID
   }
-  const { ens: ensInstance, registrar: registrarInstance } = await setupENS(
-    option
-  )
+  const {
+    ens: ensInstance,
+    registrar: registrarInstance,
+    providerObject
+  } = await setupENS(option)
   ens = ensInstance
   registrar = registrarInstance
   ensRegistryAddress = ensAddress
-  return { ens, registrar }
+  isENSReadyReactive(true)
+  return { ens, registrar, providerObject }
 }
 
 export function getRegistrar() {

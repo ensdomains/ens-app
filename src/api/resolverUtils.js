@@ -1,8 +1,6 @@
-import { GET_TRANSACTION_HISTORY } from '../graphql/queries'
-import getClient from '../apolloClient'
+import { transactionHistoryReactive } from '../apollo/reactiveVars'
 
 async function addTransaction({ txHash, txState }) {
-  const client = getClient()
   const newTransaction = {
     txHash,
     txState,
@@ -11,7 +9,7 @@ async function addTransaction({ txHash, txState }) {
     __typename: 'Transaction'
   }
 
-  const previous = client.readQuery({ query: GET_TRANSACTION_HISTORY })
+  const previous = transactionHistoryReactive()
   const index = previous.transactionHistory.findIndex(
     trx => trx.txHash === txHash
   )
@@ -29,12 +27,12 @@ async function addTransaction({ txHash, txState }) {
   const data = {
     transactionHistory: newTransactionHistory
   }
-  client.writeQuery({ query: GET_TRANSACTION_HISTORY, data })
+  transactionHistoryReactive(data)
   return data
 }
 
 export async function sendHelper(txObj) {
-  return new Promise(async (resolve, reject) => {
+  return new Promise(async resolve => {
     resolve(txObj.hash)
     let txState = 'Pending'
     addTransaction({ txHash: txObj.hash, txState })

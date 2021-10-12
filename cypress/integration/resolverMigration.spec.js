@@ -11,7 +11,7 @@ describe('Migrate resolver and records', () => {
   })
 
   it('cannot migrate resolver if the parent domain is not migrateed', () => {
-    cy.visit(`${ROOT}/name/a1.sub2.testing.eth`)
+    cy.visit(`${ROOT}/name/a1.sub2.testing.eth/details`)
     cy.queryByText('You must first migrate the parent domain ', {
       timeout: 5000,
       exact: false
@@ -24,7 +24,7 @@ describe('Migrate resolver and records', () => {
   })
 
   it('cannot migrate resolver if the domain is not migrateed', () => {
-    cy.visit(`${ROOT}/name/sub2.testing.eth`)
+    cy.visit(`${ROOT}/name/sub2.testing.eth/details`)
     cy.queryByText('This name needs to be migrated to the new Registry.', {
       exact: false,
       timeout: 5000
@@ -37,16 +37,14 @@ describe('Migrate resolver and records', () => {
   })
 
   it('can visit a name with a deprecated resolver but cannot add records', () => {
-    cy.visit(`${ROOT}/name/abittooawesome3.eth`)
+    cy.visit(`${ROOT}/name/abittooawesome3.eth/details`)
 
-    cy.getByTestId('name-details').within(container => {
-      cy.queryByText(
-        'You can’t edit or add records until you migrate to the new resolver',
-        {
-          timeout: 5000,
-          exact: false
-        }
-      ).should('exist')
-    })
+    cy.queryByText(
+      'You can’t edit or add records until you migrate to the new resolver',
+      {
+        timeout: 5000,
+        exact: false
+      }
+    ).should('exist')
   })
 })

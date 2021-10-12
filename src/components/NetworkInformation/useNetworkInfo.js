@@ -1,21 +1,19 @@
-import { useQuery } from 'react-apollo'
+import { useQuery } from '@apollo/client'
 import gql from 'graphql-tag'
 
 export const GET_WEB3 = gql`
-  query web3 {
-    web3 @client {
-      accounts
-      networkId
-      network
-      isReadOnly
-      isSafeApp
-    }
+  query web3 @client {
+    accounts
+    networkId
+    network
+    isReadOnly
+    isSafeApp
   }
 `
 
 const useNetworkInfo = () => {
   const { data, loading, error, refetch } = useQuery(GET_WEB3)
-  if (loading || !data || !data.web3) {
+  if (!data) {
     return {
       accounts: undefined,
       network: undefined,
@@ -24,9 +22,7 @@ const useNetworkInfo = () => {
       error
     }
   }
-  const {
-    web3: { accounts, network, networkId, isReadOnly, isSafeApp }
-  } = data
+  const { accounts, network, networkId, isReadOnly, isSafeApp } = data
   return {
     accounts: isReadOnly ? [] : accounts,
     network,

@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
+import { useQuery } from '@apollo/client'
 
 import NetworkInformation from '../NetworkInformation/NetworkInformation'
-import useNetworkInfo from '../NetworkInformation/useNetworkInfo'
 import Heart from '../Icons/Heart'
 import File from '../Icons/File'
 import { aboutPageURL, hasNonAscii } from '../../utils/utils'
@@ -11,6 +11,8 @@ import SpeechBubble from '../Icons/SpeechBubble'
 
 import mq from 'mediaQuery'
 import { Link, withRouter } from 'react-router-dom'
+import gql from 'graphql-tag'
+import { isENSReady } from '../../apollo/reactiveVars'
 
 const SideNavContainer = styled('nav')`
   display: ${p => (p.isMenuOpen ? 'block' : 'none')};
@@ -131,19 +133,28 @@ const ThirdPartyLink = styled('a')`
   }
 `
 
+const SIDENAV_QUERY = gql`
+  query getSideNavData {
+    accounts
+    isReadOnly
+  }
+`
+
 function SideNav({ match, isMenuOpen, toggleMenu }) {
   const { url } = match
   const { t } = useTranslation()
-  const { accounts } = useNetworkInfo()
+  const {
+    data: { accounts, isReadOnly }
+  } = useQuery(SIDENAV_QUERY)
   return (
     <SideNavContainer isMenuOpen={isMenuOpen} hasNonAscii={hasNonAscii()}>
       <NetworkInformation />
       <ul data-testid="sitenav">
-        {accounts && accounts.length > 0 ? (
+        {accounts?.length > 0 && !isReadOnly ? (
           <li>
             <NavLink
               onClick={toggleMenu}
-              active={url === '/address/' + accounts[0]}
+              active={url === '/address/' + accounts[0] ? 1 : 0}
               to={'/address/' + accounts[0]}
             >
               <File active={url === '/address/' + accounts[0]} />
@@ -154,7 +165,7 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
         <li>
           <NavLink
             onClick={toggleMenu}
-            active={url === '/favourites'}
+            active={url === '/favourites' ? 1 : 0}
             to="/favourites"
           >
             <Heart active={url === '/favourites'} />
@@ -162,7 +173,11 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
           </NavLink>
         </li>
         <li>
-          <NavLink onClick={toggleMenu} active={url === '/faq'} to="/faq">
+          <NavLink
+            onClick={toggleMenu}
+            active={url === '/faq' ? 1 : 0}
+            to="/faq"
+          >
             <SpeechBubble />
             <span>{t('c.faq')}</span>
           </NavLink>

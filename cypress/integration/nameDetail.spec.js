@@ -40,12 +40,13 @@ function refreshAndCheckText(url, textOrArrayOfText) {
 describe('Name detail view', () => {
   it('can see list of top level domains from [root]', () => {
     cy.visit(`${NAME_ROOT}/[root]/subdomains`)
-    cy.queryByTestId('eth', { timeout: 10000 }).should('exist')
-    cy.queryByTestId('reverse', { timeout: 10000 }).should('exist')
+    cy.queryByTestId('eth', { timeout: 30000 }).should('exist')
+    cy.queryByTestId('reverse', { timeout: 1000 }).should('exist')
     cy.url().should('eq', `${NAME_ROOT}/[root]/subdomains`)
   })
   it('cannot transfer ownership to a non-ethereum address', () => {
     cy.visit(`${NAME_ROOT}/awesome.eth`)
+    cy.wait(10000)
     cy.getByText('Transfer')
       .scrollIntoView()
       .click({ force: true })
@@ -69,6 +70,7 @@ describe('Name detail view', () => {
 
   it('can transfer ownership', () => {
     cy.visit(`${NAME_ROOT}/awesome.eth`)
+    cy.wait(5000)
     cy.getByText('Transfer').click({ force: true })
 
     cy.getByTestId('name-details').within(container => {
@@ -294,9 +296,7 @@ describe('Name detail view', () => {
         .type('FOOOOOOOO{enter}')
         .getByPlaceholderText('FOOOOOOOO', { exact: false })
         .type('Bar', { force: true, delay: 0 })
-      waitUntilInputResolves('Save').then(() => {
-        cy.getByText('Save').click({ force: true })
-      })
+      cy.getByText('Save').click({ force: true })
     })
     confirmRecordUpdate()
 
@@ -414,19 +414,17 @@ describe('Name detail view', () => {
     const LABEL = 'sub1' // using the same subdomain label which is used at sub1.testing.eth
     cy.visit(`${NAME_ROOT}/subdomaindummy.eth/subdomains`, { timeout: 10000 })
 
-    cy.getByTestId('subdomains').within(() => {
-      cy.wait(1000)
-      cy.getByText('add', { exact: false, timeout: 10000 }).click({
-        force: true
-      })
-      cy.getByPlaceholderText('Type in a label', {
-        exact: false,
-        timeout: 10000
-      }).type(LABEL, {
-        force: true
-      })
-      cy.getByText('save', { exact: false }).click({ force: true })
+    cy.getByTestId('addsubdomain', { exact: false, timeout: 10000 }).click({
+      force: true
     })
+    cy.getByPlaceholderText('Type in a label', {
+      exact: false,
+      timeout: 10000
+    }).type(LABEL, {
+      force: true
+    })
+    cy.getByText('save', { exact: false }).click({ force: true })
+
     cy.wait(1000)
     cy.visit(`${NAME_ROOT}/subdomaindummy.eth/subdomains`)
       .getByText('subdomains', { exact: false, timeout: 10000 })

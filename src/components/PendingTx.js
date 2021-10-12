@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled/macro'
-import { useQuery } from 'react-apollo'
+import { useQuery } from '@apollo/client'
 import { GET_TRANSACTION_HISTORY } from '../graphql/queries'
 
 import Loader from './Loader'

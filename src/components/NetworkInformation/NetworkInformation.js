@@ -1,18 +1,15 @@
-import React, { useState, useContext } from 'react'
+import React from 'react'
 import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
-
+import gql from 'graphql-tag'
 import mq from 'mediaQuery'
-import GlobalState from '../../globalState'
+import { useQuery, useMutation } from '@apollo/client'
+
 import UnstyledBlockies from '../Blockies'
 import NoAccountsModal from '../NoAccounts/NoAccountsModal'
-import Loader from 'components/Loader'
-import useNetworkInfo from './useNetworkInfo'
-import { useQuery, useMutation } from 'react-apollo'
 import { GET_REVERSE_RECORD } from '../../graphql/queries'
-import { SET_ERROR } from '../../graphql/mutations'
-import { connect, disconnect } from '../../api/web3modal'
-import { hasValidReverseRecord, imageUrl } from '../../utils/utils'
+import { connectProvider, disconnectProvider } from '../../utils/providerUtils'
+import { imageUrl } from '../../utils/utils'
 
 const NetworkInformationContainer = styled('div')`
   position: relative;
@@ -99,82 +96,36 @@ const AccountContainer = styled('div')`
   `}
 `
 
-const Waiting = styled('div')`
-  color: #ccc;
-  display: flex;
-  font-size: 11px;
-  text-transform: uppercase;
-  font-weight: 700;
-`
-
-const WaitingText = styled('span')`
-  margin-right: 5px;
+const NETWORK_INFORMATION_QUERY = gql`
+  query getNetworkInfo @client {
+    accounts
+    isReadOnly
+    isSafeApp
+    avatar
+    network
+    displayName
+  }
 `
 
 function NetworkInformation() {
   const { t } = useTranslation()
   const {
-    accounts,
-    network,
-    loading,
-    error,
-    refetch,
-    isReadOnly,
-    isSafeApp
-  } = useNetworkInfo()
-  const address = accounts && accounts[0]
+    data: { accounts, isSafeApp, network, displayName, isReadOnly }
+  } = useQuery(NETWORK_INFORMATION_QUERY)
+
   const {
     data: { getReverseRecord } = {},
     loading: reverseRecordLoading
   } = useQuery(GET_REVERSE_RECORD, {
     variables: {
-      address
-    }
+      address: accounts?.[0]
+    },
+    skip: !accounts?.length
   })
-  const { switchNetwork, currentNetwork } = useContext(GlobalState)
 
-  const displayName = hasValidReverseRecord(getReverseRecord)
-    ? getReverseRecord.name
-    : address
-
-  const [setError] = useMutation(SET_ERROR)
-  const handleConnect = async () => {
-    let network
-    try {
-      network = await connect()
-    } catch (e) {
-      setError({ variables: { message: e.message } })
-    }
-    if (network) {
-      switchNetwork(network.chainId)
-      location.reload()
-    }
-  }
-
-  const handleDisconnect = async () => {
-    await disconnect()
-    switchNetwork(1)
-    location.reload()
-  }
-
-  if (loading) {
-    return (
-      <Waiting>
-        <WaitingText>Waiting for accounts</WaitingText> <Loader />
-      </Waiting>
-    )
-  }
-
-  if (error) {
-    return (
-      <Waiting>
-        <WaitingText>Error getting accounts</WaitingText>
-      </Waiting>
-    )
-  }
   return (
     <NetworkInformationContainer hasAccount={accounts && accounts.length > 0}>
-      {accounts && accounts.length > 0 ? (
+      {!isReadOnly ? (
         <AccountContainer>
           {!reverseRecordLoading &&
           getReverseRecord &&
@@ -193,7 +144,7 @@ function NetworkInformation() {
           </NetworkStatus>
           {!isSafeApp && (
             <NoAccountsModal
-              onClick={handleDisconnect}
+              onClick={disconnectProvider}
               buttonText={t('c.disconnect')}
               colour={'#F5A623'}
             />
@@ -208,7 +159,7 @@ function NetworkInformation() {
             {network} {t('c.network')}
           </NetworkStatus>
           <NoAccountsModal
-            onClick={handleConnect}
+            onClick={connectProvider}
             colour={'#F5A623'}
             buttonText={t('c.connect')}
           />

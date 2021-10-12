@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
-import { useQuery, useMutation } from 'react-apollo'
+import { useQuery, useMutation } from '@apollo/client'
 import styled from '@emotion/styled/macro'
 import { useTranslation, Trans } from 'react-i18next'
 
@@ -25,12 +25,13 @@ import Select from 'react-select'
 import Modal from './Modal/Modal'
 import Bin from '../components/Forms/Bin'
 import Gap from '../components/Utils/Gap'
+import gql from 'graphql-tag'
 
 const Loading = styled('span')`
   color: #adbbcd;
 `
 
-const Warning = styled(`div`)`
+const Warning = styled('div')`
   color: #f5a623;
 `
 
@@ -49,11 +50,6 @@ const AddReverseRecordContainer = styled('div')`
 const SetReverseContainer = styled('div')`
   margin-top: 15px;
   padding: 10px;
-`
-
-const ErrorMessage = styled('div')`
-  font-weight: 300;
-  font-size: 14px;
 `
 
 const Message = styled('div')`
@@ -113,6 +109,13 @@ const ButtonsContainer = styled('div')`
   align-items: center;
 `
 
+export const SINGLE_NAME = gql`
+  query singleNameQuery @client {
+    isENSReady
+    networkId
+  }
+`
+
 function AddReverseRecord({ account, currentAddress }) {
   const { t } = useTranslation()
   const { state, actions } = useEditable()
@@ -129,29 +132,44 @@ function AddReverseRecord({ account, currentAddress }) {
     {
       variables: {
         address: currentAddress
-      }
+      },
+      skip: !currentAddress,
+      fetchPolicy: 'no-cache'
     }
   )
 
-  const [setName, { data }] = useMutation(SET_NAME, {
+  const [setName] = useMutation(SET_NAME, {
     onCompleted: data => {
       startPending(Object.values(data)[0])
     }
   })
 
   useEffect(() => {
-    if (account && !getReverseRecord) {
-      startEditing()
-    }
+    startEditing()
   }, [getReverseRecord, account])
-  const { data: { domains } = {} } = useQuery(
+
+  const {
+    data: { networkId }
+  } = useQuery(SINGLE_NAME)
+
+  console.log('networkId: ', networkId)
+
+  const { data: { domains } = {}, refetch: refetchNames } = useQuery(
     GET_ETH_RECORD_AVAILABLE_NAMES_FROM_SUBGRAPH,
     {
       variables: {
         address: currentAddress
+      },
+      fetchPolicy: 'no-cache',
+      context: {
+        queryDeduplication: false
       }
     }
   )
+
+  useEffect(() => {
+    refetchNames()
+  }, [account, currentAddress, networkId])
 
   const isAccountMatched =
     account &&
@@ -212,7 +230,10 @@ function AddReverseRecord({ account, currentAddress }) {
               }}
             />
           ) : (
-            <RotatingSmallCaret rotated={editing} testid="open-reverse" />
+            <RotatingSmallCaret
+              rotated={editing ? 1 : 0}
+              testid="open-reverse"
+            />
           )}
         </Message>
         {editing && (

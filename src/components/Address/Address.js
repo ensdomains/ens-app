@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
-import { useQuery } from 'react-apollo'
+import { useQuery } from '@apollo/client'
 import { useLocation } from 'react-router-dom'
 import { useTranslation, Trans } from 'react-i18next'
 import moment from 'moment'
@@ -35,6 +35,7 @@ import AddReverseRecord from '../AddReverseRecord'
 import warning from '../../assets/yellowwarning.svg'
 import close from '../../assets/close.svg'
 import { useBlock } from '../hooks'
+import gql from 'graphql-tag'
 
 const DEFAULT_RESULTS_PER_PAGE = 25
 
@@ -140,7 +141,8 @@ function useDomains({
       orderDirection: sort.direction,
       expiryDate
     },
-    skip: domainType !== 'registrant'
+    skip: domainType !== 'registrant',
+    fetchPolicy: 'no-cache'
   })
 
   const controllersQuery = useQuery(GET_DOMAINS_SUBGRAPH, {
@@ -149,7 +151,8 @@ function useDomains({
       first: resultsPerPage,
       skip
     },
-    skip: domainType !== 'controller'
+    skip: domainType !== 'controller',
+    fetchPolicy: 'no-cache'
   })
 
   if (domainType === 'registrant') {
@@ -161,12 +164,34 @@ function useDomains({
   }
 }
 
+const RESET_STATE_QUERY = gql`
+  query resetStateQuery @client {
+    networkId
+    isENSReady
+  }
+`
+export const useResetState = (
+  setYears,
+  setCheckedBoxes,
+  setSelectAll,
+  networkId
+) => {
+  useEffect(() => {
+    setYears(1)
+    setCheckedBoxes({})
+    setSelectAll(null)
+  }, [networkId])
+}
+
 export default function Address({
   url,
   address,
   showOriginBanner,
   domainType = 'registrant'
 }) {
+  const {
+    data: { networkId, isENSReady }
+  } = useQuery(RESET_STATE_QUERY)
   const normalisedAddress = normaliseAddress(address)
   const { search } = useLocation()
   const account = useAccount()
@@ -184,6 +209,8 @@ export default function Address({
   let [checkedBoxes, setCheckedBoxes] = useState({})
   let [years, setYears] = useState(1)
   const [selectAll, setSelectAll] = useState(false)
+  useResetState(setYears, setCheckedBoxes, setSelectAll, networkId)
+
   let currentDate, expiryDate
   if (process.env.REACT_APP_STAGE === 'local') {
     if (block) {
@@ -207,8 +234,11 @@ export default function Address({
 
   const { data: { favourites } = [] } = useQuery(GET_FAVOURITES)
   useEffect(() => {
-    getEtherScanAddr().then(setEtherScanAddr)
-  }, [])
+    if (isENSReady) {
+      getEtherScanAddr().then(setEtherScanAddr)
+    }
+  }, [isENSReady])
+
   if (error) {
     console.log(error)
     return <>Error getting domains. {JSON.stringify(error)}</>

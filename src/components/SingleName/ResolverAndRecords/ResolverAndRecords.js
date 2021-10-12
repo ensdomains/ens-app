@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled/macro'
-import { useQuery } from 'react-apollo'
+import { useQuery } from '@apollo/client'
 import { useTranslation } from 'react-i18next'
 import Records from './Records'
 
@@ -103,8 +103,8 @@ export default function ResolverAndRecords({
             value={domain.resolver}
             canEdit={isOwner && isMigratedToNewRegistry}
             domain={domain}
-            editButton={t(`c.set`)}
-            mutationButton={t(`c.save`)}
+            editButton={t('c.set')}
+            mutationButton={t('c.save')}
             mutation={SET_RESOLVER}
             refetch={refetch}
             account={account}
@@ -140,7 +140,7 @@ export default function ResolverAndRecords({
         )}
       </ResolverWrapper>
 
-      {hasResolver && (
+      {hasResolver && Object.values(domain).filter(x => x).length && (
         <Records
           domain={domain}
           refetch={refetch}

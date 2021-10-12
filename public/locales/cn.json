@@ -223,9 +223,6 @@
       "parentmigrate": "在迁移这个子域名之前，你必须先确认它的父域名 {{ parent}} 已经迁移。"
     }
   },
-  "releaseDeed": {
-    "returnDeposit": "这个域名上还有一笔无人认领的锁定资金，要收回锁定的资金，请前往 "
-  },
   "reminder": {
     "everywhere": "任意地点",
     "release": {

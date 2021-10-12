@@ -1,14 +1,14 @@
 import {
-  isDecrypted,
-  getBlock,
-  getWeb3,
-  getNetworkId,
-  getNamehash,
-  getSigner,
-  getResolverContract,
-  getOldResolverContract,
   encodeContenthash,
+  getBlock,
+  getNamehash,
+  getNetworkId,
+  getOldResolverContract,
   getProvider,
+  getResolverContract,
+  getSigner,
+  getWeb3,
+  isDecrypted,
   labelhash,
   utils
 } from '@ensdomains/ui'
@@ -23,202 +23,19 @@ import {
 } from '../../utils/utils'
 import TEXT_RECORD_KEYS from 'constants/textRecords'
 import COIN_LIST_KEYS from 'constants/coinList'
-import {
-  GET_FAVOURITES,
-  GET_SUBDOMAIN_FAVOURITES,
-  GET_ALL_NODES,
-  GET_REGISTRANT_FROM_SUBGRAPH
-} from '../../graphql/queries'
-import getClient from '../../apolloClient'
-import getENS, { getRegistrar } from 'api/ens'
-import { normalize } from 'eth-ens-namehash'
+import { GET_REGISTRANT_FROM_SUBGRAPH } from '../../graphql/queries'
+import getClient from '../../apollo/apolloClient'
+import getENS, { getRegistrar } from 'apollo/mutations/ens'
+import { isENSReadyReactive, namesReactive } from '../../apollo/reactiveVars'
+import getReverseRecord from './getReverseRecord'
+import { isEmptyAddress } from '../../utils/records'
 
-let savedFavourites =
-  JSON.parse(window.localStorage.getItem('ensFavourites')) || []
-let savedSubDomainFavourites =
-  JSON.parse(window.localStorage.getItem('ensSubDomainFavourites')) || []
 const defaults = {
-  names: [],
-  favourites: savedFavourites,
-  subDomainFavourites: savedSubDomainFavourites,
-  transactionHistory: []
+  names: []
 }
 
 async function delay(ms) {
   return await new Promise(resolve => setTimeout(resolve, ms))
-}
-
-async function getParent(name) {
-  const ens = getENS()
-  const nameArray = name.split('.')
-  if (nameArray.length < 1) {
-    return [null, null]
-  }
-  nameArray.shift()
-  const parent = nameArray.join('.')
-  const parentOwner = await ens.getOwner(parent)
-  return [parent, parentOwner]
-}
-
-async function getRegistrarEntry(name) {
-  const registrar = getRegistrar()
-  const nameArray = name.split('.')
-  if (nameArray.length > 3 || nameArray[1] !== 'eth') {
-    return {}
-  }
-
-  const entry = await registrar.getEntry(nameArray[0])
-  const {
-    registrant,
-    deedOwner,
-    state,
-    registrationDate,
-    migrationStartDate,
-    currentBlockDate,
-    transferEndDate,
-    gracePeriodEndDate,
-    revealDate,
-    value,
-    highestBid,
-    expiryTime,
-    isNewRegistrar,
-    available
-  } = entry
-
-  const node = {
-    name: `${name}`,
-    state: modeNames[state],
-    stateError: null, // This is only used for dnssec errors
-    registrationDate,
-    gracePeriodEndDate: gracePeriodEndDate || null,
-    migrationStartDate: migrationStartDate || null,
-    currentBlockDate: currentBlockDate || null,
-    transferEndDate: transferEndDate || null,
-    revealDate,
-    value,
-    highestBid,
-    registrant,
-    deedOwner,
-    isNewRegistrar: !!isNewRegistrar,
-    available,
-    expiryTime: expiryTime || null
-  }
-
-  return node
-}
-
-async function setDNSSECTldOwner(ens, tld, networkId) {
-  let tldowner = (await ens.getOwner(tld)).toLocaleLowerCase()
-  if (parseInt(tldowner) !== 0) return tldowner
-  switch (networkId) {
-    case 1:
-      return MAINNET_DNSREGISTRAR_ADDRESS
-    case 3:
-      return ROPSTEN_DNSREGISTRAR_ADDRESS
-    default:
-      return emptyAddress
-  }
-}
-
-async function getDNSEntryDetails(name) {
-  const ens = getENS()
-  const registrar = getRegistrar()
-  const nameArray = name.split('.')
-  const networkId = await getNetworkId()
-  if (nameArray.length !== 2 || nameArray[1] === 'eth') return {}
-
-  let tld = nameArray[1]
-  let owner
-  let tldowner = await setDNSSECTldOwner(ens, tld, networkId)
-  try {
-    owner = (await ens.getOwner(name)).toLocaleLowerCase()
-  } catch {
-    return {}
-  }
-
-  let isDNSRegistrarSupported = await registrar.isDNSRegistrar(tldowner)
-  if (isDNSRegistrarSupported && tldowner !== emptyAddress) {
-    const dnsEntry = await registrar.getDNSEntry(name, tldowner, owner)
-    const node = {
-      isDNSRegistrar: true,
-      dnsOwner: dnsEntry.claim?.result
-        ? dnsEntry.claim.getOwner()
-        : emptyAddress,
-      state: dnsEntry.state,
-      stateError: dnsEntry.stateError,
-      parentOwner: tldowner
-    }
-
-    return node
-  }
-}
-
-async function getTestEntry(name) {
-  const registrar = getRegistrar()
-  const nameArray = name.split('.')
-  if (nameArray.length < 3 && nameArray[1] === 'test') {
-    const expiryTime = await registrar.expiryTimes(nameArray[0])
-    if (expiryTime) return { expiryTime }
-  }
-  return {}
-}
-
-async function getRegistrant(name) {
-  const client = getClient()
-  try {
-    const { data, error } = await client.query({
-      query: GET_REGISTRANT_FROM_SUBGRAPH,
-      fetchPolicy: 'network-only',
-      variables: { id: labelhash(name.split('.')[0]) }
-    })
-    if (!data || !data.registration) {
-      return null
-    }
-    if (error) {
-      console.log('Error getting registrant from subgraph', error)
-      return null
-    }
-
-    return utils.getAddress(data.registration.registrant.id)
-  } catch (e) {
-    console.log('GraphQL error from getRegistrant', e)
-    return null
-  }
-}
-
-function adjustForShortNames(node) {
-  const nameArray = node.name.split('.')
-  const { label, parent } = node
-
-  // return original node if is subdomain or not eth
-  if (nameArray.length > 2 || parent !== 'eth' || label.length > 6) return node
-
-  //if the auctions are over
-  if (new Date() > new Date(1570924800000)) {
-    return node
-  }
-
-  let auctionEnds
-  let onAuction = true
-
-  if (label.length >= 5) {
-    auctionEnds = new Date(1569715200000) // 29 September
-  } else if (label.length >= 4) {
-    auctionEnds = new Date(1570320000000) // 6 October
-  } else if (label.length >= 3) {
-    auctionEnds = new Date(1570924800000) // 13 October
-  }
-
-  if (new Date() > auctionEnds) {
-    onAuction = false
-  }
-
-  return {
-    ...node,
-    auctionEnds,
-    onAuction,
-    state: onAuction ? 'Auction' : node.state
-  }
 }
 
 function setState(node) {
@@ -237,14 +54,22 @@ function setState(node) {
   }
 }
 
-const handleSingleTransaction = async (name, record, resolverInstance) => {
+export const handleSingleTransaction = async (
+  name,
+  record,
+  resolverInstance
+) => {
   const namehash = getNamehash(name)
 
   if (record.contractFn === 'setContenthash') {
-    const contentTx = await resolverInstance[record.contractFn](
-      namehash,
-      encodeContenthash(record.value || emptyAddress)?.encoded
-    )
+    let value
+    if (isEmptyAddress(record.value)) {
+      value = emptyAddress
+    } else {
+      value = encodeContenthash(record.value)?.encoded
+    }
+
+    const contentTx = await resolverInstance[record.contractFn](namehash, value)
     return sendHelper(contentTx)
   }
 
@@ -285,18 +110,24 @@ const handleSingleTransaction = async (name, record, resolverInstance) => {
   console.error('Single transaction error')
 }
 
-const handleMultipleTransactions = async (name, records, resolverInstance) => {
+export const handleMultipleTransactions = async (
+  name,
+  records,
+  resolverInstance
+) => {
   try {
     const resolver = resolverInstance.interface
     const namehash = getNamehash(name)
 
     const transactionArray = records.map(record => {
       if (record.contractFn === 'setContenthash') {
-        const encodedContenthash = encodeContenthash(record.value)?.encoded
-        return resolver.encodeFunctionData(record.contractFn, [
-          namehash,
-          encodedContenthash
-        ])
+        let value
+        if (isEmptyAddress(record.value)) {
+          value = emptyAddress
+        } else {
+          value = encodeContenthash(record.value)?.encoded
+        }
+        return resolver.encodeFunctionData(record.contractFn, [namehash, value])
       }
 
       if (record.contractFn === 'setText') {
@@ -337,18 +168,231 @@ const handleMultipleTransactions = async (name, records, resolverInstance) => {
   }
 }
 
+async function getRegistrarEntry(name) {
+  const registrar = getRegistrar()
+  const nameArray = name.split('.')
+  if (nameArray.length > 3 || nameArray[1] !== 'eth') {
+    return {}
+  }
+
+  const entry = await registrar.getEntry(nameArray[0])
+  const {
+    registrant,
+    deedOwner,
+    state,
+    registrationDate,
+    migrationStartDate,
+    currentBlockDate,
+    transferEndDate,
+    gracePeriodEndDate,
+    revealDate,
+    value,
+    highestBid,
+    expiryTime,
+    isNewRegistrar,
+    available
+  } = entry
+
+  return {
+    name: `${name}`,
+    state: modeNames[state],
+    stateError: null, // This is only used for dnssec errors
+    registrationDate,
+    gracePeriodEndDate: gracePeriodEndDate || null,
+    migrationStartDate: migrationStartDate || null,
+    currentBlockDate: currentBlockDate || null,
+    transferEndDate: transferEndDate || null,
+    revealDate,
+    value,
+    highestBid,
+    registrant,
+    deedOwner,
+    isNewRegistrar: !!isNewRegistrar,
+    available,
+    expiryTime: expiryTime || null
+  }
+}
+
+async function getParent(name) {
+  const ens = getENS()
+  const nameArray = name.split('.')
+  if (nameArray.length < 1) {
+    return [null, null]
+  }
+  nameArray.shift()
+  const parent = nameArray.join('.')
+  const parentOwner = await ens.getOwner(parent)
+  return [parent, parentOwner]
+}
+
+async function getRegistrant(name) {
+  const client = getClient()
+  try {
+    const { data, error } = await client.query({
+      query: GET_REGISTRANT_FROM_SUBGRAPH,
+      fetchPolicy: 'network-only',
+      variables: { id: labelhash(name.split('.')[0]) },
+      context: {
+        queryDeduplication: false
+      }
+    })
+    if (!data || !data.registration) {
+      return null
+    }
+    if (error) {
+      console.log('Error getting registrant from subgraph', error)
+      return null
+    }
+
+    return utils.getAddress(data.registration.registrant.id)
+  } catch (e) {
+    console.log('GraphQL error from getRegistrant', e)
+    return null
+  }
+}
+
+async function setDNSSECTldOwner(ens, tld, networkId) {
+  let tldowner = (await ens.getOwner(tld)).toLocaleLowerCase()
+  if (parseInt(tldowner) !== 0) return tldowner
+  switch (networkId) {
+    case 1:
+      return MAINNET_DNSREGISTRAR_ADDRESS
+    case 3:
+      return ROPSTEN_DNSREGISTRAR_ADDRESS
+    default:
+      return emptyAddress
+  }
+}
+
+async function getDNSEntryDetails(name) {
+  const ens = getENS()
+  const registrar = getRegistrar()
+  const nameArray = name.split('.')
+  const networkId = await getNetworkId()
+  if (nameArray.length !== 2 || nameArray[1] === 'eth') return {}
+
+  let tld = nameArray[1]
+  let owner
+  let tldowner = await setDNSSECTldOwner(ens, tld, networkId)
+  try {
+    owner = (await ens.getOwner(name)).toLocaleLowerCase()
+  } catch {
+    return {}
+  }
+
+  let isDNSRegistrarSupported = await registrar.isDNSRegistrar(tldowner)
+  if (isDNSRegistrarSupported && tldowner !== emptyAddress) {
+    const dnsEntry = await registrar.getDNSEntry(name, tldowner, owner)
+    return {
+      isDNSRegistrar: true,
+      dnsOwner: dnsEntry.claim?.result
+        ? dnsEntry.claim.getOwner()
+        : emptyAddress,
+      state: dnsEntry.state,
+      stateError: dnsEntry.stateError,
+      parentOwner: tldowner
+    }
+  }
+}
+
+async function getTestEntry(name) {
+  const registrar = getRegistrar()
+  const nameArray = name.split('.')
+  if (nameArray.length < 3 && nameArray[1] === 'test') {
+    const expiryTime = await registrar.expiryTimes(nameArray[0])
+    if (expiryTime) return { expiryTime }
+  }
+  return {}
+}
+
+function adjustForShortNames(node) {
+  const nameArray = node.name.split('.')
+  const { label, parent } = node
+
+  // return original node if is subdomain or not eth
+  if (nameArray.length > 2 || parent !== 'eth' || label.length > 6) return node
+
+  //if the auctions are over
+  if (new Date() > new Date(1570924800000)) {
+    return node
+  }
+
+  let auctionEnds
+  let onAuction = true
+
+  if (label.length >= 5) {
+    auctionEnds = new Date(1569715200000) // 29 September
+  } else if (label.length >= 4) {
+    auctionEnds = new Date(1570320000000) // 6 October
+  } else if (label.length >= 3) {
+    auctionEnds = new Date(1570924800000) // 13 October
+  }
+
+  if (new Date() > auctionEnds) {
+    onAuction = false
+  }
+
+  return {
+    ...node,
+    auctionEnds,
+    onAuction,
+    state: onAuction ? 'Auction' : node.state
+  }
+}
+
 const resolvers = {
   Query: {
-    getOwner: async (_, { name }, { cache }) => {
-      const ens = getENS()
-      const owner = await ens.getOwner(name)
-      return owner
-    },
-
-    singleName: async (_, { name }, { cache }) => {
+    publicResolver: async () => {
       try {
         const ens = getENS()
+        const resolver = await ens.getAddress('resolver.eth')
+        return {
+          address: resolver,
+          __typename: 'Resolver'
+        }
+      } catch (e) {
+        console.log('error getting public resolver', e)
+      }
+    },
+    getOwner: (_, { name }) => {
+      const ens = getENS()
+      return ens.getOwner(name)
+    },
+
+    singleName: async (_, { name }) => {
+      try {
+        if (!isENSReadyReactive() || !name)
+          return {
+            name: null,
+            revealDate: null,
+            registrationDate: null,
+            migrationStartDate: null,
+            currentBlockDate: null,
+            transferEndDate: null,
+            gracePeriodEndDate: null,
+            value: null,
+            highestBid: null,
+            state: null,
+            stateError: null,
+            label: null,
+            decrypted: false,
+            price: null,
+            rent: null,
+            referralFeePPM: null,
+            available: null,
+            contentType: null,
+            expiryTime: null,
+            isNewRegistrar: null,
+            isDNSRegistrar: null,
+            dnsOwner: null,
+            deedOwner: null,
+            registrant: null,
+            auctionEnds: null
+          }
+
+        const ens = getENS()
         const decrypted = isDecrypted(name)
+
         let node = {
           name: null,
           revealDate: null,
@@ -376,6 +420,7 @@ const resolvers = {
           registrant: null,
           auctionEnds: null // remove when auction is over
         }
+
         const dataSources = [
           getRegistrarEntry(name),
           ens.getDomainDetails(name),
@@ -394,7 +439,7 @@ const resolvers = {
           registrant
         ] = await Promise.all(dataSources)
 
-        const { names } = cache.readQuery({ query: GET_ALL_NODES })
+        const names = namesReactive()
 
         let detailedNode = adjustForShortNames({
           ...node,
@@ -422,11 +467,8 @@ const resolvers = {
         ) {
           detailedNode.parentOwner = dnsEntry.parentOwner
         }
-        const data = {
-          names: [...names, detailedNode]
-        }
 
-        cache.writeData({ data })
+        namesReactive([...names, detailedNode])
 
         return detailedNode
       } catch (e) {
@@ -434,7 +476,7 @@ const resolvers = {
         throw e
       }
     },
-    getResolverMigrationInfo: async (_, { name, resolver }, { cache }) => {
+    getResolverMigrationInfo: async (_, { name, resolver }) => {
       /* TODO add hardcoded resolver addresses */
       const ens = getENS()
       const networkId = await getNetworkId()
@@ -511,79 +553,37 @@ const resolvers = {
       let isDeprecatedResolver = calculateIsDeprecatedResolver(resolver)
       let isOldPublicResolver = calculateIsOldPublicResolver(resolver)
       let isPublicResolverReady = await calculateIsPublicResolverReady()
-      const resolverMigrationInfo = {
+      return {
         name,
         isDeprecatedResolver,
         isOldPublicResolver,
         isPublicResolverReady,
         __typename: 'ResolverMigration'
       }
-      return resolverMigrationInfo
     },
-    isMigrated: async (_, { name }, { cache }) => {
+    isMigrated: (_, { name }) => {
       const ens = getENS()
-      let result = await ens.isMigrated(name)
-      return result
+      return ens.isMigrated(name)
     },
-    isContractController: async (_, { address }, { cache }) => {
+    isContractController: async (_, { address }) => {
       let provider = await getWeb3()
       const bytecode = await provider.getCode(address)
       return bytecode !== '0x'
     },
-    getSubDomains: async (_, { name }, { cache }) => {
-      const ens = getENS()
-      const rawSubDomains = await ens.getSubdomains(name)
-
-      return {
-        subDomains: rawSubDomains,
-        __typename: 'SubDomains'
-      }
-    },
-    getReverseRecord: async (_, { address }, { cache }) => {
-      let name = emptyAddress
-      const ens = getENS()
-      const obj = {
-        name,
-        address,
-        __typename: 'ReverseRecord'
-      }
-      if (!address) return obj
-
+    getSubDomains: async (_, { name }) => {
       try {
-        const { name: reverseName } = await ens.getName(address)
-        const reverseAddress = await ens.getAddress(reverseName)
-        const normalisedName = normalize(reverseName)
-        if (
-          parseInt(address) === parseInt(reverseAddress) &&
-          reverseName === normalisedName
-        ) {
-          name = reverseName
-        }
-        if (name !== null) {
-          const avatar = await ens.getText(name, 'avatar')
-          return {
-            ...obj,
-            name,
-            addr: reverseAddress,
-            avatar,
-            match: false
-          }
-        } else {
-          return {
-            ...obj,
-            name: null,
-            match: false
-          }
+        const ens = getENS()
+        const rawSubDomains = await ens.getSubdomains(name)
+
+        return {
+          subDomains: rawSubDomains,
+          __typename: 'SubDomains'
         }
       } catch (e) {
-        console.log(e)
-        return {
-          ...obj,
-          name: null,
-          match: false
-        }
+        console.log('getSubDomains error: ', e)
       }
     },
+    getReverseRecord,
     getText: async (_, { name, key }) => {
       const ens = getENS()
       const text = await ens.getText(name, key)
@@ -602,7 +602,7 @@ const resolvers = {
 
       return address
     },
-    getAddresses: async (_, { name, keys }) => {
+    getAddresses: (_, { name, keys }) => {
       const ens = getENS()
       const addresses = keys.map(key =>
         ens.getAddr(name, key).then(addr => ({ key, value: addr }))
@@ -610,11 +610,12 @@ const resolvers = {
       return Promise.all(addresses)
     },
     getTextRecords: async (_, { name, keys }) => {
+      if (!name || !keys) return []
       const ens = getENS()
       const textRecords = keys.map(key =>
         ens.getText(name, key).then(addr => ({ key, value: addr }))
       )
-      return Promise.all(textRecords)
+      return await Promise.all(textRecords)
     },
     waitBlockTimestamp: async (_, { waitUntil }) => {
       if (waitUntil) {
@@ -656,7 +657,7 @@ const resolvers = {
         console.log(e)
       }
     },
-    setOwner: async (_, { name, address }, { cache }) => {
+    setOwner: async (_, { name, address }) => {
       try {
         const ens = getENS()
         const tx = await ens.setOwner(name, address)
@@ -665,7 +666,7 @@ const resolvers = {
         console.log(e)
       }
     },
-    setSubnodeOwner: async (_, { name, address }, { cache }) => {
+    setSubnodeOwner: async (_, { name, address }) => {
       try {
         const ens = getENS()
         const tx = await ens.setSubnodeOwner(name, address)
@@ -674,7 +675,7 @@ const resolvers = {
         console.log(e)
       }
     },
-    setResolver: async (_, { name, address }, { cache }) => {
+    setResolver: async (_, { name, address }) => {
       try {
         const ens = getENS()
         const tx = await ens.setResolver(name, address)
@@ -683,7 +684,7 @@ const resolvers = {
         console.log(e)
       }
     },
-    setAddress: async (_, { name, recordValue }, { cache }) => {
+    setAddress: async (_, { name, recordValue }) => {
       try {
         const ens = getENS()
         const tx = await ens.setAddress(name, recordValue)
@@ -692,7 +693,7 @@ const resolvers = {
         console.log(e)
       }
     },
-    setAddr: async (_, { name, key, recordValue }, { cache }) => {
+    setAddr: async (_, { name, key, recordValue }) => {
       try {
         const ens = getENS()
         const tx = await ens.setAddr(name, key, recordValue)
@@ -701,7 +702,7 @@ const resolvers = {
         console.log(e)
       }
     },
-    setContent: async (_, { name, recordValue }, { cache }) => {
+    setContent: async (_, { name, recordValue }) => {
       try {
         const ens = getENS()
         const tx = await ens.setContent(name, recordValue)
@@ -710,7 +711,7 @@ const resolvers = {
         console.log(e)
       }
     },
-    setContenthash: async (_, { name, recordValue }, { cache }) => {
+    setContenthash: async (_, { name, recordValue }) => {
       try {
         const ens = getENS()
         const tx = await ens.setContenthash(name, recordValue)
@@ -719,16 +720,16 @@ const resolvers = {
         console.log(e)
       }
     },
-    setText: async (_, { name, key, recordValue }, { cache }) => {
+    setText: async (_, { name, key, recordValue }) => {
       try {
         const ens = getENS()
         const tx = await ens.setText(name, key, recordValue)
         return sendHelper(tx)
       } catch (e) {
-        console.log(e)
+        console.error(e)
       }
     },
-    addMultiRecords: async (_, { name, records }, { cache }) => {
+    addMultiRecords: async (_, { name, records }) => {
       const ens = getENS()
 
       const provider = await getProvider()
@@ -745,7 +746,7 @@ const resolvers = {
       }
       return await handleMultipleTransactions(name, records, resolverInstance)
     },
-    migrateResolver: async (_, { name }, { cache }) => {
+    migrateResolver: async (_, { name }) => {
       const ens = getENS()
       const provider = await getProvider()
 
@@ -757,17 +758,15 @@ const resolvers = {
             switch (i) {
               case 0:
                 if (parseInt(record, 16) === 0) return undefined
-                let encoded = resolver.encodeFunctionData(
-                  'setAddr(bytes32,address)',
-                  [namehash, record]
-                )
-                return encoded
+                return resolver.encodeFunctionData('setAddr(bytes32,address)', [
+                  namehash,
+                  record
+                ])
               case 1:
                 if (!record || parseInt(record, 16) === 0) return undefined
-                const encodedContenthash = record
                 return resolver.encodeFunctionData('setContenthash', [
                   namehash,
-                  encodedContenthash
+                  record
                 ])
               case 2:
                 return record.map(textRecord => {
@@ -882,10 +881,7 @@ const resolvers = {
           address: resolver,
           provider
         })
-        const contentHash = await resolverInstanceWithoutSigner.contenthash(
-          namehash
-        )
-        return contentHash
+        return await resolverInstanceWithoutSigner.contenthash(namehash)
       }
 
       async function getAllRecords(name, isOldContentResolver) {
@@ -954,7 +950,7 @@ const resolvers = {
         throw e
       }
     },
-    migrateRegistry: async (_, { name, address }, { cache }) => {
+    migrateRegistry: async (_, { name, address }) => {
       try {
         const ens = getENS()
         const resolver = await ens.getResolver(name)
@@ -964,7 +960,7 @@ const resolvers = {
         console.log(e)
       }
     },
-    createSubdomain: async (_, { name }, { cache }) => {
+    createSubdomain: async (_, { name }) => {
       try {
         const ens = getENS()
         const tx = await ens.createSubdomain(name)
@@ -973,7 +969,7 @@ const resolvers = {
         console.log(e)
       }
     },
-    deleteSubdomain: async (_, { name }, { cache }) => {
+    deleteSubdomain: async (_, { name }) => {
       try {
         const ens = getENS()
         const tx = await ens.deleteSubdomain(name)
@@ -981,74 +977,6 @@ const resolvers = {
       } catch (e) {
         console.log(e)
       }
-    },
-    addFavourite: async (_, { domain }, { cache }) => {
-      const newFavourite = {
-        ...domain,
-        __typename: 'Domain'
-      }
-
-      const previous = cache.readQuery({ query: GET_FAVOURITES })
-
-      const data = {
-        favourites: [...previous.favourites, newFavourite]
-      }
-      cache.writeData({ data })
-      window.localStorage.setItem(
-        'ensFavourites',
-        JSON.stringify(data.favourites)
-      )
-      return data
-    },
-    deleteFavourite: async (_, { domain }, { cache }) => {
-      const previous = cache.readQuery({ query: GET_FAVOURITES })
-
-      const data = {
-        favourites: previous.favourites.filter(
-          previousDomain => previousDomain.name !== domain.name
-        )
-      }
-
-      cache.writeData({ data })
-      window.localStorage.setItem(
-        'ensFavourites',
-        JSON.stringify(data.favourites)
-      )
-      return data
-    },
-    addSubDomainFavourite: async (_, { domain }, { cache }) => {
-      const previous = cache.readQuery({ query: GET_SUBDOMAIN_FAVOURITES })
-
-      const newFavourite = {
-        ...domain,
-        __typename: 'SubDomain'
-      }
-
-      const data = {
-        subDomainFavourites: [...previous.subDomainFavourites, newFavourite]
-      }
-      cache.writeData({ data })
-      window.localStorage.setItem(
-        'ensSubDomainFavourites',
-        JSON.stringify(data.subDomainFavourites)
-      )
-      return data
-    },
-    deleteSubDomainFavourite: async (_, { domain }, { cache }) => {
-      const previous = cache.readQuery({ query: GET_SUBDOMAIN_FAVOURITES })
-
-      const data = {
-        subDomainFavourites: previous.subDomainFavourites.filter(
-          previousDomain => previousDomain.name !== domain.name
-        )
-      }
-
-      cache.writeData({ data })
-      window.localStorage.setItem(
-        'ensSubDomainFavourites',
-        JSON.stringify(data.subDomainFavourites)
-      )
-      return data
     }
   }
 }

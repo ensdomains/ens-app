@@ -3,8 +3,7 @@ import { css } from 'emotion'
 import moment from 'moment'
 import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
-import { Mutation, Query, useQuery } from 'react-apollo'
-import PropTypes from 'prop-types'
+import { useQuery, useMutation } from '@apollo/client'
 import { motion, AnimatePresence } from 'framer-motion'
 import EthVal from 'ethval'
 
@@ -23,7 +22,7 @@ import { addressUtils, emptyAddress } from 'utils/utils'
 import { refetchTilUpdatedSingle } from 'utils/graphql'
 import Bin from '../Forms/Bin'
 import { useAccount } from '../QueryAccount'
-import { getEnsAddress } from '../../api/ens'
+import { getEnsAddress } from '../../apollo/mutations/ens'
 
 import AddToCalendar from '../Calendar/RenewalCalendar'
 import Tooltip from '../Tooltip/Tooltip'
@@ -44,6 +43,7 @@ import DefaultPendingTx from '../PendingTx'
 import DefaultPricer from './Pricer'
 import DefaultAddressInput from '@ensdomains/react-ens-address'
 import CopyToClipboard from '../CopyToClipboard/'
+import { isOwnerOfParentDomain } from '../../utils/utils'
 
 const AddressInput = styled(DefaultAddressInput)`
   margin-bottom: 10px;
@@ -91,7 +91,7 @@ const DetailsEditableContainer = styled(DetailsItem)`
     }
   }};
   padding: ${({ editing }) => (editing ? '20px' : '0')};
-  ${({ editing }) => (editing ? `margin-bottom: 20px;` : '')}
+  ${({ editing }) => (editing ? 'margin-bottom: 20px;' : '')}
   transition: 0.3s;
 
   ${({ editing }) => editing && mq.small` flex-direction: column;`};
@@ -214,13 +214,6 @@ function getToolTipMessage({ keyName, t, isExpiredRegistrant }) {
   }
 }
 
-function isOwnerOfParentDomain(domain, account) {
-  if (domain.parentOwner !== emptyAddress) {
-    return domain.parentOwner.toLowerCase() === account.toLowerCase()
-  }
-  return false
-}
-
 function chooseMutation(recordType, isOwnerOfParent) {
   switch (recordType) {
     case 'Controller':
@@ -232,7 +225,7 @@ function chooseMutation(recordType, isOwnerOfParent) {
     case 'Resolver':
       return SET_RESOLVER
     default:
-      throw new Error('Not a recognised record type')
+      return SET_SUBNODE_OWNER
   }
 }
 
@@ -341,7 +334,7 @@ const Editable = ({
   keyName,
   value,
   type,
-  mutation,
+  mutation: mutationQuery,
   mutationButton,
   editButton,
   domain,
@@ -408,286 +401,284 @@ const Editable = ({
   const isRegistrant = !domain.available && domain.registrant === account
   const canDelete = ['Resolver'].includes(keyName)
   const placeholder = t('singleName.resolver.placeholder')
+  const [mutation] = useMutation(mutationQuery, {
+    onCompleted: data => {
+      const txHash = Object.values(data)[0]
+      startPending(txHash)
+      if (keyName === 'Expiration Date') {
+        trackReferral({
+          labels: [domain.label], // labels array
+          transactionId: txHash, //hash
+          type: 'renew', // renew/register
+          price: new EthVal(`${getRentPrice._hex}`)
+            .toEth()
+            .mul(ethUsdPrice)
+            .toFixed(2), // in wei, // in wei
+          years
+        })
+      }
+    }
+  })
+
+  const [ownerMutation] = useMutation(
+    chooseMutation(keyName, isOwnerOfParent),
+    {
+      variables: {
+        name: domain.name,
+        address: emptyAddress
+      },
+      onCompleted: data => {
+        startPending(Object.values(data)[0])
+      }
+    }
+  )
+
+  const { data, loading } = useQuery(GET_PUBLIC_RESOLVER, {
+    fetchPolicy: 'network-only'
+  })
+
   return (
-    <Mutation
-      mutation={mutation}
-      onCompleted={data => {
-        const txHash = Object.values(data)[0]
-        startPending(txHash)
-        if (keyName === 'Expiration Date') {
-          trackReferral({
-            labels: [domain.label], // labels array
-            transactionId: txHash, //hash
-            type: 'renew', // renew/register
-            price: new EthVal(`${getRentPrice._hex}`)
-              .toEth()
-              .mul(ethUsdPrice)
-              .toFixed(2), // in wei, // in wei
-            years
-          })
-        }
-      }}
+    <DetailsEditableContainer
+      editing={editing}
+      backgroundStyle={backgroundStyle}
     >
-      {mutation => (
-        <DetailsEditableContainer
-          editing={editing}
-          backgroundStyle={backgroundStyle}
-        >
-          <DetailsContent editing={editing}>
-            {showLabel && (
-              <>
-                <DetailsKey>{t(`c.${keyName}`)}</DetailsKey>
-                <DetailsValue
-                  editing={editing}
-                  editable
-                  data-testid={`details-value-${keyName.toLowerCase()}`}
-                  expiryDate={type === 'date'}
-                >
-                  {type === 'address' ? (
-                    <AddressLink address={value}>
-                      <SingleNameBlockies address={value} imageSize={24} />
-                      {keyName === 'Resolver' &&
-                      domain.contentType === 'oldcontent' ? (
-                        <Tooltip
-                          text='<p>This resolver is outdated and does not support the new content hash.<br/>Click the "Set" button to update  to the latest public resolver.</p>'
-                          position="top"
-                          border={true}
-                        >
-                          {({ tooltipElement, showTooltip, hideTooltip }) => (
-                            <>
-                              <Info
-                                onMouseOver={() => {
-                                  showTooltip()
-                                }}
-                                onMouseLeave={() => {
-                                  hideTooltip()
-                                }}
-                              />
-                              {tooltipElement}
-                            </>
-                          )}
-                        </Tooltip>
-                      ) : null}
-                      <Address>{value}</Address>
-                    </AddressLink>
-                  ) : type === 'date' ? (
-                    <>
-                      <ExpiryDate>{formatDate(value)}</ExpiryDate>
-                      <AddToCalendar
-                        css={css`
-                          margin-right: 20px;
-                        `}
-                        name={domain.name}
-                        owner={domain.owner}
-                        registrant={domain.registrant}
-                        startDatetime={moment(value)
-                          .utc()
-                          .subtract(30, 'days')}
-                      />
-                    </>
-                  ) : (
-                    value
-                  )}
-                  {copyToClipboard && <CopyToClipboard value={value} />}
-                </DetailsValue>
-              </>
-            )}
-            {editing ? null : pending && !confirmed ? (
-              <PendingTx
-                txHash={txHash}
-                onConfirmed={() => {
-                  if (keyName === 'registrant') {
-                    refetchTilUpdatedSingle({
-                      refetch,
-                      interval: 300,
-                      keyToCompare: 'registrant',
-                      prevData: {
-                        singleName: domain
-                      },
-                      getterString: 'singleName'
-                    })
-                  } else {
-                    refetch()
-                  }
-                  setConfirmed()
-                }}
-              />
-            ) : (
-              <Action
-                initial={{
-                  opacity: 0,
-                  x: 0
-                }}
-                animate={{
-                  opacity: 1,
-                  x: 0
-                }}
-                exit={{
-                  opacity: 0,
-                  x: 0
-                }}
-              >
-                {editButton ? (
-                  <EditButton
-                    type={editButtonType}
-                    onClick={startEditing}
-                    data-testid={`edit-${keyName.toLowerCase()}`}
-                  >
-                    {editButton}
-                  </EditButton>
-                ) : (
-                  <Pencil
-                    onClick={startEditing}
-                    data-testid={`edit-${keyName.toLowerCase()}`}
+      <DetailsContent editing={editing}>
+        {showLabel && (
+          <>
+            <DetailsKey>{t(`c.${keyName}`)}</DetailsKey>
+            <DetailsValue
+              editing={editing}
+              editable
+              data-testid={`details-value-${keyName.toLowerCase()}`}
+              expiryDate={type === 'date'}
+            >
+              {type === 'address' ? (
+                <AddressLink address={value}>
+                  <SingleNameBlockies address={value} imageSize={24} />
+                  {keyName === 'Resolver' &&
+                  domain.contentType === 'oldcontent' ? (
+                    <Tooltip
+                      text='<p>This resolver is outdated and does not support the new content hash.<br/>Click the "Set" button to update  to the latest public resolver.</p>'
+                      position="top"
+                      border={true}
+                    >
+                      {({ tooltipElement, showTooltip, hideTooltip }) => (
+                        <>
+                          <Info
+                            onMouseOver={() => {
+                              showTooltip()
+                            }}
+                            onMouseLeave={() => {
+                              hideTooltip()
+                            }}
+                          />
+                          {tooltipElement}
+                        </>
+                      )}
+                    </Tooltip>
+                  ) : null}
+                  <Address>{value}</Address>
+                </AddressLink>
+              ) : type === 'date' ? (
+                <>
+                  <ExpiryDate>{formatDate(value)}</ExpiryDate>
+                  <AddToCalendar
+                    css={css`
+                      margin-right: 20px;
+                    `}
+                    name={domain.name}
+                    owner={domain.owner}
+                    registrant={domain.registrant}
+                    startDatetime={moment(value)
+                      .utc()
+                      .subtract(30, 'days')}
                   />
-                )}
-              </Action>
+                </>
+              ) : (
+                value
+              )}
+              {copyToClipboard && <CopyToClipboard value={value} />}
+            </DetailsValue>
+          </>
+        )}
+        {editing ? null : pending && !confirmed ? (
+          <PendingTx
+            txHash={txHash}
+            onConfirmed={() => {
+              if (keyName === 'registrant') {
+                refetchTilUpdatedSingle({
+                  refetch,
+                  interval: 300,
+                  keyToCompare: 'registrant',
+                  prevData: {
+                    singleName: domain
+                  },
+                  getterString: 'singleName'
+                })
+              } else {
+                refetch()
+              }
+              setConfirmed()
+            }}
+          />
+        ) : (
+          <Action
+            initial={{
+              opacity: 0,
+              x: 0
+            }}
+            animate={{
+              opacity: 1,
+              x: 0
+            }}
+            exit={{
+              opacity: 0,
+              x: 0
+            }}
+          >
+            {editButton ? (
+              <EditButton
+                type={editButtonType}
+                onClick={startEditing}
+                data-testid={`edit-${keyName.toLowerCase()}`}
+              >
+                {editButton}
+              </EditButton>
+            ) : (
+              <Pencil
+                onClick={startEditing}
+                data-testid={`edit-${keyName.toLowerCase()}`}
+              />
             )}
-            {editing && canDelete ? (
-              <Action>
-                <Mutation
-                  mutation={chooseMutation(keyName, isOwnerOfParent)}
-                  variables={{
-                    name: domain.name,
-                    address: emptyAddress
-                  }}
-                  onCompleted={data => {
-                    startPending(Object.values(data)[0])
-                  }}
-                >
-                  {mutate => (
-                    <Bin
-                      data-testid={`delete-${type.toLowerCase()}`}
+          </Action>
+        )}
+        {editing &&
+        canDelete &&
+        (keyName === 'Controller' || keyName === 'Resolver') ? (
+          <Action>
+            <Bin
+              data-testid={`delete-${type.toLowerCase()}`}
+              onClick={e => {
+                e.preventDefault()
+                ownerMutation()
+              }}
+            />
+          </Action>
+        ) : (
+          ''
+        )}
+      </DetailsContent>
+      <AnimatePresence>
+        {editing && (
+          <motion.div
+            initial={{
+              height: 0,
+              width: 0,
+              opacity: 0
+            }}
+            animate={{
+              height: 'auto',
+              width: '100%',
+              opacity: 1
+            }}
+            exit={{
+              height: 0,
+              width: 0,
+              opacity: 0
+            }}
+            transition={{ ease: 'easeOut', duration: 0.3 }}
+          >
+            <EditRecord
+              initial={{
+                scale: 0,
+                opacity: 0
+              }}
+              animate={{
+                scale: 1,
+                opacity: 1
+              }}
+              exit={{
+                scale: 0,
+                opacity: 0
+              }}
+              transition={{ ease: 'easeOut', duration: 0.3 }}
+            >
+              {getInputType(keyName, type, {
+                newValue,
+                updateValue,
+                presetValue,
+                isValid,
+                isInvalid,
+                years,
+                name: domain.name,
+                setYears,
+                ethUsdPrice,
+                ethUsdPriceLoading,
+                duration,
+                expirationDate,
+                rentPriceLoading,
+                rentPrice: getRentPrice,
+                placeholder
+              })}
+            </EditRecord>
+            <Buttons>
+              {keyName === 'Expiration Date' && !isRegistrant ? (
+                <WarningMessage>
+                  *{t('singleName.expiry.cannotown')}
+                </WarningMessage>
+              ) : (
+                ''
+              )}
+              {keyName === 'Resolver' && (
+                <>
+                  {isNewResolverAddress && !isContractAddress && (
+                    <ResolverAddressWarning data-testid="resolver-address-warning">
+                      {t('singleName.resolver.resolverAddressWarning')}
+                    </ResolverAddressWarning>
+                  )}
+                  {!loading && (
+                    <DefaultResolverButton
                       onClick={e => {
                         e.preventDefault()
-                        mutate()
+                        updateValue(data.publicResolver.address)
                       }}
-                    />
+                    >
+                      {t('singleName.resolver.publicResolver')}
+                    </DefaultResolverButton>
                   )}
-                </Mutation>
-              </Action>
-            ) : (
-              ''
-            )}
-          </DetailsContent>
-          <AnimatePresence>
-            {editing && (
-              <motion.div
-                initial={{
-                  height: 0,
-                  width: 0,
-                  opacity: 0
-                }}
-                animate={{
-                  height: 'auto',
-                  width: '100%',
-                  opacity: 1
-                }}
-                exit={{
-                  height: 0,
-                  width: 0,
-                  opacity: 0
-                }}
-                transition={{ ease: 'easeOut', duration: 0.3 }}
-              >
-                <EditRecord
-                  initial={{
-                    scale: 0,
-                    opacity: 0
-                  }}
-                  animate={{
-                    scale: 1,
-                    opacity: 1
-                  }}
-                  exit={{
-                    scale: 0,
-                    opacity: 0
-                  }}
-                  transition={{ ease: 'easeOut', duration: 0.3 }}
-                >
-                  {getInputType(keyName, type, {
-                    newValue,
-                    updateValue,
-                    presetValue,
-                    isValid,
-                    isInvalid,
-                    years,
-                    name: domain.name,
-                    setYears,
-                    ethUsdPrice,
-                    ethUsdPriceLoading,
-                    duration,
-                    expirationDate,
-                    rentPriceLoading,
-                    rentPrice: getRentPrice,
-                    placeholder
-                  })}
-                </EditRecord>
-                <Buttons>
-                  {keyName === 'Expiration Date' && !isRegistrant ? (
-                    <WarningMessage>
-                      *{t('singleName.expiry.cannotown')}
-                    </WarningMessage>
-                  ) : (
-                    ''
-                  )}
-                  {keyName === 'Resolver' && (
-                    <>
-                      {isNewResolverAddress && !isContractAddress && (
-                        <ResolverAddressWarning data-testid="resolver-address-warning">
-                          {t('singleName.resolver.resolverAddressWarning')}
-                        </ResolverAddressWarning>
-                      )}
-                      <Query query={GET_PUBLIC_RESOLVER}>
-                        {({ data, loading }) => {
-                          if (loading) return null
-                          return (
-                            <DefaultResolverButton
-                              onClick={e => {
-                                e.preventDefault()
-                                updateValue(data.publicResolver.address)
-                              }}
-                            >
-                              {t('singleName.resolver.publicResolver')}
-                            </DefaultResolverButton>
-                          )
-                        }}
-                      </Query>
-                    </>
-                  )}
+                </>
+              )}
 
-                  <SaveCancel
-                    stopEditing={stopEditing}
-                    mutation={() => {
-                      const variables = getVariables(keyName, {
-                        domain,
-                        variableName,
-                        newValue,
-                        duration
-                      })
-                      mutation({
-                        variables
-                      })
-                    }}
-                    value={
-                      keyName === 'Expiration Date' ? formatDate(value) : value
-                    }
-                    newValue={
-                      keyName === 'Expiration Date'
-                        ? formatDate(expirationDate)
-                        : newValue
-                    }
-                    mutationButton={mutationButton}
-                    confirm={true}
-                    isValid={isValid}
-                  />
-                </Buttons>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </DetailsEditableContainer>
-      )}
-    </Mutation>
+              <SaveCancel
+                stopEditing={stopEditing}
+                mutation={() => {
+                  const variables = getVariables(keyName, {
+                    domain,
+                    variableName,
+                    newValue,
+                    duration
+                  })
+                  mutation({
+                    variables
+                  })
+                }}
+                value={
+                  keyName === 'Expiration Date' ? formatDate(value) : value
+                }
+                newValue={
+                  keyName === 'Expiration Date'
+                    ? formatDate(expirationDate)
+                    : newValue
+                }
+                mutationButton={mutationButton}
+                confirm={true}
+                isValid={isValid}
+              />
+            </Buttons>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </DetailsEditableContainer>
   )
 }
 
@@ -775,23 +766,6 @@ function ViewOnly({
 
 function DetailsEditable(props) {
   return props.canEdit ? <Editable {...props} /> : <ViewOnly {...props} />
-}
-
-DetailsEditable.propTypes = {
-  showLabel: PropTypes.string, // defaults to true, shows label
-  keyName: PropTypes.string.isRequired, // key of the record
-  value: PropTypes.string.isRequired, // value of the record (normally hex address)
-  type: PropTypes.string, // type of value. Defaults to address
-  mutation: PropTypes.object.isRequired, //graphql mutation string for masking tx
-  onCompleted: PropTypes.func, // function to be called on the onCompleted
-  mutationButton: PropTypes.string, // Mutation button text
-  editButton: PropTypes.string, //Edit button text
-  buttonType: PropTypes.string, // style of the edit button
-  canEdit: PropTypes.bool,
-  domain: PropTypes.object.isRequired,
-  variableName: PropTypes.string, //can change the variable name for mutation
-  refetch: PropTypes.func.isRequired,
-  copyToClipboard: PropTypes.bool
 }
 
 export default DetailsEditable
