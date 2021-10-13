@@ -69,3 +69,5 @@ export function refetchTilUpdatedSingle({
 
   recurseRefetch()
 }
+
+export const getQueryName = document => document.definitions[0]?.name?.value

@@ -4,6 +4,7 @@ import styled from '@emotion/styled/macro'
 import { Link } from 'react-router-dom'
 import mq from 'mediaQuery'
 import Select from 'react-select'
+import { getQueryName } from '../../utils/graphql'
 
 const PageNumber = styled(Link)`
   ${p =>
@@ -65,21 +66,18 @@ const options = [
   { value: 300, label: 300 }
 ]
 
-function useTotalPages({
-  setResultsPerPage,
-  resultsPerPage,
-  query,
-  address,
-  variables
-}) {
+export function useTotalPages({ resultsPerPage, query, variables }) {
   const limit = 1000
   const [loading, setLoading] = useState(true)
   const [totalResults, setTotalResults] = useState(0)
   const client = getClient()
+  const queryName = getQueryName(query)
+  const supportedQueries = ['getRegistrations', 'getDomains']
 
   useEffect(() => {
-    async function getResults(skipAmount, limit) {
-      let skip = skipAmount
+    async function getResults(limit) {
+      let skip = 0
+
       async function queryFunc(totalResults) {
         const { data } = await client.query({
           query,
@@ -90,31 +88,38 @@ function useTotalPages({
           }
         })
 
-        const label1 = Object.keys(data)[0]
+        let resultsLength = 0
 
-        if (data[label1]) {
-          const label2 = Object.keys(data[label1])[0]
-          skip = skip + limit
-          const resultsLength = data[label1][label2].length
-          const cumulativeResults = totalResults + resultsLength
-
-          if (resultsLength === limit) {
-            return queryFunc(cumulativeResults)
-          }
-          return cumulativeResults
-        } else {
-          return 0
+        if (queryName === 'getRegistrations') {
+          resultsLength = data.account.registrations.length
         }
+
+        if (queryName === 'getDomains') {
+          resultsLength = data.account.domains.length
+        }
+
+        skip = skip + limit
+        const cumulativeResults = totalResults + resultsLength
+
+        if (resultsLength === limit) {
+          return queryFunc(cumulativeResults)
+        }
+        return cumulativeResults
       }
 
       const total = await queryFunc(0)
-
       return total
     }
-    getResults(0, limit).then(res => {
-      setTotalResults(res)
+
+    if (!supportedQueries.includes(queryName)) {
+      setTotalResults(0)
       setLoading(false)
-    })
+    } else {
+      getResults(limit).then(res => {
+        setTotalResults(res)
+        setLoading(false)
+      })
+    }
   }, [client, query, variables])
 
   return {
@@ -156,12 +161,14 @@ export default function Pager({
   if (totalPages < 2) {
     return null
   }
+
   const pageArray = [...Array(totalPages).keys()]
   const pages = pageArray.map(index => {
     return (
       <Page currentPage={currentPage} page={index + 1} pageLink={pageLink} />
     )
   })
+
   return (
     <PagerContainer>
       {pages}
