@@ -48,8 +48,6 @@ function fromPromise(promise, operation) {
           errors: []
         })
         observer.complete()
-        console.log('observer: ', observer)
-        console.log('value: ', value)
       })
       .catch(e => {
         console.error('fromPromise error: ', e)
