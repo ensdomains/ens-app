@@ -1,3 +1,5 @@
+import { getQueryName } from '../../utils/graphql'
+
 jest.mock('@apollo/client', () => ({
   __esModule: true,
   ...jest.requireActual('@apollo/client'),
@@ -21,7 +23,6 @@ import UnstyledBlockies from '../Blockies'
 import { render } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
 import NetworkInformation from './NetworkInformation'
-import { getOperationName } from '../../testing-utils/apollo'
 
 describe('NetworkInformation', () => {
   it('should not make a request to get reverse record until account data is available', () => {
@@ -37,7 +38,7 @@ describe('NetworkInformation', () => {
     }
 
     useQuery.mockImplementation((query, options) => {
-      const operationName = getOperationName(query)
+      const operationName = getQueryName(query)
 
       switch (operationName) {
         case 'getNetworkInfo':

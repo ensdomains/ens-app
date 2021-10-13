@@ -20,7 +20,7 @@ jest.mock('./hooks', () => ({
 import { useEditable } from './hooks'
 
 import AddReverseRecord from './AddReverseRecord'
-import { getOperationName } from '../testing-utils/apollo'
+import { getQueryName } from '../utils/graphql'
 
 describe('getReverseRecord', () => {
   it('should not lookup reverse record information if there is no address', async () => {
@@ -45,7 +45,7 @@ describe('getReverseRecord', () => {
     }))
     let isSkipped = false
     useQuery.mockImplementation((query, options) => {
-      const operationName = getOperationName(query)
+      const operationName = getQueryName(query)
 
       switch (operationName) {
         case 'getReverseRecord':

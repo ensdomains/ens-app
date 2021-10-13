@@ -5,6 +5,7 @@ import { cid as isCID } from 'is-ipfs'
 import { loggedIn, logout } from './IPFS/auth'
 import { getBlock, getProvider } from '@ensdomains/ui'
 import { networkName, supportedAvatarProtocols } from 'utils/utils'
+
 export function useDocumentTitle(title) {
   useEffect(() => {
     document.title = title
@@ -153,6 +154,7 @@ export function useInterval(callback, delay) {
     function tick() {
       savedCallback.current()
     }
+
     if (delay !== null) {
       let id = setInterval(tick, delay)
       return () => clearInterval(id)
@@ -165,13 +167,19 @@ export function useEthPrice(enabled = true) {
   const [price, setPrice] = useState(undefined)
 
   useEffect(() => {
+    let hasExited = false
     if (enabled) {
       getEtherPrice()
         .then(res => {
-          setPrice(res)
-          setLoading(false)
+          if (!hasExited) {
+            setPrice(res)
+            setLoading(false)
+          }
         })
         .catch(() => '') // ignore error
+    }
+    return () => {
+      hasExited = true
     }
   }, [enabled])
 
