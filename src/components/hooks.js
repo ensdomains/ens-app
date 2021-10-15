@@ -236,13 +236,13 @@ export function useAvatar(textKey, name, network, uri) {
   useEffect(() => {
     try {
       const _network = networkName[network?.toLowerCase()]
-      const run = async protocol => {
+      const run = async () => {
         const result = await fetch(
           `https://metadata.ens.domains/${_network}/avatar/${name}/meta`
         )
         const data = await result.json()
-        if ('image' in data) {
-          if (protocol === 'ipfs://') {
+        if ('image' in data && data.image) {
+          if (data.image.startsWith('ipfs://')) {
             data.image = data.image.replace('ipfs://', 'https://ipfs.io/ipfs/')
           } else if (isCID(data.image)) {
             data.image = `https://ipfs.io/ipfs/${data.image}`
@@ -258,7 +258,7 @@ export function useAvatar(textKey, name, network, uri) {
         // provided network name is valid,
         // domain name is available
         if (_protocol && _network && name) {
-          run(_protocol)
+          run()
         }
       }
     } catch (e) {
