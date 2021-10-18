@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import _ from 'lodash'
+import uniq from 'lodash/uniq'
 import { useQuery, useMutation } from '@apollo/client'
 import styled from '@emotion/styled/macro'
 import { useTranslation, Trans } from 'react-i18next'
@@ -177,7 +177,7 @@ function AddReverseRecord({ account, currentAddress }) {
     account.toLowerCase() === currentAddress.toLowerCase()
 
   if (domains) {
-    options = _.uniq(
+    options = uniq(
       domains
         .map(domain => {
           if (checkIsDecrypted(domain?.name)) {
