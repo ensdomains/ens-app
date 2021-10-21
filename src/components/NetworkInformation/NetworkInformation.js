@@ -39,6 +39,7 @@ const Avatar = styled('img')`
   position: absolute;
   left: 10px;
   top: 10px;
+  border-radius: 50%;
   ${mq.medium`
     box-shadow: 3px 5px 24px 0 #d5e2ec;
   `}
