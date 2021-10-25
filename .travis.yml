@@ -27,7 +27,7 @@ jobs:
         - yarn --frozen-lockfile
         - yarn global add cypress@5.6.0
         - cypress install
-        - yarn global add ganache-cli@v7.0.0-alpha.1
+        - npm install ganache@v7.0.0-alpha.1 --global
         - yarn global add wait-on
       before_script:
         - sudo service postgresql stop
