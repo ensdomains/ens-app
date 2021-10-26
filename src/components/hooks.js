@@ -207,16 +207,10 @@ export function useGasPrice(enabled = true) {
             fast: baseFeeWei * 1.5 + 2 * Math.pow(10, 9)
           }
           setPrice(price)
-          setLoading(false)
         } else {
-          const gasApi = 'https://www.gasnow.org/api/v3/gas/price'
-          const result = await fetch(gasApi)
-          if (!result.ok)
-            throw `Failed to get gas estimate: ${result.statusText}`
-          const data = await result.json()
-          setPrice(data?.data)
-          setLoading(false)
+          setPrice({ slow: 0, fast: 0 })
         }
+        setLoading(false)
       }
       run()
     } catch (e) {
