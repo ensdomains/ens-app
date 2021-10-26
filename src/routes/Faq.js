@@ -67,7 +67,7 @@ function Faq() {
       <Title>FAQ</Title>
       <H2>Before You register</H2>
       <Section question="Is ENS only for storing an Ethereum address?">
-        No, you can store the addresses of many different cryptocurrencies, a
+        No, you can store the addresses of over 100 blockchains, a
         content hash of a decentralized website, profile information such as an
         avatar and Twitter handle, and more.
       </Section>
@@ -77,9 +77,9 @@ function Faq() {
         tools and applications which resolve IP addresses attached to ENS.
         <br />
         Instead, we suggest hosting your static html/css/images on IPFS and put
-        the hash in your ENS name,s Content record. Then it can be resolved by
+        the hash in your ENS name's Content record. Then it can be resolved by
         ENS-aware browsers (e.g. Opera), browser extensions (Metamask), or any
-        browser with ".link" appended to the end (e.g. matoken.eth.link).
+        browser with ".link" or ".limo" appended to the end (e.g. matoken.eth.link or matoken.eth.limo).
         <br />
         If you want to redirect your ENS name to an existing website, you could
         write a html file containing JavasSript logic to redirect your website,
@@ -95,7 +95,7 @@ function Faq() {
 
       <Section question="Can you have names with emojis?">Yes.</Section>
 
-      <Section question="How much does it cost to register?">
+      <Section question="How much does it cost to register a .eth name?">
         Currently, registration costs are set at the following prices:
         <ul>
           <li>5+ character .eth names: $5 in ETH per year.</li>
@@ -110,15 +110,15 @@ function Faq() {
         names.
       </Section>
 
-      <Section question="How much gas does it cost to register and renew?">
+      <Section question="How much gas does it cost to register and extend registration?">
         It depends on the gas price. You can check the historical registration
-        and renewal transaction costs
+        and extending transaction costs
         <a href="https://explore.duneanalytics.com/public/dashboards/48pBVvSxRNVjSE8Ing1uOrCtjD4r3WmV0v5KpS05">
           {' '}
           here{' '}
         </a>
         . "Transaction cost (USD)" query will tell you how much it costs to
-        register (commit + registerWithConfig) and renew.
+        register (commit + registerWithConfig) and extend registration.
         <br />
         Please bear in mind that "registerWithConfig" combines 3 transactions
         (register, set resolver and set eth address) hence the gas cost is
@@ -126,9 +126,7 @@ function Faq() {
       </Section>
 
       <Section question="Can I register names other than .eth?">
-        Yes, if you own DNS domains listed
-        <a href="https://app.ens.domains/name/[root]/subdomains"> here </a>, you
-        can use the DNS record as the proof to claim the equivalent ENS names.
+        Yes, you can import into ENS any DNS name with the required DNSSEC.
         <br />
         Please refer to our{' '}
         <a href="https://docs.ens.domains/dns-registrar-guide">guide</a> for
@@ -189,18 +187,14 @@ function Faq() {
         resolver contract if you,d like.
       </Section>
 
-      <Section question="What is a Reverse Record?">
-        A Reverse Record makes your Ethereum address point to an ENS name
-        (normally ENS names point to addresses, hence "reverse" record). This
+      <Section question="What is a Primary ENS Name record?">
+        A Primary ENS Name record (formerly Reverse Record) makes your Ethereum address point to an ENS name. This
         allows dapps to find and display your ENS name when you connect to them
         with your Ethereum account. This can only be set by you so it is not set
         automatically upon registration.
         <br />
-        To set the reverse record, please click "My account", and select
-        "Reverse Record".
-        <ImageContainer>
-          <ReverseRecordImage src={ReverseRecordImageSrc} />
-        </ImageContainer>
+        To set the Primary ENS Name record, please click "My account", and select
+        "Primary ENS Name".
       </Section>
 
       <Section question="How do I unregister my name?">
@@ -247,36 +241,36 @@ function Faq() {
         </a>
       </Section>
 
-      <H2>When you renew your registration</H2>
+      <H2>When you extend your registration</H2>
 
-      <Section question="How do I receive a renewal reminder?">
+      <Section question="How do I receive an extension reminder?">
         Click the "Remind me" button on the name,s page or your address page so
         that you can set a calendar reminder or email reminder. Note that you
         have to set calendar reminders per name, whereas you only need to set
         email reminders per the address of the owner. Also note that you can
-        register a name for multiple years, removing the need to renew each
+        register a name for multiple years, removing the need to extend each
         year.
       </Section>
 
-      <Section question="What happens if I forget to renew a name?">
+      <Section question="What happens if I forget to extend the registration of a name?">
         After your name expires, there is a 90 day grace period in which the
-        owner can't edit the records but can still renew the name. After the
+        owner can't edit the records but can still re-register the name. After the
         grace period, the name is released for registration by anyone with a
         temporary premium which decreases over a 28 days period. The released
         name continues to resolve your ETH address until the new owner
         overwrites it.
       </Section>
 
-      <Section question="I lost access to the Ethereum account that owns a name I registered. Can I still renew it?">
-        Any Ethereum account can pay to renew any ENS name, though doing so from
-        an account that, s not the owner will not change ownership of the name.
-        Just go to the name,s page and click "Renew".
+      <Section question="I lost access to the Ethereum account that owns a name I registered. Can I still extend its registration period?">
+        Any Ethereum account can pay to extend the registration of any ENS name, though doing so from
+        an account that's not the owner will not change ownership of the name.
+        Just go to the name,s page and click "Extend".
       </Section>
 
       <Section question="I registered names before 2019 May. Can I have my deposit back?">
         Yes, you can get your deposit back from
         <a href="https://reclaim.ens.domains"> reclaim.ens.domains </a> whether
-        you renewed the name or not.
+        you extended the registration of the name or not.
         <br />
         Please remember that the amount you will receive is the amount of the
         second-highest bidder (unless you were the only bidder). For example, if
