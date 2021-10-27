@@ -268,6 +268,18 @@ describe('setup', () => {
     await defaultSetup(false)
     expect(globalErrorReactive).toHaveBeenCalled()
   })
+
+  it('should set global error if connect throws unsupported network error', async () => {
+    jest.clearAllMocks()
+    process.env.REACT_APP_STAGE = 'notlocal'
+    connect.mockImplementation(() =>
+      Promise.reject(new Error('Unsupported network 124'))
+    )
+    expect(globalErrorReactive).not.toHaveBeenCalled()
+    await getProvider(true)
+    expect(globalErrorReactive).toHaveBeenCalled()
+  })
+
   it('should allow setup to continue if network is supported', async () => {
     const mockProvider = {
       on: (event, callback) => {},
