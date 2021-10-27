@@ -9,6 +9,7 @@ import {
 } from '@ensdomains/ui/src/utils/index'
 import { validate } from '@ensdomains/ens-validation'
 import { normalize } from '@ensdomains/eth-ens-namehash'
+import { CID } from 'multiformats/esm/src/cid'
 
 import getENS from '../apollo/mutations/ens'
 import * as jsSHA3 from 'js-sha3'
@@ -265,4 +266,16 @@ export function imageUrl(url, name, network) {
     return `https://metadata.ens.domains/${_network}/avatar/${name}`
   }
   console.warn('Unsupported avatar', network, name, url)
+}
+
+export function isCID(hash) {
+  try {
+    if (typeof hash === 'string') {
+      return Boolean(CID.parse(hash))
+    }
+
+    return Boolean(CID.asCID(hash))
+  } catch (e) {
+    return false
+  }
 }
