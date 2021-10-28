@@ -239,12 +239,12 @@ export const GET_REGISTRATIONS_BY_IDS_SUBGRAPH = gql`
   query getRegistrationsById($ids: [ID]) {
     registrations(first: 1000, where: { domain_in: $ids }) {
       expiryDate
+      registrant {
+        id
+      }
       domain {
         id
         name
-        owner {
-          id
-        }
       }
     }
   }

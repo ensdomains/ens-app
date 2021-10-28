@@ -158,7 +158,7 @@ function Favourites() {
         )[0]
         return {
           name: f.name,
-          owner: r && r.domain.owner.id,
+          owner: r && r.registrant.id,
           available: getAvailable(r && r.expiryDate),
           expiryDate: r && r.expiryDate
         }
