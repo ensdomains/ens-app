@@ -151,7 +151,7 @@ export const GET_SUBDOMAINS_FROM_SUBGRAPH = gql`
 
 export const GET_ETH_RECORD_AVAILABLE_NAMES_FROM_SUBGRAPH = gql`
   query getNamesFromSubgraph($address: String!) {
-    domains(where: { resolvedAddress: $address }) {
+    domains(first: 1000, where: { resolvedAddress: $address }) {
       name
     }
   }
