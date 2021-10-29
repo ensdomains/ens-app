@@ -67,9 +67,9 @@ function Faq() {
       <Title>FAQ</Title>
       <H2>Before You register</H2>
       <Section question="Is ENS only for storing an Ethereum address?">
-        No, you can store the addresses of over 100 blockchains, a
-        content hash of a decentralized website, profile information such as an
-        avatar and Twitter handle, and more.
+        No, you can store the addresses of over 100 blockchains, a content hash
+        of a decentralized website, profile information such as an avatar and
+        Twitter handle, and more.
       </Section>
 
       <Section question="Can I use an ENS name to point to my website?">
@@ -79,7 +79,8 @@ function Faq() {
         Instead, we suggest hosting your static html/css/images on IPFS and put
         the hash in your ENS name's Content record. Then it can be resolved by
         ENS-aware browsers (e.g. Opera), browser extensions (Metamask), or any
-        browser with ".link" or ".limo" appended to the end (e.g. matoken.eth.link or matoken.eth.limo).
+        browser with ".link" or ".limo" appended to the end (e.g.
+        matoken.eth.link or matoken.eth.limo).
         <br />
         If you want to redirect your ENS name to an existing website, you could
         write a html file containing JavasSript logic to redirect your website,
@@ -168,6 +169,14 @@ function Faq() {
         successfully.
       </Section>
 
+      <Section question="Is it safe to refresh the page, close the browser, or switch to different browser/machine?">
+        It is safe to refresh the page or close the browser once step 1
+        transaction is complete. However you cannot switch to different devices
+        or machines because it needs a locally stored “secret” which will be
+        used at step 3. Please also do not delete browser history during the
+        registration.
+      </Section>
+
       <H2>After you register</H2>
 
       <Section question="What is the difference between the Registrant and Controller?">
@@ -188,13 +197,13 @@ function Faq() {
       </Section>
 
       <Section question="What is a Primary ENS Name record?">
-        A Primary ENS Name record (formerly Reverse Record) makes your Ethereum address point to an ENS name. This
-        allows dapps to find and display your ENS name when you connect to them
-        with your Ethereum account. This can only be set by you so it is not set
-        automatically upon registration.
+        A Primary ENS Name record (formerly Reverse Record) makes your Ethereum
+        address point to an ENS name. This allows dapps to find and display your
+        ENS name when you connect to them with your Ethereum account. This can
+        only be set by you so it is not set automatically upon registration.
         <br />
-        To set the Primary ENS Name record, please click "My account", and select
-        "Primary ENS Name".
+        To set the Primary ENS Name record, please click "My account", and
+        select "Primary ENS Name".
       </Section>
 
       <Section question="How do I unregister my name?">
@@ -254,17 +263,17 @@ function Faq() {
 
       <Section question="What happens if I forget to extend the registration of a name?">
         After your name expires, there is a 90 day grace period in which the
-        owner can't edit the records but can still re-register the name. After the
-        grace period, the name is released for registration by anyone with a
+        owner can't edit the records but can still re-register the name. After
+        the grace period, the name is released for registration by anyone with a
         temporary premium which decreases over a 28 days period. The released
         name continues to resolve your ETH address until the new owner
         overwrites it.
       </Section>
 
       <Section question="I lost access to the Ethereum account that owns a name I registered. Can I still extend its registration period?">
-        Any Ethereum account can pay to extend the registration of any ENS name, though doing so from
-        an account that's not the owner will not change ownership of the name.
-        Just go to the name,s page and click "Extend".
+        Any Ethereum account can pay to extend the registration of any ENS name,
+        though doing so from an account that's not the owner will not change
+        ownership of the name. Just go to the name,s page and click "Extend".
       </Section>
 
       <Section question="I registered names before 2019 May. Can I have my deposit back?">
