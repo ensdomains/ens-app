@@ -6,5 +6,7 @@
   "notice",
   "keywords",
   "com.twitter",
-  "com.github"
+  "com.discord",
+  "com.github",
+  "eth.ens.delegate"
 ]
