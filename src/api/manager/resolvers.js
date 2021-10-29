@@ -787,7 +787,7 @@ const resolvers = {
                   } else {
                     addressAsBytes = decoder(coinRecord.value)
                   }
-                  return resolverInstance.encodeFunctionData(
+                  return resolver.encodeFunctionData(
                     'setAddr(bytes32,uint256,bytes)',
                     [namehash, coinType, addressAsBytes]
                   )
