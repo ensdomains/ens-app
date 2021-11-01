@@ -90,7 +90,7 @@ export function DAOBannerContent() {
       <div>
         <BannerTitle>ENS DAO: A Call for Delegates</BannerTitle>
         <BannerContent>
-          ENS is decentralizing governance, and are accepting submissions for
+          ENS is decentralizing governance, and accepting submissions for
           delegates.
         </BannerContent>
       </div>
