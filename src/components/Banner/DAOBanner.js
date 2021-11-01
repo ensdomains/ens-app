@@ -56,8 +56,8 @@ export const MainPageBannerContainer = styled(`div`)`
   display: grid;
   padding: 15px 0px;
   grid-template-columns: 73px 1fr 50px;
-  ${mq.small`
-    width: 600px;
+  ${mq.medium`
+    width: 700px;
     height: 78px;
   `}
 `
@@ -72,7 +72,7 @@ export const NonMainPageBannerContainer = styled(`div`)`
   display: grid;
   padding: 15px 0px;
   grid-template-columns: 73px 1fr 50px;
-  ${mq.small`
+  ${mq.medium`
     height: 78px;
   `}
 `
