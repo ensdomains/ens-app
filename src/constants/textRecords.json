@@ -5,6 +5,10 @@
   "description",
   "notice",
   "keywords",
+  "com.discord",
+  "com.github",
+  "com.reddit",
   "com.twitter",
-  "com.github"
+  "org.telegram",
+  "eth.ens.delegate"
 ]
