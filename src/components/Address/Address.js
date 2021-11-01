@@ -36,6 +36,10 @@ import warning from '../../assets/yellowwarning.svg'
 import close from '../../assets/close.svg'
 import { useBlock } from '../hooks'
 import gql from 'graphql-tag'
+import {
+  NonMainPageBannerContainerWithMarginBottom,
+  DAOBannerContent
+} from '../Banner/DAOBanner'
 
 const DEFAULT_RESULTS_PER_PAGE = 25
 
@@ -288,6 +292,10 @@ export default function Address({
 
   return (
     <>
+      <NonMainPageBannerContainerWithMarginBottom>
+        <DAOBannerContent />
+      </NonMainPageBannerContainerWithMarginBottom>
+
       {showOriginBanner && showOriginBannerFlag && (
         <Banner>
           <Close onClick={() => setShowOriginBannerFlag(false)} src={close} />

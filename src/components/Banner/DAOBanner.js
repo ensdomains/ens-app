@@ -77,6 +77,12 @@ export const NonMainPageBannerContainer = styled(`div`)`
   `}
 `
 
+export const NonMainPageBannerContainerWithMarginBottom = styled(
+  NonMainPageBannerContainer
+)`
+  margin-bottom: 20px;
+`
+
 export function DAOBannerContent() {
   return (
     <>
@@ -87,7 +93,7 @@ export function DAOBannerContent() {
           ENS is decentralizing governance, and we need delegates.
         </BannerContent>
       </div>
-      <ArrowLink href="google" com>
+      <ArrowLink target="_blank" rel="noreferrer" href="https://google.com">
         <ArrowSmall src={Arrow} />
       </ArrowLink>
     </>
