@@ -91,7 +91,7 @@ export function useTotalPages({ resultsPerPage, query, variables }) {
         let resultsLength = 0
 
         if (queryName === 'getRegistrations') {
-          resultsLength = data.account.registrations.length
+          resultsLength = data.account?.registrations?.length || 0
         }
 
         if (queryName === 'getDomains') {
