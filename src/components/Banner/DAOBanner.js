@@ -93,7 +93,7 @@ export function DAOBannerContent() {
           ENS is decentralizing governance, and we need delegates.
         </BannerContent>
       </div>
-      <ArrowLink target="_blank" rel="noreferrer" href="https://google.com">
+      <ArrowLink target="_blank" rel="noreferrer" href="https://ens.mirror.xyz">
         <ArrowSmall src={Arrow} />
       </ArrowLink>
     </>
