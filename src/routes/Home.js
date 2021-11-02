@@ -16,6 +16,10 @@ import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
 import { aboutPageURL } from '../utils/utils'
 import { connectProvider, disconnectProvider } from '../utils/providerUtils'
 import gql from 'graphql-tag'
+import {
+  MainPageBannerContainer,
+  DAOBannerContent
+} from '../components/Banner/DAOBanner'
 
 const HeroTop = styled('div')`
   display: grid;
@@ -337,6 +341,9 @@ export default ({ match }) => {
           <NavLink to="/favourites">{t('c.favourites')}</NavLink>
           <ExternalLink href={aboutPageURL()}>{t('c.about')}</ExternalLink>
         </Nav>
+        <MainPageBannerContainer>
+          <DAOBannerContent />
+        </MainPageBannerContainer>
       </HeroTop>
       <SearchContainer>
         <>

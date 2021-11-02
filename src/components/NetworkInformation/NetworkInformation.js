@@ -18,6 +18,7 @@ const NetworkInformationContainer = styled('div')`
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   padding-bottom: 20px;
   ${mq.medium`
+    margin-top: 80px;
     margin-bottom: 50px;
     display: block;
     border: none;
