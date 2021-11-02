@@ -20,7 +20,9 @@ const LogoSmall = styled(motion.img)`
   box-shadow: 0px 4px 26px rgba(0, 0, 0, 0.06);
 `
 
-const ArrowLink = styled(`a`)``
+const Link = styled(`a`)`
+  display: block;
+`
 
 const ArrowSmall = styled(motion.img)`
   height: 100%;
@@ -53,9 +55,11 @@ export const MainPageBannerContainer = styled(`div`)`
   background: #ffffff;
   border-radius: 14px;
   max-width: 90%;
-  display: grid;
   padding: 15px 0px;
-  grid-template-columns: 73px 1fr 50px;
+  a {
+    display: grid;
+    grid-template-columns: 73px 1fr 50px;
+  }
   ${mq.medium`
     width: 700px;
     height: 78px;
@@ -71,7 +75,10 @@ export const NonMainPageBannerContainer = styled(`div`)`
   border-radius: 14px;
   display: grid;
   padding: 15px 0px;
-  grid-template-columns: 73px 1fr 50px;
+  a {
+    display: grid;
+    grid-template-columns: 73px 1fr 50px;
+  }
   ${mq.medium`
     height: 78px;
   `}
@@ -85,7 +92,7 @@ export const NonMainPageBannerContainerWithMarginBottom = styled(
 
 export function DAOBannerContent() {
   return (
-    <>
+    <Link target="_blank" rel="noreferrer" href="https://ens.mirror.xyz">
       <LogoSmall src={ENSIcon} />
       <div>
         <BannerTitle>ENS DAO: A Call for Delegates</BannerTitle>
@@ -94,9 +101,7 @@ export function DAOBannerContent() {
           delegates.
         </BannerContent>
       </div>
-      <ArrowLink target="_blank" rel="noreferrer" href="https://ens.mirror.xyz">
-        <ArrowSmall src={Arrow} />
-      </ArrowLink>
-    </>
+      <ArrowSmall src={Arrow} />
+    </Link>
   )
 }
