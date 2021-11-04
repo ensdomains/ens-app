@@ -1,6 +1,6 @@
 import React, { Fragment, Component } from 'react'
 import { findDOMNode } from 'react-dom'
-import { Query } from 'react-apollo'
+import { Query } from '@apollo/client/react/components'
 import gql from 'graphql-tag'
 import styled from '@emotion/styled/macro'
 import ReactTransitionGroup from 'react-transition-group-plus'
