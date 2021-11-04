@@ -1,7 +1,7 @@
 import React, { Fragment, Component } from 'react'
 import { findDOMNode } from 'react-dom'
 import { Query } from '@apollo/client/react/components'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import styled from '@emotion/styled/macro'
 import ReactTransitionGroup from 'react-transition-group-plus'
 import { TweenMax, TimelineMax, Linear, Sine } from 'gsap/umd/TweenMax'

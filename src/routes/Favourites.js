@@ -5,7 +5,7 @@ import { Query } from '@apollo/client/react/components'
 import DomainItem from '../components/DomainItem/DomainItem'
 import { getNamehash } from '@ensdomains/ui'
 import { useQuery } from '@apollo/client'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 
 import {
   GET_FAVOURITES,

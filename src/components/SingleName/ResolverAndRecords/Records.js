@@ -5,7 +5,7 @@ import isEqual from 'lodash/isEqual'
 import differenceWith from 'lodash/differenceWith'
 import { useTranslation } from 'react-i18next'
 import throttle from 'lodash/throttle'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 
 import { getNamehash, emptyAddress } from '@ensdomains/ui'
 import { useEditable } from '../../hooks'

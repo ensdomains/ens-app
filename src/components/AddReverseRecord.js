@@ -25,7 +25,7 @@ import Select from 'react-select'
 import Modal from './Modal/Modal'
 import Bin from '../components/Forms/Bin'
 import Gap from '../components/Utils/Gap'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 
 const Loading = styled('span')`
   color: #adbbcd;

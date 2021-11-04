@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { NodeFields, SubDomainStateFields } from './fragments'
 
 export const GET_PUBLIC_RESOLVER = gql`
