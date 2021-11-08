@@ -165,7 +165,7 @@
     ]
   },
   "engines": {
-    "node": "v14"
+    "node": "^16.0.0"
   },
   "jest": {
     "resetMocks": false
