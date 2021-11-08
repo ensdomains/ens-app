@@ -1,6 +1,6 @@
-import { getAccounts, getNetwork, getNetworkId } from '@ensdomains/ui'
+import { getAccounts, getNetwork, getNetworkId } from '@ansdomains/ui'
 
-import { isReadOnly } from '@ensdomains/ui/src/web3'
+import { isReadOnly } from '@ansdomains/ui/src/web3'
 
 import { setup } from './apollo/mutations/ens'
 import { connect } from './api/web3modal'
@@ -34,11 +34,9 @@ export const setSubDomainFavourites = () => {
 
 export const isSupportedNetwork = networkId => {
   switch (networkId) {
-    case 1:
-    case 3:
-    case 4:
-    case 5:
-    case 1337:
+    case 43114:
+    case 43112:
+    case 43113:
       return true
     default:
       return false

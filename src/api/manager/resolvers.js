@@ -11,7 +11,7 @@ import {
   isDecrypted,
   labelhash,
   utils
-} from '@ensdomains/ui'
+} from '@ansdomains/ui'
 import { formatsByName } from '@ensdomains/address-encoder'
 import isEqual from 'lodash/isEqual'
 import modeNames from '../modes'
@@ -43,7 +43,7 @@ function setState(node) {
   if (node.isDNSRegistrar) {
     return node
   }
-  if (node.available) {
+  if (node.available || node.available == null) {
     state = 'Open'
   } else {
     state = 'Owned'
@@ -88,7 +88,7 @@ export const handleSingleTransaction = async (
     let addressAsBytes
 
     // use 0x00... for ETH because an empty string throws
-    if (coinRecord.key === 'ETH' && coinRecord.value === '') {
+    if (coinRecord.key === 'AVAX' && coinRecord.value === '') {
       coinRecord.value = emptyAddress
     }
 
@@ -142,7 +142,7 @@ export const handleMultipleTransactions = async (
         const { decoder, coinType } = formatsByName[record.key]
         let addressAsBytes
         // use 0x00... for ETH because an empty string throws
-        if (record.key === 'ETH' && record.value === '') {
+        if (record.key === 'AVAX' && record.value === '') {
           record.value = emptyAddress
         }
         if (!record.value || record.value === '') {
@@ -171,14 +171,15 @@ export const handleMultipleTransactions = async (
 async function getRegistrarEntry(name) {
   const registrar = getRegistrar()
   const nameArray = name.split('.')
-  if (nameArray.length > 3 || nameArray[1] !== 'eth') {
+  if (nameArray.length > 3 || nameArray[1] !== 'avax') {
     return {}
   }
 
   const entry = await registrar.getEntry(nameArray[0])
+  // since this always gets null we set it for true here
+
   const {
     registrant,
-    deedOwner,
     state,
     registrationDate,
     migrationStartDate,
@@ -192,7 +193,9 @@ async function getRegistrarEntry(name) {
     isNewRegistrar,
     available
   } = entry
-
+  if (entry.available == null) {
+    entry.available = true
+  }
   return {
     name: `${name}`,
     state: modeNames[state],
@@ -206,9 +209,8 @@ async function getRegistrarEntry(name) {
     value,
     highestBid,
     registrant,
-    deedOwner,
     isNewRegistrar: !!isNewRegistrar,
-    available,
+    available: available,
     expiryTime: expiryTime || null
   }
 }
@@ -269,7 +271,7 @@ async function getDNSEntryDetails(name) {
   const registrar = getRegistrar()
   const nameArray = name.split('.')
   const networkId = await getNetworkId()
-  if (nameArray.length !== 2 || nameArray[1] === 'eth') return {}
+  if (nameArray.length !== 2 || nameArray[1] === 'avax') return {}
 
   let tld = nameArray[1]
   let owner
@@ -310,7 +312,7 @@ function adjustForShortNames(node) {
   const { label, parent } = node
 
   // return original node if is subdomain or not eth
-  if (nameArray.length > 2 || parent !== 'eth' || label.length > 6) return node
+  if (nameArray.length > 2 || parent !== 'avax' || label.length > 6) return node
 
   //if the auctions are over
   if (new Date() > new Date(1570924800000)) {
@@ -345,7 +347,7 @@ const resolvers = {
     publicResolver: async () => {
       try {
         const ens = getENS()
-        const resolver = await ens.getAddress('resolver.eth')
+        const resolver = await ens.getAddress('avax')
         return {
           address: resolver,
           __typename: 'Resolver'
@@ -546,7 +548,7 @@ const resolvers = {
       }
 
       async function calculateIsPublicResolverReady() {
-        const publicResolver = await ens.getAddress('resolver.eth')
+        const publicResolver = await ens.getAddress('avax')
         return !OLD_RESOLVERS.map(a => a.toLowerCase()).includes(publicResolver)
       }
 
@@ -910,7 +912,7 @@ const resolvers = {
 
       // get public resolver
       try {
-        const publicResolver = await ens.getAddress('resolver.eth')
+        const publicResolver = await ens.getAddress('avax')
         const resolver = await ens.getResolver(name)
         const isOldContentResolver = calculateIsOldContentResolver(resolver)
 

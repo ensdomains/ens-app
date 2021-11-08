@@ -30,12 +30,12 @@ const RightBar = styled('div')`
 const Favourite = styled(DefaultFavourite)``
 
 function isRegistrationOpen(available, parent, isDeedOwner) {
-  return parent === 'eth' && !isDeedOwner && available
+  return parent === 'avax' && !isDeedOwner && available
 }
 
 function isDNSRegistrationOpen(domain) {
   const nameArray = domain.name?.split('.')
-  if (nameArray?.length !== 2 || nameArray?.[1] === 'eth') {
+  if (nameArray?.length !== 2 || nameArray?.[1] === 'avax') {
     return false
   }
   return domain.isDNSRegistrar && domain.owner === EMPTY_ADDRESS
