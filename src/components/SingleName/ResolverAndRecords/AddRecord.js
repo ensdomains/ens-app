@@ -22,7 +22,7 @@ const ToggleAddRecord = styled('span')`
   font-family: Overpass;
   font-weight: bold;
   font-size: 14px;
-  color: #5284ff;
+  color: #bd393a;
   letter-spacing: 0.58px;
   text-align: center;
 
@@ -117,7 +117,7 @@ const UploadBtn = styled(Button)`
   flex-direction: row;
   margin-bottom: 5px;
   width: 100%;
-  background: #5284ff;
+  background: #bd393a;
   ${mq.small`
     margin-left: 20px;
     margin-bottom: 20px;

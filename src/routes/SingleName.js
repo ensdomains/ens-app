@@ -79,9 +79,9 @@ function SingleName({
     if (data?.singleName)
       return (
         <>
-          <NonMainPageBannerContainerWithMarginBottom>
+          {/*<NonMainPageBannerContainerWithMarginBottom>
             <DAOBannerContent />
-          </NonMainPageBannerContainerWithMarginBottom>
+          </NonMainPageBannerContainerWithMarginBottom>*/}
           <Name
             details={data.singleName}
             name={name}

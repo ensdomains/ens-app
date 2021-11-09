@@ -63,7 +63,7 @@ const NavLink = styled(Link)`
   justify-content: center;
   font-weight: 200;
   font-size: 22px;
-  color: ${p => (p.active ? '#5284FF' : '#C7D3E3')};
+  color: ${p => (p.active ? '#BD393A' : '#BD393A91')};
   padding: 10px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 
@@ -73,24 +73,24 @@ const NavLink = styled(Link)`
   `}
 
   &:visited {
-    color: #c7d3e3;
+    color: #bd393a91;
   }
 
   span {
     transition: 0.2s;
     margin-left: 15px;
-    color: ${p => (p.active ? '#5284FF' : '#C7D3E3')};
+    color: ${p => (p.active ? '#BD393A' : '#BD393A91')};
   }
 
   &:hover {
     span {
-      color: #5284ff;
+      color: #bd393a;
     }
     path {
-      fill: #5284ff;
+      fill: #bd393a;
     }
     g {
-      fill: #5284ff;
+      fill: #bd393a;
     }
   }
 `
@@ -101,7 +101,7 @@ const ThirdPartyLink = styled('a')`
   justify-content: center;
   font-weight: 200;
   font-size: 22px;
-  color: ${p => (p.active ? '#5284FF' : '#C7D3E3')};
+  color: ${p => (p.active ? '#BD393A' : '#BD393A91')};
   padding: 10px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 
@@ -111,24 +111,24 @@ const ThirdPartyLink = styled('a')`
   `}
 
   &:visited {
-    color: #c7d3e3;
+    color: #bd393a91;
   }
 
   span {
     transition: 0.2s;
     margin-left: 15px;
-    color: ${p => (p.active ? '#5284FF' : '#C7D3E3')};
+    color: ${p => (p.active ? '#BD393A' : '#BD393A91')};
   }
 
   &:hover {
     span {
-      color: #5284ff;
+      color: #bd393a;
     }
     path {
-      fill: #5284ff;
+      fill: #bd393a;
     }
     g {
-      fill: #5284ff;
+      fill: #bd393a;
     }
   }
 `

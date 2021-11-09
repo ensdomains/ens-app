@@ -68,9 +68,9 @@ function Faq() {
 
   return (
     <>
-      <NonMainPageBannerContainer>
+      {/*<NonMainPageBannerContainer>
         <DAOBannerContent />
-      </NonMainPageBannerContainer>
+      </NonMainPageBannerContainer>*/}
       <FaqContainer>
         <Title>FAQ</Title>
         <H2>Before You register</H2>

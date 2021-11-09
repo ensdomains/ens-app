@@ -10,7 +10,7 @@ const Input = styled(DefaultInput)`
     p.hasBeenUpdated
       ? `
     input {
-      border: #5284FF solid 1px;
+      border: #BD393A solid 1px;
     }
     
   `

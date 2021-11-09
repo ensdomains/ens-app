@@ -102,9 +102,9 @@ const Announcement = styled('div')`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  background: #5284ff;
+  background: #bd393a;
   padding: 0 10px;
-  border-bottom: #5284ff solid 3px;
+  border-bottom: #bd393a solid 3px;
   h3 {
     color: white;
     font-weight: 400;

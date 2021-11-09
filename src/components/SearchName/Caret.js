@@ -16,7 +16,7 @@ const CaretContainer = styled('div')`
 
     g {
       transition: fill 0.2s ease-out, transform 0.2s ease-out;
-      fill: #5284ff;
+      fill: #bd393a;
     }
   }
 

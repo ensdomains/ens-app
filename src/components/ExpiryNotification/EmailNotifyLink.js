@@ -8,7 +8,7 @@ import ExpiryNotificationModal from './ExpiryNotificationModal'
 // If react-add-to-calendar-hoc is replaced, it may be useful
 // to switch to a button element for a11y purposes.
 // const ButtonLink = styled('button')`
-//   color: #5284ff;
+//   color: #BD393A;
 //   text-decoration: none;
 //   cursor: pointer;
 //   display: inline;

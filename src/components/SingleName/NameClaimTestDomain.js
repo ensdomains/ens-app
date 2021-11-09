@@ -23,7 +23,7 @@ const ClaimButton = styled(Button)`
 `
 
 const Note = styled('p')`
-  color: #c7d3e3;
+  color: #bd393a91;
   size: 14pt;
 `
 
