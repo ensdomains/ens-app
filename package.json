@@ -2,7 +2,7 @@
   "name": "ens-app",
   "version": "1.1.9",
   "private": true,
-  "homepage": "https://app.ens.domains",
+  "homepage": "https://app.ans.domains",
   "dependencies": {
     "@0xproject/utils": "^0.7.3",
     "@apollo/client": "^3.4.4",
