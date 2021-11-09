@@ -12,7 +12,7 @@ import bg from '../assets/heroBG.jpg'
 import TextBubbleDefault from '../components/Icons/TextBubble'
 import QuestionMarkDefault from '../components/Icons/QuestionMark'
 import HowToUseDefault from '../components/HowToUse/HowToUse'
-import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
+import ANSLogo from '../components/HomePage/images/avalanche-avax-logo.png'
 import { aboutPageURL } from '../utils/utils'
 import { connectProvider, disconnectProvider } from '../utils/providerUtils'
 import gql from 'graphql-tag'
@@ -347,25 +347,28 @@ export default ({ match }) => {
       </HeroTop>
       <SearchContainer>
         <>
-          {/*<LogoLarge
+          {/*
+          <LogoLarge
             initial={animation.initial}
             animate={animation.animate}
-            src={ENSLogo}
-          />*/}
-          <h2 style={{ color: '#FFFFFF', textAlign: 'center' }}>
-            {' '}
-            <strong>AVALANCHE</strong>{' '}
-          </h2>
-          <h3 style={{ color: '#FFFFFF', textAlign: 'center' }}>
-            {' '}
-            <strong>NAME SERVICE</strong>{' '}
-          </h3>
+            src={ANSLogo}
+          */}
           <PermanentRegistrarLogo
             initial={animation.initial}
             animate={animation.animate}
           />
           <Search />
         </>
+        <h2
+          style={{
+            color: '#BD393A',
+            fontWeight: '1000',
+            textAlign: 'center',
+            marginTop: '60%'
+          }}
+        >
+          <strong>NAME SERVICES</strong>
+        </h2>
       </SearchContainer>
     </Hero>
   )
