@@ -5,7 +5,7 @@ import {
   networkReactive,
   web3ProviderReactive
 } from '../apollo/reactiveVars'
-import { getNetwork, getNetworkId, isReadOnly } from '@ensdomains/ui'
+import { getNetwork, getNetworkId, isReadOnly } from '@ansdomains/ui'
 
 const INFURA_ID =
   window.location.host === 'app.ens.domains'

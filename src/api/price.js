@@ -1,4 +1,4 @@
-import { ethers, getNetworkId, getNetworkProviderUrl } from '@ensdomains/ui'
+import { ethers, getNetworkId, getNetworkProviderUrl } from '@ansdomains/ui'
 import getENS, { getRegistrar } from 'apollo/mutations/ens'
 
 const ChainLinkABI = `[
@@ -238,7 +238,7 @@ async function getContract() {
   try {
     const ens = getENS()
     //contractAddress = await ens.getAddress('eth-usd.data.eth')
-    contractAddress = '0xe6D77fbE897d64515A6A6B01F29E6Ca1d6abc737'
+    contractAddress = '0xfAf3B2845bfB666cbfAaAB6DC077a3d19439678d'
   } catch {
     //return mainnet if it does not exist
     contractAddress = '0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419'

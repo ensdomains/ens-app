@@ -2,7 +2,7 @@ import { useEffect, useReducer, useRef, useState } from 'react'
 import { utils } from 'ethers'
 import getEtherPrice from 'api/price'
 import { loggedIn, logout } from './IPFS/auth'
-import { getBlock, getProvider } from '@ensdomains/ui'
+import { getBlock, getProvider } from '@ansdomains/ui'
 import { isCID, networkName, supportedAvatarProtocols } from 'utils/utils'
 
 export function useDocumentTitle(title) {
