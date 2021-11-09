@@ -341,17 +341,25 @@ export default ({ match }) => {
           <NavLink to="/favourites">{t('c.favourites')}</NavLink>
           <ExternalLink href={aboutPageURL()}>{t('c.about')}</ExternalLink>
         </Nav>
-        <MainPageBannerContainer>
-          <DAOBannerContent />
-        </MainPageBannerContainer>
+        {/*<MainPageBannerContainer>
+          <DAOBannerContent >
+        </MainPageBannerContainer>*/}
       </HeroTop>
       <SearchContainer>
         <>
-          <LogoLarge
+          {/*<LogoLarge
             initial={animation.initial}
             animate={animation.animate}
             src={ENSLogo}
-          />
+          />*/}
+          <h2 style={{ color: '#FFFFFF', textAlign: 'center' }}>
+            {' '}
+            <strong>AVALANCHE</strong>{' '}
+          </h2>
+          <h3 style={{ color: '#FFFFFF', textAlign: 'center' }}>
+            {' '}
+            <strong>NAME SERVICE</strong>{' '}
+          </h3>
           <PermanentRegistrarLogo
             initial={animation.initial}
             animate={animation.animate}
