@@ -1,6 +1,6 @@
 {
   "address": {
-    "etherscanButton": "Etherscanで確認",
+    "snowtraceButton": "Snowtraceで確認",
     "filter": {
       "controller": "コントローラー",
       "registrant": "登録者"

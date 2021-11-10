@@ -95,7 +95,7 @@ class TestRegistrar extends Component {
                 <h2>Pending Transactions</h2>
                 {pendingTransactions.map(tx => (
                   <li tx={tx.id}>
-                    <a href={`http://ropsten.etherscan.io/tx/${tx.id}`}>
+                    <a href={`http://testnet.snowtrace.io/tx/${tx.id}`}>
                       {tx.id}
                     </a>
                   </li>
@@ -114,7 +114,7 @@ class TestRegistrar extends Component {
                 <h2>Transaction History</h2>
                 {transactionHistory.map(tx => (
                   <li key={tx.id}>
-                    <a href={`http://ropsten.etherscan.io/tx/${tx.id}`}>
+                    <a href={`http://testnet.snowtrace.io/tx/${tx.id}`}>
                       {tx.id}
                     </a>
                   </li>

@@ -1,6 +1,6 @@
 {
   "address": {
-    "etherscanButton": "Zobacz na Etherscan",
+    "snowtraceButton": "Zobacz na Snowtrace",
     "filter": {
       "controller": "Kontroler",
       "registrant": "Rejestrujący"

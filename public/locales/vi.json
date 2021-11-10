@@ -1,6 +1,6 @@
 {
   "address": {
-    "etherscanButton": "Xem chi tiết trên Etherscan",
+    "snowtraceButton": "Xem chi tiết trên Snowtrace",
     "filter": {
       "controller": "Địa chỉ quản lý",
       "registrant": "Địa chỉ đăng kí"

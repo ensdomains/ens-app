@@ -29,7 +29,7 @@ describe('/address', () => {
     })
 
     cy.getByText('My Account').click({ force: true })
-    cy.queryByText('View On Etherscan', {
+    cy.queryByText('View On Snowtrace', {
       exact: false,
       timeout: 10000
     }).should('exist')

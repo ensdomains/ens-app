@@ -323,7 +323,7 @@ export default function Address({
           <Title>{address}</Title>
           {etherScanAddr && (
             <EtherScanLink address={address}>
-              {t('address.etherscanButton')}
+              {t('address.snowtraceButton')}
             </EtherScanLink>
           )}
         </TopBar>

@@ -28,7 +28,7 @@ describe('EtherScanLink', () => {
     )
 
     expect(getByTestId('ether-scan-link-container').href).toBe(
-      'https://etherscan.io/address/0xaddr1'
+      'https://snowtrace.io/address/0xaddr1'
     )
   })
 
@@ -48,7 +48,7 @@ describe('EtherScanLink', () => {
     )
 
     expect(getByTestId('ether-scan-link-container').href).toBe(
-      'https://ropsten.etherscan.io/address/0xaddr1'
+      'https://testnet.snowtrace.io/address/0xaddr1'
     )
   })
 })

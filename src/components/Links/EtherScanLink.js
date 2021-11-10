@@ -39,7 +39,7 @@ const EtherScanLink = ({ children, address, className }) => {
       data-testid="ether-scan-link-container"
       target="_blank"
       rel="noopener"
-      href={`https://${subdomain}etherscan.io/address/${address}`}
+      href={`https://testnet.snowtrace.io/address/${address}`}
       className={className}
     >
       {children}
