@@ -246,7 +246,7 @@ function AddReverseRecord({ account, currentAddress }) {
                   name:
                     (hasValidReverseRecord(getReverseRecord) &&
                       getReverseRecord.name) ||
-                    'example.eth'
+                    'example.avax'
                 }}
                 ' rather than the long address '{{ account }}'. If you would
                 like to set up your reverse for a different account, please
