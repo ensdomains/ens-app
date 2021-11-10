@@ -28,10 +28,7 @@ export const ROPSTEN_DNSREGISTRAR_ADDRESS =
   '0xdB328BA5FEcb432AF325Ca59E3778441eF5aa14F'
 
 export const networkName = {
-  main: 'mainnet',
-  goerli: 'goerli',
-  rinkeby: 'rinkeby',
-  ropsten: 'ropsten',
+  fuji: 'fuji',
   local: 'local'
 }
 
@@ -86,8 +83,8 @@ export const uniq = (a, param) =>
 export async function getEtherScanAddr() {
   const networkId = await getNetworkId()
   switch (networkId) {
-    case 1:
-    case '43313':
+    case 43113:
+    case '43113':
       return 'https://testnet.snowtrace.io/'
     default:
       return 'https://testnet.snowtrace.io/'
