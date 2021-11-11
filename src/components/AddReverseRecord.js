@@ -210,7 +210,16 @@ function AddReverseRecord({ account, currentAddress }) {
   function ReverseRecordEditor() {
     return (
       <>
-        <Message onClick={editing ? stopEditing : startEditing}>
+        <Message
+          onClick={e =>
+            editing
+              ? stopEditing()
+              : pending
+              ? e.preventDefault()
+              : startEditing()
+          }
+          pending={pending}
+        >
           {hasValidReverseRecord(getReverseRecord) ? (
             <MessageContent data-testid="editable-reverse-record-set">
               <Check />
