@@ -97,7 +97,7 @@
     "cypress:ci:ipfs": "/bin/sh -c 'if [ \"$TRAVIS_PULL_REQUEST\" = \"true\" ]; then yarn cypress:run:ipfs; else yarn cypress:run:ipfs; fi'",
     "cypress:e2e": "./test.js",
     "deploy:dev": "npm run build && npm run postbuild && surge build ansappdev.surge.sh",
-    "deploy": "npm run build && npm run postbuild && surge build ans.surge.sh",
+    "deploy": "npm run build && npm run postbuild && surge build --domain https://app.avaxns.domains",
     "i18n": "sync-i18n --files 'public/locales/*.json' --primary en --languages cn --space 2",
     "check-i18n": "npm run i18n -- --check",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
