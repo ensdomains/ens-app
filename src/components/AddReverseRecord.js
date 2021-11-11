@@ -63,7 +63,7 @@ const Message = styled('div')`
   justify-content: space-between;
 
   &:hover {
-    cursor: pointer;
+    cursor: ${p => (p.pending ? 'default' : 'pointer')};
   }
 `
 
