@@ -97,13 +97,13 @@
       "manage": {
         "text1": "Since you are the owner, you can manage your name now. ",
         "text2": "Since you are not the owner, you can only view the name in the manager.",
-        "title": "Congratulations! You have successfully added this DNS domain to the ENS Registry."
+        "title": "Congratulations! You have successfully added this DNS domain to the ANS Registry."
       },
       "proof": {
         "text1": "The address that appears in the DNS txt record is your same address.",
         "text2": "If you know you own this domain, change it's TXT record to contain your Ethereum Address and refresh this page to perform the DNSSEC verification again.",
-        "title1": "You are the owner of this address. Add your domain to the ENS Registry now.",
-        "title2": "You don't appear to be the DNS Owner of this domain, but anyone can add this domain to the ENS Registry."
+        "title1": "You are the owner of this address. Add your domain to the ANS Registry now.",
+        "title2": "You don't appear to be the DNS Owner of this domain, but anyone can add this domain to the ANS Registry."
       }
     },
     "viewinmanager": "View in Manager"
@@ -129,10 +129,10 @@
     },
     "howtouse": {
       "body": "The ANS App is a Graphical User Interface for non-technical users. It allows you to search any name, manage their addresses or resources it points to and create subdomains for each name.",
-      "title": "How to use ENS"
+      "title": "How to use ANS"
     },
     "whatisens": {
-      "body": "The Ethereum Name Service is a distributed, open, and extensible naming system based on the Ethereum blockchain. ENS eliminates the need to copy or type long addresses.",
+      "body": "The Ethereum Name Service is a distributed, open, and extensible naming system based on the Ethereum blockchain. ANS eliminates the need to copy or type long addresses.",
       "title": "What it is"
     }
   },
@@ -146,7 +146,7 @@
       "title": "Manage names"
     },
     "register": {
-      "text": "Register .eth names for $5/year. Extend your name registration at any time.",
+      "text": "Register .avax names for $5/year. Extend your name registration at any time.",
       "title": "Register names"
     },
     "search": {
@@ -178,7 +178,7 @@
       "manage": "Manage name",
       "register": "Register",
       "request": "Request to register",
-      "setreverserecord": "Set as Primary ENS Name",
+      "setreverserecord": "Set as Primary ANS Name",
       "warning": "Click register to move to the 3rd step"
     },
     "favourite": "* Favorite the name for easy access in case you close out of your browser.",
@@ -219,7 +219,7 @@
     ]
   },
   "registrymigration": {
-    "donotaccept": "*If you trade ENS names, do not accept this name!",
+    "donotaccept": "*If you trade ANS names, do not accept this name!",
     "messages": {
       "controller": "This name is controlled by a contract and can't be migrated automatically. Please redeploy your contract to use the new registry before setting the new controller",
       "default": "This name needs to be migrated to the new Registry. Only the parent of this name ({{parent}}) can do this.",
@@ -230,12 +230,12 @@
   "reminder": {
     "everywhere": "everywhere",
     "release": {
-      "description": "Register {{name}} at https://app.ens.domains/name/{{name}}/register",
+      "description": "Register {{name}} at https://app.ans.domains/name/{{name}}/register",
       "title": "Register {{name}}"
     },
     "renewal": {
-      "description": "Your ENS name is expiring soon, please extend its registration",
-      "title": "Extend the registration of your ENS domain {{name}}"
+      "description": "Your ANS name is expiring soon, please extend its registration",
+      "title": "Extend the registration of your ANS domain {{name}}"
     }
   },
   "search": {
@@ -244,7 +244,7 @@
   },
   "searchErrors": {
     "domainMalformed": {
-      "long": "You have either added a domain without a TLD such as .eth or you have added unsupported characters.",
+      "long": "You have either added a domain without a TLD such as .avax or you have added unsupported characters.",
       "short": "Domain malformed. {{searchTerm}} is not a valid domain."
     },
     "tooShort": {
@@ -295,15 +295,15 @@
     },
     "learnmore": {
       "step1": {
-        "text": "Once you register your name, Go to 'My Account' page and set your Primary ENS Name record. This allows dapps to find and display your ENS name when you connect to them with your Ethereum account. ",
-        "title": "1. Set your Primary ENS Name record"
+        "text": "Once you register your name, Go to 'My Account' page and set your Primary ANS Name record. This allows dapps to find and display your ANS name when you connect to them with your Ethereum account. ",
+        "title": "1. Set your Primary ANS Name record"
       },
       "step2": {
         "text": "You can set the addresses of many different cryptocurrencies, profile information such as an avatar, Twitter handle, and more",
         "title": "2. Set other records"
       },
       "step3": {
-        "text": "You can host your static html/css/images on IPFS and put the hash in your ENS name's Content record. Then it can be resolved by ENS-aware browsers (e.g. Opera), browser extensions (Metamask), or any browser with '.link' appended to the end (e.g. ens.eth.link).",
+        "text": "You can host your static html/css/images on IPFS and put the hash in your ANS name's Content record. Then it can be resolved by ANS-aware browsers (e.g. Opera), browser extensions (Metamask), or any browser with '.link' appended to the end (e.g. ans.avax.link).",
         "title": "3. Set a content hash of a decentralized website"
       },
       "title": "Learn how to manage your name."
@@ -319,14 +319,14 @@
       "cantEdit": "You can’t edit or add records until you migrate to the new resolver.",
       "closeEdit": "Close Add/Edit Records",
       "messages": {
-        "explanation": "This designates one of your ENS names to represent your Ethereum account and act as your cross-platform web3 username and profile. You can only have one Primary ENS Name per Ethereum account and can change it at any time.",
-        "explanation2": "Only ENS names that point to your Ethereum account can be set as your Primary ENS Name.",
-        "noForwardRecordAavilable": "No ENS names have their ETH Address records set to this address.",
-        "notSet": "Primary ENS Name (reverse record): not set",
-        "reverseRecordRemoval": "Are you sure you want to delete your Primary ENS Name record?",
-        "selectPlaceholder": "Select one of your ENS names",
-        "setTo": "Primary ENS Name (reverse record): ",
-        "setToDifferent": "Primary ENS Name (reverse record): Set to a different name:"
+        "explanation": "This designates one of your ANS names to represent your Ethereum account and act as your cross-platform web3 username and profile. You can only have one Primary ANS Name per Ethereum account and can change it at any time.",
+        "explanation2": "Only ANS names that point to your Ethereum account can be set as your Primary ANS Name.",
+        "noForwardRecordAavilable": "No ANS names have their AVAX Address records set to this address.",
+        "notSet": "Primary ANS Name (reverse record): not set",
+        "reverseRecordRemoval": "Are you sure you want to delete your Primary ANS Name record?",
+        "selectPlaceholder": "Select one of your ANS names",
+        "setTo": "Primary ANS Name (reverse record): ",
+        "setToDifferent": "Primary ANS Name (reverse record): Set to a different name:"
       },
       "openEdit": "Add/Edit Records",
       "title": "Records"
