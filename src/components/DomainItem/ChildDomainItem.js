@@ -86,7 +86,9 @@ export default function ChildDomainItem({
     label = label + ` (${t('childDomainItem.notmigrated')})`
   const [mutate] = useMutation(DELETE_SUBDOMAIN, {
     onCompleted: data => {
-      startPending(Object.values(data)[0])
+      if (Object.values(data)[0]) {
+        startPending(Object.values(data)[0])
+      }
     },
     variables: {
       name: name
