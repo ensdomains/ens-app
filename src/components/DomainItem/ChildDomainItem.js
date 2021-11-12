@@ -98,85 +98,87 @@ export default function ChildDomainItem({
   })
 
   return (
-    <DomainLink
-      showBlockies={showBlockies}
-      data-testid={`${name}`}
-      warning={isMigrated === false ? true : false}
-      key={name}
-      to={`/name/${name}`}
-    >
-      {showBlockies && smallBP && (
-        <SingleNameBlockies imageSize={24} address={owner} />
-      )}
-      <h3>{label}</h3>
-      {canDeleteSubdomain ? (
-        pending && !confirmed ? (
-          <PendingTx
-            txHash={txHash}
-            onConfirmed={() => {
-              setConfirmed()
-            }}
-          />
-        ) : (
-          <Bin
-            data-testid={'delete-name'}
-            onClick={e => {
-              e.preventDefault()
-              mutate()
-            }}
-          />
-        )
-      ) : (
-        <>
-          <ExpiryDate name={name} expiryDate={expiryDate} />
-          <AddFavourite
-            domain={{ name }}
-            isSubDomain={false}
-            isFavourite={isFavourite}
-          />
-        </>
-      )}
-
-      {!isDecrypted && (
-        <Tooltip
-          text="<p>This name is only partially decoded. If you know the name, you can search for it in the search bar to decrypt it and renew</p>"
-          position="top"
-          border={true}
-          offset={{ left: 0, top: 10 }}
-        >
-          {({ tooltipElement, showTooltip, hideTooltip }) => {
-            return (
-              <div style={{ position: 'relative' }}>
-                <QuestionMark
-                  onMouseOver={() => {
-                    showTooltip()
-                  }}
-                  onMouseLeave={() => {
-                    hideTooltip()
-                  }}
-                />
-                &nbsp;
-                {tooltipElement}
-              </div>
-            )
-          }}
-        </Tooltip>
-      )}
-      {checkedBoxes && isDecrypted && (
-        <Checkbox
-          testid={`checkbox-${name}`}
-          checked={checkedBoxes[name]}
-          onClick={e => {
-            e.preventDefault()
-            setCheckedBoxes(prevState => {
-              return { ...prevState, [name]: !prevState[name] }
-            })
-            if (checkedBoxes[name]) {
-              setSelectAll(false)
-            }
+    <ChildDomainItemContainer>
+      {pending && !confirmed ? (
+        <PendingTx
+          txHash={txHash}
+          onConfirmed={() => {
+            setConfirmed()
           }}
         />
+      ) : (
+        <DomainLink
+          showBlockies={showBlockies}
+          data-testid={`${name}`}
+          warning={isMigrated === false ? true : false}
+          key={name}
+          to={`/name/${name}`}
+        >
+          {showBlockies && smallBP && (
+            <SingleNameBlockies imageSize={24} address={owner} />
+          )}
+          <h3>{label}</h3>
+          {canDeleteSubdomain ? (
+            <Bin
+              data-testid={'delete-name'}
+              onClick={e => {
+                e.preventDefault()
+                mutate()
+              }}
+            />
+          ) : (
+            <>
+              <ExpiryDate name={name} expiryDate={expiryDate} />
+              <AddFavourite
+                domain={{ name }}
+                isSubDomain={false}
+                isFavourite={isFavourite}
+              />
+            </>
+          )}
+
+          {!isDecrypted && (
+            <Tooltip
+              text="<p>This name is only partially decoded. If you know the name, you can search for it in the search bar to decrypt it and renew</p>"
+              position="top"
+              border={true}
+              offset={{ left: 0, top: 10 }}
+            >
+              {({ tooltipElement, showTooltip, hideTooltip }) => {
+                return (
+                  <div style={{ position: 'relative' }}>
+                    <QuestionMark
+                      onMouseOver={() => {
+                        showTooltip()
+                      }}
+                      onMouseLeave={() => {
+                        hideTooltip()
+                      }}
+                    />
+                    &nbsp;
+                    {tooltipElement}
+                  </div>
+                )
+              }}
+            </Tooltip>
+          )}
+          {checkedBoxes && isDecrypted && (
+            <Checkbox
+              testid={`checkbox-${name}`}
+              checked={checkedBoxes[name]}
+              onClick={e => {
+                e.preventDefault()
+                setCheckedBoxes(prevState => {
+                  return { ...prevState, [name]: !prevState[name] }
+                })
+                if (checkedBoxes[name]) {
+                  setSelectAll(false)
+                }
+              }}
+            />
+          )}
+        </DomainLink>
       )}
-    </DomainLink>
+    </ChildDomainItemContainer>
   )
 }
