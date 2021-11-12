@@ -16,17 +16,23 @@ import { useEditable } from '../hooks'
 import PendingTx from '../PendingTx'
 import AddFavourite from '../AddFavourite/AddFavourite'
 
+const ChildDomainItemContainer = styled('div')`
+  padding: 30px 0;
+  border-bottom: 1px dashed #d3d3d3;
+  &:last-child {
+    border: none;
+  }
+`
+
 const DomainLink = styled(Link)`
   display: grid;
   grid-template-columns: 250px auto 50px;
   grid-gap: 10px;
   width: 100%;
-  padding: 30px 0;
   background-color: ${props => (props.warning ? 'hsla(37,91%,55%,0.1)' : '')};
   color: #2b2b2b;
   font-size: 22px;
   font-weight: 100;
-  border-bottom: 1px dashed #d3d3d3;
 
   ${p =>
     !p.showBlockies &&
@@ -34,10 +40,6 @@ const DomainLink = styled(Link)`
         grid-template-columns: 1fr minmax(150px, 350px) 35px 23px;
         grid-template-rows: 50px
       `}
-
-  &:last-child {
-    border: none;
-  }
 
   span {
     align-self: center;
