@@ -237,7 +237,9 @@ export function useAvatar(textKey, name, network, uri) {
         )
         const data = await result.json()
         if ('image' in data && data.image) {
-          if (data.image.startsWith('ipfs://')) {
+          if (data.image.startsWith('ipfs://ipfs/')) {
+            data.image = data.image.replace('ipfs://ipfs/', IPFS_GATEWAY)
+          } else if (data.image.startsWith('ipfs://')) {
             data.image = data.image.replace('ipfs://', IPFS_GATEWAY)
           } else if (data.image.startsWith('ipfs/')) {
             data.image = data.image.replace('ipfs/', IPFS_GATEWAY)
