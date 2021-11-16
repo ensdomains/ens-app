@@ -72,7 +72,8 @@ export default function ChildDomainItem({
   setCheckedBoxes,
   setSelectAll,
   showBlockies = true,
-  canDeleteSubdomain
+  canDeleteSubdomain,
+  refetch
 }) {
   const { state, actions } = useEditable()
   const { txHash, pending, confirmed } = state
@@ -111,6 +112,7 @@ export default function ChildDomainItem({
             txHash={txHash}
             onConfirmed={() => {
               setConfirmed()
+              refetch()
             }}
           />
         ) : (
