@@ -11,7 +11,7 @@ import SpeechBubble from '../Icons/SpeechBubble'
 
 import mq from 'mediaQuery'
 import { Link, withRouter } from 'react-router-dom'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { isENSReady } from '../../apollo/reactiveVars'
 
 const SideNavContainer = styled('nav')`

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled/macro'
 import { ReactComponent as ExternalLinkIcon } from '../Icons/externalLink.svg'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { useQuery } from '@apollo/client'
 
 const EtherScanLinkContainer = styled('a')`
