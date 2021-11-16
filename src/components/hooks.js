@@ -1,8 +1,8 @@
 import { useEffect, useReducer, useRef, useState } from 'react'
-import { utils } from 'ethers'
 import getEtherPrice from 'api/price'
 import { loggedIn, logout } from './IPFS/auth'
-import { getBlock, getProvider } from '@ensdomains/ui'
+
+import { getBlock, getProvider, ethers } from '@ensdomains/ui'
 import { isCID, networkName, supportedAvatarProtocols } from 'utils/utils'
 
 export function useDocumentTitle(title) {
@@ -198,7 +198,7 @@ export function useGasPrice(enabled = true) {
         const provider = await getProvider()
         const blockDetails = await provider.getBlock('latest')
         if (blockDetails.baseFeePerGas) {
-          const baseFeeWei = utils.formatUnits(
+          const baseFeeWei = ethers.utils.formatUnits(
             blockDetails.baseFeePerGas,
             'wei'
           )

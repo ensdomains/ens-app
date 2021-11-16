@@ -35,7 +35,7 @@ import AddReverseRecord from '../AddReverseRecord'
 import warning from '../../assets/yellowwarning.svg'
 import close from '../../assets/close.svg'
 import { useBlock } from '../hooks'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import {
   NonMainPageBannerContainerWithMarginBottom,
   DAOBannerContent
