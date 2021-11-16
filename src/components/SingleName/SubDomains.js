@@ -77,6 +77,7 @@ function SubDomainsFromWeb3({ domain, canAddSubdomain }) {
                   owner={d.owner}
                   labelhash={d.labelHash}
                   canDeleteSubdomain={canAddSubdomain}
+                  refetch={refetch}
                 />
               ))}
           </>
@@ -199,6 +200,7 @@ function SubDomains({
                       labelhash={d.labelHash}
                       isSubdomain={true}
                       canDeleteSubdomain={canAddSubdomain}
+                      refetch={refetch}
                     />
                   )
                 })}
