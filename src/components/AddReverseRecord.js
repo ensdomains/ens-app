@@ -63,7 +63,7 @@ const Message = styled('div')`
   justify-content: space-between;
 
   &:hover {
-    cursor: pointer;
+    cursor: ${p => (p.pending ? 'default' : 'pointer')};
   }
 `
 
@@ -140,7 +140,9 @@ function AddReverseRecord({ account, currentAddress }) {
 
   const [setName] = useMutation(SET_NAME, {
     onCompleted: data => {
-      startPending(Object.values(data)[0])
+      if (Object.values(data)[0]) {
+        startPending(Object.values(data)[0])
+      }
     }
   })
 
@@ -210,7 +212,16 @@ function AddReverseRecord({ account, currentAddress }) {
   function ReverseRecordEditor() {
     return (
       <>
-        <Message onClick={editing ? stopEditing : startEditing}>
+        <Message
+          onClick={e =>
+            editing
+              ? stopEditing()
+              : pending
+              ? e.preventDefault()
+              : startEditing()
+          }
+          pending={pending}
+        >
           {hasValidReverseRecord(getReverseRecord) ? (
             <MessageContent data-testid="editable-reverse-record-set">
               <Check />
