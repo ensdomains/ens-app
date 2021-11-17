@@ -70,12 +70,12 @@ jobs:
     #        - pwd
     #        - ls
     #        - surge build "$TRAVIS_BRANCH"-ensdev.surge.sh
-    - stage: test
-      name: 'Cleanup Previews'
-      install:
-        - yarn add surge
-      script:
-        - ./surgeGarbageCollect.js
+    #    - stage: test
+    #      name: 'Cleanup Previews'
+    #      install:
+    #        - yarn add surge
+    #      script:
+    #        - ./surgeGarbageCollect.js
     - stage: deploy
       name: 'Deploy to live'
       script: yarn deploy
