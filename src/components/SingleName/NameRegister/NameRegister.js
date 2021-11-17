@@ -3,7 +3,7 @@ import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@apollo/client'
 import moment from 'moment'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 
 import {
   CHECK_COMMITMENT,

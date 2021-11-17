@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useQuery } from '@apollo/client'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { Trans } from 'react-i18next'
 
 import { H2 } from '../components/Typography/Basic'

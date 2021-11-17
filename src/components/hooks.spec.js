@@ -50,6 +50,26 @@ describe('useAvatar', () => {
     )
   })
 
+  it('should add ipfs gateway prefix correctly for an ipfs hash with protocol and subpath', async () => {
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () =>
+          Promise.resolve({
+            image: 'ipfs://ipfs/QmUbTVz1L4uEvAPg5QcSu8Pow1YdwshDJ8VbyYjWaJv4JP'
+          })
+      })
+    )
+
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useAvatar('avatar', 'name', 'main', 'http://url.com')
+    )
+    await waitForNextUpdate()
+
+    expect(result.current.image).toBe(
+      'https://ipfs.io/ipfs/QmUbTVz1L4uEvAPg5QcSu8Pow1YdwshDJ8VbyYjWaJv4JP'
+    )
+  })
+
   it('should add ipfs gateway prefix correctly for an ipfs hash (v0)', async () => {
     global.fetch = jest.fn(() =>
       Promise.resolve({
