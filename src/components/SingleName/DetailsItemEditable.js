@@ -491,6 +491,7 @@ const Editable = ({
                     registrant={domain.registrant}
                     startDatetime={moment(value)
                       .utc()
+                      .local()
                       .subtract(30, 'days')}
                   />
                 </>
