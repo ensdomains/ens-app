@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 
 export const REGISTER_TESTDOMAIN = gql`
   mutation registerTestdomain($label: String) {

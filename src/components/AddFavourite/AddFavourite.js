@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled/macro'
 import { useMutation } from '@apollo/client'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 
 import {
   addFavouriteMutation,

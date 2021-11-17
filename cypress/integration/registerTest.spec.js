@@ -8,7 +8,9 @@ describe('Register', () => {
     cy.queryByText('Not owned yet', { exact: false, timeout: 5000 }).should(
       'not.exist'
     )
-    cy.queryByText('Claim', { exact: false, timeout: 5000 }).should('not.exist')
+    cy.queryByTestId('claim-test', { exact: false, timeout: 5000 }).should(
+      'not.exist'
+    )
   })
 
   it('can register test domain', () => {
@@ -18,7 +20,7 @@ describe('Register', () => {
       'exist'
     )
 
-    cy.getByText('Claim').click({ force: true })
+    cy.getByTestId('claim-test').click({ force: true })
     cy.wait(1000)
     cy.queryByText('Not owned yet', { exact: false, timeout: 1000 }).should(
       'not.exist'

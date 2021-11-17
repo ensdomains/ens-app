@@ -75,7 +75,7 @@ const Renew = lazy(() =>
 import { NetworkError, Error404 } from './components/Error/Errors'
 import DefaultLayout from './components/Layout/DefaultLayout'
 import { pageview, setupAnalytics } from './utils/analytics'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import useReactiveVarListeners from './hooks/useReactiveVarListeners'
 
 //If we are targeting an IPFS build we need to use HashRouter
