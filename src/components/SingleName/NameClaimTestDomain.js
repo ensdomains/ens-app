@@ -58,6 +58,7 @@ function NameClaimTestDomain({ domain, refetch }) {
         />
       ) : (
         <ClaimButton
+          data-testid="claim-test"
           onClick={() => {
             mutation({
               variables: {

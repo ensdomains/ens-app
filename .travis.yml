@@ -60,16 +60,16 @@ jobs:
         - yarn --frozen-lockfile
       script:
         - yarn test:coverage
-    - stage: test
-      name: 'Branch Preview'
-      install:
-        - yarn install
-      script:
-        - npm run build
-        - npm run postbuild
-        - pwd
-        - ls
-        - surge build "$TRAVIS_BRANCH"-ensdev.surge.sh
+    #    - stage: test
+    #      name: 'Branch Preview'
+    #      install:
+    #        - yarn install
+    #      script:
+    #        - npm run build
+    #        - npm run postbuild
+    #        - pwd
+    #        - ls
+    #        - surge build "$TRAVIS_BRANCH"-ensdev.surge.sh
     - stage: test
       name: 'Cleanup Previews'
       install:

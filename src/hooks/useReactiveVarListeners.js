@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useQuery } from '@apollo/client'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 
 import { reverseRecordReactive } from '../apollo/reactiveVars'
 import { usePrevious } from '../utils/utils'

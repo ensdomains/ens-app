@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 
 export const GET_WEB3 = gql`
   query web3 @client {

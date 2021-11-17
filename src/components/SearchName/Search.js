@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 import { useQuery } from '@apollo/client'
 
 import { parseSearchTerm } from '../../utils/utils'
