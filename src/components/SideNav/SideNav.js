@@ -13,6 +13,7 @@ import mq from 'mediaQuery'
 import { Link, withRouter } from 'react-router-dom'
 import { gql } from '@apollo/client'
 import { isENSReady } from '../../apollo/reactiveVars'
+import Info from 'components/Icons/Info'
 
 const SideNavContainer = styled('nav')`
   display: ${p => (p.isMenuOpen ? 'block' : 'none')};
@@ -184,7 +185,7 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
         </li>
         <li>
           <ThirdPartyLink href={aboutPageURL()}>
-            <SpeechBubble />
+            <Info />
             <span>{t('c.about')}</span>
           </ThirdPartyLink>
         </li>
