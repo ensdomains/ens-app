@@ -1,5 +1,5 @@
 import React from 'react'
-import { Query } from 'react-apollo'
+import { Query } from '@apollo/client/react/components'
 import { useQuery } from '@apollo/client'
 import DomainItem from '../DomainItem/DomainItem'
 import { GET_FAVOURITES, GET_SINGLE_NAME } from '../../graphql/queries'

@@ -16,17 +16,23 @@ import { useEditable } from '../hooks'
 import PendingTx from '../PendingTx'
 import AddFavourite from '../AddFavourite/AddFavourite'
 
+const ChildDomainItemContainer = styled('div')`
+  padding: 30px 0;
+  border-bottom: 1px dashed #d3d3d3;
+  &:last-child {
+    border: none;
+  }
+`
+
 const DomainLink = styled(Link)`
   display: grid;
   grid-template-columns: 250px auto 50px;
   grid-gap: 10px;
   width: 100%;
-  padding: 30px 0;
   background-color: ${props => (props.warning ? 'hsla(37,91%,55%,0.1)' : '')};
   color: #2b2b2b;
   font-size: 22px;
   font-weight: 100;
-  border-bottom: 1px dashed #d3d3d3;
 
   ${p =>
     !p.showBlockies &&
@@ -34,10 +40,6 @@ const DomainLink = styled(Link)`
         grid-template-columns: 1fr minmax(150px, 350px) 35px 23px;
         grid-template-rows: 50px
       `}
-
-  &:last-child {
-    border: none;
-  }
 
   span {
     align-self: center;
@@ -86,7 +88,9 @@ export default function ChildDomainItem({
     label = label + ` (${t('childDomainItem.notmigrated')})`
   const [mutate] = useMutation(DELETE_SUBDOMAIN, {
     onCompleted: data => {
-      startPending(Object.values(data)[0])
+      if (Object.values(data)[0]) {
+        startPending(Object.values(data)[0])
+      }
     },
     variables: {
       name: name
@@ -94,85 +98,87 @@ export default function ChildDomainItem({
   })
 
   return (
-    <DomainLink
-      showBlockies={showBlockies}
-      data-testid={`${name}`}
-      warning={isMigrated === false ? true : false}
-      key={name}
-      to={`/name/${name}`}
-    >
-      {showBlockies && smallBP && (
-        <SingleNameBlockies imageSize={24} address={owner} />
-      )}
-      <h3>{label}</h3>
-      {canDeleteSubdomain ? (
-        pending && !confirmed ? (
-          <PendingTx
-            txHash={txHash}
-            onConfirmed={() => {
-              setConfirmed()
-            }}
-          />
-        ) : (
-          <Bin
-            data-testid={'delete-name'}
-            onClick={e => {
-              e.preventDefault()
-              mutate()
-            }}
-          />
-        )
-      ) : (
-        <>
-          <ExpiryDate name={name} expiryDate={expiryDate} />
-          <AddFavourite
-            domain={{ name }}
-            isSubDomain={false}
-            isFavourite={isFavourite}
-          />
-        </>
-      )}
-
-      {!isDecrypted && (
-        <Tooltip
-          text="<p>This name is only partially decoded. If you know the name, you can search for it in the search bar to decrypt it and renew</p>"
-          position="top"
-          border={true}
-          offset={{ left: 0, top: 10 }}
-        >
-          {({ tooltipElement, showTooltip, hideTooltip }) => {
-            return (
-              <div style={{ position: 'relative' }}>
-                <QuestionMark
-                  onMouseOver={() => {
-                    showTooltip()
-                  }}
-                  onMouseLeave={() => {
-                    hideTooltip()
-                  }}
-                />
-                &nbsp;
-                {tooltipElement}
-              </div>
-            )
-          }}
-        </Tooltip>
-      )}
-      {checkedBoxes && isDecrypted && (
-        <Checkbox
-          testid={`checkbox-${name}`}
-          checked={checkedBoxes[name]}
-          onClick={e => {
-            e.preventDefault()
-            setCheckedBoxes(prevState => {
-              return { ...prevState, [name]: !prevState[name] }
-            })
-            if (checkedBoxes[name]) {
-              setSelectAll(false)
-            }
+    <ChildDomainItemContainer>
+      {pending && !confirmed ? (
+        <PendingTx
+          txHash={txHash}
+          onConfirmed={() => {
+            setConfirmed()
           }}
         />
+      ) : (
+        <DomainLink
+          showBlockies={showBlockies}
+          data-testid={`${name}`}
+          warning={isMigrated === false ? true : false}
+          key={name}
+          to={`/name/${name}`}
+        >
+          {showBlockies && smallBP && (
+            <SingleNameBlockies imageSize={24} address={owner} />
+          )}
+          <h3>{label}</h3>
+          {canDeleteSubdomain ? (
+            <Bin
+              data-testid={'delete-name'}
+              onClick={e => {
+                e.preventDefault()
+                mutate()
+              }}
+            />
+          ) : (
+            <>
+              <ExpiryDate name={name} expiryDate={expiryDate} />
+              <AddFavourite
+                domain={{ name }}
+                isSubDomain={false}
+                isFavourite={isFavourite}
+              />
+            </>
+          )}
+
+          {!isDecrypted && (
+            <Tooltip
+              text="<p>This name is only partially decoded. If you know the name, you can search for it in the search bar to decrypt it and renew</p>"
+              position="top"
+              border={true}
+              offset={{ left: 0, top: 10 }}
+            >
+              {({ tooltipElement, showTooltip, hideTooltip }) => {
+                return (
+                  <div style={{ position: 'relative' }}>
+                    <QuestionMark
+                      onMouseOver={() => {
+                        showTooltip()
+                      }}
+                      onMouseLeave={() => {
+                        hideTooltip()
+                      }}
+                    />
+                    &nbsp;
+                    {tooltipElement}
+                  </div>
+                )
+              }}
+            </Tooltip>
+          )}
+          {checkedBoxes && isDecrypted && (
+            <Checkbox
+              testid={`checkbox-${name}`}
+              checked={checkedBoxes[name]}
+              onClick={e => {
+                e.preventDefault()
+                setCheckedBoxes(prevState => {
+                  return { ...prevState, [name]: !prevState[name] }
+                })
+                if (checkedBoxes[name]) {
+                  setSelectAll(false)
+                }
+              }}
+            />
+          )}
+        </DomainLink>
       )}
-    </DomainLink>
+    </ChildDomainItemContainer>
   )
 }

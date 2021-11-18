@@ -53,7 +53,10 @@ function AddSubdomain({ domain, refetch }) {
   const isInvalid = !isValid && newValue.length > 0
   const [mutation] = useMutation(CREATE_SUBDOMAIN, {
     onCompleted: data => {
-      startPending(Object.values(data)[0])
+      if (data) {
+        startPending(Object.values(data)[0])
+        updateValue('')
+      }
     }
   })
 

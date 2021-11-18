@@ -178,7 +178,7 @@ const getContent = (step, account, dnsOwner, t) => {
   }[step]
   if (content.length >= 0) {
     content =
-      dnsOwner.toLowerCase() === account.toLowerCase() ? content[0] : content[1]
+      !!account && dnsOwner.toLowerCase() === account.toLowerCase() ? content[0] : content[1]
   }
   return content
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import _ from 'lodash'
+import last from 'lodash/last'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled/macro'
 import { useQuery } from '@apollo/client'
@@ -55,7 +55,7 @@ function PendingTx(props) {
   const { data: { transactionHistory } = {} } = useQuery(
     GET_TRANSACTION_HISTORY
   )
-  const lastTransaction = _.last(transactionHistory)
+  const lastTransaction = last(transactionHistory)
   useEffect(() => {
     if (
       onConfirmed &&

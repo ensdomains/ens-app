@@ -202,6 +202,7 @@ function getCTA({
           name={`${label}.eth`}
           startDatetime={moment()
             .utc()
+            .local()
             .add(duration, 'seconds')
             .subtract(30, 'days')}
         />
