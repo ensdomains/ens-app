@@ -8,6 +8,7 @@ import Heart from '../Icons/Heart'
 import File from '../Icons/File'
 import { aboutPageURL, hasNonAscii } from '../../utils/utils'
 import SpeechBubble from '../Icons/SpeechBubble'
+import { ReactComponent as FaqIcon } from '../../assets/faqIcon.svg'
 
 import mq from 'mediaQuery'
 import { Link, withRouter } from 'react-router-dom'
@@ -178,7 +179,7 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
             active={url === '/faq' ? 1 : 0}
             to="/faq"
           >
-            <SpeechBubble />
+            <FaqIcon />
             <span>{t('c.faq')}</span>
           </NavLink>
         </li>
