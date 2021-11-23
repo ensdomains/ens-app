@@ -29,8 +29,8 @@ const RightBar = styled('div')`
 
 const Favourite = styled(DefaultFavourite)``
 
-function isRegistrationOpen(available, parent, isDeedOwner) {
-  return parent === 'eth' && !isDeedOwner && available
+function isRegistrationOpen(available, parent) {
+  return parent === 'eth' && available
 }
 
 function isDNSRegistrationOpen(domain) {
@@ -88,11 +88,7 @@ function Name({ details: domain, name, pathname, type, refetch }) {
   const isDeedOwner = domain.deedOwner === account
   const isRegistrant = !domain.available && domain.registrant === account
 
-  const registrationOpen = isRegistrationOpen(
-    domain.available,
-    domain.parent,
-    isDeedOwner
-  )
+  const registrationOpen = isRegistrationOpen(domain.available, domain.parent)
   const preferredTab = registrationOpen ? 'register' : 'details'
 
   let ownerType,
