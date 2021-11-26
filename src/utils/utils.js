@@ -240,10 +240,14 @@ export function isOwnerOfParentDomain(domain, account) {
 }
 
 export function filterNormalised(data, name, nested = false) {
-  return data?.filter(data => {
-    const domain = nested ? data.domain : data
-    return domain[name] === normalize(domain[name])
-  })
+  try {
+    return data?.filter(data => {
+      const domain = nested ? data.domain : data
+      return domain[name] === normalize(domain[name])
+    })
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 export function prependUrl(url) {
