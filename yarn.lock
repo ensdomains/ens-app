@@ -1498,10 +1498,10 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.5.tgz#8eed982e2ee6f7f4e44c253e12962980791efd46"
   integrity sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==
 
-"@ensdomains/address-encoder@^0.2.10":
-  version "0.2.10"
-  resolved "https://registry.yarnpkg.com/@ensdomains/address-encoder/-/address-encoder-0.2.10.tgz#a4e64b1c1a0bc55ad2baea76e90a3a148556b320"
-  integrity sha512-ML7rawevJ1lboSZy2IcHryRVzfW/ePE185d/lFYjE1zyOtvUqCJ5ntqN0PbFbzm3aLKB34ncnlB/ci4II1oHqQ==
+"@ensdomains/address-encoder@^0.2.11":
+  version "0.2.11"
+  resolved "https://registry.yarnpkg.com/@ensdomains/address-encoder/-/address-encoder-0.2.11.tgz#2112617019829939a2aecdbeee2438e5391c95e4"
+  integrity sha512-HPJp17Dvw16yZ9TLd/7jTBHHPZEegtcws8cRmtM7WAqQV636PE93r5+16kjILpBp8asxFLCH69b0w4kS2ah9IQ==
   dependencies:
     bech32 "^2.0.0"
     blakejs "^1.1.0"
@@ -1730,15 +1730,15 @@
     node-fetch "^2.6.1"
     web3 "^1.3.0"
 
-"@ensdomains/ui@^3.3.9":
-  version "3.3.9"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.9.tgz#01ac82286ec8d50bd0795bf922925869f9c59f39"
-  integrity sha512-+P7F/67r4kUIoo7XA23EfrRUnw1uwOm0/yAiwTW+4oPhoU+LqyeBxkzZBMpAy3gUGMangIN2yM4rPQO2Qkua9w==
+"@ensdomains/ui@^3.3.10":
+  version "3.3.10"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.10.tgz#a291f0a3bc9709908b5f91a45f10c2fefc9ccbbb"
+  integrity sha512-URiEMqiYVNvvvPVWW8f4QCPSL9gAf5F/m4wbaX3HoHWIFbnSfgWZt24P6+MrTufCDxGVi/W/eOQs65w7BCHldA==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
     "@babel/runtime" "^7.4.4"
-    "@ensdomains/address-encoder" "^0.2.10"
+    "@ensdomains/address-encoder" "^0.2.11"
     "@ensdomains/content-hash" "^2.5.7"
     "@ensdomains/contracts" "^0.0.1"
     "@ensdomains/dnsprovejs" "^0.4.1"
