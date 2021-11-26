@@ -9,7 +9,8 @@ import { useAccount } from '../QueryAccount'
 import {
   GET_FAVOURITES,
   GET_DOMAINS_SUBGRAPH,
-  GET_REGISTRATIONS_SUBGRAPH
+  GET_REGISTRATIONS_SUBGRAPH,
+  GET_ERRORS
 } from '../../graphql/queries'
 import { decryptName, checkIsDecrypted } from '../../api/labels'
 
@@ -31,6 +32,7 @@ import Checkbox from '../Forms/Checkbox'
 import { SingleNameBlockies } from '../Blockies'
 import Pager from './Pager'
 import AddReverseRecord from '../AddReverseRecord'
+import { InvalidCharacterError } from '../Error/Errors'
 
 import warning from '../../assets/yellowwarning.svg'
 import close from '../../assets/close.svg'
@@ -236,6 +238,9 @@ export default function Address({
     expiryDate
   })
 
+  const {
+    data: { globalError }
+  } = useQuery(GET_ERRORS)
   const { data: { favourites } = [] } = useQuery(GET_FAVOURITES)
   useEffect(() => {
     if (isENSReady) {
@@ -267,6 +272,9 @@ export default function Address({
     'labelName',
     true
   )
+  if (globalError.invalidCharacter || !decryptedDomains) {
+    return <InvalidCharacterError />
+  }
   // let sortedDomains = decryptedDomains.sort(getSortFunc(activeSort))
   let domains = decryptedDomains
   const selectedNames = Object.entries(checkedBoxes)
