@@ -80,7 +80,12 @@ export default {
       },
       globalError: {
         read() {
-          return globalErrorReactive() || false
+          return (
+            globalErrorReactive() || {
+              network: false,
+              invalidCharacter: false
+            }
+          )
         }
       }
     }
