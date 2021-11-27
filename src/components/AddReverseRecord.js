@@ -148,7 +148,10 @@ function AddReverseRecord({ account, currentAddress }) {
 
   useEffect(() => {
     if (!getReverseRecord) return
-    if (!hasValidReverseRecord(getReverseRecord)) return startEditing()
+    if (!hasValidReverseRecord(getReverseRecord)) {
+      startEditing()
+      return
+    }
   }, [loading])
 
   const {
