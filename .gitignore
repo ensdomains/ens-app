@@ -34,5 +34,7 @@ data
 package-lock.json
 
 #IDE
-
 .idea
+
+#yarn
+.yarn
