@@ -143,7 +143,7 @@ function Favourites() {
   } = useQuery(GET_ERRORS)
   const favourites = filterNormalised(favouritesWithUnnormalised, 'name')
   if (globalError.invalidCharacter || !favourites) {
-    return <InvalidCharacterError />
+    return <InvalidCharacterError message={globalError.invalidCharacter} />
   }
   const ids = favourites && favourites.map(f => getNamehash(f.name))
   const { data: { registrations } = [], refetch } = useQuery(

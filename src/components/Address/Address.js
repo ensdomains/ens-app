@@ -273,7 +273,7 @@ export default function Address({
     true
   )
   if (globalError.invalidCharacter || !decryptedDomains) {
-    return <InvalidCharacterError />
+    return <InvalidCharacterError message={globalError.invalidCharacter} />
   }
   // let sortedDomains = decryptedDomains.sort(getSortFunc(activeSort))
   let domains = decryptedDomains
