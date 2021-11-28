@@ -95,7 +95,7 @@ export function useTotalPages({ resultsPerPage, query, variables }) {
         }
 
         if (queryName === 'getDomains') {
-          resultsLength = data.account.domains.length
+          resultsLength = data.account?.domains?.length || 0
         }
 
         skip = skip + limit
