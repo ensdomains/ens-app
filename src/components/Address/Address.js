@@ -37,6 +37,7 @@ import { InvalidCharacterError } from '../Error/Errors'
 import warning from '../../assets/yellowwarning.svg'
 import close from '../../assets/close.svg'
 import { useBlock } from '../hooks'
+import { globalErrorReactive } from '../../apollo/reactiveVars'
 import { gql } from '@apollo/client'
 import {
   NonMainPageBannerContainerWithMarginBottom,
@@ -180,13 +181,19 @@ export const useResetState = (
   setYears,
   setCheckedBoxes,
   setSelectAll,
-  networkId
+  networkId,
+  address,
+  globalErrorReactive
 ) => {
   useEffect(() => {
     setYears(1)
     setCheckedBoxes({})
     setSelectAll(null)
-  }, [networkId])
+    globalErrorReactive({
+      ...globalErrorReactive(),
+      invalidCharacter: null
+    })
+  }, [networkId, address])
 }
 
 export default function Address({
@@ -215,7 +222,14 @@ export default function Address({
   let [checkedBoxes, setCheckedBoxes] = useState({})
   let [years, setYears] = useState(1)
   const [selectAll, setSelectAll] = useState(false)
-  useResetState(setYears, setCheckedBoxes, setSelectAll, networkId)
+  useResetState(
+    setYears,
+    setCheckedBoxes,
+    setSelectAll,
+    networkId,
+    address,
+    globalErrorReactive
+  )
 
   let currentDate, expiryDate
   if (process.env.REACT_APP_STAGE === 'local') {
