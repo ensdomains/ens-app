@@ -41,13 +41,16 @@ export const NetworkError = ({ message }) => (
   </ErrorContainer>
 )
 
-export const InvalidCharacterError = ({ message }) => (
+export const InvalidCharacterError = ({ message, onclick }) => (
   <ErrorContainer>
     <Message>
       <Warning src={warningImage} />
       <H2>{message}</H2>
       One or more domain names contain UTS46 forbidden characters.{' '}
-      <Link to="/">Click here</Link> to go back to the home page.
+      <Link to="/" onClick={onclick}>
+        Click here
+      </Link>{' '}
+      to go back to the home page.
     </Message>
   </ErrorContainer>
 )

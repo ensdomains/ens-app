@@ -37,6 +37,7 @@ import { InvalidCharacterError } from '../Error/Errors'
 import warning from '../../assets/yellowwarning.svg'
 import close from '../../assets/close.svg'
 import { useBlock } from '../hooks'
+import { globalErrorReactive } from '../../apollo/reactiveVars'
 import { gql } from '@apollo/client'
 import {
   NonMainPageBannerContainerWithMarginBottom,
@@ -273,7 +274,17 @@ export default function Address({
     true
   )
   if (globalError.invalidCharacter || !decryptedDomains) {
-    return <InvalidCharacterError message={globalError.invalidCharacter} />
+    return (
+      <InvalidCharacterError
+        message={globalError.invalidCharacter}
+        onclick={() =>
+          globalErrorReactive({
+            ...globalErrorReactive(),
+            invalidCharacter: null
+          })
+        }
+      />
+    )
   }
   // let sortedDomains = decryptedDomains.sort(getSortFunc(activeSort))
   let domains = decryptedDomains

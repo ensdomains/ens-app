@@ -29,6 +29,7 @@ import {
   DAOBannerContent
 } from '../components/Banner/DAOBanner'
 import { InvalidCharacterError } from '../components/Error/Errors'
+import { globalErrorReactive } from '../apollo/reactiveVars'
 
 const SelectAll = styled('div')`
   grid-area: selectall;
@@ -143,7 +144,17 @@ function Favourites() {
   } = useQuery(GET_ERRORS)
   const favourites = filterNormalised(favouritesWithUnnormalised, 'name')
   if (globalError.invalidCharacter || !favourites) {
-    return <InvalidCharacterError message={globalError.invalidCharacter} />
+    return (
+      <InvalidCharacterError
+        message={globalError.invalidCharacter}
+        onclick={() =>
+          globalErrorReactive({
+            ...globalErrorReactive(),
+            invalidCharacter: null
+          })
+        }
+      />
+    )
   }
   const ids = favourites && favourites.map(f => getNamehash(f.name))
   const { data: { registrations } = [], refetch } = useQuery(
