@@ -150,7 +150,6 @@ export default function LanguageSwitcher() {
   function changeLanguage(language) {
     setLanguageSelected(language)
     saveLanguageToLocalStorage(language.value)
-    console.log('fdkflakflakflakf', language.value)
     i18n.changeLanguage(language.value)
     setShowDropdown(false)
   }
