@@ -2,21 +2,23 @@ import styled from '@emotion/styled/macro'
 import mq from 'mediaQuery'
 
 import { motion } from 'framer-motion'
-import ENSIcon from './images/ENSIcon.svg'
+import ENSIcon from './images/logo_single_linkkey.svg'
 import Arrow from './images/Arrow.svg'
 
 const LogoSmall = styled(motion.img)`
-  width: 48px;
-  padding: 10px;
+  width: 60px;
+  //padding: 10px;
   border-radius: 50%;
   margin: auto;
   display: block;
-  background: linear-gradient(
-    330.4deg,
-    #44bcf0 4.54%,
-    #7298f8 59.2%,
-    #a099ff 148.85%
-  );
+  //background: linear-gradient(
+  //  330.4deg,
+  //  #44bcf0 4.54%,
+  //  #7298f8 59.2%,
+  //  #a099ff 148.85%
+  //
+  //);
+  background: #ea6060;
   box-shadow: 0px 4px 26px rgba(0, 0, 0, 0.06);
 `
 
@@ -92,17 +94,11 @@ export const NonMainPageBannerContainerWithMarginBottom = styled(
 
 export function DAOBannerContent() {
   return (
-    <Link
-      target="_blank"
-      rel="noreferrer"
-      href="https://ens.mirror.xyz/5cGl-Y37aTxtokdWk21qlULmE1aSM_NuX9fstbOPoWU"
-    >
+    <Link target="_blank" rel="noreferrer" href="https://linkkey.io">
       <LogoSmall src={ENSIcon} />
       <div>
-        <BannerTitle>$ENS Now Available for Claiming.</BannerTitle>
-        <BannerContent>
-          Claim your $ENS and participate in ENS governance.
-        </BannerContent>
+        <BannerTitle>Linkkey airdrop is coming.</BannerTitle>
+        <BannerContent>To see your account for airdrops.</BannerContent>
       </div>
       <ArrowSmall src={Arrow} />
     </Link>
