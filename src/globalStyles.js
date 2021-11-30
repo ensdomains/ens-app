@@ -11,7 +11,7 @@ injectGlobal`
   }
 
   a {
-    color: #5284ff;
+    color: #ea6060;
     text-decoration: none;
     transition: 0.2s;
 
@@ -20,7 +20,7 @@ injectGlobal`
     }
 
     &:visited {
-      color: #5284ff
+      color: #ea6060
     } 
   }
 `

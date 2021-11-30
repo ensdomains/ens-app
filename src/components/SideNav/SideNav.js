@@ -64,7 +64,7 @@ const NavLink = styled(Link)`
   justify-content: center;
   font-weight: 200;
   font-size: 22px;
-  color: ${p => (p.active ? '#5284FF' : '#C7D3E3')};
+  color: ${p => (p.active ? '#ea6060' : '#C7D3E3')};
   padding: 10px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 
@@ -80,18 +80,18 @@ const NavLink = styled(Link)`
   span {
     transition: 0.2s;
     margin-left: 15px;
-    color: ${p => (p.active ? '#5284FF' : '#C7D3E3')};
+    color: ${p => (p.active ? '#ea6060' : '#C7D3E3')};
   }
 
   &:hover {
     span {
-      color: #5284ff;
+      color: #ea6060;
     }
     path {
-      fill: #5284ff;
+      fill: #ea6060;
     }
     g {
-      fill: #5284ff;
+      fill: #ea6060;
     }
   }
 `
@@ -102,7 +102,7 @@ const ThirdPartyLink = styled('a')`
   justify-content: center;
   font-weight: 200;
   font-size: 22px;
-  color: ${p => (p.active ? '#5284FF' : '#C7D3E3')};
+  color: ${p => (p.active ? '#ea6060' : '#C7D3E3')};
   padding: 10px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 
@@ -118,18 +118,18 @@ const ThirdPartyLink = styled('a')`
   span {
     transition: 0.2s;
     margin-left: 15px;
-    color: ${p => (p.active ? '#5284FF' : '#C7D3E3')};
+    color: ${p => (p.active ? '#ea6060' : '#C7D3E3')};
   }
 
   &:hover {
     span {
-      color: #5284ff;
+      color: #ea6060;
     }
     path {
-      fill: #5284ff;
+      fill: #ea6060;
     }
     g {
-      fill: #5284ff;
+      fill: #ea6060;
     }
   }
 `

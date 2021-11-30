@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled/macro'
 
-const activeColourSwitch = props => (props.active ? '#5284FF' : '#B0BECF')
+const activeColourSwitch = props => (props.active ? '#ea6060' : '#B0BECF')
 
 const TickContainer = styled('div')`
   display: flex;
