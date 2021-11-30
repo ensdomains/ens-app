@@ -259,7 +259,7 @@ const PermanentRegistrarLogo = styled(motion.h1)`
   font-weight: 800;
   font-size: 18px;
   text-transform: uppercase;
-  color: #4258d3;
+  color: #fff;
   letter-spacing: 1.8px;
   text-align: right;
   line-height: 24px;
@@ -356,7 +356,9 @@ export default ({ match }) => {
           <PermanentRegistrarLogo
             initial={animation.initial}
             animate={animation.animate}
-          />
+          >
+            Everyone needs to register for the WEB3.0
+          </PermanentRegistrarLogo>
           <Search />
         </>
       </SearchContainer>
