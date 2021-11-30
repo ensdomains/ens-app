@@ -97,14 +97,14 @@ export function DAOBannerContent() {
       rel="noreferrer"
       href="https://ens.mirror.xyz/5cGl-Y37aTxtokdWk21qlULmE1aSM_NuX9fstbOPoWU"
     >
-      <LogoSmall src={ENSIcon} />
+      <LogoSmall src={ENSIcon} alt="ENS logo" />
       <div>
         <BannerTitle>$ENS Now Available for Claiming.</BannerTitle>
         <BannerContent>
           Claim your $ENS and participate in ENS governance.
         </BannerContent>
       </div>
-      <ArrowSmall src={Arrow} />
+      <ArrowSmall src={Arrow} alt="Arrow right icon" />
     </Link>
   )
 }

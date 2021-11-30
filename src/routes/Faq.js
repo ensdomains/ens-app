@@ -92,7 +92,7 @@ function Faq() {
           (e.g. matoken.eth.link or matoken.eth.limo).
           <br />
           If you want to redirect your ENS name to an existing website, you
-          could write a html file containing JavasSript logic to redirect your
+          could write a html file containing JavaScript logic to redirect to your
           website, upload the file into ipfs using services like{' '}
           <a href="https://pinata.cloud/">IPFS Pinata</a>, then set the CID to
           your contenthash. See the source code of depositcontract.eth.link as
