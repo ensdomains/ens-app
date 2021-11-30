@@ -12,7 +12,7 @@ const StyledPencil = styled(Pencil)`
   &:hover {
     g {
       transition: 0.2s;
-      fill: #5384fe;
+      fill: #ea5060;
     }
     cursor: pointer;
   }

@@ -76,7 +76,7 @@ const TextInput = styled('input')`
 `
 
 const Button = styled('input')`
-  background: #5384fe;
+  background: #ea5060;
   width: 40%;
   height: 35px;
   border-color: transparent;

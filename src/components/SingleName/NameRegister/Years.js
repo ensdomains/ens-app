@@ -22,7 +22,7 @@ const Icon = styled('div')`
   font-size: 28px;
   font-weight: 100;
   color: #adbbcd;
-  ${p => p.emphasize && 'background-color: #5384fe;'}
+  ${p => p.emphasize && 'background-color: #ea5060;'}
   ${p => (p.emphasize ? 'color: white;' : 'color: #adbbcd;')}
   ${p => (p.emphasize ? 'border-color: white;' : 'color: #adbbcd;')}
   
