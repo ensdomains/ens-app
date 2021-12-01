@@ -1,7 +1,6 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 import styled from '@emotion/styled/macro'
-import GlobalState from '../../globalState'
 import mq from 'mediaQuery'
 
 const ModalContainer = styled('div')`

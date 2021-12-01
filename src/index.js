@@ -1,14 +1,24 @@
 import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom'
 import { ApolloProvider } from '@apollo/client'
+import { createGlobalStyle } from 'styled-components'
+
+import { theme } from '@ensdomains/thorin'
 
 import App from 'App'
-import 'globalStyles'
 import './i18n'
 import setup from './setup'
 import { clientReactive, networkIdReactive } from './apollo/reactiveVars'
 import { setupClient } from './apollo/apolloClient'
 import Loader from './components/Loader'
+
+// import './index.css'
+
+const GlobalStyle = createGlobalStyle`
+  html {
+    background: ${theme.colors.background.simple};
+  }
+`
 
 setup(false)
 window.addEventListener('load', async () => {
@@ -16,6 +26,7 @@ window.addEventListener('load', async () => {
   ReactDOM.render(
     <Suspense fallback={<Loader withWrap large />}>
       <ApolloProvider {...{ client }}>
+        <GlobalStyle />
         <App />
       </ApolloProvider>
     </Suspense>,

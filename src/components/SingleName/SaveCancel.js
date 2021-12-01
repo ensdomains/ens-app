@@ -2,11 +2,9 @@ import React, { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from '@emotion/styled/macro'
 import Button from '../Forms/Button'
-import GlobalState from '../../globalState'
 import mq from 'mediaQuery'
 import Modal from '../Modal/Modal'
 import Confirm from '../SingleName/Confirm'
-import ExpiryNotificationModal from '../ExpiryNotification/ExpiryNotificationModal'
 
 const SaveCancelSwitchContainer = styled('div')`
   display: flex;

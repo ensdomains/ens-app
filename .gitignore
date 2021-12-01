@@ -36,3 +36,7 @@ package-lock.json
 #IDE
 
 .idea
+
+#yalc
+.yalc
+yalc.lock

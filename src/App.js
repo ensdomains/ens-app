@@ -6,6 +6,9 @@ import {
   Switch
 } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
+import styled from 'styled-components'
+
+import { MainLayout } from '@ensdomains/thorin'
 
 const TestRegistrar = lazy(() =>
   import(
@@ -63,15 +66,6 @@ const Renew = lazy(() =>
   )
 )
 
-// import TestRegistrar from './routes/TestRegistrar'
-// import Home from './routes/Home'
-// import SearchResults from './routes/SearchResults'
-// import SingleName from './routes/SingleName'
-// import Favourites from './routes/Favourites'
-// import Faq from './routes/Faq'
-// import Address from './routes/AddressPage'
-// import Renew from './routes/Renew'
-
 import { NetworkError, Error404 } from './components/Error/Errors'
 import DefaultLayout from './components/Layout/DefaultLayout'
 import { pageview, setupAnalytics } from './utils/analytics'
@@ -124,20 +118,45 @@ const App = () => {
 
   return (
     <Router>
-      <Switch>
-        <Route exact path="/" component={Home} layout={HomePageLayout} />
-        <Route path="/test-registrar" component={TestRegistrar} />
-        <Route path="/favourites" component={Favourites} />
-        <Route path="/faq" component={Faq} />
-        <Route path="/my-bids" component={SearchResults} />
-        <Route path="/how-it-works" component={SearchResults} />
-        <Route path="/search/:searchTerm" component={SearchResults} />
-        <Route path="/name/:name" component={SingleName} />
-        <Route path="/address/:address/:domainType" component={Address} />
-        <Route path="/address/:address" component={Address} />
-        <Route path="/renew" component={Renew} />
-        <Route path="*" component={Error404} />
-      </Switch>
+      <MainLayout
+        {...{
+          languageSelector: true,
+          CTA: {
+            text: '',
+            callback: () => null
+          },
+          links: [
+            {
+              text: 'text',
+              callback: () => null
+            }
+          ],
+          footer: {
+            socials: ['twitter'],
+            links: [
+              {
+                text: 'text',
+                callback: () => null
+              }
+            ]
+          }
+        }}
+      >
+        <Switch>
+          <DefaultRoute exact path="/" component={Home} />
+          <Route path="/test-registrar" component={TestRegistrar} />
+          <Route path="/favourites" component={Favourites} />
+          <Route path="/faq" component={Faq} />
+          <Route path="/my-bids" component={SearchResults} />
+          <Route path="/how-it-works" component={SearchResults} />
+          <Route path="/search/:searchTerm" component={SearchResults} />
+          <Route path="/name/:name" component={SingleName} />
+          <Route path="/address/:address/:domainType" component={Address} />
+          <Route path="/address/:address" component={Address} />
+          <Route path="/renew" component={Renew} />
+          <Route path="*" component={Error404} />
+        </Switch>
+      </MainLayout>
     </Router>
   )
 }

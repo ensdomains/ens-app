@@ -9,9 +9,6 @@ import mq from 'mediaQuery'
 import SearchDefault from '../components/SearchName/Search'
 import NoAccountsDefault from '../components/NoAccounts/NoAccountsModal'
 import bg from '../assets/heroBG.jpg'
-import TextBubbleDefault from '../components/Icons/TextBubble'
-import QuestionMarkDefault from '../components/Icons/QuestionMark'
-import HowToUseDefault from '../components/HowToUse/HowToUse'
 import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
 import { aboutPageURL } from '../utils/utils'
 import { connectProvider, disconnectProvider } from '../utils/providerUtils'
@@ -98,34 +95,6 @@ const ExternalLink = styled('a')`
   }
 `
 
-const Announcement = styled('div')`
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  background: #5284ff;
-  padding: 0 10px;
-  border-bottom: #5284ff solid 3px;
-  h3 {
-    color: white;
-    font-weight: 400;
-    text-align: center;
-    padding: 0 20px;
-    margin-bottom: 10px;
-  }
-  p {
-    text-align: center;
-    color: white;
-  }
-  a {
-    color: white;
-    text-decoration: none;
-  }
-`
-
-const HowToUse = styled(HowToUseDefault)`
-  padding: 70px;
-`
-
 const Hero = styled('section')`
   background: url(${bg});
   background-size: cover;
@@ -183,68 +152,6 @@ const Search = styled(SearchDefault)`
   }
 `
 
-const Explanation = styled('div')`
-  display: grid;
-  width: 100%;
-
-  grid-template-columns: 1fr;
-  grid-template-rows: auto;
-  ${mq.medium`
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto;
-  `}
-  grid-gap: 0;
-`
-
-const H2 = styled('h2')`
-  font-size: 30px;
-  font-weight: 500;
-`
-
-const Section = styled('section')`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-
-const WhatItIs = styled(Section)`
-  padding: 40px 20px 80px;
-  p {
-    font-size: 18px;
-  }
-`
-
-const HowItWorks = styled(Section)`
-  background: #f0f6fa;
-  padding: 40px 20px 80px;
-`
-
-const Inner = styled('div')`
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  max-width: 350px;
-
-  > p {
-    font-weight: 300;
-    font-size: 20px;
-    margin-bottom: 1.5em;
-  }
-`
-const NameAnimation = styled(Section)`
-  display: block;
-  height: 100%;
-`
-
-const TextBubble = styled(TextBubbleDefault)`
-  margin-right: 10px;
-`
-
-const QuestionMark = styled(QuestionMarkDefault)`
-  transform: scale(1.18);
-  margin-right: 10px;
-`
-
 const LogoLarge = styled(motion.img)`
   width: 50%;
   margin: 0 auto 0;
@@ -297,69 +204,73 @@ const animation = {
   }
 }
 
-export default ({ match }) => {
-  const { url } = match
-  const { t } = useTranslation()
+// export default ({ match }) => {
+//   const { url } = match
+//   const { t } = useTranslation()
+//
+//   const {
+//     data: { accounts }
+//   } = useQuery(GET_ACCOUNT)
+//
+//   const {
+//     data: { network, displayName, isReadOnly, isSafeApp }
+//   } = useQuery(HOME_DATA, {
+//     variables: { address: accounts?.[0] }
+//   })
+//
+//   return (
+//     <Hero>
+//       <HeroTop>
+//         <NetworkStatus>
+//           <Network>
+//             {`${network} ${t('c.network')}`}
+//             {isReadOnly && <ReadOnly>({t('c.readonly')})</ReadOnly>}
+//             {!isReadOnly && displayName && (
+//               <Name data-testid="display-name">({displayName})</Name>
+//             )}
+//           </Network>
+//           {!isSafeApp && (
+//             <NoAccounts
+//               onClick={isReadOnly ? connectProvider : disconnectProvider}
+//               buttonText={isReadOnly ? t('c.connect') : t('c.disconnect')}
+//             />
+//           )}
+//         </NetworkStatus>
+//         <Nav>
+//           {accounts?.length > 0 && !isReadOnly && (
+//             <NavLink
+//               active={url === '/address/' + accounts[0]}
+//               to={'/address/' + accounts[0]}
+//             >
+//               {t('c.mynames')}
+//             </NavLink>
+//           )}
+//           <NavLink to="/favourites">{t('c.favourites')}</NavLink>
+//           <ExternalLink href={aboutPageURL()}>{t('c.about')}</ExternalLink>
+//         </Nav>
+//         <MainPageBannerContainer>
+//           <DAOBannerContent />
+//         </MainPageBannerContainer>
+//       </HeroTop>
+//       <SearchContainer>
+//         <>
+//           <LogoLarge
+//             initial={animation.initial}
+//             animate={animation.animate}
+//             src={ENSLogo}
+//             alt="ENS logo"
+//           />
+//           <PermanentRegistrarLogo
+//             initial={animation.initial}
+//             animate={animation.animate}
+//           />
+//           <Search />
+//         </>
+//       </SearchContainer>
+//     </Hero>
+//   )
+// }
 
-  const {
-    data: { accounts }
-  } = useQuery(GET_ACCOUNT)
-
-  const {
-    data: { network, displayName, isReadOnly, isSafeApp }
-  } = useQuery(HOME_DATA, {
-    variables: { address: accounts?.[0] }
-  })
-
-  return (
-    <Hero>
-      <HeroTop>
-        <NetworkStatus>
-          <Network>
-            {`${network} ${t('c.network')}`}
-            {isReadOnly && <ReadOnly>({t('c.readonly')})</ReadOnly>}
-            {!isReadOnly && displayName && (
-              <Name data-testid="display-name">({displayName})</Name>
-            )}
-          </Network>
-          {!isSafeApp && (
-            <NoAccounts
-              onClick={isReadOnly ? connectProvider : disconnectProvider}
-              buttonText={isReadOnly ? t('c.connect') : t('c.disconnect')}
-            />
-          )}
-        </NetworkStatus>
-        <Nav>
-          {accounts?.length > 0 && !isReadOnly && (
-            <NavLink
-              active={url === '/address/' + accounts[0]}
-              to={'/address/' + accounts[0]}
-            >
-              {t('c.mynames')}
-            </NavLink>
-          )}
-          <NavLink to="/favourites">{t('c.favourites')}</NavLink>
-          <ExternalLink href={aboutPageURL()}>{t('c.about')}</ExternalLink>
-        </Nav>
-        <MainPageBannerContainer>
-          <DAOBannerContent />
-        </MainPageBannerContainer>
-      </HeroTop>
-      <SearchContainer>
-        <>
-          <LogoLarge
-            initial={animation.initial}
-            animate={animation.animate}
-            src={ENSLogo}
-            alt="ENS logo"
-          />
-          <PermanentRegistrarLogo
-            initial={animation.initial}
-            animate={animation.animate}
-          />
-          <Search />
-        </>
-      </SearchContainer>
-    </Hero>
-  )
+export default () => {
+  return <div style={{ height: 2000 }}>Homepage</div>
 }
