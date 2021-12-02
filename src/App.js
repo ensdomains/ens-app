@@ -122,7 +122,7 @@ const App = () => {
         {...{
           languageSelector: true,
           CTA: {
-            text: '',
+            text: 'CTA',
             callback: () => null
           },
           links: [
@@ -132,7 +132,7 @@ const App = () => {
             }
           ],
           footer: {
-            socials: ['twitter'],
+            socials: ['twitter', 'github'],
             links: [
               {
                 text: 'text',

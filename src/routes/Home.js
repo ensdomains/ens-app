@@ -6,6 +6,8 @@ import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import mq from 'mediaQuery'
 
+import { theme, H1, H5 } from '@ensdomains/thorin'
+
 import SearchDefault from '../components/SearchName/Search'
 import NoAccountsDefault from '../components/NoAccounts/NoAccountsModal'
 import bg from '../assets/heroBG.jpg'
@@ -271,6 +273,19 @@ const animation = {
 //   )
 // }
 
+const HomeContainer = styled.div`
+  text-align: center;
+  max-width: 580px;
+`
+
 export default () => {
-  return <div style={{ height: 2000 }}>Homepage</div>
+  return (
+    <HomeContainer>
+      <H1 blue>Your web3 username</H1>
+      <H5>
+        It’s your identity across web3, one name for all your crypto addresses,
+        and your decentralized website.
+      </H5>
+    </HomeContainer>
+  )
 }
