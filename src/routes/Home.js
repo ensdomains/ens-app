@@ -351,6 +351,7 @@ export default ({ match }) => {
             initial={animation.initial}
             animate={animation.animate}
             src={ENSLogo}
+            alt="ENS logo"
           />
           <PermanentRegistrarLogo
             initial={animation.initial}

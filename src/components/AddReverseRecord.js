@@ -56,7 +56,7 @@ const Message = styled('div')`
   font-family: Overpass Mono;
   font-weight: 700;
   font-size: 14px;
-  color: #adbbcd;
+  color: ${p => (p.nameSet ? '#747f8c' : '#adbbcd')};
   letter-spacing: 0;
   display: flex;
   align-items: center;
@@ -147,8 +147,12 @@ function AddReverseRecord({ account, currentAddress }) {
   })
 
   useEffect(() => {
-    startEditing()
-  }, [getReverseRecord, account])
+    if (!getReverseRecord) return
+    if (!hasValidReverseRecord(getReverseRecord)) {
+      startEditing()
+      return
+    }
+  }, [loading])
 
   const {
     data: { networkId }
@@ -221,6 +225,7 @@ function AddReverseRecord({ account, currentAddress }) {
               : startEditing()
           }
           pending={pending}
+          nameSet={hasValidReverseRecord(getReverseRecord)}
         >
           {hasValidReverseRecord(getReverseRecord) ? (
             <MessageContent data-testid="editable-reverse-record-set">
