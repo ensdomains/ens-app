@@ -6,7 +6,7 @@ import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import mq from 'mediaQuery'
 
-import { theme, H1, H5 } from '@ensdomains/thorin'
+import { Input, H1, H5 } from '@ensdomains/thorin'
 
 import SearchDefault from '../components/SearchName/Search'
 import NoAccountsDefault from '../components/NoAccounts/NoAccountsModal'
@@ -195,84 +195,6 @@ export const GET_ACCOUNT = gql`
   }
 `
 
-const animation = {
-  initial: {
-    scale: 0,
-    opacity: 0
-  },
-  animate: {
-    opacity: 1,
-    scale: 1
-  }
-}
-
-// export default ({ match }) => {
-//   const { url } = match
-//   const { t } = useTranslation()
-//
-//   const {
-//     data: { accounts }
-//   } = useQuery(GET_ACCOUNT)
-//
-//   const {
-//     data: { network, displayName, isReadOnly, isSafeApp }
-//   } = useQuery(HOME_DATA, {
-//     variables: { address: accounts?.[0] }
-//   })
-//
-//   return (
-//     <Hero>
-//       <HeroTop>
-//         <NetworkStatus>
-//           <Network>
-//             {`${network} ${t('c.network')}`}
-//             {isReadOnly && <ReadOnly>({t('c.readonly')})</ReadOnly>}
-//             {!isReadOnly && displayName && (
-//               <Name data-testid="display-name">({displayName})</Name>
-//             )}
-//           </Network>
-//           {!isSafeApp && (
-//             <NoAccounts
-//               onClick={isReadOnly ? connectProvider : disconnectProvider}
-//               buttonText={isReadOnly ? t('c.connect') : t('c.disconnect')}
-//             />
-//           )}
-//         </NetworkStatus>
-//         <Nav>
-//           {accounts?.length > 0 && !isReadOnly && (
-//             <NavLink
-//               active={url === '/address/' + accounts[0]}
-//               to={'/address/' + accounts[0]}
-//             >
-//               {t('c.mynames')}
-//             </NavLink>
-//           )}
-//           <NavLink to="/favourites">{t('c.favourites')}</NavLink>
-//           <ExternalLink href={aboutPageURL()}>{t('c.about')}</ExternalLink>
-//         </Nav>
-//         <MainPageBannerContainer>
-//           <DAOBannerContent />
-//         </MainPageBannerContainer>
-//       </HeroTop>
-//       <SearchContainer>
-//         <>
-//           <LogoLarge
-//             initial={animation.initial}
-//             animate={animation.animate}
-//             src={ENSLogo}
-//             alt="ENS logo"
-//           />
-//           <PermanentRegistrarLogo
-//             initial={animation.initial}
-//             animate={animation.animate}
-//           />
-//           <Search />
-//         </>
-//       </SearchContainer>
-//     </Hero>
-//   )
-// }
-
 const HomeContainer = styled.div`
   text-align: center;
   max-width: 580px;
@@ -286,6 +208,7 @@ export default () => {
         It’s your identity across web3, one name for all your crypto addresses,
         and your decentralized website.
       </H5>
+      <Input />
     </HomeContainer>
   )
 }
