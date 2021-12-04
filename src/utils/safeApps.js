@@ -13,21 +13,23 @@ export function isRunningAsSafeApp() {
 export const safeInfo = async () => {
   try {
     return await Promise.race([
-      safeAppsSdk.getSafeInfo(),
-      new Promise(resolve => setTimeout(resolve, 100))
+      safeAppsSdk.safe.getInfo(),
+      new Promise(resolve => setTimeout(resolve, 200))
     ])
   } catch (e) {
+    console.error(e)
     return undefined
   }
 }
 
 export const setupSafeApp = async safeInfo => {
   const provider = new SafeAppProvider(safeInfo, safeAppsSdk)
-  await setupENS({
+  const { providerObject } = await setupENS({
     customProvider: provider,
     reloadOnAccountsChange: true,
     enforceReload: true
   })
   isSafeAppSetup = true
-  return await getNetwork()
+
+  return providerObject
 }
