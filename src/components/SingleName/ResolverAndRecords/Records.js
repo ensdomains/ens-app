@@ -282,9 +282,13 @@ const validateAllRecords = (updatedRecords, validRecords) =>
 const singleValidator = validRecords => record =>
   validRecords.some(el => el.key === record.key && el.val === record.val)
 
-const getValidRecords = (records, validator) => {
-  return records.filter(record => validator(record))
-}
+const singleValidating = validatingRecords => record =>
+  validatingRecords.some(el => el.key === record.key && el.val === record.val)
+
+const getValidRecords = async (records, validator) =>
+  Promise.all(records.map(validator)).then(results =>
+    records.filter((_v, index) => results[index])
+  )
 
 const useInitRecords = (
   domain,
@@ -311,9 +315,27 @@ const useUpdatedRecords = (
 }
 
 const throttledUpdate = throttle(
-  (setChangedRecords, setValidRecords, initialRecords, updatedRecords) => {
+  async (
+    setChangedRecords,
+    setValidRecords,
+    initialRecords,
+    updatedRecords,
+    setValidatingRecords,
+    updatedRecordDiff
+  ) => {
     setChangedRecords(getChangedRecords(initialRecords, updatedRecords))
-    setValidRecords(getValidRecords(updatedRecords, validateRecord))
+    const newValidRecords = await getValidRecords(
+      updatedRecordDiff,
+      validateRecord
+    )
+    const invalidRecords = updatedRecordDiff.filter(
+      record => !newValidRecords.includes(record)
+    )
+    const validRecords = updatedRecords.filter(
+      record => !invalidRecords.includes(record)
+    )
+    setValidRecords(validRecords)
+    setValidatingRecords([])
   },
   500
 )
@@ -323,15 +345,23 @@ const useChangedValidRecords = (
   setChangedRecords,
   setValidRecords,
   initialRecords,
-  updatedRecords
+  updatedRecords,
+  setValidatingRecords
 ) => {
+  const prevUpdatedRecords = usePrevious(updatedRecords)
   useEffect(() => {
     if (!recordsLoading) {
+      const updatedRecordDiff = updatedRecords.filter(
+        record => !prevUpdatedRecords.includes(record)
+      )
+      setValidatingRecords(updatedRecordDiff)
       throttledUpdate(
         setChangedRecords,
         setValidRecords,
         initialRecords,
-        updatedRecords
+        updatedRecords,
+        setValidatingRecords,
+        updatedRecordDiff
       )
     }
   }, [updatedRecords, recordsLoading, initialRecords])
@@ -377,6 +407,7 @@ export default function Records({
   const [updatedRecords, setUpdatedRecords] = useState([])
   const [changedRecords, setChangedRecords] = useState([])
   const [validRecords, setValidRecords] = useState([])
+  const [validatingRecords, setValidatingRecords] = useState([])
 
   const { actions, state } = useEditable()
   const { pending, confirmed, editing, txHash } = state
@@ -402,7 +433,8 @@ export default function Records({
     setChangedRecords,
     setValidRecords,
     initialRecords,
-    updatedRecords
+    updatedRecords,
+    setValidatingRecords
   )
   useResetFormOnAccountChange(
     accounts?.[0],
@@ -459,6 +491,7 @@ export default function Records({
         updateRecord={updateRecord(setUpdatedRecords)}
         changedRecords={changedRecords}
         validator={singleValidator(validRecords)}
+        validating={singleValidating(validatingRecords)}
       />
       <ContentHash
         canEdit={canEditRecords}
@@ -481,6 +514,7 @@ export default function Records({
         updateRecord={updateRecord(setUpdatedRecords)}
         changedRecords={changedRecords}
         validator={singleValidator(validRecords)}
+        validating={singleValidating(validatingRecords)}
       />
       {pending && !confirmed && txHash && (
         <ConfirmBox pending={pending}>
@@ -521,7 +555,8 @@ export default function Records({
             }
             isValid={
               !!changedRecords.length &&
-              validateAllRecords(updatedRecords, validRecords)
+              validateAllRecords(updatedRecords, validRecords) &&
+              !validatingRecords.length
             }
           />
         </ConfirmBox>

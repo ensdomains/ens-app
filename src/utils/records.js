@@ -1,8 +1,9 @@
 import { encodeContenthash, isValidContenthash } from '@ensdomains/ui'
-import { addressUtils } from 'utils/utils'
+import { addressUtils, supportedAvatarProtocols } from 'utils/utils'
 import { formatsByName } from '@ensdomains/address-encoder'
+import validateTokenURI from 'api/avatar'
 
-export function validateRecord({ key, value, contractFn }) {
+export async function validateRecord({ key, value, contractFn, domain }) {
   if (!value) return true
   switch (contractFn) {
     case 'setContenthash':
@@ -14,6 +15,13 @@ export function validateRecord({ key, value, contractFn }) {
         return false
       }
     case 'setText':
+      if (key !== 'avatar') return true
+      const protocol = supportedAvatarProtocols.find(proto =>
+        value.startsWith(proto)
+      )
+      if (!protocol) return false
+      if (protocol === 'eip155')
+        return await validateTokenURI(value, domain.addr)
       return true
     case 'setAddr(bytes32,uint256,bytes)':
       if (value === '') return false

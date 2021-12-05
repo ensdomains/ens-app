@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled/macro'
 import mq from 'mediaQuery'
 import { useTranslation } from 'react-i18next'
@@ -13,6 +13,7 @@ import { DetailsKey } from '../DetailsItem'
 import DetailsItemInput from '../DetailsItemInput'
 import DefaultSelect from '../../Forms/Select'
 import DefaultAddressInput from '@ensdomains/react-ens-address'
+import { throttle } from 'lodash'
 
 const AddressInput = styled(DefaultAddressInput)`
   margin-bottom: 10px;
@@ -149,15 +150,18 @@ const clearInput = (setSelectedRecord, setSelectedKey, updateValue) => {
   updateValue(null)
 }
 
-const validate = (selectedKey, newValue, selectedRecord) => {
+const validate = async (selectedKey, newValue, selectedRecord, domain) => {
   if (!selectedKey) return false
 
-  return validateRecord({
+  return await validateRecord({
     key: selectedKey?.value,
     value: newValue,
-    contractFn: selectedRecord?.contractFn
+    contractFn: selectedRecord?.contractFn,
+    domain
   })
 }
+
+const throttledValidate = throttle(validate, 1500)
 
 function Editable({
   domain,
@@ -175,6 +179,8 @@ function Editable({
 
   const [selectedRecord, setSelectedRecord] = useState(null)
   const [selectedKey, setSelectedKey] = useState(null)
+  const [isValid, setIsValid] = useState(false)
+  const [isValidating, setIsValidating] = useState(false)
 
   const handleChange = selectedRecord => {
     if (selectedRecord.contractFn === 'setContenthash') {
@@ -196,7 +202,23 @@ function Editable({
     selectedKey: selectedKey && selectedKey.value
   }
 
-  const isValid = validate(selectedKey, newValue, selectedRecord)
+  useEffect(() => {
+    if (newValue) {
+      new Promise(async () => {
+        setIsValidating(true)
+        const validateFunc =
+          selectedKey?.value === 'avatar' ? throttledValidate : validate
+        const isValid = await validateFunc(
+          selectedKey,
+          newValue,
+          selectedRecord,
+          domain
+        )
+        setIsValid(isValid)
+        setIsValidating(false)
+      })
+    }
+  }, [newValue])
 
   return (
     <>
@@ -243,8 +265,8 @@ function Editable({
                 newValue={newValue || ''}
                 dataType={selectedRecord ? selectedRecord.value : null}
                 updateValue={updateValue}
-                isValid
-                isInvalid={!isValid}
+                isValid={isValid && !isValidating}
+                isInvalid={!isValid && !isValidating}
                 placeholder={getPlaceholder(
                   selectedRecord.contractFn,
                   selectedKey?.label
@@ -256,7 +278,7 @@ function Editable({
             <Button
               data-testid="save-record"
               type={isValid ? 'primary' : 'disabled'}
-              disabled={!isValid}
+              disabled={!isValid && !isValidating}
               onClick={() => {
                 updateRecord({
                   key: selectedKey?.value || 'CONTENT',
