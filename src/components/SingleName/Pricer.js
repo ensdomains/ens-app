@@ -97,8 +97,19 @@ export const PricerAll = React.forwardRef((props, reference) => {
   return <PricerInner reference={reference} {...props} />
 })
 
+/**
+ * Pricer switch
+ * @returns {boolean}
+ */
+const isOpenPricer = () => {
+  return false
+}
 const Pricer = React.forwardRef((props, reference) => {
-  return <PricerInner reference={reference} {...props} />
+  if (isOpenPricer()) {
+    return <PricerInner reference={reference} {...props} />
+  } else {
+    return null
+  }
 })
 
 export default Pricer

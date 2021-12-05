@@ -60,6 +60,8 @@ function getDetailsActive(domain, pathname, tab) {
 const Tabs = ({ domain, pathname, parent, tab }) => {
   const { t } = useTranslation()
   const { name, state } = domain
+  // add subdomain switch
+  const isOpenSubdomain = false
   return (
     (state !== 'Auction' || state !== 'Reveal') && (
       <TabContainer>
@@ -82,12 +84,15 @@ const Tabs = ({ domain, pathname, parent, tab }) => {
         >
           {t('singleName.tabs.details')}
         </TabLink>
-        <TabLink
-          active={pathname === `/name/${name}/subdomains`}
-          to={`/name/${name}/subdomains`}
-        >
-          {t('singleName.tabs.subdomains')}
-        </TabLink>
+
+        {isOpenSubdomain == true && (
+          <TabLink
+            active={pathname === `/name/${name}/subdomains`}
+            to={`/name/${name}/subdomains`}
+          >
+            {t('singleName.tabs.subdomains')}
+          </TabLink>
+        )}
       </TabContainer>
     )
   )
