@@ -200,6 +200,11 @@ function DetailsContainer({
   loadingIsParentMigrated
 }) {
   const { t } = useTranslation()
+  /**
+   * TODO If no expiration time is returned, the expiration time is defined as 1000 years later
+   * @type {boolean}
+   */
+
   const isExpired = domain.expiryTime < new Date()
   const domainOwner =
     domain.available || domain.owner === '0x0' ? null : domain.owner
