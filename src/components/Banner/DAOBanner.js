@@ -8,7 +8,7 @@ import Arrow from './images/Arrow.svg'
 const LogoSmall = styled(motion.img)`
   width: 60px;
   //padding: 10px;
-  border-radius: 50%;
+  border-radius: 30%;
   margin: auto;
   display: block;
   //background: linear-gradient(
