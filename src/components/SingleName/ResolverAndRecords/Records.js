@@ -206,20 +206,21 @@ const getInitialCoins = dataAddresses => {
   }))
 }
 
-const getInitialTextRecords = dataTextRecords => {
+const getInitialTextRecords = (dataTextRecords, domain) => {
   const textRecords =
     dataTextRecords && dataTextRecords.getTextRecords
       ? processRecords(dataTextRecords.getTextRecords, TEXT_PLACEHOLDER_RECORDS)
       : processRecords([], TEXT_PLACEHOLDER_RECORDS)
 
   return textRecords?.map(textRecord => ({
+    addr: domain.addr,
     contractFn: 'setText',
     ...textRecord
   }))
 }
 
 const getInitialRecords = (domain, dataAddresses, dataTextRecords) => {
-  const initialTextRecords = getInitialTextRecords(dataTextRecords)
+  const initialTextRecords = getInitialTextRecords(dataTextRecords, domain)
   const initialCoins = getInitialCoins(dataAddresses)
   const initialContent = getInitialContent(domain)
 
@@ -324,6 +325,7 @@ const throttledUpdate = throttle(
     updatedRecordDiff
   ) => {
     setChangedRecords(getChangedRecords(initialRecords, updatedRecords))
+    console.log(updatedRecordDiff)
     const newValidRecords = await getValidRecords(
       updatedRecordDiff,
       validateRecord

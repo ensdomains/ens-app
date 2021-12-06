@@ -3,7 +3,7 @@ import { addressUtils, supportedAvatarProtocols } from 'utils/utils'
 import { formatsByName } from '@ensdomains/address-encoder'
 import validateTokenURI from 'api/avatar'
 
-export async function validateRecord({ key, value, contractFn, domain }) {
+export async function validateRecord({ key, value, contractFn, addr }) {
   if (!value) return true
   switch (contractFn) {
     case 'setContenthash':
@@ -20,8 +20,7 @@ export async function validateRecord({ key, value, contractFn, domain }) {
         value.startsWith(proto)
       )
       if (!protocol) return false
-      if (protocol === 'eip155')
-        return await validateTokenURI(value, domain.addr)
+      if (protocol === 'eip155') return await validateTokenURI(value, addr)
       return true
     case 'setAddr(bytes32,uint256,bytes)':
       if (value === '') return false

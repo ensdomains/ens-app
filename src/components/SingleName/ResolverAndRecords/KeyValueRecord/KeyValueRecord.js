@@ -117,7 +117,7 @@ const Editable = ({
             type="text"
             isInvalid={!isValid && !isValidating}
             onChange={event => {
-              updateRecord({ ...record, value: event.target.value, domain })
+              updateRecord({ ...record, value: event.target.value })
             }}
             value={value === emptyAddress ? '' : value}
             isValid={isValid && !isValidating}

@@ -157,7 +157,7 @@ const validate = async (selectedKey, newValue, selectedRecord, domain) => {
     key: selectedKey?.value,
     value: newValue,
     contractFn: selectedRecord?.contractFn,
-    domain
+    addr: domain.addr
   })
 }
 
