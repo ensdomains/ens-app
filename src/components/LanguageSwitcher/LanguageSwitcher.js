@@ -44,6 +44,10 @@ const LANGUAGES = [
     label: 'Polski (PL)'
   },
   {
+    value: 'pt-BR',
+    label: 'Português (BR)'
+  },
+  {
     value: 'ru',
     label: 'Pусский (RU)'
   },

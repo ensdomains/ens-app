@@ -25,7 +25,8 @@ i18n
       'it',
       'pl',
       'ru',
-      'vi'
+      'vi',
+      'pt-BR'
     ],
     interpolation: {
       escapeValue: false // not needed for react as it escapes by default

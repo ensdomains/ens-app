@@ -50,7 +50,7 @@ export default {
           if (!addresss) return ''
           return hasValidReverseRecord(reverseRecordReactive())
             ? reverseRecordReactive().name
-            : `${addresss?.slice(0, 10)}...`
+            : `${addresss.slice(0, 5)}...${addresss.slice(-4)}`
         }
       },
       avatar: {
