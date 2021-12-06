@@ -55,7 +55,11 @@ const ContentHashLink = ({ value, contentType, domain }) => {
     console.warn(`Unsupported protocol ${protocolType}`)
   }
   return (
-    <ContentHashLinkContainer target="_blank" href={externalLink}>
+    <ContentHashLinkContainer
+      target="_blank"
+      href={externalLink}
+      aria-label={contentType}
+    >
       {url}
       <ExternalLinkIcon />
     </ContentHashLinkContainer>

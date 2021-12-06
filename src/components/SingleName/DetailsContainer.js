@@ -235,7 +235,9 @@ function DetailsContainer({
         <DetailsItem uneditable>
           <DetailsKey>{t('c.parent')}</DetailsKey>
           <DetailsValue>
-            <Link to={`/name/${domainParent}`}>{domainParent}</Link>
+            <Link to={`/name/${domainParent}`} aria-label={t('c.parent')}>
+              {domainParent}
+            </Link>
           </DetailsValue>
         </DetailsItem>
       ) : (
@@ -295,7 +297,10 @@ function DetailsContainer({
             <DetailsItem uneditable>
               <DetailsKey>{t('c.registrant')}</DetailsKey>
               <DetailsValue>
-                <AddressLink address={domain.deedOwner}>
+                <AddressLink
+                  address={domain.deedOwner}
+                  arialLabel={t('c.registrant')}
+                >
                   <SingleNameBlockies
                     address={domain.deedOwner}
                     imageSize={24}
@@ -326,7 +331,7 @@ function DetailsContainer({
               {t('c.Controller')} {isOwner ? <You /> : ''}
             </DetailsKey>
             <DetailsValue>
-              <AddressLink address={domain.owner}>
+              <AddressLink address={domain.owner} ariaLabel={t('c.Controller')}>
                 {outOfSync ? (
                   <SingleNameBlockies
                     address={domain.owner}
@@ -409,7 +414,10 @@ function DetailsContainer({
                 {dnssecmode.displayError ? (
                   <DNSOwnerError>{dnssecmode.title}</DNSOwnerError>
                 ) : (
-                  <AddressLink address={domain.dnsOwner}>
+                  <AddressLink
+                    address={domain.dnsOwner}
+                    ariaLabel={t('dns.dnsowner')}
+                  >
                     <SingleNameBlockies
                       address={domain.dnsOwner}
                       imageSize={24}
