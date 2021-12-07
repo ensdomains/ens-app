@@ -12,6 +12,7 @@ import {
 import RecordInput from '../../RecordInput'
 import DefaultBin from '../../../Forms/Bin'
 import { emptyAddress } from '../../../../utils/utils'
+import { trimRecord } from '../../../../utils/records'
 
 const Bin = styled(DefaultBin)`
   align-self: center;
@@ -115,7 +116,10 @@ const Editable = ({
             type="text"
             isInvalid={!isValid}
             onChange={event => {
-              updateRecord({ ...record, value: event.target.value })
+              updateRecord({
+                ...record,
+                value: trimRecord(key, event.target.value)
+              })
             }}
             value={value === emptyAddress ? '' : value}
             {...{ placeholder, isValid }}

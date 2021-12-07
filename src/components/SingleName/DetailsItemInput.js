@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled/macro'
-import { getPlaceholder } from '../../utils/records'
+import { getPlaceholder, trimRecord } from '../../utils/records'
 import DefaultInput from '../Forms/Input'
 
 const Input = styled(DefaultInput)`
@@ -23,7 +23,7 @@ const DetailsItemInput = ({
       invalid={isInvalid}
       placeholder={placeholder || getPlaceholder(dataType, contentType)}
       onChange={e => {
-        updateValue(e.target.value)
+        updateValue(trimRecord(contentType, e.target.value))
       }}
       value={newValue}
     />
