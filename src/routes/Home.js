@@ -195,9 +195,18 @@ export const GET_ACCOUNT = gql`
   }
 `
 
+export const WrappedInput = styled(Input)`
+  max-width: 440px;
+`
+
 const HomeContainer = styled.div`
   text-align: center;
   max-width: 580px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
 `
 
 export default () => {
@@ -208,7 +217,8 @@ export default () => {
         It’s your identity across web3, one name for all your crypto addresses,
         and your decentralized website.
       </H5>
-      <Input />
+      <div />
+      <WrappedInput />
     </HomeContainer>
   )
 }
