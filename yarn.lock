@@ -1686,10 +1686,10 @@
   dependencies:
     hash-test-vectors "^1.3.2"
 
-"@ensdomains/thorin@0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@ensdomains/thorin/-/thorin-0.3.0.tgz#416399bb11aa206d7555587f54a5d9273f63af7b"
-  integrity sha512-BpWAZ7RGzEdq4GlG4el6cf2DLJW942BjtDsvY4tJPoOH8OWQbepAFP0q1USe6aaOz3XPnlRD8AHJApEHH0cXag==
+"@ensdomains/thorin@0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@ensdomains/thorin/-/thorin-0.4.0.tgz#e56b1b677764ce54184c6e08e99c64cddf169b03"
+  integrity sha512-cGMB/oq5khvQldYXZi5UQuZDbxXm09tGhqA8gOcztBMrpCmMSB+7dU5PpJnfWe8kQYU9hjynLbDKna48wGNbYQ==
   dependencies:
     "@testing-library/jest-dom" "^5.11.4"
     "@testing-library/react" "^11.1.0"
