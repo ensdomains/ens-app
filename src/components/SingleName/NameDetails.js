@@ -63,15 +63,11 @@ function NameDetails({
   const outOfSync = dnssecmode && dnssecmode.outOfSync
   const isAnAbsolutePath = pathname.split('/').length > 3
 
-  if (domain.parent === 'avax' && tab === 'register' && !isAnAbsolutePath) {
+  if (tab === 'register' && !isAnAbsolutePath) {
     return <Redirect to={`${pathname}/register`} />
-  } else if (
-    domain.parent === 'avax' &&
-    tab === 'details' &&
-    !isAnAbsolutePath
-  ) {
+  } else if (tab === 'details' && !isAnAbsolutePath) {
     return <Redirect to={`${pathname}/details`} />
-  } else if (domain.parent !== 'avax' && !isAnAbsolutePath) {
+  } else if (!isAnAbsolutePath) {
     //subdomain or dns
     return <Redirect to={`${pathname}/subdomains`} />
   }

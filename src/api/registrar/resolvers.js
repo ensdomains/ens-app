@@ -6,7 +6,7 @@ import modeNames from '../modes'
 import { sendHelper } from '../resolverUtils'
 
 const defaults = {}
-
+debugger
 const resolvers = {
   Query: {
     async getRentPrice(_, { label, duration }) {
@@ -96,12 +96,12 @@ const resolvers = {
         }
 
         if (modeNames[state] === 'Owned') {
-          owner = await ens.getOwner(`${name}.avax`)
+          owner = await ens.getOwner(`${name}`)
         }
 
         const data = {
           domainState: {
-            name: `${name}.avax`,
+            name: `${name}`,
             state: modeNames[state],
             registrationDate,
             revealDate,

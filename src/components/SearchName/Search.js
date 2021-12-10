@@ -10,6 +10,36 @@ import { withRouter } from 'react-router'
 import searchIcon from '../../assets/search.svg'
 import mq from 'mediaQuery'
 import LanguageSwitcher from '../LanguageSwitcher'
+import { setupENS } from '@ansdomains/ui'
+
+window.addEventListener('load', async () => {
+  const { ens, registrar } = await setupENS()
+  console.log('====> registrar', registrar)
+  console.log('====> ens', ens)
+  // Get Owner
+  // const name = 'dev'
+  // const owner = await ens.getOwner(name)
+  // console.log("===> Owner",owner);
+  // 0x123...
+
+  // Get resolver
+  // import ens from 'ens'
+  // const resolver = await ens.getResolver('dev');
+  // console.log(resolver);
+  // 0x123...
+
+  // const tx = await ens.setSubnodeOwner('dev', '0xA55d58E13A7f452554151bab5BD6c75d0b8dd831')
+  // console.log('========>',tx.hash)
+  // // 0x123456...
+  // const receipt = await tx.wait() // Wait for transaction to be mined
+  // // Transaction has been mined
+
+  // const tx = await ens.setResolver('dev', '0xA55d58E13A7f452554151bab5BD6c75d0b8dd831')
+  // console.log(tx.hash)
+  // 0x123456...
+  // const receipt = await tx.wait() // Wait for transaction to be mined
+  // Transaction has been mined
+})
 
 const SearchForm = styled('form')`
   display: flex;
