@@ -8,7 +8,7 @@ export default async function validateTokenURI(value, addr) {
   if (details[0] !== 'eip155:1') return false
 
   const [schema, contractAddress] = details[1].split(':')
-  const tokenId = parseInt(details[2])
+  const tokenId = ethers.BigNumber.from(details[2])
 
   // token/contract checks
   if (schema !== 'erc721' && schema !== 'erc1155') return false
