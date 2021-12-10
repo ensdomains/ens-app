@@ -6,13 +6,21 @@ export default async function validateTokenURI(value, addr) {
   // basic validity checks
   if (value.split('/').length !== 3) return false
   if (details[0] !== 'eip155:1') return false
+  if (!details[2]) return false
 
   const [schema, contractAddress] = details[1].split(':')
-  const tokenId = ethers.BigNumber.from(details[2])
+
+  try {
+    details[2] = ethers.BigNumber.from(details[2])
+  } catch {
+    details[2] = false
+  }
+
+  const tokenId = ethers.BigNumber.isBigNumber(details[2]) && details[2]
 
   // token/contract checks
   if (schema !== 'erc721' && schema !== 'erc1155') return false
-  if (isNaN(tokenId)) return false
+  if (!tokenId) return false
 
   try {
     const network = await getNetworkId()
@@ -30,6 +38,8 @@ export default async function validateTokenURI(value, addr) {
             'function balanceOf(address account, uint256 id) public view returns (uint256)'
           ]
     const contract = new ethers.Contract(contractAddress, ABI, provider)
+
+    console.log('passed 3')
 
     // if there is token metadata, and the owner of the token is the address for name, return as valid
     if (schema === 'erc721') {

@@ -325,7 +325,6 @@ const throttledUpdate = throttle(
     updatedRecordDiff
   ) => {
     setChangedRecords(getChangedRecords(initialRecords, updatedRecords))
-    console.log(updatedRecordDiff)
     const newValidRecords = await getValidRecords(
       updatedRecordDiff,
       validateRecord
