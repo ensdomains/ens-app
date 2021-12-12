@@ -2,7 +2,7 @@
 
 ENS Application
 
-#⚠️ IMPORTANT NOTE TO CONTRIBUTORS ⚠️
+# ⚠️ IMPORTANT NOTE TO CONTRIBUTORS ⚠️
 
 As work has begun on the next version of the ENS app, please do not submit PRs for
 issues marked 'redesign' or 'post-redesign'. We will soon have info on how to
