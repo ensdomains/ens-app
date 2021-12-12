@@ -11,6 +11,7 @@ import SideNav from '../SideNav/SideNav'
 import Banner from '../Banner'
 
 import { hasNonAscii } from '../../utils/utils'
+import LanguageSwitcher from '../LanguageSwitcher'
 
 const StyledBanner = styled(Banner)`
   margin-bottom: 0;
@@ -21,6 +22,8 @@ const StyledBanner = styled(Banner)`
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: transparent;
+  border: 1px solid #fff;
 
   ${mq.medium`
     top: 90px;
@@ -31,6 +34,7 @@ const StyledBanner = styled(Banner)`
 
 const StyledBannerInner = styled('div')`
   max-width: 720px;
+  color: #fff;
 `
 
 const Header = styled('header')`
@@ -48,15 +52,17 @@ const Header = styled('header')`
   top: 0;
   width: 100%;
   z-index: 2;
-  box-shadow: 0 4px 8px 0 rgba(230, 240, 247, 0.8);
+  //box-shadow: 0 4px 8px 0 rgba(230, 240, 247, 0.8);
   height: 50px;
+  border-bottom: 1px solid #fff;
   ${mq.medium`
-    box-shadow: 0 8px 24px 0 rgba(230, 240, 247, 0.8);
+    // box-shadow: 0 8px 24px 0 rgba(230, 240, 247, 0.3);
     height: auto;
   `}
 `
 
 const SearchHeader = styled(Search)`
+  background-color: transparent;
   margin-top: 50px;
   width: 100%;
   ${mq.medium`
@@ -66,7 +72,7 @@ const SearchHeader = styled(Search)`
 `
 
 const Logo = styled(DefaultLogo)`
-  background: white;
+  background: transparent;
   position: relative;
   display: flex;
   width: 100%;
@@ -104,7 +110,10 @@ function HeaderContainer() {
       <Header isMenuOpen={isMenuOpen}>
         <Logo isMenuOpen={isMenuOpen} />
         {mediumBP ? (
-          <SearchHeader />
+          <>
+            <SearchHeader />
+            <LanguageSwitcher />
+          </>
         ) : (
           <Hamburger isMenuOpen={isMenuOpen} openMenu={toggleMenu} />
         )}

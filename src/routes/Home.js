@@ -77,6 +77,8 @@ const NetworkStatus = styled('div')`
 const Nav = styled('div')`
   display: flex;
   justify-content: center;
+  align-self: center;
+
   ${mq.small`
     justify-content: flex-end;
   `}
@@ -128,8 +130,8 @@ const HowToUse = styled(HowToUseDefault)`
   padding: 70px;
 `
 
-const Hero = styled('section')`
-  background: url(${bg});
+export const Hero = styled('section')`
+  background: url(${bg}) center center no-repeat;
   background-size: cover;
   padding: 60px 20px 20px;
   position: relative;

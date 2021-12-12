@@ -18,7 +18,7 @@ const Banner = styled('div')`
   }
 
   p {
-    color: #2b2b2b;
+    color: #fff;
     font-weight: 300;
     font-size: 18px;
     font-weight: 300;
@@ -26,7 +26,7 @@ const Banner = styled('div')`
   }
 
   ${mq.small`
-    border-radius: 5px; 
+    // border-radius: 5px; 
   `}
 `
 
