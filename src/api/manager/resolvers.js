@@ -1,3 +1,17 @@
+// import {
+//   encodeContenthash,
+//   getBlock,
+//   getNamehash,
+//   getNetworkId,
+//   getOldResolverContract,
+//   getProvider,
+//   getResolverContract,
+//   getSigner,
+//   getWeb3,
+//   isDecrypted,
+//   labelhash,
+//   utils
+// } from '@ensdomains/ui'
 import {
   encodeContenthash,
   getBlock,
@@ -11,7 +25,7 @@ import {
   isDecrypted,
   labelhash,
   utils
-} from '@ensdomains/ui'
+} from 'lib/ui/src/index'
 import { formatsByName } from '@ensdomains/address-encoder'
 import isEqual from 'lodash/isEqual'
 import modeNames from '../modes'
