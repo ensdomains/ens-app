@@ -58,11 +58,11 @@ function getLang(lang) {
 }
 
 const ActiveLanguage = styled('div')`
-  color: #adbbcd;
+  color: #fff;
   text-transform: uppercase;
   display: flex;
   justify-content: center;
-  height: 100%;
+  //height: 100%;
   padding: 0 20px;
   align-items: center;
   span {
@@ -75,7 +75,7 @@ const ActiveLanguage = styled('div')`
 `
 
 const LanguageSwitcherContainer = styled('div')`
-  background: white;
+  //background: white;
   position: relative;
 `
 

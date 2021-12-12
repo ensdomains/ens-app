@@ -17,7 +17,7 @@ const RotatingSmallCaretTop = styled(DefaultSmallCaret)`
     p.rotated &&
     `
       path {
-        fill: #ea6060;
+        fill: #FFF;
       }
   `}
 `

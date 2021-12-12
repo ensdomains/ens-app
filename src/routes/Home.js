@@ -21,6 +21,7 @@ import {
   MainPageBannerContainer,
   DAOBannerContent
 } from '../components/Banner/DAOBanner'
+import LanguageSwitcher from '../components/LanguageSwitcher'
 
 const HeroTop = styled('div')`
   display: grid;
@@ -142,7 +143,7 @@ const Hero = styled('section')`
 `
 
 const SearchContainer = styled('div')`
-  margin: 0 auto 0;
+  margin: 20px auto 0;
   display: flex;
   flex-direction: column;
   min-width: 100%;
@@ -340,7 +341,8 @@ export default ({ match }) => {
             </NavLink>
           )}
           <NavLink to="/favourites">{t('c.favourites')}</NavLink>
-          <ExternalLink href={aboutPageURL()}>{t('c.about')}</ExternalLink>
+          <ExternalLink href={aboutPageURL()}>{t('c.whitelist')}</ExternalLink>
+          <LanguageSwitcher />
         </Nav>
         <MainPageBannerContainer>
           <DAOBannerContent />

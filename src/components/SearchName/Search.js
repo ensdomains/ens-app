@@ -133,7 +133,7 @@ function Search({ history, className, style }) {
         ref={el => (input = el)}
         onChange={handleParse}
       />
-      <LanguageSwitcher />
+      {/*<LanguageSwitcher />*/}
       <button
         disabled={!hasSearch}
         type="submit"

@@ -197,9 +197,10 @@ export function isShortName(term) {
 }
 
 export const aboutPageURL = () => {
-  const lang = window.localStorage.getItem('language') || ''
+  // const lang = window.localStorage.getItem('language') || ''
 
-  return `https://ens.domains/${lang === 'en' ? '' : lang}`
+  // return `https://ens.domains/${lang === 'en' ? '' : lang}`
+  return `https://www.linkkey.io/whitelist`
 }
 
 export function isRecordEmpty(value) {

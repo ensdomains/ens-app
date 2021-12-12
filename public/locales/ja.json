@@ -34,6 +34,7 @@
     "Expiration Date": "有効期限",
     "Resolver": "リゾルバ",
     "about": "ENSとは",
+    "whitelist": "White List",
     "addresses": "Addresses",
     "cancel": "キャンセル",
     "cannotclaimDns": "You cannot claim names under .{{ name }} on this site.",

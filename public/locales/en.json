@@ -35,6 +35,7 @@
     "Expiration Date": "Expiration Date",
     "Resolver": "Resolver",
     "about": "About",
+    "whitelist": "White List",
     "addresses": "Addresses",
     "cancel": "Cancel",
     "cannotclaimDns": "You cannot claim names under .{{ name }} on this site.",
