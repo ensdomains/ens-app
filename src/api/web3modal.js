@@ -5,12 +5,13 @@ import {
   networkReactive,
   web3ProviderReactive
 } from '../apollo/reactiveVars'
-import { getNetwork, getNetworkId, isReadOnly } from '@ensdomains/ui'
+// import { getNetwork, getNetworkId, isReadOnly } from '@ensdomains/ui'
+import { getNetwork, getNetworkId, isReadOnly } from 'lib/ui/src/index'
 
 const INFURA_ID =
   window.location.host === 'app.ens.domains'
     ? '90f210707d3c450f847659dc9a3436ea'
-    : '58a380d3ecd545b2b5b3dad5d2b18bf0'
+    : '5a380f9dfbb44b2abf9f681d39ddc382'
 
 const PORTIS_ID = '57e5d6ca-e408-4925-99c4-e7da3bdb8bf5'
 
@@ -42,13 +43,13 @@ const option = {
         description: ' '
       }
     },
-    portis: {
-      package: () => import('@portis/web3'),
-      packageFactory: true,
-      options: {
-        id: PORTIS_ID
-      }
-    },
+    // portis: {
+    //   package: () => import('@portis/web3'),
+    //   packageFactory: true,
+    //   options: {
+    //     id: PORTIS_ID
+    //   }
+    // },
     torus: {
       package: () => import('@toruslabs/torus-embed'),
       packageFactory: true

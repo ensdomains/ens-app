@@ -1,4 +1,5 @@
-import { getAccounts, getNetwork, getNetworkId } from '@ensdomains/ui'
+// import { getAccounts, getNetwork, getNetworkId } from '@ensdomains/ui'
+import { getAccounts, getNetwork, getNetworkId } from 'lib/ui/src/index'
 
 import { isReadOnly } from '@ensdomains/ui/src/web3'
 
@@ -38,6 +39,7 @@ export const isSupportedNetwork = networkId => {
     case 3:
     case 4:
     case 5:
+    case 137:
     case 1337:
       return true
     default:
@@ -105,7 +107,7 @@ export const getProvider = async reconnect => {
       enforceReadOnly: true,
       enforceReload: false
     })
-    provider = providerObject
+    let provider = providerObject
     return provider
   } catch (e) {
     console.error('getProvider readOnly error: ', e)
