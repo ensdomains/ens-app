@@ -354,7 +354,6 @@ const useChangedValidRecords = (
       const updatedRecordDiff = updatedRecords.filter(
         record => !prevUpdatedRecords.includes(record)
       )
-      console.log(updatedRecordDiff)
       throttledUpdate(
         setChangedRecords,
         initialRecords,
