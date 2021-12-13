@@ -4,7 +4,6 @@ import styled from '@emotion/styled/macro'
 import isEqual from 'lodash/isEqual'
 import differenceWith from 'lodash/differenceWith'
 import { useTranslation } from 'react-i18next'
-import throttle from 'lodash/throttle'
 import { gql } from '@apollo/client'
 
 import { getNamehash, emptyAddress } from '@ensdomains/ui'
@@ -74,7 +73,7 @@ const RECORDS = [
 ]
 import TEXT_PLACEHOLDER_RECORDS from '../../../constants/textRecords'
 import { validateRecord } from '../../../utils/records'
-import { usePrevious } from '../../../utils/utils'
+import { asyncThrottle, usePrevious } from '../../../utils/utils'
 import { isEthSubdomain, requestCertificate } from './Certificate'
 
 const COIN_PLACEHOLDER_RECORDS = ['ETH', ...COIN_LIST.slice(0, 3)]
@@ -288,7 +287,7 @@ const singleValidating = validatingRecords => record =>
 
 const getValidRecords = async (records, validator) =>
   Promise.all(records.map(validator)).then(results =>
-    records.filter((_v, index) => results[index])
+    records.map((value, index) => ({ valid: results[index], record: value }))
   )
 
 const useInitRecords = (
@@ -315,28 +314,18 @@ const useUpdatedRecords = (
   }, [recordsLoading, initialRecords, prevInitialRecords])
 }
 
-const throttledUpdate = throttle(
-  async (
+const throttledUpdate = asyncThrottle(
+  (
     setChangedRecords,
-    setValidRecords,
     initialRecords,
     updatedRecords,
     setValidatingRecords,
-    updatedRecordDiff
+    updatedRecordDiff,
+    validatingRecords
   ) => {
     setChangedRecords(getChangedRecords(initialRecords, updatedRecords))
-    const newValidRecords = await getValidRecords(
-      updatedRecordDiff,
-      validateRecord
-    )
-    const invalidRecords = updatedRecordDiff.filter(
-      record => !newValidRecords.includes(record)
-    )
-    const validRecords = updatedRecords.filter(
-      record => !invalidRecords.includes(record)
-    )
-    setValidRecords(validRecords)
-    setValidatingRecords([])
+    setValidatingRecords([...validatingRecords, ...updatedRecordDiff])
+    return getValidRecords(updatedRecordDiff, validateRecord)
   },
   500
 )
@@ -347,23 +336,49 @@ const useChangedValidRecords = (
   setValidRecords,
   initialRecords,
   updatedRecords,
-  setValidatingRecords
+  setValidatingRecords,
+  validRecords,
+  validatingRecords
 ) => {
   const prevUpdatedRecords = usePrevious(updatedRecords)
+  const updatedRecordsRef = useRef()
+  const validRecordsRef = useRef()
+  const validatingRecordsRef = useRef()
+
+  updatedRecordsRef.current = updatedRecords
+  validRecordsRef.current = validRecords
+  validatingRecordsRef.current = validatingRecords
+
   useEffect(() => {
     if (!recordsLoading) {
       const updatedRecordDiff = updatedRecords.filter(
         record => !prevUpdatedRecords.includes(record)
       )
-      setValidatingRecords(updatedRecordDiff)
+      console.log(updatedRecordDiff)
       throttledUpdate(
         setChangedRecords,
-        setValidRecords,
         initialRecords,
         updatedRecords,
         setValidatingRecords,
-        updatedRecordDiff
-      )
+        updatedRecordDiff,
+        validatingRecordsRef.current
+      ).then(newValidatedRecords => {
+        const validatableRecords = newValidatedRecords.filter(record =>
+          updatedRecordsRef.current.includes(record.record)
+        )
+        const validRecordsWithoutNew = validRecordsRef.current.filter(
+          record => !validatableRecords.some(el => el.record.key === record.key)
+        )
+        const recordsToAddToValid = validatableRecords
+          .filter(record => record.valid)
+          .map(record => record.record)
+        setValidRecords([...validRecordsWithoutNew, ...recordsToAddToValid])
+        setValidatingRecords(
+          validatingRecordsRef.current.filter(
+            record => !updatedRecordDiff.includes(record)
+          )
+        )
+      })
     }
   }, [updatedRecords, recordsLoading, initialRecords])
 }
@@ -435,7 +450,9 @@ export default function Records({
     setValidRecords,
     initialRecords,
     updatedRecords,
-    setValidatingRecords
+    setValidatingRecords,
+    validRecords,
+    validatingRecords
   )
   useResetFormOnAccountChange(
     accounts?.[0],

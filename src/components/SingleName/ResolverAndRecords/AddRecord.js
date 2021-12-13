@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from '@emotion/styled/macro'
 import mq from 'mediaQuery'
 import { useTranslation } from 'react-i18next'
@@ -13,7 +13,7 @@ import { DetailsKey } from '../DetailsItem'
 import DetailsItemInput from '../DetailsItemInput'
 import DefaultSelect from '../../Forms/Select'
 import DefaultAddressInput from '@ensdomains/react-ens-address'
-import { throttle } from 'lodash'
+import { asyncThrottle } from 'utils/utils'
 
 const AddressInput = styled(DefaultAddressInput)`
   margin-bottom: 10px;
@@ -150,18 +150,52 @@ const clearInput = (setSelectedRecord, setSelectedKey, updateValue) => {
   updateValue(null)
 }
 
-const validate = async (selectedKey, newValue, selectedRecord, domain) => {
-  if (!selectedKey) return false
+const throttledValidate = asyncThrottle(
+  async (selectedKey, newValue, selectedRecord, domain, setIsValidating) => {
+    if (!selectedKey) return false
+    setIsValidating(true)
 
-  return await validateRecord({
-    key: selectedKey?.value,
-    value: newValue,
-    contractFn: selectedRecord?.contractFn,
-    addr: domain.addr
-  })
+    return await validateRecord({
+      key: selectedKey?.value,
+      value: newValue,
+      contractFn: selectedRecord?.contractFn,
+      addr: domain.addr
+    })
+  },
+  500
+)
+
+const useChangedValidRecord = (
+  selectedKey,
+  newValue,
+  selectedRecord,
+  domain,
+  setIsValidating,
+  setIsValid
+) => {
+  const newValueRef = useRef()
+
+  newValueRef.current = newValue
+
+  useEffect(() => {
+    if (newValue) {
+      new Promise(async () => {
+        const isValid = await throttledValidate(
+          selectedKey,
+          newValue,
+          selectedRecord,
+          domain,
+          setIsValidating
+        )
+
+        if (newValue === newValueRef.current) {
+          setIsValid(isValid)
+          setIsValidating(false)
+        }
+      })
+    }
+  }, [newValue])
 }
-
-const throttledValidate = throttle(validate, 1500)
 
 function Editable({
   domain,
@@ -202,23 +236,14 @@ function Editable({
     selectedKey: selectedKey && selectedKey.value
   }
 
-  useEffect(() => {
-    if (newValue) {
-      new Promise(async () => {
-        setIsValidating(true)
-        const validateFunc =
-          selectedKey?.value === 'avatar' ? throttledValidate : validate
-        const isValid = await validateFunc(
-          selectedKey,
-          newValue,
-          selectedRecord,
-          domain
-        )
-        setIsValid(isValid)
-        setIsValidating(false)
-      })
-    }
-  }, [newValue])
+  useChangedValidRecord(
+    selectedKey,
+    newValue,
+    selectedRecord,
+    domain,
+    setIsValidating,
+    setIsValid
+  )
 
   return (
     <>

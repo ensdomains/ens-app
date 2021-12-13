@@ -16,6 +16,7 @@ import * as jsSHA3 from 'js-sha3'
 import { saveName } from '../api/labels'
 import { useEffect, useRef } from 'react'
 import { EMPTY_ADDRESS } from './records'
+import { throttle } from 'lodash'
 
 // From https://github.com/0xProject/0x-monorepo/blob/development/packages/utils/src/address_utils.ts
 
@@ -278,4 +279,16 @@ export function isCID(hash) {
   } catch (e) {
     return false
   }
+}
+
+export function asyncThrottle(func, wait) {
+  const throttled = throttle((resolve, reject, args) => {
+    func(...args)
+      .then(resolve)
+      .catch(reject)
+  }, wait)
+  return (...args) =>
+    new Promise((resolve, reject) => {
+      throttled(resolve, reject, args)
+    })
 }
