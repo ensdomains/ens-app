@@ -20,6 +20,7 @@ import {
 import { setupAnalytics } from './utils/analytics'
 import { getReverseRecord } from './apollo/sideEffects'
 import { safeInfo, setupSafeApp } from './utils/safeApps'
+import getSNS from './apollo/mutations/sns'
 
 export const setFavourites = () => {
   favouritesReactive(
@@ -170,6 +171,15 @@ export default async reconnect => {
     setupAnalytics()
 
     isAppReadyReactive(true)
+
+    /**
+     * SNS Test
+     * @type {*|{}}
+     */
+    const sns = getSNS()
+
+    console.log('sns >>>', sns)
+    console.log('sns.isOverDeadline() >>>', sns.isOverDeadline())
   } catch (e) {
     console.error('setup error: ', e)
   }

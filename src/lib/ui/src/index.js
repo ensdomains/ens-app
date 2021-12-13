@@ -28,8 +28,36 @@ export async function setupENS({
     registrar,
     provider: customProvider,
     network,
-    providerObject: provider,
-    sns
+    providerObject: provider
+  }
+}
+
+export async function setupSNS({
+  customProvider,
+  ensAddress,
+  reloadOnAccountsChange,
+  enforceReadOnly,
+  enforceReload,
+  infura
+} = {}) {
+  const { provider } = await setupWeb3({
+    customProvider,
+    reloadOnAccountsChange,
+    enforceReadOnly,
+    enforceReload,
+    infura
+  })
+  const networkId = await getNetworkId()
+  console.log('networkId>>>', networkId)
+  const sns = new SNS({ provider, networkId, registryAddress: ensAddress })
+  const registrar = await setupRegistrar(sns.registryAddress)
+  const network = await getNetwork()
+  return {
+    sns,
+    registrar,
+    provider: customProvider,
+    network,
+    providerObject: provider
   }
 }
 

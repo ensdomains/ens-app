@@ -7,7 +7,7 @@ import {
   getSigner
 } from './web3'
 
-import { abi as snsContract } from '../sns.abi.json'
+import snsContract from './sns.abi.json'
 
 /* Utils */
 const web3Instance = {
