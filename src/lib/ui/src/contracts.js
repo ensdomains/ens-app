@@ -31,6 +31,10 @@ function getENSContract({ address, provider }) {
   return new Contract(address, ensContract, provider)
 }
 
+function getSNSContract({ address, provider }) {
+  return new Contract(address, ensContract, provider)
+}
+
 function getTestRegistrarContract({ address, provider }) {
   return new Contract(address, testRegistrarContract, provider)
 }
