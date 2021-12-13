@@ -123,6 +123,7 @@ function Favourites() {
   let [years, setYears] = useState(1)
   let [checkedBoxes, setCheckedBoxes] = useState({})
   const [selectAll, setSelectAll] = useState(false)
+  const account = useAccount()
 
   useResetState(setYears, setCheckedBoxes, setSelectAll)
 
@@ -208,7 +209,6 @@ function Favourites() {
     setCheckedBoxes(obj)
   }
   let data = []
-  const account = useAccount()
   const checkedOtherOwner =
     favouritesList.filter(
       f =>
