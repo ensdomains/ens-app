@@ -268,6 +268,7 @@ function Favourites() {
               checkedBoxes={checkedBoxes}
               setCheckedBoxes={setCheckedBoxes}
               setSelectAll={setSelectAll}
+              key={domain.name}
             />
           )
         })}
