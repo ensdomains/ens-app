@@ -51,6 +51,8 @@ const DomainInfoContainer = ({ searchTerm }) => {
   }
   const { singleName } = data
 
+  console.log('DomainInfo.data >>>', data)
+
   return <DomainItemContainer {...{ singleName, searchTerm }} />
 }
 

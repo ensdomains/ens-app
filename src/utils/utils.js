@@ -95,6 +95,9 @@ export async function getEtherScanAddr() {
     case 4:
     case '4':
       return 'https://rinkeby.etherscan.io/'
+    case 137:
+    case '137':
+      return 'https://polygonscan.com/'
     default:
       return 'https://etherscan.io/'
   }
