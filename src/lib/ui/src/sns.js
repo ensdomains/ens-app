@@ -140,6 +140,11 @@ export class SNS {
     return await this.SNS.getResolverAddress(name)
   }
 
+  //设置解析器地址
+  async setResolverInfo(name, address) {
+    return await this.SNS.setResolverInfo(name)
+  }
+
   // Events
 
   async getSNSEvent(event, { topics, fromBlock }) {
