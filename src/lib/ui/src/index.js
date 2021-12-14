@@ -29,7 +29,8 @@ export async function setupENS({
     registrar,
     provider: customProvider,
     network,
-    providerObject: provider
+    providerObject: provider,
+    sns
   }
 }
 

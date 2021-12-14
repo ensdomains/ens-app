@@ -25,12 +25,6 @@ import { encodeLabelhash } from './utils/labelhash'
 
 import { getSNSContract } from './contracts'
 
-import {
-  isValidContenthash,
-  encodeContenthash,
-  decodeContenthash
-} from './utils/contents'
-
 /* Utils */
 
 export function getNamehash(name) {
@@ -104,8 +98,59 @@ export class SNS {
   //   return SNS.setOwner(namehash, newOwner)
   // }
 
+  //查询是否过了前三天
   async isOverDeadline() {
     return await this.SNS.isOverDeadline()
+  }
+
+  //查询用户是否在白名单中
+  async getWhitelist(address) {
+    return await this.SNS.getWhitelist(address)
+  }
+
+  //查询系统已经铸造的个数
+  async getTokenMintedExpManager() {
+    return await this.SNS.getTokenMintedExpManager()
+  }
+
+  //设置解析器地址
+  async setDefaultResolverAddress(addr) {
+    return await this.SNS.setDefaultResolverAddress(addr)
+  }
+
+  //注册
+  async registry(address, name, tokenURI) {
+    var flag = false
+    flag =
+      isOverDeadline() &&
+      getWhitelist(address) &&
+      getTokenMintedExpManager() <= 10000
+    if (flag) {
+      return await freeMint(name, tokenURI)
+    } else {
+      //todo 设置value
+      return await mint(name, tokenURI)
+    }
+  }
+
+  //免费注册
+  async freeMint(name, tokenURI) {
+    return await this.SNS.freeMint(name, tokenURI)
+  }
+
+  //付费注册
+  async mint(name, tokenURI) {
+    return await this.SNS.mint(name, tokenURI)
+  }
+
+  //通过地址得到注册的SNSName
+  async getSNSName(address) {
+    return await this.SNS.getSNSName(address)
+  }
+
+  //通过SNSName得到解析器地址
+  async getResolverAddress(name) {
+    return await this.SNS.getResolverAddress(name)
   }
 
   // Events
