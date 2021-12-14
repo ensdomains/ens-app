@@ -25,8 +25,6 @@ import { encodeLabelhash } from './utils/labelhash'
 
 import { getSNSResolverContract } from './contracts'
 
-import { getResolverAddress, getSNSName } from './sns'
-
 /* Utils */
 
 const contracts = {
@@ -47,9 +45,6 @@ const contracts = {
   }
 }
 
-//得到解析器的地址
-const resolverAddress = await getResolverAddress(getSNSName(getAccount()))
-
 export class SNSResolver {
   constructor({ networkId, resolverAddress, provider }) {
     this.contracts = contracts
@@ -61,7 +56,7 @@ export class SNSResolver {
     //   registryAddress = contracts[networkId].registry
     // }
 
-    this.resolverAddress = resolverAddress
+    // this.resolverAddress = resolverAddress
 
     const SNSResolverContract = getSNSResolverContract({
       address: resolverAddress,
