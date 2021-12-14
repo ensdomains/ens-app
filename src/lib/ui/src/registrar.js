@@ -9,7 +9,8 @@ import {
   getLegacyAuctionContract,
   getDeedContract,
   getTestRegistrarContract,
-  getBulkRenewalContract
+  getBulkRenewalContract,
+  getSNSContract
 } from './contracts'
 
 import {
@@ -672,6 +673,7 @@ async function getEthResolver(ENS) {
   return getResolverContract({ address: resolverAddr, provider })
 }
 
+// TODO 需改进为sns模式
 export async function setupRegistrar(registryAddress) {
   const provider = await getProvider()
   const ENS = getENSContract({ address: registryAddress, provider })

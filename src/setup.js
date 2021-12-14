@@ -3,7 +3,8 @@ import { getAccounts, getNetwork, getNetworkId } from 'lib/ui/src/index'
 
 import { isReadOnly } from '@ensdomains/ui/src/web3'
 
-import { setup } from './apollo/mutations/ens'
+// import { setup } from './apollo/mutations/ens'
+import { setup } from './apollo/mutations/sns'
 import { connect } from './api/web3modal'
 import {
   accountsReactive,

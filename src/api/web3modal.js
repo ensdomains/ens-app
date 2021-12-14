@@ -1,4 +1,6 @@
 import { setup as setupENS } from '../apollo/mutations/ens'
+import { setup as setupSNS } from '../apollo/mutations/sns'
+// import { setup as setupENS } from '../apollo/mutations/ens'
 import {
   isReadOnlyReactive,
   networkIdReactive,
@@ -9,8 +11,8 @@ import {
 import { getNetwork, getNetworkId, isReadOnly } from 'lib/ui/src/index'
 
 const INFURA_ID =
-  window.location.host === 'app.ens.domains'
-    ? '90f210707d3c450f847659dc9a3436ea'
+  window.location.host === 'sns.chat'
+    ? '5a380f9dfbb44b2abf9f681d39ddc382'
     : '5a380f9dfbb44b2abf9f681d39ddc382'
 
 const PORTIS_ID = '57e5d6ca-e408-4925-99c4-e7da3bdb8bf5'
@@ -65,7 +67,7 @@ export const connect = async () => {
     web3Modal = new Web3Modal(option)
     provider = await web3Modal.connect()
 
-    await setupENS({
+    await setupSNS({
       customProvider: provider,
       reloadOnAccountsChange: false,
       enforceReload: true
