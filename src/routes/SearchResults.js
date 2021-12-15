@@ -28,9 +28,9 @@ const useCheckValidity = (_searchTerm, isENSReady) => {
     const checkValidity = async () => {
       let _parsed, searchTerm
       setErrors([])
-
       if (_searchTerm.split('.').length === 1) {
-        searchTerm = _searchTerm + '.eth'
+        // searchTerm = _searchTerm + '.eth'
+        searchTerm = _searchTerm + '.key'
       } else {
         searchTerm = _searchTerm
       }
@@ -40,7 +40,7 @@ const useCheckValidity = (_searchTerm, isENSReady) => {
         _parsed = validateName(searchTerm)
         setParsed(_parsed)
       }
-      document.title = `ENS Search: ${searchTerm}`
+      document.title = `SNS Search: ${searchTerm}`
 
       if (type === 'unsupported') {
         setErrors(['unsupported'])
@@ -54,7 +54,6 @@ const useCheckValidity = (_searchTerm, isENSReady) => {
       checkValidity()
     }
   }, [_searchTerm, isENSReady])
-
   return { errors, parsed }
 }
 
@@ -91,7 +90,7 @@ const ResultsContainer = ({ searchDomain, match }) => {
           <DAOBannerContent />
         </NonMainPageBannerContainer>
         <H2>
-          <Trans i18nKey="singleName.search.title">Names</Trans>
+          <Trans i18nKey="singleName.search.title">Social Names</Trans>
         </H2>
         <DomainInfo searchTerm={parsed} />
       </>

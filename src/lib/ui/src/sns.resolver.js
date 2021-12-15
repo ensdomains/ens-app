@@ -207,6 +207,11 @@ export class SNSResolver {
   async setOrgTelegram(name, orgTelegram) {
     return await this.SNSResolver.setOrgTelegram(name, orgTelegram)
   }
+
+  // TODO
+  async getAllProperties(name) {
+    return await this.SNSResolver.getAllProperties(name)
+  }
 }
 
 export async function setupSNSResolver(registryAddress) {

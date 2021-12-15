@@ -39,7 +39,8 @@ import TEXT_RECORD_KEYS from 'constants/textRecords'
 import COIN_LIST_KEYS from 'constants/coinList'
 import { GET_REGISTRANT_FROM_SUBGRAPH } from '../../graphql/queries'
 import getClient from '../../apollo/apolloClient'
-import getENS, { getRegistrar } from 'apollo/mutations/ens'
+// import getENS, { getRegistrar } from 'apollo/mutations/ens'
+import getSNS, { getSnsResolver } from 'apollo/mutations/sns'
 import { isENSReadyReactive, namesReactive } from '../../apollo/reactiveVars'
 import getReverseRecord from './getReverseRecord'
 import { isEmptyAddress } from '../../utils/records'
@@ -265,6 +266,15 @@ async function getRegistrant(name) {
   }
 }
 
+/**
+ * TODO
+ * @param name
+ * @returns {Promise<null>}
+ */
+async function getSNSResolverAddress(name) {
+  return null
+}
+
 async function setDNSSECTldOwner(ens, tld, networkId) {
   let tldowner = (await ens.getOwner(tld)).toLocaleLowerCase()
   if (parseInt(tldowner) !== 0) return tldowner
@@ -358,8 +368,10 @@ const resolvers = {
   Query: {
     publicResolver: async () => {
       try {
-        const ens = getENS()
-        const resolver = await ens.getAddress('resolver.eth')
+        // const ens = getENS()
+        const ens = getSNS()
+        const snsResolver = getSnsResolver()
+        const resolver = await snsResolver.getResolverAddress('resolver')
         return {
           address: resolver,
           __typename: 'Resolver'
@@ -369,7 +381,7 @@ const resolvers = {
       }
     },
     getOwner: (_, { name }) => {
-      const ens = getENS()
+      const ens = getSNS()
       return ens.getOwner(name)
     },
 
@@ -404,7 +416,8 @@ const resolvers = {
             auctionEnds: null
           }
 
-        const ens = getENS()
+        const ens = getSNS()
+        const snsResolver = getSnsResolver()
         const decrypted = isDecrypted(name)
 
         let node = {
@@ -436,51 +449,58 @@ const resolvers = {
         }
 
         const dataSources = [
-          getRegistrarEntry(name),
-          ens.getDomainDetails(name),
-          getParent(name),
-          getDNSEntryDetails(name),
-          getTestEntry(name),
-          getRegistrant(name)
+          // getRegistrarEntry(name),
+          // ens.getDomainDetails(name),
+          // getParent(name),
+          // getDNSEntryDetails(name),
+          // getTestEntry(name),
+          // getRegistrant(name)
+
+          // snsResolver.getAllProperties(name),
+          ens.getResolverAddress(name)
         ]
 
         const [
-          registrarEntry,
-          domainDetails,
-          [parent, parentOwner],
-          dnsEntry,
-          testEntry,
-          registrant
+          // registrarEntry,
+          // domainDetails,
+          // [parent, parentOwner],
+          // dnsEntry,
+          // testEntry,
+          // registrant
+          // allProperties,
+          resolverAddress
         ] = await Promise.all(dataSources)
 
         const names = namesReactive()
 
         let detailedNode = adjustForShortNames({
           ...node,
-          ...registrarEntry,
-          ...domainDetails,
-          ...dnsEntry,
-          ...testEntry,
-          registrant: registrant
-            ? registrant
-            : registrarEntry.registrant
-            ? registrarEntry.registrant
-            : null,
-          parent,
-          parentOwner,
+          // ...registrarEntry,
+          // ...domainDetails,
+          // ...dnsEntry,
+          // ...testEntry,
+          // registrant: registrant
+          //   ? registrant
+          //   : registrarEntry.registrant
+          //   ? registrarEntry.registrant
+          //   : null,
+          // parent,
+          // parentOwner,
+          // allProperties,
+          resolverAddress,
           __typename: 'Node'
         })
 
         detailedNode = setState(detailedNode)
         // Override parentOwner for dns if exists
-        if (
-          dnsEntry &&
-          dnsEntry.parentOwner &&
-          parseInt(dnsEntry.parentOwner) !== 0 &&
-          parseInt(detailedNode.parentOwner) === 0
-        ) {
-          detailedNode.parentOwner = dnsEntry.parentOwner
-        }
+        // if (
+        //   dnsEntry &&
+        //   dnsEntry.parentOwner &&
+        //   parseInt(dnsEntry.parentOwner) !== 0 &&
+        //   parseInt(detailedNode.parentOwner) === 0
+        // ) {
+        //   detailedNode.parentOwner = dnsEntry.parentOwner
+        // }
 
         namesReactive([...names, detailedNode])
 

@@ -38,6 +38,7 @@ const DomainItemContainer = ({ singleName, searchTerm }) => {
 }
 
 const DomainInfoContainer = ({ searchTerm }) => {
+  debugger
   const { data, loading, error } = useQuery(GET_SINGLE_NAME, {
     variables: {
       name: searchTerm

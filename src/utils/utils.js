@@ -16,6 +16,7 @@ import * as jsSHA3 from 'js-sha3'
 import { saveName } from '../api/labels'
 import { useEffect, useRef } from 'react'
 import { EMPTY_ADDRESS } from './records'
+import getSNS from '../apollo/mutations/sns'
 
 // From https://github.com/0xProject/0x-monorepo/blob/development/packages/utils/src/address_utils.ts
 
@@ -126,7 +127,8 @@ export function isLabelValid(name) {
 }
 
 export const parseSearchTerm = async term => {
-  const ens = getENS()
+  // const ens = getENS()
+  const ens = getSNS()
   const domains = term.split('.')
   const tld = domains[domains.length - 1]
   try {
@@ -135,7 +137,7 @@ export const parseSearchTerm = async term => {
     return 'invalid'
   }
   console.log('** parseSearchTerm', { ens })
-  const address = await ens.getOwner(tld)
+  // const address = await ens.getOwner(tld)
   return _parseSearchTerm(term, true)
 }
 

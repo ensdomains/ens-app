@@ -63,7 +63,6 @@ export function setupClient() {
 
   const web3Link = new ApolloLink(operation => {
     const { variables, operationName } = operation
-
     if (resolvers.Query[operationName]) {
       return fromPromise(
         resolvers.Query[operationName]?.apply(null, [null, variables]),

@@ -3,10 +3,12 @@ import { normalize } from '@ensdomains/eth-ens-namehash'
 import { emptyAddress } from '../../utils/utils'
 import getENS from '../../apollo/mutations/ens'
 import { isENSReadyReactive } from '../../apollo/reactiveVars'
+import getSNS from '../../apollo/mutations/sns'
 
 export default async (_, { address }) => {
   let name = emptyAddress
-  const ens = getENS()
+  // const ens = getENS()
+  const ens = getSNS()
   const obj = {
     name,
     address,

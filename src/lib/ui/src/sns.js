@@ -157,6 +157,11 @@ export class SNS {
     return await this.SNS.setResolverInfo(name)
   }
 
+  // TODO Get the owner address by name
+  async getOwner(name) {
+    return await this.SNS.getOwner(name)
+  }
+
   // Events
 
   async getSNSEvent(event, { topics, fromBlock }) {
