@@ -15,8 +15,8 @@ import { abi as dnsRegistrarContractOld } from '@ensdomains/contracts/abis/dnsre
 import { abi as legacyAuctionRegistrarContract } from '@ensdomains/contracts/abis/ens/HashRegistrar'
 import { abi as deedContract } from '@ensdomains/contracts/abis/ens/Deed'
 
-import { abi as snsContract } from './sns.json'
-import { abi as snsResolverContract } from './sns.resolver.json'
+import snsContract from './sns.json'
+import snsResolverContract from './sns.resolver.json'
 
 function getReverseRegistrarContract({ address, provider }) {
   return new Contract(address, reverseRegistrarContract, provider)

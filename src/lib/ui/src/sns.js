@@ -27,6 +27,19 @@ import { getSNSContract } from './contracts'
 
 /* Utils */
 
+export function getNamehash(name) {
+  return namehash(name)
+}
+
+async function getNamehashWithLabelHash(labelHash, nodeHash) {
+  let node = utils.keccak256(nodeHash + labelHash.slice(2))
+  return node.toString()
+}
+
+function getLabelhash(label) {
+  return labelhash(label)
+}
+
 const contracts = {
   1: {
     registry: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'
@@ -41,7 +54,7 @@ const contracts = {
     registry: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'
   },
   137: {
-    registry: '0x01625719fe33e919da1cd4860388a789068ccf49'
+    registry: '0x23764364fb8db7257a36E053B780Ff33D0622b92'
   }
 }
 

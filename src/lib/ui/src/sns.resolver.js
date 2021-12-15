@@ -67,7 +67,7 @@ export class SNSResolver {
 
   /* Get the raw Ethers contract object */
   getSNSResolverContractInstance() {
-    return this.SNS
+    return this.SNSResolver
   }
 
   /* Main methods */

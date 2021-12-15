@@ -3,6 +3,7 @@ import { ENS } from './ens.js'
 import { setupRegistrar } from './registrar'
 export { utils, ethers } from 'ethers'
 import { SNS } from './sns.js'
+import { SNSResolver } from './sns.resolver'
 
 export async function setupENS({
   customProvider,
@@ -31,6 +32,51 @@ export async function setupENS({
     network,
     providerObject: provider,
     sns
+  }
+}
+
+export async function setupSNS({
+  customProvider,
+  ensAddress,
+  reloadOnAccountsChange,
+  enforceReadOnly,
+  enforceReload,
+  infura
+} = {}) {
+  const { provider } = await setupWeb3({
+    customProvider,
+    reloadOnAccountsChange,
+    enforceReadOnly,
+    enforceReload,
+    infura
+  })
+  const networkId = await getNetworkId()
+  console.log('networkId>>>', networkId)
+  // get sns and resolver instance
+  const sns = new SNS({ provider, networkId, registryAddress: ensAddress })
+  // const registrar = await setupRegistrar(sns.registryAddress)
+  // Get the address of the parser
+  const resolverAddress = sns.getResolverAddress(
+    sns.getSNSName(sns.registryAddress)
+  )
+  const snsResolver = new SNSResolver({
+    provider,
+    networkId,
+    registryAddress: ensAddress
+  })
+
+  const network = await getNetwork()
+  /**
+   * TODO del registrar process, add snsResolver process
+   */
+  return {
+    sns,
+    // registrar,
+    provider: customProvider,
+    network,
+    providerObject: provider,
+    snsResolver,
+    resolverAddress
   }
 }
 
