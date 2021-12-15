@@ -3,7 +3,7 @@ import { ENS } from './ens.js'
 import { setupRegistrar } from './registrar'
 export { utils, ethers } from 'ethers'
 import { SNS } from './sns.js'
-import { SNSResolver } from './sns.resolver'
+import { setupSNSResolver } from './sns.resolver'
 
 export async function setupENS({
   customProvider,
@@ -59,24 +59,17 @@ export async function setupSNS({
   const resolverAddress = sns.getResolverAddress(
     sns.getSNSName(sns.registryAddress)
   )
-  const snsResolver = new SNSResolver({
-    provider,
-    networkId,
-    registryAddress: ensAddress
-  })
+  const snsResolver = await setupSNSResolver(sns.registryAddress)
 
   const network = await getNetwork()
-  /**
-   * TODO del registrar process, add snsResolver process
-   */
+
   return {
     sns,
-    // registrar,
+    snsResolver,
+    resolverAddress,
     provider: customProvider,
     network,
-    providerObject: provider,
-    snsResolver,
-    resolverAddress
+    providerObject: provider
   }
 }
 
