@@ -674,21 +674,10 @@ async function getEthResolver(ENS) {
   return getResolverContract({ address: resolverAddr, provider })
 }
 
-async function getSNSResolver(SNS) {
-  const account = await getAccount()
-  const snsName = await SNS.getSNSName(account)
-  const resolverAddr = await SNS.getResolverAddress(snsName)
-  const provider = await getProvider()
-  return getSNSResolverContract({ address: resolverAddr, provider })
-}
-
 export async function setupRegistrar(registryAddress) {
   const provider = await getProvider()
-  // const ENS = getENSContract({ address: registryAddress, provider })
-  // const Resolver = await getEthResolver(ENS)
-
-  const SNS = getSNSContract({ address: registryAddress, provider })
-  const Resolver = await getSNSResolver(SNS)
+  const ENS = getENSContract({ address: registryAddress, provider })
+  const Resolver = await getEthResolver(ENS)
 
   let ethAddress = await ENS.owner(namehash('eth'))
 

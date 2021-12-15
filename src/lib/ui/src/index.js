@@ -52,13 +52,9 @@ export async function setupSNS({
   console.log('networkId>>>', networkId)
   // get sns and resolver instance
   const sns = new SNS({ provider, networkId, registryAddress: ensAddress })
-  // const registrar = await setupRegistrar(sns.registryAddress)
   // Get the address of the parser
-  const snsResolver = await setupSNSResolver(ensAddress)
+  const snsResolver = await setupSNSResolver({ provider, networkId, sns })
   const network = await getNetwork()
-  /**
-   * TODO del registrar process, add snsResolver process
-   */
   return {
     sns,
     snsResolver,

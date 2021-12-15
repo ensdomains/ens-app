@@ -415,7 +415,7 @@ const resolvers = {
             registrant: null,
             auctionEnds: null
           }
-
+        debugger
         const ens = getSNS()
         const snsResolver = getSnsResolver()
         const decrypted = isDecrypted(name)
