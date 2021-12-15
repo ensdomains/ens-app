@@ -8,8 +8,8 @@ const INFURA_ID =
     : '5a380f9dfbb44b2abf9f681d39ddc382'
 
 let sns = {},
-  registrar = {},
-  snsRegistryAddress = undefined
+  snsResolver = {},
+  snsResolverAddress = undefined
 
 export async function setup({
   reloadOnAccountsChange,
@@ -30,22 +30,30 @@ export async function setup({
   }
   const {
     sns: snsInstance,
-    registrar: registrarInstance,
+    snsResolver: registrarInstance,
+    resolverAddress,
     providerObject
   } = await setupSNS(option)
   sns = snsInstance
-  registrar = registrarInstance
-  snsRegistryAddress = snsAddress
+  snsResolver = registrarInstance
+  snsResolverAddress = resolverAddress
   isENSReadyReactive(true)
-  return { sns, registrar, providerObject }
+  return { sns, snsResolver, snsResolverAddress, providerObject }
 }
 
-export function getRegistrar() {
-  return registrar
+// export function getRegistrar() {
+//   return registrar
+// }
+//
+// export function getSnsAddress() {
+//   return snsRegistryAddress
+// }
+export function getSnsResolver() {
+  return snsResolver
 }
 
-export function getSnsAddress() {
-  return snsRegistryAddress
+export function getSnsResolverAddress() {
+  return snsResolverAddress
 }
 
 export default function getSNS() {
