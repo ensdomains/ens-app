@@ -56,7 +56,7 @@ export class SNSResolver {
     //   registryAddress = contracts[networkId].registry
     // }
 
-    this.resolverAddress = resolverAddress
+    // this.resolverAddress = resolverAddress
 
     const SNSResolverContract = getSNSResolverContract({
       address: resolverAddress,
