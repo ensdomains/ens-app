@@ -24,14 +24,12 @@ export async function setupENS({
   const ens = new ENS({ provider, networkId, registryAddress: ensAddress })
   const registrar = await setupRegistrar(ens.registryAddress)
   const network = await getNetwork()
-  const sns = new SNS({ provider, networkId, registryAddress: ensAddress })
   return {
     ens,
     registrar,
     provider: customProvider,
     network,
-    providerObject: provider,
-    sns
+    providerObject: provider
   }
 }
 
@@ -56,17 +54,14 @@ export async function setupSNS({
   const sns = new SNS({ provider, networkId, registryAddress: ensAddress })
   // const registrar = await setupRegistrar(sns.registryAddress)
   // Get the address of the parser
-  const resolverAddress = sns.getResolverAddress(
-    sns.getSNSName(sns.registryAddress)
-  )
-  const snsResolver = await setupSNSResolver(sns.registryAddress)
-
+  const snsResolver = await setupSNSResolver(ensAddress)
   const network = await getNetwork()
-
+  /**
+   * TODO del registrar process, add snsResolver process
+   */
   return {
     sns,
     snsResolver,
-    resolverAddress,
     provider: customProvider,
     network,
     providerObject: provider
@@ -80,3 +75,4 @@ export * from './constants/interfaces'
 export * from './utils'
 export * from './contracts'
 export * from './sns'
+export * from './sns.resolver'

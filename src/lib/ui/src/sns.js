@@ -98,27 +98,26 @@ export class SNS {
   //   return SNS.setOwner(namehash, newOwner)
   // }
 
-  //查询是否过了前三天
   async isOverDeadline() {
     return await this.SNS.isOverDeadline()
   }
 
-  //查询用户是否在白名单中
+  //Query the number of castings that the system has cast
   async getWhitelist(address) {
     return await this.SNS.getWhitelist(address)
   }
 
-  //查询系统已经铸造的个数
+  //Query the number of castings in the system
   async getTokenMintedExpManager() {
     return await this.SNS.getTokenMintedExpManager()
   }
 
-  //设置解析器地址
+  //Set the resolver address
   async setDefaultResolverAddress(addr) {
     return await this.SNS.setDefaultResolverAddress(addr)
   }
 
-  //注册
+  //registry
   async registry(address, name, tokenURI) {
     var flag = false
     flag =
@@ -128,29 +127,34 @@ export class SNS {
     if (flag) {
       return await freeMint(name, tokenURI)
     } else {
-      //todo 设置value
+      //todo set value
       return await mint(name, tokenURI)
     }
   }
 
-  //免费注册
+  //freeMint
   async freeMint(name, tokenURI) {
     return await this.SNS.freeMint(name, tokenURI)
   }
 
-  //付费注册
+  //Paid regist
   async mint(name, tokenURI) {
     return await this.SNS.mint(name, tokenURI)
   }
 
-  //通过地址得到注册的SNSName
+  //Get the registered SNSName by address
   async getSNSName(address) {
     return await this.SNS.getSNSName(address)
   }
 
-  //通过SNSName得到解析器地址
+  //Get the resolver address through SNSName
   async getResolverAddress(name) {
     return await this.SNS.getResolverAddress(name)
+  }
+
+  //Set the resolver address
+  async setResolverInfo(name, address) {
+    return await this.SNS.setResolverInfo(name)
   }
 
   // Events

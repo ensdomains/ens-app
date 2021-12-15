@@ -10,7 +10,8 @@ import {
   getDeedContract,
   getTestRegistrarContract,
   getBulkRenewalContract,
-  getSNSContract
+  getSNSContract,
+  getSNSResolverContract
 } from './contracts'
 
 import {
@@ -673,11 +674,21 @@ async function getEthResolver(ENS) {
   return getResolverContract({ address: resolverAddr, provider })
 }
 
-// TODO 需改进为sns模式
+async function getSNSResolver(SNS) {
+  const account = await getAccount()
+  const snsName = await SNS.getSNSName(account)
+  const resolverAddr = await SNS.getResolverAddress(snsName)
+  const provider = await getProvider()
+  return getSNSResolverContract({ address: resolverAddr, provider })
+}
+
 export async function setupRegistrar(registryAddress) {
   const provider = await getProvider()
-  const ENS = getENSContract({ address: registryAddress, provider })
-  const Resolver = await getEthResolver(ENS)
+  // const ENS = getENSContract({ address: registryAddress, provider })
+  // const Resolver = await getEthResolver(ENS)
+
+  const SNS = getSNSContract({ address: registryAddress, provider })
+  const Resolver = await getSNSResolver(SNS)
 
   let ethAddress = await ENS.owner(namehash('eth'))
 

@@ -17,12 +17,13 @@ const web3Instance = {
 }
 
 async function initWeb3() {
-  web3Instance.web3 = getWeb3()
+  web3Instance.web3 = await getWeb3()
   web3Instance.contract = new web3.eth.Contract(
     snsContract,
     '0x01625719fe33e919da1cd4860388a789068ccf49'
   )
-  web3Instance.contract.setProvider(getProvider())
+  const provider = await getProvider()
+  web3Instance.contract.setProvider(provider)
 }
 
 async function getWeb3Instance() {
