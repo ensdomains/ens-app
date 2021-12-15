@@ -23,7 +23,7 @@ import {
 } from './utils'
 import { encodeLabelhash } from './utils/labelhash'
 
-import { getSNSResolverContract } from './contracts'
+import { getSNSContract, getSNSResolverContract } from './contracts'
 
 /* Utils */
 
@@ -214,6 +214,21 @@ export class SNSResolver {
   }
 }
 
-export async function setupSNSResolver(registryAddress) {
-  return {}
+async function getSNSResolver(SNS) {
+  const account = await getAccount()
+  const snsName = await SNS.getSNSName(account)
+  const resolverAddr = await SNS.getResolverAddress(snsName)
+  const provider = await getProvider()
+  return getSNSResolverContract({ address: resolverAddr, provider })
+}
+
+export async function setupSNSResolver(SNSAddress) {
+  const provider = await getProvider()
+  // const ENS = getENSContract({ address: registryAddress, provider })
+  // const Resolver = await getEthResolver(ENS)
+
+  const SNS = getSNSContract({ address: SNSAddress, provider })
+
+  const SNSResolver = getSNSResolver(SNS)
+  return SNSResolver
 }
