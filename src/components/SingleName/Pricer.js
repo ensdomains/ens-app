@@ -30,12 +30,15 @@ const Chain = styled(ChainDefault)`
 `
 
 const OrangeExclamation = styled(DefaultOrangeExclamation)`
-  height: 12px;
-  width: 12px;
+  height: 14px;
+  width: 14px;
+  margin-right: 2px;
 `
 
 const Prompt = styled('div')`
   color: #ffa600;
+  display: flex;
+  align-items: center;
   margin-bottom: 10px;
 `
 
@@ -60,7 +63,7 @@ function PricerInner({
       {years <= 1 && (
         <Prompt>
           <OrangeExclamation />
-          {t('register.increaseRegistrationPeriod')}
+          <div>{t('register.increaseRegistrationPeriod')}</div>
         </Prompt>
       )}
       <PricingContainer className={className} ref={reference}>

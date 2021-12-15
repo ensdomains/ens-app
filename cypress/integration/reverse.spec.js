@@ -21,7 +21,7 @@ describe(
 
       cy.getByTestId('account', { exact: false, timeout: 20000 }).should(
         'have.text',
-        `${ADDRESS.slice(0, 10)}...`
+        `${ADDRESS.slice(0, 5)}...${ADDRESS.slice(-4)}`
       )
 
       cy.getByText('Select one of your ENS names', { exact: false }).click({
