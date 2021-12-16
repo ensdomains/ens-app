@@ -62,6 +62,25 @@
         "type": "string"
       }
     ],
+    "name": "getAllProperties",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "name_",
+        "type": "string"
+      }
+    ],
     "name": "getAvatar",
     "outputs": [
       {
@@ -328,25 +347,6 @@
         "type": "string"
       }
     ],
-    "name": "getPolygonSnsDelegate",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "name_",
-        "type": "string"
-      }
-    ],
     "name": "getUrl",
     "outputs": [
       {
@@ -367,263 +367,11 @@
       },
       {
         "internalType": "string",
-        "name": "avatar_",
+        "name": "recordsStr_",
         "type": "string"
       }
     ],
-    "name": "setAvatar",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "name_",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "btcAddress_",
-        "type": "string"
-      }
-    ],
-    "name": "setBtcAddress",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "name_",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "comGithub_",
-        "type": "string"
-      }
-    ],
-    "name": "setComGithub",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "name_",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "comReddit_",
-        "type": "string"
-      }
-    ],
-    "name": "setComReddit",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "name_",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "comTwitter_",
-        "type": "string"
-      }
-    ],
-    "name": "setComTwitter",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "name_",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "description_",
-        "type": "string"
-      }
-    ],
-    "name": "setDescription",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "name_",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "dogeAddress_",
-        "type": "string"
-      }
-    ],
-    "name": "setDogeAddress",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "name_",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "email_",
-        "type": "string"
-      }
-    ],
-    "name": "setEmail",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "name_",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "ethAddress_",
-        "type": "string"
-      }
-    ],
-    "name": "setEthAddress",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "name_",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "ipfsUrl_",
-        "type": "string"
-      }
-    ],
-    "name": "setIpfsUrl",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "name_",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "keywords_",
-        "type": "string"
-      }
-    ],
-    "name": "setKeywords",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "name_",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "ltcAddress_",
-        "type": "string"
-      }
-    ],
-    "name": "setLtcAddress",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "name_",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "notice_",
-        "type": "string"
-      }
-    ],
-    "name": "setNotice",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "name_",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "orgTelegram_",
-        "type": "string"
-      }
-    ],
-    "name": "setOrgTelegram",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "name_",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "polygonSnsDelegate_",
-        "type": "string"
-      }
-    ],
-    "name": "setPolygonSnsDelegate",
+    "name": "setAllProperties",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -642,24 +390,6 @@
       }
     ],
     "name": "setRecords",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "name_",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "url_",
-        "type": "string"
-      }
-    ],
-    "name": "setUrl",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

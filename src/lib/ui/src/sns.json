@@ -371,6 +371,25 @@
   {
     "inputs": [
       {
+        "internalType": "string",
+        "name": "name_",
+        "type": "string"
+      }
+    ],
+    "name": "getResolverOwner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address",
         "name": "addr_",
         "type": "address"

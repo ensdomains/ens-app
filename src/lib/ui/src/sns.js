@@ -102,12 +102,12 @@ export class SNS {
     return await this.SNS.isOverDeadline()
   }
 
-  //Query the number of castings that the system has cast
+  //Get the number of castings that the system has cast
   async getWhitelist(address) {
     return await this.SNS.getWhitelist(address)
   }
 
-  //Query the number of castings in the system
+  //Get the number of castings in the system
   async getTokenMintedExpManager() {
     return await this.SNS.getTokenMintedExpManager()
   }
@@ -157,9 +157,9 @@ export class SNS {
     return await this.SNS.setResolverInfo(name)
   }
 
-  // TODO Get the owner address by name
-  async getOwner(name) {
-    return await this.SNS.getOwner(name)
+  //Get resolverOwner address
+  async getResolverOwner(name) {
+    return await this.SNS.getResolverOwner(name)
   }
 
   // Events
