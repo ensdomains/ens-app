@@ -24,7 +24,10 @@ export const subDomainFavouritesReactive = makeVar([])
 
 export const isAppReadyReactive = makeVar(false)
 
-export const globalErrorReactive = makeVar(null)
+export const globalErrorReactive = makeVar({
+  network: null,
+  invalidCharacter: null
+})
 
 export const transactionHistoryReactive = makeVar({ transactionHistory: [] })
 
