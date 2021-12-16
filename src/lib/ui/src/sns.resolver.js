@@ -92,125 +92,86 @@ export class SNSResolver {
   async getEthAddress(name) {
     return await this.SNSResolver.getEthAddress(name)
   }
-  async setEthAddress(name, ethAddress) {
-    return await this.SNSResolver.setEthAddress(name, ethAddress)
-  }
 
   //BTC
   async getBtcAddress(name) {
     return await this.SNSResolver.getBtcAddress(name)
-  }
-  async setBtcAddress(name, btcAddress) {
-    return await this.SNSResolver.setBtcAddress(name, btcAddress)
   }
 
   //LTC
   async getLtcAddress(name) {
     return await this.SNSResolver.getLtcAddress(name)
   }
-  async setLtcAddress(name, ltcAddress) {
-    return await this.SNSResolver.setLtcAddress(name, ltcAddress)
-  }
 
   //DOGE
   async getDogeAddress(name) {
     return await this.SNSResolver.getDogeAddress(name)
-  }
-  async setDogeAddress(name, dogeAddress) {
-    return await this.SNSResolver.setDogeAddress(name, dogeAddress)
   }
 
   //ipfs
   async getIpfs(name) {
     return await this.SNSResolver.getIpfs(name)
   }
-  async setIpfs(name, ipfs) {
-    return await this.SNSResolver.setIpfs(name, ipfs)
-  }
 
   //url
   async getUrl(name) {
     return await this.SNSResolver.getUrl(name)
-  }
-  async setUrl(name, url) {
-    return await this.SNSResolver.setUrl(name, url)
   }
 
   //email
   async getEmail(name) {
     return await this.SNSResolver.getEmail(name)
   }
-  async setEmail(name, email) {
-    return await this.SNSResolver.setEmail(name, email)
-  }
 
   //avator
   async getAvator(name) {
     return await this.SNSResolver.getAvator(name)
-  }
-  async setAvator(name, avator) {
-    return await this.SNSResolver.setAvator(name, avator)
   }
 
   //description
   async getDescription(name) {
     return await this.SNSResolver.getDescription(name)
   }
-  async setDescription(name, description) {
-    return await this.SNSResolver.setDescription(name, description)
-  }
 
   //notice
   async getNotice(name) {
     return await this.SNSResolver.getNotice(name)
-  }
-  async setNotice(name, notice) {
-    return await this.SNSResolver.getNotice(name, notice)
   }
 
   //keywords
   async getKeywords(name) {
     return await this.SNSResolver.getKeywords(name)
   }
-  async setKeywords(name, keywords) {
-    return await this.SNSResolver.setKeywords(name, keywords)
-  }
 
   //comGithub
   async getComGithub(name) {
     return await this.SNSResolver.getComGithub(name)
-  }
-  async setComGithub(name, comGithub) {
-    return await this.SNSResolver.setComGithub(name, comGithub)
   }
 
   //comReddit
   async getComReddit(name) {
     return await this.SNSResolver.getComReddit(name)
   }
-  async setComReddit(name, comReddit) {
-    return await this.SNSResolver.setComReddit(name, comReddit)
-  }
 
   //comTwitter
   async getComTwitter(name) {
     return await this.SNSResolver.getComTwitter(name)
-  }
-  async setComTwitter(name, comTwitter) {
-    return await this.SNSResolver.setComTwitter(name, comTwitter)
   }
 
   //orgTelegram
   async getOrgTelegram(name) {
     return await this.SNSResolver.getOrgTelegram(name)
   }
-  async setOrgTelegram(name, orgTelegram) {
-    return await this.SNSResolver.setOrgTelegram(name, orgTelegram)
-  }
 
-  // TODO
   async getAllProperties(name) {
     return await this.SNSResolver.getAllProperties(name)
+  }
+
+  //exp: 0-1-2-3-4-5-6-7-8-9-10-11-12-13-14
+  //0:ethAddress ~ 14:orgTelegram
+  //use "-" gap
+  async setAllProperties(name, recordsStr) {
+    return await this.SNSResolver.setAllProperties(name, recordsStr)
   }
 }
 
