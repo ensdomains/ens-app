@@ -16,6 +16,7 @@ import * as jsSHA3 from 'js-sha3'
 import { saveName } from '../api/labels'
 import { useEffect, useRef } from 'react'
 import { EMPTY_ADDRESS } from './records'
+import { globalErrorReactive } from '../apollo/reactiveVars'
 
 // From https://github.com/0xProject/0x-monorepo/blob/development/packages/utils/src/address_utils.ts
 
@@ -240,10 +241,20 @@ export function isOwnerOfParentDomain(domain, account) {
 }
 
 export function filterNormalised(data, name, nested = false) {
-  return data?.filter(data => {
-    const domain = nested ? data.domain : data
-    return domain[name] === normalize(domain[name])
-  })
+  try {
+    return data?.filter(data => {
+      const domain = nested ? data.domain : data
+      return domain[name] === normalize(domain[name])
+    })
+  } catch (e) {
+    if (e.message.match(/Illegal char/)) {
+      globalErrorReactive({
+        ...globalErrorReactive(),
+        invalidCharacter: 'Invalid character'
+      })
+      return
+    }
+  }
 }
 
 export function prependUrl(url) {

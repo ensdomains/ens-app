@@ -28,7 +28,9 @@ describe('App', () => {
   it('should render network error when one exists', () => {
     const context = {}
     useReactiveVarListeners.mockImplementation(() => null)
-    useQuery.mockImplementation(() => ({ data: { globalError: 'error' } }))
+    useQuery.mockImplementation(() => ({
+      data: { globalError: { network: 'error' } }
+    }))
 
     const { getByTestId } = render(
       <StaticRouter location={'/'} context={context}>

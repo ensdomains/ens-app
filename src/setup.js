@@ -94,7 +94,10 @@ export const getProvider = async reconnect => {
     return provider
   } catch (e) {
     if (e.message.match(/Unsupported network/)) {
-      globalErrorReactive('Unsupported Network')
+      globalErrorReactive({
+        ...globalErrorReactive(),
+        network: 'Unsupported Network'
+      })
       return
     }
   }
@@ -125,7 +128,10 @@ export const setWeb3Provider = async provider => {
   provider?.on('chainChanged', async _chainId => {
     const networkId = await getNetworkId()
     if (!isSupportedNetwork(networkId)) {
-      globalErrorReactive('Unsupported Network')
+      globalErrorReactive({
+        ...globalErrorReactive(),
+        network: 'Unsupported Network'
+      })
       return
     }
     networkIdReactive(networkId)
@@ -150,7 +156,10 @@ export default async reconnect => {
     const networkId = await getNetworkId()
 
     if (!isSupportedNetwork(networkId)) {
-      globalErrorReactive('Unsupported Network')
+      globalErrorReactive({
+        ...globalErrorReactive(),
+        network: 'Unsupported Network'
+      })
       return
     }
 

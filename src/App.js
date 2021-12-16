@@ -75,8 +75,8 @@ const Renew = lazy(() =>
 import { NetworkError, Error404 } from './components/Error/Errors'
 import DefaultLayout from './components/Layout/DefaultLayout'
 import { pageview, setupAnalytics } from './utils/analytics'
-import { gql } from '@apollo/client'
 import useReactiveVarListeners from './hooks/useReactiveVarListeners'
+import { GET_ERRORS } from './graphql/queries'
 
 //If we are targeting an IPFS build we need to use HashRouter
 const Router =
@@ -102,24 +102,18 @@ const Route = ({
   )
 }
 
-export const APP_DATA = gql`
-  query getAppData @client {
-    globalError
-  }
-`
-
 const App = () => {
   useReactiveVarListeners()
   const {
     data: { globalError }
-  } = useQuery(APP_DATA)
+  } = useQuery(GET_ERRORS)
 
   useEffect(() => {
     setupAnalytics()
   }, [])
 
-  if (globalError) {
-    return <NetworkError message={globalError} />
+  if (globalError.network) {
+    return <NetworkError message={globalError.network} />
   }
 
   return (
