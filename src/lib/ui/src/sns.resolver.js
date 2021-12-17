@@ -173,6 +173,33 @@ export class SNSResolver {
   async setAllProperties(name, recordsStr) {
     return await this.SNSResolver.setAllProperties(name, recordsStr)
   }
+
+  /**
+   event ContentChanged(string indexed name_, string type_, string newContent);
+   event OwnerChanged(string indexed name_, address newOwner);
+   */
+  async getSNSResolverEvent(event, { topics, fromBlock }) {
+    const provider = await getWeb3()
+    const { SNSResolver } = this
+    const ensInterface = new utils.Interface(ensContract)
+    let Event = SNSResolver.filters[event]()
+
+    const filter = {
+      fromBlock,
+      toBlock: 'latest',
+      address: Event.address,
+      topics: [...Event.topics, ...topics]
+    }
+
+    const logs = await provider.getLogs(filter)
+
+    const parsed = logs.map(log => {
+      const parsedLog = ensInterface.parseLog(log)
+      return parsedLog
+    })
+
+    return parsed
+  }
 }
 
 export async function setupSNSResolver({ provider, networkId, sns }) {
