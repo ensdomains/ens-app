@@ -194,10 +194,8 @@ export const GET_SUBDOMAIN_FAVOURITES = gql`
 `
 
 export const GET_ERRORS = gql`
-  query getErrors {
-    error {
-      message
-    }
+  query getErrors @client {
+    globalError
   }
 `
 

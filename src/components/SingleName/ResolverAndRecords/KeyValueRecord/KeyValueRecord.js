@@ -100,10 +100,12 @@ const Editable = ({
   changedRecords,
   updateRecord,
   record,
-  placeholder
+  placeholder,
+  validating
 }) => {
   const { key, value } = record
   const isValid = validator(record)
+  const isValidating = validating(record)
   return (
     <KeyValueItem editing={editing} hasRecord={true} noBorder>
       {editing ? (
@@ -113,12 +115,13 @@ const Editable = ({
             testId={`${key}-record-input`}
             hasBeenUpdated={hasChange(changedRecords, key)}
             type="text"
-            isInvalid={!isValid}
+            isInvalid={!isValid && !isValidating}
             onChange={event => {
               updateRecord({ ...record, value: event.target.value })
             }}
             value={value === emptyAddress ? '' : value}
-            {...{ placeholder, isValid }}
+            isValid={isValid && !isValidating}
+            {...{ placeholder }}
           />
 
           <Bin
@@ -150,7 +153,8 @@ function Record(props) {
     changedRecords,
     updateRecord,
     record,
-    domain
+    domain,
+    validating
   } = props
 
   const { key, value } = record
@@ -165,6 +169,7 @@ function Record(props) {
     <Editable
       {...props}
       validator={validator}
+      validating={validating}
       editing={editing}
       setUpdatedRecords={setUpdatedRecords}
       changedRecords={changedRecords}
@@ -200,7 +205,8 @@ function Records({
   changedRecords,
   recordType,
   updateRecord,
-  domain
+  domain,
+  validating
 }) {
   const [hasRecord, setHasRecord] = useState(false)
   return (
@@ -213,6 +219,7 @@ function Records({
               editing={editing}
               dataValue={record.value}
               validator={validator}
+              validating={validating}
               setHasRecord={setHasRecord}
               hasRecord={hasRecord}
               canEdit={canEdit}

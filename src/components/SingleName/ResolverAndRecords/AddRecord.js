@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from '@emotion/styled/macro'
 import mq from 'mediaQuery'
 import { useTranslation } from 'react-i18next'
@@ -13,6 +13,7 @@ import { DetailsKey } from '../DetailsItem'
 import DetailsItemInput from '../DetailsItemInput'
 import DefaultSelect from '../../Forms/Select'
 import DefaultAddressInput from '@ensdomains/react-ens-address'
+import { asyncThrottle } from 'utils/utils'
 
 const AddressInput = styled(DefaultAddressInput)`
   margin-bottom: 10px;
@@ -149,14 +150,51 @@ const clearInput = (setSelectedRecord, setSelectedKey, updateValue) => {
   updateValue(null)
 }
 
-const validate = (selectedKey, newValue, selectedRecord) => {
-  if (!selectedKey) return false
+const throttledValidate = asyncThrottle(
+  async (selectedKey, newValue, selectedRecord, domain, setIsValidating) => {
+    if (!selectedKey) return false
+    setIsValidating(true)
 
-  return validateRecord({
-    key: selectedKey?.value,
-    value: newValue,
-    contractFn: selectedRecord?.contractFn
-  })
+    return await validateRecord({
+      key: selectedKey?.value,
+      value: newValue,
+      contractFn: selectedRecord?.contractFn,
+      addr: domain.addr
+    })
+  },
+  500
+)
+
+const useChangedValidRecord = (
+  selectedKey,
+  newValue,
+  selectedRecord,
+  domain,
+  setIsValidating,
+  setIsValid
+) => {
+  const newValueRef = useRef()
+
+  newValueRef.current = newValue
+
+  useEffect(() => {
+    if (newValue) {
+      new Promise(async () => {
+        const isValid = await throttledValidate(
+          selectedKey,
+          newValue,
+          selectedRecord,
+          domain,
+          setIsValidating
+        )
+
+        if (newValue === newValueRef.current) {
+          setIsValid(isValid)
+          setIsValidating(false)
+        }
+      })
+    }
+  }, [newValue])
 }
 
 function Editable({
@@ -175,6 +213,8 @@ function Editable({
 
   const [selectedRecord, setSelectedRecord] = useState(null)
   const [selectedKey, setSelectedKey] = useState(null)
+  const [isValid, setIsValid] = useState(false)
+  const [isValidating, setIsValidating] = useState(false)
 
   const handleChange = selectedRecord => {
     if (selectedRecord.contractFn === 'setContenthash') {
@@ -196,7 +236,14 @@ function Editable({
     selectedKey: selectedKey && selectedKey.value
   }
 
-  const isValid = validate(selectedKey, newValue, selectedRecord)
+  useChangedValidRecord(
+    selectedKey,
+    newValue,
+    selectedRecord,
+    domain,
+    setIsValidating,
+    setIsValid
+  )
 
   return (
     <>
@@ -243,8 +290,8 @@ function Editable({
                 newValue={newValue || ''}
                 dataType={selectedRecord ? selectedRecord.value : null}
                 updateValue={updateValue}
-                isValid
-                isInvalid={!isValid}
+                isValid={isValid && !isValidating}
+                isInvalid={!isValid && !isValidating}
                 placeholder={getPlaceholder(
                   selectedRecord.contractFn,
                   selectedKey?.label
@@ -256,7 +303,7 @@ function Editable({
             <Button
               data-testid="save-record"
               type={isValid ? 'primary' : 'disabled'}
-              disabled={!isValid}
+              disabled={!isValid && !isValidating}
               onClick={() => {
                 updateRecord({
                   key: selectedKey?.value || 'CONTENT',

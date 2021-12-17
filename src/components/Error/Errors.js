@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import styled from '@emotion/styled/macro'
 
 import warningImage from '../../assets/warning.svg'
@@ -36,6 +37,17 @@ export const NetworkError = ({ message }) => (
       <H2>{message}</H2>
       <br />
       Please change your dapp browser to Mainnet, Ropsten, Rinkeby or Goerli
+    </Message>
+  </ErrorContainer>
+)
+
+export const InvalidCharacterError = ({ message }) => (
+  <ErrorContainer>
+    <Message>
+      <Warning src={warningImage} />
+      <H2>{message}</H2>
+      One or more domain names contain UTS46 forbidden characters.{' '}
+      <Link to="/">Click here</Link> to go back to the home page.
     </Message>
   </ErrorContainer>
 )

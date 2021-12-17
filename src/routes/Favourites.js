@@ -11,7 +11,8 @@ import {
   GET_FAVOURITES,
   GET_SUBDOMAIN_FAVOURITES,
   GET_OWNER,
-  GET_REGISTRATIONS_BY_IDS_SUBGRAPH
+  GET_REGISTRATIONS_BY_IDS_SUBGRAPH,
+  GET_ERRORS
 } from '../graphql/queries'
 
 import mq from 'mediaQuery'
@@ -27,6 +28,7 @@ import {
   NonMainPageBannerContainer,
   DAOBannerContent
 } from '../components/Banner/DAOBanner'
+import { InvalidCharacterError } from '../components/Error/Errors'
 
 const SelectAll = styled('div')`
   grid-area: selectall;
@@ -136,7 +138,13 @@ function Favourites() {
   const { data: { subDomainFavourites } = [] } = useQuery(
     GET_SUBDOMAIN_FAVOURITES
   )
+  const {
+    data: { globalError }
+  } = useQuery(GET_ERRORS)
   const favourites = filterNormalised(favouritesWithUnnormalised, 'name')
+  if (globalError.invalidCharacter || !favourites) {
+    return <InvalidCharacterError message={globalError.invalidCharacter} />
+  }
   const ids = favourites && favourites.map(f => getNamehash(f.name))
   const { data: { registrations } = [], refetch } = useQuery(
     GET_REGISTRATIONS_BY_IDS_SUBGRAPH,
