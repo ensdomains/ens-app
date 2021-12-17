@@ -134,6 +134,13 @@ export const setWeb3Provider = async provider => {
       })
       return
     }
+
+    await setup({
+      customProvider: provider,
+      reloadOnAccountsChange: false,
+      enforceReload: true
+    })
+
     networkIdReactive(networkId)
     networkReactive(await getNetwork())
   })
