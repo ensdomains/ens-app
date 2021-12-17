@@ -88,6 +88,7 @@ const Years = ({ years, setYears }) => {
           <input
             type="text"
             value={years}
+            aria-label={t('pricer.yearUnit')}
             onChange={e => {
               const sign = Math.sign(e.target.value)
               if (sign === -1 || isNaN(sign)) {

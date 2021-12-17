@@ -239,7 +239,9 @@ const RecordItemEditable = ({
           <RecordsKey>{t(`c.${keyName}`)}</RecordsKey>
           <RecordsValue editableSmall>
             {type === 'address' ? (
-              <AddressLink address={value}>{value}</AddressLink>
+              <AddressLink address={value} ariaLabel={t(`c.${keyName}`)}>
+                {value}
+              </AddressLink>
             ) : (
               <ContentHashLink
                 value={value}
@@ -426,7 +428,9 @@ function RecordItemViewOnly({ keyName, value, type, domain }) {
         <RecordsKey>{t(`c.${keyName}`)}</RecordsKey>
         <RecordsValue>
           {type === 'address' ? (
-            <AddressLink address={value}>{value}</AddressLink>
+            <AddressLink address={value} ariaLabel={t(`c.${keyName}`)}>
+              {value}
+            </AddressLink>
           ) : (
             <ContentHashLink
               value={value}
