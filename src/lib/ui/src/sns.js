@@ -164,6 +164,7 @@ export class SNS {
 
   // Events
 
+  // TODO pending-repair
   async getSNSEvent(event, { topics, fromBlock }) {
     return parsed
   }

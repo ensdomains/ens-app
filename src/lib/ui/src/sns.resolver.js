@@ -176,8 +176,11 @@ export class SNSResolver {
 }
 
 export async function setupSNSResolver({ provider, networkId, sns }) {
-  const resolverAddress = await sns.getResolverAddress(
-    sns.getSNSName(getAccount())
-  )
-  return new SNSResolver({ networkId, resolverAddress, provider })
+  debugger
+  const snsName = await sns.getSNSName(getAccount())
+  if (snsName) {
+    const resolverAddress = await sns.getResolverAddress(snsName)
+    return new SNSResolver({ networkId, resolverAddress, provider })
+  }
+  return {}
 }

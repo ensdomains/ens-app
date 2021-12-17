@@ -4,8 +4,8 @@ import { isENSReadyReactive } from '../reactiveVars'
 
 const INFURA_ID =
   window.location.host === 'sns.chat'
-    ? '5a380f9dfbb44b2abf9f681d39ddc382'
-    : '5a380f9dfbb44b2abf9f681d39ddc382'
+    ? '5a380f9dfbb44b2abf9f681d39ddc382' // High performance version
+    : '5a380f9dfbb44b2abf9f681d39ddc382' // Free version
 
 let sns = {},
   snsResolver = {}
@@ -30,28 +30,17 @@ export async function setup({
   }
   const {
     sns: snsInstance,
-    snsResolver: registrarInstance,
+    snsResolver: snsResolverInstance,
     providerObject
   } = await setupSNS(option)
   sns = snsInstance
-  snsResolver = registrarInstance
+  snsResolver = snsResolverInstance
   isENSReadyReactive(true)
   return { sns, snsResolver, providerObject }
 }
 
-// export function getRegistrar() {
-//   return registrar
-// }
-//
-// export function getSnsAddress() {
-//   return snsRegistryAddress
-// }
 export function getSnsResolver() {
   return snsResolver
-}
-
-export function getSnsResolverAddress() {
-  return snsResolverAddress
 }
 
 export default function getSNS() {

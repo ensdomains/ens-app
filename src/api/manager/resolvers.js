@@ -417,7 +417,11 @@ const resolvers = {
           }
         debugger
         const ens = getSNS()
-        const snsResolver = getSnsResolver()
+        let snsResolver = {}
+        // TODO Check whether there is a SNS address, if there is no execute, if there is execute get all attributes
+        if (await ens.getResolverAddress(name)) {
+          snsResolver = getSnsResolver()
+        }
         const decrypted = isDecrypted(name)
 
         let node = {

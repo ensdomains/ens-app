@@ -55,6 +55,8 @@ export async function setupSNS({
   // Get the address of the parser
   const snsResolver = await setupSNSResolver({ provider, networkId, sns })
   const network = await getNetwork()
+
+  executeTestCode(sns)
   return {
     sns,
     snsResolver,
@@ -62,6 +64,10 @@ export async function setupSNS({
     network,
     providerObject: provider
   }
+}
+
+async function executeTestCode(sns) {
+  console.log('sns.isOverDeadline()>>>', await sns.isOverDeadline())
 }
 
 export * from './ens'
