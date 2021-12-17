@@ -1,6 +1,6 @@
-# ENS Application
+# SNS Application
 
-ENS Application
+SNS Application
 
 ## Installation
 
@@ -12,6 +12,9 @@ Expects Node.js version >=14.17.0
 $> git clone https://github.com/ensdomains/ens-app.git
 $> cd ens-app
 $> yarn install
+$> cd src/lib/ui
+$> yarn install # install lib dependencies package
+$> cd ../../../
 $> yarn start
 ```
 
