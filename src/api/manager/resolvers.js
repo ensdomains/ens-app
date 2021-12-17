@@ -334,33 +334,33 @@ function adjustForShortNames(node) {
   const { label, parent } = node
 
   // return original node if is subdomain or not eth
-  if (nameArray.length > 2 || parent !== 'eth' || label.length > 6) return node
+  if (nameArray.length > 2 || parent !== 'key' || label.length > 6) return node
 
   //if the auctions are over
-  if (new Date() > new Date(1570924800000)) {
-    return node
-  }
+  // if (new Date() > new Date(1570924800000)) {
+  //   return node
+  // }
 
-  let auctionEnds
-  let onAuction = true
+  // let auctionEnds
+  // let onAuction = true
 
-  if (label.length >= 5) {
-    auctionEnds = new Date(1569715200000) // 29 September
-  } else if (label.length >= 4) {
-    auctionEnds = new Date(1570320000000) // 6 October
-  } else if (label.length >= 3) {
-    auctionEnds = new Date(1570924800000) // 13 October
-  }
+  // if (label.length >= 5) {
+  //   auctionEnds = new Date(1569715200000) // 29 September
+  // } else if (label.length >= 4) {
+  //   auctionEnds = new Date(1570320000000) // 6 October
+  // } else if (label.length >= 3) {
+  //   auctionEnds = new Date(1570924800000) // 13 October
+  // }
 
-  if (new Date() > auctionEnds) {
-    onAuction = false
-  }
+  // if (new Date() > auctionEnds) {
+  //   onAuction = false
+  // }
 
   return {
-    ...node,
-    auctionEnds,
-    onAuction,
-    state: onAuction ? 'Auction' : node.state
+    ...node
+    // auctionEnds,
+    // onAuction,
+    // state: onAuction ? 'Auction' : node.state
   }
 }
 
@@ -455,9 +455,9 @@ const resolvers = {
           // getDNSEntryDetails(name),
           // getTestEntry(name),
           // getRegistrant(name)
-
+          snsResolver.getEthAddress(name)
           // snsResolver.getAllProperties(name),
-          ens.getResolverAddress(name)
+          // ens.getResolverAddress(name)
         ]
 
         const [
@@ -467,8 +467,9 @@ const resolvers = {
           // dnsEntry,
           // testEntry,
           // registrant
+          EthAddress
           // allProperties,
-          resolverAddress
+          // resolverAddress
         ] = await Promise.all(dataSources)
 
         const names = namesReactive()
@@ -486,12 +487,13 @@ const resolvers = {
           //   : null,
           // parent,
           // parentOwner,
+          EthAddress,
           // allProperties,
-          resolverAddress,
+          // resolverAddress,
           __typename: 'Node'
         })
 
-        detailedNode = setState(detailedNode)
+        // detailedNode = setState(detailedNode)
         // Override parentOwner for dns if exists
         // if (
         //   dnsEntry &&
