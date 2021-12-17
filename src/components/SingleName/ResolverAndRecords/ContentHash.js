@@ -199,7 +199,10 @@ const ContentHashEditable = ({
                 <RecordInput
                   testId={`content-record-input${isInvalid ? '-invalid' : ''}`}
                   onChange={event => {
-                    updateRecord({ ...record, value: event.target.value })
+                    updateRecord({
+                      ...record,
+                      value: event.target.value.trim()
+                    })
                   }}
                   hasBeenUpdated={hasChange(changedRecords, keyName)}
                   value={value}

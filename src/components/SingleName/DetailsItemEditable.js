@@ -292,7 +292,7 @@ function getInputType(
   return (
     <Input
       value={newValue}
-      onChange={e => updateValue(e.target.value)}
+      onChange={e => updateValue(e.target.value.trim())}
       valid={isValid}
       invalid={isInvalid}
       placeholder={keyName === 'Resolver' ? placeholder : ''}

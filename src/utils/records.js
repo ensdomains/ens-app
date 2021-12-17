@@ -53,6 +53,20 @@ export function getPlaceholder(recordType, contentType) {
   }
 }
 
+export const trimRecord = (key, value) => {
+  const untrimmedRecordTypes = [
+    'description',
+    'notice',
+    'keywords',
+    'name',
+    'location'
+  ]
+  if (untrimmedRecordTypes.every(type => type !== key)) {
+    return value.trim()
+  }
+  return value
+}
+
 export const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000'
 
 export function isEmptyAddress(address) {
