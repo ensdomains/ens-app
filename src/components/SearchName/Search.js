@@ -130,6 +130,7 @@ function Search({ history, className, style }) {
         placeholder={t('search.placeholder')}
         ref={el => (input = el)}
         onChange={handleParse}
+        autoCapitalize="off"
       />
       <LanguageSwitcher />
       <button
