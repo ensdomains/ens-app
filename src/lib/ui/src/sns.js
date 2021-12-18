@@ -125,18 +125,16 @@ export class SNS {
     const signer = await getSigner()
     const SNS = this.SNS.connect(signer)
     const account = await getAccount()
-    const handleName = name.split(`.key`)[0]
-    debugger
     let flag = false
     flag =
       SNS.isOverDeadline() &&
       SNS.getWhitelist(account) &&
       (await SNS.getTokenMintedExpManager()) <= 10000
     if (flag) {
-      return await SNS.freeMint(handleName)
+      return await SNS.freeMint(name)
     } else {
       //todo set value
-      return await SNS.mint(handleName)
+      return await SNS.mint(name)
     }
   }
 
@@ -160,9 +158,11 @@ export class SNS {
     return await this.SNS.getResolverAddress(name)
   }
 
-  //Set the resolver address
+  // TODO Set the resolver address
   async setResolverInfo(name, address) {
-    return await this.SNS.setResolverInfo(name)
+    const signer = await getSigner()
+    const SNS = this.SNS.connect(signer)
+    return SNS.setResolverInfo(name)
   }
 
   //Get resolverOwner address
@@ -173,9 +173,11 @@ export class SNS {
   async getDomainDetails(name) {
     const nameArray = name.split('.')
     const labelhash = getLabelhash(nameArray[0])
+    const signer = await getSigner()
+    const SNS = this.SNS.connect(signer)
     const [owner, resolver] = await Promise.all([
-      this.getResolverOwner(name),
-      this.getResolverAddress(name)
+      SNS.getResolverOwner(name),
+      SNS.getResolverAddress(name)
     ])
     const node = {
       name,

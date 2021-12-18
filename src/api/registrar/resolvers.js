@@ -5,7 +5,6 @@ import getSNS, { getSnsResolver } from 'apollo/mutations/sns'
 
 import modeNames from '../modes'
 import { sendHelper } from '../resolverUtils'
-import { getAccount } from '../../lib/ui'
 
 const defaults = {}
 
@@ -57,9 +56,9 @@ const resolvers = {
     }
   },
   Mutation: {
-    async commit(_, name) {
+    async commit(_, { label }) {
       const sns = getSNS()
-      const tx = await sns.registry(name.name)
+      const tx = await sns.registry(label)
       return sendHelper(tx)
     },
     async register(_, { label, duration, secret }) {

@@ -45,7 +45,6 @@ const LeftLink = styled(Link)`
 `
 
 function getCTA({
-  name,
   step,
   incrementStep,
   secret,
@@ -68,11 +67,12 @@ function getCTA({
   ethUsdPrice,
   account
 }) {
+  debugger
   const CTAs = {
     PRICE_DECISION: (
       <Mutation
         mutation={COMMIT}
-        variables={{ name }}
+        variables={{ label }}
         onCompleted={data => {
           const txHash = Object.values(data)[0]
           setTxHash(txHash)
@@ -232,7 +232,6 @@ function getCTA({
 }
 
 const CTA = ({
-  name,
   step,
   incrementStep,
   secret,
@@ -268,7 +267,6 @@ const CTA = ({
   return (
     <CTAContainer>
       {getCTA({
-        name,
         step,
         incrementStep,
         secret,

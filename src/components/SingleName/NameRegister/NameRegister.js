@@ -296,7 +296,6 @@ const NameRegister = ({
       />
       <Progress step={step} waitPercentComplete={waitPercentComplete} />
       <CTA
-        name={domain.name}
         hasSufficientBalance={hasSufficientBalance}
         waitTime={waitTime}
         incrementStep={incrementStep}
