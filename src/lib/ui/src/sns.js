@@ -118,17 +118,17 @@ export class SNS {
   }
 
   //registry
-  async registry(address, name, tokenURI) {
+  async registry(address, name) {
     var flag = false
     flag =
       isOverDeadline() &&
       getWhitelist(address) &&
       getTokenMintedExpManager() <= 10000
     if (flag) {
-      return await freeMint(name, tokenURI)
+      return await this.freeMint(name)
     } else {
       //todo set value
-      return await mint(name, tokenURI)
+      return await this.mint(name)
     }
   }
 
