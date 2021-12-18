@@ -133,13 +133,13 @@ export class SNS {
   }
 
   //freeMint
-  async freeMint(name, tokenURI) {
-    return await this.SNS.freeMint(name, tokenURI)
+  async freeMint(name) {
+    return await this.SNS.freeMint(name)
   }
 
   //Paid regist
-  async mint(name, tokenURI) {
-    return await this.SNS.mint(name, tokenURI)
+  async mint(name) {
+    return await this.SNS.mint(name)
   }
 
   //Get the registered SNSName by address
@@ -198,8 +198,32 @@ export class SNS {
 
   // Events
 
-  // TODO pending-repair
+  /**
+   event FreeMint(address sender_,string name_);
+   event Mint(address sender_,string name_);
+   event SetResolverInfo(address sender_, string name_, address resolverAddress_);
+   event TransferName(address sender_, address form_, address to_, string name_);
+   */
   async getSNSEvent(event, { topics, fromBlock }) {
+    const provider = await getWeb3()
+    const { SNS } = this
+    const ensInterface = new utils.Interface(ensContract)
+    let Event = SNS.filters[event]()
+
+    const filter = {
+      fromBlock,
+      toBlock: 'latest',
+      address: Event.address,
+      topics: [...Event.topics, ...topics]
+    }
+
+    const logs = await provider.getLogs(filter)
+
+    const parsed = logs.map(log => {
+      const parsedLog = ensInterface.parseLog(log)
+      return parsedLog
+    })
+
     return parsed
   }
 }
