@@ -91,36 +91,36 @@ const NameRegister = ({
     fetchPolicy: 'no-cache'
   })
 
-  const { data: { getMaximumCommitmentAge } = {} } = useQuery(
-    GET_MAXIMUM_COMMITMENT_AGE,
-    {
-      fetchPolicy: 'no-cache'
-    }
-  )
-  if (block) {
-    now = moment(block.timestamp * 1000)
-  }
-  if (!commitmentExpirationDate && getMaximumCommitmentAge && blockCreatedAt) {
-    setCommitmentExpirationDate(
-      moment(blockCreatedAt).add(getMaximumCommitmentAge, 'second')
-    )
-  }
-  const { data: { checkCommitment = false } = {} } = useQuery(
-    CHECK_COMMITMENT,
-    {
-      variables: {
-        label: domain.label,
-        secret,
-        // Add this varialbe so that it keeps polling only during the timer is on
-        commitmentTimerRunning
-      },
-      fetchPolicy: 'no-cache'
-    }
-  )
+  // const { data: { getMaximumCommitmentAge } = {} } = useQuery(
+  //   GET_MAXIMUM_COMMITMENT_AGE,
+  //   {
+  //     fetchPolicy: 'no-cache'
+  //   }
+  // )
+  // if (block) {
+  //   now = moment(block.timestamp * 1000)
+  // }
+  // if (!commitmentExpirationDate && getMaximumCommitmentAge && blockCreatedAt) {
+  //   setCommitmentExpirationDate(
+  //     moment(blockCreatedAt).add(getMaximumCommitmentAge, 'second')
+  //   )
+  // }
+  // const { data: { checkCommitment = false } = {} } = useQuery(
+  //   CHECK_COMMITMENT,
+  //   {
+  //     variables: {
+  //       label: domain.label,
+  //       secret,
+  //       // Add this varialbe so that it keeps polling only during the timer is on
+  //       commitmentTimerRunning
+  //     },
+  //     fetchPolicy: 'no-cache'
+  //   }
+  // )
   let i = 0
 
   ProgressRecorder({
-    checkCommitment,
+    // checkCommitment,
     domain,
     networkId,
     states: registerMachine.states,
@@ -140,93 +140,86 @@ const NameRegister = ({
     setCommitmentExpirationDate,
     now
   })
-  useInterval(
-    () => {
-      if (blockCreatedAt && !waitUntil) {
-        setWaitUntil(blockCreatedAt + waitTime * 1000)
-      }
-      if (secondsPassed < waitTime) {
-        setSecondsPassed(s => s + 1)
-      } else {
-        if (waitBlockTimestamp && timerRunning) {
-          incrementStep()
-          sendNotification(
-            `${domain.name} ${t('register.notifications.ready')}`
-          )
-        }
-        setTimerRunning(false)
-      }
-    },
-    timerRunning ? 1000 : null
-  )
-  useInterval(
-    () => {
-      if (checkCommitment > 0) {
-        incrementStep()
-        setTimerRunning(true)
-        setCommitmentTimerRunning(false)
-      } else {
-        setCommitmentTimerRunning(new Date())
-      }
-    },
-    commitmentTimerRunning ? 1000 : null
-  )
+  // useInterval(
+  //   () => {
+  //     if (blockCreatedAt && !waitUntil) {
+  //       setWaitUntil(blockCreatedAt + waitTime * 1000)
+  //     }
+  //     if (secondsPassed < waitTime) {
+  //       setSecondsPassed(s => s + 1)
+  //     } else {
+  //       if (waitBlockTimestamp && timerRunning) {
+  //         incrementStep()
+  //         sendNotification(
+  //           `${domain.name} ${t('register.notifications.ready')}`
+  //         )
+  //       }
+  //       setTimerRunning(false)
+  //     }
+  //   },
+  //   timerRunning ? 1000 : null
+  // )
+  // useInterval(
+  //   () => {
+  //     if (checkCommitment > 0) {
+  //       incrementStep()
+  //       setTimerRunning(true)
+  //       setCommitmentTimerRunning(false)
+  //     } else {
+  //       setCommitmentTimerRunning(new Date())
+  //     }
+  //   },
+  //   commitmentTimerRunning ? 1000 : null
+  // )
   const parsedYears = parseFloat(years)
   const duration = calculateDuration(years)
   const { data: { getRentPrice } = {}, loading: rentPriceLoading } = useQuery(
-    GET_RENT_PRICE,
-    {
-      variables: {
-        duration,
-        label: domain.label,
-        commitmentTimerRunning
-      }
-    }
+    GET_RENT_PRICE
   )
   let hasSufficientBalance
-  if (!blockCreatedAt && checkCommitment > 0) {
-    setBlockCreatedAt(checkCommitment * 1000)
-  }
+  // if (!blockCreatedAt && checkCommitment > 0) {
+  //   setBlockCreatedAt(checkCommitment * 1000)
+  // }
   if (getBalance && getRentPrice) {
     hasSufficientBalance = getBalance.gt(getRentPrice)
   }
-  if (blockCreatedAt && !waitUntil) {
-    setWaitUntil(blockCreatedAt + waitTime * 1000)
-  }
+  // if (blockCreatedAt && !waitUntil) {
+  //   setWaitUntil(blockCreatedAt + waitTime * 1000)
+  // }
 
   const oneMonthInSeconds = 2419200
   const twentyEightDaysInYears = oneMonthInSeconds / yearInSeconds
   const isAboveMinDuration = parsedYears > twentyEightDaysInYears
   const waitPercentComplete = (secondsPassed / waitTime) * 100
-
-  const expiryDate = moment(domain.expiryTime)
-  const releasedDate = expiryDate.clone().add(90, 'days')
-  const zeroPremiumDate = releasedDate.clone().add(28, 'days')
-  const startingPremiumInUsd = 2000
-  const diff = zeroPremiumDate.diff(releasedDate)
-  const rate = 2000 / diff
+  //
+  // const expiryDate = moment(domain.expiryTime)
+  // const releasedDate = expiryDate.clone().add(90, 'days')
+  // const zeroPremiumDate = releasedDate.clone().add(28, 'days')
+  // const startingPremiumInUsd = 2000
+  // const diff = zeroPremiumDate.diff(releasedDate)
+  // const rate = 2000 / diff
   if (!registrationOpen) return <NotAvailable domain={domain} />
   if (ethUsdPriceLoading || gasPriceLoading) return <></>
 
-  const getTargetAmountByDate = date => {
-    return zeroPremiumDate.diff(date) * rate
-  }
+  // const getTargetAmountByDate = date => {
+  //   return zeroPremiumDate.diff(date) * rate
+  // }
+  //
+  // const getTargetDateByAmount = amount => {
+  //   return zeroPremiumDate.clone().subtract(amount / rate / 1000, 'second')
+  // }
 
-  const getTargetDateByAmount = amount => {
-    return zeroPremiumDate.clone().subtract(amount / rate / 1000, 'second')
-  }
+  // if (!targetDate) {
+  //   setTargetDate(zeroPremiumDate)
+  //   setTargetPremium(getTargetAmountByDate(zeroPremiumDate))
+  // }
 
-  if (!targetDate) {
-    setTargetDate(zeroPremiumDate)
-    setTargetPremium(getTargetAmountByDate(zeroPremiumDate))
-  }
-
-  if (block) {
-    showPremiumWarning = now.isBetween(releasedDate, zeroPremiumDate)
-    currentPremium = getTargetAmountByDate(now)
-    currentPremiumInEth = currentPremium / ethUsdPrice
-    underPremium = now.isBetween(releasedDate, zeroPremiumDate)
-  }
+  // if (block) {
+  //   showPremiumWarning = now.isBetween(releasedDate, zeroPremiumDate)
+  //   currentPremium = getTargetAmountByDate(now)
+  //   currentPremiumInEth = currentPremium / ethUsdPrice
+  //   underPremium = now.isBetween(releasedDate, zeroPremiumDate)
+  // }
   const handleTooltip = tooltipItem => {
     let delimitedParsedValue = tooltipItem.yLabel
     if (targetPremium !== delimitedParsedValue) {
@@ -253,48 +246,48 @@ const NameRegister = ({
   }
   return (
     <NameRegisterContainer>
-      {step === 'PRICE_DECISION' && (
-        <Pricer
-          name={domain.label}
-          duration={duration}
-          years={years}
-          setYears={setYears}
-          ethUsdPriceLoading={ethUsdPriceLoading}
-          ethUsdPremiumPrice={currentPremium}
-          ethUsdPrice={ethUsdPrice}
-          gasPrice={gasPrice}
-          loading={rentPriceLoading}
-          price={getRentPrice}
-          underPremium={underPremium}
-          displayGas={true}
-        />
-      )}
-      {showPremiumWarning ? (
-        <PremiumWarning>
-          <h2>{t('register.premiumWarning.title')}</h2>
-          <p>{t('register.premiumWarning.description')} </p>
-          <LineGraph
-            startDate={releasedDate}
-            currentDate={now}
-            targetDate={targetDate}
-            endDate={zeroPremiumDate}
-            startPremium={startingPremiumInUsd}
-            currentPremiumInEth={currentPremiumInEth}
-            currentPremium={currentPremium}
-            targetPremium={targetPremium}
-            handleTooltip={handleTooltip}
-          />
-          <Premium
-            handlePremium={handlePremium}
-            targetPremium={targetPremium}
-            name={domain.name}
-            invalid={invalid}
-            targetDate={targetDate}
-          />
-        </PremiumWarning>
-      ) : (
-        ''
-      )}
+      {/*{step === 'PRICE_DECISION' && (*/}
+      <Pricer
+        name={domain.label}
+        duration={duration}
+        years={years}
+        setYears={setYears}
+        ethUsdPriceLoading={ethUsdPriceLoading}
+        ethUsdPremiumPrice={currentPremium}
+        ethUsdPrice={ethUsdPrice}
+        gasPrice={gasPrice}
+        loading={rentPriceLoading}
+        price={getRentPrice}
+        underPremium={underPremium}
+        displayGas={true}
+      />
+      {/*)}*/}
+      {/*{showPremiumWarning ? (*/}
+      {/*  <PremiumWarning>*/}
+      {/*    <h2>{t('register.premiumWarning.title')}</h2>*/}
+      {/*    <p>{t('register.premiumWarning.description')} </p>*/}
+      {/*    <LineGraph*/}
+      {/*      startDate={releasedDate}*/}
+      {/*      currentDate={now}*/}
+      {/*      targetDate={targetDate}*/}
+      {/*      endDate={zeroPremiumDate}*/}
+      {/*      startPremium={startingPremiumInUsd}*/}
+      {/*      currentPremiumInEth={currentPremiumInEth}*/}
+      {/*      currentPremium={currentPremium}*/}
+      {/*      targetPremium={targetPremium}*/}
+      {/*      handleTooltip={handleTooltip}*/}
+      {/*    />*/}
+      {/*    <Premium*/}
+      {/*      handlePremium={handlePremium}*/}
+      {/*      targetPremium={targetPremium}*/}
+      {/*      name={domain.name}*/}
+      {/*      invalid={invalid}*/}
+      {/*      targetDate={targetDate}*/}
+      {/*    />*/}
+      {/*  </PremiumWarning>*/}
+      {/*) : (*/}
+      {/*  ''*/}
+      {/*)}*/}
       <Explainer
         step={step}
         waitTime={waitTime}
@@ -330,14 +323,14 @@ const NameRegister = ({
 }
 
 const NameRegisterDataWrapper = props => {
-  const { data, loading, error } = useQuery(GET_MINIMUM_COMMITMENT_AGE)
-
-  if (loading) return <Loader withWrap={true} large />
-  if (error) {
-    console.log(error)
-  }
-  const { getMinimumCommitmentAge } = data
-  return <NameRegister waitTime={getMinimumCommitmentAge} {...props} />
+  // const { data, loading, error } = useQuery(GET_MINIMUM_COMMITMENT_AGE)
+  //
+  // if (loading) return <Loader withWrap={true} large />
+  // if (error) {
+  //   console.log(error)
+  // }
+  // const { getMinimumCommitmentAge } = data
+  return <NameRegister waitTime={100} {...props} />
 }
 
 export default NameRegisterDataWrapper

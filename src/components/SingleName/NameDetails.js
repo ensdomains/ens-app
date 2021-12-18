@@ -40,6 +40,7 @@ function NameDetails({
       name: domain.parent
     }
   })
+  debugger
   const isLoggedIn = parseInt(account) !== 0
   const isMigratedToNewRegistry = !loadingIsMigrated && isMigrated
   const isParentMigratedToNewRegistry = isParentMigrated
@@ -63,17 +64,17 @@ function NameDetails({
   const outOfSync = dnssecmode && dnssecmode.outOfSync
   const isAnAbsolutePath = pathname.split('/').length > 3
 
-  if (domain.parent === 'eth' && tab === 'register' && !isAnAbsolutePath) {
+  if (domain.parent === 'key' && tab === 'register' && !isAnAbsolutePath) {
     return <Redirect to={`${pathname}/register`} />
   } else if (
-    domain.parent === 'eth' &&
+    domain.parent === 'key' &&
     tab === 'details' &&
     !isAnAbsolutePath
   ) {
     return <Redirect to={`${pathname}/details`} />
-  } else if (domain.parent !== 'eth' && !isAnAbsolutePath) {
+  } else if (domain.parent !== 'key' && !isAnAbsolutePath) {
     //subdomain or dns
-    return <Redirect to={`${pathname}/subdomains`} />
+    // return <Redirect to={`${pathname}/subdomains`} />
   }
 
   return (

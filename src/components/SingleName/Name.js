@@ -30,15 +30,16 @@ const RightBar = styled('div')`
 const Favourite = styled(DefaultFavourite)``
 
 function isRegistrationOpen(available, parent, isDeedOwner) {
-  return parent === 'eth' && !isDeedOwner && available
+  return parent === 'key' && available
 }
 
 function isDNSRegistrationOpen(domain) {
-  const nameArray = domain.name?.split('.')
-  if (nameArray?.length !== 2 || nameArray?.[1] === 'eth') {
-    return false
-  }
-  return domain.isDNSRegistrar && domain.owner === EMPTY_ADDRESS
+  // const nameArray = domain.name?.split('.')
+  // if (nameArray?.length !== 2 || nameArray?.[1] === 'key') {
+  //   return false
+  // }
+  // return domain.isDNSRegistrar && domain.owner === EMPTY_ADDRESS
+  return false
 }
 
 function isOwnerOfDomain(domain, account) {
@@ -88,11 +89,7 @@ function Name({ details: domain, name, pathname, type, refetch }) {
   const isDeedOwner = domain.deedOwner === account
   const isRegistrant = !domain.available && domain.registrant === account
 
-  const registrationOpen = isRegistrationOpen(
-    domain.available,
-    domain.parent,
-    isDeedOwner
-  )
+  const registrationOpen = isRegistrationOpen(domain.available, domain.parent)
   const preferredTab = registrationOpen ? 'register' : 'details'
 
   let ownerType,

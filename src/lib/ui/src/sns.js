@@ -54,7 +54,7 @@ const contracts = {
     registry: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'
   },
   137: {
-    registry: '0x23764364fb8db7257a36E053B780Ff33D0622b92'
+    registry: '0x69F5B757e5699e00F2f5e27b9217a27C3bD5eF13'
   }
 }
 
@@ -160,6 +160,40 @@ export class SNS {
   //Get resolverOwner address
   async getResolverOwner(name) {
     return await this.SNS.getResolverOwner(name)
+  }
+
+  async getDomainDetails(name) {
+    const nameArray = name.split('.')
+    const labelhash = getLabelhash(nameArray[0])
+    const [owner, resolver] = await Promise.all([
+      this.getResolverOwner(name),
+      this.getResolverAddress(name)
+    ])
+    const node = {
+      name,
+      label: nameArray[0],
+      labelhash,
+      owner,
+      resolver
+    }
+
+    // const hasResolver = parseInt(node.resolver, 16) !== 0
+
+    // if (hasResolver) {
+    //   return this.getResolverDetails(node)
+    // }
+
+    return {
+      ...node,
+      addr: null,
+      content: null
+    }
+  }
+
+  // TODO Get current registration pricing
+  async getRegisteredPrice() {
+    // return await this.SNS.getRegisteredPrice()
+    return 10
   }
 
   // Events

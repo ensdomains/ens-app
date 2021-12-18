@@ -160,20 +160,20 @@ const Domain = ({
       </DomainContainer>
     )
   }
-  const nameArray = domain.name.split('.')
+  // const nameArray = domain.name.split('.')
   const account = useAccount()
   let isOwner = false
-  if (!domain.available && domain.owner && parseInt(domain.owner, 16) !== 0) {
-    isOwner =
-      account &&
-      domain.owner &&
-      domain.owner.toLowerCase() === account.toLowerCase()
-  }
+  // if (!domain.available && domain.owner && parseInt(domain.owner, 16) !== 0) {
+  //   isOwner =
+  //     account &&
+  //     domain.owner &&
+  //     domain.owner.toLowerCase() === account.toLowerCase()
+  // }
   const percentDone = 0
-  let expiryDate = domain.expiryDate
-  if (domain.expiryTime) {
-    expiryDate = parseInt(domain.expiryTime.getTime() / 1000)
-  }
+  // let expiryDate = domain.expiryDate
+  // if (domain.expiryTime) {
+  //   expiryDate = parseInt(domain.expiryTime.getTime() / 1000)
+  // }
   return (
     <DomainContainer
       to={`/name/${domain.name}`}
@@ -185,7 +185,7 @@ const Domain = ({
       <DomainName state={isOwner ? 'Yours' : domain.state}>
         {humaniseName(domain.name)}
       </DomainName>
-      <ExpiryDate expiryDate={expiryDate} name={domain.name} />
+      {/*<ExpiryDate expiryDate={expiryDate} name={domain.name} />*/}
       <Label domain={domain} isOwner={isOwner} />
       <RightContainer>
         <AddFavourite
@@ -195,27 +195,25 @@ const Domain = ({
         />
       </RightContainer>
       <RightContainer>
-        {expiryDate && (
-          <CheckBoxContainer>
-            <Checkbox
-              testid={`checkbox-${domain.name}`}
-              checked={checkedBoxes[domain.name]}
-              onClick={e => {
-                e.preventDefault()
-                setCheckedBoxes &&
-                  setCheckedBoxes(prevState => {
-                    return {
-                      ...prevState,
-                      [domain.name]: !prevState[domain.name]
-                    }
-                  })
-                if (checkedBoxes[domain.name]) {
-                  setSelectAll(false)
-                }
-              }}
-            />
-          </CheckBoxContainer>
-        )}
+        <CheckBoxContainer>
+          <Checkbox
+            testid={`checkbox-${domain.name}`}
+            checked={checkedBoxes[domain.name]}
+            onClick={e => {
+              e.preventDefault()
+              setCheckedBoxes &&
+                setCheckedBoxes(prevState => {
+                  return {
+                    ...prevState,
+                    [domain.name]: !prevState[domain.name]
+                  }
+                })
+              if (checkedBoxes[domain.name]) {
+                setSelectAll(false)
+              }
+            }}
+          />
+        </CheckBoxContainer>
       </RightContainer>
     </DomainContainer>
   )
