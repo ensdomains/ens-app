@@ -148,6 +148,13 @@ export class SNS {
     return await this.SNS.mint(name)
   }
 
+  // TODO sns name transfer
+  async transfer(name, address) {
+    const signer = await getSigner()
+    const SNS = this.SNS.connect(signer)
+    return SNS.transfer(name, address)
+  }
+
   //Get the registered SNSName by address
   async getSNSName(address) {
     return await this.SNS.getSNSName(address)
@@ -171,17 +178,17 @@ export class SNS {
   }
 
   async getDomainDetails(name) {
-    const nameArray = name.split('.')
-    const labelhash = getLabelhash(nameArray[0])
+    const handleName = name.split('.key')[0]
+    const labelhash = getLabelhash(handleName)
     const signer = await getSigner()
     const SNS = this.SNS.connect(signer)
     const [owner, resolver] = await Promise.all([
-      SNS.getResolverOwner(name),
-      SNS.getResolverAddress(name)
+      SNS.getResolverOwner(handleName),
+      SNS.getResolverAddress(handleName)
     ])
     const node = {
       name,
-      label: nameArray[0],
+      label: handleName,
       labelhash,
       owner,
       resolver

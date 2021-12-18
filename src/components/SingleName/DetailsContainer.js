@@ -200,17 +200,12 @@ function DetailsContainer({
   loadingIsParentMigrated
 }) {
   const { t } = useTranslation()
-  /**
-   * TODO If no expiration time is returned, the expiration time is defined as 1000 years later
-   * @type {boolean}
-   */
 
-  const isExpired = domain.expiryTime < new Date()
+  const isExpired = false
   const domainOwner =
     domain.available || domain.owner === '0x0' ? null : domain.owner
   const registrant =
     domain.available || domain.registrant === '0x0' ? null : domain.registrant
-
   const domainParent =
     domain.name === '[root]' ? null : domain.parent ? domain.parent : '[root]'
 
@@ -218,7 +213,7 @@ function DetailsContainer({
   const showUnclaimableWarning =
     is2ld &&
     parseInt(domain.owner) === 0 &&
-    domain.parent !== 'eth' &&
+    domain.parent !== 'key' &&
     !domain.isDNSRegistrar
 
   return (
@@ -263,148 +258,179 @@ function DetailsContainer({
         </GracePeriodWarningContainer>
       )}
       <OwnerFields outOfSync={outOfSync}>
-        {domain.parent === 'eth' && domain.isNewRegistrar ? (
-          <>
-            <DetailsItemEditable
-              domain={domain}
-              keyName="registrant"
-              value={registrant}
-              canEdit={isRegistrant && !isExpired}
-              isExpiredRegistrant={isRegistrant && isExpired}
-              type="address"
-              editButton={t('c.transfer')}
-              mutationButton={t('c.transfer')}
-              mutation={SET_REGISTRANT}
-              refetch={refetch}
-              confirm={true}
-              copyToClipboard={true}
-            />
-            <DetailsItemEditable
-              domain={domain}
-              keyName="Controller"
-              value={domainOwner}
-              canEdit={isRegistrant || (isOwner && isMigratedToNewRegistry)}
-              deedOwner={domain.deedOwner}
-              isDeedOwner={isDeedOwner}
-              type="address"
-              editButton={isRegistrant ? t('c.set') : t('c.transfer')}
-              mutationButton={isRegistrant ? t('c.set') : t('c.transfer')}
-              mutation={isRegistrant ? RECLAIM : SET_OWNER}
-              refetch={refetch}
-              confirm={true}
-              copyToClipboard={true}
-            />
-          </>
-        ) : domain.parent === 'eth' && !domain.isNewRegistrar ? (
-          <>
-            <DetailsItem uneditable>
-              <DetailsKey>{t('c.registrant')}</DetailsKey>
-              <DetailsValue>
-                <AddressLink address={domain.deedOwner}>
-                  <SingleNameBlockies
-                    address={domain.deedOwner}
-                    imageSize={24}
-                  />
-                  {domain.deedOwner}
-                </AddressLink>
-              </DetailsValue>
-            </DetailsItem>
-            <DetailsItemEditable
-              domain={domain}
-              keyName="Controller"
-              value={domain.owner}
-              canEdit={isRegistrant || (isOwner && isMigratedToNewRegistry)}
-              deedOwner={domain.deedOwner}
-              isDeedOwner={isDeedOwner}
-              type="address"
-              editButton={isRegistrant ? t('c.set') : t('c.transfer')}
-              mutationButton={isRegistrant ? t('c.set') : t('c.transfer')}
-              mutation={isRegistrant ? RECLAIM : SET_OWNER}
-              refetch={refetch}
-              confirm={true}
-              copyToClipboard={true}
-            />
-          </>
-        ) : domain.isDNSRegistrar ? (
-          <DetailsItem uneditable>
-            <DetailsKey>
-              {t('c.Controller')} {isOwner ? <You /> : ''}
-            </DetailsKey>
-            <DetailsValue>
-              <AddressLink address={domain.owner}>
-                {outOfSync ? (
-                  <SingleNameBlockies
-                    address={domain.owner}
-                    imageSize={24}
-                    color={'#E1E1E1'}
-                    bgcolor={'#FFFFFF'}
-                    spotcolor={'#CFCFCF'}
-                  />
-                ) : (
-                  <SingleNameBlockies address={domain.owner} imageSize={24} />
-                )}
-                <DomainOwnerAddress outOfSync={outOfSync}>
-                  {domain.owner}
-                </DomainOwnerAddress>
-              </AddressLink>
-            </DetailsValue>
-            <ButtonContainer outOfSync={outOfSync}>
-              {canSubmit ? (
-                <SubmitProof
-                  name={domain.name}
-                  parentOwner={domain.parentOwner}
-                  refetch={refetch}
-                  actionText={t('c.sync')}
-                />
-              ) : (
-                <Tooltip
-                  text={t(
-                    'singleName.tooltips.detailsItem.ControllerAndDnsAlreadySync'
-                  )}
-                  position="left"
-                  border={true}
-                  warning={true}
-                  offset={{ left: -30, top: 10 }}
-                >
-                  {({ tooltipElement, showTooltip, hideTooltip }) => {
-                    return (
-                      <Button
-                        onMouseOver={() => {
-                          showTooltip()
-                        }}
-                        onMouseLeave={() => {
-                          hideTooltip()
-                        }}
-                        type="disabled"
-                      >
-                        {t('c.sync')}
-                        {tooltipElement}
-                      </Button>
-                    )
-                  }}
-                </Tooltip>
-              )}
-            </ButtonContainer>
-          </DetailsItem>
-        ) : (
-          // Either subdomain, or .test
+        <>
           <DetailsItemEditable
             domain={domain}
-            keyName="Controller"
-            value={domain.owner}
-            canEdit={(isOwner || isOwnerOfParent) && isMigratedToNewRegistry}
-            deedOwner={domain.deedOwner}
-            isDeedOwner={isDeedOwner}
-            outOfSync={outOfSync}
+            keyName="registrant"
+            value={registrant}
+            canEdit={isRegistrant && !isExpired}
+            isExpiredRegistrant={isRegistrant && isExpired}
             type="address"
-            editButton={isOwnerOfParent ? t('c.set') : t('c.transfer')}
-            mutationButton={isOwnerOfParent ? t('c.set') : t('c.transfer')}
-            mutation={isOwnerOfParent ? SET_SUBNODE_OWNER : SET_OWNER}
+            editButton={t('c.transfer')}
+            mutationButton={t('c.transfer')}
+            mutation={SET_REGISTRANT}
             refetch={refetch}
             confirm={true}
             copyToClipboard={true}
           />
-        )}
+          {/*<DetailsItemEditable*/}
+          {/*  domain={domain}*/}
+          {/*  keyName="Controller"*/}
+          {/*  value={domainOwner}*/}
+          {/*  canEdit={isRegistrant || (isOwner && isMigratedToNewRegistry)}*/}
+          {/*  deedOwner={domain.deedOwner}*/}
+          {/*  isDeedOwner={isDeedOwner}*/}
+          {/*  type="address"*/}
+          {/*  editButton={isRegistrant ? t('c.set') : t('c.transfer')}*/}
+          {/*  mutationButton={isRegistrant ? t('c.set') : t('c.transfer')}*/}
+          {/*  mutation={isRegistrant ? RECLAIM : SET_OWNER}*/}
+          {/*  refetch={refetch}*/}
+          {/*  confirm={true}*/}
+          {/*  copyToClipboard={true}*/}
+          {/*/>*/}
+        </>
+        {/*{domain.parent === 'key' && domain.isNewRegistrar ? (*/}
+        {/*  <>*/}
+        {/*    <DetailsItemEditable*/}
+        {/*      domain={domain}*/}
+        {/*      keyName="registrant"*/}
+        {/*      value={registrant}*/}
+        {/*      canEdit={isRegistrant && !isExpired}*/}
+        {/*      isExpiredRegistrant={isRegistrant && isExpired}*/}
+        {/*      type="address"*/}
+        {/*      editButton={t('c.transfer')}*/}
+        {/*      mutationButton={t('c.transfer')}*/}
+        {/*      mutation={SET_REGISTRANT}*/}
+        {/*      refetch={refetch}*/}
+        {/*      confirm={true}*/}
+        {/*      copyToClipboard={true}*/}
+        {/*    />*/}
+        {/*    <DetailsItemEditable*/}
+        {/*      domain={domain}*/}
+        {/*      keyName="Controller"*/}
+        {/*      value={domainOwner}*/}
+        {/*      canEdit={isRegistrant || (isOwner && isMigratedToNewRegistry)}*/}
+        {/*      deedOwner={domain.deedOwner}*/}
+        {/*      isDeedOwner={isDeedOwner}*/}
+        {/*      type="address"*/}
+        {/*      editButton={isRegistrant ? t('c.set') : t('c.transfer')}*/}
+        {/*      mutationButton={isRegistrant ? t('c.set') : t('c.transfer')}*/}
+        {/*      mutation={isRegistrant ? RECLAIM : SET_OWNER}*/}
+        {/*      refetch={refetch}*/}
+        {/*      confirm={true}*/}
+        {/*      copyToClipboard={true}*/}
+        {/*    />*/}
+        {/*  </>*/}
+        {/*) : domain.parent === 'key' && !domain.isNewRegistrar ? (*/}
+        {/*  <>*/}
+        {/*    <DetailsItem uneditable>*/}
+        {/*      <DetailsKey>{t('c.registrant')}</DetailsKey>*/}
+        {/*      <DetailsValue>*/}
+        {/*        <AddressLink address={domain.deedOwner}>*/}
+        {/*          <SingleNameBlockies*/}
+        {/*            address={domain.deedOwner}*/}
+        {/*            imageSize={24}*/}
+        {/*          />*/}
+        {/*          {domain.deedOwner}*/}
+        {/*        </AddressLink>*/}
+        {/*      </DetailsValue>*/}
+        {/*    </DetailsItem>*/}
+        {/*    <DetailsItemEditable*/}
+        {/*      domain={domain}*/}
+        {/*      keyName="Controller"*/}
+        {/*      value={domain.owner}*/}
+        {/*      canEdit={isRegistrant || (isOwner && isMigratedToNewRegistry)}*/}
+        {/*      deedOwner={domain.deedOwner}*/}
+        {/*      isDeedOwner={isDeedOwner}*/}
+        {/*      type="address"*/}
+        {/*      editButton={isRegistrant ? t('c.set') : t('c.transfer')}*/}
+        {/*      mutationButton={isRegistrant ? t('c.set') : t('c.transfer')}*/}
+        {/*      mutation={isRegistrant ? RECLAIM : SET_OWNER}*/}
+        {/*      refetch={refetch}*/}
+        {/*      confirm={true}*/}
+        {/*      copyToClipboard={true}*/}
+        {/*    />*/}
+        {/*  </>*/}
+        {/*) : domain.isDNSRegistrar ? (*/}
+        {/*  <DetailsItem uneditable>*/}
+        {/*    <DetailsKey>*/}
+        {/*      {t('c.Controller')} {isOwner ? <You /> : ''}*/}
+        {/*    </DetailsKey>*/}
+        {/*    <DetailsValue>*/}
+        {/*      <AddressLink address={domain.owner}>*/}
+        {/*        {outOfSync ? (*/}
+        {/*          <SingleNameBlockies*/}
+        {/*            address={domain.owner}*/}
+        {/*            imageSize={24}*/}
+        {/*            color={'#E1E1E1'}*/}
+        {/*            bgcolor={'#FFFFFF'}*/}
+        {/*            spotcolor={'#CFCFCF'}*/}
+        {/*          />*/}
+        {/*        ) : (*/}
+        {/*          <SingleNameBlockies address={domain.owner} imageSize={24} />*/}
+        {/*        )}*/}
+        {/*        <DomainOwnerAddress outOfSync={outOfSync}>*/}
+        {/*          {domain.owner}*/}
+        {/*        </DomainOwnerAddress>*/}
+        {/*      </AddressLink>*/}
+        {/*    </DetailsValue>*/}
+        {/*    <ButtonContainer outOfSync={outOfSync}>*/}
+        {/*      {canSubmit ? (*/}
+        {/*        <SubmitProof*/}
+        {/*          name={domain.name}*/}
+        {/*          parentOwner={domain.parentOwner}*/}
+        {/*          refetch={refetch}*/}
+        {/*          actionText={t('c.sync')}*/}
+        {/*        />*/}
+        {/*      ) : (*/}
+        {/*        <Tooltip*/}
+        {/*          text={t(*/}
+        {/*            'singleName.tooltips.detailsItem.ControllerAndDnsAlreadySync'*/}
+        {/*          )}*/}
+        {/*          position="left"*/}
+        {/*          border={true}*/}
+        {/*          warning={true}*/}
+        {/*          offset={{ left: -30, top: 10 }}*/}
+        {/*        >*/}
+        {/*          {({ tooltipElement, showTooltip, hideTooltip }) => {*/}
+        {/*            return (*/}
+        {/*              <Button*/}
+        {/*                onMouseOver={() => {*/}
+        {/*                  showTooltip()*/}
+        {/*                }}*/}
+        {/*                onMouseLeave={() => {*/}
+        {/*                  hideTooltip()*/}
+        {/*                }}*/}
+        {/*                type="disabled"*/}
+        {/*              >*/}
+        {/*                {t('c.sync')}*/}
+        {/*                {tooltipElement}*/}
+        {/*              </Button>*/}
+        {/*            )*/}
+        {/*          }}*/}
+        {/*        </Tooltip>*/}
+        {/*      )}*/}
+        {/*    </ButtonContainer>*/}
+        {/*  </DetailsItem>*/}
+        {/*) : (*/}
+        {/*  // Either subdomain, or .test*/}
+        {/*  <DetailsItemEditable*/}
+        {/*    domain={domain}*/}
+        {/*    keyName="Controller"*/}
+        {/*    value={domain.owner}*/}
+        {/*    canEdit={(isOwner || isOwnerOfParent) && isMigratedToNewRegistry}*/}
+        {/*    deedOwner={domain.deedOwner}*/}
+        {/*    isDeedOwner={isDeedOwner}*/}
+        {/*    outOfSync={outOfSync}*/}
+        {/*    type="address"*/}
+        {/*    editButton={isOwnerOfParent ? t('c.set') : t('c.transfer')}*/}
+        {/*    mutationButton={isOwnerOfParent ? t('c.set') : t('c.transfer')}*/}
+        {/*    mutation={isOwnerOfParent ? SET_SUBNODE_OWNER : SET_OWNER}*/}
+        {/*    refetch={refetch}*/}
+        {/*    confirm={true}*/}
+        {/*    copyToClipboard={true}*/}
+        {/*  />*/}
+        {/*)}*/}
         {/* To be replaced with a logic a function to detect dnsregistrar */}
         {domain.isDNSRegistrar ? (
           <>
