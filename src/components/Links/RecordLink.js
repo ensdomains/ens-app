@@ -90,7 +90,12 @@ const RecordLink = ({ textKey, value, name }) => {
 
   return url && !isEmpty ? (
     <LinkContainer>
-      <a target="_blank" href={url} rel="noopener noreferrer">
+      <a
+        target="_blank"
+        href={url}
+        rel="noopener noreferrer"
+        aria-label={textKey}
+      >
         {value}
         <img
           src={externalLinkSvg}
@@ -108,6 +113,7 @@ const RecordLink = ({ textKey, value, name }) => {
           target="_blank"
           href={host_meta?.reference_url}
           rel="noopener noreferrer"
+          aria-label={textKey}
         >
           {value}
           <img
@@ -127,7 +133,11 @@ const RecordLink = ({ textKey, value, name }) => {
         <NotSet>Not set</NotSet>
       ) : (
         <>
-          <UnlinkedValue data-testid={`unlinked-value-${textKey}`}>
+          <UnlinkedValue
+            data-testid={`unlinked-value-${textKey}`}
+            tabIndex={0}
+            aria-label={textKey}
+          >
             {value}
           </UnlinkedValue>
           <CopyToClipboard value={value} />

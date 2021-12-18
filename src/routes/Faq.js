@@ -92,8 +92,8 @@ function Faq() {
           (e.g. matoken.eth.link or matoken.eth.limo).
           <br />
           If you want to redirect your ENS name to an existing website, you
-          could write a html file containing JavaScript logic to redirect to your
-          website, upload the file into ipfs using services like{' '}
+          could write a html file containing JavaScript logic to redirect to
+          your website, upload the file into ipfs using services like{' '}
           <a href="https://pinata.cloud/">IPFS Pinata</a>, then set the CID to
           your contenthash. See the source code of depositcontract.eth.link as
           an example.
@@ -279,6 +279,15 @@ function Faq() {
           a temporary premium which decreases over a 28 days period. The
           released name continues to resolve your ETH address until the new
           owner overwrites it.
+        </Section>
+
+        <Section question="Where can I see the list of names to be released">
+          You can see the list at the "ENS Names to be released" section of{' '}
+          <a href="https://dune.xyz/makoto/ens-released-to-be-released-names">
+            {' '}
+            the Dune Analytics dashboard
+          </a>{' '}
+          .
         </Section>
 
         <Section question="I lost access to the Ethereum account that owns a name I registered. Can I still extend its registration period?">

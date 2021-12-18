@@ -9,8 +9,12 @@ const AddressLinkContainer = styled(Link)`
   font-family: Overpass Mono;
 `
 
-const AddressLink = ({ children, address, className }) => (
-  <AddressLinkContainer to={`/address/${address}`} className={className}>
+const AddressLink = ({ children, address, className, ariaLabel }) => (
+  <AddressLinkContainer
+    to={`/address/${address}`}
+    className={className}
+    aria-label={ariaLabel}
+  >
     {children}
   </AddressLinkContainer>
 )

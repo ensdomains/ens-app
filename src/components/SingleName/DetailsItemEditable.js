@@ -292,7 +292,7 @@ function getInputType(
   return (
     <Input
       value={newValue}
-      onChange={e => updateValue(e.target.value)}
+      onChange={e => updateValue(e.target.value.trim())}
       valid={isValid}
       invalid={isInvalid}
       placeholder={keyName === 'Resolver' ? placeholder : ''}
@@ -453,7 +453,7 @@ const Editable = ({
               expiryDate={type === 'date'}
             >
               {type === 'address' ? (
-                <AddressLink address={value}>
+                <AddressLink address={value} ariaLabel={t(`c.${keyName}`)}>
                   <SingleNameBlockies address={value} imageSize={24} />
                   {keyName === 'Resolver' &&
                   domain.contentType === 'oldcontent' ? (
@@ -481,7 +481,12 @@ const Editable = ({
                 </AddressLink>
               ) : type === 'date' ? (
                 <>
-                  <ExpiryDate>{formatDate(value)}</ExpiryDate>
+                  <ExpiryDate
+                    tabIndex={0}
+                    aria-label={`${t(`c.${keyName}`)}${formatDate(value)}`}
+                  >
+                    {formatDate(value)}
+                  </ExpiryDate>
                   <AddToCalendar
                     css={css`
                       margin-right: 20px;
@@ -714,7 +719,7 @@ function ViewOnly({
         <DetailsKey>{t(`c.${keyName}`)}</DetailsKey>
         <DetailsValue data-testid={`details-value-${keyName.toLowerCase()}`}>
           {type === 'address' ? (
-            <AddressLink address={value}>
+            <AddressLink address={value} ariaLabel={t(`c.${keyName}`)}>
               <SingleNameBlockies address={value} imageSize={24} />
               {value}
             </AddressLink>

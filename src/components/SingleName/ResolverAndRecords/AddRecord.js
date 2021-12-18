@@ -289,6 +289,7 @@ function Editable({
               <DetailsItemInput
                 newValue={newValue || ''}
                 dataType={selectedRecord ? selectedRecord.value : null}
+                contentType={selectedKey?.label}
                 updateValue={updateValue}
                 isValid={isValid && !isValidating}
                 isInvalid={!isValid && !isValidating}
