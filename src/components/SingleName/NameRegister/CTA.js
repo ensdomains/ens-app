@@ -45,6 +45,7 @@ const LeftLink = styled(Link)`
 `
 
 function getCTA({
+  name,
   step,
   incrementStep,
   secret,
@@ -71,7 +72,7 @@ function getCTA({
     PRICE_DECISION: (
       <Mutation
         mutation={COMMIT}
-        variables={{ label, secret, commitmentTimerRunning }}
+        variables={{ name }}
         onCompleted={data => {
           const txHash = Object.values(data)[0]
           setTxHash(txHash)
@@ -231,6 +232,7 @@ function getCTA({
 }
 
 const CTA = ({
+  name,
   step,
   incrementStep,
   secret,
@@ -266,6 +268,7 @@ const CTA = ({
   return (
     <CTAContainer>
       {getCTA({
+        name,
         step,
         incrementStep,
         secret,

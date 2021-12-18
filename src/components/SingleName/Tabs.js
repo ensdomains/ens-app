@@ -65,7 +65,7 @@ const Tabs = ({ domain, pathname, parent, tab }) => {
   return (
     (state !== 'Auction' || state !== 'Reveal') && (
       <TabContainer>
-        {parent === 'eth' && (
+        {parent === 'key' && (
           <TabLink
             active={
               (tab === 'register' || pathname === `/name/${name}/register`) &&
