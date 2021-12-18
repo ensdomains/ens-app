@@ -54,7 +54,7 @@ const contracts = {
     registry: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'
   },
   137: {
-    registry: '0x69F5B757e5699e00F2f5e27b9217a27C3bD5eF13'
+    registry: '0x98c3516973f7312A754382c400c696B8ABc67B3B'
   }
 }
 
@@ -99,6 +99,9 @@ export class SNS {
   // }
 
   async isOverDeadline() {
+    const SNSWithoutSigner = this.SNS
+    const signer = await getSigner()
+    const SNS = SNSWithoutSigner.connect(signer)
     return await this.SNS.isOverDeadline()
   }
 
@@ -118,17 +121,20 @@ export class SNS {
   }
 
   //registry
-  async registry(address, name) {
-    var flag = false
+  async registry(name) {
+    const signer = await getSigner()
+    const SNS = this.SNS.connect(signer)
+    const account = await getAccount()
+    let flag = false
     flag =
-      isOverDeadline() &&
-      getWhitelist(address) &&
-      getTokenMintedExpManager() <= 10000
+      SNS.isOverDeadline() &&
+      SNS.getWhitelist(account) &&
+      (await SNS.getTokenMintedExpManager()) <= 10000
     if (flag) {
-      return await this.freeMint(name)
+      return await SNS.freeMint(name)
     } else {
       //todo set value
-      return await this.mint(name)
+      return await SNS.mint(name)
     }
   }
 
@@ -152,9 +158,11 @@ export class SNS {
     return await this.SNS.getResolverAddress(name)
   }
 
-  //Set the resolver address
+  // TODO Set the resolver address
   async setResolverInfo(name, address) {
-    return await this.SNS.setResolverInfo(name)
+    const signer = await getSigner()
+    const SNS = this.SNS.connect(signer)
+    return SNS.setResolverInfo(name)
   }
 
   //Get resolverOwner address
@@ -165,9 +173,11 @@ export class SNS {
   async getDomainDetails(name) {
     const nameArray = name.split('.')
     const labelhash = getLabelhash(nameArray[0])
+    const signer = await getSigner()
+    const SNS = this.SNS.connect(signer)
     const [owner, resolver] = await Promise.all([
-      this.getResolverOwner(name),
-      this.getResolverAddress(name)
+      SNS.getResolverOwner(name),
+      SNS.getResolverAddress(name)
     ])
     const node = {
       name,

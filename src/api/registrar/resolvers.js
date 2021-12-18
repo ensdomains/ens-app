@@ -56,9 +56,9 @@ const resolvers = {
     }
   },
   Mutation: {
-    async commit(_, { label, secret }) {
+    async commit(_, { label }) {
       const sns = getSNS()
-      const tx = await sns.mint(label, secret)
+      const tx = await sns.registry(label)
       return sendHelper(tx)
     },
     async register(_, { label, duration, secret }) {

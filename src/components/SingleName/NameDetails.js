@@ -40,7 +40,6 @@ function NameDetails({
       name: domain.parent
     }
   })
-  debugger
   const isLoggedIn = parseInt(account) !== 0
   const isMigratedToNewRegistry = !loadingIsMigrated && isMigrated
   const isParentMigratedToNewRegistry = isParentMigrated

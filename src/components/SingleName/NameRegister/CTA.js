@@ -67,11 +67,12 @@ function getCTA({
   ethUsdPrice,
   account
 }) {
+  debugger
   const CTAs = {
     PRICE_DECISION: (
       <Mutation
         mutation={COMMIT}
-        variables={{ label, secret, commitmentTimerRunning }}
+        variables={{ label }}
         onCompleted={data => {
           const txHash = Object.values(data)[0]
           setTxHash(txHash)

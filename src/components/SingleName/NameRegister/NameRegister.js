@@ -245,22 +245,23 @@ const NameRegister = ({
     }
   }
   return (
+    // TODO Next release development price estimate
     <NameRegisterContainer>
       {/*{step === 'PRICE_DECISION' && (*/}
-      <Pricer
-        name={domain.label}
-        duration={duration}
-        years={years}
-        setYears={setYears}
-        ethUsdPriceLoading={ethUsdPriceLoading}
-        ethUsdPremiumPrice={currentPremium}
-        ethUsdPrice={ethUsdPrice}
-        gasPrice={gasPrice}
-        loading={rentPriceLoading}
-        price={getRentPrice}
-        underPremium={underPremium}
-        displayGas={true}
-      />
+      {/*<Pricer*/}
+      {/*  name={domain.label}*/}
+      {/*  duration={duration}*/}
+      {/*  years={years}*/}
+      {/*  setYears={setYears}*/}
+      {/*  ethUsdPriceLoading={ethUsdPriceLoading}*/}
+      {/*  ethUsdPremiumPrice={currentPremium}*/}
+      {/*  ethUsdPrice={ethUsdPrice}*/}
+      {/*  gasPrice={gasPrice}*/}
+      {/*  loading={rentPriceLoading}*/}
+      {/*  price={getRentPrice}*/}
+      {/*  underPremium={underPremium}*/}
+      {/*  displayGas={true}*/}
+      {/*/>*/}
       {/*)}*/}
       {/*{showPremiumWarning ? (*/}
       {/*  <PremiumWarning>*/}
