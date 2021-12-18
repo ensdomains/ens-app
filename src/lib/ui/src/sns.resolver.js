@@ -41,7 +41,7 @@ const contracts = {
     registry: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'
   },
   137: {
-    registry: '0x01625719fe33e919da1cd4860388a789068ccf49'
+    registry: '0x233c8743D8C5f1BAE38AA88aE00c4727d3F85e62'
   }
 }
 
@@ -203,7 +203,6 @@ export class SNSResolver {
 }
 
 export async function setupSNSResolver({ provider, networkId, sns }) {
-  debugger
   const snsName = await sns.getSNSName(getAccount())
   if (snsName) {
     const resolverAddress = await sns.getResolverAddress(snsName)

@@ -44,6 +44,7 @@ import getSNS, { getSnsResolver } from 'apollo/mutations/sns'
 import { isENSReadyReactive, namesReactive } from '../../apollo/reactiveVars'
 import getReverseRecord from './getReverseRecord'
 import { isEmptyAddress } from '../../utils/records'
+import { getAccount } from '@ensdomains/ui'
 
 const defaults = {
   names: []
@@ -229,14 +230,14 @@ async function getRegistrarEntry(name) {
 }
 
 async function getParent(name) {
-  const ens = getENS()
+  const ens = getSNS()
   const nameArray = name.split('.')
   if (nameArray.length < 1) {
     return [null, null]
   }
   nameArray.shift()
   const parent = nameArray.join('.')
-  const parentOwner = await ens.getOwner(parent)
+  const parentOwner = await ens.getResolverOwner(parent)
   return [parent, parentOwner]
 }
 
@@ -330,11 +331,11 @@ async function getTestEntry(name) {
 }
 
 function adjustForShortNames(node) {
-  const nameArray = node.name.split('.')
-  const { label, parent } = node
+  // const nameArray = node.name.split('.')
+  // const { label, parent } = node
 
   // return original node if is subdomain or not eth
-  if (nameArray.length > 2 || parent !== 'key' || label.length > 6) return node
+  // if (nameArray.length > 2 || parent !== 'key' || label.length > 6) return node
 
   //if the auctions are over
   // if (new Date() > new Date(1570924800000)) {
@@ -356,12 +357,14 @@ function adjustForShortNames(node) {
   //   onAuction = false
   // }
 
-  return {
-    ...node
-    // auctionEnds,
-    // onAuction,
-    // state: onAuction ? 'Auction' : node.state
-  }
+  // return {
+  //   ...node
+  //   // auctionEnds,
+  //   // onAuction,
+  //   // state: onAuction ? 'Auction' : node.state
+  // }
+
+  return node
 }
 
 const resolvers = {
@@ -415,12 +418,14 @@ const resolvers = {
             registrant: null,
             auctionEnds: null
           }
-        debugger
         const ens = getSNS()
         let snsResolver = {}
+        let snsResolverIsNull = true
         // TODO Check whether there is a SNS address, if there is no execute, if there is execute get all attributes
-        if (await ens.getResolverAddress(name)) {
+
+        if ((await ens.getResolverAddress(name)) !== emptyAddress) {
           snsResolver = getSnsResolver()
+          snsResolverIsNull = false
         }
         const decrypted = isDecrypted(name)
 
@@ -451,29 +456,42 @@ const resolvers = {
           registrant: null,
           auctionEnds: null // remove when auction is over
         }
+        const nameArray = name.split('.')
+        let element = nameArray[0]
+        if (element) {
+          node.name = element
+        }
+        let resolverOwner = await ens.getResolverOwner(name)
+
+        if (resolverOwner !== emptyAddress) {
+          node.state = 'Open'
+          node.available = false
+        } else {
+          node.state = 'Owned'
+          node.available = true
+        }
 
         const dataSources = [
           // getRegistrarEntry(name),
-          // ens.getDomainDetails(name),
-          // getParent(name),
+          await ens.getDomainDetails(name),
+          await getParent(name),
           // getDNSEntryDetails(name),
           // getTestEntry(name),
-          // getRegistrant(name)
-          snsResolver.getEthAddress(name)
-          // snsResolver.getAllProperties(name),
-          // ens.getResolverAddress(name)
+          // getRegistrant(name),
+          snsResolverIsNull ? {} : await snsResolver.getAllProperties(name),
+          await ens.isOverDeadline(),
+          await ens.getResolverAddress(name)
         ]
-
         const [
           // registrarEntry,
-          // domainDetails,
-          // [parent, parentOwner],
+          domainDetails,
+          [parent, parentOwner],
           // dnsEntry,
           // testEntry,
           // registrant
-          EthAddress
-          // allProperties,
-          // resolverAddress
+          allProperties,
+          isOverDeadline,
+          resolverAddress
         ] = await Promise.all(dataSources)
 
         const names = namesReactive()
@@ -481,7 +499,7 @@ const resolvers = {
         let detailedNode = adjustForShortNames({
           ...node,
           // ...registrarEntry,
-          // ...domainDetails,
+          ...domainDetails,
           // ...dnsEntry,
           // ...testEntry,
           // registrant: registrant
@@ -489,15 +507,15 @@ const resolvers = {
           //   : registrarEntry.registrant
           //   ? registrarEntry.registrant
           //   : null,
-          // parent,
-          // parentOwner,
-          EthAddress,
-          // allProperties,
-          // resolverAddress,
+          parent,
+          parentOwner,
+          isOverDeadline,
+          allProperties,
+          resolverAddress,
           __typename: 'Node'
         })
 
-        // detailedNode = setState(detailedNode)
+        detailedNode = setState(detailedNode)
         // Override parentOwner for dns if exists
         // if (
         //   dnsEntry &&
@@ -518,7 +536,7 @@ const resolvers = {
     },
     getResolverMigrationInfo: async (_, { name, resolver }) => {
       /* TODO add hardcoded resolver addresses */
-      const ens = getENS()
+      const ens = getSNS()
       const networkId = await getNetworkId()
 
       const RESOLVERS = {
@@ -602,8 +620,9 @@ const resolvers = {
       }
     },
     isMigrated: (_, { name }) => {
-      const ens = getENS()
-      return ens.isMigrated(name)
+      const ens = getSNS()
+      // return ens.isMigrated(name)
+      return false
     },
     isContractController: async (_, { address }) => {
       let provider = await getWeb3()

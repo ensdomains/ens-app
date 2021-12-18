@@ -18,38 +18,43 @@ export default async (_, { address }) => {
   }
   if (!address || !isENSReadyReactive()) return obj
 
-  try {
-    const { name: reverseName } = await ens.getName(address)
-    const reverseAddress = await ens.getAddress(reverseName)
-    const normalisedName = normalize(reverseName)
-    if (
-      parseInt(address) === parseInt(reverseAddress) &&
-      reverseName === normalisedName
-    ) {
-      name = reverseName
-    }
-    if (name !== null) {
-      const avatar = await ens.getText(name, 'avatar')
-      return {
-        ...obj,
-        name,
-        addr: reverseAddress,
-        avatar,
-        match: false
-      }
-    } else {
-      return {
-        ...obj,
-        name: null,
-        match: false
-      }
-    }
-  } catch (e) {
-    console.log(e)
-    return {
-      ...obj,
-      name: null,
-      match: false
-    }
+  // try {
+  //   const { name: reverseName } = await ens.getName(address)
+  //   const reverseAddress = await ens.getAddress(reverseName)
+  //   const normalisedName = normalize(reverseName)
+  //   if (
+  //     parseInt(address) === parseInt(reverseAddress) &&
+  //     reverseName === normalisedName
+  //   ) {
+  //     name = reverseName
+  //   }
+  //   if (name !== null) {
+  //     const avatar = await ens.getText(name, 'avatar')
+  //     return {
+  //       ...obj,
+  //       name,
+  //       addr: reverseAddress,
+  //       avatar,
+  //       match: false
+  //     }
+  //   } else {
+  //     return {
+  //       ...obj,
+  //       name: null,
+  //       match: false
+  //     }
+  //   }
+  // } catch (e) {
+  //   console.log(e)
+  //   return {
+  //     ...obj,
+  //     name: null,
+  //     match: false
+  //   }
+  // }
+  return {
+    ...obj,
+    name: null,
+    match: false
   }
 }

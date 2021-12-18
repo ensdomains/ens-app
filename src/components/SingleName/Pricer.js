@@ -57,25 +57,24 @@ function PricerInner({
   const { t } = useTranslation()
   return (
     <>
-      {years <= 1 && (
-        <Prompt>
-          <OrangeExclamation />
-          {t('register.increaseRegistrationPeriod')}
-        </Prompt>
-      )}
-      <PricingContainer className={className} ref={reference}>
-        <Years years={years} setYears={setYears} />
-        <Chain />
-        <Price
-          price={price}
-          gasPrice={gasPrice}
-          loading={loading}
-          ethUsdPriceLoading={ethUsdPriceLoading}
-          ethUsdPrice={ethUsdPrice}
-          ethUsdPremiumPrice={ethUsdPremiumPrice}
-          underPremium={underPremium}
-        />
-      </PricingContainer>
+      <Prompt>
+        <OrangeExclamation />
+        {t('register.increaseRegistrationPeriod')}
+      </Prompt>
+
+      {/*<PricingContainer className={className} ref={reference}>*/}
+      {/*  /!*<Years years={years} setYears={setYears} />*!/*/}
+      {/*  <Chain />*/}
+      {/*  <Price*/}
+      {/*    price={price}*/}
+      {/*    gasPrice={gasPrice}*/}
+      {/*    loading={loading}*/}
+      {/*    ethUsdPriceLoading={ethUsdPriceLoading}*/}
+      {/*    ethUsdPrice={ethUsdPrice}*/}
+      {/*    ethUsdPremiumPrice={ethUsdPremiumPrice}*/}
+      {/*    underPremium={underPremium}*/}
+      {/*  />*/}
+      {/*</PricingContainer>*/}
       {displayGas && gasPrice && (
         <div>
           <EthRegistrationGasPrice
@@ -102,7 +101,7 @@ export const PricerAll = React.forwardRef((props, reference) => {
  * @returns {boolean}
  */
 const isOpenPricer = () => {
-  return false
+  return true
 }
 const Pricer = React.forwardRef((props, reference) => {
   if (isOpenPricer()) {

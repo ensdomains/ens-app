@@ -1,6 +1,7 @@
 import { isShortName } from '../../utils/utils'
 
 import getENS, { getRegistrar } from 'apollo/mutations/ens'
+import getSNS, { getSnsResolver } from 'apollo/mutations/sns'
 
 import modeNames from '../modes'
 import { sendHelper } from '../resolverUtils'
@@ -9,9 +10,9 @@ const defaults = {}
 
 const resolvers = {
   Query: {
-    async getRentPrice(_, { label, duration }) {
-      const registrar = getRegistrar()
-      return registrar.getRentPrice(label, duration)
+    async getRentPrice(_) {
+      const sns = getSNS()
+      return sns.getRegisteredPrice()
     },
     async getRentPrices(_, { labels, duration }) {
       const registrar = getRegistrar()
@@ -56,8 +57,8 @@ const resolvers = {
   },
   Mutation: {
     async commit(_, { label, secret }) {
-      const registrar = getRegistrar()
-      const tx = await registrar.commit(label, secret)
+      const sns = getSNS()
+      const tx = await sns.mint(label, secret)
       return sendHelper(tx)
     },
     async register(_, { label, duration, secret }) {
