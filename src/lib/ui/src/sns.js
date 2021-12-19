@@ -24,6 +24,7 @@ import {
 import { encodeLabelhash } from './utils/labelhash'
 
 import { getSNSContract } from './contracts'
+import { nameRemoveSuffix } from './utils/namehash'
 
 /* Utils */
 
@@ -115,6 +116,11 @@ export class SNS {
     return await this.SNS.getTokenMintedExpManager()
   }
 
+  //Set the resolver address
+  async setDefaultResolverAddress(addr) {
+    return await this.SNS.setDefaultResolverAddress(addr)
+  }
+
   //registry
   async registry(name) {
     const signer = await getSigner()
@@ -122,28 +128,28 @@ export class SNS {
     const account = await getAccount()
     let flag = SNS.isOverDeadline() && SNS.getWhitelist(account)
     if (flag) {
-      return await SNS.freeMint(name)
+      return await SNS.freeMint(nameRemoveSuffix(name))
     } else {
-      //TODO set value
-      return await SNS.mint(name)
+      //todo set value
+      return await SNS.mint(nameRemoveSuffix(name))
     }
   }
 
   //freeMint
   async freeMint(name) {
-    return await this.SNS.freeMint(name)
+    return await this.SNS.freeMint(nameRemoveSuffix(name))
   }
 
   //Paid regist
   async mint(name) {
-    return await this.SNS.mint(name)
+    return await this.SNS.mint(nameRemoveSuffix(name))
   }
 
-  //
+  // TODO sns name transfer
   async transfer(name, address) {
     const signer = await getSigner()
     const SNS = this.SNS.connect(signer)
-    return SNS.transfer(name, address)
+    return SNS.transfer(nameRemoveSuffix(name), address)
   }
 
   //Get the registered SNSName by address
@@ -153,23 +159,23 @@ export class SNS {
 
   //Get the resolver address through SNSName
   async getResolverAddress(name) {
-    return await this.SNS.getResolverAddress(name)
+    return await this.SNS.getResolverAddress(nameRemoveSuffix(name))
   }
 
   //
   async setResolverInfo(name, address) {
     const signer = await getSigner()
     const SNS = this.SNS.connect(signer)
-    return SNS.setResolverInfo(name, address)
+    return SNS.setResolverInfo(nameRemoveSuffix(name), address)
   }
 
   //Get resolverOwner address
   async getResolverOwner(name) {
-    return await this.SNS.getResolverOwner(name)
+    return await this.SNS.getResolverOwner(nameRemoveSuffix(name))
   }
 
   async getDomainDetails(name) {
-    const handleName = name.split('.key')[0]
+    const handleName = nameRemoveSuffix(name)
     const labelhash = getLabelhash(handleName)
     const signer = await getSigner()
     const SNS = this.SNS.connect(signer)

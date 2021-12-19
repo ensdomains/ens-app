@@ -28,3 +28,12 @@ export function namehash(inputName) {
 
   return '0x' + node
 }
+
+/**
+ * remove ‘.key’ Suffix
+ * @param name
+ * @returns {*}
+ */
+export function nameRemoveSuffix(name) {
+  return name.split('.key')[0]
+}
