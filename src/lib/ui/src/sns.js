@@ -54,7 +54,7 @@ const contracts = {
     registry: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'
   },
   137: {
-    registry: '0x98c3516973f7312A754382c400c696B8ABc67B3B'
+    registry: '0xcF0D2916e75ea41b324a29cd7C1175F045A57d41'
   }
 }
 
@@ -115,25 +115,16 @@ export class SNS {
     return await this.SNS.getTokenMintedExpManager()
   }
 
-  //Set the resolver address
-  async setDefaultResolverAddress(addr) {
-    return await this.SNS.setDefaultResolverAddress(addr)
-  }
-
   //registry
   async registry(name) {
     const signer = await getSigner()
     const SNS = this.SNS.connect(signer)
     const account = await getAccount()
-    let flag = false
-    flag =
-      SNS.isOverDeadline() &&
-      SNS.getWhitelist(account) &&
-      (await SNS.getTokenMintedExpManager()) <= 10000
+    let flag = SNS.isOverDeadline() && SNS.getWhitelist(account)
     if (flag) {
       return await SNS.freeMint(name)
     } else {
-      //todo set value
+      //TODO set value
       return await SNS.mint(name)
     }
   }
@@ -148,7 +139,7 @@ export class SNS {
     return await this.SNS.mint(name)
   }
 
-  // TODO sns name transfer
+  //
   async transfer(name, address) {
     const signer = await getSigner()
     const SNS = this.SNS.connect(signer)
@@ -165,11 +156,11 @@ export class SNS {
     return await this.SNS.getResolverAddress(name)
   }
 
-  // TODO Set the resolver address
+  //
   async setResolverInfo(name, address) {
     const signer = await getSigner()
     const SNS = this.SNS.connect(signer)
-    return SNS.setResolverInfo(name)
+    return SNS.setResolverInfo(name, address)
   }
 
   //Get resolverOwner address
@@ -207,10 +198,13 @@ export class SNS {
     }
   }
 
-  // TODO Get current registration pricing
+  //
   async getRegisteredPrice() {
-    // return await this.SNS.getRegisteredPrice()
-    return 10
+    if ((await SNS.getTokenMintedExpManager()) <= 10000) {
+      return 1
+    } else {
+      return 10
+    }
   }
 
   // Events
