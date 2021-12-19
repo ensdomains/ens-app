@@ -91,7 +91,8 @@ function getCTA({
                   <OrangeExclamation />
                   {t('register.buttons.insufficient')}
                 </Prompt>
-                <Button data-testid="request-register-button" type="disabled">
+                <Button data-testid="request-register-button" onClick={mutate}>
+                  {/*type="disabled"*/}
                   {t('register.buttons.request')}
                 </Button>
               </>
@@ -162,7 +163,8 @@ function getCTA({
                   <OrangeExclamation />
                   {t('register.buttons.insufficient')}
                 </Prompt>
-                <Button data-testid="register-button" type="disabled">
+                <Button data-testid="register-button" onClick={mutate}>
+                  {/*type="disabled"*/}
                   {t('register.buttons.register')}
                 </Button>
               </>
