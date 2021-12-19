@@ -289,7 +289,7 @@ export default function Address({
   const hasNamesExpiringSoon = !!domains.find(domain =>
     calculateIsExpiredSoon(domain.expiryDate)
   )
-
+  debugger
   return (
     <>
       <NonMainPageBannerContainerWithMarginBottom>
@@ -327,7 +327,7 @@ export default function Address({
             </EtherScanLink>
           )}
         </TopBar>
-        <AddReverseRecord account={account} currentAddress={address} />
+        {/*<AddReverseRecord account={account} currentAddress={address} />*/}
         <Controls>
           <Filtering
             activeFilter={domainType}
