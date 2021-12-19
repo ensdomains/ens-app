@@ -91,81 +91,81 @@ export class SNSResolver {
 
   //ETH
   async getEthAddress(name) {
-    return await this.SNSResolver.getEthAddress(nameRemoveSuffix(name))
+    return await this.SNSResolver.getEthAddress(name)
   }
 
   //BTC
   async getBtcAddress(name) {
-    return await this.SNSResolver.getBtcAddress(nameRemoveSuffix(name))
+    return await this.SNSResolver.getBtcAddress(name)
   }
 
   //LTC
   async getLtcAddress(name) {
-    return await this.SNSResolver.getLtcAddress(nameRemoveSuffix(name))
+    return await this.SNSResolver.getLtcAddress(name)
   }
 
   //DOGE
   async getDogeAddress(name) {
-    return await this.SNSResolver.getDogeAddress(nameRemoveSuffix(name))
+    return await this.SNSResolver.getDogeAddress(name)
   }
 
   //ipfs
   async getIpfs(name) {
-    return await this.SNSResolver.getIpfs(nameRemoveSuffix(name))
+    return await this.SNSResolver.getIpfs(name)
   }
 
   //url
   async getUrl(name) {
-    return await this.SNSResolver.getUrl(nameRemoveSuffix(name))
+    return await this.SNSResolver.getUrl(name)
   }
 
   //email
   async getEmail(name) {
-    return await this.SNSResolver.getEmail(nameRemoveSuffix(name))
+    return await this.SNSResolver.getEmail(name)
   }
 
   //avator
   async getAvator(name) {
-    return await this.SNSResolver.getAvator(nameRemoveSuffix(name))
+    return await this.SNSResolver.getAvator(name)
   }
 
   //description
   async getDescription(name) {
-    return await this.SNSResolver.getDescription(nameRemoveSuffix(name))
+    return await this.SNSResolver.getDescription(name)
   }
 
   //notice
   async getNotice(name) {
-    return await this.SNSResolver.getNotice(nameRemoveSuffix(name))
+    return await this.SNSResolver.getNotice(name)
   }
 
   //keywords
   async getKeywords(name) {
-    return await this.SNSResolver.getKeywords(nameRemoveSuffix(name))
+    return await this.SNSResolver.getKeywords(name)
   }
 
   //comGithub
   async getComGithub(name) {
-    return await this.SNSResolver.getComGithub(nameRemoveSuffix(name))
+    return await this.SNSResolver.getComGithub(name)
   }
 
   //comReddit
   async getComReddit(name) {
-    return await this.SNSResolver.getComReddit(nameRemoveSuffix(name))
+    return await this.SNSResolver.getComReddit(name)
   }
 
   //comTwitter
   async getComTwitter(name) {
-    return await this.SNSResolver.getComTwitter(nameRemoveSuffix(name))
+    return await this.SNSResolver.getComTwitter(name)
   }
 
   //orgTelegram
   async getOrgTelegram(name) {
-    return await this.SNSResolver.getOrgTelegram(nameRemoveSuffix(name))
+    return await this.SNSResolver.getOrgTelegram(name)
   }
 
   async getAllProperties(name) {
-    return await this.SNSResolver.getAllProperties(nameRemoveSuffix(name))
+    return await this.SNSResolver.getAllProperties(name)
   }
 
   //exp: 0-1-2-3-4-5-6-7-8-9-10-11-12-13-14

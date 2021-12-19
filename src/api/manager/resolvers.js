@@ -425,7 +425,7 @@ const resolvers = {
         let snsResolverIsNull = true
         const handleName = name.split('.key')[0]
         // TODO Check whether there is a SNS address, if there is no execute, if there is execute get all attributes
-        if ((await ens.getResolverAddress(handleName)) !== emptyAddress) {
+        if ((await ens.getResolverAddress(name)) !== emptyAddress) {
           snsResolver = getSnsResolver()
           snsResolverIsNull = false
         }
@@ -462,7 +462,7 @@ const resolvers = {
         if (handleName) {
           node.name = handleName
         }
-        let resolverOwner = await ens.getResolverOwner(handleName)
+        let resolverOwner = await ens.getResolverOwner(name)
         if (resolverOwner !== emptyAddress) {
           node.state = 'Open'
           node.available = false
@@ -470,7 +470,7 @@ const resolvers = {
           node.state = 'Owned'
           node.available = true
         }
-        node.registrant = await ens.getResolverAddress(handleName)
+        node.registrant = await ens.getResolverAddress(name)
 
         const dataSources = [
           // getRegistrarEntry(name),
@@ -622,8 +622,7 @@ const resolvers = {
     },
     isMigrated: (_, { name }) => {
       const ens = getSNS()
-      // return ens.isMigrated(name)
-      return false
+      return ens.recordExists(name)
     },
     isContractController: async (_, { address }) => {
       let provider = await getWeb3()
