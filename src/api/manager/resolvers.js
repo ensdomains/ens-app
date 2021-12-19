@@ -21,6 +21,7 @@ import {
   getProvider,
   getResolverContract,
   getSigner,
+  getSNSResolverContract,
   getWeb3,
   isDecrypted,
   labelhash,
@@ -136,6 +137,7 @@ export const handleMultipleTransactions = async (
     const namehash = getNamehash(name)
 
     const transactionArray = records.map(record => {
+      debugger
       if (record.contractFn === 'setContenthash') {
         let value
         if (isEmptyAddress(record.value)) {
@@ -177,7 +179,7 @@ export const handleMultipleTransactions = async (
     // flatten textrecords and addresses and remove undefined
     //transactionArray.flat().filter(bytes => bytes)
     //add them all together into one transaction
-    const tx1 = await resolverInstance.multicall(transactionArray)
+    const tx1 = await resolverInstance.setAllProperties(transactionArray)
     return sendHelper(tx1)
   } catch (e) {
     console.log('error creating transaction array', e)
@@ -788,11 +790,11 @@ const resolvers = {
       }
     },
     addMultiRecords: async (_, { name, records }) => {
-      const ens = getENS()
+      const ens = getSNS()
 
       const provider = await getProvider()
-      const resolver = await ens.getResolver(name)
-      const resolverInstanceWithoutSigner = await getResolverContract({
+      const resolver = await ens.getResolverAddress(name)
+      const resolverInstanceWithoutSigner = await getSNSResolverContract({
         address: resolver,
         provider
       })

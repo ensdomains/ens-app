@@ -24,8 +24,27 @@ import {
 import { encodeLabelhash } from './utils/labelhash'
 
 import { getSNSContract, getSNSResolverContract } from './contracts'
+import { nameRemoveSuffix } from './utils/namehash'
 
 /* Utils */
+
+const contracts = {
+  1: {
+    registry: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'
+  },
+  3: {
+    registry: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'
+  },
+  4: {
+    registry: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'
+  },
+  5: {
+    registry: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'
+  },
+  137: {
+    registry: '0x233c8743D8C5f1BAE38AA88aE00c4727d3F85e62'
+  }
+}
 
 export class SNSResolver {
   constructor({ networkId, resolverAddress, provider }) {
@@ -72,90 +91,91 @@ export class SNSResolver {
 
   //ETH
   async getEthAddress(name) {
-    return await this.SNSResolver.getEthAddress(name)
+    return await this.SNSResolver.getEthAddress(nameRemoveSuffix(name))
   }
 
   //BTC
   async getBtcAddress(name) {
-    return await this.SNSResolver.getBtcAddress(name)
+    return await this.SNSResolver.getBtcAddress(nameRemoveSuffix(name))
   }
 
   //LTC
   async getLtcAddress(name) {
-    return await this.SNSResolver.getLtcAddress(name)
+    return await this.SNSResolver.getLtcAddress(nameRemoveSuffix(name))
   }
 
   //DOGE
   async getDogeAddress(name) {
-    return await this.SNSResolver.getDogeAddress(name)
+    return await this.SNSResolver.getDogeAddress(nameRemoveSuffix(name))
   }
 
   //ipfs
   async getIpfs(name) {
-    return await this.SNSResolver.getIpfs(name)
+    return await this.SNSResolver.getIpfs(nameRemoveSuffix(name))
   }
 
   //url
   async getUrl(name) {
-    return await this.SNSResolver.getUrl(name)
+    return await this.SNSResolver.getUrl(nameRemoveSuffix(name))
   }
 
   //email
   async getEmail(name) {
-    return await this.SNSResolver.getEmail(name)
+    return await this.SNSResolver.getEmail(nameRemoveSuffix(name))
   }
 
   //avator
   async getAvator(name) {
-    return await this.SNSResolver.getAvator(name)
+    return await this.SNSResolver.getAvator(nameRemoveSuffix(name))
   }
 
   //description
   async getDescription(name) {
-    return await this.SNSResolver.getDescription(name)
+    return await this.SNSResolver.getDescription(nameRemoveSuffix(name))
   }
 
   //notice
   async getNotice(name) {
-    return await this.SNSResolver.getNotice(name)
+    return await this.SNSResolver.getNotice(nameRemoveSuffix(name))
   }
 
   //keywords
   async getKeywords(name) {
-    return await this.SNSResolver.getKeywords(name)
+    return await this.SNSResolver.getKeywords(nameRemoveSuffix(name))
   }
 
   //comGithub
   async getComGithub(name) {
-    return await this.SNSResolver.getComGithub(name)
+    return await this.SNSResolver.getComGithub(nameRemoveSuffix(name))
   }
 
   //comReddit
   async getComReddit(name) {
-    return await this.SNSResolver.getComReddit(name)
+    return await this.SNSResolver.getComReddit(nameRemoveSuffix(name))
   }
 
   //comTwitter
   async getComTwitter(name) {
-    return await this.SNSResolver.getComTwitter(name)
+    return await this.SNSResolver.getComTwitter(nameRemoveSuffix(name))
   }
 
   //orgTelegram
   async getOrgTelegram(name) {
-    return await this.SNSResolver.getOrgTelegram(name)
+    return await this.SNSResolver.getOrgTelegram(nameRemoveSuffix(name))
   }
 
   async getAllProperties(name) {
-    return await this.SNSResolver.getAllProperties(name)
+    return await this.SNSResolver.getAllProperties(nameRemoveSuffix(name))
   }
 
   //exp: 0-1-2-3-4-5-6-7-8-9-10-11-12-13-14
   //0:ethAddress ~ 14:orgTelegram
   //use "-" gap
   async setAllProperties(name, recordsStr) {
-    const signer = await getSigner()
-    const SNSResolver = this.SNS.connect(signer)
-    return await SNSResolver.setAllProperties(name, recordsStr)
+    return await this.SNSResolver.setAllProperties(
+      nameRemoveSuffix(name),
+      recordsStr
+    )
   }
 
   /**
