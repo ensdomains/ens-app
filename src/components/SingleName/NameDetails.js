@@ -71,10 +71,11 @@ function NameDetails({
     !isAnAbsolutePath
   ) {
     return <Redirect to={`${pathname}/details`} />
-  } else if (domain.parent !== 'key' && !isAnAbsolutePath) {
-    //subdomain or dns
-    // return <Redirect to={`${pathname}/subdomains`} />
   }
+  // else if (domain.parent !== 'key' && !isAnAbsolutePath) {
+  //   // subdomain or dns
+  //   return <Redirect to={`${pathname}/subdomains`} />
+  // }
 
   return (
     <>

@@ -421,12 +421,13 @@ const resolvers = {
         const ens = getSNS()
         let snsResolver = {}
         let snsResolverIsNull = true
+        const handleName = name.split('.key')[0]
         // TODO Check whether there is a SNS address, if there is no execute, if there is execute get all attributes
-
-        if ((await ens.getResolverAddress(name)) !== emptyAddress) {
+        if ((await ens.getResolverAddress(handleName)) !== emptyAddress) {
           snsResolver = getSnsResolver()
           snsResolverIsNull = false
         }
+
         const decrypted = isDecrypted(name)
 
         let node = {
@@ -456,13 +457,10 @@ const resolvers = {
           registrant: null,
           auctionEnds: null // remove when auction is over
         }
-        const nameArray = name.split('.')
-        let element = nameArray[0]
-        if (element) {
-          node.name = element
+        if (handleName) {
+          node.name = handleName
         }
-        let resolverOwner = await ens.getResolverOwner(name)
-
+        let resolverOwner = await ens.getResolverOwner(handleName)
         if (resolverOwner !== emptyAddress) {
           node.state = 'Open'
           node.available = false
@@ -470,6 +468,7 @@ const resolvers = {
           node.state = 'Owned'
           node.available = true
         }
+        node.registrant = await ens.getResolverAddress(handleName)
 
         const dataSources = [
           // getRegistrarEntry(name),

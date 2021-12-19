@@ -77,7 +77,7 @@ const NAME_QUERY = gql`
 function Name({ details: domain, name, pathname, type, refetch }) {
   const { t } = useTranslation()
   const smallBP = useMediaMin('small')
-  const percentDone = 0
+  const percentDone = 100
 
   const {
     data: { accounts }
@@ -94,11 +94,12 @@ function Name({ details: domain, name, pathname, type, refetch }) {
 
   let ownerType,
     registrarAddress = domain.parentOwner
-  if (isDeedOwner || isRegistrant) {
-    ownerType = 'Registrant'
-  } else if (isOwner) {
-    ownerType = 'Controller'
-  }
+  // if (isDeedOwner || isRegistrant) {
+  //   ownerType = 'Registrant'
+  // } else if (isOwner) {
+  //   ownerType = 'Controller'
+  // }
+  ownerType = 'Registrant'
   let containerState
   if (isDNSRegistrationOpen(domain)) {
     containerState = 'Open'

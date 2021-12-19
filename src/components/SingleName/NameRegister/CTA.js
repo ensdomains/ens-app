@@ -67,7 +67,6 @@ function getCTA({
   ethUsdPrice,
   account
 }) {
-  debugger
   const CTAs = {
     PRICE_DECISION: (
       <Mutation
