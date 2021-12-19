@@ -9,7 +9,6 @@ import '../../api/subDomainRegistrar'
 import { withRouter } from 'react-router'
 import searchIcon from '../../assets/search.svg'
 import mq from 'mediaQuery'
-import LanguageSwitcher from '../LanguageSwitcher'
 
 const SearchForm = styled('form')`
   display: flex;
@@ -31,7 +30,7 @@ const SearchForm = styled('form')`
     padding: 20px 0 20px 55px;
     width: 100%;
     border: none;
-    border-radius: 0;
+    border-radius: 14px 0 0 14px;
     font-size: 18px;
     font-family: Overpass;
     font-weight: 100;
@@ -62,6 +61,7 @@ const SearchForm = styled('form')`
     width: 162px;
     border: none;
     display: none;
+    border-radius: 0 14px 14px 0;
     ${mq.medium`
       display: block;
     `}
@@ -133,7 +133,6 @@ function Search({ history, className, style }) {
         ref={el => (input = el)}
         onChange={handleParse}
       />
-      {/*<LanguageSwitcher />*/}
       <button
         disabled={!hasSearch}
         type="submit"

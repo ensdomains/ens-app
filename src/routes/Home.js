@@ -326,12 +326,16 @@ export default ({ match }) => {
               <Name data-testid="display-name">({displayName})</Name>
             )}
           </Network>
-          {!isSafeApp && (
+          <NoAccounts
+            onClick={isReadOnly ? connectProvider : disconnectProvider}
+            buttonText={isReadOnly ? t('c.connect') : t('c.disconnect')}
+          />
+          {/* {!isSafeApp && (
             <NoAccounts
               onClick={isReadOnly ? connectProvider : disconnectProvider}
               buttonText={isReadOnly ? t('c.connect') : t('c.disconnect')}
             />
-          )}
+          )} */}
         </NetworkStatus>
         <Nav>
           {accounts?.length > 0 && !isReadOnly && (

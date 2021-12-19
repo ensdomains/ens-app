@@ -9,7 +9,6 @@ const DefaultLayout = ({ children }) => (
   <Fragment>
     <Header />
     <Container>
-      <SideNav />
       <Main>{children}</Main>
     </Container>
   </Fragment>

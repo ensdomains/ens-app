@@ -17,7 +17,6 @@ import Info from 'components/Icons/Info'
 
 const SideNavContainer = styled('nav')`
   display: ${p => (p.isMenuOpen ? 'block' : 'none')};
-  position: fixed;
   z-index: 1;
   ${mq.medium`
     z-index: 1;
@@ -31,7 +30,6 @@ const SideNavContainer = styled('nav')`
   ${mq.medium`
     padding: 0;
     left: 35px;
-    margin-top: 50px;
     height: auto;
     background: transparent;
     width: 165px;
@@ -41,6 +39,7 @@ const SideNavContainer = styled('nav')`
   ul {
     padding: 0;
     margin: 0;
+    margin-left: 16px;
   }
   li {
     list-style: none;
@@ -147,6 +146,8 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
   const {
     data: { accounts, isReadOnly }
   } = useQuery(SIDENAV_QUERY)
+  console.log('SideNav:', this)
+
   return (
     <SideNavContainer isMenuOpen={isMenuOpen} hasNonAscii={hasNonAscii()}>
       <NetworkInformation />

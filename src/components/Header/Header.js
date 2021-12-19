@@ -12,6 +12,7 @@ import Banner from '../Banner'
 
 import { hasNonAscii } from '../../utils/utils'
 import LanguageSwitcher from '../LanguageSwitcher'
+import AvatarAndInfoDropdown from '../AvatarAndInfoDropdown'
 
 const StyledBanner = styled(Banner)`
   margin-bottom: 0;
@@ -41,7 +42,7 @@ const Header = styled('header')`
   ${p =>
     p.isMenuOpen
       ? `
-    background: #121D46;
+    background: white;
   `
       : ''}
   display: flex;
@@ -52,11 +53,9 @@ const Header = styled('header')`
   top: 0;
   width: 100%;
   z-index: 2;
-  //box-shadow: 0 4px 8px 0 rgba(230, 240, 247, 0.8);
   height: 50px;
   border-bottom: 1px solid #fff;
   ${mq.medium`
-    // box-shadow: 0 8px 24px 0 rgba(230, 240, 247, 0.3);
     height: auto;
   `}
 `
@@ -112,6 +111,7 @@ function HeaderContainer() {
         {mediumBP ? (
           <>
             <SearchHeader />
+            <AvatarAndInfoDropdown />
             <LanguageSwitcher />
           </>
         ) : (

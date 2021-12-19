@@ -3,46 +3,20 @@ import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
 import { gql } from '@apollo/client'
 import mq from 'mediaQuery'
-import { useQuery, useMutation } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 
-import UnstyledBlockies from '../Blockies'
 import NoAccountsModal from '../NoAccounts/NoAccountsModal'
 import { GET_REVERSE_RECORD } from '../../graphql/queries'
 import { connectProvider, disconnectProvider } from '../../utils/providerUtils'
-import { imageUrl } from '../../utils/utils'
 
 const NetworkInformationContainer = styled('div')`
   position: relative;
   display: flex;
   justify-content: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  padding-bottom: 20px;
   ${mq.medium`
-    margin-top: 80px;
-    margin-bottom: 50px;
     display: block;
     border: none;
-  `}
-`
-
-const Blockies = styled(UnstyledBlockies)`
-  border-radius: 50%;
-  position: absolute;
-  left: 10px;
-  top: 10px;
-  ${mq.medium`
-    box-shadow: 3px 5px 24px 0 #d5e2ec;
-  `}
-`
-
-const Avatar = styled('img')`
-  width: 48px;
-  position: absolute;
-  left: 10px;
-  top: 10px;
-  border-radius: 50%;
-  ${mq.medium`
-    box-shadow: 3px 5px 24px 0 #d5e2ec;
   `}
 `
 
@@ -79,15 +53,14 @@ const Account = styled('div')`
 `
 
 const AccountContainer = styled('div')`
-  padding: 10px 10px 10px 65px;
+  padding: 10px 10px 10px 16px;
+  text-align:center
   position: relative;
   ${mq.medium`
-    transform: translate(-25px, 5px);
     width: 225px;
     &:hover {
       width: 225px;
       background: white;
-      box-shadow: -4px 18px 70px 0 rgba(108, 143, 167, 0.32);
       border-radius: 6px;
       .account {
         width: 200px;
@@ -129,15 +102,6 @@ function NetworkInformation() {
     <NetworkInformationContainer hasAccount={accounts && accounts.length > 0}>
       {!isReadOnly ? (
         <AccountContainer>
-          {!reverseRecordLoading &&
-          getReverseRecord &&
-          getReverseRecord.avatar ? (
-            <Avatar
-              src={imageUrl(getReverseRecord.avatar, displayName, network)}
-            />
-          ) : (
-            <Blockies address={accounts[0]} imageSize={47} />
-          )}
           <Account data-testid="account" className="account">
             <span>{displayName}</span>
           </Account>

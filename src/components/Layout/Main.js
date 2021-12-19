@@ -10,12 +10,10 @@ const MainContainer = styled('main')`
   ${p =>
     p.hasNonAscii
       ? mq.medium`
-    margin-left: 200px;
-    margin-top: 250px;
+      margin:250px 200px 0;
   `
       : mq.medium`
-    margin-left: 200px;
-    margin-top: 150px;
+      margin:150px 200px 0;
   `}
 `
 
