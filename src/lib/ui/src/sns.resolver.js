@@ -27,24 +27,6 @@ import { getSNSContract, getSNSResolverContract } from './contracts'
 
 /* Utils */
 
-const contracts = {
-  1: {
-    registry: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'
-  },
-  3: {
-    registry: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'
-  },
-  4: {
-    registry: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'
-  },
-  5: {
-    registry: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'
-  },
-  137: {
-    registry: '0x233c8743D8C5f1BAE38AA88aE00c4727d3F85e62'
-  }
-}
-
 export class SNSResolver {
   constructor({ networkId, resolverAddress, provider }) {
     this.contracts = contracts
@@ -171,7 +153,9 @@ export class SNSResolver {
   //0:ethAddress ~ 14:orgTelegram
   //use "-" gap
   async setAllProperties(name, recordsStr) {
-    return await this.SNSResolver.setAllProperties(name, recordsStr)
+    const signer = await getSigner()
+    const SNSResolver = this.SNS.connect(signer)
+    return await SNSResolver.setAllProperties(name, recordsStr)
   }
 
   /**
