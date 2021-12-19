@@ -179,7 +179,7 @@
       "manage": "Manage name",
       "register": "Register",
       "request": "Request to register",
-      "setreverserecord": "Set as Primary SNS Name",
+      "setreverserecord": "View the registered name",
       "warning": "Click register to move to the 3rd step"
     },
     "favourite": "* Favorite the name for easy access in case you close out of your browser.",
@@ -206,17 +206,17 @@
     "step2": {
       "label": "Step 2",
       "text": "The waiting period is required to ensure another person hasn’t tried to register the same name and protect you after your request.",
-      "title": "Wait for 1 minute"
+      "title": "Wait for 3-10 second"
     },
     "step3": {
       "label": "Step 3",
-      "text": "Click ‘register’ and your wallet will re-open. Only after the 2nd transaction is confirmed you'll know if you got the name.",
+      "text": "The registered name is successful when the wallet returns that the transaction has been successful.",
       "title": "Complete Registration"
     },
     "titles": [
-      "Registering a name just requires one steps",
+      "Registering a name just requires three steps",
       "You’ll be able to manage your name soon.",
-      "You’ve completed all the steps, manage your name now!"
+      "You’ve completed the name registration, manage your name now!"
     ]
   },
   "registrymigration": {

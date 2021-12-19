@@ -112,15 +112,17 @@ function Progress({ step, waitPercentComplete }) {
 
   const waitMin = states['COMMIT_CONFIRMED']
   const waitMax = states['AWAITING_REGISTER']
-  const percentDone = waitPercentComplete / (100 / (waitMax - waitMin)) + 25
+  // const percentDone = waitPercentComplete / (100 / (waitMax - waitMin)) + 25
+  const percentDone = 100
   return (
     <ProgressContainer>
       <ProgressBar
-        percentDone={step !== 'COMMIT_CONFIRMED' ? states[step] : percentDone}
+        // percentDone={step !== 'COMMIT_CONFIRMED' ? states[step] : percentDone}
+        percentDone={percentDone}
       />
       <Steps>
         <Tooltip
-          text="<p>The first transaction is being mined on the blockchain. This should take 15-30 seconds.</p>"
+          text="<p>The transaction is being mined on the Polygon blockchain. This should take 3-10 seconds.</p>"
           position="top"
           border={true}
           offset={{ left: -30, top: 10 }}
