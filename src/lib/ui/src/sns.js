@@ -1,5 +1,6 @@
 import has from 'lodash/has'
 import { Contract, utils } from 'ethers'
+import Web3 from 'web3'
 import {
   getWeb3,
   getNetworkId,
@@ -126,12 +127,12 @@ export class SNS {
     const signer = await getSigner()
     const SNS = this.SNS.connect(signer)
     const account = await getAccount()
-    let flag = SNS.isOverDeadline() && SNS.getWhitelist(account)
+    let flag = (await SNS.isOverDeadline()) && (await SNS.getWhitelist(account))
     if (flag) {
       return await SNS.freeMint(nameRemoveSuffix(name))
     } else {
-      //todo set value
-      return await SNS.mint(nameRemoveSuffix(name))
+      const value = await this.getRegisteredPrice()
+      return await SNS.mint(nameRemoveSuffix(name), {value})
     }
   }
 
@@ -206,13 +207,15 @@ export class SNS {
 
   //
   async getRegisteredPrice() {
-    if ((await SNS.getTokenMintedExpManager()) <= 10000) {
-      return 1
+    const count = await this.SNS.getTokenMintedExpManager()
+    let price
+    if (count.toNumber() <= 10000) {
+      price = Web3.utils.toWei('1', 'ether')
     } else {
-      return 10
+      price = Web3.utils.toWei('10', 'ether')
     }
+    return price
   }
-
   // Events
 
   /**
