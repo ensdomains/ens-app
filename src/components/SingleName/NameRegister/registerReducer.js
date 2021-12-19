@@ -5,7 +5,7 @@ export const registerMachine = {
   states: {
     PRICE_DECISION: {
       on: {
-        NEXT: 'COMMIT_CONFIRMED',
+        NEXT: 'REVEAL_SENT',
         PREVIOUS: 'PRICE_DECISION'
       }
     },

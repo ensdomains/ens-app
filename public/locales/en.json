@@ -179,7 +179,7 @@
       "manage": "Manage name",
       "register": "Register",
       "request": "Request to register",
-      "setreverserecord": "Set as Primary ENS Name",
+      "setreverserecord": "Set as Primary SNS Name",
       "warning": "Click register to move to the 3rd step"
     },
     "favourite": "* Favorite the name for easy access in case you close out of your browser.",
