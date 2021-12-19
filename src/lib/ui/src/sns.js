@@ -56,7 +56,7 @@ const contracts = {
     registry: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'
   },
   137: {
-    registry: '0xcF0D2916e75ea41b324a29cd7C1175F045A57d41'
+    registry: '0x266e340d3B891363d8651dD31Ec53771B8087a2b'
   }
 }
 
@@ -173,6 +173,11 @@ export class SNS {
   //Get resolverOwner address
   async getResolverOwner(name) {
     return await this.SNS.getResolverOwner(name)
+  }
+
+  //Get recordExists
+  async recordExists(name) {
+    return await this.SNS.recordExists(nameRemoveSuffix(name))
   }
 
   async getDomainDetails(name) {

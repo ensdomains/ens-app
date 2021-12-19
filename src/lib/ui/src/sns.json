@@ -303,6 +303,29 @@
   {
     "inputs": [
       {
+        "internalType": "string[]",
+        "name": "names_",
+        "type": "string[]"
+      },
+      {
+        "internalType": "string[]",
+        "name": "tokenURIs_",
+        "type": "string[]"
+      },
+      {
+        "internalType": "address[]",
+        "name": "tos_",
+        "type": "address[]"
+      }
+    ],
+    "name": "batchManagerMint",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "string",
         "name": "name_",
         "type": "string"
@@ -464,29 +487,6 @@
         "internalType": "string",
         "name": "name_",
         "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "tokenURI_",
-        "type": "string"
-      },
-      {
-        "internalType": "address",
-        "name": "to_",
-        "type": "address"
-      }
-    ],
-    "name": "managerMint",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "name_",
-        "type": "string"
       }
     ],
     "name": "mint",
@@ -534,6 +534,25 @@
         "internalType": "address",
         "name": "",
         "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "name_",
+        "type": "string"
+      }
+    ],
+    "name": "recordExists",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
       }
     ],
     "stateMutability": "view",
