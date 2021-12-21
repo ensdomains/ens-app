@@ -7,9 +7,9 @@ import ANSLogo from '../assets/ans-logo.png'
 import LogoTyped from '../assets/TypeLogo'
 
 const IconLogo = styled('img')`
-  width: 200px;
+  width: 84px;
   ${mq.medium`
-    width: 200px
+    width: 84px
   `}
 `
 
