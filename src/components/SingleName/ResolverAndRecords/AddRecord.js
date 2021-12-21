@@ -312,6 +312,8 @@ function Editable({
                   contractFn: selectedRecord?.contractFn
                 })
                 clearInput(setSelectedRecord, setSelectedKey, updateValue)
+                setIsValid(false)
+                setIsValidating(false)
               }}
             >
               Save
