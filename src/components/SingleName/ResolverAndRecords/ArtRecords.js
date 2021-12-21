@@ -21,7 +21,7 @@ const Records = styled('div')`
 `
 
 const RecordsHeader = styled('div')`
-  background: #f0f6fa;
+  background: #282929;
 `
 
 const RecordsTitle = styled('h3')`

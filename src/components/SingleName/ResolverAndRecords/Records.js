@@ -50,7 +50,7 @@ const ConfirmBox = styled('div')`
     font-size: 14px;
   }
   padding: 20px;
-  background: #f0f6fa;
+  background: #282929;
   display: flex;
   justify-content: space-between;
 `

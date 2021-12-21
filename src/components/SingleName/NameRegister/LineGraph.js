@@ -100,8 +100,8 @@ export default function LineGraph({
             label: 'Passed',
             borderWidth: 3,
             data,
-            borderColor: '#BD393A',
-            backgroundColor: '#BD393A',
+            borderColor: '#282929',
+            backgroundColor: '#282929',
             pointRadius,
             fill: false
           },
@@ -110,8 +110,8 @@ export default function LineGraph({
             borderWidth: 2,
             data: labels,
             borderColor: '#D8D8D8',
-            pointBackgroundColor: '#BD393A',
-            pointBorderColor: '#BD393A',
+            pointBackgroundColor: '#282929',
+            pointBorderColor: '#282929',
             fill: false,
             pointRadius
           }
@@ -127,7 +127,7 @@ export default function LineGraph({
           mode: 'nearest',
           intersect: false,
           titleAlign: 'center',
-          multiKeyBackground: '#BD393A',
+          multiKeyBackground: '#282929',
           callbacks: {
             label: function(tooltipItem, data) {
               handleTooltip(tooltipItem)

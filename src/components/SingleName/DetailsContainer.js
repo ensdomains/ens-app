@@ -73,7 +73,7 @@ const AddressLink = styled(DefaultAddressLink)`
 `
 
 const Explainer = styled('div')`
-  background: #f0f6fa;
+  background: #282929;
   color: #adbbcd;
   display: flex;
   padding: 1em 0;

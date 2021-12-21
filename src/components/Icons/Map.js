@@ -3,7 +3,7 @@ import styled from '@emotion/styled/macro'
 
 const MapContainer = styled('svg')``
 
-const Map = ({ color = '#BD393A' }) => (
+const Map = ({ color = '#282929' }) => (
   <MapContainer width="40" height="14" xmlns="http://www.w3.org/2000/svg">
     <g fill={color} fillRule="evenodd">
       <rect y=".875" width="12.727" height="12.25" rx="1.152" />

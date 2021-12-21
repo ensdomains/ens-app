@@ -63,7 +63,7 @@ const NavLink = styled(Link)`
   justify-content: center;
   font-weight: 200;
   font-size: 22px;
-  color: ${p => (p.active ? '#BD393A' : '#BD393A91')};
+  color: ${p => (p.active ? '#282929' : '#282929')};
   padding: 10px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 
@@ -73,24 +73,24 @@ const NavLink = styled(Link)`
   `}
 
   &:visited {
-    color: #bd393a91;
+    color: #2829291;
   }
 
   span {
     transition: 0.2s;
     margin-left: 15px;
-    color: ${p => (p.active ? '#BD393A' : '#BD393A91')};
+    color: ${p => (p.active ? '#282929' : '#282929')};
   }
 
   &:hover {
     span {
-      color: #bd393a;
+      color: #282929;
     }
     path {
-      fill: #bd393a;
+      fill: #282929;
     }
     g {
-      fill: #bd393a;
+      fill: #282929;
     }
   }
 `
@@ -101,7 +101,7 @@ const ThirdPartyLink = styled('a')`
   justify-content: center;
   font-weight: 200;
   font-size: 22px;
-  color: ${p => (p.active ? '#BD393A' : '#BD393A91')};
+  color: ${p => (p.active ? '#282929' : '#282929')};
   padding: 10px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 
@@ -111,24 +111,24 @@ const ThirdPartyLink = styled('a')`
   `}
 
   &:visited {
-    color: #bd393a91;
+    color: #2829291;
   }
 
   span {
     transition: 0.2s;
     margin-left: 15px;
-    color: ${p => (p.active ? '#BD393A' : '#BD393A91')};
+    color: ${p => (p.active ? '#282929' : '#282929')};
   }
 
   &:hover {
     span {
-      color: #bd393a;
+      color: #282929;
     }
     path {
-      fill: #bd393a;
+      fill: #282929;
     }
     g {
-      fill: #bd393a;
+      fill: #282929;
     }
   }
 `

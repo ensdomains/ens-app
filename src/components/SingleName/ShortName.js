@@ -12,7 +12,7 @@ const ShortNameContainer = styled('div')`
 `
 
 const InnerWrapper = styled('div')`
-  background: #f0f6fa;
+  background: #282929;
   padding: 20px;
   display: flex;
   justify-content: space-between;

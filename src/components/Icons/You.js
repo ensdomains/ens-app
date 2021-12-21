@@ -3,7 +3,7 @@ import styled from '@emotion/styled/macro'
 
 const Button = styled('span')`
   color: white;
-  background: #bd393a91;
+  background: #2829291;
   border-radius: 6px;
   border: 1px solid #ededed;
   padding: 0 2px;

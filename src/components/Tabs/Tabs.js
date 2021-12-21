@@ -3,7 +3,7 @@ import styled from '@emotion/styled/macro'
 
 export const Tab = styled('div')`
   font-size: 14px;
-  background: ${({ active }) => (active ? '#BD393A' : 'transparent')};
+  background: ${({ active }) => (active ? '#282929' : 'transparent')};
   color: ${({ active }) => (active ? 'white' : '#D2D2D2')};
   transform: scale(${({ active }) => (active ? '1.02' : '1')});
   transition: background 0.1s ease-out, transform 0.3s ease-out;

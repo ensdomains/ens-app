@@ -87,7 +87,7 @@ const DetailsEditableContainer = styled(DetailsItem)`
       case 'warning':
         return editing ? 'transparent' : 'transparent'
       default:
-        return editing ? '#F0F6FA' : 'transparent'
+        return editing ? '#282929' : 'transparent'
     }
   }};
   padding: ${({ editing }) => (editing ? '20px' : '0')};

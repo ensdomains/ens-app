@@ -12,7 +12,7 @@ const StyledUpload = styled(Upload)`
   &:hover {
     g {
       transition: 0.2s;
-      fill: #bd393a;
+      fill: #282929;
     }
     cursor: pointer;
   }

@@ -102,7 +102,7 @@ const Dropdown = styled(motion.div)`
       cursor: pointer;
       div {
         /* ball */
-        background: #bd393a;
+        background: #282929;
       }
     }
     &:last-child {
@@ -116,11 +116,11 @@ const Ball = styled('div')`
   background: white;
   width: 10px;
   height: 10px;
-  box-shadow: 0 0 0 3px white, 0 0 0 4px #bd393a;
+  box-shadow: 0 0 0 3px white, 0 0 0 4px #282929;
   ${p =>
     p.selected &&
     `
-    background: #BD393A;
+    background: #282929;
   `}
 `
 

@@ -76,7 +76,7 @@ const TextInput = styled('input')`
 `
 
 const Button = styled('input')`
-  background: #bd393a;
+  background: #282929;
   width: 40%;
   height: 35px;
   border-color: transparent;
@@ -86,10 +86,10 @@ const Button = styled('input')`
   margin-right: 5%;
   margin-left: 5%;
   :hover {
-    background: #bd393a;
+    background: #282929;
   }
   :focus {
-    border-color: #bd393a;
+    border-color: #282929;
   }
 `
 

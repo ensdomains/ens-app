@@ -11,10 +11,10 @@ const Registry = ({ className }) => (
     className={className}
   >
     <g fill="none" fillRule="evenodd">
-      <rect fill="#BD393A" width="16" height="20" rx="3" />
+      <rect fill="#282929" width="16" height="20" rx="3" />
       <path
         d="M20 15.813a.41.41 0 0 0 .146.309l2 1.75A.537.537 0 0 0 22.5 18a.537.537 0 0 0 .354-.128l2-1.75a.41.41 0 0 0 .146-.31V4h-5v11.813zM22 0h1a2 2 0 0 1 2 2v1h-5V2a2 2 0 0 1 2-2z"
-        fill="#BD393A"
+        fill="#282929"
       />
       <rect
         fill="#FFF"

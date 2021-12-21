@@ -47,7 +47,7 @@ const Avatar = styled('img')`
 `
 
 const NetworkStatus = styled('div')`
-  color: #cacaca;
+  color: black;
   font-size: 14px;
   text-transform: capitalize;
   font-weight: 100;
@@ -68,7 +68,7 @@ const NetworkStatus = styled('div')`
 `
 
 const Account = styled('div')`
-  color: #adbbcd;
+  color: black;
   font-size: 16px;
   font-weight: 200;
   font-family: Overpass Mono;

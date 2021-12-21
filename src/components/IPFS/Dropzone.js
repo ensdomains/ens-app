@@ -16,7 +16,7 @@ const UploadButton = styled(Button)`
   flex-direction: row;
   margin-bottom: 5px;
   width: 100%;
-  background: #bd393a;
+  background: #282929;
   ${mq.small`
     margin-left: 20px;
     max-width: 175px;

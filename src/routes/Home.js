@@ -47,7 +47,7 @@ const Name = styled('span')`
 `
 
 const NetworkStatus = styled('div')`
-  color: white;
+  color: black;
   font-weight: 200;
   text-transform: capitalize;
   display: none;
@@ -80,7 +80,7 @@ const Nav = styled('div')`
   `}
   a {
     font-weight: 300;
-    color: white;
+    color: #282929;
   }
 `
 
@@ -102,9 +102,9 @@ const Announcement = styled('div')`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  background: #bd393a;
+  background: #282929;
   padding: 0 10px;
-  border-bottom: #bd393a solid 3px;
+  border-bottom: #282929 solid 3px;
   h3 {
     color: white;
     font-weight: 400;
@@ -127,7 +127,7 @@ const HowToUse = styled(HowToUseDefault)`
 `
 
 const Hero = styled('section')`
-  background: url(${bg});
+  // background: url(${bg});
   background-size: cover;
   padding: 60px 20px 20px;
   position: relative;
@@ -215,7 +215,7 @@ const WhatItIs = styled(Section)`
 `
 
 const HowItWorks = styled(Section)`
-  background: #f0f6fa;
+  background: #282929;
   padding: 40px 20px 80px;
 `
 
@@ -361,13 +361,13 @@ export default ({ match }) => {
         </>
         <h2
           style={{
-            color: '#BD393A',
+            color: '#282929',
             fontWeight: '1000',
-            textAlign: 'center',
-            marginTop: '60%'
+            textAlign: 'left',
+            marginTop: '-145px'
           }}
         >
-          <strong>NAME SERVICES</strong>
+          <strong>ALL NAME SERVICES</strong>
         </h2>
       </SearchContainer>
     </Hero>

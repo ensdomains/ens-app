@@ -42,7 +42,7 @@ const LoaderContainer = styled('div')`
     left: 0;
     border-radius: 50%;
     border: ${({ large }) => (large ? '4px' : '2px')} solid #000;
-    border-color: #bd393a transparent #bd393a transparent;
+    border-color: #282929 transparent #282929 transparent;
     -webkit-animation: lds-dual-ring 1.5s linear infinite;
     animation: lds-dual-ring 1.5s linear infinite;
   }
