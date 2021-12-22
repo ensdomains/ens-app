@@ -37,6 +37,11 @@ export function saveName(name) {
   })
 }
 
+export function parseName(name) {
+  const nameArray = name.split('.')
+  return nameArray.map(label => encodeLabel(label)).join('.')
+}
+
 export function checkLabel(hash) {
   const labels = getLabels()
   if (isEncodedLabelhash(hash)) {
@@ -48,15 +53,11 @@ export function checkLabel(hash) {
   }
 }
 
-export function encodeLabel(name) {
+export function encodeLabel(label) {
   try {
-    const nameArray = name.split('.')
-    const label = nameArray[0]
-    const node = nameArray.slice(1).join('.')
-    const labelhash = encodeLabelhash(label)
-    return `${labelhash}.${node}`
+    return encodeLabelhash(label)
   } catch {
-    return name
+    return label
   }
 }
 

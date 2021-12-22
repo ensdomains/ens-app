@@ -11,7 +11,7 @@ import QuestionMark from '../Icons/QuestionMark'
 import {
   checkIsDecrypted,
   truncateUndecryptedName,
-  encodeLabel
+  parseName
 } from '../../api/labels'
 import ExpiryDate from './ExpiryDate'
 import { useMutation } from '@apollo/client'
@@ -98,7 +98,7 @@ export default function ChildDomainItem({
       }
     },
     variables: {
-      name: encodeLabel(name)
+      name: parseName(name)
     }
   })
 
