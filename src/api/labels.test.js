@@ -1,4 +1,10 @@
-import { checkLabel, saveLabel, saveName } from './labels'
+import {
+  checkLabel,
+  saveLabel,
+  saveName,
+  parseName,
+  encodeLabel
+} from './labels'
 const KEY = 'labels'
 
 const blahblahHash =
@@ -74,5 +80,35 @@ describe('saveName', () => {
       [hashes[1]]: nameArray[1],
       [hashes[2]]: nameArray[2]
     })
+  })
+})
+
+describe('encodeLabel', () => {
+  it('should return the encoded labelhash if the label is a 32 bytes hexadecimal string', () => {
+    const hash = '0x' + blahblahHash
+    const encodedLabelHash = `[${blahblahHash}]`
+    const label = encodeLabel(hash)
+    expect(label).toEqual(encodedLabelHash)
+  })
+
+  it('should return the label if the label is not a 32 bytes hexadecimal string', () => {
+    const label = 'awesome'
+    const parsedLabel = encodeLabel(label)
+    expect(parsedLabel).toEqual(label)
+  })
+})
+
+describe('parseName', () => {
+  it('should parse all the labels (2) and return the encoded string', () => {
+    const name = 'vitalik.eth'
+    const parsedName = parseName(name)
+    expect(parsedName).toEqual(name)
+  })
+
+  it('should parse all the labels (3) and return the encoded string', () => {
+    const name = `0x${blahblahHash}.vitalik.eth`
+    const encodedName = `[${blahblahHash}].vitalik.eth`
+    const parsedName = parseName(name)
+    expect(parsedName).toEqual(encodedName)
   })
 })
