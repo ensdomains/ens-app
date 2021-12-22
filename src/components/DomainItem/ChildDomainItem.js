@@ -8,7 +8,11 @@ import Checkbox from '../Forms/Checkbox'
 import mq, { useMediaMin } from 'mediaQuery'
 import Tooltip from '../Tooltip/Tooltip'
 import QuestionMark from '../Icons/QuestionMark'
-import { checkIsDecrypted, truncateUndecryptedName } from '../../api/labels'
+import {
+  checkIsDecrypted,
+  truncateUndecryptedName,
+  encodeLabel
+} from '../../api/labels'
 import ExpiryDate from './ExpiryDate'
 import { useMutation } from '@apollo/client'
 import Bin from '../Forms/Bin'
@@ -94,7 +98,7 @@ export default function ChildDomainItem({
       }
     },
     variables: {
-      name: name
+      name: encodeLabel(name)
     }
   })
 
