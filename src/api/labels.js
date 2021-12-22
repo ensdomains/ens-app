@@ -1,5 +1,9 @@
 import jsSHA3 from 'js-sha3'
-import { isEncodedLabelhash, decodeLabelhash } from '@ensdomains/ui'
+import {
+  isEncodedLabelhash,
+  decodeLabelhash,
+  encodeLabelhash
+} from '@ensdomains/ui'
 
 function getLabels() {
   return JSON.parse(localStorage.getItem('labels')) || {}
@@ -41,6 +45,18 @@ export function checkLabel(hash) {
 
   if (hash.startsWith('0x')) {
     return labels[`${hash.slice(2)}`]
+  }
+}
+
+export function encodeLabel(name) {
+  try {
+    const nameArray = name.split('.')
+    const label = nameArray[0]
+    const node = nameArray.slice(1).join('.')
+    const labelhash = encodeLabelhash(label)
+    return `${labelhash}.${node}`
+  } catch {
+    return name
   }
 }
 
