@@ -134,7 +134,11 @@ const useGetRecords = domain => {
   const coinList =
     resolver &&
     resolver.coinTypes &&
-    resolver.coinTypes.map(c => formatsByCoinType[c].name)
+    resolver.coinTypes
+      .map(c => {
+        return formatsByCoinType[c] && formatsByCoinType[c].name
+      })
+      .filter(c => c)
 
   const { loading: addressesLoading, data: dataAddresses } = useQuery(
     GET_ADDRESSES,
