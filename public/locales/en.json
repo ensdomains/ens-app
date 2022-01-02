@@ -88,7 +88,7 @@
     "steps": {
       "addtext": {
         "text": "Click 'learn more' to read about the process.",
-        "title": "Set up a text record in your domain registrar then click refresh. The text record should be called '_ens' and should contain your Ethereum address in the form:"
+        "title": "Set up a text record in your domain registrar then click refresh. The text record should be called '_ens' and should contain your Avalanche address in the form:"
       },
       "enable": {
         "text": "Click 'learn more' to read about the process.",
@@ -101,7 +101,7 @@
       },
       "proof": {
         "text1": "The address that appears in the DNS txt record is your same address.",
-        "text2": "If you know you own this domain, change it's TXT record to contain your Ethereum Address and refresh this page to perform the DNSSEC verification again.",
+        "text2": "If you know you own this domain, change it's TXT record to contain your Avalanche Address and refresh this page to perform the DNSSEC verification again.",
         "title1": "You are the owner of this address. Add your domain to the ANS Registry now.",
         "title2": "You don't appear to be the DNS Owner of this domain, but anyone can add this domain to the ANS Registry."
       }
@@ -132,7 +132,7 @@
       "title": "How to use ANS"
     },
     "whatisens": {
-      "body": "The Ethereum Name Service is a distributed, open, and extensible naming system based on the Ethereum blockchain. ANS eliminates the need to copy or type long addresses.",
+      "body": "The Avalanche Name Service is a distributed, open, and extensible naming system based on the Avalanche blockchain. ANS eliminates the need to copy or type long addresses.",
       "title": "What it is"
     }
   },
@@ -295,7 +295,7 @@
     },
     "learnmore": {
       "step1": {
-        "text": "Once you register your name, Go to 'My Account' page and set your Primary ANS Name record. This allows dapps to find and display your ANS name when you connect to them with your Ethereum account. ",
+        "text": "Once you register your name, Go to 'My Account' page and set your Primary ANS Name record. This allows dapps to find and display your ANS name when you connect to them with your Avalanche account. ",
         "title": "1. Set your Primary ANS Name record"
       },
       "step2": {
@@ -319,8 +319,8 @@
       "cantEdit": "You can’t edit or add records until you migrate to the new resolver.",
       "closeEdit": "Close Add/Edit Records",
       "messages": {
-        "explanation": "This designates one of your ANS names to represent your Ethereum account and act as your cross-platform web3 username and profile. You can only have one Primary ANS Name per Ethereum account and can change it at any time.",
-        "explanation2": "Only ANS names that point to your Ethereum account can be set as your Primary ANS Name.",
+        "explanation": "This designates one of your ANS names to represent your Avalanche account and act as your cross-platform web3 username and profile. You can only have one Primary ANS Name per Avalanche account and can change it at any time.",
+        "explanation2": "Only ANS names that point to your Avalanche account can be set as your Primary ANS Name.",
         "noForwardRecordAavilable": "No ANS names have their AVAX Address records set to this address.",
         "notSet": "Primary ANS Name (reverse record): not set",
         "reverseRecordRemoval": "Are you sure you want to delete your Primary ANS Name record?",

@@ -14,7 +14,7 @@ describe(
       cy.visit(url)
       cy.wait(5000)
 
-      cy.queryByText(`Primary ENS Name (reverse record)`, {
+      cy.queryByText(`Primary ANS Name (reverse record)`, {
         exact: false,
         timeout: 10000
       })
@@ -24,7 +24,7 @@ describe(
         `${ADDRESS.slice(0, 10)}...`
       )
 
-      cy.getByText('Select one of your ENS names', { exact: false }).click({
+      cy.getByText('Select one of your ANS names', { exact: false }).click({
         force: true
       })
 
@@ -34,7 +34,7 @@ describe(
 
       cy.getByText('Save', { timeout: 5000 }).click({ force: true })
 
-      cy.queryByText(`Primary ENS Name (reverse record): sub1.otherowner.eth`, {
+      cy.queryByText(`Primary ANS Name (reverse record): sub1.otherowner.eth`, {
         exact: false,
         timeout: 10000
       }).should('exist')

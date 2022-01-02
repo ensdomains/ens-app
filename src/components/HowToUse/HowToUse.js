@@ -75,7 +75,7 @@ const H3 = styled('h3')`
 const Icon = ({ src, title, text }) => (
   <IconContainer>
     <ImgContainer>
-      <img src={src} alt="ENS Logo" />
+      <img src={src} alt="ANS Logo" />
     </ImgContainer>
     <H3>{title}</H3>
     {text.length > 0 && <p>{text}</p>}

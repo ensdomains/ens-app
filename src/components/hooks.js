@@ -233,7 +233,7 @@ export function useAvatar(textKey, name, network, uri) {
       const _network = networkName[network?.toLowerCase()]
       const run = async () => {
         const result = await fetch(
-          `https://metadata.ens.domains/${_network}/avatar/${name}/meta`
+          `https://metadata.avaxns.domains/${_network}/avatar/${name}/meta`
         )
         const data = await result.json()
         if ('image' in data && data.image) {

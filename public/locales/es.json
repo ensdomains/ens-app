@@ -88,7 +88,7 @@
     "steps": {
       "addtext": {
         "text": "Da click en 'Aprender más' para leer sobre el proceso.",
-        "title": "Establece un registro de texto en un dominio y presiona actualizar. El registro de texto debería tener tu dirección de Ethereum en la forma:"
+        "title": "Establece un registro de texto en un dominio y presiona actualizar. El registro de texto debería tener tu dirección de Avalanche en la forma:"
       },
       "enable": {
         "text": "Da click en 'Aprender más' para leer sobre el proceso.",
@@ -97,13 +97,13 @@
       "manage": {
         "text1": "Como eres el propietario, puedes manejar tu nombre ahora.",
         "text2": "Como no eres el propietario, sólo puedes ver el nombre en el gestionador.",
-        "title": "¡Felicidades! Has añadido el dominio DNS al registro de ENS correctamente."
+        "title": "¡Felicidades! Has añadido el dominio DNS al registro de ANS correctamente."
       },
       "proof": {
         "text1": "La dirección que aparece en registro de texto DNS es tu misma dirección.",
-        "text2": "Si conoces este dominio, cambia su registro TXT para que contenga tu dirección de Ethereum, y actualiza esta página para ejecutar la verificación DNSSEC de nuevo.",
+        "text2": "Si conoces este dominio, cambia su registro TXT para que contenga tu dirección de Avalanche, y actualiza esta página para ejecutar la verificación DNSSEC de nuevo.",
         "title1": "Eres el propietario de este dominio ",
-        "title2": "Parece que no eres el propietario este dominio DNS, pero cualquiera puede añadirlo al registro de ENS."
+        "title2": "Parece que no eres el propietario este dominio DNS, pero cualquiera puede añadirlo al registro de ANS."
       }
     },
     "viewinmanager": "Ver en el gestionador."
@@ -128,11 +128,11 @@
     "announcements": {
     },
     "howtouse": {
-      "body": "La aplicación ENS es una interfaz gráfica de usuario para usuarios no-técnicos. Te permite buscar cualquier nombre, gestionar sus direcciones o los recursos a los que direcciona, o crear subdominios para cada uno.",
-      "title": "Cómo utilizar ENS"
+      "body": "La aplicación ANS es una interfaz gráfica de usuario para usuarios no-técnicos. Te permite buscar cualquier nombre, gestionar sus direcciones o los recursos a los que direcciona, o crear subdominios para cada uno.",
+      "title": "Cómo utilizar ANS"
     },
     "whatisens": {
-      "body": "El Servicio de Nombres de Ethereum  es un sistema de nombres distribuido, abierto y extensible basado en la cadena de bloques de Ethereum. El ENS elimina la necesidad de copiar o escribir direcciones largas.",
+      "body": "El Servicio de Nombres de Avalanche  es un sistema de nombres distribuido, abierto y extensible basado en la cadena de bloques de Avalanche. El ANS elimina la necesidad de copiar o escribir direcciones largas.",
       "title": "Lo que es"
     }
   },
@@ -219,7 +219,7 @@
     ]
   },
   "registrymigration": {
-    "donotaccept": "*Si comercias con nombres de ENS, no acepten este nombre!",
+    "donotaccept": "*Si comercias con nombres de ANS, no acepten este nombre!",
     "messages": {
       "controller": "Este nombre está controlado por un contrato y no puede ser migrado automáticamente. Por favor, redefine tu contrato para usar el nuevo registro antes de establecer el nuevo controlador",
       "default": "Este nombre necesita ser migrado al nuevo Registro. Sólo el padre de este nombre ({{ parent}}) puede hacerlo.",
@@ -230,12 +230,12 @@
   "reminder": {
     "everywhere": "everywhere",
     "release": {
-      "description": "Register {{name}} at https://app.ens.domains/name/{{name}}/register",
+      "description": "Register {{name}} at https://app.avaxns.domains/name/{{name}}/register",
       "title": "Register {{name}}"
     },
     "renewal": {
-      "description": "Your ENS name is expiring soon, please renew it",
-      "title": "Renew your ENS domain {{name}}"
+      "description": "Your ANS name is expiring soon, please renew it",
+      "title": "Renew your ANS domain {{name}}"
     }
   },
   "search": {
@@ -295,7 +295,7 @@
     },
     "learnmore": {
       "step1": {
-        "text": "Once you register your name, Go to 'My Account' page and set a reverse record. This allows dapps to find and display your ENS name when you connect to them with your Ethereum account. ",
+        "text": "Once you register your name, Go to 'My Account' page and set a reverse record. This allows dapps to find and display your ANS name when you connect to them with your Avalanche account. ",
         "title": "1. Set a reverse record"
       },
       "step2": {
@@ -303,7 +303,7 @@
         "title": "2. Set other records"
       },
       "step3": {
-        "text": "You can host your static html/css/images on IPFS and put the hash in your ENS name's Content record. Then it can be resolved by ENS-aware browsers (e.g. Opera), browser extensions (Metamask), or any browser with '.link' appended to the end (e.g. ens.eth.link).",
+        "text": "You can host your static html/css/images on IPFS and put the hash in your ANS name's Content record. Then it can be resolved by ANS-aware browsers (e.g. Opera), browser extensions (Metamask), or any browser with '.link' appended to the end (e.g. ens.eth.link).",
         "title": "3. Set a content hash of a decentralized website"
       },
       "title": "Learn how to manage your name."
@@ -320,11 +320,11 @@
       "closeEdit": "Close Add/Edit Records",
       "messages": {
         "explanation": "La resolución reversa traduce una dirección a un nombre. Permite a las Dapps mostrar '{{name}}' en lugar de la dirección larga '{{account}}'. Si quieres configurar la resolución inversa para una cuenta distinta, por favor cambia tu cuenta en tu navegador de dapps.",
-        "explanation2": "You can only select names you set this Ethereum Address as.",
-        "noForwardRecordAavilable": "You either do not own any ENS names, or your ENS names have no ETH records set to this address.",
+        "explanation2": "You can only select names you set this Avalanche Address as.",
+        "noForwardRecordAavilable": "You either do not own any ANS names, or your ANS names have no ETH records set to this address.",
         "notSet": "Registro reverso: no configurado.",
         "reverseRecordRemoval": "Are you sure you want to delete the reverse record?",
-        "selectPlaceholder": "Select your ENS name",
+        "selectPlaceholder": "Select your ANS name",
         "setTo": "Registro reverso: Configurado a",
         "setToDifferent": "Registro reverso: Configurar a otro nombre:"
       },

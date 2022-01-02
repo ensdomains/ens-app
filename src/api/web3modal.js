@@ -8,7 +8,7 @@ import {
 import { getNetwork, getNetworkId, isReadOnly } from '@ansdomains/ui'
 
 const INFURA_ID =
-  window.location.host === 'app.ens.domains'
+  window.location.host === 'app.avaxns.domains'
     ? '90f210707d3c450f847659dc9a3436ea'
     : '58a380d3ecd545b2b5b3dad5d2b18bf0'
 
@@ -30,7 +30,7 @@ const option = {
       package: () => import('walletlink'),
       packageFactory: true,
       options: {
-        appName: 'Ethereum name service',
+        appName: 'Avalanche name service',
         jsonRpcUrl: `https://mainnet.infura.io/v3/${INFURA_ID}`
       }
     },

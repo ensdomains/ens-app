@@ -25,7 +25,7 @@ yarn start:ipfs
 
 The main difference of the ipfs-build is that it uses HashRouter instead of BrowserRouter and makes sure all links are relative.
 
-The ENS app can be used with the Gnosis Safe web interface. The required steps are outline [here](./docs/gnosis_safe_app_support.md).
+The ANS app can be used with the Gnosis Safe web interface. The required steps are outline [here](./docs/gnosis_safe_app_support.md).
 
 ## Unit Testing
 

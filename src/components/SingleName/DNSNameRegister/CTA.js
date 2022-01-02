@@ -158,7 +158,7 @@ const CTA = ({
         </>
       ) : null}
       <LinkToLearnMore
-        href="https://docs.ens.domains/dns-registrar-guide"
+        href="https://docs.avaxns.domains/dns-registrar-guide"
         target="_blank"
       >
         {t('c.learnmore')}

@@ -88,7 +88,7 @@
     "steps": {
       "addtext": {
         "text": "Cliquez sur 'en apprendre plus' pour en lire davantage à propos du processus.",
-        "title": "Mettez en place un enregistrement Texte (TXT) sur votre nom de domaine (via votre registrar ou bureau d'enregistrement), puis cliquez sur 'actualiser'. L'enregistrement Texte doit contenir votre adresse Ethereum sous cette forme :"
+        "title": "Mettez en place un enregistrement Texte (TXT) sur votre nom de domaine (via votre registrar ou bureau d'enregistrement), puis cliquez sur 'actualiser'. L'enregistrement Texte doit contenir votre adresse Avalanche sous cette forme :"
       },
       "enable": {
         "text": "Cliquez sur 'en apprendre plus' pour en lire davantage à propos du processus.",
@@ -97,13 +97,13 @@
       "manage": {
         "text1": "Puisque vous êtes le propriétaire, vous pouvez gérer votre nom maintenant.",
         "text2": "Puisque vous n'êtes pas le propriétaire, vous pouvez uniquement afficher le nom dans le gestionnaire.",
-        "title": "Félicitation! Vous avez ajouté ce nom de domaine DNS au registre ENS."
+        "title": "Félicitation! Vous avez ajouté ce nom de domaine DNS au registre ANS."
       },
       "proof": {
         "text1": "L'adresse qui apparaît dans l'enregistrement TXT est votre même adresse.",
-        "text2": "Si vous êtes propriétaire de ce domaine, modifiez son enregistrement TXT pour qu'il contienne votre adresse Ethereum, puis actualisez cette page pour effectuer à nouveau la vérification DNSSEC.",
-        "title1": "Vous êtes le propriétaire de cette adresse. Ajoutez votre domaine au registre ENS dès maintenant.",
-        "title2": "Vous n'êtes pas être le propriétaire DNS de ce domaine, donc n'importe qui peut ajouter ce domaine au registre ENS."
+        "text2": "Si vous êtes propriétaire de ce domaine, modifiez son enregistrement TXT pour qu'il contienne votre adresse Avalanche, puis actualisez cette page pour effectuer à nouveau la vérification DNSSEC.",
+        "title1": "Vous êtes le propriétaire de cette adresse. Ajoutez votre domaine au registre ANS dès maintenant.",
+        "title2": "Vous n'êtes pas être le propriétaire DNS de ce domaine, donc n'importe qui peut ajouter ce domaine au registre ANS."
       }
     },
     "viewinmanager": "Voir dans le Gestionnaire"
@@ -128,11 +128,11 @@
     "announcements": {
     },
     "howtouse": {
-      "body": "L'application ENS est une interface graphique pour des utilisateurs non techniques. Elle vous permet de rechercher n'importe quel nom, de créer des sous-domaines et de gérer leurs adresses et resources.",
-      "title": "Comment utiliser ENS"
+      "body": "L'application ANS est une interface graphique pour des utilisateurs non techniques. Elle vous permet de rechercher n'importe quel nom, de créer des sous-domaines et de gérer leurs adresses et resources.",
+      "title": "Comment utiliser ANS"
     },
     "whatisens": {
-      "body": "Ethereum Name Service est un système de nommage distribué, ouvert et extensible basé sur la blockchain Ethereum. ENS élimine le besoin de copier ou taper de longues adresses Ethereum. ",
+      "body": "Avalanche Name Service est un système de nommage distribué, ouvert et extensible basé sur la blockchain Avalanche. ANS élimine le besoin de copier ou taper de longues adresses Avalanche. ",
       "title": "Ce que c'est"
     }
   },
@@ -219,7 +219,7 @@
     ]
   },
   "registrymigration": {
-    "donotaccept": "* Si vous échangez des noms ENS, n'acceptez pas ce nom!",
+    "donotaccept": "* Si vous échangez des noms ANS, n'acceptez pas ce nom!",
     "messages": {
       "controller": "Ce nom est contrôlé par un contrat et ne peut pas être migré automatiquement. Veuillez redéployer votre contrat pour utiliser le nouveau registre avant de configurer le nouveau contrôleur",
       "default": "Ce nom doit être migré vers le nouveau registre. Seul le parent de ce nom ({{parent}}) peut le faire.",
@@ -230,12 +230,12 @@
   "reminder": {
     "everywhere": "everywhere",
     "release": {
-      "description": "Register {{name}} at https://app.ens.domains/name/{{name}}/register",
+      "description": "Register {{name}} at https://app.avaxns.domains/name/{{name}}/register",
       "title": "Register {{name}}"
     },
     "renewal": {
-      "description": "Your ENS name is expiring soon, please renew it",
-      "title": "Renew your ENS domain {{name}}"
+      "description": "Your ANS name is expiring soon, please renew it",
+      "title": "Renew your ANS domain {{name}}"
     }
   },
   "search": {
@@ -295,7 +295,7 @@
     },
     "learnmore": {
       "step1": {
-        "text": "Once you register your name, Go to 'My Account' page and set a reverse record. This allows dapps to find and display your ENS name when you connect to them with your Ethereum account. ",
+        "text": "Once you register your name, Go to 'My Account' page and set a reverse record. This allows dapps to find and display your ANS name when you connect to them with your Avalanche account. ",
         "title": "1. Set a reverse record"
       },
       "step2": {
@@ -303,7 +303,7 @@
         "title": "2. Set other records"
       },
       "step3": {
-        "text": "You can host your static html/css/images on IPFS and put the hash in your ENS name's Content record. Then it can be resolved by ENS-aware browsers (e.g. Opera), browser extensions (Metamask), or any browser with '.link' appended to the end (e.g. ens.eth.link).",
+        "text": "You can host your static html/css/images on IPFS and put the hash in your ANS name's Content record. Then it can be resolved by ANS-aware browsers (e.g. Opera), browser extensions (Metamask), or any browser with '.link' appended to the end (e.g. ens.eth.link).",
         "title": "3. Set a content hash of a decentralized website"
       },
       "title": "Learn how to manage your name."
@@ -320,11 +320,11 @@
       "closeEdit": "Close Add/Edit Records",
       "messages": {
         "explanation": "La résolution inverse traduit une adresse en un nom. Il permet aux Dapps d'afficher dans leurs interfaces '{{name}}' plutôt que l'adresse longue '{{account}}'. Si vous souhaitez configurer votre reverse pour un autre compte, veuillez changer de compte dans votre navigateur.",
-        "explanation2": "You can only select names you set this Ethereum Address as.",
-        "noForwardRecordAavilable": "You either do not own any ENS names, or your ENS names have no ETH records set to this address.",
+        "explanation2": "You can only select names you set this Avalanche Address as.",
+        "noForwardRecordAavilable": "You either do not own any ANS names, or your ANS names have no ETH records set to this address.",
         "notSet": "Enregistrement inverse : non définit",
         "reverseRecordRemoval": "Are you sure you want to delete the reverse record?",
-        "selectPlaceholder": "Select your ENS name",
+        "selectPlaceholder": "Select your ANS name",
         "setTo": "Enregistrement inverse : Définir à",
         "setToDifferent": "Enregistrement inverse : Définir à un nom différent"
       },

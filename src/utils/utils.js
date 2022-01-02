@@ -190,7 +190,7 @@ export function isShortName(term) {
 export const aboutPageURL = () => {
   const lang = window.localStorage.getItem('language') || ''
 
-  return `https://ens.domains/${lang === 'en' ? '' : lang}`
+  return `https://app.avaxns.domains/${lang === 'en' ? '' : lang}`
 }
 
 export function isRecordEmpty(value) {
@@ -254,7 +254,7 @@ export function imageUrl(url, name, network) {
   // provided network name is valid,
   // domain name is available
   if (_protocol && _network && name) {
-    return `https://metadata.ens.domains/${_network}/avatar/${name}`
+    return `https://metadata.avaxns.domains/${_network}/avatar/${name}`
   }
   console.warn('Unsupported avatar', network, name, url)
 }

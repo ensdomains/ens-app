@@ -246,7 +246,7 @@ function DetailsContainer({
           <DetailsItem>
             {t('c.cannotclaimDns', { name: domainParent })}
             <LinkToLearnMore
-              href="https://docs.ens.domains/dns-registrar-guide"
+              href="https://docs.avaxns.domains/dns-registrar-guide"
               target="_blank"
             >
               {t('c.learnmore')}{' '}
@@ -448,7 +448,7 @@ function DetailsContainer({
                   ? domain.stateError
                   : t('singleName.dns.messages.error')}
                 <LinkToLearnMore
-                  href="https://docs.ens.domains/dns-registrar-guide"
+                  href="https://docs.avaxns.domains/dns-registrar-guide"
                   target="_blank"
                 >
                   {t('c.learnmore')}{' '}
@@ -466,7 +466,7 @@ function DetailsContainer({
                     {dnssecmode.explainer}
                   </Trans>
                   <LinkToLearnMore
-                    href="https://docs.ens.domains/dns-registrar-guide"
+                    href="https://docs.avaxns.domains/dns-registrar-guide"
                     target="_blank"
                     outOfSync={outOfSync}
                   >
@@ -483,7 +483,7 @@ function DetailsContainer({
                   {dnssecmode.explainer}
                 </Trans>
                 <LinkToLearnMore
-                  href="https://docs.ens.domains/dns-registrar-guide"
+                  href="https://docs.avaxns.domains/dns-registrar-guide"
                   target="_blank"
                 >
                   {t('c.learnmore')}{' '}

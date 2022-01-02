@@ -199,7 +199,7 @@ function getCTA({
           css={css`
             margin-right: 20px;
           `}
-          name={`${label}`}
+          name={`${label}.avax`}
           startDatetime={moment()
             .utc()
             .add(duration, 'seconds')
@@ -208,7 +208,7 @@ function getCTA({
         <LeftLink
           onClick={async () => {
             await Promise.all([refetch(), refetchIsMigrated()])
-            history.push(`/name/${label}`)
+            history.push(`/name/${label}.avax`)
           }}
           data-testid="manage-name-button"
         >

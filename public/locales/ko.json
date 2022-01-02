@@ -95,13 +95,13 @@
       "manage": {
         "text1": "당신이 소유자이기 때문에 도메인을 관리할 수 있습니다",
         "text2": "당신은 소유자가 아니기 때문에, 매니저에서 도메인에 대한 정보를 조회만 가능합니다.",
-        "title": "축하합니다! DNS 도메인을 ENS 레지스트리에 등록하는데 성공했습니다."
+        "title": "축하합니다! DNS 도메인을 ANS 레지스트리에 등록하는데 성공했습니다."
       },
       "proof": {
         "text1": "DNS 텍스트 (txt) 레코드에 나타나는 주소가 당신의 동일한 주소입니다.",
         "text2": "만약 당신이 이 도메인의 소유자라는 것을 알고 있다면, 텍스트(TXT) 레코드에 당신의 이더리움 주소가 포함되도록 변경하세요. 그리고 이 페이지를 새로고침하여 DNSSEC 검증을 다시 수행하세요.",
-        "title1": "당신은 이 주소의 소유자입니다. 지금 당신의 도메인을 ENS 레지스트리에 추가하세요.",
-        "title2": "당신은 DNS 소유자가 아닌 것 같습니다. 그러나 누구나 이 도메인을 ENS 레지스트리에 등록할 수 있습니다."
+        "title1": "당신은 이 주소의 소유자입니다. 지금 당신의 도메인을 ANS 레지스트리에 추가하세요.",
+        "title2": "당신은 DNS 소유자가 아닌 것 같습니다. 그러나 누구나 이 도메인을 ANS 레지스트리에 등록할 수 있습니다."
       }
     },
     "viewinmanager": "매니저에서 보기"
@@ -126,11 +126,11 @@
     "announcements": {
     },
     "howtouse": {
-      "body": "ENS 앱은 기술에 익숙하지 않은 사용자를 위한 그래픽 유저 인터페이스입니다. 도메인 이름을 검색하거나, 주소 및 리소스를 관리하거나, 서브도메인을 생성할 수 있습니다.",
-      "title": "ENS 사용법"
+      "body": "ANS 앱은 기술에 익숙하지 않은 사용자를 위한 그래픽 유저 인터페이스입니다. 도메인 이름을 검색하거나, 주소 및 리소스를 관리하거나, 서브도메인을 생성할 수 있습니다.",
+      "title": "ANS 사용법"
     },
     "whatisens": {
-      "body": "이더리움 네임 서비스(ENS)는 이더리움 블록체인 기반의 분산되고 개방되어 있으며 확장가능한 네이밍 서비스입니다. ENS는 긴 주소를 복사하거나 타이핑해야 하는 번거로움을 없애줍니다.",
+      "body": "이더리움 네임 서비스(ANS)는 이더리움 블록체인 기반의 분산되고 개방되어 있으며 확장가능한 네이밍 서비스입니다. ENS는 긴 주소를 복사하거나 타이핑해야 하는 번거로움을 없애줍니다.",
       "title": "이것은 무엇인가요?"
     }
   },
@@ -217,7 +217,7 @@
     ]
   },
   "registrymigration": {
-    "donotaccept": "* 만약 ENS 도메인을 거래한다면, 이런 이름은 수락하지 마세요!",
+    "donotaccept": "* 만약 ANS 도메인을 거래한다면, 이런 이름은 수락하지 마세요!",
     "messages": {
       "controller": "이 도메인은 컨트랙트에 의해 컨트롤되기 때문에 자동으로 마이그레이션할 수 없습니다. 새로운 컨트롤러로 세팅하기 전에 당신의 컨트랙트를 새로운 레지스트리를 사용하도록 변경하여 배포해주세요.",
       "default": "이 도메인은 새로운 레지스트리로 마이그레이션 되어야 합니다. 이 도메인의 부모 도메인({{parent}})에서만 마이그레이션이 가능합니다.",
@@ -228,12 +228,12 @@
   "reminder": {
     "everywhere": "everywhere",
     "release": {
-      "description": "Register {{name}} at https://app.ens.domains/name/{{name}}/register",
+      "description": "Register {{name}} at https://app.avaxns.domains/name/{{name}}/register",
       "title": "Register {{name}}"
     },
     "renewal": {
-      "description": "Your ENS name is expiring soon, please renew it",
-      "title": "Renew your ENS domain {{name}}"
+      "description": "Your ANS name is expiring soon, please renew it",
+      "title": "Renew your ANS domain {{name}}"
     }
   },
   "search": {
@@ -293,7 +293,7 @@
     },
     "learnmore": {
       "step1": {
-        "text": "Once you register your name, Go to 'My Account' page and set a reverse record. This allows dapps to find and display your ENS name when you connect to them with your Ethereum account. ",
+        "text": "Once you register your name, Go to 'My Account' page and set a reverse record. This allows dapps to find and display your ANS name when you connect to them with your Avalanche account. ",
         "title": "1. Set a reverse record"
       },
       "step2": {
@@ -301,7 +301,7 @@
         "title": "2. Set other records"
       },
       "step3": {
-        "text": "You can host your static html/css/images on IPFS and put the hash in your ENS name's Content record. Then it can be resolved by ENS-aware browsers (e.g. Opera), browser extensions (Metamask), or any browser with '.link' appended to the end (e.g. ens.eth.link).",
+        "text": "You can host your static html/css/images on IPFS and put the hash in your ANS name's Content record. Then it can be resolved by ANS-aware browsers (e.g. Opera), browser extensions (Metamask), or any browser with '.link' appended to the end (e.g. ens.eth.link).",
         "title": "3. Set a content hash of a decentralized website"
       },
       "title": "Learn how to manage your name."
@@ -318,11 +318,11 @@
       "closeEdit": "Close Add/Edit Records",
       "messages": {
         "explanation": "리버스 리졸루션은 주소를 도메인 이름으로 변환합니다. 이를 통하여 댑의 인터페이스에 긴 주소인 '{{account}}' 대신에 '{{name}}'을(를) 표시할 수 있습니다. 만약 다른 계정에 대한 리버스를 설정하고 싶다면, 댑 브라우저에서 계정을 변경하세요.",
-        "explanation2": "You can only select names you set this Ethereum Address as.",
-        "noForwardRecordAavilable": "You either do not own any ENS names, or your ENS names have no ETH records set to this address.",
+        "explanation2": "You can only select names you set this Avalanche Address as.",
+        "noForwardRecordAavilable": "You either do not own any ANS names, or your ANS names have no ETH records set to this address.",
         "notSet": "리버스 레코드: 설정되지 않음",
         "reverseRecordRemoval": "Are you sure you want to delete the reverse record?",
-        "selectPlaceholder": "Select your ENS name",
+        "selectPlaceholder": "Select your ANS name",
         "setTo": "리버스 레코드: 다음으로 설정",
         "setToDifferent": "리버스 레코드: 다른 이름으로 설정"
       },
