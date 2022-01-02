@@ -367,7 +367,7 @@ export default ({ match }) => {
             marginTop: '-145px'
           }}
         >
-          <strong>ALL NAME SERVICES</strong>
+          <strong>AVALANCHE NAME SERVICES</strong>
         </h2>
       </SearchContainer>
     </Hero>
