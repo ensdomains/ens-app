@@ -161,8 +161,8 @@ function Faq() {
         </Section>
 
         <Section question="My transaction at step 3 failed">
-          This happens occasionally when the USD price changes and you haven,t
-          registered with enough ETH. Please try again from step3.
+          This happens occasionally when the USD price changes and you haven't
+          registered with enough ETH. Please try again from step 3.
           <br />
           Please also be noted that the registration step will expire if you
           don't complete within 24 hrs and you have to start from step 1 again.
@@ -195,7 +195,7 @@ function Faq() {
           behalf.
           <br />
           The Registrant only exists on ".eth" names and it allows you to change
-          the Controller. If you transfer the Registrant to an address you don,t
+          the Controller. If you transfer the Registrant to an address you don't
           own, you lose the ownership of the name.
         </Section>
 
@@ -221,7 +221,7 @@ function Faq() {
           If you click the "trash bin" icon on the address record, it will unset
           your address so that people can no longer look up your address with
           the name. You can also unset ownership of subdomains in this way, but
-          you cannot do so on ".eth" addresses. Because ‘.eth` names are
+          you cannot do so on ".eth" addresses. Because ".eth" names are
           ERC721-compliant NFTs, you cannot transfer them to an empty address
           (0x00000...). You can transfer it to a burn address (eg: 0x00001), but
           that does not erase the fact that you used to own the name. Also, the
@@ -250,7 +250,7 @@ function Faq() {
         <Section question="Why are some of my subdomains shown as a jumble of characters?">
           ENS names are stored as a hash on-chain so we have to decode the name
           using a list of possible names, and it shows in the hashed format if
-          we don,t have it on our list. You can still access and manage the name
+          we don't have it on our list. You can still access and manage the name
           if you search for the name directly in the search bar.
         </Section>
 
@@ -264,7 +264,7 @@ function Faq() {
         <H2>When you extend your registration</H2>
 
         <Section question="How do I receive an extension reminder?">
-          Click the "Remind me" button on the name,s page or your address page
+          Click the "Remind me" button on the name's page or your address page
           so that you can set a calendar reminder or email reminder. Note that
           you have to set calendar reminders per name, whereas you only need to
           set email reminders per the address of the owner. Also note that you
@@ -293,7 +293,7 @@ function Faq() {
         <Section question="I lost access to the Ethereum account that owns a name I registered. Can I still extend its registration period?">
           Any Ethereum account can pay to extend the registration of any ENS
           name, though doing so from an account that's not the owner will not
-          change ownership of the name. Just go to the name,s page and click
+          change ownership of the name. Just go to the name's page and click
           "Extend".
         </Section>
 
