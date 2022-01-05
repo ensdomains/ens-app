@@ -373,7 +373,13 @@ const useChangedValidRecords = (
           record => !validatableRecords.some(el => el.record.key === record.key)
         )
         const recordsToAddToValid = validatableRecords
-          .filter(record => record.valid)
+          .filter(
+            record =>
+              record.valid ||
+              (record.record.key.match(/_LEGACY/) &&
+                record.record.value ===
+                  initialRecords.find(el => el.key === record.record.key).value)
+          )
           .map(record => record.record)
         setValidRecords([...validRecordsWithoutNew, ...recordsToAddToValid])
         setValidatingRecords(
