@@ -4,6 +4,7 @@ import mq from 'mediaQuery'
 import { motion } from 'framer-motion'
 import ENSIcon from './images/ENSIcon.svg'
 import Arrow from './images/Arrow.svg'
+import { gql, useQuery } from '@apollo/client'
 
 const LogoSmall = styled(motion.img)`
   width: 48px;
@@ -90,18 +91,38 @@ export const NonMainPageBannerContainerWithMarginBottom = styled(
   margin-bottom: 20px;
 `
 
+const SHOULD_DELEGATE_QUERY = gql`
+  query shouldDelegateQuery @client {
+    shouldDelegate
+  }
+`
+
 export function DAOBannerContent() {
+  const {
+    data: { shouldDelegate }
+  } = useQuery(SHOULD_DELEGATE_QUERY)
+
   return (
     <Link
       target="_blank"
       rel="noreferrer"
-      href="https://ens.mirror.xyz/5cGl-Y37aTxtokdWk21qlULmE1aSM_NuX9fstbOPoWU"
+      href={
+        shouldDelegate
+          ? 'https://claim.ens.domains/delegate-ranking'
+          : 'https://ens.mirror.xyz/5cGl-Y37aTxtokdWk21qlULmE1aSM_NuX9fstbOPoWU'
+      }
     >
       <LogoSmall src={ENSIcon} alt="ENS logo" />
       <div>
-        <BannerTitle>$ENS Now Available for Claiming.</BannerTitle>
+        <BannerTitle>
+          {shouldDelegate
+            ? 'Delegate Your $ENS.'
+            : '$ENS Now Available for Claiming.'}
+        </BannerTitle>
         <BannerContent>
-          Claim your $ENS and participate in ENS governance.
+          {shouldDelegate
+            ? `You have ${shouldDelegate} ENS that you haven't delegated.`
+            : 'Claim your $ENS and participate in ENS governance.'}
         </BannerContent>
       </div>
       <ArrowSmall src={Arrow} alt="Arrow right icon" />

@@ -14,5 +14,6 @@ export const disconnectProvider = () => {
   disconnect()
   isReadOnlyReactive(true)
   reverseRecordReactive(null)
+  delegatesReactive(false)
   accountsReactive(null)
 }
