@@ -8,6 +8,7 @@ import { gql, useQuery } from '@apollo/client'
 
 const LogoSmall = styled(motion.img)`
   width: 48px;
+  height: 48px;
   padding: 10px;
   border-radius: 50%;
   margin: auto;
@@ -35,6 +36,7 @@ const ArrowSmall = styled(motion.img)`
 
 const BannerTitle = styled(`div`)`
   color: #0e0e0e;
+  letter-spacing: -0.01em;
   font-weight: bold;
   font-size: 18px;
 `
@@ -42,8 +44,16 @@ const BannerTitle = styled(`div`)`
 const BannerContent = styled(`div`)`
   color: #787878;
   font-size: 18px;
+  letter-spacing: -0.01em;
   font-weight: 500;
   font-size: 15px;
+`
+
+const BannerContentWrapper = styled('div')`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-around;
 `
 
 export const MainPageBannerContainer = styled(`div`)`
@@ -113,18 +123,18 @@ export function DAOBannerContent() {
       }
     >
       <LogoSmall src={ENSIcon} alt="ENS logo" />
-      <div>
+      <BannerContentWrapper>
         <BannerTitle>
           {shouldDelegate
-            ? 'Delegate Your $ENS.'
-            : '$ENS Now Available for Claiming.'}
+            ? 'Delegate Your $ENS'
+            : '$ENS Now Available for Claiming'}
         </BannerTitle>
         <BannerContent>
           {shouldDelegate
-            ? `You have ${shouldDelegate} ENS that you haven't delegated.`
+            ? `Participate in ENS governance by delegating your tokens and using your voting power.`
             : 'Claim your $ENS and participate in ENS governance.'}
         </BannerContent>
-      </div>
+      </BannerContentWrapper>
       <ArrowSmall src={Arrow} alt="Arrow right icon" />
     </Link>
   )
