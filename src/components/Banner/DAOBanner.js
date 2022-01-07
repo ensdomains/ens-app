@@ -25,7 +25,6 @@ const Link = styled(`a`)`
 `
 
 const ArrowSmall = styled(motion.img)`
-  height: 100%;
   margin: auto;
   display: block;
   width: 22px;
