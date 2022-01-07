@@ -134,11 +134,7 @@ const useGetRecords = domain => {
   const coinList =
     resolver &&
     resolver.coinTypes &&
-    resolver.coinTypes
-      .map(c => {
-        return formatsByCoinType[c] && formatsByCoinType[c].name
-      })
-      .filter(c => c)
+    resolver.coinTypes.map(c => formatsByCoinType[c].name)
 
   const { loading: addressesLoading, data: dataAddresses } = useQuery(
     GET_ADDRESSES,
@@ -373,13 +369,7 @@ const useChangedValidRecords = (
           record => !validatableRecords.some(el => el.record.key === record.key)
         )
         const recordsToAddToValid = validatableRecords
-          .filter(
-            record =>
-              record.valid ||
-              (record.record.key.match(/_LEGACY/) &&
-                record.record.value ===
-                  initialRecords.find(el => el.key === record.record.key).value)
-          )
+          .filter(record => record.valid)
           .map(record => record.record)
         setValidRecords([...validRecordsWithoutNew, ...recordsToAddToValid])
         setValidatingRecords(
