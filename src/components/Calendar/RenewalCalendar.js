@@ -35,7 +35,7 @@ function RenewalCalendarInvite({
     setShowModal(false)
   }
 
-  // AddToCalendarHOC does not allow passing in additional arbitary links
+  // AddToCalendarHOC does not allow passing in additional arbitrary links
   // to render in the dropdown list. Instead of refactoring the external
   // library, the Dropdown component was extend to support rendering
   // additional elements from appendChildren & prependChildren props.
