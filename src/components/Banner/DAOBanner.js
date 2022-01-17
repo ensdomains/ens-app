@@ -1,10 +1,9 @@
-import styled from '@emotion/styled/macro'
-import mq from 'mediaQuery'
-
-import { motion } from 'framer-motion'
-import ENSIcon from './images/ENSIcon.svg'
-import Arrow from './images/Arrow.svg'
 import { gql, useQuery } from '@apollo/client'
+import styled from '@emotion/styled/macro'
+import { motion } from 'framer-motion'
+import mq from 'mediaQuery'
+import Arrow from './images/Arrow.svg'
+import ENSIcon from './images/ENSIcon.svg'
 
 const LogoSmall = styled(motion.img)`
   width: 48px;
@@ -66,14 +65,16 @@ export const MainPageBannerContainer = styled(`div`)`
   background: #ffffff;
   border-radius: 14px;
   max-width: 90%;
-  padding: 15px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 0;
   a {
     display: grid;
     grid-template-columns: 73px 1fr 50px;
   }
   ${mq.medium`
     width: 700px;
-    height: 78px;
   `}
 `
 
@@ -126,12 +127,12 @@ export function DAOBannerContent() {
       <BannerContentWrapper>
         <BannerTitle>
           {shouldDelegate
-            ? 'Delegate Your $ENS'
+            ? 'Your ENS Tokens are undelegated'
             : '$ENS Now Available for Claiming'}
         </BannerTitle>
         <BannerContent>
           {shouldDelegate
-            ? `Participate in ENS governance by delegating your tokens and using your voting power.`
+            ? `Participate more actively in ENS governance by delegating your voting rights to a community member`
             : 'Claim your $ENS and participate in ENS governance.'}
         </BannerContent>
       </BannerContentWrapper>
