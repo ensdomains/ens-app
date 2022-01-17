@@ -16,10 +16,12 @@ const CheckBoxContainer = styled('div')`
   margin: 5px;
 `
 
-const DomainContainer = styled(Link)`
+const Container = styled.div`
   &:before {
     content: '';
     background: ${p => {
+      if (p.hasInvalidCharacter) return 'black'
+
       switch (p.state) {
         case 'Yours':
           return '#52E5FF'
@@ -38,23 +40,32 @@ const DomainContainer = styled(Link)`
           return 'red'
       }
     }};
+
     width: 4px;
     height: 100%;
     position: absolute;
     left: 0;
     top: 0;
+    z-index: 10;
   }
-  color: #2b2b2b;
-  padding: 20px;
-  overflow: hidden;
+
   position: relative;
   background-color: white;
+  border-radius: 6px;
+  box-shadow: 3px 4px 20px 0 rgba(144, 171, 191, 0.42);
+  padding: ${p => (p.hasInvalidCharacter ? '20' : '0')}px;
+`
+
+const DomainContainer = styled(Link)`
+  padding: 20px;
+  color: #2b2b2b;
+  overflow: hidden;
+  position: relative;
   background: ${({ percentDone }) =>
     percentDone
       ? `
   linear-gradient(to right, rgba(128, 255, 128, 0.1) 0%, rgba(82,229,255, 0.1) ${percentDone}%,#ffffff ${percentDone}%)`
       : 'white'};
-  border-radius: 6px;
   height: 65px;
   display: grid;
   height: auto;
@@ -64,6 +75,7 @@ const DomainContainer = styled(Link)`
   font-size: 22px;
   margin-bottom: 4px;
   transition: 0.2s all;
+  border-radius: 6px;
 
   ${mq.medium`
     grid-template-columns: 1fr minmax(150px,350px) 100px 50px 50px;
@@ -72,7 +84,6 @@ const DomainContainer = styled(Link)`
 
   color: #2b2b2b;
   z-index: 1;
-  box-shadow: 3px 4px 20px 0 rgba(144, 171, 191, 0.42);
   .label-container {
     display: flex;
   }
@@ -189,12 +200,9 @@ const Domain = ({
     expiryDate = parseInt(domain.expiryTime.getTime() / 1000)
   }
   return (
-    <DomainContainer
-      to={`/name/${domain.name}`}
+    <Container
       state={isOwner ? 'Yours' : domain.state}
-      className={className}
-      percentDone={percentDone}
-      data-testid={`domain-${domain.name}`}
+      hasInvalidCharacter={hasInvalidCharacter}
     >
       {hasInvalidCharacter && (
         <WarningContainer>
@@ -207,42 +215,49 @@ const Domain = ({
           </p>
         </WarningContainer>
       )}
-      <DomainName state={isOwner ? 'Yours' : domain.state}>
-        {humaniseName(domain.name)}
-      </DomainName>
-      <ExpiryDate expiryDate={expiryDate} name={domain.name} />
-      <Label domain={domain} isOwner={isOwner} />
-      <RightContainer>
-        <AddFavourite
-          domain={domain}
-          isSubDomain={isSubDomain}
-          isFavourite={isFavourite}
-        />
-      </RightContainer>
-      <RightContainer>
-        {expiryDate && (
-          <CheckBoxContainer>
-            <Checkbox
-              testid={`checkbox-${domain.name}`}
-              checked={checkedBoxes[domain.name]}
-              onClick={e => {
-                e.preventDefault()
-                setCheckedBoxes &&
-                  setCheckedBoxes(prevState => {
-                    return {
-                      ...prevState,
-                      [domain.name]: !prevState[domain.name]
-                    }
-                  })
-                if (checkedBoxes[domain.name]) {
-                  setSelectAll(false)
-                }
-              }}
-            />
-          </CheckBoxContainer>
-        )}
-      </RightContainer>
-    </DomainContainer>
+      <DomainContainer
+        to={`/name/${domain.name}`}
+        className={className}
+        percentDone={percentDone}
+        data-testid={`domain-${domain.name}`}
+      >
+        <DomainName state={isOwner ? 'Yours' : domain.state}>
+          {humaniseName(domain.name)}
+        </DomainName>
+        <ExpiryDate expiryDate={expiryDate} name={domain.name} />
+        {!hasInvalidCharacter && <Label domain={domain} isOwner={isOwner} />}
+        <RightContainer>
+          <AddFavourite
+            domain={domain}
+            isSubDomain={isSubDomain}
+            isFavourite={isFavourite}
+          />
+        </RightContainer>
+        <RightContainer>
+          {expiryDate && (
+            <CheckBoxContainer>
+              <Checkbox
+                testid={`checkbox-${domain.name}`}
+                checked={checkedBoxes[domain.name]}
+                onClick={e => {
+                  e.preventDefault()
+                  setCheckedBoxes &&
+                    setCheckedBoxes(prevState => {
+                      return {
+                        ...prevState,
+                        [domain.name]: !prevState[domain.name]
+                      }
+                    })
+                  if (checkedBoxes[domain.name]) {
+                    setSelectAll(false)
+                  }
+                }}
+              />
+            </CheckBoxContainer>
+          )}
+        </RightContainer>
+      </DomainContainer>
+    </Container>
   )
 }
 
