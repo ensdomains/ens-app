@@ -67,9 +67,10 @@ export const MainPageBannerContainer = styled(`div`)`
   max-width: 90%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 15px 0;
   a {
+    flex-grow: 1;
     display: grid;
     grid-template-columns: 73px 1fr 50px;
   }
