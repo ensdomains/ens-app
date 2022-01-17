@@ -23,7 +23,7 @@ import LargeHeart from '../components/Icons/LargeHeart'
 import RenewAll from '../components/Address/RenewAll'
 import Checkbox from '../components/Forms/Checkbox'
 import { useAccount } from '../components/QueryAccount'
-import { filterNormalised } from '../utils/utils'
+import { filterNormalised, normaliseOrMark } from '../utils/utils'
 import {
   NonMainPageBannerContainer,
   DAOBannerContent
@@ -142,11 +142,26 @@ function Favourites() {
   const {
     data: { globalError }
   } = useQuery(GET_ERRORS)
-  const favourites = filterNormalised(favouritesWithUnnormalised, 'name')
+  const favourites = normaliseOrMark(favouritesWithUnnormalised, 'name')
   if (globalError.invalidCharacter || !favourites) {
     return <InvalidCharacterError message={globalError.invalidCharacter} />
   }
-  const ids = favourites && favourites.map(f => getNamehash(f.name))
+  console.log('favourites: ', favourites)
+  const ids =
+    favourites &&
+    favourites
+      .map(f => {
+        try {
+          console.log('getNamehash: ', getNamehash(f.name))
+          return getNamehash(f.name)
+        } catch (e) {
+          console.error('Error getting favourite ids: ', e)
+          return null
+        }
+      })
+      ?.filter(x => x)
+  console.log('ids: ', ids)
+
   const { data: { registrations } = [], refetch } = useQuery(
     GET_REGISTRATIONS_BY_IDS_SUBGRAPH,
     {
@@ -159,21 +174,34 @@ function Favourites() {
     }
   )
 
+  console.log('registrations: ', registrations)
+  console.log('favourites: ', favourites)
+
   if (!favourites || (favourites.length === 0 && !registrations)) {
     return <NoDomains />
   }
   let favouritesList = []
+
   if (favourites.length > 0) {
     if (registrations && registrations.length > 0) {
       favouritesList = favourites.map(f => {
-        let r = registrations.filter(
-          a => a.domain.id === getNamehash(f.name)
-        )[0]
-        return {
-          name: f.name,
-          owner: r && r.registrant.id,
-          available: getAvailable(r && r.expiryDate),
-          expiryDate: r && r.expiryDate
+        try {
+          let r = registrations.filter(
+            a => a.domain.id === getNamehash(f.name)
+          )[0]
+          return {
+            name: f.name,
+            owner: r && r.registrant.id,
+            available: getAvailable(r && r.expiryDate),
+            expiryDate: r && r.expiryDate
+          }
+        } catch (e) {
+          return {
+            name: f.name,
+            hasInvalidCharacter: f.hasInvalidCharacter,
+            available: false,
+            expiryDate: false
+          }
         }
       })
     } else {
@@ -265,6 +293,7 @@ function Favourites() {
 
       {favouritesList &&
         favouritesList.map(domain => {
+          console.log('domain: ', domain)
           return (
             <DomainItem
               domain={{
@@ -277,6 +306,7 @@ function Favourites() {
               setCheckedBoxes={setCheckedBoxes}
               setSelectAll={setSelectAll}
               key={domain.name}
+              hasInvalidCharacter={domain.hasInvalidCharacter}
             />
           )
         })}

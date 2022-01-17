@@ -10,6 +10,7 @@ import ExpiryDate from './ExpiryDate'
 import Loader from '../Loader'
 import { humaniseName } from '../../utils/utils'
 import Checkbox from '../Forms/Checkbox'
+import warningImage from '../../assets/warning.svg'
 
 const CheckBoxContainer = styled('div')`
   margin: 5px;
@@ -143,6 +144,19 @@ const Label = ({ domain, isOwner }) => {
   )
 }
 
+const WarningImg = styled('img')`
+  width: 40px;
+  height: 40px;
+  margin-right: 5px;
+`
+
+const WarningContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+`
+
 const Domain = ({
   domain,
   isSubDomain,
@@ -151,7 +165,8 @@ const Domain = ({
   loading,
   checkedBoxes = {},
   setCheckedBoxes,
-  setSelectAll
+  setSelectAll,
+  hasInvalidCharacter
 }) => {
   if (loading) {
     return (
@@ -160,7 +175,6 @@ const Domain = ({
       </DomainContainer>
     )
   }
-  const nameArray = domain.name.split('.')
   const account = useAccount()
   let isOwner = false
   if (!domain.available && domain.owner && parseInt(domain.owner, 16) !== 0) {
@@ -182,6 +196,17 @@ const Domain = ({
       percentDone={percentDone}
       data-testid={`domain-${domain.name}`}
     >
+      {hasInvalidCharacter && (
+        <WarningContainer>
+          <WarningImg src={warningImage} />
+          <p>
+            This name is{' '}
+            <a href="https://docs.ens.domains/frequently-asked-questions#what-about-foreign-characters-what-about-upper-case-letters-is-any-unicode-character-valid">
+              invalid
+            </a>
+          </p>
+        </WarningContainer>
+      )}
       <DomainName state={isOwner ? 'Yours' : domain.state}>
         {humaniseName(domain.name)}
       </DomainName>

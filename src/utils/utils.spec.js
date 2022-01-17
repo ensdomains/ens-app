@@ -37,3 +37,9 @@ describe('isCID', () => {
     expect(isCID(ipfsHash)).toBeTruthy()
   })
 })
+
+describe('normaliseOrMark', () => {
+  it.todo('should return all names')
+  it.todo('should return an invalid name with a warning indicator')
+  it.todo('should set global error if error is not "Illegal character"')
+})

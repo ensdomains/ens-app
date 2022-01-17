@@ -20,6 +20,8 @@ import { useEditable } from '../hooks'
 import PendingTx from '../PendingTx'
 import AddFavourite from '../AddFavourite/AddFavourite'
 
+import warningImage from '../../assets/warning.svg'
+
 const ChildDomainItemContainer = styled('div')`
   padding: 30px 0;
   border-bottom: 1px dashed #d3d3d3;
@@ -37,6 +39,7 @@ const DomainLink = styled(Link)`
   color: #2b2b2b;
   font-size: 22px;
   font-weight: 100;
+  align-items: center;
 
   ${p =>
     !p.showBlockies &&
@@ -68,6 +71,19 @@ const DomainLink = styled(Link)`
   }
 `
 
+const WarningImg = styled('img')`
+  width: 40px;
+  height: 40px;
+  margin-right: 5px;
+`
+
+const WarningContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+`
+
 export default function ChildDomainItem({
   name,
   owner,
@@ -79,7 +95,8 @@ export default function ChildDomainItem({
   setSelectAll,
   showBlockies = true,
   canDeleteSubdomain,
-  refetch
+  refetch,
+  hasInvalidCharacter
 }) {
   const { state, actions } = useEditable()
   const { txHash, pending, confirmed } = state
@@ -104,6 +121,17 @@ export default function ChildDomainItem({
 
   return (
     <ChildDomainItemContainer>
+      {hasInvalidCharacter && (
+        <WarningContainer>
+          <WarningImg src={warningImage} />
+          <p>
+            This name is{' '}
+            <a href="https://docs.ens.domains/frequently-asked-questions#what-about-foreign-characters-what-about-upper-case-letters-is-any-unicode-character-valid">
+              invalid
+            </a>
+          </p>
+        </WarningContainer>
+      )}
       {pending && !confirmed ? (
         <PendingTx
           txHash={txHash}
