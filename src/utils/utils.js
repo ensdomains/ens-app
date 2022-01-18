@@ -278,36 +278,21 @@ export function normaliseOrMark(data, name, nested = false) {
     try {
       normalised = normalize(domain[name])
     } catch (e) {
-      console.log('illegal char')
       if (e.message.match(/Illegal char/)) {
         console.log('domain: ', { ...domain, hasInvalidCharacter: true })
         return { ...data, hasInvalidCharacter: true }
       }
 
-      // globalErrorReactive({
-      //   ...globalErrorReactive(),
-      //   invalidCharacter: 'Name error: ' + e.message
-      // })
+      globalErrorReactive({
+        ...globalErrorReactive(),
+        invalidCharacter: 'Name error: ' + e.message
+      })
       return { ...data, hasInvalidCharacter: true }
-      // return data
     }
 
     if (normalised === domain[name]) {
       return data
     }
-
-    console.log('original:', domain[name])
-    console.log('codepoints:', domain[name].hexEncode())
-    console.log('codepoints:', Array.from(domain[name]))
-    console.log(
-      'codepoints:',
-      domain[name].split('').map(x => x.codePointAt(0))
-    )
-
-    console.log('normalised:', normalised)
-    console.log('codepoints:', normalised.hexEncode())
-    console.log('codepoints:', Array.from(normalised))
-    console.log('codepoints:', normalised.split('').map(x => x.codePointAt(0)))
 
     return { ...data, hasInvalidCharacter: true }
   })

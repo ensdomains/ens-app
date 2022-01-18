@@ -1,5 +1,11 @@
 import { CID } from 'multiformats'
-import { isCID, isOwnerOfParentDomain } from './utils'
+import { isCID, isOwnerOfParentDomain, normaliseOrMark } from './utils'
+
+jest.mock('../apollo/reactiveVars', () => ({
+  __esModule: true
+}))
+import { globalErrorReactive } from '../apollo/reactiveVars'
+import { connect } from '../api/web3modal'
 
 describe('isOwnerOfParentDomain', () => {
   it('should return false if address is not provided', () => {
@@ -39,7 +45,17 @@ describe('isCID', () => {
 })
 
 describe('normaliseOrMark', () => {
-  it.todo('should return all names')
-  it.todo('should return an invalid name with a warning indicator')
-  it.todo('should set global error if error is not "Illegal character"')
+  const invalidName = '🏳%EF%B8%8F%E2%80%8D🌈.eth'
+  const mockData = [{ name: 'ensfairy.eth' }, { name: invalidName }]
+
+  it('should return all names', () => {
+    const result = normaliseOrMark(mockData, 'name')
+    expect(result.length).toBe(2)
+  })
+  it('should return an invalid name with a warning indicator', () => {
+    const result = normaliseOrMark(mockData, 'name')
+    expect(
+      result.find(x => x.name === invalidName).hasInvalidCharacter
+    ).toBeTruthy()
+  })
 })
