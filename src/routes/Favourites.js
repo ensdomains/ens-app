@@ -146,13 +146,11 @@ function Favourites() {
   if (globalError.invalidCharacter || !favourites) {
     return <InvalidCharacterError message={globalError.invalidCharacter} />
   }
-  console.log('favourites: ', favourites)
   const ids =
     favourites &&
     favourites
       .map(f => {
         try {
-          console.log('getNamehash: ', getNamehash(f.name))
           return getNamehash(f.name)
         } catch (e) {
           console.error('Error getting favourite ids: ', e)
@@ -160,7 +158,6 @@ function Favourites() {
         }
       })
       ?.filter(x => x)
-  console.log('ids: ', ids)
 
   const { data: { registrations } = [], refetch } = useQuery(
     GET_REGISTRATIONS_BY_IDS_SUBGRAPH,
@@ -173,9 +170,6 @@ function Favourites() {
       }
     }
   )
-
-  console.log('registrations: ', registrations)
-  console.log('favourites: ', favourites)
 
   if (!favourites || (favourites.length === 0 && !registrations)) {
     return <NoDomains />
@@ -293,7 +287,6 @@ function Favourites() {
 
       {favouritesList &&
         favouritesList.map(domain => {
-          console.log('domain: ', domain)
           return (
             <DomainItem
               domain={{
