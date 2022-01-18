@@ -6,6 +6,7 @@ import { setup } from './apollo/mutations/ens'
 import { connect } from './api/web3modal'
 import {
   accountsReactive,
+  delegatesReactive,
   favouritesReactive,
   globalErrorReactive,
   isAppReadyReactive,
@@ -177,6 +178,7 @@ export default async reconnect => {
 
     if (accountsReactive?.[0]) {
       reverseRecordReactive(await getReverseRecord(accountsReactive?.[0]))
+      delegatesReactive(await getShouldDelegate())
     }
 
     isReadOnlyReactive(isReadOnly())

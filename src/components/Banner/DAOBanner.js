@@ -1,12 +1,13 @@
+import { gql, useQuery } from '@apollo/client'
 import styled from '@emotion/styled/macro'
-import mq from 'mediaQuery'
-
 import { motion } from 'framer-motion'
-import ENSIcon from './images/ENSIcon.svg'
+import mq from 'mediaQuery'
 import Arrow from './images/Arrow.svg'
+import ENSIcon from './images/ENSIcon.svg'
 
 const LogoSmall = styled(motion.img)`
   width: 48px;
+  height: 48px;
   padding: 10px;
   border-radius: 50%;
   margin: auto;
@@ -33,6 +34,7 @@ const ArrowSmall = styled(motion.img)`
 
 const BannerTitle = styled(`div`)`
   color: #0e0e0e;
+  letter-spacing: -0.01em;
   font-weight: bold;
   font-size: 18px;
 `
@@ -40,8 +42,16 @@ const BannerTitle = styled(`div`)`
 const BannerContent = styled(`div`)`
   color: #787878;
   font-size: 18px;
+  letter-spacing: -0.01em;
   font-weight: 500;
   font-size: 15px;
+`
+
+const BannerContentWrapper = styled('div')`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-around;
 `
 
 export const MainPageBannerContainer = styled(`div`)`
@@ -54,14 +64,17 @@ export const MainPageBannerContainer = styled(`div`)`
   background: #ffffff;
   border-radius: 14px;
   max-width: 90%;
-  padding: 15px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 15px 0;
   a {
+    flex-grow: 1;
     display: grid;
     grid-template-columns: 73px 1fr 50px;
   }
   ${mq.medium`
     width: 700px;
-    height: 78px;
   `}
 `
 
@@ -89,20 +102,40 @@ export const NonMainPageBannerContainerWithMarginBottom = styled(
   margin-bottom: 20px;
 `
 
+const SHOULD_DELEGATE_QUERY = gql`
+  query shouldDelegateQuery @client {
+    shouldDelegate
+  }
+`
+
 export function DAOBannerContent() {
+  const {
+    data: { shouldDelegate }
+  } = useQuery(SHOULD_DELEGATE_QUERY)
+
   return (
     <Link
       target="_blank"
       rel="noreferrer"
-      href="https://ens.mirror.xyz/5cGl-Y37aTxtokdWk21qlULmE1aSM_NuX9fstbOPoWU"
+      href={
+        shouldDelegate
+          ? 'https://claim.ens.domains/delegate-ranking'
+          : 'https://ens.mirror.xyz/5cGl-Y37aTxtokdWk21qlULmE1aSM_NuX9fstbOPoWU'
+      }
     >
       <LogoSmall src={ENSIcon} alt="ENS logo" />
-      <div>
-        <BannerTitle>$ENS Now Available for Claiming.</BannerTitle>
+      <BannerContentWrapper>
+        <BannerTitle>
+          {shouldDelegate
+            ? 'Your ENS Tokens are undelegated'
+            : '$ENS Now Available for Claiming'}
+        </BannerTitle>
         <BannerContent>
-          Claim your $ENS and participate in ENS governance.
+          {shouldDelegate
+            ? `Participate more actively in ENS governance by delegating your voting rights to a community member`
+            : 'Claim your $ENS and participate in ENS governance.'}
         </BannerContent>
-      </div>
+      </BannerContentWrapper>
       <ArrowSmall src={Arrow} alt="Arrow right icon" />
     </Link>
   )
