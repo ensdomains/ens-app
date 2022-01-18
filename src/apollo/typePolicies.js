@@ -9,7 +9,8 @@ import {
   favouritesReactive,
   globalErrorReactive,
   transactionHistoryReactive,
-  namesReactive
+  namesReactive,
+  delegatesReactive
 } from './reactiveVars'
 import { hasValidReverseRecord } from '../utils/utils'
 
@@ -76,6 +77,11 @@ export default {
       favourites: {
         read() {
           return favouritesReactive()
+        }
+      },
+      shouldDelegate: {
+        read() {
+          return delegatesReactive()
         }
       },
       globalError: {

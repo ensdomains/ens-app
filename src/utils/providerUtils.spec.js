@@ -14,7 +14,8 @@ import { disconnect } from '../api/web3modal'
 jest.mock('../apollo/reactiveVars', () => ({
   accountsReactive: jest.fn(),
   isReadOnlyReactive: jest.fn(),
-  reverseRecordReactive: jest.fn()
+  reverseRecordReactive: jest.fn(),
+  delegatesReactive: jest.fn()
 }))
 import {
   accountsReactive,
