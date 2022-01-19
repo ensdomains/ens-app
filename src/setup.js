@@ -178,7 +178,7 @@ export default async reconnect => {
 
     if (accountsReactive?.[0]) {
       reverseRecordReactive(await getReverseRecord(accountsReactive?.[0]))
-      delegatesReactive(await getShouldDelegate())
+      delegatesReactive(await getShouldDelegate(accountsReactive?.[0]))
     }
 
     isReadOnlyReactive(isReadOnly())

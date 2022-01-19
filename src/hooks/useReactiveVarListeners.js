@@ -29,7 +29,7 @@ export default () => {
   useEffect(() => {
     const run = async () => {
       reverseRecordReactive(await getReverseRecord(accounts?.[0]))
-      delegatesReactive(await getShouldDelegate())
+      delegatesReactive(await getShouldDelegate(accounts?.[0]))
     }
     if (isENSReady) {
       run()

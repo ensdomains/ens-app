@@ -94,7 +94,7 @@ const Years = ({ years, setYears }) => {
               if (sign === -1 || isNaN(sign)) {
                 setYears(0)
               } else {
-                setYears(e.target.value)
+                setYears(Number(e.target.value))
               }
             }}
           />{' '}
