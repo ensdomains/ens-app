@@ -267,7 +267,7 @@ Subgraph is used to list subdomains and all the names you have registered.
 Get ans subgraph
 
 ```
-git clone https://github.com/muellners/ans-subgraph
+git clone https://github.com/devilla/ans-subgraph
 cd ans-subgraph
 yarn
 ```
