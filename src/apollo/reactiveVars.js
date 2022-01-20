@@ -32,3 +32,5 @@ export const globalErrorReactive = makeVar({
 export const transactionHistoryReactive = makeVar({ transactionHistory: [] })
 
 export const namesReactive = makeVar([])
+
+export const delegatesReactive = makeVar(false)

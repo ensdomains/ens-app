@@ -53,6 +53,13 @@ describe('Home', () => {
           }
         }
       }
+      if (queryName === 'shouldDelegateQuery') {
+        return {
+          data: {
+            shouldDelegate: false
+          }
+        }
+      }
     })
 
     SearchDefault.mockImplementation(() => <div />)
