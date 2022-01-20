@@ -258,18 +258,6 @@ export function filterNormalised(data, name, nested = false) {
   }
 }
 
-String.prototype.hexEncode = function() {
-  var hex, i
-
-  var result = ''
-  for (i = 0; i < this.length; i++) {
-    hex = this.charCodeAt(i).toString(16)
-    result += ('000' + hex).slice(-4)
-  }
-
-  return result
-}
-
 export function normaliseOrMark(data, name, nested = false) {
   return data?.map(data => {
     const domain = nested ? data.domain : data

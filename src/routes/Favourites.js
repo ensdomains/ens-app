@@ -210,8 +210,6 @@ function Favourites() {
     }
   }
 
-  console.log('favouritesList: ', favouritesList)
-
   const hasFavourites =
     (favouritesList && favouritesList.length > 0) ||
     (subDomainFavourites && subDomainFavourites.length > 0)
