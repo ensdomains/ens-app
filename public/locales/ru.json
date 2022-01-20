@@ -323,7 +323,7 @@
       "messages": {
         "explanation": "Обратная Резолюция преобразовывает адрес в имя. Это позволяет Dapps показывать в их интерфейсах '{{имя}}' вместо длинного адреса '{{аккаунт}}'. Если вы хотите установить преобразование для другого аккаунта, пожалуйста, переключитите аккаунты в браузере dapp.",
         "explanation2": "You can only select names you set this Avalanche Address as.",
-        "noForwardRecordAavilable": "You either do not own any ANS names, or your ANS names have no ETH records set to this address.",
+        "noForwardRecordAavilable": "You either do not own any ANS names, or your ANS names have no AVAX records set to this address.",
         "notSet": "Обратная запись: не установлена",
         "reverseRecordRemoval": "Are you sure you want to delete the reverse record?",
         "selectPlaceholder": "Select your ANS name",

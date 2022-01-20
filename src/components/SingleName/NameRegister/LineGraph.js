@@ -195,7 +195,7 @@ export default function LineGraph({
           {t('linegraph.title', {
             premiumInEth: currentPremiumInEth.toFixed(2)
           })}{' '}
-          ETH($
+          AVAX($
           {currentPremium.toFixed(2)})
         </Title>
         <span>

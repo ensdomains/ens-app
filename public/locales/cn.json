@@ -317,7 +317,7 @@
       "messages": {
         "explanation": "反向解析将地址转换为域名。它能让 dapp 在其界面上显示 “{{name}}”，而不是 “{{account}}” 这个冗长的地址。如果您想为另一个账户设置反向解析，请先在 dapp 浏览器中切换帐户。",
         "explanation2": "您只能选择已经解析至这个以太坊地址的域名。",
-        "noForwardRecordAavilable": "您尚未拥有 ANS 域名，或者您 ANS 域名的 ETH 记录没有设置为此地址。",
+        "noForwardRecordAavilable": "您尚未拥有 ANS 域名，或者您 ANS 域名的 AVAX 记录没有设置为此地址。",
         "notSet": "反向记录：未设置",
         "reverseRecordRemoval": "您确定要删除反向解析记录？",
         "selectPlaceholder": "选择您的 ANS 域名",

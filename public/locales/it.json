@@ -321,7 +321,7 @@
       "messages": {
         "explanation": "La Risoluzione inversa traduce un indirizzo in un nome dominio. Questo consente alle Dapps di visualizzare '{{name}}' nelle loro interfacce al posto dell'indirizzo completo '{{account}}'. Se vuoi impostare un tuo risolutore per un account differente, perfavore cambia account nel tuo browser dapp",
         "explanation2": "Puoi selezionare solo i nomi con cui hai impostato questo Indirizzo Avalanche.",
-        "noForwardRecordAavilable": "Non possiedi alcun nome ANS oppure i tuoi domini ANS non hanno record ETH impostati su questo indirizzo.",
+        "noForwardRecordAavilable": "Non possiedi alcun nome ANS oppure i tuoi domini ANS non hanno record AVAX impostati su questo indirizzo.",
         "notSet": "Record risoluzione: non impostato",
         "reverseRecordRemoval": "Are you sure you want to delete the reverse record?",
         "selectPlaceholder": "Seleziona il tuo dominio ANS",

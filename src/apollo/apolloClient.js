@@ -18,7 +18,7 @@ const cache = new InMemoryCache({
 })
 
 const endpoints = {
-  '43113': 'https://api.thegraph.com/subgraphs/name/devilla/ans'
+  '43113': 'https://api.thegraph.com/subgraphs/name/muellners/ans'
 }
 
 function getGraphQLAPI() {

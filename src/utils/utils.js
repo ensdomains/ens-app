@@ -131,7 +131,7 @@ export function humaniseName(name) {
   return name
     .split('.')
     .map(label => {
-      return isEncodedLabelhash(label) ? `[unknown${label.slice(1, 8)}]` : label
+      return isEncodedLabelhash(label) ? `[fuji${label.slice(1, 8)}]` : label
     })
     .join('.')
 }
