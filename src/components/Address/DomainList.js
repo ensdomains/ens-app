@@ -82,6 +82,7 @@ export default function DomainList({
             setSelectAll={setSelectAll}
             showBlockies={showBlockies}
             isFavourite={isFavourite}
+            hasInvalidCharacter={d.hasInvalidCharacter}
           />
         )
       })}

@@ -20,7 +20,11 @@ import AddressContainer from '../Basic/MainContainer'
 import DefaultTopBar from '../Basic/TopBar'
 import { Title as DefaultTitle } from '../Typography/Basic'
 import DefaultEtherScanLink from '../Links/EtherScanLink'
-import { getEtherScanAddr, filterNormalised } from '../../utils/utils'
+import {
+  getEtherScanAddr,
+  filterNormalised,
+  normaliseOrMark
+} from '../../utils/utils'
 import { calculateIsExpiredSoon } from '../../utils/dates'
 import DomainList from './DomainList'
 import RenewAll from './RenewAll'
@@ -281,7 +285,7 @@ export default function Address({
     ]
   }
 
-  let decryptedDomains = filterNormalised(
+  let decryptedDomains = normaliseOrMark(
     decryptNames(normalisedDomains),
     'labelName',
     true
@@ -403,7 +407,7 @@ export default function Address({
           setSelectAll={setSelectAll}
           address={address}
           domains={domains}
-          favourites={filterNormalised(favourites, 'labelName')}
+          favourites={normaliseOrMark(favourites, 'labelName')}
           activeSort={activeSort}
           activeFilter={domainType}
           checkedBoxes={checkedBoxes}

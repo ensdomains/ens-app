@@ -258,6 +258,34 @@ export function filterNormalised(data, name, nested = false) {
   }
 }
 
+export function normaliseOrMark(data, name, nested = false) {
+  return data?.map(data => {
+    const domain = nested ? data.domain : data
+    let normalised
+
+    try {
+      normalised = normalize(domain[name])
+    } catch (e) {
+      if (e.message.match(/Illegal char/)) {
+        console.log('domain: ', { ...domain, hasInvalidCharacter: true })
+        return { ...data, hasInvalidCharacter: true }
+      }
+
+      globalErrorReactive({
+        ...globalErrorReactive(),
+        invalidCharacter: 'Name error: ' + e.message
+      })
+      return { ...data, hasInvalidCharacter: true }
+    }
+
+    if (normalised === domain[name]) {
+      return data
+    }
+
+    return { ...data, hasInvalidCharacter: true }
+  })
+}
+
 export function prependUrl(url) {
   if (url && !url.match(/http[s]?:\/\//)) {
     return 'https://' + url
