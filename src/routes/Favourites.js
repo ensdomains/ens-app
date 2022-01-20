@@ -187,12 +187,13 @@ function Favourites() {
             name: f.name,
             owner: r && r.registrant.id,
             available: getAvailable(r && r.expiryDate),
-            expiryDate: r && r.expiryDate
+            expiryDate: r && r.expiryDate,
+            hasInvalidCharacter: f.hasInvalidCharacter
           }
         } catch (e) {
           return {
             name: f.name,
-            hasInvalidCharacter: f.hasInvalidCharacter,
+            hasInvalidCharacter: true,
             available: false,
             expiryDate: false
           }
@@ -202,11 +203,14 @@ function Favourites() {
       // Fallback when subgraph is not returning result
       favouritesList = favourites.map(f => {
         return {
-          name: f.name
+          name: f.name,
+          hasInvalidCharacter: f.hasInvalidCharacter
         }
       })
     }
   }
+
+  console.log('favouritesList: ', favouritesList)
 
   const hasFavourites =
     (favouritesList && favouritesList.length > 0) ||

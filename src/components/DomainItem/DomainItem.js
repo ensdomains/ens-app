@@ -54,6 +54,7 @@ const Container = styled.div`
   border-radius: 6px;
   box-shadow: 3px 4px 20px 0 rgba(144, 171, 191, 0.42);
   padding: ${p => (p.hasInvalidCharacter ? '20' : '0')}px;
+  padding-left: 0px;
 `
 
 const DomainContainer = styled(Link)`
@@ -156,16 +157,27 @@ const Label = ({ domain, isOwner }) => {
 }
 
 const WarningImg = styled('img')`
-  width: 40px;
-  height: 40px;
-  margin-right: 5px;
+  width: 16px;
+  height: 16px;
+  margin-bottom: 4px;
+  margin-right: 4px;
 `
 
 const WarningContainer = styled.div`
+  font-size: 16px;
   display: flex;
+  background-color: white;
+  margin-top: -10px;
+  margin-left: 2px;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 10px;
+  justify-content: flex-start;
+  color: black;
+  font-weight: 100;
+  padding: 10px 0px 10px 20px;
+
+  & a:hover {
+    color: #2c46a6;
+  }
 `
 
 const Domain = ({
@@ -179,6 +191,7 @@ const Domain = ({
   setSelectAll,
   hasInvalidCharacter
 }) => {
+  console.log('DomainItem: ', Array.from(domain.name))
   if (loading) {
     return (
       <DomainContainer state={'Owned'} className={className} to="">
@@ -206,13 +219,15 @@ const Domain = ({
     >
       {hasInvalidCharacter && (
         <WarningContainer>
-          <WarningImg src={warningImage} />
-          <p>
-            This name is{' '}
+          <WarningImg src={warningImage} onClick={e => e.preventDefault()} />
+          <span>
+            <span onClick={e => e.preventDefault()}>
+              This name is invalid.{' '}
+            </span>
             <a href="https://docs.ens.domains/frequently-asked-questions#what-about-foreign-characters-what-about-upper-case-letters-is-any-unicode-character-valid">
-              invalid
+              Learn more
             </a>
-          </p>
+          </span>
         </WarningContainer>
       )}
       <DomainContainer
