@@ -143,8 +143,10 @@ const useGetRecords = domain => {
   const { loading: addressesLoading, data: dataAddresses } = useQuery(
     GET_ADDRESSES,
     {
-      variables: { name: domain.name, keys: coinList },
-      skip: !coinList,
+      variables: {
+        name: domain.name,
+        keys: coinList || COIN_PLACEHOLDER_RECORDS
+      },
       fetchPolicy: 'network-only'
     }
   )
