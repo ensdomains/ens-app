@@ -27,6 +27,7 @@ export async function setup({
   if (enforceReadOnly) {
     option.infura = INFURA_ID
   }
+  console.log('***setupENS', option)
   const {
     ens: ensInstance,
     registrar: registrarInstance,
