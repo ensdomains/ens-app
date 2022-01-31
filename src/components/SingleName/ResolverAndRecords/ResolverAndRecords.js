@@ -63,7 +63,6 @@ export default function ResolverAndRecords({
   let isDeprecatedResolver = false
   let areRecordsMigrated = true
   let isPublicResolverReady = false
-  console.log('***resolver', { domain })
   const { data, loading } = useQuery(GET_RESOLVER_MIGRATION_INFO, {
     variables: {
       name: domain.name,

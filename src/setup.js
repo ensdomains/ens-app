@@ -47,26 +47,22 @@ export const isSupportedNetwork = networkId => {
 }
 
 export const getProvider = async reconnect => {
-  console.log('***GET PROVIDER1')
   try {
     let provider
     if (
       process.env.REACT_APP_STAGE === 'local' &&
       process.env.REACT_APP_ENS_ADDRESS
     ) {
-      console.log('***GET PROVIDER2')
       const { providerObject } = await setup({
         reloadOnAccountsChange: false,
         customProvider: 'http://localhost:8545',
         ensAddress: process.env.REACT_APP_ENS_ADDRESS
       })
       provider = providerObject
-      console.log('***GET PROVIDER3')
       let labels = window.localStorage['labels']
         ? JSON.parse(window.localStorage['labels'])
         : {}
 
-      console.log('***GET PROVIDER4')
       window.localStorage.setItem(
         'labels',
         JSON.stringify({
@@ -74,7 +70,6 @@ export const getProvider = async reconnect => {
           ...JSON.parse(process.env.REACT_APP_LABELS)
         })
       )
-      console.log('***GET PROVIDER5')
       return provider
     }
 
@@ -100,8 +95,6 @@ export const getProvider = async reconnect => {
     provider = providerObject
     return provider
   } catch (e) {
-    console.log('***GET PROVIDER6')
-    console.log('**********1', { e })
     if (e.message.match(/Unsupported network/)) {
       globalErrorReactive({
         ...globalErrorReactive(),
@@ -110,7 +103,6 @@ export const getProvider = async reconnect => {
       return
     }
   }
-  console.log('***GET PROVIDER7')
   try {
     const { providerObject } = await setup({
       reloadOnAccountsChange: false,
@@ -118,10 +110,8 @@ export const getProvider = async reconnect => {
       enforceReload: false
     })
     provider = providerObject
-    console.log('***GET PROVIDER8')
     return provider
   } catch (e) {
-    console.log('***GET PROVIDER9')
     console.error('getProvider readOnly error: ', e)
   }
 }
@@ -138,7 +128,6 @@ export const setWeb3Provider = async provider => {
 
   provider?.on('chainChanged', async _chainId => {
     const networkId = await getNetworkId()
-    console.log('**********2', { networkId })
     if (!isSupportedNetwork(networkId)) {
       globalErrorReactive({
         ...globalErrorReactive(),
@@ -175,7 +164,6 @@ export default async reconnect => {
     const networkId = await getNetworkId()
 
     if (!isSupportedNetwork(networkId)) {
-      console.log('**********3', { networkId })
       globalErrorReactive({
         ...globalErrorReactive(),
         network: 'Unsupported Network'
