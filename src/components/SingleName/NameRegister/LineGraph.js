@@ -167,7 +167,7 @@ export default function LineGraph({
           ],
           yAxes: [
             {
-              ticks: { display: false, max: 2100 },
+              ticks: { display: false, max: startPremium * 1.1 },
               gridLines: {
                 display: false,
                 drawBorder: false
