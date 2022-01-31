@@ -156,9 +156,8 @@ const useGetRecords = domain => {
     {
       variables: {
         name: domain.name,
-        keys: resolver && resolver.texts
+        keys: (resolver && resolver.texts) || TEXT_PLACEHOLDER_RECORDS
       },
-      skip: !dataResolver,
       fetchPolicy: 'network-only'
     }
   )
