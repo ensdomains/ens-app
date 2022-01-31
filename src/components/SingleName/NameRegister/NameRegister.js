@@ -202,9 +202,9 @@ const NameRegister = ({
   const expiryDate = moment(domain.expiryTime)
   const releasedDate = expiryDate.clone().add(90, 'days')
   const zeroPremiumDate = releasedDate.clone().add(28, 'days')
-  const startingPremiumInUsd = 2000
+  const startingPremiumInUsd = 100000
   const diff = zeroPremiumDate.diff(releasedDate)
-  const rate = 2000 / diff
+  const rate = startingPremiumInUsd / diff
   if (!registrationOpen) return <NotAvailable domain={domain} />
   if (ethUsdPriceLoading || gasPriceLoading) return <></>
 
