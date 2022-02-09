@@ -1,6 +1,6 @@
 ## Running as a Gnosis Safe App
 
-It is possible to run the ENS app as a [Gnosis Safe App](https://docs.gnosis.io/safe/docs/sdks_safe_apps/). This will allow it to directly use the ENS app from within the [Gnosis Safe web interface](https://app.gnosis-safe.io).
+It is possible to run the ENS app like a [Gnosis Safe App](https://docs.gnosis.io/safe/docs/sdks_safe_apps/). This will allow it to directly use the ENS app from within the [Gnosis Safe web interface](https://app.gnosis-safe.io).
 
 As the ENS app is normally running on a different host (unless both, the Gnosis Safe web interface and the ENS app, are for example hosted locally) it is required to enable CORS headers. This will allow the Gnosis Safe web interface to access the ENS app meta information from the `manifest.json`.
 
