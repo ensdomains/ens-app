@@ -335,6 +335,12 @@ export const IS_MIGRATED = gql`
   }
 `
 
+export const WILDCARD_RESOLVER_DOMAIN = gql`
+  query wildcardResolverDomain($name: String) {
+    wildcardResolverDomain(name: $name)
+  }
+`
+
 export const IS_CONTRACT_CONTROLLER = gql`
   query isContractController($address: String) {
     isContractController(address: $address)

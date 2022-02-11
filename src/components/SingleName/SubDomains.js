@@ -1,10 +1,12 @@
 import React from 'react'
 import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
+import { useQuery } from '@apollo/client'
 import { Query } from '@apollo/client/react/components'
 import {
   GET_SUBDOMAINS_FROM_SUBGRAPH,
-  GET_SUBDOMAINS
+  GET_SUBDOMAINS,
+  WILDCARD_RESOLVER_DOMAIN
 } from '../../graphql/queries'
 import Loader from '../Loader'
 import { H2 } from '../Typography/Basic'
@@ -103,6 +105,18 @@ function SubDomains({
   ...rest
 }) {
   const { t } = useTranslation()
+  const {
+    data: { wildcardResolverDomain } = {},
+    loading: loadingWildcardResolverDomain
+  } = useQuery(WILDCARD_RESOLVER_DOMAIN, {
+    variables: {
+      name: domain.name
+    }
+  })
+
+  const isWildcard =
+    wildcardResolverDomain && wildcardResolverDomain === domain.name
+
   const canAddSubdomain =
     isOwner &&
     !loadingIsParentMigrated &&
@@ -142,12 +156,28 @@ function SubDomains({
                 />
               )
             }
-            if (loading)
+            if (loading || loadingWildcardResolverDomain)
               return (
                 <>
                   <Loader withWrap large />
                 </>
               )
+            if (!!wildcardResolverDomain) {
+              return (
+                <>
+                  {isWildcard && (
+                    <AddSubdomainContainer
+                      domain={domain}
+                      refetch={refetch}
+                      canAddSubdomain={canAddSubdomain}
+                    />
+                  )}
+                  <SubDomainH2>
+                    {t('singleName.subdomains.wildcard')}
+                  </SubDomainH2>
+                </>
+              )
+            }
             if (subdomains && subdomains.length === 0) {
               return (
                 <>
@@ -209,7 +239,11 @@ function SubDomains({
           }}
         </Query>
       ) : (
-        <SubDomainH2>{t('singleName.subdomains.nosubdomains')}</SubDomainH2>
+        <SubDomainH2>
+          {wildcardResolverDomain
+            ? t('singleName.subdomains.wildcard')
+            : t('singleName.subdomains.nosubdomains')}
+        </SubDomainH2>
       )}
     </SubDomainsContainer>
   )
