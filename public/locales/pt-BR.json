@@ -189,7 +189,7 @@
     "notify": "Avise-me",
     "premium": {
       "dateDescription": "Data e hora mostrados no fuso horário local",
-      "invalid": "Qualquer número acima de 2k é inválido",  
+      "invalid": "Qualquer número acima de 2k é inválido",
       "title": "Prêmio"
     },
     "premiumWarning": {
@@ -333,7 +333,7 @@
     },
     "resolver": {
       "error": "Erro ao migrar o resolvedor",
-      "message": "Para redefinir seu resolvedor manualmente, clique em definir e insira o endereço de seu resolvedor personalizado.",  
+      "message": "Para redefinir seu resolvedor manualmente, clique em definir e insira o endereço de seu resolvedor personalizado.",
       "placeholder": "Use o Resolvedor público ou insira o endereço do seu resolvedor de contrato personalizado",
       "publicResolver": "Use o Resolvedor público",
       "resolverAddressWarning": "Apenas endereços de contrato são permitidos",
@@ -344,7 +344,8 @@
     },
     "subdomains": {
       "add": "Adicionar Subdomínios",
-      "nosubdomains": "Nenhum subdomínio adicionado"
+      "nosubdomains": "Nenhum subdomínio adicionado",
+      "wildcard": "This domain may have other subdomains that cannot be shown as they are off chain"
     },
     "tabs": {
       "details": "Detalhes",

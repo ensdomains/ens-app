@@ -344,7 +344,8 @@
     },
     "subdomains": {
       "add": "Aggiungi Sottodomini",
-      "nosubdomains": "Nessun Sottodominio è stato aggiunto"
+      "nosubdomains": "Nessun Sottodominio è stato aggiunto",
+      "wildcard": "This domain may have other subdomains that cannot be shown as they are off chain"
     },
     "tabs": {
       "details": "Dettagli",

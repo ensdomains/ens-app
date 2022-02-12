@@ -342,7 +342,8 @@
     },
     "subdomains": {
       "add": "서브도메인 추가",
-      "nosubdomains": "추가된 서브도메인이 없습니다"
+      "nosubdomains": "추가된 서브도메인이 없습니다",
+      "wildcard": "This domain may have other subdomains that cannot be shown as they are off chain"
     },
     "tabs": {
       "details": "상세",
