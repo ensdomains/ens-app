@@ -105,14 +105,14 @@ function SubDomains({
   ...rest
 }) {
   const { t } = useTranslation()
-  const {
-    data: { wildcardResolverDomain } = {},
-    loading: loadingWildcardResolverDomain
-  } = useQuery(WILDCARD_RESOLVER_DOMAIN, {
-    variables: {
-      name: domain.name
+  const { data: { wildcardResolverDomain } = {} } = useQuery(
+    WILDCARD_RESOLVER_DOMAIN,
+    {
+      variables: {
+        name: domain.name
+      }
     }
-  })
+  )
 
   const isWildcard =
     wildcardResolverDomain && wildcardResolverDomain === domain.name
@@ -156,7 +156,7 @@ function SubDomains({
                 />
               )
             }
-            if (loading || loadingWildcardResolverDomain)
+            if (loading)
               return (
                 <>
                   <Loader withWrap large />
