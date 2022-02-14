@@ -133,7 +133,7 @@ export function DAOBannerContent() {
         <BannerContent>
           {shouldDelegate
             ? `Participate more actively in ENS governance by delegating your voting rights to a community member`
-            : 'If you owned an ENS name before October 31st 2021, you can claim $ENS and participate  in ENS governance.'}
+            : 'If you owned an ENS name before October 31st 2021, you can claim $ENS and participate in ENS governance.'}
         </BannerContent>
       </BannerContentWrapper>
       <ArrowSmall src={Arrow} alt="Arrow right icon" />
