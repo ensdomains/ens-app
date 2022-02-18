@@ -145,8 +145,10 @@ const useGetRecords = domain => {
     {
       variables: {
         name: domain.name,
-        keys: coinList || COIN_PLACEHOLDER_RECORDS
+        // keys: coinList || COIN_PLACEHOLDER_RECORDS
+        keys: coinList
       },
+      skip: !coinList,
       fetchPolicy: 'network-only'
     }
   )
@@ -156,8 +158,11 @@ const useGetRecords = domain => {
     {
       variables: {
         name: domain.name,
-        keys: (resolver && resolver.texts) || TEXT_PLACEHOLDER_RECORDS
+        keys: resolver && resolver.texts
+        // keys: (resolver && resolver.texts) || TEXT_PLACEHOLDER_RECORDS
       },
+      skip: !dataResolver,
+
       fetchPolicy: 'network-only'
     }
   )
@@ -284,8 +289,10 @@ const addOrUpdateRecord = (updateFn, addFn, updatedRecords) => record => {
 const validateAllRecords = (updatedRecords, validRecords) =>
   updatedRecords.length === validRecords.length
 
-const singleValidator = validRecords => record =>
-  validRecords.some(el => el.key === record.key && el.val === record.val)
+const singleValidator = validRecords => record => {
+  console.log('singleValidator', { validRecords, record })
+  return validRecords.some(el => el.key === record.key && el.val === record.val)
+}
 
 const singleValidating = validatingRecords => record =>
   validatingRecords.some(el => el.key === record.key && el.val === record.val)

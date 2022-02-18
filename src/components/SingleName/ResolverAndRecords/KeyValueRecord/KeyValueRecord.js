@@ -107,6 +107,13 @@ const Editable = ({
   const { key, value } = record
   const isValid = validator(record)
   const isValidating = validating(record)
+  console.log('***KeyValueRecord', {
+    record,
+    key,
+    value,
+    isValid,
+    isValidating
+  })
   return (
     <KeyValueItem editing={editing} hasRecord={true} noBorder>
       {editing ? (
