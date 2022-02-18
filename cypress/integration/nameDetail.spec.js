@@ -320,7 +320,7 @@ describe('Name detail view', () => {
     const TEXT = 'world'
     const OTHER_TEXT = 'vitalik'
     const OTHER_ADDRESS = 'MQMcJhpWHYVeQArcZR3sBgyPZxxRtnH441'
-    cy.wait(1000) // clicking edit button too early makes fields invalid
+    cy.wait(5000) // clicking edit button too early makes fields invalid
     cy.getByTestId('name-details', { timeout: 10000 }).within(container => {
       cy.getByText('Add/Edit Record').click({ force: true })
       cy.wait(2000)
