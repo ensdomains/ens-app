@@ -1330,10 +1330,10 @@
   resolved "https://registry.yarnpkg.com/@buidlhub/buidlhub-ens-notifications/-/buidlhub-ens-notifications-1.0.3.tgz#708cecde68d8dcad048b2885d6113615837b3a79"
   integrity sha512-JrHcgKGOvbgFyinATTYDTD5ZH1k7r+rWympuNGlp9yLi4prScVz0hzAvJHB7bxUjDbyrdbD5vAJhgjSxi8V31w==
 
-"@chainlink/ethers-ccip-read-provider@^0.2.2":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@chainlink/ethers-ccip-read-provider/-/ethers-ccip-read-provider-0.2.2.tgz#a9b92bea8fa9ec1308d6893b875a86f2f12e248b"
-  integrity sha512-TrZhqyWGTORW+G0+4/Oz0AedZyDyex5TH6q+rzdVATfEeQbAftVZkEXjfO5hNDizqty8Mo8JMi/XmnRds6A3ig==
+"@chainlink/ethers-ccip-read-provider@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@chainlink/ethers-ccip-read-provider/-/ethers-ccip-read-provider-0.2.3.tgz#812d614c9dd3d52b978185305ddf1fb445311065"
+  integrity sha512-0OGdiEmTWw16QMpdL/MzstPc/5FTMtDjsxrOzme+8QZgPJHzyXpzA6WVfvciGGwgPmX1jk8WUg1vSpf8IB5N9A==
   dependencies:
     "@ethersproject/abi" "^5.5.0"
     "@ethersproject/abstract-signer" "^5.5.0"
@@ -1801,15 +1801,15 @@
     node-fetch "^2.6.1"
     web3 "^1.3.0"
 
-"@ensdomains/ui@^3.3.16":
-  version "3.3.16"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.16.tgz#3339e7d76fd6be4fdea48472cd4e195a57c33bc5"
-  integrity sha512-1K4ZO1toQ6NCIkMuhIWqxax433GGouyZpK5BBg05FeZ6hxP07RKmPREoau6RgJOw4yZ/Zd9nK+WDglvdKNpQ3Q==
+"@ensdomains/ui@^3.3.17":
+  version "3.3.17"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.17.tgz#cb04c624317d1be0ec4faeb4da5ebabc6c124971"
+  integrity sha512-En8hmv3+V1NMLXUErcVtEVPQUmX+/S2cTuuXglmwT6LcR88ZlScGgbslumY9WTeDUjrsROXRAAxHW/gUCX130A==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
     "@babel/runtime" "^7.4.4"
-    "@chainlink/ethers-ccip-read-provider" "^0.2.2"
+    "@chainlink/ethers-ccip-read-provider" "^0.2.3"
     "@ensdomains/address-encoder" "^0.2.14"
     "@ensdomains/content-hash" "^2.5.7"
     "@ensdomains/contracts" "^0.0.1"
