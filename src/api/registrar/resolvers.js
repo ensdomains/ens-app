@@ -9,6 +9,10 @@ const defaults = {}
 
 const resolvers = {
   Query: {
+    async getEthPrice(_, {}) {
+      const registrar = getRegistrar()
+      return registrar.getEthPrice()
+    },
     async getRentPrice(_, { label, duration }) {
       const registrar = getRegistrar()
       return registrar.getRentPrice(label, duration)

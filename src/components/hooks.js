@@ -1,5 +1,4 @@
 import { useEffect, useReducer, useRef, useState } from 'react'
-import getEtherPrice from 'api/price'
 import { loggedIn, logout } from './IPFS/auth'
 
 import { getBlock, getProvider, ethers } from '@ensdomains/ui'
@@ -159,33 +158,6 @@ export function useInterval(callback, delay) {
       return () => clearInterval(id)
     }
   }, [delay])
-}
-
-export function useEthPrice(enabled = true) {
-  const [loading, setLoading] = useState(true)
-  const [price, setPrice] = useState(undefined)
-
-  useEffect(() => {
-    let hasExited = false
-    if (enabled) {
-      getEtherPrice()
-        .then(res => {
-          if (!hasExited) {
-            setPrice(res)
-            setLoading(false)
-          }
-        })
-        .catch(() => '') // ignore error
-    }
-    return () => {
-      hasExited = true
-    }
-  }, [enabled])
-
-  return {
-    loading,
-    price
-  }
 }
 
 export function useGasPrice(enabled = true) {

@@ -11,14 +11,10 @@ import {
   GET_MAXIMUM_COMMITMENT_AGE,
   GET_RENT_PRICE,
   WAIT_BLOCK_TIMESTAMP,
-  GET_BALANCE
+  GET_BALANCE,
+  GET_ETH_PRICE
 } from 'graphql/queries'
-import {
-  useInterval,
-  useEthPrice,
-  useGasPrice,
-  useBlock
-} from 'components/hooks'
+import { useInterval, useGasPrice, useBlock } from 'components/hooks'
 import { useAccount } from '../../QueryAccount'
 import { registerMachine, registerReducer } from './registerReducer'
 import { calculateDuration, yearInSeconds } from 'utils/dates'
@@ -75,7 +71,10 @@ const NameRegister = ({
   const [commitmentExpirationDate, setCommitmentExpirationDate] = useState(
     false
   )
-  const { loading: ethUsdPriceLoading, price: ethUsdPrice } = useEthPrice()
+  const {
+    data: { getEthPrice: ethUsdPrice } = {},
+    loading: ethUsdPriceLoading
+  } = useQuery(GET_ETH_PRICE)
   const { loading: gasPriceLoading, price: gasPrice } = useGasPrice()
   const { block } = useBlock()
   const [invalid, setInvalid] = useState(false)
