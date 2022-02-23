@@ -273,6 +273,7 @@ const NameRegister = ({
             currentPremium={currentPremium}
             targetPremium={targetPremium}
             handleTooltip={handleTooltip}
+            daysPast={oracle.getDaysPast(now)}
           />
           <Premium
             handlePremium={handlePremium}

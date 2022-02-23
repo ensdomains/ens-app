@@ -39,9 +39,9 @@ export default function LineGraph({
   currentPremiumInEth,
   currentPremium,
   targetPremium,
-  handleTooltip
+  handleTooltip,
+  daysPast
 }) {
-  const daysPast = parseInt(currentDate.diff(startDate) / DAY / 1000)
   const totalDays = parseInt(endDate.diff(startDate) / DAY / 1000)
   const daysRemaining = totalDays - daysPast
   const totalHr = parseInt(endDate.diff(startDate) / HOUR / 1000)
