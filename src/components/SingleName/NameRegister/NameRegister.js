@@ -220,7 +220,7 @@ const NameRegister = ({
   const handleTooltip = tooltipItem => {
     let delimitedParsedValue = tooltipItem.yLabel
     if (targetPremium !== delimitedParsedValue) {
-      setTargetDate(getTargetDateByAmount(delimitedParsedValue))
+      setTargetDate(oracle.getTargetDateByAmount(delimitedParsedValue))
       setTargetPremium(delimitedParsedValue.toFixed(2))
     }
   }
@@ -233,7 +233,7 @@ const NameRegister = ({
       parseInt(parsedValue || 0) <= startingPremiumInUsd
     ) {
       if (targetPremium !== parsedValue) {
-        setTargetDate(getTargetDateByAmount(parsedValue))
+        setTargetDate(oracle.getTargetDateByAmount(parsedValue))
         setTargetPremium(parsedValue)
       }
       setInvalid(false)
