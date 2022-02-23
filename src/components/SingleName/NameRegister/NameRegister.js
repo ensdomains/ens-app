@@ -30,7 +30,7 @@ import Premium from './Premium'
 import ProgressRecorder from './ProgressRecorder'
 import useNetworkInfo from '../../NetworkInformation/useNetworkInfo'
 import { sendNotification } from './notification'
-
+import PremiumPriceOracle from './PremiumPriceOracle'
 const NameRegisterContainer = styled('div')`
   padding: 20px 40px;
 `
@@ -199,30 +199,21 @@ const NameRegister = ({
   const waitPercentComplete = (secondsPassed / waitTime) * 100
 
   const expiryDate = moment(domain.expiryTime)
-  const releasedDate = expiryDate.clone().add(90, 'days')
-  const zeroPremiumDate = releasedDate.clone().add(28, 'days')
-  const startingPremiumInUsd = 100000
-  const diff = zeroPremiumDate.diff(releasedDate)
-  const rate = startingPremiumInUsd / diff
+  const oracle = new PremiumPriceOracle(expiryDate, 'linear')
+  const { releasedDate, zeroPremiumDate, startingPremiumInUsd } = oracle
+  console.log({ oracle })
+
   if (!registrationOpen) return <NotAvailable domain={domain} />
   if (ethUsdPriceLoading || gasPriceLoading) return <></>
 
-  const getTargetAmountByDate = date => {
-    return zeroPremiumDate.diff(date) * rate
-  }
-
-  const getTargetDateByAmount = amount => {
-    return zeroPremiumDate.clone().subtract(amount / rate / 1000, 'second')
-  }
-
   if (!targetDate) {
     setTargetDate(zeroPremiumDate)
-    setTargetPremium(getTargetAmountByDate(zeroPremiumDate))
+    setTargetPremium(oracle.getTargetAmountByDate(zeroPremiumDate))
   }
 
   if (block) {
     showPremiumWarning = now.isBetween(releasedDate, zeroPremiumDate)
-    currentPremium = getTargetAmountByDate(now)
+    currentPremium = oracle.getTargetAmountByDate(now)
     currentPremiumInEth = currentPremium / ethUsdPrice
     underPremium = now.isBetween(releasedDate, zeroPremiumDate)
   }
