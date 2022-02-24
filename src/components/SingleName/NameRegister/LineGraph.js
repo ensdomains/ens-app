@@ -35,17 +35,20 @@ export default function LineGraph({
   currentDate,
   targetDate,
   endDate,
-  startPremium,
-  currentPremiumInEth,
-  currentPremium,
-  targetPremium,
+  now,
+  ethUsdPrice,
   handleTooltip,
-  daysPast
+  oracle
 }) {
-  const totalDays = parseInt(endDate.diff(startDate) / DAY / 1000)
+  const daysPast = oracle.getDaysPast(now)
+  const startPremium = oracle.startingPremiumInUsd
+  const totalDays = oracle.totalDays
   const daysRemaining = totalDays - daysPast
   const totalHr = parseInt(endDate.diff(startDate) / HOUR / 1000)
-
+  const currentPremium = oracle.getTargetAmountByDaysPast(
+    oracle.getDaysPast(now)
+  )
+  const currentPremiumInEth = currentPremium / ethUsdPrice
   const chartRef = React.createRef()
   const labels = []
   const dates = []
@@ -54,14 +57,22 @@ export default function LineGraph({
   const supportLine = []
   const { t } = useTranslation()
   const [chart, setChart] = useState(false)
-
+  console.log({
+    startDate: startDate.toString(),
+    endDate: endDate.toString(),
+    targetDate: targetDate.toString()
+  })
   for (let i = startDate.clone(); endDate.diff(i) > 0; i = i.add(1, 'hour')) {
     let diff = targetDate.diff(i) / HOUR / 1000
+    let hoursPast = i.diff(startDate) / HOUR / 1000
+    let daysPast = hoursPast / 24
     let rate = diff / totalHr
-    let premium = startPremium * rate
+    let premium2 = startPremium * rate
+    const premium = oracle.getTargetAmountByDaysPast(daysPast)
     let label = i.format('YYYY-MM-DD:HH:00')
     dates.push(label)
     labels.push(premium)
+    console.log({ daysPast, premium, premium2, oracle })
     if (
       currentDate.diff(i) >= 0 ||
       currentDate.format('YYYY-MM-DD:HH:00') === label

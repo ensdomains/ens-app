@@ -45,8 +45,6 @@ const Price = ({
   price,
   ethUsdPrice,
   ethUsdPremiumPrice,
-  ethUsdPriceLoading,
-  initialGasPrice,
   underPremium
 }) => {
   const { t } = useTranslation()

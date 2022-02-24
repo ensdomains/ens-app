@@ -57,7 +57,7 @@ const NameRegister = ({
     registerReducer,
     registerMachine.initialState
   )
-  let now, showPremiumWarning, currentPremium, currentPremiumInEth, underPremium
+  let now, showPremiumWarning, currentPremium, underPremium
   const incrementStep = () => dispatch('NEXT')
   const decrementStep = () => dispatch('PREVIOUS')
   const [years, setYears] = useState(false)
@@ -199,22 +199,23 @@ const NameRegister = ({
   const waitPercentComplete = (secondsPassed / waitTime) * 100
 
   const expiryDate = moment(domain.expiryTime)
-  const oracle = new PremiumPriceOracle(expiryDate, 'linear')
+  const oracle = new PremiumPriceOracle(expiryDate, 'exponential')
+  const linearOracle = new PremiumPriceOracle(expiryDate, 'linear')
   const { releasedDate, zeroPremiumDate, startingPremiumInUsd } = oracle
-  console.log({ oracle })
 
   if (!registrationOpen) return <NotAvailable domain={domain} />
   if (ethUsdPriceLoading || gasPriceLoading) return <></>
 
   if (!targetDate) {
     setTargetDate(zeroPremiumDate)
-    setTargetPremium(oracle.getTargetAmountByDate(zeroPremiumDate))
+    setTargetPremium(
+      oracle.getTargetAmountByDaysPast(oracle.getDaysPast(zeroPremiumDate))
+    )
   }
 
   if (block) {
     showPremiumWarning = now.isBetween(releasedDate, zeroPremiumDate)
-    currentPremium = oracle.getTargetAmountByDate(now)
-    currentPremiumInEth = currentPremium / ethUsdPrice
+    currentPremium = oracle.getTargetAmountByDaysPast(oracle.getDaysPast(now))
     underPremium = now.isBetween(releasedDate, zeroPremiumDate)
   }
   const handleTooltip = tooltipItem => {
@@ -241,6 +242,14 @@ const NameRegister = ({
       setInvalid(true)
     }
   }
+  console.log('**pricer', {
+    duration,
+    years,
+    currentPremium,
+    ethUsdPrice,
+    getRentPrice,
+    underPremium
+  })
   return (
     <NameRegisterContainer>
       {step === 'PRICE_DECISION' && (
@@ -268,13 +277,24 @@ const NameRegister = ({
             currentDate={now}
             targetDate={targetDate}
             endDate={zeroPremiumDate}
-            startPremium={startingPremiumInUsd}
-            currentPremiumInEth={currentPremiumInEth}
-            currentPremium={currentPremium}
             targetPremium={targetPremium}
+            ethUsdPrice={ethUsdPrice}
             handleTooltip={handleTooltip}
-            daysPast={oracle.getDaysPast(now)}
+            oracle={oracle}
+            now={now}
           />
+          <LineGraph
+            startDate={releasedDate}
+            currentDate={now}
+            targetDate={targetDate}
+            endDate={zeroPremiumDate}
+            targetPremium={targetPremium}
+            ethUsdPrice={ethUsdPrice}
+            handleTooltip={handleTooltip}
+            oracle={linearOracle}
+            now={now}
+          />
+
           <Premium
             handlePremium={handlePremium}
             targetPremium={targetPremium}
