@@ -277,6 +277,12 @@ export const GET_ETH_PRICE = gql`
   }
 `
 
+export const GET_PRICE_CURVE = gql`
+  query getPriceCurve {
+    getPriceCurve
+  }
+`
+
 export const GET_RENT_PRICE = gql`
   query getRentPrice($label: String, $duration: Number) {
     getRentPrice(label: $label, duration: $duration)

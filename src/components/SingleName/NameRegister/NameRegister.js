@@ -12,7 +12,8 @@ import {
   GET_RENT_PRICE,
   WAIT_BLOCK_TIMESTAMP,
   GET_BALANCE,
-  GET_ETH_PRICE
+  GET_ETH_PRICE,
+  GET_PRICE_CURVE
 } from 'graphql/queries'
 import { useInterval, useGasPrice, useBlock } from 'components/hooks'
 import { useAccount } from '../../QueryAccount'
@@ -75,6 +76,11 @@ const NameRegister = ({
     data: { getEthPrice: ethUsdPrice } = {},
     loading: ethUsdPriceLoading
   } = useQuery(GET_ETH_PRICE)
+  const {
+    data: { getPriceCurve } = {},
+    loading: getPriceCurveLoading
+  } = useQuery(GET_PRICE_CURVE)
+  console.log({ getPriceCurve })
   const { loading: gasPriceLoading, price: gasPrice } = useGasPrice()
   const { block } = useBlock()
   const [invalid, setInvalid] = useState(false)
@@ -199,7 +205,7 @@ const NameRegister = ({
   const waitPercentComplete = (secondsPassed / waitTime) * 100
 
   const expiryDate = moment(domain.expiryTime)
-  const oracle = new PremiumPriceOracle(expiryDate, 'exponential')
+  const oracle = new PremiumPriceOracle(expiryDate, getPriceCurve)
   const linearOracle = new PremiumPriceOracle(expiryDate, 'linear')
   const { releasedDate, zeroPremiumDate, startingPremiumInUsd } = oracle
 
