@@ -53,7 +53,6 @@ export default class PremiumPriceOracle {
     if (this.algorithm === 'exponential') {
       const lastValue = this.startingPremiumInUsd * FACTOR ** this.totalDays
       const premium = this.startingPremiumInUsd * FACTOR ** daysPast
-      console.log({ lastValue })
       if (premium >= lastValue) {
         return premium - lastValue
       } else {
@@ -62,6 +61,12 @@ export default class PremiumPriceOracle {
     } else {
       return (this.totalDays - daysPast) * (this.hourlyRate * 24)
     }
+  }
+
+  getAmountByDateRange(startDate, currentDate) {
+    let hoursPast = currentDate.diff(startDate) / HOUR / 1000
+    let daysPast = hoursPast / 24
+    return this.getTargetAmountByDaysPast(daysPast)
   }
 
   exponentialReduceFloatingPoint(daysPast) {

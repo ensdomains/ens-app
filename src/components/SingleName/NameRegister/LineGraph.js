@@ -30,6 +30,7 @@ const Title = styled('span')`
   font-weight: bold;
   font-size: large;
 `
+
 export default function LineGraph({
   startDate,
   currentDate,
@@ -40,12 +41,8 @@ export default function LineGraph({
   handleTooltip,
   oracle
 }) {
-  const daysPast = oracle.getDaysPast(now)
   const daysRemaining = oracle.getDaysRemaining(now)
-  const hoursPast = oracle.getHoursPast(now)
   const hoursRemaining = oracle.getHoursRemaining(now)
-
-  const startPremium = oracle.startingPremiumInUsd
   const totalDays = oracle.totalDays
   const currentPremium = oracle.getTargetAmountByDaysPast(
     oracle.getDaysPast(now)
@@ -59,11 +56,6 @@ export default function LineGraph({
   const supportLine = []
   const { t } = useTranslation()
   const [chart, setChart] = useState(false)
-  console.log({
-    startDate: startDate.toString(),
-    endDate: endDate.toString(),
-    targetDate: targetDate.toString()
-  })
   let chartStartDate, maxTicksLimit
   if (daysRemaining > 7) {
     chartStartDate = now
@@ -75,21 +67,17 @@ export default function LineGraph({
     chartStartDate = endDate.clone().subtract(24, 'hour')
     maxTicksLimit = 24
   }
-  console.log({
-    startDate: startDate.toString(),
-    chartStartDate: chartStartDate.toString(),
-    endDate: endDate.toString(),
-    maxTicksLimit
-  })
+  const chartstartPremium = oracle.getAmountByDateRange(
+    startDate,
+    chartStartDate
+  )
 
   for (
     let i = chartStartDate.clone();
     endDate.diff(i) > 0;
     i = i.add(1, 'hour')
   ) {
-    let hoursPast = i.diff(chartStartDate) / HOUR / 1000
-    let daysPast = hoursPast / 24
-    const premium = oracle.getTargetAmountByDaysPast(daysPast)
+    const premium = oracle.getAmountByDateRange(startDate, i)
     let label = i.format('YYYY-MM-DD:HH:00')
     dates.push(label)
     labels.push(premium)
@@ -198,7 +186,7 @@ export default function LineGraph({
           ],
           yAxes: [
             {
-              ticks: { display: false, max: startPremium * 1.1 },
+              ticks: { display: false, max: chartstartPremium * 1.1 },
               gridLines: {
                 display: false,
                 drawBorder: false
@@ -237,10 +225,8 @@ export default function LineGraph({
       </Legend>
       <Canvas id="myChart" ref={chartRef} />
       <Legend>
-        <span>
-          {t('linegraph.startingPrice')}: ${startPremium}{' '}
-        </span>
-        <span>{t('linegraph.endPrice')}: $0</span>
+        <span>${parseInt(chartstartPremium)} </span>
+        <span>$0</span>
       </Legend>
     </LineGraphContainer>
   )
