@@ -188,6 +188,17 @@ const NameRegister = ({
       }
     }
   )
+  const {
+    data: { getRentPrice: getPremiumPrice } = {},
+    loading: getPremiumPriceLoading
+  } = useQuery(GET_RENT_PRICE, {
+    variables: {
+      duration: 0,
+      label: domain.label,
+      commitmentTimerRunning
+    }
+  })
+
   let hasSufficientBalance
   if (!blockCreatedAt && checkCommitment > 0) {
     setBlockCreatedAt(checkCommitment * 1000)
@@ -248,14 +259,6 @@ const NameRegister = ({
       setInvalid(true)
     }
   }
-  console.log('**pricer', {
-    duration,
-    years,
-    currentPremium,
-    ethUsdPrice,
-    getRentPrice,
-    underPremium
-  })
   return (
     <NameRegisterContainer>
       {step === 'PRICE_DECISION' && (
@@ -270,6 +273,7 @@ const NameRegister = ({
           gasPrice={gasPrice}
           loading={rentPriceLoading}
           price={getRentPrice}
+          premiumOnlyPrice={getPremiumPrice}
           underPremium={underPremium}
           displayGas={true}
         />

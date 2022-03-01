@@ -43,19 +43,20 @@ const USD = styled('span')`
 const Price = ({
   loading,
   price,
+  premiumOnlyPrice,
   ethUsdPrice,
   ethUsdPremiumPrice,
   underPremium
 }) => {
   const { t } = useTranslation()
-
   let ethPrice = <InlineLoader />
-  let ethVal, basePrice, withPremium, usdPremium
+  let ethVal, basePrice, premiumOnlyEthVal, withPremium, usdPremium
   if (!loading && price) {
     ethVal = new EthVal(`${price}`).toEth()
+    premiumOnlyEthVal = new EthVal(`${premiumOnlyPrice}`).toEth()
     ethPrice = ethVal && ethVal.toFixed(3)
     if (ethUsdPrice && ethUsdPremiumPrice) {
-      basePrice = ethVal.mul(ethUsdPrice) - ethUsdPremiumPrice
+      basePrice = ethVal.sub(premiumOnlyEthVal).mul(ethUsdPrice)
       withPremium =
         underPremium && ethUsdPremiumPrice
           ? `$${basePrice.toFixed(0)}(+$${ethUsdPremiumPrice.toFixed(2)}) =`
