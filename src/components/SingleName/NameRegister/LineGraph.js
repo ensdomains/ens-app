@@ -41,10 +41,12 @@ export default function LineGraph({
   oracle
 }) {
   const daysPast = oracle.getDaysPast(now)
+  const daysRemaining = oracle.getDaysRemaining(now)
+  const hoursPast = oracle.getHoursPast(now)
+  const hoursRemaining = oracle.getHoursRemaining(now)
+
   const startPremium = oracle.startingPremiumInUsd
   const totalDays = oracle.totalDays
-  const daysRemaining = totalDays - daysPast
-  const totalHr = parseInt(endDate.diff(startDate) / HOUR / 1000)
   const currentPremium = oracle.getTargetAmountByDaysPast(
     oracle.getDaysPast(now)
   )
@@ -62,17 +64,35 @@ export default function LineGraph({
     endDate: endDate.toString(),
     targetDate: targetDate.toString()
   })
-  for (let i = startDate.clone(); endDate.diff(i) > 0; i = i.add(1, 'hour')) {
-    let diff = targetDate.diff(i) / HOUR / 1000
-    let hoursPast = i.diff(startDate) / HOUR / 1000
+  let chartStartDate, maxTicksLimit
+  if (daysRemaining > 7) {
+    chartStartDate = now
+    maxTicksLimit = daysRemaining
+  } else if (daysRemaining > 1) {
+    chartStartDate = endDate.clone().subtract(7, 'day')
+    maxTicksLimit = 7
+  } else {
+    chartStartDate = endDate.clone().subtract(24, 'hour')
+    maxTicksLimit = 24
+  }
+  console.log({
+    startDate: startDate.toString(),
+    chartStartDate: chartStartDate.toString(),
+    endDate: endDate.toString(),
+    maxTicksLimit
+  })
+
+  for (
+    let i = chartStartDate.clone();
+    endDate.diff(i) > 0;
+    i = i.add(1, 'hour')
+  ) {
+    let hoursPast = i.diff(chartStartDate) / HOUR / 1000
     let daysPast = hoursPast / 24
-    let rate = diff / totalHr
-    let premium2 = startPremium * rate
     const premium = oracle.getTargetAmountByDaysPast(daysPast)
     let label = i.format('YYYY-MM-DD:HH:00')
     dates.push(label)
     labels.push(premium)
-    console.log({ daysPast, premium, premium2, oracle })
     if (
       currentDate.diff(i) >= 0 ||
       currentDate.format('YYYY-MM-DD:HH:00') === label
@@ -161,7 +181,7 @@ export default function LineGraph({
                 scale.height = 0
               },
               ticks: {
-                maxTicksLimit: totalDays,
+                maxTicksLimit,
                 callback: function() {
                   return ''
                 }
@@ -210,7 +230,9 @@ export default function LineGraph({
           {currentPremium.toFixed(2)})
         </Title>
         <span>
-          {t('linegraph.daysRemaining', { daysRemaining, totalDays })}
+          {daysRemaining > 1
+            ? t('linegraph.daysRemaining', { daysRemaining, totalDays })
+            : `${hoursRemaining} hours remaining`}
         </span>
       </Legend>
       <Canvas id="myChart" ref={chartRef} />

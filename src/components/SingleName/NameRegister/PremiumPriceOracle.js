@@ -1,4 +1,5 @@
-const DAY = 60 * 60 * 24
+const HOUR = 60 * 60
+const DAY = HOUR * 24
 const FACTOR = 0.5
 export default class PremiumPriceOracle {
   constructor(expiryDate, algorithm) {
@@ -21,6 +22,18 @@ export default class PremiumPriceOracle {
 
   getDaysPast(currentDate) {
     return parseInt(currentDate.diff(this.releasedDate) / DAY / 1000)
+  }
+
+  getHoursPast(currentDate) {
+    return parseInt(currentDate.diff(this.releasedDate) / HOUR / 1000)
+  }
+
+  getDaysRemaining(currentDate) {
+    return this.totalDays - this.getDaysPast(currentDate)
+  }
+
+  getHoursRemaining(currentDate) {
+    return this.totalDays * 24 - this.getHoursPast(currentDate)
   }
 
   getTargetDateByAmount(amount) {
