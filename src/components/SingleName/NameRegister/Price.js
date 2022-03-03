@@ -51,7 +51,7 @@ const Price = ({
   const { t } = useTranslation()
   let ethPrice = <InlineLoader />
   let ethVal, basePrice, premiumOnlyEthVal, withPremium, usdPremium
-  if (!loading && price) {
+  if (!loading && price && premiumOnlyPrice) {
     ethVal = new EthVal(`${price}`).toEth()
     premiumOnlyEthVal = new EthVal(`${premiumOnlyPrice}`).toEth()
     ethPrice = ethVal && ethVal.toFixed(3)

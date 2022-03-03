@@ -7,7 +7,7 @@ import EthVal from 'ethval'
 import mq from 'mediaQuery'
 
 import { RENEW_DOMAINS } from '../../graphql/mutations'
-import { GET_RENT_PRICES } from 'graphql/queries'
+import { GET_RENT_PRICES, GET_ETH_PRICE } from 'graphql/queries'
 import { calculateDuration } from 'utils/dates'
 import { useEditable } from '../hooks'
 import { trackReferral } from '../../utils/analytics'
