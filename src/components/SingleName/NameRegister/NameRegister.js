@@ -76,11 +76,7 @@ const NameRegister = ({
     data: { getEthPrice: ethUsdPrice } = {},
     loading: ethUsdPriceLoading
   } = useQuery(GET_ETH_PRICE)
-  const {
-    data: { getPriceCurve } = {},
-    loading: getPriceCurveLoading
-  } = useQuery(GET_PRICE_CURVE)
-  console.log({ getPriceCurve })
+  const { data: { getPriceCurve } = {} } = useQuery(GET_PRICE_CURVE)
   const { loading: gasPriceLoading, price: gasPrice } = useGasPrice()
   const { block } = useBlock()
   const [invalid, setInvalid] = useState(false)
@@ -258,8 +254,6 @@ const NameRegister = ({
       setInvalid(true)
     }
   }
-  const exponentialWarning =
-    "To ensure everyone has a fair opportunity to register a newly expired name, these names have a premium that starts at $100,000,000 and reduces over 21 days exponentially until the premium is gone. Enter the amount you're willing to pay as a premium to learn which date to revisit the app to register the name."
 
   return (
     <NameRegisterContainer>
@@ -285,7 +279,7 @@ const NameRegister = ({
           <h2>{t('register.premiumWarning.title')}</h2>
           <p>
             {getPriceCurve === 'exponential'
-              ? exponentialWarning
+              ? t('register.premiumWarning.exponentialWarningDescripiton')
               : t('register.premiumWarning.description')}
           </p>
           <LineGraph
