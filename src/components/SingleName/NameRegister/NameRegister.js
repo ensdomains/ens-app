@@ -217,7 +217,6 @@ const NameRegister = ({
 
   const expiryDate = moment(domain.expiryTime)
   const oracle = new PremiumPriceOracle(expiryDate, getPriceCurve)
-  const linearOracle = new PremiumPriceOracle(expiryDate, 'linear')
   const { releasedDate, zeroPremiumDate, startingPremiumInUsd } = oracle
 
   if (!registrationOpen) return <NotAvailable domain={domain} />
@@ -298,17 +297,6 @@ const NameRegister = ({
             ethUsdPrice={ethUsdPrice}
             handleTooltip={handleTooltip}
             oracle={oracle}
-            now={now}
-          />
-          <LineGraph
-            startDate={releasedDate}
-            currentDate={now}
-            targetDate={targetDate}
-            endDate={zeroPremiumDate}
-            targetPremium={targetPremium}
-            ethUsdPrice={ethUsdPrice}
-            handleTooltip={handleTooltip}
-            oracle={linearOracle}
             now={now}
           />
 
