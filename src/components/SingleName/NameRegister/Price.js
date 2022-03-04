@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import mq from 'mediaQuery'
 import EthVal from 'ethval'
 import { InlineLoader } from 'components/Loader'
+import PremiumPriceCalculator from './PriceCalculator'
 
 const PriceContainer = styled('div')`
   width: 100%;
@@ -48,31 +49,32 @@ const Price = ({
   ethUsdPremiumPrice,
   underPremium
 }) => {
+  const calculator = new PremiumPriceCalculator({
+    price, // in ETH, BN
+    premium: premiumOnlyPrice, // in ETH
+    ethUsdPrice
+  })
+  const c = calculator.toDisplay()
+
   const { t } = useTranslation()
   let ethPrice = <InlineLoader />
-  let ethVal, basePrice, premiumOnlyEthVal, withPremium, usdPremium
+  let withPremium
   if (!loading && price && premiumOnlyPrice) {
-    ethVal = new EthVal(`${price}`).toEth()
-    premiumOnlyEthVal = new EthVal(`${premiumOnlyPrice}`).toEth()
-    ethPrice = ethVal && ethVal.toFixed(3)
-    if (ethUsdPrice && ethUsdPremiumPrice) {
-      basePrice = ethVal.sub(premiumOnlyEthVal).mul(ethUsdPrice)
+    ethPrice = c.price
+    if (c.premiumInUsd > 0) {
       withPremium =
         underPremium && ethUsdPremiumPrice
-          ? `$${basePrice.toFixed(0)}(+$${ethUsdPremiumPrice.toFixed(2)}) =`
+          ? `$${c.basePriceInUsd}(+$${c.premiumInUsd}) =`
           : null
-      usdPremium = ethVal.mul(ethUsdPrice).toFixed(2)
-    } else if (ethUsdPrice) {
-      usdPremium = ethVal.mul(ethUsdPrice).toFixed(2)
     }
   }
   return (
     <PriceContainer>
       <Value>
         {ethPrice} ETH
-        {ethVal && ethUsdPrice && (
+        {withPremium && (
           <USD>
-            {withPremium}${usdPremium}
+            {withPremium}${c.premiumInUsd}
             USD
           </USD>
         )}
