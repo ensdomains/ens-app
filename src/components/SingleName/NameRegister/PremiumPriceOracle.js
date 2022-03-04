@@ -68,13 +68,4 @@ export default class PremiumPriceOracle {
     let daysPast = hoursPast / 24
     return this.getTargetAmountByDaysPast(daysPast)
   }
-
-  exponentialReduceFloatingPoint(daysPast) {
-    const lastPremium = this.startingPremiumInUsd * 0.5 ** this.totalDays
-    const premium = this.startingPremiumInUsd * 0.5 ** daysPast
-    if (premium >= lastPremium) {
-      return premium - lastPremium
-    }
-    return 0
-  }
 }

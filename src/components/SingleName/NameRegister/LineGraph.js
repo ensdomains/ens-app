@@ -2,8 +2,6 @@ import Chart from 'chart.js'
 import styled from '@emotion/styled/macro'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-const DAY = 60 * 60 * 24
-const HOUR = 60 * 60
 
 const LineGraphContainer = styled('div')`
   background-color: white;

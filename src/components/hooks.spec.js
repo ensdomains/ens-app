@@ -1,10 +1,5 @@
 import { renderHook } from '@testing-library/react-hooks'
 
-jest.mock('api/price', () => ({
-  __esModule: true,
-  default: jest.fn()
-}))
-
 import { useAvatar } from './hooks'
 
 describe('useAvatar', () => {
