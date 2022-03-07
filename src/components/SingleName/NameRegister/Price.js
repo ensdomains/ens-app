@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import mq from 'mediaQuery'
 import EthVal from 'ethval'
 import { InlineLoader } from 'components/Loader'
-import PremiumPriceCalculator from './PriceCalculator'
+import priceCalculator from './PriceCalculator'
 
 const PriceContainer = styled('div')`
   width: 100%;
@@ -49,32 +49,32 @@ const Price = ({
   ethUsdPremiumPrice,
   underPremium
 }) => {
-  const calculator = new PremiumPriceCalculator({
-    price, // in ETH, BN
-    premium: premiumOnlyPrice, // in ETH
-    ethUsdPrice
-  })
-  const c = calculator.toDisplay()
-
   const { t } = useTranslation()
   let ethPrice = <InlineLoader />
-  let withPremium
+  let withPremium, c
+
   if (!loading && price && premiumOnlyPrice) {
+    c = priceCalculator({
+      price, // in ETH, BN
+      premium: premiumOnlyPrice, // in ETH
+      ethUsdPrice
+    })
     ethPrice = c.price
-    if (c.premiumInUsd > 0) {
+    if (underPremium) {
       withPremium =
         underPremium && ethUsdPremiumPrice
           ? `$${c.basePriceInUsd}(+$${c.premiumInUsd}) =`
           : null
     }
   }
+  const priceInUsd = c?.priceInUsd
   return (
     <PriceContainer>
       <Value>
         {ethPrice} ETH
         {withPremium && (
           <USD>
-            {withPremium}${c.premiumInUsd}
+            {withPremium}${priceInUsd}
             USD
           </USD>
         )}
