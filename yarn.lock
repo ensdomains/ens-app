@@ -1498,6 +1498,23 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.5.tgz#8eed982e2ee6f7f4e44c253e12962980791efd46"
   integrity sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==
 
+"@ensdomains/address-encoder@^0.2.14":
+  version "0.2.16"
+  resolved "https://registry.yarnpkg.com/@ensdomains/address-encoder/-/address-encoder-0.2.16.tgz#063bfa89b4841a28fb4935d4d9882b9b64a86393"
+  integrity sha512-V9CmwUbJgCQb+WBW+dhZptuOwGY5AaFnDGZ6POOv+oMu8dZYuAz2BoBkX7XY9t/Nz+FvMz9CeOvM4uhy4v24Zw==
+  dependencies:
+    bech32 "^2.0.0"
+    blakejs "^1.1.0"
+    bn.js "^4.11.8"
+    bs58 "^4.0.1"
+    crypto-addr-codec "^0.1.7"
+    js-crc "^0.2.0"
+    js-sha256 "^0.9.0"
+    js-sha512 "^0.8.0"
+    nano-base32 "^1.0.1"
+    ripemd160 "^2.0.2"
+    sha3 "^2.1.3"
+
 "@ensdomains/address-encoder@^0.2.15":
   version "0.2.15"
   resolved "https://registry.yarnpkg.com/@ensdomains/address-encoder/-/address-encoder-0.2.15.tgz#1115b546fe371646c003c385b472af72e4879a7b"
@@ -1639,6 +1656,16 @@
     dns-packet "^5.3.0"
     name-wrapper "^1.0.0"
 
+"@ensdomains/ens-contracts@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ens-contracts/-/ens-contracts-0.0.9.tgz#3cde34c4cfa43a6a10145139b8ecba90c263fd2d"
+  integrity sha512-dKg1+LAxy5+2bH2z6J+j+t8IhJofC9XB4xV5n3UFSogsr66rNr6X0l4iTWWJfgA/9P+7Z4AI773iyFVXStVpLg==
+  dependencies:
+    "@ensdomains/buffer" "^0.0.13"
+    "@ensdomains/solsha1" "0.0.3"
+    "@openzeppelin/contracts" "^4.1.0"
+    dns-packet "^5.3.0"
+
 "@ensdomains/ens-validation@0.0.0":
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/@ensdomains/ens-validation/-/ens-validation-0.0.0.tgz#6f29e0ec19d1052b79b7217e9b4b0f385ecb921c"
@@ -1660,7 +1687,7 @@
   resolved "https://registry.yarnpkg.com/@ensdomains/eth-ens-namehash/-/eth-ens-namehash-2.0.15.tgz#5e5f2f24ba802aff8bc19edd822c9a11200cdf4a"
   integrity sha512-JRDFP6+Hczb1E0/HhIg0PONgBYasfGfDheujmfxaZaAv/NAH4jE6Kf48WbqfRZdxt4IZI3jl3Ri7sZ1nP09lgw==
 
-"@ensdomains/mock@^2.0.34", "@ensdomains/mock@^2.1.40":
+"@ensdomains/mock@^2.0.34":
   version "2.1.42"
   resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.1.42.tgz#3a2160092b20e0528f8c349c1da26315c854c3fa"
   integrity sha512-zFXlOyb8DbH405YdhdgJ1Rz4Ooy8m+y+AFgYdfjVcPBS3huH6JTdxoFN+nyN+g2UWxmXbHjY1z/PZrRwgMeWzQ==
@@ -1669,6 +1696,24 @@
     "@ensdomains/dnssec-oracle-anchors" "^0.0.1"
     "@ensdomains/ens-archived-contracts" "^0.0.1"
     "@ensdomains/ens-contracts" "^0.0.7"
+    chalk "^3.0.0"
+    cross-fetch "^3.0.2"
+    dns-packet "^5.2.1"
+    eth-ens-namehash "^2.0.8"
+    lodash "^4.17.11"
+    moment "^2.26.0"
+    table "^5.4.6"
+    web3 "^1.3.0"
+
+"@ensdomains/mock@^2.0.45", "@ensdomains/mock@^2.1.45":
+  version "2.1.45"
+  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.1.45.tgz#ad355e94eee4e4e905c5a887d2e26a0f2cd0890b"
+  integrity sha512-s4Y9LiL/BKlcyRAoDM14M8Hg6fqyR/9X4qmel5YwNYyWEq29omuQ5gGVlvWyOxtprLQGfGjM13sYc35kep+drQ==
+  dependencies:
+    "@babel/runtime" "^7.4.4"
+    "@ensdomains/dnssec-oracle-anchors" "^0.0.1"
+    "@ensdomains/ens-archived-contracts" "^0.0.1"
+    "@ensdomains/ens-contracts" "^0.0.9"
     chalk "^3.0.0"
     cross-fetch "^3.0.2"
     dns-packet "^5.2.1"
@@ -1730,23 +1775,23 @@
     node-fetch "^2.6.1"
     web3 "^1.3.0"
 
-"@ensdomains/ui@^3.3.14":
-  version "3.3.14"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.14.tgz#031e76666a06299e2c0cb2224592735b9810f12a"
-  integrity sha512-z/JoFQ2S17aGkl2B0Wt0UWmc7PTXPBmU5FTeARpxwKq9o8FrcoGShK+941AcOyxajCIqk8DU1LeLKfypks8uTw==
+"@ensdomains/ui@^3.3.18":
+  version "3.3.18"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.18.tgz#b8f1bb5471349e694396ea46d20095b3da054030"
+  integrity sha512-3aHiIkaMDTlyQ6EF6mPS0GZ5eK+i9KZRbtksDE7gHInpuHi1RYMensrTFzVCvnEPtukS4r2aHvu3QGZ6t1/wgQ==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
     "@babel/runtime" "^7.4.4"
-    "@ensdomains/address-encoder" "^0.2.15"
+    "@ensdomains/address-encoder" "^0.2.14"
     "@ensdomains/content-hash" "^2.5.7"
     "@ensdomains/contracts" "^0.0.1"
     "@ensdomains/dnsprovejs" "^0.4.1"
     "@ensdomains/dnssecoraclejs" "^0.2.7"
     "@ensdomains/dnssecoraclejs-017" "npm:@ensdomains/dnssecoraclejs@0.1.7"
-    "@ensdomains/ens-contracts" "^0.0.7"
+    "@ensdomains/ens-contracts" "^0.0.9"
     "@ensdomains/eth-ens-namehash" "^2.0.15"
-    "@ensdomains/mock" "^2.0.34"
+    "@ensdomains/mock" "^2.0.45"
     "@ethvault/iframe-provider" "0.1.9"
     base58check "^2.0.0"
     bech32 "^1.1.3"
