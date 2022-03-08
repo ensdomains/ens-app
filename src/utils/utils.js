@@ -1,15 +1,15 @@
-import { getNetworkId } from '@ensdomains/ui/src/web3'
 import {
   emptyAddress as _emptyAddress,
   validateName as _validateName,
   parseSearchTerm as _parseSearchTerm,
   getEnsStartBlock as _ensStartBlock,
   isLabelValid as _isLabelValid,
-  isEncodedLabelhash
-} from '@ensdomains/ui/src/utils/index'
+  isEncodedLabelhash,
+  getNetworkId
+} from '@ensdomains/ui'
 import { validate } from '@ensdomains/ens-validation'
 import { normalize } from '@ensdomains/eth-ens-namehash'
-import { CID } from 'multiformats/esm/src/cid'
+import { CID } from 'multiformats/cid'
 
 import getENS from '../apollo/mutations/ens'
 import * as jsSHA3 from 'js-sha3'

@@ -1,4 +1,4 @@
-import { CID } from 'multiformats'
+import { CID } from 'multiformats/cid'
 import { isCID, isOwnerOfParentDomain, normaliseOrMark } from './utils'
 
 jest.mock('../apollo/reactiveVars', () => ({
