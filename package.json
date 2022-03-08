@@ -13,7 +13,7 @@
     "@ensdomains/ens-validation": "0.0.0",
     "@ensdomains/eth-ens-namehash": "^2.0.15",
     "@ensdomains/mock": "^2.1.47",
-    "@ensdomains/react-ens-address": "^0.0.30",
+    "@ensdomains/react-ens-address": "^0.0.31",
     "@ensdomains/ui": "^3.3.20",
     "@ensdomains/web3modal": "1.9.4",
     "@gnosis.pm/safe-apps-provider": "^0.9.2",
