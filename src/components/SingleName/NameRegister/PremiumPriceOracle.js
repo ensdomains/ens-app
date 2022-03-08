@@ -7,8 +7,8 @@ export default class PremiumPriceOracle {
     if (algorithm === 'exponential') {
       this.startingPremiumInUsd = 100000000
       this.totalDays = 21
+      this.lastValue = this.startingPremiumInUsd * FACTOR ** this.totalDays
     } else {
-      // linear is the default
       this.startingPremiumInUsd = 100000
       this.totalDays = 28
     }
@@ -38,8 +38,14 @@ export default class PremiumPriceOracle {
 
   getTargetDateByAmount(amount) {
     if (this.algorithm === 'exponential') {
-      const daysPast =
-        Math.log(amount / this.startingPremiumInUsd) / Math.log(FACTOR)
+      let daysPast
+      if (amount < this.lastValue) {
+        daysPast = this.totalDays
+      } else {
+        daysPast =
+          Math.log((amount + this.lastValue) / this.startingPremiumInUsd) /
+          Math.log(FACTOR)
+      }
       const r = this.releasedDate.clone().add(daysPast * 24 * 60, 'minutes')
       return r
     } else {
@@ -51,10 +57,9 @@ export default class PremiumPriceOracle {
 
   getTargetAmountByDaysPast(daysPast) {
     if (this.algorithm === 'exponential') {
-      const lastValue = this.startingPremiumInUsd * FACTOR ** this.totalDays
       const premium = this.startingPremiumInUsd * FACTOR ** daysPast
-      if (premium >= lastValue) {
-        return premium - lastValue
+      if (premium >= this.lastValue) {
+        return premium - this.lastValue
       } else {
         return 0
       }
