@@ -1,7 +1,19 @@
 const rewire = require('rewire')
 const path = require('path')
-const defaults = rewire('react-scripts/scripts/build.js')
-const config = defaults.__get__('config')
+const [type] = process.argv.slice(2)
+
+let defaults, configFactory, config
+
+if (type === 'start') {
+  defaults = rewire('react-scripts/scripts/start.js')
+  configFactory = defaults.__get__('configFactory')
+  config = configFactory('development')
+} else if (type === 'build') {
+  defaults = rewire('react-scripts/scripts/build.js')
+  configFactory = defaults.__get__('configFactory')
+  config = configFactory('production')
+}
+
 const webpack = defaults.__get__('webpack')
 
 config.optimization.usedExports = true
@@ -34,8 +46,6 @@ config.resolve.fallback = {
   os: false
 }
 
-config.stats = 'verbose'
-
 config.module.strictExportPresence = false
 
 config.plugins.push(
@@ -43,3 +53,11 @@ config.plugins.push(
     Buffer: ['buffer', 'Buffer']
   })
 )
+
+config.ignoreWarnings = [/Failed to parse source map/]
+
+if (type === 'start') {
+  defaults.__set__('configFactory', () => config)
+} else if (type === 'build') {
+  defaults.__set__('config', config)
+}

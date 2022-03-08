@@ -66,12 +66,13 @@
     "walletlink": "2.5.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "start:heap": "node --max_old_space_size=16384 node_modules/.bin/react-scripts start",
+    "react-serve": "yarn node scripts/serve.js",
+    "start": "yarn react-serve start",
+    "start:heap": "yarn react-serve --max_old_space_size=16384 start",
     "start:ipfs": "REACT_APP_IPFS=True PUBLIC_URL='.' yarn start",
     "start:test": "REACT_APP_STAGE=local yarn start",
     "start:test:ipfs": "REACT_APP_STAGE=local yarn start:ipfs",
-    "build": "CI=false yarn node scripts/build.js && yarn cacheBust",
+    "build": "CI=false yarn react-serve build && yarn cacheBust",
     "build:ipfs": "REACT_APP_IPFS=True PUBLIC_URL='.' yarn build",
     "postbuild": "cp build/index.html build/200.html && echo '*' > build/CORS",
     "test": "react-scripts test --env=./custom-test-env.js --transformIgnorePatterns \"node_modules/(?!@ensdomains)/\"",
