@@ -94,10 +94,9 @@ describe('getProvider', () => {
       expect.assertions(1)
       window.localStorage.setItem('WEB3_CONNECT_CACHED_PROVIDER', 'injected')
       connect.mockImplementation(
-        () =>
-          new Promise(() => {
-            expect(true).toBeTruthy()
-          })
+        new Promise(() => {
+          expect(true).toBeTruthy()
+        })
       )
       getProvider()
     })

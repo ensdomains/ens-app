@@ -1,11 +1,9 @@
-import { CID } from 'multiformats/cid'
+import { CID } from 'multiformats'
 import { isCID, isOwnerOfParentDomain, normaliseOrMark } from './utils'
 
 jest.mock('../apollo/reactiveVars', () => ({
   __esModule: true
 }))
-import { globalErrorReactive } from '../apollo/reactiveVars'
-import { connect } from '../api/web3modal'
 
 describe('isOwnerOfParentDomain', () => {
   it('should return false if address is not provided', () => {
