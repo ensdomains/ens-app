@@ -2495,6 +2495,31 @@
     dns-packet "^5.2.1"
     js-sha3 "^0.8.0"
 
+"@ensdomains/ui@^3.3.23":
+  version "3.3.23"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.23.tgz#1af888d667178fa3e1ccbe536d74707653689c67"
+  integrity sha512-f1Pj2RohfTpqHBtB+lUYeNCzYBrcuRaOYv3s8XUdv0z5irtEhhsK3aDaW7Ui19TsiK/qRAz+E7WncWw07oyXaQ==
+  dependencies:
+    "@0xproject/utils" "^2.0.2"
+    "@babel/plugin-proposal-class-properties" "^7.8.3"
+    "@babel/runtime" "^7.4.4"
+    "@ensdomains/address-encoder" "^0.2.14"
+    "@ensdomains/content-hash" "^2.5.7"
+    "@ensdomains/contracts" "^0.0.1"
+    "@ensdomains/dnsprovejs" "^0.4.1"
+    "@ensdomains/dnssecoraclejs" "^0.2.7"
+    "@ensdomains/dnssecoraclejs-017" "npm:@ensdomains/dnssecoraclejs@0.1.7"
+    "@ensdomains/ens-contracts" "^0.0.11"
+    "@ensdomains/eth-ens-namehash" "^2.0.15"
+    "@ensdomains/mock" "^2.0.47"
+    "@ethvault/iframe-provider" "0.1.9"
+    base58check "^2.0.0"
+    bech32 "^1.1.3"
+    bs58 "^4.0.1"
+    cross-fetch "^3.0.2"
+    dns-packet "^5.2.1"
+    js-sha3 "^0.8.0"
+
 "@ensdomains/web3modal@1.9.4":
   version "1.9.4"
   resolved "https://registry.yarnpkg.com/@ensdomains/web3modal/-/web3modal-1.9.4.tgz#a771e89d0978086d69e0b6897ca8cdff7191c89c"
