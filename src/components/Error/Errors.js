@@ -35,7 +35,7 @@ export const NetworkError = ({ message }) => (
       <Warning src={warningImage} />
       <H2>{message}</H2>
       <br />
-      Please change your dapp browser to Avalanche or Fuji.
+      Please change your dapp browser to Fuji Testnet.
     </Message>
   </ErrorContainer>
 )

@@ -142,7 +142,9 @@ function NetworkInformation() {
             <span>{displayName}</span>
           </Account>
           <NetworkStatus>
-            {network} {t('c.network')}
+            {network == 'unknown'
+              ? `fuji ${t('c.network')}`
+              : `${network} ${t('c.network')}`}
           </NetworkStatus>
           {!isSafeApp && (
             <NoAccountsModal
@@ -158,7 +160,9 @@ function NetworkInformation() {
             {t('c.readonly')}
           </Account>
           <NetworkStatus>
-            {network} {t('c.network')}
+            {network == 'unknown'
+              ? `fuji ${t('c.network')}`
+              : `${network} ${t('c.network')}`}
           </NetworkStatus>
           <NoAccountsModal
             onClick={connectProvider}

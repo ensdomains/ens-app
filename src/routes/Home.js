@@ -304,19 +304,22 @@ export default ({ match }) => {
   const {
     data: { accounts }
   } = useQuery(GET_ACCOUNT)
-
+  debugger
   const {
     data: { network, displayName, isReadOnly, isSafeApp }
   } = useQuery(HOME_DATA, {
     variables: { address: accounts?.[0] }
   })
-
+  console.log('=======>', network, displayName, isReadOnly, isSafeApp)
+  debugger
   return (
     <Hero>
       <HeroTop>
         <NetworkStatus>
           <Network>
-            {`${network} ${t('c.network')}`}
+            {network == 'unknown'
+              ? `fuji ${t('c.network')}`
+              : `${network} ${t('c.network')}`}
             {isReadOnly && <ReadOnly>({t('c.readonly')})</ReadOnly>}
             {!isReadOnly && displayName && (
               <Name data-testid="display-name">({displayName})</Name>
