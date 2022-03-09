@@ -164,13 +164,14 @@
     ]
   },
   "engines": {
-    "node": "v14"
+    "node": "v16"
   },
   "jest": {
     "resetMocks": false
   },
   "resolutions": {
-    "@ensdomains/ui": "^3.3.22",
-    "ethers": "^5.5.4"
+    "@ensdomains/ui": "^3.3.23",
+    "ethers": "^5.5.4",
+    "wrtc": "npm:@koush/wrtc"
   }
 }
