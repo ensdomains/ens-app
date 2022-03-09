@@ -51,7 +51,7 @@ describe('Migrate a subdomain to new registry', () => {
       exact: false
     }).should('exist')
 
-    cy.queryByText('Migrate').should('have.css', 'color', DISABLED_COLOUR)
+    cy.queryByText('Migrate').should('have.css', 'color', ENABLED_COLOUR)
 
     cy.queryByTestId('edit-controller').should(
       'have.css',
