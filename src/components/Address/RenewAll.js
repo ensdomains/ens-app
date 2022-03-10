@@ -7,9 +7,9 @@ import EthVal from 'ethval'
 import mq from 'mediaQuery'
 
 import { RENEW_DOMAINS } from '../../graphql/mutations'
-import { GET_RENT_PRICES } from 'graphql/queries'
+import { GET_RENT_PRICES, GET_ETH_PRICE } from 'graphql/queries'
 import { calculateDuration } from 'utils/dates'
-import { useEthPrice, useEditable } from '../hooks'
+import { useEditable } from '../hooks'
 import { trackReferral } from '../../utils/analytics'
 import { refetchTilUpdated } from '../../utils/graphql'
 
@@ -106,7 +106,10 @@ export default function Renew({
   const { startEditing, stopEditing, startPending, setConfirmed } = actions
 
   const [years, setYears] = useState(1)
-  const { price: ethUsdPrice, loading: ethUsdPriceLoading } = useEthPrice()
+  const {
+    data: { getEthPrice: ethUsdPrice } = {},
+    loading: ethUsdPriceLoading
+  } = useQuery(GET_ETH_PRICE)
   const duration = calculateDuration(years)
   let labelsToRenew = selectedNames.map(name => name.split('.')[0])
 

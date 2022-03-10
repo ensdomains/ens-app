@@ -52,6 +52,7 @@ function PricerInner({
   className,
   loading,
   price,
+  premiumOnlyPrice,
   gasPrice,
   reference,
   underPremium,
@@ -71,6 +72,7 @@ function PricerInner({
         <Chain />
         <Price
           price={price}
+          premiumOnlyPrice={premiumOnlyPrice}
           gasPrice={gasPrice}
           loading={loading}
           ethUsdPriceLoading={ethUsdPriceLoading}

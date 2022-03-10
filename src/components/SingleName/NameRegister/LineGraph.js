@@ -2,8 +2,7 @@ import Chart from 'chart.js'
 import styled from '@emotion/styled/macro'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-const DAY = 60 * 60 * 24
-const HOUR = 60 * 60
+import priceCalculator from './PriceCalculator'
 
 const LineGraphContainer = styled('div')`
   background-color: white;
@@ -30,22 +29,28 @@ const Title = styled('span')`
   font-weight: bold;
   font-size: large;
 `
+
 export default function LineGraph({
   startDate,
   currentDate,
   targetDate,
   endDate,
-  startPremium,
-  currentPremiumInEth,
-  currentPremium,
-  targetPremium,
-  handleTooltip
+  now,
+  ethUsdPrice,
+  handleTooltip,
+  oracle,
+  premiumOnlyPrice,
+  price
 }) {
-  const daysPast = parseInt(currentDate.diff(startDate) / DAY / 1000)
-  const totalDays = parseInt(endDate.diff(startDate) / DAY / 1000)
-  const daysRemaining = totalDays - daysPast
-  const totalHr = parseInt(endDate.diff(startDate) / HOUR / 1000)
+  const c = priceCalculator({
+    price, // in ETH, BN
+    premium: premiumOnlyPrice, // in ETH
+    ethUsdPrice
+  })
 
+  const daysRemaining = oracle.getDaysRemaining(now)
+  const hoursRemaining = oracle.getHoursRemaining(now)
+  const totalDays = oracle.totalDays
   const chartRef = React.createRef()
   const labels = []
   const dates = []
@@ -54,11 +59,28 @@ export default function LineGraph({
   const supportLine = []
   const { t } = useTranslation()
   const [chart, setChart] = useState(false)
+  let chartStartDate, maxTicksLimit
+  if (daysRemaining > 7) {
+    chartStartDate = now
+    maxTicksLimit = daysRemaining
+  } else if (daysRemaining > 1) {
+    chartStartDate = endDate.clone().subtract(7, 'day')
+    maxTicksLimit = 7
+  } else {
+    chartStartDate = endDate.clone().subtract(24, 'hour')
+    maxTicksLimit = 24
+  }
+  const chartstartPremium = oracle.getAmountByDateRange(
+    startDate,
+    chartStartDate
+  )
 
-  for (let i = startDate.clone(); endDate.diff(i) > 0; i = i.add(1, 'hour')) {
-    let diff = targetDate.diff(i) / HOUR / 1000
-    let rate = diff / totalHr
-    let premium = startPremium * rate
+  for (
+    let i = chartStartDate.clone();
+    endDate.diff(i) > 0;
+    i = i.add(1, 'hour')
+  ) {
+    const premium = oracle.getAmountByDateRange(startDate, i)
     let label = i.format('YYYY-MM-DD:HH:00')
     dates.push(label)
     labels.push(premium)
@@ -150,7 +172,7 @@ export default function LineGraph({
                 scale.height = 0
               },
               ticks: {
-                maxTicksLimit: totalDays,
+                maxTicksLimit,
                 callback: function() {
                   return ''
                 }
@@ -167,7 +189,7 @@ export default function LineGraph({
           ],
           yAxes: [
             {
-              ticks: { display: false, max: startPremium * 1.1 },
+              ticks: { display: false, max: chartstartPremium * 1.1 },
               gridLines: {
                 display: false,
                 drawBorder: false
@@ -193,21 +215,21 @@ export default function LineGraph({
       <Legend>
         <Title>
           {t('linegraph.title', {
-            premiumInEth: currentPremiumInEth.toFixed(2)
+            premiumInEth: c.premium
           })}{' '}
           ETH($
-          {currentPremium.toFixed(2)})
+          {c.premiumInUsd})
         </Title>
         <span>
-          {t('linegraph.daysRemaining', { daysRemaining, totalDays })}
+          {daysRemaining > 1
+            ? t('linegraph.daysRemaining', { daysRemaining, totalDays })
+            : `${hoursRemaining} hours remaining`}
         </span>
       </Legend>
       <Canvas id="myChart" ref={chartRef} />
       <Legend>
-        <span>
-          {t('linegraph.startingPrice')}: ${startPremium}{' '}
-        </span>
-        <span>{t('linegraph.endPrice')}: $0</span>
+        <span>${parseInt(chartstartPremium)} </span>
+        <span>$0</span>
       </Legend>
     </LineGraphContainer>
   )

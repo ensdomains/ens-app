@@ -194,6 +194,7 @@
     },
     "premiumWarning": {
       "description": "Per garantire a tutti la giusta opportunità di registrare un dominio appena scaduto, questi domini hanno un sovrapprezzo che parte da $ 2.000 e che si riduce in 28 giorni fino ad azzerarsi. Inserisci l'importo che sei disposto a pagare come sovrapprezzo per sapere in quale data ritornare sull'app per registrare il nome.",
+      "exponentialWarningDescripiton": "To ensure everyone has a fair opportunity to register a newly expired name, these names have a premium that starts at $100,000,000 and reduces over 21 days exponentially until the premium is gone. Enter the amount you're willing to pay as a premium to learn which date to revisit the app to register the name.",
       "title": "Questo nome di dominio ha un sovrapprezzo temporaneo."
     },
     "step1": {

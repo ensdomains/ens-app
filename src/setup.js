@@ -1,6 +1,9 @@
-import { getAccounts, getNetwork, getNetworkId } from '@ensdomains/ui'
-
-import { isReadOnly } from '@ensdomains/ui/src/web3'
+import {
+  getAccounts,
+  getNetwork,
+  getNetworkId,
+  isReadOnly
+} from '@ensdomains/ui'
 
 import { setup } from './apollo/mutations/ens'
 import { connect } from './api/web3modal'

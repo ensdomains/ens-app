@@ -1,10 +1,14 @@
+jest.mock('@ensdomains/ui', () => ({
+  isReadOnly: () => true,
+  getNetworkId: () => '2',
+  getNetwork: () => 'mainnet'
+}))
 jest.mock('../apollo/mutations/ens', () => ({
   __esModule: true,
   ...jest.requireActual('../apollo/mutations/ens'),
   setup: jest.fn()
 }))
 import { setup } from '../apollo/mutations/ens'
-
 import { disconnect, setWeb3Modal } from './web3modal'
 
 describe('disconnect', () => {
@@ -19,6 +23,7 @@ describe('disconnect', () => {
         })
     }
 
+    setWeb3Modal(mockWeb3Modal)
     disconnect()
   })
 
@@ -34,6 +39,7 @@ describe('disconnect', () => {
         })
     }
 
+    setWeb3Modal(mockWeb3Modal)
     disconnect()
   })
 })
