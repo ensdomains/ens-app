@@ -1,3 +1,8 @@
+jest.mock('@ensdomains/ui', () => ({
+  isReadOnly: () => true,
+  getNetworkId: () => '2',
+  getNetwork: () => 'mainnet'
+}))
 jest.mock('@apollo/client', () => ({
   __esModule: true,
   ...jest.requireActual('@apollo/client'),

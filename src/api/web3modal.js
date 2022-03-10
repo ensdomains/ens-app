@@ -1,3 +1,4 @@
+import { getNetwork, getNetworkId, isReadOnly } from '@ensdomains/ui'
 import { setup as setupENS } from '../apollo/mutations/ens'
 import {
   isReadOnlyReactive,
@@ -5,7 +6,6 @@ import {
   networkReactive,
   web3ProviderReactive
 } from '../apollo/reactiveVars'
-import { getNetwork, getNetworkId, isReadOnly } from '@ensdomains/ui'
 
 const INFURA_ID =
   window.location.host === 'app.ens.domains'

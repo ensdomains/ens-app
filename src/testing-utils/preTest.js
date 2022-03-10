@@ -21,6 +21,7 @@ async function setupWeb3(customProvider) {
 async function init() {
   const ENV = process.argv[2]
   const dnssec = process.argv[3] === 'dnssec'
+  const exponential = process.argv[3] === 'exponential'
 
   switch (ENV) {
     case 'GANACHE_GUI':
@@ -39,7 +40,7 @@ async function init() {
 
   const accounts = await getAccounts(web3)
 
-  const addresses = await deployTestEns({ web3, accounts, dnssec })
+  const addresses = await deployTestEns({ web3, accounts, dnssec, exponential })
   console.log(addresses)
   const {
     ensAddress,

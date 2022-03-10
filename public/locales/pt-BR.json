@@ -194,6 +194,7 @@
     },
     "premiumWarning": {
       "description": "Para garantir que todos tenham uma oportunidade justa de registrar um nome recém expirado, esses nomes tem um prêmio que começa com $2.000,00 Dolares e diminui em até 28 dias até que o prêmio acabe. Insira o valor que você espera pagar como prêmio para saber em data revisitar o aplicativo para registrar o nome. ",
+      "exponentialWarningDescripiton": "To ensure everyone has a fair opportunity to register a newly expired name, these names have a premium that starts at $100,000,000 and reduces over 21 days exponentially until the premium is gone. Enter the amount you're willing to pay as a premium to learn which date to revisit the app to register the name.",
       "title": "Esse nome tempo um prêmio temporário."
     },
     "step1": {
