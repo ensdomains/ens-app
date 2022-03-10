@@ -290,8 +290,11 @@ const NameRegister = ({
             targetPremium={targetPremium}
             ethUsdPrice={ethUsdPrice}
             handleTooltip={handleTooltip}
+            underPremium={underPremium}
             oracle={oracle}
+            price={getRentPrice}
             now={now}
+            premiumOnlyPrice={getPremiumPrice}
           />
 
           <Premium

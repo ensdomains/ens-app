@@ -2,6 +2,7 @@ import Chart from 'chart.js'
 import styled from '@emotion/styled/macro'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import priceCalculator from './PriceCalculator'
 
 const LineGraphContainer = styled('div')`
   background-color: white;
@@ -37,15 +38,19 @@ export default function LineGraph({
   now,
   ethUsdPrice,
   handleTooltip,
-  oracle
+  oracle,
+  premiumOnlyPrice,
+  price
 }) {
+  const c = priceCalculator({
+    price, // in ETH, BN
+    premium: premiumOnlyPrice, // in ETH
+    ethUsdPrice
+  })
+
   const daysRemaining = oracle.getDaysRemaining(now)
   const hoursRemaining = oracle.getHoursRemaining(now)
   const totalDays = oracle.totalDays
-  const currentPremium = oracle.getTargetAmountByDaysPast(
-    oracle.getDaysPast(now)
-  )
-  const currentPremiumInEth = currentPremium / ethUsdPrice
   const chartRef = React.createRef()
   const labels = []
   const dates = []
@@ -210,10 +215,10 @@ export default function LineGraph({
       <Legend>
         <Title>
           {t('linegraph.title', {
-            premiumInEth: currentPremiumInEth.toFixed(2)
+            premiumInEth: c.premium
           })}{' '}
           ETH($
-          {currentPremium.toFixed(2)})
+          {c.premiumInUsd})
         </Title>
         <span>
           {daysRemaining > 1

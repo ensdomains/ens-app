@@ -2,7 +2,6 @@ import React from 'react'
 import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
 import mq from 'mediaQuery'
-import EthVal from 'ethval'
 import { InlineLoader } from 'components/Loader'
 import priceCalculator from './PriceCalculator'
 
