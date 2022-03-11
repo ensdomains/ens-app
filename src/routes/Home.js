@@ -318,7 +318,7 @@ export default ({ match }) => {
         <NetworkStatus>
           <Network>
             {network == 'unknown'
-              ? `fuji ${t('c.network')}`
+              ? `avalanche ${t('c.network')}`
               : `${network} ${t('c.network')}`}
             {isReadOnly && <ReadOnly>({t('c.readonly')})</ReadOnly>}
             {!isReadOnly && displayName && (

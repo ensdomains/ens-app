@@ -143,7 +143,7 @@ function NetworkInformation() {
           </Account>
           <NetworkStatus>
             {network == 'unknown'
-              ? `fuji ${t('c.network')}`
+              ? `avalanche ${t('c.network')}`
               : `${network} ${t('c.network')}`}
           </NetworkStatus>
           {!isSafeApp && (
@@ -161,7 +161,7 @@ function NetworkInformation() {
           </Account>
           <NetworkStatus>
             {network == 'unknown'
-              ? `fuji ${t('c.network')}`
+              ? `avalanche ${t('c.network')}`
               : `${network} ${t('c.network')}`}
           </NetworkStatus>
           <NoAccountsModal

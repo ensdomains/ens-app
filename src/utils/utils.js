@@ -83,7 +83,8 @@ export const uniq = (a, param) =>
 export async function getEtherScanAddr() {
   const networkId = await getNetworkId()
   switch (networkId) {
-    case 43113:
+    case '43114':
+      return 'https://snowtrace.io/'
     case '43113':
       return 'https://testnet.snowtrace.io/'
     default:
