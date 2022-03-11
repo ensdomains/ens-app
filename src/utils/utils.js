@@ -28,6 +28,7 @@ export const ROPSTEN_DNSREGISTRAR_ADDRESS =
   '0xdB328BA5FEcb432AF325Ca59E3778441eF5aa14F'
 
 export const networkName = {
+  avalanche: 'avalanche',
   fuji: 'fuji',
   local: 'local'
 }
@@ -132,7 +133,9 @@ export function humaniseName(name) {
   return name
     .split('.')
     .map(label => {
-      return isEncodedLabelhash(label) ? `[fuji${label.slice(1, 8)}]` : label
+      return isEncodedLabelhash(label)
+        ? `[avalanche${label.slice(1, 8)}]`
+        : label
     })
     .join('.')
 }

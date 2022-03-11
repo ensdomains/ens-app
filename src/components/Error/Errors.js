@@ -35,7 +35,7 @@ export const NetworkError = ({ message }) => (
       <Warning src={warningImage} />
       <H2>{message}</H2>
       <br />
-      Please change your dapp browser to Avalanche Network.
+      Please change your network to Avalanche.
     </Message>
   </ErrorContainer>
 )
