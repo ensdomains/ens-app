@@ -190,6 +190,7 @@
     },
     "premiumWarning": {
       "description": "为了确保每个人都有公平的机会去注册一个刚刚过期的域名，这些域名的溢价起始价格为 2000 美元，并在 28 天内逐渐降低，直到溢价消失。输入你愿意支付的溢价费用，就会自动显示你应该在什么时间来注册这个域名。",
+      "exponentialWarningDescripiton": "To ensure everyone has a fair opportunity to register a newly expired name, these names have a premium that starts at $100,000,000 and reduces over 21 days exponentially until the premium is gone. Enter the amount you're willing to pay as a premium to learn which date to revisit the app to register the name.",
       "title": "该域名存在一个临时性的溢价。"
     },
     "step1": {

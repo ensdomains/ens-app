@@ -9,6 +9,14 @@ const defaults = {}
 
 const resolvers = {
   Query: {
+    async getPriceCurve(_, {}) {
+      const registrar = getRegistrar()
+      return registrar.getPriceCurve()
+    },
+    async getEthPrice(_, {}) {
+      const registrar = getRegistrar()
+      return registrar.getEthPrice()
+    },
     async getRentPrice(_, { label, duration }) {
       const registrar = getRegistrar()
       return registrar.getRentPrice(label, duration)

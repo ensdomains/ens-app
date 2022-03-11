@@ -1,23 +1,22 @@
-import { getNetworkId } from '@ensdomains/ui/src/web3'
-import {
-  emptyAddress as _emptyAddress,
-  validateName as _validateName,
-  parseSearchTerm as _parseSearchTerm,
-  getEnsStartBlock as _ensStartBlock,
-  isLabelValid as _isLabelValid,
-  isEncodedLabelhash
-} from '@ensdomains/ui/src/utils/index'
 import { validate } from '@ensdomains/ens-validation'
 import { normalize } from '@ensdomains/eth-ens-namehash'
-import { CID } from 'multiformats/esm/src/cid'
-
-import getENS from '../apollo/mutations/ens'
+import {
+  emptyAddress as _emptyAddress,
+  getEnsStartBlock as _ensStartBlock,
+  getNetworkId,
+  isEncodedLabelhash,
+  isLabelValid as _isLabelValid,
+  parseSearchTerm as _parseSearchTerm,
+  validateName as _validateName
+} from '@ensdomains/ui'
 import * as jsSHA3 from 'js-sha3'
-import { saveName } from '../api/labels'
-import { useEffect, useRef } from 'react'
-import { EMPTY_ADDRESS } from './records'
 import { throttle } from 'lodash'
+import { CID } from 'multiformats'
+import { useEffect, useRef } from 'react'
+import { saveName } from '../api/labels'
+import getENS from '../apollo/mutations/ens'
 import { globalErrorReactive } from '../apollo/reactiveVars'
+import { EMPTY_ADDRESS } from './records'
 
 // From https://github.com/0xProject/0x-monorepo/blob/development/packages/utils/src/address_utils.ts
 

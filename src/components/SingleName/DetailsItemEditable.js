@@ -10,12 +10,13 @@ import EthVal from 'ethval'
 import {
   GET_PUBLIC_RESOLVER,
   GET_RENT_PRICE,
-  IS_CONTRACT_CONTROLLER
+  IS_CONTRACT_CONTROLLER,
+  GET_ETH_PRICE
 } from '../../graphql/queries'
 import { SET_RESOLVER, SET_SUBNODE_OWNER, SET_OWNER } from 'graphql/mutations'
 
 import mq from 'mediaQuery'
-import { useEditable, useEthPrice } from '../hooks'
+import { useEditable } from '../hooks'
 import { calculateDuration, formatDate } from 'utils/dates'
 import { trackReferral } from 'utils/analytics'
 import { addressUtils, emptyAddress } from 'utils/utils'
@@ -362,13 +363,16 @@ const Editable = ({
   let expirationDate
   const [years, setYears] = useState(1)
 
-  const { price: ethUsdPrice, loading: ethUsdPriceLoading } = useEthPrice(
-    keyName === 'Expiration Date'
-  )
   if (keyName === 'Expiration Date') {
     duration = calculateDuration(years)
     expirationDate = new Date(new Date(value).getTime() + duration * 1000)
   }
+  const { data: { ethUsdPrice } = {}, loading: ethUsdPriceLoading } = useQuery(
+    GET_ETH_PRICE,
+    {
+      skip: keyName !== 'Expiration Date'
+    }
+  )
 
   const { data: { getRentPrice } = {}, loading: rentPriceLoading } = useQuery(
     GET_RENT_PRICE,
