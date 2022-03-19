@@ -52,7 +52,7 @@ const Price = ({
   let ethPrice = <InlineLoader />
   let withPremium, c
 
-  if (!loading && price && premiumOnlyPrice) {
+  if (!loading && price && ethUsdPrice) {
     c = priceCalculator({
       price, // in ETH, BN
       premium: premiumOnlyPrice, // in ETH
