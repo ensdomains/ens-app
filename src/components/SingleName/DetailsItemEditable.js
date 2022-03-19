@@ -367,12 +367,13 @@ const Editable = ({
     duration = calculateDuration(years)
     expirationDate = new Date(new Date(value).getTime() + duration * 1000)
   }
-  const { data: { ethUsdPrice } = {}, loading: ethUsdPriceLoading } = useQuery(
+  const { data: ethUsdPriceData = {}, loading: ethUsdPriceLoading } = useQuery(
     GET_ETH_PRICE,
     {
       skip: keyName !== 'Expiration Date'
     }
   )
+  let ethUsdPrice = ethUsdPriceData?.getEthPrice
 
   const { data: { getRentPrice } = {}, loading: rentPriceLoading } = useQuery(
     GET_RENT_PRICE,
