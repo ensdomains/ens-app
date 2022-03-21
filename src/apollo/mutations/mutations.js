@@ -9,7 +9,7 @@ import {
   subDomainFavouritesReactive,
   web3ProviderReactive
 } from '../reactiveVars'
-import { getAccounts, getNetwork, getNetworkId } from '@ensdomains/ui'
+import { getAccounts, getNetwork, getNetworkId } from '@siddomains/ui'
 import { disconnect, connect } from '../../api/web3modal'
 import { getReverseRecord } from '../sideEffects'
 import { isRunningAsSafeApp } from 'utils/safeApps'

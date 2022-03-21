@@ -104,12 +104,12 @@ const resolvers = {
         }
 
         if (modeNames[state] === 'Owned') {
-          owner = await ens.getOwner(`${name}.eth`)
+          owner = await ens.getOwner(`${name}.bnb`)
         }
 
         const data = {
           domainState: {
-            name: `${name}.eth`,
+            name: `${name}.bnb`,
             state: modeNames[state],
             registrationDate,
             revealDate,

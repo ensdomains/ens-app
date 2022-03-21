@@ -1,4 +1,4 @@
-jest.mock('@ensdomains/ui', () => ({
+jest.mock('@siddomains/ui', () => ({
   isReadOnly: () => true,
   getNetworkId: () => '2',
   getNetwork: () => 'mainnet'

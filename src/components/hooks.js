@@ -1,7 +1,7 @@
 import { useEffect, useReducer, useRef, useState } from 'react'
 import { loggedIn, logout } from './IPFS/auth'
 
-import { getBlock, getProvider, ethers } from '@ensdomains/ui'
+import { getBlock, getProvider, ethers } from '@siddomains/ui'
 import { isCID, networkName, supportedAvatarProtocols } from 'utils/utils'
 
 export function useDocumentTitle(title) {

@@ -3,7 +3,7 @@ import {
   isEncodedLabelhash,
   decodeLabelhash,
   encodeLabelhash
-} from '@ensdomains/ui'
+} from '@siddomains/ui'
 
 function getLabels() {
   return JSON.parse(localStorage.getItem('labels')) || {}

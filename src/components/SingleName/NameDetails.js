@@ -63,15 +63,15 @@ function NameDetails({
   const outOfSync = dnssecmode && dnssecmode.outOfSync
   const isAnAbsolutePath = pathname.split('/').length > 3
 
-  if (domain.parent === 'eth' && tab === 'register' && !isAnAbsolutePath) {
+  if (domain.parent === 'bnb' && tab === 'register' && !isAnAbsolutePath) {
     return <Redirect to={`${pathname}/register`} />
   } else if (
-    domain.parent === 'eth' &&
+    domain.parent === 'bnb' &&
     tab === 'details' &&
     !isAnAbsolutePath
   ) {
     return <Redirect to={`${pathname}/details`} />
-  } else if (domain.parent !== 'eth' && !isAnAbsolutePath) {
+  } else if (domain.parent !== 'bnb' && !isAnAbsolutePath) {
     //subdomain or dns
     return <Redirect to={`${pathname}/subdomains`} />
   }

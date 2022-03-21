@@ -11,7 +11,7 @@ import {
   isDecrypted,
   labelhash,
   utils
-} from '@ensdomains/ui'
+} from '@siddomains/ui'
 import { formatsByName } from '@ensdomains/address-encoder'
 import isEqual from 'lodash/isEqual'
 import modeNames from '../modes'
@@ -171,7 +171,7 @@ export const handleMultipleTransactions = async (
 async function getRegistrarEntry(name) {
   const registrar = getRegistrar()
   const nameArray = name.split('.')
-  if (nameArray.length > 3 || nameArray[1] !== 'eth') {
+  if (nameArray.length > 3 || nameArray[1] !== 'bnb') {
     return {}
   }
 
@@ -269,7 +269,7 @@ async function getDNSEntryDetails(name) {
   const registrar = getRegistrar()
   const nameArray = name.split('.')
   const networkId = await getNetworkId()
-  if (nameArray.length !== 2 || nameArray[1] === 'eth') return {}
+  if (nameArray.length !== 2 || nameArray[1] === 'bnb') return {}
 
   let tld = nameArray[1]
   let owner
@@ -345,7 +345,7 @@ const resolvers = {
     publicResolver: async () => {
       try {
         const ens = getENS()
-        const resolver = await ens.getAddress('resolver.eth')
+        const resolver = await ens.getAddress('resolver.bnb')
         return {
           address: resolver,
           __typename: 'Resolver'
@@ -545,7 +545,7 @@ const resolvers = {
       }
 
       async function calculateIsPublicResolverReady() {
-        const publicResolver = await ens.getAddress('resolver.eth')
+        const publicResolver = await ens.getAddress('resolver.bnb')
         return !OLD_RESOLVERS.map(a => a.toLowerCase()).includes(publicResolver)
       }
 

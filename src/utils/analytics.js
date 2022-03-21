@@ -1,5 +1,5 @@
 import ReactGA from 'react-ga'
-import { getNetworkId } from '@ensdomains/ui'
+import { getNetworkId } from '@siddomains/ui'
 
 const TrackingID = {
   live: 'UA-138903307-1',

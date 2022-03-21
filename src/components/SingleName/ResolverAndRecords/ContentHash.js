@@ -234,7 +234,7 @@ const ContentHashEditable = ({
 function ContentHashLinkWithEthLink({ value, contentType, domain }) {
   const { networkId } = useNetworkInfo()
   const displayEthLink =
-    !!domain.name.match('.eth$') && networkId === 1 && value?.match(/^ip/)
+    !!domain.name.match('.bnb$') && networkId === 1 && value?.match(/^ip/)
   return (
     <>
       <div>

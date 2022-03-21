@@ -2452,35 +2452,10 @@
   dependencies:
     hash-test-vectors "^1.3.2"
 
-"@ensdomains/ui@^3.2.22", "@ensdomains/ui@^3.3.23":
+"@ensdomains/ui@^3.2.22":
   version "3.3.23"
   resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.23.tgz#1af888d667178fa3e1ccbe536d74707653689c67"
   integrity sha512-f1Pj2RohfTpqHBtB+lUYeNCzYBrcuRaOYv3s8XUdv0z5irtEhhsK3aDaW7Ui19TsiK/qRAz+E7WncWw07oyXaQ==
-  dependencies:
-    "@0xproject/utils" "^2.0.2"
-    "@babel/plugin-proposal-class-properties" "^7.8.3"
-    "@babel/runtime" "^7.4.4"
-    "@ensdomains/address-encoder" "^0.2.14"
-    "@ensdomains/content-hash" "^2.5.7"
-    "@ensdomains/contracts" "^0.0.1"
-    "@ensdomains/dnsprovejs" "^0.4.1"
-    "@ensdomains/dnssecoraclejs" "^0.2.7"
-    "@ensdomains/dnssecoraclejs-017" "npm:@ensdomains/dnssecoraclejs@0.1.7"
-    "@ensdomains/ens-contracts" "^0.0.11"
-    "@ensdomains/eth-ens-namehash" "^2.0.15"
-    "@ensdomains/mock" "^2.0.47"
-    "@ethvault/iframe-provider" "0.1.9"
-    base58check "^2.0.0"
-    bech32 "^1.1.3"
-    bs58 "^4.0.1"
-    cross-fetch "^3.0.2"
-    dns-packet "^5.2.1"
-    js-sha3 "^0.8.0"
-
-"@ensdomains/ui@^3.3.25":
-  version "3.3.25"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.25.tgz#e82caff7e89c7b5b4d7208d1f9850c157e7a52f8"
-  integrity sha512-a+PehdaLj9X8O3nBJ0RULnKfGMlKWji0O+ZGq4FYqJ8T8+I17btgRAveF7ZNVx5dPGNsg0pDstidHJ8PdkyUyw==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
@@ -3943,6 +3918,56 @@
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/@sheerun/mutationobserver-shim/-/mutationobserver-shim-0.3.3.tgz#5405ee8e444ed212db44e79351f0c70a582aae25"
   integrity sha512-DetpxZw1fzPD5xUBrIAoplLChO2VB8DlL5Gg+I1IR9b2wPqYIca2WSUxL5g1vLeR4MsQq1NeWriXAVffV+U1Fw==
+
+"@siddomains/ui@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@siddomains/ui/-/ui-1.0.1.tgz#842ebcec444a734828c3cc2c3163fa59a557bd45"
+  integrity sha512-AuzFUHAQ4+FxhW5Z2tUKZq+MfpBQpvTKy05W45guSnk0rgtecdOKE+5Xvcqy35Q5W+sEPpJuu+dUw5cJ2HYFfg==
+  dependencies:
+    "@0xproject/utils" "^2.0.2"
+    "@babel/plugin-proposal-class-properties" "^7.8.3"
+    "@babel/runtime" "^7.4.4"
+    "@ensdomains/address-encoder" "^0.2.14"
+    "@ensdomains/content-hash" "^2.5.7"
+    "@ensdomains/contracts" "^0.0.1"
+    "@ensdomains/dnsprovejs" "^0.4.1"
+    "@ensdomains/dnssecoraclejs" "^0.2.7"
+    "@ensdomains/dnssecoraclejs-017" "npm:@ensdomains/dnssecoraclejs@0.1.7"
+    "@ensdomains/ens-contracts" "^0.0.11"
+    "@ensdomains/eth-ens-namehash" "^2.0.15"
+    "@ensdomains/mock" "^2.0.47"
+    "@ethvault/iframe-provider" "0.1.9"
+    base58check "^2.0.0"
+    bech32 "^1.1.3"
+    bs58 "^4.0.1"
+    cross-fetch "^3.0.2"
+    dns-packet "^5.2.1"
+    js-sha3 "^0.8.0"
+
+"@siddomains/ui@^1.3.4":
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/@siddomains/ui/-/ui-1.3.4.tgz#d460a649da62779c73416f064d25abd18d5f164b"
+  integrity sha512-r3FfPHpZAbO1cKkJVEkEbr/OcmhV9CWXwlILeu2/1ohRpxV0Z+chs7w89SzAtXU2L/SHjD43PgYE7sYiSd47eQ==
+  dependencies:
+    "@0xproject/utils" "^2.0.2"
+    "@babel/plugin-proposal-class-properties" "^7.8.3"
+    "@babel/runtime" "^7.4.4"
+    "@ensdomains/address-encoder" "^0.2.14"
+    "@ensdomains/content-hash" "^2.5.7"
+    "@ensdomains/contracts" "^0.0.1"
+    "@ensdomains/dnsprovejs" "^0.4.1"
+    "@ensdomains/dnssecoraclejs" "^0.2.7"
+    "@ensdomains/dnssecoraclejs-017" "npm:@ensdomains/dnssecoraclejs@0.1.7"
+    "@ensdomains/ens-contracts" "^0.0.11"
+    "@ensdomains/eth-ens-namehash" "^2.0.15"
+    "@ensdomains/mock" "^2.0.47"
+    "@ethvault/iframe-provider" "0.1.9"
+    base58check "^2.0.0"
+    bech32 "^1.1.3"
+    bs58 "^4.0.1"
+    cross-fetch "^3.0.2"
+    dns-packet "^5.2.1"
+    js-sha3 "^0.8.0"
 
 "@sideway/address@^4.1.0":
   version "4.1.2"

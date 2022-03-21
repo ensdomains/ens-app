@@ -10,7 +10,7 @@ import Loader from '../Loader'
 import { H2 } from '../Typography/Basic'
 import AddSubdomain from './AddSubdomain'
 import ChildDomainItem from '../DomainItem/ChildDomainItem'
-import { getNamehash } from '@ensdomains/ui'
+import { getNamehash } from '@siddomains/ui'
 import { decryptName } from '../../api/labels'
 
 const SubDomainsContainer = styled('div')`

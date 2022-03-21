@@ -8,7 +8,7 @@ import {
   isLabelValid as _isLabelValid,
   parseSearchTerm as _parseSearchTerm,
   validateName as _validateName
-} from '@ensdomains/ui'
+} from '@siddomains/ui'
 import * as jsSHA3 from 'js-sha3'
 import { throttle } from 'lodash'
 import { CID } from 'multiformats'
@@ -27,12 +27,15 @@ export const MAINNET_DNSREGISTRAR_ADDRESS =
   '0x58774Bb8acD458A640aF0B88238369A167546ef2'
 export const ROPSTEN_DNSREGISTRAR_ADDRESS =
   '0xdB328BA5FEcb432AF325Ca59E3778441eF5aa14F'
+export const BSCTEST_DNSREGISTRAR_ADDRESS =
+  '0x75e5d50ff398A989c535e94E03b3d4bDE0C1466a'
 
 export const networkName = {
   main: 'mainnet',
   goerli: 'goerli',
   rinkeby: 'rinkeby',
   ropsten: 'ropsten',
+  bsc_test: 'bsc_test',
   local: 'local'
 }
 
@@ -96,6 +99,9 @@ export async function getEtherScanAddr() {
     case 4:
     case '4':
       return 'https://rinkeby.etherscan.io/'
+    case 97:
+    case '97':
+      return 'https://testnet.bscscan.com/'
     default:
       return 'https://etherscan.io/'
   }

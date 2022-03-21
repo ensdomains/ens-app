@@ -1,4 +1,4 @@
-import { getNetwork, getNetworkId, isReadOnly } from '@ensdomains/ui'
+import { getNetwork, getNetworkId, isReadOnly } from '@siddomains/ui'
 import { setup as setupENS } from '../apollo/mutations/ens'
 import {
   isReadOnlyReactive,

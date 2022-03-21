@@ -3,7 +3,7 @@ import {
   getNetwork,
   getNetworkId,
   isReadOnly
-} from '@ensdomains/ui'
+} from '@siddomains/ui'
 
 import { setup } from './apollo/mutations/ens'
 import { connect } from './api/web3modal'
@@ -42,6 +42,8 @@ export const isSupportedNetwork = networkId => {
     case 3:
     case 4:
     case 5:
+    case 56:
+    case 97:
     case 1337:
       return true
     default:

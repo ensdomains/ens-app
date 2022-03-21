@@ -6,7 +6,7 @@ import differenceWith from 'lodash/differenceWith'
 import { useTranslation } from 'react-i18next'
 import { gql } from '@apollo/client'
 
-import { getNamehash, emptyAddress } from '@ensdomains/ui'
+import { getNamehash, emptyAddress } from '@siddomains/ui'
 import { useEditable } from '../../hooks'
 import { ADD_MULTI_RECORDS } from '../../../graphql/mutations'
 import COIN_LIST from 'constants/coinList'
