@@ -16,7 +16,8 @@ import { formatsByCoinType } from '@ensdomains/address-encoder'
 import {
   GET_ADDRESSES,
   GET_TEXT_RECORDS,
-  GET_RESOLVER_FROM_SUBGRAPH
+  GET_RESOLVER_FROM_SUBGRAPH,
+  WILDCARD_RESOLVER_DOMAIN
 } from 'graphql/queries'
 
 import AddRecord from './AddRecord'
@@ -122,6 +123,15 @@ function isContentHashEmpty(hash) {
 }
 
 const useGetRecords = domain => {
+  const { data: { wildcardResolverDomain } = {} } = useQuery(
+    WILDCARD_RESOLVER_DOMAIN,
+    {
+      variables: {
+        name: domain.name
+      }
+    }
+  )
+  console.log('***wildcardResolverDomain!!', wildcardResolverDomain)
   const { data: dataResolver } = useQuery(GET_RESOLVER_FROM_SUBGRAPH, {
     variables: {
       id: getNamehash(domain.name)
@@ -143,8 +153,11 @@ const useGetRecords = domain => {
   const { loading: addressesLoading, data: dataAddresses } = useQuery(
     GET_ADDRESSES,
     {
-      variables: { name: domain.name, keys: coinList },
-      skip: !coinList,
+      variables: {
+        name: domain.name,
+        keys: coinList || COIN_PLACEHOLDER_RECORDS
+      },
+      skip: !(!!wildcardResolverDomain || coinList),
       fetchPolicy: 'network-only'
     }
   )
@@ -154,9 +167,9 @@ const useGetRecords = domain => {
     {
       variables: {
         name: domain.name,
-        keys: resolver && resolver.texts
+        keys: (resolver && resolver.texts) || TEXT_PLACEHOLDER_RECORDS
       },
-      skip: !dataResolver,
+      skip: !(!!wildcardResolverDomain || dataResolver),
       fetchPolicy: 'network-only'
     }
   )

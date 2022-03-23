@@ -564,6 +564,11 @@ const resolvers = {
       const ens = getENS()
       return ens.isMigrated(name)
     },
+    wildcardResolverDomain: async (_, { name }) => {
+      const ens = getENS()
+      console.log('***calling wildcardResolverDomain')
+      return ens.wildcardResolverDomain(name)
+    },
     isContractController: async (_, { address }) => {
       let provider = await getWeb3()
       const bytecode = await provider.getCode(address)

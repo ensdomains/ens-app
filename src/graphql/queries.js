@@ -352,3 +352,9 @@ export const IS_CONTRACT_CONTROLLER = gql`
     isContractController(address: $address)
   }
 `
+
+export const WILDCARD_RESOLVER_DOMAIN = gql`
+  query wildcardResolverDomain($name: String) {
+    wildcardResolverDomain(name: $name)
+  }
+`

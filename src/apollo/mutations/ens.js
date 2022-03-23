@@ -36,6 +36,7 @@ export async function setup({
   registrar = registrarInstance
   ensRegistryAddress = ensAddress
   isENSReadyReactive(true)
+  window.providerObject = providerObject
   return { ens, registrar, providerObject }
 }
 
