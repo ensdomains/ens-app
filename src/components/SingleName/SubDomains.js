@@ -13,6 +13,7 @@ import AddSubdomain from './AddSubdomain'
 import ChildDomainItem from '../DomainItem/ChildDomainItem'
 import { getNamehash } from '@ensdomains/ui'
 import { decryptName } from '../../api/labels'
+import { useQuery } from '@apollo/client'
 
 const SubDomainsContainer = styled('div')`
   padding-bottom: 30px;

@@ -10,7 +10,8 @@ import {
   getWeb3,
   isDecrypted,
   labelhash,
-  utils
+  utils,
+  foo
 } from '@ensdomains/ui'
 import { formatsByName } from '@ensdomains/address-encoder'
 import isEqual from 'lodash/isEqual'
@@ -29,7 +30,6 @@ import getENS, { getRegistrar } from 'apollo/mutations/ens'
 import { isENSReadyReactive, namesReactive } from '../../apollo/reactiveVars'
 import getReverseRecord from './getReverseRecord'
 import { isEmptyAddress } from '../../utils/records'
-
 const defaults = {
   names: []
 }
