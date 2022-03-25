@@ -131,13 +131,12 @@ const useGetRecords = domain => {
       }
     }
   )
-  console.log('***wildcardResolverDomain!!', wildcardResolverDomain)
+
   const { data: dataResolver } = useQuery(GET_RESOLVER_FROM_SUBGRAPH, {
     variables: {
       id: getNamehash(domain.name)
     }
   })
-
   const resolver =
     dataResolver && dataResolver.domain && dataResolver.domain.resolver
 
@@ -161,7 +160,6 @@ const useGetRecords = domain => {
       fetchPolicy: 'network-only'
     }
   )
-
   const { loading: textRecordsLoading, data: dataTextRecords } = useQuery(
     GET_TEXT_RECORDS,
     {
@@ -173,7 +171,6 @@ const useGetRecords = domain => {
       fetchPolicy: 'network-only'
     }
   )
-
   return {
     dataAddresses,
     dataTextRecords,

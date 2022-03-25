@@ -566,7 +566,6 @@ const resolvers = {
     },
     wildcardResolverDomain: async (_, { name }) => {
       const ens = getENS()
-      console.log('***calling wildcardResolverDomain')
       return ens.wildcardResolverDomain(name)
     },
     isContractController: async (_, { address }) => {
