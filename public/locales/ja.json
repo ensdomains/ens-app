@@ -343,7 +343,8 @@
     },
     "subdomains": {
       "add": "サブドメインを追加",
-      "nosubdomains": "追加されたサブドメインはありません"
+      "nosubdomains": "追加されたサブドメインはありません",
+      "wildcard": "This domain may have other subdomains that cannot be shown as they are off chain"
     },
     "tabs": {
       "details": "詳細",
