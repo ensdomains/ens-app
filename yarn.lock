@@ -2477,10 +2477,10 @@
     dns-packet "^5.2.1"
     js-sha3 "^0.8.0"
 
-"@ensdomains/ui@^3.3.26":
-  version "3.3.26"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.26.tgz#7708e73c56a832ac27f7ccae618bff5c5d324518"
-  integrity sha512-bU0ERt5jWPWoCUUHIfeM4xZR2zjLPNuvixBwfx1UAL6BhHXSXnSZNTUvcRPFHbgNy3G1UhXgHhWcipL2ubyviw==
+"@ensdomains/ui@npm:ensdomainsui@^3.3.27":
+  version "3.3.27"
+  resolved "https://registry.yarnpkg.com/ensdomainsui/-/ensdomainsui-3.3.27.tgz#309cd4afa8a4a2ba05b93d93a5cb610d891d162b"
+  integrity sha512-evCrvBj1+zP1uYbz7FKEmJ2hfMs/7DE6dLXsC5EuELJiU6EuoBuwglzT8YstBE8SslJrs6fzbLgel8e13YIumQ==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
@@ -2500,6 +2500,7 @@
     bs58 "^4.0.1"
     cross-fetch "^3.0.2"
     dns-packet "^5.2.1"
+    ethers "^5.6.2"
     js-sha3 "^0.8.0"
 
 "@ensdomains/web3modal@1.9.4":
