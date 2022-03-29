@@ -6,16 +6,22 @@ function priceCalculator({
 }) {
   const priceInEth = new EthVal(`${price}`).toEth()
   const premiumInEth = new EthVal(`${premium}`).toEth()
+  let priceInUsd, premiumInUsd, basePriceInUsd
+  if (ethUsdPrice) {
+    priceInUsd = priceInEth.mul(ethUsdPrice).toFixed(2)
+    premiumInUsd = premiumInEth.mul(ethUsdPrice).toFixed(2)
+    basePriceInUsd = priceInEth
+      .sub(premiumInEth)
+      .mul(ethUsdPrice)
+      .toFixed(0)
+  }
   return {
     price: priceInEth.toFixed(3),
     premium: premiumInEth.toFixed(3),
     ethUsdPrice,
-    priceInUsd: priceInEth.mul(ethUsdPrice).toFixed(2),
-    premiumInUsd: premiumInEth.mul(ethUsdPrice).toFixed(2),
-    basePriceInUsd: priceInEth
-      .sub(premiumInEth)
-      .mul(ethUsdPrice)
-      .toFixed(0)
+    priceInUsd,
+    premiumInUsd,
+    basePriceInUsd
   }
 }
 export default priceCalculator
