@@ -2256,10 +2256,10 @@
     ripemd160 "^2.0.2"
     sha3 "^2.1.3"
 
-"@ensdomains/address-encoder@^0.2.15":
-  version "0.2.15"
-  resolved "https://registry.yarnpkg.com/@ensdomains/address-encoder/-/address-encoder-0.2.15.tgz#1115b546fe371646c003c385b472af72e4879a7b"
-  integrity sha512-cBCJaI/TbT7rpYXY+Uit3Nl8eHyWunKw7XPpEjodYNCPgx3IGiFX/JbsPX+KsQzc2duuS9ZALs5r/58P2arj/A==
+"@ensdomains/address-encoder@^0.2.17":
+  version "0.2.17"
+  resolved "https://registry.yarnpkg.com/@ensdomains/address-encoder/-/address-encoder-0.2.17.tgz#a93348faa015277abbc086451fc1e783b9266153"
+  integrity sha512-VsCcItOrZjTu7VB/+8g49DvyCR0f4ENfF8NjU5LHbbaJ44KKp4VoTI0b3cc7srf7Kq0spSao4Zfdn04n+6WWGA==
   dependencies:
     bech32 "^2.0.0"
     blakejs "^1.1.0"
@@ -2477,15 +2477,15 @@
     dns-packet "^5.2.1"
     js-sha3 "^0.8.0"
 
-"@ensdomains/ui@^3.3.28":
-  version "3.3.28"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.28.tgz#70df8114f27d373d4e07fd4bb76da353fd5fda29"
-  integrity sha512-YQMHNmPcDnQfhFcaXisn9zjX9eCck83opGimzHmPGTHspfq84jEFwFIDAxnAx+z6fRjG8gEc1SxmbXa5RTsCJg==
+"@ensdomains/ui@^3.3.29":
+  version "3.3.29"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.29.tgz#0640a60434accd7d2bd03114181ec52f4b7b734c"
+  integrity sha512-gF4pYFulsOTVdeaMne+WnTDMEZRLUbTJ3r7LHIWOiGBM+RvBFRBe+AAujlNg3EXXxzEMADFGbXUb+tSeXC7MJA==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
     "@babel/runtime" "^7.4.4"
-    "@ensdomains/address-encoder" "^0.2.14"
+    "@ensdomains/address-encoder" "^0.2.17"
     "@ensdomains/content-hash" "^2.5.7"
     "@ensdomains/contracts" "^0.0.1"
     "@ensdomains/dnsprovejs" "^0.4.1"
