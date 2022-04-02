@@ -2380,6 +2380,16 @@
     dns-packet "^5.3.0"
     name-wrapper "^1.0.0"
 
+"@ensdomains/ens-contracts@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ens-contracts/-/ens-contracts-0.0.10.tgz#faa61d579c1c41972232714b84d27afff8c5dbd8"
+  integrity sha512-/fsPJHgCTrJJT0eL+lemlPH4mMJzLAP7eGEP77X8BpCAj7IxST983G/N5nSZrSB56sTb0FWnp66GayU3faj3nQ==
+  dependencies:
+    "@ensdomains/buffer" "^0.0.13"
+    "@ensdomains/solsha1" "0.0.3"
+    "@openzeppelin/contracts" "^4.1.0"
+    dns-packet "^5.3.0"
+
 "@ensdomains/ens-contracts@^0.0.11":
   version "0.0.11"
   resolved "https://registry.yarnpkg.com/@ensdomains/ens-contracts/-/ens-contracts-0.0.11.tgz#a1cd87af8c454b694acba5be1a44c1b20656a9be"
@@ -2411,7 +2421,7 @@
   resolved "https://registry.yarnpkg.com/@ensdomains/eth-ens-namehash/-/eth-ens-namehash-2.0.15.tgz#5e5f2f24ba802aff8bc19edd822c9a11200cdf4a"
   integrity sha512-JRDFP6+Hczb1E0/HhIg0PONgBYasfGfDheujmfxaZaAv/NAH4jE6Kf48WbqfRZdxt4IZI3jl3Ri7sZ1nP09lgw==
 
-"@ensdomains/mock@^2.0.47", "@ensdomains/mock@^2.1.47":
+"@ensdomains/mock@^2.0.47":
   version "2.1.47"
   resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.1.47.tgz#daca39fc91129f06d19a19f9ee9de2053ddc1a2c"
   integrity sha512-LApEend92qf92QQMJFciEoBvh3BTAdndeRc6CC59GbBi5XooVnaAyry9KM+n0cQ6UVuj792LotYwpsI3RnSDHQ==
@@ -2420,6 +2430,24 @@
     "@ensdomains/dnssec-oracle-anchors" "^0.0.1"
     "@ensdomains/ens-archived-contracts" "^0.0.1"
     "@ensdomains/ens-contracts" "^0.0.11"
+    chalk "^3.0.0"
+    cross-fetch "^3.0.2"
+    dns-packet "^5.2.1"
+    eth-ens-namehash "^2.0.8"
+    lodash "^4.17.11"
+    moment "^2.26.0"
+    table "^5.4.6"
+    web3 "^1.3.0"
+
+"@ensdomains/mock@^2.0.48", "@ensdomains/mock@^2.1.48":
+  version "2.1.48"
+  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.1.48.tgz#c122e9b4ea8a130a93adda3a29aeca7bb0cde465"
+  integrity sha512-4KAtWH7Xbk//DN1PROfLbRy+Yk2Oore4V1ALzjfg+ejS3ipntZQrqR/4n+5E85sIZTqWGE1xs20V7P1NtjvMNw==
+  dependencies:
+    "@babel/runtime" "^7.4.4"
+    "@ensdomains/dnssec-oracle-anchors" "^0.0.1"
+    "@ensdomains/ens-archived-contracts" "^0.0.1"
+    "@ensdomains/ens-contracts" "^0.0.10"
     chalk "^3.0.0"
     cross-fetch "^3.0.2"
     dns-packet "^5.2.1"
@@ -2477,10 +2505,10 @@
     dns-packet "^5.2.1"
     js-sha3 "^0.8.0"
 
-"@ensdomains/ui@^3.3.29":
-  version "3.3.29"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.29.tgz#0640a60434accd7d2bd03114181ec52f4b7b734c"
-  integrity sha512-gF4pYFulsOTVdeaMne+WnTDMEZRLUbTJ3r7LHIWOiGBM+RvBFRBe+AAujlNg3EXXxzEMADFGbXUb+tSeXC7MJA==
+"@ensdomains/ui@^3.3.31":
+  version "3.3.31"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.31.tgz#1ca0ecfea982b5ba638f69b2c5c5c058f476313f"
+  integrity sha512-h+mdaAXq1cYojbs9H0tYLA8vYMBsLzA0EbtBQMo3lVosFN9fZY1SEY7ovaJPCkKpdZroogVFc7ntqHHWiC7TOg==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
@@ -2493,7 +2521,7 @@
     "@ensdomains/dnssecoraclejs-017" "npm:@ensdomains/dnssecoraclejs@0.1.7"
     "@ensdomains/ens-contracts" "^0.0.11"
     "@ensdomains/eth-ens-namehash" "^2.0.15"
-    "@ensdomains/mock" "^2.0.47"
+    "@ensdomains/mock" "^2.0.48"
     "@ethvault/iframe-provider" "0.1.9"
     base58check "^2.0.0"
     bech32 "^1.1.3"
