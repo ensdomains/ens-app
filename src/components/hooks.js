@@ -3,7 +3,7 @@ import { loggedIn, logout } from './IPFS/auth'
 
 import { utils as avtUtils } from '@ensdomains/ens-avatar'
 import { getBlock, getProvider, ethers } from '@ensdomains/ui'
-import { isCID, networkName, supportedAvatarProtocols } from 'utils/utils'
+import { networkName, supportedAvatarProtocols } from 'utils/utils'
 
 export function useDocumentTitle(title) {
   useEffect(() => {
