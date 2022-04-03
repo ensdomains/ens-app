@@ -2361,10 +2361,10 @@
   resolved "https://registry.yarnpkg.com/@ensdomains/ens-archived-contracts/-/ens-archived-contracts-0.0.1.tgz#557c27897f9022190b3d8fef64673ec33b4f4b1a"
   integrity sha512-Wvtrms1/yyhEFkg88wUHe8mYx+ChLzWCnlBAAkW03eAl7d838UObvyxHMdF60pTTTZOrA1BH3waERydevxoOCw==
 
-"@ensdomains/ens-avatar@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ens-avatar/-/ens-avatar-0.1.2.tgz#0eda35511573e443fd8768d0fa390c395b955a86"
-  integrity sha512-qabg5L2tqDQMprsrDP7GD43QoGEszx/loGP45mNPfwlz6d5Q+iY5ANC5R7TM6VG/9k0NxOHxYobQfzprgCgzzQ==
+"@ensdomains/ens-avatar@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ens-avatar/-/ens-avatar-0.1.3.tgz#9844f5a934c8a54da89a0393f67e845ff31437a9"
+  integrity sha512-tLDypdLvG9T3PP8uAADzsNV38Oi2F1PsWjuxxfCwMQWxI5b2WgirXGdu9QvCpwAH1DwSwPlFowWBFBfwIzfWIA==
   dependencies:
     "@ethersproject/contracts" "^5.5.0"
     "@ethersproject/providers" "^5.5.2"
@@ -16355,7 +16355,7 @@ multicodec@^3.0.1, multicodec@^3.2.0:
     uint8arrays "^3.0.0"
     varint "^6.0.0"
 
-multiformats@^9.4.2, multiformats@^9.4.8:
+multiformats@^9.4.2:
   version "9.4.8"
   resolved "https://registry.yarnpkg.com/multiformats/-/multiformats-9.4.8.tgz#46f74ec116f7871f2a334cc6d4ad3d810dbac341"
   integrity sha512-EOJL02/kv+FD5hoItMhKgkYUUruJYMYFq4NQ6YkCh3jVQ5CuHo+OKdHeR50hAxEQmXQ9yvrM9BxLIk42xtfwnQ==
