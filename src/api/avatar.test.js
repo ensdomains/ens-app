@@ -20,6 +20,7 @@ describe('check avatar field', () => {
 
   afterAll(() => {
     console.warn = warn
+    jest.resetAllMocks()
   })
 
   test('should return true if given erc721 nft uri is valid', async () => {
