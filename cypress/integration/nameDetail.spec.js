@@ -451,3 +451,66 @@ describe('Name detail view', () => {
     ).should('exist')
   })
 })
+
+describe('Name Wrapper Tests', () => {
+  it('detaials page should be in read only mode if namewrapper is active', () => {
+    cy.visit(`${NAME_ROOT}/wrappedname.eth/details`, { timeout: 10000 })
+    cy.getByTestId('edit-registrant').should(
+      'have.css',
+      'background-color',
+      DISABLED_COLOUR
+    )
+    cy.getByTestId('edit-controller').should(
+      'have.css',
+      'background-color',
+      DISABLED_COLOUR
+    )
+    cy.getByTestId('edit-expiration date').should(
+      'have.css',
+      'background-color',
+      DISABLED_COLOUR
+    )
+    cy.getByTestId('edit-resolver').should(
+      'have.css',
+      'background-color',
+      DISABLED_COLOUR
+    )
+    cy.contains('Add/Edit Record').should('not.exist')
+    cy.getByTestId('banner-namewrapper-edit').should('exist')
+  })
+
+  it('page should be in read only mode if namewrapper is active', () => {
+    cy.visit(`${NAME_ROOT}/wrappedname.eth/register`, { timeout: 10000 })
+    cy.getByTestId('banner-namewrapper-edit').should('exist')
+  })
+
+  it('page should be in read only mode if namewrapper is active', () => {
+    cy.visit(`${NAME_ROOT}/wrappedname.eth/subdomains`, { timeout: 10000 })
+    cy.getByTestId('banner-namewrapper-edit').should('exist')
+  })
+
+  it('detaials page should be in read only mode if namewrapper is active', () => {
+    cy.visit(`${NAME_ROOT}/subdomain.wrappedname.eth/details`, {
+      timeout: 10000
+    })
+    cy.getByTestId('edit-controller').should(
+      'have.css',
+      'background-color',
+      DISABLED_COLOUR
+    )
+    cy.getByTestId('edit-resolver').should(
+      'have.css',
+      'background-color',
+      DISABLED_COLOUR
+    )
+    cy.contains('Add/Edit Record').should('not.exist')
+    cy.getByTestId('banner-namewrapper-edit').should('exist')
+  })
+
+  it('page should be in read only mode if namewrapper is active', () => {
+    cy.visit(`${NAME_ROOT}/subdomain.wrappedname.eth/subdomains`, {
+      timeout: 10000
+    })
+    cy.getByTestId('banner-namewrapper-edit').should('exist')
+  })
+})

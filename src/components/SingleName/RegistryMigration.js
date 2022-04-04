@@ -43,7 +43,8 @@ export default function RegistryMigration({
   dnssecmode,
   refetchIsMigrated,
   isParentMigratedToNewRegistry,
-  loadingIsParentMigrated
+  loadingIsParentMigrated,
+  readOnly = false
 }) {
   const { t } = useTranslation()
   const { state, actions } = useEditable()
@@ -71,6 +72,7 @@ export default function RegistryMigration({
     canMigrate = false
   } else {
     canMigrate =
+      !readOnly &&
       !loading &&
       isParentMigratedToNewRegistry &&
       account === domain.parentOwner
