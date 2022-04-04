@@ -2518,14 +2518,14 @@
     js-sha3 "^0.8.0"
 
 "@ensdomains/ui@npm:ensdomainsui@^3.3.31":
-  version "3.3.31"
-  resolved "https://registry.yarnpkg.com/ensdomainsui/-/ensdomainsui-3.3.31.tgz#61781b886b6626e08c7192e602ea157a60bb394a"
-  integrity sha512-5C5OaGeiInW1Bid4SdpL1MFtUl+4NUBO6FgUDfm0TD9mDFzC+g60RArfF2MvtRjQeYv7U0QAtRBgQNBssEeEpQ==
+  version "3.3.32"
+  resolved "https://registry.yarnpkg.com/ensdomainsui/-/ensdomainsui-3.3.32.tgz#72e965cdf1aca208c6cb10de5c3c5c312c702e13"
+  integrity sha512-mwpynb+hG42MQAAfA8AuThfaS0S+fQvheTWiSlCvqkGTYykt8STwsJsCuXhOJjKAqPtXKjTN8eXzEZq1FP2J6w==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
     "@babel/runtime" "^7.4.4"
-    "@ensdomains/address-encoder" "^0.2.17"
+    "@ensdomains/address-encoder" "^0.2.14"
     "@ensdomains/content-hash" "^2.5.7"
     "@ensdomains/contracts" "^0.0.1"
     "@ensdomains/dnsprovejs" "^0.4.1"
