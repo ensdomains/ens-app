@@ -2439,10 +2439,10 @@
     table "^5.4.6"
     web3 "^1.3.0"
 
-"@ensdomains/mock@^2.0.48", "@ensdomains/mock@^2.1.48":
-  version "2.1.48"
-  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.1.48.tgz#c122e9b4ea8a130a93adda3a29aeca7bb0cde465"
-  integrity sha512-4KAtWH7Xbk//DN1PROfLbRy+Yk2Oore4V1ALzjfg+ejS3ipntZQrqR/4n+5E85sIZTqWGE1xs20V7P1NtjvMNw==
+"@ensdomains/mock@^2.0.49", "@ensdomains/mock@^2.1.49":
+  version "2.1.49"
+  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.1.49.tgz#763dd7e25e01c04fb57e9fe7daf2892704ace3a5"
+  integrity sha512-jWaiamF+5PIhzRWxOsfqgYR9quCR+L3BveFDkrnVlZI97nuZHWnbHShB639Dkyl9ozV36sHjXFRJ+JDYdHmv5w==
   dependencies:
     "@babel/runtime" "^7.4.4"
     "@ensdomains/dnssec-oracle-anchors" "^0.0.1"
@@ -2505,10 +2505,10 @@
     dns-packet "^5.2.1"
     js-sha3 "^0.8.0"
 
-"@ensdomains/ui@^3.3.31":
-  version "3.3.31"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.31.tgz#1ca0ecfea982b5ba638f69b2c5c5c058f476313f"
-  integrity sha512-h+mdaAXq1cYojbs9H0tYLA8vYMBsLzA0EbtBQMo3lVosFN9fZY1SEY7ovaJPCkKpdZroogVFc7ntqHHWiC7TOg==
+"@ensdomains/ui@^3.3.32":
+  version "3.3.32"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.32.tgz#e334b35a665caa6041c3e63eeb50c63a2f413f01"
+  integrity sha512-u4pXrjQICwxhi4wpjY74YtMNdZFYu+T4pGUavpVmnpZMUN/U+W9jd6JnNvRYDEydDSgPPtuT3brnB2jz9Lmx5g==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
@@ -2521,7 +2521,7 @@
     "@ensdomains/dnssecoraclejs-017" "npm:@ensdomains/dnssecoraclejs@0.1.7"
     "@ensdomains/ens-contracts" "^0.0.11"
     "@ensdomains/eth-ens-namehash" "^2.0.15"
-    "@ensdomains/mock" "^2.0.48"
+    "@ensdomains/mock" "^2.0.49"
     "@ethvault/iframe-provider" "0.1.9"
     base58check "^2.0.0"
     bech32 "^1.1.3"
