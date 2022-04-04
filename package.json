@@ -13,6 +13,7 @@
     "@ensdomains/ens-validation": "0.0.0",
     "@ensdomains/eth-ens-namehash": "^2.0.15",
     "@ensdomains/mock": "^2.1.47",
+    "@ensdomains/offchain-resolver-contracts": "^0.2.1",
     "@ensdomains/react-ens-address": "^0.0.31",
     "@ensdomains/ui": "npm:ensdomainsui@^3.3.27",
     "@ensdomains/web3modal": "1.9.4",
