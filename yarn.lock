@@ -2380,6 +2380,16 @@
     dns-packet "^5.3.0"
     name-wrapper "^1.0.0"
 
+"@ensdomains/ens-contracts@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ens-contracts/-/ens-contracts-0.0.10.tgz#faa61d579c1c41972232714b84d27afff8c5dbd8"
+  integrity sha512-/fsPJHgCTrJJT0eL+lemlPH4mMJzLAP7eGEP77X8BpCAj7IxST983G/N5nSZrSB56sTb0FWnp66GayU3faj3nQ==
+  dependencies:
+    "@ensdomains/buffer" "^0.0.13"
+    "@ensdomains/solsha1" "0.0.3"
+    "@openzeppelin/contracts" "^4.1.0"
+    dns-packet "^5.3.0"
+
 "@ensdomains/ens-contracts@^0.0.11":
   version "0.0.11"
   resolved "https://registry.yarnpkg.com/@ensdomains/ens-contracts/-/ens-contracts-0.0.11.tgz#a1cd87af8c454b694acba5be1a44c1b20656a9be"
@@ -2430,6 +2440,24 @@
     "@ensdomains/dnssec-oracle-anchors" "^0.0.1"
     "@ensdomains/ens-archived-contracts" "^0.0.1"
     "@ensdomains/ens-contracts" "^0.0.11"
+    chalk "^3.0.0"
+    cross-fetch "^3.0.2"
+    dns-packet "^5.2.1"
+    eth-ens-namehash "^2.0.8"
+    lodash "^4.17.11"
+    moment "^2.26.0"
+    table "^5.4.6"
+    web3 "^1.3.0"
+
+"@ensdomains/mock@^2.0.49":
+  version "2.1.49"
+  resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.1.49.tgz#763dd7e25e01c04fb57e9fe7daf2892704ace3a5"
+  integrity sha512-jWaiamF+5PIhzRWxOsfqgYR9quCR+L3BveFDkrnVlZI97nuZHWnbHShB639Dkyl9ozV36sHjXFRJ+JDYdHmv5w==
+  dependencies:
+    "@babel/runtime" "^7.4.4"
+    "@ensdomains/dnssec-oracle-anchors" "^0.0.1"
+    "@ensdomains/ens-archived-contracts" "^0.0.1"
+    "@ensdomains/ens-contracts" "^0.0.10"
     chalk "^3.0.0"
     cross-fetch "^3.0.2"
     dns-packet "^5.2.1"
@@ -2492,6 +2520,31 @@
   dependencies:
     hash-test-vectors "^1.3.2"
 
+"@ensdomains/ui@@ensdomains/ui@^3.3.32":
+  version "3.3.32"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.32.tgz#e334b35a665caa6041c3e63eeb50c63a2f413f01"
+  integrity sha512-u4pXrjQICwxhi4wpjY74YtMNdZFYu+T4pGUavpVmnpZMUN/U+W9jd6JnNvRYDEydDSgPPtuT3brnB2jz9Lmx5g==
+  dependencies:
+    "@0xproject/utils" "^2.0.2"
+    "@babel/plugin-proposal-class-properties" "^7.8.3"
+    "@babel/runtime" "^7.4.4"
+    "@ensdomains/address-encoder" "^0.2.17"
+    "@ensdomains/content-hash" "^2.5.7"
+    "@ensdomains/contracts" "^0.0.1"
+    "@ensdomains/dnsprovejs" "^0.4.1"
+    "@ensdomains/dnssecoraclejs" "^0.2.7"
+    "@ensdomains/dnssecoraclejs-017" "npm:@ensdomains/dnssecoraclejs@0.1.7"
+    "@ensdomains/ens-contracts" "^0.0.11"
+    "@ensdomains/eth-ens-namehash" "^2.0.15"
+    "@ensdomains/mock" "^2.0.49"
+    "@ethvault/iframe-provider" "0.1.9"
+    base58check "^2.0.0"
+    bech32 "^1.1.3"
+    bs58 "^4.0.1"
+    cross-fetch "^3.0.2"
+    dns-packet "^5.2.1"
+    js-sha3 "^0.8.0"
+
 "@ensdomains/ui@^3.2.22", "@ensdomains/ui@^3.3.23":
   version "3.3.23"
   resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.23.tgz#1af888d667178fa3e1ccbe536d74707653689c67"
@@ -2515,32 +2568,6 @@
     bs58 "^4.0.1"
     cross-fetch "^3.0.2"
     dns-packet "^5.2.1"
-    js-sha3 "^0.8.0"
-
-"@ensdomains/ui@npm:ensdomainsui@^3.3.31":
-  version "3.3.32"
-  resolved "https://registry.yarnpkg.com/ensdomainsui/-/ensdomainsui-3.3.32.tgz#72e965cdf1aca208c6cb10de5c3c5c312c702e13"
-  integrity sha512-mwpynb+hG42MQAAfA8AuThfaS0S+fQvheTWiSlCvqkGTYykt8STwsJsCuXhOJjKAqPtXKjTN8eXzEZq1FP2J6w==
-  dependencies:
-    "@0xproject/utils" "^2.0.2"
-    "@babel/plugin-proposal-class-properties" "^7.8.3"
-    "@babel/runtime" "^7.4.4"
-    "@ensdomains/address-encoder" "^0.2.14"
-    "@ensdomains/content-hash" "^2.5.7"
-    "@ensdomains/contracts" "^0.0.1"
-    "@ensdomains/dnsprovejs" "^0.4.1"
-    "@ensdomains/dnssecoraclejs" "^0.2.7"
-    "@ensdomains/dnssecoraclejs-017" "npm:@ensdomains/dnssecoraclejs@0.1.7"
-    "@ensdomains/ens-contracts" "^0.0.11"
-    "@ensdomains/eth-ens-namehash" "^2.0.15"
-    "@ensdomains/mock" "npm:ensdomains-mock@^2.1.50"
-    "@ethvault/iframe-provider" "0.1.9"
-    base58check "^2.0.0"
-    bech32 "^1.1.3"
-    bs58 "^4.0.1"
-    cross-fetch "^3.0.2"
-    dns-packet "^5.2.1"
-    ethers "^5.6.2"
     js-sha3 "^0.8.0"
 
 "@ensdomains/web3modal@1.9.4":
