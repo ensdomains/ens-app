@@ -57,21 +57,20 @@ describe('normaliseOrMark', () => {
     ).toBeTruthy()
   })
 
-  it('should return an invalid name with a warning indicator for invalid hash', () => {
+  it('should return an invalid name with a warning indicator for invalid namehash', () => {
     mockData = [
       // correct
       {
-        labelName: 'sload',
-        labelhash:
-          '0x35be195f42b3b8732b25b23964a751b5bdaa38a44978db67249f15605c3c9e6a'
+        name: 'sload.eth',
+        id: '0xffbc90bb419dda442595117ac481f8b15cfdbf1884d15cf2290c4cea5349c27d'
       },
       // invalid (a name with a null byte suffix,)
       {
-        labelName: 'sload',
-        labelhash:
-          '0x3ce5104b7e095f1da4813bc8cfb34e760b7baa688e47e078597322372a6af0b4'
+        name: 'sload.eth',
+        id: '0xf1cc8e202048c1fdfb2154fe7e19b095c51effc73ee4e6cd50f006ce6242e1d9'
       }
     ]
     const result = normaliseOrMark(mockData, 'labelName')
+    expect(result.filter(x => x.hasInvalidCharacter).length).toBe(1)
   })
 })

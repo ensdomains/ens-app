@@ -1,5 +1,5 @@
 import { validate } from '@ensdomains/ens-validation'
-import { normalize } from '@ensdomains/eth-ens-namehash'
+import { normalize, hash } from '@ensdomains/eth-ens-namehash'
 import {
   emptyAddress as _emptyAddress,
   getEnsStartBlock as _ensStartBlock,
@@ -261,11 +261,7 @@ export function normaliseOrMark(data, name, nested = false) {
   return data?.map(data => {
     const domain = nested ? data.domain : data
     let normalised
-    if (
-      name === 'labelName' &&
-      domain.labelName &&
-      !('0x' + jsSHA3.keccak256(domain.labelName) === domain.labelhash)
-    ) {
+    if (domain?.id && !(hash(domain?.name) === domain?.id)) {
       return { ...data, hasInvalidCharacter: true }
     }
     try {

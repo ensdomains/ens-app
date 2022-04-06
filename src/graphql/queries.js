@@ -220,6 +220,7 @@ export const GET_REGISTRATIONS_SUBGRAPH = gql`
       ) {
         expiryDate
         domain {
+          id
           labelName
           labelhash
           name
