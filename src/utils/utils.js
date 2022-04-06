@@ -261,7 +261,13 @@ export function normaliseOrMark(data, name, nested = false) {
   return data?.map(data => {
     const domain = nested ? data.domain : data
     let normalised
-
+    if (
+      name === 'labelName' &&
+      domain.labelName &&
+      !('0x' + jsSHA3.keccak256(domain.labelName) === domain.labelhash)
+    ) {
+      return { ...data, hasInvalidCharacter: true }
+    }
     try {
       normalised = normalize(domain[name])
     } catch (e) {

@@ -44,16 +44,34 @@ describe('isCID', () => {
 
 describe('normaliseOrMark', () => {
   const invalidName = '🏳%EF%B8%8F%E2%80%8D🌈.eth'
-  const mockData = [{ name: 'ensfairy.eth' }, { name: invalidName }]
+  let mockData = [{ name: 'ensfairy.eth' }, { name: invalidName }]
 
   it('should return all names', () => {
     const result = normaliseOrMark(mockData, 'name')
     expect(result.length).toBe(2)
   })
-  it('should return an invalid name with a warning indicator', () => {
+  it('should return an invalid name with a warning indicator for invalid name', () => {
     const result = normaliseOrMark(mockData, 'name')
     expect(
       result.find(x => x.name === invalidName).hasInvalidCharacter
     ).toBeTruthy()
+  })
+
+  it('should return an invalid name with a warning indicator for invalid hash', () => {
+    mockData = [
+      // correct
+      {
+        labelName: 'sload',
+        labelhash:
+          '0x35be195f42b3b8732b25b23964a751b5bdaa38a44978db67249f15605c3c9e6a'
+      },
+      // invalid (a name with a null byte suffix,)
+      {
+        labelName: 'sload',
+        labelhash:
+          '0x3ce5104b7e095f1da4813bc8cfb34e760b7baa688e47e078597322372a6af0b4'
+      }
+    ]
+    const result = normaliseOrMark(mockData, 'labelName')
   })
 })
