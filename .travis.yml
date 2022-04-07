@@ -35,7 +35,7 @@ jobs:
         - ganache -h 0.0.0.0 -b 1 >ganache.log 2>&1 &
         - sleep 5
         - cd ../ && git clone https://github.com/ensdomains/ens-subgraph.git
-        - cd ens-subgraph && yarn && cd ../
+        - cd ens-subgraph && git checkout check-graph && yarn && cd ../
         - git clone https://github.com/graphprotocol/graph-node
         - pwd
         - ls graph-node/docker
@@ -53,7 +53,7 @@ jobs:
       script:
         - pwd
         - ls
-        - cd ens-app && yarn check-subgraph-local && yarn cypress:ci && cd ../
+        - cd ens-app && yarn cypress:ci && cd ../
     - stage: test
       name: 'Unit Tests'
       install:
