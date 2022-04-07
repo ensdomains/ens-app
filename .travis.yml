@@ -38,8 +38,10 @@ jobs:
         - cd ens-subgraph && yarn && cd ../
         - git clone https://github.com/graphprotocol/graph-node
         - pwd
+        - cd graph-node
+        - git checkout v0.25.2
         - ls graph-node/docker
-        - cd graph-node/docker && ./setup.sh
+        - cd docker && ./setup.sh
         - rm -rf data
         - docker-compose up 2>&1 > ~/docker-compose.log &
         - DOCKER_PATH=`pwd`
