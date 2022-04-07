@@ -53,6 +53,7 @@ jobs:
       script:
         - pwd
         - ls
+        - cd ens-app && yarn check-subgraph-local && cd ../
         - cd ens-app && yarn cypress:ci && cd ../
     - stage: test
       name: 'Unit Tests'
