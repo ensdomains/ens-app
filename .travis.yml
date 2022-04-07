@@ -27,12 +27,12 @@ jobs:
         - yarn --frozen-lockfile
         - yarn global add cypress@5.6.0
         - cypress install
-        - yarn global add ganache-cli@6.12.2
+        - yarn global add ganache
         - yarn global add wait-on
       before_script:
         - sudo service postgresql stop
         - sudo apt-get install libsecret-1-dev
-        - ganache-cli -h 0.0.0.0 -b 1 >ganache.log 2>&1 &
+        - ganache -h 0.0.0.0 -b 1 >ganache.log 2>&1 &
         - sleep 5
         - cd ../ && git clone https://github.com/ensdomains/ens-subgraph.git
         - cd ens-subgraph && yarn && cd ../
@@ -50,7 +50,6 @@ jobs:
         - pwd
         - ls -ltr ~
         - cd ens-subgraph && (yarn setup || cat ~/docker-compose.log ) && cd ../
-        - sleep 120
       script:
         - pwd
         - ls
