@@ -50,6 +50,7 @@ jobs:
         - pwd
         - ls -ltr ~
         - cd ens-subgraph && (yarn setup || cat ~/docker-compose.log ) && cd ../
+        - sleep 120
       script:
         - pwd
         - ls
