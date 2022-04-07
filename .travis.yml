@@ -29,6 +29,7 @@ jobs:
         - cypress install
         - yarn global add ganache-cli@6.12.2
         - yarn global add wait-on
+        - yarn global add graphql-request
       before_script:
         - sudo service postgresql stop
         - sudo apt-get install libsecret-1-dev
