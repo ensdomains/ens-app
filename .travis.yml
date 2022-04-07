@@ -60,7 +60,7 @@ jobs:
         - yarn --frozen-lockfile
       script:
         - yarn check-subgraph-local
-        - yarn test:coverage
+    # - yarn test:coverage
     #    - stage: test
     #      name: 'Branch Preview'
     #      install:
