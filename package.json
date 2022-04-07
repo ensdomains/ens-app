@@ -83,6 +83,7 @@
     "preTest:dnssec": "node -r esm src/testing-utils/preTest.js default dnssec",
     "preTest:linear": "node -r esm src/testing-utils/preTest.js",
     "subgraph": "node scripts/subgraph.js",
+    "check-subgraph-local": "yarn node scripts/check-subgraph.js",
     "advance": "node src/testing-utils/advance.js",
     "cypress:open": "yarn run cypress open",
     "cypress:open:ipfs": "yarn run cypress open --config-file cypress_ipfs.json",
