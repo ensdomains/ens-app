@@ -53,14 +53,13 @@ jobs:
       script:
         - pwd
         - ls
-        - cd ens-app && yarn cypress:ci && cd ../
+        - cd ens-app && yarn check-subgraph-local && yarn cypress:ci && cd ../
     - stage: test
       name: 'Unit Tests'
       install:
         - yarn --frozen-lockfile
       script:
-        - yarn check-subgraph-local
-    # - yarn test:coverage
+        - yarn test:coverage
     #    - stage: test
     #      name: 'Branch Preview'
     #      install:
