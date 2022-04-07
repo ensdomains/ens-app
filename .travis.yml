@@ -40,7 +40,7 @@ jobs:
         - pwd
         - ls graph-node/docker
         - cd graph-node
-        - git checkout v0.25.2
+        - git checkout v0.25.2-prerelease.0
         - cd docker && ./setup.sh
         - rm -rf data
         - docker-compose up 2>&1 > ~/docker-compose.log &
