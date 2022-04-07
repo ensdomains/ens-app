@@ -38,7 +38,7 @@ const option = {
       package: () => import('@myetherwallet/mewconnect-web-client'),
       packageFactory: true,
       options: {
-        rpc: `https://mainnet.infura.io/v3/${INFURA_ID}`,
+        infuraId: INFURA_ID,
         description: ''
       }
     },
