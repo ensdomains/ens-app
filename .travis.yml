@@ -29,7 +29,6 @@ jobs:
         - cypress install
         - yarn global add ganache-cli@6.12.2
         - yarn global add wait-on
-        - yarn global add graphql-request
       before_script:
         - sudo service postgresql stop
         - sudo apt-get install libsecret-1-dev
@@ -54,13 +53,13 @@ jobs:
       script:
         - pwd
         - ls
-        - cd ens-app && yarn check-subgraph-local && cd ../
         - cd ens-app && yarn cypress:ci && cd ../
     - stage: test
       name: 'Unit Tests'
       install:
         - yarn --frozen-lockfile
       script:
+        - yarn check-subgraph-local
         - yarn test:coverage
     #    - stage: test
     #      name: 'Branch Preview'
