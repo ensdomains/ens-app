@@ -39,7 +39,7 @@ jobs:
         - git clone https://github.com/graphprotocol/graph-node
         - pwd
         - ls graph-node/docker
-        - cd graph-node/docker && ./setup.sh
+        - cd graph-node/docker && sed "/GRAPH_LOG.*/a \ \ \ \ \  GRAPH_ALLOW_NON_DETERMINISTIC_IPFS:\ 'true'" docker-compose.yml && ./setup.sh
         - rm -rf data
         - docker-compose up 2>&1 > ~/docker-compose.log &
         - DOCKER_PATH=`pwd`

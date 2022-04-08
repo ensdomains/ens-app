@@ -207,6 +207,7 @@ Next in the /graph-node/docker folder:
 
 ```
 rm -rf data
+sed "/GRAPH_LOG.*/a \ \ \ \ \  GRAPH_ALLOW_NON_DETERMINISTIC_IPFS:\ 'true'" docker-compose.yml
 docker-compose up
 ```
 
