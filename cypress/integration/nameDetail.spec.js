@@ -327,26 +327,31 @@ describe('Name detail view', () => {
       // Address
       cy.getByTestId('ETH-record-input')
         .clear({ force: true })
+        .wait(500)
         .type(ADDRESS, { force: true })
         .wait(500)
         // Content
         .getByTestId('content-record-input')
         .clear({ force: true })
+        .wait(500)
         .type(CONTENT, { force: true })
         .wait(500)
         // // Text
         .getByTestId('notice-record-input')
         .clear({ force: true })
+        .wait(500)
         .type(TEXT, { force: true })
         .wait(500)
         // Other Text
         .getByTestId('com.twitter-record-input')
         .clear({ force: true })
+        .wait(500)
         .type(OTHER_TEXT, { force: true })
         .wait(500)
         // Other Address
         .getByTestId('LTC-record-input', { timeout: 10000 })
         .clear({ force: true })
+        .wait(500)
         .type(OTHER_ADDRESS, { force: true })
         .wait(500)
     })

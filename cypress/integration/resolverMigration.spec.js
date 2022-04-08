@@ -3,7 +3,7 @@ const NAME_ROOT = Cypress.env('NAME_ROOT')
 const ENABLED_COLOUR = 'rgb(83, 132, 254)'
 const DISABLED_COLOUR = 'rgb(223, 223, 223)'
 
-describe('Migrate resolver and records', () => {
+describe.only('Migrate resolver and records', () => {
   it('can visit a name with an old content resolver and migrate it as swarm contenthash', () => {
     cy.visit(`${ROOT}/name/oldresolver.eth`)
     cy.getByText('Migrate', { timeout: 10000 }).click({ force: true })
@@ -42,7 +42,7 @@ describe('Migrate resolver and records', () => {
     cy.queryByText(
       'You can’t edit or add records until you migrate to the new resolver',
       {
-        timeout: 5000,
+        timeout: 15000,
         exact: false
       }
     ).should('exist')
