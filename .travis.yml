@@ -38,7 +38,7 @@ jobs:
         - cd ens-subgraph && yarn && cd ../
         - git clone https://github.com/graphprotocol/graph-node
         - pwd
-        - ./ens-app/scripts/graph-node.js
+        - cd ens-app && ./scripts/graph-node.js && cd ../
         - ls graph-node/docker
         - cd graph-node/docker && ./setup.sh
         - rm -rf data
