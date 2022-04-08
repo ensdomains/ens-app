@@ -326,8 +326,8 @@ describe('Name detail view', () => {
       cy.wait(2000)
       // Address
       cy.getByTestId('ETH-record-input')
+        .wait(2000)
         .clear({ force: true })
-        .wait(2500)
         .type(ADDRESS, { force: true })
         .wait(500)
         // Content
