@@ -198,6 +198,7 @@ You need to make sure these are all cloned into the same parent folder.
 Next in the ens-app folder run the following (will need multiple terminals open):
 
 ```
+yarn graph-node
 npx ganache-cli -b 1
 ```
 
@@ -207,7 +208,6 @@ Next in the /graph-node/docker folder:
 
 ```
 rm -rf data
-sed "/GRAPH_LOG.*/a \ \ \ \ \  GRAPH_ALLOW_NON_DETERMINISTIC_IPFS:\ 'true'" docker-compose.yml
 docker-compose up
 ```
 

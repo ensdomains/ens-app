@@ -38,8 +38,9 @@ jobs:
         - cd ens-subgraph && yarn && cd ../
         - git clone https://github.com/graphprotocol/graph-node
         - pwd
+        - ./ens-app/scripts/graph-node.js
         - ls graph-node/docker
-        - cd graph-node/docker && sed "/GRAPH_LOG.*/a \ \ \ \ \  GRAPH_ALLOW_NON_DETERMINISTIC_IPFS:\ 'true'" docker-compose.yml && ./setup.sh
+        - cd graph-node/docker && ./setup.sh
         - rm -rf data
         - docker-compose up 2>&1 > ~/docker-compose.log &
         - DOCKER_PATH=`pwd`
