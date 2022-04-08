@@ -50,7 +50,8 @@ config.module.strictExportPresence = false
 
 config.plugins.push(
   new webpack.ProvidePlugin({
-    Buffer: ['buffer', 'Buffer']
+    Buffer: ['buffer', 'Buffer'],
+    process: 'process/browser'
   })
 )
 
