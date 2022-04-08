@@ -82,6 +82,7 @@
     "preTest": "node -r esm src/testing-utils/preTest.js default exponential",
     "preTest:dnssec": "node -r esm src/testing-utils/preTest.js default dnssec",
     "preTest:linear": "node -r esm src/testing-utils/preTest.js",
+    "graph-node": "node scripts/graph-node.js",
     "subgraph": "node scripts/subgraph.js",
     "advance": "node src/testing-utils/advance.js",
     "cypress:open": "yarn run cypress open",

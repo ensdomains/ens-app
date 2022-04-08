@@ -220,6 +220,7 @@ function Records({
         {records?.map(record => {
           return (
             <Record
+              key={record.key}
               editing={editing}
               dataValue={record.value}
               validator={validator}
