@@ -2380,6 +2380,16 @@
     dns-packet "^5.3.0"
     name-wrapper "^1.0.0"
 
+"@ensdomains/ens-contracts@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ens-contracts/-/ens-contracts-0.0.10.tgz#faa61d579c1c41972232714b84d27afff8c5dbd8"
+  integrity sha512-/fsPJHgCTrJJT0eL+lemlPH4mMJzLAP7eGEP77X8BpCAj7IxST983G/N5nSZrSB56sTb0FWnp66GayU3faj3nQ==
+  dependencies:
+    "@ensdomains/buffer" "^0.0.13"
+    "@ensdomains/solsha1" "0.0.3"
+    "@openzeppelin/contracts" "^4.1.0"
+    dns-packet "^5.3.0"
+
 "@ensdomains/ens-contracts@^0.0.11":
   version "0.0.11"
   resolved "https://registry.yarnpkg.com/@ensdomains/ens-contracts/-/ens-contracts-0.0.11.tgz#a1cd87af8c454b694acba5be1a44c1b20656a9be"
