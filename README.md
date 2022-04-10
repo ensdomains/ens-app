@@ -198,6 +198,7 @@ You need to make sure these are all cloned into the same parent folder.
 Next in the ens-app folder run the following (will need multiple terminals open):
 
 ```
+yarn graph-node
 npx ganache-cli -b 1
 ```
 
