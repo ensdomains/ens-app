@@ -2505,10 +2505,10 @@
     dns-packet "^5.2.1"
     js-sha3 "^0.8.0"
 
-"@ensdomains/ui@^3.3.32":
-  version "3.3.32"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.32.tgz#e334b35a665caa6041c3e63eeb50c63a2f413f01"
-  integrity sha512-u4pXrjQICwxhi4wpjY74YtMNdZFYu+T4pGUavpVmnpZMUN/U+W9jd6JnNvRYDEydDSgPPtuT3brnB2jz9Lmx5g==
+"@ensdomains/ui@^3.3.33":
+  version "3.3.33"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.33.tgz#b4af8108d081b0df99d262feeae1e090f25ceeb5"
+  integrity sha512-87VZ0wsaV11QJ4XVJiT7p9ducXf3KJIIP2ZwqFexNuHhUlcuxyfsDu+JmXkybd9LraWGPPhi1YnE2JQFCZxDFw==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
