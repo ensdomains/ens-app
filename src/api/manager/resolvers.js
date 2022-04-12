@@ -10,8 +10,7 @@ import {
   getWeb3,
   isDecrypted,
   labelhash,
-  utils,
-  foo
+  utils
 } from '@ensdomains/ui'
 import { formatsByName } from '@ensdomains/address-encoder'
 import isEqual from 'lodash/isEqual'
