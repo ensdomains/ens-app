@@ -2361,10 +2361,10 @@
   resolved "https://registry.yarnpkg.com/@ensdomains/ens-archived-contracts/-/ens-archived-contracts-0.0.1.tgz#557c27897f9022190b3d8fef64673ec33b4f4b1a"
   integrity sha512-Wvtrms1/yyhEFkg88wUHe8mYx+ChLzWCnlBAAkW03eAl7d838UObvyxHMdF60pTTTZOrA1BH3waERydevxoOCw==
 
-"@ensdomains/ens-avatar@^0.1.3":
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ens-avatar/-/ens-avatar-0.1.3.tgz#9844f5a934c8a54da89a0393f67e845ff31437a9"
-  integrity sha512-tLDypdLvG9T3PP8uAADzsNV38Oi2F1PsWjuxxfCwMQWxI5b2WgirXGdu9QvCpwAH1DwSwPlFowWBFBfwIzfWIA==
+"@ensdomains/ens-avatar@^0.1.4":
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ens-avatar/-/ens-avatar-0.1.4.tgz#3338c961d84ce9cc2384dba33e809a58f2dcf74e"
+  integrity sha512-oJSdqtbqtEKUTMyKy2GV1y+MTo2tRc9hygNoQMR0/Fg4fsHbGXY3y1KIqaeqncR/jRhBCcbkqd44/sD3UZ+TCg==
   dependencies:
     "@ethersproject/contracts" "^5.5.0"
     "@ethersproject/providers" "^5.5.2"
