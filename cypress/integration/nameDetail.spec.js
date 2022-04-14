@@ -1,3 +1,5 @@
+const { sync } = require('replace-in-file')
+
 const ROOT = Cypress.env('ROOT')
 const NAME_ROOT = Cypress.env('NAME_ROOT')
 
@@ -456,6 +458,7 @@ describe('Name Wrapper Tests', () => {
   describe('page should be in read only mode if domain is wrapped', () => {
     it('detaials page should be in read only mode', () => {
       cy.visit(`${NAME_ROOT}/wrappedname.eth/details`, { timeout: 10000 })
+      cy.wait(3000)
       cy.getByTestId('edit-registrant').should(
         'have.css',
         'background-color',
@@ -560,21 +563,25 @@ describe('Name Wrapper Tests', () => {
         timeout: 10000
       })
       cy.wait(3000)
+      cy.log('testing edit registrant')
       cy.getByTestId('edit-registrant').should(
         'have.css',
         'background-color',
         'rgb(83, 132, 254)'
       )
+      cy.log('testing edit controller')
       cy.getByTestId('edit-controller').should(
         'have.css',
         'background-color',
         'rgb(83, 132, 254)'
       )
+      cy.log('testing edit expiration')
       cy.getByTestId('edit-expiration date').should(
         'have.css',
         'background-color',
         'rgb(83, 132, 254)'
       )
+      cy.log('testing edit resolver')
       cy.getByTestId('edit-resolver').should(
         'have.css',
         'background-color',
