@@ -11,7 +11,6 @@ import {
 } from '@ensdomains/ui'
 import * as jsSHA3 from 'js-sha3'
 import { throttle } from 'lodash'
-import { CID } from 'multiformats'
 import { useEffect, useRef } from 'react'
 import { saveName } from '../api/labels'
 import getENS from '../apollo/mutations/ens'
@@ -306,18 +305,6 @@ export function imageUrl(url, name, network) {
     return `https://metadata.ens.domains/${_network}/avatar/${name}`
   }
   console.warn('Unsupported avatar', network, name, url)
-}
-
-export function isCID(hash) {
-  try {
-    if (typeof hash === 'string') {
-      return Boolean(CID.parse(hash))
-    }
-
-    return Boolean(CID.asCID(hash))
-  } catch (e) {
-    return false
-  }
 }
 
 export function asyncThrottle(func, wait) {
