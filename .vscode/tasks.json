@@ -4,7 +4,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "gn script",
+      "label": "1. Update graph-node script",
       "type": "shell",
       "command": "yarn graph-node",
       "group": "build",
@@ -13,7 +13,7 @@
       }
     },
     {
-      "label": "ganache",
+      "label": "2. Launch ganache",
       "type": "shell",
       "command": "npx ganache-cli",
       "group": "build",
@@ -22,7 +22,7 @@
       }
     },
     {
-      "label": "graph-node",
+      "label": "3. Launch graph-node",
       "type": "shell",
       "command": "cd ../graph-node/docker && rm -rf data && docker-compose up",
       "group": "build",
@@ -31,7 +31,7 @@
       }
     },
     {
-      "label": "mock-data",
+      "label": "4. Inject mock data",
       "type": "shell",
       "command": "yarn preTest && yarn subgraph && cd ../ens-subgraph && yarn setup",
       "group": "build",
@@ -41,7 +41,7 @@
       }
     },
     {
-      "label": "build local test site",
+      "label": "5. Build local app",
       "type": "shell",
       "command": "yarn start:test",
       "group": "build",
@@ -50,7 +50,7 @@
       }
     },
     {
-      "label": "open cypress",
+      "label": "6. Open cypress",
       "type": "shell",
       "command": "yarn cypress:open",
       "group": "build",

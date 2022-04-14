@@ -2421,7 +2421,7 @@
   resolved "https://registry.yarnpkg.com/@ensdomains/eth-ens-namehash/-/eth-ens-namehash-2.0.15.tgz#5e5f2f24ba802aff8bc19edd822c9a11200cdf4a"
   integrity sha512-JRDFP6+Hczb1E0/HhIg0PONgBYasfGfDheujmfxaZaAv/NAH4jE6Kf48WbqfRZdxt4IZI3jl3Ri7sZ1nP09lgw==
 
-"@ensdomains/mock@^2.0.47", "@ensdomains/mock@^2.1.47":
+"@ensdomains/mock@^2.0.47":
   version "2.1.47"
   resolved "https://registry.yarnpkg.com/@ensdomains/mock/-/mock-2.1.47.tgz#daca39fc91129f06d19a19f9ee9de2053ddc1a2c"
   integrity sha512-LApEend92qf92QQMJFciEoBvh3BTAdndeRc6CC59GbBi5XooVnaAyry9KM+n0cQ6UVuj792LotYwpsI3RnSDHQ==

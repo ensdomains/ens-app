@@ -147,7 +147,9 @@ function Name({ details: domain, name, pathname, type, refetch }) {
     domain,
     account
   )
-  const showNameWrapperBanner = isOwner || isNameWrappedOwner
+  const isAcceptedStage = ['local', 'dev'].includes(process.env.REACT_APP_STAGE)
+  const isOwnerOrNameWrappedOwner = isOwner || isNameWrappedOwner
+  const showNameWrapperBanner = isOwnerOrNameWrappedOwner && isAcceptedStage
 
   return (
     <>
