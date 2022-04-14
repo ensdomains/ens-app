@@ -1,5 +1,3 @@
-const { sync } = require('replace-in-file')
-
 const ROOT = Cypress.env('ROOT')
 const NAME_ROOT = Cypress.env('NAME_ROOT')
 
