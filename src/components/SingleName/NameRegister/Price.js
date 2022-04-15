@@ -51,15 +51,14 @@ const Price = ({
   const { t } = useTranslation()
   let ethPrice = <InlineLoader />
   let withPremium, c
-
-  if (!loading && price && ethUsdPrice) {
+  if (!loading && price) {
     c = priceCalculator({
       price, // in ETH, BN
       premium: premiumOnlyPrice, // in ETH
       ethUsdPrice
     })
     ethPrice = c.price
-    if (underPremium) {
+    if (underPremium && ethUsdPremiumPrice && ethUsdPrice) {
       withPremium =
         underPremium && ethUsdPremiumPrice
           ? `$${c.basePriceInUsd}(+$${c.premiumInUsd}) =`
