@@ -2475,7 +2475,7 @@
 
 "@ensdomains/mock@https://github.com/ensdomains/mock#add-name-wrapper":
   version "2.1.46"
-  resolved "https://github.com/ensdomains/mock#422fa658d74edb9ac5d70d17e6bab5acc633bda1"
+  resolved "https://github.com/ensdomains/mock#aaed568bb020858e1205702f546c1808e6836643"
   dependencies:
     "@babel/runtime" "^7.4.4"
     "@ensdomains/dnssec-oracle-anchors" "^0.0.1"
