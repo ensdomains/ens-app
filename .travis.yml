@@ -30,14 +30,6 @@ jobs:
         - yarn global add ganache-cli@6.12.2
         - yarn global add wait-on
       before_script:
-        - pwd
-        - cd node_modules/@ensdomains/mock
-        - ls
-        - yarn
-        - yarn build
-        - ls
-        - cd ../../../
-        - pwd
         - sudo service postgresql stop
         - sudo apt-get install libsecret-1-dev
         - ganache-cli -h 0.0.0.0 -b 1 >ganache.log 2>&1 &
