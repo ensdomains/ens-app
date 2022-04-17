@@ -144,7 +144,7 @@ describe('Name Wrapper Tests', () => {
       cy.visit(`${NAME_ROOT}/expiredwrappedname.eth/details`, {
         timeout: 10000
       })
-      cy.wait(3000)
+      cy.wait(10000)
       cy.getByTestId('edit-registrant').should(
         'have.css',
         'background-color',
