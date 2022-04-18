@@ -13,7 +13,7 @@
     "@ensdomains/ens-avatar": "^0.1.4",
     "@ensdomains/ens-validation": "0.0.0",
     "@ensdomains/eth-ens-namehash": "^2.0.15",
-    "@ensdomains/mock": "^2.1.49",
+    "@ensdomains/mock": "^2.1.46-beta",
     "@ensdomains/react-ens-address": "^0.0.31",
     "@ensdomains/ui": "^3.3.34",
     "@ensdomains/web3modal": "1.9.4",
