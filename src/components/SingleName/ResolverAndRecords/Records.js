@@ -12,12 +12,12 @@ import { ADD_MULTI_RECORDS } from '../../../graphql/mutations'
 import COIN_LIST from 'constants/coinList'
 import PendingTx from '../../PendingTx'
 import { formatsByCoinType } from '@ensdomains/address-encoder'
+import _ from 'lodash'
 
 import {
   GET_ADDRESSES,
   GET_TEXT_RECORDS,
-  GET_RESOLVER_FROM_SUBGRAPH,
-  WILDCARD_RESOLVER_DOMAIN
+  GET_RESOLVER_FROM_SUBGRAPH
 } from 'graphql/queries'
 
 import AddRecord from './AddRecord'
@@ -123,15 +123,6 @@ function isContentHashEmpty(hash) {
 }
 
 const useGetRecords = domain => {
-  const { data: { wildcardResolverDomain } = {} } = useQuery(
-    WILDCARD_RESOLVER_DOMAIN,
-    {
-      variables: {
-        name: domain.name
-      }
-    }
-  )
-
   const { data: dataResolver } = useQuery(GET_RESOLVER_FROM_SUBGRAPH, {
     variables: {
       id: getNamehash(domain.name)
@@ -154,9 +145,8 @@ const useGetRecords = domain => {
     {
       variables: {
         name: domain.name,
-        keys: coinList || COIN_PLACEHOLDER_RECORDS
+        keys: _.union(coinList, COIN_PLACEHOLDER_RECORDS)
       },
-      skip: !(!!wildcardResolverDomain || coinList),
       fetchPolicy: 'network-only'
     }
   )
@@ -165,9 +155,8 @@ const useGetRecords = domain => {
     {
       variables: {
         name: domain.name,
-        keys: (resolver && resolver.texts) || TEXT_PLACEHOLDER_RECORDS
+        keys: _.union(resolver && resolver.texts, TEXT_PLACEHOLDER_RECORDS)
       },
-      skip: !(!!wildcardResolverDomain || dataResolver),
       fetchPolicy: 'network-only'
     }
   )
