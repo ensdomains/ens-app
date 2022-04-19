@@ -204,7 +204,7 @@ export const aboutPageURL = () => {
 }
 
 export function isRecordEmpty(value) {
-  return value === emptyAddress || value === ''
+  return !value || value === emptyAddress || value === ''
 }
 
 export const hasValidReverseRecord = getReverseRecord =>
