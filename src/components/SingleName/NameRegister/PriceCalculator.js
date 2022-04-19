@@ -4,6 +4,7 @@ function priceCalculator({
   premium = 0, // in ETH
   ethUsdPrice
 }) {
+  if (!price) return {}
   const priceInEth = new EthVal(`${price}`).toEth()
   const premiumInEth = new EthVal(`${premium}`).toEth()
   let priceInUsd, premiumInUsd, basePriceInUsd

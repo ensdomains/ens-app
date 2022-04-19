@@ -230,8 +230,8 @@ export default function Renew({
                       {t('address.renew.confirm.0')}
                       {'\n'}
                       <ul>
-                        {selectedNames.map(name => (
-                          <li>{name}</li>
+                        {selectedNames.map((name, i) => (
+                          <li key={i}>{name}</li>
                         ))}
                       </ul>
                       {t('address.renew.confirm.1')}

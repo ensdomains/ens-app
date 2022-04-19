@@ -55,7 +55,8 @@ export default function ResolverAndRecords({
   isOwner,
   refetch,
   account,
-  isMigratedToNewRegistry
+  isMigratedToNewRegistry,
+  readOnly = false
 }) {
   const { t } = useTranslation()
   const hasResolver = hasAResolver(domain.resolver)
@@ -94,6 +95,7 @@ export default function ResolverAndRecords({
               name={domain.name}
               refetch={refetch}
               isOwner={isOwner}
+              readOnly={readOnly}
             />
           </>
         ) : (
@@ -101,7 +103,7 @@ export default function ResolverAndRecords({
             keyName="Resolver"
             type="address"
             value={domain.resolver}
-            canEdit={isOwner && isMigratedToNewRegistry}
+            canEdit={isOwner && isMigratedToNewRegistry && !readOnly}
             domain={domain}
             editButton={t('c.set')}
             mutationButton={t('c.save')}
@@ -124,7 +126,7 @@ export default function ResolverAndRecords({
                 keyName="Resolver"
                 type="address"
                 value={domain.resolver}
-                canEdit={isOwner && isMigratedToNewRegistry}
+                canEdit={isOwner && isMigratedToNewRegistry && !readOnly}
                 domain={domain}
                 editButton={t('c.set')}
                 editButtonType="hollow-primary"
@@ -151,6 +153,7 @@ export default function ResolverAndRecords({
           isOldPublicResolver={isOldPublicResolver}
           isDeprecatedResolver={isDeprecatedResolver}
           areRecordsMigrated={areRecordsMigrated}
+          readOnly={readOnly}
         />
       )}
 

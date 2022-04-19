@@ -197,7 +197,8 @@ function DetailsContainer({
   loadingIsMigrated,
   refetchIsMigrated,
   isParentMigratedToNewRegistry,
-  loadingIsParentMigrated
+  loadingIsParentMigrated,
+  readOnly = false
 }) {
   const { t } = useTranslation()
   const isExpired = domain.expiryTime < new Date()
@@ -229,6 +230,7 @@ function DetailsContainer({
             refetchIsMigrated={refetchIsMigrated}
             isParentMigratedToNewRegistry={isParentMigratedToNewRegistry}
             loadingIsParentMigrated={loadingIsParentMigrated}
+            readOnly={readOnly}
           />
         )}
       {domainParent ? (
@@ -266,7 +268,7 @@ function DetailsContainer({
               domain={domain}
               keyName="registrant"
               value={registrant}
-              canEdit={isRegistrant && !isExpired}
+              canEdit={isRegistrant && !isExpired && !readOnly}
               isExpiredRegistrant={isRegistrant && isExpired}
               type="address"
               editButton={t('c.transfer')}
@@ -280,7 +282,10 @@ function DetailsContainer({
               domain={domain}
               keyName="Controller"
               value={domainOwner}
-              canEdit={isRegistrant || (isOwner && isMigratedToNewRegistry)}
+              canEdit={
+                !readOnly &&
+                (isRegistrant || (isOwner && isMigratedToNewRegistry))
+              }
               deedOwner={domain.deedOwner}
               isDeedOwner={isDeedOwner}
               type="address"
@@ -313,7 +318,10 @@ function DetailsContainer({
               domain={domain}
               keyName="Controller"
               value={domain.owner}
-              canEdit={isRegistrant || (isOwner && isMigratedToNewRegistry)}
+              canEdit={
+                !readOnly &&
+                (isRegistrant || (isOwner && isMigratedToNewRegistry))
+              }
               deedOwner={domain.deedOwner}
               isDeedOwner={isDeedOwner}
               type="address"
@@ -349,7 +357,7 @@ function DetailsContainer({
               </AddressLink>
             </DetailsValue>
             <ButtonContainer outOfSync={outOfSync}>
-              {canSubmit ? (
+              {canSubmit && !readOnly ? (
                 <SubmitProof
                   name={domain.name}
                   parentOwner={domain.parentOwner}
@@ -392,7 +400,10 @@ function DetailsContainer({
             domain={domain}
             keyName="Controller"
             value={domain.owner}
-            canEdit={(isOwner || isOwnerOfParent) && isMigratedToNewRegistry}
+            canEdit={
+              !readOnly &&
+              ((isOwner || isOwnerOfParent) && isMigratedToNewRegistry)
+            }
             deedOwner={domain.deedOwner}
             isDeedOwner={isDeedOwner}
             outOfSync={outOfSync}
@@ -521,7 +532,7 @@ function DetailsContainer({
                 domain={domain}
                 keyName="Expiration Date"
                 value={domain.expiryTime}
-                canEdit={parseInt(account, 16) !== 0}
+                canEdit={!readOnly && parseInt(account, 16) !== 0}
                 type="date"
                 editButton={t('c.renew')}
                 mutationButton={t('c.renew')}
@@ -559,6 +570,7 @@ function DetailsContainer({
         refetch={refetch}
         account={account}
         isMigratedToNewRegistry={isMigratedToNewRegistry}
+        readOnly={readOnly}
       />
       {canClaim(domain) ? (
         <NameClaimTestDomain domain={domain} refetch={refetch} />

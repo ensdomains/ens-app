@@ -1,8 +1,9 @@
 import { useEffect, useReducer, useRef, useState } from 'react'
 import { loggedIn, logout } from './IPFS/auth'
 
+import { utils as avtUtils } from '@ensdomains/ens-avatar'
 import { getBlock, getProvider, ethers } from '@ensdomains/ui'
-import { isCID, networkName, supportedAvatarProtocols } from 'utils/utils'
+import { networkName, supportedAvatarProtocols } from 'utils/utils'
 
 export function useDocumentTitle(title) {
   useEffect(() => {
@@ -196,8 +197,6 @@ export function useGasPrice(enabled = true) {
   }
 }
 
-const IPFS_GATEWAY = 'https://ipfs.io/ipfs/'
-
 export function useAvatar(textKey, name, network, uri) {
   const [avatar, setAvatar] = useState({})
   useEffect(() => {
@@ -207,19 +206,10 @@ export function useAvatar(textKey, name, network, uri) {
         const result = await fetch(
           `https://metadata.ens.domains/${_network}/avatar/${name}/meta`
         )
-        const data = await result.json()
-        if ('image' in data && data.image) {
-          if (data.image.startsWith('ipfs://ipfs/')) {
-            data.image = data.image.replace('ipfs://ipfs/', IPFS_GATEWAY)
-          } else if (data.image.startsWith('ipfs://')) {
-            data.image = data.image.replace('ipfs://', IPFS_GATEWAY)
-          } else if (data.image.startsWith('ipfs/')) {
-            data.image = data.image.replace('ipfs/', IPFS_GATEWAY)
-          } else if (isCID(data.image)) {
-            data.image = `${IPFS_GATEWAY}${data.image}`
-          }
-        }
-        setAvatar(data)
+        const metadata = await result.json()
+        const avatarURI = avtUtils.getImageURI({ metadata })
+        metadata.image = avatarURI
+        setAvatar(metadata)
       }
       if (textKey === 'avatar' && uri) {
         const _protocol = supportedAvatarProtocols.find(proto =>

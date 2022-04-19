@@ -1,5 +1,5 @@
 import { validate } from '@ensdomains/ens-validation'
-import { normalize } from '@ensdomains/eth-ens-namehash'
+import { normalize, hash } from '@ensdomains/eth-ens-namehash'
 import {
   emptyAddress as _emptyAddress,
   getEnsStartBlock as _ensStartBlock,
@@ -11,7 +11,6 @@ import {
 } from '@ensdomains/ui'
 import * as jsSHA3 from 'js-sha3'
 import { throttle } from 'lodash'
-import { CID } from 'multiformats'
 import { useEffect, useRef } from 'react'
 import { saveName } from '../api/labels'
 import getENS from '../apollo/mutations/ens'
@@ -261,12 +260,13 @@ export function normaliseOrMark(data, name, nested = false) {
   return data?.map(data => {
     const domain = nested ? data.domain : data
     let normalised
-
     try {
+      if (domain?.id && !(hash(domain?.name) === domain?.id)) {
+        return { ...data, hasInvalidCharacter: true }
+      }
       normalised = normalize(domain[name])
     } catch (e) {
       if (e.message.match(/Illegal char/)) {
-        console.log('domain: ', { ...domain, hasInvalidCharacter: true })
         return { ...data, hasInvalidCharacter: true }
       }
 
@@ -305,18 +305,6 @@ export function imageUrl(url, name, network) {
     return `https://metadata.ens.domains/${_network}/avatar/${name}`
   }
   console.warn('Unsupported avatar', network, name, url)
-}
-
-export function isCID(hash) {
-  try {
-    if (typeof hash === 'string') {
-      return Boolean(CID.parse(hash))
-    }
-
-    return Boolean(CID.asCID(hash))
-  } catch (e) {
-    return false
-  }
 }
 
 export function asyncThrottle(func, wait) {
