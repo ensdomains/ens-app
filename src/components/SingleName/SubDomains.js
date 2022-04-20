@@ -114,9 +114,6 @@ function SubDomains({
     }
   )
 
-  const isWildcard =
-    wildcardResolverDomain && wildcardResolverDomain === domain.name
-
   const canAddSubdomain =
     isOwner &&
     !loadingIsParentMigrated &&
@@ -164,18 +161,7 @@ function SubDomains({
               )
             if (!!wildcardResolverDomain) {
               return (
-                <>
-                  {isWildcard && (
-                    <AddSubdomainContainer
-                      domain={domain}
-                      refetch={refetch}
-                      canAddSubdomain={canAddSubdomain}
-                    />
-                  )}
-                  <SubDomainH2>
-                    {t('singleName.subdomains.wildcard')}
-                  </SubDomainH2>
-                </>
+                <SubDomainH2>{t('singleName.subdomains.wildcard')}</SubDomainH2>
               )
             }
             if (subdomains && subdomains.length === 0) {
