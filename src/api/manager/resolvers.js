@@ -565,7 +565,7 @@ const resolvers = {
     },
     wildcardResolverDomain: async (_, { name }) => {
       const ens = getENS()
-      return ens.wildcardResolverDomain(name)
+      return ens.supportsWildcard(name)
     },
     isContractController: async (_, { address }) => {
       let provider = await getWeb3()
