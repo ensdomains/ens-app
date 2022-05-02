@@ -66,7 +66,6 @@ export const connectMutation = async address => {
     networkIdReactive(await getNetworkId())
     isReadOnlyReactive(false)
     reverseRecordReactive(await getReverseRecord(address))
-    delegatesReactive(await getShouldDelegate(address))
   }
 }
 

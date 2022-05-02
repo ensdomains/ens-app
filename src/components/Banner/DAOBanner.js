@@ -1,23 +1,14 @@
-import { gql, useQuery } from '@apollo/client'
 import styled from '@emotion/styled/macro'
-import { motion } from 'framer-motion'
 import mq from 'mediaQuery'
 import Arrow from './images/Arrow.svg'
-import ENSIcon from './images/ENSIcon.svg'
+import ENSDAOIcon from './images/ENSDAOIcon.svg'
 
-const LogoSmall = styled(motion.img)`
+const LogoSmall = styled.img`
   width: 48px;
   height: 48px;
-  padding: 10px;
   border-radius: 50%;
   margin: auto;
   display: block;
-  background: linear-gradient(
-    330.4deg,
-    #44bcf0 4.54%,
-    #7298f8 59.2%,
-    #a099ff 148.85%
-  );
   box-shadow: 0px 4px 26px rgba(0, 0, 0, 0.06);
 `
 
@@ -25,7 +16,7 @@ const Link = styled(`a`)`
   display: block;
 `
 
-const ArrowSmall = styled(motion.img)`
+const ArrowSmall = styled.img`
   margin: auto;
   display: block;
   width: 22px;
@@ -102,38 +93,19 @@ export const NonMainPageBannerContainerWithMarginBottom = styled(
   margin-bottom: 20px;
 `
 
-const SHOULD_DELEGATE_QUERY = gql`
-  query shouldDelegateQuery @client {
-    shouldDelegate
-  }
-`
-
 export function DAOBannerContent() {
-  const {
-    data: { shouldDelegate }
-  } = useQuery(SHOULD_DELEGATE_QUERY)
-
   return (
     <Link
       target="_blank"
       rel="noreferrer"
-      href={
-        shouldDelegate
-          ? 'https://claim.ens.domains/delegate-ranking'
-          : 'https://ens.mirror.xyz/5cGl-Y37aTxtokdWk21qlULmE1aSM_NuX9fstbOPoWU'
-      }
+      href="https://constitution.ens.domains/"
     >
-      <LogoSmall src={ENSIcon} alt="ENS logo" />
+      <LogoSmall src={ENSDAOIcon} alt="ENS logo" />
       <BannerContentWrapper>
-        <BannerTitle>
-          {shouldDelegate
-            ? 'Your ENS Tokens are undelegated'
-            : '$ENS Now Available for Claiming'}
-        </BannerTitle>
+        <BannerTitle>ENS constitution book now available</BannerTitle>
         <BannerContent>
-          {shouldDelegate
-            ? `Participate more actively in ENS governance by delegating your voting rights to a community member`
-            : 'If you owned an ENS name before October 31st 2021, you can claim $ENS and participate in ENS governance.'}
+          A printed copy of the ENS constitution and its signers is now
+          available in hardcover and ultra-limited edition of 50
         </BannerContent>
       </BannerContentWrapper>
       <ArrowSmall src={Arrow} alt="Arrow right icon" />

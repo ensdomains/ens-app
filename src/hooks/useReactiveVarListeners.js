@@ -9,7 +9,6 @@ import {
 import { usePrevious } from '../utils/utils'
 import getClient from '../apollo/apolloClient'
 import { getReverseRecord } from '../apollo/sideEffects'
-import getShouldDelegate from 'api/delegate'
 
 const REACT_VAR_LISTENERS = gql`
   query reactiveVarListeners @client {
@@ -29,7 +28,6 @@ export default () => {
   useEffect(() => {
     const run = async () => {
       reverseRecordReactive(await getReverseRecord(accounts?.[0]))
-      delegatesReactive(await getShouldDelegate(accounts?.[0]))
     }
     if (isENSReady) {
       run()
