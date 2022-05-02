@@ -165,9 +165,6 @@
       "not ie < 11"
     ]
   },
-  "engines": {
-    "node": "v16"
-  },
   "jest": {
     "resetMocks": false
   },
@@ -175,8 +172,5 @@
     "@ensdomains/ui": "^3.3.23",
     "ethers": "^5.5.4",
     "wrtc": "npm:@koush/wrtc"
-  },
-  "volta": {
-    "node": "16.14.2"
   }
 }
