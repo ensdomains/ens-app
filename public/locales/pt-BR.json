@@ -189,7 +189,7 @@
     "notify": "Avise-me",
     "premium": {
       "dateDescription": "Data e hora mostrados no fuso horário local",
-      "invalid": "Qualquer número acima de 2k é inválido",
+      "invalid": "Qualquer número acima de 100m é inválido",
       "title": "Prêmio"
     },
     "premiumWarning": {
