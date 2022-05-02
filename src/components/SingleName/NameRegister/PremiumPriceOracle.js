@@ -37,13 +37,14 @@ export default class PremiumPriceOracle {
   }
 
   getTargetDateByAmount(amount) {
+    const amountInt = parseInt(amount)
     if (this.algorithm === 'exponential') {
       let daysPast
       if (amount < this.lastValue) {
         daysPast = this.totalDays
       } else {
         daysPast =
-          Math.log((amount + this.lastValue) / this.startingPremiumInUsd) /
+          Math.log((amountInt + this.lastValue) / this.startingPremiumInUsd) /
           Math.log(FACTOR)
       }
       const r = this.releasedDate.clone().add(daysPast * 24 * 60, 'minutes')
@@ -51,7 +52,7 @@ export default class PremiumPriceOracle {
     } else {
       return this.zeroPremiumDate
         .clone()
-        .subtract(amount / this.rate / 1000, 'second')
+        .subtract(amountInt / this.rate / 1000, 'second')
     }
   }
 
