@@ -128,7 +128,7 @@
       "title": "如何使用 ENS"
     },
     "whatisens": {
-      "body": "以太坊域名服务（Ethereum Name Service）是一个基于以太坊区块链的分布式、开放和可扩展的域名系统。ENS 域名让人们不用再复制或输入冗长的区块链地址。通俗地说，ENS 就是区块链中的域名系统。",
+      "body": "以太坊域名服务 (Ethereum Name Service) 是一个基于以太坊区块链的分布式、开放和可扩展的域名系统。ENS 域名让人们不用再复制或输入冗长的区块链地址。通俗地说，ENS 就是区块链中的域名系统。",
       "title": "ENS 是什么"
     }
   },
@@ -160,11 +160,11 @@
     "text": "等待交易被打包"
   },
   "pricer": {
-    "gasDescription": "预估的 Gas 费（第 1 步 + 第 3 步）。Gas 价格存在波动。",
+    "gasDescription": "预估的 Gas 费 (第 1 步 + 第 3 步)。Gas 价格存在波动。",
     "pricePerAmount": "当前选定时长的注册价格",
     "registrationPeriodLabel": "注册时长",
     "registrationPriceLabel": "注册费用",
-    "totalDescription": "预估的总费用（注册费 + Gas）。Gas 价格基于 {{gasPriceToGweiFast}} Gwei",
+    "totalDescription": "预估的总费用 (注册费 + Gas)。Gas 价格基于 {{gasPriceToGweiFast}} Gwei",
     "totalPriceLabel": "支付总额",
     "yearUnit": "年份"
   },
@@ -190,7 +190,7 @@
     },
     "premiumWarning": {
       "description": "为了确保每个人都有公平的机会去注册一个刚刚过期的域名，这些域名的溢价起始价格为 2000 美元，并在 28 天内逐渐降低，直到溢价消失。输入你愿意支付的溢价费用，就会自动显示你应该在什么时间来注册这个域名。",
-      "exponentialWarningDescripiton": "To ensure everyone has a fair opportunity to register a newly expired name, these names have a premium that starts at $100,000,000 and reduces over 21 days exponentially until the premium is gone. Enter the amount you're willing to pay as a premium to learn which date to revisit the app to register the name.",
+      "exponentialWarningDescripiton": "为了确保每个人都有公平的机会注册一个刚过期的域名，这些域名的溢价从 1 亿美元开始，在 21 天内以指数方式递减，直到溢价消失。要想知道哪天能够以您理想的价格注册这个域名，输入您愿意支付额外费用的金额就可以看到。",
       "title": "该域名存在一个临时性的溢价。"
     },
     "step1": {

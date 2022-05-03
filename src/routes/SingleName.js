@@ -8,10 +8,6 @@ import { GET_SINGLE_NAME } from '../graphql/queries'
 import Loader from '../components/Loader'
 import SearchErrors from '../components/SearchErrors/SearchErrors'
 import Name from '../components/SingleName/Name'
-import {
-  NonMainPageBannerContainerWithMarginBottom,
-  DAOBannerContent
-} from '../components/Banner/DAOBanner'
 
 const SINGLE_NAME = gql`
   query singleNameQuery @client {
@@ -78,18 +74,13 @@ function SingleName({
     if (error) return <div>{(console.log(error), JSON.stringify(error))}</div>
     if (data?.singleName)
       return (
-        <>
-          <NonMainPageBannerContainerWithMarginBottom>
-            <DAOBannerContent />
-          </NonMainPageBannerContainerWithMarginBottom>
-          <Name
-            details={data.singleName}
-            name={name}
-            pathname={pathname}
-            type={type}
-            refetch={refetch}
-          />
-        </>
+        <Name
+          details={data.singleName}
+          name={name}
+          pathname={pathname}
+          type={type}
+          refetch={refetch}
+        />
       )
   }
 

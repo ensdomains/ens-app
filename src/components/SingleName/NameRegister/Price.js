@@ -58,7 +58,7 @@ const Price = ({
       ethUsdPrice
     })
     ethPrice = c.price
-    if (underPremium) {
+    if (underPremium && ethUsdPremiumPrice && ethUsdPrice) {
       withPremium =
         underPremium && ethUsdPremiumPrice
           ? `$${c.basePriceInUsd}(+$${c.premiumInUsd}) =`

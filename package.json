@@ -10,6 +10,7 @@
     "@emotion/core": "^10.0.9",
     "@emotion/styled": "^10.0.9",
     "@ensdomains/address-encoder": "^0.2.17",
+    "@ensdomains/ens-avatar": "^0.1.4",
     "@ensdomains/ens-validation": "0.0.0",
     "@ensdomains/eth-ens-namehash": "^2.0.15",
     "@ensdomains/mock": "npm:ensdomains-mock@^2.1.51",
@@ -44,9 +45,8 @@
     "ipfs-http-client": "^40.1.0",
     "js-sha3": "^0.8.0",
     "lodash": "^4.17.21",
-    "moment": "^2.22.2",
+    "moment": "^2.29.2",
     "msw": "0.35.0",
-    "multiformats": "^9.4.8",
     "notification-polyfill": "^1.0.0",
     "postcss-normalize": "^10.0.1",
     "react": "^16.12.0",
@@ -166,7 +166,7 @@
     ]
   },
   "engines": {
-    "node": "v16"
+    "node": "v14"
   },
   "jest": {
     "resetMocks": false
@@ -175,5 +175,8 @@
     "@ensdomains/ui": "^3.3.23",
     "ethers": "^5.6.2",
     "wrtc": "npm:@koush/wrtc"
+  },
+  "volta": {
+    "node": "16.14.2"
   }
 }

@@ -19,7 +19,8 @@ function NameDetails({
   account,
   registrationOpen,
   tab,
-  pathname
+  pathname,
+  readOnly = false
 }) {
   const [loading, setLoading] = useState(undefined)
   const {
@@ -101,6 +102,7 @@ function NameDetails({
               dnssecmode={dnssecmode}
               account={account}
               refetchIsMigrated={refetchIsMigrated}
+              readOnly={readOnly}
             />
           )
         }}
@@ -118,6 +120,7 @@ function NameDetails({
             loadingIsMigrated={loadingIsMigrated}
             isParentMigratedToNewRegistry={isParentMigratedToNewRegistry}
             loadingIsParentMigrated={loadingIsParentMigrated}
+            readOnly={readOnly}
           />
         )}
       />
@@ -131,7 +134,7 @@ function NameDetails({
             domain={domain}
             refetch={refetch}
             refetchIsMigrated={refetchIsMigrated}
-            readOnly={isEmptyAddress(account)}
+            readOnly={readOnly || isEmptyAddress(account)}
           />
         )}
       />

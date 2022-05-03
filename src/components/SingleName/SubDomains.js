@@ -102,6 +102,7 @@ function SubDomains({
   isParentMigratedToNewRegistry,
   isMigratedToNewRegistry,
   loadingIsMigrated,
+  readOnly = false,
   ...rest
 }) {
   const { t } = useTranslation()
@@ -115,6 +116,7 @@ function SubDomains({
   )
 
   const canAddSubdomain =
+    !readOnly &&
     isOwner &&
     !loadingIsParentMigrated &&
     !loadingIsMigrated &&

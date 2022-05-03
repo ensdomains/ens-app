@@ -416,7 +416,8 @@ export default function Records({
   hasResolver,
   isOldPublicResolver,
   isDeprecatedResolver,
-  needsToBeMigrated
+  needsToBeMigrated,
+  readOnly = false
 }) {
   const { t } = useTranslation()
   const {
@@ -490,7 +491,7 @@ export default function Records({
         <CantEdit>{t('singleName.record.cantEdit')}</CantEdit>
       ) : (
         <AddRecord
-          canEdit={canEditRecords}
+          canEdit={canEditRecords && !readOnly}
           emptyRecords={RECORDS}
           updateRecord={addOrUpdateRecord(
             updateRecord(setUpdatedRecords),

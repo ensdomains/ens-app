@@ -1,0 +1,62 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "1. Update graph-node script",
+      "type": "shell",
+      "command": "yarn graph-node",
+      "group": "build",
+      "presentation": {
+        "group": "local-web3"
+      }
+    },
+    {
+      "label": "2. Launch ganache",
+      "type": "shell",
+      "command": "npx ganache-cli",
+      "group": "build",
+      "presentation": {
+        "group": "local-web3"
+      }
+    },
+    {
+      "label": "3. Launch graph-node",
+      "type": "shell",
+      "command": "cd ../graph-node/docker && rm -rf data && docker-compose up",
+      "group": "build",
+      "presentation": {
+        "group": "local-web3"
+      }
+    },
+    {
+      "label": "4. Inject mock data",
+      "type": "shell",
+      "command": "yarn preTest && yarn subgraph && cd ../ens-subgraph && yarn setup",
+      "group": "build",
+      "presentation": {
+        "group": "local-web3",
+        "showReuseMessage": false
+      }
+    },
+    {
+      "label": "5. Build local app",
+      "type": "shell",
+      "command": "yarn start:test",
+      "group": "build",
+      "presentation": {
+        "group": "local-web3"
+      }
+    },
+    {
+      "label": "6. Open cypress",
+      "type": "shell",
+      "command": "yarn cypress:open",
+      "group": "build",
+      "presentation": {
+        "group": "local-web3"
+      }
+    }
+  ]
+}

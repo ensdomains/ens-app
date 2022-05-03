@@ -38,7 +38,13 @@ const SVG = styled('svg')`
   margin-right: 10px;
 `
 
-export default function MigrateResolver({ value, name, refetch, isOwner }) {
+export default function MigrateResolver({
+  value,
+  name,
+  refetch,
+  isOwner,
+  readOnly = false
+}) {
   const { t } = useTranslation()
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false)
   const { state: state1, actions: actions1 } = useEditable()
@@ -69,6 +75,8 @@ export default function MigrateResolver({ value, name, refetch, isOwner }) {
   useEffect(() => {
     if (mutationError) setIsErrorModalOpen(true)
   }, [mutationError])
+
+  const canMigrate = isOwner && !readOnly
 
   return (
     <MigrateItem>
@@ -109,8 +117,8 @@ export default function MigrateResolver({ value, name, refetch, isOwner }) {
           />
         ) : (
           <MigrateButton
-            onClick={isOwner ? migrateResolver : () => {}}
-            type={isOwner ? 'primary' : 'disabled'}
+            onClick={canMigrate ? migrateResolver : () => {}}
+            type={canMigrate ? 'primary' : 'disabled'}
           >
             {t('c.migrate')}
           </MigrateButton>
