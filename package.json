@@ -166,7 +166,7 @@
     ]
   },
   "engines": {
-    "node": "v14"
+    "node": ">=14 <17"
   },
   "jest": {
     "resetMocks": false
@@ -175,8 +175,5 @@
     "@ensdomains/ui": "^3.3.23",
     "ethers": "^5.5.4",
     "wrtc": "npm:@koush/wrtc"
-  },
-  "volta": {
-    "node": "16.14.2"
   }
 }
