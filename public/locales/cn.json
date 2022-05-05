@@ -15,7 +15,9 @@
         "以下域名：",
         "将同时续费 "
       ],
-      "confirmButton": "续费"
+      "confirmButton": "续费",
+      "year": "{{count}} 年",
+      "year_plural": "{{count}} 年"
     },
     "sort": {
       "alphabetical": "按字母顺序",
@@ -64,7 +66,9 @@
     "sync": "同步",
     "textrecord": "文本记录",
     "transfer": "转让",
-    "warning": "警告"
+    "warning": "警告",
+    "year": "年",
+    "year_plural": "年"
   },
   "certificate": {
     "button": "请求 SSL 证书",
@@ -296,11 +300,11 @@
         "title": "1. 设置反向解析记录"
       },
       "step2": {
-        "text": "您可以设置许多不同加密货币的地址、个人资料信息（如头像、Twitter 等)",
+        "text": "您可以设置许多不同加密货币的地址、个人资料信息(如头像、Twitter 等)",
         "title": "2. 设置其他记录"
       },
       "step3": {
-        "text": "您可以将在 IPFS 部署静态网站（html/css/images），并将其哈希值记录在 ENS 域名的内容记录中，然后那些支持 ENS 的浏览器（比如 Opera）、浏览器插件（比如 Metamask）或是在做任意浏览器中加上 ‘.link’ 后缀，就可以解析这类记录。",
+        "text": "您可以将在 IPFS 部署静态网站(html/css/images)，并将其哈希值记录在 ENS 域名的内容记录中，然后那些支持 ENS 的浏览器(比如 Opera)、浏览器插件(比如 Metamask)或是在做任意浏览器中加上 '.link' 后缀，就可以解析这类记录。",
         "title": "3. 设置去中心化网站的内容哈希"
       },
       "title": "学习如何管理你的域名"
@@ -367,6 +371,16 @@
       "content": "该域名包含非 ASCII 字符。请注意，有些字符看起来与英文字母相同或非常相似，特别是西里尔字母和希腊字母。此外，中文的繁体字与简体字看起来相同或非常相似。要了解更多信息，请参阅",
       "link": "维基百科的相关文章",
       "title": "注意"
+    }
+  },
+  "banners": {
+    "undelegatedTokens": {
+      "title": "您的 ENS 代币还没有委托",
+      "description": "通过将你的投票权委托给社区成员，能够提高参与 ENS 的治理的活跃度"
+    },
+    "constitution": {
+      "title": "ENS 章程已经发布",
+      "description": "ENS 章程及其签署成员的印刷版已经发布，目前有精装版和旗舰版，其中旗舰版限量 50 份"
     }
   }
 }
