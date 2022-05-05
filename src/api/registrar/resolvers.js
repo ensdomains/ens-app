@@ -21,6 +21,10 @@ const resolvers = {
       const registrar = getRegistrar()
       return registrar.getRentPrice(label, duration)
     },
+    async getRentPriceAndPremium(_, { label, duration, block }) {
+      const registrar = getRegistrar()
+      return registrar.getRentPriceAndPremium(label, duration, block)
+    },
     async getRentPrices(_, { labels, duration }) {
       const registrar = getRegistrar()
       return labels.length && registrar.getRentPrices(labels, duration)

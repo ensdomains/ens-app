@@ -189,7 +189,7 @@
     "notify": "Benachrichtige mich",
     "premium": {
       "dateDescription": "Date and time shown in local time zone",
-      "invalid": "Any number over 2k is invalid",
+      "invalid": "Any number over 100m is invalid",
       "title": "Premium"
     },
     "premiumWarning": {

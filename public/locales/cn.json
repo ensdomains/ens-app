@@ -185,7 +185,7 @@
     "notify": "通知我",
     "premium": {
       "dateDescription": "溢价到达该价格的时间（当地时区）",
-      "invalid": "超过 2000 均为无效价格",
+      "invalid": "超过 100M 均为无效价格",
       "title": "溢价"
     },
     "premiumWarning": {
