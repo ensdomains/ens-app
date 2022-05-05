@@ -372,5 +372,15 @@
       "link": "Wikipedia article",
       "title": "ATTENTION"
     }
+  },
+  "banners": {
+    "undelegatedTokens": {
+      "title": "Your ENS Tokens are undelegated",
+      "description": "Participate more actively in ENS governance by delegating your voting rights to a community member"
+    },
+    "constitution": {
+      "title": "ENS constitution book now available",
+      "description": "A printed copy of the ENS constitution and its signers is now available in hardcover and ultra-limited edition of 50"
+    }
   }
 }

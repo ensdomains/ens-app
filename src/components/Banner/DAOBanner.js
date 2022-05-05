@@ -1,6 +1,7 @@
 import { gql, useQuery } from '@apollo/client'
 import styled from '@emotion/styled/macro'
 import mq from 'mediaQuery'
+import { useTranslation } from 'react-i18next'
 import Arrow from './images/Arrow.svg'
 import ENSIcon from './images/ENSIcon.svg'
 
@@ -114,6 +115,7 @@ export const NonMainPageBannerContainerWithMarginBottom = styled(
 `
 
 export function DAOBannerContent() {
+  const { t } = useTranslation()
   const {
     data: { shouldDelegate }
   } = useQuery(SHOULD_DELEGATE_QUERY)
@@ -132,13 +134,13 @@ export function DAOBannerContent() {
       <BannerContentWrapper>
         <BannerTitle>
           {shouldDelegate
-            ? 'Your ENS Tokens are undelegated'
-            : 'ENS constitution book now available'}
+            ? t('banner.undelegatedTokens.title')
+            : t('banner.constitution.title')}
         </BannerTitle>
         <BannerContent>
           {shouldDelegate
-            ? 'Participate more actively in ENS governance by delegating your voting rights to a community member'
-            : 'A printed copy of the ENS constitution and its signers is now available in hardcover and ultra-limited edition of 50'}
+            ? t('banner.undelegatedTokens.description')
+            : t('banner.constitution.description')}
         </BannerContent>
       </BannerContentWrapper>
       <ArrowSmall src={Arrow} alt="Arrow right icon" />
