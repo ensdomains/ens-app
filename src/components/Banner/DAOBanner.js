@@ -134,13 +134,13 @@ export function DAOBannerContent() {
       <BannerContentWrapper>
         <BannerTitle>
           {shouldDelegate
-            ? t('banner.undelegatedTokens.title')
-            : t('banner.constitution.title')}
+            ? t('banners.undelegatedTokens.title')
+            : t('banners.constitution.title')}
         </BannerTitle>
         <BannerContent>
           {shouldDelegate
-            ? t('banner.undelegatedTokens.description')
-            : t('banner.constitution.description')}
+            ? t('banners.undelegatedTokens.description')
+            : t('banners.constitution.description')}
         </BannerContent>
       </BannerContentWrapper>
       <ArrowSmall src={Arrow} alt="Arrow right icon" />
