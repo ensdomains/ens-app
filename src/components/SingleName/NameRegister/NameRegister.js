@@ -182,7 +182,8 @@ const NameRegister = ({
       commitmentTimerRunning,
       block: block?.number
     },
-    skip: !(block && block.number)
+    skip: !(block && block.number),
+    fetchPolicy: 'no-cache'
   })
   let getRentPrice, getPremiumPrice
   if (getRentPriceAndPremium) {
