@@ -3,13 +3,11 @@ import styled from '@emotion/styled/macro'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@apollo/client'
 import moment from 'moment'
-import { gql } from '@apollo/client'
-
 import {
   CHECK_COMMITMENT,
   GET_MINIMUM_COMMITMENT_AGE,
   GET_MAXIMUM_COMMITMENT_AGE,
-  GET_RENT_PRICE,
+  GET_RENT_PRICE_AND_PREMIUM,
   WAIT_BLOCK_TIMESTAMP,
   GET_BALANCE,
   GET_ETH_PRICE,
@@ -174,26 +172,24 @@ const NameRegister = ({
   )
   const parsedYears = parseFloat(years)
   const duration = calculateDuration(years)
-  const { data: { getRentPrice } = {}, loading: rentPriceLoading } = useQuery(
-    GET_RENT_PRICE,
-    {
-      variables: {
-        duration,
-        label: domain.label,
-        commitmentTimerRunning
-      }
-    }
-  )
   const {
-    data: { getRentPrice: getPremiumPrice } = {},
-    loading: getPremiumPriceLoading
-  } = useQuery(GET_RENT_PRICE, {
+    data: { getRentPriceAndPremium } = {},
+    loading: rentPriceLoading
+  } = useQuery(GET_RENT_PRICE_AND_PREMIUM, {
     variables: {
-      duration: 0,
+      duration,
       label: domain.label,
-      commitmentTimerRunning
-    }
+      commitmentTimerRunning,
+      block: block?.number
+    },
+    skip: !(block && block.number),
+    fetchPolicy: 'no-cache'
   })
+  let getRentPrice, getPremiumPrice
+  if (getRentPriceAndPremium) {
+    getRentPrice = getRentPriceAndPremium.price
+    getPremiumPrice = getRentPriceAndPremium.premium
+  }
 
   let hasSufficientBalance
   if (!blockCreatedAt && checkCommitment > 0) {
