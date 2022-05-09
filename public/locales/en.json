@@ -146,7 +146,7 @@
       "title": "Manage names"
     },
     "register": {
-      "text": "Register .avax names for $5/year. Extend your name registration at any time.",
+      "text": "Register .ava names for $5/year. Extend your name registration at any time.",
       "title": "Register names"
     },
     "search": {
@@ -244,7 +244,7 @@
   },
   "searchErrors": {
     "domainMalformed": {
-      "long": "You have either added a domain without a TLD such as .avax or you have added unsupported characters.",
+      "long": "You have either added a domain without a TLD such as .ava or you have added unsupported characters.",
       "short": "Domain malformed. {{searchTerm}} is not a valid domain."
     },
     "tooShort": {
@@ -303,7 +303,7 @@
         "title": "2. Set other records"
       },
       "step3": {
-        "text": "You can host your static html/css/images on IPFS and put the hash in your ANS name's Content record. Then it can be resolved by ANS-aware browsers (e.g. Opera), browser extensions (Metamask), or any browser with '.link' appended to the end (e.g. ans.avax.link).",
+        "text": "You can host your static html/css/images on IPFS and put the hash in your ANS name's Content record. Then it can be resolved by ANS-aware browsers (e.g. Opera), browser extensions (Metamask), or any browser with '.link' appended to the end (e.g. ans.ava.link).",
         "title": "3. Set a content hash of a decentralized website"
       },
       "title": "Learn how to manage your name."

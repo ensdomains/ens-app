@@ -9,7 +9,7 @@ ANS Application
 Expects Node.js version >=14.17.0
 
 ```shell
-$> git clone https://github.com/muellners/ans-app.git
+$> git clone https://github.com/Ava-Name-Services/ans-app.git
 $> cd ans-app
 $> yarn install
 $> yarn start
@@ -183,8 +183,8 @@ Once this has been done, please create a pull request for us to review and check
 
 In case you haven't already:
 
-- `git clone https://github.com/muellners/ans-app.git`
-- `git clone https://github.com/muellners/ans-subgraph`
+- `git clone https://github.com/Ava-Name-Services/ans-app.git`
+- `git clone https://github.com/Ava-Name-Services/ans-subgraph`
 - `git clone https://github.com/graphprotocol/graph-node`
 
 You need to make sure these are all cloned into the same parent folder.

@@ -18,7 +18,8 @@ const cache = new InMemoryCache({
 })
 
 const endpoints = {
-  '43114': 'https://api.thegraph.com/subgraphs/name/devilla/ansgraph'
+  '43113': 'http://127.0.0.1:8000/subgraphs/name/graphprotocol/ens',
+  '43112': 'http://127.0.0.1:8000/subgraphs/name/graphprotocol/ens'
 }
 
 function getGraphQLAPI() {

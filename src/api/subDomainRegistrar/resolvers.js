@@ -19,13 +19,13 @@ const resolvers = {
 
             if (!node.available) {
               const ens = getENS()
-              owner = await ens.getOwner(`${node.label}.${node.domain}.avax`)
+              owner = await ens.getOwner(`${node.label}.${node.domain}.ava`)
             }
             const newNode = {
               ...node,
-              id: `${node.label}.${node.domain}.avax`,
+              id: `${node.label}.${node.domain}.ava`,
               owner,
-              name: `${node.label}.${node.domain}.avax`,
+              name: `${node.label}.${node.domain}.ava`,
               state: node.available ? 'Open' : 'Owned',
               price: fromWei(node.price, 'ether'),
               __typename: 'SubDomain'

@@ -89,13 +89,13 @@ function Faq() {
           put the hash in your ANS name's Content record. Then it can be
           resolved by ANS-aware browsers (e.g. Opera), browser extensions
           (Metamask), or any browser with ".link" or ".limo" appended to the end
-          (e.g. matoken.avax.link or matoken.avax.limo).
+          (e.g. matoken.ava.link or matoken.ava.limo).
           <br />
           If you want to redirect your ANS name to an existing website, you
           could write a html file containing JavasSript logic to redirect your
           website, upload the file into ipfs using services like{' '}
           <a href="https://pinata.cloud/">IPFS Pinata</a>, then set the CID to
-          your contenthash. See the source code of depositcontract.avax.link as
+          your contenthash. See the source code of depositcontract.ava.link as
           an example.
         </Section>
 
@@ -105,12 +105,12 @@ function Faq() {
 
         <Section question="Can you have names with emojis?">Yes.</Section>
 
-        <Section question="How much does it cost to register a .avax name?">
+        <Section question="How much does it cost to register a .ava name?">
           Currently, registration costs are set at the following prices:
           <ul>
-            <li>5+ character .avax names: $5 in AVAX per year.</li>
-            <li>4 character .avax names: $160 in AVAX per year.</li>
-            <li>3 character .avax names $640 in AVAX per year.</li>
+            <li>5+ character .ava names: $5 in AVAX per year.</li>
+            <li>4 character .ava names: $160 in AVAX per year.</li>
+            <li>3 character .ava names $640 in AVAX per year.</li>
           </ul>
           3 and 4 character names have 'premium' pricing to reflect the small
           number of these names available.
@@ -135,7 +135,7 @@ function Faq() {
           relatively expensive.
         </Section>
 
-        <Section question="Can I register names other than .avax?">
+        <Section question="Can I register names other than .ava?">
           Yes, you can import into ANS any DNS name with the required DNSSEC.
           <br />
           Please refer to our{' '}
@@ -196,9 +196,9 @@ function Faq() {
           themselves as the Controller so they can update records on your
           behalf.
           <br />
-          The Registrant only exists on ".avax" names and it allows you to
-          change the Controller. If you transfer the Registrant to an address
-          you don,t own, you lose the ownership of the name.
+          The Registrant only exists on ".ava" names and it allows you to change
+          the Controller. If you transfer the Registrant to an address you don,t
+          own, you lose the ownership of the name.
         </Section>
 
         <Section question="What is a Resolver?">
@@ -223,7 +223,7 @@ function Faq() {
           If you click the "trash bin" icon on the address record, it will unset
           your address so that people can no longer look up your address with
           the name. You can also unset ownership of subdomains in this way, but
-          you cannot do so on ".avax" addresses. Because ‘.avax` names are
+          you cannot do so on ".ava" addresses. Because ‘.ava` names are
           ERC721-compliant NFTs, you cannot transfer them to an empty address
           (0x00000...). You can transfer it to a burn address (eg: 0x00001), but
           that does not erase the fact that you used to own the name. Also, the
@@ -232,8 +232,8 @@ function Faq() {
         </Section>
 
         <Section question="How do I transfer my name?">
-          For a ".avax" name, transfer both the Registrant and the Controller to
-          the new Avalanche account. Since ".avax" names are ERC721 compliant
+          For a ".ava" name, transfer both the Registrant and the Controller to
+          the new Avalanche account. Since ".ava" names are ERC721 compliant
           NFTs, you can change the Registrant by simply transferring the NFT
           from any NFT compliant wallet/marketplace as well.
           <br />

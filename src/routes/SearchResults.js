@@ -30,7 +30,7 @@ const useCheckValidity = (_searchTerm, isENSReady) => {
       setErrors([])
 
       if (_searchTerm.split('.').length === 1) {
-        searchTerm = _searchTerm + '.avax'
+        searchTerm = _searchTerm + '.ava'
       } else {
         searchTerm = _searchTerm
       }
