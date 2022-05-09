@@ -2416,10 +2416,10 @@
     "@openzeppelin/contracts" "^4.1.0"
     dns-packet "^5.3.0"
 
-"@ensdomains/ens-validation@0.0.0":
-  version "0.0.0"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ens-validation/-/ens-validation-0.0.0.tgz#6f29e0ec19d1052b79b7217e9b4b0f385ecb921c"
-  integrity sha512-hN/FjYTcthuE0ASdcECOLqjE7z9xYM591JMajwDxHfHHOwx2SO1OflziCS7koPxpxVk7WSPLCCVgtTYa1tBZ2w==
+"@ensdomains/ens-validation@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ens-validation/-/ens-validation-0.1.0.tgz#9ebfe66016fbf069a6ebca70c043714f6f02fbe6"
+  integrity sha512-rbDh2K6GfqXvBcJUISaTTYEt3f079WA4ohTE5Lh4/8EaaPAk/9vk3EisMUQV2UVxeFIZQEEyRCIOmRTpqN0W7A==
 
 "@ensdomains/ens@^0.4.4":
   version "0.4.5"
