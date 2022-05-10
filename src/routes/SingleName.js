@@ -8,6 +8,7 @@ import { GET_SINGLE_NAME } from '../graphql/queries'
 import Loader from '../components/Loader'
 import SearchErrors from '../components/SearchErrors/SearchErrors'
 import Name from '../components/SingleName/Name'
+import { useHistory } from 'react-router'
 
 const SINGLE_NAME = gql`
   query singleNameQuery @client {
@@ -22,6 +23,7 @@ function SingleName({
   },
   location: { pathname }
 }) {
+  const history = useHistory()
   useScrollTo(0)
 
   const [valid, setValid] = useState(undefined)
@@ -46,6 +48,8 @@ function SingleName({
       try {
         // This is under the assumption that validateName never returns false
         normalisedName = validateName(searchTerm)
+        if (normalisedName !== searchTerm)
+          history.replace(`/name/${normalisedName}`)
         setNormalisedName(normalisedName)
         document.title = searchTerm
       } catch {

@@ -122,7 +122,7 @@ function Search({ history, className, style }) {
           history.push(`/name/${searchTerm}`)
           return
         } else {
-          history.push(`/search/${searchTerm}`)
+          history.push(`/search/${encodeURI(searchTerm)}`)
         }
       }}
     >
