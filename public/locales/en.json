@@ -382,5 +382,18 @@
       "title": "ENS constitution book now available",
       "description": "A printed copy of the ENS constitution and its signers is now available in hardcover and ultra-limited edition of 50"
     }
+  },
+  "epns": {
+    "link": "Wallet Notif (EPNS)",
+    "modal": {
+      "header": "You can choose to Opt-In/Opt-Out EPNS Notifications from ENS!",
+      "optInButton": "OPT-IN",
+      "optOutButton": "OPT-OUT",
+      "platforms": "View Supported Platforms",
+      "alreadyOpted": "You are Opted-In!",
+      "apiError": "Mayday! Mayday! Can the devs do something? They have been notified, please try again a little later!",
+      "unsupportedNetwork": "Wallet notifications are only supported on the Main net!",
+      "switchNetwork": "Switch Network"
+    }
   }
 }
