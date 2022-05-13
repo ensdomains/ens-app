@@ -1,4 +1,5 @@
 import styled from '@emotion/styled'
+import mq from 'mediaQuery'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -17,6 +18,13 @@ const LoadingComponent = styled(Loader)`
   display: inline-block;
   margin: 0 10px;
   vertical-align: middle;
+`
+
+const Header = styled('h3')`
+  font-size: 2rem;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 0;
 `
 
 const FormComponent = styled('form')`
@@ -40,29 +48,30 @@ const FormError = styled(FormLabel)`
   font-size: 0.8rem;
 `
 
-const Header = styled('h3')`
+const FormContent = styled('div')`
+  margin-top: 15px;
+  margin-bottom: 0;
+`
+
+const FormText = styled('div')`
   font-size: 1rem;
-  font-weight: 400;
-  margin-top: 0;
+  margin-bottom: 45px;
 `
 
-const Row = styled('div')`
-  padding: 10px 0 30px;
-`
-
-const MessageBlock = styled('div')`
+const FormActions = styled('div')`
   display: flex;
-  flex-direction: column;
-  margin-top: 30px;
-`
-const Actions = styled('div')`
-  display: flex;
-  justify-content: right;
+  flex-wrap: wrap;
+  justify-content: space-between;
 `
 
 const buttonStyles = `
-  margin: 5px;
   position: relative;
+`
+
+const SubActionWrapper = styled('div')`
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
 `
 
 const CancelComponent = styled(Button)`
@@ -82,7 +91,6 @@ const EPNSNotificationModal = ({ address, onCancel }) => {
   const [networkSupported, setNetworkSupported] = useState() // epns api don't support ropsten
   const [isModalOpen, setIsModalOpen] = useState()
 
-  const isWeb3Ready = signer && address && networkId
   const disableButton = !networkSupported || isError
   const buttonType = disableButton ? 'disabled' : 'primary'
 
@@ -90,9 +98,9 @@ const EPNSNotificationModal = ({ address, onCancel }) => {
     e.preventDefault()
   }
 
+  // opt into the ENS channel
   async function callOptIn() {
     setIsLoading(true)
-
     await optIn(signer, epnsConfig.CHANNEL_ADDRESS, networkId, address, {
       baseApiUrl: epnsConfig.API_BASE_URL,
       onSuccess: () => {
@@ -100,23 +108,23 @@ const EPNSNotificationModal = ({ address, onCancel }) => {
         setIsLoading(false)
         setIsModalOpen(true)
       },
-      onError: err => {
+      onError: _ => {
         setError(true)
         setIsLoading(false)
       }
     })
   }
 
+  // opt out of the ENS channel
   async function callOptOut() {
     setIsLoading(true)
-
     await optOut(signer, epnsConfig.CHANNEL_ADDRESS, networkId, address, {
       baseApiUrl: epnsConfig.API_BASE_URL,
       onSuccess: () => {
         setIsChannelSubscribed(false)
         setIsLoading(false)
       },
-      onError: err => {
+      onError: _ => {
         setError(true)
         setIsLoading(false)
       }
@@ -135,6 +143,7 @@ const EPNSNotificationModal = ({ address, onCancel }) => {
     setIsModalOpen(value => !value)
   }
 
+  // fetch and update of a user is already subscribed to the ens channel
   async function fetchAndUpdateSubscription() {
     try {
       setIsLoading(true)
@@ -164,7 +173,6 @@ const EPNSNotificationModal = ({ address, onCancel }) => {
     if (isSupprtedNW) {
       fetchAndUpdateSubscription()
     }
-
     setNetworkSupported(isSupprtedNW)
   }, [epnsConfig])
 
@@ -174,15 +182,23 @@ const EPNSNotificationModal = ({ address, onCancel }) => {
         <Header>{t('epns.modal.header')}</Header>
       </FormLabel>
 
-      <Row>
-        <Button type="hollow-primary" onClick={toggleModal}>
-          {t('epns.modal.platforms')}
-        </Button>
-      </Row>
+      <FormContent>
+        <FormText>{t('epns.modal.subheader')}</FormText>
+        {!networkSupported ? (
+          <FormWarning>{t('epns.modal.unsupportedNetwork')}</FormWarning>
+        ) : null}
+        {isError ? <FormError> {t('epns.modal.apiError')}</FormError> : null}
+      </FormContent>
 
-      {isWeb3Ready ? (
-        <Row>
-          {isLoading ? (
+      <FormActions>
+        <CancelComponent onClick={onCancel}>{t('c.cancel')}</CancelComponent>
+        <SubActionWrapper>
+          <Button type="hollow-primary" onClick={toggleModal}>
+            {t('epns.modal.platforms')}
+          </Button>
+          {!networkSupported ? (
+            <NetworkSwitch>{t('epns.modal.switchNetwork')}</NetworkSwitch>
+          ) : isLoading ? (
             <LoadingComponent />
           ) : isChannelSubscribed ? (
             <Button
@@ -201,22 +217,8 @@ const EPNSNotificationModal = ({ address, onCancel }) => {
               {t('epns.modal.optInButton')}
             </Button>
           )}
-
-          {!networkSupported ? (
-            <MessageBlock>
-              <FormWarning>{t('epns.modal.unsupportedNetwork')}</FormWarning>
-              <NetworkSwitch>{t('epns.modal.switchNetwork')}</NetworkSwitch>
-            </MessageBlock>
-          ) : null}
-          {isError ? <FormError> {t('epns.modal.apiError')}</FormError> : null}
-        </Row>
-      ) : (
-        <LoadingComponent />
-      )}
-
-      <Actions>
-        <CancelComponent onClick={onCancel}>{t('c.cancel')}</CancelComponent>
-      </Actions>
+        </SubActionWrapper>
+      </FormActions>
 
       {/* OnSubscribeModal */}
       {isModalOpen ? <OnSubscribedModal onClose={toggleModal} /> : null}

@@ -12,7 +12,8 @@ import { EPNSLink, EPNSNotificationModal } from '../EPNS'
 const ExpiryNotifyDropdownContainer = styled('div')`
   position: relative;
 `
-const customDropdownStyles = { minWidth: 162 }
+
+const customDropdownStyles = { minWidth: 162, gap: '10px' }
 
 export default function ExpiryNotifyDropdown({ address }) {
   const dropdownRef = createRef()
