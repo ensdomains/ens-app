@@ -125,7 +125,7 @@ describe('Name Wrapper Tests', () => {
       cy.visit(`${NAME_ROOT}/unwrapped.wrappedname.eth/details`, {
         timeout: 10000
       })
-      cy.wait(3000)
+      cy.wait(10000)
 
       cy.waitUntilTestIdDoesNotExist('edit-registrant')
 
