@@ -1733,10 +1733,10 @@
     dns-packet "^5.2.1"
     js-sha3 "^0.8.0"
 
-"@ensdomains/ui@^3.3.36":
-  version "3.3.36"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.36.tgz#8b3c4e9e623cc3b1b554a988d1ce0f57a29a4ed2"
-  integrity sha512-Ju9cMrIv9DFGZivn2hiTizMjot7q0oWjwY6FMgnpCZH6NHRM7kW2qC6vU1GIquzUQqfm2ZdRmDdtvKgDI6BK6A==
+"@ensdomains/ui@^3.3.37":
+  version "3.3.37"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.37.tgz#f61bb041e8351a513605f78e6f73240cf7b8e208"
+  integrity sha512-uzoG7m8yxJpI3JOFHE0blIqmtnwqGOoEnN6KiGSXE74THjNZRxTtLDOZ/BxHXf7/U5CkrpmVS93Cf3rQwiHZBQ==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
