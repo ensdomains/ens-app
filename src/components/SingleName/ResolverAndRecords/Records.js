@@ -12,7 +12,7 @@ import { ADD_MULTI_RECORDS } from '../../../graphql/mutations'
 import COIN_LIST from 'constants/coinList'
 import PendingTx from '../../PendingTx'
 import { formatsByCoinType } from '@ensdomains/address-encoder'
-import { union } from 'lodash'
+import union from 'lodash/union'
 
 import {
   GET_ADDRESSES,
