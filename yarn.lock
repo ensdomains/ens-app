@@ -1595,10 +1595,10 @@
     "@openzeppelin/contracts" "^4.1.0"
     dns-packet "^5.3.0"
 
-"@ensdomains/ens-validation@0.0.0":
-  version "0.0.0"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ens-validation/-/ens-validation-0.0.0.tgz#6f29e0ec19d1052b79b7217e9b4b0f385ecb921c"
-  integrity sha512-hN/FjYTcthuE0ASdcECOLqjE7z9xYM591JMajwDxHfHHOwx2SO1OflziCS7koPxpxVk7WSPLCCVgtTYa1tBZ2w==
+"@ensdomains/ens-validation@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ens-validation/-/ens-validation-0.1.0.tgz#9ebfe66016fbf069a6ebca70c043714f6f02fbe6"
+  integrity sha512-rbDh2K6GfqXvBcJUISaTTYEt3f079WA4ohTE5Lh4/8EaaPAk/9vk3EisMUQV2UVxeFIZQEEyRCIOmRTpqN0W7A==
 
 "@ensdomains/ens@^0.4.4":
   version "0.4.5"
@@ -1687,6 +1687,32 @@
   dependencies:
     hash-test-vectors "^1.3.2"
 
+"@ensdomains/ui@@ensdomains/ui@^3.3.36":
+  version "3.3.36"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.36.tgz#8b3c4e9e623cc3b1b554a988d1ce0f57a29a4ed2"
+  integrity sha512-Ju9cMrIv9DFGZivn2hiTizMjot7q0oWjwY6FMgnpCZH6NHRM7kW2qC6vU1GIquzUQqfm2ZdRmDdtvKgDI6BK6A==
+  dependencies:
+    "@0xproject/utils" "^2.0.2"
+    "@babel/plugin-proposal-class-properties" "^7.8.3"
+    "@babel/runtime" "^7.4.4"
+    "@ensdomains/address-encoder" "^0.2.17"
+    "@ensdomains/content-hash" "^2.5.7"
+    "@ensdomains/contracts" "^0.0.1"
+    "@ensdomains/dnsprovejs" "^0.4.1"
+    "@ensdomains/dnssecoraclejs" "^0.2.7"
+    "@ensdomains/dnssecoraclejs-017" "npm:@ensdomains/dnssecoraclejs@0.1.7"
+    "@ensdomains/ens-contracts" "^0.0.11"
+    "@ensdomains/eth-ens-namehash" "^2.0.15"
+    "@ensdomains/mock" "npm:ensdomains-mock@^2.1.50"
+    "@ethvault/iframe-provider" "0.1.9"
+    base58check "^2.0.0"
+    bech32 "^1.1.3"
+    bs58 "^4.0.1"
+    cross-fetch "^3.0.2"
+    dns-packet "^5.2.1"
+    ethers "^5.6.2"
+    js-sha3 "^0.8.0"
+
 "@ensdomains/ui@^3.2.22", "@ensdomains/ui@^3.3.23":
   version "3.3.35"
   resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.35.tgz#bbffbc0bbe2a5e9cd8745e104644037c546eea33"
@@ -1710,32 +1736,6 @@
     bs58 "^4.0.1"
     cross-fetch "^3.0.2"
     dns-packet "^5.2.1"
-    js-sha3 "^0.8.0"
-
-"@ensdomains/ui@npm:ensdomainsui@^3.3.41":
-  version "3.3.41"
-  resolved "https://registry.yarnpkg.com/ensdomainsui/-/ensdomainsui-3.3.41.tgz#ddf60fe4f4c639e00560d3e6dda1d26b60f3974b"
-  integrity sha512-4mdDiX2LaBI+DYT9BzCjFDXpHMvGFw6V5SjhL/MDbaCsu4lF+vuzaU4hZmj2WoDBLYbNg3MNqalZgdsvMQTIZg==
-  dependencies:
-    "@0xproject/utils" "^2.0.2"
-    "@babel/plugin-proposal-class-properties" "^7.8.3"
-    "@babel/runtime" "^7.4.4"
-    "@ensdomains/address-encoder" "^0.2.17"
-    "@ensdomains/content-hash" "^2.5.7"
-    "@ensdomains/contracts" "^0.0.1"
-    "@ensdomains/dnsprovejs" "^0.4.1"
-    "@ensdomains/dnssecoraclejs" "^0.2.7"
-    "@ensdomains/dnssecoraclejs-017" "npm:@ensdomains/dnssecoraclejs@0.1.7"
-    "@ensdomains/ens-contracts" "^0.0.11"
-    "@ensdomains/eth-ens-namehash" "^2.0.15"
-    "@ensdomains/mock" "npm:ensdomains-mock@^2.1.50"
-    "@ethvault/iframe-provider" "0.1.9"
-    base58check "^2.0.0"
-    bech32 "^1.1.3"
-    bs58 "^4.0.1"
-    cross-fetch "^3.0.2"
-    dns-packet "^5.2.1"
-    ethers "^5.6.2"
     js-sha3 "^0.8.0"
 
 "@ensdomains/web3modal@1.9.4":
@@ -19126,6 +19126,7 @@ store@2.0.12, store@^2.0.12:
   integrity sha1-jFNOKguDH3K3X8XxEZhXxE711ZM=
 
 stream-browserify@^3.0.0, "stream@npm:stream-browserify":
+  name stream
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/stream-browserify/-/stream-browserify-3.0.0.tgz#22b0a2850cdf6503e73085da1fc7b7d0c2122f2f"
   integrity sha512-H73RAHsVBapbim0tU2JwwOiXUj+fikfiaoYAKHF3VJfA0pe2BCzkhAHBlLG6REzE+2WNZcxOXjK7lkso+9euLA==
