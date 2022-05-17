@@ -30,7 +30,7 @@ const useCheckValidity = (_searchTerm, isENSReady) => {
       setErrors([])
 
       if (_searchTerm.split('.').length === 1) {
-        searchTerm = _searchTerm + '.ava'
+        searchTerm = _searchTerm + '.avax'
       } else {
         searchTerm = _searchTerm
       }
@@ -40,7 +40,7 @@ const useCheckValidity = (_searchTerm, isENSReady) => {
         _parsed = validateName(searchTerm)
         setParsed(_parsed)
       }
-      document.title = `ANS Search: ${searchTerm}`
+      document.title = `ANS Search: ${searchTerm.split('.')[0] + '.ava'}`
 
       if (type === 'unsupported') {
         setErrors(['unsupported'])

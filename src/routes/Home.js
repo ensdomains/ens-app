@@ -318,11 +318,13 @@ export default ({ match }) => {
         <NetworkStatus>
           <Network>
             {network == 'unknown'
-              ? `avalanche ${t('c.network')}`
+              ? `fuji ${t('c.network')}`
               : `${network} ${t('c.network')}`}
             {isReadOnly && <ReadOnly>({t('c.readonly')})</ReadOnly>}
             {!isReadOnly && displayName && (
-              <Name data-testid="display-name">({displayName})</Name>
+              <Name data-testid="display-name">
+                ({displayName.split('.')[0] + '.ava'})
+              </Name>
             )}
           </Network>
           {!isSafeApp && (
@@ -370,7 +372,7 @@ export default ({ match }) => {
             marginTop: '-145px'
           }}
         >
-          <strong>AVALANCHE NAME SERVICES</strong>
+          <strong>AVA NAME SERVICES</strong>
         </h2>
       </SearchContainer>
     </Hero>

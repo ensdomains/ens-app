@@ -183,9 +183,12 @@ const Domain = ({
       data-testid={`domain-${domain.name}`}
     >
       <DomainName state={isOwner ? 'Yours' : domain.state}>
-        {humaniseName(domain.name)}
+        {humaniseName(domain.name.split('.')[0] + '.ava')}
       </DomainName>
-      <ExpiryDate expiryDate={expiryDate} name={domain.name} />
+      <ExpiryDate
+        expiryDate={expiryDate}
+        name={domain.name.split('.')[0] + '.ava'}
+      />
       <Label domain={domain} isOwner={isOwner} />
       <RightContainer>
         <AddFavourite

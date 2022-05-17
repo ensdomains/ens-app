@@ -139,11 +139,15 @@ function NetworkInformation() {
             <Blockies address={accounts[0]} imageSize={47} />
           )}
           <Account data-testid="account" className="account">
-            <span>{displayName}</span>
+            <span>
+              {displayName.split('.')[1] === 'avax'
+                ? displayName.split('.')[0] + '.ava'
+                : displayName}
+            </span>
           </Account>
           <NetworkStatus>
             {network == 'unknown'
-              ? `avalanche ${t('c.network')}`
+              ? `fuji ${t('c.network')}`
               : `${network} ${t('c.network')}`}
           </NetworkStatus>
           {!isSafeApp && (
@@ -161,7 +165,7 @@ function NetworkInformation() {
           </Account>
           <NetworkStatus>
             {network == 'unknown'
-              ? `avalanche ${t('c.network')}`
+              ? `fuji ${t('c.network')}`
               : `${network} ${t('c.network')}`}
           </NetworkStatus>
           <NoAccountsModal
