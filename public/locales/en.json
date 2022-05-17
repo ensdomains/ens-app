@@ -189,7 +189,7 @@
     "notify": "Notify me",
     "premium": {
       "dateDescription": "Date and time shown in local time zone",
-      "invalid": "Any number over 2k is invalid",
+      "invalid": "Any number over 100m is invalid",
       "title": "Premium"
     },
     "premiumWarning": {
@@ -372,6 +372,16 @@
       "content": "This name contains non-ASCII characters. Please be aware that there are characters that look identical or very similar to English letters, especially characters from Cyrillic and Greek. Also, traditional Chinese characters can look identical or very similar to simplified variants. For more information, please see this",
       "link": "Wikipedia article",
       "title": "ATTENTION"
+    }
+  },
+  "banners": {
+    "undelegatedTokens": {
+      "title": "Your ENS Tokens are undelegated",
+      "description": "Participate more actively in ENS governance by delegating your voting rights to a community member"
+    },
+    "constitution": {
+      "title": "ENS constitution book now available",
+      "description": "A printed copy of the ENS constitution and its signers is now available in hardcover and ultra-limited edition of 50"
     }
   }
 }

@@ -290,6 +290,15 @@ export const GET_RENT_PRICE = gql`
   }
 `
 
+export const GET_RENT_PRICE_AND_PREMIUM = gql`
+  query getRentPriceAndPremium(
+    $name: String
+    $expires: Number
+    $duration: Number
+  ) {
+    getRentPriceAndPremium(name: $name, expires: $expires, duration: $duration)
+  }
+`
 export const GET_RENT_PRICES = gql`
   query getRentPrices($labels: String, $duration: Number) {
     getRentPrices(labels: $labels, duration: $duration)

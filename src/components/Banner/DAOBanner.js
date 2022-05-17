@@ -1,31 +1,43 @@
 import { gql, useQuery } from '@apollo/client'
 import styled from '@emotion/styled/macro'
-import { motion } from 'framer-motion'
 import mq from 'mediaQuery'
+import { useTranslation } from 'react-i18next'
 import Arrow from './images/Arrow.svg'
 import ENSIcon from './images/ENSIcon.svg'
 
-const LogoSmall = styled(motion.img)`
+const SHOULD_DELEGATE_QUERY = gql`
+  query shouldDelegateQuery @client {
+    shouldDelegate
+  }
+`
+
+const LogoSmall = styled.img`
   width: 48px;
   height: 48px;
   padding: 10px;
   border-radius: 50%;
   margin: auto;
   display: block;
+  box-shadow: 0px 4px 26px rgba(0, 0, 0, 0.06);
   background: linear-gradient(
     330.4deg,
     #44bcf0 4.54%,
     #7298f8 59.2%,
     #a099ff 148.85%
   );
-  box-shadow: 0px 4px 26px rgba(0, 0, 0, 0.06);
+
+  ${({ $daoGradient }) =>
+    $daoGradient &&
+    `
+    background: linear-gradient(323.31deg, #DE82FF -15.56%, #7F6AFF 108.43%);
+  `}
 `
 
 const Link = styled(`a`)`
   display: block;
 `
 
-const ArrowSmall = styled(motion.img)`
+const ArrowSmall = styled.img`
   margin: auto;
   display: block;
   width: 22px;
@@ -102,13 +114,8 @@ export const NonMainPageBannerContainerWithMarginBottom = styled(
   margin-bottom: 20px;
 `
 
-const SHOULD_DELEGATE_QUERY = gql`
-  query shouldDelegateQuery @client {
-    shouldDelegate
-  }
-`
-
 export function DAOBannerContent() {
+  const { t } = useTranslation()
   const {
     data: { shouldDelegate }
   } = useQuery(SHOULD_DELEGATE_QUERY)
@@ -120,20 +127,20 @@ export function DAOBannerContent() {
       href={
         shouldDelegate
           ? 'https://claim.ens.domains/delegate-ranking'
-          : 'https://ens.mirror.xyz/5cGl-Y37aTxtokdWk21qlULmE1aSM_NuX9fstbOPoWU'
+          : 'https://constitution.ens.domains/'
       }
     >
-      <LogoSmall src={ENSIcon} alt="ENS logo" />
+      <LogoSmall $daoGradient={!shouldDelegate} src={ENSIcon} alt="ENS logo" />
       <BannerContentWrapper>
         <BannerTitle>
           {shouldDelegate
-            ? 'Your ENS Tokens are undelegated'
-            : '$ENS Now Available for Claiming'}
+            ? t('banners.undelegatedTokens.title')
+            : t('banners.constitution.title')}
         </BannerTitle>
         <BannerContent>
           {shouldDelegate
-            ? `Participate more actively in ENS governance by delegating your voting rights to a community member`
-            : 'If you owned an ENS name before October 31st 2021, you can claim $ENS and participate in ENS governance.'}
+            ? t('banners.undelegatedTokens.description')
+            : t('banners.constitution.description')}
         </BannerContent>
       </BannerContentWrapper>
       <ArrowSmall src={Arrow} alt="Arrow right icon" />

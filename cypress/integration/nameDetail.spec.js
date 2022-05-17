@@ -38,6 +38,11 @@ function refreshAndCheckText(url, textOrArrayOfText) {
 }
 
 describe('Name detail view', () => {
+  it('should redirect if searchTerm and normalized name does not match', () => {
+    cy.visit(`${NAME_ROOT}/%E2%80%8Btest.eth`)
+    cy.wait(10000)
+    cy.url().should('match', /\/test\.eth\/?/)
+  })
   it('can see list of top level domains from [root]', () => {
     cy.visit(`${NAME_ROOT}/[root]/subdomains`)
     cy.queryByTestId('eth', { timeout: 30000 }).should('exist')

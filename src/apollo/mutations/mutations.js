@@ -7,8 +7,10 @@ import {
   isRunningAsSafeAppReactive,
   favouritesReactive,
   subDomainFavouritesReactive,
-  web3ProviderReactive
+  web3ProviderReactive,
+  delegatesReactive
 } from '../reactiveVars'
+import getShouldDelegate from '../../api/delegate'
 import { getAccounts, getNetwork, getNetworkId } from '@ensdomains/ui'
 import { disconnect, connect } from '../../api/web3modal'
 import { getReverseRecord } from '../sideEffects'

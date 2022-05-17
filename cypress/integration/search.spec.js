@@ -83,5 +83,23 @@ describe(
       cy.queryByText('Names', { exact: false }).should('exist')
       cy.queryByText('notldispsecified.eth', { exact: false }).should('exist')
     })
+
+    it('should uri encode search term', () => {
+      cy.visit(ROOT)
+      cy.getByPlaceholderText('Search', { exact: false }).type(
+        '%E2%80%8Btest.eth'
+      )
+      cy.wait(10000)
+      cy.get('button')
+        .contains('Search')
+        .click({ force: true })
+      cy.wait(10000)
+      cy.queryByText(
+        'Domain malformed. %e2%80%8btest.eth is not a valid domain.',
+        {
+          exact: false
+        }
+      ).should('exist')
+    })
   }
 )

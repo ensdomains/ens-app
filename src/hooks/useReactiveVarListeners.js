@@ -9,7 +9,7 @@ import {
 import { usePrevious } from '../utils/utils'
 import getClient from '../apollo/apolloClient'
 import { getReverseRecord } from '../apollo/sideEffects'
-import getShouldDelegate from 'api/delegate'
+import getShouldDelegate from '../api/delegate'
 
 const REACT_VAR_LISTENERS = gql`
   query reactiveVarListeners @client {
