@@ -47,7 +47,8 @@ const ResolverWrapper = styled('div')`
 `
 
 function hasAResolver(resolver) {
-  return parseInt(resolver, 16) !== 0
+  const addrNumber = parseInt(resolver, 16)
+  return !isNaN(addrNumber) && addrNumber !== 0
 }
 
 export default function ResolverAndRecords({
