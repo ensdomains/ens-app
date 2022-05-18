@@ -110,8 +110,7 @@ export default function LineGraph({
   }
   useEffect(() => {
     const ctx = chartRef.current.getContext('2d')
-    Chart.defaults.global.tooltips.yAlign = 'top'
-    Chart.defaults.global.tooltips.xAlign = 'center'
+    Chart.defaults.global.tooltips.yAlign = 'bottom'
     let _chart = new Chart(ctx, {
       type: 'line',
       data: {
@@ -189,7 +188,7 @@ export default function LineGraph({
           ],
           yAxes: [
             {
-              ticks: { display: false, max: chartstartPremium * 1.1 },
+              ticks: { display: false, max: chartstartPremium * 1.5 },
               gridLines: {
                 display: false,
                 drawBorder: false
@@ -198,7 +197,7 @@ export default function LineGraph({
           ]
         },
         layout: {
-          padding: {}
+          padding: { bottom: 5, top: 5 }
         }
       }
     })

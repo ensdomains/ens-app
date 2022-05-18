@@ -43,6 +43,7 @@ export const isSupportedNetwork = networkId => {
     case 4:
     case 5:
     case 1337:
+    case 31337:
       return true
     default:
       return false
@@ -125,7 +126,7 @@ export const setWeb3Provider = async provider => {
   const accounts = await getAccounts()
 
   if (provider) {
-    provider.removeAllListeners()
+    if (provider.removeAllListeners) provider.removeAllListeners()
     accountsReactive(accounts)
   }
 

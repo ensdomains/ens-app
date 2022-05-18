@@ -38,6 +38,11 @@ function refreshAndCheckText(url, textOrArrayOfText) {
 }
 
 describe('Name detail view', () => {
+  it('should redirect if searchTerm and normalized name does not match', () => {
+    cy.visit(`${NAME_ROOT}/%E2%80%8Btest.eth`)
+    cy.wait(10000)
+    cy.url().should('match', /\/test\.eth\/?/)
+  })
   it('can see list of top level domains from [root]', () => {
     cy.visit(`${NAME_ROOT}/[root]/subdomains`)
     cy.queryByTestId('eth', { timeout: 30000 }).should('exist')
@@ -326,27 +331,32 @@ describe('Name detail view', () => {
       cy.wait(2000)
       // Address
       cy.getByTestId('ETH-record-input')
+        .wait(2000)
         .clear({ force: true })
         .type(ADDRESS, { force: true })
         .wait(500)
         // Content
         .getByTestId('content-record-input')
         .clear({ force: true })
+        .wait(500)
         .type(CONTENT, { force: true })
         .wait(500)
         // // Text
         .getByTestId('notice-record-input')
         .clear({ force: true })
+        .wait(500)
         .type(TEXT, { force: true })
         .wait(500)
         // Other Text
         .getByTestId('com.twitter-record-input')
         .clear({ force: true })
+        .wait(500)
         .type(OTHER_TEXT, { force: true })
         .wait(500)
         // Other Address
         .getByTestId('LTC-record-input', { timeout: 10000 })
         .clear({ force: true })
+        .wait(500)
         .type(OTHER_ADDRESS, { force: true })
         .wait(500)
     })

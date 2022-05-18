@@ -121,6 +121,7 @@ describe('Name Wrapper Tests', () => {
   })
 
   describe('page with unwrapped subdomain of wrapped domain', () => {
+    // Tracked at https://github.com/ensdomains/ens-app/issues/1500
     it('should have details in normal mode', () => {
       cy.visit(`${NAME_ROOT}/unwrapped.wrappedname.eth/details`, {
         timeout: 10000
