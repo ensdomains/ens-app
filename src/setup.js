@@ -126,7 +126,7 @@ export const setWeb3Provider = async provider => {
   const accounts = await getAccounts()
 
   if (provider) {
-    provider.removeAllListeners()
+    if (provider.removeAllListeners) provider.removeAllListeners()
     accountsReactive(accounts)
   }
 
