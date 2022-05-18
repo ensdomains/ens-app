@@ -121,26 +121,27 @@ describe('Name Wrapper Tests', () => {
   })
 
   describe('page with unwrapped subdomain of wrapped domain', () => {
-    it('should have details in normal mode', () => {
-      cy.visit(`${NAME_ROOT}/unwrapped.wrappedname.eth/details`, {
-        timeout: 10000
-      })
-      cy.wait(3000)
+    // Tracked at https://github.com/ensdomains/ens-app/issues/1500
+    //   it('should have details in normal mode', () => {
+    //     cy.visit(`${NAME_ROOT}/unwrapped.wrappedname.eth/details`, {
+    //       timeout: 10000
+    //     })
+    //     cy.wait(10000)
 
-      cy.waitUntilTestIdDoesNotExist('edit-registrant')
+    //     cy.waitUntilTestIdDoesNotExist('edit-registrant')
 
-      cy.getByTestId('edit-controller').should(
-        'have.css',
-        'background-color',
-        'rgb(83, 132, 254)'
-      )
-      cy.getByTestId('edit-resolver').should(
-        'have.css',
-        'background-color',
-        'rgb(83, 132, 254)'
-      )
-      cy.contains('Add/Edit Record').should('not.exist')
-    })
+    //     cy.getByTestId('edit-controller').should(
+    //       'have.css',
+    //       'background-color',
+    //       'rgb(83, 132, 254)'
+    //     )
+    //     cy.getByTestId('edit-resolver').should(
+    //       'have.css',
+    //       'background-color',
+    //       'rgb(83, 132, 254)'
+    //     )
+    //     cy.contains('Add/Edit Record').should('not.exist')
+    //   })
 
     it('should display upgrade name wrapper banner', () => {
       cy.visit(`${NAME_ROOT}/unwrapped.wrappedname.eth/details`, {

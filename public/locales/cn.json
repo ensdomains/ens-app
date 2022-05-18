@@ -345,7 +345,8 @@
     },
     "subdomains": {
       "add": "添加子域名",
-      "nosubdomains": "暂未分配子域名"
+      "nosubdomains": "暂未分配子域名",
+      "wildcard": "This domain may have other subdomains that cannot be shown as they are off chain"
     },
     "tabs": {
       "details": "详情",
