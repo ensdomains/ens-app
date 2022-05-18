@@ -63,6 +63,12 @@ const FormActions = styled('div')`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  gap: 15px;
+  width: 100%;
+
+  ${mq.small`
+    gap: 0px;
+  `}
 `
 
 const buttonStyles = `
@@ -73,9 +79,21 @@ const SubActionWrapper = styled('div')`
   display: flex;
   gap: 15px;
   flex-wrap: wrap;
+  width: 100%;
+
+  ${mq.small`
+    width: fit-content;
+  `}
 `
 
-const CancelComponent = styled(Button)`
+const ResponsiveButton = styled(Button)`
+  width: 100%;
+  ${mq.small`
+    width: auto;
+    `}
+`
+
+const CancelComponent = styled(ResponsiveButton)`
   ${getButtonDefaultStyles()}
   ${getButtonStyles({ type: 'hollow' })}
   ${buttonStyles}
@@ -89,7 +107,7 @@ const EPNSNotificationModal = ({ address, onCancel }) => {
   const [isChannelSubscribed, setIsChannelSubscribed] = useState()
   const [isLoading, setIsLoading] = useState()
   const [isError, setError] = useState()
-  const [networkSupported, setNetworkSupported] = useState() // epns api don't support ropsten
+  const [networkSupported, setNetworkSupported] = useState() // epns api only support kovan
   const [isModalOpen, setIsModalOpen] = useState()
 
   const disableButton = !networkSupported
@@ -143,7 +161,6 @@ const EPNSNotificationModal = ({ address, onCancel }) => {
   const toggleModal = () => {
     setIsModalOpen(value => !value)
   }
-
   // fetch and update of a user is already subscribed to the ens channel
   async function fetchAndUpdateSubscription() {
     try {
@@ -194,29 +211,29 @@ const EPNSNotificationModal = ({ address, onCancel }) => {
       <FormActions>
         <CancelComponent onClick={onCancel}>{t('c.cancel')}</CancelComponent>
         <SubActionWrapper>
-          <Button type="hollow-primary" onClick={toggleModal}>
+          <ResponsiveButton type="hollow-primary" onClick={toggleModal}>
             {t('epns.modal.platforms')}
-          </Button>
+          </ResponsiveButton>
           {!networkSupported ? (
             <NetworkSwitch>{t('epns.modal.switchNetwork')}</NetworkSwitch>
           ) : isLoading ? (
             <LoadingComponent />
           ) : isChannelSubscribed ? (
-            <Button
+            <ResponsiveButton
               onClick={toggleSubscription}
               type={buttonType}
               disabled={disableButton}
             >
               {t('epns.modal.optOutButton')}
-            </Button>
+            </ResponsiveButton>
           ) : (
-            <Button
+            <ResponsiveButton
               onClick={toggleSubscription}
               type={buttonType}
               disabled={disableButton}
             >
               {t('epns.modal.optInButton')}
-            </Button>
+            </ResponsiveButton>
           )}
         </SubActionWrapper>
       </FormActions>
