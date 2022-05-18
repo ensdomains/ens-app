@@ -10,7 +10,7 @@
     "@emotion/core": "^10.0.9",
     "@emotion/styled": "^10.0.9",
     "@ensdomains/address-encoder": "^0.2.17",
-    "@ensdomains/ens-avatar": "^0.1.4",
+    "@ensdomains/ens-avatar": "^0.1.5",
     "@ensdomains/ens-validation": "^0.1.0",
     "@ensdomains/eth-ens-namehash": "^2.0.15",
     "@ensdomains/mock": "^2.1.51",
