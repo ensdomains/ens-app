@@ -15,7 +15,8 @@ import OnSubscribedModal from './EPNSOnSubscribeModal'
 import NetworkSwitch from './SwitchNetwork'
 
 const LoadingComponent = styled(Loader)`
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   margin: 0 10px;
   vertical-align: middle;
 `
@@ -91,7 +92,7 @@ const EPNSNotificationModal = ({ address, onCancel }) => {
   const [networkSupported, setNetworkSupported] = useState() // epns api don't support ropsten
   const [isModalOpen, setIsModalOpen] = useState()
 
-  const disableButton = !networkSupported || isError
+  const disableButton = !networkSupported
   const buttonType = disableButton ? 'disabled' : 'primary'
 
   const handleSubmit = e => {
