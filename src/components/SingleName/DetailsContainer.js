@@ -235,7 +235,9 @@ function DetailsContainer({
         <DetailsItem uneditable>
           <DetailsKey>{t('c.parent')}</DetailsKey>
           <DetailsValue>
-            <Link to={`/name/${domainParent}`}>{domainParent}</Link>
+            <Link to={`/name/${domainParent}`}>
+              {domainParent.split('x')[0]}
+            </Link>
           </DetailsValue>
         </DetailsItem>
       ) : (

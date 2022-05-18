@@ -181,7 +181,7 @@ function AddReverseRecord({ account, currentAddress }) {
       domains
         .map(domain => {
           if (checkIsDecrypted(domain?.name)) {
-            return domain?.name
+            return domain?.name.split('.')[0] + '.ava'
           } else {
             let decrypted = decryptName(domain?.name)
             // Ignore if label is not found
@@ -214,7 +214,9 @@ function AddReverseRecord({ account, currentAddress }) {
           {hasValidReverseRecord(getReverseRecord) ? (
             <MessageContent data-testid="editable-reverse-record-set">
               <Check />
-              {t('singleName.record.messages.setTo') + getReverseRecord.name}
+              {t('singleName.record.messages.setTo') +
+                getReverseRecord.name.split('.')[0] +
+                '.ava'}
             </MessageContent>
           ) : (
             <EditableNotSet data-testid="editable-reverse-record-not-set">

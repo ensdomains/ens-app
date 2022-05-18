@@ -2,7 +2,7 @@
   "name": "ans-app",
   "version": "1.1.9",
   "private": true,
-  "homepage": "https://app.ans.domains",
+  "homepage": "https://ans.surge.sh",
   "dependencies": {
     "@0xproject/utils": "^0.7.3",
     "@apollo/client": "^3.4.4",
@@ -97,7 +97,7 @@
     "cypress:ci:ipfs": "/bin/sh -c 'if [ \"$TRAVIS_PULL_REQUEST\" = \"true\" ]; then yarn cypress:run:ipfs; else yarn cypress:run:ipfs; fi'",
     "cypress:e2e": "./test.js",
     "deploy:dev": "npm run build && npm run postbuild && surge build ansappdev.surge.sh",
-    "deploy": "npm run build && npm run postbuild && surge build --domain app.avaxns.domains",
+    "deploy": "npm run build && npm run postbuild && surge build --domain ans.surge.sh",
     "i18n": "sync-i18n --files 'public/locales/*.json' --primary en --languages cn --space 2",
     "check-i18n": "npm run i18n -- --check",
     "analyze": "source-map-explorer 'build/static/js/*.js'",

@@ -96,15 +96,15 @@ export default function ChildDomainItem({
   return (
     <DomainLink
       showBlockies={showBlockies}
-      data-testid={`${name}`}
+      data-testid={`${name.split('x')[0]}`}
       warning={isMigrated === false ? true : false}
-      key={name}
+      key={name.split('.')[0] + '.ava'}
       to={`/name/${name}`}
     >
       {showBlockies && smallBP && (
         <SingleNameBlockies imageSize={24} address={owner} />
       )}
-      <h3>{label}</h3>
+      <h3>{label.split('x')[0]}</h3>
       {canDeleteSubdomain ? (
         pending && !confirmed ? (
           <PendingTx
