@@ -165,10 +165,10 @@ const Modal = styled.div`
     width: max(70vw, 350px);
     padding: 2em;
     .modal__content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 10px !important;
     }
   }
 `

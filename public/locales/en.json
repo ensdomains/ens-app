@@ -386,11 +386,10 @@
   "epns": {
     "link": "Wallet Notif (EPNS)",
     "modal": {
-      "header": "Subscribe to Notifications from ENS!",
-      "subheader": "Opt-in to the ENS channel on EPNS to get notified when your domain is near expiry.",
+      "subheader": "You can choose to opt-in or opt-out of ENS channel on EPNS to get notified when your domain is near expiry.",
       "optInButton": "OPT-IN",
       "optOutButton": "OPT-OUT",
-      "platforms": "Notification Platforms",
+      "platforms": "View Supported Platforms",
       "alreadyOpted": "You are Opted-In!",
       "apiError": "Mayday! Mayday! Can the devs do something? They have been notified, please try again a little later!",
       "unsupportedNetwork": "Wallet notifications are only supported on the Main net!",

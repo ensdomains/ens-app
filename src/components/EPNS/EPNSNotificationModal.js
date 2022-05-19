@@ -196,10 +196,6 @@ const EPNSNotificationModal = ({ address, onCancel }) => {
 
   return (
     <FormComponent onSubmit={handleSubmit}>
-      <FormLabel htmlFor="epns">
-        <Header>{t('epns.modal.header')}</Header>
-      </FormLabel>
-
       <FormContent>
         <FormText>{t('epns.modal.subheader')}</FormText>
         {!networkSupported ? (
