@@ -342,7 +342,9 @@ export default ({ match }) => {
         </NetworkStatus>
         <Nav>
           {/* EPNS embed feature */}
-          {accounts?.length > 0 && <EPNSBellIcon id={epnsTriggerId} />}
+          {accounts?.length > 0 && !isReadOnly && (
+            <EPNSBellIcon id={epnsTriggerId} />
+          )}
 
           {accounts?.length > 0 && !isReadOnly && (
             <NavLink
