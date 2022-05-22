@@ -164,7 +164,7 @@ const GracePeriodWarning = ({ date, expiryTime }) => {
       <Expiration isExpired={isExpired}>
         {isExpired
           ? t('singleName.expiry.expired')
-          : t('singleName.expiry.expiringSoon')}
+          : t('singleName.expiry.expiring')}
       </Expiration>
       <GracePeriodText isExpired={isExpired}>
         {t('singleName.expiry.gracePeriodEnds')}{' '}

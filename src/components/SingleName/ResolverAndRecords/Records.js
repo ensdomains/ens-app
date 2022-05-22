@@ -12,6 +12,7 @@ import { ADD_MULTI_RECORDS } from '../../../graphql/mutations'
 import COIN_LIST from 'constants/coinList'
 import PendingTx from '../../PendingTx'
 import { formatsByCoinType } from '@ensdomains/address-encoder'
+import union from 'lodash/union'
 
 import {
   GET_ADDRESSES,
@@ -127,7 +128,6 @@ const useGetRecords = domain => {
       id: getNamehash(domain.name)
     }
   })
-
   const resolver =
     dataResolver && dataResolver.domain && dataResolver.domain.resolver
 
@@ -143,24 +143,23 @@ const useGetRecords = domain => {
   const { loading: addressesLoading, data: dataAddresses } = useQuery(
     GET_ADDRESSES,
     {
-      variables: { name: domain.name, keys: coinList },
-      skip: !coinList,
+      variables: {
+        name: domain.name,
+        keys: union(coinList, COIN_PLACEHOLDER_RECORDS)
+      },
       fetchPolicy: 'network-only'
     }
   )
-
   const { loading: textRecordsLoading, data: dataTextRecords } = useQuery(
     GET_TEXT_RECORDS,
     {
       variables: {
         name: domain.name,
-        keys: resolver && resolver.texts
+        keys: union(resolver && resolver.texts, TEXT_PLACEHOLDER_RECORDS)
       },
-      skip: !dataResolver,
       fetchPolicy: 'network-only'
     }
   )
-
   return {
     dataAddresses,
     dataTextRecords,

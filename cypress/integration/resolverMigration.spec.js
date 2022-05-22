@@ -42,7 +42,7 @@ describe('Migrate resolver and records', () => {
     cy.queryByText(
       'You can’t edit or add records until you migrate to the new resolver',
       {
-        timeout: 5000,
+        timeout: 15000,
         exact: false
       }
     ).should('exist')

@@ -5,9 +5,7 @@ import {
   getEnsStartBlock as _ensStartBlock,
   getNetworkId,
   isEncodedLabelhash,
-  isLabelValid as _isLabelValid,
-  parseSearchTerm as _parseSearchTerm,
-  validateName as _validateName
+  isLabelValid as _isLabelValid
 } from '@ensdomains/ui'
 import * as jsSHA3 from 'js-sha3'
 import { throttle } from 'lodash'
@@ -16,6 +14,10 @@ import { saveName } from '../api/labels'
 import getENS from '../apollo/mutations/ens'
 import { globalErrorReactive } from '../apollo/reactiveVars'
 import { EMPTY_ADDRESS } from './records'
+import {
+  validateName as _validateName,
+  parseSearchTerm as _parseSearchTerm
+} from './validateName'
 
 // From https://github.com/0xProject/0x-monorepo/blob/development/packages/utils/src/address_utils.ts
 
@@ -203,7 +205,7 @@ export const aboutPageURL = () => {
 }
 
 export function isRecordEmpty(value) {
-  return value === emptyAddress || value === ''
+  return !value || value === emptyAddress || value === ''
 }
 
 export const hasValidReverseRecord = getReverseRecord =>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useQuery } from '@apollo/client'
 import { gql } from '@apollo/client'
+import { validate } from '@ensdomains/ens-validation'
 import { Trans } from 'react-i18next'
 
 import { H2 } from '../components/Typography/Basic'
@@ -46,7 +47,7 @@ const useCheckValidity = (_searchTerm, isENSReady) => {
         setErrors(['unsupported'])
       } else if (type === 'short') {
         setErrors(['tooShort'])
-      } else if (type === 'invalid') {
+      } else if (type === 'invalid' || !validate(searchTerm)) {
         setErrors(['domainMalformed'])
       }
     }

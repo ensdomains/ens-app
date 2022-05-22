@@ -29,7 +29,6 @@ import getENS, { getRegistrar } from 'apollo/mutations/ens'
 import { isENSReadyReactive, namesReactive } from '../../apollo/reactiveVars'
 import getReverseRecord from './getReverseRecord'
 import { isEmptyAddress } from '../../utils/records'
-
 const defaults = {
   names: []
 }
@@ -563,6 +562,10 @@ const resolvers = {
     isMigrated: (_, { name }) => {
       const ens = getENS()
       return ens.isMigrated(name)
+    },
+    wildcardResolverDomain: async (_, { name }) => {
+      const ens = getENS()
+      return ens.supportsWildcard(name)
     },
     isContractController: async (_, { address }) => {
       let provider = await getWeb3()
