@@ -319,7 +319,8 @@ export default ({ match }) => {
   useEPNSEmbed({
     user: accounts?.[0],
     targetID: epnsTriggerId,
-    appName: epnsTriggerAppName
+    appName: epnsTriggerAppName,
+    isReadOnly
   })
 
   return (

@@ -2,9 +2,9 @@ import { useEffect } from 'react'
 /** intend to replace this with npm package */
 import EmbedSDK from '../utils/embedsdk.esm'
 
-export const useEPNSEmbed = ({ user, targetID, appName }) => {
+export const useEPNSEmbed = ({ user, targetID, appName, isReadOnly }) => {
   useEffect(() => {
-    if (user && targetID && appName) {
+    if (user && targetID && appName && !isReadOnly) {
       if (typeof EmbedSDK.init === 'function') {
         EmbedSDK.init({
           targetID: targetID, // MANDATORY
@@ -26,5 +26,5 @@ export const useEPNSEmbed = ({ user, targetID, appName }) => {
         EmbedSDK.cleanup()
       }
     }
-  }, [user, targetID, appName])
+  }, [user, targetID, appName, isReadOnly])
 }
