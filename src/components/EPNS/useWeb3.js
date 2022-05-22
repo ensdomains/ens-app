@@ -4,6 +4,7 @@ import { getSigner, getNetworkId } from '@ensdomains/ui'
 export function useWeb3Data() {
   const [signer, setSigner] = useState(null)
   const [networkId, setNetworkId] = useState(null)
+  const isEpnsSupportedNetwork = [1, 42].includes(networkId)
 
   useEffect(() => {
     async function init() {
@@ -19,6 +20,7 @@ export function useWeb3Data() {
 
   return {
     signer,
-    networkId
+    networkId,
+    isEpnsSupportedNetwork
   }
 }

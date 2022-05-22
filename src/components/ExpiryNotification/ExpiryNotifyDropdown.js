@@ -7,7 +7,7 @@ import EmailNotifyLink from './EmailNotifyLink'
 import Modal from '../Modal/Modal'
 import ExpiryNotificationModal from './ExpiryNotificationModal'
 import { useOnClickOutside } from 'components/hooks'
-import { EPNSLink, EPNSNotificationModal } from '../EPNS'
+import { EPNSLink, EPNSNotificationModal, useWeb3Data } from '../EPNS'
 
 const ExpiryNotifyDropdownContainer = styled('div')`
   position: relative;
@@ -22,6 +22,7 @@ export default function ExpiryNotifyDropdown({ address }) {
   const [showModal, setShowModal] = useState(false)
   const [optionSelected, setOptionSelected] = useState(false)
   const { t } = useTranslation()
+  const { isEpnsSupportedNetwork } = useWeb3Data()
 
   useOnClickOutside([dropdownRef, togglerRef], () => setShowDropdown(false))
 
@@ -61,9 +62,11 @@ export default function ExpiryNotifyDropdown({ address }) {
             {t('c.email')}
           </EmailNotifyLink>
 
-          <EPNSLink key="epns" onClick={handleEPNSNotifyClick}>
-            {t('epns.link')}
-          </EPNSLink>
+          {isEpnsSupportedNetwork && (
+            <EPNSLink key="epns" onClick={handleEPNSNotifyClick}>
+              {t('epns.link')}
+            </EPNSLink>
+          )}
         </Dropdown>
       )}
       {showModal && optionSelected === 'email' && (
@@ -74,7 +77,7 @@ export default function ExpiryNotifyDropdown({ address }) {
         </Modal>
       )}
 
-      {showModal && optionSelected === 'epns' && (
+      {isEpnsSupportedNetwork && showModal && optionSelected === 'epns' && (
         <Modal closeModal={handleCloseModal}>
           <EPNSNotificationModal {...{ address, onCancel: handleCloseModal }} />
         </Modal>

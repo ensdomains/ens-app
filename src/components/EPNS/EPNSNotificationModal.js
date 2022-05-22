@@ -12,20 +12,12 @@ import Loader from '../Loader'
 import { useWeb3Data } from './useWeb3'
 import { selectConfig, isUserSubscribed, optIn, optOut } from './EPNSUtil'
 import OnSubscribedModal from './EPNSOnSubscribeModal'
-import NetworkSwitch from './SwitchNetwork'
 
 const LoadingComponent = styled(Loader)`
   display: inline-flex;
   align-items: center;
   margin: 0 10px;
   vertical-align: middle;
-`
-
-const Header = styled('h3')`
-  font-size: 2rem;
-  font-weight: 700;
-  margin-top: 0;
-  margin-bottom: 0;
 `
 
 const FormComponent = styled('form')`
@@ -210,9 +202,7 @@ const EPNSNotificationModal = ({ address, onCancel }) => {
           <ResponsiveButton type="hollow-primary" onClick={toggleModal}>
             {t('epns.modal.platforms')}
           </ResponsiveButton>
-          {!networkSupported ? (
-            <NetworkSwitch>{t('epns.modal.switchNetwork')}</NetworkSwitch>
-          ) : isLoading ? (
+          {isLoading ? (
             <LoadingComponent />
           ) : isChannelSubscribed ? (
             <ResponsiveButton
