@@ -24,7 +24,7 @@ import NameDetails from './NameDetails'
 const mocks = []
 
 describe('NameDetails', () => {
-  const pathname = '/name/vitalik.eth'
+  const pathnameroot = '/name/vitalik.eth'
   afterEach(() => {
     useQuery.mockClear()
   })
@@ -33,7 +33,7 @@ describe('NameDetails', () => {
       domain: {
         name: 'vitalik.eth'
       },
-      pathname,
+      pathname: pathnameroot,
       tab: 'register'
     }
 
@@ -44,7 +44,7 @@ describe('NameDetails', () => {
       loading: true
     }))
 
-    const context = {}
+    const context = { url: pathnameroot }
     render(
       <StaticRouter location={'/'} context={context}>
         <MockedProvider mocks={mocks} addTypename={false}>
@@ -52,14 +52,14 @@ describe('NameDetails', () => {
         </MockedProvider>
       </StaticRouter>
     )
-    expect(context.url).toEqual(`${pathname}/register`)
+    expect(context.url).toEqual(`${pathnameroot}/register`)
   })
   it('should redirect to /details if tab is not register', () => {
     const mockProps = {
       domain: {
         name: 'vitalik.eth'
       },
-      pathname: pathname + '/',
+      pathname: pathnameroot + '/',
       tab: 'details'
     }
 
@@ -70,7 +70,7 @@ describe('NameDetails', () => {
       loading: true
     }))
 
-    const context = {}
+    const context = { url: pathnameroot }
     render(
       <StaticRouter location={'/'} context={context}>
         <MockedProvider mocks={mocks} addTypename={false}>
@@ -78,14 +78,14 @@ describe('NameDetails', () => {
         </MockedProvider>
       </StaticRouter>
     )
-    expect(context.url).toEqual(`${pathname}/details`)
+    expect(context.url).toEqual(`${pathnameroot}/details`)
   })
-  it('should not redirect to /subdomains if subdomains tab and is not an absolute path', () => {
+  it('should not redirect to /subdomains if already in subdomains', () => {
     const mockProps = {
       domain: {
         name: 'vitalik.eth'
       },
-      pathname: `${pathname}/subdomains`,
+      pathname: `${pathnameroot}/subdomains`,
       tab: 'subdomains'
     }
 
@@ -96,7 +96,7 @@ describe('NameDetails', () => {
       loading: true
     }))
 
-    const context = {}
+    const context = { url: `${pathnameroot}/subdomains` }
     render(
       <StaticRouter location={'/'} context={context}>
         <MockedProvider mocks={mocks} addTypename={false}>
@@ -104,8 +104,7 @@ describe('NameDetails', () => {
         </MockedProvider>
       </StaticRouter>
     )
-    // TODO: Is there better way to test that redirect does not happen?
-    expect(context.url).toEqual(undefined)
+    expect(context.url).toEqual(`${pathnameroot}/subdomains`)
   })
   it('should pass isMigrated loading state to DetailsContainer', () => {
     const mockProps = {
