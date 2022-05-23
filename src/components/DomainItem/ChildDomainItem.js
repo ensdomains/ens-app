@@ -67,6 +67,8 @@ const DomainLink = styled(Link)`
   ${p =>
     p.isInvalid &&
     `
+    pointer-events: none;
+
     h3 {
       margin-top: 35px;
     }
