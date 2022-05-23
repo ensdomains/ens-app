@@ -54,6 +54,7 @@ describe('NameDetails', () => {
     )
     expect(context.url).toEqual(`${pathnameroot}/register`)
   })
+
   it('should redirect to /details if tab is not register', () => {
     const mockProps = {
       domain: {
@@ -80,32 +81,37 @@ describe('NameDetails', () => {
     )
     expect(context.url).toEqual(`${pathnameroot}/details`)
   })
-  it('should not redirect to /subdomains if already in subdomains', () => {
-    const mockProps = {
-      domain: {
-        name: 'vitalik.eth'
-      },
-      pathname: `${pathnameroot}/subdomains`,
-      tab: 'subdomains'
-    }
+  const array = ['register', 'details', 'subdomains']
+  for (let index = 0; index < array.length; index++) {
+    const tab = array[index]
+    it(`should not redirect to /${tab} if already in ${tab}`, () => {
+      const mockProps = {
+        domain: {
+          name: 'vitalik.eth'
+        },
+        pathname: `${pathnameroot}/${tab}`,
+        tab
+      }
 
-    useQuery.mockImplementation(() => ({
-      data: {
-        isMigrated: true
-      },
-      loading: true
-    }))
+      useQuery.mockImplementation(() => ({
+        data: {
+          isMigrated: true
+        },
+        loading: true
+      }))
 
-    const context = { url: `${pathnameroot}/subdomains` }
-    render(
-      <StaticRouter location={'/'} context={context}>
-        <MockedProvider mocks={mocks} addTypename={false}>
-          <NameDetails {...mockProps} />
-        </MockedProvider>
-      </StaticRouter>
-    )
-    expect(context.url).toEqual(`${pathnameroot}/subdomains`)
-  })
+      const context = { url: `${pathnameroot}/${tab}` }
+      render(
+        <StaticRouter location={'/'} context={context}>
+          <MockedProvider mocks={mocks} addTypename={false}>
+            <NameDetails {...mockProps} />
+          </MockedProvider>
+        </StaticRouter>
+      )
+      expect(context.url).toEqual(`${pathnameroot}/${tab}`)
+    })
+  }
+
   it('should pass isMigrated loading state to DetailsContainer', () => {
     const mockProps = {
       domain: {
