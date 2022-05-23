@@ -316,11 +316,12 @@ export default ({ match }) => {
     variables: { address: accounts?.[0] }
   })
 
-  useEPNSEmbed({
+  const { isEpnsSupportedNetwork } = useEPNSEmbed({
     user: accounts?.[0],
     targetID: epnsTriggerId,
     appName: epnsTriggerAppName,
-    isReadOnly
+    isReadOnly,
+    network
   })
 
   return (
@@ -343,7 +344,7 @@ export default ({ match }) => {
         </NetworkStatus>
         <Nav>
           {/* EPNS embed feature */}
-          {accounts?.length > 0 && !isReadOnly && (
+          {isEpnsSupportedNetwork && accounts?.length > 0 && !isReadOnly && (
             <EPNSBellIcon id={epnsTriggerId} />
           )}
 

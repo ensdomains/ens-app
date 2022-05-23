@@ -79,6 +79,10 @@ describe('Home', () => {
       expect(data.user).toEqual(account)
       expect(data.targetID).toEqual(epnsTriggerId)
       expect(data.appName).toEqual(epnsTriggerAppName)
+
+      return {
+        isEpnsSupportedNetwork: true
+      }
     })
 
     SearchDefault.mockImplementation(() => <div />)

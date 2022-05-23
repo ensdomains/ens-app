@@ -24,7 +24,8 @@ describe('useEPNSEmbed', () => {
     const initOptions = {
       user: '0xaddress1',
       targetID: 'trigger-id',
-      appName: 'ens'
+      appName: 'ens',
+      network: 'Main'
     }
 
     const { rerender } = renderHook(() => useEPNSEmbed(initOptions))
