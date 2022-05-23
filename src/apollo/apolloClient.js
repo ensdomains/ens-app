@@ -7,14 +7,13 @@ import {
   concat
 } from '@apollo/client'
 import Observable from 'zen-observable'
-import { visit, parse, isTypeSystemDefinitionNode } from 'graphql'
+import { visit } from 'graphql'
 import traverse from 'traverse'
 import namehash from '@ensdomains/eth-ens-namehash'
 
 import resolvers from '../api/rootResolver'
 import typePolicies from './typePolicies'
 import { networkIdReactive } from './reactiveVars'
-import { undefinedVarMessage } from 'graphql/validation/rules/NoUndefinedVariables'
 
 let client
 
@@ -73,7 +72,7 @@ const generateSelection = selection => ({
   selectionSet: undefined
 })
 
-const enter = node => {
+export const enter = node => {
   // @return
   //   undefined: no action
   //   false: skip visiting this node
@@ -97,7 +96,7 @@ const enter = node => {
   }
 }
 
-const updateResponse = response => {
+export const updateResponse = response => {
   traverse(response).forEach(function(responseItem) {
     if (responseItem instanceof Object && responseItem.id) {
       const hashedName = namehash.hash(responseItem.name)
