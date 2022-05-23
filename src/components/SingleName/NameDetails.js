@@ -62,19 +62,12 @@ function NameDetails({
   }
   const showExplainer = !parseInt(domain.resolver)
   const outOfSync = dnssecmode && dnssecmode.outOfSync
-  const isAnAbsolutePath = pathname.split('/').length > 3
-
-  if (domain.parent === 'eth' && tab === 'register' && !isAnAbsolutePath) {
-    return <Redirect to={`${pathname}/register`} />
-  } else if (
-    domain.parent === 'eth' &&
-    tab === 'details' &&
-    !isAnAbsolutePath
-  ) {
-    return <Redirect to={`${pathname}/details`} />
-  } else if (domain.parent !== 'eth' && !isAnAbsolutePath) {
-    //subdomain or dns
-    return <Redirect to={`${pathname}/subdomains`} />
+  const pathnamewithoutslash = pathname.replace(/\/$/, '')
+  const needRedirect = !pathnamewithoutslash.match(
+    '/register$|/details$|/subdomains$'
+  )
+  if (needRedirect) {
+    return <Redirect to={`${pathnamewithoutslash}/${tab}`} />
   }
 
   return (
