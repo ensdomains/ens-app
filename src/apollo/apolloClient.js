@@ -84,11 +84,6 @@ export const enter = node => {
     const id = node.selections.find(x => x.name && x.name.value === 'id')
     const name = node.selections.find(x => x.name && x.name.value === 'name')
 
-    if (id && !name) {
-      node.selections = [...node.selections, generateSelection('name')]
-      return node
-    }
-
     if (!id && name) {
       node.selections = [...node.selections, generateSelection('id')]
       return node
@@ -98,7 +93,12 @@ export const enter = node => {
 
 export const updateResponse = response => {
   traverse(response).forEach(function(responseItem) {
-    if (responseItem instanceof Object && responseItem.id) {
+    if (responseItem instanceof Object && responseItem.name) {
+      //Name already in hashed form
+      if (responseItem.name && responseItem.name.includes('[')) {
+        return
+      }
+
       const hashedName = namehash.hash(responseItem.name)
       if (responseItem.id !== hashedName) {
         this.update({ ...responseItem, name: hashedName, invalidName: true })
@@ -140,6 +140,7 @@ export function setupClient() {
       return resolvers.Query[operationName] || resolvers.Mutation[operationName]
     },
     web3Link,
+    // httpLink
     concat(namehashCheckLink, httpLink)
   )
 

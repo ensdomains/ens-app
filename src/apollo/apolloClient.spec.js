@@ -37,39 +37,6 @@ describe('namehashCheckLink', () => {
         'id'
       )
     })
-    it('should add name to a SelectionSet if id is present and name is not', () => {
-      const graphqlAst = [
-        {
-          kind: 'OperationDefinition',
-          operation: 'query',
-          name: {
-            kind: 'Name',
-            value: 'getRegistrations'
-          },
-          variableDefinitions: [],
-          directives: [],
-          selectionSet: {
-            kind: 'SelectionSet',
-            selections: [
-              {
-                kind: 'Field',
-                name: {
-                  kind: 'Name',
-                  value: 'id'
-                },
-                arguments: [],
-                directives: []
-              }
-            ]
-          }
-        }
-      ]
-
-      const updatedQuery = visit(graphqlAst, { enter })
-      expect(updatedQuery[0].selectionSet.selections[1].name.value).toEqual(
-        'name'
-      )
-    })
   })
 
   describe('updateResponse', () => {
