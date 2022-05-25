@@ -32,22 +32,18 @@ jobs:
       before_script:
         - sudo service postgresql stop
         - sudo apt-get install libsecret-1-dev
-        - ganache-cli -h 0.0.0.0 -b 1 >ganache.log 2>&1 &
+        - ganache-cli -h 0.0.0.0 >ganache.log 2>&1 &
         - sleep 5
         - cd ../ && git clone https://github.com/ensdomains/ens-subgraph.git
         - cd ens-subgraph && yarn && cd ../
-        - git clone https://github.com/graphprotocol/graph-node
-        - pwd
-        - cd ens-app && ./scripts/graph-node.js && cd ../
-        - ls graph-node/docker
-        - cd graph-node/docker && ./setup.sh
+        - cd ens-app
+        - ./scripts/graph-setup.sh
         - rm -rf data
         - docker-compose up 2>&1 > ~/docker-compose.log &
         - DOCKER_PATH=`pwd`
         - ls ~/docker-compose.log
         - sleep 120
-        - cd ../../
-        - cd ens-app && yarn preTest && yarn subgraph && cd ../
+        - yarn preTest && yarn subgraph && cd ../
         - pwd
         - ls -ltr ~
         - cd ens-subgraph && (yarn setup || cat ~/docker-compose.log ) && cd ../

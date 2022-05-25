@@ -111,6 +111,7 @@ export const updateResponse = response => {
 const namehashCheckLink = new ApolloLink((operation, forward) => {
   const updatedQuery = visit(operation.query, { enter })
   operation.query = updatedQuery
+  // return forward(operation)
   return forward(operation).map(updateResponse)
 })
 
@@ -140,8 +141,8 @@ export function setupClient() {
       return resolvers.Query[operationName] || resolvers.Mutation[operationName]
     },
     web3Link,
-    // httpLink
-    concat(namehashCheckLink, httpLink)
+    httpLink
+    // concat(namehashCheckLink, httpLink)
   )
 
   const option = {
