@@ -23,12 +23,12 @@ const start = async () => {
   addErrorLogs(ganache)
 
   const rmdata = spawnSync('rm', ['-rf', 'data'], {
-    cwd: '../graph-node/docker'
+    cwd: '.'
   })
   console.log(rmdata.stderr.toString('utf8'), rmdata.error)
 
   const docker = spawn('docker-compose', ['up'], {
-    cwd: '../graph-node/docker'
+    cwd: '.'
   })
   addErrorLogs(docker)
 

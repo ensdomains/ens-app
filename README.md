@@ -191,29 +191,22 @@ In case you haven't already:
 
 - `git clone https://github.com/ensdomains/ens-app.git`
 - `git clone https://github.com/ensdomains/ens-subgraph`
-- `git clone https://github.com/graphprotocol/graph-node`
 
 You need to make sure these are all cloned into the same parent folder.
 
 Next in the ens-app folder run the following (will need multiple terminals open):
 
 ```
-yarn graph-node
 npx ganache-cli -b 1
 ```
 
 Install Docker: https://www.docker.com/get-started
 
-Next in the /graph-node/docker folder:
+in the `ens-app` folder:
 
 ```
 rm -rf data
 docker-compose up
-```
-
-in the `ens-app` folder:
-
-```
 yarn preTest
 yarn subgraph
 ```
@@ -226,7 +219,7 @@ in the `ens-app` folder:
 
 ```
 yarn start:test
-yarn run cypress:open
+yarn cypress:open
 ```
 
 This should open up cypress. To run the tests click on 'Run n integration tests'

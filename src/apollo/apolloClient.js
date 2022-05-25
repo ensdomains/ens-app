@@ -3,13 +3,9 @@ import {
   ApolloLink,
   HttpLink,
   InMemoryCache,
-  split,
-  concat
+  split
 } from '@apollo/client'
 import Observable from 'zen-observable'
-import { visit } from 'graphql'
-import traverse from 'traverse'
-import namehash from '@ensdomains/eth-ens-namehash'
 
 import resolvers from '../api/rootResolver'
 import typePolicies from './typePolicies'
@@ -60,60 +56,6 @@ function fromPromise(promise, operation) {
   })
 }
 
-const generateSelection = selection => ({
-  kind: 'Field',
-  name: {
-    kind: 'Name',
-    value: selection
-  },
-  arguments: [],
-  directives: [],
-  alias: undefined,
-  selectionSet: undefined
-})
-
-export const enter = node => {
-  // @return
-  //   undefined: no action
-  //   false: skip visiting this node
-  //   visitor.BREAK: stop visiting altogether
-  //   null: delete this node
-  //   any value: replace this node with the returned value
-
-  if (node.kind === 'SelectionSet') {
-    const id = node.selections.find(x => x.name && x.name.value === 'id')
-    const name = node.selections.find(x => x.name && x.name.value === 'name')
-
-    if (!id && name) {
-      node.selections = [...node.selections, generateSelection('id')]
-      return node
-    }
-  }
-}
-
-export const updateResponse = response => {
-  traverse(response).forEach(function(responseItem) {
-    if (responseItem instanceof Object && responseItem.name) {
-      //Name already in hashed form
-      if (responseItem.name && responseItem.name.includes('[')) {
-        return
-      }
-
-      const hashedName = namehash.hash(responseItem.name)
-      if (responseItem.id !== hashedName) {
-        this.update({ ...responseItem, name: hashedName, invalidName: true })
-      }
-    }
-  })
-  return response
-}
-
-const namehashCheckLink = new ApolloLink((operation, forward) => {
-  const updatedQuery = visit(operation.query, { enter })
-  operation.query = updatedQuery
-  return forward(operation).map(updateResponse)
-})
-
 export function setupClient() {
   const httpLink = new HttpLink({
     uri: () => getGraphQLAPI()
@@ -140,8 +82,7 @@ export function setupClient() {
       return resolvers.Query[operationName] || resolvers.Mutation[operationName]
     },
     web3Link,
-    // httpLink
-    concat(namehashCheckLink, httpLink)
+    httpLink
   )
 
   const option = {
