@@ -53,15 +53,21 @@ const DomainLink = styled(Link)`
   }
 
   h3 {
-    display: inherit;
     margin: 0;
     font-weight: 100;
     font-size: 28px;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    min-width: 100px;
   }
 
   ${p =>
     p.isInvalid &&
     `
+    pointer-events: none;
     h3 {
       margin-top: 35px;
     }

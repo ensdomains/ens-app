@@ -64,6 +64,7 @@
     "slugify": "^1.4.6",
     "stream": "npm:stream-browserify",
     "stream-http": "^3.2.0",
+    "traverse": "^0.6.6",
     "walletlink": "2.5.0"
   },
   "scripts": {
