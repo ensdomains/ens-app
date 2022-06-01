@@ -87,24 +87,26 @@ const NAME_REGISTER_DATA_WRAPPER = gql`
   query nameRegisterDataWrapper @client {
     accounts
     networkId
+    isReadOnly
   }
 `
 
 export const useRefreshComponent = () => {
   const [key, setKey] = useState(0)
   const {
-    data: { accounts, networkId }
+    data: { accounts, networkId, isReadOnly }
   } = useQuery(NAME_REGISTER_DATA_WRAPPER)
   const mainAccount = accounts?.[0]
   useEffect(() => {
     setKey(x => x + 1)
-  }, [mainAccount, networkId])
+  }, [mainAccount, networkId, isReadOnly])
   return key
 }
 
-const NAME_QUERY = gql`
-  query nameQuery {
-    accounts @client
+const ACCOUNT_CONNECTED_QUERY = gql`
+  query nameQuery @client {
+    accounts
+    isReadOnly
   }
 `
 
@@ -114,8 +116,8 @@ function Name({ details: domain, name, pathname, type, refetch }) {
   const percentDone = 0
 
   const {
-    data: { accounts }
-  } = useQuery(NAME_QUERY)
+    data: { accounts, isReadOnly }
+  } = useQuery(ACCOUNT_CONNECTED_QUERY)
 
   const account = accounts?.[0]
   const isOwner = isOwnerOfDomain(domain, account)
@@ -231,7 +233,8 @@ function Name({ details: domain, name, pathname, type, refetch }) {
             refetch={refetch}
             account={account}
             registrationOpen={registrationOpen}
-            readOnly={isNameWrapped}
+            isNameWrapped={isNameWrapped}
+            isReadOnly={isReadOnly}
           />
         )}
       </NameContainer>

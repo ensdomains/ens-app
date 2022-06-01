@@ -11,13 +11,14 @@ import EthVal from 'ethval'
 import { trackReferral } from '../../../utils/analytics'
 import { COMMIT, REGISTER } from '../../../graphql/mutations'
 
-import Tooltip from 'components/Tooltip/Tooltip'
 import PendingTx from '../../PendingTx'
 import Button from '../../Forms/Button'
 import AddToCalendar from '../../Calendar/RenewalCalendar'
 import { ReactComponent as DefaultPencil } from '../../Icons/SmallPencil.svg'
 import { ReactComponent as DefaultOrangeExclamation } from '../../Icons/OrangeExclamation.svg'
 import { useAccount } from '../../QueryAccount'
+import { connectProvider } from '../../../utils/providerUtils'
+import NoAccountsModal from '../../NoAccounts/NoAccountsModal'
 
 const CTAContainer = styled('div')`
   display: flex;
@@ -58,7 +59,8 @@ function getCTA({
   isAboveMinDuration,
   refetch,
   refetchIsMigrated,
-  readOnly,
+  isNameWrapped,
+  isReadOnly,
   price,
   years,
   premium,
@@ -67,6 +69,7 @@ function getCTA({
   ethUsdPrice,
   account
 }) {
+  console.log(isNameWrapped, isReadOnly)
   const CTAs = {
     PRICE_DECISION: (
       <Mutation
@@ -80,7 +83,7 @@ function getCTA({
         }}
       >
         {mutate =>
-          isAboveMinDuration && !readOnly ? (
+          isAboveMinDuration && !isNameWrapped && !isReadOnly ? (
             hasSufficientBalance ? (
               <Button data-testid="request-register-button" onClick={mutate}>
                 {t('register.buttons.request')}
@@ -96,30 +99,18 @@ function getCTA({
                 </Button>
               </>
             )
-          ) : readOnly ? (
-            <Tooltip
-              text="<p>You are not connected to a web3 browser. Please connect to a web3 browser and try again</p>"
-              position="top"
-              border={true}
-              offset={{ left: -30, top: 10 }}
-            >
-              {({ showTooltip, hideTooltip }) => {
-                return (
-                  <Button
-                    data-testid="request-register-button"
-                    type="disabled"
-                    onMouseOver={() => {
-                      showTooltip()
-                    }}
-                    onMouseLeave={() => {
-                      hideTooltip()
-                    }}
-                  >
-                    {t('register.buttons.request')}
-                  </Button>
-                )
-              }}
-            </Tooltip>
+          ) : !isNameWrapped ? (
+            <>
+              <Prompt>
+                <OrangeExclamation />
+                {t('register.buttons.connect')}
+              </Prompt>
+              <NoAccountsModal
+                onClick={connectProvider}
+                colour={'#F5A623'}
+                buttonText={t('c.connect')}
+              />
+            </>
           ) : (
             <Button data-testid="request-register-button" type="disabled">
               {t('register.buttons.request')}
@@ -244,7 +235,8 @@ const CTA = ({
   isAboveMinDuration,
   refetch,
   refetchIsMigrated,
-  readOnly,
+  isReadOnly,
+  isNameWrapped,
   price,
   years,
   premium,
@@ -281,7 +273,8 @@ const CTA = ({
         isAboveMinDuration,
         refetch,
         refetchIsMigrated,
-        readOnly,
+        isNameWrapped,
+        isReadOnly,
         price,
         years,
         premium,
