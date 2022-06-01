@@ -69,7 +69,6 @@ function getCTA({
   ethUsdPrice,
   account
 }) {
-  console.log(isNameWrapped, isReadOnly)
   const CTAs = {
     PRICE_DECISION: (
       <Mutation
