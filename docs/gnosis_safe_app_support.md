@@ -1,10 +1,10 @@
 ## Running as a Gnosis Safe App
 
-It is possible to run the ENS app like a [Gnosis Safe App](https://docs.gnosis.io/safe/docs/sdks_safe_apps/). This will allow it to directly use the ENS app from within the [Gnosis Safe web interface](https://app.gnosis-safe.io).
+It is possible to run the CNS app like a [Gnosis Safe App](https://docs.gnosis.io/safe/docs/sdks_safe_apps/). This will allow it to directly use the CNS app from within the [Gnosis Safe web interface](https://app.gnosis-safe.io).
 
-As the ENS app is normally running on a different host (unless both, the Gnosis Safe web interface and the ENS app, are for example hosted locally) it is required to enable CORS headers. This will allow the Gnosis Safe web interface to access the ENS app meta information from the `manifest.json`.
+As the CNS app is normally running on a different host (unless both, the Gnosis Safe web interface and the CNS app, are for example hosted locally) it is required to enable CORS headers. This will allow the Gnosis Safe web interface to access the CNS app meta information from the `manifest.json`.
 
-To enable this without changes to the ENS project it is possible to use the [`local-cors-proxy`](https://www.npmjs.com/package/local-cors-proxy) package via `npx`.
+To enable this without changes to the CNS project it is possible to use the [`local-cors-proxy`](https://www.npmjs.com/package/local-cors-proxy) package via `npx`.
 
 Run `npx local-cors-proxy --proxyUrl http://localhost:3000 --proxyPartial ""`
 
@@ -13,7 +13,7 @@ Now it is possible to use `http://localhost:8010` inside the Gnosis Safe web int
 - [Gnosis Safe Mainnet interface](https://app.gnosis-safe.io)
 - [Gnosis Safe Rinkeby interface](https://rinkeby.gnosis-safe.io)
 
-Note: To test the ENS app as a Gnosis Safe App it is required to be owner of a Gnosis Safe and that this Gnosis Safe is available in the interface.
+Note: To test the CNS app as a Gnosis Safe App it is required to be owner of a Gnosis Safe and that this Gnosis Safe is available in the interface.
 
 ### Alternatives
 

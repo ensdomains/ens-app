@@ -16,7 +16,7 @@ const PORTIS_ID = '57e5d6ca-e408-4925-99c4-e7da3bdb8bf5'
 
 let provider
 const option = {
-  network: 'mainnet', // optional
+  network: 'candle', // optional
   cacheProvider: true, // optional
   providerOptions: {
     walletconnect: {
@@ -30,15 +30,15 @@ const option = {
       package: () => import('walletlink'),
       packageFactory: true,
       options: {
-        appName: 'Ethereum name service',
-        jsonRpcUrl: `https://mainnet.infura.io/v3/${INFURA_ID}`
+        appName: 'Candle name service',
+        jsonRpcUrl: `https://rpc.cndlchain.com`
       }
     },
     mewconnect: {
       package: () => import('@myetherwallet/mewconnect-web-client'),
       packageFactory: true,
       options: {
-        rpc: `https://mainnet.infura.io/v3/${INFURA_ID}`,
+        rpc: `https://rpc.cndlchain.com`,
         description: ''
       }
     },
