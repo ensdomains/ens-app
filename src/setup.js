@@ -3,7 +3,7 @@ import {
   getNetwork,
   getNetworkId,
   isReadOnly
-} from '@ensdomains/ui'
+} from '@cndllabs/ui'
 
 import { setup } from './apollo/mutations/ens'
 import { connect } from './api/web3modal'

@@ -1692,7 +1692,7 @@
   dependencies:
     "@emotion/core" "^10.0.14"
     "@emotion/styled" "^10.0.14"
-    "@ensdomains/ui" "^3.2.22"
+    "@cndllabs/ui" "^3.2.22"
     ethers "^4.0.32"
     lodash "^4.17.13"
 
@@ -1708,9 +1708,9 @@
   dependencies:
     hash-test-vectors "^1.3.2"
 
-"@ensdomains/ui@^3.2.22", "@ensdomains/ui@^3.3.23":
+"@cndllabs/ui@^3.2.22", "@cndllabs/ui@^3.3.23":
   version "3.3.35"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.35.tgz#bbffbc0bbe2a5e9cd8745e104644037c546eea33"
+  resolved "https://registry.yarnpkg.com/@cndllabs/ui/-/ui-3.3.35.tgz#bbffbc0bbe2a5e9cd8745e104644037c546eea33"
   integrity sha512-LkDceeIRP0ljUwsxCkI3M39bIEYZnxUz8rXqJaXeBw6cXplPs5aqgYU3ilEvQE0OA4KhwLuUcXiGjIqyd+yXTQ==
   dependencies:
     "@0xproject/utils" "^2.0.2"
@@ -1733,9 +1733,9 @@
     dns-packet "^5.2.1"
     js-sha3 "^0.8.0"
 
-"@ensdomains/ui@^3.3.37":
+"@cndllabs/ui@^3.3.37":
   version "3.3.37"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.37.tgz#f61bb041e8351a513605f78e6f73240cf7b8e208"
+  resolved "https://registry.yarnpkg.com/@cndllabs/ui/-/ui-3.3.37.tgz#f61bb041e8351a513605f78e6f73240cf7b8e208"
   integrity sha512-uzoG7m8yxJpI3JOFHE0blIqmtnwqGOoEnN6KiGSXE74THjNZRxTtLDOZ/BxHXf7/U5CkrpmVS93Cf3rQwiHZBQ==
   dependencies:
     "@0xproject/utils" "^2.0.2"
