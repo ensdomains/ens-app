@@ -3,6 +3,7 @@ import { render } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { MockedProvider } from '@apollo/client/testing'
 import { StaticRouter } from 'react-router-dom'
+import { createBrowserHistory } from 'history'
 
 jest.mock('@apollo/client', () => ({
   __esModule: true,
@@ -23,16 +24,16 @@ import NameDetails from './NameDetails'
 const mocks = []
 
 describe('NameDetails', () => {
+  const pathnameroot = '/name/vitalik.eth'
   afterEach(() => {
     useQuery.mockClear()
   })
-  it('should redirect to /register if register tab and is not an absolute path', () => {
+  it('should redirect to /register if register tab is register', () => {
     const mockProps = {
       domain: {
-        name: 'vitalik.eth',
-        parent: 'eth'
+        name: 'vitalik.eth'
       },
-      pathname: '',
+      pathname: pathnameroot,
       tab: 'register'
     }
 
@@ -43,7 +44,7 @@ describe('NameDetails', () => {
       loading: true
     }))
 
-    const context = {}
+    const context = { url: pathnameroot }
     render(
       <StaticRouter location={'/'} context={context}>
         <MockedProvider mocks={mocks} addTypename={false}>
@@ -51,15 +52,15 @@ describe('NameDetails', () => {
         </MockedProvider>
       </StaticRouter>
     )
-    expect(context.url).toEqual('/register')
+    expect(context.url).toEqual(`${pathnameroot}/register`)
   })
-  it('should redirect to /details if details tab and is not an absolute path', () => {
+
+  it('should redirect to /details if tab is not register', () => {
     const mockProps = {
       domain: {
-        name: 'vitalik.eth',
-        parent: 'eth'
+        name: 'vitalik.eth'
       },
-      pathname: '',
+      pathname: pathnameroot + '/',
       tab: 'details'
     }
 
@@ -70,7 +71,7 @@ describe('NameDetails', () => {
       loading: true
     }))
 
-    const context = {}
+    const context = { url: pathnameroot }
     render(
       <StaticRouter location={'/'} context={context}>
         <MockedProvider mocks={mocks} addTypename={false}>
@@ -78,35 +79,39 @@ describe('NameDetails', () => {
         </MockedProvider>
       </StaticRouter>
     )
-    expect(context.url).toEqual('/details')
+    expect(context.url).toEqual(`${pathnameroot}/details`)
   })
-  it('should redirect to /subdomains if subdomains tab and is not an absolute path', () => {
-    const mockProps = {
-      domain: {
-        name: 'sub.vitalik.eth',
-        parent: 'vitalik'
-      },
-      pathname: '',
-      tab: 'subdomains'
-    }
+  const array = ['register', 'details', 'subdomains']
+  for (let index = 0; index < array.length; index++) {
+    const tab = array[index]
+    it(`should not redirect to /${tab} if already in ${tab}`, () => {
+      const mockProps = {
+        domain: {
+          name: 'vitalik.eth'
+        },
+        pathname: `${pathnameroot}/${tab}`,
+        tab
+      }
 
-    useQuery.mockImplementation(() => ({
-      data: {
-        isMigrated: true
-      },
-      loading: true
-    }))
+      useQuery.mockImplementation(() => ({
+        data: {
+          isMigrated: true
+        },
+        loading: true
+      }))
 
-    const context = {}
-    render(
-      <StaticRouter location={'/'} context={context}>
-        <MockedProvider mocks={mocks} addTypename={false}>
-          <NameDetails {...mockProps} />
-        </MockedProvider>
-      </StaticRouter>
-    )
-    expect(context.url).toEqual('/subdomains')
-  })
+      const context = { url: `${pathnameroot}/${tab}` }
+      render(
+        <StaticRouter location={'/'} context={context}>
+          <MockedProvider mocks={mocks} addTypename={false}>
+            <NameDetails {...mockProps} />
+          </MockedProvider>
+        </StaticRouter>
+      )
+      expect(context.url).toEqual(`${pathnameroot}/${tab}`)
+    })
+  }
+
   it('should pass isMigrated loading state to DetailsContainer', () => {
     const mockProps = {
       domain: {
