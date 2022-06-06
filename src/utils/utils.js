@@ -6,7 +6,7 @@ import {
   getNetworkId,
   isEncodedLabelhash,
   isLabelValid as _isLabelValid
-} from '@ensdomains/ui'
+} from '@cndllabs/ui'
 import * as jsSHA3 from 'js-sha3'
 import { throttle } from 'lodash'
 import { useEffect, useRef } from 'react'

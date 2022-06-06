@@ -22,7 +22,7 @@ import {
 } from '../Banner/DAOBanner'
 import NameWrapperBanner from '../Banner/NameWrapperBanner'
 import NameWrapperJSON from '@ensdomains/ens-contracts/artifacts/contracts/wrapper/NameWrapper.sol/NameWrapper.json'
-import { ethers, getNamehash, getProvider } from '@ensdomains/ui'
+import { ethers, getNamehash, getProvider } from '@cndllabs/ui'
 
 const Owner = styled('div')`
   color: #ccd4da;

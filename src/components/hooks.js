@@ -2,7 +2,7 @@ import { useEffect, useReducer, useRef, useState } from 'react'
 import { loggedIn, logout } from './IPFS/auth'
 
 import { utils as avtUtils } from '@ensdomains/ens-avatar'
-import { getBlock, getProvider, ethers } from '@ensdomains/ui'
+import { getBlock, getProvider, ethers } from '@cndllabs/ui'
 import { networkName, supportedAvatarProtocols } from 'utils/utils'
 
 export function useDocumentTitle(title) {

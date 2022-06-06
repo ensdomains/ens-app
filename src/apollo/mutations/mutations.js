@@ -11,7 +11,7 @@ import {
   delegatesReactive
 } from '../reactiveVars'
 import getShouldDelegate from '../../api/delegate'
-import { getAccounts, getNetwork, getNetworkId } from '@ensdomains/ui'
+import { getAccounts, getNetwork, getNetworkId } from '@cndllabs/ui'
 import { disconnect, connect } from '../../api/web3modal'
 import { getReverseRecord } from '../sideEffects'
 import { isRunningAsSafeApp } from 'utils/safeApps'

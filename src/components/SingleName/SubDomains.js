@@ -11,7 +11,7 @@ import Loader from '../Loader'
 import { H2 } from '../Typography/Basic'
 import AddSubdomain from './AddSubdomain'
 import ChildDomainItem from '../DomainItem/ChildDomainItem'
-import { getNamehash } from '@ensdomains/ui'
+import { getNamehash } from '@cndllabs/ui'
 import { decryptName } from '../../api/labels'
 import { useQuery } from '@apollo/client'
 

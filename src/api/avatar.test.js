@@ -1,4 +1,4 @@
-jest.mock('@ensdomains/ui', () => ({
+jest.mock('@cndllabs/ui', () => ({
   ethers: {
     providers: {
       JsonRpcProvider: jest.fn()
@@ -8,7 +8,7 @@ jest.mock('@ensdomains/ui', () => ({
   getNetworkProviderUrl: jest.fn()
 }))
 
-import { ethers } from '@ensdomains/ui'
+import { ethers } from '@cndllabs/ui'
 import validateTokenURI from './avatar'
 
 describe('check avatar field', () => {
