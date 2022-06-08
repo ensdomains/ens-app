@@ -16,7 +16,7 @@
     "@ensdomains/mock": "^2.1.51",
     "@ensdomains/offchain-resolver-contracts": "^0.2.1",
     "@ensdomains/react-ens-address": "^0.0.31",
-    "@ensdomains/ui": "^3.3.37",
+    "@ensdomains/ui": "^3.4.0-beta.0",
     "@ensdomains/web3modal": "1.9.4",
     "@gnosis.pm/safe-apps-provider": "^0.9.2",
     "@myetherwallet/mewconnect-web-client": "^2.2.0-beta.16",
@@ -64,6 +64,7 @@
     "slugify": "^1.4.6",
     "stream": "npm:stream-browserify",
     "stream-http": "^3.2.0",
+    "traverse": "^0.6.6",
     "walletlink": "2.5.0"
   },
   "scripts": {

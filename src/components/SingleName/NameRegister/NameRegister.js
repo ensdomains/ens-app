@@ -46,7 +46,8 @@ const NameRegister = ({
   waitTime,
   refetch,
   refetchIsMigrated,
-  readOnly,
+  isReadOnly,
+  isNameWrapped,
   registrationOpen
 }) => {
   const { t } = useTranslation()
@@ -328,7 +329,8 @@ const NameRegister = ({
         refetch={refetch}
         refetchIsMigrated={refetchIsMigrated}
         isAboveMinDuration={isAboveMinDuration}
-        readOnly={readOnly}
+        isReadOnly={isReadOnly}
+        isNameWrapped={isNameWrapped}
         price={getRentPrice}
         years={years}
         premium={currentPremium}

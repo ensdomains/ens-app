@@ -4,9 +4,8 @@ import {
   getNetworkId,
   isReadOnly
 } from '@ensdomains/ui'
-
-import { setup } from './apollo/mutations/ens'
 import { connect } from './api/web3modal'
+import { setup } from './apollo/mutations/ens'
 import {
   accountsReactive,
   delegatesReactive,
@@ -20,8 +19,9 @@ import {
   subDomainFavouritesReactive,
   web3ProviderReactive
 } from './apollo/reactiveVars'
-import { setupAnalytics } from './utils/analytics'
 import { getReverseRecord } from './apollo/sideEffects'
+import { rpcUrl } from './rpcUrl'
+import { setupAnalytics } from './utils/analytics'
 import { safeInfo, setupSafeApp } from './utils/safeApps'
 
 export const setFavourites = () => {
@@ -91,6 +91,7 @@ export const getProvider = async reconnect => {
     }
 
     const { providerObject } = await setup({
+      customProvider: rpcUrl,
       reloadOnAccountsChange: false,
       enforceReadOnly: true,
       enforceReload: false
@@ -108,7 +109,9 @@ export const getProvider = async reconnect => {
   }
 
   try {
+    console.log('enforce readonly')
     const { providerObject } = await setup({
+      customProvider: rpcUrl,
       reloadOnAccountsChange: false,
       enforceReadOnly: true,
       enforceReload: false

@@ -1733,10 +1733,10 @@
     dns-packet "^5.2.1"
     js-sha3 "^0.8.0"
 
-"@ensdomains/ui@^3.3.37":
-  version "3.3.37"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.37.tgz#f61bb041e8351a513605f78e6f73240cf7b8e208"
-  integrity sha512-uzoG7m8yxJpI3JOFHE0blIqmtnwqGOoEnN6KiGSXE74THjNZRxTtLDOZ/BxHXf7/U5CkrpmVS93Cf3rQwiHZBQ==
+"@ensdomains/ui@^3.4.0-beta.0":
+  version "3.4.0-beta.0"
+  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.4.0-beta.0.tgz#a804c5d589132dd28eccd6aed2c80e66e8defc27"
+  integrity sha512-nz2BzBUmjfForf1TGVnrK9+txc8JANVwlSwodyNp3nJ257HCNJPm34BCMK6i59ciQkS1gBMKxHZTFuoSNZTdnQ==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
@@ -19984,6 +19984,11 @@ tr46@~0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
   integrity sha1-gYT9NH2snNwYWZLzpmIuFLnZq2o=
+
+traverse@^0.6.6:
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/traverse/-/traverse-0.6.6.tgz#cbdf560fd7b9af632502fed40f918c157ea97137"
+  integrity sha1-y99WD9e5r2MlAv7UD5GMFX6pcTc=
 
 trim-newlines@^2.0.0:
   version "2.0.0"

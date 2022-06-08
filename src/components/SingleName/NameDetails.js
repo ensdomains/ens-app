@@ -4,8 +4,6 @@ import { Route, Redirect } from 'react-router-dom'
 
 import { IS_MIGRATED } from '../../graphql/queries'
 
-import { isEmptyAddress } from '../../utils/records'
-
 import NameRegister from './NameRegister'
 import SubDomains from './SubDomains'
 import dnssecmodes from '../../api/dnssecmodes'
@@ -20,7 +18,8 @@ function NameDetails({
   registrationOpen,
   tab,
   pathname,
-  readOnly = false
+  isNameWrapped = false,
+  isReadOnly = true
 }) {
   const [loading, setLoading] = useState(undefined)
   const {
@@ -62,19 +61,12 @@ function NameDetails({
   }
   const showExplainer = !parseInt(domain.resolver)
   const outOfSync = dnssecmode && dnssecmode.outOfSync
-  const isAnAbsolutePath = pathname.split('/').length > 3
-
-  if (domain.parent === 'eth' && tab === 'register' && !isAnAbsolutePath) {
-    return <Redirect to={`${pathname}/register`} />
-  } else if (
-    domain.parent === 'eth' &&
-    tab === 'details' &&
-    !isAnAbsolutePath
-  ) {
-    return <Redirect to={`${pathname}/details`} />
-  } else if (domain.parent !== 'eth' && !isAnAbsolutePath) {
-    //subdomain or dns
-    return <Redirect to={`${pathname}/subdomains`} />
+  const pathnamewithoutslash = pathname.replace(/\/$/, '')
+  const needRedirect = !pathnamewithoutslash.match(
+    '/register$|/details$|/subdomains$'
+  )
+  if (needRedirect) {
+    return <Redirect to={`${pathnamewithoutslash}/${tab}`} />
   }
 
   return (
@@ -102,7 +94,7 @@ function NameDetails({
               dnssecmode={dnssecmode}
               account={account}
               refetchIsMigrated={refetchIsMigrated}
-              readOnly={readOnly}
+              readOnly={isNameWrapped}
             />
           )
         }}
@@ -120,7 +112,7 @@ function NameDetails({
             loadingIsMigrated={loadingIsMigrated}
             isParentMigratedToNewRegistry={isParentMigratedToNewRegistry}
             loadingIsParentMigrated={loadingIsParentMigrated}
-            readOnly={readOnly}
+            readOnly={isNameWrapped}
           />
         )}
       />
@@ -134,7 +126,8 @@ function NameDetails({
             domain={domain}
             refetch={refetch}
             refetchIsMigrated={refetchIsMigrated}
-            readOnly={readOnly || isEmptyAddress(account)}
+            isNameWrapped={isNameWrapped}
+            isReadOnly={isReadOnly}
           />
         )}
       />
