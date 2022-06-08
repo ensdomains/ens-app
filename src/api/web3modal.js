@@ -6,11 +6,7 @@ import {
   networkReactive,
   web3ProviderReactive
 } from '../apollo/reactiveVars'
-
-const INFURA_ID =
-  window.location.host === 'app.ens.domains'
-    ? '90f210707d3c450f847659dc9a3436ea'
-    : '58a380d3ecd545b2b5b3dad5d2b18bf0'
+import { rpcUrl } from '../rpcUrl'
 
 const PORTIS_ID = '57e5d6ca-e408-4925-99c4-e7da3bdb8bf5'
 
@@ -23,7 +19,9 @@ const option = {
       package: () => import('@walletconnect/web3-provider'),
       packageFactory: true,
       options: {
-        infuraId: INFURA_ID
+        rpc: {
+          1: rpcUrl
+        }
       }
     },
     walletlink: {
@@ -31,14 +29,14 @@ const option = {
       packageFactory: true,
       options: {
         appName: 'Ethereum name service',
-        jsonRpcUrl: `https://mainnet.infura.io/v3/${INFURA_ID}`
+        jsonRpcUrl: rpcUrl
       }
     },
     mewconnect: {
       package: () => import('@myetherwallet/mewconnect-web-client'),
       packageFactory: true,
       options: {
-        rpc: `https://mainnet.infura.io/v3/${INFURA_ID}`,
+        rpc: rpcUrl,
         description: ''
       }
     },
@@ -87,6 +85,7 @@ export const disconnect = async function() {
     provider.disconnect()
   }
   await setupENS({
+    customProvider: rpcUrl,
     reloadOnAccountsChange: false,
     enforceReadOnly: true,
     enforceReload: false

@@ -1733,10 +1733,8 @@
     dns-packet "^5.2.1"
     js-sha3 "^0.8.0"
 
-"@ensdomains/ui@^3.3.37":
-  version "3.3.37"
-  resolved "https://registry.yarnpkg.com/@ensdomains/ui/-/ui-3.3.37.tgz#f61bb041e8351a513605f78e6f73240cf7b8e208"
-  integrity sha512-uzoG7m8yxJpI3JOFHE0blIqmtnwqGOoEnN6KiGSXE74THjNZRxTtLDOZ/BxHXf7/U5CkrpmVS93Cf3rQwiHZBQ==
+"@ensdomains/ui@file:.yalc/@ensdomains/ui":
+  version "3.3.36"
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
