@@ -1,5 +1,5 @@
 import { utils as avtUtils } from '@ensdomains/ens-avatar'
-import { ethers, getNetworkProviderUrl } from '@ensdomains/ui'
+import { ethers, getProvider } from '@ensdomains/ui'
 
 const specs = {
   erc721: {
@@ -25,11 +25,10 @@ export default function validateTokenURI(value, _addr) {
     const spec = specs[namespace]
     if (!spec) return false
 
-    const networkProvider = getNetworkProviderUrl(`${chainID}`)
-    const provider = new ethers.providers.JsonRpcProvider(networkProvider)
-    const contract = new ethers.Contract(contractAddress, spec.abi, provider)
-
     return new Promise(async resolve => {
+      const provider = await getProvider()
+      const contract = new ethers.Contract(contractAddress, spec.abi, provider)
+
       // if there is token metadata, return as valid
       try {
         const tokenURI = await spec.tokenURI(contract, tokenID)
