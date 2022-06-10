@@ -88,7 +88,7 @@
     "advance": "node src/testing-utils/advance.js",
     "cypress:open": "yarn run cypress open",
     "cypress:open:ipfs": "yarn run cypress open --config-file cypress_ipfs.json",
-    "cypress:record": "/bin/sh -c 'if [ -z ${CYPRESS_TOKEN+x} ]; then yarn run cypress run; else yarn run cypress run --record --key $CYPRESS_TOKEN; fi'",
+    "cypress:record": "/bin/sh -c 'if [ -z ${CYPRESS_TOKEN+x} ]; then yarn run cypress run; else yarn run cypress run --record --key $CYPRESS_TOKEN --spec ./cypress/integration/nameDetail.spec.js; fi'",
     "cypress:record:ipfs": "/bin/sh -c 'if [ -z ${CYPRESS_TOKEN+x} ]; then yarn run cypress run --config-file cypress_ipfs.json; else yarn run cypress run --config-file cypress_ipfs.json --record --key $CYPRESS_TOKEN; fi'",
     "cypress:run-local": "yarn run cypress run --headed",
     "cypress:run-local:ipfs": "yarn run cypress run --config-file cypress_ipfs.json",
