@@ -16,7 +16,7 @@ const option = {
   cacheProvider: true, // optional
   providerOptions: {
     walletconnect: {
-      package: () => import('@walletconnect/web3-provider'),
+      package: () => import('@walletconnect/ethereum-provider'),
       packageFactory: true,
       options: {
         rpc: {
