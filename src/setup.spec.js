@@ -147,7 +147,7 @@ describe('setWeb3Provider', () => {
           cb()
         }
       },
-      removeAllListeners: () => null
+      events: null
     }
     await setWeb3Provider(mockProvider)
   })
@@ -169,7 +169,7 @@ describe('setWeb3Provider', () => {
           cb()
         }
       },
-      removeAllListeners: () => null
+      events: null
     }
     await setWeb3Provider(mockProvider)
   })
@@ -180,7 +180,7 @@ describe('setWeb3Provider', () => {
     const mockRemoveAllListeners = jest.fn()
     const mockProvider = {
       on: (event, callback) => {},
-      removeAllListeners: mockRemoveAllListeners
+      events: { removeAllListeners: mockRemoveAllListeners }
     }
     await setWeb3Provider(mockProvider)
     expect(mockRemoveAllListeners).toHaveBeenCalled()
@@ -203,7 +203,7 @@ describe('setWeb3Provider', () => {
           cb()
         }
       },
-      removeAllListeners: () => null
+      events: null
     }
     await setWeb3Provider(mockProvider)
   })
@@ -226,7 +226,7 @@ describe('setWeb3Provider', () => {
           cb()
         }
       },
-      removeAllListeners: () => null
+      events: null
     }
     await setWeb3Provider(mockProvider)
   })
@@ -282,7 +282,7 @@ describe('setup', () => {
   it('should allow setup to continue if network is supported', async () => {
     const mockProvider = {
       on: (event, callback) => {},
-      removeAllListeners: () => null
+      events: null
     }
     getNetworkId.mockImplementation(() => 1)
     getNetwork.mockImplementation(() => 'Main')
