@@ -239,7 +239,7 @@ describe('Name detail view', () => {
           force: true,
           timeout: 10000
         })
-        .waitUntilInputResolves('Save')
+        .waitUntilInputResolves('Save', 2000)
         .then(() => {
           cy.getByText('Save').click({ force: true })
         })
