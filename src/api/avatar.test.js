@@ -5,7 +5,7 @@ jest.mock('@ensdomains/ui', () => ({
     },
     Contract: jest.fn()
   },
-  getNetworkProviderUrl: jest.fn()
+  getProvider: jest.fn()
 }))
 
 import { ethers } from '@ensdomains/ui'

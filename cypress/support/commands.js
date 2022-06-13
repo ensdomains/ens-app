@@ -5,7 +5,8 @@ const ACTIVE_COLOUR = 'rgb(83, 132, 254)'
 const DISABLED_COLOUR = 'rgb(223, 223, 223)'
 
 Cypress.Commands.add('waitUntilInputResolves', function waitUntilInputResolves(
-  buttonTextOrOptions
+  buttonTextOrOptions,
+  interval = 10
 ) {
   if (typeof buttonTextOrOptions === 'object') {
     return cy.waitUntil(
@@ -14,7 +15,7 @@ Cypress.Commands.add('waitUntilInputResolves', function waitUntilInputResolves(
           .getByTestId(buttonTextOrOptions.value)
           .then($el => $el.css('background-color') === ACTIVE_COLOUR)
       },
-      { timeout: 5000, interval: 10 }
+      { timeout: 5000, interval }
     )
   } else {
     return cy.waitUntil(
@@ -23,7 +24,7 @@ Cypress.Commands.add('waitUntilInputResolves', function waitUntilInputResolves(
           .getByText(buttonTextOrOptions)
           .then($el => $el.css('background-color') === ACTIVE_COLOUR)
       },
-      { timeout: 5000, interval: 10 }
+      { timeout: 5000, interval }
     )
   }
 })
