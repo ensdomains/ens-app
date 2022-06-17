@@ -22,7 +22,8 @@ export const setWeb3ProviderLocalMutation = async provider => {
   const accounts = await getAccounts()
 
   if (provider) {
-    provider.removeAllListeners()
+    if (provider.events?.removeAllListeners)
+      provider.events.removeAllListeners()
     setAccountsLocalMutation(accounts)
   }
 
