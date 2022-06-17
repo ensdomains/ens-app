@@ -403,7 +403,9 @@ const Editable = ({
   const isInvalid = !isValid && newValue.length > 0
   const account = useAccount()
   const isOwnerOfParent = isOwnerOfParentDomain(domain, account)
-  const isRegistrant = !domain.available && domain.registrant === account
+  const isRegistrant =
+    !domain.available &&
+    domain.registrant?.toLowerCase() === account?.toLowerCase()
   const canDelete = ['Resolver'].includes(keyName)
   const placeholder = t('singleName.resolver.placeholder')
   const [mutation] = useMutation(mutationQuery, {
