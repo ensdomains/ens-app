@@ -40,6 +40,11 @@ config.module.rules.push({
 
 config.bail = false
 
+config.resolve.alias['@ethersproject/hash'] = path.resolve(
+  __dirname,
+  '../src/hash/index.js'
+)
+
 config.resolve.fallback = {
   http: false,
   https: false,
