@@ -10,5 +10,7 @@
   "com.reddit",
   "com.twitter",
   "org.telegram",
-  "eth.ens.delegate"
+  "eth.ens.delegate",
+  "eip5131:vault",
+  "eip5131:auth"
 ]

@@ -3,8 +3,31 @@ import { addressUtils, supportedAvatarProtocols } from 'utils/utils'
 import { formatsByName } from '@ensdomains/address-encoder'
 import validateTokenURI from 'api/avatar'
 
+const textRecordValidators = {
+  avatar: (key, value, contractFn, addr) => {
+    const protocol = supportedAvatarProtocols.find(proto =>
+      value.startsWith(proto)
+    )
+    if (!protocol) return false
+    if (protocol === 'eip155') return validateTokenURI(value, addr)
+    return true
+  },
+  'eip5131:vault': (key, value, contractFn, addr) => {
+    const recordSplit = value.split(':')
+    return (
+      recordSplit.length === 2 &&
+      recordSplit[0] === 'auth' &&
+      addressUtils.isAddress(recordSplit[1])
+    )
+  },
+  'eip5131:auth': (key, value, contractFn, addr) => {
+    return addressUtils.isAddress(value)
+  }
+}
+
 export function validateRecord({ key, value, contractFn, addr }) {
   if (!value) return true
+  const textRecordsToValidate = ['avatar', 'eip5131:vault', 'eip5131:auth']
   switch (contractFn) {
     case 'setContenthash':
       if (value === EMPTY_ADDRESS) return true // delete record
@@ -15,13 +38,8 @@ export function validateRecord({ key, value, contractFn, addr }) {
         return false
       }
     case 'setText':
-      if (key !== 'avatar') return true
-      const protocol = supportedAvatarProtocols.find(proto =>
-        value.startsWith(proto)
-      )
-      if (!protocol) return false
-      if (protocol === 'eip155') return validateTokenURI(value, addr)
-      return true
+      if (!textRecordsToValidate.includes(key)) return true
+      return textRecordValidators[key](key, value, contractFn, addr)
     case 'setAddr(bytes32,uint256,bytes)':
       if (value === '') return false
       if (key === 'ETH') {
