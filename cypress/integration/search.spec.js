@@ -41,6 +41,9 @@ describe(
         'have.text',
         Cypress.env('ownerAddress')
       )
+      cy.getByTestId('advanced-settings-button', { timeout: 10000 }).click({
+        force: true
+      })
       cy.getByTestId('details-value-resolver', { exact: false }).should(
         'have.text',
         Cypress.env('resolverAddress')

@@ -45,6 +45,7 @@ import DefaultPricer from './Pricer'
 import DefaultAddressInput from '@ensdomains/react-ens-address'
 import CopyToClipboard from '../CopyToClipboard/'
 import { isOwnerOfParentDomain } from '../../utils/utils'
+import { ReactComponent as DefaultOrangeExclamation } from '../Icons/OrangeExclamation.svg'
 
 const AddressInput = styled(DefaultAddressInput)`
   margin-bottom: 10px;
@@ -167,6 +168,23 @@ const ResolverAddressWarning = styled('span')`
   color: #f6412d;
   margin-left: 3em;
   margin-right: auto;
+`
+
+const ResolverInfoWarning = styled.div`
+  color: #f5a524;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+
+  font-weight: bold;
+
+  & > svg {
+    width: 11px;
+    height: 11px;
+  }
 `
 
 const SaveCancel = motion.custom(DefaultSaveCancel)
@@ -342,7 +360,8 @@ const Editable = ({
   variableName,
   refetch,
   confirm,
-  copyToClipboard
+  copyToClipboard,
+  needsToBeMigrated
 }) => {
   const { t } = useTranslation()
   const { state, actions } = useEditable()
@@ -599,6 +618,14 @@ const Editable = ({
             }}
             transition={{ ease: 'easeOut', duration: 0.3 }}
           >
+            {keyName === 'Resolver' && !needsToBeMigrated && (
+              <ResolverInfoWarning>
+                <DefaultOrangeExclamation />
+                <p style={{ color: '#F5A524' }}>
+                  {t('singleName.resolver.info')}
+                </p>
+              </ResolverInfoWarning>
+            )}
             <EditRecord
               initial={{
                 scale: 0,

@@ -57,6 +57,9 @@ describe('Name Wrapper Tests', () => {
         'background-color',
         DISABLED_COLOUR
       )
+      cy.getByTestId('advanced-settings-button', { timeout: 10000 }).click({
+        force: true
+      })
       cy.getByTestId('edit-resolver').should(
         'have.css',
         'background-color',
@@ -93,6 +96,9 @@ describe('Name Wrapper Tests', () => {
         'background-color',
         DISABLED_COLOUR
       )
+      cy.getByTestId('advanced-settings-button', { timeout: 10000 }).click({
+        force: true
+      })
       cy.getByTestId('edit-resolver').should(
         'have.css',
         'background-color',
@@ -135,6 +141,9 @@ describe('Name Wrapper Tests', () => {
         'background-color',
         'rgb(83, 132, 254)'
       )
+      cy.getByTestId('advanced-settings-button', { timeout: 10000 }).click({
+        force: true
+      })
       cy.getByTestId('edit-resolver').should(
         'have.css',
         'background-color',
@@ -184,6 +193,9 @@ describe('Name Wrapper Tests', () => {
         'background-color',
         'rgb(83, 132, 254)'
       )
+      cy.getByTestId('advanced-settings-button', { timeout: 10000 }).click({
+        force: true
+      })
       cy.getByTestId('edit-resolver').should(
         'have.css',
         'background-color',

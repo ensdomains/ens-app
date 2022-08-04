@@ -10,6 +10,8 @@ import ArtRecords from './ArtRecords'
 
 import ResolverMigration from './ResolverMigration'
 import DetailsItemEditable from '../DetailsItemEditable'
+import mq from 'mediaQuery'
+import RotatingSmallCaret from 'components/Icons/RotatingSmallCaret'
 
 const MigrationWarningContainer = styled('div')`
   margin-bottom: 20px;
@@ -43,7 +45,62 @@ const ResolverWrapper = styled('div')`
     padding: 20px;
     margin-bottom: 20px;
   `
-      : 'background: none;'}
+      : `
+      background: none;
+      padding: 20px;
+      `}
+`
+
+const ResolverDropdown = styled.div`
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+
+  & > div:last-child {
+    border-top: 1px dashed #d3d3d3;
+    padding: 0;
+    padding-top: 32px;
+  }
+`
+
+const AdvancedButton = styled.button`
+  border: none;
+  background: none;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 12px 0;
+  align-self: flex-start;
+
+  cursor: pointer;
+
+  transition: 0.15s filter ease-in-out;
+  filter: opacity(1);
+
+  &:hover {
+    filter: opacity(0.5);
+  }
+
+  p {
+    font-family: Overpass;
+    font-size: 14px;
+    letter-spacing: 0px;
+    font-weight: 600;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    display: flex;
+    margin: 0;
+
+    ${mq.small`
+      align-items: center;
+      margin-bottom: 0;
+      font-size: 16px;
+    `}
+  }
 `
 
 function hasAResolver(resolver) {
@@ -60,6 +117,8 @@ export default function ResolverAndRecords({
   readOnly = false
 }) {
   const { t } = useTranslation()
+  const [showingAdvanced, setShowingAdvanced] = React.useState(false)
+
   const hasResolver = hasAResolver(domain.resolver)
   let isOldPublicResolver = false
   let isDeprecatedResolver = false
@@ -88,60 +147,39 @@ export default function ResolverAndRecords({
     (isOldPublicResolver || isDeprecatedResolver)
   return (
     <>
-      <ResolverWrapper needsToBeMigrated={needsToBeMigrated}>
-        {needsToBeMigrated ? (
-          <>
-            <ResolverMigration
-              value={domain.resolver}
-              name={domain.name}
-              refetch={refetch}
-              isOwner={isOwner}
-              readOnly={readOnly}
-            />
-          </>
-        ) : (
-          <DetailsItemEditable
-            keyName="Resolver"
-            type="address"
+      {needsToBeMigrated && (
+        <ResolverWrapper needsToBeMigrated>
+          <ResolverMigration
             value={domain.resolver}
-            canEdit={isOwner && isMigratedToNewRegistry && !readOnly}
-            domain={domain}
-            editButton={t('c.set')}
-            mutationButton={t('c.save')}
-            mutation={SET_RESOLVER}
+            name={domain.name}
             refetch={refetch}
-            account={account}
-            needsToBeMigrated={needsToBeMigrated}
-            copyToClipboard={true}
+            isOwner={isOwner}
+            readOnly={readOnly}
           />
-        )}
-        {needsToBeMigrated && (
-          <>
-            <MigrationWarning />
-            <ManualMigration>
-              <ManualMigrationMessage>
-                {t('singleName.resolver.message')}
-              </ManualMigrationMessage>
-              <DetailsItemEditable
-                showLabel={false}
-                keyName="Resolver"
-                type="address"
-                value={domain.resolver}
-                canEdit={isOwner && isMigratedToNewRegistry && !readOnly}
-                domain={domain}
-                editButton={t('c.set')}
-                editButtonType="hollow-primary"
-                mutationButton={t('c.save')}
-                backgroundStyle="warning"
-                mutation={SET_RESOLVER}
-                refetch={refetch}
-                account={account}
-                needsToBeMigrated={needsToBeMigrated}
-              />
-            </ManualMigration>
-          </>
-        )}
-      </ResolverWrapper>
+          <MigrationWarning />
+          <ManualMigration>
+            <ManualMigrationMessage>
+              {t('singleName.resolver.message')}
+            </ManualMigrationMessage>
+            <DetailsItemEditable
+              showLabel={false}
+              keyName="Resolver"
+              type="address"
+              value={domain.resolver}
+              canEdit={isOwner && isMigratedToNewRegistry && !readOnly}
+              domain={domain}
+              editButton={t('c.set')}
+              editButtonType="hollow-primary"
+              mutationButton={t('c.save')}
+              backgroundStyle="warning"
+              mutation={SET_RESOLVER}
+              refetch={refetch}
+              account={account}
+              needsToBeMigrated={needsToBeMigrated}
+            />
+          </ManualMigration>
+        </ResolverWrapper>
+      )}
 
       {hasResolver && Object.values(domain).filter(x => x).length && (
         <Records
@@ -156,6 +194,36 @@ export default function ResolverAndRecords({
           areRecordsMigrated={areRecordsMigrated}
           readOnly={readOnly}
         />
+      )}
+
+      {!needsToBeMigrated && (
+        <ResolverDropdown>
+          <AdvancedButton
+            data-testid="advanced-settings-button"
+            onClick={() => setShowingAdvanced(prev => !prev)}
+          >
+            <p>{t('singleName.tabs.advancedSettings')}</p>
+            <RotatingSmallCaret rotated={showingAdvanced} start="top" />
+          </AdvancedButton>
+          {showingAdvanced && (
+            <ResolverWrapper>
+              <DetailsItemEditable
+                keyName="Resolver"
+                type="address"
+                value={domain.resolver}
+                canEdit={isOwner && isMigratedToNewRegistry && !readOnly}
+                domain={domain}
+                editButton={t('c.set')}
+                mutationButton={t('c.save')}
+                mutation={SET_RESOLVER}
+                refetch={refetch}
+                account={account}
+                needsToBeMigrated={needsToBeMigrated}
+                copyToClipboard={true}
+              />
+            </ResolverWrapper>
+          )}
+        </ResolverDropdown>
       )}
 
       {hasResolver && <ArtRecords domain={domain} query={GET_TEXT} />}
