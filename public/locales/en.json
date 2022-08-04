@@ -339,7 +339,8 @@
       "placeholder": "Use the Public Resolver or enter the address of your custom resolver contract",
       "publicResolver": "Use Public Resolver",
       "resolverAddressWarning": "Only contract address is allowed",
-      "warning": "You’re using an outdated version of the public resolver. Click to migrate your resolver and records. You will need to confirm two transactions in order to migrate both your records and resolver."
+      "warning": "You’re using an outdated version of the public resolver. Click to migrate your resolver and records. You will need to confirm two transactions in order to migrate both your records and resolver.",
+      "info": "The Resolver stores all of your records like addresses, text records, and more. You should only change this if you know what you are doing."
     },
     "search": {
       "title": "Names"
@@ -352,7 +353,8 @@
     "tabs": {
       "details": "Details",
       "register": "Register",
-      "subdomains": "Subdomains"
+      "subdomains": "Subdomains",
+      "advancedSettings": "Advanced Settings"
     },
     "test": {
       "note": "Note: .test domain allows anyone to claim an unused name for test purposes, which expires after 28 days"

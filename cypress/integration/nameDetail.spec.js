@@ -101,6 +101,9 @@ describe('Name detail view', () => {
 
   it('can change the resolver to the public resolver', () => {
     cy.visit(`${NAME_ROOT}/superawesome.eth`)
+    cy.getByTestId('advanced-settings-button', { timeout: 10000 }).click({
+      force: true
+    })
     waitUntilInputResolves({ type: 'testId', value: 'edit-resolver' }).then(
       () => {
         cy.getByTestId('edit-resolver').click({ force: true })
@@ -141,6 +144,9 @@ describe('Name detail view', () => {
 
   it('cannot change the resolver to a non contract address', () => {
     cy.visit(`${NAME_ROOT}/superawesome.eth`)
+    cy.getByTestId('advanced-settings-button', { timeout: 10000 }).click({
+      force: true
+    })
     waitUntilInputResolves({ type: 'testId', value: 'edit-resolver' }).then(
       () => {
         cy.getByTestId('edit-resolver').click({ force: true })

@@ -898,7 +898,7 @@ const resolvers = {
 
       async function getAllRecordsNew(name, publicResolver) {
         const promises = [
-          ens.getEthAddressWithResolver(name, publicResolver),
+          ens.getAddrWithResolver(name, publicResolver),
           getContenthashWithResolver(name, publicResolver),
           getAllTextRecordsWithResolver(name, publicResolver),
           getAllAddressesWithResolver(name, publicResolver)
