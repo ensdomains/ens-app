@@ -45,7 +45,7 @@
     "ipfs-http-client": "^40.1.0",
     "js-sha3": "^0.8.0",
     "lodash": "^4.17.21",
-    "moment": "^2.29.2",
+    "moment": "^2.29.4",
     "msw": "0.35.0",
     "notification-polyfill": "^1.0.0",
     "postcss-normalize": "^10.0.1",
