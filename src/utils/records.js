@@ -1,4 +1,4 @@
-import { encodeContenthash, isValidContenthash } from '@ansdomains/ui'
+import { encodeContenthash, isValidContenthash } from '@pnsdomains/ui'
 import { addressUtils } from 'utils/utils'
 import { formatsByName } from '@ensdomains/address-encoder'
 

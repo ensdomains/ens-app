@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import styled from '@emotion/styled/macro'
 import { Query } from '@apollo/client/react/components'
 import DomainItem from '../components/DomainItem/DomainItem'
-import { getNamehash } from '@ansdomains/ui'
+import { getNamehash } from '@pnsdomains/ui'
 import { useQuery } from '@apollo/client'
 import gql from 'graphql-tag'
 

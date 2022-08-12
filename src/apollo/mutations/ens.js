@@ -1,10 +1,10 @@
-import { setupENS } from '@ansdomains/ui'
+import { setupENS } from '@pnsdomains/ui'
 import { isENSReadyReactive } from '../reactiveVars'
 
 const INFURA_ID =
   window.location.host === 'app.avaxns.domains'
     ? '90f210707d3c450f847659dc9a3436ea'
-    : '58a380d3ecd545b2b5b3dad5d2b18bf0'
+    : null
 
 let ens = {},
   registrar = {},

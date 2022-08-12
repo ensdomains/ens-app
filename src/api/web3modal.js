@@ -5,12 +5,12 @@ import {
   networkReactive,
   web3ProviderReactive
 } from '../apollo/reactiveVars'
-import { getNetwork, getNetworkId, isReadOnly } from '@ansdomains/ui'
+import { getNetwork, getNetworkId, isReadOnly } from '@pnsdomains/ui'
 
 const INFURA_ID =
   window.location.host === 'app.avaxns.domains'
     ? '90f210707d3c450f847659dc9a3436ea'
-    : '58a380d3ecd545b2b5b3dad5d2b18bf0'
+    : null
 
 const PORTIS_ID = '57e5d6ca-e408-4925-99c4-e7da3bdb8bf5'
 

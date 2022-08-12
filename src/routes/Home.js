@@ -372,7 +372,7 @@ export default ({ match }) => {
             marginTop: '-145px'
           }}
         >
-          <strong>AVA NAME SERVICES</strong>
+          <strong>Pulse Domains</strong>
         </h2>
       </SearchContainer>
     </Hero>

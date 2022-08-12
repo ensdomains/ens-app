@@ -11,7 +11,7 @@ import {
   isDecrypted,
   labelhash,
   utils
-} from '@ansdomains/ui'
+} from '@pnsdomains/ui'
 import { formatsByName } from '@ensdomains/address-encoder'
 import isEqual from 'lodash/isEqual'
 import modeNames from '../modes'
