@@ -1,11 +1,10 @@
 {
-  "name": "ans-app",
+  "name": "pns-app",
   "version": "1.1.9",
   "private": true,
-  "homepage": "https://ans.surge.sh",
+  "homepage": "https://pns.surge.sh",
   "dependencies": {
     "@0xproject/utils": "^0.7.3",
-    "@ansdomains/ui": "^3.3.11",
     "@apollo/client": "^3.4.4",
     "@buidlhub/buidlhub-ens-notifications": "^1.0.3",
     "@emotion/core": "^10.0.9",
@@ -18,7 +17,7 @@
     "@ensdomains/web3modal": "1.9.4",
     "@gnosis.pm/safe-apps-provider": "^0.2.2",
     "@myetherwallet/mewconnect-web-client": "^2.1.11",
-    "@pnsdomains/ui": "^3.4.2",
+    "@pnsdomains/ui": "3.3.9",
     "@portis/web3": "^2.0.0-beta.59",
     "@toruslabs/torus-embed": "^1.8.6",
     "@walletconnect/web3-provider": "^1.5.1",

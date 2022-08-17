@@ -140,14 +140,14 @@ function NetworkInformation() {
           )}
           <Account data-testid="account" className="account">
             <span>
-              {displayName.split('.')[1] === 'avax'
-                ? displayName.split('.')[0] + '.ava'
+              {displayName.split('.')[1] === 'pls'
+                ? displayName.split('.')[0] + '.pls'
                 : displayName}
             </span>
           </Account>
           <NetworkStatus>
             {network == 'unknown'
-              ? `fuji ${t('c.network')}`
+              ? `pulsechain ${t('c.network')}`
               : `${network} ${t('c.network')}`}
           </NetworkStatus>
           {!isSafeApp && (
@@ -165,7 +165,7 @@ function NetworkInformation() {
           </Account>
           <NetworkStatus>
             {network == 'unknown'
-              ? `fuji ${t('c.network')}`
+              ? `pulsechain ${t('c.network')}`
               : `${network} ${t('c.network')}`}
           </NetworkStatus>
           <NoAccountsModal

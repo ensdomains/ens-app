@@ -51,9 +51,9 @@ function SingleName({
         // This is under the assumption that validateName never returns false
         normalisedName = validateName(searchTerm)
         setNormalisedName(normalisedName)
-        document.title = searchTermsearchTerm.split('.')[0] + '.ava'
+        document.title = searchTermsearchTerm.split('.')[0] + '.pls'
       } catch {
-        document.title = searchTerm.split('.')[0] + '.ava'
+        document.title = searchTerm.split('.')[0] + '.pls'
       } finally {
         parseSearchTerm(normalisedName || searchTerm).then(_type => {
           if (_type === 'supported' || _type === 'tld' || _type === 'search') {

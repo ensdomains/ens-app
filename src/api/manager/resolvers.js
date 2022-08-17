@@ -88,7 +88,7 @@ export const handleSingleTransaction = async (
     let addressAsBytes
 
     // use 0x00... for AVAX because an empty string throws
-    if (coinRecord.key === 'AVAX' && coinRecord.value === '') {
+    if (coinRecord.key === 'pls' && coinRecord.value === '') {
       coinRecord.value = emptyAddress
     }
 
@@ -142,7 +142,7 @@ export const handleMultipleTransactions = async (
         const { decoder, coinType } = formatsByName[record.key]
         let addressAsBytes
         // use 0x00... for AVAX because an empty string throws
-        if (record.key === 'AVAX' && record.value === '') {
+        if (record.key === 'pls' && record.value === '') {
           record.value = emptyAddress
         }
         if (!record.value || record.value === '') {
@@ -171,7 +171,7 @@ export const handleMultipleTransactions = async (
 async function getRegistrarEntry(name) {
   const registrar = getRegistrar()
   const nameArray = name.split('.')
-  if (nameArray.length > 3 || nameArray[1] !== 'avax') {
+  if (nameArray.length > 3 || nameArray[1] !== 'pls') {
     return {}
   }
 
@@ -271,7 +271,7 @@ async function getDNSEntryDetails(name) {
   const registrar = getRegistrar()
   const nameArray = name.split('.')
   const networkId = await getNetworkId()
-  if (nameArray.length !== 2 || nameArray[1] === 'avax') return {}
+  if (nameArray.length !== 2 || nameArray[1] === 'pls') return {}
 
   let tld = nameArray[1]
   let owner
@@ -312,7 +312,7 @@ function adjustForShortNames(node) {
   const { label, parent } = node
 
   // return original node if is subdomain or not eth
-  if (nameArray.length > 2 || parent !== 'avax' || label.length > 6) return node
+  if (nameArray.length > 2 || parent !== 'pls' || label.length > 6) return node
 
   //if the auctions are over
   if (new Date() > new Date(1570924800000)) {
@@ -347,7 +347,7 @@ const resolvers = {
     publicResolver: async () => {
       try {
         const ens = getENS()
-        const resolver = await ens.getAddress('avax')
+        const resolver = await ens.getAddress('pls')
         return {
           address: resolver,
           __typename: 'Resolver'
@@ -548,7 +548,7 @@ const resolvers = {
       }
 
       async function calculateIsPublicResolverReady() {
-        const publicResolver = await ens.getAddress('avax')
+        const publicResolver = await ens.getAddress('pls')
         return !OLD_RESOLVERS.map(a => a.toLowerCase()).includes(publicResolver)
       }
 
@@ -912,7 +912,7 @@ const resolvers = {
 
       // get public resolver
       try {
-        const publicResolver = await ens.getAddress('avax')
+        const publicResolver = await ens.getAddress('pls')
         const resolver = await ens.getResolver(name)
         const isOldContentResolver = calculateIsOldContentResolver(resolver)
 

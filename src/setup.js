@@ -34,8 +34,6 @@ export const setSubDomainFavourites = () => {
 
 export const isSupportedNetwork = networkId => {
   switch (networkId) {
-    case 43113:
-      return true
     case 941:
       return true
     default:

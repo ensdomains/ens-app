@@ -18,8 +18,6 @@ const cache = new InMemoryCache({
 })
 
 const endpoints = {
-  '43113': 'https://api.thegraph.com/subgraphs/name/muellners/ans',
-  '43112': 'http://127.0.0.1:8000/subgraphs/name/graphprotocol/ans',
   '941': 'http://127.0.0.1:8000/subgraphs/name/graphprotocol/ens/graphql'
 }
 
@@ -34,7 +32,7 @@ function getGraphQLAPI() {
     return endpoints[network]
   }
 
-  return endpoints['1']
+  return endpoints['941']
 }
 
 function fromPromise(promise, operation) {

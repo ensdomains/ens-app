@@ -28,8 +28,7 @@ export const ROPSTEN_DNSREGISTRAR_ADDRESS =
   '0xdB328BA5FEcb432AF325Ca59E3778441eF5aa14F'
 
 export const networkName = {
-  fuji: 'fuji',
-  fuji: 'fuji',
+  pulsechain: 'pulsechain',
   local: 'local'
 }
 
@@ -84,12 +83,10 @@ export const uniq = (a, param) =>
 export async function getEtherScanAddr() {
   const networkId = await getNetworkId()
   switch (networkId) {
-    case '43114':
-      return 'https://snowtrace.io/'
-    case '43113':
-      return 'https://testnet.snowtrace.io/'
+    case '941':
+      return 'https://scan.v2b.testnet.pulsechain.com/'
     default:
-      return 'https://testnet.snowtrace.io/'
+      return 'https://scan.v2b.testnet.pulsechain.com/'
   }
 }
 
@@ -133,7 +130,9 @@ export function humaniseName(name) {
   return name
     .split('.')
     .map(label => {
-      return isEncodedLabelhash(label) ? `[fuji${label.slice(1, 8)}]` : label
+      return isEncodedLabelhash(label)
+        ? `[pulsechain${label.slice(1, 8)}]`
+        : label
     })
     .join('.')
 }

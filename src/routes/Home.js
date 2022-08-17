@@ -12,7 +12,7 @@ import bg from '../assets/heroBG.jpg'
 import TextBubbleDefault from '../components/Icons/TextBubble'
 import QuestionMarkDefault from '../components/Icons/QuestionMark'
 import HowToUseDefault from '../components/HowToUse/HowToUse'
-import ANSLogo from '../components/HomePage/images/avalanche-avax-logo.png'
+import PulseDomainsLogo from '../components/HomePage/images/pulse-domains-logo.png'
 import { aboutPageURL } from '../utils/utils'
 import { connectProvider, disconnectProvider } from '../utils/providerUtils'
 import gql from 'graphql-tag'
@@ -318,12 +318,12 @@ export default ({ match }) => {
         <NetworkStatus>
           <Network>
             {network == 'unknown'
-              ? `fuji ${t('c.network')}`
+              ? `pulsechain ${t('c.network')}`
               : `${network} ${t('c.network')}`}
             {isReadOnly && <ReadOnly>({t('c.readonly')})</ReadOnly>}
             {!isReadOnly && displayName && (
               <Name data-testid="display-name">
-                ({displayName.split('.')[0] + '.ava'})
+                ({displayName.split('.')[0] + '.pls'})
               </Name>
             )}
           </Network>
@@ -352,28 +352,17 @@ export default ({ match }) => {
       </HeroTop>
       <SearchContainer>
         <>
-          {/*
           <LogoLarge
             initial={animation.initial}
             animate={animation.animate}
-            src={ANSLogo}
-          */}
+            src={PulseDomainsLogo}
+          />
           <PermanentRegistrarLogo
             initial={animation.initial}
             animate={animation.animate}
           />
           <Search />
         </>
-        <h2
-          style={{
-            color: '#282929',
-            fontWeight: '1000',
-            textAlign: 'left',
-            marginTop: '-145px'
-          }}
-        >
-          <strong>Pulse Domains</strong>
-        </h2>
       </SearchContainer>
     </Hero>
   )

@@ -30,12 +30,12 @@ const RightBar = styled('div')`
 const Favourite = styled(DefaultFavourite)``
 
 function isRegistrationOpen(available, parent, isDeedOwner) {
-  return parent === 'avax' && !isDeedOwner && available
+  return parent === 'pls' && !isDeedOwner && available
 }
 
 function isDNSRegistrationOpen(domain) {
   const nameArray = domain.name?.split('.')
-  if (nameArray?.length !== 2 || nameArray?.[1] === 'avax') {
+  if (nameArray?.length !== 2 || nameArray?.[1] === 'pls') {
     return false
   }
   return domain.isDNSRegistrar && domain.owner === EMPTY_ADDRESS
@@ -116,7 +116,7 @@ function Name({ details: domain, name, pathname, type, refetch }) {
       <TopBar percentDone={percentDone}>
         <Title>
           {domain?.decrypted
-            ? name.split('.')[0] + '.ava'
+            ? name.split('.')[0] + '.pls'
             : '[unknown' +
               domain.name?.split('.')[0].slice(1, 11) +
               ']' +
@@ -125,7 +125,7 @@ function Name({ details: domain, name, pathname, type, refetch }) {
           <Copy
             value={
               domain?.decrypted
-                ? name.split('.')[0] + '.ava'
+                ? name.split('.')[0] + '.pls'
                 : '[unknown' +
                   domain.name?.split('.')[0].slice(1, 11) +
                   ']' +
