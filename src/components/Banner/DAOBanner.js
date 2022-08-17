@@ -95,9 +95,9 @@ export function DAOBannerContent() {
     <Link target="_blank" rel="noreferrer" href="https://ens.mirror.xyz">
       <LogoSmall src={ENSIcon} />
       <div>
-        <BannerTitle>ANS DAO: A Call for Delegates</BannerTitle>
+        <BannerTitle>PNS DAO: A Call for Delegates</BannerTitle>
         <BannerContent>
-          ANS is decentralizing governance, and accepting submissions for
+          PNS is decentralizing governance, and accepting submissions for
           delegates.
         </BannerContent>
       </div>

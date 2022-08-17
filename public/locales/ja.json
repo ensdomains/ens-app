@@ -228,12 +228,12 @@
   "reminder": {
     "everywhere": "everywhere",
     "release": {
-      "description": "Register {{name}} at https://app.avaxns.domains/name/{{name}}/register",
+      "description": "Register {{name}} at https://pulse.domains/name/{{name}}/register",
       "title": "Register {{name}}"
     },
     "renewal": {
-      "description": "Your ANS name is expiring soon, please renew it",
-      "title": "Renew your ANS domain {{name}}"
+      "description": "Your PNS name is expiring soon, please renew it",
+      "title": "Renew your PNS domain {{name}}"
     }
   },
   "search": {
@@ -293,7 +293,7 @@
     },
     "learnmore": {
       "step1": {
-        "text": "Once you register your name, Go to 'My Account' page and set a reverse record. This allows dapps to find and display your ANS name when you connect to them with your Avalanche account. ",
+        "text": "Once you register your name, Go to 'My Account' page and set a reverse record. This allows dapps to find and display your PNS name when you connect to them with your Pulsechain account. ",
         "title": "1. Set a reverse record"
       },
       "step2": {
@@ -301,7 +301,7 @@
         "title": "2. Set other records"
       },
       "step3": {
-        "text": "You can host your static html/css/images on IPFS and put the hash in your ANS name's Content record. Then it can be resolved by ANS-aware browsers (e.g. Opera), browser extensions (Metamask), or any browser with '.link' appended to the end (e.g. ens.eth.link).",
+        "text": "You can host your static html/css/images on IPFS and put the hash in your PNS name's Content record. Then it can be resolved by PNS-aware browsers (e.g. Opera), browser extensions (Metamask), or any browser with '.link' appended to the end (e.g. ens.eth.link).",
         "title": "3. Set a content hash of a decentralized website"
       },
       "title": "名前の管理についてもっと知る"
@@ -318,11 +318,11 @@
       "closeEdit": "Close Add/Edit Records",
       "messages": {
         "explanation": "The Reverse Resolution translates an address into a name. It allows Dapps to show in their interfaces '{{name}}' rather than the long address '{{account}}'. If you would like to set up your reverse for a different account, please switch accounts in your dapp browser",
-        "explanation2": "You can only select names you set this Avalanche Address as.",
-        "noForwardRecordAavilable": "You either do not own any ANS names, or your ANS names have no AVAX records set to this address.",
+        "explanation2": "You can only select names you set this Pulsechain Address as.",
+        "noForwardRecordAavilable": "You either do not own any PNS names, or your PNS names have no AVAX records set to this address.",
         "notSet": "Reverse record: not set",
         "reverseRecordRemoval": "Are you sure you want to delete the reverse record?",
-        "selectPlaceholder": "Select your ANS name",
+        "selectPlaceholder": "Select your PNS name",
         "setTo": "Reverse record: Set to ",
         "setToDifferent": "Reverse record: Set to a different name:"
       },

@@ -93,13 +93,13 @@
       "manage": {
         "text1": "作为域名的所有者，您现在可以管理域名了。",
         "text2": "由于您不是该域名的所有者，所以只能在管理器中查看域名。",
-        "title": "恭喜你！你已经成功将该 DNS 域名添加到 ANS 注册表中了。"
+        "title": "恭喜你！你已经成功将该 DNS 域名添加到 PNS 注册表中了。"
       },
       "proof": {
         "text1": "这里显示的 DNS 文本中的以太坊地址应该和你的地址一致。",
         "text2": "如果您持有该域名，请更改它的 TXT 记录以包含您的以太坊地址，并刷新此页面以再次执行 DNSSEC 验证。",
-        "title1": "您是这个地址的主人，现在可以将域名加入 ANS 注册表了。",
-        "title2": "您似乎不是该 DNS 域名的所有者，但任何人都可以将该域名添加到 ANS 注册表。"
+        "title1": "您是这个地址的主人，现在可以将域名加入 PNS 注册表了。",
+        "title2": "您似乎不是该 DNS 域名的所有者，但任何人都可以将该域名添加到 PNS 注册表。"
       }
     },
     "viewinmanager": "在管理器中查看"
@@ -124,12 +124,12 @@
     "announcements": {
     },
     "howtouse": {
-      "body": "ANS 管理器是一个面向非技术用户的图形化界面。您可以利用它查询域名，管理域名指向的地址或资源，还可以为域名创建子域名。",
-      "title": "如何使用 ANS"
+      "body": "PNS 管理器是一个面向非技术用户的图形化界面。您可以利用它查询域名，管理域名指向的地址或资源，还可以为域名创建子域名。",
+      "title": "如何使用 PNS"
     },
     "whatisens": {
-      "body": "以太坊域名服务（Avalanche Name Service）是一个基于以太坊区块链的分布式、开放和可扩展的域名系统。ANS 域名让人们不用再复制或输入冗长的区块链地址。通俗地说，ANS 就是区块链中的域名系统。",
-      "title": "ANS 是什么"
+      "body": "以太坊域名服务（Pulsechain Name Service）是一个基于以太坊区块链的分布式、开放和可扩展的域名系统。PNS 域名让人们不用再复制或输入冗长的区块链地址。通俗地说，PNS 就是区块链中的域名系统。",
+      "title": "PNS 是什么"
     }
   },
   "howtouse": {
@@ -215,7 +215,7 @@
     ]
   },
   "registrymigration": {
-    "donotaccept": "* 如果您在交易 ANS 域名，现在不要交易这个域名！",
+    "donotaccept": "* 如果您在交易 PNS 域名，现在不要交易这个域名！",
     "messages": {
       "controller": "该域名由智能合约控制，不能自动迁移。在设置新控制器之前，请重新部署您的合约以使用新的注册表。",
       "default": "该名称需要迁移到新的注册表，只有它的父域名（{{parent}}）可以执行这一操作。",
@@ -226,12 +226,12 @@
   "reminder": {
     "everywhere": "任意地点",
     "release": {
-      "description": "在 https://app.avaxns.domains/name/{{name}}/register 注册 {{name}}",
+      "description": "在 https://pulse.domains/name/{{name}}/register 注册 {{name}}",
       "title": "注册 {{name}}"
     },
     "renewal": {
-      "description": "您的 ANS 域名即将过期，请续费",
-      "title": "为你的 ANS 域名 {{name}} 进行续费"
+      "description": "您的 PNS 域名即将过期，请续费",
+      "title": "为你的 PNS 域名 {{name}} 进行续费"
     }
   },
   "search": {
@@ -291,7 +291,7 @@
     },
     "learnmore": {
       "step1": {
-        "text": "域名注册完成后，打开“我的域名”页面，并设置一个反向解析记录。这样您用以太坊账户连接 Dapp 时，它们就可以直接显示你的 ANS 域名。",
+        "text": "域名注册完成后，打开“我的域名”页面，并设置一个反向解析记录。这样您用以太坊账户连接 Dapp 时，它们就可以直接显示你的 PNS 域名。",
         "title": "1. 设置反向解析记录"
       },
       "step2": {
@@ -299,7 +299,7 @@
         "title": "2. 设置其他记录"
       },
       "step3": {
-        "text": "您可以将在 IPFS 部署静态网站（html/css/images），并将其哈希值记录在 ANS 域名的内容记录中，然后那些支持 ANS 的浏览器（比如 Opera）、浏览器插件（比如 Metamask）或是在做任意浏览器中加上 ‘.link’ 后缀，就可以解析这类记录。",
+        "text": "您可以将在 IPFS 部署静态网站（html/css/images），并将其哈希值记录在 PNS 域名的内容记录中，然后那些支持 PNS 的浏览器（比如 Opera）、浏览器插件（比如 Metamask）或是在做任意浏览器中加上 ‘.link’ 后缀，就可以解析这类记录。",
         "title": "3. 设置去中心化网站的内容哈希"
       },
       "title": "学习如何管理你的域名"
@@ -317,10 +317,10 @@
       "messages": {
         "explanation": "反向解析将地址转换为域名。它能让 dapp 在其界面上显示 “{{name}}”，而不是 “{{account}}” 这个冗长的地址。如果您想为另一个账户设置反向解析，请先在 dapp 浏览器中切换帐户。",
         "explanation2": "您只能选择已经解析至这个以太坊地址的域名。",
-        "noForwardRecordAavilable": "您尚未拥有 ANS 域名，或者您 ANS 域名的 AVAX 记录没有设置为此地址。",
+        "noForwardRecordAavilable": "您尚未拥有 PNS 域名，或者您 PNS 域名的 AVAX 记录没有设置为此地址。",
         "notSet": "反向记录：未设置",
         "reverseRecordRemoval": "您确定要删除反向解析记录？",
-        "selectPlaceholder": "选择您的 ANS 域名",
+        "selectPlaceholder": "选择您的 PNS 域名",
         "setTo": "反向记录：解析至 ",
         "setToDifferent": "反向记录：已解析至另一个域名："
       },

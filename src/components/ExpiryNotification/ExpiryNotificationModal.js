@@ -130,8 +130,8 @@ const ExpiryNotificationModal = ({ address, onCancel }) => {
   const { t } = useTranslation()
 
   // Passing a references domain name may be useful for future capabilities, if a
-  // user wants to monitor ANS names owned by others for upcoming expiration. This
-  // feature would require additional planning / coordination between ANS <> BUIDLHub.
+  // user wants to monitor PNS names owned by others for upcoming expiration. This
+  // feature would require additional planning / coordination between PNS <> BUIDLHub.
   // const domainName = currentModal ?
   //   currentModal.domainName :
   //   null;

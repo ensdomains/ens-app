@@ -74,28 +74,28 @@ function Faq() {
       <FaqContainer>
         <Title>FAQ</Title>
         <H2>Before You register</H2>
-        <Section question="Is ANS only for storing an Avalanche address?">
+        <Section question="Is PNS only for storing an Pulsechain address?">
           No, you can store the addresses of over 100 blockchains, a content
           hash of a decentralized website, profile information such as an avatar
           and Twitter handle, and more.
         </Section>
 
-        <Section question="Can I use an ANS name to point to my website?">
-          Though ANS can technically store anything, there aren't many third
+        <Section question="Can I use an PNS name to point to my website?">
+          Though PNS can technically store anything, there aren't many third
           party tools and applications which resolve IP addresses attached to
-          ANS.
+          PNS.
           <br />
           Instead, we suggest hosting your static html/css/images on IPFS and
-          put the hash in your ANS name's Content record. Then it can be
-          resolved by ANS-aware browsers (e.g. Opera), browser extensions
+          put the hash in your PNS name's Content record. Then it can be
+          resolved by PNS-aware browsers (e.g. Opera), browser extensions
           (Metamask), or any browser with ".link" or ".limo" appended to the end
-          (e.g. matoken.ava.link or matoken.ava.limo).
+          (e.g. matoken.pls.link or matoken.pls.limo).
           <br />
-          If you want to redirect your ANS name to an existing website, you
+          If you want to redirect your PNS name to an existing website, you
           could write a html file containing JavasSript logic to redirect your
           website, upload the file into ipfs using services like{' '}
           <a href="https://pinata.cloud/">IPFS Pinata</a>, then set the CID to
-          your contenthash. See the source code of depositcontract.ava.link as
+          your contenthash. See the source code of depositcontract.pls.link as
           an example.
         </Section>
 
@@ -105,12 +105,12 @@ function Faq() {
 
         <Section question="Can you have names with emojis?">Yes.</Section>
 
-        <Section question="How much does it cost to register a .ava name?">
+        <Section question="How much does it cost to register a .pls name?">
           Currently, registration costs are set at the following prices:
           <ul>
-            <li>5+ character .ava names: $5 in AVAX per year.</li>
-            <li>4 character .ava names: $160 in AVAX per year.</li>
-            <li>3 character .ava names $640 in AVAX per year.</li>
+            <li>5+ character .pls names: $5 in AVAX per year.</li>
+            <li>4 character .pls names: $160 in AVAX per year.</li>
+            <li>3 character .pls names $640 in AVAX per year.</li>
           </ul>
           3 and 4 character names have 'premium' pricing to reflect the small
           number of these names available.
@@ -135,8 +135,8 @@ function Faq() {
           relatively expensive.
         </Section>
 
-        <Section question="Can I register names other than .ava?">
-          Yes, you can import into ANS any DNS name with the required DNSSEC.
+        <Section question="Can I register names other than .pls?">
+          Yes, you can import into PNS any DNS name with the required DNSSEC.
           <br />
           Please refer to our{' '}
           <a href="https://docs.avaxns.domains/dns-registrar-guide">
@@ -154,7 +154,7 @@ function Faq() {
 
         <Section question="I am stuck at step 2">
           At times, the counter waits for up to a minute at the end of step 2 to
-          make sure that the Avalanche blockchain has progressed. If this
+          make sure that the Pulsechain blockchain has progressed. If this
           continues for more than 5 min after moving to step 2, please contact
           us on Discord.
           <br />
@@ -191,39 +191,39 @@ function Faq() {
         <H2>After you register</H2>
 
         <Section question="What is the difference between the Registrant and Controller?">
-          If your Avalanche address is set as the Controller you can change the
+          If your Pulsechain address is set as the Controller you can change the
           resolver and add/edit records. Some dapps (eg: Fleek, OpenSea) set
           themselves as the Controller so they can update records on your
           behalf.
           <br />
-          The Registrant only exists on ".ava" names and it allows you to change
+          The Registrant only exists on ".pls" names and it allows you to change
           the Controller. If you transfer the Registrant to an address you don,t
           own, you lose the ownership of the name.
         </Section>
 
         <Section question="What is a Resolver?">
           A Resolver is a smart contract that holds records. Names are set by
-          default to the Public Resolver managed by the ANS team and has all the
-          standard ANS record types. You can set your Resolver to a custom
+          default to the Public Resolver managed by the PNS team and has all the
+          standard PNS record types. You can set your Resolver to a custom
           resolver contract if you,d like.
         </Section>
 
-        <Section question="What is a Primary ANS Name record?">
-          A Primary ANS Name record (formerly Reverse Record) makes your
-          Avalanche address point to an ANS name. This allows dapps to find and
-          display your ANS name when you connect to them with your Avalanche
+        <Section question="What is a Primary PNS Name record?">
+          A Primary PNS Name record (formerly Reverse Record) makes your
+          Pulsechain address point to an PNS name. This allows dapps to find and
+          display your PNS name when you connect to them with your Pulsechain
           account. This can only be set by you so it is not set automatically
           upon registration.
           <br />
-          To set the Primary ANS Name record, please click "My account", and
-          select "Primary ANS Name".
+          To set the Primary PNS Name record, please click "My account", and
+          select "Primary PNS Name".
         </Section>
 
         <Section question="How do I unregister my name?">
           If you click the "trash bin" icon on the address record, it will unset
           your address so that people can no longer look up your address with
           the name. You can also unset ownership of subdomains in this way, but
-          you cannot do so on ".ava" addresses. Because ‘.ava` names are
+          you cannot do so on ".pls" addresses. Because ‘.pls` names are
           ERC721-compliant NFTs, you cannot transfer them to an empty address
           (0x00000...). You can transfer it to a burn address (eg: 0x00001), but
           that does not erase the fact that you used to own the name. Also, the
@@ -232,8 +232,8 @@ function Faq() {
         </Section>
 
         <Section question="How do I transfer my name?">
-          For a ".ava" name, transfer both the Registrant and the Controller to
-          the new Avalanche account. Since ".ava" names are ERC721 compliant
+          For a ".pls" name, transfer both the Registrant and the Controller to
+          the new Pulsechain account. Since ".pls" names are ERC721 compliant
           NFTs, you can change the Registrant by simply transferring the NFT
           from any NFT compliant wallet/marketplace as well.
           <br />
@@ -242,7 +242,7 @@ function Faq() {
           to update them once received. If the recipient is not experienced or
           you prefer your address not to be associated to the transferring
           names, it may be a good idea for you to set the AVAX Address record to
-          their Avalanche address, set the controller, then transfer the name.
+          their Pulsechain address, set the controller, then transfer the name.
           <br />
           For subdomains, there are no registrants unless the subdomain is
           customised to be ERC721 compliant. Simply set the controller to the
@@ -250,7 +250,7 @@ function Faq() {
         </Section>
 
         <Section question="Why are some of my subdomains shown as a jumble of characters?">
-          ANS names are stored as a hash on-chain so we have to decode the name
+          PNS names are stored as a hash on-chain so we have to decode the name
           using a list of possible names, and it shows in the hashed format if
           we don,t have it on our list. You can still access and manage the name
           if you search for the name directly in the search bar.
@@ -283,8 +283,8 @@ function Faq() {
           owner overwrites it.
         </Section>
 
-        <Section question="I lost access to the Avalanche account that owns a name I registered. Can I still extend its registration period?">
-          Any Avalanche account can pay to extend the registration of any ANS
+        <Section question="I lost access to the Pulsechain account that owns a name I registered. Can I still extend its registration period?">
+          Any Pulsechain account can pay to extend the registration of any PNS
           name, though doing so from an account that's not the owner will not
           change ownership of the name. Just go to the name,s page and click
           "Extend".

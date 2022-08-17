@@ -88,7 +88,7 @@
     "steps": {
       "addtext": {
         "text": "Clicca 'approfondisci' per leggere ulteriori informazioni sul processo.",
-        "title": "Imposta un record di testo nel tuo provider di dominio, quindi fai clic su Aggiorna. Il record di testo dovrebbe contenere il tuo indirizzo Avalanche nel modulo:"
+        "title": "Imposta un record di testo nel tuo provider di dominio, quindi fai clic su Aggiorna. Il record di testo dovrebbe contenere il tuo indirizzo Pulsechain nel modulo:"
       },
       "enable": {
         "text": "Clicca 'approfondisci' per leggere ulteriori informazioni sul processo.",
@@ -97,13 +97,13 @@
       "manage": {
         "text1": "In qualità di titolare ora puoi gestire il tuo dominio. ",
         "text2": "Poichè non sei il titolare, puoi solamente visualizzare il dominio.",
-        "title": "Congratulazioni! Hai aggiunto con successo il domminio DNS al Registro ANS."
+        "title": "Congratulazioni! Hai aggiunto con successo il domminio DNS al Registro PNS."
       },
       "proof": {
         "text1": "L'indirizzo che appare nel record txt DNS è il tuo stesso indirizzo.",
-        "text2": "Se sai di essere il proprietario di questo dominio, cambia il record TXT di modo che contenga il tuo Indirizzo Avalanche e aggiorna questa pagina per effettuare la verifica DNSSEC nuovamente.",
-        "title1": "Sei il titolare di questo indirizzo. Aggoungi ora il tuo dominio al Registro ANS.",
-        "title2": "Non risulti essere il titolare DNS di questo dominio, ad ogni modo puoi aggiungere questo dominio al Registro ANS."
+        "text2": "Se sai di essere il proprietario di questo dominio, cambia il record TXT di modo che contenga il tuo Indirizzo Pulsechain e aggiorna questa pagina per effettuare la verifica DNSSEC nuovamente.",
+        "title1": "Sei il titolare di questo indirizzo. Aggoungi ora il tuo dominio al Registro PNS.",
+        "title2": "Non risulti essere il titolare DNS di questo dominio, ad ogni modo puoi aggiungere questo dominio al Registro PNS."
       }
     },
     "viewinmanager": "Visualizza nel Manager"
@@ -128,11 +128,11 @@
     "announcements": {
     },
     "howtouse": {
-      "body": "L'applicazione ANS è un'interfaccia grafica per utenti non tecnici. Ti permette di cercare i nomi di dominio, gestire gli indirizzi o le risorse a cui puntano e di creare sottodomini per ogni nome.",
-      "title": "Come usare ANS"
+      "body": "L'applicazione PNS è un'interfaccia grafica per utenti non tecnici. Ti permette di cercare i nomi di dominio, gestire gli indirizzi o le risorse a cui puntano e di creare sottodomini per ogni nome.",
+      "title": "Come usare PNS"
     },
     "whatisens": {
-      "body": "Avalanche Name Service è un sistema di gestione di dominio aperto ed estensibile costruito sulla blockchain Avalanche. ANS elimina la necessità di copiare o digitare lunghi indirizzi esadecimali.",
+      "body": "Pulsechain Name Service è un sistema di gestione di dominio aperto ed estensibile costruito sulla blockchain Pulsechain. PNS elimina la necessità di copiare o digitare lunghi indirizzi esadecimali.",
       "title": "Che cos'è"
     }
   },
@@ -219,7 +219,7 @@
     ]
   },
   "registrymigration": {
-    "donotaccept": "*Se fai compravendita di domini ANS, non accettare questo nome!",
+    "donotaccept": "*Se fai compravendita di domini PNS, non accettare questo nome!",
     "messages": {
       "controller": "Questo nome di dominio è controllato da uno smart contract e non può essere migrato automaticamente. Perfavore rilascia nuovamente il tuo contract per poter usare il nuovo registro prima di impostare il nuovo controller",
       "default": "Questo nome di domino deve essere migrato sul nuovo Registro. Solo il dominio principale ({{parent}}) può effettuare questa operazione.",
@@ -230,12 +230,12 @@
   "reminder": {
     "everywhere": "ovunque",
     "release": {
-      "description": "Registra {{name}} su https://app.avaxns.domains/name/{{name}}/register",
+      "description": "Registra {{name}} su https://pulse.domains/name/{{name}}/register",
       "title": "Registra {{name}}"
     },
     "renewal": {
-      "description": "Il tuo nome ANS è in scadenza, perfavore provvedi al rinnovo",
-      "title": "Rinnova il tuo dominio ANS {{name}}"
+      "description": "Il tuo nome PNS è in scadenza, perfavore provvedi al rinnovo",
+      "title": "Rinnova il tuo dominio PNS {{name}}"
     }
   },
   "search": {
@@ -295,7 +295,7 @@
     },
     "learnmore": {
       "step1": {
-        "text": "Una volta registrato il tuo dominio, Vai alla pagina 'Mio Account' e imposta un record di risoluzione. Questo consente alle dapps di trovare e visualizzare il tuo nome ANS quandi ti connetti a loro con il tuo account Avalanche. ",
+        "text": "Una volta registrato il tuo dominio, Vai alla pagina 'Mio Account' e imposta un record di risoluzione. Questo consente alle dapps di trovare e visualizzare il tuo nome PNS quandi ti connetti a loro con il tuo account Pulsechain. ",
         "title": "1. Imposta record di risoluzione"
       },
       "step2": {
@@ -303,7 +303,7 @@
         "title": "2. Imposta altri record"
       },
       "step3": {
-        "text": "Puoi ospitare i tuoi file statici html/css/images su IPFS e inserire l'hash sul Content record del dominio ANS. Dopo potrà essere risolto dai browser che supportano ANS (es. Opera), dalle estensioni browser (Metamask), o da qualsiasi browser con estensione '.link' alla fine (es. ens.eth.link).",
+        "text": "Puoi ospitare i tuoi file statici html/css/images su IPFS e inserire l'hash sul Content record del dominio PNS. Dopo potrà essere risolto dai browser che supportano PNS (es. Opera), dalle estensioni browser (Metamask), o da qualsiasi browser con estensione '.link' alla fine (es. ens.eth.link).",
         "title": "3. Imposta un content hash di un sito web decentralizzato"
       },
       "title": "Impara come gestire il tuo dominio."
@@ -320,11 +320,11 @@
       "closeEdit": "Chiudi Aggiungi / Modifica Record",
       "messages": {
         "explanation": "La Risoluzione inversa traduce un indirizzo in un nome dominio. Questo consente alle Dapps di visualizzare '{{name}}' nelle loro interfacce al posto dell'indirizzo completo '{{account}}'. Se vuoi impostare un tuo risolutore per un account differente, perfavore cambia account nel tuo browser dapp",
-        "explanation2": "Puoi selezionare solo i nomi con cui hai impostato questo Indirizzo Avalanche.",
-        "noForwardRecordAavilable": "Non possiedi alcun nome ANS oppure i tuoi domini ANS non hanno record AVAX impostati su questo indirizzo.",
+        "explanation2": "Puoi selezionare solo i nomi con cui hai impostato questo Indirizzo Pulsechain.",
+        "noForwardRecordAavilable": "Non possiedi alcun nome PNS oppure i tuoi domini PNS non hanno record AVAX impostati su questo indirizzo.",
         "notSet": "Record risoluzione: non impostato",
         "reverseRecordRemoval": "Are you sure you want to delete the reverse record?",
-        "selectPlaceholder": "Seleziona il tuo dominio ANS",
+        "selectPlaceholder": "Seleziona il tuo dominio PNS",
         "setTo": "Record risoluzione: Impostato su ",
         "setToDifferent": "Record risoluzione: Imposta su nome differente:"
       },

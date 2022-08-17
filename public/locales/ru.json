@@ -90,7 +90,7 @@
     "steps": {
       "addtext": {
         "text": "Нажмите 'Узнать больше' чтобы прочесть о данном процессе.",
-        "title": "Добавьте текстовую запись у регистратора вашего домена и затем нажминте 'Обновить'. Текстовая запись должна содержать ваш Avalanche адрес в следующем виде:"
+        "title": "Добавьте текстовую запись у регистратора вашего домена и затем нажминте 'Обновить'. Текстовая запись должна содержать ваш Pulsechain адрес в следующем виде:"
       },
       "enable": {
         "text": "Нажмите 'узнать больше' чтоб прочесть о процедуре.",
@@ -99,13 +99,13 @@
       "manage": {
         "text1": "Поскольку вы являетесь владельцем, вы можете сейчас управлять именем.",
         "text2": "Поскольку вы не являетесь владельцем, вы можете только просматривать данные об имени в менеджере.",
-        "title": "Поздравляем! Вы успешно внесли этот DNS домен в ANS реестр."
+        "title": "Поздравляем! Вы успешно внесли этот DNS домен в PNS реестр."
       },
       "proof": {
         "text1": "Адрес в DNS текстовой записи является вашим адресом.",
-        "text2": "Если вы знаете, что являетесь владельцем этого домена, то добавьте к его TXT записи ваш Avalanche адрес и обновите эту страницу чтобы произвести проверку DNSSEC ещё раз.",
-        "title1": "Вы владелец этого адреса. Добавьте сейчас ваш домен к Реестру ANS.",
-        "title2": "Похоже, что вы не являетесь владельцем DNS этого домена, но любой человек может добавить этот домен в ANS Реестр."
+        "text2": "Если вы знаете, что являетесь владельцем этого домена, то добавьте к его TXT записи ваш Pulsechain адрес и обновите эту страницу чтобы произвести проверку DNSSEC ещё раз.",
+        "title1": "Вы владелец этого адреса. Добавьте сейчас ваш домен к Реестру PNS.",
+        "title2": "Похоже, что вы не являетесь владельцем DNS этого домена, но любой человек может добавить этот домен в PNS Реестр."
       }
     },
     "viewinmanager": "Просмотреть в Менеджере"
@@ -130,11 +130,11 @@
     "announcements": {
     },
     "howtouse": {
-      "body": "Приложение ANS App является графическим интерфейсом пользователя для обычных пользователей. Оно позволяет вам найти любое имя, управлять его адресом или тем, куда он направляет и создавать поддомены для каждого из имён.",
-      "title": "Как пользоваться ANS"
+      "body": "Приложение PNS App является графическим интерфейсом пользователя для обычных пользователей. Оно позволяет вам найти любое имя, управлять его адресом или тем, куда он направляет и создавать поддомены для каждого из имён.",
+      "title": "Как пользоваться PNS"
     },
     "whatisens": {
-      "body": "Avalanche Name Service является распределённой, открытой и исчерпывающий системой имён на блокчейне Avalanche. ANS устраняет необходимость копировать или набирать длинные адреса.",
+      "body": "Pulsechain Name Service является распределённой, открытой и исчерпывающий системой имён на блокчейне Pulsechain. PNS устраняет необходимость копировать или набирать длинные адреса.",
       "title": "Что это"
     }
   },
@@ -221,7 +221,7 @@
     ]
   },
   "registrymigration": {
-    "donotaccept": "*Если вы занимаетесь торговлей ANS именами, не принимайте данное имя!",
+    "donotaccept": "*Если вы занимаетесь торговлей PNS именами, не принимайте данное имя!",
     "messages": {
       "controller": "Это имя контролируется контрактом и не может быть мигрировано автоматически. Пожалуйста, перезапустите ваш контракт для использования с новым реестром перед тем как установите контроллер.",
       "default": "Это имя должно быть перенесено в новый Реестр. Только родитель данного имени ({{ parent}}) может это сделать",
@@ -232,12 +232,12 @@
   "reminder": {
     "everywhere": "everywhere",
     "release": {
-      "description": "Register {{name}} at https://app.avaxns.domains/name/{{name}}/register",
+      "description": "Register {{name}} at https://pulse.domains/name/{{name}}/register",
       "title": "Register {{name}}"
     },
     "renewal": {
-      "description": "Your ANS name is expiring soon, please renew it",
-      "title": "Renew your ANS domain {{name}}"
+      "description": "Your PNS name is expiring soon, please renew it",
+      "title": "Renew your PNS domain {{name}}"
     }
   },
   "search": {
@@ -297,7 +297,7 @@
     },
     "learnmore": {
       "step1": {
-        "text": "Once you register your name, Go to 'My Account' page and set a reverse record. This allows dapps to find and display your ANS name when you connect to them with your Avalanche account. ",
+        "text": "Once you register your name, Go to 'My Account' page and set a reverse record. This allows dapps to find and display your PNS name when you connect to them with your Pulsechain account. ",
         "title": "1. Set a reverse record"
       },
       "step2": {
@@ -305,7 +305,7 @@
         "title": "2. Set other records"
       },
       "step3": {
-        "text": "You can host your static html/css/images on IPFS and put the hash in your ANS name's Content record. Then it can be resolved by ANS-aware browsers (e.g. Opera), browser extensions (Metamask), or any browser with '.link' appended to the end (e.g. ens.eth.link).",
+        "text": "You can host your static html/css/images on IPFS and put the hash in your PNS name's Content record. Then it can be resolved by PNS-aware browsers (e.g. Opera), browser extensions (Metamask), or any browser with '.link' appended to the end (e.g. ens.eth.link).",
         "title": "3. Set a content hash of a decentralized website"
       },
       "title": "Learn how to manage your name."
@@ -322,11 +322,11 @@
       "closeEdit": "Close Add/Edit Records",
       "messages": {
         "explanation": "Обратная Резолюция преобразовывает адрес в имя. Это позволяет Dapps показывать в их интерфейсах '{{имя}}' вместо длинного адреса '{{аккаунт}}'. Если вы хотите установить преобразование для другого аккаунта, пожалуйста, переключитите аккаунты в браузере dapp.",
-        "explanation2": "You can only select names you set this Avalanche Address as.",
-        "noForwardRecordAavilable": "You either do not own any ANS names, or your ANS names have no AVAX records set to this address.",
+        "explanation2": "You can only select names you set this Pulsechain Address as.",
+        "noForwardRecordAavilable": "You either do not own any PNS names, or your PNS names have no AVAX records set to this address.",
         "notSet": "Обратная запись: не установлена",
         "reverseRecordRemoval": "Are you sure you want to delete the reverse record?",
-        "selectPlaceholder": "Select your ANS name",
+        "selectPlaceholder": "Select your PNS name",
         "setTo": "Обратная запись: Установлена на",
         "setToDifferent": "Обратная запись: Установлена на другое имя:"
       },

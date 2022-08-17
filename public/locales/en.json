@@ -88,7 +88,7 @@
     "steps": {
       "addtext": {
         "text": "Click 'learn more' to read about the process.",
-        "title": "Set up a text record in your domain registrar then click refresh. The text record should be called '_ens' and should contain your Avalanche address in the form:"
+        "title": "Set up a text record in your domain registrar then click refresh. The text record should be called '_ens' and should contain your Pulsechain address in the form:"
       },
       "enable": {
         "text": "Click 'learn more' to read about the process.",
@@ -97,13 +97,13 @@
       "manage": {
         "text1": "Since you are the owner, you can manage your name now. ",
         "text2": "Since you are not the owner, you can only view the name in the manager.",
-        "title": "Congratulations! You have successfully added this DNS domain to the ANS Registry."
+        "title": "Congratulations! You have successfully added this DNS domain to the PNS Registry."
       },
       "proof": {
         "text1": "The address that appears in the DNS txt record is your same address.",
-        "text2": "If you know you own this domain, change it's TXT record to contain your Avalanche Address and refresh this page to perform the DNSSEC verification again.",
-        "title1": "You are the owner of this address. Add your domain to the ANS Registry now.",
-        "title2": "You don't appear to be the DNS Owner of this domain, but anyone can add this domain to the ANS Registry."
+        "text2": "If you know you own this domain, change it's TXT record to contain your Pulsechain Address and refresh this page to perform the DNSSEC verification again.",
+        "title1": "You are the owner of this address. Add your domain to the PNS Registry now.",
+        "title2": "You don't appear to be the DNS Owner of this domain, but anyone can add this domain to the PNS Registry."
       }
     },
     "viewinmanager": "View in Manager"
@@ -128,11 +128,11 @@
     "announcements": {
     },
     "howtouse": {
-      "body": "The ANS App is a Graphical User Interface for non-technical users. It allows you to search any name, manage their addresses or resources it points to and create subdomains for each name.",
-      "title": "How to use ANS"
+      "body": "The PNS App is a Graphical User Interface for non-technical users. It allows you to search any name, manage their addresses or resources it points to and create subdomains for each name.",
+      "title": "How to use PNS"
     },
     "whatisens": {
-      "body": "The Avalanche Name Service is a distributed, open, and extensible naming system based on the Avalanche blockchain. ANS eliminates the need to copy or type long addresses.",
+      "body": "The Pulsechain Name Service is a distributed, open, and extensible naming system based on the Pulsechain blockchain. PNS eliminates the need to copy or type long addresses.",
       "title": "What it is"
     }
   },
@@ -146,7 +146,7 @@
       "title": "Manage names"
     },
     "register": {
-      "text": "Register .ava names for $5/year. Extend your name registration at any time.",
+      "text": "Register .pls names for $5/year. Extend your name registration at any time.",
       "title": "Register names"
     },
     "search": {
@@ -178,7 +178,7 @@
       "manage": "Manage name",
       "register": "Register",
       "request": "Request to register",
-      "setreverserecord": "Set as Primary ANS Name",
+      "setreverserecord": "Set as Primary PNS Name",
       "warning": "Click register to move to the 3rd step"
     },
     "favourite": "* Favorite the name for easy access in case you close out of your browser.",
@@ -219,7 +219,7 @@
     ]
   },
   "registrymigration": {
-    "donotaccept": "*If you trade ANS names, do not accept this name!",
+    "donotaccept": "*If you trade PNS names, do not accept this name!",
     "messages": {
       "controller": "This name is controlled by a contract and can't be migrated automatically. Please redeploy your contract to use the new registry before setting the new controller",
       "default": "This name needs to be migrated to the new Registry. Only the parent of this name ({{parent}}) can do this.",
@@ -234,8 +234,8 @@
       "title": "Register {{name}}"
     },
     "renewal": {
-      "description": "Your ANS name is expiring soon, please extend its registration",
-      "title": "Extend the registration of your ANS domain {{name}}"
+      "description": "Your PNS name is expiring soon, please extend its registration",
+      "title": "Extend the registration of your PNS domain {{name}}"
     }
   },
   "search": {
@@ -244,7 +244,7 @@
   },
   "searchErrors": {
     "domainMalformed": {
-      "long": "You have either added a domain without a TLD such as .ava or you have added unsupported characters.",
+      "long": "You have either added a domain without a TLD such as .pls or you have added unsupported characters.",
       "short": "Domain malformed. {{searchTerm}} is not a valid domain."
     },
     "tooShort": {
@@ -295,15 +295,15 @@
     },
     "learnmore": {
       "step1": {
-        "text": "Once you register your name, Go to 'My Account' page and set your Primary ANS Name record. This allows dapps to find and display your ANS name when you connect to them with your Avalanche account. ",
-        "title": "1. Set your Primary ANS Name record"
+        "text": "Once you register your name, Go to 'My Account' page and set your Primary PNS Name record. This allows dapps to find and display your PNS name when you connect to them with your Pulsechain account. ",
+        "title": "1. Set your Primary PNS Name record"
       },
       "step2": {
         "text": "You can set the addresses of many different cryptocurrencies, profile information such as an avatar, Twitter handle, and more",
         "title": "2. Set other records"
       },
       "step3": {
-        "text": "You can host your static html/css/images on IPFS and put the hash in your ANS name's Content record. Then it can be resolved by ANS-aware browsers (e.g. Opera), browser extensions (Metamask), or any browser with '.link' appended to the end (e.g. ans.ava.link).",
+        "text": "You can host your static html/css/images on IPFS and put the hash in your PNS name's Content record. Then it can be resolved by PNS-aware browsers (e.g. Opera), browser extensions (Metamask), or any browser with '.link' appended to the end (e.g. ans.pls.link).",
         "title": "3. Set a content hash of a decentralized website"
       },
       "title": "Learn how to manage your name."
@@ -319,14 +319,14 @@
       "cantEdit": "You can’t edit or add records until you migrate to the new resolver.",
       "closeEdit": "Close Add/Edit Records",
       "messages": {
-        "explanation": "This designates one of your ANS names to represent your Avalanche account and act as your cross-platform web3 username and profile. You can only have one Primary ANS Name per Avalanche account and can change it at any time.",
-        "explanation2": "Only ANS names that point to your Avalanche account can be set as your Primary ANS Name.",
-        "noForwardRecordAavilable": "No ANS names have their AVAX Address records set to this address.",
-        "notSet": "Primary ANS Name (reverse record): not set",
-        "reverseRecordRemoval": "Are you sure you want to delete your Primary ANS Name record?",
-        "selectPlaceholder": "Select one of your ANS names",
-        "setTo": "Primary ANS Name (reverse record): ",
-        "setToDifferent": "Primary ANS Name (reverse record): Set to a different name:"
+        "explanation": "This designates one of your PNS names to represent your Pulsechain account and act as your cross-platform web3 username and profile. You can only have one Primary PNS Name per Pulsechain account and can change it at any time.",
+        "explanation2": "Only PNS names that point to your Pulsechain account can be set as your Primary PNS Name.",
+        "noForwardRecordAavilable": "No PNS names have their AVAX Address records set to this address.",
+        "notSet": "Primary PNS Name (reverse record): not set",
+        "reverseRecordRemoval": "Are you sure you want to delete your Primary PNS Name record?",
+        "selectPlaceholder": "Select one of your PNS names",
+        "setTo": "Primary PNS Name (reverse record): ",
+        "setToDifferent": "Primary PNS Name (reverse record): Set to a different name:"
       },
       "openEdit": "Add/Edit Records",
       "title": "Records"

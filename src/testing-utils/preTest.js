@@ -53,7 +53,7 @@ async function init() {
   fs.appendFileSync(envLocalFile, '\n')
   fs.appendFileSync(envLocalFile, `REACT_APP_LABELS=${JSON.stringify(labels)}`)
   fs.appendFileSync(envLocalFile, '\n')
-  console.log(`Successfully wrote ANS address ${ensAddress} to .env.local`)
+  console.log(`Successfully wrote PNS address ${ensAddress} to .env.local`)
   fs.appendFileSync(
     envLocalFile,
     `REACT_APP_DEPRECATED_RESOLVERS=${oldResolverAddresses.join(',')}`

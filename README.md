@@ -1,6 +1,6 @@
-# ANS Application
+# PNS Application
 
-ANS Application
+PNS Application
 
 ## Installation
 
@@ -25,7 +25,7 @@ yarn start:ipfs
 
 The main difference of the ipfs-build is that it uses HashRouter instead of BrowserRouter and makes sure all links are relative.
 
-The ANS app can be used with the Gnosis Safe web interface. The required steps are outline [here](./docs/gnosis_safe_app_support.md).
+The PNS app can be used with the Gnosis Safe web interface. The required steps are outline [here](./docs/gnosis_safe_app_support.md).
 
 ## Unit Testing
 
@@ -226,7 +226,7 @@ This should open up cypress. To run the tests click on 'Run n integration tests'
 
 ---
 
-The main package for the E2E tests is `ansdomains/mock`, which exposes a script that will prepopulate ganache with ANS so you have everything setup to run Cypress on.
+The main package for the E2E tests is `ansdomains/mock`, which exposes a script that will prepopulate ganache with PNS so you have everything setup to run Cypress on.
 
 The ANA app has end to end tests with Cypress. To run them you need to start ganache, run the seed script, run the app and then run cypress. This should start chrome and the Cypress GUI. Each time the test run, the script needs to be re-run and the app restarted for it to work.
 
@@ -299,7 +299,7 @@ cd graph-node/docker
 docker-compose up
 ```
 
-### Deploy ANS contracts and update subgraph.yml
+### Deploy PNS contracts and update subgraph.yml
 
 ```
 cd ans-app
@@ -307,9 +307,9 @@ yarn preTest
 yarn subgraph
 ```
 
-`subgraph` job updates ANS contract addresses and updates environment from `mainnet` to `dev`
+`subgraph` job updates PNS contract addresses and updates environment from `mainnet` to `dev`
 
-### Deploy ANS subgraph
+### Deploy PNS subgraph
 
 ### Generate deployment code
 

@@ -86,7 +86,7 @@
     "steps": {
       "addtext": {
         "text": "Nhấp \"tìm hiểu thêm\" để biết chi tiết các bước",
-        "title": "Tạo một bản ghi trong tên miền đã đăng ký củ bạn\nsau đó nhấn làm mới. Bản ghi sẽ đc chứa trong địa chỉ Avalanche dưới dạng:"
+        "title": "Tạo một bản ghi trong tên miền đã đăng ký củ bạn\nsau đó nhấn làm mới. Bản ghi sẽ đc chứa trong địa chỉ Pulsechain dưới dạng:"
       },
       "enable": {
         "text": "Nhấp \"tìm hiểu thêm\" để biết chi tiết các bước",
@@ -95,13 +95,13 @@
       "manage": {
         "text1": "Bạn có thể quản lý tên miền này ngay bây giờ do bạn đã là chủ sở hữu",
         "text2": "Bạn chỉ có thể xem tên miền này trong trình quản lý do hiện tại bạn không phải là chủ sở hữu",
-        "title": "Xin chúc mừng! Bạn vừa thêm thành công tên miền DNS này vào Trình đăng ký ANS"
+        "title": "Xin chúc mừng! Bạn vừa thêm thành công tên miền DNS này vào Trình đăng ký PNS"
       },
       "proof": {
         "text1": "Địa chỉ xuất hiện trong bản ghi file txt của DNS cũng là địa chỉ của bạn",
-        "text2": "Nếu bạn biết mình sở hữu tên miền này, hãy thay đổi bản ghi TXT để lưu trữ Địa chỉ Avalanche của bạn và tải lại trang để tiến hành xác minh lại DNSSEC ",
-        "title1": "Bạn là chủ sở hữu của địa chỉ này. Hãy thêm tên miền của bạn vào Trình đăng ký ANS ngay",
-        "title2": "Bạn không phải là Người sở hữu DNS của tên miền này, nhưng bất kì ai cũng có thể thêm tên miền này vào trình Đăng ký ANS"
+        "text2": "Nếu bạn biết mình sở hữu tên miền này, hãy thay đổi bản ghi TXT để lưu trữ Địa chỉ Pulsechain của bạn và tải lại trang để tiến hành xác minh lại DNSSEC ",
+        "title1": "Bạn là chủ sở hữu của địa chỉ này. Hãy thêm tên miền của bạn vào Trình đăng ký PNS ngay",
+        "title2": "Bạn không phải là Người sở hữu DNS của tên miền này, nhưng bất kì ai cũng có thể thêm tên miền này vào trình Đăng ký PNS"
       }
     },
     "viewinmanager": "Xem trong Trình quản lý"
@@ -126,12 +126,12 @@
     "announcements": {
     },
     "howtouse": {
-      "body": "ANS App là một giao diện cho người dùng không rành về kỹ thuật . Cho phép bạn tìm bất cứ tên nào, quản lý địa chỉ, tính năng và tạo tên miền con của mỗi tên.",
-      "title": "Cách dùng  ANS "
+      "body": "PNS App là một giao diện cho người dùng không rành về kỹ thuật . Cho phép bạn tìm bất cứ tên nào, quản lý địa chỉ, tính năng và tạo tên miền con của mỗi tên.",
+      "title": "Cách dùng  PNS "
     },
     "whatisens": {
-      "body": "Avalanche Name Service là một dịch vụ phân tán, mã nguồn mở, có thể mở rộng hệ thống tên dựa trên nền chuỗi khối Avalanche.\nENS giúp hạn chế việc copy hay đánh các địa chỉ quá dài.",
-      "title": "ANS là gì"
+      "body": "Pulsechain Name Service là một dịch vụ phân tán, mã nguồn mở, có thể mở rộng hệ thống tên dựa trên nền chuỗi khối Pulsechain.\nENS giúp hạn chế việc copy hay đánh các địa chỉ quá dài.",
+      "title": "PNS là gì"
     }
   },
   "howtouse": {
@@ -140,7 +140,7 @@
       "title": "Xem tên miền yêu thích"
     },
     "manage": {
-      "text": "Chuyển hướng tên miền đến địa chỉ Avalanche của bạn, chuyển đổi quyền sở hữu sang cho người khác hoặc nhiều hơn",
+      "text": "Chuyển hướng tên miền đến địa chỉ Pulsechain của bạn, chuyển đổi quyền sở hữu sang cho người khác hoặc nhiều hơn",
       "title": "Quản lý tên miền"
     },
     "register": {
@@ -217,7 +217,7 @@
     ]
   },
   "registrymigration": {
-    "donotaccept": "*Đừng chấp nhận tên miền này khi bạn giao dịch ANS!",
+    "donotaccept": "*Đừng chấp nhận tên miền này khi bạn giao dịch PNS!",
     "messages": {
       "controller": "Tên miền này thuộc quyền điều khiển của một hợp đồng và không thể tự chuyển đổi. Hãy khởi động lại hợp đồng để dùng quyền đăng ký mới trước khi ấn định quyền điều khiển mới",
       "default": "Tên miền này cần được chuyển đổi tới Trình đăng ký mới. Chỉ những tên miền gốc của tên miền này ({{parent}}) có thể làm vậy",
@@ -228,12 +228,12 @@
   "reminder": {
     "everywhere": "everywhere",
     "release": {
-      "description": "Register {{name}} at https://app.avaxns.domains/name/{{name}}/register",
+      "description": "Register {{name}} at https://pulse.domains/name/{{name}}/register",
       "title": "Register {{name}}"
     },
     "renewal": {
-      "description": "Your ANS name is expiring soon, please renew it",
-      "title": "Renew your ANS domain {{name}}"
+      "description": "Your PNS name is expiring soon, please renew it",
+      "title": "Renew your PNS domain {{name}}"
     }
   },
   "search": {
@@ -293,7 +293,7 @@
     },
     "learnmore": {
       "step1": {
-        "text": "Once you register your name, Go to 'My Account' page and set a reverse record. This allows dapps to find and display your ANS name when you connect to them with your Avalanche account. ",
+        "text": "Once you register your name, Go to 'My Account' page and set a reverse record. This allows dapps to find and display your PNS name when you connect to them with your Pulsechain account. ",
         "title": "1. Set a reverse record"
       },
       "step2": {
@@ -301,7 +301,7 @@
         "title": "2. Set other records"
       },
       "step3": {
-        "text": "You can host your static html/css/images on IPFS and put the hash in your ANS name's Content record. Then it can be resolved by ANS-aware browsers (e.g. Opera), browser extensions (Metamask), or any browser with '.link' appended to the end (e.g. ens.eth.link).",
+        "text": "You can host your static html/css/images on IPFS and put the hash in your PNS name's Content record. Then it can be resolved by PNS-aware browsers (e.g. Opera), browser extensions (Metamask), or any browser with '.link' appended to the end (e.g. ens.eth.link).",
         "title": "3. Set a content hash of a decentralized website"
       },
       "title": "Learn how to manage your name."
@@ -318,11 +318,11 @@
       "closeEdit": "Close Add/Edit Records",
       "messages": {
         "explanation": "Trình Phân giải đảo chiều dịch địa chỉ thành tên miền. Nó cho phép các DApps hiển thị giao diện '{{name}}' chứ không phải những địa chỉ dài dòng '{{account}}'. Nếu bạn muốn cài đặt việc đảo chiều đến một tài khoản khác, hãy chuyển tài khoản trong trình duyệt dapp của mình",
-        "explanation2": "You can only select names you set this Avalanche Address as.",
-        "noForwardRecordAavilable": "You either do not own any ANS names, or your ANS names have no AVAX records set to this address.",
+        "explanation2": "You can only select names you set this Pulsechain Address as.",
+        "noForwardRecordAavilable": "You either do not own any PNS names, or your PNS names have no AVAX records set to this address.",
         "notSet": "Bản ghi đảo chiều: chưa ấn định",
         "reverseRecordRemoval": "Are you sure you want to delete the reverse record?",
-        "selectPlaceholder": "Select your ANS name",
+        "selectPlaceholder": "Select your PNS name",
         "setTo": "Bản ghi đảo chiều: ấn định cho",
         "setToDifferent": "Bản ghi đảo chiều: Ấn định cho tên miền khác"
       },
