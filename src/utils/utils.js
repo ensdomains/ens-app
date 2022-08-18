@@ -85,6 +85,8 @@ export async function getEtherScanAddr() {
   switch (networkId) {
     case '941':
       return 'https://scan.v2b.testnet.pulsechain.com/'
+    case '369':
+      return 'https://rpc.mainnet.pulsechain.com'
     default:
       return 'https://scan.v2b.testnet.pulsechain.com/'
   }

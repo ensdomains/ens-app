@@ -36,6 +36,8 @@ export const isSupportedNetwork = networkId => {
   switch (networkId) {
     case 941:
       return true
+    case 369:
+      return true
     default:
       return false
   }
