@@ -7,10 +7,6 @@ import { H2 as DefaultH2, Title } from '../components/Typography/Basic'
 import Anchor from '../components/Icons/Anchor'
 import slugify from 'slugify'
 import ReverseRecordImageSrc from '../assets/reverseRecordImage.png'
-import {
-  NonMainPageBannerContainer,
-  DAOBannerContent
-} from '../components/Banner/DAOBanner'
 
 const H2 = styled(DefaultH2)`
   margin-top: 50px;
@@ -68,9 +64,6 @@ function Faq() {
 
   return (
     <>
-      {/*<NonMainPageBannerContainer>
-        <DAOBannerContent />
-      </NonMainPageBannerContainer>*/}
       <FaqContainer>
         <Title>FAQ</Title>
         <H2>Before You register</H2>
@@ -154,28 +147,26 @@ function Faq() {
           At times, the counter waits for up to a minute at the end of step 2 to
           make sure that the Pulsechain blockchain has progressed. If this
           continues for more than 5 min after moving to step 2, please contact
-          us on Discord.
+          us on Telegram.
           <br />
           Note that if you leave it at step 2 for more than 7 days, it gets
           reset and you have to start from step 1 again.
         </Section>
 
         <Section question="My transaction at step 3 failed">
-          This happens occasionally when the USD price changes and you haven,t
+          This happens occasionally when the USD price changes and you haven’t
           registered with enough PLS. Please try again from step3.
           <br />
           Please also be noted that the registration step will expire if you
           don't complete within 24 hrs and you have to start from step 1 again.
         </Section>
 
-        <Section question="I cannot see the names I registered on OpenSea nor on my wallet">
-          This occasionally happens when OpenSea is under a heavy load. You may
-          also not find your name under the NFT section of your wallet, as many
-          wallets fetch metadata from OpenSea.
-          <br />
-          As long as you can see your registered name under "My Account" on our
-          site or your PLS address under the name section, your name is
-          registered successfully.
+        <Section question="I cannot see the names I registered in my wallet">
+          While we are still in the early stages of Pulsechain, you should see
+          more and more support of wallets and NFT marketplaces that show your
+          registered addresses. For now you can always see your registered name
+          under "My Account" on our site or your PLS address under the name
+          section, your name is registered successfully.
         </Section>
 
         <Section question="Is it safe to refresh the page, close the browser, or switch to different browser/machine?">
@@ -190,12 +181,11 @@ function Faq() {
 
         <Section question="What is the difference between the Registrant and Controller?">
           If your Pulsechain address is set as the Controller you can change the
-          resolver and add/edit records. Some dapps (eg: Fleek, OpenSea) set
-          themselves as the Controller so they can update records on your
-          behalf.
+          resolver and add/edit records. Some dapps set themselves as the
+          Controller so they can update records on your behalf.
           <br />
           The Registrant only exists on ".pls" names and it allows you to change
-          the Controller. If you transfer the Registrant to an address you don,t
+          the Controller. If you transfer the Registrant to an address you don’t
           own, you lose the ownership of the name.
         </Section>
 
@@ -203,7 +193,7 @@ function Faq() {
           A Resolver is a smart contract that holds records. Names are set by
           default to the Public Resolver managed by the PNS team and has all the
           standard PNS record types. You can set your Resolver to a custom
-          resolver contract if you,d like.
+          resolver contract if you’d like.
         </Section>
 
         <Section question="What is a Primary PNS Name record?">
@@ -243,14 +233,14 @@ function Faq() {
           their Pulsechain address, set the controller, then transfer the name.
           <br />
           For subdomains, there are no registrants unless the subdomain is
-          customised to be ERC721 compliant. Simply set the controller to the
+          customized to be ERC721 compliant. Simply set the controller to the
           new address (after setting the record to the new address).
         </Section>
 
         <Section question="Why are some of my subdomains shown as a jumble of characters?">
           PNS names are stored as a hash on-chain so we have to decode the name
           using a list of possible names, and it shows in the hashed format if
-          we don,t have it on our list. You can still access and manage the name
+          we don’t have it on our list. You can still access and manage the name
           if you search for the name directly in the search bar.
         </Section>
 
@@ -264,7 +254,7 @@ function Faq() {
         <H2>When you extend your registration</H2>
 
         <Section question="How do I receive an extension reminder?">
-          Click the "Remind me" button on the name,s page or your address page
+          Click the "Remind me" button on the name’s page or your address page
           so that you can set a calendar reminder or email reminder. Note that
           you have to set calendar reminders per name, whereas you only need to
           set email reminders per the address of the owner. Also note that you
@@ -284,7 +274,7 @@ function Faq() {
         <Section question="I lost access to the Pulsechain account that owns a name I registered. Can I still extend its registration period?">
           Any Pulsechain account can pay to extend the registration of any PNS
           name, though doing so from an account that's not the owner will not
-          change ownership of the name. Just go to the name,s page and click
+          change ownership of the name. Just go to the name’s page and click
           "Extend".
         </Section>
 
