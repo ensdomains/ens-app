@@ -35,7 +35,8 @@ export const NetworkError = ({ message }) => (
       <Warning src={warningImage} />
       <H2>{message}</H2>
       <br />
-      Please change your network to Pulsechain Testnet.
+      Please change your network to Pulsechain Mainnet or V2 and V3 Pulsechain
+      Testnet.
     </Message>
   </ErrorContainer>
 )

@@ -145,7 +145,7 @@ function NetworkInformation() {
           </Account>
           <NetworkStatus>
             {network == 'unknown'
-              ? `pulsechain ${t('c.network')}`
+              ? `Pulsechain V2 Testnet`
               : `${network} ${t('c.network')}`}
           </NetworkStatus>
           {!isSafeApp && (
@@ -163,7 +163,7 @@ function NetworkInformation() {
           </Account>
           <NetworkStatus>
             {network == 'unknown'
-              ? `pulsechain ${t('c.network')}`
+              ? `Pulsechain V2 Testnet`
               : `${network} ${t('c.network')}`}
           </NetworkStatus>
           <NoAccountsModal

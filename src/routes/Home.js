@@ -318,7 +318,7 @@ export default ({ match }) => {
         <NetworkStatus>
           <Network>
             {network == 'unknown'
-              ? `pulsechain ${t('c.network')}`
+              ? `Pulsechain V2 Testnet`
               : `${network} ${t('c.network')}`}
             {isReadOnly && <ReadOnly>({t('c.readonly')})</ReadOnly>}
             {!isReadOnly && displayName && (
