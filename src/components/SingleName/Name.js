@@ -116,7 +116,7 @@ function Name({ details: domain, name, pathname, type, refetch }) {
       <TopBar percentDone={percentDone}>
         <Title>
           {domain?.decrypted
-            ? name.split('.')[0] + '.pls'
+            ? name
             : '[unknown' +
               domain.name?.split('.')[0].slice(1, 11) +
               ']' +
@@ -125,7 +125,7 @@ function Name({ details: domain, name, pathname, type, refetch }) {
           <Copy
             value={
               domain?.decrypted
-                ? name.split('.')[0] + '.pls'
+                ? name
                 : '[unknown' +
                   domain.name?.split('.')[0].slice(1, 11) +
                   ']' +

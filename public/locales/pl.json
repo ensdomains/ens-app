@@ -323,7 +323,7 @@
       "messages": {
         "explanation": "Reverse Resolution tłumaczy adres na nazwę. Pozwala Dapps na wyświetlanie w ich interfejsach '{{name}}' zamiast długiego adresu '{{konto}}'. Jeśli chcesz skonfigurować swój rewers dla innego konta, przełącz konta w przeglądarce dapp.",
         "explanation2": "You can only select names you set this Pulsechain Address as.",
-        "noForwardRecordAavilable": "You either do not own any PNS names, or your PNS names have no AVAX records set to this address.",
+        "noForwardRecordAavilable": "You either do not own any PNS names, or your PNS names have no PLS records set to this address.",
         "notSet": "Rekord Reverse: nie ustawiono",
         "reverseRecordRemoval": "Are you sure you want to delete the reverse record?",
         "selectPlaceholder": "Select your PNS name",

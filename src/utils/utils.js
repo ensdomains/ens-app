@@ -257,7 +257,7 @@ export function imageUrl(url, name, network) {
   // provided network name is valid,
   // domain name is available
   if (_protocol && _network && name) {
-    return `https://metadata.avaxns.domains/${_network}/avatar/${name}`
+    return `https://metadata.pulse.domains/${_network}/avatar/${name}`
   }
   console.warn('Unsupported avatar', network, name, url)
 }

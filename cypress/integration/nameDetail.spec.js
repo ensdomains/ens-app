@@ -175,12 +175,12 @@ describe('Name detail view', () => {
       cy.getByText('ETH', { timeout: 10000 }).click({
         force: true
       })
-      cy.getByPlaceholderText('Enter a AVAX Address', {
+      cy.getByPlaceholderText('Enter a PLS Address', {
         timeout: 10000,
         exact: false
       }).type('blah', { force: true, timeout: 10000 })
 
-      cy.getByPlaceholderText('Enter a AVAX Address', {
+      cy.getByPlaceholderText('Enter a PLS Address', {
         exact: false
       }).should(elem => {
         expect(elem.val()).to.equal('blah')
@@ -190,7 +190,7 @@ describe('Name detail view', () => {
       //force click like a real user
       cy.getByTestId('save-record', { exact: false }).click({ force: true })
 
-      cy.getByPlaceholderText('Enter a AVAX Address', {
+      cy.getByPlaceholderText('Enter a PLS Address', {
         exact: false
       }).should(elem => {
         expect(elem.val()).to.equal('blah')
@@ -226,7 +226,7 @@ describe('Name detail view', () => {
         .click({
           force: true
         })
-        .getByPlaceholderText('Enter a AVAX Address', {
+        .getByPlaceholderText('Enter a PLS Address', {
           timeout: 10000,
           exact: false
         })

@@ -7,7 +7,7 @@ const TrackingID = {
 }
 
 function isProduction() {
-  return window.location.host === 'app.avaxns.domains'
+  return window.location.host === 'app.pulse.domains'
 }
 
 function isDev() {

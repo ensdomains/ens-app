@@ -98,7 +98,7 @@ export default function ChildDomainItem({
       showBlockies={showBlockies}
       data-testid={`${name.split('x')[0]}`}
       warning={isMigrated === false ? true : false}
-      key={name.split('.')[0] + '.pls'}
+      key={name}
       to={`/name/${name}`}
     >
       {showBlockies && smallBP && (

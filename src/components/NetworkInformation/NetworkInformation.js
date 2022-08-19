@@ -140,9 +140,7 @@ function NetworkInformation() {
           )}
           <Account data-testid="account" className="account">
             <span>
-              {displayName.split('.')[1] === 'pls'
-                ? displayName.split('.')[0] + '.pls'
-                : displayName}
+              {displayName.split('.')[1] === 'pls' ? displayName : displayName}
             </span>
           </Account>
           <NetworkStatus>

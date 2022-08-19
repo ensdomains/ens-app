@@ -76,7 +76,7 @@ class TestRegistrar extends Component {
               <Fragment>
                 <div>
                   {web3.accounts.length > 0
-                    ? `Your AVAX address is ${web3.accounts[0]}`
+                    ? `Your PLS address is ${web3.accounts[0]}`
                     : 'Unlock metamask!'}
                 </div>
                 <div>{console.log(people)}</div>

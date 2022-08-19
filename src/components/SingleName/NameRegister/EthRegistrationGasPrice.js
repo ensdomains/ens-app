@@ -73,8 +73,8 @@ const EthRegistrationGasPrice = ({ price, ethUsdPrice, gasPrice }) => {
   return (
     <PriceContainer>
       <TotalValue>
-        {ethVal.toFixed(3)} AVAX + at most {registerGasFast.toFixed(3)} AVAX gas
-        fee = at most {totalFast.toFixed(3)} AVAX
+        {ethVal.toFixed(3)} PLS + at most {registerGasFast.toFixed(3)} PLS gas
+        fee = at most {totalFast.toFixed(3)} PLS
         {ethVal && ethUsdPrice && (
           <USD>
             {' '}

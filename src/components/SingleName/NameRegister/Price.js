@@ -70,7 +70,7 @@ const Price = ({
   return (
     <PriceContainer>
       <Value>
-        {ethPrice} AVAX
+        {ethPrice} PLS
         {ethVal && ethUsdPrice && (
           <USD>
             {withPremium}${usdPremium}

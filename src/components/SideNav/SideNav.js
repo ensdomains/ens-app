@@ -8,6 +8,7 @@ import Heart from '../Icons/Heart'
 import File from '../Icons/File'
 import { aboutPageURL, hasNonAscii } from '../../utils/utils'
 import SpeechBubble from '../Icons/SpeechBubble'
+import Home from '../Icons/Home'
 
 import mq from 'mediaQuery'
 import { Link, withRouter } from 'react-router-dom'
@@ -184,7 +185,7 @@ function SideNav({ match, isMenuOpen, toggleMenu }) {
         </li>
         <li>
           <ThirdPartyLink href={aboutPageURL()}>
-            <SpeechBubble />
+            <Home />
             <span>{t('c.about')}</span>
           </ThirdPartyLink>
         </li>

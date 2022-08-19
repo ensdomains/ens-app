@@ -108,9 +108,9 @@ function Faq() {
         <Section question="How much does it cost to register a .pls name?">
           Currently, registration costs are set at the following prices:
           <ul>
-            <li>5+ character .pls names: $5 in AVAX per year.</li>
-            <li>4 character .pls names: $160 in AVAX per year.</li>
-            <li>3 character .pls names $640 in AVAX per year.</li>
+            <li>5+ character .pls names: $5 in PLS per year.</li>
+            <li>4 character .pls names: $160 in PLS per year.</li>
+            <li>3 character .pls names $640 in PLS per year.</li>
           </ul>
           3 and 4 character names have 'premium' pricing to reflect the small
           number of these names available.
@@ -131,7 +131,7 @@ function Faq() {
           register (commit + registerWithConfig) and extend registration.
           <br />
           Please bear in mind that "registerWithConfig" combines 3 transactions
-          (register, set resolver and set avax address) hence the gas cost is
+          (register, set resolver and set pls address) hence the gas cost is
           relatively expensive.
         </Section>
 
@@ -139,10 +139,8 @@ function Faq() {
           Yes, you can import into PNS any DNS name with the required DNSSEC.
           <br />
           Please refer to our{' '}
-          <a href="https://docs.avaxns.domains/dns-registrar-guide">
-            guide
-          </a>{' '}
-          for more detail.
+          <a href="https://docs.pulse.domains/dns-registrar-guide">guide</a> for
+          more detail.
         </Section>
 
         <H2>When you register</H2>
@@ -164,7 +162,7 @@ function Faq() {
 
         <Section question="My transaction at step 3 failed">
           This happens occasionally when the USD price changes and you haven,t
-          registered with enough AVAX. Please try again from step3.
+          registered with enough PLS. Please try again from step3.
           <br />
           Please also be noted that the registration step will expire if you
           don't complete within 24 hrs and you have to start from step 1 again.
@@ -176,7 +174,7 @@ function Faq() {
           wallets fetch metadata from OpenSea.
           <br />
           As long as you can see your registered name under "My Account" on our
-          site or your AVAX address under the name section, your name is
+          site or your PLS address under the name section, your name is
           registered successfully.
         </Section>
 
@@ -241,7 +239,7 @@ function Faq() {
           does not change the controller nor records, so the recipient may need
           to update them once received. If the recipient is not experienced or
           you prefer your address not to be associated to the transferring
-          names, it may be a good idea for you to set the AVAX Address record to
+          names, it may be a good idea for you to set the PLS Address record to
           their Pulsechain address, set the controller, then transfer the name.
           <br />
           For subdomains, there are no registrants unless the subdomain is
@@ -258,7 +256,7 @@ function Faq() {
 
         <Section question="How do I find the labelhash/namehash of a name?">
           Please refer to our{' '}
-          <a href="https://docs.avaxns.domains/contract-api-reference/name-processing#how-do-i-find-the-labelhash-namehash-of-a-name">
+          <a href="https://docs.pulse.domains/contract-api-reference/name-processing#how-do-i-find-the-labelhash-namehash-of-a-name">
             developer documentation page.
           </a>
         </Section>
@@ -279,7 +277,7 @@ function Faq() {
           owner can't edit the records but can still re-register the name. After
           the grace period, the name is released for registration by anyone with
           a temporary premium which decreases over a 28 days period. The
-          released name continues to resolve your AVAX address until the new
+          released name continues to resolve your PLS address until the new
           owner overwrites it.
         </Section>
 
@@ -292,18 +290,18 @@ function Faq() {
 
         <Section question="I registered names before 2019 May. Can I have my deposit back?">
           Yes, you can get your deposit back from
-          <a href="https://reclaim.avaxns.domains">
+          <a href="https://reclaim.pulse.domains">
             {' '}
-            reclaim.avaxns.domains{' '}
+            reclaim.pulse.domains{' '}
           </a>{' '}
           whether you extended the registration of the name or not.
           <br />
           Please remember that the amount you will receive is the amount of the
           second-highest bidder (unless you were the only bidder). For example,
-          if you bid 1 AVAX and the second highest bidder bid 0.1 AVAX, you
-          deposited 0.1 AVAX and you have already received the remaining (0.9
-          AVAX) when you finailsed the auction. Therefore you can now only
-          reclaim 0.1 AVAX back. Please read the{' '}
+          if you bid 1 PLS and the second highest bidder bid 0.1 PLS, you
+          deposited 0.1 PLS and you have already received the remaining (0.9
+          PLS) when you finailsed the auction. Therefore you can now only
+          reclaim 0.1 PLS back. Please read the{' '}
           <a href="https://medium.com/the-ethereum-name-service/a-beginners-guide-to-buying-an-ens-domain-3ccac2bdc770">
             {' '}
             the initial guide back in 2017{' '}

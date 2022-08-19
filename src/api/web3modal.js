@@ -8,7 +8,7 @@ import {
 import { getNetwork, getNetworkId, isReadOnly } from '@pnsdomains/ui'
 
 const INFURA_ID =
-  window.location.host === 'app.avaxns.domains'
+  window.location.host === 'app.pulse.domains'
     ? '90f210707d3c450f847659dc9a3436ea'
     : null
 

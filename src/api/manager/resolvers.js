@@ -87,7 +87,7 @@ export const handleSingleTransaction = async (
     const { decoder, coinType } = formatsByName[coinRecord.key]
     let addressAsBytes
 
-    // use 0x00... for AVAX because an empty string throws
+    // use 0x00... for PLS because an empty string throws
     if (coinRecord.key === 'pls' && coinRecord.value === '') {
       coinRecord.value = emptyAddress
     }
@@ -141,7 +141,7 @@ export const handleMultipleTransactions = async (
       if (record.contractFn === 'setAddr(bytes32,uint256,bytes)') {
         const { decoder, coinType } = formatsByName[record.key]
         let addressAsBytes
-        // use 0x00... for AVAX because an empty string throws
+        // use 0x00... for PLS because an empty string throws
         if (record.key === 'pls' && record.value === '') {
           record.value = emptyAddress
         }

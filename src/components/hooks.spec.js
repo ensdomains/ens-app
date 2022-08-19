@@ -26,7 +26,7 @@ describe('useAvatar', () => {
     await waitForNextUpdate()
 
     expect(global.fetch).toHaveBeenCalledWith(
-      'https://metadata.avaxns.domains/mainnet/avatar/name/meta'
+      'https://metadata.pulse.domains/mainnet/avatar/name/meta'
     )
   })
 

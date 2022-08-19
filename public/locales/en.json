@@ -321,7 +321,7 @@
       "messages": {
         "explanation": "This designates one of your PNS names to represent your Pulsechain account and act as your cross-platform web3 username and profile. You can only have one Primary PNS Name per Pulsechain account and can change it at any time.",
         "explanation2": "Only PNS names that point to your Pulsechain account can be set as your Primary PNS Name.",
-        "noForwardRecordAavilable": "No PNS names have their AVAX Address records set to this address.",
+        "noForwardRecordAavilable": "No PNS names have their PLS Address records set to this address.",
         "notSet": "Primary PNS Name (reverse record): not set",
         "reverseRecordRemoval": "Are you sure you want to delete your Primary PNS Name record?",
         "selectPlaceholder": "Select one of your PNS names",
