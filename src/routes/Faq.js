@@ -67,45 +67,26 @@ function Faq() {
       <FaqContainer>
         <Title>FAQ</Title>
         <H2>Before You register</H2>
-        <Section question="Is PNS only for storing an Pulsechain address?">
+        <Section question="Is the Pulsechain Name Service (PNS) only for storing an Pulsechain address?">
           No, you can store the addresses of over 100 blockchains, a content
           hash of a decentralized website, profile information such as an avatar
           and Twitter handle, and more.
-        </Section>
-
-        <Section question="Can I use an PNS name to point to my website?">
-          Though PNS can technically store anything, there aren't many third
-          party tools and applications which resolve IP addresses attached to
-          PNS.
-          <br />
-          Instead, we suggest hosting your static html/css/images on IPFS and
-          put the hash in your PNS name's Content record. Then it can be
-          resolved by PNS-aware browsers (e.g. Opera), browser extensions
-          (Metamask), or any browser with ".link" or ".limo" appended to the end
-          (e.g. matoken.pls.link or matoken.pls.limo).
-          <br />
-          If you want to redirect your PNS name to an existing website, you
-          could write a html file containing JavasSript logic to redirect your
-          website, upload the file into ipfs using services like{' '}
-          <a href="https://pinata.cloud/">IPFS Pinata</a>, then set the CID to
-          your contenthash. See the source code of depositcontract.pls.link as
-          an example.
         </Section>
 
         <Section question="What is the maximum length of a name I can register?">
           There is no limit on the name length.
         </Section>
 
-        <Section question="Can you have names with emojis?">Yes.</Section>
+        <Section question="Can you have names with emojis?">Yes. 🥳</Section>
 
         <Section question="How much does it cost to register a .pls name?">
           Currently, registration costs are set at the following prices:
           <ul>
             <li>5+ character .pls names: $5 in PLS per year.</li>
-            <li>4 character .pls names: $160 in PLS per year.</li>
-            <li>3 character .pls names $640 in PLS per year.</li>
+            <li>4 character .pls names: $169 in PLS per year.</li>
+            <li>3 character .pls names $555 in PLS per year.</li>
           </ul>
-          3 and 4 character names have 'premium' pricing to reflect the small
+          3 and 4 character names have higher pricing to reflect the small
           number of these names available.
           <br />
           Also, if the name was previously owned by someone but recently
@@ -114,26 +95,10 @@ function Faq() {
         </Section>
 
         <Section question="How much gas does it cost to register and extend registration?">
-          It depends on the gas price. You can check the historical registration
-          and extending transaction costs
-          <a href="https://explore.duneanalytics.com/public/dashboards/48pBVvSxRNVjSE8Ing1uOrCtjD4r3WmV0v5KpS05">
-            {' '}
-            here{' '}
-          </a>
-          . "Transaction cost (USD)" query will tell you how much it costs to
-          register (commit + registerWithConfig) and extend registration.
-          <br />
-          Please bear in mind that "registerWithConfig" combines 3 transactions
-          (register, set resolver and set pls address) hence the gas cost is
-          relatively expensive.
-        </Section>
-
-        <Section question="Can I register names other than .pls?">
-          Yes, you can import into PNS any DNS name with the required DNSSEC.
-          <br />
-          Please refer to our{' '}
-          <a href="https://docs.pulse.domains/dns-registrar-guide">guide</a> for
-          more detail.
+          Luckily we are on Pulsechain, so the gas prices are minimal. Please
+          bear in mind that "registerWithConfig" combines 3 transactions
+          (register, set resolver and set pls address) hence the gas cost will
+          be a little bit higher than a single transaction.
         </Section>
 
         <H2>When you register</H2>
@@ -244,13 +209,6 @@ function Faq() {
           if you search for the name directly in the search bar.
         </Section>
 
-        <Section question="How do I find the labelhash/namehash of a name?">
-          Please refer to our{' '}
-          <a href="https://docs.pulse.domains/contract-api-reference/name-processing#how-do-i-find-the-labelhash-namehash-of-a-name">
-            developer documentation page.
-          </a>
-        </Section>
-
         <H2>When you extend your registration</H2>
 
         <Section question="How do I receive an extension reminder?">
@@ -276,27 +234,6 @@ function Faq() {
           name, though doing so from an account that's not the owner will not
           change ownership of the name. Just go to the name’s page and click
           "Extend".
-        </Section>
-
-        <Section question="I registered names before 2019 May. Can I have my deposit back?">
-          Yes, you can get your deposit back from
-          <a href="https://reclaim.pulse.domains">
-            {' '}
-            reclaim.pulse.domains{' '}
-          </a>{' '}
-          whether you extended the registration of the name or not.
-          <br />
-          Please remember that the amount you will receive is the amount of the
-          second-highest bidder (unless you were the only bidder). For example,
-          if you bid 1 PLS and the second highest bidder bid 0.1 PLS, you
-          deposited 0.1 PLS and you have already received the remaining (0.9
-          PLS) when you finailsed the auction. Therefore you can now only
-          reclaim 0.1 PLS back. Please read the{' '}
-          <a href="https://medium.com/the-ethereum-name-service/a-beginners-guide-to-buying-an-ens-domain-3ccac2bdc770">
-            {' '}
-            the initial guide back in 2017{' '}
-          </a>{' '}
-          for more detail.
         </Section>
       </FaqContainer>
     </>
