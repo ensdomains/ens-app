@@ -99,7 +99,13 @@ export const updateResponse = response => {
         return
       }
 
-      const hashedName = namehash.hash(responseItem.name)
+      let hashedName
+      try {
+        hashedName = namehash.hash(responseItem.name)
+      } catch (e) {
+        return
+      }
+
       if (responseItem.id !== hashedName) {
         this.update({ ...responseItem, name: hashedName, invalidName: true })
       }
