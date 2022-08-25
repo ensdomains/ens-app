@@ -70,7 +70,7 @@ export const connect = async () => {
     return provider
   } catch (e) {
     if (e !== 'Modal closed by user') {
-      throw e
+      throw { error: e, provider: provider }
     }
   }
 }
