@@ -50,6 +50,22 @@ export const isSupportedNetwork = networkId => {
   }
 }
 
+const handleUnsupportedNetwork = (provider = window.ethereum) => {
+  if (provider) {
+    provider.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: '0x1' }]
+    })
+    provider.on('chainChanged', function(networkId) {
+      window.location.reload()
+    })
+  }
+  globalErrorReactive({
+    ...globalErrorReactive(),
+    network: 'Unsupported Network'
+  })
+}
+
 export const getProvider = async reconnect => {
   try {
     let provider
@@ -99,17 +115,13 @@ export const getProvider = async reconnect => {
     provider = providerObject
     return provider
   } catch (e) {
-    if (e.message.match(/Unsupported network/)) {
-      globalErrorReactive({
-        ...globalErrorReactive(),
-        network: 'Unsupported Network'
-      })
+    if (e.error && e.error.message.match(/Unsupported network/)) {
+      handleUnsupportedNetwork(e.provider)
       return
     }
   }
 
   try {
-    console.log('enforce readonly')
     const { providerObject } = await setup({
       customProvider: rpcUrl,
       reloadOnAccountsChange: false,
@@ -137,10 +149,7 @@ export const setWeb3Provider = async provider => {
   provider?.on('chainChanged', async _chainId => {
     const networkId = await getNetworkId()
     if (!isSupportedNetwork(networkId)) {
-      globalErrorReactive({
-        ...globalErrorReactive(),
-        network: 'Unsupported Network'
-      })
+      handleUnsupportedNetwork(provider)
       return
     }
 
@@ -172,10 +181,7 @@ export default async reconnect => {
     const networkId = await getNetworkId()
 
     if (!isSupportedNetwork(networkId)) {
-      globalErrorReactive({
-        ...globalErrorReactive(),
-        network: 'Unsupported Network'
-      })
+      handleUnsupportedNetwork(provider)
       return
     }
 
