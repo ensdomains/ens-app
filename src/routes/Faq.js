@@ -88,14 +88,14 @@ function Faq() {
           Instead, we suggest hosting your static html/css/images on IPFS and
           put the hash in your ENS name's Content record. Then it can be
           resolved by ENS-aware browsers (e.g. Opera), browser extensions
-          (Metamask), or any browser with ".link" or ".limo" appended to the end
-          (e.g. matoken.eth.link or matoken.eth.limo).
+          (Metamask), or any browser with ".limo" or ".limo" appended to the end
+          (e.g. matoken.eth.limo or matoken.eth.limo).
           <br />
           If you want to redirect your ENS name to an existing website, you
           could write a html file containing JavaScript logic to redirect to
           your website, upload the file into ipfs using services like{' '}
           <a href="https://pinata.cloud/">IPFS Pinata</a>, then set the CID to
-          your contenthash. See the source code of depositcontract.eth.link as
+          your contenthash. See the source code of depositcontract.eth.limo as
           an example.
         </Section>
 

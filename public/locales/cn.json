@@ -72,7 +72,7 @@
   },
   "certificate": {
     "button": "请求 SSL 证书",
-    "warning": "{{ name }}.link 的 SSL 证书还没有创建"
+    "warning": "{{ name }}.limo 的 SSL 证书还没有创建"
   },
   "childDomainItem": {
     "notmigrated": "暂未迁移"
@@ -304,7 +304,7 @@
         "title": "2. 设置其他记录"
       },
       "step3": {
-        "text": "您可以将在 IPFS 部署静态网站(html/css/images)，并将其哈希值记录在 ENS 域名的内容记录中，然后那些支持 ENS 的浏览器(比如 Opera)、浏览器插件(比如 Metamask)或是在做任意浏览器中加上 '.link' 后缀，就可以解析这类记录。",
+        "text": "您可以将在 IPFS 部署静态网站(html/css/images)，并将其哈希值记录在 ENS 域名的内容记录中，然后那些支持 ENS 的浏览器(比如 Opera)、浏览器插件(比如 Metamask)或是在做任意浏览器中加上 '.limo' 后缀，就可以解析这类记录。",
         "title": "3. 设置去中心化网站的内容哈希"
       },
       "title": "学习如何管理你的域名"

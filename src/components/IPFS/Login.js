@@ -183,7 +183,7 @@ const IpfsLogin = props => {
   return (
     <Login>
       <Header>
-        <a href={client.link}>
+        <a href={client.limo}>
           <Logo src={client.logo} />
         </a>
       </Header>

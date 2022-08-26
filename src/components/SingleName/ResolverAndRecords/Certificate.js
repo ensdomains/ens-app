@@ -1,10 +1,10 @@
-const TLD = 'link'
+const TLD = 'limo'
 function createFetchUrl(name) {
   return `https://eth.${TLD}/names/${name}.${TLD}`
 }
 
 function whitelisted() {
-  return ['app.ens.domains', 'ens.eth', 'ens.eth.link'].includes(
+  return ['app.ens.domains', 'ens.eth', 'ens.eth.limo'].includes(
     window.location.host
   )
 }

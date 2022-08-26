@@ -124,7 +124,7 @@ const Upload = props => {
           </ErrorMsg>
           <Dropzone sendRequest={sendRequest} disabled={upload} />
           <FileName>
-            Manage your pins <a href={client.link}>here</a>.
+            Manage your pins <a href={client.limo}>here</a>.
           </FileName>
         </>
       )}

@@ -120,7 +120,7 @@ function HeaderContainer() {
                 href="https://en.wikipedia.org/wiki/IDN_homograph_attack"
                 rel="noreferrer"
               >
-                {t('warnings.homoglyph.link')}
+                {t('warnings.homoglyph.limo')}
               </a>
               .
             </p>
