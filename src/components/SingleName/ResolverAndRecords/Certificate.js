@@ -4,7 +4,7 @@ function createFetchUrl(name) {
 }
 
 function whitelisted() {
-  return ['app.ens.domains', 'ens.eth', 'ens.eth.link'].includes(
+  return ['app.ens.domains', 'ens.eth', 'ens.eth.limo'].includes(
     window.location.host
   )
 }

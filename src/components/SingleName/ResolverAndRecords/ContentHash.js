@@ -248,9 +248,9 @@ function ContentHashLinkWithEthLink({ value, contentType, domain }) {
             <LinkContainer
               target="_blank"
               rel="noopener"
-              href={`https://${domain.name}.link`}
+              href={`https://${domain.name}.limo`}
             >
-              ({`https://${domain.name}.link`})
+              ({`https://${domain.name}.limo`})
               <ExternalLinkIcon />
             </LinkContainer>
           </div>

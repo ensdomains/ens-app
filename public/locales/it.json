@@ -304,7 +304,7 @@
         "title": "2. Imposta altri record"
       },
       "step3": {
-        "text": "Puoi ospitare i tuoi file statici html/css/images su IPFS e inserire l'hash sul Content record del dominio ENS. Dopo potrà essere risolto dai browser che supportano ENS (es. Opera), dalle estensioni browser (Metamask), o da qualsiasi browser con estensione '.link' alla fine (es. ens.eth.link).",
+        "text": "Puoi ospitare i tuoi file statici html/css/images su IPFS e inserire l'hash sul Content record del dominio ENS. Dopo potrà essere risolto dai browser che supportano ENS (es. Opera), dalle estensioni browser (Metamask), o da qualsiasi browser con estensione '.limo' alla fine (es. ens.eth.limo).",
         "title": "3. Imposta un content hash di un sito web decentralizzato"
       },
       "title": "Impara come gestire il tuo dominio."
