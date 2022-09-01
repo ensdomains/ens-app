@@ -9,18 +9,23 @@ doc.dataSources.forEach(s => {
   switch (s.name) {
     case 'ENSRegistry':
       s.source.address = addresses.ensAddress
+      s.source.startBlock = 0
       break
     case 'ENSRegistryOld':
       s.source.address = addresses.oldEnsAddress
+      s.source.startBlock = 0
       break
     case 'AuctionRegistrar':
       s.source.address = addresses.legacyAuctionRegistrarAddress
+      s.source.startBlock = 0
       break
     case 'BaseRegistrar':
       s.source.address = addresses.baseRegistrarAddress
+      s.source.startBlock = 0
       break
     case 'EthRegistrarController':
       s.source.address = addresses.controllerAddress
+      s.source.startBlock = 0
       break
     default:
       name = null
