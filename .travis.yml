@@ -35,7 +35,7 @@ jobs:
         - ganache-cli -h 0.0.0.0 -b 1 >ganache.log 2>&1 &
         - sleep 5
         - cd ../ && git clone https://github.com/ensdomains/ens-subgraph.git
-        - cd ens-subgraph && yarn && cd ../
+        - cd ens-subgraph && git checkout 3933ee6d27113839fa775d59ee0239cb8380725f && yarn && cd ../
         - cd ens-app
         - ./scripts/graph-setup.sh
         - rm -rf data
