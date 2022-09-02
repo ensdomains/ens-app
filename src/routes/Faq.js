@@ -95,7 +95,7 @@ function Faq() {
           could write a html file containing JavaScript logic to redirect to
           your website, upload the file into ipfs using services like{' '}
           <a href="https://pinata.cloud/">IPFS Pinata</a>, then set the CID to
-          your contenthash. See the source code of depositcontract.eth.link as
+          your contenthash. See the source code of depositcontract.eth.limo as
           an example.
         </Section>
 

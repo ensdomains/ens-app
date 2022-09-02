@@ -34,10 +34,10 @@ const ContentHashLink = ({ value, contentType, domain }) => {
 
   let externalLink, url
   if (protocolType === 'ipfs') {
-    externalLink = `https://dweb.link/ipfs/${decoded}` // using ipfs's secured origin gateway
+    externalLink = `https://cloudflare-ipfs.com/ipfs/${decoded}` // using ipfs's secured origin gateway
     url = `ipfs://${decoded}`
   } else if (protocolType === 'ipns') {
-    externalLink = `https://dweb.link/ipns/${decoded}`
+    externalLink = `https://cloudflare-ipfs.com/ipns/${decoded}`
     url = `ipns://${decoded}`
   } else if (protocolType === 'bzz') {
     externalLink = `https://gateway.ethswarm.org/bzz/${decoded}`

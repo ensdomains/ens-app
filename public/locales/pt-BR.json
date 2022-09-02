@@ -304,7 +304,7 @@
         "title": "2. Defina outros registros"
       },
       "step3": {
-        "text": "Você pode hospedar seu html/css/images estáticos no IPFS e colocar o hash no registro de conteúdo do seu nome ENS. Em seguida, ele pode ser resolvido por navegadores compatíveis com ENS (por exemplo, Opera), extensões de navegador (Metamask) ou qualquer navegador com '.link' anexado ao final (por exemplo, ens.eth.link)",
+        "text": "Você pode hospedar seu html/css/images estáticos no IPFS e colocar o hash no registro de conteúdo do seu nome ENS. Em seguida, ele pode ser resolvido por navegadores compatíveis com ENS (por exemplo, Opera), extensões de navegador (Metamask) ou qualquer navegador com '.limo' anexado ao final (por exemplo, ens.eth.limo)",
         "title": "3. Definir um hash de conteúdo de um site descentralizado."
       },
       "title": "Aprenda como administrar seu nome."
