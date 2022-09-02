@@ -10,7 +10,6 @@ import ContentHashLink from '../../Links/ContentHashLink'
 import DefaultBin from '../../Forms/Bin'
 import RecordInput from '../RecordInput'
 import CopyToClipBoard from '../../CopyToClipboard/'
-import RequestCertificate from './RequestCertificate'
 import useNetworkInfo from '../../NetworkInformation/useNetworkInfo'
 import { ReactComponent as ExternalLinkIcon } from '../../Icons/externalLink.svg'
 
@@ -223,8 +222,6 @@ const ContentHashEditable = ({
               </Action>
             </>
           )}
-
-          {!editing && <RequestCertificate {...{ domain, value }} />}
         </RecordsContent>
       </RecordsItem>
     </>
@@ -248,9 +245,9 @@ function ContentHashLinkWithEthLink({ value, contentType, domain }) {
             <LinkContainer
               target="_blank"
               rel="noopener"
-              href={`https://${domain.name}.link`}
+              href={`https://${domain.name}.limo`}
             >
-              ({`https://${domain.name}.link`})
+              ({`https://${domain.name}.limo`})
               <ExternalLinkIcon />
             </LinkContainer>
           </div>
