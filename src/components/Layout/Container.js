@@ -1,7 +1,9 @@
 import styled from '@emotion/styled/macro'
 import mq from 'mediaQuery'
+import bg from '../../assets/background.png'
 
 const Container = styled('div')`
+  background: url(${bg});
   padding: 0;
   margin: 0 auto 0;
 
