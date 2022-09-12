@@ -3,7 +3,7 @@ import mq from 'mediaQuery'
 import bg from '../../assets/background.png'
 
 const Container = styled('div')`
-  background: url(${bg});
+  background: #00000000;
   padding: 0;
   margin: 0 auto 0;
 

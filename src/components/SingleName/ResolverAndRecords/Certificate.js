@@ -18,7 +18,8 @@ export function requestCertificate(name) {
     headers: {
       Origin: '*',
       'Content-Type': 'text/plain',
-      'Access-Control-Request-Method': 'PUT'
+      'Access-Control-Request-Method': 'PUT',
+      'Access-Control-Allow-Origin': '*'
     }
   }).catch(e => {
     console.log(e)

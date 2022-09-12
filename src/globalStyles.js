@@ -1,4 +1,5 @@
 import { injectGlobal } from 'emotion'
+import bg from './assets/background.png'
 
 injectGlobal`
   * {
@@ -6,7 +7,7 @@ injectGlobal`
   }
   body {
     font-family: Overpass;
-    background: #F0F6FA;
+    background: #00000000;
     margin: 0;
   }
 

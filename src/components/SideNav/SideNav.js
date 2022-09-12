@@ -33,7 +33,7 @@ const SideNavContainer = styled('nav')`
     left: 35px;
     margin-top: 50px;
     height: auto;
-    background: transparent;
+    background: #00000000;
     width: 165px;
     display: block;
   `}
