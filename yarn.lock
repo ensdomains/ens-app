@@ -3127,10 +3127,10 @@
     schema-utils "^2.6.5"
     source-map "^0.7.3"
 
-"@pnsdomains/ui@3.3.9":
-  version "3.3.9"
-  resolved "https://registry.yarnpkg.com/@pnsdomains/ui/-/ui-3.3.9.tgz#d583cd3425810360a185a6ac92dfa0357bd448f9"
-  integrity sha512-jGpBlcN1lLbymWQA/ILW9U/KA6kTXIfeuQc14XzIGVpekq57cdBeIv21lDwLzQI5Lfbv5tfZvWfj4+hKA7Au6g==
+"@pnsdomains/ui@3.5.0":
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/@pnsdomains/ui/-/ui-3.5.0.tgz#db2b83ed857e1cfa0a69118fe78f8c71b9e58b70"
+  integrity sha512-VvdTgu4f6+SwPuhrtd22fpcMkBuZqRd7LnGv1vskjZGtDbpW4jjZBWSz+cx/m+SAIg7uKL1owwB11BnELGTmIQ==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"

@@ -7,7 +7,7 @@ import PulseDomainsLogo from '../assets/pulse-domains.png'
 import LogoTyped from '../assets/TypeLogo'
 
 const IconLogo = styled('img')`
-  width: 84px;
+  width: 60px;
   ${mq.medium`
     width: 84px
   `}
