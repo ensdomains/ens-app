@@ -1,6 +1,6 @@
 {
   "address": {
-    "snowtraceButton": "Auf Snowtrace anschauen",
+    "explorerButton": "Auf Pulsechain anschauen",
     "filter": {
       "controller": "Controller",
       "registrant": "Registrant"

@@ -1,6 +1,6 @@
 {
   "address": {
-    "snowtraceButton": "Xem chi tiết trên Snowtrace",
+    "explorerButton": "Xem chi tiết trên Pulsechain",
     "filter": {
       "controller": "Địa chỉ quản lý",
       "registrant": "Địa chỉ đăng kí"

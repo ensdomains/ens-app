@@ -1,6 +1,6 @@
 {
   "address": {
-    "snowtraceButton": "이더스캔에서 보기",
+    "explorerButton": "이더스캔에서 보기",
     "filter": {
       "controller": "컨트롤러",
       "registrant": "등록자"

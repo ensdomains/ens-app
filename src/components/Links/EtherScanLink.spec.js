@@ -28,12 +28,12 @@ describe('EtherScanLink', () => {
     )
 
     expect(getByTestId('ether-scan-link-container').href).toBe(
-      'https://snowtrace.io/address/0xaddr1'
+      'https://scan.v2b.testnet.pulsechain.com/address/0xaddr1'
     )
   })
 
   it('should add network to link if on a network other than mainnet', () => {
-    useQuery.mockImplementation(() => ({ data: { network: 'ropsten' } }))
+    useQuery.mockImplementation(() => ({ data: { network: 'pulsechain' } }))
 
     const mockProps = {
       address: '0xaddr1',
@@ -48,7 +48,7 @@ describe('EtherScanLink', () => {
     )
 
     expect(getByTestId('ether-scan-link-container').href).toBe(
-      'https://testnet.snowtrace.io/address/0xaddr1'
+      'https://scan.v2b.testnet.pulsechain.com/address/0xaddr1'
     )
   })
 })

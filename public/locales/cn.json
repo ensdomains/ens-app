@@ -1,6 +1,6 @@
 {
   "address": {
-    "snowtraceButton": "在 Snowtrace 上查看",
+    "explorerButton": "在 Pulsechain 上查看",
     "filter": {
       "controller": "管理员",
       "registrant": "注册人"

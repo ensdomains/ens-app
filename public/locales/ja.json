@@ -1,6 +1,6 @@
 {
   "address": {
-    "snowtraceButton": "Snowtraceで確認",
+    "explorerButton": "Pulsechainで確認",
     "filter": {
       "controller": "コントローラー",
       "registrant": "登録者"
