@@ -3,7 +3,7 @@
     "ROOT": "http://localhost:3000/#/",
     "TEST": "http://localhost:3000/#/Test",
     "NAME_ROOT": "http://localhost:3000/#/name",
-    "GRAPH_ROOT": "http://localhost:8000/subgraphs/name/graphprotocol/ens/graphql"
+    "GRAPH_ROOT": "http://localhost:8000/subgraphs/name/graphprotocol/ens"
   },
   "projectId": "rzedru",
   "defaultCommandTimeout": 15000,
