@@ -127,7 +127,7 @@ export function DAOBannerContent() {
       href={
         shouldDelegate
           ? 'https://claim.ens.domains/delegate-ranking'
-          : 'https://constitution.ens.domains/'
+          : 'https://swag.ens.domains/'
       }
     >
       <LogoSmall $daoGradient={!shouldDelegate} src={ENSIcon} alt="ENS logo" />
@@ -135,12 +135,12 @@ export function DAOBannerContent() {
         <BannerTitle>
           {shouldDelegate
             ? t('banners.undelegatedTokens.title')
-            : t('banners.constitution.title')}
+            : t('banners.swag.title')}
         </BannerTitle>
         <BannerContent>
           {shouldDelegate
             ? t('banners.undelegatedTokens.description')
-            : t('banners.constitution.description')}
+            : t('banners.swag.description')}
         </BannerContent>
       </BannerContentWrapper>
       <ArrowSmall src={Arrow} alt="Arrow right icon" />
