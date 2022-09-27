@@ -385,6 +385,11 @@
     "constitution": {
       "title": "ENS constitution book now available",
       "description": "A printed copy of the ENS constitution and its signers is now available in hardcover and ultra-limited edition of 50"
+    },
+    "swag": {
+      "title": "ENS swag at devcon Bogota",
+      "description": "If you are going to Devcon, register at swag.ens.domains to get your personalised ENS swag!"
     }
+    
   }
 }
