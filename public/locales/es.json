@@ -373,5 +373,11 @@
       "link": "Wikipedia article",
       "title": "ATTENTION"
     }
+  },
+  "banners": {
+    "swag": {
+      "title": "Swag del ENS en Devcon Bogota",
+      "description": "Si asistirás a Devcon, ¡regístrate en swag.ens.domains para obtener tu swag personalizado del ENS!"
+    }
   }
 }
