@@ -174,6 +174,7 @@
   },
   "register": {
     "buttons": {
+      "connect": "未连接钱包，请连接钱包后继续。",
       "insufficient": "您钱包上的余额不足，请向您的钱包充值并重新加载页面。",
       "manage": "管理域名",
       "register": "注册",
@@ -338,7 +339,8 @@
       "placeholder": "使用公共解析器或输入自定义解析器合约的地址",
       "publicResolver": "使用公共解析器",
       "resolverAddressWarning": "仅允许使用合约地址",
-      "warning": "您使用的公共解析器是一个过时的版本。单击 “迁移” 来迁移解析器和解析记录。迁移您的解析器和解析记录时，需要您确认两笔交易。"
+      "warning": "您使用的公共解析器是一个过时的版本。单击 “迁移” 来迁移解析器和解析记录。迁移您的解析器和解析记录时，需要您确认两笔交易。",
+      "info": "解析器里存储着您所有的记录，如地址、文本记录等。修改解析器之前，您最好先了解它。"
     },
     "search": {
       "title": "域名"
@@ -346,12 +348,13 @@
     "subdomains": {
       "add": "添加子域名",
       "nosubdomains": "暂未分配子域名",
-      "wildcard": "This domain may have other subdomains that cannot be shown as they are off chain"
+      "wildcard": "这个域名可能还有一些无法显示的子域名，因为它们是链外的"
     },
     "tabs": {
       "details": "详情",
       "register": "注册",
-      "subdomains": "子域名"
+      "subdomains": "子域名",
+      "advancedSettings": "高级设置"
     },
     "test": {
       "note": "注意：谁都可以注册尚未使用的 <1>.test</1> 域名，域名会在申请 28 天后到期。"
@@ -382,6 +385,11 @@
     "constitution": {
       "title": "ENS 章程已经发布",
       "description": "ENS 章程及其签署成员的印刷版已经发布，目前有精装版和旗舰版，其中旗舰版限量 50 份"
+    },
+    "swag": {
+      "title": "波哥大 Devcon 上的 ENS 赠品",
+      "description": "如果你要去 Devcon， 在 swag.ens.domains 注册，可以获得个性化的 ENS 赠品!"
     }
+
   }
 }
