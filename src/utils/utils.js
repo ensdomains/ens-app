@@ -38,10 +38,11 @@ export const networkName = {
 }
 
 export const supportedAvatarProtocols = [
+  'ar://',
+  'eip155',
   'http://',
   'https://',
-  'ipfs://',
-  'eip155'
+  'ipfs://'
 ]
 
 export const addressUtils = {
@@ -295,6 +296,7 @@ export function prependUrl(url) {
 }
 
 export function imageUrl(url, name, network) {
+  console.log('url, name, network', url, name, network)
   const _network = networkName[network?.toLowerCase()]
   const _protocol = supportedAvatarProtocols.find(proto =>
     url.startsWith(proto)
