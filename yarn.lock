@@ -1442,10 +1442,10 @@
     ripemd160 "^2.0.2"
     sha3 "^2.1.3"
 
-"@ensdomains/address-encoder@npm:makoto-address-encoder@^0.2.20":
-  version "0.2.20"
-  resolved "https://registry.yarnpkg.com/makoto-address-encoder/-/makoto-address-encoder-0.2.20.tgz#0deed76fcd49b0a7e16359d5109565a1db7b5737"
-  integrity sha512-MN8Igyd9DKEfsvQLYH2K6B3g7Ys5e367j8G+qt57I7CQT6oeb9kTMM44ElcMBIt78UNlFVGROdNENsztNJIYgA==
+"@ensdomains/address-encoder@npm:makoto-address-encoder@^0.2.21":
+  version "0.2.21"
+  resolved "https://registry.yarnpkg.com/makoto-address-encoder/-/makoto-address-encoder-0.2.21.tgz#319b41799c48a76e646fd3dbbc246b3eff1218d4"
+  integrity sha512-pTOmi/Z5cF42bnXFMsBkNNeEIPKn4BDxcsbj6PvqPtwE9lRxZFUQnlpyvBGGAp563+6GfQXkfLxzNHmYQ5+Nng==
   dependencies:
     bech32 "^2.0.0"
     blakejs "^1.1.0"
@@ -1750,15 +1750,15 @@
     dns-packet "^5.2.1"
     js-sha3 "^0.8.0"
 
-"@ensdomains/ui@npm:makoto-ui@^3.4.3":
-  version "3.4.3"
-  resolved "https://registry.yarnpkg.com/makoto-ui/-/makoto-ui-3.4.3.tgz#344f7cec376c013b6237f7cc827312eca68a8b71"
-  integrity sha512-1sO04rAfRvtnAqEqc8tfPttYowa4AIuxC1ZpRlRfa7qqbghepTiAkE2skZcLpvrHgWPQjeMdJ4jeiT9uiPITig==
+"@ensdomains/ui@npm:makoto-ui@^3.4.4":
+  version "3.4.4"
+  resolved "https://registry.yarnpkg.com/makoto-ui/-/makoto-ui-3.4.4.tgz#f0a135afb1d70c2cc69667f52286a3c0cee11d9c"
+  integrity sha512-Pm3J/PxqoHRnfkukeSzh0j1N+TlVZ7CCQv5R1unCRpYsytQ1TDp8ntq5iA/n8Vb8OVxmnwAGYWc1jBX8MGi3Ng==
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
     "@babel/runtime" "^7.4.4"
-    "@ensdomains/address-encoder" "npm:makoto-address-encoder@^0.2.20"
+    "@ensdomains/address-encoder" "npm:makoto-address-encoder@^0.2.21"
     "@ensdomains/content-hash" "^2.5.7"
     "@ensdomains/contracts" "^0.0.1"
     "@ensdomains/dnsprovejs" "^0.4.1"
