@@ -38,10 +38,11 @@ export const networkName = {
 }
 
 export const supportedAvatarProtocols = [
+  'ar://',
+  'eip155',
   'http://',
   'https://',
-  'ipfs://',
-  'eip155'
+  'ipfs://'
 ]
 
 export const addressUtils = {
