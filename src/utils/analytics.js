@@ -77,7 +77,7 @@ export const trackReferral = async ({
       affiliation: referrer, // Affiliation or store name.
       revenue: price // Grand Total.
     })
-
+    const camelised = type.charAt(0).toUpperCase() + type.slice(1)
     labels.forEach(label => {
       ReactGA.plugin.execute('ecommerce', 'addItem', {
         id: transactionId,
@@ -87,6 +87,17 @@ export const trackReferral = async ({
         price: unitPrice,
         quantity: years
       })
+      if (window.plausible) {
+        window.plausible(camelised, {
+          props: {
+            id: transactionId,
+            name: label,
+            price: unitPrice,
+            referrer,
+            quantity: years
+          }
+        })
+      }
       if (premium > 0) {
         ReactGA.plugin.execute('ecommerce', 'addItem', {
           id: transactionId,
@@ -96,6 +107,17 @@ export const trackReferral = async ({
           price: premium,
           quantity: 1
         })
+        if (window.plausible) {
+          plausible(camelised, {
+            props: {
+              id: transactionId,
+              name: label,
+              price: premium,
+              referrer,
+              quantity: 1
+            }
+          })
+        }
       }
     })
     ReactGA.plugin.execute('ecommerce', 'send')

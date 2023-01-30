@@ -272,10 +272,6 @@ export function normaliseOrMark(data, name, nested = false) {
         return { ...data, hasInvalidCharacter: true }
       }
 
-      globalErrorReactive({
-        ...globalErrorReactive(),
-        invalidCharacter: 'Name error: ' + e.message
-      })
       return { ...data, hasInvalidCharacter: true }
     }
 
