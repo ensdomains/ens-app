@@ -385,11 +385,6 @@
     "constitution": {
       "title": "ENS 章程已经发布",
       "description": "ENS 章程及其签署成员的印刷版已经发布，目前有精装版和旗舰版，其中旗舰版限量 50 份"
-    },
-    "swag": {
-      "title": "波哥大 Devcon 上的 ENS 赠品",
-      "description": "如果你要去 Devcon， 在 swag.ens.domains 注册，可以获得个性化的 ENS 赠品!"
     }
-
   }
 }
