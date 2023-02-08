@@ -2,7 +2,9 @@ import crypto from 'crypto'
 import moment from 'moment'
 
 function randomSecret() {
-  return '0x' + crypto.randomBytes(32).toString('hex')
+  // Indicate the source via https://github.com/ensdomains/docs/pull/127
+  const platformSource = '4e34d3a8' // first 8 bits of ens.eth namehash
+  return '0x' + platformSource + crypto.randomBytes(28).toString('hex')
 }
 
 const Store = {
