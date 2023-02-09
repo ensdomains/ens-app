@@ -3,7 +3,7 @@ import moment from 'moment'
 
 function randomSecret() {
   // Indicate the source via https://github.com/ensdomains/docs/pull/127
-  const platformSource = '4e34d3a8' // first 8 bits of ens.eth namehash
+  const platformSource = '9923eb94' // first 8 bytes of enslabs.eth namehash
   return '0x' + platformSource + crypto.randomBytes(28).toString('hex')
 }
 
