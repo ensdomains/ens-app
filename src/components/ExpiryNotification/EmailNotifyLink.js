@@ -1,9 +1,5 @@
 import React, { useContext, useState } from 'react'
-import GlobalState from '../../globalState'
-
-import Modal from '../Modal/Modal'
-
-import ExpiryNotificationModal from './ExpiryNotificationModal'
+import styled from '@emotion/styled/macro'
 
 // If react-add-to-calendar-hoc is replaced, it may be useful
 // to switch to a button element for a11y purposes.
