@@ -19,8 +19,15 @@ const option = {
       package: () => import('@walletconnect/ethereum-provider'),
       packageFactory: true,
       options: {
-        rpc: {
-          1: rpcUrl
+        projectId: 'cf6be05ec9fa5a85e4a2f17c4820cee9',
+        optionalChains: [1, 5],
+        rpcMap: {
+          '1': 'https://web3.ens.domains/v1/mainnet',
+          '5': 'https://web3.ens.domains/v1/goerli'
+        },
+        metadata: {
+          name: 'Ethereum Name Service',
+          url: 'https://app.ens.domains'
         }
       }
     },
