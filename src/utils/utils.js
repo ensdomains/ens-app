@@ -316,3 +316,7 @@ export function asyncThrottle(func, wait) {
       throttled(resolve, reject, args)
     })
 }
+
+export const showV3Banner =
+  typeof window !== 'undefined' &&
+  window.location.hostname !== 'app.ens.domains'
