@@ -54,6 +54,7 @@
     "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^16.12.0",
     "react-ga": "^2.5.7",
+    "react-ga4": "^2.0.0",
     "react-i18next": "^11.3.4",
     "react-router": "5.1.2",
     "react-router-dom": "5.1.2",
