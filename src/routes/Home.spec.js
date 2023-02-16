@@ -7,6 +7,13 @@ jest.mock('@apollo/client', () => ({
 }))
 import { useQuery } from '@apollo/client'
 
+jest.mock('../hooks/useEPNSEmbed', () => ({
+  __esModule: true,
+  ...jest.requireActual('../hooks/useEPNSEmbed'),
+  useEPNSEmbed: jest.fn()
+}))
+import { useEPNSEmbed } from '../hooks/useEPNSEmbed'
+
 jest.mock('../components/SearchName/Search', () => ({
   __esModule: true,
   default: jest.fn()
@@ -17,7 +24,12 @@ import { render } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { StaticRouter } from 'react-router-dom'
 
-import Home, { HOME_DATA, GET_ACCOUNT } from './Home'
+import Home, {
+  HOME_DATA,
+  GET_ACCOUNT,
+  epnsTriggerId,
+  epnsTriggerAppName
+} from './Home'
 
 describe('Home', () => {
   it('should not show MyAccount if we have accounts but are in readOnly mode', async () => {
@@ -33,13 +45,14 @@ describe('Home', () => {
       }
     }
     const context = {}
+    const account = '0xaddress1'
 
     useQuery.mockImplementation(data => {
       const queryName = getQueryName(data)
       if (queryName === 'getAccounts') {
         return {
           data: {
-            accounts: ['0xaddress1']
+            accounts: [account]
           }
         }
       }
@@ -59,6 +72,16 @@ describe('Home', () => {
             shouldDelegate: false
           }
         }
+      }
+    })
+
+    useEPNSEmbed.mockImplementation(data => {
+      expect(data.user).toEqual(account)
+      expect(data.targetID).toEqual(epnsTriggerId)
+      expect(data.appName).toEqual(epnsTriggerAppName)
+
+      return {
+        isEpnsSupportedNetwork: true
       }
     })
 

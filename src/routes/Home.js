@@ -20,6 +20,8 @@ import {
   MainPageBannerContainer,
   DAOBannerContent
 } from '../components/Banner/DAOBanner'
+import EPNSBellIcon from '../components/EPNSBellIcon/EPNSBellIcon'
+import { useEPNSEmbed } from 'hooks/useEPNSEmbed'
 
 const HeroTop = styled('div')`
   display: grid;
@@ -297,6 +299,9 @@ const animation = {
   }
 }
 
+export const epnsTriggerId = 'epns-sdk-trigger-id'
+export const epnsTriggerAppName = 'ensApp'
+
 export default ({ match }) => {
   const { url } = match
   const { t } = useTranslation()
@@ -309,6 +314,14 @@ export default ({ match }) => {
     data: { network, displayName, isReadOnly, isSafeApp }
   } = useQuery(HOME_DATA, {
     variables: { address: accounts?.[0] }
+  })
+
+  const { isEpnsSupportedNetwork } = useEPNSEmbed({
+    user: accounts?.[0],
+    targetID: epnsTriggerId,
+    appName: epnsTriggerAppName,
+    isReadOnly,
+    network
   })
 
   return (
@@ -330,6 +343,11 @@ export default ({ match }) => {
           )}
         </NetworkStatus>
         <Nav>
+          {/* EPNS embed feature */}
+          {isEpnsSupportedNetwork && accounts?.length > 0 && !isReadOnly && (
+            <EPNSBellIcon id={epnsTriggerId} />
+          )}
+
           {accounts?.length > 0 && !isReadOnly && (
             <NavLink
               active={url === '/address/' + accounts[0]}
