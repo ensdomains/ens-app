@@ -59,6 +59,7 @@ const Container = styled.div`
   & > svg {
     width: 16px;
     height: 16px;
+    margin-top: -4px;
   }
 
   position: ${p => (p.$isHome ? 'relative' : 'fixed')};
