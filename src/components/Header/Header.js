@@ -59,7 +59,7 @@ const Header = styled('header')`
 `
 
 const SearchHeader = styled(Search)`
-  margin-top: '105px';
+  margin-top: 105px;
   width: 100%;
   ${mq.medium`
     margin-top: 0;
