@@ -1,17 +1,17 @@
-import React, { useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import styled from '@emotion/styled/macro'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
-import mq, { useMediaMin, useMediaMax } from 'mediaQuery'
+import mq, { useMediaMax, useMediaMin } from 'mediaQuery'
 
+import Banner from '../Banner'
 import DefaultLogo from '../Logo'
 import Search from '../SearchName/Search'
-import Hamburger from './Hamburger'
 import SideNav from '../SideNav/SideNav'
-import Banner from '../Banner'
+import Hamburger from './Hamburger'
 
 import { V3Banner } from 'components/Banner/V3Banner'
-import { hasNonAscii, showV3Banner } from '../../utils/utils'
+import { hasNonAscii } from '../../utils/utils'
 
 const StyledBanner = styled(Banner)`
   margin-bottom: 0;
@@ -50,27 +50,16 @@ const Header = styled('header')`
   z-index: 2;
   box-shadow: 0 4px 8px 0 rgba(230, 240, 247, 0.8);
   height: 50px;
+  top: 52px;
   ${mq.medium`
+    top: 68px;
     box-shadow: 0 8px 24px 0 rgba(230, 240, 247, 0.8);
     height: auto;
-  `}
-
-  ${showV3Banner
-    ? [
-        `
-    top: 52px;
-  `,
-        mq.medium`
-      top: 68px;
-    `
-      ]
-    : `
-    top: 0;
   `}
 `
 
 const SearchHeader = styled(Search)`
-  margin-top: ${showV3Banner ? '105px' : '55px'};
+  margin-top: '105px';
   width: 100%;
   ${mq.medium`
     margin-top: 0;

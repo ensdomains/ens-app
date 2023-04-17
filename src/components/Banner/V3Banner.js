@@ -2,7 +2,7 @@ import { keyframes } from '@emotion/core'
 import styled from '@emotion/styled/macro'
 import mq from 'mediaQuery'
 import { Trans } from 'react-i18next'
-import { showV3Banner } from 'utils/utils'
+import { V3_MANAGER_URL } from 'utils/utils'
 import UpRightArrow from './images/UpRightArrow'
 
 const changeKeyframes = keyframes`
@@ -124,10 +124,8 @@ const Container = styled.div`
 export const V3BannerContainer = Container
 
 export function V3Banner({ isHome }) {
-  if (!showV3Banner) return null
-
   return (
-    <Container $isHome={isHome} as="a" href="https://app.ens.domains">
+    <Container $isHome={isHome} as="a" href={V3_MANAGER_URL}>
       <div>
         <Trans
           i18nKey="banners.v3"

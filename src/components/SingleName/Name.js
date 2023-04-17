@@ -1,28 +1,27 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import { gql, useQuery } from '@apollo/client'
 import styled from '@emotion/styled/macro'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { gql } from '@apollo/client'
-import { useQuery } from '@apollo/client'
 
+import { getNamehash } from '@ensdomains/ui'
+import { GET_NAME_WRAPPER_DATA } from 'graphql/queries'
 import { useMediaMin } from 'mediaQuery'
 import { EMPTY_ADDRESS } from '../../utils/records'
-import { Title } from '../Typography/Basic'
-import TopBar from '../Basic/TopBar'
-import DefaultFavourite from '../AddFavourite/Favourite'
-import NameDetails from './NameDetails'
-import DNSNameRegister from './DNSNameRegister'
-import ShortName from './ShortName'
-import Tabs from './Tabs'
-import NameContainer from '../Basic/MainContainer'
-import Copy from '../CopyToClipboard/'
 import { isOwnerOfParentDomain } from '../../utils/utils'
+import DefaultFavourite from '../AddFavourite/Favourite'
 import {
   DAOBannerContent,
   NonMainPageBannerContainerWithMarginBottom
 } from '../Banner/DAOBanner'
 import NameWrapperBanner from '../Banner/NameWrapperBanner'
-import NameWrapperJSON from '@ensdomains/ens-contracts/artifacts/contracts/wrapper/NameWrapper.sol/NameWrapper.json'
-import { ethers, getNamehash, getProvider } from '@ensdomains/ui'
+import NameContainer from '../Basic/MainContainer'
+import TopBar from '../Basic/TopBar'
+import Copy from '../CopyToClipboard/'
+import { Title } from '../Typography/Basic'
+import DNSNameRegister from './DNSNameRegister'
+import NameDetails from './NameDetails'
+import ShortName from './ShortName'
+import Tabs from './Tabs'
 
 const Owner = styled('div')`
   color: #ccd4da;
@@ -56,31 +55,17 @@ function isOwnerOfDomain(domain, account) {
 }
 
 const useNameWrapperVariables = (domain, account) => {
-  const nameWrapperAddress = process.env.REACT_APP_NAME_WRAPPER_ADDRESS
-
-  const isNameWrapped = domain.owner === nameWrapperAddress
-  const [isNameWrappedOwner, setIsNameWrappedOwner] = useState(false)
-
-  const domainName = domain?.name
-  const queryNameWrapper = useCallback(async () => {
-    const provider = await getProvider()
-    const nameWrapperAddress = process.env.REACT_APP_NAME_WRAPPER_ADDRESS
-    const nameWrapperContract = new ethers.Contract(
-      nameWrapperAddress,
-      NameWrapperJSON.abi,
-      provider
-    )
-    const owner = await nameWrapperContract.ownerOf(getNamehash(domainName))
-    setIsNameWrappedOwner(owner === account)
-  }, [setIsNameWrappedOwner, domainName])
-
-  const shouldRun = nameWrapperAddress && domainName
-
-  useEffect(() => {
-    shouldRun && queryNameWrapper()
-  }, [shouldRun])
-
-  return { isNameWrapped, isNameWrappedOwner }
+  const {
+    data: { getNameWrapperData: { isWrapped, owner } } = {
+      getNameWrapperData: {}
+    }
+  } = useQuery(GET_NAME_WRAPPER_DATA, {
+    variables: { node: getNamehash(domain.name) }
+  })
+  return {
+    isNameWrapped: isWrapped,
+    isNameWrappedOwner: owner === account
+  }
 }
 
 const NAME_REGISTER_DATA_WRAPPER = gql`
@@ -149,15 +134,14 @@ function Name({ details: domain, name, pathname, type, refetch }) {
     domain,
     account
   )
-  const isAcceptedStage = ['local', 'dev'].includes(process.env.REACT_APP_STAGE)
   const isOwnerOrNameWrappedOwner = isOwner || isNameWrappedOwner
-  const showNameWrapperBanner = isOwnerOrNameWrappedOwner && isAcceptedStage
+  const showNameWrapperBanner = isOwnerOrNameWrappedOwner
 
   return (
     <>
       <NonMainPageBannerContainerWithMarginBottom>
         {showNameWrapperBanner ? (
-          <NameWrapperBanner isWrapped={isNameWrapped} />
+          <NameWrapperBanner isWrapped={isNameWrapped} name={name} />
         ) : (
           <DAOBannerContent />
         )}
