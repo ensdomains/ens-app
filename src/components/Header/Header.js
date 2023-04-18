@@ -1,15 +1,16 @@
-import React, { useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import styled from '@emotion/styled/macro'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
-import mq, { useMediaMin, useMediaMax } from 'mediaQuery'
+import mq, { useMediaMax, useMediaMin } from 'mediaQuery'
 
+import Banner from '../Banner'
 import DefaultLogo from '../Logo'
 import Search from '../SearchName/Search'
-import Hamburger from './Hamburger'
 import SideNav from '../SideNav/SideNav'
-import Banner from '../Banner'
+import Hamburger from './Hamburger'
 
+import { V3Banner } from 'components/Banner/V3Banner'
 import { hasNonAscii } from '../../utils/utils'
 
 const StyledBanner = styled(Banner)`
@@ -45,19 +46,20 @@ const Header = styled('header')`
   justify-content: center;
   position: fixed;
   left: 0;
-  top: 0;
   width: 100%;
   z-index: 2;
   box-shadow: 0 4px 8px 0 rgba(230, 240, 247, 0.8);
   height: 50px;
+  top: 52px;
   ${mq.medium`
+    top: 68px;
     box-shadow: 0 8px 24px 0 rgba(230, 240, 247, 0.8);
     height: auto;
   `}
 `
 
 const SearchHeader = styled(Search)`
-  margin-top: 50px;
+  margin-top: 105px;
   width: 100%;
   ${mq.medium`
     margin-top: 0;
@@ -101,6 +103,7 @@ function HeaderContainer() {
 
   return (
     <>
+      <V3Banner />
       <Header isMenuOpen={isMenuOpen}>
         <Logo isMenuOpen={isMenuOpen} />
         {mediumBP ? (
