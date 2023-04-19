@@ -9,10 +9,7 @@ import { useMediaMin } from 'mediaQuery'
 import { EMPTY_ADDRESS } from '../../utils/records'
 import { isOwnerOfParentDomain } from '../../utils/utils'
 import DefaultFavourite from '../AddFavourite/Favourite'
-import {
-  DAOBannerContent,
-  NonMainPageBannerContainerWithMarginBottom
-} from '../Banner/DAOBanner'
+import { NonMainPageBannerContainerWithMarginBottom } from '../Banner/DAOBanner'
 import NameWrapperBanner from '../Banner/NameWrapperBanner'
 import NameContainer from '../Basic/MainContainer'
 import TopBar from '../Basic/TopBar'
@@ -139,13 +136,13 @@ function Name({ details: domain, name, pathname, type, refetch }) {
 
   return (
     <>
-      <NonMainPageBannerContainerWithMarginBottom>
-        {showNameWrapperBanner ? (
+      {showNameWrapperBanner ? (
+        <NonMainPageBannerContainerWithMarginBottom>
           <NameWrapperBanner isWrapped={isNameWrapped} name={name} />
-        ) : (
-          <DAOBannerContent />
-        )}
-      </NonMainPageBannerContainerWithMarginBottom>
+        </NonMainPageBannerContainerWithMarginBottom>
+      ) : (
+        ''
+      )}
       <NameContainer state={containerState} key={key}>
         <TopBar percentDone={percentDone}>
           <Title>
