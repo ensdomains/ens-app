@@ -6,7 +6,7 @@ import EthVal from 'ethval'
 import DefaultInput from '../../Forms/Input'
 const GWEI = 1000000000
 const COMMIT_GAS_WEI = 42000
-const REGISTER_GAS_WEI = 240000
+const REGISTER_GAS_WEI = 260000
 const TOGAL_GAS_WEI = COMMIT_GAS_WEI + REGISTER_GAS_WEI
 
 const PriceContainer = styled('div')`
