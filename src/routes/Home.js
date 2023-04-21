@@ -16,10 +16,6 @@ import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
 import { aboutPageURL } from '../utils/utils'
 import { connectProvider, disconnectProvider } from '../utils/providerUtils'
 import { gql } from '@apollo/client'
-import {
-  MainPageBannerContainer,
-  DAOBannerContent
-} from '../components/Banner/DAOBanner'
 import { V3Banner } from 'components/Banner/V3Banner'
 
 const ContentWrapper = styled('div')`
@@ -353,9 +349,6 @@ export default ({ match }) => {
             <NavLink to="/favourites">{t('c.favourites')}</NavLink>
             <ExternalLink href={aboutPageURL()}>{t('c.about')}</ExternalLink>
           </Nav>
-          <MainPageBannerContainer>
-            <DAOBannerContent />
-          </MainPageBannerContainer>
         </HeroTop>
         <SearchContainer>
           <>
