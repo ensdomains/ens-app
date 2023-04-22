@@ -16,11 +16,6 @@ const RESULTS_CONTAINER = gql`
   }
 `
 
-import {
-  NonMainPageBannerContainer,
-  DAOBannerContent
-} from '../components/Banner/DAOBanner'
-
 const useCheckValidity = (_searchTerm, isENSReady) => {
   const [errors, setErrors] = useState([])
   const [parsed, setParsed] = useState(null)
@@ -88,9 +83,6 @@ const ResultsContainer = ({ searchDomain, match }) => {
   if (parsed) {
     return (
       <>
-        <NonMainPageBannerContainer>
-          <DAOBannerContent />
-        </NonMainPageBannerContainer>
         <H2>
           <Trans i18nKey="singleName.search.title">Names</Trans>
         </H2>
