@@ -4,9 +4,12 @@ function createFetchUrl(name) {
 }
 
 function whitelisted() {
-  return ['app.ens.domains', 'ens.eth', 'ens.eth.limo'].includes(
-    window.location.host
-  )
+  return [
+    'legacy.ens.domains',
+    'app.ens.domains',
+    'ens.eth',
+    'ens.eth.limo'
+  ].includes(window.location.host)
 }
 
 export function requestCertificate(name) {

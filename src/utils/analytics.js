@@ -10,7 +10,7 @@ const TrackingID = {
 const V4TrackingID = 'G-0R0K339MK5'
 
 function isProduction() {
-  return window.location.host === 'app.ens.domains'
+  return window.location.host === 'legacy.ens.domains'
 }
 
 function isDev() {
