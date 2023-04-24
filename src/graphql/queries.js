@@ -20,6 +20,15 @@ export const GET_REVERSE_RECORD = gql`
   }
 `
 
+export const GET_NAME_WRAPPER_DATA = gql`
+  query getNameWrapperData($node: String) {
+    getNameWrapperData(node: $node) {
+      isWrapped
+      owner
+    }
+  }
+`
+
 export const GET_OWNER = gql`
   query getOwner($name: String) {
     getOwner(name: $name)

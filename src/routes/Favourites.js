@@ -24,10 +24,6 @@ import RenewAll from '../components/Address/RenewAll'
 import Checkbox from '../components/Forms/Checkbox'
 import { useAccount } from '../components/QueryAccount'
 import { filterNormalised, normaliseOrMark } from '../utils/utils'
-import {
-  NonMainPageBannerContainer,
-  DAOBannerContent
-} from '../components/Banner/DAOBanner'
 import { InvalidCharacterError } from '../components/Error/Errors'
 
 const SelectAll = styled('div')`
@@ -251,9 +247,6 @@ function Favourites() {
   const canRenew = favouritesList.filter(f => f.expiryDate).length > 0
   return (
     <FavouritesContainer data-testid="favourites-container">
-      <NonMainPageBannerContainer>
-        <DAOBannerContent />
-      </NonMainPageBannerContainer>
       <H2>{t('favourites.favouriteTitle')}</H2>
       {canRenew && (
         <>

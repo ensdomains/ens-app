@@ -16,10 +16,16 @@ import ENSLogo from '../components/HomePage/images/ENSLogo.svg'
 import { aboutPageURL } from '../utils/utils'
 import { connectProvider, disconnectProvider } from '../utils/providerUtils'
 import { gql } from '@apollo/client'
-import {
-  MainPageBannerContainer,
-  DAOBannerContent
-} from '../components/Banner/DAOBanner'
+import { V3Banner } from 'components/Banner/V3Banner'
+
+const ContentWrapper = styled('div')`
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+`
 
 const HeroTop = styled('div')`
   display: grid;
@@ -312,54 +318,54 @@ export default ({ match }) => {
   })
 
   return (
-    <Hero>
-      <HeroTop>
-        <NetworkStatus>
-          <Network>
-            {`${network} ${t('c.network')}`}
-            {isReadOnly && <ReadOnly>({t('c.readonly')})</ReadOnly>}
-            {!isReadOnly && displayName && (
-              <Name data-testid="display-name">({displayName})</Name>
+    <ContentWrapper>
+      <V3Banner isHome />
+      <Hero>
+        <HeroTop>
+          <NetworkStatus>
+            <Network>
+              {`${network} ${t('c.network')}`}
+              {isReadOnly && <ReadOnly>({t('c.readonly')})</ReadOnly>}
+              {!isReadOnly && displayName && (
+                <Name data-testid="display-name">({displayName})</Name>
+              )}
+            </Network>
+            {!isSafeApp && (
+              <NoAccounts
+                onClick={isReadOnly ? connectProvider : disconnectProvider}
+                buttonText={isReadOnly ? t('c.connect') : t('c.disconnect')}
+              />
             )}
-          </Network>
-          {!isSafeApp && (
-            <NoAccounts
-              onClick={isReadOnly ? connectProvider : disconnectProvider}
-              buttonText={isReadOnly ? t('c.connect') : t('c.disconnect')}
+          </NetworkStatus>
+          <Nav>
+            {accounts?.length > 0 && !isReadOnly && (
+              <NavLink
+                active={url === '/address/' + accounts[0]}
+                to={'/address/' + accounts[0]}
+              >
+                {t('c.mynames')}
+              </NavLink>
+            )}
+            <NavLink to="/favourites">{t('c.favourites')}</NavLink>
+            <ExternalLink href={aboutPageURL()}>{t('c.about')}</ExternalLink>
+          </Nav>
+        </HeroTop>
+        <SearchContainer>
+          <>
+            <LogoLarge
+              initial={animation.initial}
+              animate={animation.animate}
+              src={ENSLogo}
+              alt="ENS logo"
             />
-          )}
-        </NetworkStatus>
-        <Nav>
-          {accounts?.length > 0 && !isReadOnly && (
-            <NavLink
-              active={url === '/address/' + accounts[0]}
-              to={'/address/' + accounts[0]}
-            >
-              {t('c.mynames')}
-            </NavLink>
-          )}
-          <NavLink to="/favourites">{t('c.favourites')}</NavLink>
-          <ExternalLink href={aboutPageURL()}>{t('c.about')}</ExternalLink>
-        </Nav>
-        <MainPageBannerContainer>
-          <DAOBannerContent />
-        </MainPageBannerContainer>
-      </HeroTop>
-      <SearchContainer>
-        <>
-          <LogoLarge
-            initial={animation.initial}
-            animate={animation.animate}
-            src={ENSLogo}
-            alt="ENS logo"
-          />
-          <PermanentRegistrarLogo
-            initial={animation.initial}
-            animate={animation.animate}
-          />
-          <Search />
-        </>
-      </SearchContainer>
-    </Hero>
+            <PermanentRegistrarLogo
+              initial={animation.initial}
+              animate={animation.animate}
+            />
+            <Search />
+          </>
+        </SearchContainer>
+      </Hero>
+    </ContentWrapper>
   )
 }

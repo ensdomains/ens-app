@@ -1,10 +1,13 @@
 import ReactGA from 'react-ga'
+import ReactGA4 from 'react-ga4'
 import { getNetworkId } from '@ensdomains/ui'
 
 const TrackingID = {
   live: 'UA-138903307-1',
   dev: 'UA-138903307-2'
 }
+
+const V4TrackingID = 'G-0R0K339MK5'
 
 function isProduction() {
   return window.location.host === 'legacy.ens.domains'
@@ -35,6 +38,7 @@ export const setupAnalytics = () => {
   if (isProduction()) {
     ReactGA.initialize(TrackingID.live)
     ReactGA.plugin.require('ecommerce')
+    ReactGA4.initialize(V4TrackingID)
   } else {
     ReactGA.initialize(TrackingID.dev)
     ReactGA.plugin.require('ecommerce', { debug: true })
@@ -48,6 +52,7 @@ export const pageview = () => {
   const page = window.location.pathname + window.location.search
   if (isProduction() || isDev()) {
     ReactGA.pageview(page)
+    ReactGA4.send({ hitType: 'pageview', page })
   }
 }
 
@@ -64,20 +69,22 @@ export const trackReferral = async ({
   const unitPrice = (price - premium) / years / labels.length
 
   function track() {
-    ReactGA.event({
+    const eventObject = {
       category: 'referral',
       action: `${type} domain`,
       labels,
       transactionId,
       type,
       referrer
-    })
+    }
+    ReactGA.event(eventObject)
+    ReactGA4.send(eventObject)
     ReactGA.plugin.execute('ecommerce', 'addTransaction', {
       id: transactionId, // Transaction ID. Required.
       affiliation: referrer, // Affiliation or store name.
       revenue: price // Grand Total.
     })
-
+    const camelised = type.charAt(0).toUpperCase() + type.slice(1)
     labels.forEach(label => {
       ReactGA.plugin.execute('ecommerce', 'addItem', {
         id: transactionId,
@@ -87,6 +94,17 @@ export const trackReferral = async ({
         price: unitPrice,
         quantity: years
       })
+      if (window.plausible) {
+        window.plausible(camelised, {
+          props: {
+            id: transactionId,
+            name: label,
+            price: unitPrice,
+            referrer,
+            quantity: years
+          }
+        })
+      }
       if (premium > 0) {
         ReactGA.plugin.execute('ecommerce', 'addItem', {
           id: transactionId,
@@ -96,6 +114,17 @@ export const trackReferral = async ({
           price: premium,
           quantity: 1
         })
+        if (window.plausible) {
+          plausible(camelised, {
+            props: {
+              id: transactionId,
+              name: label,
+              price: premium,
+              referrer,
+              quantity: 1
+            }
+          })
+        }
       }
     })
     ReactGA.plugin.execute('ecommerce', 'send')

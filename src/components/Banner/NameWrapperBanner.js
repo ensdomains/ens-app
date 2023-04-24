@@ -1,8 +1,9 @@
 import styled from '@emotion/styled/macro'
-import MushroomIcon from './images/Mushroom.svg'
-import LayersIcon from './images/Layers.svg'
-import Arrow from './images/Arrow.svg'
 import { motion } from 'framer-motion'
+import { V3_MANAGER_URL } from 'utils/utils'
+import Arrow from './images/Arrow.svg'
+import LayersIcon from './images/Layers.svg'
+import MushroomIcon from './images/Mushroom.svg'
 
 const LogoContainer = styled(motion.img)`
   width: 48px;
@@ -48,13 +49,18 @@ const Emphasized = styled.span`
   color: #628bf3;
 `
 
-const NameWrapperBanner = ({ isWrapped = false }) => {
+const NameWrapperBanner = ({ isWrapped = false, name }) => {
   const logo = isWrapped ? LayersIcon : MushroomIcon
   const testId = isWrapped
     ? 'banner-namewrapper-edit'
     : 'banner-namewrapper-upgrade'
   return (
-    <Link target="_blank" rel="noreferrer" href="" data-testid={testId}>
+    <Link
+      target="_blank"
+      rel="noreferrer"
+      href={V3_MANAGER_URL + '/' + name}
+      data-testid={testId}
+    >
       <LogoContainer src={logo} alt="Name wrapper logo" />
       <BannerContentWrapper>
         <BannerTitle>

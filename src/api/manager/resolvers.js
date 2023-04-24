@@ -1,5 +1,7 @@
+import { formatsByName } from '@ensdomains/address-encoder'
 import {
   encodeContenthash,
+  ethers,
   getBlock,
   getNamehash,
   getNetworkId,
@@ -12,23 +14,22 @@ import {
   labelhash,
   utils
 } from '@ensdomains/ui'
-import { formatsByName } from '@ensdomains/address-encoder'
+import getENS, { getRegistrar } from 'apollo/mutations/ens'
+import COIN_LIST_KEYS from 'constants/coinList'
+import TEXT_RECORD_KEYS from 'constants/textRecords'
 import isEqual from 'lodash/isEqual'
+import getClient from '../../apollo/apolloClient'
+import { isENSReadyReactive, namesReactive } from '../../apollo/reactiveVars'
+import { GET_REGISTRANT_FROM_SUBGRAPH } from '../../graphql/queries'
+import { isEmptyAddress } from '../../utils/records'
+import {
+  MAINNET_DNSREGISTRAR_ADDRESS,
+  ROPSTEN_DNSREGISTRAR_ADDRESS,
+  emptyAddress
+} from '../../utils/utils'
 import modeNames from '../modes'
 import { sendHelper, sendHelperArray } from '../resolverUtils'
-import {
-  emptyAddress,
-  MAINNET_DNSREGISTRAR_ADDRESS,
-  ROPSTEN_DNSREGISTRAR_ADDRESS
-} from '../../utils/utils'
-import TEXT_RECORD_KEYS from 'constants/textRecords'
-import COIN_LIST_KEYS from 'constants/coinList'
-import { GET_REGISTRANT_FROM_SUBGRAPH } from '../../graphql/queries'
-import getClient from '../../apollo/apolloClient'
-import getENS, { getRegistrar } from 'apollo/mutations/ens'
-import { isENSReadyReactive, namesReactive } from '../../apollo/reactiveVars'
 import getReverseRecord from './getReverseRecord'
-import { isEmptyAddress } from '../../utils/records'
 const defaults = {
   names: []
 }
@@ -440,8 +441,6 @@ const resolvers = {
 
         const names = namesReactive()
 
-        console.log('dnsEntry: ', dnsEntry)
-
         let detailedNode = adjustForShortNames({
           ...node,
           ...registrarEntry,
@@ -644,6 +643,33 @@ const resolvers = {
         console.log(e)
       }
       return balance
+    },
+    getNameWrapperData: async (_, { node }) => {
+      const NAMEWRAPPER_ADDRESS_MAP = {
+        1: '0xD4416b13d2b3a9aBae7AcD5D6C2BbDBE25686401',
+        5: '0x114D4603199df73e7D157787f8778E21fCd13066'
+      }
+      const provider = await getProvider()
+      const networkId = await getNetworkId()
+
+      const nameWrapperAddress = NAMEWRAPPER_ADDRESS_MAP[networkId]
+
+      if (!nameWrapperAddress)
+        throw new Error('No NameWrapper address for this network')
+
+      const nameWrapper = new ethers.Contract(
+        nameWrapperAddress,
+        [
+          'function isWrapped(bytes32 node) view returns (bool)',
+          'function ownerOf(uint256 id) view returns (address)'
+        ],
+        provider
+      )
+
+      return Promise.all([
+        nameWrapper.isWrapped(node),
+        nameWrapper.ownerOf(node)
+      ]).then(([isWrapped, owner]) => ({ isWrapped, owner }))
     }
   },
   Mutation: {
