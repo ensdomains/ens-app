@@ -233,7 +233,7 @@
   "reminder": {
     "everywhere": "везде",
     "release": {
-      "description": "Зарегистрировать {{name}} на https://app.ens.domains/name/{{name}}/register",
+      "description": "Зарегистрировать {{name}} на https://legacy.ens.domains/name/{{name}}/register",
       "title": "Зарегистрировать {{name}}"
     },
     "renewal": {

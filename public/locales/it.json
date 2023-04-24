@@ -231,7 +231,7 @@
   "reminder": {
     "everywhere": "ovunque",
     "release": {
-      "description": "Registra {{name}} su https://app.ens.domains/name/{{name}}/register",
+      "description": "Registra {{name}} su https://legacy.ens.domains/name/{{name}}/register",
       "title": "Registra {{name}}"
     },
     "renewal": {

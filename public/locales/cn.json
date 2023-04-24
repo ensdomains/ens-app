@@ -231,7 +231,7 @@
   "reminder": {
     "everywhere": "任意地点",
     "release": {
-      "description": "在 https://app.ens.domains/name/{{name}}/register 注册 {{name}}",
+      "description": "在 https://legacy.ens.domains/name/{{name}}/register 注册 {{name}}",
       "title": "注册 {{name}}"
     },
     "renewal": {

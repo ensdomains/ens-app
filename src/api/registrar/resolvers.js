@@ -138,6 +138,8 @@ const resolvers = {
     },
     async submitProof(_, { name, parentOwner }) {
       const registrar = getRegistrar()
+      console.log('submit proof ens-app')
+      debugger
       const tx = await registrar.submitProof(name, parentOwner)
       return sendHelper(tx)
     },

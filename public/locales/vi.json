@@ -229,7 +229,7 @@
   "reminder": {
     "everywhere": "everywhere",
     "release": {
-      "description": "Register {{name}} at https://app.ens.domains/name/{{name}}/register",
+      "description": "Register {{name}} at https://legacy.ens.domains/name/{{name}}/register",
       "title": "Register {{name}}"
     },
     "renewal": {

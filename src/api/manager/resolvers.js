@@ -440,6 +440,8 @@ const resolvers = {
 
         const names = namesReactive()
 
+        console.log('dnsEntry: ', dnsEntry)
+
         let detailedNode = adjustForShortNames({
           ...node,
           ...registrarEntry,

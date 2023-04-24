@@ -231,7 +231,7 @@
   "reminder": {
     "everywhere": "em todos os lugares",
     "release": {
-      "description": "Registro {{name}} em https://app.ens.domains/name/{{name}}/register",
+      "description": "Registro {{name}} em https://legacy.ens.domains/name/{{name}}/register",
       "title": "Registro {{name}}"
     },
     "renewal": {

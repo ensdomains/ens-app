@@ -26,7 +26,7 @@ export function getConfig(service) {
 }
 
 export function getDev() {
-  if (window.location.href.includes('https://app.ens.domains')) {
+  if (window.location.href.includes('https://legacy.ens.domains')) {
     return false
   } else {
     return true
