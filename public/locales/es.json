@@ -1,377 +1,391 @@
 {
-  "address": {
-    "etherscanButton": "Ver en Etherscan",
-    "filter": {
-      "controller": "Controlador",
-      "registrant": "Registrante"
-    },
-    "namesExpiringSoonBanner": {
-      "text": "Uno o más nombres expirarán pronto, renuévalos en una transacción seleccionando múltiples nombres y da click a 'Renovar'",
-      "title": "Muchos nombres adquiridos antes estarán fuera del periodo de gracia en Agosto."
-    },
-    "renew": {
-      "button": "Renovar seleccionados",
-      "confirm": [
-        "Los siguientes nombres:",
-        "se renovarán durante"
-      ],
-      "confirmButton": "Renovar",
-      "year": "{{count}} año",
-      "year_plural": "{{count}} años"
-    },
-    "sort": {
-      "alphabetical": "Alfabético",
-      "expiry": "Fecha de expiración"
-    },
-    "transactionBanner": "You are here because of a transaction we sent you or a referral from another site. You have names below that need to be renewed soon!"
-  },
-  "blockies": {
-    "noAddressFound": "No address found"
-  },
-  "c": {
-    "Address": "Dirección",
-    "Content": "Contenido",
-    "Controller": "Controlador",
-    "Expiration Date": "Fecha de expiración",
-    "Resolver": "Resolvedor",
-    "about": "Acerca",
-    "addresses": "Addresses",
-    "cancel": "Cancelar",
-    "cannotclaimDns": "You cannot claim names under .{{ name }} on this site.",
-    "claim": "Reclamar",
-    "connect": "Connect",
-    "disconnect": "Disconnect",
-    "edit": "Editar",
-    "email": "Correo electrónico",
-    "expires": "Expira",
-    "faq": "FAQ",
-    "favourites": "Favoritos",
-    "learnmore": "Aprender más",
-    "learnmoreenglishonly": "Learn More",
-    "migrate": "Migrar",
-    "mynames": "Mis Nombres",
-    "network": "red",
-    "otheraddresses": "Otras Direcciones",
-    "parent": "matriz",
-    "readonly": "Read only",
-    "refresh": "Actualizar",
-    "register": "Registrar",
-    "registrant": "Registrante",
-    "registrationDate": "Fecha de registro",
-    "renew": "Renovar",
-    "return": "Return",
-    "save": "Guardar",
-    "search": "Buscar",
-    "set": "Establecer",
-    "sync": "Sincronizar",
-    "textrecord": "Registro de texto",
-    "transfer": "Transferir",
-    "warning": "Advertencia",
-    "year": "año",
-    "year_plural": "años"
-  },
-  "certificate": {
-    "button": "Request SSL certificate",
-    "warning": "SSL certificate for {{ name }}.link is not created yet"
-  },
-  "childDomainItem": {
-    "notmigrated": "no se ha migrado"
-  },
-  "dns": {
-    "breadcrumbs": [
-      "HABILITAR DNSSEC",
-      "AÑADIR TEXTO",
-      "ENVIAR PRUEBA",
-      "GESTIONAR NOMBRE"
-    ],
-    "dnsowner": "Propietario de DNS",
-    "steps": {
-      "addtext": {
-        "text": "Da click en 'Aprender más' para leer sobre el proceso.",
-        "title": "Establece un registro de texto en un dominio y presiona actualizar. El registro de texto debería tener tu dirección de Ethereum en la forma:"
+    "address": {
+      "etherscanButton": "Ver en Etherscan",
+      "filter": {
+        "controller": "Controlador",
+        "registrant": "Registrante"
       },
-      "enable": {
-        "text": "Da click en 'Aprender más' para leer sobre el proceso.",
-        "title": "Visita el registro del dominio para habilitar DNSSEC. Una vez habilitado, da click en actualizar para ver si puedes avanzar al siguiente paso."
+      "namesExpiringSoonBanner": {
+        "text": "Extiéndelos todos en una transacción seleccionando varios nombres y haciendo clic en 'Extender'",
+        "title": "Uno o más nombres están expirando pronto"
       },
-      "manage": {
-        "text1": "Como eres el propietario, puedes manejar tu nombre ahora.",
-        "text2": "Como no eres el propietario, sólo puedes ver el nombre en el gestionador.",
-        "title": "¡Felicidades! Has añadido el dominio DNS al registro de ENS correctamente."
+      "renew": {
+        "button": "Extender seleccionados",
+        "confirm": [
+          "Los siguientes nombres:",
+          "se extenderán por "
+        ],
+        "confirmButton": "Extender",
+        "year": "{{count}} año",
+        "year_plural": "{{count}} años"
       },
-      "proof": {
-        "text1": "La dirección que aparece en registro de texto DNS es tu misma dirección.",
-        "text2": "Si conoces este dominio, cambia su registro TXT para que contenga tu dirección de Ethereum, y actualiza esta página para ejecutar la verificación DNSSEC de nuevo.",
-        "title1": "Eres el propietario de este dominio ",
-        "title2": "Parece que no eres el propietario este dominio DNS, pero cualquiera puede añadirlo al registro de ENS."
-      }
+      "sort": {
+        "alphabetical": "Alfabético",
+        "expiry": "Fecha de vencimiento"
+      },
+      "transactionBanner": "Estás aquí debido a una transacción que te enviamos o a una referencia de otro sitio. ¡Tienes nombres a continuación que deben ser extendidos pronto!"
     },
-    "viewinmanager": "Ver en el gestionador."
-  },
-  "expiryNotification": {
-    "placeholder": "Introduce tu correo electrónico",
-    "reminder": "Recúrdame"
-  },
-  "favourites": {
-    "favouriteTitle": "Favoritos",
-    "nofavouritesDomains": {
-      "text": "Para añadir nombres a tus favoritos, da click en el ícono de corazón en el dominio deseado.",
-      "title": "No hay nombres guardados."
+    "blockies": {
+      "noAddressFound": "Dirección no encontrada"
     },
-    "nofavouritesSubdomains": {
-      "text": "Para añadir nombres a tus favoritos, da click en el ícono de corazón en el dominio deseado.",
-      "title": "No Subdomains have been saved."
+    "c": {
+      "Address": "Dirección",
+      "Content": "Contenido",
+      "Controller": "Controlador",
+      "Expiration Date": "Fecha de vencimiento",
+      "Resolver": "Resolvente",
+      "about": "Acerca de",
+      "addresses": "Direcciones",
+      "cancel": "Cancelar",
+      "cannotclaimDns": "No puedes reclamar nombres bajo .{{ name }} en este sitio.",
+      "claim": "Reclamar",
+      "connect": "Conectar",
+      "disconnect": "Desconectar",
+      "edit": "Editar",
+      "email": "Correo electrónico",
+      "expires": "Expira",
+      "faq": "Preguntas frecuentes",
+      "favourites": "Favoritos",
+      "learnmore": "Aprender más",
+      "learnmoreenglishonly": "Aprender más",
+      "migrate": "Migrar",
+      "mynames": "Mi cuenta",
+      "network": "red",
+      "otheraddresses": "Otras direcciones",
+      "parent": "padre",
+      "readonly": "Sólo lectura",
+      "refresh": "Actualizar",
+      "register": "Registrarse",
+      "registrant": "Registrante",
+      "registrationDate": "Fecha de registro",
+      "renew": "Extender",
+      "return": "Regresar",
+      "save": "Guardar",
+      "search": "Buscar",
+      "set": "Establecer",
+      "sync": "Sincronizar",
+      "textrecord": "Registro de texto",
+      "transfer": "Transferir",
+      "warning": "Advertencia",
+      "year": "año",
+      "year_plural": "años"
+      },
+      "certificate": {
+        "button": "Solicitar certificado SSL",
+        "warning": "El certificado SSL para {{ name }}.link aún no se ha creado"
+      },
+      "childDomainItem": {
+        "notmigrated": "no migrado"
+      },
+      "dns": {
+        "breadcrumbs": [
+          "HABILITAR DNSSEC",
+          "AGREGAR TEXTO",
+          "PRESENTAR PRUEBA",
+          "MANEJAR NOMBRE"
+        ],
+        "dnsowner": "Propietario DNS",
+        "steps": {
+          "addtext": {
+            "text": "Haga clic en 'Aprender más' para leer sobre el proceso.",
+            "title": "Configure un registro de texto en su registrador de dominios y luego haga clic en actualizar. El registro de texto debe llamarse '_ens' y debe contener su dirección Ethereum en el formato:"
+          },
+          "enable": {
+            "text": "Haga clic en 'Aprender más' para leer sobre el proceso.",
+            "title": "Visite su registrador de dominios para habilitar DNSSEC. Una vez habilitado, haga clic en actualizar para ver si puede avanzar al siguiente paso."
+          },
+          "manage": {
+            "text1": "Como eres el propietario, ahora puedes gestionar tu nombre. ",
+            "text2": "Como no eres el propietario, solo puedes ver el nombre en el gestor.",
+            "title": "¡Felicidades! Ha agregado con éxito este dominio DNS al Registro ENS."
+          },
+          "proof": {
+            "text1": "La dirección que aparece en el registro TXT DNS es tu misma dirección.",
+            "text2": "Si sabes que eres el propietario de este dominio, cambia su registro TXT para contener tu dirección Ethereum y actualiza esta página para realizar de nuevo la verificación DNSSEC.",
+            "title1": "Eres el propietario de esta dirección. Agrega tu dominio al Registro ENS ahora.",
+            "title2": "No pareces ser el propietario DNS de este dominio, pero cualquiera puede agregar este dominio al Registro ENS."
+          }
+        },
+        "viewinmanager": "Ver en Manejador"
+      },
+      "expiryNotification": {
+        "placeholder": "Introduzca la dirección de correo electrónico",
+        "reminder": "Recordarme"
+      },
+      "favourites": {
+        "favouriteTitle": "Favoritos",
+        "nofavouritesDomains": {
+          "text": "Para agregar nombres a favoritos, haga clic en elicono de corazón junto a cualquier nombre deseado.",
+          "title": "No se han guardado nombres."
+          },
+          "nofavouritesSubdomains": {
+          "text": "Para agregar nombres a favoritos, haga clic en el icono de corazón junto a cualquier nombre deseado.",
+          "title": "No se han guardado subdominios."
+          },
+          "subdomainFavouriteTitle": "Subdominios favoritos"
+      },  
+      "home": {
+        "announcements": {
+        },
+        "howtouse": {
+          "body": "La aplicación ENS es una interfaz gráfica de usuario para usuarios no técnicos. Te permite buscar cualquier nombre, administrar sus direcciones o recursos a los que apunta y crear subdominios para cada nombre.",
+          "title": "Cómo usar ENS"
+        },
+        "whatisens": {
+          "body": "El Ethereum Name Service es un sistema de nombres distribuido, abierto y extensible basado en la cadena de bloques Ethereum. ENS elimina la necesidad de copiar o escribir direcciones largas.",
+          "title": "Qué es"
+        }
+      },
+      "howtouse": {
+        "favourite": {
+          "text": "Lleve un registro de los dominios y subdominios que posee o que desea seguir.",
+          "title": "Guardar nombres favoritos"
+        },
+        "manage": {
+          "text": "Apunta dominios a tus direcciones de Ethereum, transfiere la propiedad a otras personas y más.",
+          "title": "Administrar nombres"
+        },
+        "register": {
+          "text": "Registre nombres .eth por $5/año. Extienda su registro de nombres en cualquier momento.",
+          "title": "Registrar nombres"
+        },
+        "search": {
+          "text": "Encuentra dominios y subdominios que puedes registrar o aprender más sobre ellos.",
+          "title": "Buscar nombres"
+        }
+      },
+      "linegraph": {
+        "daysRemaining": "{{daysRemaining}} (de {{totalDays}}) días restantes",
+        "endPrice": "Precio final",
+        "startingPrice": "Precio de inicio",
+        "title": "Compra ahora por {{premiumInEth}}"
+      },
+      "pendingTx": {
+        "text": "Tx Pendiente"
+      },
+      "pricer": {
+        "gasDescription": "Precio estimado del gas (Paso 1 + Paso 3). El precio del gas fluctuará.",
+        "pricePerAmount": "Precio por cantidad de tiempo seleccionado",
+        "registrationPeriodLabel": "Período de registro",
+        "registrationPriceLabel": "Precio de registro a pagar",
+        "totalDescription": "Total estimado (Precio + Gas). El precio del gas se basa en {{gasPriceToGweiFast}} Gwei",
+        "totalPriceLabel": "Precio total a pagar",
+        "yearUnit": "año"
+      },
+      "register": {
+        "buttons": {
+          "connect": "No hay billetera conectada. Por favor, conecte una billetera para continuar.",
+          "insufficient": "Saldo insuficiente en su billetera. Recargue su billetera y vuelva a cargar la página.",
+          "manage": "Administrar nombre",
+          "register": "Registrar",
+          "request": "Solicitar registro",
+          "setreverserecord": "Establecer como nombre ENS principal",
+          "warning": "Haga clic en registrar para pasar al tercer paso"
+        },
+        "favourite": "* Agregue el nombre a favoritos para facilitar el acceso en caso de cerrar el navegador.",
+        "increaseRegistrationPeriod": "Aumenta el período de registro para evitar pagar gas cada año",
+        "notifications": {
+          "ready": "está listo para ser registrado"
+        },
+        "notify": "Notificarme",
+        "premium": {
+          "dateDescription": "Fecha y hora mostradas en la zona horaria local",
+          "invalid": "Cualquier número superior a 100 millones es inválido",
+          "title": "Premium"
+        },
+      "premiumWarning": {
+        "description": "Para asegurarse de que todos tengan una oportunidad justa de registrar un nombre recién caducado, estos nombres tienen un precio premium que comienza en $100,000 y se reduce durante 28 días hasta que el precio premium desaparece. Ingrese la cantidad que está dispuesto a pagar como precio premium para saber en qué fecha volver a visitar la aplicación para registrar el nombre.",
+        "exponentialWarningDescripiton": "Para asegurarse de que todos tengan una oportunidad justa de registrar un nombre recién caducado, estos nombres tienen un precio premium que comienza en $100,000,000 y se reduce exponencialmente durante 21 días hasta que el precio premium desaparece. Ingrese la cantidad que está dispuesto a pagar como precio premium para saber en qué fecha volver a visitar la aplicación para registrar el nombre.",
+        "title": "Este nombre tiene un premium temporal."
+        },
+        "step1": {
+        "label": "Paso 1",
+        "text": "Se abrirá su billetera y se le pedirá que confirme la primera de las dos transacciones requeridas para el registro.",
+        "text2": "Si la segunda transacción no se procesa dentro de los 7 días posteriores a la primera, deberá volver a comenzar desde el paso 1.",
+        "title": "Solicitud de registro"
+        },
+        "step2": {
+        "label": "Paso 2",
+        "text": "El período de espera es necesario para asegurarse de que otra persona no haya intentado registrar el mismo nombre y protegerlo después de su solicitud.",
+        "title": "Espere 1 minuto"
+        },
+        "step3": {
+        "label": "Paso 3",
+        "text": "Haga clic en 'registrar' y su billetera se volverá a abrir. Solo después de que se confirme la segunda transacción sabrá si obtuvo el nombre.",
+        "title": "Completar el registro"
+        },
+        "titles": [
+        "Registrar un nombre requiere que complete 3 pasos",
+        "Pronto podrá administrar su nombre.",
+        "¡Ha completado todos los pasos, administre su nombre ahora!"
+        ]
     },
-    "subdomainFavouriteTitle": "Subdominios favoritos."
-  },
-  "home": {
-    "announcements": {
-    },
-    "howtouse": {
-      "body": "La aplicación ENS es una interfaz gráfica de usuario para usuarios no-técnicos. Te permite buscar cualquier nombre, gestionar sus direcciones o los recursos a los que direcciona, o crear subdominios para cada uno.",
-      "title": "Cómo utilizar ENS"
-    },
-    "whatisens": {
-      "body": "El Servicio de Nombres de Ethereum  es un sistema de nombres distribuido, abierto y extensible basado en la cadena de bloques de Ethereum. El ENS elimina la necesidad de copiar o escribir direcciones largas.",
-      "title": "Lo que es"
-    }
-  },
-  "howtouse": {
-    "favourite": {
-      "text": "Lleva un registro de los dominios y subdominios que posees o que quieres hacer seguimiento.",
-      "title": "Guarda tus nombres favoritos"
-    },
-    "manage": {
-      "text": "Apunta los dominios a tus direcciones de ethereum, transfiere la propiedad a otras personas y más.",
-      "title": "Gestiona nombres"
-    },
-    "register": {
-      "text": "Registra los nombres .eth por 5$ al año. Renueva o cancela el registro de tu nombre en cualquier momento.",
-      "title": "Registra nombres"
+    "registrymigration": {
+        "donotaccept": "*Si intercambia nombres ENS, ¡no acepte este nombre!",
+        "messages": {
+        "controller": "Este nombre está controlado por un contrato y no se puede migrar automáticamente. Vuelva a implementar su contrato para usar el nuevo registro antes de establecer el nuevo controlador.",
+        "default": "Este nombre debe migrarse al nuevo Registro. Solo el padre de este nombre ({{parent}}) puede hacer esto.",
+        "dnssec": "Este nombre debe migrarse al nuevo Registro. Configure el Propietario DNS correcto y haga clic en el botón 'Sincronizar' a continuación",
+        "parentmigrate": "Debe migrar primero el dominio principal {{parent}} antes de poder migrar este subdominio"
+        }
+        },
+        "reminder": {
+        "everywhere": "en todas partes",
+        "release": {
+        "description": "Registre {{name}} en https://legacy.ens.domains/name/{{name}}/register",
+        "title": "Registrar {{name}}"
+        },
+        "renewal": {
+        "description": "Su nombre ENS está a punto de caducar, extienda su registro",
+        "title": "Extienda el registro de su dominio ENS {{name}}"
+        }
     },
     "search": {
-      "text": "Encuentra dominios y subdominios que puedes registrar o aprender más sobre ellos.",
-      "title": "Búsqueda de nombres"
-    }
-  },
-  "linegraph": {
-    "daysRemaining": "{{daysRemaining}} (out of {{totalDays}}) days remaining",
-    "endPrice": "End price",
-    "startingPrice": "Starting price",
-    "title": "Buy now for {{premiumInEth}}"
-  },
-  "pendingTx": {
-    "text": "Tx Pendiente"
-  },
-  "pricer": {
-    "gasDescription": "Estimated Gas Price (Step 1 + Step 3). The gas price will flucuate.",
-    "pricePerAmount": "Price per amount of time selected",
-    "registrationPeriodLabel": "Periodo de registración",
-    "registrationPriceLabel": "Registration price to pay",
-    "totalDescription": "Estimated Total (Price + Gas). The gas price is based at {{gasPriceToGweiFast}} Gwei",
-    "totalPriceLabel": "Precio total a pagar",
-    "yearUnit": "año"
-  },
-  "register": {
-    "buttons": {
-      "insufficient": "Insufficient balance on your wallet. Fill in your wallet and reload the page.",
-      "manage": "Gestiona",
-      "register": "Registrar",
-      "request": "Petición de registro",
-      "setreverserecord": "Set reverse record",
-      "warning": "Presiona registrar para ir al paso 3"
-    },
-    "favourite": "* Selecciona un nombre como favorito para un acceso rápido en caso de que se cierre el navegador.",
-    "increaseRegistrationPeriod": "Increase registration period to avoid paying gas every year",
-    "notifications": {
-      "ready": "listo para registrar"
-    },
-    "notify": "Notifícame",
-    "premium": {
-      "dateDescription": "Date and time shown in local time zone",
-      "invalid": "Any number over 100m is invalid",
-      "title": "Premium"
-    },
-    "premiumWarning": {
-      "description": "To ensure everyone has a fair opportunity to register a newly expired name, these names have a premium that starts at $100,000 and reduces over 28 days until the premium is gone. Enter the amount you're willing to pay as a premium to learn which date to revisit the app to register the name.",
-      "exponentialWarningDescripiton": "To ensure everyone has a fair opportunity to register a newly expired name, these names have a premium that starts at $100,000,000 and reduces over 21 days exponentially until the premium is gone. Enter the amount you're willing to pay as a premium to learn which date to revisit the app to register the name.",
-      "title": "This name has a temporary premium."
-    },
-    "step1": {
-      "label": "Paso 1",
-      "text": "Tu cartera se abrirá y se te pedirá que confirmes la primera de las dos transacciones necesarias para el registro",
-      "text2": "If the second transaction is not processed within 7 days of the first, you will need to start again from step 1.",
-      "title": "Solicitud de registro"
-    },
-    "step2": {
-      "label": "Paso 2",
-      "text": "El período de espera es necesario para asegurar que otra persona no ha intentado registrar el mismo nombre y protegerte después de que hagas la solicitud.",
-      "title": "Espera 1 minuto"
-    },
-    "step3": {
-      "label": "Paso 3",
-      "text": "Presiona en \"registrar\" y tu cartera se abrirá de nuevo. Sólo después de que se confirme la segunda transacción sabrás si tienes el dominio registrado",
-      "title": "Registro completo"
-    },
-    "titles": [
-      "El registro de un nombre requiere que completes 3 pasos",
-      "Pronto podrás gestionar tu nombre.",
-      "Has completado todos los pasos, ¡administra tu nombre ahora!"
-    ]
-  },
-  "registrymigration": {
-    "donotaccept": "*Si comercias con nombres de ENS, no acepten este nombre!",
-    "messages": {
-      "controller": "Este nombre está controlado por un contrato y no puede ser migrado automáticamente. Por favor, redefine tu contrato para usar el nuevo registro antes de establecer el nuevo controlador",
-      "default": "Este nombre necesita ser migrado al nuevo Registro. Sólo el padre de este nombre ({{ parent}}) puede hacerlo.",
-      "dnssec": "Este nombre necesita ser migrado al nuevo Registro. Por favor, configure el propietario correcto del DNS  y haga clic en el botón 'Sync' de abajo.",
-      "parentmigrate": "Primero debe migrar el dominio padre {{parent}} antes de poder migrar este subdominio"
-    }
-  },
-  "reminder": {
-    "everywhere": "everywhere",
-    "release": {
-      "description": "Register {{name}} at https://legacy.ens.domains/name/{{name}}/register",
-      "title": "Register {{name}}"
-    },
-    "renewal": {
-      "description": "Your ENS name is expiring soon, please renew it",
-      "title": "Renew your ENS domain {{name}}"
-    }
-  },
-  "search": {
-    "button": "Buscar",
-    "placeholder": "Buscar nombres o direcciones"
-  },
-  "searchErrors": {
-    "domainMalformed": {
-      "long": "You have either added a domain without a TLD such as .eth or you have added unsupported characters.",
-      "short": "Domain malformed. {{searchTerm}} is not a valid domain."
-    },
-    "tooShort": {
-      "long": "Names less than 6 characters have been reserved for when the permanent registrar has been released.",
-      "short1": "Name is too short.",
-      "short2": "Names must be at least 3 characters long"
-    },
-    "unsupported": {
-      "long": "We do not support every single domain. Support for future domains are planned in the future",
-      "short": "{{tld}} is not currently a supported TLD."
-    }
-  },
-  "singleName": {
-    "confirm": {
-      "button": {
+        "button": "Buscar",
+        "placeholder": "Buscar nombres o direcciones"
+        },
+        "searchErrors": {
+        "domainMalformed": {
+        "long": "Ha agregado un dominio sin un TLD como .eth o ha agregado caracteres no admitidos.",
+        "short": "Dominio malformado. {{searchTerm}} no es un dominio válido."
+        },
+        "tooShort": {
+        "long": "Los nombres de menos de 6 caracteres se han reservado para cuando se haya lanzado el registro permanente.",
+        "short1": "El nombre es demasiado corto.",
+        "short2": "Los nombres deben tener al menos 3 caracteres de longitud."
+        },
+        "unsupported": {
+        "long": "No admitimos todos los dominios. El soporte para futuros dominios está planeado para el futuro.",
+        "short": "{{tld}} no es actualmente un TLD compatible."
+        }
+        },
+        "singleName": {
+        "confirm": {
+        "button": {
         "cancel": "Cancelar",
         "confirm": "Confirmar"
-      },
-      "subTitle": "Esta acción modificará el estado de la cadena de bloques.",
-      "title": "¿Estás seguro(a) que quieres hacer esto?",
-      "value": {
+        },
+        "subTitle": "Esta acción modificará el estado de la cadena de bloques.",
+        "title": "¿Está seguro de que desea hacer esto?",
+        "value": {
         "future": "FUTURO",
-        "previous": "PREVIO"
-      }
+        "previous": "ANTERIOR"
+        }
     },
     "dns": {
-      "messages": {
-        "error": "Resuelve el error en tu registrante de dominio. Actualiza para reflecar los cambios.",
-        "outOfSync": "El controlador y el propietario del DNS están desincronizados. Haz clic en 'Sincronizar' para hacer el controlador al mismo propietario del DNS. Haz clic en 'actualizar' si haces cambios al dominio en el registrante del DNS.",
-        "readyToRegister": "Haz clic en 'actualizar' si haces cambios al dominio en el registrante del DNS."
-      }
-    },
-    "domain": {
-      "state": {
+        "messages": {
+        "error": "Resuelva el error en su registrador de dominios. Actualice para reflejar las actualizaciones.",
+        "outOfSync": "El Controlador y el Propietario DNS están fuera de sincronización. Haga clic en 'sincronizar' para hacer que el Propietario DNS sea el Controlador. Haga clic en 'actualizar' si realiza cambios en el dominio en el Registrador DNS.",
+        "readyToRegister": "*Haga clic en 'actualizar' si realiza cambios en el dominio en el Registrador DNS."
+        }
+        },
+        "domain": {
+        "state": {
         "auction": "En subasta",
-        "available": "Available",
+        "available": "Disponible",
         "default": "Estado desconocido",
         "owned": "No disponible",
         "owner": "Propietario"
-      }
-    },
-    "expiry": {
-      "cannotown": "Renovar un nombre que no posees no te da la propiedad del mismo.",
-      "expired": "Caducó",
-      "expiring": "Caducará pronto",
-      "gracePeriodEnds": "El periodo de gracia termina",
-      "isUnderPremiumSale": "Available with a temporary premium"
-    },
-    "learnmore": {
-      "step1": {
-        "text": "Once you register your name, Go to 'My Account' page and set a reverse record. This allows dapps to find and display your ENS name when you connect to them with your Ethereum account. ",
-        "title": "1. Set a reverse record"
-      },
-      "step2": {
-        "text": "You can set the addresses of many different cryptocurrencies, profile information such as an avatar, Twitter handle, and more",
-        "title": "2. Set other records"
-      },
-      "step3": {
-        "text": "You can host your static html/css/images on IPFS and put the hash in your ENS name's Content record. Then it can be resolved by ENS-aware browsers (e.g. Opera), browser extensions (Metamask), or any browser with '.limo' appended to the end (e.g. ens.eth.limo).",
-        "title": "3. Set a content hash of a decentralized website"
-      },
-      "title": "Learn how to manage your name."
-    },
-    "messages": {
-      "alreadyregistered": "Este nombre ya está registrado.",
-      "noowner": "No tiene dueño",
-      "noresolver": "No tienes un Resolvedor",
-      "notfinalised": "(You have not finalised)",
-      "pending": "Pendiente"
-    },
-    "record": {
-      "cantEdit": "No puedes añadir o editar registros hasta que migres al nuevo resolvedor.",
-      "closeEdit": "Close Add/Edit Records",
-      "messages": {
-        "explanation": "La resolución reversa traduce una dirección a un nombre. Permite a las Dapps mostrar '{{name}}' en lugar de la dirección larga '{{account}}'. Si quieres configurar la resolución inversa para una cuenta distinta, por favor cambia tu cuenta en tu navegador de dapps.",
-        "explanation2": "You can only select names you set this Ethereum Address as.",
-        "noForwardRecordAavilable": "You either do not own any ENS names, or your ENS names have no ETH records set to this address.",
-        "notSet": "Registro reverso: no configurado.",
-        "reverseRecordRemoval": "Are you sure you want to delete the reverse record?",
-        "selectPlaceholder": "Select your ENS name",
-        "setTo": "Registro reverso: Configurado a",
-        "setToDifferent": "Registro reverso: Configurar a otro nombre:"
-      },
-      "openEdit": "Add/Edit Records",
-      "title": "Registror"
-    },
-    "resolver": {
-      "error": "Error migrando el resolucionador.",
-      "message": "Para configurar el resolvedor manualmente, haz clic en (set) e intruduce la dirección del resolvedor.",
-      "placeholder": "Use the Public Resolver or enter the address of your custom resolver contract",
-      "publicResolver": "Utilizar resolvedor público",
-      "resolverAddressWarning": "Only contract address is allowed",
-      "warning": "Estas utilizando una versión antigua del resolvedor público. Haz clic para migrar tu resolvedor y registros. Necesitarás confirmar dos transacciones para migrar ambas."
-    },
-    "search": {
-      "title": "Nombres"
-    },
-    "subdomains": {
-      "add": "Añade un Subdominio",
-      "nosubdomains": "No se han añadido aun Subdominios",
-      "wildcard": "This domain may have other subdomains that cannot be shown as they are off chain"
-    },
-    "tabs": {
-      "details": "Detalles",
-      "register": "Registar",
-      "subdomains": "Subdominios "
-    },
+        }
+        },
+        "expiry": {
+        "cannotown": "Extender el registro de un nombre que no es de su propiedad no le otorga la propiedad del mismo.",
+        "expired": "Caducado",
+        "expiring": "A punto de caducar",
+        "gracePeriodEnds": "El período de gracia finaliza",
+        "isUnderPremiumSale": "Disponible con un premium temporal"
+        },
+        "learnmore": {
+        "step1": {
+        "text": "Una vez que registre su nombre, vaya a la página 'Mi cuenta' y configure su registro de nombre ENS principal. Esto permite que las aplicaciones descentralizadas encuentren y muestren su nombre ENS cuando se conecta a ellas con su cuenta de Ethereum.",
+        "title": "1. Configure su registro de nombre ENS principal"
+        },
+        "step2": {
+        "text": "Puede configurar las direcciones de muchas criptomonedas diferentes, información de perfil como un avatar, un nombre de usuario de Twitter y más.",
+        "title": "2. Configure otros registros"
+        },
+        "step3": {
+        "text": "Puede alojar su sitio web estático html/css/imagenes en IPFS y poner el hash en el registro de contenido de su nombre ENS. Luego, puede resolverse mediante navegadores compatibles con ENS (por ejemplo, Opera), extensiones de navegador (Metamask) o cualquier navegador con '.limo' agregado al final (por ejemplo, ens.eth.limo).",
+        "title": "3. Configure el hash de contenido de un sitio web descentralizado"
+        },
+        "title": "Aprenda cómo administrar su nombre."
+        },
+        "messages": {
+        "alreadyregistered": "Este nombre ya está registrado",
+        "noowner": "No es de propiedad",
+        "noresolver": "No hay un Resolver configurado",
+        "notfinalised": "(No ha finalizado)",
+        "pending": "Pendiente"
+        },
+        "record": {
+            "cantEdit": "No puede editar o agregar registros hasta que migre al nuevo resolver.",
+            "closeEdit": "Cerrar Agregar/Editar registros",
+            "messages": {
+            "explanation": "Esto designa uno de sus nombres ENS para representar su cuenta de Ethereum y actuar como su nombre de usuario y perfil web3 multiplataforma. Solo puede tener un Nombre ENS Principal por cuenta de Ethereum y puede cambiarlo en cualquier momento.",
+            "explanation2": "Solo los nombres ENS que apuntan a su cuenta de Ethereum pueden ser configurados como su Nombre ENS Principal.",
+            "noForwardRecordAavilable": "Ningún nombre ENS tiene sus registros de dirección ETH configurados en esta dirección.",
+            "notSet": "Nombre ENS principal (registro inverso): no configurado",
+            "reverseRecordRemoval": "¿Está seguro de que desea eliminar su registro de Nombre ENS Principal?",
+            "selectPlaceholder": "Seleccione uno de sus nombres ENS",
+            "setTo": "Nombre ENS principal (registro inverso): ",
+            "setToDifferent": "Nombre ENS principal (registro inverso): Establecer en un nombre diferente:"
+            },
+            "openEdit": "Agregar/Editar Registros",
+            "title": "Registros"
+            },
+            "resolver": {
+            "error": "Error al migrar el Resolver",
+            "message": "Para restablecer su resolver manualmente, haga clic en configurar e ingrese la dirección de su resolver personalizado.",
+            "placeholder": "Use el Resolver Público o ingrese la dirección de su contrato de resolver personalizado",
+            "publicResolver": "Usar Resolver Público",
+            "resolverAddressWarning": "Solo se permite la dirección del contrato",
+            "warning": "Está utilizando una versión desactualizada del resolver público. Haga clic para migrar su resolver y registros. Deberá confirmar dos transacciones para migrar tanto sus registros como su resolver.",
+            "info": "El Resolver almacena todos sus registros como direcciones, registros de texto y más. Solo debe cambiar esto si sabe lo que está haciendo."
+            },
+            "search": {
+            "title": "Nombres"
+            },
+            "subdomains": {
+            "add": "Agregar Subdominio",
+            "nosubdomains": "No se han agregado subdominios",
+            "wildcard": "Este dominio puede tener otros subdominios que no se pueden mostrar ya que están fuera de la cadena"
+            },
+            "tabs": {
+            "details": "Detalles",
+            "register": "Registrar",
+            "subdomains": "Subdominios",
+            "advancedSettings": "Configuración Avanzada"
+            },
     "test": {
-      "note": "Nota: El dominio .test permite a cualquier persona reclamar un nombre no utilizado para fines de prueba, que expira después de 28 días"
+        "note": "Nota: el dominio .test permite que cualquier persona reclame un nombre no utilizado con fines de prueba, que caduca después de 28 días"
+        },
+        "tooltips": {
+            "detailsItem": {
+            "Controller": "Solo puede transferir el controlador si es el controlador o el registrante y ha iniciado sesión en su billetera",
+            "ControllerAndDnsAlreadySync": "El controlador y el propietario del DNS ya están sincronizados",
+            "Resolver": "Solo puede establecer el resolver en este nombre si es el controlador y ha iniciado sesión en su billetera",
+            "default": "Solo puede realizar cambios si es el controlador y ha iniciado sesión en su billetera",
+            "registrant": "Solo puede transferir el registrante si es el registrante y ha iniciado sesión en su billetera",
+            "registrantExpired": "No puede transferir este dominio mientras esté caducado. Por favor, extienda el registro primero."
+            }
+            }
     },
-    "tooltips": {
-      "detailsItem": {
-        "Controller": "Sólo se puede transferir el controlador si eres el controlador o registrante y está registrado en tu billetera",
-        "ControllerAndDnsAlreadySync": "El controlador y el propietario del DNS ya están sincronizados.",
-        "Resolver": "Sólo puedes configurar el resolvedor en este nombre si eres el controlador y está registrado en tu billetera",
-        "default": "Sólo puedes hacer cambios si eres el controlador y estás registrado en tu billetera",
-        "registrant": "Sólo puedes transferir al registrante  si eres el registrante y estás registrado en tu billetera",
-        "registrantExpired": "No puedes transferir este dominio si ha caducado. Por favor, renuévalo primero."
-      }
-    }
-  },
-  "warnings": {
-    "homoglyph": {
-      "content": "This name contains non-ASCII characters. Please be aware that there are characters that look identical or very similar to English letters, especially characters from Cyrillic and Greek. Also, traditional Chinese characters can look identical or very similar to simplified variants. For more information, please see this",
-      "link": "Wikipedia article",
-      "title": "ATTENTION"
+    "warnings": {
+        "homoglyph": {
+        "content": "Este nombre contiene caracteres no ASCII. Tenga en cuenta que hay caracteres que parecen idénticos o muy similares a las letras en inglés, especialmente los caracteres del cirílico y el griego. Además, los caracteres chinos tradicionales pueden parecer idénticos o muy similares a las variantes simplificadas. Para obtener más información, consulte este",
+        "link": "artículo de Wikipedia",
+        "title": "ATENCIÓN"
+        }
+        },
+        "banners": {
+        "undelegatedTokens": {
+        "title": "Tus Tokens de ENS no están delegados",
+        "description": "Participa más activamente en la gobernanza de ENS delegando tus derechos de voto a un miembro de la comunidad"
+        },
+        "constitution": {
+        "title": "Libro de la Constitución de ENS ahora disponible",
+        "description": "Una copia impresa de la Constitución de ENS y sus firmantes está ahora disponible en tapa dura y en una edición ultra limitada de 50"
+        },
+        "v3": "Una <b>nueva experiencia de ENS</b> te espera"
     }
   }
-}
