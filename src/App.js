@@ -74,7 +74,7 @@ const Renew = lazy(() =>
 
 import { NetworkError, Error404 } from './components/Error/Errors'
 import DefaultLayout from './components/Layout/DefaultLayout'
-import { pageview, setupAnalytics } from './utils/analytics'
+import { setupAnalytics } from './utils/analytics'
 import useReactiveVarListeners from './hooks/useReactiveVarListeners'
 import { GET_ERRORS } from './graphql/queries'
 
@@ -89,7 +89,6 @@ const Route = ({
   layout: Layout = DefaultLayout,
   ...rest
 }) => {
-  pageview()
   return (
     <DefaultRoute
       {...rest}
