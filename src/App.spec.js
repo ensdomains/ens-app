@@ -8,10 +8,9 @@ jest.mock('./hooks/useReactiveVarListeners', () => ({
 import useReactiveVarListeners from './hooks/useReactiveVarListeners'
 
 jest.mock('./utils/analytics', () => ({
-  setupAnalytics: jest.fn(),
-  pageView: jest.fn()
+  setupAnalytics: jest.fn()
 }))
-import { setup, pageView } from './utils/analytics'
+import { setup } from './utils/analytics'
 
 jest.mock('@apollo/client', () => ({
   __esModule: true,
@@ -22,7 +21,6 @@ import { useQuery } from '@apollo/client'
 
 import App from './App'
 import { StaticRouter } from 'react-router-dom'
-import EtherScanLink from './components/Links/EtherScanLink'
 
 describe('App', () => {
   it('should render network error when one exists', () => {
