@@ -31,7 +31,7 @@ yarn start:ipfs
 
 The main difference of the ipfs-build is that it uses HashRouter instead of BrowserRouter and makes sure all links are relative.
 
-The ENS app can be used with the Gnosis Safe web interface. The required steps are outline [here](./docs/gnosis_safe_app_support.md).
+The ENS app can be used with the Gnosis Safe web interface. The required steps are outlined [here](./docs/gnosis_safe_app_support.md).
 
 ## Unit Testing
 
@@ -95,7 +95,7 @@ export
 
 ### React Style
 
-We use a functional components, using hooks instead of class based components. For basic state we use `useState` and for more complicated state `useReducer`. If they reusable, then you can abstract them to the `hooks` file, which can additionally by split up into a folder once we have enough hooks.
+We use a functional components, using hooks instead of class based components. For basic state we use `useState` and for more complicated state `useReducer`. If they are reusable, then you can abstract them to the `hooks` file, which can additionally be split up into a folder once we have enough hooks.
 
 ```js
 import React, { useState } from 'react'
@@ -352,7 +352,7 @@ steps to mitigate this:
 - Dynamic imports: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import
 
 - Importing only what you need: If you can only import the exact files you need from a module, you
-  can avoid bundling the whole modlue which can be quite large. Typically you can do this by going into
+  can avoid bundling the whole module which can be quite large. Typically you can do this by going into
   the library in your `node_modules` folder and finding the file exact file you need. For example
-  if you find the file you need is at `node_modules/@module/src/helpers/index.js` you can do
+  if you find the file you need is at `node_modules/@module/src/helpers/index.js` you can 
   `import helper from '@module/src/helpers/index'`.
