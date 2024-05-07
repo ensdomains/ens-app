@@ -15,7 +15,6 @@ const MainContainer = styled('main')`
   `
       : mq.medium`
     margin-left: 200px;
-    margin-top: 178px;
   `}
 `
 

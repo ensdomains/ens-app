@@ -386,6 +386,10 @@
       "title": "ENS constitution book now available",
       "description": "A printed copy of the ENS constitution and its signers is now available in hardcover and ultra-limited edition of 50"
     },
-    "v3": "A <b>new ENS experience</b> is waiting for you"
+    "v3": {
+      "text": "<b>This version is no longer maintained for bug and security fixes,</b> use at your own risk.",
+      "link": "<b>Go to new app</b>"
+    }
   }
 }
+
