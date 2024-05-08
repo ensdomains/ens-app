@@ -44,7 +44,6 @@ const Header = styled('header')`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  position: fixed;
   left: 0;
   width: 100%;
   z-index: 2;
@@ -59,7 +58,7 @@ const Header = styled('header')`
 `
 
 const SearchHeader = styled(Search)`
-  margin-top: 105px;
+  margin-top: 10px;
   width: 100%;
   ${mq.medium`
     margin-top: 0;
