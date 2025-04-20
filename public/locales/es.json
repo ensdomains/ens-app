@@ -370,12 +370,17 @@
             }
             }
     },
-    "warnings": {
-        "homoglyph": {
-        "content": "Este nombre contiene caracteres no ASCII. Tenga en cuenta que hay caracteres que parecen idénticos o muy similares a las letras en inglés, especialmente los caracteres del cirílico y el griego. Además, los caracteres chinos tradicionales pueden parecer idénticos o muy similares a las variantes simplificadas. Para obtener más información, consulte este",
-        "link": "artículo de Wikipedia",
-        "title": "ATENCIÓN"
-        }
+    "homoglyph": {
+  "content": "Este nombre contiene caracteres especiales válidos en español (á, é, ñ). A diferencia de otros idiomas:",
+  "points": [
+    "Son ortografía correcta (ej: «español.eth»)",
+    "NO son sustitutos de caracteres ingleses",
+    "Se conservan exactamente como los escribes («café.eth» ≠ «cafe.eth»)",
+    "Podrían no ser compatibles en algunos sistemas externos"
+  ],
+  "link": "Guía oficial de caracteres ENS",
+  "title": "Caracteres especiales en español"
+}
         },
         "banners": {
         "undelegatedTokens": {
