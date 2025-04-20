@@ -378,9 +378,9 @@
     "Se conservan exactamente como los escribes («café.eth» ≠ «cafe.eth»)",
     "Podrían no ser compatibles en algunos sistemas externos"
   ],
-  "link": "Guía oficial de caracteres ENS",
+  "link": "https://unicode.org/reports/tr36/",
   "title": "Caracteres especiales en español"
-}
+
         },
         "banners": {
         "undelegatedTokens": {
