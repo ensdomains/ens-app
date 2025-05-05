@@ -24,7 +24,7 @@ function Dropdown(props, ref) {
   const allChildren = prependChildren.concat(children).concat(appendChildren)
 
   return (
-    <div ref={ref} className={dropdownStyles}>
+    <div ref={ref} className={dropdownStyles} style={props.style}>
       {allChildren}
     </div>
   )

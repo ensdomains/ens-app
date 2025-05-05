@@ -390,6 +390,19 @@
       "text": "<b>This version is no longer maintained for bug and security fixes,</b> use at your own risk.",
       "link": "<b>Go to new app</b>"
     }
+  },
+  "epns": {
+    "link": "Wallet Notif (EPNS)",
+    "modal": {
+      "subheader": "You can choose to opt-in or opt-out of ENS channel on EPNS to get notified when your domain is near expiry.",
+      "optInButton": "OPT-IN",
+      "optOutButton": "OPT-OUT",
+      "platforms": "View Supported Platforms",
+      "alreadyOpted": "You are Opted-In!",
+      "apiError": "Mayday! Mayday! Can the devs do something? They have been notified, please try again a little later!",
+      "unsupportedNetwork": "Wallet notifications are only supported on the Main net!",
+      "switchNetwork": "Switch Network"
+    }
   }
 }
 
