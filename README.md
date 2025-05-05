@@ -352,7 +352,7 @@ steps to mitigate this:
 - Dynamic imports: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import
 
 - Importing only what you need: If you can only import the exact files you need from a module, you
-  can avoid bundling the whole modlue which can be quite large. Typically you can do this by going into
+  can avoid bundling the whole module which can be quite large. Typically you can do this by going into
   the library in your `node_modules` folder and finding the file exact file you need. For example
   if you find the file you need is at `node_modules/@module/src/helpers/index.js` you can do
   `import helper from '@module/src/helpers/index'`.
