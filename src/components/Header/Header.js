@@ -115,11 +115,11 @@ function HeaderContainer() {
         <StyledBanner>
           <StyledBannerInner>
             <p>
-              ⚠️ <strong>{t('warnings.homoglyph.title')}</strong>:{' '}
+              ℹ️ <strong>{t('warnings.homoglyph.title')}</strong>:{' '}
               {t('warnings.homoglyph.content')}{' '}
               <a
                 target="_blank"
-                href="https://en.wikipedia.org/wiki/IDN_homograph_attack"
+                href="https://unicode.org/reports/tr36/"
                 rel="noreferrer"
               >
                 {t('warnings.homoglyph.link')}

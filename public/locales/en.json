@@ -372,9 +372,9 @@
   },
   "warnings": {
     "homoglyph": {
-      "content": "This name contains non-ASCII characters. Please be aware that there are characters that look identical or very similar to English letters, especially characters from Cyrillic and Greek. Also, traditional Chinese characters can look identical or very similar to simplified variants. For more information, please see this",
-      "link": "Wikipedia article",
-      "title": "ATTENTION"
+      "content": "This name uses non-ASCII characters (for example, accents). That’s common in many languages, such as Spanish. If this is your intended spelling, you can proceed. For details about lookalike risks across scripts, see this",
+      "link": "Unicode guidance",
+      "title": "Information"
     }
   },
   "banners": {
